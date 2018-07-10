@@ -1,0 +1,117 @@
+package com.pacifyr.omhealthcare.home.account;
+
+import android.os.Bundle;
+import android.support.v7.widget.CardView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+
+import com.ceino.utilitylibrary.CustomFontTextView;
+import com.pacifyr.omhealthcare.R;
+import com.pacifyr.omhealthcare.event.NotifyEvent;
+import com.pacifyr.omhealthcare.network.NetworkService;
+import com.pacifyr.omhealthcare.utility.BaseFragment;
+import com.pacifyr.omhealthcare.utils.LogUtils;
+import com.squareup.otto.Subscribe;
+import com.squareup.picasso.Picasso;
+
+import de.hdodenhof.circleimageview.CircleImageView;
+
+
+
+/**
+ * Created by Mani-Ceino on 12/29/2017.
+ */
+
+public class AccountFragment  extends BaseFragment {
+
+    private LinearLayout profileLlay;
+    private CircleImageView profileCimv;
+    private CustomFontTextView profileNameCtxv;
+    private CardView mailCard;
+    private LinearLayout mailLlay;
+    private CustomFontTextView mailDtxv;
+    private LinearLayout pnumberLlay;
+    private CustomFontTextView pnumberDtxv;
+    private CardView aboutmeCard;
+    private CustomFontTextView aboutmeCtxv;
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        userDetailWeb(getUserID());
+        return inflater.inflate(R.layout.fragment_current_user_profile, null);
+
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        try {
+            profileLlay = (LinearLayout) view.findViewById(R.id.profile_llay);
+            profileCimv = (CircleImageView) view.findViewById(R.id.profile_cimv);
+            profileNameCtxv = (CustomFontTextView) view.findViewById(R.id.profile_name_ctxv);
+            mailCard = (CardView) view.findViewById(R.id.mail_card);
+            mailLlay = (LinearLayout) view.findViewById(R.id.mail_llay);
+            mailDtxv = (CustomFontTextView) view.findViewById(R.id.mail_dtxv);
+            pnumberLlay = (LinearLayout) view.findViewById(R.id.pnumber_llay);
+            pnumberDtxv = (CustomFontTextView) view.findViewById(R.id.pnumber_dtxv);
+            aboutmeCard = (CardView) view.findViewById(R.id.aboutme_card);
+            aboutmeCtxv = (CustomFontTextView) view.findViewById(R.id.aboutme_ctxv);
+            onSetValues(view);
+        }catch (Exception e)
+        {
+            LogUtils.LOGD("session","AF onViewCreated exce " + e.getMessage());
+        }
+    }
+
+
+    @Override
+    public void onSetValues(View view) throws Exception {
+        try {
+            if(isValid(NetworkService.mCurrentUser)) {
+                if (isValid(NetworkService.mCurrentUser.getImageUrl())) {
+                        Picasso.with(getActivity()).load(NetworkService.mCurrentUser.getImageUrl()).placeholder(R.drawable.placeholder_user).into(profileCimv);
+                }
+                defSetText(profileNameCtxv,NetworkService.mCurrentUser.getName());
+                defSetText(mailDtxv,NetworkService.mCurrentUser.getEmail());
+                defSetText(pnumberDtxv,NetworkService.mCurrentUser.getPhoneNumber());
+                defSetText(aboutmeCtxv,NetworkService.mCurrentUser.getDescription());
+            }
+        }catch (Exception e)
+        {
+            LogUtils.LOGD("session","AF onSetValues exce " + e.getMessage());
+        }
+    }
+
+    public void onSetValues() throws Exception {
+        try {
+            if(isValid(NetworkService.mCurrentUser)) {
+                if (isValid(NetworkService.mCurrentUser.getImageUrl())) {
+                    Picasso.with(getActivity()).load(NetworkService.mCurrentUser.getImageUrl()).placeholder(R.drawable.placeholder_user).into(profileCimv);
+                }
+                defSetText(profileNameCtxv,NetworkService.mCurrentUser.getName());
+                defSetText(mailDtxv,NetworkService.mCurrentUser.getEmail());
+                defSetText(pnumberDtxv,NetworkService.mCurrentUser.getPhoneNumber());
+                defSetText(aboutmeCtxv,NetworkService.mCurrentUser.getDescription());
+            }
+        }catch (Exception e)
+        {
+            LogUtils.LOGD("session","AF onSetValues exce " + e.getMessage());
+        }
+    }
+    @Subscribe
+    public void onNotifyEvent(NotifyEvent event) {
+        try {
+            if(event.isSuccess)
+            onSetValues();
+        }catch (Exception e)
+        {
+            LogUtils.LOGD("session","AF onNotifyEvent exce " + e.getMessage());
+        }
+
+    }
+
+}
+

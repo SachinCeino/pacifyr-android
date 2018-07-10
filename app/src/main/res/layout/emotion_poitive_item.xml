@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="5dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <com.ceino.utilitylibrary.DeviceFitImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:src="@drawable/placeholder_image"
+        app:width_percentage="13"
+        app:height_percentage="9"
+        android:tint="@color/colorPrimary"
+        android:scaleType="fitCenter"
+        app:parameter="fixed_ratio"
+        android:onClick="emotionSelected"
+        android:id="@+id/emotion_dimv"/>
+
+    <com.ceino.utilitylibrary.CustomFontTextView
+        android:layout_width="wrap_content"
+        android:textSize="@dimen/sp10"
+        android:textColor="@color/grey_dark"
+        android:layout_height="wrap_content"
+        android:id="@+id/emotion_ctxv"
+        android:text="Testing"/>
+
+</LinearLayout>

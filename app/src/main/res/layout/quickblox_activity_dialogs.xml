@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    xmlns:swipedeck="http://schemas.android.com/apk/res-auto">
+
+    <include layout="@layout/actionbar_three_text_image"
+        android:id="@+id/include"
+        android:layout_height="60dp"
+        android:layout_width="match_parent">
+    </include>
+
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_below="@+id/include"
+    android:id="@+id/layout_root"
+    style="@style/MatchParent"
+    tools:ignore="RtlHardcoded,RtlSymmetry">
+
+    <com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout
+        android:id="@+id/swipy_refresh_layout"
+        style="@style/MatchParent"
+        app:srl_direction="bottom">
+
+        <ListView
+            style="@style/MatchParent"
+            android:id="@+id/list_dialogs_chats"
+            android:divider="@color/grey"
+            android:dividerHeight="1dp"
+            />
+       <!-- <ListView
+            android:id="@+id/list_dialogs_chats"
+            style="@style/ListViewWithoutDividerStyle" />-->
+
+    </com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_chat_empty"
+        style="@style/MatchWidth"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:onClick="onStartNewChatClick"
+        android:orientation="vertical"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <TextView
+            style="@style/WrapContent"
+            android:text=""
+
+            android:textColor="@color/text_color_dark_grey"
+            android:textSize="20sp"
+           />
+<!--  android:text="@string/chat_empty_you_are_alone_here"-->
+        <TextView
+            style="@style/WrapContent"
+            android:text=""
+
+            android:textColor="@color/text_color_green"
+            android:textSize="20sp"
+            />
+        <!--android:text="@string/chat_empty_start_new_chat" app:typeface="roboto_medium" -->
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progress_dialogs"
+        android:progressTint="@color/colorPrimaryDark"
+        style="@style/CenterProgressBarStyle"
+        android:visibility="gone" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_dialogs_new_chat"
+        style="@style/FabStyle"
+
+        android:visibility="gone"
+        android:onClick="onStartNewChatClick"
+        android:src="@drawable/ic_action_start_chat" />
+</android.support.design.widget.CoordinatorLayout>
+</RelativeLayout>

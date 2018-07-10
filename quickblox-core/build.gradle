@@ -1,0 +1,32 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion rootProject.compileSdkVersion
+    buildToolsVersion rootProject.buildToolsVersion
+    /*   compileSdkVersion 25
+       buildToolsVersion "26.0.1"*/
+
+    defaultConfig {
+        /*     minSdkVersion 16
+             targetSdkVersion 25*/
+        minSdkVersion rootProject.minSdkVersion
+        targetSdkVersion rootProject.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+        multiDexEnabled true
+    }
+
+
+
+
+    //   buildToolsVersion '26.0.2'
+}
+
+dependencies {
+    //compile ("com.quickblox:quickblox-android-sdk-messages:$rootProject.qbSdkVersion")
+    compile ("com.quickblox:quickblox-android-sdk-messages:$rootProject.qbSdkVersion" )
+    compile "com.android.support:design:${rootProject.designVersion}"
+    compile 'com.android.support:multidex:1.0.1'
+    // compile "com.github.johnkil.android-robototextview:robototextview:${rootProject.robotoTextViewVersion}"
+
+}

@@ -1,0 +1,52 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:padding="25dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.ceino.utilitylibrary.CustomFontTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:text="@string/lest_us_know" />
+
+    <com.ceino.utilitylibrary.CustomEditText
+        android:id="@+id/message_edt"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_marginTop="40dp"
+        android:ems="10"
+        android:padding="15dp"
+        android:hint="@string/question_or_issue"
+        android:gravity="top|left"
+        android:background="@drawable/rounded_white"
+        android:inputType="textMultiLine" />
+
+    <RelativeLayout
+
+        android:layout_gravity="center"
+        android:id="@+id/send_rlay"
+        android:layout_width="335dp"
+        android:layout_marginTop="40dp"
+        android:layout_height="43dp"
+        android:background="@drawable/blue_border_lightblue">
+
+        <com.ceino.utilitylibrary.CustomFontTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/send"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/send_msg_ctxv"
+            android:textSize="20sp"
+            android:textColor="@color/white" />
+
+    </RelativeLayout>
+
+
+</LinearLayout>

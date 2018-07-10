@@ -1,0 +1,502 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/connectsingle_top_rlay"
+    android:background="@color/white"
+    xmlns:swipedeck="http://schemas.android.com/apk/res-auto">
+
+    <include layout="@layout/actionbar_three_text_image"
+        android:id="@+id/include"
+        android:layout_height="50dp"
+        android:layout_width="match_parent">
+    </include>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center_horizontal"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:layout_below="@+id/include"
+        android:background="@color/white"
+        android:id="@+id/top_rlay">
+
+        <com.ceino.utilitylibrary.CustomFontTextView
+            android:id="@+id/text_feel_ctxv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:text="Get ready to feel better!"
+            android:textColor="#898989"
+            android:layout_marginBottom="7dp"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_marginTop="20dp"
+            android:id="@+id/view_line"
+            android:layout_below="@+id/text_feel_ctxv"
+            android:layout_height="4dp"
+            android:background="@color/grey_hex_e7"/>
+
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_below="@+id/view_line"
+            android:layout_marginTop="-20dp"
+            android:id="@+id/button1"
+            android:text="1"
+            android:clickable="false"
+            android:textColor="@color/white"
+            android:layout_marginLeft="50dp"
+            android:background="@drawable/circle_click_btn"/>
+
+
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_below="@+id/view_line"
+            android:layout_marginTop="-20dp"
+            android:id="@+id/button2"
+            android:text="2"
+            android:clickable="false"
+            android:layout_marginLeft="130dp"
+            android:background="@drawable/circle_button"/>
+
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_below="@+id/view_line"
+            android:layout_marginTop="-20dp"
+            android:id="@+id/button3"
+            android:text="3"
+            android:clickable="false"
+            android:layout_marginLeft="210dp"
+            android:background="@drawable/circle_button"/>
+
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_below="@+id/view_line"
+            android:layout_marginTop="-20dp"
+            android:id="@+id/button4"
+            android:text="4"
+            android:clickable="false"
+            android:layout_marginLeft="290dp"
+            android:background="@drawable/circle_button"/>
+
+
+
+    </RelativeLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:layout_below="@+id/top_rlay"
+        android:id="@+id/container_fragment_main">
+
+    </FrameLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible"
+        android:layout_below="@+id/top_rlay"
+        android:id="@+id/select_feeling_rlay"
+        android:background="@color/transparent_white_14">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="20dp"
+            android:gravity="center_horizontal">
+
+            <com.ceino.utilitylibrary.CustomFontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:textColor="@color/colorPrimary"
+                android:id="@+id/user_name_ctxv"
+                android:text="Hello"/>
+
+            <com.ceino.utilitylibrary.CustomFontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/grey_hex_83"
+                android:text="@string/how_you_feel_now"/>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="20dp">
+
+                <LinearLayout
+                    android:id="@+id/sad_llay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="0dp"
+                    android:orientation="vertical">
+
+                    <com.ceino.utilitylibrary.DeviceFitImageView
+                        android:id="@+id/sad_dimv"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:layout_gravity="center_horizontal"
+                        android:src="@drawable/sad"
+
+                        android:tint="@color/grey_hex_83" />
+
+                    <com.ceino.utilitylibrary.CustomFontTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/sad_dimv"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="10dp"
+                        android:text="A bit down" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_toRightOf="@id/sad_llay"
+                    android:orientation="vertical">
+
+                    <com.ceino.utilitylibrary.DeviceFitImageView
+                        android:id="@+id/happy_dimv"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:layout_gravity="center_horizontal"
+                        android:src="@drawable/happy"
+                        android:tint="@color/grey_hex_83" />
+
+
+                    <com.ceino.utilitylibrary.CustomFontTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="10dp"
+
+                        android:text="Good" />
+                </LinearLayout>
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <com.ceino.utilitylibrary.CustomFontTextView
+            android:visibility="gone"
+            android:id="@+id/txt_emergency_usa"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="20dp"
+            android:textColor="@color/black"
+            android:layout_marginBottom="30dp"
+            android:layout_alignParentBottom="true"
+            android:text="@string/call_emergency"/>
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:layout_below="@+id/top_rlay"
+        android:id="@+id/select_emotion_rlay"
+        android:background="@color/transparent_white_14">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="20dp"
+            android:gravity="center_horizontal">
+
+            <com.ceino.utilitylibrary.CustomFontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:textColor="@color/grey_hex_83"
+                android:text="Tell me more"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <android.support.v7.widget.RecyclerView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:id="@+id/emotion_rcv"/>
+
+            </LinearLayout>
+
+            <!--<android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:id="@+id/emotion_rcv">
+
+            </android.support.v7.widget.RecyclerView>
+-->
+
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:layout_below="@+id/top_rlay"
+        android:id="@+id/select_emotion_detail_rlay"
+        android:background="@color/transparent_white_14">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="20dp"
+            android:gravity="center_horizontal">
+
+            <com.ceino.utilitylibrary.CustomFontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:id="@+id/why_feeling_ctxv"
+                android:textColor="@color/grey_hex_83"
+                android:text="Why are you feeling"
+                android:layout_marginBottom="20dp"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/emotion_detail_rcv">
+
+            </android.support.v7.widget.RecyclerView>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/more_button"
+                android:textColor="@color/blue_pacifyr"
+                android:background="@android:color/transparent"
+                android:text="More"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible"
+        android:layout_below="@+id/top_rlay"
+        android:id="@+id/select_list_pacifyr_rlay"
+        android:background="@color/transparent_white_14">
+
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:layout_width="match_parent"
+            android:id="@+id/pacifyr_swipelay"
+            android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:orientation="vertical"
+            android:layout_margin="20dp"
+            android:gravity="center_horizontal">
+
+           <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="70dp"
+               android:gravity="center_horizontal"
+               android:layout_marginTop="10dp"
+               android:src="@drawable/placeholder_user"
+               android:id="@+id/pacifyer_cimv"
+                android:layout_height="70dp" />
+            <com.ceino.utilitylibrary.CustomFontTextView
+                android:layout_width="match_parent"
+                android:id="@+id/pac_name_ctxv"
+                android:layout_marginTop="5dp"
+                android:textSize="@dimen/sp22_title"
+                android:text=""
+                android:gravity="center_horizontal"
+                android:layout_height="wrap_content" />
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/status_llay"
+                android:layout_marginTop="5dp"
+                android:padding="3dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/status_indicator_dimv"
+                    android:src="@drawable/offline"/>
+
+                <com.ceino.utilitylibrary.CustomFontTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/status_indicator_ctxv"
+                    android:textStyle="bold"
+                    android:textSize="10sp"
+                    android:layout_marginLeft="10dp"
+                    android:textColor="@color/black"
+                    android:text="@string/offline"/>
+
+            </LinearLayout>
+
+            <com.ceino.utilitylibrary.CustomFontTextView
+                android:layout_width="match_parent"
+                android:id="@+id/pac_des_ctxv"
+                android:textSize="@dimen/sp14"
+                android:layout_marginTop="20dp"
+                android:text=""
+                android:maxLines="5"
+                android:gravity="center_horizontal"
+                android:layout_height="wrap_content" />
+
+            <com.ceino.utilitylibrary.CustomFontTextView
+                android:layout_width="match_parent"
+                android:id="@+id/pac_rate_ctxv"
+                android:textSize="@dimen/sp18"
+                android:textStyle="bold"
+                android:singleLine="true"
+                android:text=""
+                android:gravity="center_horizontal"
+                android:layout_marginTop="25dp"
+                android:textColor="@color/black"
+                android:layout_height="wrap_content" />
+
+            <LinearLayout
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/chat_llay"
+                android:visibility="visible"
+                android:layout_marginTop="7dp"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/blue_round_square"
+                android:padding="5dp">
+
+                <com.ceino.utilitylibrary.CustomFontTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="chat detail"
+                    android:id="@+id/chat_price_ctxv"
+                    android:textColor="@color/white"
+                    android:textAlignment="center"
+                    android:textSize="15sp"/>
+
+            </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:orientation="horizontal"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="20dp"
+            android:gravity="center_horizontal">
+
+           <!-- <io.github.francoiscampbell.circlelayout.CircleLayout
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                app:cl_angleOffset="0"
+                app:cl_radius="fitsLargestChild"
+                app:cl_direction="clockwise"
+                app:cl_centerView="@+id/videocall_cimv">-->
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:id="@+id/videocall_rlay"
+                    android:background="@drawable/blue_cirlce">
+                <com.ceino.utilitylibrary.DeviceFitImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:height_percentage="9"
+                    app:parameter="aspect_width"
+                    app:width_percentage="8"
+                    app:aspect_ratio="1"
+                    android:scaleType="fitCenter"
+                    android:id="@+id/videocall_cimv"
+                    android:src="@drawable/ic_video_white_2"/>
+                </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:id="@+id/audiocall_rlay"
+                android:background="@drawable/blue_cirlce">
+
+                <com.ceino.utilitylibrary.DeviceFitImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:height_percentage="9"
+                    app:parameter="aspect_width"
+                    app:width_percentage="8"
+                    app:aspect_ratio="1"
+                    android:scaleType="fitCenter"
+                    android:id="@+id/audiocall_cimv"
+                    android:src="@drawable/connectaudio2"/>
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:visibility="gone"
+                android:padding="10dp"
+                android:id="@+id/chat_rlay"
+                android:background="@drawable/blue_cirlce">
+
+                <com.ceino.utilitylibrary.DeviceFitImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:height_percentage="9"
+                    app:parameter="aspect_width"
+                    app:width_percentage="8"
+                    app:aspect_ratio="1"
+                    android:scaleType="fitCenter"
+                    android:id="@+id/chat_cimv"
+                    android:src="@drawable/ic_chat_white"/>
+
+            </RelativeLayout>
+        </LinearLayout>
+
+
+        </LinearLayout>
+        </android.support.v4.widget.SwipeRefreshLayout>
+    </RelativeLayout>
+
+
+
+</RelativeLayout>

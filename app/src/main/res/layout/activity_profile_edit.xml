@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto">
+
+
+
+        <include layout="@layout/actionbar_three_text_image"
+            android:id="@+id/include"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_width="match_parent"></include>
+
+    <LinearLayout
+        android:layout_below="@+id/include"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginBottom="10dp"
+
+        android:padding="30dp"
+        android:background="@color/colorPrimary"
+        android:orientation="vertical"
+        android:id="@+id/profile_llay">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:id="@+id/profile_cimv"
+            android:src="@drawable/placeholder_user"/>
+        <com.ceino.utilitylibrary.CustomEditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:textColor="@color/white"
+            android:layout_marginTop="10dp"
+
+            android:textAlignment="center"
+            android:id="@+id/profile_name_cedt"
+            android:text="Name"/>
+
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:layout_below="@+id/profile_llay">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/grey_light"
+            android:orientation="vertical">
+
+
+            <android.support.v7.widget.CardView
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="20dp"
+                android:id="@+id/mail_card"
+                android:visibility="gone"
+                card_view:cardCornerRadius="5dp"
+                card_view:contentPadding="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="5dp">
+
+
+
+
+                    <LinearLayout
+                        android:id="@+id/mail_llay"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+
+                        android:layout_below="@+id/line1"
+                        android:layout_toRightOf="@+id/avatar_dimv"
+                        android:background="@color/white"
+                        android:orientation="horizontal">
+
+                        <com.ceino.utilitylibrary.DeviceFitImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="10dp"
+                            android:scaleType="centerInside"
+                            android:src="@drawable/parent_mail_black"
+                            app:height_percentage="8"
+                            app:parameter="fixed_ratio"
+                            app:width_percentage="8" />
+                        <com.ceino.utilitylibrary.CustomEditText
+                            android:id="@+id/mail_cedt"
+
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="start"
+                            android:text=""
+                            android:layout_width="match_parent"
+                            android:hint="Email"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/sp16"
+                            app:percentage_height="8" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/pnumber_llay"
+                        android:visibility="gone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/mail_llay"
+                        android:layout_marginTop="5dp"
+                        android:layout_toRightOf="@+id/avatar_dimv"
+                        android:background="@color/white"
+                        android:orientation="horizontal">
+                        <com.ceino.utilitylibrary.DeviceFitImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:height_percentage="8"
+                            app:width_percentage="8"
+                            app:parameter="fixed_ratio"
+                            android:layout_marginRight="10dp"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/ic_call_grey"/>
+
+                        <com.ceino.utilitylibrary.CustomEditText
+                            android:id="@+id/pnumber_cedt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="center_vertical"
+                            android:text="+91 "
+                            android:hint="Phone "
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/sp16"
+                            app:percentage_height="8" />
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:id="@+id/aboutme_card"
+                card_view:cardCornerRadius="5dp"
+                card_view:contentPadding="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:orientation="vertical">
+
+                    <com.ceino.utilitylibrary.CustomFontTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:textSize="13sp"
+                        android:textColor="@color/education_title"
+                        android:text="ABOUT ME"/>
+
+
+                    <com.ceino.utilitylibrary.CustomEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="150dp"
+                        android:textStyle="bold"
+                        android:textSize="12sp"
+                        android:hint=""
+                        android:maxLines="5"
+                        android:gravity="start"
+
+                        android:layout_centerHorizontal="true"
+                        android:id="@+id/aboutme_cedt"
+                        android:textColor="@color/education_desc"
+                        android:text=""/>
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+
+
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

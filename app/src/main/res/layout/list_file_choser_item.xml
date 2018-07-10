@@ -1,0 +1,35 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="center"
+    android:padding="10dp"
+    android:id="@+id/file_llay">
+
+    <ImageView
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:gravity="center"
+        android:translationZ="1dp"
+        android:src="@drawable/ic_closedocument"
+        android:layout_alignRight="@+id/file_imv"
+        android:id="@+id/close_imv"/>
+
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:gravity="center"
+        android:src="@drawable/ic_pdf"
+        android:id="@+id/file_imv"/>
+
+    <com.ceino.utilitylibrary.CustomFontTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:layout_marginTop="6dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/file_imv"
+        android:id="@+id/file_name_ctxv"/>
+
+</RelativeLayout>

@@ -1,0 +1,113 @@
+pacifyr : 11:C7:D8:DC:5B:D8:AC:5E:D3:6D:29:04:C6:F8:1F:F0:AB:CF:7C:BD
+
+keytool -exportcert -alias com.pacifyr.pacifyrapp -keystore /home/ceino/ApkFiles/keyfiles/pacifyrkey.jks | openssl sha1 -binary | openssl base64
+keytool -exportcert -alias androidceino -keystore /home/ceino/ApkFiles/keyfiles/leapupkey.jks | openssl sha1 -binary | openssl base64
+
+keytool -exportcert -alias androiddebugkey -keystore ~/.android/debug.keystore | openssl sha1 -binary | openssl base64
+keytool -exportcert -list -v \-alias androiddebugkey -keystore ~/.android/debug.keystore
+keytool -exportcert -list -v \-alias androidceino -keystore /home/ceino/ApkFiles/keyfiles/leapupkey.keystore
+
+keytool -exportcert -alias com.pacifyr.pacifyrapp -keystore /home/ceino/ApkFiles/keyfiles/pacifyrkey.jks
+
+keytool -exportcert -alias com.pacifyr.pacifyrapp -keystore O:/ApkFiles/keyfiles/pacifyrkey.jks
+keytool -exportcert -alias com.pacifyr.pacifyrapp -keystore O:\ApkFiles\keyfiles\pacifyrkey.jks
+
+//11:C7:D8:DC:5B:D8:AC:5E:D3:6D:29:04:C6:F8:1F:F0:AB:CF:7C:BD
+keytool -exportcert -list -v -alias com.pacifyr.pacifyrapp -keystore O:\ApkFiles\keyfiles\pacifyrkey.jks
+3dcdaeb4da436182e68f629ac29ba538b9a7ff1d
+keytool -exportcert -list -v \ -alias "com.pacifyr.pacifyrapp" -keystore %O:/ApkFiles/keyfiles/pacifyrkey.jks
+
+app signing fb keyhash code
+
+echo 33:4E:48:84:19:50:3A:1F:63:A6:0F:F6:A1:C2:31:E5:01:38:55:2E | xxd -r -p | openssl base64
+
+echo D3:73:A5:A7:F2:86:EC:A5:2F:07:62:FE:83:50:43:9E:30:CD:1B:A8 | xxd -r -p | openssl base64
+
+
+
+
+
+down vote
+For those who are facing this in 2017, here goes a tip:
+
+1 - Go to your firebase console (https://console.firebase.google.com/) click on your project (which you want to use for push notifications)
+
+2 - Click on the "three dots" on the right side of your project name and click on "Settings"
+
+3 - Click on "CLOUD MESSAGING" on the header tabs
+
+4 - Copy the "Server Key" (this one is bigger than your API key)
+
+5 - Paste on the "API Key" input of the AWS Form for "Create platform application"
+
+PS: Note that this is valid only for GCM Push Notifications.
+
+
+It's in https://console.firebase.google.com/project/(your-project-id)/settings/cloudmessaging
+
+You can find the API KEY in:
+
+(gear-next-to-project-name) > Project Settings > Cloud Messaging
+
+Server Key is the API key.
+
+Use https://www.googleapis.com/plus/v1/people/USER_ID?fields=image&key=AIzaSyBz2jGjZl0VGkllxYYKRHPuuAX_oMxdyVQ , return json containing avatar
+Error:Execution failed for task ':app:transformClassesWithJarMergingForDebug'.
+> com.android.build.api.transform.TransformException: java.util.zip.ZipException: duplicate entry: com/google/android/gms/internal/zzaso.class
+
+compile (project(':Android-UndoBar')) {
+        exclude group: 'com.nineoldandroids', module: 'library' // without or without this one
+    }
+ Caused by: java.lang.ClassNotFoundException: Didn't find class "com.firebase.jobdispatcher.FirebaseJobDispatcher" on p
+
+
+
+  com.firebase.jobdispatcher.ValidationEnforcer$ValidationException: JobParameters is invalid: Couldn't find a registered service with the name com.layer.sdk.internal.telemetry.TelemetryUploadService. Is it declared in the manifest with the right intent-filter?
+                                                                                at com.firebase.jobdispatcher.ValidationEnforcer.ensureNoErrors(ValidationEnforcer.java:113)
+                                                                                at com.firebase.jobdispatcher.ValidationEnforcer.ensureValid(ValidationEnforcer.java:89)
+                                                                                at com.firebase.jobdispatcher.Job$Builder.build(Job.java:186)
+                                                                                at com.layer.sdk.internal.telemetry.TelemetryManager.scheduleTelemetryUploadJob(TelemetryManager.java:323)
+                                                                                at com.layer.sdk.internal.telemetry.TelemetryManager.init(TelemetryManager.java:193)
+                                                                                at com.layer.sdk.internal.telemetry.TelemetryManager.init(TelemetryManager.java:116)
+                                                                                at com.layer.sdk.internal.a.a(LayerClientImpl.java:651)
+                                                                                at com.layer.sdk.internal.a.a(LayerClientImpl.java:460)
+                                                                                at com.layer.sdk.LayerClient.newInstance(LayerClient.java:108)
+                                                                                at com.ceino.getsmartliveapp.layerutils.App.generateLayerClient(App.java:220)
+                                                                                at com.ceino.getsmartliveapp.layerutils.App.getLayerClient(App.java:175)
+                                                                                at com.ceino.getsmartliveapp.layerutils.App.getAuthenticationProvider(App.java:191)
+                                                                                at com.ceino.getsmartliveapp.layerutils.App.routeLogin(App.java:96)
+                                                                                at com.ceino.getsmartliveapp.home.ConversationsListFragment.onCreate(ConversationsListFragment.java:159)
+
+
+
+
+ <com.ceino.utilitylibrary.CustomFontTextView
+        android:id="@+id/tv_welcome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="135dp"
+        android:text="@string/welcome" />
+
+    <com.ceino.utilitylibrary.CustomFontTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_fb_name"
+        android:textSize="25dp"
+        android:textStyle="bold"
+        android:layout_marginTop="30dp"
+        android:layout_below="@+id/tv_welcome"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:id="@+id/logou"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Logout"
+        android:onClick="logMeOut"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/tv_welcome"
+        android:layout_alignEnd="@+id/tv_welcome"
+        android:layout_marginBottom="122dp" />

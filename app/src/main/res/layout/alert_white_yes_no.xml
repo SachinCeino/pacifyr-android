@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:jp="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/white_round_square"
+    android:padding="2dp">
+
+
+    <com.ceino.utilitylibrary.CustomFontTextView
+        android:id="@+id/title_dtxv"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentTop="true"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:text="Alert heading"
+        android:textColor="@color/black"
+        android:textSize="@dimen/sp18" />
+
+    <com.ceino.utilitylibrary.CustomFontTextView
+        android:id="@+id/desc_dtxv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title_dtxv"
+        android:maxLines="5"
+        android:padding="10dp"
+        android:gravity="center"
+        android:text="Alert content"
+        android:textColor="@color/black"
+        android:textSize="@dimen/sp18" />
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:background="@color/transparent_black_4"
+        android:layout_marginTop="9dp"
+        android:layout_below="@+id/desc_dtxv"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:id="@+id/bot_llay"
+        android:layout_below="@+id/desc_dtxv"
+        android:background="@drawable/white_round_white"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:paddingTop="1dp"
+        android:weightSum="2">
+
+        <com.ceino.utilitylibrary.CustomFontTextView
+            android:id="@+id/dismis_dtxv"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:background="@color/transparent_white_13"
+            android:gravity="center"
+            android:text="No"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="@dimen/sp16"
+            jp:percentage_width="49" />
+
+        <TextView
+            android:layout_width="1dp"
+            android:layout_height="62dp"
+            android:gravity="center"
+            android:background="@color/transparent_black_4" />
+
+        <com.ceino.utilitylibrary.CustomFontTextView
+            android:id="@+id/ok_dtxv"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:background="@color/transparent_white_13"
+            android:gravity="center"
+            android:text="Yes"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="@dimen/sp16"
+            jp:percentage_width="49" />
+    </LinearLayout>
+
+</RelativeLayout>

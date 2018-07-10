@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:jp="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/orange_round_square"
+    android:padding="2dp">
+
+
+    <com.ceino.utilitylibrary.CustomFontTextView
+        android:id="@+id/title_dtxv"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentTop="true"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:text="Alert heading"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp18" />
+
+    <com.ceino.utilitylibrary.CustomFontTextView
+        android:id="@+id/desc_dtxv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title_dtxv"
+        android:maxLines="5"
+        android:padding="10dp"
+        android:gravity="center"
+        android:text="Alert content"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp18"
+        />
+   <!-- <Te
+        android:id="@+id/anot_edt"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_below="@+id/title_dtxv"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/white"
+        android:gravity="start"
+        android:maxLines="4"
+        android:padding="10dp"
+        android:text=""
+        android:textColor="@color/fluid_black" />-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_below="@+id/desc_dtxv"
+        android:background="@color/white"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:paddingTop="1dp"
+        android:weightSum="2">
+
+         <com.ceino.utilitylibrary.CustomFontTextView
+            android:id="@+id/dismis_dtxv"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:background="@color/colorPrimary"
+            android:gravity="center"
+            android:text="No"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textSize="@dimen/sp16"
+            jp:percentage_width="49" />
+
+        <TextView
+            android:layout_width="1dp"
+            android:layout_height="60dp"
+            android:gravity="center"
+            android:background="@color/white" />
+
+         <com.ceino.utilitylibrary.CustomFontTextView
+            android:id="@+id/ok_dtxv"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:background="@color/colorPrimary"
+            android:gravity="center"
+            android:text="Yes"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textSize="@dimen/sp16"
+            jp:percentage_width="49" />
+    </LinearLayout>
+
+</RelativeLayout>

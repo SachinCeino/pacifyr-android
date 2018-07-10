@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:padding="15dp"
+    android:background="@color/transparent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+<LinearLayout
+
+    android:layout_width="match_parent"
+    android:padding="10dp"
+    android:layout_centerInParent="true"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <com.ceino.utilitylibrary.CustomFontTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_centerHorizontal="true"
+        android:text="Add Card"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:textSize="25sp"/>
+    <com.ceino.utilitylibrary.DeviceFitImageView
+        android:id="@+id/close_dimv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/com_facebook_close"
+        app:height_percentage="4"
+        app:parameter="aspect_height" />
+    </RelativeLayout>
+    <com.ceino.utilitylibrary.CustomEditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:inputType="number"
+        android:layout_margin="20dp"
+        android:maxLength="16"
+        android:id="@+id/card_number_edt"
+        android:hint="Card number"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+
+        <com.ceino.utilitylibrary.CustomEditText
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:id="@+id/card_month_edt"
+            android:inputType="number"
+            android:layout_gravity="center"
+            android:maxLength="2"
+            android:hint="MM"/>
+
+        <com.ceino.utilitylibrary.CustomEditText
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_gravity="center"
+            android:id="@+id/card_year_edt"
+            android:inputType="number"
+            android:maxLength="2"
+            android:hint="YY"/>
+
+        <com.ceino.utilitylibrary.CustomEditText
+            android:layout_width="51dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:id="@+id/card_cvv_edt"
+            android:inputType="number"
+            android:maxLength="3"
+            android:hint="CVV"/>
+
+
+    </LinearLayout>
+
+
+
+
+
+    <RelativeLayout
+
+        android:layout_gravity="center"
+        android:id="@+id/save_rlay"
+        android:layout_width="match_parent"
+        android:layout_marginTop="20dp"
+        android:padding="10dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/blue_border_lightblue">
+
+        <com.ceino.utilitylibrary.CustomFontTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/save"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/save_ctxv"
+            android:textSize="20sp"
+            android:textColor="@color/white" />
+
+    </RelativeLayout>
+
+
+</LinearLayout>
+
+</RelativeLayout>

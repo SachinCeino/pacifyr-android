@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".sign.CrisisActivity">
+
+    <include
+        android:id="@+id/include"
+        layout="@layout/actionbar_grey"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"></include>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/include">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:id="@+id/suicide_rlay">
+
+                <com.ceino.utilitylibrary.CustomFontTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:textSize="20sp"
+                    android:fontFamily="@string/avanti_std_bold"
+                    android:textStyle="bold"
+                    android:id="@+id/suicide_header_ctxv"
+                    android:textColor="@color/text_dashboard"
+                    android:text="@string/suicide_header"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_below="@+id/suicide_header_ctxv"
+                    android:gravity="center"
+                    android:id="@+id/suicide_url_llay"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_link"/>
+
+                    <com.ceino.utilitylibrary.CustomFontTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:textSize="13sp"
+                        android:layout_marginLeft="16dp"
+                        android:id="@+id/suicide_url_ctxv"
+                        android:visibility="visible"
+                        android:textColor="@color/colorPrimary"
+                        android:text="@string/suicide_url"/>
+
+
+                </LinearLayout>
+
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:id="@+id/suicide_talk_llay"
+                    android:layout_below="@+id/suicide_url_llay"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/suicide_talk_imv"
+                        android:src="@drawable/ic_phone_crisis"/>
+
+                    <com.ceino.utilitylibrary.CustomFontTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:textSize="15sp"
+                        android:layout_toRightOf="@id/suicide_talk_imv"
+                        android:layout_marginLeft="16dp"
+                        android:id="@+id/suicide_talk_ctxv"
+                        android:visibility="visible"
+                        android:textColor="@color/black"
+                        android:text="@string/suicide_talk"/>
+
+
+                    <com.ceino.utilitylibrary.CustomFontTextView
+                        android:id="@+id/suicide_tty_ctxv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:layout_alignStart="@id/suicide_talk_ctxv"
+                        android:layout_below="@+id/suicide_talk_ctxv"
+                        android:text="@string/suicicde_tty"
+                        android:textColor="@color/black"
+                        android:layout_marginTop="8dp"
+                        android:textSize="15sp"
+                        android:visibility="visible"
+                        android:layout_alignLeft="@id/suicide_talk_ctxv" />
+
+                </RelativeLayout>
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_below="@+id/suicide_talk_llay"
+                    android:id="@+id/suicide_description_llay"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/crisis_info"/>
+
+                    <com.ceino.utilitylibrary.CustomFontTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:textSize="13sp"
+                        android:layout_marginLeft="16dp"
+                        android:id="@+id/suicide_description_ctxv"
+                        android:text="@string/suicide_description"/>
+
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:id="@+id/suicide_view"
+                android:background="@color/grey_light"
+                android:layout_below="@+id/suicide_rlay"/>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:layout_below="@+id/suicide_view"
+                android:id="@+id/samhsa_rlay">
+
+                <com.ceino.utilitylibrary.CustomFontTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:id="@+id/samhsa_header_ctxv"
+                    android:fontFamily="@string/avanti_std_bold"
+                    android:textColor="@color/text_dashboard"
+                    android:text="@string/samhsa_header"/>
+
+
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:id="@+id/samhsa_talk_llay"
+                    android:layout_below="@+id/samhsa_header_ctxv"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/samhsa_talk_imv"
+                        android:src="@drawable/ic_phone_crisis"/>
+
+                    <com.ceino.utilitylibrary.CustomFontTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:textSize="15sp"
+                        android:layout_toRightOf="@id/samhsa_talk_imv"
+                        android:layout_marginLeft="16dp"
+                        android:id="@+id/samhsa_talk_ctxv"
+                        android:visibility="visible"
+                        android:textColor="@color/black"
+                        android:text="@string/samhsa_talk"/>
+
+
+                    <com.ceino.utilitylibrary.CustomFontTextView
+                        android:id="@+id/samhsa_tty_ctxv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:layout_alignStart="@id/samhsa_talk_ctxv"
+                        android:layout_below="@+id/samhsa_talk_ctxv"
+                        android:text="@string/samhsa_tty"
+                        android:textColor="@color/black"
+                        android:layout_marginTop="8dp"
+                        android:textSize="15sp"
+                        android:visibility="visible"
+                        android:layout_alignLeft="@id/samhsa_talk_ctxv" />
+
+                </RelativeLayout>
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_below="@+id/samhsa_talk_llay"
+                    android:id="@+id/samhsa_description_llay"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/crisis_info"/>
+
+                    <com.ceino.utilitylibrary.CustomFontTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:textSize="13sp"
+                        android:layout_marginLeft="16dp"
+                        android:id="@+id/samhsa_description_ctxv"
+                        android:text="@string/samhsa_description"/>
+
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/grey_light"
+                android:layout_below="@+id/samhsa_rlay"/>
+
+
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:layout_below="@+id/samhsa_rlay"
+                android:id="@+id/veterans_rlay">
+
+                <com.ceino.utilitylibrary.CustomFontTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:fontFamily="@string/avanti_std_bold"
+                    android:id="@+id/veterans_header_ctxv"
+                    android:textColor="@color/text_dashboard"
+                    android:text="@string/veterans_header"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_below="@+id/veterans_header_ctxv"
+                    android:gravity="center"
+                    android:id="@+id/veterans_url_llay"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_link"/>
+
+                    <com.ceino.utilitylibrary.CustomFontTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:textSize="13sp"
+                        android:layout_marginLeft="16dp"
+                        android:id="@+id/veterans_url_ctxv"
+                        android:visibility="visible"
+                        android:textColor="@color/colorPrimary"
+                        android:text="@string/veterans_url"/>
+
+
+                </LinearLayout>
+
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:id="@+id/veterans_talk_llay"
+                    android:layout_below="@+id/veterans_url_llay"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/veterans_talk_imv"
+                        android:src="@drawable/ic_phone_crisis"/>
+
+                    <com.ceino.utilitylibrary.CustomFontTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:textSize="15sp"
+                        android:layout_toRightOf="@id/veterans_talk_imv"
+                        android:layout_marginLeft="16dp"
+                        android:id="@+id/veterans_talk_ctxv"
+                        android:visibility="visible"
+                        android:textColor="@color/black"
+                        android:text="@string/veterans_talk"/>
+
+
+                    <com.ceino.utilitylibrary.CustomFontTextView
+                        android:id="@+id/vetarans_tty_ctxv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:layout_alignStart="@id/veterans_talk_ctxv"
+                        android:layout_below="@+id/veterans_talk_ctxv"
+                        android:text="@string/veterans_tty"
+                        android:textColor="@color/black"
+                        android:layout_marginTop="8dp"
+                        android:textSize="15sp"
+                        android:visibility="visible"
+                        android:layout_alignLeft="@id/veterans_talk_ctxv" />
+
+                </RelativeLayout>
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_below="@+id/veterans_talk_llay"
+                    android:id="@+id/veterans_description_llay"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/crisis_info"/>
+
+                    <com.ceino.utilitylibrary.CustomFontTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:textSize="13sp"
+                        android:layout_marginLeft="16dp"
+                        android:id="@+id/veterans_description_ctxv"
+                        android:text="@string/veterans_description"/>
+
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:id="@+id/veterans_view"
+                android:background="@color/grey_light"
+                android:layout_below="@+id/veterans_rlay"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</RelativeLayout>

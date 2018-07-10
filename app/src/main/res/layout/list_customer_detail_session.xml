@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/top_llay"
+        android:padding="10dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:id="@+id/user_cimv"
+                android:src="@drawable/placeholder_user"/>
+
+
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:orientation="vertical">
+
+            <com.ceino.utilitylibrary.CustomFontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textSize="17sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:id="@+id/name_user_ctxv"/>
+
+            <LinearLayout
+                android:layout_marginTop="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_video_cam_blue"/>
+
+                <com.ceino.utilitylibrary.CustomFontTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="01:01"
+                    android:layout_marginLeft="5dp"
+                    android:textColor="@color/black"
+                    android:id="@+id/duration_ctxv"/>
+
+            </LinearLayout>
+
+
+            <com.ceino.utilitylibrary.CustomFontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="10sp"
+                android:layout_marginTop="2dp"
+                android:text="01-09-2018 03:05 pm"
+                android:textColor="@color/grey_hex_7c"
+                android:id="@+id/date_ctxv"/>
+
+
+        </LinearLayout>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:id="@+id/feel_rlay"
+            android:visibility="gone"
+            android:gravity="center">
+
+            <com.ceino.utilitylibrary.CustomFontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="How customer felt"
+                android:textSize="10sp"
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/black"
+                android:id="@+id/felt_ctxv"/>
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginLeft="10dp"
+                android:layout_below="@+id/felt_ctxv"
+                android:orientation="vertical">
+
+                <com.ceino.utilitylibrary.CustomFontTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="6sp"
+                    android:text="Before"
+                    android:textColor="@color/grey_hex_7c"
+                    android:id="@+id/before_call_ctxv"/>
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:id="@+id/before_emotion_img"/>
+
+                <com.ceino.utilitylibrary.CustomFontTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="10sp"
+                    android:text=""
+                    android:textColor="@color/blue_pacifyr"
+                    android:id="@+id/before_feel_ctxv"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/felt_ctxv"
+                android:layout_marginLeft="50dp"
+                android:orientation="vertical">
+
+                <com.ceino.utilitylibrary.CustomFontTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="6sp"
+                    android:text="After"
+                    android:textColor="@color/grey_hex_7c"
+                    android:id="@+id/after_call_ctxv"/>
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:id="@+id/after_emotion_img"/>
+
+                <com.ceino.utilitylibrary.CustomFontTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="10sp"
+                    android:text=""
+                    android:textColor="@color/blue_pacifyr"
+                    android:id="@+id/after_feel_ctxv"/>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_alignParentRight="true"
+                android:layout_marginLeft="40dp"
+                android:layout_below="@+id/felt_ctxv"
+                android:orientation="vertical">
+
+                <com.ceino.utilitylibrary.CustomFontTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="7sp"
+                    android:text="Your opinion"
+                    android:textColor="@color/grey_hex_7c"
+                    android:id="@+id/your_openion_ctxv"/>
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:id="@+id/openinon_img"/>
+
+                <com.ceino.utilitylibrary.CustomFontTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="10sp"
+                    android:text=""
+                    android:textColor="@color/blue_pacifyr"
+                    android:id="@+id/openinon_emotion_ctxv"/>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/top_llay"
+        android:background="#cac8cd"/>
+
+
+</RelativeLayout>

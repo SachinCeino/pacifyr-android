@@ -1,0 +1,383 @@
+package com.pacifyr.omhealthcare.adapter;
+
+import android.content.Context;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+
+import com.ceino.utilitylibrary.CustomFontTextView;
+import com.ceino.utilitylibrary.model.pacifyr.MEmotion;
+import com.ceino.utilitylibrary.model.pacifyr.MPastSessions;
+import com.ceino.utilitylibrary.model.pacifyr.MSessionRating;
+import com.pacifyr.omhealthcare.R;
+import com.pacifyr.omhealthcare.home.SummaryDetailActivity;
+import com.pacifyr.omhealthcare.utils.LogUtils;
+import com.squareup.picasso.Picasso;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+
+import de.hdodenhof.circleimageview.CircleImageView;
+
+import static com.pacifyr.omhealthcare.network.NetworkService.GLOBAL_IMAGE_URL;
+import static com.pacifyr.omhealthcare.network.NetworkService.modelAllEmotions;
+
+/**
+ * Created by ceino on 23/1/18.
+ */
+
+public class ListCustomerSessionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+    //R.layout.list_customer_detail_session
+
+    public Context mContext;
+    private LayoutInflater mInflater;
+    ArrayList<MPastSessions.Results> lists;
+
+    ArrayList<MEmotion> emotionList;
+
+    public static MPastSessions.Results resultValues;
+
+    public ListCustomerSessionAdapter(Context context) {
+        this.mInflater = LayoutInflater.from(context);
+        mContext = context;
+
+    }
+
+    public ListCustomerSessionAdapter(Context applicationContext, ArrayList<MPastSessions.Results> list) {
+        Log.i("uuuuuurrrlllAA6","u:  "+list);
+        this.mInflater = LayoutInflater.from(applicationContext);
+        mContext = applicationContext;
+        emotionList=modelAllEmotions.getResultsList();
+        Log.i("uuuuuurrrlllAA7","u:  "+emotionList);
+        lists=list;
+    }
+
+
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View itemView = LayoutInflater.from(mContext)
+                .inflate(R.layout.list_customer_detail_session, parent, false);
+        RecyclerView.ViewHolder rcv=null;
+
+
+        if (viewType==-2) {
+            itemView = LayoutInflater.from(mContext).inflate(R.layout.list_customerdetail_missed_item, parent, false);
+            rcv = new MissedViewHolder(itemView);
+        }else if(viewType>=0) {
+            rcv = new ViewHolder(itemView);
+        }
+
+        return rcv;
+    }
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder topholder, int position) {
+        try {
+            if(topholder!=null) {
+              /*  if (topholder instanceof  CustRcvAdapter.LoadingViewHolder) {
+                    CustRcvAdapter.LoadingViewHolder loadingViewHolder = ( CustRcvAdapter.LoadingViewHolder) topholder;
+                    loadingViewHolder.progressBar.setIndeterminate(true);
+                }else*/ if (topholder instanceof  ViewHolder) {
+                  ViewHolder holder = ( ViewHolder) topholder;
+                    setViewholder(holder,position);
+                }
+                else if(topholder instanceof MissedViewHolder)
+                {
+                    MissedViewHolder holder = ( MissedViewHolder) topholder;
+                    setMissedViewHolder(holder,position);
+                }
+            }
+        } catch (Exception e) {
+            LogUtils.LOGD("exception", "CustRcvAdapter onBindViewHolder " + e.getMessage());
+        }
+    }
+
+    private void setMissedViewHolder(MissedViewHolder missedViewHolder, int position) {
+        try{
+            final MPastSessions.Results results=getItem(position);
+            missedViewHolder.nameUserCtxv.setText(results.getPacifyr().getFirstName());
+            String time= results.getEndTime();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.mmm'Z'");
+            Date parsedTime = sdf.parse(time);
+            SimpleDateFormat sdf2 = new SimpleDateFormat("dd-MM-yyyy'  'hh:mm a");
+            String formattedDate = sdf2.format(parsedTime);
+            missedViewHolder.dateCtxv.setText(formattedDate);
+
+            String  sessionType = results.getSessionType();
+
+            if(sessionType.equals("audio")) {
+                missedViewHolder.callTypeImg.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_audio_blue));
+            }else if (sessionType.equals("video")) {
+                missedViewHolder.callTypeImg.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_video_cam_blue));
+            }
+
+            String imgUrl = results.getPacifyr().getImageUrl();
+            if(isValid(imgUrl)){
+                Picasso.with(mContext).load(imgUrl).placeholder(mContext.getResources().getDrawable(R.drawable.placeholder_user)).error(mContext.getResources().getDrawable(R.drawable.placeholder_user)).into(missedViewHolder.userCimv);
+            }
+
+            if(results.getDeclined()){
+                missedViewHolder.missedCtxv.setText("Declined Call");
+            }
+        }catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
+    }
+
+
+    public void setViewholder(ViewHolder holder, int position) {
+
+        try {
+
+            final MPastSessions.Results results = getItem(position);
+            Log.i("uuuuuurrrlllAA1211","u:  "+results);
+            if (isValid(results)) {
+                Log.i("uuuuuurrrlllAA1222","u:  "+results);
+                resultValues = results;
+                holder. feel_rlay.setVisibility(View.VISIBLE);
+                if(results.getMissed())
+                    holder. feel_rlay.setVisibility(View.GONE);
+                Log.i("uuuuuurrrlllAA12223","u:  "+results.getMissed());
+                //holder.customerNameCtxv.setText(resultlist.get(position).getFirstName());
+                holder.nameUserCtxv.setText(results.getPacifyr().getFirstName());
+                final String imgUrl =  results.getPacifyr().getImageUrl();
+                MSessionRating[] sessionRating = results.getSessionRatings();
+                MSessionRating customerRating = new MSessionRating();
+                MSessionRating pacfyrRating = new MSessionRating();
+                String duration = results.getDuration();
+                holder.durationCtxv.setText(duration);
+                String endTime = results.getEndTime();
+                Log.i("uuuuuurrrlllAA12223","u:  "+results.getMissed());
+               /* SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.ENGLISH);
+                Date date = null;
+                SimpleDateFormat df2 = new SimpleDateFormat("dd-mm-yyyy HH:mm a", Locale.ENGLISH);*/
+                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.ENGLISH);
+                SimpleDateFormat target = new SimpleDateFormat("dd-mm-yyyy, HH:mm a", Locale.ENGLISH);
+                Date date2 = null;
+                date2 = df.parse(endTime);
+                String time = target.format(date2);
+                holder.dateCtxv.setText(time);
+                Log.i("uuuuuurrrlllAA122231","u:  "+results.getMissed());
+                holder.topLlay.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        SummaryDetailActivity.start(mContext,results.getId());
+                    }
+                });
+                Log.i("uuuuuurrrlllAA122232","u:  "+results.getMissed());
+                String  sessionType = results.getSessionType();
+                Log.i("uuuuuurrrlllAA122233","u:  "+results.getMissed());
+
+                Log.i("uuuuuurrrlllAA333","u:  "+results.getMissed());
+                Log.i("uuuuuurrrlllAA122234","u:  "+results.getMissed());
+                for(int i=0;i<sessionRating.length;i++)
+                {
+                    if(sessionRating[i].getType().equals("customer")) {
+                        customerRating =sessionRating[i];
+
+                    }else{
+                        pacfyrRating =sessionRating[i];
+                    }
+
+                }
+                Log.i("emoooooooojia1","u:  "+emotionList);
+                for(int i=0;i<emotionList.size();i++){
+                    String id=emotionList.get(i).getId();
+                    if(isValid(customerRating)) {
+                        Log.i("emoooooooojia2","u:  "+emotionList);
+                        if (isValid(customerRating.getAfterSessionEmotionId())) {
+                            String afterSessionEmotionId = customerRating.getAfterSessionEmotionId();
+                            if (id.equals(afterSessionEmotionId)) {
+                                holder.afterFeelCtxv.setText(emotionList.get(i).getTitle());
+                                Picasso.with(mContext).load(GLOBAL_IMAGE_URL+emotionList.get(i).getImage()).into(holder.afterEmotionImg);
+                                Log.i("emoooooooojia3","u:  "+GLOBAL_IMAGE_URL+emotionList.get(i).getImage());
+                            }
+                        }
+                    }
+                    if(isValid(customerRating)) {
+                        Log.i("emoooooooojia4","u:  "+emotionList);
+                        if (isValid(customerRating.getBeforeSessionEmotionId())) {
+                            String beforeSessionEmotionId = customerRating.getBeforeSessionEmotionId();
+                            if (id.equals(beforeSessionEmotionId)) {
+                                holder.beforeFeelCtxv.setText(emotionList.get(i).getTitle());
+                                Picasso.with(mContext).load(GLOBAL_IMAGE_URL+emotionList.get(i).getImage()).into(holder.beforeEmotionImg);
+                                Log.i("emoooooooojia5","u:  "+GLOBAL_IMAGE_URL+emotionList.get(i).getImage());
+                            }
+                        }
+                    }
+                    if(isValid(pacfyrRating)) {
+                        Log.i("emoooooooojia6","u:  "+emotionList);
+                        if (isValid(pacfyrRating.getAfterSessionEmotionId())) {
+                            String afterSessionEmotionId = pacfyrRating.getAfterSessionEmotionId();
+                            if (id.equals(afterSessionEmotionId)) {
+                                holder.openinonEmotionCtxv.setText(emotionList.get(i).getTitle());
+                                Picasso.with(mContext).load(GLOBAL_IMAGE_URL+emotionList.get(i).getImage()).into(holder.openinonImg);
+                                Log.i("emoooooooojia7","u:  "+GLOBAL_IMAGE_URL+emotionList.get(i).getImage());
+
+                            }
+                        }
+                    }
+                }
+
+                if (isValid(imgUrl))
+                    Picasso.with(mContext).load(imgUrl).placeholder(R.drawable.placeholder_user).into(holder.userCimv);
+                if(sessionType.equals("audio")) {
+                    Log.i("uuuuuurrrlllAA331","u:  "+results.getMissed());
+                    holder.callTypeImg.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_audio_blue));
+                }else if (sessionType.equals("video")) {
+                    Log.i("uuuuuurrrlllAA332","u:  "+results.getMissed());
+                    holder.callTypeImg.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_video_cam_blue));
+                }
+                //holder.customerWalletCtxv.setText(resultlist.get(position).getPrice());
+                    //holder.customerWalletCtxv.setText(Utility.getPriceSign(context) + results.getTotalSpending() + ".00 Earnings to date.");
+                    //holder.customerRating.setRating(Float.parseFloat(resultlist.get(position).getRating()));
+                    //String rating =customerses[position].getRating();
+                    /*if(isValid(rating)) {
+                        Float ratin=Float.parseFloat(rating);
+                        holder.customerRating.setRating(ratin);
+                    }*/
+                    /*holder.topLlay.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            custListUser = results.getUser();
+                            CustomerDetailActivity.start(context);
+                        }
+                    });*/
+
+            }
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
+
+    }
+
+    public MPastSessions.Results getItem(int position) {
+        Log.i("uuuuuurrrlllAA1244","u:  "+position);
+        return lists.get(position);
+    }
+
+    @Override
+    public int getItemCount() {
+        return isValid(lists)?lists.size():0;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        int pos=-1;
+        if (isValid(lists.get(position)))
+        {
+            pos = position;
+            if (lists.get(position).getMissed())
+            {
+                pos = -2;
+
+            }else if(lists.get(position).getDeclined()){
+
+                pos = -2;
+
+            }
+
+        }
+
+        return pos;
+    }
+    public Boolean isValid(Object object) {
+        if (object != null)
+            return true;
+        return false;
+
+    }
+    public Boolean isValid(List list)
+    {
+        if(list!=null)
+            if(list.size()>0)
+                return  true;
+        return  false;
+
+    }
+
+    public Boolean isValid(List list, int position)
+    {
+        if(isValid(list))
+            if(list.size()>=position)
+                return  true;
+        return  false;
+
+    }
+    public Boolean isValidhtml(String text) {
+        if(isValid(text)) if(text.contains("http")||text.contains("https")) return true;
+        return false;
+
+    }
+
+    protected class ViewHolder extends RecyclerView.ViewHolder {
+        private LinearLayout topLlay;
+        private CircleImageView userCimv;
+        private CustomFontTextView nameUserCtxv;
+        private CustomFontTextView durationCtxv;
+        private CustomFontTextView dateCtxv;
+        private CustomFontTextView feltCtxv;
+        private CustomFontTextView beforeCallCtxv;
+        private ImageView beforeEmotionImg;
+        private CustomFontTextView beforeFeelCtxv;
+        private CustomFontTextView afterCallCtxv;
+        private ImageView afterEmotionImg;
+        private CustomFontTextView afterFeelCtxv;
+        private CustomFontTextView yourOpenionCtxv;
+        private ImageView openinonImg;
+        private CustomFontTextView openinonEmotionCtxv;
+        private  RelativeLayout  feel_rlay;
+        private ImageView callTypeImg;
+        public ViewHolder(View view) {
+            super(view);
+            topLlay = (LinearLayout) view.findViewById(R.id.top_llay);
+      feel_rlay = (RelativeLayout) view.findViewById(R.id.feel_rlay);
+            userCimv = (CircleImageView) view.findViewById(R.id.user_cimv);
+            nameUserCtxv = (CustomFontTextView) view.findViewById(R.id.name_user_ctxv);
+            durationCtxv = (CustomFontTextView) view.findViewById(R.id.duration_ctxv);
+            dateCtxv = (CustomFontTextView) view.findViewById(R.id.date_ctxv);
+            feltCtxv = (CustomFontTextView) view.findViewById(R.id.felt_ctxv);
+            beforeCallCtxv = (CustomFontTextView) view.findViewById(R.id.before_call_ctxv);
+            beforeEmotionImg = (ImageView) view.findViewById(R.id.before_emotion_img);
+            beforeFeelCtxv = (CustomFontTextView) view.findViewById(R.id.before_feel_ctxv);
+            afterCallCtxv = (CustomFontTextView) view.findViewById(R.id.after_call_ctxv);
+            afterEmotionImg = (ImageView) view.findViewById(R.id.after_emotion_img);
+            afterFeelCtxv = (CustomFontTextView) view.findViewById(R.id.after_feel_ctxv);
+            yourOpenionCtxv = (CustomFontTextView) view.findViewById(R.id.your_openion_ctxv);
+            openinonImg = (ImageView) view.findViewById(R.id.openinon_img);
+            callTypeImg = (ImageView) view.findViewById(R.id.call_type_img);
+            openinonEmotionCtxv = (CustomFontTextView) view.findViewById(R.id.openinon_emotion_ctxv);
+        }
+    }
+
+    public class MissedViewHolder extends RecyclerView.ViewHolder {
+        private LinearLayout topLlay;
+        private CircleImageView userCimv;
+        private CustomFontTextView nameUserCtxv;
+        private ImageView callTypeImg;
+        private CustomFontTextView missedCtxv;
+        private CustomFontTextView dateCtxv;
+        private ImageView messageImv;
+
+        public MissedViewHolder(View view) {
+            super(view);
+            topLlay = (LinearLayout) view.findViewById(R.id.top_llay);
+            userCimv = (CircleImageView) view.findViewById(R.id.user_cimv);
+            nameUserCtxv = (CustomFontTextView) view.findViewById(R.id.name_user_ctxv);
+            callTypeImg = (ImageView) view.findViewById(R.id.call_type_img);
+            missedCtxv = (CustomFontTextView) view.findViewById(R.id.missed_ctxv);
+            dateCtxv = (CustomFontTextView) view.findViewById(R.id.date_ctxv);
+            messageImv = (ImageView) view.findViewById(R.id.message_imv);
+        }
+    }
+}

@@ -1,0 +1,22 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="160dp"
+    android:layout_height="30dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="center"
+    android:id="@+id/comment_llay"
+    android:background="@color/white"
+    android:clickable="true"
+    android:layout_margin="4dp"
+    android:orientation="vertical">
+
+    <com.ceino.utilitylibrary.CustomFontTextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:textColor="@color/grey_dark"
+        android:text="@string/earnings"
+        android:background="@drawable/comment_selector"
+        android:textSize="@dimen/sp12"
+        android:id="@+id/comment_ctxv"/>
+
+</LinearLayout>

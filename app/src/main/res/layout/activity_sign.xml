@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:id="@+id/relative_bg"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@drawable/loginbg"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/logo_rlay"
+        android:layout_width="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="180dp"
+        android:layout_centerHorizontal="true">
+
+        <ImageView
+            android:layout_height="150dp"
+            android:layout_width="150dp"
+            android:src="@drawable/om_health_logo" />
+
+    </RelativeLayout>
+
+ <!--   <RelativeLayout
+        android:id="@+id/btns_rlay"
+        android:layout_width="match_parent"
+        android:layout_marginRight="18dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginLeft="15dp"
+        android:layout_below="@+id/logo_rlay"
+        android:layout_alignParentBottom="true"
+        android:layout_height="wrap_content">
+    </RelativeLayout>-->
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/logo_rlay"
+        android:layout_alignParentBottom="true">
+
+
+        <LinearLayout
+            android:id="@+id/llay_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.ceino.utilitylibrary.CustomFontTextView
+                android:id="@+id/getready_ctxv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/llay2"
+                android:orientation="vertical"
+                android:text="@string/get_ready_feel_better"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:fontName="@string/avanti_demi"
+                tools:layout_editor_absoluteY="200dp" />
+
+            <com.ceino.utilitylibrary.CustomFontTextView
+                android:id="@+id/wellness_ctxv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="16dp"
+                android:textAlignment="center"
+                app:fontName="@string/avanti_std_bk"
+                android:text="@string/connect_to_wellness"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+
+
+            <com.ceino.utilitylibrary.CustomFontTextView
+                android:id="@+id/free_ctxv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:textAlignment="center"
+                app:fontName="@string/avanti_std_bk"
+                android:text="@string/thirty_free"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+
+            <com.ceino.utilitylibrary.CustomFontTextView
+                android:id="@+id/no_credit_ctxv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/no_credit_card"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:visibility="gone"
+                app:fontName="@string/avanti_std_bk"
+                app:layout_constraintEnd_toEndOf="@+id/free_ctxv"
+                app:layout_constraintStart_toStartOf="@+id/free_ctxv"
+                app:layout_constraintTop_toBottomOf="@+id/free_ctxv" />
+
+            <com.ceino.utilitylibrary.CustomFontTextView
+                android:id="@+id/emergency_ctxv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:textAlignment="center"
+                app:fontName="@string/avanti_std_bk"
+                android:text="@string/if_emergency"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+
+
+        </LinearLayout>
+
+        <!-- <com.ceino.utilitylibrary.CustomFontTextView
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:padding="20dp"
+        android:textStyle="bold"
+        app:fontName="@string/avenir_black"
+        android:textColor="@color/sign_blue"
+        android:textSize="15sp"
+        android:text="@string/get_ready"
+        android:layout_above="@+id/llay2"/>
+
+    <com.ceino.utilitylibrary.CustomFontTextView
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:text="@string/text_or_video"
+        android:paddingRight="20dp"
+        android:paddingLeft="20dp"
+        android:textSize="13sp"
+        android:layout_marginBottom="15dp"
+        android:orientation="vertical"
+        android:textColor="@color/black"
+        android:id="@+id/llay2"
+        android:layout_above="@+id/llay3"/>
+
+    <com.ceino.utilitylibrary.CustomFontTextView
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:text="@string/free_service"
+        android:paddingRight="20dp"
+        android:paddingLeft="20dp"
+        android:textSize="13sp"
+        android:id="@+id/llay3"
+        android:layout_marginBottom="15dp"
+        android:textColor="@color/black"
+        android:orientation="vertical"
+        android:layout_above="@+id/llay4"/>
+
+    <com.ceino.utilitylibrary.CustomFontTextView
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:text="@string/call_emergency"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:textSize="13sp"
+        android:id="@+id/llay4"
+        android:layout_marginBottom="15dp"
+        android:textColor="@color/black"
+        android:orientation="vertical"
+        android:layout_above="@+id/btns_rlay"/>-->
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/constraintLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="15dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/llay_text"
+            app:layout_constraintStart_toStartOf="@+id/llay_text"
+            app:layout_constraintTop_toBottomOf="@+id/llay_text">
+
+
+            <com.ceino.utilitylibrary.CustomFontTextView
+                android:id="@+id/tv_login"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/white_border_transparent_round_corner"
+                android:gravity="center"
+                android:onClick="showLogin"
+                android:text="@string/login"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/tv_signup"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="spread"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <com.ceino.utilitylibrary.CustomFontTextView
+                android:id="@+id/tv_signup"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_alignBottom="@+id/tv_login"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:width="0dp"
+                android:background="@drawable/white_border_transparent_round_corner"
+                android:gravity="center"
+                android:onClick="showSignUp"
+                android:text="@string/signup"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp18"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/tv_login"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+        </android.support.constraint.ConstraintLayout>
+
+    </android.support.constraint.ConstraintLayout>
+
+
+
+</RelativeLayout>

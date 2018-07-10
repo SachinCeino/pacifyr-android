@@ -1,0 +1,446 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <include
+        android:id="@+id/include2"
+        layout="@layout/actionbar_white_with_black_arrow"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/include2"></View>
+
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/include2"
+        android:background="@color/white">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@color/white">
+
+
+            <ImageView
+                android:id="@+id/upload_image"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_marginTop="32dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_image_upload" />
+
+            <com.ceino.utilitylibrary.CustomEditText
+                android:id="@+id/name_txv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginTop="24dp"
+                android:background="@null"
+                android:hint="@string/prompt_name"
+                android:textColor="@color/black"
+                android:inputType="textCapWords"
+                android:textCursorDrawable="@color/grey_hex_c5"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/upload_image" />
+
+            <View
+                android:id="@+id/name_view"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:background="@color/signup_view"
+                app:layout_constraintEnd_toEndOf="@+id/name_txv"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/name_txv"
+                app:layout_constraintTop_toBottomOf="@+id/name_txv" />
+
+            <com.ceino.utilitylibrary.CustomEditText
+                android:id="@+id/email_txv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:background="@null"
+                android:hint="@string/prompt_email"
+                android:textColor="@color/black"
+                android:inputType="textEmailAddress"
+                android:textCursorDrawable="@color/grey_hex_c5"
+                app:layout_constraintEnd_toEndOf="@+id/name_txv"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/name_txv"
+                app:layout_constraintTop_toBottomOf="@+id/name_view" />
+
+            <View
+                android:id="@+id/email_view"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginEnd="8dp"
+                android:background="@color/signup_view"
+                app:layout_constraintEnd_toEndOf="@+id/email_txv"
+                app:layout_constraintStart_toStartOf="@+id/email_txv"
+                app:layout_constraintTop_toBottomOf="@+id/email_txv"
+                android:layout_marginRight="8dp" />
+
+
+            <Spinner
+                android:id="@+id/spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_alignLeft="@+id/phone_cedit"
+                android:layout_below="@+id/email_view"
+                android:layout_marginTop="24dp"
+                app:layout_constraintBottom_toBottomOf="@+id/phone_cedit"
+                app:layout_constraintStart_toStartOf="@+id/email_txv"
+                app:layout_constraintTop_toBottomOf="@+id/email_txv" />
+
+
+            <com.ceino.utilitylibrary.CustomEditText
+                android:id="@+id/phone_cedit"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:background="@null"
+                android:hint="@string/phone"
+                android:inputType="phone"
+                android:maxLength="10"
+                android:maxLines="1"
+                android:textColorHint="@color/phone_grey"
+                android:textSize="@dimen/sp17"
+                app:layout_constraintEnd_toEndOf="@+id/email_txv"
+                app:layout_constraintStart_toEndOf="@+id/spinner"
+                app:layout_constraintTop_toBottomOf="@+id/email_view"
+                android:layout_marginLeft="16dp" />
+
+            <View
+                android:id="@+id/phone_view"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginTop="8dp"
+                android:background="@color/signup_view"
+                app:layout_constraintEnd_toEndOf="@+id/phone_cedit"
+                app:layout_constraintStart_toStartOf="@+id/phone_cedit"
+                app:layout_constraintTop_toBottomOf="@+id/phone_cedit" />
+
+            <com.ceino.utilitylibrary.CustomFontTextView
+                android:id="@+id/birth_year_txv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:background="@null"
+                android:hint="@string/year_of_birth"
+                android:padding="5dp"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="@+id/phone_cedit"
+                app:layout_constraintStart_toStartOf="@+id/spinner"
+                app:layout_constraintTop_toTopOf="@+id/phone_view" />
+
+            <View
+                android:id="@+id/birthview_view"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:background="@color/signup_view"
+                app:layout_constraintEnd_toEndOf="@+id/birth_year_txv"
+                app:layout_constraintStart_toStartOf="@+id/birth_year_txv"
+                app:layout_constraintTop_toBottomOf="@+id/birth_year_txv" />
+
+            <com.ceino.utilitylibrary.CustomEditText
+                android:id="@+id/snapshot_txv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:background="@null"
+                android:ems="10"
+                android:hint="@string/snapshot"
+                android:inputType="textMultiLine"
+                android:textColor="@color/black"
+                android:textCursorDrawable="@color/grey_hex_c5"
+                app:layout_constraintEnd_toEndOf="@+id/birth_year_txv"
+                app:layout_constraintStart_toStartOf="@+id/birth_year_txv"
+                app:layout_constraintTop_toBottomOf="@+id/birth_year_txv" />
+
+            <View
+                android:id="@+id/snapshot_view"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:background="@color/signup_view"
+                app:layout_constraintEnd_toEndOf="@+id/snapshot_txv"
+                app:layout_constraintStart_toStartOf="@+id/snapshot_txv"
+                app:layout_constraintTop_toBottomOf="@+id/snapshot_txv" />
+
+            <com.ceino.utilitylibrary.CustomFontTextView
+                android:id="@+id/textView2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/cost_for_one_hour"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="@+id/snapshot_txv"
+                app:layout_constraintStart_toStartOf="@+id/snapshot_txv"
+                app:layout_constraintTop_toBottomOf="@+id/snapshot_txv" />
+
+            <com.ceino.utilitylibrary.CustomEditText
+                android:id="@+id/cost_ctxv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@null"
+                android:ems="10"
+                android:textColor="@color/black"
+                android:hint="@string/price"
+                android:inputType="number"
+                android:textCursorDrawable="@drawable/color_cursor"
+                app:layout_constraintEnd_toEndOf="@+id/textView2"
+                app:layout_constraintStart_toStartOf="@+id/textView2"
+                app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+            <View
+                android:id="@+id/cost_view"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:background="@color/signup_view"
+                app:layout_constraintEnd_toEndOf="@+id/cost_ctxv"
+                app:layout_constraintStart_toStartOf="@+id/cost_ctxv"
+                app:layout_constraintTop_toBottomOf="@+id/cost_ctxv" />
+
+
+            <RelativeLayout
+                android:id="@+id/education_rlay"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                app:layout_constraintEnd_toEndOf="@+id/cost_ctxv"
+                app:layout_constraintStart_toStartOf="@+id/cost_ctxv"
+                app:layout_constraintTop_toBottomOf="@+id/cost_ctxv">
+
+                <com.ceino.utilitylibrary.CustomEditText
+                    android:id="@+id/education_cedt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:enabled="false"
+                    android:text="@string/educations"
+                    android:textColor="@color/grey_hex_4e" />
+
+                <com.ceino.utilitylibrary.CustomFontTextView
+                    android:id="@+id/add_education_ctxv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginStart="8dp"
+                    android:text="@string/add"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/colorPrimary"
+                    app:layout_constraintHorizontal_bias="1.0" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/education_rcv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/add_education_ctxv"
+                    android:layout_marginTop="15dp"
+                    android:visibility="visible">
+
+                </android.support.v7.widget.RecyclerView>
+
+                <View
+                    android:id="@+id/edu_view"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:background="@color/signup_view"
+                    app:layout_constraintEnd_toEndOf="@+id/add_education_ctxv"
+                    app:layout_constraintStart_toStartOf="@+id/education_cedt"
+                    app:layout_constraintTop_toBottomOf="@+id/education_cedt" />
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/certificates_rlay"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                app:layout_constraintEnd_toEndOf="@+id/education_rlay"
+                app:layout_constraintStart_toStartOf="@+id/education_rlay"
+                app:layout_constraintTop_toBottomOf="@+id/education_rlay">
+
+                <com.ceino.utilitylibrary.CustomEditText
+                    android:id="@+id/certificates_cedt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:ems="10"
+                    android:enabled="false"
+                    android:inputType="textPersonName"
+                    android:text="@string/certificates"
+                    android:textColor="@color/grey_hex_4e"
+                    app:layout_constraintHorizontal_bias="0.0" />
+
+                <com.ceino.utilitylibrary.CustomFontTextView
+                    android:id="@+id/add_certificates_cedit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginStart="8dp"
+                    android:text="@string/add"
+                    android:textAlignment="textEnd"
+                    android:textColor="?android:attr/colorPrimary"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toEndOf="@+id/certificates_cedt"
+                    android:layout_marginLeft="8dp"
+                    android:gravity="end" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/certificates_rcv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/add_certificates_cedit"
+                    android:layout_marginTop="15dp"
+                    android:visibility="visible">
+
+                </android.support.v7.widget.RecyclerView>
+
+                <View
+                    android:id="@+id/certificates_view"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:background="@color/signup_view"
+                    app:layout_constraintEnd_toEndOf="@+id/add_certificates_cedit"
+                    app:layout_constraintStart_toStartOf="@+id/certificates_cedt"
+                    app:layout_constraintTop_toBottomOf="@+id/certificates_cedt" />
+
+            </RelativeLayout>
+
+            <com.ceino.utilitylibrary.CustomFontTextView
+                android:id="@+id/specialities_ctxv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:background="@null"
+                android:hint="@string/specialities"
+                android:textColor="@color/black"
+                android:padding="5dp"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="@+id/certificates_rlay"
+                app:layout_constraintStart_toStartOf="@+id/certificates_rlay"
+                app:layout_constraintTop_toBottomOf="@+id/certificates_rlay" />
+
+            <View
+                android:id="@+id/speciality_view"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:background="@color/signup_view"
+                app:layout_constraintEnd_toEndOf="@+id/specialities_ctxv"
+                app:layout_constraintStart_toStartOf="@+id/specialities_ctxv"
+                app:layout_constraintTop_toBottomOf="@+id/specialities_ctxv" />
+
+            <com.ceino.utilitylibrary.CustomFontTextView
+                android:id="@+id/upload_docs_ctxv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:background="@null"
+                android:hint="@string/upload_documents"
+                android:textColor="@color/black"
+                android:padding="5dp"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="@+id/specialities_ctxv"
+                app:layout_constraintStart_toStartOf="@+id/specialities_ctxv"
+                app:layout_constraintTop_toBottomOf="@+id/specialities_ctxv" />
+
+            <View
+                android:id="@+id/upload_view"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:background="@color/signup_view"
+                app:layout_constraintEnd_toEndOf="@+id/upload_docs_ctxv"
+                app:layout_constraintStart_toStartOf="@+id/upload_docs_ctxv"
+                app:layout_constraintTop_toBottomOf="@+id/upload_docs_ctxv" />
+
+
+            <TextView
+                android:id="@+id/upload_instruction_txv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/upload_docs_ctxv"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/document_upload_instruction"
+                android:textSize="8sp"
+                app:layout_constraintEnd_toEndOf="@+id/upload_docs_ctxv"
+                app:layout_constraintStart_toStartOf="@+id/upload_docs_ctxv"
+                app:layout_constraintTop_toBottomOf="@+id/upload_docs_ctxv" />
+
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/file_list_rcv"
+                android:layout_marginTop="24dp"
+                app:layout_constraintEnd_toEndOf="@+id/upload_instruction_txv"
+                app:layout_constraintStart_toStartOf="@+id/upload_instruction_txv"
+                app:layout_constraintTop_toBottomOf="@+id/upload_instruction_txv"/>
+
+
+            <CheckBox
+                android:id="@+id/terms_of_use_cbox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/accept_policy_text"
+                app:layout_constraintEnd_toEndOf="@+id/file_list_rcv"
+                app:layout_constraintStart_toStartOf="@+id/file_list_rcv"
+                app:layout_constraintTop_toBottomOf="@+id/file_list_rcv" />
+
+
+            <RelativeLayout
+
+                android:id="@+id/request_rlay"
+                android:layout_width="0dp"
+                android:layout_height="43dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="32dp"
+                android:layout_marginTop="32dp"
+                android:background="@drawable/blue_border_lightblue"
+                android:padding="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/terms_of_use_cbox"
+                app:layout_constraintStart_toStartOf="@+id/terms_of_use_cbox"
+                app:layout_constraintTop_toBottomOf="@+id/terms_of_use_cbox">
+
+                <com.ceino.utilitylibrary.CustomFontTextView
+                    android:id="@+id/request_ctxv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:text="@string/request"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+
+            </RelativeLayout>
+
+
+        </android.support.constraint.ConstraintLayout>
+
+    </ScrollView>
+
+</RelativeLayout>

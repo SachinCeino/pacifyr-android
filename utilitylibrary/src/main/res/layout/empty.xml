@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.ceino.utilitylibrary.FlexLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/empty_flay"
+    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/grey_hex_8f"
+    android:layout_height="match_parent">
+    <com.ceino.utilitylibrary.DeviceFitImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_centerY="30%"
+        app:layout_centerX="50%"
+        android:visibility="gone"
+        app:layout_height="30%"
+        android:id="@+id/im"/>
+    <com.ceino.utilitylibrary.CustomFontTextView
+        android:id="@+id/welcome_dtxv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        app:layout_top="prev.bottom+10%"
+        android:gravity="center"
+        android:textSize="@dimen/sp20"
+        android:text="Welcome  "/>
+
+
+    <com.ceino.utilitylibrary.CustomFontTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/grey_hex_8f"
+        app:layout_top="prev.bottom+3%"
+        android:id="@+id/empty_dtxv"
+        android:gravity="center"
+        android:textSize="@dimen/sp18"
+        android:text="Your questions will appear here"/>
+</com.ceino.utilitylibrary.FlexLayout>

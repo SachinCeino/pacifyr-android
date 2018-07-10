@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@android:color/white"
+    android:orientation="vertical">
+    <RelativeLayout
+        android:id="@+id/sidemenu_action_bar"
+        android:layout_width="match_parent"
+android:visibility="gone"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:orientation="horizontal"
+        android:theme="@style/AppTheme.PopupOverlay">
+        </RelativeLayout>
+<!--
+    <RelativeLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="#FFA235">
+
+        <ImageView
+            android:id="@+id/main_logo"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="3dp"
+            android:padding="3dp"
+            android:src="@drawable/main_logo"/>
+
+        <RelativeLayout
+            android:id="@+id/side_menu1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:background="#FFA235"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="20dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="centerInside"
+                android:src="@drawable/side_menu"/>
+        </RelativeLayout>
+
+    </RelativeLayout>-->
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <com.ceino.utilitylibrary.PagerEnabledSlidingPaneLayout
+            android:id="@+id/sliding_pane"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+            <!--First child is the left pane-->
+            <!-- android:layout_marginRight="100dp"-->
+
+            <LinearLayout
+                android:id="@+id/left_pane"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_weight="0.4"
+                android:background="@color/transparent_blue_80"
+                android:layout_height="match_parent"
+                >
+            <LinearLayout
+                android:id="@+id/left_content_pane_llay"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+
+
+                android:background="@color/transparent_blue_80"
+                android:layout_height="match_parent"
+                >
+                </LinearLayout>
+
+
+      <!--
+                <RelativeLayout android:id="@+id/banner_rlay"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+
+                    android:background="@drawable/banner"
+                    android:visibility="gone"
+                    >
+                    <RelativeLayout android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/transparent_blue_80"
+                        android:visibility="visible"
+
+                        >
+                    </RelativeLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:gravity="center"
+                        android:orientation="vertical">
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/parent_cimv"
+                            android:layout_width="90dp"
+                            android:layout_height="90dp"
+                            android:src="@drawable/placeholder_user"
+                            app:civ_border_color="@color/white"
+                            app:civ_border_width="2dp"/>
+                        <com.ceino.utilitylibrary.CustomFontTextView
+                            android:id="@+id/parent_name_ctxv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/parent_cimv"
+                            android:gravity="center"
+                            android:padding="10dp"
+                            android:text="jjjjjjjjjjj"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/sp16"
+                            android:textStyle="bold"/>
+                    </LinearLayout>
+                    &lt;!&ndash;           app:layout_marginTopPercent="25%"
+                               app:layout_marginLeftPercent="25%"
+                               app:layout_widthPercent="50%"&ndash;&gt;
+                </RelativeLayout>
+                <include   android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    layout="@layout/jjjj"/>
+&lt;!&ndash;<android.support.percent.PercentRelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+<RelativeLayout
+    android:id="@+id/side_invite_rlay"
+    android:layout_width="wrap_content"
+    app:layout_widthPercent="30%"
+    android:layout_height="wrap_content">
+    <com.ceino.utilitylibrary.DeviceFitImageView
+        android:id="@+id/side_invite_dimv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+    <com.ceino.utilitylibrary.CustomFontTextView
+        android:layout_below="@+id/side_invite_dimv"
+        android:id="@+id/side_invite_dtxv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/side_account_rlay"
+                    android:layout_width="wrap_content"
+                    app:layout_widthPercent="30%"
+                    android:layout_height="wrap_content">
+                    <com.ceino.utilitylibrary.DeviceFitImageView
+                        android:id="@+id/side_account_dimv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        />
+                    <com.ceino.utilitylibrary.CustomFontTextView
+                        android:layout_below="@+id/side_account_dimv"
+                        android:id="@+id/side_account_dtxv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/side_support_rlay"
+                    android:layout_width="wrap_content"
+                    app:layout_widthPercent="30%"
+                    android:layout_height="wrap_content">
+                    <com.ceino.utilitylibrary.DeviceFitImageView
+                        android:id="@+id/side_support_dimv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        />
+                    <com.ceino.utilitylibrary.CustomFontTextView
+                        android:layout_below="@+id/side_support_dimv"
+                        android:id="@+id/side_support_dtxv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </RelativeLayout>
+</android.support.percent.PercentRelativeLayout>&ndash;&gt;
+                <RelativeLayout
+                    android:id="@+id/side_school_rlay"
+                    android:layout_width="match_parent"
+android:padding="10dp"
+                    android:layout_height="wrap_content">
+                    <com.ceino.utilitylibrary.DeviceFitImageView
+                        android:src="@drawable/dashboardic"
+                        android:id="@+id/side_school_dimv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        />
+                    <com.ceino.utilitylibrary.CustomFontTextView
+                        android:layout_toRightOf="@+id/side_school_dimv"
+                        android:id="@+id/side_school_dtxv"
+                        android:layout_width="wrap_content"
+                        android:text="Dashboard"
+                        android:textColor="@color/white"
+                        android:layout_height="wrap_content" />
+                </RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/side_class_rlay"
+                    android:layout_width="match_parent"
+                    android:padding="10dp"
+                    android:layout_height="wrap_content">
+                    <com.ceino.utilitylibrary.DeviceFitImageView
+                        android:id="@+id/side_class_dimv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        />
+                    <com.ceino.utilitylibrary.CustomFontTextView
+                        android:layout_toRightOf="@+id/side_class_dimv"
+                        android:id="@+id/side_class_dtxv"
+                        android:text="School"
+                        android:textColor="@color/white"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </RelativeLayout>
+                <FrameLayout
+                    android:id="@+id/sidemenu_classes_flay"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent">
+                </FrameLayout>
+             &lt;!&ndash;   <android.support.v7.widget.RecyclerView
+                        android:id="@+id/child_rcv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:divider="@android:color/transparent"
+                        android:visibility="gone"></android.support.v7.widget.RecyclerView>&ndash;&gt;
+
+
+
+              -->
+
+
+            </LinearLayout>
+            <FrameLayout
+                android:id="@+id/sidemenu_content_flay"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+            </FrameLayout>
+            <!--            </FrameLayout>-->
+        </com.ceino.utilitylibrary.PagerEnabledSlidingPaneLayout>
+</FrameLayout>
+    </LinearLayout>

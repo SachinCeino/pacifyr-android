@@ -1,0 +1,12 @@
+<LinearLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+    <com.ceino.utilitylibrary.CustomFontTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/education_desc"
+        android:textSize="@dimen/sp10"
+        android:padding="11dp"
+        android:id="@+id/text_id"/>
+</LinearLayout>

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/actionbar_three_text_image"
+        android:id="@+id/include"
+        android:layout_height="50dp"
+        android:layout_width="match_parent">
+    </include>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="25dp">
+
+        <com.ceino.utilitylibrary.CustomFontTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/card_number"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="25sp"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:inputType="number"
+            android:layout_margin="20dp"
+            android:maxLength="16"
+            android:id="@+id/card_number_edt"
+            android:hint="Card number"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+           <!-- <com.aigestudio.wheelpicker.widgets.WheelMonthPicker
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                app:wheel_curved="true"
+                app:wheel_visible_item_count="2"
+                android:hint=""/>
+
+
+            <com.aigestudio.wheelpicker.widgets.WheelYearPicker
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                app:wheel_curved="true"
+                app:wheel_visible_item_count="2"
+                android:hint=""/>-->
+
+            <EditText
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:id="@+id/card_month_edt"
+                android:inputType="number"
+                android:layout_gravity="center"
+                android:maxLength="2"
+                android:hint="MM"/>
+
+            <EditText
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_gravity="center"
+                android:id="@+id/card_year_edt"
+                android:inputType="number"
+                android:maxLength="2"
+                android:hint="YY"/>
+
+            <EditText
+                android:layout_width="51dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:id="@+id/card_cvv_edt"
+                android:inputType="number"
+                android:maxLength="3"
+                android:hint="CVV"/>
+
+
+        </LinearLayout>
+
+       <!-- <com.ceino.utilitylibrary.CustomFontTextView
+            android:id="@+id/country_txv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="25sp"
+            android:textColor="@color/black"
+            android:layout_marginTop="25dp"
+            android:text="Country" />
+
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:id="@+id/country_edt"
+            android:layout_marginTop="15dp"
+            android:hint="USA"/>-->
+
+
+
+        <RelativeLayout
+
+            android:layout_gravity="center"
+            android:id="@+id/save_rlay"
+            android:layout_width="match_parent"
+            android:layout_marginTop="90dp"
+            android:layout_height="43dp"
+            android:background="@drawable/blue_round_square">
+
+            <com.ceino.utilitylibrary.CustomFontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/save"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/save_ctxv"
+                android:textSize="20sp"
+                android:textColor="@color/white" />
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>

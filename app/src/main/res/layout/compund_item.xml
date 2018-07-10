@@ -1,0 +1,59 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:gravity="center"
+    android:padding="20dp"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/rlay_item"
+        android:padding="20dp">
+
+        <com.ceino.utilitylibrary.DeviceFitImageView
+            android:id="@+id/top_left"
+            android:layout_width="20dp"
+            android:visibility="gone"
+            android:layout_alignParentLeft="true"
+            android:src="@drawable/com_facebook_close"
+            android:layout_height="20dp"/>
+
+        <com.ceino.utilitylibrary.DeviceFitImageView
+            android:id="@+id/top_right"
+            android:layout_width="wrap_content"
+            android:visibility="gone"
+            android:src="@drawable/com_facebook_close"
+            android:layout_alignParentRight="true"
+            android:layout_height="wrap_content" />
+
+        <com.ceino.utilitylibrary.DeviceFitImageView
+            android:id="@+id/image"
+            android:layout_width="wrap_content"
+            android:layout_centerVertical="true"
+            android:src="@drawable/placeholder_user"
+            android:layout_centerHorizontal="true"
+            android:layout_height="wrap_content"
+            android:textSize="24sp" />
+
+        <com.ceino.utilitylibrary.DeviceFitImageView
+            android:id="@+id/bottom_right"
+            android:layout_below="@+id/image"
+            android:src="@drawable/com_facebook_close"
+            android:layout_width="wrap_content"
+            android:visibility="gone"
+            android:layout_height="wrap_content" />
+
+
+        <com.ceino.utilitylibrary.DeviceFitImageView
+            android:id="@+id/bottom_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/com_facebook_close"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/image"
+            android:visibility="gone"
+            android:layout_toLeftOf="@id/bottom_right" />
+
+    </RelativeLayout>
+</RelativeLayout>

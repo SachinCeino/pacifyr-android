@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/actionbar_grey"
+        android:id="@+id/include"
+        android:layout_height="50dp"
+        android:layout_width="match_parent">
+    </include>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/signup_view"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+
+        <android.support.percent.PercentRelativeLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/percent_rlay"
+            android:background="@color/white">
+
+            <RelativeLayout
+
+                android:id="@+id/logo_rlay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                app:layout_marginTopPercent="5%">
+
+                <ImageView
+                    android:layout_width="170dp"
+                    android:src="@drawable/omhealth_icon_orange"
+                    android:layout_height="150dp"
+                    android:layout_centerHorizontal="true"
+                    android:id="@+id/logo_blue"/>
+
+            </RelativeLayout>
+
+
+
+            <LinearLayout
+                android:id="@+id/email_login_form"
+                android:layout_below="@+id/logo_rlay"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                app:layout_marginTopPercent="10%"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.ceino.utilitylibrary.CustomFontTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="17sp"
+                    app:fontName="@string/raleway_bold"
+                    android:id="@+id/enter_phone_ctxv"
+                    android:textColor="@color/black"
+                    android:text="@string/e_phonenumber"/>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="20dp"
+                    android:padding="5dp"
+                    android:gravity="center"
+                    android:layout_height="wrap_content">
+
+                    <!--<com.hbb20.CountryCodePicker
+                        android:id="@+id/ccp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />-->
+
+                    <Spinner
+                        android:id="@+id/spinner"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/textView"
+                        android:layout_alignLeft="@+id/textView"/>
+
+
+                    <com.ceino.utilitylibrary.CustomEditText
+                        android:id="@+id/phone_cedit"
+                        android:layout_width="match_parent"
+                        android:inputType="phone"
+                        android:textSize="@dimen/sp17"
+                        android:maxLength="10"
+                        android:background="@null"
+                        android:maxLines="1"
+                        android:hint="@string/phone"
+                        android:textColorHint="@color/phone_grey"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/signup_view"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_below="@+id/email_login_form"
+                android:orientation="vertical"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="30dp"
+                android:gravity="center"
+                android:id="@+id/laly_top_send"
+                app:layout_marginBottomPercent="5%"
+                android:layout_height="wrap_content">
+
+
+                <RelativeLayout
+
+                    android:layout_gravity="center"
+                    android:id="@+id/login_rlay"
+                    android:layout_width="match_parent"
+                    android:layout_height="43dp"
+                    android:background="@drawable/blue_round_square"
+                    android:padding="10dp">
+
+                    <com.ceino.utilitylibrary.CustomFontTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/send_confirmcode"
+                        android:layout_centerVertical="true"
+                        android:layout_centerHorizontal="true"
+                        android:id="@+id/request_ctxv"
+                        android:textSize="18sp"
+                        android:textColor="@color/white" />
+
+
+                </RelativeLayout>
+
+                <com.facebook.login.widget.LoginButton
+                    android:id="@+id/login_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:visibility="gone" />
+
+                <com.ceino.utilitylibrary.CustomFontTextView
+
+                    android:layout_marginTop="30dp"
+                    android:layout_width="wrap_content"
+                    android:textSize="@dimen/sp12"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_height="wrap_content"
+                    android:text="@string/sms_text_login"
+                    android:layout_margin="5dp"
+                    android:textColor="@color/medium_grey_pacifyr"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_below="@+id/laly_top_send"
+                app:layout_marginTopPercent="13%"
+                android:layout_alignParentBottom="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center">
+
+                    <View
+                        android:layout_width="180dp"
+                        android:layout_height="1dp"
+                        android:background="@color/signup_view"/>
+
+                    <com.ceino.utilitylibrary.CustomFontTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="or"
+                        android:textSize="@dimen/sp16"
+                        android:layout_margin="15dp"
+                        android:textColor="@color/black" />
+
+                    <View
+                        android:layout_width="180dp"
+                        android:layout_height="1dp"
+                        android:background="@color/signup_view"/>
+
+                </LinearLayout>
+
+
+                <RelativeLayout
+                    android:layout_gravity="center"
+                    android:id="@+id/facebook_rlay"
+                    android:layout_width="match_parent"
+                    android:layout_height="43dp"
+                    android:background="@drawable/fb_signup_btn"
+                    android:padding="10dp">
+
+                    <com.ceino.utilitylibrary.CustomFontTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/login_fb"
+                        android:layout_centerVertical="true"
+                        android:layout_centerHorizontal="true"
+                        android:gravity="center"
+                        android:id="@+id/fb_tcv"
+                        android:textSize="18sp"
+                        android:textColor="@color/white"/>
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginRight="5dp"
+                        android:src="@drawable/facebook"
+                        android:layout_height="30dp"
+                        android:padding="3dp"/>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+
+
+        </android.support.percent.PercentRelativeLayout>
+
+    </ScrollView>
+
+</LinearLayout>

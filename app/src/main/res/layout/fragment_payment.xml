@@ -1,0 +1,41 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp"
+    android:orientation="vertical"
+    tools:context="com.pacifyr.omhealthcare.Payment.PaymentFragment">
+
+   <com.ceino.utilitylibrary.CustomFontTextView
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_gravity="left"
+       android:textSize="20sp"
+       android:textStyle="bold"
+       android:id="@+id/payment_method_ctxv"
+       android:textColor="@color/text_dashboard"
+       android:text="PAYMENT METHOD"/>
+
+
+    <com.ceino.utilitylibrary.CustomFontTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:textSize="15sp"
+        android:id="@+id/credict_card_ctxv"
+        android:layout_marginTop="23dp"
+        android:textStyle="bold"
+        android:visibility="visible"
+        android:textColor="@color/colorPrimary"
+        android:text="Add Credit Card"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/card_rcv"
+        android:layout_marginTop="23dp"
+        android:visibility="gone">
+    </android.support.v7.widget.RecyclerView>
+
+</LinearLayout>

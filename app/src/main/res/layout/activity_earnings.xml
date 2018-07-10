@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <include layout="@layout/actionbar_three_text_image"
+        android:id="@+id/include"
+        android:layout_height="50dp"
+        android:layout_width="match_parent"/>
+
+
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+        android:layout_below="@+id/include"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:circleview="http://schemas.android.com/apk/res-auto"
+    tools:context="com.pacifyr.omhealthcare.Fragment.EarningsFragment">
+
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white">
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/activity_last_session"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#DFDFDF" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/list_weeks_rcv"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@color/grey_hex_f9"
+                    android:orientation="horizontal" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#DFDFDF" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="20dp">
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_below="@+id/how_eff_ctxv"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+
+                        <com.androidplot.pie.PieChart
+                            android:id="@+id/piechart"
+                            android:layout_width="match_parent"
+                            android:layout_height="300dp"
+
+                            />
+
+                     <!--   <com.androidplot.pie.PieChart
+                            android:id="@+id/piechart"
+                            android:layout_width="match_parent"
+                            android:layout_height="350dp"
+
+                            />-->
+                        <!--androidPlot.title.text="A Simple Pie Chart"
+                        androidPlot.title.labelPaint.textSize="@dimen/title_font_size"-->
+                    </LinearLayout>
+
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:padding="0dp">
+
+                    <com.ceino.utilitylibrary.CustomFontTextView
+                        android:id="@+id/totol_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:gravity="right"
+                        android:text="Weekly total"
+                        app:fontName="@string/avenir_black"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/sp15"/>
+
+
+                    <com.ceino.utilitylibrary.CustomFontTextView
+                        android:id="@+id/wkly_total_ctxv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="20dp"
+                        android:layout_toRightOf="@+id/totol_text"
+                        android:gravity="left"
+                        android:text="0.00"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="2dp"
+                    android:layout_marginTop="30dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_marginLeft="10dp"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/gifticon" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:orientation="vertical"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp">
+
+                        <com.ceino.utilitylibrary.CustomFontTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="BONUS"
+                            android:textColor="@color/bonus_green"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            app:fontName="@string/avenir_black" />
+
+
+
+                        <com.ceino.utilitylibrary.CustomFontTextView
+                            android:id="@+id/text_dialog_bonusmessage"
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:layout_gravity="center"
+                            android:textSize="11sp"
+                            app:fontName="@string/avenir_black"
+                            android:text="Account not configured to receive bouns"
+                            />
+
+
+                    </LinearLayout>
+
+
+
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_height="1dp"
+                    android:background="#DFDFDF"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <com.ceino.utilitylibrary.CustomFontTextView
+                            android:id="@+id/text_dialog_hourstowork"
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:textStyle="bold"
+                            android:layout_gravity="center"
+                            android:textColor="@color/text_color_black"
+                            android:text="0" />
+
+                        <TextView
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:textSize="@dimen/sp10"
+                            android:layout_gravity="center"
+                            android:text="hours to work" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <com.ceino.utilitylibrary.CustomFontTextView
+                            android:id="@+id/text_dialog_hourstobonus"
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:textStyle="bold"
+                            android:layout_gravity="center"
+                            android:textColor="@color/text_color_black"
+                            android:text="0"  />
+
+                        <TextView
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:layout_gravity="center"
+                            android:textSize="@dimen/sp10"
+                            android:text="hours to bonus" />
+                    </LinearLayout>
+
+
+
+
+
+                </LinearLayout>
+
+
+
+
+            </LinearLayout>
+
+
+        </ScrollView>
+
+
+    </FrameLayout>
+</RelativeLayout>

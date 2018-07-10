@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.pacifyr.omhealthcare.Payment.EditCardActivity">
+
+    <include layout="@layout/actionbar_three_text_image"
+        android:id="@+id/include"
+        android:layout_height="50dp"
+        android:layout_width="match_parent">
+    </include>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_below="@+id/include"
+        android:padding="25dp">
+
+        <com.ceino.utilitylibrary.CustomFontTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:text="Card Number"/>
+
+        <com.ceino.utilitylibrary.CustomEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/card_cedt"
+            android:inputType="number"
+            android:maxLength="16"
+            android:layout_marginTop="10dp"
+            android:textSize="@dimen/sp17"
+            android:gravity="left"
+            android:background="@drawable/black_border_white_back"
+            android:textColor="@color/medium_grey_pacifyr"/>
+
+
+        <com.ceino.utilitylibrary.CustomFontTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:textColor="@color/black"
+            android:text="Exp. Date"/>
+
+        <com.ceino.utilitylibrary.CustomEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/exp_date_cedt"
+            android:inputType="number"
+            android:layout_marginTop="10dp"
+            android:textSize="@dimen/sp17"
+            android:gravity="left"
+            android:background="@drawable/black_border_white_back"
+            android:textColor="@color/medium_grey_pacifyr"/>
+
+
+
+        <com.ceino.utilitylibrary.CustomFontTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:textColor="@color/black"
+            android:text="CVV"/>
+
+        <com.ceino.utilitylibrary.CustomEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/cvv_cedt"
+            android:inputType="number"
+            android:maxLength="3"
+            android:layout_marginTop="10dp"
+            android:textSize="@dimen/sp17"
+            android:gravity="left"
+            android:background="@drawable/black_border_white_back"
+            android:textColor="@color/medium_grey_pacifyr"/>
+
+
+
+    </LinearLayout>
+
+</RelativeLayout>

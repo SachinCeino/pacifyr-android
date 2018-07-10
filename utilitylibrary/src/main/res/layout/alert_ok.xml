@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:jp="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="wrap_content"
+    android:background="@drawable/blue_round_square"
+    android:padding="2dp">
+
+
+    <com.ceino.utilitylibrary.CustomFontTextView
+        android:id="@+id/title_dtxv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:gravity="center"
+        android:text="Edit  !"
+        android:visibility="visible"
+        android:layout_margin="5dp"
+
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp18"
+        />
+    <com.ceino.utilitylibrary.CustomFontTextView
+        android:id="@+id/desc_dtxv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title_dtxv"
+android:maxLines="5"
+        android:visibility="visible"
+        android:layout_margin="10dp"
+        android:padding="10dp"
+        android:gravity="center"
+        android:text="Please click on the left side topmenu and join your school"
+
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp18"
+        />
+
+    <View
+
+        android:layout_width="wrap_content"
+       android:layout_height="1dp"
+        android:background="@color/md_grey_400"
+
+       />
+
+    <com.ceino.utilitylibrary.CustomFontTextView
+        android:id="@+id/ok_dtxv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:padding="10dp"
+        android:layout_below="@+id/desc_dtxv"
+        android:background="@color/color_scheme"
+        android:gravity="center"
+        android:text="OK"
+        android:layout_gravity="center"
+        android:textStyle="bold"
+        android:textSize="@dimen/sp16"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="5dp"
+        android:textColor="@color/white"
+
+        jp:percentage_width="49" />
+</LinearLayout>
+    <!--
+       </RelativeLayout>-->

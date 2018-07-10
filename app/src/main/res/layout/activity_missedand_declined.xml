@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".home.MissedandDeclinedActivity">
+
+    <include layout="@layout/actionbar_three_text_image"
+        android:id="@+id/include"
+        android:layout_height="50dp"
+        android:layout_width="match_parent">
+    </include>
+
+    <RelativeLayout
+        android:layout_width="150dp"
+        android:layout_height="30dp"
+        android:layout_below="@+id/include"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/button_rlay"
+        android:layout_marginTop="30dp">
+
+
+        <com.ceino.utilitylibrary.CustomFontTextView
+            android:layout_width="76dp"
+            android:layout_height="30dp"
+            android:padding="3dp"
+            android:textSize="14sp"
+            android:textColor="@color/white"
+            android:background="@drawable/blue_background_right_square"
+            android:layout_alignParentLeft="true"
+            android:gravity="center"
+            android:id="@+id/missed_ctxv"
+            android:text="@string/missed"/>
+
+        <com.ceino.utilitylibrary.CustomFontTextView
+            android:layout_width="75dp"
+            android:layout_height="30dp"
+            android:padding="3dp"
+            android:textSize="14sp"
+            android:background="@drawable/white_background_left_square"
+            android:textColor="@color/blue_miss_decline"
+            android:gravity="center"
+            android:text="@string/declined"
+            android:id="@+id/declined_ctxv"
+            android:layout_alignParentRight="true" />
+
+
+    </RelativeLayout>
+
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/button_rlay"
+        android:layout_marginTop="10dp"
+        android:id="@+id/missed_rcv"
+        android:padding="5dp"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/button_rlay"
+        android:layout_marginTop="10dp"
+        android:id="@+id/declined_rcv"
+        android:padding="5dp"/>
+
+</RelativeLayout>

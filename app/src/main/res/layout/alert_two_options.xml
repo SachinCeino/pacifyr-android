@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:jp="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+
+    android:layout_height="wrap_content"
+    android:background="@drawable/blue_round_square"
+    android:padding="2dp">
+
+
+    <com.ceino.utilitylibrary.CustomFontTextView
+        android:id="@+id/title_dtxv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:gravity="center"
+        android:text="Edit  !"
+        android:layout_margin="5dp"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp18"
+        />
+    <com.ceino.utilitylibrary.CustomFontTextView
+        android:id="@+id/desc_dtxv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title_dtxv"
+        android:maxLines="5"
+        android:layout_margin="5dp"
+        android:padding="10dp"
+        android:gravity="center"
+        android:text="Alert"
+        android:textColor="@color/grey"
+        android:textSize="@dimen/sp14"
+        />
+
+    <View
+
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:background="@color/md_grey_400"
+
+        />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+
+        android:layout_below="@+id/desc_dtxv"
+        android:background="@color/color_scheme"
+  >
+        <com.ceino.utilitylibrary.CustomFontTextView
+            android:id="@+id/ok_dtxv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:gravity="center"
+  android:layout_centerVertical="true"
+            android:text="Ok "
+         android:layout_toLeftOf="@+id/view"
+            android:layout_margin="5dp"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp16"
+         />
+        <View
+
+            android:id="@+id/view"
+            android:layout_width="1dp"
+            android:layout_centerInParent="true"
+            android:layout_height="wrap_content"
+            android:background="@color/md_grey_400"
+
+            />
+        <com.ceino.utilitylibrary.CustomFontTextView
+            android:id="@+id/dismiss_dtxv"
+            android:layout_toRightOf="@+id/view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="Dismiss"
+            android:gravity="center"
+            android:layout_centerVertical="true"
+            android:layout_margin="5dp"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp16"
+       />
+    </RelativeLayout>
+   <!-- <android.support.percent.PercentRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="2"
+        android:layout_below="@+id/desc_dtxv"
+        android:background="@color/color_scheme"
+        android:orientation="horizontal">
+    <com.ceino.utilitylibrary.CustomFontTextView
+        android:id="@+id/ok_dtxv"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_weight="1"
+
+        android:gravity="center"
+        android:text="Ok"
+        android:layout_gravity="center"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="5dp"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp16"
+        jp:percentage_width="50" />
+        <View
+
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/md_grey_400"
+
+            />
+        <com.ceino.utilitylibrary.CustomFontTextView
+            android:id="@+id/dismiss_dtxv"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+
+            android:gravity="center"
+            android:text="Dismiss"
+            android:layout_gravity="center"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="5dp"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp16"
+            jp:percentage_width="49" />
+        </android.support.percent.PercentRelativeLayout>-->
+</LinearLayout>

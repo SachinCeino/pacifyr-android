@@ -1,0 +1,244 @@
+package com.pacifyr.omhealthcare.Fragment;
+
+import android.content.Context;
+import android.net.Uri;
+import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import com.androidquery.AQuery;
+import com.androidquery.callback.AjaxCallback;
+import com.androidquery.callback.AjaxStatus;
+import com.ceino.utilitylibrary.CustomEditText;
+import com.ceino.utilitylibrary.CustomFontTextView;
+import com.ceino.utilitylibrary.utils.PrefManager;
+import com.pacifyr.omhealthcare.R;
+
+import android.content.Context;
+import android.net.Uri;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.RelativeLayout;
+
+import com.pacifyr.omhealthcare.R;
+import com.pacifyr.omhealthcare.event.ActionbarEvent;
+import com.pacifyr.omhealthcare.event.NotifyEvent;
+import com.pacifyr.omhealthcare.home.DashboardActivity;
+import com.pacifyr.omhealthcare.network.GsonUtils;
+import com.pacifyr.omhealthcare.utility.BaseFragment;
+import com.pacifyr.omhealthcare.utility.EventMessage;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.ceino.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
+
+
+public class SupportFragment extends BaseFragment {
+
+    private RelativeLayout sendRlay;
+    private CustomFontTextView sendMsgCtxv;
+    private CustomEditText messageEdit;
+
+    private String messageText;
+
+    public SupportFragment() {
+        // Required empty public constructor
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+    }
+
+
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_support, container, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        sendRlay = (RelativeLayout) view.findViewById(R.id.send_rlay);
+        sendMsgCtxv = (CustomFontTextView) view.findViewById(R.id.send_msg_ctxv);
+        messageEdit= (CustomEditText) view.findViewById(R.id.message_edt);
+
+        messageText=messageEdit.getText().toString();
+
+        sendRlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                messageText=messageEdit.getText().toString();
+
+                sendFeedbackMessage();
+            }
+        });
+    }
+    private void sendFeedbackMessage() {
+        try {
+            if (isValid(messageText)) {
+
+                PrefManager prefM = PrefManager.getInstance(getContext());
+                String token = prefM.getAccessToken();
+                String userid = prefM.getUserID();
+                String url = GLOBAL_URL + "report";
+
+                AjaxCallback cb = new AjaxCallback<JSONObject>() {
+                    @Override
+                    public void callback(String url, JSONObject json, AjaxStatus status) {
+                        try {
+                            String js = json.toString();
+                            setStatus("Your message send Succesfully", R.color.md_green_400);
+                            messageEdit.setText("");
+                            hideProgress();
+                            showStatus();
+                            final Handler handler = new Handler();
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    hideStatus();
+                                    if(isCustomer()){
+                                        FragmentManager fm = getActivity().getSupportFragmentManager();
+                                        FragmentTransaction ft = fm.beginTransaction();
+                                        UserDashboardFragment fragment = new UserDashboardFragment();
+                                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.activity_main_content_fragment, fragment).commit();
+
+                                    }
+                                    else {
+                                        FragmentManager fm = getActivity().getSupportFragmentManager();
+                                        FragmentTransaction ft = fm.beginTransaction();
+                                        PacifyrDashboardFragment fragment = new PacifyrDashboardFragment();
+                                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.pacifyr_content_fragment, fragment).commit();
+                                    }
+                                    postEventOnMainThread(new ActionbarEvent("My Dashboard"));
+                                }
+                            }, 2000);
+
+                        } catch (Exception e) {
+                            hideProgress();
+                            e.printStackTrace();//RespSearchPacifyrWOption
+                        }
+                    }
+                };
+                try {
+                    AQuery aq = new AQuery(getContext());
+                    cb.header("Content-Type", "application/json");
+                    cb.header("AccessToken", token);
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.putOpt("userId", userid);
+                    jsonObject.putOpt("text", messageText);
+//jsonObject.putOpt("price_start", 500);
+//jsonObject.putOpt("price_end", 2000);
+
+                    aq.post(url, jsonObject, JSONObject.class, cb);
+//aq.ajax(url,JSONObject.class, cb);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            } else {
+                setStatus("Please enter a your message", R.color.md_amber_800);
+                showStatus();
+                hideStatus();
+            }
+        }
+        catch(Exception exx)
+        {
+            exx.printStackTrace();
+        }
+    }
+  /*  private void sendFeedbackMessage() {
+        if(isValid(messageText)) {
+
+            PrefManager prefM = PrefManager.getInstance(getContext());
+            String token = prefM.getAccessToken();
+            String userid = prefM.getUserID();
+
+            String url = GLOBAL_URL + "report";
+
+            AjaxCallback cb = new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject json, AjaxStatus status) {
+                    try {
+                        String js = json.toString();
+                        setStatus("Your message send Succesfully", R.color.md_green_400);
+                        showStatus();
+                        messageEdit.setText("");
+
+                        hideStatus();
+
+
+                        FragmentManager fm=getActivity().getSupportFragmentManager();
+                        FragmentTransaction ft=fm.beginTransaction();
+                        UserDashboardFragment fragment=new UserDashboardFragment();
+                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.activity_main_content_fragment,fragment).commit();
+
+                    } catch (Exception e) {
+                        e.printStackTrace();//RespSearchPacifyrWOption
+                    }
+                }
+            };
+            try {
+                AQuery aq = new AQuery(getContext());
+                cb.header("Content-Type", "application/json");
+                cb.header("AccessToken", token);
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.putOpt("userId", userid);
+                jsonObject.putOpt("text", messageText);
+                //jsonObject.putOpt("price_start", 500);
+                //jsonObject.putOpt("price_end", 2000);
+
+                aq.post(url, jsonObject, JSONObject.class, cb);
+                //aq.ajax(url,JSONObject.class, cb);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+        else{
+            setStatus("Please enter a your message", R.color.md_amber_800);
+            showStatus();
+            hideStatus();
+        }
+    }
+*/
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+
+    }
+
+    @Subscribe
+    public void onNotifyEvent(NotifyEvent event) {
+
+    }
+
+    @Override
+    public void onSetValues(View view) throws Exception {
+
+    }
+
+}

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:id="@+id/success_rlay"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="wrap_content"
+
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true">
+
+    <com.ceino.utilitylibrary.DeviceFitImageView
+        android:id="@+id/status_dimv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_tick_white_24dp"
+        app:width_percentage="6"
+        android:visibility="visible"
+        app:parameter="aspect_width"
+        android:layout_centerHorizontal="true"
+        />
+
+
+    <com.ceino.utilitylibrary.CustomFontTextView
+
+        android:id="@+id/status_dtxv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/status_dimv"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="5dp"
+        android:text="project added"
+        android:textStyle="bold"
+        android:textColor="@color/white"/>
+</RelativeLayout>

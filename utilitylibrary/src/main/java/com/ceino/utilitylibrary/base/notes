@@ -1,0 +1,279 @@
+
+Singleton vs Statics
+
+Singleton objects are stored in Heap, but static objects are stored in stack.
+
+Singletons can implement interfaces (or derive from useful base classes, although that's less common IME), so you can pass around the singleton as if it were "just another" implementation.
+
+// qbconfig demo
+  "app_id": "92",
+  "auth_key": "wJHdOcQSxXQGWx5",
+  "auth_secret": "BTFsj7Rtt27DAmT",
+  "account_key": "rz2sXxBt5xgSxGjALDW6",
+  "api_domain": "https://api.quickblox.com",
+  "chat_domain": "chat.quickblox.com",
+  "gcm_sender_id": "761750217637"
+ "app_id": "61377",
+  "auth_key": "aeWG-3nzAC7M8uA",
+  "auth_secret": "xDWEpzRqvHZ7Ck8",
+  "account_key": "g1v8usiw9ynJzqxhRuyn",
+  "api_domain": "https://api.quickblox.com",
+  "chat_domain": "chat.quickblox.com",
+  "gcm_sender_id": "761750217637"
+QBAuth.createSession()
+        QBUsers.signIn(qbUser).performAsync(new QBEntityCallback<QBUser>() {
+            @Override
+            public void onSuccess(QBUser qbUser, Bundle bundle) {
+                try {
+                    // success
+                            /*Toast.makeText(getApplicationContext(), "User signed up!",
+                                    Toast.LENGTH_LONG).show();*/
+                    sharedpreferences = getSharedPreferences(mypreference, Context.
+                            MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedpreferences.edit();
+                    String qbID = qbUser.getId().toString();
+                    getPrefManager().saveQBID(qbUser.getId().toString());
+                    editor.commit();
+                    NetworkService.editProfileObject=new JSONObject();
+                    NetworkService.editProfileObject.putOpt("qbid", Long.valueOf(qbID));
+                    //NetworkService.editProfileObject.putOpt("online", true);
+                    NetworkService.startActionEditProfile(getApplicationContext());
+                    hideProgress();
+                    if (label.equals("pacifyr")){
+                        Intent i = new Intent(getApplicationContext(), PacifyrDashboardActivity.class);
+                        startActivity(i);
+                        finish();
+                    }else if(label.equals("customer")) {
+                        Intent i = new Intent(getApplicationContext(), DashboardActivity.class);
+                        startActivity(i);
+                        finish();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ex.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onError(QBResponseException responseException) {
+                setStatus("Login Failed. Please Try again", R.color.md_green_400);
+                showStatus();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        hideProgress();
+                        hideStatus();
+                        Intent i = new Intent(getApplicationContext(), SignActivity.class);
+                        startActivity(i);
+                        finish();
+                    }
+                }, 6000);
+            }
+        });
+
+
+            QBUsers.signUp(qbUser).performAsync(new QBEntityCallback<QBUser>() {
+                                @Override
+                                public void onSuccess(QBUser qbUser, Bundle bundle) {
+                                    sharedpreferences = getSharedPreferences(mypreference, Context.
+                                            MODE_PRIVATE);
+                                    qbID=qbUser.getId().toString();
+                                    SharedPreferences.Editor editor = sharedpreferences.edit();
+                                    getPrefManager().saveQBID(qbID);
+                                    editor.commit();
+                                    updateQBUserID();
+                                }
+
+                                @Override
+                                public void onError(QBResponseException responseException) {
+                                    responseException.printStackTrace();
+                                    hideProgress();
+                                }
+                            });
+
+
+
+                              private void qbLogin() {
+
+                                    showProgress();
+
+                                    QBSettings.getInstance().init(getApplicationContext(), APP_ID, AUTH_KEY, AUTH_SECRET);
+                                    QBSettings.getInstance().setAccountKey(ACCOUNT_KEY);
+
+                                    //create a quickblox application session
+                                    String userID = loginModel.getUser().getId();
+                                    String mail = loginModel.getUser().getEmail();
+                                    String fullname = loginModel.getUser().getFirstName();
+                                    // Register new user
+                                    final QBUser qbUser = new QBUser(userID, userID);
+                                    qbUser.setEmail(mail);
+
+                                    QBAuth.createSession(qbUser).performAsync(new QBEntityCallback<QBSession>() {
+                                        @Override
+                                        public void onSuccess(QBSession qbSession, Bundle bundle) {
+                                            QBUsers.signIn(qbUser).performAsync(new QBEntityCallback<QBUser>() {
+                                                @Override
+                                                public void onSuccess(QBUser qbUser, Bundle bundle) {
+                                                    try {
+                                                        // success
+                                                        /*Toast.makeText(getApplicationContext(), "User signed up!",
+                                                                Toast.LENGTH_LONG).show();*/
+                                                        sharedpreferences = getSharedPreferences(mypreference, Context.
+                                                                MODE_PRIVATE);
+                                                        SharedPreferences.Editor editor = sharedpreferences.edit();
+                                                        String qbID = qbUser.getId().toString();
+                                                        getPrefManager().saveQBID(qbUser.getId().toString());
+                                                        editor.commit();
+                                                        NetworkService.editProfileObject=new JSONObject();
+                                                        NetworkService.editProfileObject.putOpt("qbid", Long.valueOf(qbID));
+                                                        //NetworkService.editProfileObject.putOpt("online", true);
+                                                        NetworkService.startActionEditProfile(getApplicationContext());
+                                                        hideProgress();
+                                                        if (label.equals("pacifyr")){
+                                                            Intent i = new Intent(getApplicationContext(), PacifyrDashboardActivity.class);
+                                                            startActivity(i);
+                                                            finish();
+                                                        }else if(label.equals("customer")) {
+                                                            Intent i = new Intent(getApplicationContext(), DashboardActivity.class);
+                                                            startActivity(i);
+                                                            finish();
+                                                        }
+                                                    }
+                                                    catch (Exception ex)
+                                                    {
+                                                        ex.printStackTrace();
+                                                    }
+                                                }
+
+                                                @Override
+                                                public void onError(QBResponseException responseException) {
+                                                    setStatus("Login Failed. Please Try again", R.color.md_green_400);
+                                                    showStatus();
+                                                    new Handler().postDelayed(new Runnable() {
+                                                        @Override
+                                                        public void run() {
+                                                            hideProgress();
+                                                            hideStatus();
+                                                            Intent i = new Intent(getApplicationContext(), SignActivity.class);
+                                                            startActivity(i);
+                                                            finish();
+                                                        }
+                                                    }, 6000);
+                                                }
+                                            });
+                                        }
+
+                                        @Override
+                                        public void onError(QBResponseException e) {
+
+                                        }
+                                    });
+
+
+
+
+                                  /*  QBAuth.createSession(new QBEntityCallbackImpl<QBSession>() {
+                                        @Override
+                                        public void onSuccess(QBSession session, Bundle params) {
+                                            try {
+                                                // success
+                                              *//*  Toast.makeText(getApplicationContext(), "App session created!",
+                                                        Toast.LENGTH_LONG).show();*//*
+
+                                            *//*PrefManager prefM = PrefManager.getInstance(getApplicationContext());
+                                            String userid=appUserID;*//*
+                                                String userID = loginModel.getUser().getId();
+                                                String mail = loginModel.getUser().getEmail();
+                                                String fullname = loginModel.getUser().getFirstName();
+                                                // Register new user
+                                                final QBUser qbUser = new QBUser(userID, userID);
+                                                qbUser.setEmail(mail);
+
+                                                QBUsers.signIn(qbUser, new QBEntityCallbackImpl<QBUser>() {
+                                                    @Override
+                                                    public void onSuccess(QBUser qbuser, Bundle args) {
+                                                        try {
+                                                            // success
+                                                        *//*Toast.makeText(getApplicationContext(), "User signed up!",
+                                                                Toast.LENGTH_LONG).show();*//*
+                                                            sharedpreferences = getSharedPreferences(mypreference, Context.
+                                                                    MODE_PRIVATE);
+                                                            SharedPreferences.Editor editor = sharedpreferences.edit();
+                                                            String qbID = qbuser.getId().toString();
+                                                            getPrefManager().saveQBID(qbuser.getId().toString());
+                                                            editor.commit();
+                                                            NetworkService.editProfileObject=new JSONObject();
+                                                            NetworkService.editProfileObject.putOpt("qbid", Long.valueOf(qbID));
+                                                            //NetworkService.editProfileObject.putOpt("online", true);
+                                                            NetworkService.startActionEditProfile(getApplicationContext());
+                                                            hideProgress();
+                                                            if (label.equals("pacifyr")){
+                                                                Intent i = new Intent(getApplicationContext(), PacifyrDashboardActivity.class);
+                                                                startActivity(i);
+                                                                finish();
+                                                            }else if(label.equals("customer")) {
+                                                                Intent i = new Intent(getApplicationContext(), DashboardActivity.class);
+                                                                startActivity(i);
+                                                                finish();
+                                                            }
+                                                        }
+                                                        catch (Exception ex)
+                                                        {
+                                                            ex.printStackTrace();
+                                                        }
+                                                    }
+
+                                                    @Override
+                                                    public void onError(QBResponseException responseException) {
+                                                        super.onError(responseException);
+                                                        setStatus("Login Failed. Please Try again", R.color.md_green_400);
+                                                        showStatus();
+                                                        new Handler().postDelayed(new Runnable() {
+                                                            @Override
+                                                            public void run() {
+                                                                hideProgress();
+                                                                hideStatus();
+                                                                Intent i = new Intent(getApplicationContext(), SignActivity.class);
+                                                                startActivity(i);
+                                                                finish();
+                                                            }
+                                                        }, 6000);
+
+                                                    }
+                                                });
+                                            }
+                                            catch (Exception exc)
+                                            {
+                                                exc.printStackTrace();
+                                            }
+                                        }
+
+                                    });*/
+
+
+                                }
+
+                                Error:Execution failed for task ':sample-videochat-webrtc:packageDevDebug'.
+                                > Cannot create directory O:\AndroidWorkSpace\OpenProjects\quickblox\quickblox-android-sdk\sample-videochat-webrtc\build\outputs\apk\dev\debug\O:\AndroidWorkSpace\OpenProjects\quickblox\quickblox-android-sdk\sample-videochat-webrtc\build\outputs\apk\dev\debug
+Error:Could not resolve all files for configuration ':sample-chat:devDebugCompileClasspath'.
+> Could not resolve de.measite.minidns:minidns:[0.1,0.2).
+  Required by:
+      project :sample-chat > com.quickblox:quickblox-android-sdk-chat:3.3.1
+   > Could not resolve de.measite.minidns:minidns:[0.1,0.2).
+      > Failed to list versions for de.measite.minidns:minidns.
+         > Unable to load Maven meta-data from https://jcenter.bintray.com/de/measite/minidns/minidns/maven-metadata.xml.
+            > Could not HEAD 'https://jcenter.bintray.com/de/measite/minidns/minidns/maven-metadata.xml'.
+               > jcenter.bintray.com
+   > Could not resolve de.measite.minidns:minidns:[0.1,0.2).
+      > Failed to list versions for de.measite.minidns:minidns.
+         > Unable to load Maven meta-data from https://github.com/QuickBlox/quickblox-android-sdk-releases/raw/master/de/measite/minidns/minidns/maven-metadata.xml.
+            > Could not get resource 'https://github.com/QuickBlox/quickblox-android-sdk-releases/raw/master/de/measite/minidns/minidns/maven-metadata.xml'.
+               > Could not GET 'https://github.com/QuickBlox/quickblox-android-sdk-releases/raw/master/de/measite/minidns/minidns/maven-metadata.xml'.
+                  > github.com
+   > Could not resolve de.measite.minidns:minidns:[0.1,0.2).
+      > Failed to list versions for de.measite.minidns:minidns.
+         > Unable to load Maven meta-data from https://maven.fabric.io/public/de/measite/minidns/minidns/maven-metadata.xml.
+            > Could not get resource 'https://maven.fabric.io/public/de/measite/minidns/minidns/maven-metadata.xml'.
+               > Could not GET 'https://maven.fabric.io/public/de/measite/minidns/minidns/maven-metadata.xml'.
+                  > maven.fabric.io

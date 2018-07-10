@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:id="@+id/action_bar_top_llay"
+    android:layout_height="match_parent"
+    android:background="@drawable/white_actionbar_background"
+    android:orientation="vertical">
+
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/bottom_panel"
+        android:orientation="horizontal">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:id="@+id/left_llay"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:paddingLeft="10dp"
+            android:layout_centerHorizontal="true"
+            android:layout_height="wrap_content">
+
+            <com.ceino.utilitylibrary.DeviceFitImageView
+                android:layout_width="wrap_content"
+                android:id="@+id/back_imv"
+                android:layout_height="wrap_content"
+                android:src="@drawable/backarrow"
+                app:width_percentage="8"
+                app:parameter="aspect_width"
+                android:padding="3dp"
+                android:tint="@color/color_scheme"
+                android:visibility="visible"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentStart="true" />
+
+            <com.ceino.utilitylibrary.CustomFontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/back_imv"
+                android:id="@+id/left_txv"
+                android:paddingLeft="2dp"
+                android:textSize="@dimen/sp18"
+                android:visibility="gone"
+                android:text=""
+                android:layout_centerVertical="true"
+                android:textColor="@color/black" />
+        </LinearLayout>
+        <com.ceino.utilitylibrary.CustomFontTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text=""
+            android:padding="5dp"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textSize="@dimen/sp20_title"
+            android:id="@+id/title_txv"
+            android:textColor="@color/white" />
+        <!--  app:font="@string/avenir_roman"-->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:id="@+id/right_llay"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:paddingRight="5dp"
+            android:layout_centerHorizontal="true"
+            android:layout_height="wrap_content">
+            <com.ceino.utilitylibrary.CustomFontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_toLeftOf="@+id/right_imv"
+                android:id="@+id/right_txv"
+                android:paddingRight="2dp"
+                android:textSize="@dimen/sp18"
+                android:text=""
+
+                android:textColor="@color/white"
+                android:layout_centerVertical="true"
+                />
+            <com.ceino.utilitylibrary.DeviceFitImageView
+                android:layout_width="wrap_content"
+                android:id="@+id/right_imv"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:width_percentage="7"
+
+                android:layout_marginRight="4dp"
+
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"/>
+            <!-- <com.ceino.utilitylibrary.DeviceFitImageView
+                 android:layout_width="wrap_content"
+                 android:id="@+id/right2_dimv"
+                 android:layout_height="wrap_content"
+                 android:visibility="gone"
+                 app:width_percentage="7"
+                 android:src="@drawable/icon_preferences"
+                 android:layout_marginRight="5dp"
+
+                 android:layout_centerVertical="true"
+                 android:layout_centerHorizontal="true"
+                 android:layout_alignParentEnd="true" />-->
+
+        </LinearLayout>
+    </RelativeLayout>
+</LinearLayout>
