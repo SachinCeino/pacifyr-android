@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:padding="25dp"
+    android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -12,7 +13,7 @@
         android:layout_marginTop="10dp"
         android:textAlignment="center"
         android:textSize="20sp"
-        android:textColor="@color/black"
+        android:textColor="@color/grey_dark_text"
         android:text="@string/lest_us_know" />
 
     <com.ceino.utilitylibrary.CustomEditText
@@ -31,10 +32,10 @@
 
         android:layout_gravity="center"
         android:id="@+id/send_rlay"
-        android:layout_width="335dp"
+        android:layout_width="match_parent"
         android:layout_marginTop="40dp"
         android:layout_height="43dp"
-        android:background="@drawable/blue_border_lightblue">
+        android:background="@drawable/blue_round_square">
 
         <com.ceino.utilitylibrary.CustomFontTextView
             android:layout_width="wrap_content"

@@ -16,7 +16,6 @@ import com.pacifyr.omhealthcare.quickblox.util.ChatPingAlarmManager;
 import com.pacifyr.omhealthcare.quickblox.utils.Consts;
 import com.pacifyr.omhealthcare.quickblox.utils.SettingsUtil;
 import com.pacifyr.omhealthcare.quickblox.utils.WebRtcSessionManager;
-import com.pacifyr.omhealthcare.utils.LogUtils;
 import com.quickblox.auth.QBAuth;
 import com.quickblox.auth.session.QBSession;
 import com.quickblox.chat.QBChatService;
@@ -36,7 +35,7 @@ import org.jivesoftware.smackx.ping.PingFailedListener;
  */
 public class CallService extends Service {
     // private static final String TAG = CallService.class.getSimpleName();
-    private static final String TAG = "jp";
+    private static final String TAG = "CallService";
     private QBChatService chatService;
     private QBRTCClient rtcClient;
     private PendingIntent pendingIntent;
@@ -51,7 +50,6 @@ public class CallService extends Service {
 
     public static void start(Context context, QBUser qbUser, PendingIntent pendingIntent) {
         Intent intent = new Intent(context, CallService.class);
-        LogUtils.LOGD("sessionteeest123cs1", " SSA onCreate sessionid");
         intent.putExtra(Consts.EXTRA_COMMAND_TO_SERVICE, Consts.COMMAND_LOGIN);
         intent.putExtra(Consts.EXTRA_QB_USER, qbUser);
         intent.putExtra(Consts.EXTRA_PENDING_INTENT, pendingIntent);
@@ -143,7 +141,7 @@ public class CallService extends Service {
                         ChatHelper.getInstance().login(qbUser, new QBEntityCallback<Void>() {
                             @Override
                             public void onSuccess(Void result, Bundle bundle) {
-                                ToastHandler.newInstance(getApplicationContext()).showToast("Now you are ready to ic_call_round");
+                                //ToastHandler.newInstance(getApplicationContext()).showToast("Now you are ready to call");
                                 Log.d(TAG, "CallService ChatHelper loginToChat onSuccess");
                             }
 
@@ -208,7 +206,6 @@ public class CallService extends Service {
         SettingsUtil.configRTCTimers(CallService.this);
 
         // Add service as callback to RTCClient
-        Log.i("app_recgec123","ic_call_round");
         rtcClient.addSessionCallbacksListener(WebRtcSessionManager.getInstance(this));
         rtcClient.prepareToProcessCalls();
     }
@@ -243,7 +240,6 @@ public class CallService extends Service {
     }
 
     private void destroyRtcClientAndChat() {
-        LogUtils.LOGD("sessionteeest1213cs12", " SSA onCreate sessionid");
         Log.d(TAG, "CallService destroyRtcClientAndChat()");
         if (rtcClient != null) {
             rtcClient.destroy();
@@ -269,7 +265,6 @@ public class CallService extends Service {
     @Override
     public void onDestroy() {
         Log.d(TAG, "CallService onDestroy()");
-        LogUtils.LOGD("sessionteeest1213cs121", " SSA onCreate sessionid");
         super.onDestroy();
         Intent serviceIntent=new Intent(this,CallService.class);
         stopService(serviceIntent);
@@ -278,7 +273,6 @@ public class CallService extends Service {
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
-        LogUtils.LOGD("sessionteeest1213cs122", " SSA onCreate sessionid");
         Log.d(TAG, "CallService onBind)");
         return null;
     }
@@ -286,7 +280,6 @@ public class CallService extends Service {
     @Override
     public void onTaskRemoved(Intent rootIntent) {
         Log.d(TAG, "CallService onTaskRemoved()");
-        LogUtils.LOGD("sessionteeest1213cs123", " SSA onCreate sessionid");
         Intent restartservice=new Intent(getApplicationContext(),this.getClass());
         restartservice.setPackage(getPackageName());
         startService(restartservice);

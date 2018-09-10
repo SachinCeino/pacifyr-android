@@ -39,7 +39,7 @@
                     android:textStyle="bold"
                     android:textColor="@color/blue_pacifyr"
                     android:layout_alignParentLeft="true"
-                    android:text="This Week"/>
+                    android:text="Weekly"/>
 
                 <com.ceino.utilitylibrary.CustomFontTextView
                     android:layout_width="wrap_content"
@@ -52,7 +52,7 @@
                     android:textColor="@color/grey_hex_c7"
                     android:textSize="18sp"
                     android:layout_centerHorizontal="true"
-                    android:text="This Month"/>
+                    android:text="Monthly"/>
 
                 <com.ceino.utilitylibrary.CustomFontTextView
                     android:layout_width="wrap_content"
@@ -64,7 +64,7 @@
                     android:id="@+id/this_year_ctxv"
                     android:textSize="18sp"
                     android:layout_alignParentRight="true"
-                    android:text="This Year"/>
+                    android:text="Yearly"/>
 
                 <View
                     android:layout_width="match_parent"

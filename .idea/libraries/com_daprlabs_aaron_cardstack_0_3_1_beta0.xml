@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="com.daprlabs.aaron:cardstack-0.3.1-beta0">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.android/build-cache/85bf88659feb37589ffb6579ca33c663099e350c/output/res" />
+      <root url="jar://$USER_HOME$/.android/build-cache/85bf88659feb37589ffb6579ca33c663099e350c/output/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.daprlabs.aaron/cardstack/0.3.1-beta0/25452bebad56701842be51e92c11b1eb2d2a8830/cardstack-0.3.1-beta0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

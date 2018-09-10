@@ -12,7 +12,8 @@ import com.pacifyr.omhealthcare.event.AlertTypeEvent;
 import com.pacifyr.omhealthcare.event.NotifyEvent;
 import com.pacifyr.omhealthcare.network.NetworkService;
 import com.pacifyr.omhealthcare.utility.PacifyrAppCompactActivity;
-import com.squareup.otto.Subscribe;
+
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.List;
 
@@ -26,6 +27,7 @@ public class CallSummaryActivity extends PacifyrAppCompactActivity {
     RecyclerView.LayoutManager layoutManager;
 
     List<MEmotion> emotions;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

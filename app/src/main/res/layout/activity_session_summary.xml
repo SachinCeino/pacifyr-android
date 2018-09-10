@@ -431,7 +431,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerHorizontal="true"
-                                android:text="How were you feeling after the ic_call_round ?"
+                                android:text="How were you feeling after the call ?"
                                 android:textColor="@color/md_grey_user"
                                 android:textSize="20sp" />
 

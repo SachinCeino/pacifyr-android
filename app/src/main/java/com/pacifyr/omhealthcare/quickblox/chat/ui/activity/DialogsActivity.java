@@ -520,7 +520,7 @@ public class DialogsActivity extends PacifyerActivity implements DialogsManager.
         backImv.setVisibility(View.VISIBLE);
         titleTxv.setVisibility(View.VISIBLE);
         leftLlay.setVisibility(View.VISIBLE);
-        defSetText(titleTxv,"MESSAGE LIST");
+        defSetText(titleTxv,"message list");
         titleTxv.setTextColor(getResources().getColor(R.color.black));
         backImv.setVisibility(View.VISIBLE);
   /*      leftTxv.setVisibility(View.GONE);

@@ -297,18 +297,49 @@
         </RelativeLayout>
 
 
-        <TextView
-            android:id="@+id/connectionStatusLocal"
-            style="@style/MatchWidth"
-            android:layout_marginBottom="@dimen/margin_very_small"
-            android:layout_marginTop="10dp"
-            android:maxLength="13"
-            android:maxLines="1"
-            android:text="Ringing..."
-            android:layout_marginLeft="4dp"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@color/white"
-            android:textStyle="normal" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/connectionStatusLocal"
+                style="@style/MatchWidth"
+                android:layout_marginBottom="@dimen/margin_very_small"
+                android:layout_marginTop="10dp"
+                android:maxLength="13"
+                android:maxLines="1"
+                android:text="Ringing..."
+                android:layout_marginLeft="4dp"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/white"
+                android:textStyle="normal" />
+
+
+            <!--<com.ceino.utilitylibrary.DeviceFitImageView
+                android:id="@+id/billing_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="visible"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="20dp"
+                android:src="@drawable/online_offline_selector"
+                app:width_percentage="20"
+                app:parameter="aspect_width"
+                android:padding="1dp"
+                android:text="" />-->
+
+            <Switch
+                android:id="@+id/billing_switch"
+                android:padding="5dp"
+                android:layout_marginRight="20dp"
+                android:layout_width="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:textColor="@color/white"
+                android:text="Start Billing" />
+
+        </RelativeLayout>
     </LinearLayout>
     <include layout="@layout/view_outgoing_screen" android:visibility="gone"/>
 

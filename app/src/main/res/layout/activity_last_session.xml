@@ -134,7 +134,7 @@
                                         android:layout_height="wrap_content"
                                         android:layout_alignParentLeft="true"
                                         android:text="CALL :"
-                                        android:textColor="@color/grey_hex_b3"
+                                        android:textColor="@color/grey_dark"
                                         android:textSize="13sp"
                                         android:textStyle="bold"/>
 
@@ -151,7 +151,7 @@
                                         android:text=" 00 : 00 : 00"
                                         android:layout_marginLeft="5dp"
                                         android:id="@+id/duration_ctxv"
-                                        android:textColor="@color/md_grey_user"
+                                        android:textColor="@color/blue_text_dark"
                                         android:textSize="13sp"
                                         android:textStyle="bold"/>
 
@@ -171,7 +171,7 @@
                                         android:layout_height="wrap_content"
                                         android:layout_alignParentLeft="true"
                                         android:text="TOTAL :"
-                                        android:textColor="@color/grey_hex_b3"
+                                        android:textColor="@color/grey_dark"
                                         android:textSize="13sp"
                                         android:textStyle="bold"/>
 
@@ -179,9 +179,9 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_alignParentRight="true"
-                                        android:text="  "
+                                        android:text=" "
                                         android:id="@+id/session_cost_ctxv"
-                                        android:textColor="@color/blue_rate"
+                                        android:textColor="@color/colorPrimary"
                                         android:textSize="13sp"
                                         android:textStyle="bold"/>
 
@@ -205,7 +205,7 @@
                                             android:layout_height="wrap_content"
                                             android:layout_alignParentLeft="true"
                                             android:text="Earnings :"
-                                            android:textColor="@color/grey_hex_b3"
+                                            android:textColor="@color/grey_dark"
                                             android:textSize="13sp"
                                             android:textStyle="bold"/>
 
@@ -215,7 +215,7 @@
                                             android:layout_alignParentRight="true"
                                             android:text="  "
                                             android:id="@+id/earingst_ctxv"
-                                            android:textColor="@color/md_grey_user"
+                                            android:textColor="@color/blue_text_dark"
                                             android:textSize="13sp"
                                             android:textStyle="bold"/>
 
@@ -232,7 +232,7 @@
                                             android:layout_height="wrap_content"
                                             android:layout_alignParentLeft="true"
                                             android:text="Company Fees :"
-                                            android:textColor="@color/grey_hex_b3"
+                                            android:textColor="@color/grey_dark"
                                             android:textSize="13sp"
                                             android:textStyle="bold"/>
 
@@ -242,7 +242,7 @@
                                             android:layout_alignParentRight="true"
                                             android:text="  "
                                             android:id="@+id/comapnyfees_ctxv"
-                                            android:textColor="@color/md_grey_user"
+                                            android:textColor="@color/colorPrimary"
                                             android:textSize="13sp"
                                             android:textStyle="bold"/>
 
@@ -270,9 +270,9 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:id="@+id/how_eff_ctxv"
-                                app:fontName="@string/avenir_black"
+                                app:fontName="@string/avanti_std_bk"
                                 android:text="How effective was the call in solving your issues?"
-                                android:textColor="@color/md_grey_user"
+                                android:textColor="@color/grey_dark"
                                 android:textSize="14sp"/>
 
 
@@ -331,8 +331,8 @@
                                 android:id="@+id/rating_ctxv"
                                 android:layout_height="wrap_content"
                                 android:text="@string/how_you_rate"
-                                android:textColor="@color/md_grey_user"
-                                app:fontName="@string/avenir_black"
+                                android:textColor="@color/grey_dark"
+                                app:fontName="@string/avanti_std_bk"
                                 android:textSize="14sp"
                                 />
                             <!--  <RatingBar
@@ -381,8 +381,8 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="How were you feeling before the call?"
-                                android:textColor="@color/md_grey_user"
-                                app:fontName="@string/avenir_black"
+                                android:textColor="@color/grey_dark"
+                                app:fontName="@string/avanti_std_bk"
                                 android:textSize="14sp"
                                 />
 
@@ -432,8 +432,8 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="How were you feeling after the call ?"
-                                android:textColor="@color/md_grey_user"
-                                app:fontName="@string/avenir_black"
+                                android:textColor="@color/grey_dark"
+                                app:fontName="@string/avanti_std_bk"
                                 android:textSize="14sp"
                                 />
                             <FrameLayout
@@ -491,8 +491,8 @@
                                 android:layout_height="wrap_content"
                                 android:id="@+id/after_feel_selection_ctxv"
                                 android:text="How are you feeling after the call"
-                                android:textColor="@color/md_grey_user"
-                                app:fontName="@string/avenir_black"
+                                android:textColor="@color/grey_dark"
+                                app:fontName="@string/avanti_std_bk"
                                 android:textSize="14sp"/>
 
                             <android.support.v7.widget.RecyclerView
@@ -522,8 +522,8 @@
                                 android:layout_height="wrap_content"
                                 android:id="@+id/experica_ctxv"
                                 android:text="How was your audio or video call experience ?"
-                                android:textColor="@color/md_grey_user"
-                                app:fontName="@string/avenir_black"
+                                android:textColor="@color/grey_dark"
+                                app:fontName="@string/avanti_std_bk"
                                 android:textSize="14sp"
                                 />
 

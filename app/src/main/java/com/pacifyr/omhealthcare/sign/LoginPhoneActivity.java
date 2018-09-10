@@ -17,6 +17,7 @@ import com.ceino.utilitylibrary.CustomEditText;
 import com.ceino.utilitylibrary.model.pacifyr.MRoleModel;
 import com.ceino.utilitylibrary.model.pacifyr.MUser;
 import com.ceino.utilitylibrary.model.pacifyr.ModelPhoneLogin;
+import com.ceino.utilitylibrary.model.pacifyr.ModelUserProfile;
 import com.ceino.utilitylibrary.utils.PrefManager;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.base.PacifyerActivity;
@@ -118,6 +119,23 @@ public class LoginPhoneActivity extends PacifyerActivity {
                         prefM.saveCompanyID(userModel.getCompanyId());
                         jsonStrng = json.toString();
                         String logstat = modelPhoneLogin.getStatus().toString();
+
+
+                        ModelUserProfile mCurrentUser = GsonUtils.getInstance().gsonToModelUserProfile(json);
+                        if(isValid(mCurrentUser))
+                            NetworkService.mCurrentUser=mCurrentUser;
+                        else {
+
+                            String image = json.getString("image");
+                            NetworkService.mCurrentUser.setImage(image);
+                            String firstName = json.getString("firstName");
+                            NetworkService.mCurrentUser.setFirstName(firstName);
+                            String email = json.getString("email");
+                            NetworkService.mCurrentUser.setEmail(email);
+                            String description = json.getString("description");
+                            NetworkService.mCurrentUser.setFirstName(description);
+                        }
+
                         if (isValid(logstat)) {
                             if (logstat.equals("success")) {
                                 if (main_label.equals("pacifyr")){
@@ -211,20 +229,16 @@ public class LoginPhoneActivity extends PacifyerActivity {
         showProgress();
         final  String userID = userModel.getId();
         String mail = modelPhoneLogin.getUser().getEmail();
-        Log.i("sigggghhhnnnn1","d:"+userID);
-        Log.i("sigggghhhnnnn12","d:"+mail);
         final QBUser user = new QBUser(userID, userID);
         user.setEmail(mail);
         QBSettings.getInstance().init(LoginPhoneActivity.this, APP_ID, AUTH_KEY, AUTH_SECRET);
         QBSettings.getInstance().setAccountKey(ACCOUNT_KEY);
-        Log.i("sigggghhhnnnn123","d:"+user+"  "+ACCOUNT_KEY);
         QBAuth.createSession().performAsync(new QBEntityCallback<QBSession>() {
             @Override
             public void onSuccess(QBSession qbSession, Bundle bundle) {
                 requestExecutor.signInUser(user, new com.pacifyr.omhealthcare.quickblox.utils.QBEntityCallbackImpl<QBUser>() {
                     @Override
                     public void onSuccess(QBUser qbUser, Bundle params) {
-                        Log.i("sigggghhhnnnn3","d:"+user);
                         qbUser.setPassword(userID);
                         Log.d("jp", "LPA signInCreatedUser getPassword "+qbUser.getPassword());
                         try {
@@ -248,7 +262,6 @@ public class LoginPhoneActivity extends PacifyerActivity {
 
                     @Override
                     public void onError(QBResponseException responseException) {
-                        Log.i("sigggghhhnnnn4","d:"+responseException);
                         hideProgress();
                         Toaster.longToast("User signInUser failed!"+ responseException.getMessage());
                         Toast.makeText(LoginPhoneActivity.this, "User signInUser failed!" + responseException.getMessage(),

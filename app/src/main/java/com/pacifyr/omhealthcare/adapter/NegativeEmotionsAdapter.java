@@ -123,11 +123,6 @@ public class NegativeEmotionsAdapter extends RecyclerView.Adapter<NegativeEmotio
                     b1.setClickable(true);
                     b2.setClickable(true);
                     b2.setEnabled(true);
-                    b2.setEnabled(true);
-                    b2.setTextColor(context.getResources().getColor(R.color.black));
-                    b3.setTextColor(context.getResources().getColor(R.color.white));
-                    //button1.setTextColor(getApplication().getResources().getColor(R.color.black));
-                    //button2.setTextColor(getApplication().getResources().getColor(R.color.white));
 
                     /*String url = GLOBAL_URL + "specialities/byEmotion?emotionId=" + emotionID;*/
                     String url = GLOBAL_URL + "specialities/getCategories/byEmotion?emotionId="+emotionID;

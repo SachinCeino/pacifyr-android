@@ -217,7 +217,7 @@
                 android:gravity="center"
                 android:padding="10dp"
                 android:id="@+id/videocall_rlay"
-                android:background="@drawable/blue_cirlce">
+                android:background="@drawable/primary_cirlce">
 
                 <com.ceino.utilitylibrary.DeviceFitImageView
                     android:layout_width="wrap_content"
@@ -247,7 +247,7 @@
                 android:padding="10dp"
                 android:layout_marginLeft="25dp"
                 android:id="@+id/audiocall_rlay"
-                android:background="@drawable/blue_cirlce">
+                android:background="@drawable/primary_cirlce">
 
                 <com.ceino.utilitylibrary.DeviceFitImageView
                     android:layout_width="wrap_content"
@@ -281,7 +281,7 @@
                 android:visibility="visible"
                 android:layout_marginLeft="25dp"
                 android:id="@+id/chat_rlay"
-                android:background="@drawable/blue_cirlce">
+                android:background="@drawable/primary_cirlce">
 
                 <com.ceino.utilitylibrary.DeviceFitImageView
                     android:layout_width="wrap_content"

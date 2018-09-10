@@ -17,7 +17,7 @@
         android:text="Edit  !"
         android:visibility="visible"
         android:layout_margin="5dp"
-        android:textColor="@color/black"
+        android:textColor="@color/grey_dark_text"
         android:textSize="@dimen/sp18" />
 
     <com.ceino.utilitylibrary.CustomFontTextView
@@ -31,7 +31,7 @@
         android:padding="10dp"
         android:gravity="center"
         android:text="Alert description."
-        android:textColor="@color/black"
+        android:textColor="@color/grey_dark_text"
         android:textSize="@dimen/sp18" />
 
     <View
@@ -54,7 +54,7 @@
         android:textSize="@dimen/sp16"
         android:layout_centerHorizontal="true"
         android:layout_margin="5dp"
-        android:textColor="@color/grey_dark"
+        android:textColor="@color/grey_dark_text"
         jp:percentage_width="49" />
 
 </LinearLayout>

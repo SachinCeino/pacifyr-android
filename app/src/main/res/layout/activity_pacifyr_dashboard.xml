@@ -8,7 +8,7 @@
     android:id="@+id/drawer_layout_pacifyr">
 
     <!--<com.ceino.shalomworld.Adapter.PagerEnabledSlidingPaneLayout-->
-    <com.pacifyr.omhealthcare.PagerEnabledSlidingPaneLayout
+    <com.pacifyr.omhealthcare.utils.PagerEnabledSlidingPaneLayout
         android:id="@+id/pacifyr_sliding_pane"
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -391,6 +391,6 @@
         </LinearLayout>
         <!--
         </FrameLayout>-->
-    </com.pacifyr.omhealthcare.PagerEnabledSlidingPaneLayout>
+    </com.pacifyr.omhealthcare.utils.PagerEnabledSlidingPaneLayout>
 
 </RelativeLayout>

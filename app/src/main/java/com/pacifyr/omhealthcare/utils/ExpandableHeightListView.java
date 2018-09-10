@@ -1,4 +1,4 @@
-package com.pacifyr.omhealthcare;
+package com.pacifyr.omhealthcare.utils;
 
 /**
  * Created by Samsad on 08/August/2017.

@@ -23,7 +23,6 @@ public class ChatEvent {
     }
 
     public ChatEvent(MUser mpacifyer, boolean isVideoCall) {
-        Log.i("pacipacil56","p:  "+mpacifyer);
         this.mpacifyer = mpacifyer;
         this.isSuccess = isVideoCall;
     }

@@ -38,7 +38,7 @@ public class SignActivity extends PacifyerActivity {
         relative_bg.setBackground(getResources().getDrawable(R.drawable.loginbg));
         emergencyCtxv = (CustomFontTextView) findViewById(R.id.emergency_ctxv);
 
-        String crisisString = getResources().getString(R.string.if_emergency);
+        String crisisString = getResources().getString(R.string.if_emergency2);
         //If in emergency call 911 or rush to an emergency room. Crisis Info
         SpannableString spannableString = new SpannableString(crisisString);
 
@@ -52,12 +52,12 @@ public class SignActivity extends PacifyerActivity {
             @Override
             public void updateDrawState(TextPaint ds) {
                 super.updateDrawState(ds);
-                ds.setColor(getResources().getColor(R.color.blue_fb));
+                ds.setColor(getResources().getColor(R.color.om_blue));
                 //ds.setUnderlineText(false);
             }
         };
 
-        spannableString.setSpan(clickableSpan,55,66, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannableString.setSpan(clickableSpan,74,85, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         emergencyCtxv.setText(spannableString);
         emergencyCtxv.setMovementMethod(LinkMovementMethod.getInstance());
 

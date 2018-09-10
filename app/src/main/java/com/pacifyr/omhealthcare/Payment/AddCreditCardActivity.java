@@ -22,7 +22,6 @@ import com.pacifyr.omhealthcare.event.AlertTypeEvent;
 import com.pacifyr.omhealthcare.event.NotifyEvent;
 import com.pacifyr.omhealthcare.home.DashboardActivity;
 import com.pacifyr.omhealthcare.utility.PacifyrAppCompactActivity;
-import com.squareup.otto.Subscribe;
 import com.stripe.android.Stripe;
 import com.stripe.android.TokenCallback;
 import com.stripe.android.model.Card;
@@ -309,10 +308,11 @@ public class AddCreditCardActivity extends PacifyrAppCompactActivity {
 
     }
 
-    @Subscribe
+    @Override
     public void onNotifyEvent(NotifyEvent event) {
 
     }
+
 
     @Override
     public void onAlertTypeEvent(AlertTypeEvent event) {
@@ -347,7 +347,7 @@ public class AddCreditCardActivity extends PacifyrAppCompactActivity {
         backImv.setVisibility(View.VISIBLE);
         titleTxv.setVisibility(View.VISIBLE);
         leftLlay.setVisibility(View.VISIBLE);
-        defSetText(titleTxv,"Add Credit Card");
+        defSetText(titleTxv,"add credit card");
         //titleTxv.setText("Add Credit Card");
         titleTxv.setTextColor(getResources().getColor(R.color.black));
         //backImv.setBackgroundResource(R.drawable.leftmen);

@@ -1,7 +1,7 @@
 package com.pacifyr.omhealthcare.sign;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -80,6 +80,8 @@ public class CrisisActivity extends PacifyerActivity {
         titleTxv.setVisibility(View.VISIBLE);
         leftLlay.setVisibility(View.VISIBLE);
         defSetText(titleTxv,getResources().getString(R.string.crisis_info));
+        Typeface type = Typeface.createFromAsset(getAssets(),getResources().getString(R.string.avantica_bold_header));
+        titleTxv.setTypeface(type);
         //backImv.setBackgroundResource(R.drawable.leftmen);
         leftLlay.setOnClickListener(new View.OnClickListener() {
             @Override

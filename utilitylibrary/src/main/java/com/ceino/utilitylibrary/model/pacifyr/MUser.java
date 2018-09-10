@@ -666,4 +666,9 @@ public class MUser {
     public void setStripeAccountId(String stripeAccountId) {
         this.stripeAccountId = stripeAccountId;
     }
+
+    public String getPriceIninute() {
+        double priceINHours = Double.parseDouble(price);
+        return String.valueOf(priceINHours/60);
+    }
 }

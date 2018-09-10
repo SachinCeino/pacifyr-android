@@ -99,7 +99,7 @@ public class WebRtcSessionManager extends QBRTCClientSessionCallbacksImpl {
                         WebRtcSessionManager.tempSession = null;
                         PacifyrReceiver.temp_sessionid=null;
                         userCallInfo.sessionId=        PacifyerActivity.sessionid;
-                        ToastHandler.newInstance(context).showToast("WM ic_call_round data recevied from backend ");
+                        ToastHandler.newInstance(context).showToast("WM call data recevied from backend ");
                         CallActivity.start(context, true);
                     }
 

@@ -212,7 +212,7 @@
                          android:layout_width="wrap_content"
                          android:layout_height="wrap_content"
                          android:layout_centerHorizontal="true"
-                         android:text="How was the customer feeling at the end of the ic_call_round"
+                         android:text="How was the customer feeling at the end of the call"
                          android:textColor="@color/black"
                          android:textSize="20sp"/>
 

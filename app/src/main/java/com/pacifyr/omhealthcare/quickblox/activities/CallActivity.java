@@ -95,7 +95,7 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
         OnCallEventsController, IncomeCallFragmentCallbackListener, ConversationFragmentCallbackListener, NetworkConnectionChecker.OnConnectivityChangedListener, ScreenShareFragment.OnSharingEvents {
     //PacifyrAppCompactActivity
     //BaseActivity
-    private static final String TAG = "ic_call_round";
+    private static final String TAG = "call";
 
     public static final String OPPONENTS_CALL_FRAGMENT = "opponents_call_fragment";
     public static final String INCOME_CALL_FRAGMENT = "income_call_fragment";
@@ -140,7 +140,6 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
     public static boolean isConnected=false,isMissed=false,isDeclined=false,isOpponenetConnected=false,isOppenentHangUP=false;
 
     public static void start(Context context,boolean isIncomingCall) {
-        LogUtils.LOGD("app_recaaa1aaaa", " app live notification Call ");
         mSessionDetailRoot=null;
         isConnected=false;isMissed=false;isDeclined=false;isOpponenetConnected=false;isOppenentHangUP=false;
         Intent intent = new Intent(context, CallActivity.class);
@@ -218,12 +217,11 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
                         WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
 
         parseIntentExtras();
-        Log.i("app_recgec1","ic_call_round"+sessionManager);
+        Log.d("app_recgec","call"+sessionManager);
         sessionManager = WebRtcSessionManager.getInstance(this);
 
         if (!currentSessionExist()) {
 //            we have already currentSession == null, so it's no reason to do further initialization
-            LogUtils.LOGD("sessionteeest123fin1", " SSA onCreate sessionid ");
             finish();
             Log.d(TAG, "finish CallActivity");
             return;
@@ -242,7 +240,6 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
 
         //  ringtonePlayer = new RingtonePlayer(this, R.raw.beep);
         ringtonePlayer = new RingtonePlayer(this, R.raw.pacifyr_3);
-        Log.i("ringr1","r:");
         connectionView = (LinearLayout) View.inflate(this, R.layout.connection_popup, null);
         checker = new PermissionsChecker(CallActivity.this);
 
@@ -260,17 +257,17 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
         try {
             currentSession.getMediaStreamManager().setVideoCapturer(new QBRTCCameraVideoCapturer(this, null));
         } catch (QBRTCCameraVideoCapturer.QBRTCCameraCapturerException e) {
-            Log.i(TAG, "Error: device doesn't have camera");
+            Log.d(TAG, "Error: device doesn't have camera");
         }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode,final Intent data) {
-        Log.i(TAG, "onActivityResult requestCode="+requestCode +", resultCode= " + resultCode);
+        Log.d(TAG, "onActivityResult requestCode="+requestCode +", resultCode= " + resultCode);
         if (requestCode == QBRTCScreenCapturer.REQUEST_MEDIA_PROJECTION) {
             if (resultCode == Activity.RESULT_OK) {
                 startScreenSharing(data);
-                Log.i(TAG, "Starting screen capture");
+                Log.d(TAG, "Starting screen capture");
             }
             else {
 
@@ -280,7 +277,6 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
 
     private void startSuitableFragment(boolean isInComingCall) {
         if (isInComingCall) {
-            Log.i("ringr2","r:");
             ringtonePlayer = new RingtonePlayer(this, R.raw.pacifyr_3);
             ringtonePlayer.play(false);
             initIncomingCallTask();
@@ -539,7 +535,7 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
         //showIOSDialogOK("","Pacifyr is Buzy","OK");
         //ToastHandler.newInstance(CallActivity.this).mustShowToast("Pacifyr is buzy");
 
-        LogUtils.LOGD("ic_call_round","rejectCurrentSession ");
+        LogUtils.LOGD("call","rejectCurrentSession ");
         if (getCurrentSession() != null) {
             getCurrentSession().rejectCall(new HashMap<String, String>());
         }
@@ -547,12 +543,12 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
         try {
             declineSessionWeb(sessionid);
             ///  stopSessionWeb(pacifyerDetial,sessionid);
-            //  LogUtils.LOGD("ic_call_round","rejectCurrentSession sessionid"+call_session_root.getSession().getId());
+            //  LogUtils.LOGD("call","rejectCurrentSession sessionid"+call_session_root.getSession().getId());
             //declineSessionWeb(call_session_root.getSession().getId());
         }
         catch (Exception e)
         {
-            LogUtils.LOGD("ic_call_round","rejectCurrentSession Exception e "+ e.getMessage());
+            LogUtils.LOGD("call","rejectCurrentSession Exception e "+ e.getMessage());
         }
         //jpppppppppppppppppp
     }
@@ -600,7 +596,7 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
      }*/
     public void hangUpCurrentSession() {
         ringtonePlayer.stop();
-        LogUtils.LOGD("ic_call_round","hangUpCurrentSession");
+        LogUtils.LOGD("call","hangUpCurrentSession");
         ringtonePlayer.stop();
         if (getCurrentSession() != null) {
             getCurrentSession().hangUp(new HashMap<String, String>());
@@ -609,7 +605,7 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
         try {
             //stopSessionWeb(getOpponentID(), sessionid);
             //  stopSessionWeb(sessionid);
-            LogUtils.LOGD("ic_call_round","hangUpCurrentSession sessionid"+sessionid);
+            LogUtils.LOGD("call","hangUpCurrentSession sessionid"+sessionid);
             if(!isOpponenetConnected)
             {
                 missedSessionWeb(sessionid);
@@ -625,13 +621,13 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
             }*/
             // declineSessionWeb(sessionid);
             //
-            // LogUtils.LOGD("ic_call_round","hangUpCurrentSession sessionid"+call_session_root.getSession().getId());
+            // LogUtils.LOGD("call","hangUpCurrentSession sessionid"+call_session_root.getSession().getId());
 
             //  stopSessionWeb(pacifyerDetial,call_session_root.getSession().getId());
         }
         catch (Exception e)
         {
-            LogUtils.LOGD("ic_call_round","hangUpCurrentSession Exception e "+ e.getMessage());
+            LogUtils.LOGD("call","hangUpCurrentSession Exception e "+ e.getMessage());
         }
         //jpppppppppppppppppp
 
@@ -639,32 +635,30 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
 
 
     public void hangUpCurrentSessionMe() {
-        LogUtils.LOGD("sessionteeest123fin12", " SSA onCreate sessionid ");
-        LogUtils.LOGD("ic_call_round","hangUpCurrentSession");
+        LogUtils.LOGD("call","hangUpCurrentSession");
         ringtonePlayer.stop();
         if (getCurrentSession() != null) {
             getCurrentSession().hangUp(new HashMap<String, String>());
         }
         //jpppppppppppppp
         try {
-            LogUtils.LOGD("ic_call_round","CA hangUpCurrentSessionMe sessionid"+sessionid);
+            LogUtils.LOGD("call","CA hangUpCurrentSessionMe sessionid"+sessionid);
             if(!isOpponenetConnected)
             {
                 missedSessionWeb(sessionid);
             }
-            LogUtils.LOGD("sessionteeest123fin13", " SSA onCreate sessionid ");
             finish();
         }
         catch (Exception e)
         {
-            LogUtils.LOGD("ic_call_round","CA hangUpCurrentSessionMe Exception e "+ e.getMessage());
+            LogUtils.LOGD("call","CA hangUpCurrentSessionMe Exception e "+ e.getMessage());
         }
         //jpppppppppppppppppp
 
     }
     public void hangUpCurrentSessionOther() {
        // ToastHandler.newInstance(CallActivity.this).mustShowToast("Pacifyr is buzy");
-        LogUtils.LOGD("ic_call_round","hangUpCurrentSession");
+        LogUtils.LOGD("call","hangUpCurrentSession");
         ringtonePlayer.stop();
         if (getCurrentSession() != null) {
             getCurrentSession().hangUp(new HashMap<String, String>());
@@ -673,18 +667,17 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
         try {
 
             isOppenentHangUP=true;
-            //ToastHandler.newInstance(this).mustShowToast("User is hangs up the ic_call_round");
-            LogUtils.LOGD("ic_call_round","CA hangUpCurrentSessionOther sessionid"+sessionid);
+            //ToastHandler.newInstance(this).mustShowToast("User is hangs up the call");
+            LogUtils.LOGD("call","CA hangUpCurrentSessionOther sessionid"+sessionid);
             /*if(!isOpponenetConnected)
             {
                 declineSessionWeb(sessionid);
             }*/
-            LogUtils.LOGD("sessionteeest123fin134", " SSA onCreate sessionid ");
             finish();
         }
         catch (Exception e)
         {
-            LogUtils.LOGD("ic_call_round","CA hangUpCurrentSessionOther Exception e "+ e.getMessage());
+            LogUtils.LOGD("call","CA hangUpCurrentSessionOther Exception e "+ e.getMessage());
         }
         //jpppppppppppppppppp
     }
@@ -714,22 +707,19 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
     @Override
     protected void onResume() {
         super.onResume();
-        LogUtils.LOGD("sessionteeest123onR", " SSA onCreate sessionid");
-        networkConnectionChecker.registerListener(this);
+       networkConnectionChecker.registerListener(this);
         ((App) App.getInstance()).setCurrentActivity(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        LogUtils.LOGD("sessionteeest123onp", " SSA onCreate sessionid");
         networkConnectionChecker.unregisterListener(this);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        LogUtils.LOGD("sessionteeest123ons", " SSA onCreate sessionid");
         QBChatService.getInstance().removeConnectionListener(connectionListener);
     }
 
@@ -775,7 +765,7 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
         if (!session.equals(getCurrentSession())) {
             return;
         }
-        LogUtils.LOGD("ic_call_round", "onUserNotAnswer getUserID "+ userID);
+        LogUtils.LOGD("call", "onUserNotAnswer getUserID "+ userID);
         missedSessionWeb(sessionid);
         ringtonePlayer.stop();
     }
@@ -783,29 +773,31 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
     @Override
     public void onUserNoActions(QBRTCSession qbrtcSession, Integer userID) {
         startIncomeCallTimer(0);
-        LogUtils.LOGD("ic_call_round", "onUserNoActions getUserID "+ userID);
+        LogUtils.LOGD("call", "onUserNoActions getUserID "+ userID);
     }
 
     @Override
     public void onCallAcceptByUser(QBRTCSession session, Integer userId, Map<String, String> userInfo) {
-        Log.i("calllrr1","r:  ");
+        /*if(isValid(userInfo.get("CALL_TYPE"))) {
+            String callType = userInfo.get("CALL_TYPE");
+            getPrefManager().saveCallType(callType);
+        }*/
         ringtonePlayer.stop();
         if (!session.equals(getCurrentSession())) {
             return;
         }
-        LogUtils.LOGD("ic_call_round", "onCallAcceptByUser getUserID "+ userId);
+        LogUtils.LOGD("call", "onCallAcceptByUser getUserID "+ userId);
         ringtonePlayer.stop();
     }
 
     @Override
     public void onCallRejectByUser(QBRTCSession session, Integer userID, Map<String, String> userInfo) {
-        Log.i("calllrr1","r:  ");
         ringtonePlayer.stop();
         if (!session.equals(getCurrentSession())) {
             return;
         }
-        LogUtils.LOGD("ic_call_round", "onCallRejectByUser getUserID  "+ userID);
-        //  LogUtils.LOGD("ic_call_round", "onCallRejectByUser userInfo.size()  "+ userInfo.size());
+        LogUtils.LOGD("call", "onCallRejectByUser getUserID  "+ userID);
+        //  LogUtils.LOGD("call", "onCallRejectByUser userInfo.size()  "+ userInfo.size());
         ringtonePlayer.stop();
 
         try {
@@ -815,13 +807,13 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
                 CallActivity.isDeclined=true;
                 if (json == null) {
                     com.ceino.utilitylibrary.ToastHandler.newInstance(CallActivity.this).showToast("Please Try again");
-                    LogUtils.LOGD("ic_call_round", "declineSessionWeb json null ");
+                    LogUtils.LOGD("call", "declineSessionWeb json null ");
                 } else {
                     if (json != null) try {
-                        LogUtils.LOGD("ic_call_round", "declineSessionWeb json  " + json);
+                        LogUtils.LOGD("call", "declineSessionWeb json  " + json);
                     } catch (Exception e){
                         com.ceino.utilitylibrary.ToastHandler.newInstance(CallActivity.this).showToast("Please Try again");
-                        LogUtils.LOGD("ic_call_round", "declineSessionWeb exception : " + e.getMessage());
+                        LogUtils.LOGD("call", "declineSessionWeb exception : " + e.getMessage());
                     }
                 }
             }
@@ -835,7 +827,7 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        Toast.makeText(CallActivity.this,"Pacifyr is busy with another ic_call_round",Toast.LENGTH_LONG).show();
+        Toast.makeText(CallActivity.this,"Pacifyr is busy with another call",Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -869,7 +861,6 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
         if (hangUpReason != null && hangUpReason.equals(Consts.WIFI_DISABLED)) {
             Intent returnIntent = new Intent();
             setResult(Consts.CALL_ACTIVITY_CLOSE_WIFI_DISABLED, returnIntent);
-            LogUtils.LOGD("sessionteeest123fin1345", " SSA onCreate sessionid ");
             finish();
         }
     }
@@ -913,16 +904,13 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
 
             closeByWifiStateAllow = true;
 
-
-            LogUtils.LOGD("sessionteeest123fin13456", " SSA onCreate sessionid ");
             try {
                 mSessionDetailRoot = null;
-                LogUtils.LOGD("ic_call_round", "onDestroy sessionid" + sessionid);
+                LogUtils.LOGD("call", "onDestroy sessionid" + sessionid);
 
                 setScreenLockRelease();
                 if(isValid(callTimerEvent))
                 {
-                    LogUtils.LOGD("sessionteeest123a12", " SSA onCreate sessionid ");
                     stopSessionWeb(sessionid);
                     getPrefManager().saveSessionId(null);
               /*  if(isCustomer())
@@ -935,14 +923,12 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
                 }
                 else if( !isMissed && !isDeclined && isOpponenetConnected &&!isOppenentHangUP) {
                     ToastHandler.newInstance(CallActivity.this).showToast("Calling Stop api "+sessionid);
-                    LogUtils.LOGD("sessionteeest123a123", " SSA onCreate sessionid ");
                     stopSessionWeb(sessionid);
                     getPrefManager().saveSessionId(null);
                     finish();
                 }
                 else if(!isMissed && !isDeclined && isOpponenetConnected&&isOppenentHangUP)
                 {
-                    LogUtils.LOGD("sessionteeest1", " SSA onCreate sessionid "+sessionid);
                     SessionSummaryActivity.start(CallActivity.this);
                     getPrefManager().saveSessionId(null);
                 }
@@ -971,10 +957,9 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
             }catch (Exception e)
             {
                 setScreenLockRelease();
-                LogUtils.LOGD("ic_call_round", "onDestroy exception" + e.getMessage());
+                LogUtils.LOGD("call", "onDestroy exception" + e.getMessage());
             }
             finish();
-            LogUtils.LOGD("sessionteeest123fin134567", " SSA onCreate sessionid ");
             //  onDestroy();
         }
     }
@@ -1015,14 +1000,13 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
             if (userID.equals(session.getCallerID())) {
                 // hangUpCurrentSession();
 
-                Log.d(TAG, "initiator hung up the ic_call_round");
+                Log.d(TAG, "initiator hung up the call");
                 hangUpCurrentSessionOther();
             }
 
             QBUser participant = dbManager.getUserById(userID);
             final String participantName = participant != null ? participant.getFullName() : String.valueOf(userID);
 //            String n=participant.getFullName();
-          //  Log.i("partyyyyyname","p: "+participant+"   "+participantName+"    ");
          //   if(participant!=null){
         //    showToast("User " + participantName + " " + getString(R.string.text_status_hang_up) + " conversation");}
         }
@@ -1063,7 +1047,7 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
 
     @Override
     public void onErrorSendingPacket(QBSignalingSpec.QBSignalCMD qbSignalCMD, Integer userId, QBRTCSignalException e) {
-        showToast(R.string.dlg_signal_error);
+        //showToast(R.string.dlg_signal_error);
     }
 
 
@@ -1121,7 +1105,7 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
 
     @Override
     public void addRTCSessionEventsCallback(QBRTCSessionEventsCallback eventsCallback) {
-        Log.i("app_recgeeeec","e: "+eventsCallback);
+        Log.d("app_recgec","e: "+eventsCallback);
         QBRTCClient.getInstance(this).addSessionCallbacksListener(eventsCallback);
     }
 
@@ -1211,18 +1195,18 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
     private class ConnectionListener extends AbstractConnectionListener {
         @Override
         public void connectionClosedOnError(Exception e) {
-            showNotificationPopUp(R.string.connection_was_lost, true);
+            //showNotificationPopUp(R.string.connection_was_lost, true);
             setExpirationReconnectionTime();
         }
 
         @Override
         public void reconnectionSuccessful() {
-            showNotificationPopUp(R.string.connection_was_lost, false);
+            //showNotificationPopUp(R.string.connection_was_lost, false);
         }
 
         @Override
         public void reconnectingIn(int seconds) {
-            Log.i(TAG, "reconnectingIn " + seconds);
+            Log.d(TAG, "reconnectingIn " + seconds);
             if (!callStarted) {
                 hangUpAfterLongReconnection();
             }
@@ -1264,8 +1248,6 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        LogUtils.LOGD("sessionteeest123a1a", " SSA onCreate sessionid ");
-
     }
 
 
@@ -1290,7 +1272,6 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
         try{
             if(event.isFinishCall) {
                 callTimerEvent=event;
-                LogUtils.LOGD("sessionteeest123fin134567", " SSA onCreate sessionid ");
                 finish();
             }
         }catch (Exception e)

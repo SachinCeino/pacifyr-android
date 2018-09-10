@@ -3,6 +3,7 @@ package com.pacifyr.omhealthcare.sign;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -208,6 +209,7 @@ public class LoginActivity extends PacifyerActivity {
 
                 }
             });
+
         }
         catch (Exception e)
         {
@@ -290,6 +292,10 @@ public class LoginActivity extends PacifyerActivity {
                         userModel = loginModel.getUser();
                         companyId = userModel.getCompanyId();
                         prefM.saveCompanyID(companyId);
+
+
+
+
                         String logstat = loginModel.getStatus().toString();
                         if (isValid(logstat)) {
                             if (logstat.equals("success")) {
@@ -539,7 +545,9 @@ public class LoginActivity extends PacifyerActivity {
         backImv.setVisibility(View.VISIBLE);
         titleTxv.setVisibility(View.VISIBLE);
         leftLlay.setVisibility(View.VISIBLE);
-        defSetText(titleTxv,"");
+        defSetText(titleTxv,"log in");
+        Typeface type = Typeface.createFromAsset(getAssets(),getResources().getString(R.string.avantica_bold_header));
+        titleTxv.setTypeface(type);
         //backImv.setBackgroundResource(R.drawable.leftmen);
         leftLlay.setOnClickListener(new View.OnClickListener() {
             @Override

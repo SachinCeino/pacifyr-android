@@ -14,6 +14,7 @@
         android:layout_width="90dp"
         android:layout_height="wrap_content"
         android:textSize="10dp"
+        android:textColor="@color/grey_dark_text"
         android:textAlignment="center"
         android:id="@+id/pac_name"
         android:text="Test pacifyr"/>

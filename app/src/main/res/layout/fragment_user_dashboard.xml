@@ -66,7 +66,7 @@
             android:textStyle="bold"
             android:textSize="13sp"
             android:padding="5dp"
-            android:layout_marginLeft="25dp"
+            android:layout_marginLeft="30dp"
             android:layout_below="@id/feel_rlay"
             android:textColor="@color/text_dashboard"
             android:text="@string/my_last_emotion"/>
@@ -115,14 +115,12 @@
                      android:id="@+id/pacifyr1_dimv"/>-->
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:background="@drawable/user"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:id="@+id/pacifyr1_dimv"/>
 
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:background="@drawable/user"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_marginLeft="15dp"
@@ -187,12 +185,13 @@
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:textSize="13sp"
+            android:textAlignment="center"
             android:layout_toRightOf="@+id/last_session_rlay"
             android:padding="5dp"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="10dp"
             android:layout_below="@id/cir_pref_pacifyr"
             android:textColor="@color/text_dashboard"
-            android:text="@string/pref_pacifyrs"/>
+            android:text="@string/pref_wellness_experts"/>
 
 
 
@@ -305,7 +304,7 @@
             android:textStyle="bold"
             android:textSize="13sp"
             android:padding="5dp"
-            android:layout_marginLeft="25dp"
+            android:layout_marginLeft="30dp"
             android:layout_below="@id/last_session_rlay"
             android:textColor="@color/text_dashboard"
             android:text="@string/my_last_session"/>
@@ -352,7 +351,7 @@
                         android:textSize="10sp"
                         android:layout_marginLeft="7dp"
                         android:textColor="@color/text_inside_circle_light"
-                        android:text="@string/sessions"/>
+                        android:text="@string/sessionS"/>
 
                 </LinearLayout>
 
@@ -446,7 +445,7 @@
             android:textStyle="bold"
             android:textSize="13sp"
             android:id="@+id/this_week_ctxv"
-            android:layout_marginLeft="40dp"
+            android:layout_marginLeft="50dp"
             android:layout_toRightOf="@id/feel_rlay"
             android:layout_below="@id/this_week_rlay"
             android:textColor="@color/text_dashboard"
@@ -469,7 +468,7 @@
                 android:padding="10dp"
                 android:textColor="@color/white"
                 android:background="@drawable/blue_round_square"
-                android:text="@string/Connect_to_Providers"/>
+                android:text="@string/Connect_to_Wellness_Experts"/>
 
         </RelativeLayout>
 

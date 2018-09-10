@@ -138,8 +138,6 @@ public class SessionWeekCustomerAdapter extends RecyclerView.Adapter<SessionWeek
                 }
                 postEventOnMainThread(new WeekSetSessionEvent(ratingUrl,statUrl,dateType,fromDWeek,toDWeek));
                 notifyDataSetChanged();
-                Log.i("uuuurrrrraac1","u:  "+ratingUrl);
-
             }
         });
     }
@@ -297,19 +295,16 @@ public class SessionWeekCustomerAdapter extends RecyclerView.Adapter<SessionWeek
             DateTimeFormatter displaymonth = DateTimeFormat.forPattern("MMM");
             DateTimeFormatter displayFormatterdateonly = DateTimeFormat.forPattern("- dd");
             String start_day_month= displaymonth.print(startofWeek);
-            Log.i("dddddaaaa1","d: "+start_day_month);
             String end_day_month= displaymonth.print(now);
-            Log.i("dddddaaaa12","d: "+end_day_month);
             displayFrom = displayFormatter.print(startofWeek);
-            Log.i("dddddaaaa123","d: "+displayFrom);
             if(start_day_month.equalsIgnoreCase(end_day_month)){
                 displayTo = displayFormatterdateonly.print(now);
-                Log.i("dddddaaaa1234","d: "+displayTo);}
+            }
             else
-            { displayTo = displayFormatter.print(now);
-                Log.i("dddddaaaa12345","d: "+displayTo);}
+            {
+                displayTo = displayFormatter.print(now);
+            }
 
-            Log.i("dddddaaaa123456","d: "+displayTo);
 
             String weekStatUrl = GLOBAL_URL+"dashboard/customer/"+userid+"/sessionStatistics?fromDate="+fromDateWeek+"&toDate="+toDate;
             String thisWeekUrl = GLOBAL_URL + "session/customer/all?userId=" + userid + "&fromDate=" + fromDateWeek + "&toDate=" + toDate;

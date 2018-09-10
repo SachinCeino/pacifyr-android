@@ -2,6 +2,7 @@ package com.pacifyr.omhealthcare.model;
 
 import com.ceino.utilitylibrary.model.pacifyr.MUser;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -100,6 +101,12 @@ public class MCustomerList
         public String getTotalSpending ()
         {
             return totalSpending;
+        }
+
+        public String getPrecisedTotalSpending ()
+        {
+            DecimalFormat format = new DecimalFormat("00.00");
+            return format.format(totalSpending);
         }
 
         public void setTotalSpending (String totalSpending)

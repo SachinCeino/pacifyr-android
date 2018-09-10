@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="io.github.francoiscampbell:circlelayout-0.3.0">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.android/build-cache/1fd65ed48949d8a53c0cefa6ec2f181ca2bc2518/output/res" />
+      <root url="jar://$USER_HOME$/.android/build-cache/1fd65ed48949d8a53c0cefa6ec2f181ca2bc2518/output/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.github.francoiscampbell/circlelayout/0.3.0/d7a1c30d240890ea4d8a51b18bf450adb6fffd8/circlelayout-0.3.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

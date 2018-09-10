@@ -96,13 +96,11 @@ public class ChatActivity extends PacifyrAppCompactActivity implements OnImagePi
         activity.startActivityForResult(intent, code);
     }
     public static void start(Context activity, QBChatDialog dialogId,MUser mPaci) {
-        Log.i("pacipacaa1","c: "+dialogId+"   "+mPaci);
         mPacifyr=null;
         mPacifyr=mPaci;
         Intent intent = new Intent(activity, ChatActivity.class);
         intent.putExtra(ChatActivity.EXTRA_DIALOG_ID, dialogId);
         activity.startActivity(intent);
-        Log.i("pacipacaa12","c: "+dialogId+"   "+mPaci);
     }
     public static void startForResult(Activity activity, int code, QBChatDialog dialogId) {
         mPacifyr=null;
@@ -123,7 +121,6 @@ public class ChatActivity extends PacifyrAppCompactActivity implements OnImagePi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.quickblox_activit_chat);
 
-        Log.i("pacipacaa123","c: ");
         LogUtils.LOGD("jp", "ChatActivity onCreate");
         LogUtils.LOGD("jp",  "onCreate ChatActivity on Thread ID = " + Thread.currentThread().getId());
 

@@ -251,8 +251,8 @@ public class SummaryDetailActivity   extends PacifyrAppCompactActivity {
                 customer_fees_llay.setVisibility(View.VISIBLE);
                 pacifyrRateCtxv.setVisibility(View.VISIBLE);
                 rating_llay.setVisibility(View.VISIBLE);
-                before_feel_ctxv.setText("How were you feeling before the ic_call_round?");
-                afterFeelSelectionCtxv.setText("How were you feeling after the ic_call_round ?");
+                before_feel_ctxv.setText("How were you feeling before the call?");
+                afterFeelSelectionCtxv.setText("How were you feeling after the call ?");
                 after_feel_ctxv.setText("");
                 after_feel_llay.setVisibility(View.GONE);
             }
@@ -261,10 +261,10 @@ public class SummaryDetailActivity   extends PacifyrAppCompactActivity {
                 pacifyrRateCtxv.setVisibility(View.GONE);
                 customer_fees_llay.setVisibility(View.GONE);
                 callback_ctxv.setVisibility(View.GONE);
-                before_feel_ctxv.setText("How was the  customer  feeling before ic_call_round?");
-                after_feel_ctxv.setText("How was the  customer feeling after the ic_call_round ?");
+                before_feel_ctxv.setText("How was the  customer  feeling before call?");
+                after_feel_ctxv.setText("How was the  customer feeling after the call ?");
                 after_feel_llay.setVisibility(View.VISIBLE);
-                afterFeelSelectionCtxv.setText("How was the customer feeling after the ic_call_round in your opinion?");
+                afterFeelSelectionCtxv.setText("How was the customer feeling after the call in your opinion?");
             }
 
            //  comments_cedt.setVisibility(View.GONE);
@@ -323,14 +323,14 @@ public class SummaryDetailActivity   extends PacifyrAppCompactActivity {
                 defSetText(after_emotion_ctxv,mEmotion.getTitle());
 
                 if(isCustomer) {
-                    afterFeelSelectionCtxv.setText("How were you feeling after the ic_call_round ?");
+                    afterFeelSelectionCtxv.setText("How were you feeling after the call ?");
                     after_feel_ctxv.setText("");
                     after_feel_llay.setVisibility(View.GONE);
                 }
                 else {
-                    after_feel_ctxv.setText("How was the  customer feeling after the ic_call_round ?");
+                    after_feel_ctxv.setText("How was the  customer feeling after the call ?");
                     after_feel_llay.setVisibility(View.VISIBLE);
-                    afterFeelSelectionCtxv.setText("How was the customer feeling after the ic_call_round in your opinion?");
+                    afterFeelSelectionCtxv.setText("How was the customer feeling after the call in your opinion?");
                     String afterImgUrl = GLOBAL_IMAGE_URL + mEmotion.getImage();
                     if(isValid(afterImgUrl))
                         Picasso.with(SummaryDetailActivity.this).load(afterImgUrl).placeholder(R.drawable.sad).into(afterFeelDimv);
@@ -354,10 +354,10 @@ public class SummaryDetailActivity   extends PacifyrAppCompactActivity {
                 defSetText(before_feel_ctxv,mEmotion.getTitle());
 
                 if(isCustomer) {
-                    before_feel_ctxv.setText("How were you feeling before the ic_call_round?");
+                    before_feel_ctxv.setText("How were you feeling before the call?");
                 }
                 else {
-                    before_feel_ctxv.setText("How was the  customer  feeling before ic_call_round?");
+                    before_feel_ctxv.setText("How was the  customer  feeling before call?");
                 }
                 String beforeImgUrl = GLOBAL_IMAGE_URL + mEmotion.getImage();
                 if(isValid(beforeImgUrl)) Picasso.with(SummaryDetailActivity.this).load(beforeImgUrl).placeholder(R.drawable.sad).into(beforeFeelDimv);
@@ -510,7 +510,7 @@ public class SummaryDetailActivity   extends PacifyrAppCompactActivity {
                         }
                         ArrayList<String> cmtlist = sessionRating.getCommentList();
                         ArrayList<MComments> exist_cmt_list = new ArrayList<MComments>();
-                        exist_cmt_list.add(new MComments("Excellent ic_call_round"));
+                        exist_cmt_list.add(new MComments("Excellent call"));
                         exist_cmt_list.add(new MComments("Good quality "));
                         exist_cmt_list.add(new MComments("Audio issues"));
                         exist_cmt_list.add(new MComments("Video issues"));
@@ -521,7 +521,7 @@ public class SummaryDetailActivity   extends PacifyrAppCompactActivity {
                             String cmt_edt = "";
                             for (int j = 0; j < cmtlist.size(); j++) {
                                 switch (cmtlist.get(j)) {
-                                    case "Excellent ic_call_round":
+                                    case "Excellent call":
                                         exist_cmt_list.get(0).isSelected = true;
                                         break;
                                     case "Good quality ":
@@ -867,7 +867,7 @@ public class SummaryDetailActivity   extends PacifyrAppCompactActivity {
         backImv.setVisibility(View.VISIBLE);
         titleTxv.setVisibility(View.VISIBLE);
         leftLlay.setVisibility(View.VISIBLE);
-        defSetText(titleTxv,"CALL SUMMARY");
+        defSetText(titleTxv,"call summary");
         defSetText(rightTxv,"Submit");
 
         rightTxv.setBackground(getResources().getDrawable(R.drawable.blue_border_lightblue));

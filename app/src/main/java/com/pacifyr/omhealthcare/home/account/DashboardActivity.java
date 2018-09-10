@@ -15,7 +15,6 @@ import android.widget.RelativeLayout;
 
 import com.ceino.utilitylibrary.CustomFontTextView;
 import com.ceino.utilitylibrary.DeviceFitImageView;
-import com.ceino.utilitylibrary.PagerEnabledSlidingPaneLayout;
 import com.ceino.utilitylibrary.utils.PrefManager;
 import com.facebook.login.LoginManager;
 import com.pacifyr.omhealthcare.Fragment.MySessionFragment;
@@ -31,6 +30,7 @@ import com.pacifyr.omhealthcare.home.ListPacifyrScreenActivity;
 import com.pacifyr.omhealthcare.quickblox.App;
 import com.pacifyr.omhealthcare.utility.PacifyrAppCompactActivity;
 import com.pacifyr.omhealthcare.utils.LogUtils;
+import com.pacifyr.omhealthcare.utils.PagerEnabledSlidingPaneLayout;
 import com.pacifyr.omhealthcare.utils.ToastHandler;
 import com.pacifyr.omhealthcare.utils.WrappingSlidingPaneLayout;
 import com.squareup.otto.Subscribe;

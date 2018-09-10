@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.graphics.PorterDuff;
+import android.graphics.Typeface;
 import android.net.http.SslError;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,18 +20,43 @@ import android.widget.RelativeLayout;
 import com.ceino.utilitylibrary.CustomFontTextView;
 import com.ceino.utilitylibrary.DeviceFitImageView;
 import com.pacifyr.omhealthcare.R;
+import com.pacifyr.omhealthcare.base.PacifyerActivity;
+import com.pacifyr.omhealthcare.event.AlertTypeEvent;
+import com.pacifyr.omhealthcare.event.NotifyEvent;
+import com.pacifyr.omhealthcare.utility.PacifyrAppCompactActivity;
 
-public class TermsOfUseActivity extends AppCompatActivity {
+public class TermsOfUseActivity extends PacifyerActivity {
 
     private WebView webView;
+    private String titleText;
+    private String spurl;
     //private ImageView backButt;
     //private LinearLayout backbtn;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.pacifyr_webview);
+        Bundle bundle = getIntent().getExtras();
+        if( bundle!= null){
+            spurl = bundle.getString("spurl");
+            if(isValid(bundle.getString("title"))){
+                titleText = bundle.getString("title");
+            }
+        }
+        onSetActionBar();
+        webView = (WebView) findViewById(R.id.web_view);
+        startWebView(spurl);
+
+    }
 
     @Override
     public void onPause() {
         super.onPause();
         webView.onPause();
     }
+
     @Override
     // Detect when the back button is pressed
     public void onBackPressed() {
@@ -42,71 +68,12 @@ public class TermsOfUseActivity extends AppCompatActivity {
         }
     }
 
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.pacifyr_webview);
-        onSetActionBar();
-
-        webView = (WebView) findViewById(R.id.web_view);
-
-        Bundle bundle = getIntent().getExtras();
-        if( bundle!= null){
-
-            startWebView(bundle.getString("spurl"));
-        }
-
-
+    protected View getSnackbarAnchorView() {
+        return null;
     }
 
-    private LinearLayout actionBarTopLlay;
-    private RelativeLayout bottomPanel;
-    private LinearLayout leftLlay;
-    private DeviceFitImageView backImv;
-    private CustomFontTextView leftTxv;
-    private CustomFontTextView titleTxv;
-    private LinearLayout rightLlay;
-    private CustomFontTextView rightTxv;
-    private DeviceFitImageView rightImv;
-
-    public void onSetActionBar() {
-        try {
-            actionBarTopLlay = (LinearLayout) findViewById(R.id.action_bar_top_llay);
-            bottomPanel = (RelativeLayout) findViewById(R.id.bottom_panel);
-            leftLlay = (LinearLayout) findViewById(R.id.left_llay);
-            backImv = (DeviceFitImageView) findViewById(R.id.back_imv);
-            leftTxv = (CustomFontTextView) findViewById(R.id.left_txv);
-            titleTxv = (CustomFontTextView) findViewById(R.id.title_txv);
-            rightLlay = (LinearLayout) findViewById(R.id.right_llay);
-            rightTxv = (CustomFontTextView) findViewById(R.id.right_txv);
-            rightImv = (DeviceFitImageView) findViewById(R.id.right_imv);
-            rightImv.setVisibility(View.INVISIBLE);
-            rightTxv.setVisibility(View.INVISIBLE);
-            rightLlay.setVisibility(View.INVISIBLE);
-            leftTxv.setVisibility(View.INVISIBLE);
-            backImv.setVisibility(View.VISIBLE);
-            titleTxv.setVisibility(View.VISIBLE);
-            leftLlay.setVisibility(View.VISIBLE);
-            leftLlay.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(webView.canGoBack()) {
-                        webView.goBack();
-                    } else {
-                        // Let the system handle the back button
-                        webView.onPause();
-                        finish();
-                    }
-                }
-            });
-        }
-        catch (Exception ex)
-        {
-            ex.printStackTrace();
-        }
-    }
 
     private void startWebView(String url) {
 
@@ -124,8 +91,6 @@ public class TermsOfUseActivity extends AppCompatActivity {
 
             //Show loader on url load
             public void onLoadResource (WebView view, String url) {
-
-
 
                 if (progressDialog == null) {
                     // in standard case YourActivity.this
@@ -238,5 +203,52 @@ public class TermsOfUseActivity extends AppCompatActivity {
             });
             alertDialog.show();
         }
+    }
+
+
+    ///ACTION BAR FEATURES
+    private LinearLayout actionBarTopLlay;
+    private RelativeLayout bottomPanel;
+    private LinearLayout leftLlay;
+    private DeviceFitImageView backImv;
+    private CustomFontTextView leftTxv;
+    private CustomFontTextView titleTxv;
+    private LinearLayout rightLlay;
+    private CustomFontTextView rightTxv;
+    private DeviceFitImageView rightImv;
+
+    public void onSetActionBar() {
+        actionBarTopLlay = (LinearLayout) findViewById(R.id.action_bar_top_llay);
+        bottomPanel = (RelativeLayout) findViewById(R.id.bottom_panel);
+        leftLlay = (LinearLayout) findViewById(R.id.left_llay);
+        backImv = (DeviceFitImageView) findViewById(R.id.back_imv);
+        leftTxv = (CustomFontTextView) findViewById(R.id.left_txv);
+        titleTxv = (CustomFontTextView) findViewById(R.id.title_txv);
+        rightLlay = (LinearLayout) findViewById(R.id.right_llay);
+        rightTxv = (CustomFontTextView) findViewById(R.id.right_txv);
+        rightImv = (DeviceFitImageView) findViewById(R.id.right_imv);
+        rightImv.setVisibility(View.INVISIBLE);
+        rightTxv.setVisibility(View.INVISIBLE);
+        rightLlay.setVisibility(View.INVISIBLE);
+        leftTxv.setVisibility(View.INVISIBLE);
+        backImv.setVisibility(View.VISIBLE);
+        titleTxv.setVisibility(View.VISIBLE);
+        Typeface type = Typeface.createFromAsset(getAssets(),getResources().getString(R.string.avantica_bold_header));
+        titleTxv.setTypeface(type);
+        if(isValid(titleText))
+            titleTxv.setText(titleText);
+        leftLlay.setVisibility(View.VISIBLE);
+        leftLlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(webView.canGoBack()) {
+                    webView.goBack();
+                } else {
+                    // Let the system handle the back button
+                    webView.onPause();
+                    finish();
+                }
+            }
+        });
     }
 }

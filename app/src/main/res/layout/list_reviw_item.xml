@@ -15,7 +15,7 @@
         <com.ceino.utilitylibrary.CustomFontTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#a1a9aa"
+            android:textColor="@color/grey_dark_text"
             android:id="@+id/time_ctxv"
             android:padding="2dp"
             android:text=""/>

@@ -9,29 +9,43 @@ import android.view.ViewGroup;
 import android.widget.Chronometer;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.androidquery.AQuery;
+import com.androidquery.callback.AjaxCallback;
+import com.androidquery.callback.AjaxStatus;
 import com.ceino.utilitylibrary.CustomFontTextView;
 import com.ceino.utilitylibrary.DeviceFitImageView;
 import com.ceino.utilitylibrary.model.pacifyr.MEmotion;
 import com.ceino.utilitylibrary.model.pacifyr.MUser;
+import com.ceino.utilitylibrary.utils.PrefManager;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.adapter.EmotionSpecialityAdapter;
 import com.pacifyr.omhealthcare.base.PacifyerActivity;
 import com.pacifyr.omhealthcare.event.NotifyEvent;
 import com.pacifyr.omhealthcare.home.CustomerDetailActivity;
+import com.pacifyr.omhealthcare.network.GsonUtils;
 import com.pacifyr.omhealthcare.network.NetworkService;
 import com.pacifyr.omhealthcare.quickblox.activities.CallActivity;
 import com.pacifyr.omhealthcare.quickblox.utils.CollectionsUtils;
+import com.pacifyr.omhealthcare.utility.EventMessage;
 import com.pacifyr.omhealthcare.utils.LogUtils;
 import com.quickblox.users.model.QBUser;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
 
+import org.greenrobot.eventbus.EventBus;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+
+import static com.ceino.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
+import static com.pacifyr.omhealthcare.base.PacifyerActivity.sessionid;
 
 /**
  * Created by tereha on 25.05.16.
@@ -57,6 +71,10 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
     private DeviceFitImageView moreDimv;
     private RelativeLayout more_rlay;
     private  CustomFontTextView reason_ctxv,emotion_ctxv;
+
+
+    private  Switch billingSwitch;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -111,6 +129,7 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
         reason_ctxv = (CustomFontTextView) view.findViewById(R.id.reason_ctxv);
         connectionStatusLocal = (TextView) view.findViewById(R.id.connectionStatusLocal);
         emotion_ctxv = (CustomFontTextView) view.findViewById(R.id.emotion_ctxv);
+        billingSwitch = (Switch) view.findViewById(R.id.billing_switch);
         emotion_dimv.setVisibility(View.GONE);
         reason_ctxv.setVisibility(View.GONE);
         emotion_ctxv.setVisibility(View.GONE);
@@ -120,6 +139,20 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
         // firstOpponentNameTextView.setVisibility(View.GONE);
         onUserInfoViews(view);
         setEmotionViews();
+
+        billingSwitch.setVisibility(View.VISIBLE);
+        billingSwitch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    billingSwitch.setClickable(false);
+                    billingSwitch.setSelected(true);
+                    startBilling();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
       /*  ImageView firstOpponentAvatarImageView = (ImageView) view.findViewById(R.id.image_caller_avatar);
         firstOpponentAvatarImageView.setBackgroundDrawable(UiUtils.getColorCircleDrawable(opponents.get(0).getId()));
@@ -140,6 +173,38 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
 
         actionButtonsEnabled(false);
     }
+
+    private void startBilling() {
+        try{
+            PrefManager prefM= PrefManager.getInstance(getContext());
+            String token=prefM.getAccessToken();
+            //String userID = prefM.getUserID();
+            String url = GLOBAL_URL+"session/startbilling/"+sessionid;
+            AjaxCallback cb = new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject json, AjaxStatus status) {
+                    try {
+                        String stat = status.getMessage();
+                        String jsonStrng = json.toString();
+                        billingSwitch.setText("Billing started");
+                        Toast.makeText(getContext(),"Billing started",Toast.LENGTH_LONG).show();
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            };
+            AQuery aq = new AQuery(getContext());
+            cb.header("Content-Type", "application/json");
+            cb.header("AccessToken",token);
+            aq.ajax(url,JSONObject.class, cb);
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+
     public void onUserInfoViews(View view) {
         try {
             if(isValid( actionBar))

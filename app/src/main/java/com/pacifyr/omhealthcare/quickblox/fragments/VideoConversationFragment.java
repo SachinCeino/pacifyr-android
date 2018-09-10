@@ -25,13 +25,19 @@ import android.widget.Chronometer;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.androidquery.AQuery;
+import com.androidquery.callback.AjaxCallback;
+import com.androidquery.callback.AjaxStatus;
 import com.ceino.utilitylibrary.CustomFontTextView;
 import com.ceino.utilitylibrary.DeviceFitImageView;
 import com.ceino.utilitylibrary.model.pacifyr.MEmotion;
 import com.ceino.utilitylibrary.model.pacifyr.MUser;
+import com.ceino.utilitylibrary.utils.PrefManager;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.adapter.EmotionSpecialityAdapter;
 import com.pacifyr.omhealthcare.base.PacifyerActivity;
@@ -54,6 +60,7 @@ import com.quickblox.videochat.webrtc.view.QBRTCVideoTrack;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONObject;
 import org.webrtc.CameraVideoCapturer;
 import org.webrtc.RendererCommon;
 import org.webrtc.SurfaceViewRenderer;
@@ -70,6 +77,8 @@ import java.util.Map;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static android.support.v7.widget.LinearLayoutManager.HORIZONTAL;
+import static com.ceino.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
+import static com.pacifyr.omhealthcare.base.PacifyerActivity.sessionid;
 
 /*import com.quickblox.videochat.webrtc.BaseSession;*/
 
@@ -89,7 +98,7 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
     private static final long FULL_SCREEN_CLICK_DELAY = 1000;
     private static final int REQUEST_CODE_ATTACHMENT = 100;
 
-    private String TAG = "ic_call_round";
+    private String TAG = "call";
 
     private ToggleButton cameraToggle;
     private View view;
@@ -119,6 +128,8 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
     private  CustomFontTextView reason_ctxv,emotion_ctxv;
     private RelativeLayout emotion_rlay;
     private LinearLayout info_overlay_llay;
+
+    private Switch billingSwitch;
     // private  CustomFontTextView participants_ctxv;
 
 
@@ -393,6 +404,24 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
           emotion_rlay = (RelativeLayout) view.findViewById(R.id.emotion_rlay);
          reason_ctxv = (CustomFontTextView) view.findViewById(R.id.reason_ctxv);
         emotion_ctxv = (CustomFontTextView) view.findViewById(R.id.emotion_ctxv);
+        billingSwitch = (Switch) view.findViewById(R.id.billing_switch);
+
+
+        billingSwitch.setVisibility(View.VISIBLE);
+        billingSwitch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    billingSwitch.setClickable(false);
+                    billingSwitch.setSelected(true);
+                    startBilling();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+
         onUserInfoViews(view);
  //  participants_ctxv = (CustomFontTextView) view.findViewById(R.id.participants_ctxv);
         emotion_dimv.setVisibility(View.GONE);
@@ -439,6 +468,36 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
         actionButtonsEnabled(false);
         restoreSession();
        // ArrayList<MUser>call_user_list=getCallParticipantlist();
+    }
+
+    private void startBilling() {
+        try{
+            PrefManager prefM= PrefManager.getInstance(getContext());
+            String token=prefM.getAccessToken();
+            //String userID = prefM.getUserID();
+            String url = GLOBAL_URL+"session/startbilling/"+sessionid;
+            AjaxCallback cb = new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject json, AjaxStatus status) {
+                    try {
+                        String stat = status.getMessage();
+                        String jsonStrng = json.toString();
+                        billingSwitch.setText("Billing started");
+                        Toast.makeText(getContext(),"Billing started",Toast.LENGTH_LONG).show();
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            };
+            AQuery aq = new AQuery(getContext());
+            cb.header("Content-Type", "application/json");
+            cb.header("AccessToken",token);
+            aq.ajax(url,JSONObject.class, cb);
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
 
@@ -1198,7 +1257,7 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
         Log.d(TAG, "onReceiveHangUpFromUser userId= " + userId);
         if (!isPeerToPeerCall) {
             if (userId == userIDFullScreen) {
-                Log.d(TAG, "setAnotherUserToFullScreen ic_call_round userId= " + userId);
+                Log.d(TAG, "setAnotherUserToFullScreen call userId= " + userId);
                 setAnotherUserToFullScreen();
             }
         }

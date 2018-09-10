@@ -4,27 +4,30 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.multidex.MultiDex;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.androidquery.AQuery;
+import com.androidquery.callback.AjaxCallback;
+import com.androidquery.callback.AjaxStatus;
 import com.ceino.utilitylibrary.CustomFontTextView;
 import com.ceino.utilitylibrary.DeviceFitImageView;
-import com.ceino.utilitylibrary.PagerEnabledSlidingPaneLayout;
+import com.ceino.utilitylibrary.model.pacifyr.MUser;
 import com.ceino.utilitylibrary.utils.PrefManager;
-import com.pacifyr.omhealthcare.Fragment.CrisisFragment;
 import com.pacifyr.omhealthcare.Fragment.MySessionFragment;
 import com.pacifyr.omhealthcare.Fragment.ResourcesFragment;
 import com.pacifyr.omhealthcare.Fragment.SupportFragment;
 import com.pacifyr.omhealthcare.Fragment.UserDashboardFragment;
 import com.pacifyr.omhealthcare.Fragment.WelcomeTourFragment;
+import com.pacifyr.omhealthcare.utils.PagerEnabledSlidingPaneLayout;
 import com.pacifyr.omhealthcare.Payment.PaymentFragment;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.event.ActionbarEvent;
@@ -35,20 +38,27 @@ import com.pacifyr.omhealthcare.event.NotifyEvent;
 import com.pacifyr.omhealthcare.home.account.AccountEditActivity;
 import com.pacifyr.omhealthcare.home.account.AccountFragment;
 import com.pacifyr.omhealthcare.model.interfaces.CallChatEventListner;
-import com.pacifyr.omhealthcare.quickblox.App;
+import com.pacifyr.omhealthcare.network.GsonUtils;
 import com.pacifyr.omhealthcare.quickblox.chat.ui.activity.DialogsActivity;
+import com.pacifyr.omhealthcare.sign.CrisisActivity;
 import com.pacifyr.omhealthcare.utility.PacifyrAppCompactActivity;
 import com.pacifyr.omhealthcare.utils.LogUtils;
 import com.pacifyr.omhealthcare.utils.ToastHandler;
 import com.pacifyr.omhealthcare.utils.WrappingSlidingPaneLayout;
 import com.squareup.otto.Subscribe;
+import com.squareup.picasso.Picasso;
+
+import org.json.JSONObject;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+
+import static com.ceino.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
 
 
 public class DashboardActivity extends PacifyrAppCompactActivity{
 
     boolean showingFirst = true;
+    private Context context;
 
     WrappingSlidingPaneLayout mSlidingPaneLayout;
     boolean onceBackpressed =false;
@@ -119,6 +129,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
         configGCM();
         setContentView(R.layout.activity_dashboard);
         hideKeyboard();
+        context = DashboardActivity.this;
         //    permissionCheck();
 
         connectToPacifyr=(LinearLayout) findViewById(R.id.connect_pacifyr_llay);
@@ -213,7 +224,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
             public void onClick(View v) {
                 hideRightLayActionbar();
                 showFragment(new UserDashboardFragment());
-                defSetText(titleTxv,"My Dashboard");
+                defSetText(titleTxv,getResources().getString(R.string.mydashboard));
             }
         });
         profile_cimv.setOnClickListener(new View.OnClickListener() {
@@ -221,17 +232,17 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
             public void onClick(View v) {
                 showRightLayActionbar();
                 showFragment(new AccountFragment());
-                defSetText(titleTxv,"Account");
+                defSetText(titleTxv,"profile");
             }
         });
         connectToPacifyr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 hideRightLayActionbar();
-                ConnectToPacifyrActivity.start(DashboardActivity.this);
-             /*       Intent intent=new Intent(getActivity(), ConnectToPacifyrActivity.class);
-                    intent.putExtra("display","Pacifyr");
-                    startActivity(intent);*/
+                ConnectToPacifyrActivity.start(context);
+                /*Intent intent=new Intent(getActivity(), ConnectToPacifyrActivity.class);
+                  intent.putExtra("display","Pacifyr");
+                  startActivity(intent);*/
                 //defSetText(titleTxv,"Connect to Pacifyr");
             }
         });
@@ -240,14 +251,14 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
             public void onClick(View v) {
                 hideRightLayActionbar();
                 showFragment(new WelcomeTourFragment());
-                //defSetText(titleTxv,"Dashboard");
+                defSetText(titleTxv,"tutorial");
             }
         });
         browsePacifyr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 hideRightLayActionbar();
-                Intent i=new Intent(DashboardActivity.this, ListPacifyrScreenActivity.class);
+                Intent i=new Intent(context, ListPacifyrScreenActivity.class);
                 startActivity(i);
             }
         });
@@ -257,7 +268,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
             public void onClick(View v) {
                 hideRightLayActionbar();
                 showFragment(new PaymentFragment());
-                defSetText(titleTxv,"Payment");
+                defSetText(titleTxv,"payment");
             }
         });
 
@@ -266,9 +277,9 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
             @Override
             public void onClick(View v) {
                 hideRightLayActionbar();
-                DialogsActivity.start(DashboardActivity.this);
+                DialogsActivity.start(context);
               /*showFragment(new PacifyrMessageFragment());*/
-                defSetText(titleTxv,"Messages");
+                //defSetText(titleTxv,"");
             }
         });
 
@@ -276,9 +287,8 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
             @Override
             public void onClick(View v) {
                 hideRightLayActionbar();
-                PolicyDocumentActivity.start(DashboardActivity.this);
+                PolicyDocumentActivity.start(context);
               /*  showFragment(new PacifyrMessageFragment());*/
-                defSetText(titleTxv,getResources().getString(R.string.policy_documents));
             }
         });
 
@@ -287,8 +297,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
             public void onClick(View v) {
                 hideRightLayActionbar();
                 showFragment(new MySessionFragment());
-                defSetText(titleTxv,"My Sessions");
-                Log.i("emooooooojiia","e:");
+                defSetText(titleTxv,getResources().getString(R.string.mysessions));
             }
         });
 
@@ -297,16 +306,18 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
             public void onClick(View v) {
                 hideRightLayActionbar();
                 showFragment(new SupportFragment());
-                defSetText(titleTxv,getResources().getString(R.string.support));
+                defSetText(titleTxv,getResources().getString(R.string.contact_us));
             }
         });
 
         crisisLlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                hideRightLayActionbar();
+                Intent intent = new Intent(DashboardActivity.this,CrisisActivity.class);
+                startActivity(intent);
+                /*hideRightLayActionbar();
                 showFragment(new CrisisFragment());
-                defSetText(titleTxv, getResources().getString(R.string.crisis_info));
+                defSetText(titleTxv, getResources().getString(R.string.crisis_info));*/
             }
         });
 
@@ -323,7 +334,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
             @Override
             public void onClick(View v) {
                 hideRightLayActionbar();
-                setAlertStatusInBlue("Logout", "Do you want to Sign out?", new View.OnClickListener() {
+                setAlertStatusInBlue("log out", getResources().getString(R.string.signout_message), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         hideStatus();
@@ -345,7 +356,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
 
     }
 
-/*    public static showActionBar()
+    /*    public static showActionBar()
     {
         try {
             hideRightLayActionbar();
@@ -358,7 +369,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
     }*/
 
     //https://pacifyrtest.s3.amazonaws.com/Q1514964254954.jpg
-    private void setProfileValues() {
+   /* private void setProfileValues() {
         try {
             detailNameCtxv.setText(getCurrentUserName());
             detailMailCtxv.setText(getCurrentUserMail());
@@ -369,29 +380,13 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
                 LogUtils.LOGD("session","DA setProfileValues loading imageurl " + imageurl);
                 //   setAqueryImageUrl(profile_cimv,imageurl, R.drawable.placeholder_user);
                 App.getPicasso(). load(imageurl).into(profile_cimv);
-                 /*   AppChatNotUSe.getPicasso(). load(imageurl).into(new Target() {
-                                                              @Override
-                                                              public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                                                                  profile_cimv.setImageBitmap(bitmap);
-                                                              }
 
-                                                              @Override
-                                                              public void onBitmapFailed(Drawable errorDrawable) {
-
-                                                              }
-
-                                                              @Override
-                                                              public void onPrepareLoad(Drawable placeHolderDrawable) {
-
-                                                              }
-                                                          });*/
-                // Picasso.with(DashboardActivity.this).load(imageurl).placeholder(R.drawable.placeholder_user).into(profile_cimv);
             }
         }catch (Exception e)
         {
             LogUtils.LOGD("session","DA setProfileValues exce " + e.getMessage());
         }
-    }
+    }*/
 
     @Override
     protected View getSnackbarAnchorView() {
@@ -455,7 +450,9 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
         backImv.setVisibility(View.VISIBLE);
         titleTxv.setVisibility(View.VISIBLE);
         leftLlay.setVisibility(View.VISIBLE);
-        defSetText(titleTxv,"My Dashboard");
+        defSetText(titleTxv,getResources().getString(R.string.mydashboard));
+        Typeface type = Typeface.createFromAsset(getAssets(),getResources().getString(R.string.avantica_bold_header));
+        titleTxv.setTypeface(type);
         backImv.setImageDrawable(getResources().getDrawable(R.drawable.leftmen));
         //backImv.setBackgroundResource(R.drawable.leftmen);
         leftLlay.setOnClickListener(new View.OnClickListener() {
@@ -479,7 +476,8 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
             rightTxv.setVisibility(View.VISIBLE);
             rightLlay.setVisibility(View.VISIBLE);
             rightImv.setVisibility(View.INVISIBLE);
-            defSetText(rightTxv,"Edit");
+            defSetText(rightTxv,getResources().getString(R.string.edit));
+            rightTxv.setTextColor(getResources().getColor(R.color.black));
             rightLlay.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -607,6 +605,48 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
 
         }
     };
+
+
+    private void setProfileValues() {
+        try {
+            PrefManager prefM = PrefManager.getInstance(DashboardActivity.this);
+            String token = prefM.getAccessToken();
+            String userid = prefM.getUserID();
+            String url = GLOBAL_URL + "user/" + userid;
+            setLoading();
+            showProgress();
+            AjaxCallback cb = new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject json, AjaxStatus status) {
+                    try {
+                        hideProgress();
+                        MUser user  = GsonUtils.getInstance().gsonToMUser(json);
+                        detailNameCtxv.setText(user.getName());
+                        detailMailCtxv.setText(user.getEmail());
+                        String imageUrl = user.getImageUrl();
+                        if(isValid(imageUrl)) {
+                            Picasso.with(DashboardActivity.this).load(imageUrl).placeholder(R.drawable.placeholder_image).into(profile_cimv);
+                        }else {
+                            imageUrl = user.getImage();
+                            if(isValid(imageUrl))
+                                Picasso.with(DashboardActivity.this).load(imageUrl).placeholder(R.drawable.placeholder_image).into(profile_cimv);
+                        }
+
+                    } catch (Exception e) {
+                        hideProgress();
+                        e.printStackTrace();
+                    }
+                }
+            };
+            AQuery aq = new AQuery(DashboardActivity.this);
+            cb.header("Content-Type", "application/json");
+            cb.header("AccessToken", token);
+            aq.ajax(url, JSONObject.class, cb);
+        }catch (Exception e){
+            hideProgress();
+            e.printStackTrace();
+        }
+    }
 }
 
 

@@ -10,12 +10,14 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Matrix;
+import android.graphics.Typeface;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.text.InputFilter;
+import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextPaint;
@@ -91,6 +93,7 @@ import static com.ceino.utilitylibrary.network.UtilityNetworkService.APP_ID;
 import static com.ceino.utilitylibrary.network.UtilityNetworkService.AUTH_KEY;
 import static com.ceino.utilitylibrary.network.UtilityNetworkService.AUTH_SECRET;
 import static com.ceino.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
+import static com.ceino.utilitylibrary.network.UtilityNetworkService.termOfUseUrl;
 import static com.pacifyr.omhealthcare.network.NetworkService.countryData;
 import static com.pacifyr.omhealthcare.sign.RegisterVerifyActivity.phoneRegister;
 
@@ -155,7 +158,6 @@ public class RegisterActivity extends PacifyerActivity {
 
     private String qbID;
     //private String accessToken;
-    private String termOfUse;
 
     LinearLayout phone_llay;
     Spinner spinner;
@@ -270,7 +272,6 @@ public class RegisterActivity extends PacifyerActivity {
             phoneEdit.setFocusable(false);
             phoneEdit.setKeyListener(null);
 
-            termOfUse="https://pacifyr.com/TermsUsers.html";
             profileCimv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -318,16 +319,41 @@ public class RegisterActivity extends PacifyerActivity {
             ic_link.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.blue_pacifyr)), 0, wordTwo.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             termsCtxv.append(ic_link);*/
 
+            String policyString = getResources().getString(R.string.register_terms_text);
+            SpannableString spannableString = new SpannableString(policyString);
+            //I have read, understand, and agree to be bound by the OMHealth Terms of Use
+            ClickableSpan clickableSpan = new ClickableSpan() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(RegisterActivity.this,TermsOfUseActivity.class);
+                    intent.putExtra("spurl", termOfUseUrl);
+                    startActivity(intent);
+                }
+
+                @Override
+                public void updateDrawState(TextPaint ds) {
+                    super.updateDrawState(ds);
+                    ds.setColor(getResources().getColor(R.color.color_primary));
+                    //ds.setUnderlineText(false);
+                }
+            };
+
+            spannableString.setSpan(clickableSpan,54,79, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            termsCtxv.setText(spannableString);
+            termsCtxv.setMovementMethod(LinkMovementMethod.getInstance());
 
 
-            SpannableString ss = new SpannableString("I have read, understand, and agree to be bound by the Pacifyr Terms of Use");
+
+
+
+            /*SpannableString ss = new SpannableString("I have read, understand, and agree to be bound by the Pacifyr Terms of Use");
             ClickableSpan clickableSpan = new ClickableSpan() {
                 @Override
                 public void onClick(View textView) {
                     Intent i=new Intent(RegisterActivity.this,TermsOfUseActivity.class);
                     i.putExtra("spurl", termOfUse);
                     startActivity(i);
-                   /* startActivity(new Intent(RegisterActivity.this, TermsOfUseActivity.class));*/
+                   *//* startActivity(new Intent(RegisterActivity.this, TermsOfUseActivity.class));*//*
 
                 }
                 @Override
@@ -341,7 +367,7 @@ public class RegisterActivity extends PacifyerActivity {
 
             termsCtxv.setText(ss);
             termsCtxv.setMovementMethod(LinkMovementMethod.getInstance());
-            termsCtxv.setHighlightColor(getResources().getColor(R.color.blue_pacifyr));
+            termsCtxv.setHighlightColor(getResources().getColor(R.color.blue_pacifyr));*/
 
            /* termsCtxv.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -625,7 +651,9 @@ public class RegisterActivity extends PacifyerActivity {
             backImv.setVisibility(View.VISIBLE);
             titleTxv.setVisibility(View.VISIBLE);
             leftLlay.setVisibility(View.VISIBLE);
-            defSetText(titleTxv, "");
+            defSetText(titleTxv, "sign up");
+            Typeface type = Typeface.createFromAsset(getAssets(),getResources().getString(R.string.avantica_bold_header));
+            titleTxv.setTypeface(type);
             leftLlay.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -697,7 +725,6 @@ public class RegisterActivity extends PacifyerActivity {
             postRegisterModel.setDateOfBirth("01-Jan-"+yearEdit.getText().toString());
             postRegisterModel.setPhoneNumber(phoneRegister);
             // postRegisterModel.
-            Log.i("quiiiiiiiiiq","q: ");
             registerWeb(postRegisterModel);
 
         }catch (Exception e)
@@ -817,7 +844,6 @@ public class RegisterActivity extends PacifyerActivity {
         try {
             setLoadingWait();
             showProgress();
-            Log.i("quiiiiiiiiiqq","q: ");
             // Gson gson = new GsonBuilder().setExclusionStrategies(new TestExclStrat())
             //.serializeNulls() <-- uncomment to serialize NULL fields as well
             //.create();
@@ -830,11 +856,11 @@ public class RegisterActivity extends PacifyerActivity {
                 public void onCompleted(Exception e, final JsonObject json) {
                     try {
                         //String message = json.get("message");
-                        String status = json.get("status").getAsString();
-                        if (json == null || status.equals("error")) {
+                        String status = json.get(getResources().getString(R.string.status)).getAsString();
+                        if (json == null || status.equals(getResources().getString(R.string.error))) {
                             hideProgress();
-                            String message = json.get("message").getAsString();
-                            setAlertOKStatusInWhite("Register Failed", message,"Ok");
+                            String message = json.get(getResources().getString(R.string.message_string)).getAsString();
+                            setAlertOKStatusInWhite(getResources().getString(R.string.registration_failed), message,"Ok");
                             ToastHandler.newInstance(RegisterActivity.this).mustShowToast("Please try again Json is null");
                         } else {
                             final JSONObject json2 = new JSONObject(json.toString());
@@ -843,19 +869,18 @@ public class RegisterActivity extends PacifyerActivity {
                             userModel = registrationModel.getUser();
                             appUserID=userModel.getId();
                             jsonString = json2.toString();
-                            if (isValid(regModel,"Please try again ")) {
+                            if (isValid(regModel,getResources().getString(R.string.please_try_again))) {
 
                                 String stat=regModel.getStatus().toString();
-                                if(isValid(stat,"Please try again ")) {
+                                if(isValid(stat,getResources().getString(R.string.please_try_again))) {
 
-                                    if(stat.equals("success")) {
+                                    if(stat.equals(getResources().getString(R.string.success))) {
                                         PrefManager.getInstance(RegisterActivity.this).saveCountry(countryData.getCountry());
 
 
                                         MRoleModel roleModel = userModel.getRoleModel();
                                         mainLabel = roleModel.getMainLabel();
                                         label=roleModel.getLabel();
-                                        Log.i("quiiiiiiiiiq1","q: "+mainLabel);
                                         quickbloxNewLogin();
 
                                     }
@@ -873,7 +898,7 @@ public class RegisterActivity extends PacifyerActivity {
                             else{
                                 hideProgress();
                                 prefM.clear();
-                                setAlertOKStatusInWhite("Register Failed", "Your mobile number is already registered","Ok");
+                                setAlertOKStatusInWhite(getResources().getString(R.string.registration_failed), getResources().getString(R.string.failed_register_message),"Ok");
                                 startActivity(new Intent(context,SignActivity.class));
                             }
                         }
@@ -882,7 +907,7 @@ public class RegisterActivity extends PacifyerActivity {
                         e2.printStackTrace();
                         prefM.clear();
                         startActivity(new Intent(context,SignActivity.class));
-                        ToastHandler.newInstance(RegisterActivity.this).mustShowToast("Please try again");
+                        ToastHandler.newInstance(RegisterActivity.this).mustShowToast(getResources().getString(R.string.please_try_again));
                     }
                 }
             };
@@ -1172,15 +1197,12 @@ public class RegisterActivity extends PacifyerActivity {
 
     private void quickbloxNewLogin() {
         try {
-            Log.i("quiiiiiiiiiq2","q: "+mainLabel);
             QBSettings.getInstance().init(RegisterActivity.this, APP_ID, AUTH_KEY, AUTH_SECRET);
             QBSettings.getInstance().setAccountKey(ACCOUNT_KEY);
-            Log.i("quiiiiiiiiiq3","q: "+ACCOUNT_KEY);
             //create a quickblox application session
             QBAuth.createSession().performAsync(new QBEntityCallback<QBSession>() {
                 @Override
                 public void onSuccess(QBSession qbSession, Bundle bundle) {
-                    Log.i("quiiiiiiiiiq4","q: "+qbSession+"    "+bundle);
                     final String userid=appUserID;
                     String emailID=Remail;
                     String fullName=Rfullname;
@@ -1193,9 +1215,7 @@ public class RegisterActivity extends PacifyerActivity {
                     QBUsers.signUp(qbUser).performAsync(new QBEntityCallback<QBUser>() {
                         @Override
                         public void onSuccess(QBUser qbUser, Bundle bundle) {
-                            Log.i("quiiiiiiiiiq5","q: "+qbUser+"    "+bundle);
                             saveUserDetailsToPrefM();
-
                             qbID=qbUser.getId().toString();
                             saveUserData(qbUser);
                             startLoginService(qbUser);
@@ -1205,7 +1225,6 @@ public class RegisterActivity extends PacifyerActivity {
 
                         @Override
                         public void onError(QBResponseException responseException) {
-                            Log.i("quiiiiiiiiiq6","q: "+responseException);
                             responseException.printStackTrace();
                             Toast.makeText(context,responseException.getMessage(),Toast.LENGTH_LONG).show();
                             hideProgress();
@@ -1220,7 +1239,6 @@ public class RegisterActivity extends PacifyerActivity {
 
                 @Override
                 public void onError(QBResponseException e) {
-                    Log.i("quiiiiiiiiiq7","q: "+e);
                     e.printStackTrace();
                     Toast.makeText(context,e.getMessage(),Toast.LENGTH_LONG).show();
                     hideProgress();

@@ -8,7 +8,7 @@
     android:background="@color/white"
     xmlns:swipedeck="http://schemas.android.com/apk/res-auto">
 
-    <include layout="@layout/actionbar_three_text_image"
+    <include layout="@layout/actionbar_grey_close"
         android:id="@+id/include"
         android:layout_height="50dp"
         android:layout_width="match_parent">
@@ -16,10 +16,9 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:gravity="center_horizontal"
-        android:paddingTop="10dp"
         android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:gravity="center_horizontal"
         android:layout_below="@+id/include"
         android:background="@color/white"
         android:id="@+id/top_rlay">
@@ -31,6 +30,7 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:gravity="center"
+            app:fontName="@string/avanti_std_bold"
             android:text="Get ready to feel better!"
             android:textColor="#898989"
             android:layout_marginBottom="7dp"
@@ -43,7 +43,7 @@
             android:id="@+id/view_line"
             android:layout_below="@+id/text_feel_ctxv"
             android:layout_height="4dp"
-            android:background="@color/grey_hex_e7"/>
+            android:background="@color/grey_dark"/>
 
         <Button
             android:layout_width="30dp"
@@ -65,6 +65,7 @@
             android:layout_marginTop="-20dp"
             android:id="@+id/button2"
             android:text="2"
+            android:textColor="@color/white"
             android:clickable="false"
             android:layout_marginLeft="130dp"
             android:background="@drawable/circle_button"/>
@@ -76,6 +77,7 @@
             android:layout_marginTop="-20dp"
             android:id="@+id/button3"
             android:text="3"
+            android:textColor="@color/white"
             android:clickable="false"
             android:layout_marginLeft="210dp"
             android:background="@drawable/circle_button"/>
@@ -87,6 +89,7 @@
             android:layout_marginTop="-20dp"
             android:id="@+id/button4"
             android:text="4"
+            android:textColor="@color/white"
             android:clickable="false"
             android:layout_marginLeft="290dp"
             android:background="@drawable/circle_button"/>
@@ -108,7 +111,7 @@
         android:visibility="visible"
         android:layout_below="@+id/top_rlay"
         android:id="@+id/select_feeling_rlay"
-        android:background="@color/transparent_white_14">
+        android:background="#F0F3F5">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -121,6 +124,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
+                app:fontName="@string/avanti_std_bold"
                 android:textColor="@color/colorPrimary"
                 android:id="@+id/user_name_ctxv"
                 android:text="Hello"/>
@@ -130,7 +134,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="15sp"
                 android:layout_marginTop="10dp"
-                android:textColor="@color/grey_hex_83"
+                android:textColor="@color/grey_dark"
                 android:text="@string/how_you_feel_now"/>
 
             <RelativeLayout
@@ -144,6 +148,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
+                    android:gravity="center"
                     android:layout_marginRight="0dp"
                     android:orientation="vertical">
 
@@ -153,15 +158,16 @@
                         android:layout_height="45dp"
                         android:layout_gravity="center_horizontal"
                         android:src="@drawable/sad"
-
-                        android:tint="@color/grey_hex_83" />
+                        android:tint="@color/grey_dark" />
 
                     <com.ceino.utilitylibrary.CustomFontTextView
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_below="@+id/sad_dimv"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="10dp"
+                        android:textAlignment="center"
+                        android:textColor="@color/grey_dark"
                         android:text="A bit down" />
                 </LinearLayout>
 
@@ -169,6 +175,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
+                    android:gravity="center"
                     android:layout_marginRight="10dp"
                     android:layout_toRightOf="@id/sad_llay"
                     android:orientation="vertical">
@@ -179,15 +186,16 @@
                         android:layout_height="45dp"
                         android:layout_gravity="center_horizontal"
                         android:src="@drawable/happy"
-                        android:tint="@color/grey_hex_83" />
+                        android:tint="@color/grey_dark" />
 
 
                     <com.ceino.utilitylibrary.CustomFontTextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="10dp"
-
+                        android:textAlignment="center"
+                        android:textColor="@color/grey_dark"
                         android:text="Good" />
                 </LinearLayout>
             </RelativeLayout>
@@ -215,7 +223,7 @@
         android:visibility="gone"
         android:layout_below="@+id/top_rlay"
         android:id="@+id/select_emotion_rlay"
-        android:background="@color/transparent_white_14">
+        android:background="#F0F3F5">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -228,7 +236,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
-                android:textColor="@color/grey_hex_83"
+                android:textColor="@color/grey_dark"
+                app:fontName="@string/avanti_std_bold"
                 android:text="Tell me more"/>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -265,7 +274,7 @@
         android:visibility="gone"
         android:layout_below="@+id/top_rlay"
         android:id="@+id/select_emotion_detail_rlay"
-        android:background="@color/transparent_white_14">
+        android:background="#F0F3F5">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -279,7 +288,8 @@
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
                 android:id="@+id/why_feeling_ctxv"
-                android:textColor="@color/grey_hex_83"
+                app:fontName="@string/avanti_std_bold"
+                android:textColor="@color/grey_dark"
                 android:text="Why are you feeling"
                 android:layout_marginBottom="20dp"/>
 
@@ -294,7 +304,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/more_button"
-                android:textColor="@color/blue_pacifyr"
+                android:textColor="@color/colorPrimary"
                 android:background="@android:color/transparent"
                 android:text="More"/>
 
@@ -306,10 +316,10 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="visible"
+        android:visibility="gone"
         android:layout_below="@+id/top_rlay"
         android:id="@+id/select_list_pacifyr_rlay"
-        android:background="@color/transparent_white_14">
+        android:background="#F0F3F5">
 
         <android.support.v4.widget.SwipeRefreshLayout
             android:layout_width="match_parent"
@@ -337,6 +347,7 @@
                 android:layout_marginTop="5dp"
                 android:textSize="@dimen/sp22_title"
                 android:text=""
+                android:textColor="@color/blue_text_dark"
                 android:gravity="center_horizontal"
                 android:layout_height="wrap_content" />
 
@@ -361,7 +372,7 @@
                     android:textStyle="bold"
                     android:textSize="10sp"
                     android:layout_marginLeft="10dp"
-                    android:textColor="@color/black"
+                    android:textColor="@color/grey_dark"
                     android:text="@string/offline"/>
 
             </LinearLayout>
@@ -385,7 +396,7 @@
                 android:text=""
                 android:gravity="center_horizontal"
                 android:layout_marginTop="25dp"
-                android:textColor="@color/black"
+                android:textColor="@color/colorPrimary"
                 android:layout_height="wrap_content" />
 
             <LinearLayout
@@ -434,7 +445,7 @@
                     android:gravity="center"
                     android:padding="10dp"
                     android:id="@+id/videocall_rlay"
-                    android:background="@drawable/blue_cirlce">
+                    android:background="@drawable/primary_cirlce">
                 <com.ceino.utilitylibrary.DeviceFitImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -455,7 +466,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:id="@+id/audiocall_rlay"
-                android:background="@drawable/blue_cirlce">
+                android:background="@drawable/primary_cirlce">
 
                 <com.ceino.utilitylibrary.DeviceFitImageView
                     android:layout_width="wrap_content"
@@ -476,7 +487,7 @@
                 android:visibility="gone"
                 android:padding="10dp"
                 android:id="@+id/chat_rlay"
-                android:background="@drawable/blue_cirlce">
+                android:background="@drawable/primary_cirlce">
 
                 <com.ceino.utilitylibrary.DeviceFitImageView
                     android:layout_width="wrap_content"

@@ -84,44 +84,48 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/incremental" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/incremental-safeguard" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/jniLibs" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/lint" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/manifests" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/res" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/rs" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/shaders" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/symbols" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/transforms" />
       <excludeFolder url="file://$MODULE_DIR$/build/outputs" />
       <excludeFolder url="file://$MODULE_DIR$/build/tmp" />
     </content>
     <orderEntry type="jdk" jdkName="Android API 26 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" exported="" name="Gradle: com.android.support:support-v4-27.0.2" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: com.google.firebase:firebase-core-11.0.2" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: com.github.orangegangsters:swipy-1.2.2" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: com.android.support:animated-vector-drawable-27.0.2" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: com.quickblox:quickblox-android-sdk-messages-3.3.5" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: com.android.support:support-compat-27.0.2" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: com.google.android.gms:play-services-iid-11.0.2" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: com.google.firebase:firebase-analytics-impl-11.0.2" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: com.android.support:transition-26.0.1" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: com.google.firebase:firebase-messaging-11.0.2" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: com.github.bumptech.glide:glide:3.6.1@jar" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: com.google.android.gms:play-services-basement-11.0.2" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: se.emilsjolander:stickylistheaders-2.7.0" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: com.android.support:multidex-1.0.1" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: com.android.support:support-media-compat-27.0.2" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: com.android.support:support-vector-drawable-27.0.2" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: com.android.support:support-core-ui-27.0.2" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: com.android.support:support-core-utils-27.0.2" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: com.google.firebase:firebase-iid-11.0.2" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: com.google.android.gms:play-services-gcm-11.0.2" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: com.quickblox:quickblox-android-sdk-core-3.3.5" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: com.android.support:recyclerview-v7-26.0.1" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: com.android.support:support-fragment-27.0.2" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: com.google.android.gms:play-services-base-11.0.2" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: com.android.support:appcompat-v7-27.0.2" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: com.google.firebase:firebase-analytics-11.0.2" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: com.google.android.gms:play-services-tasks-11.0.2" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: com.android.support:design-26.0.1" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: android.arch.lifecycle:runtime-1.0.3" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: com.google.firebase:firebase-common-11.0.2" level="project" />
+    <orderEntry type="library" exported="" name="com.android.support:multidex-1.0.1" level="project" />
+    <orderEntry type="library" exported="" name="com.android.support:animated-vector-drawable-27.0.2" level="project" />
+    <orderEntry type="library" exported="" name="com.android.support:appcompat-v7-27.0.2" level="project" />
+    <orderEntry type="library" exported="" name="com.android.support:recyclerview-v7-26.0.1" level="project" />
+    <orderEntry type="library" exported="" name="com.google.android.gms:play-services-basement-11.0.2" level="project" />
+    <orderEntry type="library" exported="" name="com.google.android.gms:play-services-iid-11.0.2" level="project" />
+    <orderEntry type="library" exported="" name="com.github.bumptech.glide:glide:3.6.1@jar" level="project" />
+    <orderEntry type="library" exported="" name="se.emilsjolander:stickylistheaders-2.7.0" level="project" />
+    <orderEntry type="library" exported="" name="com.google.firebase:firebase-analytics-11.0.2" level="project" />
+    <orderEntry type="library" exported="" name="android.arch.lifecycle:runtime-1.0.3" level="project" />
+    <orderEntry type="library" exported="" name="com.quickblox:quickblox-android-sdk-core-3.3.5" level="project" />
+    <orderEntry type="library" exported="" name="com.android.support:support-vector-drawable-27.0.2" level="project" />
+    <orderEntry type="library" exported="" name="com.google.firebase:firebase-iid-11.0.2" level="project" />
+    <orderEntry type="library" exported="" name="com.google.android.gms:play-services-gcm-11.0.2" level="project" />
+    <orderEntry type="library" exported="" name="com.google.firebase:firebase-core-11.0.2" level="project" />
+    <orderEntry type="library" exported="" name="com.android.support:support-core-ui-27.0.2" level="project" />
+    <orderEntry type="library" exported="" name="com.android.support:support-compat-27.0.2" level="project" />
+    <orderEntry type="library" exported="" name="com.github.orangegangsters:swipy-1.2.2" level="project" />
+    <orderEntry type="library" exported="" name="com.quickblox:quickblox-android-sdk-messages-3.3.5" level="project" />
+    <orderEntry type="library" exported="" name="com.google.firebase:firebase-common-11.0.2" level="project" />
+    <orderEntry type="library" exported="" name="com.android.support:support-core-utils-27.0.2" level="project" />
+    <orderEntry type="library" exported="" name="com.google.firebase:firebase-messaging-11.0.2" level="project" />
+    <orderEntry type="library" exported="" name="com.google.android.gms:play-services-tasks-11.0.2" level="project" />
+    <orderEntry type="library" exported="" name="com.android.support:support-fragment-27.0.2" level="project" />
+    <orderEntry type="library" exported="" name="com.android.support:transition-26.0.1" level="project" />
+    <orderEntry type="library" exported="" name="com.android.support:design-26.0.1" level="project" />
+    <orderEntry type="library" exported="" name="com.google.firebase:firebase-analytics-impl-11.0.2" level="project" />
+    <orderEntry type="library" exported="" name="com.android.support:support-media-compat-27.0.2" level="project" />
+    <orderEntry type="library" exported="" name="com.google.android.gms:play-services-base-11.0.2" level="project" />
+    <orderEntry type="library" exported="" name="com.android.support:support-v4-27.0.2" level="project" />
     <orderEntry type="module" module-name="quickblox-core" exported="" />
   </component>
 </module>

@@ -231,7 +231,7 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
                             if(isLoggedInChat()) {
 
                                 setAlertStartCall(mpacifyerDetial.getFirstName()+""+mpacifyerDetial.getLastName(),
-                                        mpacifyerDetial.getPriceWithSign(),NetworkService.GLOBAL_IMAGE_URL+mpacifyerDetial.getImage()
+                                        mpacifyerDetial.getPriceIninute(),NetworkService.GLOBAL_IMAGE_URL+mpacifyerDetial.getImage()
                                         , new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
@@ -248,7 +248,7 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
                             if(isLoggedInChat()) {
 
                                 setAlertStartCall(mpacifyerDetial.getFirstName()+""+mpacifyerDetial.getLastName(),
-                                        mpacifyerDetial.getPriceWithSign(),NetworkService.GLOBAL_IMAGE_URL+mpacifyerDetial.getImage()
+                                        mpacifyerDetial.getPriceIninute(),NetworkService.GLOBAL_IMAGE_URL+mpacifyerDetial.getImage()
                                         , new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
@@ -301,7 +301,7 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
                             if(isLoggedInChat()) {
 
                                 setAlertStartCall(mpacifyerDetial.getFirstName()+""+mpacifyerDetial.getLastName(),
-                                        mpacifyerDetial.getPriceWithSign(),NetworkService.GLOBAL_IMAGE_URL+mpacifyerDetial.getImage()
+                                        mpacifyerDetial.getPriceIninute(),NetworkService.GLOBAL_IMAGE_URL+mpacifyerDetial.getImage()
                                         , new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
@@ -318,7 +318,7 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
                             if(isLoggedInChat()) {
 
                                 setAlertStartCall(mpacifyerDetial.getFirstName()+""+mpacifyerDetial.getLastName(),
-                                        mpacifyerDetial.getPriceWithSign(),NetworkService.GLOBAL_IMAGE_URL+mpacifyerDetial.getImage()
+                                        mpacifyerDetial.getPriceIninute(),NetworkService.GLOBAL_IMAGE_URL+mpacifyerDetial.getImage()
                                         , new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
@@ -452,7 +452,8 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
 
 
     private void initFields() {
-      /*  Bundle extras = getIntent().getExtras();
+      /*  Bundle extras = getIntent(
+      ).getExtras();
         if (extras != null) {
             isRunForCall = extras.getBoolean(Consts.EXTRA_IS_STARTED_FOR_CALL);
         }*/
@@ -888,7 +889,7 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
         backImv.setVisibility(View.VISIBLE);
         titleTxv.setVisibility(View.VISIBLE);
         leftLlay.setVisibility(View.VISIBLE);
-        defSetText(titleTxv,"Profile");
+        defSetText(titleTxv,"profile");
         //titleTxv.setText("Add Credit Card");
         titleTxv.setTextColor(getResources().getColor(R.color.black));
         //backImv.setBackgroundResource(R.drawable.leftmen);

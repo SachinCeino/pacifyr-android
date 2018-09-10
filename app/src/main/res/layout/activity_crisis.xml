@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".sign.CrisisActivity">
 
     <include
@@ -38,7 +39,7 @@
                     android:fontFamily="@string/avanti_std_bold"
                     android:textStyle="bold"
                     android:id="@+id/suicide_header_ctxv"
-                    android:textColor="@color/text_dashboard"
+                    android:textColor="@color/grey_dark_text"
                     android:text="@string/suicide_header"/>
 
                 <LinearLayout
@@ -92,7 +93,7 @@
                         android:layout_marginLeft="16dp"
                         android:id="@+id/suicide_talk_ctxv"
                         android:visibility="visible"
-                        android:textColor="@color/black"
+                        android:textColor="@color/grey_dark_text"
                         android:text="@string/suicide_talk"/>
 
 
@@ -104,7 +105,7 @@
                         android:layout_alignStart="@id/suicide_talk_ctxv"
                         android:layout_below="@+id/suicide_talk_ctxv"
                         android:text="@string/suicicde_tty"
-                        android:textColor="@color/black"
+                        android:textColor="@color/grey_dark_text"
                         android:layout_marginTop="8dp"
                         android:textSize="15sp"
                         android:visibility="visible"
@@ -130,6 +131,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="left"
                         android:textSize="13sp"
+                        android:textColor="@color/grey_dark_text"
                         android:layout_marginLeft="16dp"
                         android:id="@+id/suicide_description_ctxv"
                         android:text="@string/suicide_description"/>
@@ -162,7 +164,7 @@
                     android:textStyle="bold"
                     android:id="@+id/samhsa_header_ctxv"
                     android:fontFamily="@string/avanti_std_bold"
-                    android:textColor="@color/text_dashboard"
+                    android:textColor="@color/grey_dark_text"
                     android:text="@string/samhsa_header"/>
 
 
@@ -190,7 +192,7 @@
                         android:layout_marginLeft="16dp"
                         android:id="@+id/samhsa_talk_ctxv"
                         android:visibility="visible"
-                        android:textColor="@color/black"
+                        android:textColor="@color/grey_dark_text"
                         android:text="@string/samhsa_talk"/>
 
 
@@ -202,7 +204,7 @@
                         android:layout_alignStart="@id/samhsa_talk_ctxv"
                         android:layout_below="@+id/samhsa_talk_ctxv"
                         android:text="@string/samhsa_tty"
-                        android:textColor="@color/black"
+                        android:textColor="@color/grey_dark_text"
                         android:layout_marginTop="8dp"
                         android:textSize="15sp"
                         android:visibility="visible"
@@ -261,7 +263,7 @@
                     android:textStyle="bold"
                     android:fontFamily="@string/avanti_std_bold"
                     android:id="@+id/veterans_header_ctxv"
-                    android:textColor="@color/text_dashboard"
+                    android:textColor="@color/grey_dark_text"
                     android:text="@string/veterans_header"/>
 
                 <LinearLayout
@@ -315,7 +317,7 @@
                         android:layout_marginLeft="16dp"
                         android:id="@+id/veterans_talk_ctxv"
                         android:visibility="visible"
-                        android:textColor="@color/black"
+                        android:textColor="@color/grey_dark_text"
                         android:text="@string/veterans_talk"/>
 
 
@@ -327,7 +329,7 @@
                         android:layout_alignStart="@id/veterans_talk_ctxv"
                         android:layout_below="@+id/veterans_talk_ctxv"
                         android:text="@string/veterans_tty"
-                        android:textColor="@color/black"
+                        android:textColor="@color/grey_dark_text"
                         android:layout_marginTop="8dp"
                         android:textSize="15sp"
                         android:visibility="visible"
@@ -353,6 +355,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="left"
                         android:textSize="13sp"
+                        android:textColor="@color/grey_dark_text"
                         android:layout_marginLeft="16dp"
                         android:id="@+id/veterans_description_ctxv"
                         android:text="@string/veterans_description"/>

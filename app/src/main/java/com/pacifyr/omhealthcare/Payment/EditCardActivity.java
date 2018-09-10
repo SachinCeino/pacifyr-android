@@ -1,6 +1,7 @@
 package com.pacifyr.omhealthcare.Payment;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -91,9 +92,11 @@ public class EditCardActivity extends PacifyrAppCompactActivity {
         backImv.setVisibility(View.VISIBLE);
         titleTxv.setVisibility(View.VISIBLE);
         leftLlay.setVisibility(View.VISIBLE);
-        defSetText(titleTxv,"Edit Card");
-        rightTxv.setText("Done");
-        rightTxv.setTextColor(getResources().getColor(R.color.color_primary));
+        defSetText(titleTxv,"edit card");
+        Typeface type = Typeface.createFromAsset(getAssets(),getResources().getString(R.string.avantica_bold_header));
+        titleTxv.setTypeface(type);
+        rightTxv.setText("done");
+        rightTxv.setTextColor(getResources().getColor(R.color.black));
         titleTxv.setTextColor(getResources().getColor(R.color.black));
         //backImv.setBackgroundResource(R.drawable.leftmen);
         leftLlay.setOnClickListener(new View.OnClickListener() {

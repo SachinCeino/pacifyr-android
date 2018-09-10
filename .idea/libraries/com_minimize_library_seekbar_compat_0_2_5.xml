@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="com.minimize.library:seekbar-compat-0.2.5">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.android/build-cache/1be720053cc619c43ca11dfb36c2f7d4210a77ae/output/res" />
+      <root url="jar://$USER_HOME$/.android/build-cache/1be720053cc619c43ca11dfb36c2f7d4210a77ae/output/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.minimize.library/seekbar-compat/0.2.5/e37b7f46488423df304d7b05c584ecd0d8f06a21/seekbar-compat-0.2.5-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

@@ -1,7 +1,7 @@
 package com.pacifyr.omhealthcare.home;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -154,7 +154,9 @@ public class PaymentActivity extends PacifyrAppCompactActivity {
             backImv.setVisibility(View.VISIBLE);
             titleTxv.setVisibility(View.VISIBLE);
             leftLlay.setVisibility(View.VISIBLE);
-            defSetText(titleTxv, "PAYMENT");
+            defSetText(titleTxv, getResources().getString(R.string.payment));
+            Typeface type = Typeface.createFromAsset(getAssets(),"fonts/ITCAvantGardeStd-Bold.otf");
+            titleTxv.setTypeface(type);
             titleTxv.setTextColor(getResources().getColor(R.color.black));
             backImv.setVisibility(View.VISIBLE);
             leftTxv.setVisibility(View.GONE);

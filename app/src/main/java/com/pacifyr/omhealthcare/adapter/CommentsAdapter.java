@@ -12,7 +12,6 @@ import com.ceino.utilitylibrary.CustomFontTextView;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.model.MComments;
 import com.pacifyr.omhealthcare.model.interfaces.CommentClick;
-import com.pacifyr.omhealthcare.utils.LogUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +42,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.MyView
 
     public CommentsAdapter(Context context) {
         list=new ArrayList<MComments>();
-        list.add(new MComments("Excellent ic_call_round"));
+        list.add(new MComments("Excellent call"));
         list.add(new MComments("Good quality "));
         list.add(new MComments("Audio issues"));
         list.add(new MComments("Video issues"));
@@ -58,7 +57,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.MyView
     public CommentsAdapter(Context context, CommentClick click) {
         clicklistner=click;
         list=new ArrayList<MComments>();
-        list.add(new MComments("Excellent ic_call_round"));
+        list.add(new MComments("Excellent call"));
         list.add(new MComments("Good quality "));
         list.add(new MComments("Audio issues"));
         list.add(new MComments("Video issues"));
@@ -68,7 +67,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.MyView
     public CommentsAdapter(Context context, CommentClick click,boolean isDefault) {
         clicklistner=click;
         list=new ArrayList<MComments>();
-        list.add(new MComments("Excellent ic_call_round"));
+        list.add(new MComments("Excellent call"));
         list.add(new MComments("Good quality "));
         list.add(new MComments("Audio issues"));
         list.add(new MComments("Video issues"));
@@ -98,21 +97,16 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.MyView
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
 
-        Log.i("commentscli23456","c: "+clicklistner);
         final MComments mComment=getItem(position);
-        Log.i("commentscli2","c: "+mComment);
         if(isValid(mComment)) {
             holder.commentCtx.setText(mComment.item);
-            Log.i("commentscli2i","c: "+mComment.item);
             holder.commentLlay.setSelected(list.get(position).isSelected);
             holder.commentCtx.setSelected(list.get(position).isSelected);
-            Log.i("commentscli23","c: "+list.get(position).isSelected);
             holder.commentLlay.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
                     for (int i = 0; i <5 ; i++) {
-                        Log.i("commentscli234","c: "+list.get(i).isSelected);
                         list.get(i).isSelected = false;
                     }
 
@@ -124,7 +118,6 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.MyView
                     mComment.isSelected  =   list.get(position).isSelected;
                     if (isValid(clicklistner))
                         clicklistner.CommentCliked(mComment);
-                    Log.i("commentscli2345","c: "+mComment);
                  /*   if (mComment.item.equalsIgnoreCase("other")) {
                             if (isValid(clicklistner))
                                 clicklistner.CommentCliked(mComment);
@@ -187,7 +180,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.MyView
             }
         }catch (Exception e)
         {
-            LogUtils.LOGD("session","CA getCheckedList exce " + e.getMessage());
+            e.printStackTrace();
         }
         return checkedlist;
     }

@@ -138,7 +138,7 @@
                 <com.ceino.utilitylibrary.CustomFontTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/sign_in"
+                    android:text="@string/login"
                     app:fontName="@string/avanti_std_bk"
                     android:layout_centerVertical="true"
                     android:layout_centerHorizontal="true"
@@ -157,7 +157,7 @@
                 android:gravity="center"
                 android:layout_height="wrap_content"
                 android:text="@string/didnt_get_code"
-                android:textColor="#3063f9"
+                android:textColor="@color/blue_text_dark"
                 android:textStyle="bold"
                 android:layout_marginTop="25dp"
                 android:layout_marginBottom="15dp" />

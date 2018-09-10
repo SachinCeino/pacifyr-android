@@ -31,14 +31,14 @@ import java.util.ArrayList;
     }
 
     @Override
-        public SpecilaListProfileAdapter.SpecialViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public SpecialViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View v= LayoutInflater.from(parent.getContext()).inflate(R.layout.special_list_item,parent,false);
             SpecialViewHolder viewHolder=new SpecialViewHolder(v);
             return viewHolder;
         }
 
         @Override
-        public void onBindViewHolder(SpecilaListProfileAdapter.SpecialViewHolder holder, int position) {
+        public void onBindViewHolder(SpecialViewHolder holder, int position) {
             //holder.image.setImageResource(R.drawable.planetimage);
             holder.text.setText(TextUtils.join(", ",spec));
         }

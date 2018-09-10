@@ -2,6 +2,7 @@ package com.pacifyr.omhealthcare.home;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -17,7 +18,8 @@ import com.pacifyr.omhealthcare.event.NotifyEvent;
 import com.pacifyr.omhealthcare.quickblox.chat.ui.activity.DialogsActivity;
 import com.pacifyr.omhealthcare.sign.RegisterActivity;
 import com.pacifyr.omhealthcare.utility.PacifyrAppCompactActivity;
-import com.squareup.otto.Subscribe;
+
+import org.greenrobot.eventbus.Subscribe;
 
 import static com.ceino.utilitylibrary.network.UtilityNetworkService.copyrightUrl;
 import static com.ceino.utilitylibrary.network.UtilityNetworkService.privacypolicyUrl;
@@ -46,6 +48,7 @@ public class PolicyDocumentActivity extends PacifyrAppCompactActivity {
             public void onClick(View v) {
                 Intent i=new Intent(PolicyDocumentActivity.this,TermsOfUseActivity.class);
                 i.putExtra("spurl", termOfUseUrl);
+                i.putExtra("title","policy documents");
                 startActivity(i);
 
             }
@@ -56,6 +59,7 @@ public class PolicyDocumentActivity extends PacifyrAppCompactActivity {
             public void onClick(View v) {
                 Intent i=new Intent(PolicyDocumentActivity.this,TermsOfUseActivity.class);
                 i.putExtra("spurl", privacypolicyUrl);
+                i.putExtra("title","policy documents");
                 startActivity(i);
             }
         });
@@ -65,6 +69,7 @@ public class PolicyDocumentActivity extends PacifyrAppCompactActivity {
             public void onClick(View v) {
                 Intent i=new Intent(PolicyDocumentActivity.this,TermsOfUseActivity.class);
                 i.putExtra("spurl", copyrightUrl);
+                i.putExtra("title","policy documents");
                 startActivity(i);
             }
         });
@@ -125,7 +130,9 @@ public class PolicyDocumentActivity extends PacifyrAppCompactActivity {
             backImv.setVisibility(View.VISIBLE);
             titleTxv.setVisibility(View.VISIBLE);
             leftLlay.setVisibility(View.VISIBLE);
-            defSetText(titleTxv,"POLICY DOCUMENTS");
+            defSetText(titleTxv,getResources().getString(R.string.policy_documents));
+            Typeface type = Typeface.createFromAsset(getAssets(),getResources().getString(R.string.avantica_bold_header));
+            titleTxv.setTypeface(type);
             backImv.setImageDrawable(getResources().getDrawable(R.drawable.backarrow));
             //backImv.setBackgroundResource(R.drawable.leftmen);
             leftLlay.setOnClickListener(new View.OnClickListener() {

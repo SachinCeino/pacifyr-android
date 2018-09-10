@@ -91,11 +91,13 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
                 boolean isSel=specalArray[position].isSelect();
                 if(!isSel) {
                     holder.circleImageView.setBorderWidth(3);
+                    holder.pac_name.setTextColor(context.getResources().getColor(R.color.color_primary));
                     holder.circleImageView.setBorderColor(ContextCompat.getColor(context, R.color.colorPrimary));
                     specalArray[position].setSelect(true);
                 }
                 else {
                     holder.circleImageView.setBorderWidth(0);
+                    holder.pac_name.setTextColor(context.getResources().getColor(R.color.grey_dark));
                     specalArray[position].setSelect(false);
                 }
 

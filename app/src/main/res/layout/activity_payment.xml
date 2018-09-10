@@ -3,9 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical">
 
-    <include layout="@layout/actionbar_three_text_image"
+    <include layout="@layout/actionbar_grey"
         android:id="@+id/include"
         android:layout_height="50dp"
         android:layout_width="match_parent"></include>

@@ -12,6 +12,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.WakefulBroadcastReceiver;
+import android.widget.Toast;
 
 import com.ceino.utilitylibrary.utils.PrefManager;
 import com.pacifyr.omhealthcare.R;
@@ -99,30 +100,26 @@ public class PacifyrReceiver extends WakefulBroadcastReceiver {
                     LogUtils.LOGD("app_rec", "PR  onReceive actual_type " + actual_type);
                     LogUtils.LOGD("app_rec", "PR  onReceive _id " + _id);
 
-
                     if (actual_type != null) {
                         if (message != null && !message.equalsIgnoreCase("") && !message.equalsIgnoreCase("null")) {
+
+
                             SplachScreen.trigger = "fromNotification";
 
-                            LogUtils.LOGD("app_reca1", " app  notification  " + message);
+
                             if (isAppIsInBackground(context)) {
                                 if (actual_type.equalsIgnoreCase("session")) {
                                     isCall = true;
-                                    LogUtils.LOGD("app_recaa1", " app live  notification session " + WebRtcSessionManager.currentSession);
+                                    LogUtils.LOGD("app_reca", " app live  notification session " + WebRtcSessionManager.currentSession);
                                     if (WebRtcSessionManager.currentSession == null) {
-                                        LogUtils.LOGD("app_recaa1a", " app live  notification session " + WebRtcSessionManager.tempSession);
+                                        LogUtils.LOGD("app_reca", " app live  notification session " + WebRtcSessionManager.tempSession);
 
                                         if (WebRtcSessionManager.tempSession != null) {
-                                            LogUtils.LOGD("app_recaaa1aa11", " app live notification Call ");
                                             PacifyerActivity.sessionid = _id;
-                                            LogUtils.LOGD("app_recaaa1aa12", " app live notification Call ");
                                             WebRtcSessionManager.currentSession = WebRtcSessionManager.tempSession;
-                                            LogUtils.LOGD("app_recaaa1aa13", " app live notification Call ");
                                             WebRtcSessionManager.tempSession = null;
-                                            LogUtils.LOGD("app_recaaa1aa14", " app live notification Call ");
                                             CallActivity.start(context, true);
-                                            LogUtils.LOGD("app_recaaa1aa15", " app live notification Call ");
-                                            ToastHandler.newInstance(context).showToast("ic_call_round data recevied from backend 1");
+                                            ToastHandler.newInstance(context).showToast("call data recevied from backend 1");
 
                                         } else {
                                             temp_sessionid = _id;
@@ -134,7 +131,7 @@ public class PacifyrReceiver extends WakefulBroadcastReceiver {
                                             new Handler().postDelayed(new Runnable() {
                                                 @Override
                                                 public void run() {
-                                                    LogUtils.LOGD("app_recaaaa1", "app live notification tempseesionid cleaed");
+                                                    LogUtils.LOGD("app_reca", "app live notification tempseesionid cleaed");
                                                     temp_sessionid = null;
                                                 }
                                             }, 10000);
@@ -152,16 +149,16 @@ public class PacifyrReceiver extends WakefulBroadcastReceiver {
                                 isCall = false;
                                 if (actual_type.equalsIgnoreCase("session")) {
                                     isCall = true;
-                                    LogUtils.LOGD("app_recbb", " app live  notification session " + WebRtcSessionManager.tempSession);
+                                    LogUtils.LOGD("app_recb", " app live  notification session " + WebRtcSessionManager.tempSession);
                                     if (WebRtcSessionManager.currentSession == null) {
                                         LogUtils.LOGD("app_recbbb1", " app live  notification session " + WebRtcSessionManager.currentSession);
                                         if (WebRtcSessionManager.tempSession != null) {
-                                            LogUtils.LOGD("app_recbbbb2", " app live  notification session " + WebRtcSessionManager.tempSession);
-                                            LogUtils.LOGD("app_recbbbbb", " app live notification Call ");
+                                            LogUtils.LOGD("app_recb", " app live  notification session " + WebRtcSessionManager.tempSession);
+                                            LogUtils.LOGD("app_recb", " app live notification Call ");
                                             PacifyerActivity.sessionid = _id;
                                             WebRtcSessionManager.currentSession = WebRtcSessionManager.tempSession;
                                             WebRtcSessionManager.tempSession = null;
-                                            ToastHandler.newInstance(context).showToast("ic_call_round data recevied from backend 1");
+                                            ToastHandler.newInstance(context).showToast("call data recevied from backend 1");
                                             CallActivity.start(context, true);
                                         } else {
 
@@ -169,7 +166,7 @@ public class PacifyrReceiver extends WakefulBroadcastReceiver {
                                             new Handler().postDelayed(new Runnable() {
                                                 @Override
                                                 public void run() {
-                                                    LogUtils.LOGD("app_recbbbbbb", "app live notification tempseesionid cleaed");
+                                                    LogUtils.LOGD("app_recb", "app live notification tempseesionid cleaed");
                                                     temp_sessionid = null;
                                                 }
                                             }, 10000);
@@ -182,15 +179,15 @@ public class PacifyrReceiver extends WakefulBroadcastReceiver {
                                 isCall = false;
                                 if (actual_type.equalsIgnoreCase("session")) {
                                     isCall = true;
-                                    LogUtils.LOGD("app_recc2", " app live  notification session " + WebRtcSessionManager.tempSession);
+                                    LogUtils.LOGD("app_recc", " app live  notification session " + WebRtcSessionManager.tempSession);
                                     if (WebRtcSessionManager.currentSession == null) {
                                         if (WebRtcSessionManager.tempSession != null) {
 
-                                            LogUtils.LOGD("app_reccc2", " app live notification Call ");
+                                            LogUtils.LOGD("app_rec", " app live notification Call ");
                                             PacifyerActivity.sessionid = _id;
                                             WebRtcSessionManager.currentSession = WebRtcSessionManager.tempSession;
                                             WebRtcSessionManager.tempSession = null;
-                                            ToastHandler.newInstance(context).showToast("ic_call_round data recevied from backend 1");
+                                            ToastHandler.newInstance(context).showToast("call data recevied from backend 1");
                                             CallActivity.start(context, true);
                                         } else {
 
@@ -199,7 +196,7 @@ public class PacifyrReceiver extends WakefulBroadcastReceiver {
                                             new Handler().postDelayed(new Runnable() {
                                                 @Override
                                                 public void run() {
-                                                    LogUtils.LOGD("app_recccc2", "app live notification tempseesionid cleaed");
+                                                    LogUtils.LOGD("app_recc", "app live notification tempseesionid cleaed");
                                                     temp_sessionid = null;
                                                 }
                                             }, 10000);
@@ -213,11 +210,11 @@ public class PacifyrReceiver extends WakefulBroadcastReceiver {
                                 if (actual_type.equalsIgnoreCase("session")) {
                                     isCall = true;
                                     if (WebRtcSessionManager.tempSession != null) {
-                                        LogUtils.LOGD("app_recd3", " app live notification Call ");
+                                        LogUtils.LOGD("app_recd", " app live notification Call ");
                                         PacifyerActivity.sessionid = _id;
                                         WebRtcSessionManager.currentSession = WebRtcSessionManager.tempSession;
                                         WebRtcSessionManager.tempSession = null;
-                                        ToastHandler.newInstance(context).showToast("ic_call_round data recevied from backend 2 ");
+                                        ToastHandler.newInstance(context).showToast("call data recevied from backend 2 ");
                                         CallActivity.start(context, true);
                                     } else {
 
@@ -225,7 +222,7 @@ public class PacifyrReceiver extends WakefulBroadcastReceiver {
                                         new Handler().postDelayed(new Runnable() {
                                             @Override
                                             public void run() {
-                                                LogUtils.LOGD("app_recddd3", "app live notification tempseesionid cleaed");
+                                                LogUtils.LOGD("app_recd", "app live notification tempseesionid cleaed");
                                                 temp_sessionid = null;
                                             }
                                         }, 5000);

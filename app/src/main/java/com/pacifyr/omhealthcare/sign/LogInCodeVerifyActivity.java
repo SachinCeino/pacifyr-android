@@ -2,6 +2,7 @@ package com.pacifyr.omhealthcare.sign;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -395,7 +396,9 @@ public class LogInCodeVerifyActivity extends PacifyerActivity {
         backImv.setVisibility(View.VISIBLE);
         titleTxv.setVisibility(View.VISIBLE);
         leftLlay.setVisibility(View.VISIBLE);
-        defSetText(titleTxv,"");
+        defSetText(titleTxv,getResources().getString(R.string.sign_up));
+        Typeface type = Typeface.createFromAsset(getAssets(),"fonts/ITCAvantGardeStd-Bold.otf");
+        titleTxv.setTypeface(type);
         leftLlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

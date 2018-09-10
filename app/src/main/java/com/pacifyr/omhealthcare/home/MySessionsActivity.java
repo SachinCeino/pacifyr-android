@@ -2,6 +2,7 @@ package com.pacifyr.omhealthcare.home;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -73,9 +74,6 @@ public class MySessionsActivity extends PacifyrAppCompactActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_sessions);
 
-
-
-
         try {
             onSetActionBar();
             onSetValues();
@@ -106,8 +104,6 @@ public class MySessionsActivity extends PacifyrAppCompactActivity {
             showProgress();
             getStatistics(weekStatUrl);
             callThisWeekSession(thisWeekUrl);
-            Log.i("sesssurlw1","w: "+thisWeekUrl);
-            Log.i("sesssurlws1","w: "+weekStatUrl);
             SessionWeekCustomerAdapter adapter =new SessionWeekCustomerAdapter(MySessionsActivity.this,"week");
             LinearLayoutManager manager
                     = new LinearLayoutManager(MySessionsActivity.this, LinearLayoutManager.HORIZONTAL, false);
@@ -234,7 +230,6 @@ public class MySessionsActivity extends PacifyrAppCompactActivity {
     private void callThisYearSession(String url) {
         try
         {
-            Log.i("sessionsss","ss:"+url);
             weekSessionsRcv.setVisibility(View.GONE);
             monthSessionsRcv.setVisibility(View.GONE);
             yearSessionsRcv.setVisibility(View.GONE);
@@ -245,7 +240,6 @@ public class MySessionsActivity extends PacifyrAppCompactActivity {
                     hideProgress();
                     ModelSessonsOfCustomer model= GsonUtils.getInstance().gsonToModelSessonsOfCustomer(json);
                     ArrayList<MSessionDetailRoot> list=model.getResultsList();
-                    Log.i("sessionsss1","ss:"+list);
 
                     if(isValid(list)) {
                         MySessionAdapter adapter = new MySessionAdapter(MySessionsActivity.this, list, userid, accessToken);
@@ -274,7 +268,6 @@ public class MySessionsActivity extends PacifyrAppCompactActivity {
 
     private void callThisMonthSession(String url) {
         try {
-            Log.i("sessionsss1","ss:"+url);
             weekSessionsRcv.setVisibility(View.GONE);
             monthSessionsRcv.setVisibility(View.GONE);
             yearSessionsRcv.setVisibility(View.GONE);
@@ -285,7 +278,6 @@ public class MySessionsActivity extends PacifyrAppCompactActivity {
                     hideProgress();
                     ModelSessonsOfCustomer model= GsonUtils.getInstance().gsonToModelSessonsOfCustomer(json);
                     ArrayList<MSessionDetailRoot> list=model.getResultsList();
-                    Log.i("sessionsss1","ss:"+list);
                     if(isValid(list)) {
                         MySessionAdapter adapter = new MySessionAdapter(MySessionsActivity.this, list, userid, accessToken);
                         LinearLayoutManager verticalLayoutmanager = new LinearLayoutManager(MySessionsActivity.this, LinearLayoutManager.VERTICAL, false);
@@ -311,7 +303,6 @@ public class MySessionsActivity extends PacifyrAppCompactActivity {
 
     private void callThisWeekSession(String url) {
         try {
-            Log.i("sessionsss2","ss:"+url);
             weekSessionsRcv.setVisibility(View.GONE);
             monthSessionsRcv.setVisibility(View.GONE);
             yearSessionsRcv.setVisibility(View.GONE);
@@ -322,7 +313,6 @@ public class MySessionsActivity extends PacifyrAppCompactActivity {
                     hideProgress();
                     ModelSessonsOfCustomer model= GsonUtils.getInstance().gsonToModelSessonsOfCustomer(json);
                     ArrayList<MSessionDetailRoot> list=model.getResultsList();
-                    Log.i("sessionsss2","ss:"+list);
                     if(isValid(list)) {
                         MySessionAdapter adapter = new MySessionAdapter(MySessionsActivity.this, list, userid, accessToken);
                         LinearLayoutManager verticalLayoutmanager
@@ -421,8 +411,9 @@ public class MySessionsActivity extends PacifyrAppCompactActivity {
             titleTxv.setVisibility(View.VISIBLE);
 
             //leftLlay.setVisibility(View.VISIBLE);
-            Log.i("emooooooojiic","e:");
-            defSetText(titleTxv, "My Sessions");
+            defSetText(titleTxv, getResources().getString(R.string.mysessions));
+            Typeface type = Typeface.createFromAsset(getAssets(),"fonts/ITCAvantGardeStd-Bold.otf");
+            titleTxv.setTypeface(type);
             backImv.setImageDrawable(getResources().getDrawable(R.drawable.backarrow));
             //backImv.setBackgroundResource(R.drawable.leftmen);
             leftLlay.setOnClickListener(new View.OnClickListener() {

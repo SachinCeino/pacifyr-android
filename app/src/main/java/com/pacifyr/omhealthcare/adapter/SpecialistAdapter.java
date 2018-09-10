@@ -40,7 +40,7 @@ public class SpecialistAdapter extends RecyclerView.Adapter<SpecialistAdapter.My
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView title, year, genre;
         public CircleImageView circleImageView;
-        public com.ceino.utilitylibrary.CustomFontTextView pac_name;
+        public CustomFontTextView pac_name;
 
         public MyViewHolder(View view) {
             super(view);
@@ -64,7 +64,7 @@ public class SpecialistAdapter extends RecyclerView.Adapter<SpecialistAdapter.My
     }
 
     @Override
-    public SpecialistAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         View itemView = LayoutInflater.from(context)
                 .inflate(R.layout.pacifyr_list, parent, false);
@@ -73,14 +73,13 @@ public class SpecialistAdapter extends RecyclerView.Adapter<SpecialistAdapter.My
     }
 
     @Override
-    public void onBindViewHolder(final SpecialistAdapter.MyViewHolder holder, final int position) {
+    public void onBindViewHolder(final MyViewHolder holder, final int position) {
 
         /*ModelSpecialist.Results[] special = specialList.get(position).getResults();*/
         String imgUrl=GLOBAL_IMAGE_URL+specialList.get(position).getImage();
         holder.pac_name.setText(specialList.get(position).getTitle());
         Picasso.with(context).load(imgUrl).placeholder(context.getResources().getDrawable(R.drawable.placeholder_image)).into(holder.circleImageView);
 
-Log.i("selectttttt","s:  "+specialList.get(position).isSelect());
         if(specialList.get(position).isSelect())
         {
             holder.circleImageView.setBorderWidth(3);
@@ -112,14 +111,10 @@ Log.i("selectttttt","s:  "+specialList.get(position).isSelect());
 
             @Override
             public void onClick(View v) {
-                Log.i("eeemmmm1","e: "+specialList.size());
                 for (int i=0;i<specialList.size();i++)
                 {
-                    Log.i("selectttttt1","s:  "+specialList.get(position).isSelect());
-                    Log.i("eeemmmm12","e: "+specialList.get(position).getTitle());
                     customerEmotion=specialList.get(position).getTitle();
                     if (i==position) {
-                        Log.i("eeemmmm123","e: "+specialList.get(position).getTitle());
                         specialList.get(position).setSelect(true);
                         holder.circleImageView.setBorderColor(ContextCompat.getColor(context, R.color.colorPrimary));
                         holder.circleImageView.setBorderWidth(3);
@@ -129,10 +124,9 @@ Log.i("selectttttt","s:  "+specialList.get(position).isSelect());
                     }
 
                     else{
-                        Log.i("selectttttt2","s:  "+specialList.get(position).isSelect());
                         specialList.get(i).setSelect(false);
                         holder.circleImageView.setBorderWidth(0);
-                    Log.i("eeemmmm1234","e: "+specialList.get(position).getTitle());}
+                    }
 
                 }
                 notifyDataSetChanged();

@@ -250,8 +250,9 @@ public abstract class BaseConversationFragment extends BaseToolBarFragment imple
             timerChronometer.start();
             if(isCustomer())
             if(!isCardExist()) {
-                long time = NetworkService.mCurrentUser.getAvailableMinutes();
-                setAvaiableTimer( (time*60)-15);
+                if(isValid(NetworkService.mCurrentUser)) {
+                    long time = NetworkService.mCurrentUser.getAvailableMinutes();
+                    setAvaiableTimer((time * 60) - 15);
                /* timerChronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
 
                     @Override
@@ -265,6 +266,7 @@ public abstract class BaseConversationFragment extends BaseToolBarFragment imple
                         }
                     }
                 });*/
+                }
 
 
             }

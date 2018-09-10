@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -51,7 +50,6 @@ public class MissedandDeclinedActivity extends PacifyrAppCompactActivity {
 
 
     public static void start(Context context) {
-        Log.i("misssssssssd1","m:");
         Intent intent = new Intent(context, MissedandDeclinedActivity.class);
         context.startActivity(intent);
     }

@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -93,6 +94,8 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
     private RelativeLayout morePacifyrsRlay;
     private ConnectToPacifyrActivity activity;
 
+    private RelativeLayout topRlay;
+
     RecyclerView imgRcv;
     private String customerRole;
     private boolean employeeFlag;
@@ -169,11 +172,13 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
         emotionDimv = (DeviceFitImageView) findViewById(R.id.emotion_dimv);
         showallLlay = (LinearLayout) findViewById(R.id.showall_llay);
         showallCtxv = (CustomFontTextView) findViewById(R.id.showall_ctxv);
+        topRlay = (RelativeLayout) findViewById(R.id.top_rlay);
+
+        topRlay.bringToFront();
 
         txt_emergency_usa=(CustomFontTextView) findViewById(R.id.txt_emergency_usa);
         Utility gps=new Utility();
         String country=gps.getUserCountry(ConnectToPacifyrActivity.this);
-        Log.i("locccccccc12a1","l: "+country);
         if(isValid(country)) {
             country = prefM.getCountry();
             if (country.equalsIgnoreCase("us")) {
@@ -200,10 +205,6 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
                 button2.setClickable(false);
                 button3.setClickable(false);
                 button4.setClickable(false);
-                button4.setTextColor(getApplication().getResources().getColor(R.color.black));
-                button3.setTextColor(getApplication().getResources().getColor(R.color.black));
-                button2.setTextColor(getApplication().getResources().getColor(R.color.black));
-                button1.setTextColor(getApplication().getResources().getColor(R.color.white));
                 selectFeelingRlay.setVisibility(View.VISIBLE);
                 selectEmotionRlay.setVisibility(View.GONE);
                 selectEmotionDetailRlay.setVisibility(View.GONE);
@@ -220,10 +221,6 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
                 button1.setClickable(true);
                 button3.setClickable(false);
                 button4.setClickable(false);
-                button4.setTextColor(getApplication().getResources().getColor(R.color.black));
-                button3.setTextColor(getApplication().getResources().getColor(R.color.black));
-                button2.setTextColor(getApplication().getResources().getColor(R.color.white));
-                button1.setTextColor(getApplication().getResources().getColor(R.color.black));
                 selectFeelingRlay.setVisibility(View.GONE);
                 selectEmotionRlay.setVisibility(View.VISIBLE);
                 selectEmotionDetailRlay.setVisibility(View.GONE);
@@ -238,10 +235,6 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
                 button1.setBackgroundResource(R.drawable.circle_button);
                 button4.setBackgroundResource(R.drawable.circle_button);
                 button4.setClickable(false);
-                button4.setTextColor(getApplication().getResources().getColor(R.color.black));
-                button3.setTextColor(getApplication().getResources().getColor(R.color.white));
-                button2.setTextColor(getApplication().getResources().getColor(R.color.black));
-                button1.setTextColor(getApplication().getResources().getColor(R.color.black));
                 button1.setClickable(true);
                 button2.setClickable(true);
                 selectFeelingRlay.setVisibility(View.GONE);
@@ -257,10 +250,6 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
                 button2.setBackgroundResource(R.drawable.circle_button);
                 button3.setBackgroundResource(R.drawable.circle_button);
                 button1.setBackgroundResource(R.drawable.circle_button);
-                button4.setTextColor(getApplication().getResources().getColor(R.color.white));
-                button3.setTextColor(getApplication().getResources().getColor(R.color.black));
-                button2.setTextColor(getApplication().getResources().getColor(R.color.black));
-                button1.setTextColor(getApplication().getResources().getColor(R.color.black));
                 button1.setClickable(true);
                 button2.setClickable(true);
                 button3.setClickable(true);
@@ -277,11 +266,10 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
                 happyDimv.clearColorFilter();
                 sadDimv.setColorFilter(getResources().getColor( R.color.colorPrimary), android.graphics.PorterDuff.Mode.MULTIPLY);
                 type="negative";
-                button1.setClickable(false);
+                button1.setClickable(true);
+                button1.setEnabled(true);
                 button1.setBackgroundResource(R.drawable.circle_button);
                 button2.setBackgroundResource(R.drawable.circle_click_btn);
-                button1.setTextColor(getApplication().getResources().getColor(R.color.black));
-                button2.setTextColor(getApplication().getResources().getColor(R.color.white));
                 //callFragmant();
                 changeToSecondScreen();
 
@@ -291,15 +279,14 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
         happyDimv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                button1.setClickable(false);
+                button1.setClickable(true);
                 sadDimv.clearColorFilter();
+                button1.setEnabled(true);
                 happyDimv.setColorFilter(getResources().getColor( R.color.colorPrimary), android.graphics.PorterDuff.Mode.MULTIPLY);
                 type="positive";
                 button1.setBackgroundResource(R.drawable.circle_button);
                 button2.setBackgroundResource(R.drawable.circle_click_btn);
                 //callFragmant();
-                button1.setTextColor(getApplication().getResources().getColor(R.color.black));
-                button2.setTextColor(getApplication().getResources().getColor(R.color.white));
                 changeToSecondScreen();
 
             }
@@ -372,13 +359,9 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
         selectEmotionRlay.setVisibility(View.GONE);
         selectEmotionDetailRlay.setVisibility(View.GONE);
         listPacifyrRlay.setVisibility(View.GONE);
-        button4.setTextColor(getApplication().getResources().getColor(R.color.black));
-        button2.setTextColor(getApplication().getResources().getColor(R.color.black));
-        button2.setTextColor(getApplication().getResources().getColor(R.color.black));
-        button1.setTextColor(getApplication().getResources().getColor(R.color.white));
         button4.setBackgroundResource(R.drawable.circle_button);
         button3.setBackgroundResource(R.drawable.circle_button);
-        button3.setBackgroundResource(R.drawable.circle_button);
+        button2.setBackgroundResource(R.drawable.circle_button);
         button1.setBackgroundResource(R.drawable.circle_click_btn);
         button2.setClickable(false);
         button3.setClickable(false);
@@ -477,7 +460,7 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
                 if(granted) {
                     if(audioonly) {
                         if(checker.lacksPermissions(Consts.PERMISSIONS[1])) {
-                            Toast.makeText(activity, "ic_call_round to do 1 in onactivtyresult1", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(activity, "call to do 1 in onactivtyresult1", Toast.LENGTH_SHORT).show();
 
                             /*setAlertStartCall("Start", "Call now....", new View.OnClickListener() {
                                 @Override
@@ -492,7 +475,7 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
                     }
                     else {
                         if(checker.lacksPermissions(Consts.PERMISSIONS)) {
-                            Toast.makeText(activity, "ic_call_round to do 2 in onactivtyresult1", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(activity, "call to do 2 in onactivtyresult1", Toast.LENGTH_SHORT).show();
 
 
 
@@ -649,7 +632,7 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
     private LinearLayout actionBarTopLlay;
     private RelativeLayout bottomPanel;
     private LinearLayout leftLlay;
-    private DeviceFitImageView backImv;
+    private ImageView backImv;
     private CustomFontTextView leftTxv;
     private CustomFontTextView titleTxv;
     private LinearLayout rightLlay;
@@ -660,7 +643,7 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
         actionBarTopLlay = (LinearLayout) findViewById(R.id.action_bar_top_llay);
         bottomPanel = (RelativeLayout) findViewById(R.id.bottom_panel);
         leftLlay = (LinearLayout) findViewById(R.id.left_llay);
-        backImv = (DeviceFitImageView) findViewById(R.id.back_imv);
+        backImv = (ImageView) findViewById(R.id.back_imv);
         leftTxv = (CustomFontTextView) findViewById(R.id.left_txv);
         titleTxv = (CustomFontTextView) findViewById(R.id.title_txv);
         rightLlay = (LinearLayout) findViewById(R.id.right_llay);
@@ -677,8 +660,6 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
         /*defSetText(titleTxv,"Connect to "+pacifyrName);*/
         defSetText(titleTxv,"connect");
         Typeface type = Typeface.createFromAsset(getAssets(),"fonts/ITCAvantGardeStd-Bold.otf");
-        /*Typeface typeface = Typeface.createFromAsset(ConnectToPacifyrActivity.this.getAssets(), "ITCAvantGardeStd-Bold.otf");*/
-
         titleTxv.setTypeface(type);
 
         backImv.setVisibility(View.VISIBLE);

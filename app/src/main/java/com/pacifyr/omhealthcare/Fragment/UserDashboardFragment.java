@@ -486,7 +486,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
     }
 
 
-    private void showTheRoundDialog(int position, MUser prefpac) {
+    /*private void showTheRoundDialog(int position, MUser prefpac) {
 
         final Dialog dialog = new Dialog(getActivity());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -512,7 +512,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
         dialog_rating.setRating(Float.parseFloat(prefpac.getRating()));
         Picasso.with(getContext()).load( prefpac.getImageUrl()).into(image);
         dialog.show();
-    }
+    }*/
 
 
     @Override

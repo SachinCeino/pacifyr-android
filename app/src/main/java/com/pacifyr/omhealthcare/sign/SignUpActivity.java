@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
@@ -300,34 +301,43 @@ public class SignUpActivity extends PacifyerActivity {
     private DeviceFitImageView rightImv;
 
     public void onSetActionBar() {
-        actionBarTopLlay = (LinearLayout) findViewById(R.id.action_bar_top_llay);
-        bottomPanel = (RelativeLayout) findViewById(R.id.bottom_panel);
-        leftLlay = (LinearLayout) findViewById(R.id.left_llay);
-        backImv = (DeviceFitImageView) findViewById(R.id.back_imv);
-        leftTxv = (CustomFontTextView) findViewById(R.id.left_txv);
-        titleTxv = (CustomFontTextView) findViewById(R.id.title_txv);
-        rightLlay = (LinearLayout) findViewById(R.id.right_llay);
-        rightTxv = (CustomFontTextView) findViewById(R.id.right_txv);
-        rightImv = (DeviceFitImageView) findViewById(R.id.right_imv);
-        rightImv.setVisibility(View.INVISIBLE);
-        rightTxv.setVisibility(View.INVISIBLE);
-        rightLlay.setVisibility(View.INVISIBLE);
-        leftTxv.setVisibility(View.INVISIBLE);
-        backImv.setVisibility(View.VISIBLE);
-        titleTxv.setVisibility(View.VISIBLE);
-        leftLlay.setVisibility(View.VISIBLE);
-        defSetText(titleTxv,"");
-        //titleTxv.setText("Add Credit Card");
-        //titleTxv.setTextColor(getResources().getColor(R.color.white));
-        //backImv.setImageDrawable(getResources().getDrawable(R.drawable.back3x));
+        try {
+            actionBarTopLlay = (LinearLayout) findViewById(R.id.action_bar_top_llay);
+            bottomPanel = (RelativeLayout) findViewById(R.id.bottom_panel);
+            leftLlay = (LinearLayout) findViewById(R.id.left_llay);
+            backImv = (DeviceFitImageView) findViewById(R.id.back_imv);
+            leftTxv = (CustomFontTextView) findViewById(R.id.left_txv);
+            titleTxv = (CustomFontTextView) findViewById(R.id.title_txv);
+            rightLlay = (LinearLayout) findViewById(R.id.right_llay);
+            rightTxv = (CustomFontTextView) findViewById(R.id.right_txv);
+            rightImv = (DeviceFitImageView) findViewById(R.id.right_imv);
+            rightImv.setVisibility(View.INVISIBLE);
+            rightTxv.setVisibility(View.INVISIBLE);
+            rightLlay.setVisibility(View.INVISIBLE);
+            leftTxv.setVisibility(View.INVISIBLE);
+            backImv.setVisibility(View.VISIBLE);
+            titleTxv.setVisibility(View.VISIBLE);
+            leftLlay.setVisibility(View.VISIBLE);
+            defSetText(titleTxv, "sign up");
+            Typeface type = Typeface.createFromAsset(getAssets(), getResources().getString(R.string.avantica_bold_header));
+            titleTxv.setTypeface(type);
+            //titleTxv.setText("Add Credit Card");
+            //titleTxv.setTextColor(getResources().getColor(R.color.white));
+            //backImv.setImageDrawable(getResources().getDrawable(R.drawable.back3x));
 
-        //backImv.setBackgroundResource(R.drawable.leftmen);
-        leftLlay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+            //backImv.setBackgroundResource(R.drawable.leftmen);
+            leftLlay.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finish();
+                }
+            });
+
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            Log.e("Exception ",e.getMessage());
+        }
     }
 
     private void phoneVerifyWeb() {

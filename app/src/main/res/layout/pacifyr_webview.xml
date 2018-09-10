@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <include layout="@layout/actionbar_three_text_image"
+    <include layout="@layout/actionbar_grey"
         android:id="@+id/include"
         android:layout_height="50dp"
         android:layout_width="match_parent"></include>
@@ -36,10 +36,10 @@
 
     </RelativeLayout>-->
 
-    <View
+    <!--<View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:background="@color/grey"/>
+        android:background="@color/grey"/>-->
 
     <WebView
         android:id="@+id/web_view"

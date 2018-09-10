@@ -3,6 +3,7 @@ package com.pacifyr.omhealthcare.quickblox;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.StrictMode;
+import android.support.multidex.MultiDex;
 
 import com.pacifyr.omhealthcare.quickblox.chat.models.SampleConfigs;
 import com.pacifyr.omhealthcare.quickblox.chat.utils.Consts;
@@ -27,6 +28,7 @@ public class App extends CoreApp {
     @Override
     public void onCreate() {
         super.onCreate();
+        MultiDex.install(getBaseContext());
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
 

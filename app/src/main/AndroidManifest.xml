@@ -364,6 +364,7 @@
         </provider>
 
         <activity android:name=".sign.CrisisActivity"></activity>
+        <activity android:name=".emotionupdate.SelectEmotionActivity"></activity>
     </application>
 
 </manifest>

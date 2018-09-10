@@ -101,8 +101,6 @@ public class CustomerDetailActivity extends PacifyrAppCompactActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customer_detail);
 
-        Log.i("uuuuuurrrlllAA","u:  ");
-
         try {
 
             prefM = PrefManager.getInstance(CustomerDetailActivity.this);
@@ -139,7 +137,6 @@ public class CustomerDetailActivity extends PacifyrAppCompactActivity {
                 }
             });
 
-            Log.i("uuuuuurrrlllAA1","u:  ");
             setAdapter();
             webGetPastSessions(0,20);
 
@@ -264,18 +261,13 @@ public class CustomerDetailActivity extends PacifyrAppCompactActivity {
     }
     private void setAdapter() {
         try {
-            Log.i("uuuuuurrrlllAA2","u:  ");
-            LogUtils.LOGD("jithish", "FF  setAdapter " );
 
             emptyFlay.setVisibility(View.VISIBLE);
             emptyDtxv.setText("Loading ..");
             if(isValid(mPastSessions)) {
-                Log.i("uuuuuurrrlllAA5","u:  "+mPastSessions);
                 pastsessions_list= mPastSessions.getResultsList();
-                Log.i("uuuuuurrrlllAA3","u:  "+pastsessions_list);
                 if(isValid(pastsessions_list)) {
                   //  final long total_count= mPastSessions.getTotal_count();
-                    Log.i("uuuuuurrrlllAA4","u:  "+pastsessions_list);
                     emptyFlay.setVisibility(View.GONE);
                     adapter=new ListCustomerSessionAdapter(CustomerDetailActivity.this,pastsessions_list);
                     pacifyrListRcv.setItemAnimator(new DefaultItemAnimator());

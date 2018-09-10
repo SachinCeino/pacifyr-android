@@ -483,11 +483,9 @@ public class EarningsActivity extends PacifyrAppCompactActivity {
                 Float total= Float.valueOf(0);
                 MEarningsRoot.Earnings[] earnings=modelEarningsAPI.getEarnings();
                 int size=earnings.length;
-                Log.i("earniii1","e:  "+size+"   "+week.length);
                 try {
                     for (int i = 0; i < size; i++) {
                         total = total + earnings[i].getEarnings();
-                        Log.i("earniii2","e:  "+total+"   "+earnings[i].getEarnings());
                     }
 
                     for (int i = 0; i < size; i++) {
@@ -498,7 +496,6 @@ public class EarningsActivity extends PacifyrAppCompactActivity {
                           DecimalFormat df2 = new DecimalFormat("0.00");
                         float perentage=earnings[i].getEarnings();
                         //float perentage= Float.parseFloat(df2.format(earnings[i].getEarnings()));
-                        Log.i("earniii3","e:  "+perentage+"   ");
                      /*   if(total>0)
                         {
                             perentage=  (earnings[i].getEarnings()/total)*100;
@@ -514,21 +511,16 @@ public class EarningsActivity extends PacifyrAppCompactActivity {
                             else {
                             perentage= (float) (0.1*total);
                         }
-                            Log.i("earniii4","e:  "+perentage);
                             Segment model = new Segment(week[i] + "   "+Utility.getPriceSign(EarningsActivity.this)+"0.00" , perentage);
-                            Log.i("earniii5","e:  "+model);
                             segmentlist.add(model);
                         }
                         else {
                             if(perentage>0) {
                                 String perentage12= String.format("%.2f", perentage);
-                                Log.i("earniii31","e:  "+perentage12);
                                 Segment model = new Segment(week[i] + "   "+Utility.getPriceSign(EarningsActivity.this)+"" + perentage12, perentage);
-                                Log.i("earniii6","e:  "+model);
                                 segmentlist.add(model);
                             }
                         }
-                        Log.i("earniii7","e:  "+segmentlist);
                     }
                 }
                 catch (Exception excc)
@@ -754,7 +746,7 @@ public class EarningsActivity extends PacifyrAppCompactActivity {
             backImv.setVisibility(View.VISIBLE);
             titleTxv.setVisibility(View.VISIBLE);
             leftLlay.setVisibility(View.VISIBLE);
-            defSetText(titleTxv,"Earnings");
+            defSetText(titleTxv,"earnings");
             backImv.setImageDrawable(getResources().getDrawable(R.drawable.backarrow));
             //backImv.setBackgroundResource(R.drawable.leftmen);
             leftLlay.setOnClickListener(new View.OnClickListener() {

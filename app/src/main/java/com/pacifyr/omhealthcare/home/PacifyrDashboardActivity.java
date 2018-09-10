@@ -18,7 +18,6 @@ import android.widget.Toast;
 
 import com.ceino.utilitylibrary.CustomFontTextView;
 import com.ceino.utilitylibrary.DeviceFitImageView;
-import com.ceino.utilitylibrary.PagerEnabledSlidingPaneLayout;
 import com.ceino.utilitylibrary.utils.PrefManager;
 import com.facebook.login.LoginManager;
 import com.pacifyr.omhealthcare.Fragment.EarningsFragment;
@@ -37,6 +36,7 @@ import com.pacifyr.omhealthcare.model.interfaces.CallChatEventListner;
 import com.pacifyr.omhealthcare.quickblox.chat.ui.activity.DialogsActivity;
 import com.pacifyr.omhealthcare.utility.PacifyrAppCompactActivity;
 import com.pacifyr.omhealthcare.utils.LogUtils;
+import com.pacifyr.omhealthcare.utils.PagerEnabledSlidingPaneLayout;
 import com.pacifyr.omhealthcare.utils.ToastHandler;
 import com.pacifyr.omhealthcare.utils.WrappingSlidingPaneLayout;
 import com.squareup.otto.Subscribe;
@@ -201,7 +201,6 @@ public class PacifyrDashboardActivity extends PacifyrAppCompactActivity {
                 public void onClick(View v) {
                     hideRightLayActionbar();
                     showFragment(new PacifyrSessionsFragment());
-                    Log.i("emooooooojiid","e:");
                     defSetText(titleTxv, "My Sessions");
                 }
             });
@@ -352,7 +351,8 @@ public class PacifyrDashboardActivity extends PacifyrAppCompactActivity {
             rightTxv.setVisibility(View.VISIBLE);
             rightLlay.setVisibility(View.VISIBLE);
             rightImv.setVisibility(View.INVISIBLE);
-            defSetText(rightTxv,"Edit");
+            defSetText(rightTxv,"edit");
+            rightTxv.setTextColor(getResources().getColor(R.color.black));
             rightLlay.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -455,7 +455,6 @@ public class PacifyrDashboardActivity extends PacifyrAppCompactActivity {
     @Subscribe
     public void onChatEvent(ChatEvent event) {
         try{
-            Log.i("pacipaca12345a","c: ");
             LogUtils.LOGD("session","CPA onCallEvent called " );
             if(!isValid(event.mpacifyer,"Network Error"))
                 return;

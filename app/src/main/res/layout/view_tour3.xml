@@ -9,13 +9,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/white"
-        android:textSize="12sp"
+        android:textSize="14sp"
         android:layout_centerHorizontal="true"
         android:textStyle="bold"
         android:layout_marginBottom="50dp"
         android:layout_alignParentBottom="true"
         android:layout_above="@+id/skip_ctxv"
-        android:text="@string/talk_to_pacifyr"/>
+        android:text="@string/talk_to_wellness_expert"/>
 
 
 </RelativeLayout>

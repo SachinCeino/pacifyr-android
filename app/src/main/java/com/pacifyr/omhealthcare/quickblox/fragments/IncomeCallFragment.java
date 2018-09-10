@@ -149,7 +149,6 @@ public class IncomeCallFragment extends BaseFragment implements Serializable, Vi
     }
 
     private void initFields() {
-        Log.i("app_recgec12","ic_call_round");
         currentSession = WebRtcSessionManager.getInstance(getActivity()).getCurrentSession();
         qbUserDbManager = QbUsersDbManager.getInstance(getActivity());
 
@@ -168,8 +167,7 @@ public class IncomeCallFragment extends BaseFragment implements Serializable, Vi
     @Override
     public void onStart() {
         super.onStart();
-        Log.i("ringr3","r:");
-    //    startCallNotification();
+        //startCallNotification();
     }
 
     private void initButtonsListener() {

@@ -900,7 +900,7 @@ public abstract class BaseFragment extends Fragment {
         try {
             ToastHandler.newInstance(getApplicationContext()).showToast("connectedSessionWeb");
         //    PacifyerActivity.call_session_detail_root=null;
-            LogUtils.LOGD("ic_call_round", "connectedSessionWeb getAccessToken() "+getAccessToken());
+            LogUtils.LOGD("call", "connectedSessionWeb getAccessToken() "+getAccessToken());
             if (!isValid(sessionid,"error Session id "+sessionid))
                 return;
             if (!isValid(getAccessToken(),"Session Expired, Please Re login"))
@@ -912,16 +912,16 @@ public abstract class BaseFragment extends Fragment {
                     CallActivity.isConnected=true;
                     if (json == null) {
                        ToastHandler.newInstance(getApplicationContext()).showToast("Please Try again");
-                        LogUtils.LOGD("ic_call_round", "connectedSessionWeb json null ");
+                        LogUtils.LOGD("call", "connectedSessionWeb json null ");
                     } else {
                         if (json != null) try {
 
-                            LogUtils.LOGD("ic_call_round", "connectedSessionWeb json  " + json);
+                            LogUtils.LOGD("call", "connectedSessionWeb json  " + json);
                          //   PacifyerActivity.call_session_detail_root= GsonUtils.getInstance().gsonToMConnectSessionRoot(json);
-                            LogUtils.LOGD("ic_call_round", "connectedSessionWeb json  " + json);
+                            LogUtils.LOGD("call", "connectedSessionWeb json  " + json);
                         } catch (Exception e){
                             ToastHandler.newInstance(getApplicationContext()).showToast("Please Try again");
-                            LogUtils.LOGD("ic_call_round", "connectedSessionWeb exception : " + e.getMessage());
+                            LogUtils.LOGD("call", "connectedSessionWeb exception : " + e.getMessage());
                         }
                     }
                 }
@@ -936,7 +936,7 @@ public abstract class BaseFragment extends Fragment {
             aq.post(GLOBAL_URL + "session/connected", input, JSONObject.class, cb);
         } catch (Exception e){
           //  PacifyerActivity. call_session_detail_root=null;
-            LogUtils.LOGD("ic_call_round", "connectedSessionWeb end exception : " + e.getMessage());
+            LogUtils.LOGD("call", "connectedSessionWeb end exception : " + e.getMessage());
         }
     }
      /**

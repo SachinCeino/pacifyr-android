@@ -180,9 +180,6 @@ public class EmotionSpecialityAdapter extends RecyclerView.Adapter<EmotionSpecia
                 button1.setEnabled(true);
                 button2.setEnabled(true);
                 button3.setEnabled(true);
-                button4.setTextColor(context.getResources().getColor(R.color.white));
-                button3.setTextColor(context.getResources().getColor(R.color.black));
-
                 reason_forcall = list.get(position).getTitle();
 
                 updateUserEmotion();

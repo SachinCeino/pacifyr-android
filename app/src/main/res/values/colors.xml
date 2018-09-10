@@ -2,8 +2,10 @@
 <resources>
 
     <!--<color name="colorPrimary">#0fbeff</color>-->
-    <color name="colorPrimary">#ff7b4b</color>
-    <color name="blue_pacifyr">#0fbeff</color>
+    <color name="colorPrimary">#FF7E57</color>
+    <color name="blue_pacifyr">#36B0FF</color>
+    <color name="colorAccent">#ffffff</color>
+    <color name="colorPrimaryDark">#000000</color>
 
 
     <color name="text_inside_circle_light">#e6f9fe</color>
@@ -15,9 +17,9 @@
     <!--<color name="sign_blue">#FF7E57</color>-->
 
 
-    <color name="colorAccent">#ffffff</color>
+
     <!--<color name="colorPrimaryDark">#454A4A</color>-->
-    <color name="colorPrimaryDark">#000000</color>
+
     <color name="red_light_back">#ffe7e8</color>
     <color name="red_missed_txt">#c94c51</color>
     <color name="signup_view">#d8d7d7</color>
@@ -37,4 +39,12 @@
 
     <color name="blue_button_primary">#36b0ff</color>
     <color name="blue_text_dark">#064589</color>
+
+
+    <color name="actionbar_grey">#D4D9DE</color>
+    <!--<color name="actionbar_grey">#F0F3F5</color>-->
+
+    <color name="grey_dark_text">#777776</color>
+    <color name="grey_background">#F0F3F5</color>
+    <color name="om_blue">#36B0FF</color>
 </resources>

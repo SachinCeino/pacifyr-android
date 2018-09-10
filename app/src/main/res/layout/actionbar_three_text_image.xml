@@ -60,6 +60,7 @@
             android:maxLines="1"
             android:maxLength="25"
             android:ellipsize="end"
+            app:fontName="@string/avanti_std_bold"
             android:layout_centerInParent="true"
             android:text=""
             android:padding="5dp"

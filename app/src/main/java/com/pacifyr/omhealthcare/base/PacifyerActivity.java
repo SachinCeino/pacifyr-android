@@ -496,7 +496,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
             return;
         }*/
 
-        Log.d("ic_call_round", "startCall sessionid"+sessionid);
+        Log.d("call", "startCall sessionid"+sessionid);
        final  ArrayList<Integer> opponentsList = new ArrayList<Integer>();
         opponentsList.add((int) qbID);
         //ArrayList<Integer> opponentsList = CollectionsUtils.getIdsSelectedOpponents(opponentsAdapter.getSelectedItems());
@@ -516,9 +516,9 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
         userInfo.put("OpponentUserid", getUserID()+"");
         userInfo.put("sessionId", sessionid+"");
 
-        Log.d("ic_call_round", "startCall lastName"+getUserLastName());
-        Log.d("ic_call_round", "startCall firstName"+getUserFirstName());
-        Log.d("ic_call_round", "startCall sessionId"+sessionid);
+        Log.d("call", "startCall lastName"+getUserLastName());
+        Log.d("call", "startCall firstName"+getUserFirstName());
+        Log.d("call", "startCall sessionId"+sessionid);
 
         WebRtcSessionManager.getInstance(this).setCurrentSession(newQbRtcSession);
 
@@ -531,7 +531,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
         {
             @Override public void run() {
                // onceBackpressed = false;
-            ToastHandler.newInstance(PacifyerActivity.this).showToast("ic_call_round started");
+            ToastHandler.newInstance(PacifyerActivity.this).showToast("call started");
                 //PushNotificationSender.sendPushMessage(opponentsList, getUserName());
                // PushNotificationSender.sendPushMessage(opponentsList, sharedPrefsHelper.getQbUser().getFullName());
             }
@@ -550,7 +550,6 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
 
     public void startChat(final MUser pacifyer)
     {
-        Log.i("pacipaca1234a","c: "+pacifyer);
        // setLoading("Creating Chat");
         setLoading();
         showProgress();
@@ -564,13 +563,10 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
       //  usersIds.add(getUserID());
         usersIds.add((int)pacifyer.getQbid());
 
-        Log.i("pacipaca123ai","c: "+usersIds);
-
         QBUsers.getUsersByIDs(usersIds,pagedRequestBuilder).performAsync(new QBEntityCallback<ArrayList<QBUser>>() {
             @Override
             public void onSuccess(ArrayList<QBUser> qbUsers, Bundle bundle) {
                // createChatDialog(pacifyer,qbUsers);
-                Log.i("pacipaca1234pa12","c: "+qbUsers);
                 // createChatDialog(pacifyer,qbUsers);
                 qbUsers.add(ChatHelper.getCurrentUser());
                 hideProgress();
@@ -590,8 +586,6 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
 
             @Override
             public void onError(QBResponseException e) {
-                Log.i("pacipaca1234pa12e","c: "+e);
-
                 hideProgress();
 
                 showErrorSnackbar(0, e, null);
@@ -644,8 +638,8 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
         try {
             //Set conference type
             //There are two types of calls:
-            // - QB_CONFERENCE_TYPE_VIDEO - for video ic_call_round;
-            // - QB_CONFERENCE_TYPE_AUDIO - for audio ic_call_round;
+            // - QB_CONFERENCE_TYPE_VIDEO - for video call;
+            // - QB_CONFERENCE_TYPE_AUDIO - for audio call;
             QBRTCTypes.QBConferenceType qbConferenceType = QB_CONFERENCE_TYPE_VIDEO;
             LogUtils.LOGD("jp","BVCA startCall start ");
 
@@ -678,7 +672,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
             //session.removeSignalingCallback(signalingCallback);
 
 
-            //Start ic_call_round
+            //Start call
             session.startCall(userInfo);
             LogUtils.LOGD("jp","BVCA startCall end");
 
@@ -809,7 +803,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
         @Override
         public void onAlert(long time,final  MUser pacifyerDetial, final boolean isVideoCall) {
 
-            setAlertStatusInBlue2("Add Card", " You have "+time+" minutes of free ic_call_round time left. Please setup payment to continue. If payment is not set up, the ic_call_round will be disconnected.", "Ok", "NO", new View.OnClickListener() {
+            setAlertStatusInBlue2("Add Card", " You have "+time+" minutes of free call time left. Please setup payment to continue. If payment is not set up, the call will be disconnected.", "Ok", "NO", new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 
@@ -1128,8 +1122,8 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
             setLoading();
             showProgress();
             String roomType=isVideoCall?"video":"audio";
-            LogUtils.LOGD("ic_call_round", "callNotifyWeb getUserID "+ getUserID());
-            LogUtils.LOGD("ic_call_round", "callNotifyWeb getAccessToken() "+getAccessToken());
+            LogUtils.LOGD("call", "callNotifyWeb getUserID "+ getUserID());
+            LogUtils.LOGD("call", "callNotifyWeb getAccessToken() "+getAccessToken());
             if (!isValid(getUserID(),"Session Expired, Please Re login"))
                 return;
             if (!isValid(getAccessToken(),"Session Expired, Please Re login"))
@@ -1141,10 +1135,10 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
                         hideProgress();
                         if (json == null) {
                             ToastHandler.newInstance(PacifyerActivity.this).mustShowToast("Please check network connection");
-                            LogUtils.LOGD("ic_call_round", "startSessionWeb json null ");
+                            LogUtils.LOGD("call", "startSessionWeb json null ");
                         } else {
                             if (json != null) try {
-                                LogUtils.LOGD("ic_call_round", "startSessionWeb json  " + json);
+                                LogUtils.LOGD("call", "startSessionWeb json  " + json);
                                 call_session_root= GsonUtils.getInstance().gsonToMSessionRoot(json);
                                 if(isValid(call_session_root))
                                 {
@@ -1157,7 +1151,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
                                     {
                                        stopSessionWeb(pacifyer);
                                        ToastHandler.newInstance(PacifyerActivity.this).mustShowToast("Network error. Please try again");
-                                      //setAlertOKStatusInBlue("Connect ic_call_round","Connect the ic_call_round","OK");
+                                      //setAlertOKStatusInBlue("Connect call","Connect the call","OK");
                                         //startCall(isVideoCall,pacifyer, pacifyer.getQbid(), pacifyer.getId(), sessionid);
 
                                         //ToastHandler.newInstance(PacifyerActivity.this).mustShowToast(call_session_root.getMessage());
@@ -1177,7 +1171,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
                                         else
                                         {
                                             stopSessionWeb(pacifyer);
-                                            //setAlertOKStatusInBlue("Connect ic_call_round","Connect the ic_call_round","OK");
+                                            //setAlertOKStatusInBlue("Connect call","Connect the call","OK");
                                             //startCall(isVideoCall,pacifyer, pacifyer.getQbid(), pacifyer.getId(), sessionid);
                                             //ToastHandler.newInstance(PacifyerActivity.this).mustShowToast(json.getString("message"));
                                             ToastHandler.newInstance(PacifyerActivity.this).mustShowToast("Network error. Please try again");
@@ -1192,7 +1186,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
 
                             } catch (Exception e){
                                 try {
-                                    LogUtils.LOGD("ic_call_round", "startSessionWeb exception : " + e.getMessage());
+                                    LogUtils.LOGD("call", "startSessionWeb exception : " + e.getMessage());
                                     JSONObject sessionobj = json.getJSONObject("session");
                                     String sessionid= sessionobj.getString("id");
                                     String statusmsg= json.getString("status");
@@ -1204,7 +1198,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
                                     {
                                         stopSessionWeb(pacifyer);
                                         ToastHandler.newInstance(PacifyerActivity.this).mustShowToast("Network error. Please try again");
-                                        //setAlertOKStatusInBlue("Connect ic_call_round","Connect the ic_call_round","OK");
+                                        //setAlertOKStatusInBlue("Connect call","Connect the call","OK");
                                         //startCall(isVideoCall,pacifyer, pacifyer.getQbid(), pacifyer.getId(), sessionid);
                                        // ToastHandler.newInstance(PacifyerActivity.this).mustShowToast(json.getString("message"));
                                     }
@@ -1228,7 +1222,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
                 input.putOpt("userId", getUserID());
                 input.putOpt("pacifyrId", pacifyer.getId());
                 //     input.putOpt("deviceType", Constants.DEVICETYPE);
-                 input.putOpt("sessionType", roomType);
+                input.putOpt("sessionType", roomType);
                 input.putOpt("reasonForTheCall", EmotionSpecialityAdapter.reason_forcall);
                 aq.post(GLOBAL_URL + "session/start", input, JSONObject.class, cb);
             }
@@ -1249,8 +1243,8 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
             setLoading();
             showProgress();
             String roomType=isVideoCall?"video":"audio";
-            LogUtils.LOGD("ic_call_round", "callNotifyWeb getUserID "+ getUserID());
-            LogUtils.LOGD("ic_call_round", "callNotifyWeb getAccessToken() "+getAccessToken());
+            LogUtils.LOGD("call", "callNotifyWeb getUserID "+ getUserID());
+            LogUtils.LOGD("call", "callNotifyWeb getAccessToken() "+getAccessToken());
             if (!isValid(getUserID(),"Session Expired, Please Re login"))
                 return;
             if (!isValid(getAccessToken(),"Session Expired, Please Re login"))
@@ -1262,10 +1256,10 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
                         hideProgress();
                         if (json == null) {
                             ToastHandler.newInstance(PacifyerActivity.this).mustShowToast("Please check network connection");
-                            LogUtils.LOGD("ic_call_round", "startSessionWeb json null ");
+                            LogUtils.LOGD("call", "startSessionWeb json null ");
                         } else {
                             if (json != null) try {
-                                LogUtils.LOGD("ic_call_round", "startSessionWeb json  " + json);
+                                LogUtils.LOGD("call", "startSessionWeb json  " + json);
                                 call_session_root= GsonUtils.getInstance().gsonToMSessionRoot(json);
                                if(isValid(call_session_root))
                                {
@@ -1304,7 +1298,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
 
                             } catch (Exception e){
                                     try {
-                                        LogUtils.LOGD("ic_call_round", "startSessionWeb exception : " + e.getMessage());
+                                        LogUtils.LOGD("call", "startSessionWeb exception : " + e.getMessage());
                                          JSONObject sessionobj = json.getJSONObject("session");
                                          String sessionid= sessionobj.getString("id");
                                          String statusmsg= json.getString("status");
@@ -1348,8 +1342,8 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
  /*   public void stopSessionWeb(ModelUserProfile results, String sessionid) {
         try {
             ToastHandler.newInstance(PacifyerActivity.this).showToast("stopSessionWeb");
-            LogUtils.LOGD("ic_call_round", "stopSessionWeb getUserID "+ getUserID());
-            LogUtils.LOGD("ic_call_round", "stopSessionWeb getAccessToken() "+getAccessToken());
+            LogUtils.LOGD("call", "stopSessionWeb getUserID "+ getUserID());
+            LogUtils.LOGD("call", "stopSessionWeb getAccessToken() "+getAccessToken());
             if (!isValid(getUserID(),"Session Expired, Please Re login"))
                 return;
             if (!isValid(getAccessToken(),"Session Expired, Please Re login"))
@@ -1362,13 +1356,13 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
                         if (json == null) {
 
                             ToastHandler.newInstance(PacifyerActivity.this).showToast("Please Try again");
-                            LogUtils.LOGD("ic_call_round", "stopSessionWeb json null ");
+                            LogUtils.LOGD("call", "stopSessionWeb json null ");
                         } else {
                             if (json != null) try {
-                                LogUtils.LOGD("ic_call_round", "stopSessionWeb json  " + json);
+                                LogUtils.LOGD("call", "stopSessionWeb json  " + json);
                             } catch (Exception e){
                                 ToastHandler.newInstance(PacifyerActivity.this).showToast("Please Try again");
-                                LogUtils.LOGD("ic_call_round", "stopSessionWeb exception : " + e.getMessage());
+                                LogUtils.LOGD("call", "stopSessionWeb exception : " + e.getMessage());
                             }
                         }
                     }
@@ -1385,7 +1379,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
                 aq.post(GLOBAL_URL + "session/stop", input, JSONObject.class, cb);
             }
         } catch (Exception e){
-            LogUtils.LOGD("ic_call_round", "stopSessionWeb end exception : " + e.getMessage());
+            LogUtils.LOGD("call", "stopSessionWeb end exception : " + e.getMessage());
         }
     }
 
@@ -1393,13 +1387,13 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
     public void stopSessionWeb(String oppenentid, String sessionid) {
         try {
             ToastHandler.newInstance(PacifyerActivity.this).showToast("stopSessionWeb");
-            LogUtils.LOGD("ic_call_round", "stopSessionWeb getUserID "+ getUserID());
-            LogUtils.LOGD("ic_call_round", "stopSessionWeb getAccessToken() "+getAccessToken());
+            LogUtils.LOGD("call", "stopSessionWeb getUserID "+ getUserID());
+            LogUtils.LOGD("call", "stopSessionWeb getAccessToken() "+getAccessToken());
             if (!isValid(getUserID(),"Stop Session getUserID null"))
                 return;
             if (!isValid(getAccessToken(),"Stop Session getAccessToken null"))
                 return;
-            LogUtils.LOGD("ic_call_round", "stopSessionWeb oppenentid "+oppenentid);
+            LogUtils.LOGD("call", "stopSessionWeb oppenentid "+oppenentid);
             if (!isValid(oppenentid,"Stop Session Oppenant id null "))
                 return;
 
@@ -1412,13 +1406,13 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
                         if (json == null) {
 
                             ToastHandler.newInstance(PacifyerActivity.this).showToast("Please Try again");
-                            LogUtils.LOGD("ic_call_round", "stopSessionWeb json null ");
+                            LogUtils.LOGD("call", "stopSessionWeb json null ");
                         } else {
                             if (json != null) try {
-                                LogUtils.LOGD("ic_call_round", "stopSessionWeb json  " + json);
+                                LogUtils.LOGD("call", "stopSessionWeb json  " + json);
                             } catch (Exception e){
                                 ToastHandler.newInstance(PacifyerActivity.this).showToast("Please Try again");
-                                LogUtils.LOGD("ic_call_round", "stopSessionWeb exception : " + e.getMessage());
+                                LogUtils.LOGD("call", "stopSessionWeb exception : " + e.getMessage());
                             }
                         }
                     }
@@ -1435,7 +1429,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
                 aq.post(GLOBAL_URL + "session/stop", input, JSONObject.class, cb);
 
         } catch (Exception e){
-            LogUtils.LOGD("ic_call_round", "stopSessionWeb end exception : " + e.getMessage());
+            LogUtils.LOGD("call", "stopSessionWeb end exception : " + e.getMessage());
         }
     }
 */
@@ -1505,8 +1499,8 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
     public void stopSessionWeb( String sessionid,int id) {
         try {
             //  ToastHandler.newInstance(PacifyerActivity.this).showToast("stopSessionWeb api called ");
-            LogUtils.LOGD("ic_call_round", "stopSessionWeb getUserID "+ getUserID());
-            LogUtils.LOGD("ic_call_round", "stopSessionWeb getAccessToken() "+getAccessToken());
+            LogUtils.LOGD("call", "stopSessionWeb getUserID "+ getUserID());
+            LogUtils.LOGD("call", "stopSessionWeb getAccessToken() "+getAccessToken());
 
             if (!isValid(getAccessToken(),"Stop Session getAccessToken null")) {
                 handlerLogoutFinish("Session expired, please login");
@@ -1523,13 +1517,13 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
 
 
                         //ToastHandler.newInstance(PacifyerActivity.this).showToast("Please Try again");
-                        LogUtils.LOGD("ic_call_round", "stopSessionWeb json null ");
+                        LogUtils.LOGD("call", "stopSessionWeb json null ");
                     } else {
                         try {
-                            LogUtils.LOGD("ic_call_round", "stopSessionWeb json  " + json);
+                            LogUtils.LOGD("call", "stopSessionWeb json  " + json);
                         } catch (Exception e){
                             //ToastHandler.newInstance(PacifyerActivity.this).showToast("Please Try again");
-                            LogUtils.LOGD("ic_call_round", "stopSessionWeb exception : " + e.getMessage());
+                            LogUtils.LOGD("call", "stopSessionWeb exception : " + e.getMessage());
                         }
                     }
                 }
@@ -1546,7 +1540,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
             aq.post(GLOBAL_URL + "session/stop", input, JSONObject.class, cb);
             //SessionSummaryActivity.start(PacifyerActivity.this);
         } catch (Exception e){
-            LogUtils.LOGD("ic_call_round", "stopSessionWeb end exception : " + e.getMessage());
+            LogUtils.LOGD("call", "stopSessionWeb end exception : " + e.getMessage());
         }
     }
 
@@ -1554,8 +1548,8 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
     public void stopSessionWeb( String sessionid) {
         try {
           //  ToastHandler.newInstance(PacifyerActivity.this).showToast("stopSessionWeb api called ");
-            LogUtils.LOGD("ic_call_round", "stopSessionWeb getUserID "+ getUserID());
-            LogUtils.LOGD("ic_call_round", "stopSessionWeb getAccessToken() "+getAccessToken());
+            LogUtils.LOGD("call", "stopSessionWeb getUserID "+ getUserID());
+            LogUtils.LOGD("call", "stopSessionWeb getAccessToken() "+getAccessToken());
 
             if (!isValid(getAccessToken(),"Stop Session getAccessToken null")) {
                 handlerLogoutFinish("Session expired, please login");
@@ -1566,7 +1560,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
              if (!isValid(getUserID(),"Stop Session getUserID null"))
                 return;
 
-            LogUtils.LOGD("ic_call_round", "stopSessionWeb oppenentid "+oppenentid);
+            LogUtils.LOGD("call", "stopSessionWeb oppenentid "+oppenentid);
           if (!isValid(oppenentid,"Stop Session Oppenant id null "))
                 return;*/
 
@@ -1579,13 +1573,13 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
 
 
                         //ToastHandler.newInstance(PacifyerActivity.this).showToast("Please Try again");
-                        LogUtils.LOGD("ic_call_round", "stopSessionWeb json null ");
+                        LogUtils.LOGD("call", "stopSessionWeb json null ");
                     } else {
                        try {
-                            LogUtils.LOGD("ic_call_round", "stopSessionWeb json  " + json);
+                            LogUtils.LOGD("call", "stopSessionWeb json  " + json);
                         } catch (Exception e){
                             //ToastHandler.newInstance(PacifyerActivity.this).showToast("Please Try again");
-                            LogUtils.LOGD("ic_call_round", "stopSessionWeb exception : " + e.getMessage());
+                            LogUtils.LOGD("call", "stopSessionWeb exception : " + e.getMessage());
                         }
                     }
                 }
@@ -1602,7 +1596,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
             aq.post(GLOBAL_URL + "session/stop", input, JSONObject.class, cb);
             SessionSummaryActivity.start(PacifyerActivity.this);
         } catch (Exception e){
-            LogUtils.LOGD("ic_call_round", "stopSessionWeb end exception : " + e.getMessage());
+            LogUtils.LOGD("call", "stopSessionWeb end exception : " + e.getMessage());
         }
     }
 
@@ -1611,8 +1605,8 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
     public void stopSessionWeb(MUser pacifyr) {
         try {
             //  ToastHandler.newInstance(PacifyerActivity.this).showToast("stopSessionWeb api called ");
-            LogUtils.LOGD("ic_call_round", "stopSessionWeb getUserID "+ getUserID());
-            LogUtils.LOGD("ic_call_round", "stopSessionWeb getAccessToken() "+getAccessToken());
+            LogUtils.LOGD("call", "stopSessionWeb getUserID "+ getUserID());
+            LogUtils.LOGD("call", "stopSessionWeb getAccessToken() "+getAccessToken());
 
             if (!isValid(getAccessToken(),"Stop Session getAccessToken null")) {
                 handlerLogoutFinish("Session expired, please login");
@@ -1623,7 +1617,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
              if (!isValid(getUserID(),"Stop Session getUserID null"))
                 return;
 
-            LogUtils.LOGD("ic_call_round", "stopSessionWeb oppenentid "+oppenentid);
+            LogUtils.LOGD("call", "stopSessionWeb oppenentid "+oppenentid);
           if (!isValid(oppenentid,"Stop Session Oppenant id null "))
                 return;*/
 
@@ -1636,13 +1630,13 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
 
 
                         //ToastHandler.newInstance(PacifyerActivity.this).showToast("Please Try again");
-                        LogUtils.LOGD("ic_call_round", "stopSessionWeb json null ");
+                        LogUtils.LOGD("call", "stopSessionWeb json null ");
                     } else {
                         try {
-                            LogUtils.LOGD("ic_call_round", "stopSessionWeb json  " + json);
+                            LogUtils.LOGD("call", "stopSessionWeb json  " + json);
                         } catch (Exception e){
                             //ToastHandler.newInstance(PacifyerActivity.this).showToast("Please Try again");
-                            LogUtils.LOGD("ic_call_round", "stopSessionWeb exception : " + e.getMessage());
+                            LogUtils.LOGD("call", "stopSessionWeb exception : " + e.getMessage());
                         }
                     }
                 }
@@ -1665,14 +1659,14 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
             aq.post(GLOBAL_URL + "session/stop", input, JSONObject.class, cb);
             //SessionSummaryActivity.start(PacifyerActivity.this);
         } catch (Exception e){
-            LogUtils.LOGD("ic_call_round", "stopSessionWeb end exception : " + e.getMessage());
+            LogUtils.LOGD("call", "stopSessionWeb end exception : " + e.getMessage());
         }
     }
 
     public void declineSessionWeb( String sessionid) {
         try {
            // ToastHandler.newInstance(PacifyerActivity.this).showToast("declineSessionWeb");
-            LogUtils.LOGD("ic_call_round", "declineSessionWeb getAccessToken() "+getAccessToken());
+            LogUtils.LOGD("call", "declineSessionWeb getAccessToken() "+getAccessToken());
 
             if (!isValid(getAccessToken(),"Decline accesstoken error"))
                 return;
@@ -1683,13 +1677,13 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
 //                        CallActivity.isDeclined=true;
 //                        if (json == null) {
 //                            ToastHandler.newInstance(PacifyerActivity.this).showToast("Please Try again");
-//                            LogUtils.LOGD("ic_call_round", "declineSessionWeb json null ");
+//                            LogUtils.LOGD("call", "declineSessionWeb json null ");
 //                        } else {
 //                            if (json != null) try {
-//                                LogUtils.LOGD("ic_call_round", "declineSessionWeb json  " + json);
+//                                LogUtils.LOGD("call", "declineSessionWeb json  " + json);
 //                            } catch (Exception e){
 //                                ToastHandler.newInstance(PacifyerActivity.this).showToast("Please Try again");
-//                                LogUtils.LOGD("ic_call_round", "declineSessionWeb exception : " + e.getMessage());
+//                                LogUtils.LOGD("call", "declineSessionWeb exception : " + e.getMessage());
 //                            }
 //                        }
 //                    }
@@ -1702,9 +1696,9 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
 //                JSONObject input = new JSONObject();
 //                input.putOpt("id", sessionid);
 //                aq.post(GLOBAL_URL + "session/declined", input, JSONObject.class, cb);
-            LogUtils.LOGD("ic_call_round", "declineSessionWeb after post");
+            LogUtils.LOGD("call", "declineSessionWeb after post");
         } catch (Exception e){
-            LogUtils.LOGD("ic_call_round", "declineSessionWeb end exception : " + e.getMessage());
+            LogUtils.LOGD("call", "declineSessionWeb end exception : " + e.getMessage());
         }
     }
 
@@ -1713,7 +1707,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
   /*  public void connectedSessionDetailWeb(final String sessionid) {
         try {
             call_session_detail_root=null;
-            LogUtils.LOGD("ic_call_round", "connectedSessionDetailWeb getAccessToken() "+getAccessToken());
+            LogUtils.LOGD("call", "connectedSessionDetailWeb getAccessToken() "+getAccessToken());
             if (!isValid(sessionid,"error Session id "+sessionid))
                 return;
             if (!isValid(getAccessToken(),"Session Expired, Please Re login"))
@@ -1756,7 +1750,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
         try {
            // ToastHandler.newInstance(PacifyerActivity.this).showToast("connectedSessionWeb");
             call_session_detail_root=null;
-            LogUtils.LOGD("ic_call_round", "connectedSessionWeb getAccessToken() "+getAccessToken());
+            LogUtils.LOGD("call", "connectedSessionWeb getAccessToken() "+getAccessToken());
             if (!isValid(sessionid,"error Session id "+sessionid))
             return;
             if (!isValid(getAccessToken(),"Session Expired, Please Re login"))
@@ -1768,16 +1762,16 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
                     CallActivity.isConnected=true;
                     if (json == null) {
                         ToastHandler.newInstance(PacifyerActivity.this).showToast("Please Try again");
-                        LogUtils.LOGD("ic_call_round", "connectedSessionWeb json null ");
+                        LogUtils.LOGD("call", "connectedSessionWeb json null ");
                     } else {
                         if (json != null) try {
 
-                            LogUtils.LOGD("ic_call_round", "connectedSessionWeb json  " + json);
+                            LogUtils.LOGD("call", "connectedSessionWeb json  " + json);
                             call_session_detail_root= GsonUtils.getInstance().gsonToMConnectSessionRoot(json);
-                            LogUtils.LOGD("ic_call_round", "connectedSessionWeb json  " + json);
+                            LogUtils.LOGD("call", "connectedSessionWeb json  " + json);
                         } catch (Exception e){
                             ToastHandler.newInstance(PacifyerActivity.this).showToast("Please Try again");
-                            LogUtils.LOGD("ic_call_round", "connectedSessionWeb exception : " + e.getMessage());
+                            LogUtils.LOGD("call", "connectedSessionWeb exception : " + e.getMessage());
                         }
                     }
                 }
@@ -1792,16 +1786,16 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
             aq.post(GLOBAL_URL + "session/connected", input, JSONObject.class, cb);
         } catch (Exception e){
             call_session_detail_root=null;
-            LogUtils.LOGD("ic_call_round", "connectedSessionWeb end exception : " + e.getMessage());
+            LogUtils.LOGD("call", "connectedSessionWeb end exception : " + e.getMessage());
         }
     }*/
 
     public void missedSessionWeb( String sessionid) {
         try {
           //  ToastHandler.newInstance(PacifyerActivity.this).showToast("missedSessionWeb");
-            LogUtils.LOGD("ic_call_round", "missedSessionWeb getAccessToken() "+getAccessToken());
+            LogUtils.LOGD("call", "missedSessionWeb getAccessToken() "+getAccessToken());
 
-            if (!isValid(getAccessToken(),"missed ic_call_round accesstoken error"))
+            if (!isValid(getAccessToken(),"missed call accesstoken error"))
                 return;
 
             AjaxCallback<JSONObject> cb = new AjaxCallback<JSONObject>() {
@@ -1811,14 +1805,14 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
                     if (json == null) {
 
                         ToastHandler.newInstance(PacifyerActivity.this).showToast("Please Try again");
-                        LogUtils.LOGD("ic_call_round", "missedSessionWeb json null ");
+                        LogUtils.LOGD("call", "missedSessionWeb json null ");
                     } else {
                         if (json != null) try {
 
-                            LogUtils.LOGD("ic_call_round", "missedSessionWeb json  " + json);
+                            LogUtils.LOGD("call", "missedSessionWeb json  " + json);
                         } catch (Exception e){
                             ToastHandler.newInstance(PacifyerActivity.this).showToast("Please Try again");
-                            LogUtils.LOGD("ic_call_round", "missedSessionWeb exception : " + e.getMessage());
+                            LogUtils.LOGD("call", "missedSessionWeb exception : " + e.getMessage());
                         }
                     }
                 }
@@ -1832,7 +1826,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
             input.putOpt("id", sessionid);
             aq.post(GLOBAL_URL + "session/missed", input, JSONObject.class, cb);
         } catch (Exception e){
-            LogUtils.LOGD("ic_call_round", "missedSessionWeb end exception : " + e.getMessage());
+            LogUtils.LOGD("call", "missedSessionWeb end exception : " + e.getMessage());
         }
     }
 

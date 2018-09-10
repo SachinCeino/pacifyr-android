@@ -17,31 +17,33 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
-    <string name="lest_us_know">Let us know if you have any issues or questions</string>
-    <string name="question_or_issue">Type your question or issue</string>
+    <string name="lest_us_know">Let us know if you have any questions or feedbacks</string>
+    <string name="question_or_issue">Type your question or feedback</string>
 
     <string name="add">Add</string>
     <string name="cost_for_one_hour">Cost for one hour</string>
     <string name="price">Price</string>
 
-    <string name="sms_text_login">OMHealth will send you an SMS message to confirm your phone number</string>
+    <string name="sms_text_login">OMHealthCare will send you an SMS message to confirm your phone number</string>
     <string name="call_emergency">If this is an emergency call, please hang up and dial 911 or rush to the nearest hospital.</string>
-    <string name="card_number">Card Number</string>
+    <string name="card_number">card number</string>
 
     <!--new adding-->
     <string name="get_ready_feel_better">Get ready to feel better!</string>
     <string name="feel_better">Feel better with Pacifyr</string>
-    <string name="connect_to_wellness">Connect to wellness/health expert through Video,Audio or chat.</string>
+    <string name="connect_to_wellness">Connect to wellness/health expert through Video, Audio or Chat.</string>
     <string name="thirty_free">30 minutes FREE consulting time.</string>
     <string name="no_credit_card">No Credit Card required.</string>
-    <string name="if_emergency">If in emergency call 911 or rush to an emergency room. Crisis Info</string>
+    <string name="if_emergency">If in emergency, call 911 or rush to an emergency room. Crisis Info</string>
+    <string name="if_emergency2">If this is an emergency, please call 911 or rush to the nearest hospital. Crisis Info</string>
 
 
     <string name="term_of_use2">Terms of Use</string>
-    <string name="privacy_policy">Privacy policy</string>
+    <string name="privacy_policy">Privacy Policy</string>
     <string name="bussines_agrement">Business Associate Agreement</string>
     <string name="show_all">Show all</string>
     <string name="copyright">Copyright</string>
+    <string name="copyright_dispute_policy">Copyright Dispute Policy</string>
     <string name="request_access_for_pacifyrs">Request access for Pacifyrs</string>
     <string name="accept_policy_text">I have read, understand and agree to be bound by the Pacifyr Terms of Use</string>
     <string name="education">Education</string>
@@ -54,14 +56,20 @@
     <string name="request">Request</string>
     <string name="year">Year</string>
     <string name="payout">PAYOUT</string>
-    <string name="no_pacifyr">There is no pacifyr available for selected Category.</string>
+    <string name="no_pacifyr">There is no Wellness Experts available for selected Category.</string>
     <string name="educations">Education</string>
 
-    <string name="policy_documents">POLICY DOCUMENTS</string>
+    <string name="policy_documents">policy documents</string>
+    <string name="Policy_Documents">POLICY DOCUMENTS</string>
     <string name="policy_document">POLICY DOCUMENT</string>
-    <string name="resources">RESOURCES</string>
+    <string name="RESOURCES">RESOURCES</string>
+    <string name="resources">resources</string>
 
-    <string name="crisis_info">CRISIS INFO</string>
+    <string name="CRISIS_INFO">CRISIS INFO</string>
+    <string name="crisis_info">crisis info</string>
+
+    <string name="signout_message">Do you want to log out?</string>
+
 
     <string name="suicide_header">National Suicide Prevention Lifeline</string>
     <string name="suicide_url"><u>www.suicidepreventionlifeline.org</u></string>
@@ -94,10 +102,30 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="AccessToken">AccessToken</string>
 
 
-    <string name="user_type_error">You are a Pacifyr. Please login using Pacifyr Provider app</string>
+    <string name="user_type_error">You are a Wellness Expert. Please login using Provider app</string>
     <string name="omhealth_audio">OMHealth Care AUDIOCALL</string>
     <string name="omhealth_video">OMHealth Care VIDEOCALL</string>
-    <string name="no_prefered_pacifyr">You have no preferred pacifyrs</string>
+    <string name="no_prefered_pacifyr">You have no preferred Wellness Experts.</string>
     <string name="reviews">Reviews</string>
-    <string name="no_sessions_yet">No sessions yet, Connect to Pacifyr</string>
+    <string name="no_sessions_yet">No sessions yet, Connect to Wellness Experts.</string>
+
+
+    <string name="mydashboard">my dashboard</string>
+    <string name="mysessions">my sessions</string>
+    <string name="confirmation">confirmation</string>
+    <string name="avantica_bold_header">fonts/ITCAvantGardeStd-Bold.otf</string>
+
+    <string name="register_terms_text">I have read, understand, and agree to be bound by the OMHealthCare Terms of Use</string>
+    <string name="edit">edit</string>
+    <string name="more_wellness_experts">more wellness experts</string>
+
+    <string name="payout_url">https://pacifyr.com/stripe_dev.html</string>
+    <string name="sign_up">sign up</string>
+    <string name="registration_failed">Registration Failed</string>
+    <string name="failed_register_message">\"Register Failed - Your mobile number is already registered. Please log in using the new verification code.\"</string>
+    <string name="select_specialisation">Select a specilaization</string>
+    <string name="no_wellness_experts_category">No Wellness Experts for the selected category.</string>
+    <string name="please_try_again">Please try again</string>
+    <string name="success">success</string>
+    <string name="contact_us">contact us</string>
 </resources>

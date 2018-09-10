@@ -1,7 +1,7 @@
 <resources>
     <!-- <string name="app_name">Utility library</string>-->
     <!--<string name="facebook_app_id">448702782150953</string>-->
-   <!-- <string name="gcm_project_number">774565074522</string>-->
+    <!-- <string name="gcm_project_number">774565074522</string>-->
     <string name="gcm_project_number">179562392190</string>
     <string name="avenir_roman">CenturyGothic.ttf</string>
 
@@ -89,9 +89,9 @@
 
     <!-- Strings related to login -->
     <string name="signup">sign up</string>
-    <string name="login">login</string>
+    <string name="login">log in</string>
     <string name="snapshot">Snapshot</string>
-    <string name="login_fb">Continue with Facebook</string>
+    <string name="login_fb">continue with facebook</string>
     <string name="log_out">LogOut</string>
     <string name="prompt_name">Name</string>
     <string name="year_of_birth">Year of Birth</string>
@@ -101,24 +101,24 @@
     <string name="title_activity_login">Sign in</string>
     <string name="prompt_password">Password</string>
     <string name="prompt_phone">Phone number</string>
-    <string name="signup_fb">Sign up via Facebook</string>
+    <string name="signup_fb">sign up via facebook</string>
     <string name="e_phonenumber">Enter your phone number </string>
     <string name="e_con_code">Enter confirmation code</string>
     <string name="phone">Phone number</string>
     <string name="comments">Add a comment.</string>
     <string name="otp_hint">Please enter the verification code that was sent to </string>
-    <string name="create_account">Create account</string>
+    <string name="create_account">create account</string>
     <string name="verify_phone">Verify phone number</string>
     <string name="submit">Submit</string>
     <string name="send">Send</string>
     <string name="save">Save</string>
     <string name="read_understand">I have read, understand, and agree to be bound by the</string>
     <string name="agree_terms_alert">You need to agree to Terms of use before signing up</string>
-    <string name="term_of_use">Pacifyr Terms of Use</string>
+    <string name="term_of_use">OMHealthCare Terms of Use</string>
     <string name="terms_of_use">Terms of Use</string>
-    <string name="send_confirmcode">Send Confirmation code </string>
+    <string name="send_confirmcode">send confirmation code </string>
     <string name="didnt_get_code">Did not receive a code? Resend </string>
-    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in">sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">This password is too short</string>
@@ -129,7 +129,7 @@
 
     <string name="find_helping_pacifyr">Find a Wllness expert who can help you</string>
     <string name="specify_emotion">Specify your emotion</string>
-    <string name="talk_to_pacifyr">Talk to your pacifyr using chat,audio or video</string>
+    <string name="talk_to_wellness_expert">Talk to your Wellness Expert using chat,audio or video</string>
     <string name="skip">Skip</string>
 
 
@@ -145,13 +145,14 @@
     <string name="this_week">THIS WEEK</string>
     <string name="This_Week">This Week</string>
     <!--<string name="pref_pacifyrs">PREFFERED PACIFYRS</string>-->
-    <string name="pref_pacifyrs">Preffered Providers</string>
+    <string name="pref_wellness_experts">Prefered Wellness Experts</string>
     <!--<string name="my_last_session">MY LAST SESSION</string>-->
     <string name="my_last_session">My Last Session</string>
     <string name="how_you_feel">HOW ARE YOU FEELING?</string>
     <string name="my_last_emotion">My Last Emotion</string>
     <string name="how_you_feel_now">How are you feeling now?</string>
     <string name="sessions">SESSIONS</string>
+    <string name="sessionS">sessions</string>
     <string name="last_session">LAST SESSION</string>
     <string name="hours">HOURS</string>
     <string name="minutes">MINUTES</string>
@@ -165,16 +166,18 @@
     <string name="earned">EARNED</string>
     <string name="starts">5 stars</string>
     <string name="customers">CUSTOMERS</string>
-    <string name="today">TODAY</string>
+    <string name="today">today</string>
     <string name="current_rating">CURRENT RATING</string>
     <string name="upcoming_session">UPCOMING SESSION</string>
     <string name="press_back_again_to_exit">Press back again to exit...!</string>
     <string name="logout">LOGOUT</string>
-    <string name="Connect_to_Providers">Connect to Providers</string>
-    <string name="connect_to_providers">CONNECT TO PROVIDERS</string>
-    <string name="browse_pacifyr">BROWSE PACIFYRS</string>
-    <string name="support">SUPPORT</string>
-    <string name="payment">PAYMENT</string>
+    <string name="Connect_to_Wellness_Experts">connect to wellness experts</string>
+    <string name="connect_to_wellness_experts">CONNECT TO WELLNESS EXPERTS</string>
+    <string name="browse_wellness_experts">BROWSE WELLNESS EXPERTS</string>
+    <string name="SUPPORT">SUPPORT</string>
+    <string name="support">support</string>
+    <string name="PAYMENT">PAYMENT</string>
+    <string name="payment">payment</string>
     <string name="message">MESSAGE</string>
     <string name="messages">MESSAGES</string>
     <string name="tab_title">Title</string>
@@ -183,6 +186,9 @@
     <string name="my_dashboard">MY DASHBOARD</string>
     <string name="online">ONLINE</string>
     <string name="offline">OFFLINE</string>
+    <string name="message_string">message</string>
+    <string name="error">error</string>
+    <string name="status">status</string>
 
 
 

@@ -47,7 +47,6 @@ public class MySessionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
 
     public MySessionAdapter(Context context, ArrayList<MSessionDetailRoot> list,String userid,String token) {
-        Log.i("sesssssss112a","l:  "+userid+"   "+token+"   "+list);
         this.list = list;
         this.context=context;
         emotionList=modelAllEmotions.getResultsList();
@@ -57,7 +56,6 @@ public class MySessionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        Log.i("sesssssss112b","l:  "+userid+"   "+token+"   "+list);
         RecyclerView.ViewHolder rcv=null;
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.list_mysession_item, parent, false);
@@ -65,7 +63,12 @@ public class MySessionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         if (viewType==1) {
             itemView = LayoutInflater.from(context).inflate(R.layout.list_mysession_missed_item, parent, false);
             rcv = new MissedViewHolder(itemView);
-        }else {
+        }else if(viewType==2){
+            itemView = LayoutInflater.from(parent.getContext()).inflate(
+                    R.layout.item_event_empty, parent, false);
+            rcv = new ViewHolderEmpty(itemView);
+        }
+        else {
             rcv = new MyViewHolder(itemView);
         }
 
@@ -78,7 +81,6 @@ public class MySessionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }*/
 
     public MSessionDetailRoot getItem (int position) {
-        Log.i("sesssssss112c","l:  "+position);
         MSessionDetailRoot results = null;
         if (isValid(list, position))
             results = list.get(position);
@@ -86,8 +88,7 @@ public class MySessionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder topholder, final int position) {
-        Log.i("sesssssss112d","l:  "+position);
-        if(topholder!=null) {
+       if(topholder!=null) {
             if (topholder instanceof  MyViewHolder) {
                 MyViewHolder holder = ( MyViewHolder) topholder;
 
@@ -107,7 +108,6 @@ public class MySessionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     public boolean isCustomer()
     {
-        Log.i("sesssssss113","l:  "+userid+"   "+token+"   "+list);
         boolean isCustomer=false;
         try{
 
@@ -153,62 +153,12 @@ public class MySessionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     private void setViewholder(MyViewHolder holder, final MSessionDetailRoot results, int position) {
-        Log.i("sesssssss112e","l:  "+position);
-        Log.i("sesssssss114","l:  "+userid+"   "+position+"   "+results);
+
         try {
-            Log.i("emooooooooji","l:  "+emotionList.size());
             String sessionType=results.getSessionType();
             MSessionRating rating[]=results.getSessionRatings();
             MSessionRating customerRatings = null;
-            Log.i("sesssssss115","l:  "+rating);
-            for(int j=0;j<rating.length;j++)
-            {
-                if(isValid(rating[j].getType()))
-                {
-                    Log.i("sesssssss116","l:  "+rating);
-                    String type = rating[j].getType();
-                   /* if(type.equals("customer")){
-                        customerRatings = rating[j];
-                    }*/
-                    if(type.equals(getUserType())){
-                        customerRatings = rating[j];
-                    }
-                }
-            }                Log.i("sesssssss117","l:  "+rating);
-            Log.i("emoooooooojib1","l:  "+emotionList.size());
-            Log.i("emoooooooojib2","l:  "+customerRatings);
-            Log.i("emoooooooojib3","l:  "+customerRatings.getAfterSessionEmotionId());
-            Log.i("emoooooooojib4","l:  "+customerRatings.getBeforeSessionEmotionId());
 
-            for(int i=0;i<emotionList.size();i++){
-                String id=emotionList.get(i).getId();
-                Log.i("emoooooooojib5","l:  "+emotionList.get(i).getId());
-                if(isValid(customerRatings)) {
-                    Log.i("sesssssss118","l:  "+rating);
-                    if (isValid(customerRatings.getAfterSessionEmotionId())) {
-                        String afterSessionEmotionId = customerRatings.getAfterSessionEmotionId();
-                        Log.i("emoooooooojib6","l:  "+emotionList.get(i).getId()+"   "+afterSessionEmotionId);
-                        if (id.equals(afterSessionEmotionId)) {
-                            holder.afterFeelCtxv.setText(emotionList.get(i).getTitle());
-                            Log.i("emoooooooojib7","l:  "+GLOBAL_IMAGE_URL+emotionList.get(i).getImage());
-                            Picasso.with(context).load(GLOBAL_IMAGE_URL+emotionList.get(i).getImage()).into(holder.afterEmotionImg);
-                        }
-                    }
-                }
-                if(isValid(customerRatings)) {
-                    Log.i("sesssssss119","l:  "+rating);
-                    if (isValid(customerRatings.getBeforeSessionEmotionId())) {
-                        String beforeSessionEmotionId = customerRatings.getBeforeSessionEmotionId();
-                        Log.i("emoooooooojib8","l:  "+beforeSessionEmotionId);
-                        if (id.equals(beforeSessionEmotionId)) {
-                            holder.beforeFeelCtxv.setText(emotionList.get(i).getTitle());
-                            Log.i("emoooooooojib9","l:  "+GLOBAL_IMAGE_URL+emotionList.get(i).getImage());
-                            Picasso.with(context).load(GLOBAL_IMAGE_URL+emotionList.get(i).getImage()).into(holder.beforeEmotionImg);
-
-                        }
-                    }
-                }
-            }
             MUser pac = results.getPacifyr();
             String name = pac.getFirstName();
             String time = results.getEndTime();
@@ -229,6 +179,44 @@ public class MySessionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             holder.priceCtxv.setText(Utility.getPriceSign(context)+String.format("%.2f", results.getSessionCost()));
 
             holder.callTimeCtxv.setText(results.getDuration());
+
+
+            for(int j=0;j<rating.length;j++)
+            {
+                if(isValid(rating[j].getType()))
+                {
+                    String type = rating[j].getType();
+                   /* if(type.equals("customer")){
+                        customerRatings = rating[j];
+                    }*/
+                    if(type.equals(getUserType())){
+                        customerRatings = rating[j];
+                    }
+                }
+            }
+            for(int i=0;i<emotionList.size();i++){
+                String id=emotionList.get(i).getId();
+                if(isValid(customerRatings)) {
+                    if (isValid(customerRatings.getAfterSessionEmotionId())) {
+                        String afterSessionEmotionId = customerRatings.getAfterSessionEmotionId();
+                       if (id.equals(afterSessionEmotionId)) {
+                            holder.afterFeelCtxv.setText(emotionList.get(i).getTitle());
+                            Picasso.with(context).load(GLOBAL_IMAGE_URL+emotionList.get(i).getImage()).into(holder.afterEmotionImg);
+                        }
+                    }
+                }
+                if(isValid(customerRatings)) {
+                    if (isValid(customerRatings.getBeforeSessionEmotionId())) {
+                        String beforeSessionEmotionId = customerRatings.getBeforeSessionEmotionId();
+                        if (id.equals(beforeSessionEmotionId)) {
+                            holder.beforeFeelCtxv.setText(emotionList.get(i).getTitle());
+                            Picasso.with(context).load(GLOBAL_IMAGE_URL+emotionList.get(i).getImage()).into(holder.beforeEmotionImg);
+
+                        }
+                    }
+                }
+            }
+
             /*
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.mmm'Z'");
             Date parsedTime = sdf.parse(time);
@@ -271,13 +259,12 @@ public class MySessionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }catch (Exception ex)
         {
             ex.printStackTrace();
-            LogUtils.LOGD(" MSA setViewholder ex:"+ex.getMessage());
+            LogUtils.LOGD("MSA setViewholder:"+ex.getMessage());
         }
     }
 
     private void setViewholder(MissedViewHolder missedViewHolder, int position) {
         try {
-            Log.i("sesssssss112f","l:  "+position);
             final MSessionDetailRoot results=getItem(position);
             missedViewHolder.nameUserCtxv.setText(results.getPacifyr().getFirstName());
             String time= results.getEndTime();
@@ -349,6 +336,8 @@ public class MySessionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
             pos = 1;
 
+        }else if(!isValid(list.get(position).getPacifyr().getName())){
+            pos = 2;
         }
         return pos;
     }
@@ -386,7 +375,6 @@ public class MySessionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public int getItemCount() {
-        Log.i("sesssssss112i","l:  "+list.size());
         return list.size();
     }
 
@@ -408,7 +396,6 @@ public class MySessionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         public MyViewHolder(View view) {
             super(view);
-            Log.i("sesssssss112h","l:  ");
             topLlay = (LinearLayout) view.findViewById(R.id.top_llay);
             callTimeCtxv = (CustomFontTextView) view.findViewById(R.id.call_time_ctxv);
             nameUserCtxv = (CustomFontTextView) view.findViewById(R.id.name_user_ctxv);
@@ -440,7 +427,6 @@ public class MySessionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         public MissedViewHolder(View view) {
             super(view);
-            Log.i("sesssssss112g","l:  ");
             topLlay = (LinearLayout) view.findViewById(R.id.top_llay);
             userCimv = (CircleImageView) view.findViewById(R.id.user_cimv);
             nameUserCtxv = (CustomFontTextView) view.findViewById(R.id.name_user_ctxv);
@@ -448,6 +434,14 @@ public class MySessionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             missedCtxv = (CustomFontTextView) view.findViewById(R.id.missed_ctxv);
             dateCtxv = (CustomFontTextView) view.findViewById(R.id.date_ctxv);
 
+        }
+    }
+
+
+    public class ViewHolderEmpty extends RecyclerView.ViewHolder {
+
+        public ViewHolderEmpty(View view) {
+            super(view);
         }
     }
 

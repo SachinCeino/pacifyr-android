@@ -97,7 +97,7 @@ public class CustomerListAdapter extends  RecyclerView.Adapter<CustomerListAdapt
                     holder.topLlay.setVisibility(View.VISIBLE);
                     holder.customerNameCtxv.setText(results.getUser().getName());
                     //holder.customerWalletCtxv.setText(resultlist.get(position).getPrice());
-                    holder.customerWalletCtxv.setText(Utility.getPriceSign(context) + results.getTotalSpending() + ".00 Earnings to date.");
+                    holder.customerWalletCtxv.setText(Utility.getPriceSign(context) + results.getPrecisedTotalSpending() + " Earnings to date.");
                     //holder.customerRating.setRating(Float.parseFloat(resultlist.get(position).getRating()));
                     //String rating =customerses[position].getRating();
                     /*if(isValid(rating)) {

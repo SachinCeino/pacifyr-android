@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="com.quickblox:quickblox-android-sdk-videochat-webrtc-3.3.5">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.android/build-cache/213b4aca6296248edb409a781063b83b75e22df4/output/res" />
+      <root url="jar://$USER_HOME$/.android/build-cache/213b4aca6296248edb409a781063b83b75e22df4/output/jars/classes.jar!/" />
+      <root url="jar://$USER_HOME$/.android/build-cache/213b4aca6296248edb409a781063b83b75e22df4/output/jars/libs/libjingle_peerconnection_java.jar!/" />
+      <root url="jar://$USER_HOME$/.android/build-cache/213b4aca6296248edb409a781063b83b75e22df4/output/jars/libs/base_java.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

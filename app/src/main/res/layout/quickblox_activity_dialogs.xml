@@ -7,7 +7,7 @@
     android:background="@color/white"
     xmlns:swipedeck="http://schemas.android.com/apk/res-auto">
 
-    <include layout="@layout/actionbar_three_text_image"
+    <include layout="@layout/actionbar_grey"
         android:id="@+id/include"
         android:layout_height="60dp"
         android:layout_width="match_parent">

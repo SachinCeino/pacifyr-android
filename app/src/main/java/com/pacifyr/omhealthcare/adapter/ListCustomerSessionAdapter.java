@@ -52,11 +52,9 @@ public class ListCustomerSessionAdapter extends RecyclerView.Adapter<RecyclerVie
     }
 
     public ListCustomerSessionAdapter(Context applicationContext, ArrayList<MPastSessions.Results> list) {
-        Log.i("uuuuuurrrlllAA6","u:  "+list);
         this.mInflater = LayoutInflater.from(applicationContext);
         mContext = applicationContext;
         emotionList=modelAllEmotions.getResultsList();
-        Log.i("uuuuuurrrlllAA7","u:  "+emotionList);
         lists=list;
     }
 
@@ -138,14 +136,11 @@ public class ListCustomerSessionAdapter extends RecyclerView.Adapter<RecyclerVie
         try {
 
             final MPastSessions.Results results = getItem(position);
-            Log.i("uuuuuurrrlllAA1211","u:  "+results);
             if (isValid(results)) {
-                Log.i("uuuuuurrrlllAA1222","u:  "+results);
                 resultValues = results;
                 holder. feel_rlay.setVisibility(View.VISIBLE);
                 if(results.getMissed())
                     holder. feel_rlay.setVisibility(View.GONE);
-                Log.i("uuuuuurrrlllAA12223","u:  "+results.getMissed());
                 //holder.customerNameCtxv.setText(resultlist.get(position).getFirstName());
                 holder.nameUserCtxv.setText(results.getPacifyr().getFirstName());
                 final String imgUrl =  results.getPacifyr().getImageUrl();
@@ -155,7 +150,6 @@ public class ListCustomerSessionAdapter extends RecyclerView.Adapter<RecyclerVie
                 String duration = results.getDuration();
                 holder.durationCtxv.setText(duration);
                 String endTime = results.getEndTime();
-                Log.i("uuuuuurrrlllAA12223","u:  "+results.getMissed());
                /* SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.ENGLISH);
                 Date date = null;
                 SimpleDateFormat df2 = new SimpleDateFormat("dd-mm-yyyy HH:mm a", Locale.ENGLISH);*/
@@ -165,19 +159,13 @@ public class ListCustomerSessionAdapter extends RecyclerView.Adapter<RecyclerVie
                 date2 = df.parse(endTime);
                 String time = target.format(date2);
                 holder.dateCtxv.setText(time);
-                Log.i("uuuuuurrrlllAA122231","u:  "+results.getMissed());
                 holder.topLlay.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         SummaryDetailActivity.start(mContext,results.getId());
                     }
                 });
-                Log.i("uuuuuurrrlllAA122232","u:  "+results.getMissed());
                 String  sessionType = results.getSessionType();
-                Log.i("uuuuuurrrlllAA122233","u:  "+results.getMissed());
-
-                Log.i("uuuuuurrrlllAA333","u:  "+results.getMissed());
-                Log.i("uuuuuurrrlllAA122234","u:  "+results.getMissed());
                 for(int i=0;i<sessionRating.length;i++)
                 {
                     if(sessionRating[i].getType().equals("customer")) {
@@ -188,39 +176,32 @@ public class ListCustomerSessionAdapter extends RecyclerView.Adapter<RecyclerVie
                     }
 
                 }
-                Log.i("emoooooooojia1","u:  "+emotionList);
                 for(int i=0;i<emotionList.size();i++){
                     String id=emotionList.get(i).getId();
                     if(isValid(customerRating)) {
-                        Log.i("emoooooooojia2","u:  "+emotionList);
                         if (isValid(customerRating.getAfterSessionEmotionId())) {
                             String afterSessionEmotionId = customerRating.getAfterSessionEmotionId();
                             if (id.equals(afterSessionEmotionId)) {
                                 holder.afterFeelCtxv.setText(emotionList.get(i).getTitle());
                                 Picasso.with(mContext).load(GLOBAL_IMAGE_URL+emotionList.get(i).getImage()).into(holder.afterEmotionImg);
-                                Log.i("emoooooooojia3","u:  "+GLOBAL_IMAGE_URL+emotionList.get(i).getImage());
                             }
                         }
                     }
                     if(isValid(customerRating)) {
-                        Log.i("emoooooooojia4","u:  "+emotionList);
                         if (isValid(customerRating.getBeforeSessionEmotionId())) {
                             String beforeSessionEmotionId = customerRating.getBeforeSessionEmotionId();
                             if (id.equals(beforeSessionEmotionId)) {
                                 holder.beforeFeelCtxv.setText(emotionList.get(i).getTitle());
                                 Picasso.with(mContext).load(GLOBAL_IMAGE_URL+emotionList.get(i).getImage()).into(holder.beforeEmotionImg);
-                                Log.i("emoooooooojia5","u:  "+GLOBAL_IMAGE_URL+emotionList.get(i).getImage());
                             }
                         }
                     }
                     if(isValid(pacfyrRating)) {
-                        Log.i("emoooooooojia6","u:  "+emotionList);
                         if (isValid(pacfyrRating.getAfterSessionEmotionId())) {
                             String afterSessionEmotionId = pacfyrRating.getAfterSessionEmotionId();
                             if (id.equals(afterSessionEmotionId)) {
                                 holder.openinonEmotionCtxv.setText(emotionList.get(i).getTitle());
                                 Picasso.with(mContext).load(GLOBAL_IMAGE_URL+emotionList.get(i).getImage()).into(holder.openinonImg);
-                                Log.i("emoooooooojia7","u:  "+GLOBAL_IMAGE_URL+emotionList.get(i).getImage());
 
                             }
                         }
@@ -230,10 +211,8 @@ public class ListCustomerSessionAdapter extends RecyclerView.Adapter<RecyclerVie
                 if (isValid(imgUrl))
                     Picasso.with(mContext).load(imgUrl).placeholder(R.drawable.placeholder_user).into(holder.userCimv);
                 if(sessionType.equals("audio")) {
-                    Log.i("uuuuuurrrlllAA331","u:  "+results.getMissed());
                     holder.callTypeImg.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_audio_blue));
                 }else if (sessionType.equals("video")) {
-                    Log.i("uuuuuurrrlllAA332","u:  "+results.getMissed());
                     holder.callTypeImg.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_video_cam_blue));
                 }
                 //holder.customerWalletCtxv.setText(resultlist.get(position).getPrice());
@@ -262,7 +241,6 @@ public class ListCustomerSessionAdapter extends RecyclerView.Adapter<RecyclerVie
     }
 
     public MPastSessions.Results getItem(int position) {
-        Log.i("uuuuuurrrlllAA1244","u:  "+position);
         return lists.get(position);
     }
 

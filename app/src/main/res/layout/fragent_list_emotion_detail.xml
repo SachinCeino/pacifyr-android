@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:padding="20dp">
+
+        <com.ceino.utilitylibrary.CustomFontTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:id="@+id/why_ctxv"
+            android:text="WHY ARE YOU FEELING "/>
+
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/detail_rcv"
+            android:layout_marginTop="23dp"
+            android:visibility="visible">
+        </android.support.v7.widget.RecyclerView>
+
+        <com.ceino.utilitylibrary.CustomFontTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:id="@+id/more_ctxv"
+            android:textColor="#007aff"
+            android:background="@drawable/white_round_square"
+            android:layout_marginTop="20dp"
+            android:text="More"/>
+
+
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

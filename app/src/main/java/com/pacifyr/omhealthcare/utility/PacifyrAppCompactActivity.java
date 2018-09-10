@@ -652,7 +652,6 @@ public abstract class PacifyrAppCompactActivity  extends PacifyerActivity {
                     try {
                         hideProgress();
                         if (isValid(result)) {
-                            Log.i("lllogout124","hal");
                             deleteInstallationWeb();
                         }
                     } catch (Exception eee) {

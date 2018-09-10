@@ -134,9 +134,6 @@ public class PostiveEmotionsAdapter extends RecyclerView.Adapter<PostiveEmotions
                 b1.setClickable(true);
                 b2.setClickable(true);
                 b2.setEnabled(true);
-                b2.setTextColor(context.getResources().getColor(R.color.black));
-                b3.setTextColor(context.getResources().getColor(R.color.white));
-
 
                 /*String url = GLOBAL_URL+"specialities/byEmotion?emotionId="+emotionID;*/
                 String url = GLOBAL_URL + "specialities/getCategories/byEmotion?emotionId="+emotionID;

@@ -95,7 +95,6 @@ public class SessionWeekAdapter extends RecyclerView.Adapter<SessionWeekAdapter.
 
         if(dateType.equals("week")) {
             holder.titleCtxv.setText(modelWeekList.get(position).getFromDateDisplay() + " " + modelWeekList.get(position).getToDateDisplay());
-            Log.i("sesssu111111","d: "+modelWeekList.get(position).getFromDateDisplay()+"    "+modelWeekList.get(position).getToDateDisplay());
             setViewHolder(holder,modelWeekList,position);
         }
         else if (dateType.equals("month")){
@@ -121,10 +120,8 @@ public class SessionWeekAdapter extends RecyclerView.Adapter<SessionWeekAdapter.
             @Override
             public void onClick(View v) {
                 ratingUrl = modelList.get(position).getRatingUrl();
-                Log.i("sesssu111111abc","d: "+ modelList.get(position).getFromDate()+"    "+ modelList.get(position).getToDate());
                 fromDWeek=modelList.get(position).getFromDate();
                 toDWeek=modelList.get(position).getToDate();
-                Log.i("sesssu111111abd","d: "+ modelList.get(position).getFromDateDisplay()+"    "+ modelList.get(position).getToDateDisplay());
                 statUrl = modelList.get(position).getStatUrl();
                 if(!modelList.get(position).isSelect()){
                     // modelRatingDateDetailList.get(position).setSelect(true);
@@ -287,7 +284,6 @@ public class SessionWeekAdapter extends RecyclerView.Adapter<SessionWeekAdapter.
             LocalDate backNow = now1.minusDays(7);
             LocalDate startofWeek = backNow.withDayOfWeek(DateTimeConstants.SUNDAY);
             LocalDate now = now1.withDayOfWeek(DateTimeConstants.SATURDAY);
-            Log.i("ddddaaaa","d: "+startofWeek+"   "+now);
             DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
             DateTimeFormatter displayFormatter = DateTimeFormat.forPattern("MMM dd");
             String fromDateWeek = formatter.print(startofWeek);
@@ -297,7 +293,6 @@ public class SessionWeekAdapter extends RecyclerView.Adapter<SessionWeekAdapter.
 
             DateTimeFormatter displaymonth = DateTimeFormat.forPattern("MMM");
             DateTimeFormatter displayFormatterdateonly = DateTimeFormat.forPattern("- dd");
-            Log.i("sesssu111111a","d: "+fromDateWeek+"    "+toDate);
 
 
             String start_day_month= displaymonth.print(startofWeek);
@@ -308,7 +303,6 @@ public class SessionWeekAdapter extends RecyclerView.Adapter<SessionWeekAdapter.
             else
                 displayTo = displayFormatter.print(now);
 
-            Log.i("sesssu111111ab","d: "+displayFrom+"    "+displayTo);
 
 
             String weekStatUrl = GLOBAL_URL+"dashboard/pacifyr/"+userid+"/sessionStatistics?fromDate="+fromDateWeek+"&toDate="+toDate;
@@ -329,16 +323,10 @@ public class SessionWeekAdapter extends RecyclerView.Adapter<SessionWeekAdapter.
                 modelRatingDateDetail = new ModelRatingDateDetail();
                 //startofSecndWeek = startofWeek.minusDays(7);
                 //secondTo = startofWeek.minusDays(1);
-
-
-
                 String fromDateWeek2 = formatter.print(startofSecndWeek);
                 String toDate2 = formatter.print(secondTo);
-
-                Log.i("sesssu111111ab","d: "+fromDateWeek2+"    "+toDate2);
                 String thisWeekUrl2 = GLOBAL_URL + "session/pacifyr/all?userId="
                         + userid + "&fromDate=" + fromDateWeek2 + "&toDate=" + toDate2;
-
                 String  weekStatUrl2 = GLOBAL_URL+"dashboard/pacifyr/"+userid+
                         "/sessionStatistics?fromDate="+fromDateWeek2+"&toDate="+toDate2;
 
@@ -346,8 +334,8 @@ public class SessionWeekAdapter extends RecyclerView.Adapter<SessionWeekAdapter.
 //                toDWeek = displayFormatter.print(secondTo);
 
 
-                 start_day_month= displaymonth.print(startofSecndWeek);
-                 end_day_month= displaymonth.print(secondTo);
+                start_day_month= displaymonth.print(startofSecndWeek);
+                end_day_month= displaymonth.print(secondTo);
                 displayFrom = displayFormatter.print(startofSecndWeek);
                 if(start_day_month.equalsIgnoreCase(end_day_month))
                     displayTo = displayFormatterdateonly.print(secondTo);

@@ -148,8 +148,6 @@ public class EmotionsListAdapter extends RecyclerView.Adapter<EmotionsListAdapte
                 holder.emotionIMG.setImageResource(R.drawable.serenity);
             }*/
             Picasso.with(context).load(NetworkService.GLOBAL_IMAGE_URL + emotions.get(position).getImage()).placeholder(R.drawable.serenity).into(holder.emotionIMG);
-            Log.i("iiiimmmmmmmmm","l: "+NetworkService.GLOBAL_IMAGE_URL + emotions.get(position).getImage());
-
             boolean b=emotions.get(position).getClicked();
 
             if(emotions.get(position).getClicked())

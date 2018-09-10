@@ -2,6 +2,7 @@ package com.pacifyr.omhealthcare.sign;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -124,7 +125,8 @@ public class RegisterVerifyActivity extends PacifyerActivity {
                                         if (stat.equals("success")) {
 
                                             //Toast.makeText(RegisterVerifyActivity.this, "Mobile number already registered", Toast.LENGTH_LONG).show();
-                                            setAlertOKStatusInWhite("Register Failed", "Your mobile number is already registered","Ok");
+                                            setAlertOKStatusInWhite(getResources().getString(R.string.registration_failed), getResources().getString(R.string.failed_register_message),"Ok");
+
 
 
                                         }else if (logstat.equals("error")) {
@@ -350,7 +352,9 @@ public class RegisterVerifyActivity extends PacifyerActivity {
         backImv.setVisibility(View.VISIBLE);
         titleTxv.setVisibility(View.VISIBLE);
         leftLlay.setVisibility(View.VISIBLE);
-        defSetText(titleTxv,"");
+        defSetText(titleTxv,getResources().getString(R.string.sign_up));
+        Typeface type = Typeface.createFromAsset(getAssets(),getResources().getString(R.string.avantica_bold_header));
+        titleTxv.setTypeface(type);
         leftLlay.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

@@ -307,7 +307,6 @@ public class SessionSummaryActivity  extends PacifyrAppCompactActivity{
             recyclerView.setLayoutManager(new LinearLayoutManager(SessionSummaryActivity.this, LinearLayoutManager.HORIZONTAL, false));
             commentsRcv.setLayoutManager(new LinearLayoutManager(SessionSummaryActivity.this, LinearLayoutManager.HORIZONTAL, false));
             commentsAdapter = new CommentsAdapter(SessionSummaryActivity.this,click,true);
-            Log.i("commentscli1","c: "+click);
             commentsRcv.setAdapter(commentsAdapter);
             LogUtils.LOGD("session", " SSA onCreateView  before set rating view");
             setRatingViews();
@@ -316,15 +315,15 @@ public class SessionSummaryActivity  extends PacifyrAppCompactActivity{
             callback_ctxv.setVisibility(View.GONE);
             if(isCustomer) {
 
-         /*       before_feel_ctxv.setText("How were you feeling before the ic_call_round?");
+         /*       before_feel_ctxv.setText("How were you feeling before the call?");
                 afterFeelSelectionCtxv.setText("How are you feeling now?");*/
 
                 pacifyrEaringsLlay.setVisibility(View.GONE);
                 customer_fees_llay.setVisibility(View.VISIBLE);
                 pacifyrRateCtxv.setVisibility(View.VISIBLE);
                 rating_llay.setVisibility(View.VISIBLE);
-                before_feel_ctxv.setText("How were you feeling before the ic_call_round?");
-                // afterFeelSelectionCtxv.setText("How were you feeling after the ic_call_round ?");
+                before_feel_ctxv.setText("How were you feeling before the call?");
+                // afterFeelSelectionCtxv.setText("How were you feeling after the call ?");
                 afterFeelSelectionCtxv.setText("How are you feeling now?");
 
 
@@ -343,7 +342,7 @@ public class SessionSummaryActivity  extends PacifyrAppCompactActivity{
                                         if(isLoggedInChat()) {
                                             callRequestWeb(ProfileScreenActivity.mpacifyerDetial,listner, true);
                                         }
-                                    //ToastHandler.newInstance(ConnectToPacifyrActivity.this).mustShowToast("These Permissions are required to make ic_call_round");
+                                    //ToastHandler.newInstance(ConnectToPacifyrActivity.this).mustShowToast("These Permissions are required to make call");
                                 }
                             }
                             else {
@@ -375,16 +374,16 @@ public class SessionSummaryActivity  extends PacifyrAppCompactActivity{
                 rating_llay.setVisibility(View.GONE);
                 callback_ctxv.setVisibility(View.GONE);
                 /*//afterFeelSelectionCtxv.setText("How were customer feeling now?");
-                before_feel_ctxv.setText("How were customer feeling before the ic_call_round?");*/
+                before_feel_ctxv.setText("How were customer feeling before the call?");*/
 
                 pacifyrEaringsLlay.setVisibility(View.VISIBLE);
                 pacifyrRateCtxv.setVisibility(View.GONE);
                 customer_fees_llay.setVisibility(View.GONE);
                 callback_ctxv.setVisibility(View.GONE);
-                before_feel_ctxv.setText("How was the  customer  feeling before ic_call_round?");
-              /*  after_feel_ctxv.setText("How was the  customer feeling after the ic_call_round ?");
+                before_feel_ctxv.setText("How was the  customer  feeling before call?");
+              /*  after_feel_ctxv.setText("How was the  customer feeling after the call ?");
                 after_feel_llay.setVisibility(View.VISIBLE);*/
-                afterFeelSelectionCtxv.setText("How was the customer feeling after the ic_call_round in your opinion?");
+                afterFeelSelectionCtxv.setText("How was the customer feeling after the call in your opinion?");
             }
 
 
@@ -463,10 +462,10 @@ public class SessionSummaryActivity  extends PacifyrAppCompactActivity{
                 defSetText(before_feel_ctxv,mEmotion.getTitle());
 
                 if(isCustomer) {
-                    before_feel_ctxv.setText("How were you feeling before the ic_call_round?");
+                    before_feel_ctxv.setText("How were you feeling before the call?");
                 }
                 else {
-                    before_feel_ctxv.setText("How was the  customer  feeling before ic_call_round?");
+                    before_feel_ctxv.setText("How was the  customer  feeling before call?");
                 }
                 String beforeImgUrl = GLOBAL_IMAGE_URL + mEmotion.getImage();
                 if(isValid(beforeImgUrl)) Picasso.with(SessionSummaryActivity.this).load(beforeImgUrl).placeholder(R.drawable.sad).into(beforeFeelDimv);
@@ -672,7 +671,6 @@ public class SessionSummaryActivity  extends PacifyrAppCompactActivity{
             comments=commentsAdapter.getSelectedList();
             if (comments_cedt.isShown()) {
                 String comment = comments_cedt.getText() + "";
-                Log.i("commentscli2com1","c: "+comment);
                 if (isValid(comment))
                     comments.add(comment);
             }
@@ -680,7 +678,6 @@ public class SessionSummaryActivity  extends PacifyrAppCompactActivity{
         {
             LogUtils.LOGD("session","SSA getMSessionRating list exce " + e.getMessage());
         }
-        Log.i("commentscli2com","c: "+comments);
 
         if(isValid(comments))
             mSessionRating.setComments(comments);
@@ -901,7 +898,7 @@ public class SessionSummaryActivity  extends PacifyrAppCompactActivity{
             rightTxv.setBackground(getResources().getDrawable(R.drawable.blue_border_lightblue));
             titleTxv.setVisibility(View.VISIBLE);
             //leftLlay.setVisibility(View.INVISIBLE);
-            defSetText(titleTxv, "Session Summary");
+            defSetText(titleTxv, "session summary");
             // backImv.setImageDrawable(getResources().getDrawable(R.drawable.back2x));
             rightLlay.setOnClickListener(new View.OnClickListener() {
                 @Override

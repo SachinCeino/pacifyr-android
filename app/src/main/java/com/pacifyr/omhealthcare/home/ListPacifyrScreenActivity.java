@@ -3,6 +3,7 @@ package com.pacifyr.omhealthcare.home;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -220,12 +221,10 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
     }
 
     private void setAdapterSearchOption() {
-        Log.i("eeemmmm12345678","e: "+pSearchPacifyrWOptionsResponse);
         if (isValid(pSearchPacifyrWOptionsResponse)) {
             ArrayList<MUser> list = new ArrayList<MUser>();
             list.clear();
             list = pSearchPacifyrWOptionsResponse.getResultsList();
-            Log.i("eeemmmm123456789","e: "+list);
             if(isValid(list)) {
                 noPacifyrCtxv.setVisibility(View.GONE);
                 adapter = new SwipeDeckBrowsePacifyerAdapter(list, ListPacifyrScreenActivity.this);
@@ -296,7 +295,9 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
             backImv.setVisibility(View.VISIBLE);
             titleTxv.setVisibility(View.VISIBLE);
             leftLlay.setVisibility(View.VISIBLE);
-            defSetText(titleTxv, "Pacifyr");
+            defSetText(titleTxv, "browse");
+            Typeface type = Typeface.createFromAsset(getAssets(),getResources().getString(R.string.avantica_bold_header));
+            titleTxv.setTypeface(type);
             backImv.setImageDrawable(getResources().getDrawable(R.drawable.backarrow));
             //backImv.setBackgroundResource(R.drawable.leftmen);
             leftLlay.setOnClickListener(new View.OnClickListener() {
@@ -317,21 +318,18 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
         showProgress();
         webSearchPacifyrWOptions(customerEmotion);
         cardStack.setVisibility(View.VISIBLE);
-        Log.i("eeemmmm12345","e: "+customerEmotion);
     }
 
     public void webSearchPacifyrWOptions(String emotion) {
         try{
 
         String url = GLOBAL_URL + getRoleSearchMap().get(prefM.getCustomerRole());
-            Log.i("eeemmmm123456","e: "+url);
 
         AjaxCallback cb = new AjaxCallback<JSONObject>() {
             @Override
             public void callback(String url, JSONObject json, AjaxStatus status) {
                 try {
                     pSearchPacifyrWOptionsResponse= GsonUtils.getInstance().gsonToRespSearchPacifyrWOption(json);
-                    Log.i("eeemmmm1234567","e: "+pSearchPacifyrWOptionsResponse);
                     //searchResults=modelSearchPacifyr.getResultsList();
                     pSearchPacifyrWOptionsResponse.toString();
                     String js=json.toString();

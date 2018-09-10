@@ -195,16 +195,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:maxLines="4"
-            android:textSize="15sp"
+            android:textSize="13sp"
             android:padding="2dp"
             android:id="@+id/description_ctxv"
-            android:textColor="@color/grey_dark"/>
+            android:textColor="@color/grey_dark_text"/>
 
         <com.ceino.utilitylibrary.CustomFontTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/Connect_to_Providers"
-            android:padding="7dp"
+            android:text="@string/connect_to_wellness_experts"
+            android:padding="8dp"
             android:layout_marginTop="15dp"
             android:layout_below="@+id/description_ctxv"
             android:id="@+id/connect_pacifyr_ctxv"

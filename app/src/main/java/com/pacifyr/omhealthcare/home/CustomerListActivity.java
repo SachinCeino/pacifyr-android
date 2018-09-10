@@ -67,6 +67,7 @@ public class CustomerListActivity extends PacifyrAppCompactActivity {
 
         //emptyFlay = (Flux) findViewById(R.id.empty_flay);
         try {
+            onSetActionBar();
             emptyDtxv = (CustomFontTextView) findViewById(R.id.empty_dtxv);
 
             swipeLay = (SwipeRefreshLayout) findViewById(R.id.swipe_lay);
@@ -80,7 +81,7 @@ public class CustomerListActivity extends PacifyrAppCompactActivity {
                 }
             });
 
-            onSetActionBar();
+
 
             setAdapter();
         }
@@ -288,7 +289,7 @@ public class CustomerListActivity extends PacifyrAppCompactActivity {
             backImv.setVisibility(View.VISIBLE);
             titleTxv.setVisibility(View.VISIBLE);
             //leftLlay.setVisibility(View.VISIBLE);
-            defSetText(titleTxv, "My Customers");
+            defSetText(titleTxv, "my customers");
             backImv.setImageDrawable(getResources().getDrawable(R.drawable.backarrow));
             //backImv.setBackgroundResource(R.drawable.leftmen);
             leftLlay.setOnClickListener(new View.OnClickListener() {

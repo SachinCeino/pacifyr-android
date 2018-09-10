@@ -22,7 +22,6 @@ import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.event.ChatEvent;
 import com.pacifyr.omhealthcare.home.LastSessionActivity;
 import com.pacifyr.omhealthcare.home.PacifyrDashboardActivity;
-import com.pacifyr.omhealthcare.utils.LogUtils;
 import com.pacifyr.omhealthcare.utils.Utility;
 import com.squareup.picasso.Picasso;
 
@@ -125,7 +124,6 @@ public class PacifyrSessionAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
             } catch (Exception t) {
                 isCustomer=false;
-                //  LogUtils.LOGD("ssession","SSA getMSessionRating list exce " + t.getMessage());
             }
         }catch (Exception e)
         {
@@ -146,7 +144,7 @@ public class PacifyrSessionAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
 
             } catch (Exception t) {
-                //  LogUtils.LOGD("session","SSA getMSessionRating list exce " + t.getMessage());
+                t.printStackTrace();
             }
         }catch (Exception e)
         {
@@ -174,33 +172,24 @@ public class PacifyrSessionAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                     }
                 }
             }
-            Log.i("emoooooooojic4","e:"+emotionList.size()+"    "+customerRatings);
 
             for(int i=0;i<emotionList.size();i++){
                 String id=emotionList.get(i).getId();
-                Log.i("emoooooooojic5","e:"+id);
                 if(isValid(customerRatings)) {
-                    Log.i("emooooooojiid3","e:"+customerRatings);
-                    Log.i("emooooooojiid5","e:"+customerRatings.getAfterSessionEmotionId());
-                    if (isValid(customerRatings.getAfterSessionEmotionId())) {
+                   if (isValid(customerRatings.getAfterSessionEmotionId())) {
                         String afterSessionEmotionId = customerRatings.getAfterSessionEmotionId();
                         if (id.equals(afterSessionEmotionId)) {
                             holder.afterFeelCtxv.setText(emotionList.get(i).getTitle());
-                            Log.i("emooooooojiid72","e:"+GLOBAL_IMAGE_URL+emotionList.get(i).getImage());
                             Picasso.with(context).load(GLOBAL_IMAGE_URL+emotionList.get(i).getImage()).into(holder.afterEmotionImg);
                         }
                     }
                 }
                 if(isValid(customerRatings)) {
-                    Log.i("emoooooooojic6","e:"+customerRatings);
-                    Log.i("emoooooooojic7","e:"+customerRatings.getBeforeSessionEmotionId());
                     if (isValid(customerRatings.getBeforeSessionEmotionId())) {
                         String beforeSessionEmotionId = customerRatings.getBeforeSessionEmotionId();
-                        Log.i("emoooooooojic8","e:"+beforeSessionEmotionId);
                         if (id.equals(beforeSessionEmotionId)) {
                             holder.beforeFeelCtxv.setText(emotionList.get(i).getTitle());
                             String imgUrl = emotionList.get(i).getImage();
-                            Log.i("emoooooooojic9","e:"+GLOBAL_IMAGE_URL+emotionList.get(i).getImage());
                             Picasso.with(context).load(GLOBAL_IMAGE_URL+emotionList.get(i).getImage()).into(holder.beforeEmotionImg);
                         }
                     }
@@ -235,7 +224,6 @@ public class PacifyrSessionAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
             String t =results.getStartTime();
             String time = results.getStartFormatDate(t);
-Log.i("stttttaaaaa","s: "+t+"    "+time);
             holder.dateCtxv.setText(time);
 
 
@@ -255,7 +243,6 @@ Log.i("stttttaaaaa","s: "+t+"    "+time);
                 public void onClick(View v) {
                     try {
                         String sessionID = results.getId();
-                        LogUtils.LOGD("sessionteeest1234", " SSA onCreate sessionid ");
                         LastSessionActivity.start(context,sessionID);
                     }
                     catch (Exception ex)
@@ -268,7 +255,6 @@ Log.i("stttttaaaaa","s: "+t+"    "+time);
         }catch (Exception ex)
         {
             ex.printStackTrace();
-            LogUtils.LOGD(" MSA setViewholder ex:"+ex.getMessage());
         }
     }
 
@@ -320,7 +306,6 @@ Log.i("stttttaaaaa","s: "+t+"    "+time);
             missedViewHolder.topLlay.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.i("pacipacil5","p:  "+list);
                     showProgress();
                     ( (PacifyrDashboardActivity) (context)).callchatEventListner.onChatEventClick((new ChatEvent(results.getUser(), false)));
                     //    ConnectToPacifyrActivity.callchatEventListner.onChatEventClick(new ChatEvent(searchResults.get(position), false));
@@ -338,7 +323,6 @@ Log.i("stttttaaaaa","s: "+t+"    "+time);
         }catch (Exception ex)
         {
             ex.printStackTrace();
-            LogUtils.LOGD(" MSA setViewholder ex:"+ex.getMessage());
         }
     }
 

@@ -1,12 +1,14 @@
 package com.pacifyr.omhealthcare.event;
 
 import com.androidquery.callback.AjaxStatus;
+import com.pacifyr.omhealthcare.model.ModelSpecialityByEmotion;
 
 /**
  * Created by ceino on 12/10/15.
  */
 public class NotifyEvent {
 
+    public String emotionType;
     public Boolean isSuccess=true;
     public Boolean isPaged=false;
     public Boolean isUpdate=false;
@@ -19,6 +21,8 @@ public class NotifyEvent {
     public  int photolistsize =0;
     AjaxStatus status=null;
     String classname =null;
+
+    public ModelSpecialityByEmotion specialityByEmotion;
 
 
     //public  Feed.Results[] results=null;
@@ -151,5 +155,10 @@ public class NotifyEvent {
         this.priority=pririty;
         this.height=height;
         this.width=width;
+    }
+
+    public NotifyEvent(ModelSpecialityByEmotion modelSpecialityByEmotion,String type) {
+        this.specialityByEmotion = modelSpecialityByEmotion;
+        this.emotionType = type;
     }
 }
