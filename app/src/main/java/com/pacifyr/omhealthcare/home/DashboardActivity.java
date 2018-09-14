@@ -20,6 +20,7 @@ import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.ceino.utilitylibrary.CustomFontTextView;
 import com.ceino.utilitylibrary.DeviceFitImageView;
+import com.ceino.utilitylibrary.WrappingSlidingPaneLayout;
 import com.ceino.utilitylibrary.model.pacifyr.MUser;
 import com.ceino.utilitylibrary.utils.PrefManager;
 import com.pacifyr.omhealthcare.Fragment.MySessionFragment;
@@ -44,7 +45,6 @@ import com.pacifyr.omhealthcare.sign.CrisisActivity;
 import com.pacifyr.omhealthcare.utility.PacifyrAppCompactActivity;
 import com.pacifyr.omhealthcare.utils.LogUtils;
 import com.pacifyr.omhealthcare.utils.ToastHandler;
-import com.pacifyr.omhealthcare.utils.WrappingSlidingPaneLayout;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
 
@@ -453,6 +453,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
         defSetText(titleTxv,getResources().getString(R.string.mydashboard));
         Typeface type = Typeface.createFromAsset(getAssets(),getResources().getString(R.string.avantica_bold_header));
         titleTxv.setTypeface(type);
+        titleTxv.setTextColor(getResources().getColor(R.color.grey_dark_text));
         backImv.setImageDrawable(getResources().getDrawable(R.drawable.leftmen));
         //backImv.setBackgroundResource(R.drawable.leftmen);
         leftLlay.setOnClickListener(new View.OnClickListener() {

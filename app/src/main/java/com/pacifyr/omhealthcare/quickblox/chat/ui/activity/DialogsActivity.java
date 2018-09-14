@@ -83,6 +83,7 @@ public class DialogsActivity extends PacifyerActivity implements DialogsManager.
     private QBIncomingMessagesManager incomingMessagesManager;
     private DialogsManager dialogsManager;
     private QBUser currentUser;
+    private CustomFontTextView noMessagesCtxv;
 
     public static void start(Context context) {
         Intent intent = new Intent(context, DialogsActivity.class);
@@ -257,6 +258,7 @@ public class DialogsActivity extends PacifyerActivity implements DialogsManager.
         ListView dialogsListView = _findViewById(R.id.list_dialogs_chats);
         progressBar = _findViewById(R.id.progress_dialogs);
         fab = _findViewById(R.id.fab_dialogs_new_chat);
+        noMessagesCtxv = (CustomFontTextView) findViewById(R.id.noMessagesCtxv);
         setOnRefreshListener = _findViewById(R.id.swipy_refresh_layout);
 
         dialogsAdapter = new DialogsAdapter(this, new ArrayList<>(QbDialogHolder.getInstance().getDialogs().values()));
@@ -381,7 +383,13 @@ public class DialogsActivity extends PacifyerActivity implements DialogsManager.
     }
 
     private void updateDialogsAdapter() {
+
         dialogsAdapter.updateList(new ArrayList<>(QbDialogHolder.getInstance().getDialogs().values()));
+        noMessagesCtxv.setVisibility(View.GONE);
+        Collection<QBChatDialog> val = QbDialogHolder.getInstance().getDialogs().values();
+        if(val.size()==0){
+            noMessagesCtxv.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override

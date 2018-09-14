@@ -21,6 +21,14 @@
     style="@style/MatchParent"
     tools:ignore="RtlHardcoded,RtlSymmetry">
 
+    <com.ceino.utilitylibrary.CustomFontTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/noMessagesCtxv"
+        android:visibility="gone"
+        android:textColor="@color/grey_dark_text"
+        android:text="@string/no_messages"/>
+
     <com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout
         android:id="@+id/swipy_refresh_layout"
         style="@style/MatchParent"

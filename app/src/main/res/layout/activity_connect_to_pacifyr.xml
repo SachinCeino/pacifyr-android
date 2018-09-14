@@ -18,8 +18,8 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:layout_below="@+id/include"
-        android:background="@color/white"
-        android:layout_marginTop="20dp"
+        android:elevation="10dp"
+        android:layout_marginTop="10dp"
         android:id="@+id/top_rlay">
 
         <com.ceino.utilitylibrary.CustomFontTextView
@@ -107,6 +107,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="visible"
+        android:layout_marginTop="-17dp"
+        android:elevation="0dp"
         android:layout_below="@+id/top_rlay"
         android:id="@+id/select_feeling_rlay"
         android:background="#F0F3F5">
@@ -222,6 +224,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"
+        android:layout_marginTop="-17dp"
         android:layout_below="@+id/top_rlay"
         android:id="@+id/select_emotion_rlay"
         android:background="#F0F3F5">
@@ -266,6 +269,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"
+        android:layout_marginTop="-17dp"
         android:layout_below="@+id/top_rlay"
         android:id="@+id/select_emotion_detail_rlay"
         android:background="#F0F3F5">
@@ -310,6 +314,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"
+        android:layout_marginTop="-17dp"
         android:layout_below="@+id/top_rlay"
         android:id="@+id/select_list_pacifyr_rlay"
         android:background="#F0F3F5">

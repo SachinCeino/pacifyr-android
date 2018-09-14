@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/connectsingle_top_rlay"
     android:background="@color/white"
+    android:id="@+id/connectsingle_top_rlay"
     xmlns:swipedeck="http://schemas.android.com/apk/res-auto">
 
     <include layout="@layout/actionbar_grey_close"
@@ -18,9 +18,9 @@
         android:layout_height="wrap_content"
         android:paddingBottom="10dp"
         android:paddingTop="10dp"
+        android:elevation="10dp"
         android:gravity="center_horizontal"
         android:layout_below="@+id/include"
-        android:background="@color/white"
         android:id="@+id/top_rlay">
 
         <com.ceino.utilitylibrary.CustomFontTextView
@@ -109,6 +109,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="visible"
+        android:layout_marginTop="-25dp"
         android:layout_below="@+id/top_rlay"
         android:id="@+id/select_feeling_rlay"
         android:background="#F0F3F5">
@@ -118,6 +119,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:padding="20dp"
+            android:layout_marginTop="20dp"
             android:gravity="center_horizontal">
 
             <com.ceino.utilitylibrary.CustomFontTextView
@@ -221,6 +223,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"
+        android:layout_marginTop="-25dp"
         android:layout_below="@+id/top_rlay"
         android:id="@+id/select_emotion_rlay"
         android:background="#F0F3F5">
@@ -272,6 +275,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"
+        android:layout_marginTop="-25dp"
         android:layout_below="@+id/top_rlay"
         android:id="@+id/select_emotion_detail_rlay"
         android:background="#F0F3F5">
@@ -317,6 +321,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"
+        android:layout_marginTop="-25dp"
         android:layout_below="@+id/top_rlay"
         android:id="@+id/select_list_pacifyr_rlay"
         android:background="#F0F3F5">

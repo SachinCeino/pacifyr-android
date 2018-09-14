@@ -43,7 +43,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/rlay_search"
-            android:padding="18dp"
             android:layout_below="@id/include">
 
             <com.ceino.utilitylibrary.CustomFontTextView
@@ -52,6 +51,7 @@
                 android:textColor="@color/cardview_dark_background"
                 android:layout_width="wrap_content"
                 android:textSize="18dp"
+                android:padding="16dp"
                 android:layout_marginBottom="15dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true" />

@@ -128,4 +128,7 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="please_try_again">Please try again</string>
     <string name="success">success</string>
     <string name="contact_us">contact us</string>
+    <string name="title_activity_android_dashoard">my dashboard</string>
+    <string name="no_messages">There are no messages.</string>
+    <string name="register">register</string>
 </resources>

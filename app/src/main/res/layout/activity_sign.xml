@@ -20,7 +20,7 @@
         <ImageView
             android:layout_height="150dp"
             android:layout_width="150dp"
-            android:src="@drawable/om_health_logo" />
+            android:src="@drawable/powered_logo_white" />
 
     </RelativeLayout>
 
@@ -184,7 +184,7 @@
                 android:background="@drawable/blue_round_square"
                 android:gravity="center"
                 android:onClick="showLogin"
-                android:text="@string/login"
+                android:text="@string/sign_in"
                 android:layout_marginRight="10dp"
                 android:textColor="@color/white"
                 android:textSize="18sp" />
@@ -200,7 +200,7 @@
                 android:background="@drawable/blue_round_square"
                 android:gravity="center"
                 android:onClick="showSignUp"
-                android:text="@string/signup"
+                android:text="@string/register"
                 android:textColor="@color/white"
                 android:textSize="@dimen/sp18" />
 

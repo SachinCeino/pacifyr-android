@@ -102,6 +102,8 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
     RelativeLayout videocall_rlay,audiocall_rlay,chat_rlay;
    // private PermissionsChecker checker;
     public SwipeRefreshLayout pacifyr_swipelay;
+    private RelativeLayout buttonRlay;
+
     public static void start(Context context, MUser results) {
         Intent intent = new Intent(context, ConnectToSinglePacifyrActivity.class);
         pacifyer_obj=null;
@@ -166,6 +168,7 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
         button3 = (Button) findViewById(R.id.button3);
         button4 = (Button) findViewById(R.id.button4);
         topRlay = (RelativeLayout) findViewById(R.id.connectsingle_top_rlay);
+        buttonRlay = (RelativeLayout) findViewById(R.id.top_rlay);
         chatLlay = (LinearLayout) findViewById(R.id.chat_llay);
         chatPriceCtxv = (CustomFontTextView) findViewById(R.id.chat_price_ctxv);
         moreButton = (Button) findViewById(R.id.more_button);
@@ -196,6 +199,8 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
         status_indicator_ctxv = (CustomFontTextView) findViewById(R.id.status_indicator_ctxv);
         listPacifyrRlay.setVisibility(View.GONE);
         setPacifyerValues();
+
+        buttonRlay.bringToFront();
 
         txt_emergency_usa=(CustomFontTextView) findViewById(R.id.txt_emergency_usa);
         Utility gps=new Utility();

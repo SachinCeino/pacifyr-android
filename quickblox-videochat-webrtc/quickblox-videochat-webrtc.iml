@@ -99,7 +99,7 @@
     <orderEntry type="library" exported="" name="com.android.support:multidex-1.0.1" level="project" />
     <orderEntry type="library" exported="" name="com.android.support:animated-vector-drawable-27.0.2" level="project" />
     <orderEntry type="library" exported="" name="com.android.support:appcompat-v7-27.0.2" level="project" />
-    <orderEntry type="library" exported="" name="com.android.support:recyclerview-v7-26.0.1" level="project" />
+    <orderEntry type="library" exported="" name="com.android.support:recyclerview-v7-26.1.0" level="project" />
     <orderEntry type="library" exported="" name="de.hdodenhof:circleimageview-2.0.0" level="project" />
     <orderEntry type="library" exported="" name="com.navercorp.pulltorefresh:library-3.2.3" level="project" />
     <orderEntry type="library" exported="" name="com.android.support:support-core-ui-25.2.0" level="project" />
@@ -129,8 +129,8 @@
     <orderEntry type="library" exported="" name="com.google.firebase:firebase-messaging-11.0.2" level="project" />
     <orderEntry type="library" exported="" name="com.google.android.gms:play-services-tasks-11.0.2" level="project" />
     <orderEntry type="library" exported="" name="com.android.support:support-fragment-27.0.2" level="project" />
-    <orderEntry type="library" exported="" name="com.android.support:transition-26.0.1" level="project" />
-    <orderEntry type="library" exported="" name="com.android.support:design-26.0.1" level="project" />
+    <orderEntry type="library" exported="" name="com.android.support:design-26.1.0" level="project" />
+    <orderEntry type="library" exported="" name="com.android.support:transition-26.1.0" level="project" />
     <orderEntry type="library" exported="" name="com.google.firebase:firebase-analytics-impl-11.0.2" level="project" />
     <orderEntry type="library" exported="" name="com.android.support:support-media-compat-27.0.2" level="project" />
     <orderEntry type="library" exported="" name="com.google.android.gms:play-services-base-11.0.2" level="project" />

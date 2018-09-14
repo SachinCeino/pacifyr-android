@@ -47,7 +47,7 @@
 
             <ImageView
                 android:layout_width="150dp"
-                android:src="@drawable/omhealth_icon_orange"
+                android:src="@drawable/powered_logo"
                 android:layout_height="150dp"
                 android:layout_centerHorizontal="true"
                 android:id="@+id/logo_blue"/>

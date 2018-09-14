@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     tools:context="com.pacifyr.omhealthcare.home.MySessionsActivity">
 
-    <include layout="@layout/actionbar_three_text_image"
+    <include layout="@layout/actionbar_grey"
         android:id="@+id/include"
         android:layout_height="50dp"
         android:layout_width="match_parent"></include>
@@ -20,7 +20,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/grey_hex_f8"
+            android:background="@color/grey_background"
             android:id="@+id/my_sessions_top_llay"
             android:orientation="vertical">
 
@@ -48,7 +48,6 @@
                     android:gravity="center"
                     android:padding="15dp"
                     android:textStyle="bold"
-                    android:background="@color/grey_hex_f8"
                     android:textColor="@color/grey_hex_c7"
                     android:textSize="18sp"
                     android:layout_centerHorizontal="true"
@@ -75,10 +74,35 @@
 
             </RelativeLayout>
 
-            <android.support.v7.widget.RecyclerView
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/date_list_rcv"/>
+                android:background="#F0F3F5"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginLeft="3dp"
+                    android:visibility="gone"
+                    android:src="@drawable/ic_arrow_back"
+                    android:layout_centerVertical="true"/>
+
+                <android.support.v7.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/date_list_rcv"/>
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_centerVertical="true"
+                    android:visibility="gone"
+                    android:layout_marginRight="3dp"
+                    android:src="@drawable/ic_arrow_forword"
+                    android:layout_alignParentRight="true"/>
+
+            </RelativeLayout>
+
 
             <View
                 android:layout_width="match_parent"
@@ -92,7 +116,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/upper_rlay"
                 android:padding="5dp"
-                android:background="@color/grey_hex_f8">
+                android:background="#F0F3F5">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -107,7 +131,7 @@
                         android:layout_height="wrap_content"
                         android:textSize="25sp"
                         android:id="@+id/session_no_ctxv"
-                        android:textColor="@color/black"
+                        android:textColor="@color/grey_dark_text"
                         android:textStyle="bold"
                         android:text="00"/>
 
@@ -115,8 +139,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="17sp"
-                        android:textColor="@color/black"
-                        android:text="@string/sessions"/>
+                        android:textColor="@color/grey_dark_text"
+                        android:text="@string/sessionS"/>
 
 
                 </LinearLayout>
@@ -142,13 +166,13 @@
                             android:layout_height="wrap_content"
                             android:textSize="25sp"
                             android:id="@+id/hours_no_ctxv"
-                            android:textColor="@color/black"
+                            android:textColor="@color/grey_dark_text"
                             android:textStyle="bold"
                             android:text="00"/>
 
                         <com.ceino.utilitylibrary.CustomFontTextView
                             android:layout_width="wrap_content"
-                            android:textColor="@color/black"
+                            android:textColor="@color/grey_dark_text"
                             android:layout_height="wrap_content"
                             android:textSize="17sp"
                             android:text="@string/hrs"/>
@@ -168,7 +192,7 @@
                             android:layout_height="wrap_content"
                             android:textSize="25sp"
                             android:id="@+id/minutes_no_ctxv"
-                            android:textColor="@color/black"
+                            android:textColor="@color/grey_dark_text"
                             android:textStyle="bold"
                             android:text="00"/>
 
@@ -176,7 +200,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="17sp"
-                            android:textColor="@color/black"
+                            android:textColor="@color/grey_dark_text"
                             android:text="@string/mns"/>
 
                     </LinearLayout>
@@ -197,7 +221,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="24sp"
-                        android:textColor="@color/black"
+                        android:textColor="@color/grey_dark_text"
                         android:textStyle="bold"
                         android:id="@+id/earnings_no_ctxv"
                         android:text="00"/>
@@ -207,7 +231,7 @@
                         android:layout_marginTop="1dp"
                         android:layout_height="wrap_content"
                         android:textSize="18sp"
-                        android:textColor="@color/black"
+                        android:textColor="@color/grey_dark_text"
                         android:text="@string/paid"/>
 
 
@@ -243,6 +267,7 @@
         <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/white"
             android:layout_below="@+id/my_sessions_top_llay"
             android:id="@+id/week_sessions_rcv">
 
@@ -252,6 +277,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="gone"
+            android:background="@color/white"
             android:layout_below="@+id/my_sessions_top_llay"
             android:id="@+id/month_sessions_rcv">
 
@@ -261,6 +287,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="gone"
+            android:background="@color/white"
             android:layout_below="@+id/my_sessions_top_llay"
             android:id="@+id/year_sessions_rcv">
 

@@ -492,10 +492,10 @@ public class AccountEditActivity extends PacifyrAppCompactActivity {
         backImv.setVisibility(View.VISIBLE);
         titleTxv.setVisibility(View.VISIBLE);
         leftLlay.setVisibility(View.VISIBLE);
-        defSetText(titleTxv,"Edit Profile ");
-            defSetText(rightTxv,"Save");
-            rightTxv.setTextColor(getResources().getColor(R.color.color_primary));
-        titleTxv.setTextColor(getResources().getColor(R.color.black));
+        defSetText(titleTxv,"edit profile ");
+            defSetText(rightTxv,"save");
+            rightTxv.setTextColor(getResources().getColor(R.color.grey_dark_text));
+        titleTxv.setTextColor(getResources().getColor(R.color.grey_dark_text));
         //backImv.setBackgroundResource(R.drawable.leftmen);
         leftLlay.setOnClickListener(new View.OnClickListener() {
             @Override

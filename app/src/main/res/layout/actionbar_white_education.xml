@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:id="@+id/action_bar_top_llay"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/grey_background"
     android:orientation="vertical">
 
 
@@ -53,7 +53,7 @@
             android:layout_height="wrap_content"
             android:textSize="23sp"
             android:id="@+id/header_ctxv"
-            android:textColor="@color/black"
+            android:textColor="@color/grey_dark_text"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:text="@string/education"/>
@@ -85,8 +85,8 @@
                 android:id="@+id/right_txv"
                 android:paddingRight="2dp"
                 android:textSize="@dimen/sp18"
-                android:text="Done"
-                android:textColor="@color/colorPrimary"
+                android:text="done"
+                android:textColor="@color/grey_dark_text"
                 android:layout_centerVertical="true"
                 />
             <com.ceino.utilitylibrary.DeviceFitImageView

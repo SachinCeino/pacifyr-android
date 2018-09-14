@@ -13,7 +13,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/grey_hex_f8"
+            android:background="#F0F3F5"
             android:id="@+id/my_sessions_top_llay"
             android:orientation="vertical">
 
@@ -29,9 +29,9 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@drawable/blue_line_bottom"
-                    android:textSize="15sp"
+                    android:textSize="18sp"
                     android:id="@+id/this_wk_ctxv"
-                    android:padding="10dp"
+                    android:padding="15dp"
                     android:fontFamily="@string/raleway_bold"
                     android:textColor="@color/blue_pacifyr"
                     android:text="Weekly"
@@ -42,12 +42,12 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="Monthly"
-                    android:padding="10dp"
+                    android:padding="15dp"
                     android:textStyle="bold"
                     android:id="@+id/this_mnt_ctxv"
-                    android:background="@color/grey_hex_f8"
+                    android:background="#F0F3F5"
                     android:textColor="@color/grey_hex_c7"
-                    android:textSize="15sp"
+                    android:textSize="18sp"
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:layout_weight="1" />
@@ -56,12 +56,12 @@
                     android:text="Yearly"
                     android:layout_width="0dp"
                     android:gravity="center"
-                    android:textSize="15sp"
+                    android:textSize="18sp"
                     android:textStyle="bold"
                     android:fontFamily="@string/raleway_bold"
                     android:id="@+id/this_year_ctxv"
                     android:textColor="@color/grey_hex_c7"
-                    android:padding="10dp"
+                    android:padding="15dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_gravity="right|center_vertical" />
@@ -73,10 +73,37 @@
                 android:layout_height="2dp"
                 android:background="@color/grey_hex_e6"/>
 
-            <android.support.v7.widget.RecyclerView
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:visibility="gone"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginLeft="3dp"
+                    android:src="@drawable/ic_arrow_back"
+                    android:layout_centerVertical="true"/>
+
+                <android.support.v7.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/date_list_rcv"/>
+
+                <ImageView
+                    android:visibility="gone"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="3dp"
+                    android:src="@drawable/ic_arrow_forword"
+                    android:layout_alignParentRight="true"/>
+
+            </RelativeLayout>
+            <!--<android.support.v7.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/date_list_rcv"/>
+                android:id="@+id/date_list_rcv"/>-->
 
             <View
                 android:layout_width="match_parent"
@@ -90,7 +117,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/upper_rlay"
                 android:padding="5dp"
-                android:background="@color/grey_hex_f8">
+                android:background="#F0F3F5">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -106,7 +133,7 @@
                         android:textSize="25sp"
                         android:id="@+id/session_no_ctxv"
                         android:fontFamily="@string/raleway_bold"
-                        android:textColor="@color/black"
+                        android:textColor="@color/grey_dark_text"
                         android:textStyle="bold"
                         android:text="00"/>
 
@@ -114,8 +141,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="17sp"
-                        android:textColor="@color/black"
-                        android:text="@string/sessions"/>
+                        android:textColor="@color/grey_dark_text"
+                        android:text="@string/sessionS"/>
 
 
                 </LinearLayout>
@@ -142,13 +169,13 @@
                             android:textSize="25sp"
                             android:id="@+id/hours_no_ctxv"
                             android:fontFamily="@string/raleway_bold"
-                            android:textColor="@color/black"
+                            android:textColor="@color/grey_dark_text"
                             android:textStyle="bold"
                             android:text="00"/>
 
                         <com.ceino.utilitylibrary.CustomFontTextView
                             android:layout_width="wrap_content"
-                            android:textColor="@color/black"
+                            android:textColor="@color/grey_dark_text"
                             android:layout_height="wrap_content"
                             android:textSize="17sp"
                             android:text="@string/hrs"/>
@@ -169,7 +196,7 @@
                             android:textSize="25sp"
                             android:id="@+id/minutes_no_ctxv"
                             android:fontFamily="@string/raleway_bold"
-                            android:textColor="@color/black"
+                            android:textColor="@color/grey_dark_text"
                             android:textStyle="bold"
                             android:text="00"/>
 
@@ -177,7 +204,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="17sp"
-                            android:textColor="@color/black"
+                            android:textColor="@color/grey_dark_text"
                             android:text="@string/mns"/>
 
                     </LinearLayout>
@@ -191,14 +218,13 @@
                     android:layout_alignParentRight="true"
                     android:gravity="center"
                     android:padding="10dp"
-                    android:layout_marginRight="15dp"
                     android:orientation="vertical">
 
                     <com.ceino.utilitylibrary.CustomFontTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="24sp"
-                        android:textColor="@color/black"
+                        android:textSize="25sp"
+                        android:textColor="@color/grey_dark_text"
                         android:textStyle="bold"
                         android:fontFamily="@string/raleway_bold"
                         android:id="@+id/earnings_no_ctxv"
@@ -208,8 +234,8 @@
                         android:layout_width="wrap_content"
                         android:layout_marginTop="1dp"
                         android:layout_height="wrap_content"
-                        android:textSize="18sp"
-                        android:textColor="@color/black"
+                        android:textSize="17sp"
+                        android:textColor="@color/grey_dark_text"
                         android:text="@string/paid"/>
 
 
@@ -222,15 +248,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
                 android:background="@color/grey_hex_e6"/>
-
-
-
-
-
-
-
-
-
 
 
 

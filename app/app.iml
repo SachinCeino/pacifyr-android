@@ -79,25 +79,17 @@
       <sourceFolder url="file://$MODULE_DIR$/src/androidTest/shaders" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/assets" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/blame" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/builds" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/classes" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/incremental" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/incremental-classes" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/incremental-runtime-classes" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/incremental-safeguard" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/incremental-verifier" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/instant-run-resources" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/instant-run-support" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/jniLibs" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/lint" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/manifests" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/multi-dex" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/reload-dex" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/pre-dexed" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/res" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/restart-dex" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/rs" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/shaders" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/split-apk" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/symbols" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/transforms" />
       <excludeFolder url="file://$MODULE_DIR$/build/outputs" />
@@ -110,6 +102,7 @@
     <orderEntry type="library" exported="" name="com.android.support:animated-vector-drawable-27.0.2" level="project" />
     <orderEntry type="library" exported="" name="com.squareup.okhttp3:okhttp:3.10.0@jar" level="project" />
     <orderEntry type="library" exported="" name="com.squareup.okio:okio:1.14.0@jar" level="project" />
+    <orderEntry type="library" exported="" name="com.android.support:recyclerview-v7-26.1.0" level="project" />
     <orderEntry type="library" exported="" name="com.navercorp.pulltorefresh:library-3.2.3" level="project" />
     <orderEntry type="library" exported="" name="com.facebook.android:facebook-marketing-4.36.0" level="project" />
     <orderEntry type="library" exported="" name="io.reactivex:rxandroid-1.2.0" level="project" />
@@ -131,6 +124,7 @@
     <orderEntry type="library" exported="" name="com.github.orangegangsters:swipy-1.2.2" level="project" />
     <orderEntry type="library" exported="" name="com.google.firebase:firebase-common-11.0.2" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="javax.annotation:javax.annotation-api:1.2@jar" level="project" />
+    <orderEntry type="library" exported="" name="com.android.support:design-26.1.0" level="project" />
     <orderEntry type="library" exported="" name="com.google.firebase:firebase-analytics-impl-11.0.2" level="project" />
     <orderEntry type="library" exported="" name="com.android.support:support-media-compat-27.0.2" level="project" />
     <orderEntry type="library" exported="" name="com.google.firebase:firebase-auth-11.0.2" level="project" />
@@ -139,7 +133,6 @@
     <orderEntry type="library" exported="" name="com.android.support:support-v4-27.0.2" level="project" />
     <orderEntry type="library" exported="" name="com.android.support:appcompat-v7-27.0.2" level="project" />
     <orderEntry type="library" exported="" name="com.android.support:support-annotations:27.0.2@jar" level="project" />
-    <orderEntry type="library" exported="" name="com.android.support:recyclerview-v7-26.0.1" level="project" />
     <orderEntry type="library" exported="" name="de.hdodenhof:circleimageview-2.1.0" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="com.android.support:multidex-instrumentation-1.0.1" level="project" />
     <orderEntry type="library" exported="" name="com.google.android.gms:play-services-basement-11.0.2" level="project" />
@@ -158,7 +151,6 @@
     <orderEntry type="library" exported="" name="com.facebook.android:facebook-share-4.36.0" level="project" />
     <orderEntry type="library" exported="" name="com.stripe:stripe-android-5.1.0" level="project" />
     <orderEntry type="library" exported="" name="com.google.firebase:firebase-messaging-11.0.2" level="project" />
-    <orderEntry type="library" exported="" name="com.android.support:design-26.0.1" level="project" />
     <orderEntry type="library" exported="" name="com.quickblox:quickblox-android-sdk-chat-3.3.5" level="project" />
     <orderEntry type="library" exported="" name="com.facebook.android:facebook-messenger-4.36.0" level="project" />
     <orderEntry type="library" exported="" name="me.leolin:ShortcutBadger-1.1.21" level="project" />
@@ -188,6 +180,7 @@
     <orderEntry type="library" exported="" scope="TEST" name="com.android.support.test.espresso:espresso-idling-resource-2.2.2" level="project" />
     <orderEntry type="library" exported="" name="com.google.android.gms:play-services-tasks-11.0.2" level="project" />
     <orderEntry type="library" exported="" name="com.android.support:support-fragment-27.0.2" level="project" />
+    <orderEntry type="library" exported="" name="com.android.support:transition-26.1.0" level="project" />
     <orderEntry type="library" exported="" name="org.greenrobot:eventbus:3.0.0@jar" level="project" />
     <orderEntry type="library" exported="" name="com.google.android.gms:play-services-base-11.0.2" level="project" />
     <orderEntry type="library" exported="" name="com.hbb20:ccp-2.0.3" level="project" />
@@ -206,7 +199,6 @@
     <orderEntry type="library" exported="" name="android.arch.lifecycle:common:1.0.3@jar" level="project" />
     <orderEntry type="library" exported="" name="com.squareup.retrofit2:converter-gson:2.4.0@jar" level="project" />
     <orderEntry type="library" exported="" name="com.android.support:support-core-utils-27.0.2" level="project" />
-    <orderEntry type="library" exported="" name="com.android.support:transition-26.0.1" level="project" />
     <orderEntry type="module" module-name="quickblox-core" exported="" />
     <orderEntry type="module" module-name="utilitylibrary" exported="" />
     <orderEntry type="module" module-name="quickblox-videochat-webrtc" exported="" />

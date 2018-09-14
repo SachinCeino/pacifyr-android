@@ -101,6 +101,7 @@
     <orderEntry type="library" exported="" name="com.android.support:multidex-1.0.1" level="project" />
     <orderEntry type="library" exported="" name="com.android.support:animated-vector-drawable-27.0.2" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="com.android.support.test:exposed-instrumentation-api-publish-0.5" level="project" />
+    <orderEntry type="library" exported="" name="com.android.support:recyclerview-v7-26.1.0" level="project" />
     <orderEntry type="library" exported="" name="com.google.code.gson:gson:2.4@jar" level="project" />
     <orderEntry type="library" exported="" name="de.hdodenhof:circleimageview-2.0.0" level="project" />
     <orderEntry type="library" exported="" name="com.navercorp.pulltorefresh:library-3.2.3" level="project" />
@@ -150,6 +151,8 @@
     <orderEntry type="library" exported="" name="com.google.android.gms:play-services-tasks-11.0.2" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="javax.annotation:javax.annotation-api:1.2@jar" level="project" />
     <orderEntry type="library" exported="" name="com.android.support:support-fragment-27.0.2" level="project" />
+    <orderEntry type="library" exported="" name="com.android.support:transition-26.1.0" level="project" />
+    <orderEntry type="library" exported="" name="com.android.support:design-26.1.0" level="project" />
     <orderEntry type="library" exported="" name="com.google.firebase:firebase-analytics-impl-11.0.2" level="project" />
     <orderEntry type="library" exported="" name="com.android.support:support-media-compat-27.0.2" level="project" />
     <orderEntry type="library" exported="" name="com.google.android.gms:play-services-base-11.0.2" level="project" />
@@ -159,7 +162,6 @@
     <orderEntry type="library" exported="" name="com.android.support:support-v4-27.0.2" level="project" />
     <orderEntry type="library" exported="" name="com.android.support:appcompat-v7-27.0.2" level="project" />
     <orderEntry type="library" exported="" name="com.android.support:support-annotations:27.0.2@jar" level="project" />
-    <orderEntry type="library" exported="" name="com.android.support:recyclerview-v7-26.0.1" level="project" />
     <orderEntry type="library" exported="" name="com.hbb20:ccp-2.0.3" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="junit:junit:4.12@jar" level="project" />
     <orderEntry type="library" exported="" name="de.hdodenhof:circleimageview-2.1.0" level="project" />
@@ -190,8 +192,6 @@
     <orderEntry type="library" exported="" name="com.facebook.android:facebook-share-4.36.0" level="project" />
     <orderEntry type="library" exported="" name="com.android.support:support-core-utils-27.0.2" level="project" />
     <orderEntry type="library" exported="" name="com.google.firebase:firebase-messaging-11.0.2" level="project" />
-    <orderEntry type="library" exported="" name="com.android.support:design-26.0.1" level="project" />
-    <orderEntry type="library" exported="" name="com.android.support:transition-26.0.1" level="project" />
     <orderEntry type="library" exported="" name="com.facebook.android:facebook-messenger-4.36.0" level="project" />
     <orderEntry type="module" module-name="quickblox-core" exported="" />
     <orderEntry type="module" module-name="quickblox-videochat-webrtc" exported="" />

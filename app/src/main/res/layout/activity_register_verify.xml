@@ -13,11 +13,6 @@
         android:layout_width="match_parent">
     </include>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/signup_view"/>
-
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -46,7 +41,7 @@
 
             <ImageView
                 android:layout_width="150dp"
-                android:src="@drawable/omhealth_icon_orange"
+                android:src="@drawable/powered_logo"
                 android:layout_height="150dp"
                 android:layout_centerHorizontal="true"
                 android:id="@+id/logo_blue"/>

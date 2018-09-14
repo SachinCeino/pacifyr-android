@@ -84,7 +84,6 @@
             android:name=".activity.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/CustomNoActionBarTheme2" />
-
         <activity
             android:name=".sign.LogInCodeVerifyActivity"
             android:screenOrientation="portrait"
@@ -363,8 +362,12 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <activity android:name=".sign.CrisisActivity"></activity>
-        <activity android:name=".emotionupdate.SelectEmotionActivity"></activity>
+        <activity android:name=".sign.CrisisActivity" />
+        <activity android:name=".emotionupdate.SelectEmotionActivity" />
+        <activity
+            android:name=".home.AndroidDashoardActivity"
+            android:label="@string/title_activity_android_dashoard"
+            android:theme="@style/CustomNoActionBarTheme2"></activity>
     </application>
 
 </manifest>

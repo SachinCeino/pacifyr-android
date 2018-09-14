@@ -130,8 +130,8 @@ public class MySessionsActivity extends PacifyrAppCompactActivity {
                     thisMntCtxv.setBackground(getResources().getDrawable(R.color.grey_hex_f8));
                     thisYearCtxv.setBackground(getResources().getDrawable(R.color.grey_hex_f8));
                     thisWkCtxv.setTextColor(getResources().getColor(R.color.blue_pacifyr));
-                    thisMntCtxv.setTextColor(getResources().getColor(R.color.grey_hex_c7));
-                    thisYearCtxv.setTextColor(getResources().getColor(R.color.grey_hex_c7));
+                    thisMntCtxv.setTextColor(getResources().getColor(R.color.grey_background));
+                    thisYearCtxv.setTextColor(getResources().getColor(R.color.grey_background));
                     weekSessionsRcv.setVisibility(View.VISIBLE);
                     monthSessionsRcv.setVisibility(View.GONE);
                     yearSessionsRcv.setVisibility(View.GONE);
@@ -155,8 +155,8 @@ public class MySessionsActivity extends PacifyrAppCompactActivity {
                     thisYearCtxv.setBackground(getResources().getDrawable(R.color.grey_hex_f8));
                     thisMntCtxv.setBackground(getResources().getDrawable(R.drawable.blue_line_bottom));
                     thisMntCtxv.setTextColor(getResources().getColor(R.color.blue_pacifyr));
-                    thisWkCtxv.setTextColor(getResources().getColor(R.color.grey_hex_c7));
-                    thisYearCtxv.setTextColor(getResources().getColor(R.color.grey_hex_c7));
+                    thisWkCtxv.setTextColor(getResources().getColor(R.color.grey_background));
+                    thisYearCtxv.setTextColor(getResources().getColor(R.color.grey_background));
                     monthSessionsRcv.setVisibility(View.VISIBLE);
                     weekSessionsRcv.setVisibility(View.GONE);
                     yearSessionsRcv.setVisibility(View.GONE);
@@ -179,8 +179,8 @@ public class MySessionsActivity extends PacifyrAppCompactActivity {
                     thisYearCtxv.setBackground(getResources().getDrawable(R.drawable.blue_line_bottom));
                     thisMntCtxv.setBackground(getResources().getDrawable(R.color.grey_hex_f8));
                     thisWkCtxv.setBackground(getResources().getDrawable(R.color.grey_hex_f8));
-                    thisWkCtxv.setTextColor(getResources().getColor(R.color.grey_hex_c7));
-                    thisMntCtxv.setTextColor(getResources().getColor(R.color.grey_hex_c7));
+                    thisWkCtxv.setTextColor(getResources().getColor(R.color.grey_background));
+                    thisMntCtxv.setTextColor(getResources().getColor(R.color.grey_background));
                     thisYearCtxv.setTextColor(getResources().getColor(R.color.blue_pacifyr));
                     yearSessionsRcv.setVisibility(View.VISIBLE);
                     weekSessionsRcv.setVisibility(View.GONE);

@@ -223,7 +223,7 @@
     <string name="action_screen_share">Screen share</string>
     <string name="action_update_opponens_list">Update opponents list</string>
     <string name="action_logout">Logout</string>
-    <string name="sign_in">Sign In</string>
+    <string name="sign_in">sign in</string>
     <string name="action_start_video_call">Video call</string>
     <string name="action_start_audio_call">Audio call</string>
 

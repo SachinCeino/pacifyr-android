@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+
+
+    <item
+        android:id="@+id/nav_dashboard"
+        android:icon="@drawable/ic_dashboard_menu"
+        android:title="@string/my_dashboard" />
+    <item
+        android:id="@+id/nav_session"
+        android:icon="@drawable/ic_session_menu"
+        android:title="@string/my_session" />
+    <item
+        android:id="@+id/nav_browse"
+        android:icon="@drawable/ic_browsepacifyr"
+        android:title="@string/browse_wellness_experts" />
+    <item
+        android:id="@+id/nav_payment"
+        android:icon="@drawable/paymen3"
+        android:title="@string/PAYMENT" />
+
+    <item
+        android:id="@+id/nav_messages"
+        android:icon="@drawable/message3"
+        android:title="@string/messages" />
+    <item
+        android:id="@+id/nav_support"
+        android:icon="@drawable/support3"
+        android:title="@string/SUPPORT" />
+
+    <item
+        android:id="@+id/nav_crisis"
+        android:icon="@drawable/crisis"
+        android:title="@string/CRISIS_INFO" />
+
+    <item
+        android:id="@+id/nav_tutorial"
+        android:icon="@drawable/tutorial"
+        android:title="@string/tutorial" />
+    <item
+        android:id="@+id/nav_policy"
+        android:icon="@drawable/ic_policy"
+        android:title="@string/Policy_Documents" />
+
+    <item
+        android:id="@+id/nav_resources"
+        android:icon="@drawable/resources"
+        android:title="@string/RESOURCES" />
+    <item
+        android:id="@+id/nav_connect"
+        android:icon="@drawable/connect3"
+        android:title="@string/connect_to_wellness_experts" />
+    <item
+        android:id="@+id/nav_logout"
+        android:icon="@drawable/ic_logout_menu"
+        android:title="@string/logout" />
+
+</menu>
