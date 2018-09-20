@@ -3,6 +3,7 @@
 buildscript {
     repositories {
         jcenter()
+        mavenCentral()
         maven { url 'https://jitpack.io' }
         maven { url "http://jcenter.bintray.com/" }
         maven { url "http://repo.maven.apache.org/maven2" }
@@ -13,11 +14,11 @@ buildscript {
 
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.3'
+        classpath 'com.android.tools.build:gradle:3.1.4'
         /*  classpath 'com.google.gms:google-services:3.1.0'*/
 
 
-        classpath 'com.google.gms:google-services:3.0.0'
+        classpath 'com.google.gms:google-services:4.1.0'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
@@ -60,11 +61,11 @@ ext {
     // Dependency versions
     /* playServicesVersion = '10.2.1'*/
     playServicesVersion = '11.0.2'
-    supportV4Version = '23.1.1'
-    appcompatV7Version = '23.1.1'
-    recyclerviewV7Version = '23.2.1'
-    supportAnnotationsVersion = '23.1.1'
-    designVersion = '23.1.1'
+    supportV4Version = '26.1.0'
+    appcompatV7Version = '26.1.0'
+    recyclerviewV7Version = '26.1.0'
+    supportAnnotationsVersion = '26.1.0'
+    designVersion = '26.1.0'
 
     uilVersion = '1.9.0'
     glideVersion = '3.6.1'

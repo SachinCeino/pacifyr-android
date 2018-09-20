@@ -16,6 +16,69 @@ android {
         multiDexEnabled true
     }
 
+    buildTypes {
+        repositories {
+            maven {
+                url "https://github.com/QuickBlox/quickblox-android-sdk-releases/raw/master/"
+            }
+            maven {
+                url "http://dl.bintray.com/ahmedrizwan/maven"
+            }
+            maven { url "https://jitpack.io" }
+        }
+        debug{
+
+        }
+        release {
+            minifyEnabled false
+//            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'),
+                    'proguard-rules.pro'
+
+            // minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), "proguard-rules.pro"
+
+            //Other parameters
+            /* debuggable false
+             jniDebuggable false
+             renderscriptDebuggable false
+             pseudoLocalesEnabled false
+             zipAlignEnabled true*/
+        }
+        /*lintOptions {
+            // set to true to turn off analysis progress reporting by lint
+            quiet true
+            // if true, stop the gradle build if errors are found
+            abortOnError false
+            // if true, only report errors
+            ignoreWarnings true
+        }
+*/
+        /*splits {
+            density {
+                enable true
+                exclude "ldpi", "tvdpi", "xxxhdpi"
+                compatibleScreens 'small', 'normal', 'large', 'xlarge'
+            }
+
+            abi {
+                enable false
+                include 'x86', 'armeabi-v7a', 'arm64-v8a', 'x86_64'
+                exclude "armeabi", "mips", "mips64"
+                universalApk true
+            }
+        }*/
+        /*applicationVariants.all { variant ->
+            variant.outputs.each { output ->
+                def lintTask = tasks["lint${variant.name.capitalize()}"]
+                output.assemble.dependsOn lintTask
+            }
+        }*/
+
+//        debug {
+//            signingConfig signingConfigs.debug
+//        }
+    }
 
 
 
@@ -24,9 +87,11 @@ android {
 
 dependencies {
     //compile ("com.quickblox:quickblox-android-sdk-messages:$rootProject.qbSdkVersion")
-    compile ("com.quickblox:quickblox-android-sdk-messages:$rootProject.qbSdkVersion" )
-    compile "com.android.support:design:${rootProject.designVersion}"
-    compile 'com.android.support:multidex:1.0.1'
+    implementation (("com.quickblox:quickblox-android-sdk-messages:$rootProject.qbSdkVersion" )){
+        exclude group : 'com.android.support'
+    }
+    implementation "com.android.support:design:${rootProject.designVersion}"
+    implementation 'com.android.support:multidex:1.0.3'
     // compile "com.github.johnkil.android-robototextview:robototextview:${rootProject.robotoTextViewVersion}"
 
 }

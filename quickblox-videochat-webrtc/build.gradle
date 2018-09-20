@@ -32,6 +32,70 @@ android {
 
     }
 
+    buildTypes {
+        repositories {
+            maven {
+                url "https://github.com/QuickBlox/quickblox-android-sdk-releases/raw/master/"
+            }
+            maven {
+                url "http://dl.bintray.com/ahmedrizwan/maven"
+            }
+            maven { url "https://jitpack.io" }
+        }
+        debug{
+
+        }
+        release {
+            minifyEnabled false
+//            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'),
+                    'proguard-rules.pro'
+
+            // minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), "proguard-rules.pro"
+
+            //Other parameters
+            /* debuggable false
+             jniDebuggable false
+             renderscriptDebuggable false
+             pseudoLocalesEnabled false
+             zipAlignEnabled true*/
+        }
+        /*lintOptions {
+            // set to true to turn off analysis progress reporting by lint
+            quiet true
+            // if true, stop the gradle build if errors are found
+            abortOnError false
+            // if true, only report errors
+            ignoreWarnings true
+        }
+*/
+        /*splits {
+            density {
+                enable true
+                exclude "ldpi", "tvdpi", "xxxhdpi"
+                compatibleScreens 'small', 'normal', 'large', 'xlarge'
+            }
+
+            abi {
+                enable false
+                include 'x86', 'armeabi-v7a', 'arm64-v8a', 'x86_64'
+                exclude "armeabi", "mips", "mips64"
+                universalApk true
+            }
+        }*/
+        /*applicationVariants.all { variant ->
+            variant.outputs.each { output ->
+                def lintTask = tasks["lint${variant.name.capitalize()}"]
+                output.assemble.dependsOn lintTask
+            }
+        }*/
+
+//        debug {
+//            signingConfig signingConfigs.debug
+//        }
+    }
+
 
 
 
@@ -75,19 +139,19 @@ android {
 dependencies {
     // compile "com.quickblox:quickblox-android-sdk-videochat-webrtc:$rootProject.qbSdkVersion"
     //compile (project(":sample-core"))
-    compile "com.android.support:recyclerview-v7:${rootProject.recyclerviewV7Version}"
-    compile 'com.android.support:cardview-v7:23.+'
-    compile "com.android.support:support-annotations:${rootProject.supportAnnotationsVersion}"
-    compile "com.navercorp.pulltorefresh:library:${rootProject.pullToRefreshVersion}@aar"
+    implementation "com.android.support:recyclerview-v7:${rootProject.recyclerviewV7Version}"
+    implementation 'com.android.support:cardview-v7:23.+'
+    implementation "com.android.support:support-annotations:${rootProject.supportAnnotationsVersion}"
+    implementation "com.navercorp.pulltorefresh:library:${rootProject.pullToRefreshVersion}@aar"
     /*  compile("com.crashlytics.sdk.android:crashlytics:${rootProject.crashlyticsVersion}@aar") {
             transitive = true;
         }*/
     /* compile "com.quickblox:quickblox-android-sdk-location:$rootProject.qbSdkVersion"
      compile "com.google.android.gms:play-services-location:${rootProject.playServicesVersion}"
      compile "com.google.android.gms:play-services-maps:${rootProject.playServicesVersion}"*/
-    compile 'com.github.bumptech.glide:glide:3.6.1'
-    compile 'de.hdodenhof:circleimageview:2.0.0'
-    compile project(':quickblox-core')
+    implementation 'com.github.bumptech.glide:glide:3.6.1'
+    implementation 'de.hdodenhof:circleimageview:2.0.0'
+    implementation project(':quickblox-core')
 }
 
 /*

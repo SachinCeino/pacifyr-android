@@ -31,6 +31,69 @@ android {
              versionName "3.1"*/
     }
 
+    buildTypes {
+        repositories {
+            maven {
+                url "https://github.com/QuickBlox/quickblox-android-sdk-releases/raw/master/"
+            }
+            maven {
+                url "http://dl.bintray.com/ahmedrizwan/maven"
+            }
+            maven { url "https://jitpack.io" }
+        }
+        debug{
+
+        }
+        release {
+            minifyEnabled false
+//            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'),
+                    'proguard-rules.pro'
+
+            // minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), "proguard-rules.pro"
+
+            //Other parameters
+            /* debuggable false
+             jniDebuggable false
+             renderscriptDebuggable false
+             pseudoLocalesEnabled false
+             zipAlignEnabled true*/
+        }
+        /*lintOptions {
+            // set to true to turn off analysis progress reporting by lint
+            quiet true
+            // if true, stop the gradle build if errors are found
+            abortOnError false
+            // if true, only report errors
+            ignoreWarnings true
+        }
+*/
+        /*splits {
+            density {
+                enable true
+                exclude "ldpi", "tvdpi", "xxxhdpi"
+                compatibleScreens 'small', 'normal', 'large', 'xlarge'
+            }
+
+            abi {
+                enable false
+                include 'x86', 'armeabi-v7a', 'arm64-v8a', 'x86_64'
+                exclude "armeabi", "mips", "mips64"
+                universalApk true
+            }
+        }*/
+        /*applicationVariants.all { variant ->
+            variant.outputs.each { output ->
+                def lintTask = tasks["lint${variant.name.capitalize()}"]
+                output.assemble.dependsOn lintTask
+            }
+        }*/
+
+//        debug {
+//            signingConfig signingConfigs.debug
+//        }
+    }
 
 
     /*productFlavors {
@@ -78,11 +141,11 @@ dependencies {
     // compile("com.quickblox:quickblox-android-sdk-chat:$rootProject.qbSdkVersion")
     //  compile("com.quickblox:quickblox-android-sdk-content:$rootProject.qbSdkVersion")
 
-    //compile(project(":sample-core"))
-    compile project(':quickblox-core')
-    compile 'com.github.orangegangsters:swipy:1.2.2@aar'
-    compile "com.github.bumptech.glide:glide:${rootProject.glideVersion}"
-    compile "se.emilsjolander:stickylistheaders:${rootProject.stickyListHeaders}"
+    //implementation(project(":sample-core"))
+    implementation project(':quickblox-core')
+    implementation 'com.github.orangegangsters:swipy:1.2.2@aar'
+    implementation "com.github.bumptech.glide:glide:${rootProject.glideVersion}"
+    implementation "se.emilsjolander:stickylistheaders:${rootProject.stickyListHeaders}"
 }
 
 //apply from: "../artifacts.gradle"
