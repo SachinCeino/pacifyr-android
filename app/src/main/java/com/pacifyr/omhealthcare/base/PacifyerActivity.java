@@ -1163,13 +1163,15 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
 
                                         JSONObject sessionobj = json.getJSONObject("session");
                                         String sessionid= sessionobj.getString("id");
+                                        String message = sessionobj.has("message") ? sessionobj.getString("message") : "Sorry, some error occurred";
                                         String statusmsg= json.getString("status");
                                         if(statusmsg.equalsIgnoreCase("success")) {
                                             if (isValid(sessionid,"Please try later ,session expired "))
                                                 startCall(isVideoCall,pacifyer, pacifyer.getQbid(), pacifyer.getId(), sessionid);
-                                        }
-                                        else
-                                        {
+                                        } else if (statusmsg.equalsIgnoreCase("error")) {
+                                            stopSessionWeb(pacifyer);
+                                            ToastHandler.newInstance(PacifyerActivity.this).mustShowToast(message);
+                                        } else {
                                             stopSessionWeb(pacifyer);
                                             //setAlertOKStatusInBlue("Connect call","Connect the call","OK");
                                             //startCall(isVideoCall,pacifyer, pacifyer.getQbid(), pacifyer.getId(), sessionid);
@@ -1190,17 +1192,19 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
                                     JSONObject sessionobj = json.getJSONObject("session");
                                     String sessionid= sessionobj.getString("id");
                                     String statusmsg= json.getString("status");
+                                    String message = sessionobj.has("message") ? sessionobj.getString("message") : "Sorry, some error occurred";
                                     if(statusmsg.equalsIgnoreCase("success")) {
                                         if (isValid(sessionid,"Please try later session expired"))
                                             startCall(isVideoCall,pacifyer, pacifyer.getQbid(), pacifyer.getId(), sessionid);
-                                    }
-                                    else
-                                    {
+                                    } else if (statusmsg.equalsIgnoreCase("error")) {
+                                        stopSessionWeb(pacifyer);
+                                        ToastHandler.newInstance(PacifyerActivity.this).mustShowToast(message);
+                                    } else {
                                         stopSessionWeb(pacifyer);
                                         ToastHandler.newInstance(PacifyerActivity.this).mustShowToast("Network error. Please try again");
                                         //setAlertOKStatusInBlue("Connect call","Connect the call","OK");
                                         //startCall(isVideoCall,pacifyer, pacifyer.getQbid(), pacifyer.getId(), sessionid);
-                                       // ToastHandler.newInstance(PacifyerActivity.this).mustShowToast(json.getString("message"));
+                                        // ToastHandler.newInstance(PacifyerActivity.this).mustShowToast(json.getString("message"));
                                     }
 
                                 }catch (Exception ex)

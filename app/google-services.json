@@ -1,35 +1,35 @@
 {
   "project_info": {
-    "project_number": "179562392190",
-    "firebase_url": "https://pacifyr-d55cd.firebaseio.com",
-    "project_id": "pacifyr-d55cd",
-    "storage_bucket": "pacifyr-d55cd.appspot.com"
+    "project_number": "200135963019",
+    "firebase_url": "https://om-healthcare-1af51.firebaseio.com",
+    "project_id": "om-healthcare-1af51",
+    "storage_bucket": "om-healthcare-1af51.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:179562392190:android:cbcba16e3c3f77b2",
+        "mobilesdk_app_id": "1:200135963019:android:002c2524d18c20ac",
         "android_client_info": {
-          "package_name": "com.pacifyr.omhealthcare"
+          "package_name": "com.ceino.pacifyr.omhealthcare"
         }
       },
       "oauth_client": [
         {
-          "client_id": "179562392190-tthtr6sill5oj11gd6bvcv5fdg9gbtuc.apps.googleusercontent.com",
+          "client_id": "200135963019-1c8vrv5qvg120qo3bd7neuell2300omr.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.pacifyr.omhealthcare",
+            "package_name": "com.ceino.pacifyr.omhealthcare",
             "certificate_hash": "653232b02b44ce70caaf2849d4628dde2599f6c2"
           }
         },
         {
-          "client_id": "179562392190-o77jj0a4tueb39e1tafadfkcf82empgl.apps.googleusercontent.com",
+          "client_id": "200135963019-bq0sf4q5fheesou3oe0o8otb0138tmo7.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBOINfg_9KGf0fLXfp9yQp3Z2xbwrOnY8A"
+          "current_key": "AIzaSyAjdaU-2ksU_rc_6dLOqmX7ra8w3Tn-to4"
         }
       ],
       "services": {
@@ -40,195 +40,7 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "179562392190-o77jj0a4tueb39e1tafadfkcf82empgl.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        },
-        "ads_service": {
-          "status": 2
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:179562392190:android:8fcb5ddf28b55d3d",
-        "android_client_info": {
-          "package_name": "com.pacifyr.omhelth"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "179562392190-o7m5b016v2jm2grc27varorm87e8qkd7.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.pacifyr.omhelth",
-            "certificate_hash": "653232b02b44ce70caaf2849d4628dde2599f6c2"
-          }
-        },
-        {
-          "client_id": "179562392190-o77jj0a4tueb39e1tafadfkcf82empgl.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBOINfg_9KGf0fLXfp9yQp3Z2xbwrOnY8A"
-        }
-      ],
-      "services": {
-        "analytics_service": {
-          "status": 1
-        },
-        "appinvite_service": {
-          "status": 2,
-          "other_platform_oauth_client": [
-            {
-              "client_id": "179562392190-o77jj0a4tueb39e1tafadfkcf82empgl.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        },
-        "ads_service": {
-          "status": 2
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:179562392190:android:5f78240f766baf07",
-        "android_client_info": {
-          "package_name": "com.pacifyr.pacifyrapp"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "179562392190-vmvhsm9q7ju8v5k69e8skpm2oleni06o.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.pacifyr.pacifyrapp",
-            "certificate_hash": "11c7d8dc5bd8ac5ed36d2904c6f81ff0abcf7cbd"
-          }
-        },
-        {
-          "client_id": "179562392190-0pq3lt2vpm1vmh06l0fsbnubrb5rngdi.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.pacifyr.pacifyrapp",
-            "certificate_hash": "3dcdaeb4da436182e68f629ac29ba538b9a7ff1d"
-          }
-        },
-        {
-          "client_id": "179562392190-colgli0nnes52ccu78f0t28nonefmqa8.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.pacifyr.pacifyrapp",
-            "certificate_hash": "8ae60c54ea58b2ddd38e5fb7fa65974202186a8b"
-          }
-        },
-        {
-          "client_id": "179562392190-5svkft9f850e4n99umubdkrclbiij1cs.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.pacifyr.pacifyrapp",
-            "certificate_hash": "a3419bc76f3d8e4d7edbfd9dc3da10015bb6a3a1"
-          }
-        },
-        {
-          "client_id": "179562392190-qmemc6o9vitbcqqbd3obvsk97o3g13g4.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.pacifyr.pacifyrapp",
-            "certificate_hash": "bea19d6edc273aec99d6377f2c418a06f48ae2bb"
-          }
-        },
-        {
-          "client_id": "179562392190-ds4imgn01u2qhhi3b6373fcpjlmgghpr.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.pacifyr.pacifyrapp",
-            "certificate_hash": "d373a5a7f286eca52f0762fe8350439e30cd1ba8"
-          }
-        },
-        {
-          "client_id": "179562392190-bnco4tq9q61as65coahrfr8l0npcmo0c.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.pacifyr.pacifyrapp",
-            "certificate_hash": "daa9bfb367abbc24235e28653d2bc73186406574"
-          }
-        },
-        {
-          "client_id": "179562392190-o77jj0a4tueb39e1tafadfkcf82empgl.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBOINfg_9KGf0fLXfp9yQp3Z2xbwrOnY8A"
-        }
-      ],
-      "services": {
-        "analytics_service": {
-          "status": 1
-        },
-        "appinvite_service": {
-          "status": 2,
-          "other_platform_oauth_client": [
-            {
-              "client_id": "179562392190-o77jj0a4tueb39e1tafadfkcf82empgl.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        },
-        "ads_service": {
-          "status": 2
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:179562392190:android:73a43a61d2382f9b",
-        "android_client_info": {
-          "package_name": "com.pacifyr.pacifyrproviderapp"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "179562392190-461l15enets46vr7m6o0hhnk6729sdf6.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.pacifyr.pacifyrproviderapp",
-            "certificate_hash": "daa9bfb367abbc24235e28653d2bc73186406574"
-          }
-        },
-        {
-          "client_id": "179562392190-vn6q4nruv75ffdn8gightvv44111mtcu.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.pacifyr.pacifyrproviderapp",
-            "certificate_hash": "653232b02b44ce70caaf2849d4628dde2599f6c2"
-          }
-        },
-        {
-          "client_id": "179562392190-o77jj0a4tueb39e1tafadfkcf82empgl.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBOINfg_9KGf0fLXfp9yQp3Z2xbwrOnY8A"
-        }
-      ],
-      "services": {
-        "analytics_service": {
-          "status": 1
-        },
-        "appinvite_service": {
-          "status": 2,
-          "other_platform_oauth_client": [
-            {
-              "client_id": "179562392190-o77jj0a4tueb39e1tafadfkcf82empgl.apps.googleusercontent.com",
+              "client_id": "200135963019-bq0sf4q5fheesou3oe0o8otb0138tmo7.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

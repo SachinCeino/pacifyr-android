@@ -1,3 +1,4 @@
+Starting a Gradle Daemon, 1 incompatible and 1 stopped Daemons could not be reused, use --status for details
 The project name 'om-android 3.1' contains at least one of the following characters: [ , /, \, :, <, >, ", ?, *, |]. This has been deprecated and is scheduled to be removed in Gradle 5.0. Set the 'rootProject.name' or adjust the 'include' statement (see https://docs.gradle.org/4.4/dsl/org.gradle.api.initialization.Settings.html#org.gradle.api.initialization.Settings:include(java.lang.String[]) for more details).
 WARNING: Configuration 'compile' is obsolete and has been replaced with 'implementation' and 'api'.
 It will be removed at the end of 2018. For more information see: http://d.android.com/r/tools/update-dependency-configurations.html
@@ -221,6 +222,7 @@ debugAndroidTestCompileClasspath - Resolved configuration for compilation for va
 |    |    \--- com.google.firebase:firebase-common:[11.0.2] -> 11.0.2 (*)
 |    +--- com.google.firebase:firebase-core:11.0.2 (*)
 |    \--- com.google.android.gms:play-services-gcm:11.0.2 (*)
++--- project :quickblox-core
 +--- com.github.JesusM:HoloCircleSeekBar:v2.2.2
 +--- com.minimize.library:seekbar-compat:0.2.5
 |    \--- com.android.support:appcompat-v7:23.3.0 -> 26.1.0 (*)
@@ -278,9 +280,6 @@ debugAndroidTestCompileClasspath - Resolved configuration for compilation for va
 +--- com.koushikdutta.ion:ion:2.1.7
 |    +--- com.google.code.gson:gson:2.3 -> 2.8.2
 |    \--- com.koushikdutta.async:androidasync:2.1.7
-+--- project :quickblox-core
-+--- project :quickblox-videochat-webrtc
-+--- project :quickblox-chat
 +--- com.amazonaws:aws-android-sdk-sns:2.6.31
 |    +--- com.amazonaws:aws-android-sdk-core:2.6.31
 |    |    \--- com.google.code.gson:gson:2.2.4 -> 2.8.2
@@ -294,8 +293,7 @@ debugAndroidTestCompileClasspath - Resolved configuration for compilation for va
 |    \--- com.android.support:support-annotations:27.0.2
 +--- com.github.bumptech.glide:glide:3.6.1
 +--- se.emilsjolander:stickylistheaders:2.7.0
-+--- com.github.orangegangsters:swipy:1.2.3
-\--- com.androidplot:afandroid.support.customtabsndroidplot-core:1.5.3 FAILED
+\--- com.github.orangegangsters:swipy:1.2.3
 
 debugAndroidTestRuntimeClasspath - Resolved configuration for runtime for variant: debugAndroidTest
 +--- com.android.support.test.espresso:espresso-core:2.2.2
@@ -326,7 +324,7 @@ debugAndroidTestRuntimeClasspath - Resolved configuration for runtime for varian
 |    |    \--- com.android.support:support-core-ui:26.1.0
 |    |         +--- com.android.support:support-annotations:26.1.0 -> 27.0.2
 |    |         \--- com.android.support:support-compat:26.1.0 (*)
-|    +--- de.hdodenhof:circleimageview:2.0.0 -> 2.1.0
+|    +--- de.hdodenhof:circleimageview:2.2.0
 |    +--- cn.carbs.android:AvatarImageView:1.0.2
 |    |    +--- io.reactivex:rxandroid:1.2.0
 |    |    |    \--- io.reactivex:rxjava:1.1.4 -> 1.1.5
@@ -335,6 +333,7 @@ debugAndroidTestRuntimeClasspath - Resolved configuration for runtime for varian
 |    +--- com.squareup:otto:1.3.6
 |    +--- com.kaopiz:kprogresshud:1.0.4
 |    +--- org.jsoup:jsoup:1.9.2
+|    +--- de.hdodenhof:circleimageview:2.0.0 -> 2.2.0
 |    +--- com.squareup.picasso:picasso:2.5.2
 |    +--- com.android.support:cardview-v7:26.1.0
 |    |    \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
@@ -450,14 +449,13 @@ debugAndroidTestRuntimeClasspath - Resolved configuration for runtime for varian
 |    |    +--- com.android.support:support-annotations:26.1.0 -> 27.0.2
 |    |    +--- com.navercorp.pulltorefresh:library:3.2.3
 |    |    +--- com.github.bumptech.glide:glide:3.6.1
-|    |    +--- de.hdodenhof:circleimageview:2.0.0 -> 2.1.0
+|    |    +--- de.hdodenhof:circleimageview:2.0.0 -> 2.2.0
 |    |    \--- project :quickblox-core (*)
 |    +--- project :quickblox-chat
 |    |    +--- project :quickblox-core (*)
 |    |    +--- com.github.orangegangsters:swipy:1.2.2 -> 1.2.3
 |    |    +--- com.github.bumptech.glide:glide:3.6.1
 |    |    \--- se.emilsjolander:stickylistheaders:2.7.0
-|    +--- com.androidplot:afandroid.support.customtabsndroidplot-core:1.5.3 FAILED
 |    \--- com.gdacciaro:iosdialog:1.0.3
 +--- com.android.support:multidex-instrumentation:1.0.2
 |    \--- com.android.support:multidex:1.0.2 -> 1.0.3
@@ -489,6 +487,7 @@ debugAndroidTestRuntimeClasspath - Resolved configuration for runtime for varian
 +--- com.quickblox:quickblox-android-sdk-content:3.3.5
 |    \--- com.quickblox:quickblox-android-sdk-core:3.3.5 (*)
 +--- com.quickblox:quickblox-android-sdk-messages:3.3.5 (*)
++--- project :quickblox-core (*)
 +--- com.github.JesusM:HoloCircleSeekBar:v2.2.2
 +--- com.minimize.library:seekbar-compat:0.2.5
 |    \--- com.android.support:appcompat-v7:23.3.0 -> 26.1.0 (*)
@@ -500,7 +499,7 @@ debugAndroidTestRuntimeClasspath - Resolved configuration for runtime for varian
 +--- com.android.support:support-annotations:26.1.0 -> 27.0.2
 +--- com.android.support:support-compat:26.1.0 (*)
 +--- com.android.support:support-core-ui:26.1.0 (*)
-+--- de.hdodenhof:circleimageview:2.1.0
++--- de.hdodenhof:circleimageview:2.1.0 -> 2.2.0
 +--- com.stripe:stripe-android:5.1.0
 |    +--- com.android.support:support-annotations:26.0.1 -> 27.0.2
 |    +--- com.android.support:appcompat-v7:26.0.1 -> 26.1.0 (*)
@@ -522,9 +521,6 @@ debugAndroidTestRuntimeClasspath - Resolved configuration for runtime for varian
 +--- com.gdacciaro:iosdialog:1.0.3
 +--- com.kaopiz:kprogresshud:1.0.4
 +--- com.koushikdutta.ion:ion:2.1.7 (*)
-+--- project :quickblox-core (*)
-+--- project :quickblox-videochat-webrtc (*)
-+--- project :quickblox-chat (*)
 +--- com.amazonaws:aws-android-sdk-sns:2.6.31 (*)
 +--- com.daprlabs.aaron:cardstack:0.3.1-beta0
 +--- com.android.support:cardview-v7:26.1.0 (*)
@@ -533,8 +529,7 @@ debugAndroidTestRuntimeClasspath - Resolved configuration for runtime for varian
 |    \--- com.android.support:support-annotations:27.0.2
 +--- com.github.bumptech.glide:glide:3.6.1
 +--- se.emilsjolander:stickylistheaders:2.7.0
-+--- com.github.orangegangsters:swipy:1.2.3
-\--- com.androidplot:afandroid.support.customtabsndroidplot-core:1.5.3 FAILED
+\--- com.github.orangegangsters:swipy:1.2.3
 
 debugAnnotationProcessor - Classpath for the annotation processor for 'debug'. (n)
 No dependencies
@@ -652,6 +647,7 @@ debugCompileClasspath - Resolved configuration for compilation for variant: debu
 |    |    \--- com.google.firebase:firebase-common:[11.0.2] -> 11.0.2 (*)
 |    +--- com.google.firebase:firebase-core:11.0.2 (*)
 |    \--- com.google.android.gms:play-services-gcm:11.0.2 (*)
++--- project :quickblox-core
 +--- com.github.JesusM:HoloCircleSeekBar:v2.2.2
 +--- com.minimize.library:seekbar-compat:0.2.5
 |    \--- com.android.support:appcompat-v7:23.3.0 -> 26.1.0 (*)
@@ -709,9 +705,6 @@ debugCompileClasspath - Resolved configuration for compilation for variant: debu
 +--- com.koushikdutta.ion:ion:2.1.7
 |    +--- com.google.code.gson:gson:2.3 -> 2.8.2
 |    \--- com.koushikdutta.async:androidasync:2.1.7
-+--- project :quickblox-core
-+--- project :quickblox-videochat-webrtc
-+--- project :quickblox-chat
 +--- com.amazonaws:aws-android-sdk-sns:2.6.31
 |    +--- com.amazonaws:aws-android-sdk-core:2.6.31
 |    |    \--- com.google.code.gson:gson:2.2.4 -> 2.8.2
@@ -725,8 +718,7 @@ debugCompileClasspath - Resolved configuration for compilation for variant: debu
 |    \--- com.android.support:support-annotations:27.0.2
 +--- com.github.bumptech.glide:glide:3.6.1
 +--- se.emilsjolander:stickylistheaders:2.7.0
-+--- com.github.orangegangsters:swipy:1.2.3
-\--- com.androidplot:afandroid.support.customtabsndroidplot-core:1.5.3 FAILED
+\--- com.github.orangegangsters:swipy:1.2.3
 
 debugCompileOnly - Compile only dependencies for 'debug' sources. (n)
 No dependencies
@@ -753,7 +745,7 @@ debugRuntimeClasspath - Resolved configuration for runtime for variant: debug
 |    |    \--- com.android.support:support-core-ui:26.1.0
 |    |         +--- com.android.support:support-annotations:26.1.0 -> 27.0.2
 |    |         \--- com.android.support:support-compat:26.1.0 (*)
-|    +--- de.hdodenhof:circleimageview:2.0.0 -> 2.1.0
+|    +--- de.hdodenhof:circleimageview:2.2.0
 |    +--- cn.carbs.android:AvatarImageView:1.0.2
 |    |    +--- io.reactivex:rxandroid:1.2.0
 |    |    |    \--- io.reactivex:rxjava:1.1.4 -> 1.1.5
@@ -762,6 +754,7 @@ debugRuntimeClasspath - Resolved configuration for runtime for variant: debug
 |    +--- com.squareup:otto:1.3.6
 |    +--- com.kaopiz:kprogresshud:1.0.4
 |    +--- org.jsoup:jsoup:1.9.2
+|    +--- de.hdodenhof:circleimageview:2.0.0 -> 2.2.0
 |    +--- com.squareup.picasso:picasso:2.5.2
 |    +--- com.android.support:cardview-v7:26.1.0
 |    |    \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
@@ -877,14 +870,13 @@ debugRuntimeClasspath - Resolved configuration for runtime for variant: debug
 |    |    +--- com.android.support:support-annotations:26.1.0 -> 27.0.2
 |    |    +--- com.navercorp.pulltorefresh:library:3.2.3
 |    |    +--- com.github.bumptech.glide:glide:3.6.1
-|    |    +--- de.hdodenhof:circleimageview:2.0.0 -> 2.1.0
+|    |    +--- de.hdodenhof:circleimageview:2.0.0 -> 2.2.0
 |    |    \--- project :quickblox-core (*)
 |    +--- project :quickblox-chat
 |    |    +--- project :quickblox-core (*)
 |    |    +--- com.github.orangegangsters:swipy:1.2.2 -> 1.2.3
 |    |    +--- com.github.bumptech.glide:glide:3.6.1
 |    |    \--- se.emilsjolander:stickylistheaders:2.7.0
-|    +--- com.androidplot:afandroid.support.customtabsndroidplot-core:1.5.3 FAILED
 |    \--- com.gdacciaro:iosdialog:1.0.3
 +--- com.android.support:multidex:1.0.2 -> 1.0.3
 +--- com.android.support.constraint:constraint-layout:1.0.2
@@ -915,6 +907,7 @@ debugRuntimeClasspath - Resolved configuration for runtime for variant: debug
 +--- com.quickblox:quickblox-android-sdk-content:3.3.5
 |    \--- com.quickblox:quickblox-android-sdk-core:3.3.5 (*)
 +--- com.quickblox:quickblox-android-sdk-messages:3.3.5 (*)
++--- project :quickblox-core (*)
 +--- com.github.JesusM:HoloCircleSeekBar:v2.2.2
 +--- com.minimize.library:seekbar-compat:0.2.5
 |    \--- com.android.support:appcompat-v7:23.3.0 -> 26.1.0 (*)
@@ -926,7 +919,7 @@ debugRuntimeClasspath - Resolved configuration for runtime for variant: debug
 +--- com.android.support:support-annotations:26.1.0 -> 27.0.2
 +--- com.android.support:support-compat:26.1.0 (*)
 +--- com.android.support:support-core-ui:26.1.0 (*)
-+--- de.hdodenhof:circleimageview:2.1.0
++--- de.hdodenhof:circleimageview:2.1.0 -> 2.2.0
 +--- com.stripe:stripe-android:5.1.0
 |    +--- com.android.support:support-annotations:26.0.1 -> 27.0.2
 |    +--- com.android.support:appcompat-v7:26.0.1 -> 26.1.0 (*)
@@ -948,9 +941,6 @@ debugRuntimeClasspath - Resolved configuration for runtime for variant: debug
 +--- com.gdacciaro:iosdialog:1.0.3
 +--- com.kaopiz:kprogresshud:1.0.4
 +--- com.koushikdutta.ion:ion:2.1.7 (*)
-+--- project :quickblox-core (*)
-+--- project :quickblox-videochat-webrtc (*)
-+--- project :quickblox-chat (*)
 +--- com.amazonaws:aws-android-sdk-sns:2.6.31 (*)
 +--- com.daprlabs.aaron:cardstack:0.3.1-beta0
 +--- com.android.support:cardview-v7:26.1.0 (*)
@@ -959,8 +949,7 @@ debugRuntimeClasspath - Resolved configuration for runtime for variant: debug
 |    \--- com.android.support:support-annotations:27.0.2
 +--- com.github.bumptech.glide:glide:3.6.1
 +--- se.emilsjolander:stickylistheaders:2.7.0
-+--- com.github.orangegangsters:swipy:1.2.3
-\--- com.androidplot:afandroid.support.customtabsndroidplot-core:1.5.3 FAILED
+\--- com.github.orangegangsters:swipy:1.2.3
 
 debugRuntimeElements - Runtime elements for debug (n)
 No dependencies
@@ -1065,6 +1054,7 @@ debugUnitTestCompileClasspath - Resolved configuration for compilation for varia
 |    |    \--- com.google.firebase:firebase-common:[11.0.2] -> 11.0.2 (*)
 |    +--- com.google.firebase:firebase-core:11.0.2 (*)
 |    \--- com.google.android.gms:play-services-gcm:11.0.2 (*)
++--- project :quickblox-core
 +--- com.github.JesusM:HoloCircleSeekBar:v2.2.2
 +--- com.minimize.library:seekbar-compat:0.2.5
 |    \--- com.android.support:appcompat-v7:23.3.0 -> 26.1.0 (*)
@@ -1122,9 +1112,6 @@ debugUnitTestCompileClasspath - Resolved configuration for compilation for varia
 +--- com.koushikdutta.ion:ion:2.1.7
 |    +--- com.google.code.gson:gson:2.3 -> 2.8.2
 |    \--- com.koushikdutta.async:androidasync:2.1.7
-+--- project :quickblox-core
-+--- project :quickblox-videochat-webrtc
-+--- project :quickblox-chat
 +--- com.amazonaws:aws-android-sdk-sns:2.6.31
 |    +--- com.amazonaws:aws-android-sdk-core:2.6.31
 |    |    \--- com.google.code.gson:gson:2.2.4 -> 2.8.2
@@ -1139,7 +1126,6 @@ debugUnitTestCompileClasspath - Resolved configuration for compilation for varia
 +--- com.github.bumptech.glide:glide:3.6.1
 +--- se.emilsjolander:stickylistheaders:2.7.0
 +--- com.github.orangegangsters:swipy:1.2.3
-+--- com.androidplot:afandroid.support.customtabsndroidplot-core:1.5.3 FAILED
 \--- junit:junit:4.12
      \--- org.hamcrest:hamcrest-core:1.3
 
@@ -1156,7 +1142,7 @@ debugUnitTestRuntimeClasspath - Resolved configuration for runtime for variant: 
 |    |    \--- com.android.support:support-core-ui:26.1.0
 |    |         +--- com.android.support:support-annotations:26.1.0 -> 27.0.2
 |    |         \--- com.android.support:support-compat:26.1.0 (*)
-|    +--- de.hdodenhof:circleimageview:2.0.0 -> 2.1.0
+|    +--- de.hdodenhof:circleimageview:2.2.0
 |    +--- cn.carbs.android:AvatarImageView:1.0.2
 |    |    +--- io.reactivex:rxandroid:1.2.0
 |    |    |    \--- io.reactivex:rxjava:1.1.4 -> 1.1.5
@@ -1165,6 +1151,7 @@ debugUnitTestRuntimeClasspath - Resolved configuration for runtime for variant: 
 |    +--- com.squareup:otto:1.3.6
 |    +--- com.kaopiz:kprogresshud:1.0.4
 |    +--- org.jsoup:jsoup:1.9.2
+|    +--- de.hdodenhof:circleimageview:2.0.0 -> 2.2.0
 |    +--- com.squareup.picasso:picasso:2.5.2
 |    +--- com.android.support:cardview-v7:26.1.0
 |    |    \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
@@ -1280,14 +1267,13 @@ debugUnitTestRuntimeClasspath - Resolved configuration for runtime for variant: 
 |    |    +--- com.android.support:support-annotations:26.1.0 -> 27.0.2
 |    |    +--- com.navercorp.pulltorefresh:library:3.2.3
 |    |    +--- com.github.bumptech.glide:glide:3.6.1
-|    |    +--- de.hdodenhof:circleimageview:2.0.0 -> 2.1.0
+|    |    +--- de.hdodenhof:circleimageview:2.0.0 -> 2.2.0
 |    |    \--- project :quickblox-core (*)
 |    +--- project :quickblox-chat
 |    |    +--- project :quickblox-core (*)
 |    |    +--- com.github.orangegangsters:swipy:1.2.2 -> 1.2.3
 |    |    +--- com.github.bumptech.glide:glide:3.6.1
 |    |    \--- se.emilsjolander:stickylistheaders:2.7.0
-|    +--- com.androidplot:afandroid.support.customtabsndroidplot-core:1.5.3 FAILED
 |    \--- com.gdacciaro:iosdialog:1.0.3
 +--- com.android.support.constraint:constraint-layout:1.0.2
 |    \--- com.android.support.constraint:constraint-layout-solver:1.0.2
@@ -1317,6 +1303,7 @@ debugUnitTestRuntimeClasspath - Resolved configuration for runtime for variant: 
 +--- com.quickblox:quickblox-android-sdk-content:3.3.5
 |    \--- com.quickblox:quickblox-android-sdk-core:3.3.5 (*)
 +--- com.quickblox:quickblox-android-sdk-messages:3.3.5 (*)
++--- project :quickblox-core (*)
 +--- com.github.JesusM:HoloCircleSeekBar:v2.2.2
 +--- com.minimize.library:seekbar-compat:0.2.5
 |    \--- com.android.support:appcompat-v7:23.3.0 -> 26.1.0 (*)
@@ -1328,7 +1315,7 @@ debugUnitTestRuntimeClasspath - Resolved configuration for runtime for variant: 
 +--- com.android.support:support-annotations:26.1.0 -> 27.0.2
 +--- com.android.support:support-compat:26.1.0 (*)
 +--- com.android.support:support-core-ui:26.1.0 (*)
-+--- de.hdodenhof:circleimageview:2.1.0
++--- de.hdodenhof:circleimageview:2.1.0 -> 2.2.0
 +--- com.stripe:stripe-android:5.1.0
 |    +--- com.android.support:support-annotations:26.0.1 -> 27.0.2
 |    +--- com.android.support:appcompat-v7:26.0.1 -> 26.1.0 (*)
@@ -1350,9 +1337,6 @@ debugUnitTestRuntimeClasspath - Resolved configuration for runtime for variant: 
 +--- com.gdacciaro:iosdialog:1.0.3
 +--- com.kaopiz:kprogresshud:1.0.4
 +--- com.koushikdutta.ion:ion:2.1.7 (*)
-+--- project :quickblox-core (*)
-+--- project :quickblox-videochat-webrtc (*)
-+--- project :quickblox-chat (*)
 +--- com.amazonaws:aws-android-sdk-sns:2.6.31 (*)
 +--- com.daprlabs.aaron:cardstack:0.3.1-beta0
 +--- com.android.support:cardview-v7:26.1.0 (*)
@@ -1362,7 +1346,6 @@ debugUnitTestRuntimeClasspath - Resolved configuration for runtime for variant: 
 +--- com.github.bumptech.glide:glide:3.6.1
 +--- se.emilsjolander:stickylistheaders:2.7.0
 +--- com.github.orangegangsters:swipy:1.2.3
-+--- com.androidplot:afandroid.support.customtabsndroidplot-core:1.5.3 FAILED
 \--- junit:junit:4.12
      \--- org.hamcrest:hamcrest-core:1.3
 
@@ -1392,6 +1375,7 @@ implementation - Implementation only dependencies for 'main' sources. (n)
 +--- com.quickblox:quickblox-android-sdk-chat:3.3.5 (n)
 +--- com.quickblox:quickblox-android-sdk-content:3.3.5 (n)
 +--- com.quickblox:quickblox-android-sdk-messages:3.3.5 (n)
++--- project quickblox-core (n)
 +--- com.github.JesusM:HoloCircleSeekBar:v2.2.2 (n)
 +--- com.minimize.library:seekbar-compat:0.2.5 (n)
 +--- com.github.ome450901:SimpleRatingBar:1.2.1 (n)
@@ -1413,17 +1397,13 @@ implementation - Implementation only dependencies for 'main' sources. (n)
 +--- com.gdacciaro:iosdialog:1.0.3 (n)
 +--- com.kaopiz:kprogresshud:1.0.4 (n)
 +--- com.koushikdutta.ion:ion:2.1.7 (n)
-+--- project quickblox-core (n)
-+--- project quickblox-videochat-webrtc (n)
-+--- project quickblox-chat (n)
 +--- com.amazonaws:aws-android-sdk-sns:2.6.31 (n)
 +--- com.daprlabs.aaron:cardstack:0.3.1-beta0 (n)
 +--- com.android.support:cardview-v7:26.1.0 (n)
 +--- com.androidplot:androidplot-core:1.5.3 (n)
 +--- com.github.bumptech.glide:glide:3.6.1 (n)
 +--- se.emilsjolander:stickylistheaders:2.7.0 (n)
-+--- com.github.orangegangsters:swipy:1.2.3 (n)
-\--- com.androidplot:afandroid.support.customtabsndroidplot-core:1.5.3 (n)
+\--- com.github.orangegangsters:swipy:1.2.3 (n)
 
 lintChecks - Configuration to apply external lint check jar
 No dependencies
@@ -1699,6 +1679,7 @@ releaseCompileClasspath - Resolved configuration for compilation for variant: re
 |    |    \--- com.google.firebase:firebase-common:[11.0.2] -> 11.0.2 (*)
 |    +--- com.google.firebase:firebase-core:11.0.2 (*)
 |    \--- com.google.android.gms:play-services-gcm:11.0.2 (*)
++--- project :quickblox-core
 +--- com.github.JesusM:HoloCircleSeekBar:v2.2.2
 +--- com.minimize.library:seekbar-compat:0.2.5
 |    \--- com.android.support:appcompat-v7:23.3.0 -> 26.1.0 (*)
@@ -1756,9 +1737,6 @@ releaseCompileClasspath - Resolved configuration for compilation for variant: re
 +--- com.koushikdutta.ion:ion:2.1.7
 |    +--- com.google.code.gson:gson:2.3 -> 2.8.2
 |    \--- com.koushikdutta.async:androidasync:2.1.7
-+--- project :quickblox-core
-+--- project :quickblox-videochat-webrtc
-+--- project :quickblox-chat
 +--- com.amazonaws:aws-android-sdk-sns:2.6.31
 |    +--- com.amazonaws:aws-android-sdk-core:2.6.31
 |    |    \--- com.google.code.gson:gson:2.2.4 -> 2.8.2
@@ -1773,7 +1751,6 @@ releaseCompileClasspath - Resolved configuration for compilation for variant: re
 +--- com.github.bumptech.glide:glide:3.6.1
 +--- se.emilsjolander:stickylistheaders:2.7.0
 +--- com.github.orangegangsters:swipy:1.2.3
-+--- com.androidplot:afandroid.support.customtabsndroidplot-core:1.5.3 FAILED
 \--- com.android.support:multidex:1.0.2 -> 1.0.3
 
 releaseCompileOnly - Compile only dependencies for 'release' sources. (n)
@@ -1800,7 +1777,7 @@ releaseRuntimeClasspath - Resolved configuration for runtime for variant: releas
 |    |    \--- com.android.support:support-core-ui:26.1.0
 |    |         +--- com.android.support:support-annotations:26.1.0 -> 27.0.2
 |    |         \--- com.android.support:support-compat:26.1.0 (*)
-|    +--- de.hdodenhof:circleimageview:2.0.0 -> 2.1.0
+|    +--- de.hdodenhof:circleimageview:2.2.0
 |    +--- cn.carbs.android:AvatarImageView:1.0.2
 |    |    +--- io.reactivex:rxandroid:1.2.0
 |    |    |    \--- io.reactivex:rxjava:1.1.4 -> 1.1.5
@@ -1809,6 +1786,7 @@ releaseRuntimeClasspath - Resolved configuration for runtime for variant: releas
 |    +--- com.squareup:otto:1.3.6
 |    +--- com.kaopiz:kprogresshud:1.0.4
 |    +--- org.jsoup:jsoup:1.9.2
+|    +--- de.hdodenhof:circleimageview:2.0.0 -> 2.2.0
 |    +--- com.squareup.picasso:picasso:2.5.2
 |    +--- com.android.support:cardview-v7:26.1.0
 |    |    \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
@@ -1924,14 +1902,13 @@ releaseRuntimeClasspath - Resolved configuration for runtime for variant: releas
 |    |    +--- com.android.support:support-annotations:26.1.0 -> 27.0.2
 |    |    +--- com.navercorp.pulltorefresh:library:3.2.3
 |    |    +--- com.github.bumptech.glide:glide:3.6.1
-|    |    +--- de.hdodenhof:circleimageview:2.0.0 -> 2.1.0
+|    |    +--- de.hdodenhof:circleimageview:2.0.0 -> 2.2.0
 |    |    \--- project :quickblox-core (*)
 |    +--- project :quickblox-chat
 |    |    +--- project :quickblox-core (*)
 |    |    +--- com.github.orangegangsters:swipy:1.2.2 -> 1.2.3
 |    |    +--- com.github.bumptech.glide:glide:3.6.1
 |    |    \--- se.emilsjolander:stickylistheaders:2.7.0
-|    +--- com.androidplot:afandroid.support.customtabsndroidplot-core:1.5.3 FAILED
 |    +--- com.gdacciaro:iosdialog:1.0.3
 |    \--- com.android.support:multidex:1.0.2 -> 1.0.3
 +--- com.android.support.constraint:constraint-layout:1.0.2
@@ -1962,6 +1939,7 @@ releaseRuntimeClasspath - Resolved configuration for runtime for variant: releas
 +--- com.quickblox:quickblox-android-sdk-content:3.3.5
 |    \--- com.quickblox:quickblox-android-sdk-core:3.3.5 (*)
 +--- com.quickblox:quickblox-android-sdk-messages:3.3.5 (*)
++--- project :quickblox-core (*)
 +--- com.github.JesusM:HoloCircleSeekBar:v2.2.2
 +--- com.minimize.library:seekbar-compat:0.2.5
 |    \--- com.android.support:appcompat-v7:23.3.0 -> 26.1.0 (*)
@@ -1973,7 +1951,7 @@ releaseRuntimeClasspath - Resolved configuration for runtime for variant: releas
 +--- com.android.support:support-annotations:26.1.0 -> 27.0.2
 +--- com.android.support:support-compat:26.1.0 (*)
 +--- com.android.support:support-core-ui:26.1.0 (*)
-+--- de.hdodenhof:circleimageview:2.1.0
++--- de.hdodenhof:circleimageview:2.1.0 -> 2.2.0
 +--- com.stripe:stripe-android:5.1.0
 |    +--- com.android.support:support-annotations:26.0.1 -> 27.0.2
 |    +--- com.android.support:appcompat-v7:26.0.1 -> 26.1.0 (*)
@@ -1995,9 +1973,6 @@ releaseRuntimeClasspath - Resolved configuration for runtime for variant: releas
 +--- com.gdacciaro:iosdialog:1.0.3
 +--- com.kaopiz:kprogresshud:1.0.4
 +--- com.koushikdutta.ion:ion:2.1.7 (*)
-+--- project :quickblox-core (*)
-+--- project :quickblox-videochat-webrtc (*)
-+--- project :quickblox-chat (*)
 +--- com.amazonaws:aws-android-sdk-sns:2.6.31 (*)
 +--- com.daprlabs.aaron:cardstack:0.3.1-beta0
 +--- com.android.support:cardview-v7:26.1.0 (*)
@@ -2007,7 +1982,6 @@ releaseRuntimeClasspath - Resolved configuration for runtime for variant: releas
 +--- com.github.bumptech.glide:glide:3.6.1
 +--- se.emilsjolander:stickylistheaders:2.7.0
 +--- com.github.orangegangsters:swipy:1.2.3
-+--- com.androidplot:afandroid.support.customtabsndroidplot-core:1.5.3 FAILED
 \--- com.android.support:multidex:1.0.2 -> 1.0.3
 
 releaseRuntimeElements - Runtime elements for release (n)
@@ -2113,6 +2087,7 @@ releaseUnitTestCompileClasspath - Resolved configuration for compilation for var
 |    |    \--- com.google.firebase:firebase-common:[11.0.2] -> 11.0.2 (*)
 |    +--- com.google.firebase:firebase-core:11.0.2 (*)
 |    \--- com.google.android.gms:play-services-gcm:11.0.2 (*)
++--- project :quickblox-core
 +--- com.github.JesusM:HoloCircleSeekBar:v2.2.2
 +--- com.minimize.library:seekbar-compat:0.2.5
 |    \--- com.android.support:appcompat-v7:23.3.0 -> 26.1.0 (*)
@@ -2170,9 +2145,6 @@ releaseUnitTestCompileClasspath - Resolved configuration for compilation for var
 +--- com.koushikdutta.ion:ion:2.1.7
 |    +--- com.google.code.gson:gson:2.3 -> 2.8.2
 |    \--- com.koushikdutta.async:androidasync:2.1.7
-+--- project :quickblox-core
-+--- project :quickblox-videochat-webrtc
-+--- project :quickblox-chat
 +--- com.amazonaws:aws-android-sdk-sns:2.6.31
 |    +--- com.amazonaws:aws-android-sdk-core:2.6.31
 |    |    \--- com.google.code.gson:gson:2.2.4 -> 2.8.2
@@ -2187,7 +2159,6 @@ releaseUnitTestCompileClasspath - Resolved configuration for compilation for var
 +--- com.github.bumptech.glide:glide:3.6.1
 +--- se.emilsjolander:stickylistheaders:2.7.0
 +--- com.github.orangegangsters:swipy:1.2.3
-+--- com.androidplot:afandroid.support.customtabsndroidplot-core:1.5.3 FAILED
 \--- junit:junit:4.12
      \--- org.hamcrest:hamcrest-core:1.3
 
@@ -2203,7 +2174,7 @@ releaseUnitTestRuntimeClasspath - Resolved configuration for runtime for variant
 |    |    \--- com.android.support:support-core-ui:26.1.0
 |    |         +--- com.android.support:support-annotations:26.1.0 -> 27.0.2
 |    |         \--- com.android.support:support-compat:26.1.0 (*)
-|    +--- de.hdodenhof:circleimageview:2.0.0 -> 2.1.0
+|    +--- de.hdodenhof:circleimageview:2.2.0
 |    +--- cn.carbs.android:AvatarImageView:1.0.2
 |    |    +--- io.reactivex:rxandroid:1.2.0
 |    |    |    \--- io.reactivex:rxjava:1.1.4 -> 1.1.5
@@ -2212,6 +2183,7 @@ releaseUnitTestRuntimeClasspath - Resolved configuration for runtime for variant
 |    +--- com.squareup:otto:1.3.6
 |    +--- com.kaopiz:kprogresshud:1.0.4
 |    +--- org.jsoup:jsoup:1.9.2
+|    +--- de.hdodenhof:circleimageview:2.0.0 -> 2.2.0
 |    +--- com.squareup.picasso:picasso:2.5.2
 |    +--- com.android.support:cardview-v7:26.1.0
 |    |    \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
@@ -2327,14 +2299,13 @@ releaseUnitTestRuntimeClasspath - Resolved configuration for runtime for variant
 |    |    +--- com.android.support:support-annotations:26.1.0 -> 27.0.2
 |    |    +--- com.navercorp.pulltorefresh:library:3.2.3
 |    |    +--- com.github.bumptech.glide:glide:3.6.1
-|    |    +--- de.hdodenhof:circleimageview:2.0.0 -> 2.1.0
+|    |    +--- de.hdodenhof:circleimageview:2.0.0 -> 2.2.0
 |    |    \--- project :quickblox-core (*)
 |    +--- project :quickblox-chat
 |    |    +--- project :quickblox-core (*)
 |    |    +--- com.github.orangegangsters:swipy:1.2.2 -> 1.2.3
 |    |    +--- com.github.bumptech.glide:glide:3.6.1
 |    |    \--- se.emilsjolander:stickylistheaders:2.7.0
-|    +--- com.androidplot:afandroid.support.customtabsndroidplot-core:1.5.3 FAILED
 |    +--- com.gdacciaro:iosdialog:1.0.3
 |    \--- com.android.support:multidex:1.0.2 -> 1.0.3
 +--- com.android.support.constraint:constraint-layout:1.0.2
@@ -2365,6 +2336,7 @@ releaseUnitTestRuntimeClasspath - Resolved configuration for runtime for variant
 +--- com.quickblox:quickblox-android-sdk-content:3.3.5
 |    \--- com.quickblox:quickblox-android-sdk-core:3.3.5 (*)
 +--- com.quickblox:quickblox-android-sdk-messages:3.3.5 (*)
++--- project :quickblox-core (*)
 +--- com.github.JesusM:HoloCircleSeekBar:v2.2.2
 +--- com.minimize.library:seekbar-compat:0.2.5
 |    \--- com.android.support:appcompat-v7:23.3.0 -> 26.1.0 (*)
@@ -2376,7 +2348,7 @@ releaseUnitTestRuntimeClasspath - Resolved configuration for runtime for variant
 +--- com.android.support:support-annotations:26.1.0 -> 27.0.2
 +--- com.android.support:support-compat:26.1.0 (*)
 +--- com.android.support:support-core-ui:26.1.0 (*)
-+--- de.hdodenhof:circleimageview:2.1.0
++--- de.hdodenhof:circleimageview:2.1.0 -> 2.2.0
 +--- com.stripe:stripe-android:5.1.0
 |    +--- com.android.support:support-annotations:26.0.1 -> 27.0.2
 |    +--- com.android.support:appcompat-v7:26.0.1 -> 26.1.0 (*)
@@ -2398,9 +2370,6 @@ releaseUnitTestRuntimeClasspath - Resolved configuration for runtime for variant
 +--- com.gdacciaro:iosdialog:1.0.3
 +--- com.kaopiz:kprogresshud:1.0.4
 +--- com.koushikdutta.ion:ion:2.1.7 (*)
-+--- project :quickblox-core (*)
-+--- project :quickblox-videochat-webrtc (*)
-+--- project :quickblox-chat (*)
 +--- com.amazonaws:aws-android-sdk-sns:2.6.31 (*)
 +--- com.daprlabs.aaron:cardstack:0.3.1-beta0
 +--- com.android.support:cardview-v7:26.1.0 (*)
@@ -2410,7 +2379,6 @@ releaseUnitTestRuntimeClasspath - Resolved configuration for runtime for variant
 +--- com.github.bumptech.glide:glide:3.6.1
 +--- se.emilsjolander:stickylistheaders:2.7.0
 +--- com.github.orangegangsters:swipy:1.2.3
-+--- com.androidplot:afandroid.support.customtabsndroidplot-core:1.5.3 FAILED
 \--- junit:junit:4.12
      \--- org.hamcrest:hamcrest-core:1.3
 
@@ -2535,6 +2503,7 @@ repositoriesCompileClasspath - Resolved configuration for compilation for varian
 |    |    \--- com.google.firebase:firebase-common:[11.0.2] -> 11.0.2 (*)
 |    +--- com.google.firebase:firebase-core:11.0.2 (*)
 |    \--- com.google.android.gms:play-services-gcm:11.0.2 (*)
++--- project :quickblox-core
 +--- com.github.JesusM:HoloCircleSeekBar:v2.2.2
 +--- com.minimize.library:seekbar-compat:0.2.5
 |    \--- com.android.support:appcompat-v7:23.3.0 -> 26.1.0 (*)
@@ -2592,9 +2561,6 @@ repositoriesCompileClasspath - Resolved configuration for compilation for varian
 +--- com.koushikdutta.ion:ion:2.1.7
 |    +--- com.google.code.gson:gson:2.3 -> 2.8.2
 |    \--- com.koushikdutta.async:androidasync:2.1.7
-+--- project :quickblox-core
-+--- project :quickblox-videochat-webrtc
-+--- project :quickblox-chat
 +--- com.amazonaws:aws-android-sdk-sns:2.6.31
 |    +--- com.amazonaws:aws-android-sdk-core:2.6.31
 |    |    \--- com.google.code.gson:gson:2.2.4 -> 2.8.2
@@ -2609,7 +2575,6 @@ repositoriesCompileClasspath - Resolved configuration for compilation for varian
 +--- com.github.bumptech.glide:glide:3.6.1
 +--- se.emilsjolander:stickylistheaders:2.7.0
 +--- com.github.orangegangsters:swipy:1.2.3
-+--- com.androidplot:afandroid.support.customtabsndroidplot-core:1.5.3 FAILED
 \--- com.android.support:multidex:1.0.2 -> 1.0.3
 
 repositoriesCompileOnly - Compile only dependencies for 'repositories' sources. (n)
@@ -2636,7 +2601,7 @@ repositoriesRuntimeClasspath - Resolved configuration for runtime for variant: r
 |    |    \--- com.android.support:support-core-ui:26.1.0
 |    |         +--- com.android.support:support-annotations:26.1.0 -> 27.0.2
 |    |         \--- com.android.support:support-compat:26.1.0 (*)
-|    +--- de.hdodenhof:circleimageview:2.0.0 -> 2.1.0
+|    +--- de.hdodenhof:circleimageview:2.2.0
 |    +--- cn.carbs.android:AvatarImageView:1.0.2
 |    |    +--- io.reactivex:rxandroid:1.2.0
 |    |    |    \--- io.reactivex:rxjava:1.1.4 -> 1.1.5
@@ -2645,6 +2610,7 @@ repositoriesRuntimeClasspath - Resolved configuration for runtime for variant: r
 |    +--- com.squareup:otto:1.3.6
 |    +--- com.kaopiz:kprogresshud:1.0.4
 |    +--- org.jsoup:jsoup:1.9.2
+|    +--- de.hdodenhof:circleimageview:2.0.0 -> 2.2.0
 |    +--- com.squareup.picasso:picasso:2.5.2
 |    +--- com.android.support:cardview-v7:26.1.0
 |    |    \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
@@ -2760,14 +2726,13 @@ repositoriesRuntimeClasspath - Resolved configuration for runtime for variant: r
 |    |    +--- com.android.support:support-annotations:26.1.0 -> 27.0.2
 |    |    +--- com.navercorp.pulltorefresh:library:3.2.3
 |    |    +--- com.github.bumptech.glide:glide:3.6.1
-|    |    +--- de.hdodenhof:circleimageview:2.0.0 -> 2.1.0
+|    |    +--- de.hdodenhof:circleimageview:2.0.0 -> 2.2.0
 |    |    \--- project :quickblox-core (*)
 |    +--- project :quickblox-chat
 |    |    +--- project :quickblox-core (*)
 |    |    +--- com.github.orangegangsters:swipy:1.2.2 -> 1.2.3
 |    |    +--- com.github.bumptech.glide:glide:3.6.1
 |    |    \--- se.emilsjolander:stickylistheaders:2.7.0
-|    +--- com.androidplot:afandroid.support.customtabsndroidplot-core:1.5.3 FAILED
 |    +--- com.gdacciaro:iosdialog:1.0.3
 |    \--- com.android.support:multidex:1.0.2 -> 1.0.3
 +--- com.android.support.constraint:constraint-layout:1.0.2
@@ -2798,6 +2763,7 @@ repositoriesRuntimeClasspath - Resolved configuration for runtime for variant: r
 +--- com.quickblox:quickblox-android-sdk-content:3.3.5
 |    \--- com.quickblox:quickblox-android-sdk-core:3.3.5 (*)
 +--- com.quickblox:quickblox-android-sdk-messages:3.3.5 (*)
++--- project :quickblox-core (*)
 +--- com.github.JesusM:HoloCircleSeekBar:v2.2.2
 +--- com.minimize.library:seekbar-compat:0.2.5
 |    \--- com.android.support:appcompat-v7:23.3.0 -> 26.1.0 (*)
@@ -2809,7 +2775,7 @@ repositoriesRuntimeClasspath - Resolved configuration for runtime for variant: r
 +--- com.android.support:support-annotations:26.1.0 -> 27.0.2
 +--- com.android.support:support-compat:26.1.0 (*)
 +--- com.android.support:support-core-ui:26.1.0 (*)
-+--- de.hdodenhof:circleimageview:2.1.0
++--- de.hdodenhof:circleimageview:2.1.0 -> 2.2.0
 +--- com.stripe:stripe-android:5.1.0
 |    +--- com.android.support:support-annotations:26.0.1 -> 27.0.2
 |    +--- com.android.support:appcompat-v7:26.0.1 -> 26.1.0 (*)
@@ -2831,9 +2797,6 @@ repositoriesRuntimeClasspath - Resolved configuration for runtime for variant: r
 +--- com.gdacciaro:iosdialog:1.0.3
 +--- com.kaopiz:kprogresshud:1.0.4
 +--- com.koushikdutta.ion:ion:2.1.7 (*)
-+--- project :quickblox-core (*)
-+--- project :quickblox-videochat-webrtc (*)
-+--- project :quickblox-chat (*)
 +--- com.amazonaws:aws-android-sdk-sns:2.6.31 (*)
 +--- com.daprlabs.aaron:cardstack:0.3.1-beta0
 +--- com.android.support:cardview-v7:26.1.0 (*)
@@ -2843,7 +2806,6 @@ repositoriesRuntimeClasspath - Resolved configuration for runtime for variant: r
 +--- com.github.bumptech.glide:glide:3.6.1
 +--- se.emilsjolander:stickylistheaders:2.7.0
 +--- com.github.orangegangsters:swipy:1.2.3
-+--- com.androidplot:afandroid.support.customtabsndroidplot-core:1.5.3 FAILED
 \--- com.android.support:multidex:1.0.2 -> 1.0.3
 
 repositoriesRuntimeElements - Runtime elements for repositories (n)
@@ -2949,6 +2911,7 @@ repositoriesUnitTestCompileClasspath - Resolved configuration for compilation fo
 |    |    \--- com.google.firebase:firebase-common:[11.0.2] -> 11.0.2 (*)
 |    +--- com.google.firebase:firebase-core:11.0.2 (*)
 |    \--- com.google.android.gms:play-services-gcm:11.0.2 (*)
++--- project :quickblox-core
 +--- com.github.JesusM:HoloCircleSeekBar:v2.2.2
 +--- com.minimize.library:seekbar-compat:0.2.5
 |    \--- com.android.support:appcompat-v7:23.3.0 -> 26.1.0 (*)
@@ -3006,9 +2969,6 @@ repositoriesUnitTestCompileClasspath - Resolved configuration for compilation fo
 +--- com.koushikdutta.ion:ion:2.1.7
 |    +--- com.google.code.gson:gson:2.3 -> 2.8.2
 |    \--- com.koushikdutta.async:androidasync:2.1.7
-+--- project :quickblox-core
-+--- project :quickblox-videochat-webrtc
-+--- project :quickblox-chat
 +--- com.amazonaws:aws-android-sdk-sns:2.6.31
 |    +--- com.amazonaws:aws-android-sdk-core:2.6.31
 |    |    \--- com.google.code.gson:gson:2.2.4 -> 2.8.2
@@ -3023,7 +2983,6 @@ repositoriesUnitTestCompileClasspath - Resolved configuration for compilation fo
 +--- com.github.bumptech.glide:glide:3.6.1
 +--- se.emilsjolander:stickylistheaders:2.7.0
 +--- com.github.orangegangsters:swipy:1.2.3
-+--- com.androidplot:afandroid.support.customtabsndroidplot-core:1.5.3 FAILED
 \--- junit:junit:4.12
      \--- org.hamcrest:hamcrest-core:1.3
 
@@ -3039,7 +2998,7 @@ repositoriesUnitTestRuntimeClasspath - Resolved configuration for runtime for va
 |    |    \--- com.android.support:support-core-ui:26.1.0
 |    |         +--- com.android.support:support-annotations:26.1.0 -> 27.0.2
 |    |         \--- com.android.support:support-compat:26.1.0 (*)
-|    +--- de.hdodenhof:circleimageview:2.0.0 -> 2.1.0
+|    +--- de.hdodenhof:circleimageview:2.2.0
 |    +--- cn.carbs.android:AvatarImageView:1.0.2
 |    |    +--- io.reactivex:rxandroid:1.2.0
 |    |    |    \--- io.reactivex:rxjava:1.1.4 -> 1.1.5
@@ -3048,6 +3007,7 @@ repositoriesUnitTestRuntimeClasspath - Resolved configuration for runtime for va
 |    +--- com.squareup:otto:1.3.6
 |    +--- com.kaopiz:kprogresshud:1.0.4
 |    +--- org.jsoup:jsoup:1.9.2
+|    +--- de.hdodenhof:circleimageview:2.0.0 -> 2.2.0
 |    +--- com.squareup.picasso:picasso:2.5.2
 |    +--- com.android.support:cardview-v7:26.1.0
 |    |    \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
@@ -3163,14 +3123,13 @@ repositoriesUnitTestRuntimeClasspath - Resolved configuration for runtime for va
 |    |    +--- com.android.support:support-annotations:26.1.0 -> 27.0.2
 |    |    +--- com.navercorp.pulltorefresh:library:3.2.3
 |    |    +--- com.github.bumptech.glide:glide:3.6.1
-|    |    +--- de.hdodenhof:circleimageview:2.0.0 -> 2.1.0
+|    |    +--- de.hdodenhof:circleimageview:2.0.0 -> 2.2.0
 |    |    \--- project :quickblox-core (*)
 |    +--- project :quickblox-chat
 |    |    +--- project :quickblox-core (*)
 |    |    +--- com.github.orangegangsters:swipy:1.2.2 -> 1.2.3
 |    |    +--- com.github.bumptech.glide:glide:3.6.1
 |    |    \--- se.emilsjolander:stickylistheaders:2.7.0
-|    +--- com.androidplot:afandroid.support.customtabsndroidplot-core:1.5.3 FAILED
 |    +--- com.gdacciaro:iosdialog:1.0.3
 |    \--- com.android.support:multidex:1.0.2 -> 1.0.3
 +--- com.android.support.constraint:constraint-layout:1.0.2
@@ -3201,6 +3160,7 @@ repositoriesUnitTestRuntimeClasspath - Resolved configuration for runtime for va
 +--- com.quickblox:quickblox-android-sdk-content:3.3.5
 |    \--- com.quickblox:quickblox-android-sdk-core:3.3.5 (*)
 +--- com.quickblox:quickblox-android-sdk-messages:3.3.5 (*)
++--- project :quickblox-core (*)
 +--- com.github.JesusM:HoloCircleSeekBar:v2.2.2
 +--- com.minimize.library:seekbar-compat:0.2.5
 |    \--- com.android.support:appcompat-v7:23.3.0 -> 26.1.0 (*)
@@ -3212,7 +3172,7 @@ repositoriesUnitTestRuntimeClasspath - Resolved configuration for runtime for va
 +--- com.android.support:support-annotations:26.1.0 -> 27.0.2
 +--- com.android.support:support-compat:26.1.0 (*)
 +--- com.android.support:support-core-ui:26.1.0 (*)
-+--- de.hdodenhof:circleimageview:2.1.0
++--- de.hdodenhof:circleimageview:2.1.0 -> 2.2.0
 +--- com.stripe:stripe-android:5.1.0
 |    +--- com.android.support:support-annotations:26.0.1 -> 27.0.2
 |    +--- com.android.support:appcompat-v7:26.0.1 -> 26.1.0 (*)
@@ -3234,9 +3194,6 @@ repositoriesUnitTestRuntimeClasspath - Resolved configuration for runtime for va
 +--- com.gdacciaro:iosdialog:1.0.3
 +--- com.kaopiz:kprogresshud:1.0.4
 +--- com.koushikdutta.ion:ion:2.1.7 (*)
-+--- project :quickblox-core (*)
-+--- project :quickblox-videochat-webrtc (*)
-+--- project :quickblox-chat (*)
 +--- com.amazonaws:aws-android-sdk-sns:2.6.31 (*)
 +--- com.daprlabs.aaron:cardstack:0.3.1-beta0
 +--- com.android.support:cardview-v7:26.1.0 (*)
@@ -3246,7 +3203,6 @@ repositoriesUnitTestRuntimeClasspath - Resolved configuration for runtime for va
 +--- com.github.bumptech.glide:glide:3.6.1
 +--- se.emilsjolander:stickylistheaders:2.7.0
 +--- com.github.orangegangsters:swipy:1.2.3
-+--- com.androidplot:afandroid.support.customtabsndroidplot-core:1.5.3 FAILED
 \--- junit:junit:4.12
      \--- org.hamcrest:hamcrest-core:1.3
 
@@ -3374,5 +3330,5 @@ No dependencies
 
 (n) - Not resolved (configuration is not meant to be resolved)
 
-BUILD SUCCESSFUL in 20s
+BUILD SUCCESSFUL in 14s
 1 actionable task: 1 executed

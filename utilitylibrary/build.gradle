@@ -108,7 +108,7 @@ dependencies {
     })
     // Android UI
     implementation 'com.android.support:recyclerview-v7:26.1.0'
-    implementation 'de.hdodenhof:circleimageview:2.0.0'
+    implementation 'de.hdodenhof:circleimageview:2.2.0'
     implementation ('cn.carbs.android:AvatarImageView:1.0.2'){
         exclude group : 'com.android.support'
     }
@@ -171,5 +171,6 @@ dependencies {
 
     //ios like alert
     implementation 'com.gdacciaro:iosdialog:1.0.3'
+    implementation 'com.android.support:customtabs:26.1.0'
 
 }

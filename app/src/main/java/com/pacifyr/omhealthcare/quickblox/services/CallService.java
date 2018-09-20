@@ -9,7 +9,6 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import com.ceino.utilitylibrary.ToastHandler;
 import com.ceino.utilitylibrary.utils.PrefManager;
 import com.pacifyr.omhealthcare.quickblox.chat.utils.chat.ChatHelper;
 import com.pacifyr.omhealthcare.quickblox.util.ChatPingAlarmManager;
@@ -78,7 +77,7 @@ public class CallService extends Service {
 
         startSuitableActions();
 
-        onTaskRemoved(intent);
+//        onTaskRemoved(intent);
 
         return START_STICKY;
     }
@@ -277,7 +276,7 @@ public class CallService extends Service {
         return null;
     }
 
-    @Override
+    /*@Override
     public void onTaskRemoved(Intent rootIntent) {
         Log.d(TAG, "CallService onTaskRemoved()");
         Intent restartservice=new Intent(getApplicationContext(),this.getClass());
@@ -287,5 +286,5 @@ public class CallService extends Service {
         super.onTaskRemoved(rootIntent);
 
         //  destroyRtcClientAndChat();
-    }
+    }*/
 }

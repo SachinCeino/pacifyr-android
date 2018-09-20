@@ -165,6 +165,7 @@ public class SignUpActivity extends PacifyerActivity {
             /*ItemData it= (ItemData) sp.getSelectedItem();*/
             logoRlay = (RelativeLayout) findViewById(R.id.logo_rlay);
             phoneCedit = (CustomEditText) findViewById(R.id.phone_cedit);
+            loginButton = (LoginButton) findViewById(R.id.login_button);
             facebookRlay = (RelativeLayout) findViewById(R.id.facebook_rlay);
             facebookRlay.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -173,10 +174,9 @@ public class SignUpActivity extends PacifyerActivity {
                 }
             });
             //fbTcv = (TextView) findViewById(R.id.fb_tcv);
-            loginButton = (LoginButton) findViewById(R.id.login_button);
+
             loginButton.setReadPermissions("user_friends", "email");
             callbackManager = CallbackManager.Factory.create();
-            loginButton = (LoginButton) findViewById(R.id.login_button);
             loginButton.setReadPermissions(Arrays.asList("public_profile", "email", "user_birthday", "user_friends"));
             /*loginButton.setReadPermissions("email");
             loginButton.setReadPermissions(Arrays.asList("user_status"));*/

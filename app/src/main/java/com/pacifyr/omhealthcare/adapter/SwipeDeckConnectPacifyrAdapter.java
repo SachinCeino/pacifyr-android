@@ -22,12 +22,10 @@ import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.ceino.utilitylibrary.CustomFontTextView;
-import com.ceino.utilitylibrary.ToastHandler;
 import com.ceino.utilitylibrary.model.pacifyr.ChatSubscription;
 import com.ceino.utilitylibrary.model.pacifyr.Education;
 import com.ceino.utilitylibrary.model.pacifyr.MUser;
 import com.ceino.utilitylibrary.model.pacifyr.ModelUserProfile;
-import com.ceino.utilitylibrary.network.UtilityNetworkService;
 import com.ceino.utilitylibrary.utils.PrefManager;
 import com.gdacciaro.iOSDialog.iOSDialog;
 import com.gdacciaro.iOSDialog.iOSDialogBuilder;
@@ -40,13 +38,11 @@ import com.pacifyr.omhealthcare.event.ChatEvent;
 import com.pacifyr.omhealthcare.home.ConnectToPacifyrActivity;
 import com.pacifyr.omhealthcare.home.PaymentActivity;
 import com.pacifyr.omhealthcare.home.ProfileScreenActivity;
-import com.pacifyr.omhealthcare.network.GsonUtils;
 import com.pacifyr.omhealthcare.network.NetworkService;
 import com.pacifyr.omhealthcare.quickblox.db.QbUsersDbManager;
 import com.pacifyr.omhealthcare.quickblox.services.CallService;
 import com.pacifyr.omhealthcare.quickblox.utils.PermissionsChecker;
 import com.pacifyr.omhealthcare.quickblox.utils.WebRtcSessionManager;
-import com.pacifyr.omhealthcare.utility.EventMessage;
 import com.pacifyr.omhealthcare.utils.LogUtils;
 import com.pacifyr.omhealthcare.utils.Utility;
 import com.quickblox.chat.QBChatService;
@@ -55,11 +51,9 @@ import com.quickblox.sample.core.utils.Toaster;
 import com.quickblox.users.model.QBUser;
 import com.squareup.picasso.Picasso;
 
-import org.greenrobot.eventbus.EventBus;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -68,7 +62,6 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.pacifyr.omhealthcare.network.NetworkService.GLOBAL_IMAGE_URL;
-import static com.pacifyr.omhealthcare.network.NetworkService.GLOBAL_URL;
 
 
 public class SwipeDeckConnectPacifyrAdapter extends BaseAdapter {
@@ -321,7 +314,12 @@ public class SwipeDeckConnectPacifyrAdapter extends BaseAdapter {
                     public void onClick(View v) {
 
                         isChatSubscriptionRequired = searchResults.get(position).isChatSubscriptionRequired();
-                        priceForChat = Integer.parseInt(searchResults.get(position).getPriceForChat());
+                        try {
+                            priceForChat = Integer.parseInt(searchResults.get(position).getPriceForChat());
+                        } catch (NumberFormatException ne) {
+                            ne.printStackTrace();
+                        }
+
 
                         if (!isChatSubscriptionRequired) {
                             showProgress();
@@ -448,7 +446,11 @@ public class SwipeDeckConnectPacifyrAdapter extends BaseAdapter {
 
     private void chatSubsFun(final int position) {
         isChatSubscriptionRequired = searchResults.get(position).isChatSubscriptionRequired();
-        priceForChat = Integer.parseInt(searchResults.get(position).getPriceForChat());
+        try {
+            priceForChat = Integer.parseInt(searchResults.get(position).getPriceForChat());
+        } catch (NumberFormatException ne) {
+            ne.printStackTrace();
+        }
 
         //chatLlay
         chatPriceCtxv.setOnClickListener(new View.OnClickListener() {

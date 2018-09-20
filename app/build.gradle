@@ -4,7 +4,7 @@ android {
     compileSdkVersion 26
     buildToolsVersion "26.0.3"
     defaultConfig {
-        applicationId "com.pacifyr.omhealthcare"
+        applicationId "com.ceino.pacifyr.omhealthcare"
         minSdkVersion 16
         // minSdkVersion 21
         targetSdkVersion 26
@@ -162,7 +162,7 @@ dependencies {
     implementation 'com.android.support:support-annotations:26.1.0'
     implementation 'com.android.support:support-compat:26.1.0'
     implementation 'com.android.support:support-core-ui:26.1.0'
-    implementation 'de.hdodenhof:circleimageview:2.1.0'
+    implementation 'de.hdodenhof:circleimageview:2.2.0'
 
     //  implementation 'me.relex:circleindicator:1.2.2@aar'
     //   implementation 'com.github.baoyachi:StepView:1.9'
@@ -199,6 +199,7 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:3.6.1'
     implementation 'se.emilsjolander:stickylistheaders:2.7.0'
     implementation 'com.github.orangegangsters:swipy:1.2.3@aar'
+    implementation 'com.android.support:customtabs:26.1.0'
 //    implementation "com.androidplot:afandroid.support.customtabsndroidplot-core:1.5.3"
 
 

@@ -47,6 +47,7 @@ import static com.ceino.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
 
 public class RegisterVerifyActivity extends PacifyerActivity {
 
+    public static String TAG = RegisterVerifyActivity.class.getSimpleName();
     private ImageView imgBack;
     private RelativeLayout logoRlay;
     private ImageView logoBlue;
@@ -182,6 +183,8 @@ public class RegisterVerifyActivity extends PacifyerActivity {
                 public void onVerificationFailed(FirebaseException e) {
                     // This callback is invoked in an invalid request for verification is made,
                     // for instance if the the phone number format is not valid.
+                    Log.d(TAG, "Firebase exception " + e.getMessage());
+                    e.printStackTrace();
                     Log.d("jithish", "onVerificationFailed", e);
                     mVerificationInProgress = false;
 
