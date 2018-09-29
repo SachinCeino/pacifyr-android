@@ -11,14 +11,15 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.content.WakefulBroadcastReceiver;
-import android.widget.Toast;
 
 import com.ceino.utilitylibrary.utils.PrefManager;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.activity.SplachScreen;
 import com.pacifyr.omhealthcare.base.PacifyerActivity;
 import com.pacifyr.omhealthcare.event.BusProvider;
+import com.pacifyr.omhealthcare.event.CallEvent;
 import com.pacifyr.omhealthcare.quickblox.activities.CallActivity;
 import com.pacifyr.omhealthcare.quickblox.services.CallService;
 import com.pacifyr.omhealthcare.quickblox.utils.WebRtcSessionManager;
@@ -95,6 +96,11 @@ public class PacifyrReceiver extends WakefulBroadcastReceiver {
                     //   String type = extras.getString("collection", "");
                     String actual_type = extras.getString("type", "");
 //                String commentValue = message.replaceAll("%20", "\\+");
+                    if (actual_type != null && actual_type.equals("billing")) {
+                        Intent callIntent = new Intent(CallEvent.CALL_EVENT);
+                        callIntent.putExtra("type", actual_type);
+                        LocalBroadcastManager.getInstance(context).sendBroadcast(callIntent);
+                    }
 
                     LogUtils.LOGD("app_rec", "PR  onReceive message " + message);
                     LogUtils.LOGD("app_rec", "PR  onReceive actual_type " + actual_type);

@@ -1,6 +1,9 @@
 package com.pacifyr.omhealthcare.quickblox.fragments;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -8,6 +11,7 @@ import android.os.SystemClock;
 import android.support.annotation.DimenRes;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -41,6 +45,7 @@ import com.ceino.utilitylibrary.utils.PrefManager;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.adapter.EmotionSpecialityAdapter;
 import com.pacifyr.omhealthcare.base.PacifyerActivity;
+import com.pacifyr.omhealthcare.event.CallEvent;
 import com.pacifyr.omhealthcare.event.NotifyEvent;
 import com.pacifyr.omhealthcare.home.CustomerDetailActivity;
 import com.pacifyr.omhealthcare.network.NetworkService;
@@ -139,6 +144,19 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
     private CustomFontTextView usernameCtxv;
     private DeviceFitImageView moreDimv;
     private RelativeLayout more_rlay;
+    private TextView billingStatus;
+    private BroadcastReceiver eventReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // Get extra data included in the Intent
+            String type = intent.getStringExtra("type");
+            Log.d("receiver", "Got message: " + type);
+            if (type != null && type.equals("billing")) {
+                billingStatus.setVisibility(View.VISIBLE);
+            }
+        }
+    };
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
       //  view = super.onCreateView(inflater, container, savedInstanceState);
@@ -404,7 +422,7 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
           emotion_rlay = (RelativeLayout) view.findViewById(R.id.emotion_rlay);
          reason_ctxv = (CustomFontTextView) view.findViewById(R.id.reason_ctxv);
         emotion_ctxv = (CustomFontTextView) view.findViewById(R.id.emotion_ctxv);
-        billingSwitch = (Switch) view.findViewById(R.id.billing_switch);
+        billingStatus = (TextView) view.findViewById(R.id.billing_status);
 
 
         billingSwitch.setVisibility(View.VISIBLE);
@@ -673,6 +691,7 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
         if (cameraState != CameraState.DISABLED_FROM_USER) {
             toggleCamera(true);
         }
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(eventReceiver, new IntentFilter(CallEvent.CALL_EVENT));
     }
 
 
@@ -683,7 +702,7 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
         if (cameraState != CameraState.DISABLED_FROM_USER) {
             toggleCamera(false);
         }
-
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(eventReceiver);
         super.onPause();
     }
 

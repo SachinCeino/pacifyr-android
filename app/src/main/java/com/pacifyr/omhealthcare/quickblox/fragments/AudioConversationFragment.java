@@ -1,8 +1,14 @@
 package com.pacifyr.omhealthcare.quickblox.fragments;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,41 +17,29 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ToggleButton;
 
-import com.androidquery.AQuery;
-import com.androidquery.callback.AjaxCallback;
-import com.androidquery.callback.AjaxStatus;
 import com.ceino.utilitylibrary.CustomFontTextView;
 import com.ceino.utilitylibrary.DeviceFitImageView;
 import com.ceino.utilitylibrary.model.pacifyr.MEmotion;
 import com.ceino.utilitylibrary.model.pacifyr.MUser;
-import com.ceino.utilitylibrary.utils.PrefManager;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.adapter.EmotionSpecialityAdapter;
 import com.pacifyr.omhealthcare.base.PacifyerActivity;
+import com.pacifyr.omhealthcare.event.CallEvent;
 import com.pacifyr.omhealthcare.event.NotifyEvent;
 import com.pacifyr.omhealthcare.home.CustomerDetailActivity;
-import com.pacifyr.omhealthcare.network.GsonUtils;
 import com.pacifyr.omhealthcare.network.NetworkService;
 import com.pacifyr.omhealthcare.quickblox.activities.CallActivity;
 import com.pacifyr.omhealthcare.quickblox.utils.CollectionsUtils;
-import com.pacifyr.omhealthcare.utility.EventMessage;
 import com.pacifyr.omhealthcare.utils.LogUtils;
 import com.quickblox.users.model.QBUser;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
 
-import org.greenrobot.eventbus.EventBus;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-
-import static com.ceino.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
-import static com.pacifyr.omhealthcare.base.PacifyerActivity.sessionid;
 
 /**
  * Created by tereha on 25.05.16.
@@ -71,16 +65,25 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
     private DeviceFitImageView moreDimv;
     private RelativeLayout more_rlay;
     private  CustomFontTextView reason_ctxv,emotion_ctxv;
-
+    private TextView billingStatus;
 
     private  Switch billingSwitch;
+    private BroadcastReceiver eventReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // Get extra data included in the Intent
+            String type = intent.getStringExtra("type");
+            Log.d("receiver", "Got message: " + type);
+            if (type != null && type.equals("billing")) {
+                billingStatus.setVisibility(View.VISIBLE);
+            }
+        }
+    };
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
-
-
 
     @Override
     public void onStart() {
@@ -92,6 +95,18 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return super.onCreateView(inflater, container, savedInstanceState);
+    }
+
+    @Override
+    public void onResume() {
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(eventReceiver, new IntentFilter(CallEvent.CALL_EVENT));
+        super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(eventReceiver);
+        super.onPause();
     }
 
     @Override
@@ -129,7 +144,8 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
         reason_ctxv = (CustomFontTextView) view.findViewById(R.id.reason_ctxv);
         connectionStatusLocal = (TextView) view.findViewById(R.id.connectionStatusLocal);
         emotion_ctxv = (CustomFontTextView) view.findViewById(R.id.emotion_ctxv);
-        billingSwitch = (Switch) view.findViewById(R.id.billing_switch);
+        billingStatus = (TextView) view.findViewById(R.id.billing_status);
+//        billingSwitch = (Switch) view.findViewById(R.id.billing_switch);
         emotion_dimv.setVisibility(View.GONE);
         reason_ctxv.setVisibility(View.GONE);
         emotion_ctxv.setVisibility(View.GONE);
@@ -140,7 +156,7 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
         onUserInfoViews(view);
         setEmotionViews();
 
-        billingSwitch.setVisibility(View.VISIBLE);
+        /*billingSwitch.setVisibility(View.VISIBLE);
         billingSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -152,7 +168,7 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
                     e.printStackTrace();
                 }
             }
-        });
+        });*/
 
       /*  ImageView firstOpponentAvatarImageView = (ImageView) view.findViewById(R.id.image_caller_avatar);
         firstOpponentAvatarImageView.setBackgroundDrawable(UiUtils.getColorCircleDrawable(opponents.get(0).getId()));
@@ -174,7 +190,7 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
         actionButtonsEnabled(false);
     }
 
-    private void startBilling() {
+    /*private void startBilling() {
         try{
             PrefManager prefM= PrefManager.getInstance(getContext());
             String token=prefM.getAccessToken();
@@ -202,7 +218,7 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
         }catch (Exception e){
             e.printStackTrace();
         }
-    }
+    }*/
 
 
     public void onUserInfoViews(View view) {

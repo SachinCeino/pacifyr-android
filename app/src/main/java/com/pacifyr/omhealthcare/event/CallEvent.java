@@ -7,6 +7,7 @@ import com.ceino.utilitylibrary.model.pacifyr.MUser;
  */
 
 public class CallEvent {
+    public static final String CALL_EVENT = "call_event";
     public CallEvent(Long qbID, boolean isVideoCall) {
         this.qbID = qbID;
         this.isVideoCall = isVideoCall;

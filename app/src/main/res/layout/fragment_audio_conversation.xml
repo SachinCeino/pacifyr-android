@@ -314,30 +314,20 @@
                 android:textColor="@color/white"
                 android:textStyle="normal" />
 
-
-            <!--<com.ceino.utilitylibrary.DeviceFitImageView
-                android:id="@+id/billing_switch"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="visible"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="20dp"
-                android:src="@drawable/online_offline_selector"
-                app:width_percentage="20"
-                app:parameter="aspect_width"
-                android:padding="1dp"
-                android:text="" />-->
-
-            <Switch
-                android:id="@+id/billing_switch"
-                android:padding="5dp"
-                android:layout_marginRight="20dp"
-                android:layout_width="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
+            <TextView
+                android:id="@+id/billing_status"
+                style="@style/MatchWidth"
+                android:layout_below="@+id/connectionStatusLocal"
+                android:layout_marginBottom="@dimen/margin_very_small"
+                android:layout_marginLeft="4dp"
+                android:layout_marginTop="10dp"
+                android:maxLines="1"
+                android:text="Billing Started"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textStyle="normal"
                 android:textColor="@color/white"
-                android:text="Start Billing" />
+                android:visibility="gone" />
+
 
         </RelativeLayout>
     </LinearLayout>

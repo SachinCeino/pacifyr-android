@@ -19,6 +19,8 @@ public class AWSManager {
 
     public static final String ARN = "arn:aws:sns:us-east-1:106428918470:app/GCM/GetSmartLive";
     public static final String AWS_PROJECT = "GetSmartLive";
+    /*public static final String ARN = "arn:aws:sns:us-east-1:271048179034:app/GCM/OMDev";
+    public static final String AWS_PROJECT = "OMDev";*/
     private static final String _ACCESS_KEY_ID = "AKIAJWUXPHXZKRXITPHA";
     private static final String _SECRET_KEY = "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";
     private static AmazonSNSClient snsClient = null;
