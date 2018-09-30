@@ -32,6 +32,10 @@ import com.ceino.utilitylibrary.model.pacifyr.ModelPacifyrDashboard;
 import com.ceino.utilitylibrary.model.pacifyr.ModelSearchPacifyr;
 import com.ceino.utilitylibrary.model.pacifyr.ModelSpecialist;
 import com.ceino.utilitylibrary.model.pacifyr.ModelUserProfile;
+import com.ceino.utilitylibrary.model.pacifyr.RespPostEditProfile;
+import com.ceino.utilitylibrary.model.pacifyr.RespSearchPacifyrWOption;
+import com.ceino.utilitylibrary.model.pacifyr.RespSetSessionAsConnected;
+import com.ceino.utilitylibrary.model.pacifyr.RespStartSessionWithPacifyr;
 import com.ceino.utilitylibrary.model.pacifyr.post.PRegistrationModel;
 import com.ceino.utilitylibrary.model.pacifyr.post.PSearchPacifyrWOptionRequest;
 import com.ceino.utilitylibrary.model.pacifyr.post.PStartSessionWithPacifyr;
@@ -40,10 +44,6 @@ import com.ceino.utilitylibrary.model.pacifyr.post.PostRateCustomerSession;
 import com.ceino.utilitylibrary.model.pacifyr.post.PostRatePacifyr;
 import com.ceino.utilitylibrary.model.pacifyr.post.PostRatePacifyrSession;
 import com.ceino.utilitylibrary.model.pacifyr.post.PostStopSessionWithPacifyr;
-import com.ceino.utilitylibrary.model.pacifyr.RespPostEditProfile;
-import com.ceino.utilitylibrary.model.pacifyr.RespSearchPacifyrWOption;
-import com.ceino.utilitylibrary.model.pacifyr.RespSetSessionAsConnected;
-import com.ceino.utilitylibrary.model.pacifyr.RespStartSessionWithPacifyr;
 import com.ceino.utilitylibrary.network.UtilityNetworkService;
 import com.ceino.utilitylibrary.utils.PrefManager;
 import com.google.gson.JsonObject;
@@ -914,6 +914,25 @@ public class NetworkService  extends IntentService {
         }
         catch (Exception ex)
         {
+            ex.printStackTrace();
+        }
+    }
+
+    public void getBillingData(Context context, String Id, AjaxCallback cb) {
+
+        PrefManager prefM = PrefManager.getInstance(context);
+        String token = prefM.getAccessToken();
+        String userid = prefM.getUserID();
+        String url = GLOBAL_URL + "dashboard/pacifyr/" + userid;
+        url = GLOBAL_URL + "session/billing/" + Id;
+
+        try {
+            AQuery aq = new AQuery(context);
+            cb.header("Content-Type", "application/json");
+            cb.header("AccessToken", token);
+            //aq.post(url, jsonObject, JSONObject.class, cb);
+            aq.ajax(url, JSONObject.class, cb);
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }

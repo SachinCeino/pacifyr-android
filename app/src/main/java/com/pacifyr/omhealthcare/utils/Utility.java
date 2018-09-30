@@ -15,8 +15,12 @@ import android.telephony.TelephonyManager;
 import com.ceino.utilitylibrary.utils.PrefManager;
 import com.pacifyr.omhealthcare.R;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.TimeZone;
 
 /**
  * Created by User on 01-06-2016.
@@ -335,5 +339,27 @@ public class Utility {
         return null;
     }
 
+    public static String getDate(String input, boolean timeOnly) {
+//        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        format.setTimeZone(TimeZone.getTimeZone("GMT"));
+        SimpleDateFormat outFormat = null;
+        if (timeOnly) {
+            outFormat = new SimpleDateFormat("hh:mm a");
+        } else {
+            outFormat = new SimpleDateFormat("MMM dd,yyyy");
+        }
+        outFormat.setTimeZone(TimeZone.getDefault());
+        Date date = null;
+        try {
+            date = format.parse(input);
+            System.out.println("Date ->" + date);
+            return outFormat.format(date);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
 }

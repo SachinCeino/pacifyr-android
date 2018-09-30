@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -16,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
@@ -122,6 +122,7 @@ public class SessionSummaryActivity  extends PacifyrAppCompactActivity{
     // private RelativeLayout  after_feel_llay;
     private RelativeLayout afterFeelSelectionLlay;
     public RelativeLayout rating_llay,before_feel_llay;
+
 
     public static void start(Context context, boolean isAudioCall) {
         Intent intent = new Intent(context, SessionSummaryActivity.class);
@@ -957,7 +958,7 @@ public class SessionSummaryActivity  extends PacifyrAppCompactActivity{
     @Override
     public void onBackPressed() {
         //  super.onBackPressed();
-        finish();
+        Toast.makeText(SessionSummaryActivity.this, "Please submit your feedback", Toast.LENGTH_SHORT).show();
     }
 
     @Override

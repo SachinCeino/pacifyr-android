@@ -3,9 +3,11 @@ package com.pacifyr.omhealthcare.base;
 import android.app.Activity;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -21,6 +23,7 @@ import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -60,9 +63,11 @@ import com.pacifyr.omhealthcare.Payment.AlertAddCrediCardActivty;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.adapter.EmotionSpecialityAdapter;
 import com.pacifyr.omhealthcare.event.BusProvider;
+import com.pacifyr.omhealthcare.event.CallEvent;
 import com.pacifyr.omhealthcare.event.NotifyEvent;
 import com.pacifyr.omhealthcare.home.PaymentActivity;
 import com.pacifyr.omhealthcare.home.SessionSummaryActivity;
+import com.pacifyr.omhealthcare.model.BillingSummary;
 import com.pacifyr.omhealthcare.model.interfaces.AvailableMinuteListner;
 import com.pacifyr.omhealthcare.network.GsonUtils;
 import com.pacifyr.omhealthcare.network.NetworkService;
@@ -78,7 +83,9 @@ import com.pacifyr.omhealthcare.quickblox.utils.Consts;
 import com.pacifyr.omhealthcare.quickblox.utils.PermissionsChecker;
 import com.pacifyr.omhealthcare.quickblox.utils.WebRtcSessionManager;
 import com.pacifyr.omhealthcare.sign.SignActivity;
+import com.pacifyr.omhealthcare.utils.FontCache;
 import com.pacifyr.omhealthcare.utils.LogUtils;
+import com.pacifyr.omhealthcare.utils.Utility;
 import com.quickblox.chat.QBChatService;
 import com.quickblox.chat.model.QBChatDialog;
 import com.quickblox.core.QBEntityCallback;
@@ -118,11 +125,57 @@ import static com.ceino.utilitylibrary.network.UtilityNetworkService.STRIPE_PUBL
 
 public abstract  class PacifyerActivity extends BaseAppCompactActivity {
 
+    private static final String TAG = PacifyerActivity.class.getSimpleName();
     public SharedPrefsHelper sharedPrefsHelper;
     private ProgressDialog progressDialog;
     protected GooglePlayServicesHelper googlePlayServicesHelper;
     protected QBResRequestExecutor requestExecutor;
     public PermissionsChecker checker;
+    private android.app.AlertDialog billSummary;
+    private BroadcastReceiver eventReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // Get extra data included in the Intent
+            String type = intent.getStringExtra("type");
+            String id = intent.getStringExtra("id");
+            Log.d("receiver", "Got message: " + type);
+            if (type != null && type.equals("billing") &&
+                    id != null && !id.isEmpty()) {
+                new NetworkService().getBillingData(PacifyerActivity.this, id, new AjaxCallback<JSONObject>() {
+                    @Override
+                    public void callback(String url, JSONObject json, AjaxStatus status) {
+                        try {
+                            Log.d(TAG, "URL : " + url);
+                            Log.d(TAG, "Resp JSON : " + json);
+                            BillingSummary billingSummary = null;
+                            if (json != null) {
+                                billingSummary = new Gson().fromJson(json.toString(), BillingSummary.class);
+                                showBillingSummary(billingSummary);
+                            }
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+            }
+        }
+    };
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d(TAG, "Register receiver");
+        LocalBroadcastManager.getInstance(this).registerReceiver(eventReceiver, new IntentFilter(CallEvent.CALL_EVENT));
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d(TAG, "UnRegister receiver");
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(eventReceiver);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -594,6 +647,49 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
 
 
 
+    }
+
+    private void showBillingSummary(final BillingSummary billingSummary) {
+        if (billSummary != null && billSummary.isShowing()) {
+            billSummary.dismiss();
+        }
+        String date = Utility.getDate(billingSummary.getSession().getCreatedAt(), false);
+        String time = Utility.getDate(billingSummary.getSession().getCreatedAt(), true);
+        View view = LayoutInflater.from(PacifyerActivity.this).inflate(R.layout.layout_bill_summary, null);
+        TextView ok = view.findViewById(R.id.button_ok);
+        TextView text_provider = view.findViewById(R.id.text_provider);
+        TextView text_date = view.findViewById(R.id.text_date);
+        TextView text_start_date = view.findViewById(R.id.text_start_date);
+        TextView text_duration = view.findViewById(R.id.text_duration);
+        TextView text_amount_charged = view.findViewById(R.id.text_amount_charged);
+        ok.setTypeface(FontCache.get(getString(R.string.CenturyGothic), PacifyerActivity.this));
+        text_provider.setTypeface(FontCache.get(getString(R.string.CenturyGothic), PacifyerActivity.this));
+        text_date.setTypeface(FontCache.get(getString(R.string.CenturyGothic), PacifyerActivity.this));
+        text_start_date.setTypeface(FontCache.get(getString(R.string.CenturyGothic), PacifyerActivity.this));
+        text_duration.setTypeface(FontCache.get(getString(R.string.CenturyGothic), PacifyerActivity.this));
+        text_amount_charged.setTypeface(FontCache.get(getString(R.string.CenturyGothic), PacifyerActivity.this));
+        try {
+            text_provider.setText(billingSummary.getSession().getUser().getFirstName());
+            text_date.setText(date);
+            text_start_date.setText(time);
+            text_duration.setText(billingSummary.getSession().getDuration());
+            text_amount_charged.setText(billingSummary.getSessionCost() + "");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (billSummary != null) {
+                    billSummary.dismiss();
+                }
+            }
+        });
+        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(PacifyerActivity.this);
+        builder.setTitle("Bill Summary");
+        builder.setView(view);
+        billSummary = builder.create();
+        billSummary.show();
     }
 
 

@@ -99,6 +99,7 @@ public class PacifyrReceiver extends WakefulBroadcastReceiver {
                     if (actual_type != null && actual_type.equals("billing")) {
                         Intent callIntent = new Intent(CallEvent.CALL_EVENT);
                         callIntent.putExtra("type", actual_type);
+                        callIntent.putExtra("id", _id);
                         LocalBroadcastManager.getInstance(context).sendBroadcast(callIntent);
                     }
 

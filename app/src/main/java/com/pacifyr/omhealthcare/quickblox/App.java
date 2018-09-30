@@ -36,8 +36,12 @@ public class App extends CoreApp {
             /*chat*/
         ActivityLifecycle.init(this);
         initSampleConfigs();
-        Intent intent = new Intent(this, CallService.class);
-        startService(intent);
+        try {
+            Intent intent = new Intent(this, CallService.class);
+            startService(intent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         /**/
     }
 
