@@ -1008,4 +1008,20 @@ public class NetworkService  extends IntentService {
 
         return roleSearchApiMap;
     }
+
+    public void sessionTracking(String sessionId, AjaxCallback cb) {
+        try {
+            PrefManager prefM = PrefManager.getInstance(this);
+            String token = prefM.getAccessToken();
+            String userID = prefM.getUserID();
+            String url = GLOBAL_URL + "session/tracker/" + sessionId + "/" + userID;
+            AQuery aq = new AQuery(this);
+            cb.header("Content-Type", "application/json");
+            cb.header("AccessToken", token);
+            aq.ajax(url, JSONObject.class, cb);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

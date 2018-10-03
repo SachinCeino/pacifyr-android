@@ -96,7 +96,7 @@ public class PacifyrReceiver extends WakefulBroadcastReceiver {
                     //   String type = extras.getString("collection", "");
                     String actual_type = extras.getString("type", "");
 //                String commentValue = message.replaceAll("%20", "\\+");
-                    if (actual_type != null && actual_type.equals("billing")) {
+                    if (actual_type != null && (actual_type.equals("billing") || actual_type.equals("rating"))) {
                         Intent callIntent = new Intent(CallEvent.CALL_EVENT);
                         callIntent.putExtra("type", actual_type);
                         callIntent.putExtra("id", _id);

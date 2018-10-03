@@ -901,6 +901,7 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
                 audioManager.close();
             }
             releaseCurrentSession();
+            stopSessionTracking();
 
             closeByWifiStateAllow = true;
 
@@ -911,7 +912,7 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
                 setScreenLockRelease();
                 if(isValid(callTimerEvent))
                 {
-                    stopSessionWeb(sessionid);
+//                    stopSessionWeb(sessionid);
                     getPrefManager().saveSessionId(null);
               /*  if(isCustomer())
                 {
@@ -923,7 +924,7 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
                 }
                 else if( !isMissed && !isDeclined && isOpponenetConnected &&!isOppenentHangUP) {
                     ToastHandler.newInstance(CallActivity.this).showToast("Calling Stop api "+sessionid);
-                    stopSessionWeb(sessionid);
+//                    stopSessionWeb(sessionid);
                     getPrefManager().saveSessionId(null);
                     finish();
                 }
@@ -937,7 +938,7 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
                     if(isPacifyer())
                         PacifyrDashboardActivity.start(CallActivity.this);
                     else {
-                        stopSessionWeb(getCallPacifyr());
+//                        stopSessionWeb(getCallPacifyr());
                         ToastHandler.newInstance(CallActivity.this).showToast("Pacifyr is buzy. Please try again");
                         //DashboardActivity.start(CallActivity.this);
                     }

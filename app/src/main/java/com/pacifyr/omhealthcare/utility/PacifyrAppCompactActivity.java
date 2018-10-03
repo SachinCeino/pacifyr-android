@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.amazonaws.services.sns.model.CreatePlatformEndpointRequest;
 import com.amazonaws.services.sns.model.CreatePlatformEndpointResult;
 import com.amazonaws.services.sns.model.InvalidParameterException;
+import com.amazonaws.services.sns.model.SetEndpointAttributesRequest;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
@@ -66,6 +67,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -485,9 +487,9 @@ public abstract class PacifyrAppCompactActivity  extends PacifyerActivity {
                             // CreateEndpoint doesn't want to overwrite. Just use the
                             // existing endpoint.
                             //endpointArn = m.group(1);
-
                             putSharedString(PrefManager.AWS_ENDPOINT, m.group(1));
                             LogUtils.LOGD("install", "CreatePlatformEndpointResult fail :endpoint  " + m.group(1));
+                            setEndpointAttributes(m.group(1), userData);
 
                             installationWeb();
                         } else {
@@ -502,6 +504,20 @@ public abstract class PacifyrAppCompactActivity  extends PacifyerActivity {
             }.execute(null, null, null);
         } catch (Exception ex) {
             LogUtils.LOGD("install", "CreatePlatformEndpointResult Exception end  : " + ex.getMessage());
+        }
+    }
+
+    private void setEndpointAttributes(final String endpointArn, final String userData) {
+        try {
+            SetEndpointAttributesRequest setEndpointAttributesRequest = new SetEndpointAttributesRequest();
+            setEndpointAttributesRequest.setEndpointArn(endpointArn);
+            Map<String, String> attributes = new HashMap<>();
+            attributes.put("CustomUserData", userData);
+            setEndpointAttributesRequest.setAttributes(attributes);
+            AWSManager.getSNSClient().setEndpointAttributes(setEndpointAttributesRequest);
+
+        } catch (InvalidParameterException ipe) {
+            ipe.printStackTrace();
         }
     }
 

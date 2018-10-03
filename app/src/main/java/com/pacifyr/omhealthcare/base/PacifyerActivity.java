@@ -115,6 +115,8 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import static com.ceino.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
 import static com.ceino.utilitylibrary.network.UtilityNetworkService.STRIPE_PUBLISH_KEY;
@@ -132,6 +134,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
     protected QBResRequestExecutor requestExecutor;
     public PermissionsChecker checker;
     private android.app.AlertDialog billSummary;
+    private boolean showRating = false;
     private BroadcastReceiver eventReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -158,9 +161,14 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
                         }
                     }
                 });
+            } else if (type != null && type.equals("rating")) {
+                showRating = true;
+                //SessionSummaryActivity.start(PacifyerActivity.this);
             }
         }
     };
+    private Timer trackTimer;
+    private TimerTask trackTimerTask;
 
     @Override
     protected void onStart() {
@@ -683,11 +691,16 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
                 if (billSummary != null) {
                     billSummary.dismiss();
                 }
+                if (showRating) {
+                    showRating = false;
+                    SessionSummaryActivity.start(getApplicationContext());
+                }
             }
         });
         android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(PacifyerActivity.this);
         builder.setTitle("Bill Summary");
         builder.setView(view);
+        builder.setCancelable(false);
         billSummary = builder.create();
         billSummary.show();
     }
@@ -1240,7 +1253,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
                                 {
                                     if(call_session_root.getStatus().equalsIgnoreCase("success"))
                                     {
-
+                                        startSessionTracking();
                                         startCall(isVideoCall,pacifyer,pacifyer.getQbid(), pacifyer.getId(),call_session_root.getSession().getId());
                                     }
                                     else
@@ -1262,8 +1275,10 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
                                         String message = sessionobj.has("message") ? sessionobj.getString("message") : "Sorry, some error occurred";
                                         String statusmsg= json.getString("status");
                                         if(statusmsg.equalsIgnoreCase("success")) {
-                                            if (isValid(sessionid,"Please try later ,session expired "))
-                                                startCall(isVideoCall,pacifyer, pacifyer.getQbid(), pacifyer.getId(), sessionid);
+                                            if (isValid(sessionid, "Please try later ,session expired ")) {
+                                                startCall(isVideoCall, pacifyer, pacifyer.getQbid(), pacifyer.getId(), sessionid);
+                                                startSessionTracking();
+                                            }
                                         } else if (statusmsg.equalsIgnoreCase("error")) {
                                             stopSessionWeb(pacifyer);
                                             ToastHandler.newInstance(PacifyerActivity.this).mustShowToast(message);
@@ -1290,8 +1305,10 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
                                     String statusmsg= json.getString("status");
                                     String message = sessionobj.has("message") ? sessionobj.getString("message") : "Sorry, some error occurred";
                                     if(statusmsg.equalsIgnoreCase("success")) {
-                                        if (isValid(sessionid,"Please try later session expired"))
-                                            startCall(isVideoCall,pacifyer, pacifyer.getQbid(), pacifyer.getId(), sessionid);
+                                        if (isValid(sessionid, "Please try later session expired")) {
+                                            startCall(isVideoCall, pacifyer, pacifyer.getQbid(), pacifyer.getId(), sessionid);
+                                            startSessionTracking();
+                                        }
                                     } else if (statusmsg.equalsIgnoreCase("error")) {
                                         stopSessionWeb(pacifyer);
                                         ToastHandler.newInstance(PacifyerActivity.this).mustShowToast(message);
@@ -2723,6 +2740,33 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
         Bitmap rotatedImg = Bitmap.createBitmap(img, 0, 0, img.getWidth(), img.getHeight(), matrix, true);
         img.recycle();
         return rotatedImg;
+    }
+
+    public void startSessionTracking() {
+        //Called in PacifyerActivity
+        trackTimer = new Timer();
+        trackTimerTask = new TimerTask() {
+            @Override
+            public void run() {
+                new NetworkService().sessionTracking(PacifyerActivity.sessionid, new AjaxCallback<JSONObject>() {
+                    @Override
+                    public void callback(String url, JSONObject json, AjaxStatus status) {
+                        Log.d(TAG, "Url " + url + " -> " + json.toString());
+                    }
+                });
+            }
+        };
+        trackTimer.scheduleAtFixedRate(trackTimerTask, 0, 2500);
+    }
+
+    public void stopSessionTracking() {
+        //called in CallActivity
+        try {
+            trackTimer.cancel();
+            trackTimerTask.cancel();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 

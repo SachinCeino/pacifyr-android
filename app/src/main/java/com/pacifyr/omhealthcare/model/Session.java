@@ -15,7 +15,7 @@ public class Session {
     private List<Object> sessionRatings = null;
     @SerializedName("pacifyrEarnings")
     @Expose
-    private Integer pacifyrEarnings;
+    private Double pacifyrEarnings;
     @SerializedName("type")
     @Expose
     private String type;
@@ -45,7 +45,7 @@ public class Session {
     private String updatedAt;
     @SerializedName("sessionCost")
     @Expose
-    private Integer sessionCost;
+    private Double sessionCost;
     @SerializedName("stopped")
     @Expose
     private Boolean stopped;
@@ -120,11 +120,11 @@ public class Session {
         this.sessionRatings = sessionRatings;
     }
 
-    public Integer getPacifyrEarnings() {
+    public Double getPacifyrEarnings() {
         return pacifyrEarnings;
     }
 
-    public void setPacifyrEarnings(Integer pacifyrEarnings) {
+    public void setPacifyrEarnings(Double pacifyrEarnings) {
         this.pacifyrEarnings = pacifyrEarnings;
     }
 
@@ -200,11 +200,11 @@ public class Session {
         this.updatedAt = updatedAt;
     }
 
-    public Integer getSessionCost() {
+    public Double getSessionCost() {
         return sessionCost;
     }
 
-    public void setSessionCost(Integer sessionCost) {
+    public void setSessionCost(Double sessionCost) {
         this.sessionCost = sessionCost;
     }
 

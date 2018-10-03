@@ -13,10 +13,10 @@ public class BillingSummary {
     private String createdAt;
     @SerializedName("sessionCost")
     @Expose
-    private Integer sessionCost;
+    private Double sessionCost;
     @SerializedName("pacifyrEarnings")
     @Expose
-    private Integer pacifyrEarnings;
+    private Double pacifyrEarnings;
     @SerializedName("session")
     @Expose
     private Session session;
@@ -58,19 +58,19 @@ public class BillingSummary {
         this.createdAt = createdAt;
     }
 
-    public Integer getSessionCost() {
+    public Double getSessionCost() {
         return sessionCost;
     }
 
-    public void setSessionCost(Integer sessionCost) {
+    public void setSessionCost(Double sessionCost) {
         this.sessionCost = sessionCost;
     }
 
-    public Integer getPacifyrEarnings() {
+    public Double getPacifyrEarnings() {
         return pacifyrEarnings;
     }
 
-    public void setPacifyrEarnings(Integer pacifyrEarnings) {
+    public void setPacifyrEarnings(Double pacifyrEarnings) {
         this.pacifyrEarnings = pacifyrEarnings;
     }
 

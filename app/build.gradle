@@ -190,7 +190,7 @@ dependencies {
 
     /*implementation project(':quickblox-videochat-webrtc')
     implementation project(':quickblox-chat')*/
-    implementation 'com.amazonaws:aws-android-sdk-sns:2.6.31'
+    implementation 'com.amazonaws:aws-android-sdk-sns:2.7.0'
     implementation ('com.daprlabs.aaron:cardstack:0.3.1-beta0'){
         exclude group : 'com.android.support'
     }

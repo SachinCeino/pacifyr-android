@@ -42,10 +42,10 @@ public class Pacifyr {
     private Object pin;
     @SerializedName("walletBalance")
     @Expose
-    private Integer walletBalance;
+    private Double walletBalance;
     @SerializedName("price")
     @Expose
-    private Integer price;
+    private Double price;
     @SerializedName("id")
     @Expose
     private String id;
@@ -54,7 +54,7 @@ public class Pacifyr {
     private Object state;
     @SerializedName("availableMinutes")
     @Expose
-    private Integer availableMinutes;
+    private Double availableMinutes;
     @SerializedName("specialities")
     @Expose
     private List<String> specialities = null;
@@ -249,19 +249,19 @@ public class Pacifyr {
         this.pin = pin;
     }
 
-    public Integer getWalletBalance() {
+    public Double getWalletBalance() {
         return walletBalance;
     }
 
-    public void setWalletBalance(Integer walletBalance) {
+    public void setWalletBalance(Double walletBalance) {
         this.walletBalance = walletBalance;
     }
 
-    public Integer getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(Integer price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
@@ -281,11 +281,11 @@ public class Pacifyr {
         this.state = state;
     }
 
-    public Integer getAvailableMinutes() {
+    public Double getAvailableMinutes() {
         return availableMinutes;
     }
 
-    public void setAvailableMinutes(Integer availableMinutes) {
+    public void setAvailableMinutes(Double availableMinutes) {
         this.availableMinutes = availableMinutes;
     }
 
