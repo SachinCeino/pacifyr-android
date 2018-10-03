@@ -44,7 +44,7 @@ public class PostRegisterModel {
 
     private String description;
 
-    private String selectedSpeciality;
+    private String selectedSpecialityCategory;
 
     private String emotionId;
 
@@ -53,16 +53,16 @@ public class PostRegisterModel {
     }
 
     public PostRegisterModel(String emotionId, String selectedSpeciality) {
-        this.selectedSpeciality = selectedSpeciality;
+        this.selectedSpecialityCategory = selectedSpeciality;
         this.emotionId = emotionId;
     }
 
     public String getSelectedSpeciality() {
-        return selectedSpeciality;
+        return selectedSpecialityCategory;
     }
 
     public void setSelectedSpeciality(String selectedSpeciality) {
-        this.selectedSpeciality = selectedSpeciality;
+        this.selectedSpecialityCategory = selectedSpeciality;
     }
 
     public String getEmotionId() {
