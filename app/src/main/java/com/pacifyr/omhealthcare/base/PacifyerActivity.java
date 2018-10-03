@@ -162,8 +162,11 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
                     }
                 });
             } else if (type != null && type.equals("rating")) {
-                showRating = true;
-                //SessionSummaryActivity.start(PacifyerActivity.this);
+                if (billSummary != null && billSummary.isShowing()) {
+                    showRating = true;
+                } else {
+                    SessionSummaryActivity.start(PacifyerActivity.this);
+                }
             }
         }
     };

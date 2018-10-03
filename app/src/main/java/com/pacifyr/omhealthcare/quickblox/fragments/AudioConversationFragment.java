@@ -54,7 +54,7 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
     private boolean headsetPlugged;
     private DeviceFitImageView emotion_dimv;
 
-    private CircleImageView callerAvatarImageView;
+//    private CircleImageView callerAvatarImageView;
 
     private RelativeLayout emotion_rlay;
     private LinearLayout info_overlay_llay;
@@ -65,7 +65,7 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
     private DeviceFitImageView moreDimv;
     private RelativeLayout more_rlay;
     private  CustomFontTextView reason_ctxv,emotion_ctxv;
-    private TextView billingStatus;
+    private CustomFontTextView billingStatus;
 
     private  Switch billingSwitch;
     private BroadcastReceiver eventReceiver = new BroadcastReceiver() {
@@ -144,12 +144,12 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
         reason_ctxv = (CustomFontTextView) view.findViewById(R.id.reason_ctxv);
         connectionStatusLocal = (TextView) view.findViewById(R.id.connectionStatusLocal);
         emotion_ctxv = (CustomFontTextView) view.findViewById(R.id.emotion_ctxv);
-        billingStatus = (TextView) view.findViewById(R.id.billing_status);
+        billingStatus = (CustomFontTextView) view.findViewById(R.id.billing_status);
 //        billingSwitch = (Switch) view.findViewById(R.id.billing_switch);
         emotion_dimv.setVisibility(View.GONE);
         reason_ctxv.setVisibility(View.GONE);
         emotion_ctxv.setVisibility(View.GONE);
-        callerAvatarImageView = (CircleImageView) view.findViewById(R.id.image_caller_avatar);
+//        callerAvatarImageView = (CircleImageView) view.findViewById(R.id.image_caller_avatar);
         //  firstOpponentNameTextView = (TextView) view.findViewById(R.id.text_caller_name);
         //    firstOpponentNameTextView.setText(opponents.get(0).getFullName());
         // firstOpponentNameTextView.setVisibility(View.GONE);
@@ -248,8 +248,8 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
                     MUser paacifyr=call_particpants_list.get(1);
                     if(!isValid(paacifyr))
                         return;
-                    if(isValid(paacifyr.getImageUrl()))
-                        Picasso.with(getActivity()).load(paacifyr.getImageUrl()).into(callerAvatarImageView);
+                    /*if(isValid(paacifyr.getImageUrl()))
+                        Picasso.with(getActivity()).load(paacifyr.getImageUrl()).into(callerAvatarImageView);*/
                  /*  defSetText(firstOpponentNameTextView,paacifyr.getName());
                     firstOpponentNameTextView.setVisibility(View.VISIBLE);*/
                 }else
@@ -259,8 +259,8 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
                         return;
                  /*   defSetText(firstOpponentNameTextView,customer.getName());
                     firstOpponentNameTextView.setVisibility(View.VISIBLE);*/
-                    if(isValid(customer.getImageUrl()))
-                        Picasso.with(getActivity()).load(customer.getImageUrl()).into(callerAvatarImageView);
+                    /*if(isValid(customer.getImageUrl()))
+                        Picasso.with(getActivity()).load(customer.getImageUrl()).into(callerAvatarImageView);*/
 
                 }
           /*  if(isCustomer())

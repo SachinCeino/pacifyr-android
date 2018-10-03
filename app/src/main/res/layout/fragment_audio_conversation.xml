@@ -14,13 +14,13 @@
         android:paddingLeft="@dimen/also_in_call_text_left_right_padding"
         android:paddingRight="@dimen/also_in_call_text_left_right_padding">
         <!--        android:layout_marginTop="@dimen/action_bar_height"-->
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:layout_marginTop="10dp"
-            android:layout_width="90dp"
-            android:layout_height="90dp"
-            android:id="@+id/image_caller_avatar"
-            android:visibility="visible"
-            android:src="@drawable/ic_person_big"/>
+        <!-- <de.hdodenhof.circleimageview.CircleImageView
+             android:layout_marginTop="10dp"
+             android:layout_width="90dp"
+             android:layout_height="90dp"
+             android:id="@+id/image_caller_avatar"
+             android:visibility="visible"
+             android:src="@drawable/ic_person_big"/>-->
         <!--            android:layout_height="@dimen/call_avatar_diameter"-->
 <!--        <ImageView
             android:id="@+id/image_caller_avatar"
@@ -105,32 +105,75 @@
                 android:layout_below="@+id/emotion_dimv"
                 android:layout_height="wrap_content">
 
-                <com.ceino.utilitylibrary.CustomFontTextView
-                    android:layout_width="wrap_content"
-                    android:id="@+id/emotion_ctxv"
-                    app:fontName="@string/avenir_black"
-                    android:visibility="visible"
-                    android:textSize="@dimen/sp16"
-                    android:layout_centerHorizontal="true"
-                    android:singleLine="true"
-                    android:textStyle="bold"
-                    android:text="ddddddd"
-                    android:textColor="@color/colorPrimary"
-                    android:layout_height="wrap_content" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
-                <com.ceino.utilitylibrary.CustomFontTextView
-                    android:layout_width="wrap_content"
-                    android:id="@+id/reason_ctxv"
-                    android:layout_centerHorizontal="true"
-                    android:visibility="visible"
-                    android:layout_marginTop="5dp"
-                    android:textSize="@dimen/sp16"
-                    android:singleLine="true"
-                    app:fontName="@string/avenir_black"
-                    android:textStyle="bold"
-                    android:text="ddddddddddddd"
-                    android:textColor="@color/colorPrimary"
-                    android:layout_height="wrap_content" />
+                    <com.ceino.utilitylibrary.CustomFontTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:singleLine="true"
+                        android:text="Emotion : "
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/sp16"
+                        android:textStyle="bold"
+                        android:visibility="visible"
+                        app:fontName="@string/avenir_black" />
+
+                    <com.ceino.utilitylibrary.CustomFontTextView
+                        android:id="@+id/emotion_ctxv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:singleLine="true"
+                        android:text="ddddddd"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/sp16"
+                        android:textStyle="bold"
+                        android:visibility="visible"
+                        app:fontName="@string/avenir_black" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <com.ceino.utilitylibrary.CustomFontTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:singleLine="true"
+                            android:text="Cause : "
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="@dimen/sp16"
+                            android:textStyle="bold"
+                            android:visibility="visible"
+                            app:fontName="@string/avenir_black" />
+
+                        <com.ceino.utilitylibrary.CustomFontTextView
+                            android:id="@+id/reason_ctxv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:singleLine="true"
+                            android:text="ddddddddddddd"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="@dimen/sp16"
+                            android:textStyle="bold"
+                            android:visibility="visible"
+                            app:fontName="@string/avenir_black" />
+
+                    </LinearLayout>
+                </LinearLayout>
 
             </LinearLayout>
         </RelativeLayout>
@@ -314,25 +357,27 @@
                 android:textColor="@color/white"
                 android:textStyle="normal" />
 
-            <TextView
-                android:id="@+id/billing_status"
-                style="@style/MatchWidth"
-                android:layout_below="@+id/connectionStatusLocal"
-                android:layout_marginBottom="@dimen/margin_very_small"
-                android:layout_marginLeft="4dp"
-                android:layout_marginTop="10dp"
-                android:maxLines="1"
-                android:text="Billing Started"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textStyle="normal"
-                android:textColor="@color/white"
-                android:visibility="gone" />
-
-
         </RelativeLayout>
     </LinearLayout>
     <include layout="@layout/view_outgoing_screen" android:visibility="gone"/>
 
     <include layout="@layout/view_audio_action_buttons_conversation_fragment" />
+
+    <com.ceino.utilitylibrary.CustomFontTextView
+        android:id="@+id/billing_status"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="13dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/white_border_transparent_black"
+        android:enabled="false"
+        android:padding="10dp"
+        android:text="@string/start_session"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:visibility="invisible" />
 
 </RelativeLayout>
