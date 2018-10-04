@@ -68,6 +68,7 @@ import static com.pacifyr.omhealthcare.network.NetworkService.modelAllEmotions;
 public class LastSessionActivity   extends PacifyrAppCompactActivity {
 
 
+    private static final String TAG = LastSessionActivity.class.getSimpleName();
     boolean showingFirst = true;
 
     HoloCircleSeekBar holoCircleSeekBar;
@@ -861,7 +862,9 @@ public class LastSessionActivity   extends PacifyrAppCompactActivity {
                 public void callback(String url, JSONObject json, AjaxStatus status) {
                     try {
 
-
+                        if (json != null) {
+                            Log.d(TAG, "Save seeion resspomse " + json.toString());
+                        }
                         ((App) App.getInstance()).setCurrentActivity(null);
                         NetworkService.startActionCutomerDashboard(LastSessionActivity.this);
 

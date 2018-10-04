@@ -3,7 +3,6 @@ package com.pacifyr.omhealthcare.adapter;
 import android.content.Context;
 import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,7 +48,7 @@ public class MySessionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public MySessionAdapter(Context context, ArrayList<MSessionDetailRoot> list,String userid,String token) {
         this.list = list;
         this.context=context;
-        emotionList=modelAllEmotions.getResultsList();
+        emotionList = modelAllEmotions.getResultsList() != null ? modelAllEmotions.getResultsList() : null;
         this.userid = userid;
         this.token = token;
     }
@@ -88,7 +87,7 @@ public class MySessionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder topholder, final int position) {
-       if(topholder!=null) {
+        if (topholder != null) {
             if (topholder instanceof  MyViewHolder) {
                 MyViewHolder holder = ( MyViewHolder) topholder;
 
@@ -181,37 +180,39 @@ public class MySessionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             holder.callTimeCtxv.setText(results.getDuration());
 
 
-            for(int j=0;j<rating.length;j++)
-            {
-                if(isValid(rating[j].getType()))
-                {
-                    String type = rating[j].getType();
+            if (rating != null) {
+                for (int j = 0; j < rating.length; j++) {
+                    if (isValid(rating[j].getType())) {
+                        String type = rating[j].getType();
                    /* if(type.equals("customer")){
                         customerRatings = rating[j];
                     }*/
-                    if(type.equals(getUserType())){
-                        customerRatings = rating[j];
-                    }
-                }
-            }
-            for(int i=0;i<emotionList.size();i++){
-                String id=emotionList.get(i).getId();
-                if(isValid(customerRatings)) {
-                    if (isValid(customerRatings.getAfterSessionEmotionId())) {
-                        String afterSessionEmotionId = customerRatings.getAfterSessionEmotionId();
-                       if (id.equals(afterSessionEmotionId)) {
-                            holder.afterFeelCtxv.setText(emotionList.get(i).getTitle());
-                            Picasso.with(context).load(GLOBAL_IMAGE_URL+emotionList.get(i).getImage()).into(holder.afterEmotionImg);
+                        if (type.equals(getUserType())) {
+                            customerRatings = rating[j];
                         }
                     }
                 }
-                if(isValid(customerRatings)) {
-                    if (isValid(customerRatings.getBeforeSessionEmotionId())) {
-                        String beforeSessionEmotionId = customerRatings.getBeforeSessionEmotionId();
-                        if (id.equals(beforeSessionEmotionId)) {
-                            holder.beforeFeelCtxv.setText(emotionList.get(i).getTitle());
-                            Picasso.with(context).load(GLOBAL_IMAGE_URL+emotionList.get(i).getImage()).into(holder.beforeEmotionImg);
+            }
+            if (emotionList != null) {
+                for (int i = 0; i < emotionList.size(); i++) {
+                    String id = emotionList.get(i).getId();
+                    if (isValid(customerRatings)) {
+                        if (isValid(customerRatings.getAfterSessionEmotionId())) {
+                            String afterSessionEmotionId = customerRatings.getAfterSessionEmotionId();
+                            if (id.equals(afterSessionEmotionId)) {
+                                holder.afterFeelCtxv.setText(emotionList.get(i).getTitle());
+                                Picasso.with(context).load(GLOBAL_IMAGE_URL + emotionList.get(i).getImage()).into(holder.afterEmotionImg);
+                            }
+                        }
+                    }
+                    if (isValid(customerRatings)) {
+                        if (isValid(customerRatings.getBeforeSessionEmotionId())) {
+                            String beforeSessionEmotionId = customerRatings.getBeforeSessionEmotionId();
+                            if (id.equals(beforeSessionEmotionId)) {
+                                holder.beforeFeelCtxv.setText(emotionList.get(i).getTitle());
+                                Picasso.with(context).load(GLOBAL_IMAGE_URL + emotionList.get(i).getImage()).into(holder.beforeEmotionImg);
 
+                            }
                         }
                     }
                 }

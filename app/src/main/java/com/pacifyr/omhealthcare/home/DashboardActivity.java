@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Typeface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.multidex.MultiDex;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.amazonaws.services.sns.model.DeleteEndpointRequest;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
@@ -28,7 +30,6 @@ import com.pacifyr.omhealthcare.Fragment.ResourcesFragment;
 import com.pacifyr.omhealthcare.Fragment.SupportFragment;
 import com.pacifyr.omhealthcare.Fragment.UserDashboardFragment;
 import com.pacifyr.omhealthcare.Fragment.WelcomeTourFragment;
-import com.pacifyr.omhealthcare.utils.PagerEnabledSlidingPaneLayout;
 import com.pacifyr.omhealthcare.Payment.PaymentFragment;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.event.ActionbarEvent;
@@ -42,8 +43,10 @@ import com.pacifyr.omhealthcare.model.interfaces.CallChatEventListner;
 import com.pacifyr.omhealthcare.network.GsonUtils;
 import com.pacifyr.omhealthcare.quickblox.chat.ui.activity.DialogsActivity;
 import com.pacifyr.omhealthcare.sign.CrisisActivity;
+import com.pacifyr.omhealthcare.utility.AWSManager;
 import com.pacifyr.omhealthcare.utility.PacifyrAppCompactActivity;
 import com.pacifyr.omhealthcare.utils.LogUtils;
+import com.pacifyr.omhealthcare.utils.PagerEnabledSlidingPaneLayout;
 import com.pacifyr.omhealthcare.utils.ToastHandler;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
@@ -340,6 +343,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
                         hideStatus();
                             /*PrefManager prefM= PrefManager.getInstance(getActivity());
                             prefM.clearSharedAll();*/
+                        new DeleteEndPointTask().execute();
                         deleteInstallationWeb();
                            /* LoginManager mLoginManager = LoginManager.getInstance();
                             if(isValid(mLoginManager))
@@ -354,6 +358,20 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
         });
 
 
+    }
+
+
+    private void deleteAwsEndpoint() {
+        try {
+            DeleteEndpointRequest deleteEndpointRequest = new DeleteEndpointRequest();
+            String endPoint = getSharedString(PrefManager.AWS_ENDPOINT, null);
+            if (endPoint != null) {
+                deleteEndpointRequest.setEndpointArn(endPoint);
+                AWSManager.getSNSClient().deleteEndpoint(deleteEndpointRequest);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /*    public static showActionBar()
@@ -648,7 +666,16 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
             e.printStackTrace();
         }
     }
+
+    public class DeleteEndPointTask extends AsyncTask {
+        @Override
+        protected Object doInBackground(Object[] objects) {
+            deleteAwsEndpoint();
+            return null;
+        }
+    }
 }
+
 
 
 

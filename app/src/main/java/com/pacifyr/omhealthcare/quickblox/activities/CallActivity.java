@@ -1248,6 +1248,7 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
 
     @Override
     protected void onDestroy() {
+        stopSessionTracking();
         super.onDestroy();
     }
 

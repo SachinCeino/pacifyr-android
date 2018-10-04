@@ -1262,7 +1262,10 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
                                     else
                                     {
                                        stopSessionWeb(pacifyer);
-                                       ToastHandler.newInstance(PacifyerActivity.this).mustShowToast("Network error. Please try again");
+                                        if (json.has("message")) {
+                                            ToastHandler.newInstance(PacifyerActivity.this).mustShowToast(json.getString("message"));
+                                        }
+
                                       //setAlertOKStatusInBlue("Connect call","Connect the call","OK");
                                         //startCall(isVideoCall,pacifyer, pacifyer.getQbid(), pacifyer.getId(), sessionid);
 
