@@ -13,8 +13,8 @@ import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
 
-
 import com.pacifyr.omhealthcare.R;
+import com.pacifyr.omhealthcare.utils.Constants;
 
 import java.util.List;
 
@@ -58,7 +58,7 @@ public class NotificationUtils {
             NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
 
             NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
-                    mContext);
+                    mContext, Constants.CHANNEL_ID);
             Notification notification = mBuilder.setSmallIcon(icon).setTicker(title).setWhen(0)
                     .setAutoCancel(true)
                     .setContentTitle(title)

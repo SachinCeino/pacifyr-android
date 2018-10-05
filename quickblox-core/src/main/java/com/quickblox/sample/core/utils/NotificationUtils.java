@@ -24,7 +24,7 @@ public class NotificationUtils {
                 PendingIntent.FLAG_UPDATE_CURRENT);
 
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context)
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, "om_general_notifications")
                 .setSmallIcon(icon)
                 .setContentTitle(title)
                 .setContentText(message)

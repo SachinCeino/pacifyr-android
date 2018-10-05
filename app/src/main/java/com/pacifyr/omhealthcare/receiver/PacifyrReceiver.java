@@ -23,6 +23,7 @@ import com.pacifyr.omhealthcare.event.CallEvent;
 import com.pacifyr.omhealthcare.quickblox.activities.CallActivity;
 import com.pacifyr.omhealthcare.quickblox.services.CallService;
 import com.pacifyr.omhealthcare.quickblox.utils.WebRtcSessionManager;
+import com.pacifyr.omhealthcare.utils.Constants;
 import com.pacifyr.omhealthcare.utils.LogUtils;
 import com.pacifyr.omhealthcare.utils.ToastHandler;
 
@@ -268,7 +269,7 @@ public class PacifyrReceiver extends WakefulBroadcastReceiver {
                 cIntent, PendingIntent.FLAG_CANCEL_CURRENT);
         // cIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         Uri notificationSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, Constants.CHANNEL_ID)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentText(message)
                 .setContentTitle("Pacifyr")

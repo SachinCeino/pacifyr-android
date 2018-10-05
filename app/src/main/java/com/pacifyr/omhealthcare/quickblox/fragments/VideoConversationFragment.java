@@ -143,6 +143,7 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
             Log.d("receiver", "Got message: " + type);
             if (type != null && type.equals("billing")) {
                 billingStatus.setVisibility(View.VISIBLE);
+                ((PacifyerActivity) getActivity()).setBillingStarted(true);
             }
         }
     };

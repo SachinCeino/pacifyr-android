@@ -1,9 +1,12 @@
 package com.pacifyr.omhealthcare.activity;
 
 import android.app.ActivityManager;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -15,13 +18,13 @@ import android.widget.Toast;
 import com.ceino.utilitylibrary.base.BaseAppCompactActivity;
 import com.ceino.utilitylibrary.utils.PrefManager;
 import com.pacifyr.omhealthcare.R;
-import com.pacifyr.omhealthcare.home.AndroidDashoardActivity;
 import com.pacifyr.omhealthcare.home.DashboardActivity;
 import com.pacifyr.omhealthcare.home.PacifyrDashboardActivity;
 import com.pacifyr.omhealthcare.network.NetworkService;
 import com.pacifyr.omhealthcare.quickblox.services.CallService;
 import com.pacifyr.omhealthcare.sign.PacifyrTermsPolicyActivity;
 import com.pacifyr.omhealthcare.sign.SignActivity;
+import com.pacifyr.omhealthcare.utils.Constants;
 import com.quickblox.sample.core.utils.SharedPrefsHelper;
 import com.quickblox.users.model.QBUser;
 
@@ -29,6 +32,7 @@ import org.json.JSONObject;
 
 public class SplachScreen extends BaseAppCompactActivity {
 
+    private static final String TAG = SplachScreen.class.getSimpleName();
     private ProgressBar progressquest2;
     public static String trigger = "Start";
     private static int SPLASH_TIME_OUT = 1000;
@@ -59,10 +63,8 @@ public class SplachScreen extends BaseAppCompactActivity {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    if(isValid(PrefManager.getInstance(SplachScreen.this)))
-                    {
-                        if(isValid(PrefManager.getInstance(SplachScreen.this).getJsonKey()))
-                        {
+                    if(isValid(PrefManager.getInstance(SplachScreen.this))) {
+                        if(isValid(PrefManager.getInstance(SplachScreen.this).getJsonKey())) {
                             String jsonString =PrefManager.getInstance(SplachScreen.this).getJsonKey();
                             try {
 
@@ -83,8 +85,7 @@ public class SplachScreen extends BaseAppCompactActivity {
                                 //return;
                             }
 
-                            if(label.equals("pacifyr"))
-                            {
+                            if(label.equals("pacifyr")) {
 
                                 NetworkService.startActionListCustomer(SplachScreen.this,0,10);
                                 try {
@@ -103,14 +104,11 @@ public class SplachScreen extends BaseAppCompactActivity {
                                         Intent intent = new Intent(SplachScreen.this, CallService.class);
                                         startService(intent);
                                     }
-                                }
-                                catch (Exception e)
-                                {
+                                } catch (Exception e) {
                                     e.printStackTrace();
                                     Toast.makeText(SplachScreen.this,"Network error, Please try again",Toast.LENGTH_LONG).show();
                                 }
-                            }
-                            else if(label.equals("customer")) {
+                            } else if(label.equals("customer")) {
                                 DashboardActivity.start(SplachScreen.this);
 
                                  /*Intent intent = new Intent(SplachScreen.this, ConnectToPacifyrActivity.class);
@@ -123,16 +121,13 @@ public class SplachScreen extends BaseAppCompactActivity {
                                 startActivity(intent);
                                 finish();*/
                             }
-                        }
-                        else {
+                        } else {
                             Intent intent = new Intent(SplachScreen.this, SignActivity.class);
                             startActivity(intent);
                             finish();
 
                         }
-                    }
-                    else
-                    {
+                    } else {
                         Intent intent = new Intent(SplachScreen.this, SignActivity.class);
                         startActivity(intent);
                         finish();
@@ -141,11 +136,32 @@ public class SplachScreen extends BaseAppCompactActivity {
             }, SPLASH_TIME_OUT);
 
 
-        }catch (Exception e)
-        {
+        }catch (Exception e) {
             Intent intent = new Intent(SplachScreen.this, SignActivity.class);
             startActivity(intent);
             finish();
+        }
+        try {
+            createNotificationChannel(this);
+        } catch (Exception e) {
+            Log.d(TAG, "Create notofocation channel err");
+            e.printStackTrace();
+        }
+    }
+
+    private void createNotificationChannel(Context context) {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "om_healthcare";
+            String description = "general_notifications";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(Constants.CHANNEL_ID, name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
         }
     }
     protected void startLoginService(QBUser qbUser) {

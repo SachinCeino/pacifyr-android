@@ -9,7 +9,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -470,7 +469,12 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
 
 
                         boolean isChatSubscriptionRequired = pacifyer_obj.isChatSubscriptionRequired();
-                        int priceForChat = Integer.parseInt(pacifyer_obj.getPriceForChat());
+                        int priceForChat = 0;
+                        try {
+                            priceForChat = Integer.parseInt(pacifyer_obj.getPriceForChat());
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
 
                         if(!isChatSubscriptionRequired)
                         {
