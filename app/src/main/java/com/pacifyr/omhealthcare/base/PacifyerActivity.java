@@ -68,6 +68,7 @@ import com.pacifyr.omhealthcare.event.NotifyEvent;
 import com.pacifyr.omhealthcare.home.PaymentActivity;
 import com.pacifyr.omhealthcare.home.SessionSummaryActivity;
 import com.pacifyr.omhealthcare.model.BillingSummary;
+import com.pacifyr.omhealthcare.model.Session;
 import com.pacifyr.omhealthcare.model.interfaces.AvailableMinuteListner;
 import com.pacifyr.omhealthcare.network.GsonUtils;
 import com.pacifyr.omhealthcare.network.NetworkService;
@@ -1253,11 +1254,21 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
                             if (json != null) try {
                                 LogUtils.LOGD("call", "startSessionWeb json  " + json);
                                 call_session_root= GsonUtils.getInstance().gsonToMSessionRoot(json);
+                                String sessionJson = null;
+                                if (json.has("session")) {
+                                    sessionJson = json.getString("session");
+                                }
+                                Session session = null;
+                                if (sessionJson != null) {
+                                    session = new Gson().fromJson(sessionJson, Session.class);
+                                }
                                 if(isValid(call_session_root))
                                 {
                                     if(call_session_root.getStatus().equalsIgnoreCase("success"))
                                     {
-                                        startSessionTracking();
+                                        if (session != null) {
+                                            startSessionTracking(session.getId());
+                                        }
                                         startCall(isVideoCall,pacifyer,pacifyer.getQbid(), pacifyer.getId(),call_session_root.getSession().getId());
                                     }
                                     else
@@ -1284,7 +1295,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
                                         if(statusmsg.equalsIgnoreCase("success")) {
                                             if (isValid(sessionid, "Please try later ,session expired ")) {
                                                 startCall(isVideoCall, pacifyer, pacifyer.getQbid(), pacifyer.getId(), sessionid);
-                                                startSessionTracking();
+//                                                startSessionTracking();
                                             }
                                         } else if (statusmsg.equalsIgnoreCase("error")) {
                                             stopSessionWeb(pacifyer);
@@ -1314,7 +1325,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
                                     if(statusmsg.equalsIgnoreCase("success")) {
                                         if (isValid(sessionid, "Please try later session expired")) {
                                             startCall(isVideoCall, pacifyer, pacifyer.getQbid(), pacifyer.getId(), sessionid);
-                                            startSessionTracking();
+//                                            startSessionTracking();
                                         }
                                     } else if (statusmsg.equalsIgnoreCase("error")) {
                                         stopSessionWeb(pacifyer);
@@ -2749,13 +2760,17 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
         return rotatedImg;
     }
 
-    public void startSessionTracking() {
+    public void startSessionTracking(final String sessionid) {
         //Called in PacifyerActivity
         trackTimer = new Timer();
         trackTimerTask = new TimerTask() {
             @Override
             public void run() {
-                new NetworkService().sessionTracking(PacifyerActivity.sessionid, new AjaxCallback<JSONObject>() {
+                if (sessionid == null) {
+                    Log.d(TAG, "Session Id is null cannot call sessionTracking");
+                    return;
+                }
+                new NetworkService().sessionTracking(sessionid, new AjaxCallback<JSONObject>() {
                     @Override
                     public void callback(String url, JSONObject json, AjaxStatus status) {
                         Log.d(TAG, "Url " + url + " -> " + json.toString());

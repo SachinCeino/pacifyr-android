@@ -475,7 +475,7 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
     @Override
     public void connectivityChanged(boolean availableNow) {
         Log.d(TAG, "connectivityChanged");
-        if (callStarted) {
+        if (callStarted && !availableNow) {
             showToast("Internet connection " + (availableNow ? "available" : " unavailable"));
         }
     }
