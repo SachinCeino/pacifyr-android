@@ -45,7 +45,7 @@ public class UtilityNetworkService extends IntentService {
     public static final String ACCOUNT_ID = "77234";
     public static final String TURN_SERVER = "turnserver.quickblox.com";
 
-    public static boolean isRelease = false;
+    public static boolean isRelease = true;
 
   //** prod*/
     /*public static final String GLOBAL_URL = "https://app.pacifyr.net/pacifyr/v1/";

@@ -646,6 +646,8 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
             if(!isOpponenetConnected)
             {
                 missedSessionWeb(sessionid);
+            } else if (!hasBillingStarted()) {
+                showToast("Thank you for the call. You are not billed as Service was not provided");
             }
             finish();
         }
@@ -669,10 +671,10 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
             isOppenentHangUP=true;
             //ToastHandler.newInstance(this).mustShowToast("User is hangs up the call");
             LogUtils.LOGD("call","CA hangUpCurrentSessionOther sessionid"+sessionid);
-            /*if(!isOpponenetConnected)
-            {
-                declineSessionWeb(sessionid);
-            }*/
+
+            if (!hasBillingStarted()) {
+                showToast("Thank you for the call. You are not billed as Service was not provided");
+            }
             finish();
         }
         catch (Exception e)
@@ -894,6 +896,9 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
         ringtonePlayer.stop();
         Log.d(TAG, "Session " + session.getSessionID() + " start stop session");
 
+        if (!hasBillingStarted()) {
+            showToast("Thank you for the call. You are not billed as Service was not provided");
+        }
         if (session.equals(getCurrentSession())) {
             Log.d(TAG, "Stop session");
 

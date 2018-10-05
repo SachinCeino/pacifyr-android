@@ -172,6 +172,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
     };
     private Timer trackTimer;
     private TimerTask trackTimerTask;
+    private boolean billingStarted = false;
 
     @Override
     protected void onStart() {
@@ -2776,7 +2777,13 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
     }
 
 
+    public void setBillingStarted(boolean billingStarted) {
+        this.billingStarted = billingStarted;
+    }
 
+    public boolean hasBillingStarted() {
+        return this.billingStarted;
+    }
 }
 
 
