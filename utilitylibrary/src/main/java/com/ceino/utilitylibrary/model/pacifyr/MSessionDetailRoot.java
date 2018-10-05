@@ -61,6 +61,8 @@ public class MSessionDetailRoot
 
     private String missed;
 
+    private boolean billedSession;
+
 
 
     private String aggregationSessionId;
@@ -461,4 +463,11 @@ public class MSessionDetailRoot
     }
 
 
+    public boolean isBilledSession() {
+        return billedSession;
+    }
+
+    public void setBilledSession(boolean billedSession) {
+        this.billedSession = billedSession;
+    }
 }

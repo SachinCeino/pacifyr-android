@@ -48,7 +48,11 @@ public class MySessionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public MySessionAdapter(Context context, ArrayList<MSessionDetailRoot> list,String userid,String token) {
         this.list = list;
         this.context=context;
-        emotionList = modelAllEmotions.getResultsList() != null ? modelAllEmotions.getResultsList() : null;
+        if (modelAllEmotions != null && modelAllEmotions.getResultsList() != null) {
+            emotionList = modelAllEmotions.getResultsList();
+        } else {
+            emotionList = null;
+        }
         this.userid = userid;
         this.token = token;
     }
@@ -66,8 +70,11 @@ public class MySessionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             itemView = LayoutInflater.from(parent.getContext()).inflate(
                     R.layout.item_event_empty, parent, false);
             rcv = new ViewHolderEmpty(itemView);
-        }
-        else {
+        } else if (viewType == 3) {
+            itemView = LayoutInflater.from(parent.getContext()).inflate(
+                    R.layout.list_mysession_service_not_provided_item, parent, false);
+            rcv = new ServiceNotProvided(itemView);
+        } else {
             rcv = new MyViewHolder(itemView);
         }
 
@@ -98,6 +105,9 @@ public class MySessionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             }else if (topholder instanceof  MissedViewHolder) {
                 MissedViewHolder missedViewHolder = (MissedViewHolder) topholder;
                 setViewholder(missedViewHolder,position);
+            } else if (topholder instanceof ServiceNotProvided) {
+                ServiceNotProvided serviceNotProvided = (ServiceNotProvided) topholder;
+                setViewholder(serviceNotProvided, position);
             }
 
         }
@@ -315,6 +325,56 @@ public class MySessionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }
     }
 
+    private void setViewholder(ServiceNotProvided serviceNotProvided, int position) {
+        try {
+            final MSessionDetailRoot results = getItem(position);
+            serviceNotProvided.nameUserCtxv.setText(results.getPacifyr().getFirstName());
+            String time = results.getEndTime();
+            /*SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.mmm'Z'");
+            Date parsedTime = sdf.parse(time);
+            SimpleDateFormat sdf2 = new SimpleDateFormat("MM-dd-yyyy'  'hh:mm a");
+            String formattedDate = sdf2.format(parsedTime);*/
+            serviceNotProvided.dateCtxv.setText(results.getStartFormatDate(time));
+
+            String imgUrl = results.getPacifyr().getImageUrl();
+            if (isValid(imgUrl)) {
+                Picasso.with(context).load(imgUrl).placeholder(context.getResources().getDrawable(R.drawable.placeholder_user)).error(context.getResources().getDrawable(R.drawable.placeholder_user)).into(serviceNotProvided.userCimv);
+            }
+
+            String sessionType = list.get(position).getSessionType();
+            if (sessionType.equals("audio")) {
+                serviceNotProvided.callTypeImg.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_audio_blue));
+            } else if (sessionType.equals("video")) {
+                serviceNotProvided.callTypeImg.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_video_cam_blue));
+            }
+
+            /*if(list.get(position).getDeclined().equals("true")){
+                serviceNotProvided.missedCtxv.setText("Declined Call");
+            }
+
+            missedViewHolder.topLlay.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showProgress();
+                    ( (DashboardActivity) (context)).callchatEventListner.onChatEventClick((new ChatEvent(results.getPacifyr(), false)));
+                    //    ConnectToPacifyrActivity.callchatEventListner.onChatEventClick(new ChatEvent(searchResults.get(position), false));
+                    // postEventOnMainThread(new ChatEvent(searchResults.get(position),false));
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            hideProgress();
+                        }
+                    },500);
+                }
+            });
+            */
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            LogUtils.LOGD(" MSA setViewholder ex:" + ex.getMessage());
+        }
+    }
+
     public Boolean isValid(int object) {
         if(object > 0) return true;
         return false;
@@ -339,6 +399,8 @@ public class MySessionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         }else if(!isValid(list.get(position).getPacifyr().getName())){
             pos = 2;
+        } else if (!list.get(position).isBilledSession()) {
+            pos = 3;
         }
         return pos;
     }
@@ -427,6 +489,27 @@ public class MySessionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         private CustomFontTextView dateCtxv;
 
         public MissedViewHolder(View view) {
+            super(view);
+            topLlay = (LinearLayout) view.findViewById(R.id.top_llay);
+            userCimv = (CircleImageView) view.findViewById(R.id.user_cimv);
+            nameUserCtxv = (CustomFontTextView) view.findViewById(R.id.name_user_ctxv);
+            callTypeImg = (ImageView) view.findViewById(R.id.call_type_img);
+            missedCtxv = (CustomFontTextView) view.findViewById(R.id.missed_ctxv);
+            dateCtxv = (CustomFontTextView) view.findViewById(R.id.date_ctxv);
+
+        }
+    }
+
+    public class ServiceNotProvided extends RecyclerView.ViewHolder {
+
+        private LinearLayout topLlay;
+        private CircleImageView userCimv;
+        private CustomFontTextView nameUserCtxv;
+        private ImageView callTypeImg;
+        private CustomFontTextView missedCtxv;
+        private CustomFontTextView dateCtxv;
+
+        public ServiceNotProvided(View view) {
             super(view);
             topLlay = (LinearLayout) view.findViewById(R.id.top_llay);
             userCimv = (CircleImageView) view.findViewById(R.id.user_cimv);
