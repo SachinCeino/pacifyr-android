@@ -171,8 +171,8 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
             }
         }
     };
-    private Timer trackTimer;
-    private TimerTask trackTimerTask;
+    public static Timer trackTimer;
+    public static TimerTask trackTimerTask;
     private boolean billingStarted = false;
 
     @Override
@@ -2784,8 +2784,8 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
     public void stopSessionTracking() {
         //called in CallActivity
         try {
-            trackTimer.cancel();
-            trackTimerTask.cancel();
+            PacifyerActivity.trackTimer.cancel();
+            PacifyerActivity.trackTimerTask.cancel();
         } catch (Exception e) {
             e.printStackTrace();
         }

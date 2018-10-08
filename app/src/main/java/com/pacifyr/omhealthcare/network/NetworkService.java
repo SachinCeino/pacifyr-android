@@ -1024,4 +1024,20 @@ public class NetworkService  extends IntentService {
             e.printStackTrace();
         }
     }
+
+    public void unratedSessions(AjaxCallback cb) {
+        try {
+            PrefManager prefM = PrefManager.getInstance(this);
+            String token = prefM.getAccessToken();
+            String userID = prefM.getUserID();
+            String url = GLOBAL_URL + "session/customer/unrated?userId=" + userID;
+            AQuery aq = new AQuery(this);
+            cb.header("Content-Type", "application/json");
+            cb.header("AccessToken", token);
+            aq.ajax(url, JSONObject.class, cb);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

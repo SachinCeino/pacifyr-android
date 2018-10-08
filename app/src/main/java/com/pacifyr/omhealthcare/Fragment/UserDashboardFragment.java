@@ -1,9 +1,7 @@
 package com.pacifyr.omhealthcare.Fragment;
 
-import android.app.Dialog;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -11,9 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.LinearLayout;
-import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 
 import com.androidquery.AQuery;
@@ -24,12 +20,15 @@ import com.ceino.utilitylibrary.DeviceFitImageView;
 import com.ceino.utilitylibrary.model.pacifyr.MUser;
 import com.ceino.utilitylibrary.model.pacifyr.ModelCustomerDashboard2;
 import com.ceino.utilitylibrary.utils.PrefManager;
+import com.google.gson.Gson;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.event.NotifyEvent;
 import com.pacifyr.omhealthcare.home.ConnectToPacifyrActivity;
 import com.pacifyr.omhealthcare.home.ConnectToSinglePacifyrActivity;
 import com.pacifyr.omhealthcare.home.LastSessionActivity;
 import com.pacifyr.omhealthcare.home.MySessionsActivity;
+import com.pacifyr.omhealthcare.home.SessionSummaryActivity;
+import com.pacifyr.omhealthcare.model.Session;
 import com.pacifyr.omhealthcare.network.GsonUtils;
 import com.pacifyr.omhealthcare.network.NetworkService;
 import com.pacifyr.omhealthcare.utility.BaseFragment;
@@ -38,6 +37,7 @@ import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.ThreadMode;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -51,6 +51,7 @@ import static com.pacifyr.omhealthcare.network.NetworkService.modelCustomerDashb
 
 public class UserDashboardFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
 
+    private static final String TAG = UserDashboardFragment.class.getSimpleName();
     private RelativeLayout feelRlay,this_week_rlay,connect_btn_rlay;
     //private DeviceFitImageView feelImage;
     private RelativeLayout lastSessionRlay;
@@ -243,6 +244,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                     feelTitleCtxv.setText(emotionTitle);
                 }
             }
+            getUnratedSessions();
         }
         catch (Exception e)
         {
@@ -250,6 +252,33 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
             Log.d("ON RESUME;",e.getMessage());
         }
 
+    }
+
+    private void getUnratedSessions() {
+        AjaxCallback cb = new AjaxCallback<JSONObject>() {
+            @Override
+            public void callback(String url, JSONObject json, AjaxStatus status) {
+
+                try {
+                    if (json != null) {
+                        JSONArray results = json.getJSONArray("results");
+                        if (results != null && results.length() > 0) {
+                            Session session = new Gson().fromJson(results.getJSONObject(0).toString(), Session.class);
+                            if (session != null) {
+                                SessionSummaryActivity.start(getContext(), session.getId());
+                            } else {
+                                Log.d(TAG, " Unrated : Session object not available");
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Log.d(TAG, " Unrated : " + e.getMessage());
+                    // hideProgress();
+                }
+            }
+        };
+        new NetworkService().unratedSessions(cb);
     }
 
     private void handleActionCustomerDashboard(){
