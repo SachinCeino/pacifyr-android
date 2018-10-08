@@ -174,6 +174,7 @@ public class LogInCodeVerifyActivity extends PacifyerActivity {
                         }
                     }, 5000);
 
+                    Toast.makeText(getApplicationContext(), "Success : Verification complete", Toast.LENGTH_LONG).show();
 
                 }
 
@@ -200,6 +201,7 @@ public class LogInCodeVerifyActivity extends PacifyerActivity {
                         // [END_EXCLUDE]
                     }
 
+                    Toast.makeText(getApplicationContext(), "Failed " + e.getMessage(), Toast.LENGTH_LONG).show();
                     // Show a message and update the UI
                     // [START_EXCLUDE]
                   //  updateUI(STATE_VERIFY_FAILED);
@@ -218,6 +220,7 @@ public class LogInCodeVerifyActivity extends PacifyerActivity {
                     mVerificationId = verificationId;
                     mResendToken = token;
 
+                    Toast.makeText(getApplicationContext(), "Verification code sent", Toast.LENGTH_LONG).show();
                     // [START_EXCLUDE]
                     // Update UI
                  //   updateUI(STATE_CODE_SENT);

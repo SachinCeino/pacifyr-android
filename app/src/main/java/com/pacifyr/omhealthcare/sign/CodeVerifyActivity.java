@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.ceino.utilitylibrary.CustomEditText;
 import com.ceino.utilitylibrary.CustomFontTextView;
@@ -122,6 +123,7 @@ public class CodeVerifyActivity extends BaseAppCompactActivity {
                         }
                     }, 1500);
 
+                    Toast.makeText(getApplicationContext(), "Success : Verification complete", Toast.LENGTH_LONG).show();
 
                 }
 
@@ -146,6 +148,7 @@ public class CodeVerifyActivity extends BaseAppCompactActivity {
                                 Snackbar.LENGTH_SHORT).show();
                         // [END_EXCLUDE]
                     }
+                    Toast.makeText(getApplicationContext(), "Failed " + e.getMessage(), Toast.LENGTH_LONG).show();
 
                     // Show a message and update the UI
                     // [START_EXCLUDE]
@@ -164,6 +167,7 @@ public class CodeVerifyActivity extends BaseAppCompactActivity {
                     // Save verification ID and resending token so we can use them later
                     mVerificationId = verificationId;
                     mResendToken = token;
+                    Toast.makeText(getApplicationContext(), "Verification code sent", Toast.LENGTH_LONG).show();
 
                     // [START_EXCLUDE]
                     // Update UI
