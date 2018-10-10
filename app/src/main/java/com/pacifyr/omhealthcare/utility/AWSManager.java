@@ -12,17 +12,15 @@ import com.amazonaws.services.sns.AmazonSNSClient;
 
 public class AWSManager {
 
-    public static final String ARN = "arn:aws:sns:us-east-1:271048179034:app/GCM/PacifyrAndroidDev";
-    public static final String AWS_PROJECT = "PacifyrAndroidDev";
-    private static final String _ACCESS_KEY_ID = "AKIAJZRHYKM2SMPZQ5MQ";
-    private static final String _SECRET_KEY = "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";
-
-
     /*public static final String ARN = "arn:aws:sns:us-east-1:106428918470:app/GCM/GetSmartLive";
-    public static final String AWS_PROJECT = "GetSmartLive";
-    *//*public static final String ARN = "arn:aws:sns:us-east-1:271048179034:app/GCM/OMDev";
-    public static final String AWS_PROJECT = "OMDev";*//*
-    private static final String _ACCESS_KEY_ID = "AKIAJWUXPHXZKRXITPHA";
+    public static final String AWS_PROJECT = "GetSmartLive";*/
+    public static final String ARN = "arn:aws:sns:us-east-1:271048179034:app/GCM/Android_OM_Healthcare_dev";
+    private static final String _SECRET_KEY = "qLBBgBeGwl6eHjOSkXAoeljWQOIJx/nhvXdAvqBT";
+    public static final String AWS_PROJECT = "PacifyrAndroidDev";
+    /*public static final String ARN = "arn:aws:sns:us-east-1:271048179034:app/GCM/PacifyrAndroidDev";
+    public static final String AWS_PROJECT = "PacifyrAndroidDev";*/
+    private static final String _ACCESS_KEY_ID = "AKIAJZRHYKM2SMPZQ5MQ";
+    /*private static final String _ACCESS_KEY_ID = "AKIAJWUXPHXZKRXITPHA";
     private static final String _SECRET_KEY = "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";*/
     private static AmazonSNSClient snsClient = null;
 

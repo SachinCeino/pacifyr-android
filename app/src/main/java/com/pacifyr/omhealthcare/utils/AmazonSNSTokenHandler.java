@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.amazonaws.services.sns.model.CreatePlatformEndpointRequest;
 import com.amazonaws.services.sns.model.CreatePlatformEndpointResult;
+import com.amazonaws.services.sns.model.DeleteEndpointRequest;
 import com.amazonaws.services.sns.model.GetEndpointAttributesRequest;
 import com.amazonaws.services.sns.model.GetEndpointAttributesResult;
 import com.amazonaws.services.sns.model.InvalidParameterException;
@@ -17,6 +18,7 @@ import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.ceino.utilitylibrary.ToastHandler;
 import com.ceino.utilitylibrary.utils.PrefManager;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
 import com.pacifyr.omhealthcare.model.Installation;
 import com.pacifyr.omhealthcare.network.NetworkService;
@@ -63,6 +65,9 @@ public class AmazonSNSTokenHandler {
 
     public void register() {
         token = PrefManager.getInstance(context).getSharedString(PrefManager.FCM_TOKEN, null);
+        if (token == null) {
+            token = FirebaseInstanceId.getInstance().getToken();
+        }
         if (token == null || token.isEmpty()) {
             Log.d(TAG, "Invalid Token exiting...");
             return;
@@ -335,4 +340,24 @@ public class AmazonSNSTokenHandler {
         }
     }
 
+    public void deleteEndpoint() {
+        new DeleteEndPointTask().execute();
+    }
+
+    public class DeleteEndPointTask extends AsyncTask {
+        @Override
+        protected Object doInBackground(Object[] objects) {
+            try {
+                DeleteEndpointRequest deleteEndpointRequest = new DeleteEndpointRequest();
+                String endPoint = PrefManager.getInstance(context).getSharedString(PrefManager.AWS_ENDPOINT, null);
+                if (endPoint != null) {
+                    deleteEndpointRequest.setEndpointArn(endPoint);
+                    AWSManager.getSNSClient().deleteEndpoint(deleteEndpointRequest);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
 }
