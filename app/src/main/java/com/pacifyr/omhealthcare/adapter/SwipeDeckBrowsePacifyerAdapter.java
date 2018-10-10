@@ -18,7 +18,6 @@ import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.ceino.utilitylibrary.CustomFontTextView;
-import com.ceino.utilitylibrary.ToastHandler;
 import com.ceino.utilitylibrary.model.pacifyr.ChatSubscription;
 import com.ceino.utilitylibrary.model.pacifyr.Education;
 import com.ceino.utilitylibrary.model.pacifyr.MUser;
@@ -48,7 +47,6 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.pacifyr.omhealthcare.network.NetworkService.GLOBAL_IMAGE_URL;
-import static com.pacifyr.omhealthcare.network.NetworkService.GLOBAL_URL;
 
 
 public class SwipeDeckBrowsePacifyerAdapter extends BaseAdapter {
@@ -131,7 +129,12 @@ public class SwipeDeckBrowsePacifyerAdapter extends BaseAdapter {
             price=searchResults.get(position).getPrice();
 
             isChatSubscriptionRequired=searchResults.get(position).isChatSubscriptionRequired();
-            priceForChat = Integer.parseInt(searchResults.get(position).getPriceForChat());
+            try {
+                priceForChat = Integer.parseInt(searchResults.get(position).getPriceForChat());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
 
             LinearLayout chatLlay = v.findViewById(R.id.chat_llay);
             CustomFontTextView chat_price_ctxv = v.findViewById(R.id.chat_price_ctxv);
