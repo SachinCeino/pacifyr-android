@@ -55,6 +55,7 @@ import com.pacifyr.omhealthcare.event.NotifyEvent;
 import com.pacifyr.omhealthcare.model.ItemData;
 import com.pacifyr.omhealthcare.model.MCustomerList;
 import com.pacifyr.omhealthcare.utility.EventMessage;
+import com.pacifyr.omhealthcare.utils.Constants;
 import com.pacifyr.omhealthcare.utils.LogUtils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -1040,4 +1041,22 @@ public class NetworkService  extends IntentService {
             e.printStackTrace();
         }
     }
+
+    public void getInstallation(AjaxCallback cb) {
+        try {
+            String uuid = Constants.getUDID();
+            PrefManager prefM = PrefManager.getInstance(this);
+            String token = prefM.getAccessToken();
+            String userID = prefM.getUserID();
+            String url = GLOBAL_URL + "installation/" + uuid;
+            AQuery aq = new AQuery(this);
+            cb.header("Content-Type", "application/json");
+            cb.header("AccessToken", token);
+            aq.ajax(url, JSONObject.class, cb);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }

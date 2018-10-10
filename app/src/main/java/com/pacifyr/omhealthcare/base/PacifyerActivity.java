@@ -429,7 +429,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
 
     }
     public String getGCMToken() {
-        return getSharedString(PrefManager.GCM_TOKEN, "");
+        return getSharedString(PrefManager.FCM_TOKEN, "");
     }
 
     public String getAWSEndPoint() {

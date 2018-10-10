@@ -12,7 +12,6 @@ import android.os.PersistableBundle;
 import android.os.PowerManager;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,6 +47,7 @@ import com.pacifyr.omhealthcare.network.NetworkService;
 import com.pacifyr.omhealthcare.quickblox.activities.CallActivity;
 import com.pacifyr.omhealthcare.quickblox.db.DbHelper;
 import com.pacifyr.omhealthcare.sign.SignActivity;
+import com.pacifyr.omhealthcare.utils.AmazonSNSTokenHandler;
 import com.pacifyr.omhealthcare.utils.LogUtils;
 import com.quickblox.auth.QBAuth;
 import com.quickblox.auth.session.BaseService;
@@ -338,7 +338,7 @@ public abstract class PacifyrAppCompactActivity  extends PacifyerActivity {
     }
 
     public String getGCMToken() {
-        return getSharedString(PrefManager.GCM_TOKEN, "");
+        return getSharedString(PrefManager.FCM_TOKEN, "");
     }
 
     public String getAWSEndPoint() {
@@ -354,25 +354,26 @@ public abstract class PacifyrAppCompactActivity  extends PacifyerActivity {
      */
 
 
-    public void configGCM() {
+    public void configPushNotifications() {
 
-        try {
-            LogUtils.LOGD("install", "configGCM");
+        new AmazonSNSTokenHandler(this).register();
+        /*try {
+            LogUtils.LOGD("install", "configPushNotifications");
             String gcmToken = getGCMToken();
             if(TextUtils.isEmpty(gcmToken)) {
-                LogUtils.LOGD("install", "configGCM  register ic_call_round Gcmtoken");
+                LogUtils.LOGD("install", "configPushNotifications  register ic_call_round Gcmtoken");
                 register();
 
             } else {
-                LogUtils.LOGD("install", "configGCM  register already Gcmtoken ");
+                LogUtils.LOGD("install", "configPushNotifications  register already Gcmtoken ");
                 if(!isValid(getAWSEndPoint()))
                     createEndPointTask(AWSManager.ARN, gcmToken, getProfileName());
             }
         } catch (Exception e){
             //     Crashlytics.logException(e);
-            LogUtils.LOGD("install", "configGCM Exception " + e.getMessage());
+            LogUtils.LOGD("install", "configPushNotifications Exception " + e.getMessage());
         }
-
+*/
     }
 
 
@@ -382,15 +383,11 @@ public abstract class PacifyrAppCompactActivity  extends PacifyerActivity {
         new AsyncTask() {
             protected Object doInBackground(final Object... params) {
 
-                String gcmToken;
-                try {
-                    gcmToken = gcm.register(getString(R.string.gcm_project_number));
-                    LogUtils.LOGD("install", "registrationId: " + gcmToken);
-                    PrefManager.getInstance(getApplicationContext()).putSharedString(PrefManager.GCM_TOKEN, gcmToken);
-                    createEndPointTask(AWSManager.ARN, gcmToken, getProfileName());
-                } catch (IOException e) {
-                    LogUtils.LOGD("install", "Registration IOException " + e.getMessage());
-                }
+                String gcmToken = PrefManager.getInstance(getApplicationContext()).getSharedString(PrefManager.FCM_TOKEN, null);
+                LogUtils.LOGD("install", "registrationId: " + gcmToken);
+                PrefManager.getInstance(getApplicationContext()).putSharedString(PrefManager.FCM_TOKEN, gcmToken);
+                createEndPointTask(AWSManager.ARN, gcmToken, getProfileName());
+
                 return true;
             }
         }.execute(null, null, null);
@@ -759,7 +756,7 @@ public abstract class PacifyrAppCompactActivity  extends PacifyerActivity {
 
         LogUtils.LOGD("install","install"+"installationWeb");
         HttpPost request = GetPostHttp(sp.getString("Userid", null), PrefManager.getInstance(getApplicationContext()).getSharedString(PrefManager.AWS_ENDPOINT, null)
-                ,udid, PrefManager.getInstance(getApplicationContext()).getSharedString(PrefManager.GCM_TOKEN, null), PrefManager.DEVICETYPE);
+                ,udid, PrefManager.getInstance(getApplicationContext()).getSharedString(PrefManager.FCM_TOKEN, null), PrefManager.DEVICETYPE);
         HttpResponse response = null;
         HttpClient client = new DefaultHttpClient();
         String xmlString = null;

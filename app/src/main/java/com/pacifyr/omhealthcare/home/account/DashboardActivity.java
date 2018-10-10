@@ -74,7 +74,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
         {
             super.onCreate(savedInstanceState);
             LogUtils.LOGD("install", "DashboardActivity");
-            configGCM();
+            configPushNotifications();
             setContentView(R.layout.activity_dashboard);
             hideKeyboard();
             connectToPacifyr=(LinearLayout) findViewById(R.id.connect_pacifyr_llay);

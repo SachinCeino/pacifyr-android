@@ -44,7 +44,9 @@ public class SettingsActivity extends BaseActivity implements SharedPreferences.
     }
 
     private void initActionBar() {
-        actionBar.setTitle(R.string.actionbar_title_settings);
+        if (actionBar != null) {
+            actionBar.setTitle(R.string.actionbar_title_settings);
+        }
     }
 
     @Override

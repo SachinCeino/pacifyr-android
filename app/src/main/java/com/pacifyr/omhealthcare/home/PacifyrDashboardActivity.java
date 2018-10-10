@@ -10,7 +10,6 @@ import android.support.multidex.MultiDex;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -103,7 +102,7 @@ public class PacifyrDashboardActivity extends PacifyrAppCompactActivity {
 
         try {
 
-            configGCM();
+            configPushNotifications();
             // permissionCheck();
             webListEmotions(getApplicationContext());
             leftPane = (LinearLayout) findViewById(R.id.left_pane);

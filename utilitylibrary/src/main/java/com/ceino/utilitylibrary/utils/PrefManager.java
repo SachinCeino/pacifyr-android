@@ -21,7 +21,7 @@ import java.util.List;
 public class PrefManager {
 
 
-    public static final String GCM_TOKEN = "gcm_pref_token";
+    public static final String FCM_TOKEN = "fcm_pref_token";
     //   public static final String PREFERENCES = "Gcm_Config";
     //   public static final String PREFERENCES = "Login";
     public static final String AWS_ENDPOINT = "aws_endpoint";
