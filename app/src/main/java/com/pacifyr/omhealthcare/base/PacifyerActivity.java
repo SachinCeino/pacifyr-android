@@ -84,6 +84,7 @@ import com.pacifyr.omhealthcare.quickblox.utils.Consts;
 import com.pacifyr.omhealthcare.quickblox.utils.PermissionsChecker;
 import com.pacifyr.omhealthcare.quickblox.utils.WebRtcSessionManager;
 import com.pacifyr.omhealthcare.sign.SignActivity;
+import com.pacifyr.omhealthcare.utils.Constants;
 import com.pacifyr.omhealthcare.utils.FontCache;
 import com.pacifyr.omhealthcare.utils.LogUtils;
 import com.pacifyr.omhealthcare.utils.Utility;
@@ -1358,6 +1359,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
                 input.putOpt("pacifyrId", pacifyer.getId());
                 //     input.putOpt("deviceType", Constants.DEVICETYPE);
                 input.putOpt("sessionType", roomType);
+                input.putOpt("appSource", Constants.APP_SOURCE);
                 input.putOpt("reasonForTheCall", EmotionSpecialityAdapter.reason_forcall);
                 aq.post(GLOBAL_URL + "session/start", input, JSONObject.class, cb);
             }

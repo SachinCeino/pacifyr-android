@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.provider.Settings;
 import android.util.Log;
 
+import com.amazonaws.services.sns.model.AuthorizationErrorException;
 import com.amazonaws.services.sns.model.CreatePlatformEndpointRequest;
 import com.amazonaws.services.sns.model.CreatePlatformEndpointResult;
 import com.amazonaws.services.sns.model.DeleteEndpointRequest;
@@ -69,6 +70,7 @@ public class AmazonSNSTokenHandler {
             token = FirebaseInstanceId.getInstance().getToken();
         }
         if (token == null || token.isEmpty()) {
+            ToastHandler.newInstance(context).showToast("Token empty cannot subscribe for notifications");
             Log.d(TAG, "Invalid Token exiting...");
             return;
         }
@@ -85,7 +87,7 @@ public class AmazonSNSTokenHandler {
                             } else {
                                 Log.d(TAG, "register installation not found ");
                             }
-                        } else { // first time call create endpoint; save arn
+                        } else { // first time; call create endpoint; save arn
                             Log.d(TAG, "register response no results found ");
                             createEndPointTask(AWSManager.ARN, token, getProfileName());
                         }
@@ -128,6 +130,7 @@ public class AmazonSNSTokenHandler {
 
                         // }
                     } catch (InvalidParameterException ipe) {
+                        LogUtils.LOGD("install", "CreatePlatformEndpointResult Exception : " + ipe.getMessage());
                         // Invalid parameter: Token Reason: Endpoint arn:aws:sns:us-east-1:106428918470:endpoint/GCM/FluidGuy-Sample/5af0662e-31b8-3733-8aa7-c21f911b7360 already exists with the same Token, but different attributes.
 
                         /*String message = ipe.getErrorMessage();
@@ -205,7 +208,6 @@ public class AmazonSNSTokenHandler {
                         } catch (Exception e) {
                             //Crashlytics.logException(e);
                             ToastHandler.newInstance(context).showToast("Please Try again");
-                            ;
                             LogUtils.LOGD("install", "installationWeb exception callback : " + e.getMessage());
                             e.printStackTrace();
                         }
@@ -270,7 +272,11 @@ public class AmazonSNSTokenHandler {
     }
 
     public String getFcmToken() {
-        return PrefManager.getInstance(context).getSharedString(PrefManager.FCM_TOKEN, null);
+        String token = PrefManager.getInstance(context).getSharedString(PrefManager.FCM_TOKEN, null);
+        if (token == null || token.isEmpty()) {
+            token = FirebaseInstanceId.getInstance().getToken();
+        }
+        return token;
     }
 
     public String getProfileName() {
@@ -300,7 +306,11 @@ public class AmazonSNSTokenHandler {
 
         @Override
         protected Object doInBackground(Object[] objects) {
-            setEndpointAttributes(arn, data);
+            try {
+                setEndpointAttributes(arn, data);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             return null;
         }
     }
@@ -321,6 +331,9 @@ public class AmazonSNSTokenHandler {
             } catch (NotFoundException nf) {
                 nf.printStackTrace();
                 return nf;
+            } catch (AuthorizationErrorException aee) {
+                aee.printStackTrace();
+                return aee;
             }
         }
 
@@ -334,7 +347,7 @@ public class AmazonSNSTokenHandler {
                         || getEndpointAttributesResult.getAttributes().get("Enabled").equals("false")) {
                     new SetEndPointTask(installation.getArn(), getProfileName()).execute();
                 }
-            } else if (o instanceof NotFoundException) {
+            } else if (o instanceof NotFoundException || o instanceof AuthorizationErrorException) {
                 createEndPointTask(AWSManager.ARN, token, getProfileName());
             }
         }

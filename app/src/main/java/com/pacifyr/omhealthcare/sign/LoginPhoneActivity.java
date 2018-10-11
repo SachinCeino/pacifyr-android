@@ -21,17 +21,16 @@ import com.ceino.utilitylibrary.model.pacifyr.ModelUserProfile;
 import com.ceino.utilitylibrary.utils.PrefManager;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.base.PacifyerActivity;
-import com.pacifyr.omhealthcare.home.ConnectToPacifyrActivity;
 import com.pacifyr.omhealthcare.home.DashboardActivity;
 import com.pacifyr.omhealthcare.network.GsonUtils;
 import com.pacifyr.omhealthcare.network.NetworkService;
+import com.pacifyr.omhealthcare.utils.AmazonSNSTokenHandler;
 import com.quickblox.auth.QBAuth;
 import com.quickblox.auth.session.QBSession;
 import com.quickblox.auth.session.QBSettings;
 import com.quickblox.core.QBEntityCallback;
 import com.quickblox.core.exception.QBResponseException;
 import com.quickblox.sample.core.utils.Toaster;
-import com.quickblox.users.QBUsers;
 import com.quickblox.users.model.QBUser;
 
 import org.json.JSONObject;
@@ -329,6 +328,7 @@ public class LoginPhoneActivity extends PacifyerActivity {
                         setStatus("Login Success ", R.color.md_green_400);
                         showStatus();
 
+                        new AmazonSNSTokenHandler(getApplicationContext()).register();
                         if (label.equalsIgnoreCase("employee")) {
                             prefM.saveCompanyID(userModel.getCompanyId());
                             saveUserRoleGO("employee");
@@ -373,7 +373,7 @@ public class LoginPhoneActivity extends PacifyerActivity {
             hideStatus();
             prefM.saveCustomerRole(role);
             hideKeyboard();
-            ConnectToPacifyrActivity.start(context);
+            DashboardActivity.start(context);
             finishAffinity();
         }
         catch (Exception e){
