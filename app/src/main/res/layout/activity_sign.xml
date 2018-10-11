@@ -81,11 +81,11 @@
                 android:id="@+id/free_ctxv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAlignment="center"
-                app:fontName="@string/avanti_std_bk"
                 android:text="@string/thirty_free"
+                android:textAlignment="center"
                 android:textColor="@color/white"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                app:fontName="@string/avanti_std_bk" />
 
             <com.ceino.utilitylibrary.CustomFontTextView
                 android:id="@+id/no_credit_ctxv"
