@@ -64,6 +64,10 @@ import com.pacifyr.omhealthcare.home.WelcomeTourActivity;
 import com.pacifyr.omhealthcare.model.ItemData;
 import com.pacifyr.omhealthcare.network.GsonUtils;
 import com.pacifyr.omhealthcare.network.NetworkService;
+import com.pacifyr.omhealthcare.quickblox.App;
+import com.pacifyr.omhealthcare.quickblox.chat.utils.qb.callback.QbEntityCallbackImpl;
+import com.pacifyr.omhealthcare.quickblox.util.QBResRequestExecutor;
+import com.pacifyr.omhealthcare.quickblox.utils.QBEntityCallbackImpl;
 import com.pacifyr.omhealthcare.utils.LogUtils;
 import com.pacifyr.omhealthcare.utils.Utility;
 import com.quickblox.auth.QBAuth;
@@ -1221,6 +1225,7 @@ public class RegisterActivity extends PacifyerActivity {
                             startLoginService(qbUser);
                             getPrefManager(RegisterActivity.this).saveQBID(qbID);
                             updateQBUserID();
+                            quickBoxSignIn(userid);
                         }
 
                         @Override
@@ -1260,6 +1265,35 @@ public class RegisterActivity extends PacifyerActivity {
 
         }
 
+    }
+
+    private void quickBoxSignIn(final String userId) {
+        QBSettings.getInstance().init(RegisterActivity.this, APP_ID, AUTH_KEY, AUTH_SECRET);
+        QBSettings.getInstance().setAccountKey(ACCOUNT_KEY);
+        QBAuth.createSession().performAsync(new QBEntityCallbackImpl<QBSession>() {
+            @Override
+            public void onSuccess(QBSession result, Bundle params) {
+                super.onSuccess(result, params);
+                QBResRequestExecutor requestExecutor = App.getInstance().getQbResRequestExecutor();
+                QBUser qbUser = new QBUser(userId, userId);
+                requestExecutor.signInUser(qbUser, new QbEntityCallbackImpl<QBUser>() {
+                    @Override
+                    public void onSuccess(QBUser result, Bundle bundle) {
+                        super.onSuccess(result, bundle);
+                    }
+
+                    @Override
+                    public void onError(QBResponseException e) {
+                        super.onError(e);
+                    }
+                });
+            }
+
+            @Override
+            public void onError(QBResponseException responseException) {
+                super.onError(responseException);
+            }
+        });
     }
 
 /*    private void quickbloxLogin() {

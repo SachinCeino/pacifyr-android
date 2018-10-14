@@ -44,6 +44,10 @@ import com.pacifyr.omhealthcare.home.DashboardActivity;
 import com.pacifyr.omhealthcare.model.ItemData;
 import com.pacifyr.omhealthcare.network.GsonUtils;
 import com.pacifyr.omhealthcare.network.NetworkService;
+import com.pacifyr.omhealthcare.quickblox.chat.utils.qb.callback.QbEntityCallbackImpl;
+import com.quickblox.auth.QBAuth;
+import com.quickblox.auth.session.QBSession;
+import com.quickblox.auth.session.QBSettings;
 import com.quickblox.core.exception.QBResponseException;
 import com.quickblox.users.model.QBUser;
 
@@ -53,6 +57,10 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import static com.ceino.utilitylibrary.network.UtilityNetworkService.ACCOUNT_KEY;
+import static com.ceino.utilitylibrary.network.UtilityNetworkService.APP_ID;
+import static com.ceino.utilitylibrary.network.UtilityNetworkService.AUTH_KEY;
+import static com.ceino.utilitylibrary.network.UtilityNetworkService.AUTH_SECRET;
 import static com.ceino.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
 import static com.pacifyr.omhealthcare.network.NetworkService.countryData;
 
@@ -375,26 +383,94 @@ public class LoginActivity extends PacifyerActivity {
             String fullname = loginModel.getUser().getFirstName();
             // Register new user
             final QBUser user = new QBUser(userID, userID);
-            user.setEmail(mail);
-
-            requestExecutor.signInUser(user, new com.pacifyr.omhealthcare.quickblox.utils.QBEntityCallbackImpl<QBUser>() {
+            user.setEmail(null);
+            QBSettings.getInstance().init(LoginActivity.this, APP_ID, AUTH_KEY, AUTH_SECRET);
+            QBSettings.getInstance().setAccountKey(ACCOUNT_KEY);
+            QBAuth.createSession().performAsync(new QbEntityCallbackImpl<QBSession>() {
                 @Override
-                public void onSuccess(QBUser qbUser, Bundle params) {
+                public void onSuccess(QBSession result, Bundle bundle) {
+                    super.onSuccess(result, bundle);
+                    requestExecutor.signInUser(user, new com.pacifyr.omhealthcare.quickblox.utils.QBEntityCallbackImpl<QBUser>() {
+                        @Override
+                        public void onSuccess(QBUser qbUser, Bundle params) {
 
-                    try {
+                            try {
 
-                        MRoleModel roleModel = userModel.getRoleModel();
-                        label = roleModel.getLabel();
-                        main_label=roleModel.getMainLabel();
-                        companyId = userModel.getCompanyId();
-                        prefM.saveCompanyID(companyId);
-                        qbID = qbUser.getId().toString();
+                                MRoleModel roleModel = userModel.getRoleModel();
+                                label = roleModel.getLabel();
+                                main_label = roleModel.getMainLabel();
+                                companyId = userModel.getCompanyId();
+                                prefM.saveCompanyID(companyId);
+                                qbID = qbUser.getId().toString();
 
-                        if (main_label.equals("pacifyr")) {
-                            hideProgress();
-                            setStatus("Login Failed. Please Try again", R.color.md_red_400);
+                                if (main_label.equals("pacifyr")) {
+                                    hideProgress();
+                                    setStatus("Login Failed. Please Try again", R.color.md_red_400);
+                                    showStatus();
+                                    fbLogout();
+                                    prefM.clearSharedAll();
+                                    prefM.clear();
+                                    new Handler().postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            hideProgress();
+                                            hideStatus();
+                                            Intent i = new Intent(LoginActivity.this, SignActivity.class);
+                                            startActivity(i);
+                                            finish();
+                                        }
+                                    }, 3000);
+                                } else if (main_label.equals("customer")) {
+                                    saveToPrefM();
+
+                                    saveUserData(qbUser);
+                                    startLoginService(qbUser);
+
+                                    NetworkService.editProfileObject = new JSONObject();
+                                    NetworkService.editProfileObject.putOpt("qbid", Long.valueOf(qbID));
+                                    //NetworkService.editProfileObject.putOpt("online", true);
+                                    NetworkService.startActionEditProfile(LoginActivity.this);
+                                    Boolean flag = userModel.isTermsAccepted();
+                                    hideProgress();
+                                    setStatus("Login Succesfull", R.color.md_green_400);
+                                    showStatus();
+
+                                    if (label.equalsIgnoreCase("employee")) {
+                                        saveCustomerData(LoginActivity.this, "employee");
+
+                                    } else if (label.equalsIgnoreCase("unpaidEmployee")) {
+                                        saveCustomerData(LoginActivity.this, "unpaidEmployee");
+
+                                    } else if (label.equalsIgnoreCase("customer")) {
+                                        saveCustomerData(LoginActivity.this, "customer");
+
+                                    } else if (label.equalsIgnoreCase("paidMember")) {
+                                        saveCustomerData(LoginActivity.this, "paidMember");
+                                    }
+                                }
+
+                            } catch (Exception ex) {
+                                ex.printStackTrace();
+                                fbLogout();
+                                prefM.clear();
+                                Toast.makeText(LoginActivity.this, ex.getMessage(), Toast.LENGTH_LONG);
+                            }
+
+                 /* if (deleteCurrentUser) {
+                    removeAllUserData(result);
+                   } else {
+                    startOpponentsActivity();
+                   }*/
+                        }
+
+                        @Override
+                        public void onError(QBResponseException responseException) {
+                            String res = responseException.getMessage();
+                            Toast.makeText(LoginActivity.this, responseException.getMessage(), Toast.LENGTH_LONG);
+                            //  hideProgressDialog();
+                            // Toaster.longToast(com.quickblox.sample.groupchatwebrtc.R.string.sign_up_error);
+                            setStatus("Login Failed. Please Try again", R.color.endcall);
                             showStatus();
-                            fbLogout();
                             prefM.clearSharedAll();
                             prefM.clear();
                             new Handler().postDelayed(new Runnable() {
@@ -407,73 +483,17 @@ public class LoginActivity extends PacifyerActivity {
                                     finish();
                                 }
                             }, 3000);
-                        } else if (main_label.equals("customer")) {
-                            saveToPrefM();
-
-                            saveUserData(qbUser);
-                            startLoginService(qbUser);
-
-                            NetworkService.editProfileObject = new JSONObject();
-                            NetworkService.editProfileObject.putOpt("qbid", Long.valueOf(qbID));
-                            //NetworkService.editProfileObject.putOpt("online", true);
-                            NetworkService.startActionEditProfile(LoginActivity.this);
-                            Boolean flag = userModel.isTermsAccepted();
-                            hideProgress();
-                            setStatus("Login Succesfull", R.color.md_green_400);
-                            showStatus();
-
-                            if (label.equalsIgnoreCase("employee")) {
-                                saveCustomerData(LoginActivity.this,"employee");
-
-                            }
-                            else if (label.equalsIgnoreCase("unpaidEmployee")) {
-                                saveCustomerData(LoginActivity.this,"unpaidEmployee");
-
-                            }
-                            else if (label.equalsIgnoreCase("customer")) {
-                                saveCustomerData(LoginActivity.this,"customer");
-
-                            } else if (label.equalsIgnoreCase("paidMember")) {
-                                saveCustomerData(LoginActivity.this,"paidMember");
-                            }
                         }
-
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                        fbLogout();
-                        prefM.clear();
-                        Toast.makeText(LoginActivity.this,ex.getMessage(),Toast.LENGTH_LONG);
-                    }
-
-                 /* if (deleteCurrentUser) {
-                    removeAllUserData(result);
-                   } else {
-                    startOpponentsActivity();
-                   }*/
+                    });
                 }
 
                 @Override
-                public void onError(QBResponseException responseException) {
-                    String res = responseException.getMessage();
-                    Toast.makeText(LoginActivity.this,responseException.getMessage(),Toast.LENGTH_LONG);
-                    //  hideProgressDialog();
-                    // Toaster.longToast(com.quickblox.sample.groupchatwebrtc.R.string.sign_up_error);
-                    setStatus("Login Failed. Please Try again", R.color.endcall);
-                    showStatus();
-                    prefM.clearSharedAll();
-                    prefM.clear();
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            hideProgress();
-                            hideStatus();
-                            Intent i = new Intent(LoginActivity.this, SignActivity.class);
-                            startActivity(i);
-                            finish();
-                        }
-                    }, 3000);
+                public void onError(QBResponseException e) {
+                    super.onError(e);
                 }
             });
+
+
         }
         catch (Exception e)
         {

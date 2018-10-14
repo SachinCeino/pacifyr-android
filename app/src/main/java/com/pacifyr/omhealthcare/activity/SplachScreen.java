@@ -147,6 +147,8 @@ public class SplachScreen extends BaseAppCompactActivity {
             Log.d(TAG, "Create notofocation channel err");
             e.printStackTrace();
         }
+
+
     }
 
     private void createNotificationChannel(Context context) {

@@ -355,6 +355,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
             }
         });
 
+        new AmazonSNSTokenHandler(context).register();
 
     }
 
