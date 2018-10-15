@@ -698,14 +698,20 @@ public class SessionSummaryActivity  extends PacifyrAppCompactActivity{
 
         try {
 
-            if(!isValid(getAccessToken(),"Token Invalid , Please Re-Login"))
+            if (!isValid(getAccessToken(), "Token Invalid , Please Re-Login")) {
                 handlerFinish("Error : Token Invalid , Please Re-Login");
+                return;
+            }
             // finish();
-            if(!isValid(sessionid,"Session id null "))
+            if (!isValid(sessionid, "Session id null ")) {
                 handlerFinish("Error : Session id null , Please Re-Login");
+                return;
+            }
             // finish();
-            if(!isValid(getUserID(),"User id null "))
+            if (!isValid(getUserID(), "User id null ")) {
                 handlerFinish("Error : User id null, Please Re-Login");
+                return;
+            }
             // finish();
             // before_feel_llay.setVisibility(View.GONE);
             // after_feel_ctxv.setVisibility(View.GONE)
@@ -718,8 +724,10 @@ public class SessionSummaryActivity  extends PacifyrAppCompactActivity{
             }
 
             MSessionRating mSessionRating=getMSessionRating();
-            if (!isValid(mSessionRating,"Error"))
+            if (!isValid(mSessionRating, "Error")) {
                 handlerFinish("Error :Token Invalid , Please Re-Login");
+                return;
+            }
             //  finish();
 
             setLoading();

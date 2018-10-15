@@ -307,11 +307,8 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
             progressDialog.dismiss();
         }
     }
-    protected Snackbar returnshowErrorSnackbar(@StringRes int resId, Exception e,
-                                         View.OnClickListener clickListener) {
-        return ErrorUtils.showSnackbar(getSnackbarAnchorView(), resId, e,
-                com.quickblox.sample.core.R.string.dlg_retry, clickListener);
-    }
+
+    public static MSessionDetailRoot call_session_detail_root = null;
     protected void showErrorSnackbar(@StringRes int resId, Exception e,
                                      View.OnClickListener clickListener) {
         if (getSnackbarAnchorView() != null) {
@@ -409,17 +406,8 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
         return getProfileFName() + " " + getProfileLName();
 
     }*/
-
-   /* public String getProfileFName() {
-        return getSharedString(PrefManager.FNAME, "");
-
-    }
-
-   */
-   public String getUserName() {
-       return getUserFirstName()+" "+ getUserLastName();
-
-   }
+   // public static  String call_emotionid=null;
+   public static MEmotion call_emotion = null;
     public String getUserFirstName() {
         return getSharedString(PrefManager.UserFirstName, "");
 
@@ -516,7 +504,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
 
 
     /*public void startCall(boolean isVideoCall, long  qbID) {
-        *//*if (opponentsAdapter.getSelectedItems().size() > Consts.MAX_OPPONENTS_COUNT) {
+     *//*if (opponentsAdapter.getSelectedItems().size() > Consts.MAX_OPPONENTS_COUNT) {
             Toaster.longToast(String.format(getString(R.string.error_max_opponents_count),
                     Consts.MAX_OPPONENTS_COUNT));
             return;
@@ -553,114 +541,123 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
         CallActivity.start(this, false);
         Log.d("jp", "conferenceType = " + conferenceType);
     }*/
-
-
-    public void startCall(boolean isVideoCall,final MUser pacifyer, long  qbID,String oppentid,String idsession) {
-      sessionid=idsession;
-        /*if (opponentsAdapter.getSelectedItems().size() > Consts.MAX_OPPONENTS_COUNT) {
-            Toaster.longToast(String.format(getString(R.string.error_max_opponents_count),
-                    Consts.MAX_OPPONENTS_COUNT));
-            return;
+    public AvailableMinuteListner listner = new AvailableMinuteListner() {
+     /*   @Override
+        public void onAvailable(ModelUserProfile results, boolean isVideoCall, long qbid) {
+            //startSessionWeb(results,true,qbid);
+            *//*if(isValid(results.getQbid()))
+                startSessionWeb(results,isVideoCall,results.getQbid());
+            else*//*
+                startSessionWeb(results,isVideoCall,qbid);
         }*/
 
-        Log.d("call", "startCall sessionid"+sessionid);
-       final  ArrayList<Integer> opponentsList = new ArrayList<Integer>();
-        opponentsList.add((int) qbID);
-        //ArrayList<Integer> opponentsList = CollectionsUtils.getIdsSelectedOpponents(opponentsAdapter.getSelectedItems());
-        QBRTCTypes.QBConferenceType conferenceType = isVideoCall
-                ? QBRTCTypes.QBConferenceType.QB_CONFERENCE_TYPE_VIDEO
-                : QBRTCTypes.QBConferenceType.QB_CONFERENCE_TYPE_AUDIO;
 
-        QBRTCClient qbrtcClient = QBRTCClient.getInstance(PacifyerActivity.this);
-
-        //QBRTCSession newQbRtcSession = qbrtcClient.createNewSessionWithOpponents(opponentsList, conferenceType);
-        QBRTCSession newQbRtcSession = qbrtcClient.createNewSessionWithOpponents(opponentsList, conferenceType);
-        Map<String, String> userInfo = new HashMap<>();
-        //   userInfo.put("user", "samsad");
-        userInfo.put("lastName", getUserLastName()+"");
-        userInfo.put("firstName", getUserFirstName()+"");
-        userInfo.put("imageAvathar", getProfileImageURL()+"");
-        userInfo.put("OpponentUserid", getUserID()+"");
-        userInfo.put("sessionId", sessionid+"");
-
-        Log.d("call", "startCall lastName"+getUserLastName());
-        Log.d("call", "startCall firstName"+getUserFirstName());
-        Log.d("call", "startCall sessionId"+sessionid);
-
-        WebRtcSessionManager.getInstance(this).setCurrentSession(newQbRtcSession);
-
-        newQbRtcSession.startCall(userInfo);
+        @Override
+        public void onAvailable(ModelUserProfile mCurrentUser, MUser pacifyerDetial, boolean isVideoCall) {
+            //startSessionWeb(pacifyerDetial,isVideoCall);
+            updateProfileStartCallWeb(pacifyerDetial, isVideoCall);
+        }
+       /* @Override
+        public void onAvailable() {
+           // startSessionWeb(pacifyerDetial,true,qbID);
 
 
+        }
 
-       // WebRtcSessionManager.getInstance(this).getCurrentSession().startCall(userInfo);
-        new Handler().postDelayed(new Runnable()
-        {
-            @Override public void run() {
-               // onceBackpressed = false;
-            ToastHandler.newInstance(PacifyerActivity.this).showToast("call started");
-                //PushNotificationSender.sendPushMessage(opponentsList, getUserName());
-               // PushNotificationSender.sendPushMessage(opponentsList, sharedPrefsHelper.getQbUser().getFullName());
-            }
-        }, 2000);
-
-        //convertModel()
-
-      CallActivity.mPacifyr=pacifyer;
-
-        CallActivity.start(this, false);
-        Log.d("jp", "conferenceType = " + conferenceType);
-    }
-
-
-
-
-    public void startChat(final MUser pacifyer)
-    {
-       // setLoading("Creating Chat");
-        setLoading();
-        showProgress();
-
-        QBPagedRequestBuilder pagedRequestBuilder = new QBPagedRequestBuilder();
-        pagedRequestBuilder.setPage(1);
-        pagedRequestBuilder.setPerPage(50);
-
-        final  ArrayList<Integer> opponentsList = new ArrayList<Integer>();
-        ArrayList<Integer> usersIds = new ArrayList<Integer>();
-      //  usersIds.add(getUserID());
-        usersIds.add((int)pacifyer.getQbid());
-
-        QBUsers.getUsersByIDs(usersIds,pagedRequestBuilder).performAsync(new QBEntityCallback<ArrayList<QBUser>>() {
-            @Override
-            public void onSuccess(ArrayList<QBUser> qbUsers, Bundle bundle) {
-               // createChatDialog(pacifyer,qbUsers);
-                // createChatDialog(pacifyer,qbUsers);
-                qbUsers.add(ChatHelper.getCurrentUser());
-                hideProgress();
-                if (isPrivateDialogExist(qbUsers)) {
-                    qbUsers.remove(ChatHelper.getCurrentUser());
-                    QBChatDialog existingPrivateDialog = QbDialogHolder.getInstance().getPrivateDialogWithUser(qbUsers.get(0));
-                    // isProcessingResultInProgress = false;
-                   // isProcessingResultInProgress = false;
-
-                    ChatActivity.start(PacifyerActivity.this, existingPrivateDialog,pacifyer);
-                    //ChatActivity.start(this,DialogsActivity. REQUEST_DIALOG_ID_FOR_UPDATE, existingPrivateDialog);
-                } else {
-                    //ProgressDialogFragment.show(getSupportFragmentManager(), com.quickblox.sample.chat.R.string.create_chat);
-                    createChatDialog(pacifyer,qbUsers);
+        @Override
+        public void onAlert(long time) {
+         *//*   setAlertStatusInBlue2("Add Card", time+" minutes only left. Add Credit card for further calls.", "Ok", "NO", new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                  //  startSessionWeb(pacifyerDetial,true,qbID);
                 }
-            }
+            });*//*
 
-            @Override
-            public void onError(QBResponseException e) {
-                hideProgress();
+        }*/
 
-                showErrorSnackbar(0, e, null);
-            }
-        });
+        /*     @Override
+             public void onAlert(final long time,final ModelUserProfile results,final boolean isVideoCall,final long qbid) {
+                 setAlertStatusInBlue2("Add Card", time+" minutes only left. Add Credit card for further calls.", "Ok", "NO", new View.OnClickListener() {
+                     @Override
+                     public void onClick(View view) {
+                      *//*    if(isValid(results.getQbid()))
+                       startSessionWeb(results,isVideoCall,results.getQbid());
+                    else*//*
+                        startSessionWeb(results,isVideoCall,qbid);
+                }
+            });
+        }
+*/
+        @Override
+        public void onAlert(long time, final MUser pacifyerDetial, final boolean isVideoCall) {
+
+            setAlertStatusInBlue2("Add Card", " You have " + time + " minutes of free call time left. Please setup payment to continue. If payment is not set up, the call will be disconnected.", "Ok", "NO", new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    hideProgress();
+                    hideStatus2();
+                    updateProfileStartCallWeb(pacifyerDetial, isVideoCall);
+                }
+            });
+        }
+
+        /*  @Override
+          public void onAlert(long time, ModelUserProfile mCurrentUser, boolean isVideoCall) {
+              setAlertStatusInBlue2("Add Card", time+" minutes only left. Add Credit card for further calls.", "Ok", "NO", new View.OnClickListener() {
+                  @Override
+                  public void onClick(View view) {
+                   *//*    if(isValid(results.getQbid()))
+                       startSessionWeb(results,isVideoCall,results.getQbid());
+                    else*//*
+                    startSessionWeb(results,isVideoCall,qbid);
+                }
+            });
+        }
+*/
+        @Override
+        public void onPacifyerAlert(long time, ModelUserProfile mCurrentUser, MUser pacifyerDetial, boolean isVideoCall) {
+            updateProfileStartCallWeb(pacifyerDetial, isVideoCall);
+          /*  setAlertStatusInBlue2("Pacifyer Free limit crossed ", " Add Credit card for further calls.", "Ok", "NO", new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+//time+" minutes only left. Add Credit card for further calls."
+                    AlertAddCrediCardActivty.start(PacifyerActivity.this);
+                }
+            });*/
+        }
+
+        @Override
+        public void onNotAvailable(long time) {
+            setAlertStatusInBlue2("Add Card", "Your free minutes are expired. Please continue enjoying our services by updating your credit card information", "Ok", "NO", new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    hideProgress();
+                    hideStatus2();
+                    AlertAddCrediCardActivty.start(PacifyerActivity.this);
+                }
+            });
 
 
+        }
 
+        @Override
+        public void onException(Exception e) {
+            setAlertOKStatusInBlue("Session Expired ", "Please try to Re-Login ", "Ok");
+        }
+
+        @Override
+        public void onError(String e) {
+            setAlertOKStatusInBlue("Error ", "Please try later ", "Ok");
+        }
+
+
+    };
+
+    protected Snackbar returnshowErrorSnackbar(@StringRes int resId, Exception e,
+                                               View.OnClickListener clickListener) {
+        return ErrorUtils.showSnackbar(getSnackbarAnchorView(), resId, e,
+                com.quickblox.sample.core.R.string.dlg_retry, clickListener);
     }
 
     private void showBillingSummary(final BillingSummary billingSummary) {
@@ -711,35 +708,15 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
         billSummary.show();
     }
 
+    /* public String getProfileFName() {
+         return getSharedString(PrefManager.FNAME, "");
 
+     }
 
-    private void createChatDialog(final MUser pacifyer,final ArrayList<QBUser> selectedUsers) {
+    */
+    public String getUserName() {
+        return getUserFirstName() + " " + getUserLastName();
 
-        setLoading("Creating Chat");
-        showProgress();
-
-
-        ChatHelper.getInstance().createDialogWithSelectedUsers(selectedUsers,
-                new QBEntityCallback<QBChatDialog>() {
-                    @Override
-                    public void onSuccess(QBChatDialog dialog, Bundle args) {
-                        hideProgress();
-                      //  isProcessingResultInProgress = false;
-                       // dialogsManager.sendSystemMessageAboutCreatingDialog(systemMessagesManager, dialog);
-                    //    ChatActivity.startForResult(this, DialogsActivity.REQUEST_DIALOG_ID_FOR_UPDATE, dialog);
-                        ChatActivity.start(PacifyerActivity.this, dialog,pacifyer);
-                       // ProgressDialogFragment.hide(getSupportFragmentManager());
-                    }
-
-                    @Override
-                    public void onError(QBResponseException e) {
-                        hideProgress();
-                       // isProcessingResultInProgress = false;
-                        //ProgressDialogFragment.hide(getSupportFragmentManager());
-                        showErrorSnackbar(com.quickblox.sample.chat.R.string.group_chat_join_error, e, null);
-                    }
-                }
-        );
     }
 
     private boolean isPrivateDialogExist(ArrayList<QBUser> allSelectedUsers) {
@@ -748,85 +725,113 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
         selectedUsers.remove(ChatHelper.getCurrentUser());
         return selectedUsers.size() == 1 && QbDialogHolder.getInstance().hasPrivateDialogWithUser(selectedUsers.get(0));
     }
-/*
-    private void startCall(boolean isVideoCall) {
-        try {
-            //Set conference type
-            //There are two types of calls:
-            // - QB_CONFERENCE_TYPE_VIDEO - for video call;
-            // - QB_CONFERENCE_TYPE_AUDIO - for audio call;
-            QBRTCTypes.QBConferenceType qbConferenceType = QB_CONFERENCE_TYPE_VIDEO;
-            LogUtils.LOGD("jp","BVCA startCall start ");
 
-            //Initiate opponents list
-            List<Integer> opponents = new ArrayList<Integer>();
-            opponents.add((int) qbID); //12345 - QBUser ID
+    public void startCall(boolean isVideoCall,final MUser pacifyer, long  qbID,String oppentid,String idsession) {
+        sessionid = idsession;
+        /*if (opponentsAdapter.getSelectedItems().size() > Consts.MAX_OPPONENTS_COUNT) {
+            Toaster.longToast(String.format(getString(R.string.error_max_opponents_count),
+                    Consts.MAX_OPPONENTS_COUNT));
+            return;
+        }*/
 
-            //Set user information
-            // User can set any string key and value in user info
-            // Then retrieve this data from sessions which are returned in callbacks
-            // and parse them as he wish
-            Map<String, String> userInfo = new HashMap<>();
-            //   userInfo.put("user", "samsad");
-            userInfo.put("user", qbID+"");
-            //Init session
-            QBRTCSignalingCallback signalingCallback = new QBRTCSignalingCallback(){
-                public void onSuccessSendingPacket(QBSignalingSpec.QBSignalCMD packetType, Integer opponentId){
-                    LogUtils.LOGD("jp","BVCA onCreate  onSuccessSendingPacket");
-                }
-                public void onErrorSendingPacket(QBSignalingSpec.QBSignalCMD packetType, Integer opponentId,
-                                                 QBRTCSignalException e){
-                    LogUtils.LOGD("jp","BVCA onCreate  onErrorSendingPacket"+e.getMessage());
-                }
-            };
+        Log.d("call", "startCall sessionid"+sessionid);
+        final ArrayList<Integer> opponentsList = new ArrayList<Integer>();
+        opponentsList.add((int) qbID);
+        //ArrayList<Integer> opponentsList = CollectionsUtils.getIdsSelectedOpponents(opponentsAdapter.getSelectedItems());
+        QBRTCTypes.QBConferenceType conferenceType = isVideoCall
+                ? QBRTCTypes.QBConferenceType.QB_CONFERENCE_TYPE_VIDEO
+                : QBRTCTypes.QBConferenceType.QB_CONFERENCE_TYPE_AUDIO;
+
+        QBRTCClient qbrtcClient = QBRTCClient.getInstance(PacifyerActivity.this);
+
+        //QBRTCSession newQbRtcSession = qbrtcClient.createNewSessionWithOpponents(opponentsList, conferenceType);
+        QBRTCSession newQbRtcSession = qbrtcClient.createNewSessionWithOpponents(opponentsList, conferenceType);
+        Map<String, String> userInfo = new HashMap<>();
+        //   userInfo.put("user", "samsad");
+        userInfo.put("lastName", getUserLastName()+"");
+        userInfo.put("firstName", getUserFirstName()+"");
+        userInfo.put("imageAvathar", getProfileImageURL()+"");
+        userInfo.put("OpponentUserid", getUserID()+"");
+        userInfo.put("sessionId", sessionid+"");
+
+        Log.d("call", "startCall lastName"+getUserLastName());
+        Log.d("call", "startCall firstName"+getUserFirstName());
+        Log.d("call", "startCall sessionId"+sessionid);
+
+        WebRtcSessionManager.getInstance(this).setCurrentSession(newQbRtcSession);
+
+        newQbRtcSession.startCall(userInfo);
 
 
-            QBRTCSession session = QBRTCClient.getInstance(this).createNewSessionWithOpponents(opponents, qbConferenceType);
-            LogUtils.LOGD("jp","BVCA startCall midddle");
-            session.addSignalingCallback(signalingCallback);
-            //session.removeSignalingCallback(signalingCallback);
-
-
-            //Start call
-            session.startCall(userInfo);
-            LogUtils.LOGD("jp","BVCA startCall end");
-
-            session.addVideoTrackCallbacksListener(this);
-        }
-        catch (Exception ex)
+        // WebRtcSessionManager.getInstance(this).getCurrentSession().startCall(userInfo);
+        new Handler().postDelayed(new Runnable()
         {
-            LogUtils.LOGD("jp","BVCA startCall exce "+ ex.getMessage());
-            ex.printStackTrace();
-        }
-    }*/
-     public Boolean isValidLogout(String text, String error) {
-    if (text != null)
-        if (!text.trim().equalsIgnoreCase(""))
-            return true;
+            @Override public void run() {
+                // onceBackpressed = false;
+                ToastHandler.newInstance(PacifyerActivity.this).showToast("call started");
+                //PushNotificationSender.sendPushMessage(opponentsList, getUserName());
+                // PushNotificationSender.sendPushMessage(opponentsList, sharedPrefsHelper.getQbUser().getFullName());
+            }
+        }, 2000);
 
-    handlerLogoutFinish("" + error);
-    return false;
+        //convertModel()
 
-}
-    public void handlerFinish(String s) {
-        try{
-            setStatus(s,R.color.white,R.color.Color_Crimson);
-            showStatus();
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    hideStatus();
-                    finish();
-                }
-            },2000);
+        CallActivity.mPacifyr = pacifyer;
 
-        }catch (Exception e)
-        {
-
-        }
+        CallActivity.start(this, false);
+        Log.d("jp", "conferenceType = " + conferenceType);
     }
+
+    public void startChat(final MUser pacifyer)
+    {
+        // setLoading("Creating Chat");
+        setLoading();
+        showProgress();
+
+        QBPagedRequestBuilder pagedRequestBuilder = new QBPagedRequestBuilder();
+        pagedRequestBuilder.setPage(1);
+        pagedRequestBuilder.setPerPage(50);
+
+        final  ArrayList<Integer> opponentsList = new ArrayList<Integer>();
+        ArrayList<Integer> usersIds = new ArrayList<Integer>();
+        //  usersIds.add(getUserID());
+        usersIds.add((int)pacifyer.getQbid());
+
+        QBUsers.getUsersByIDs(usersIds,pagedRequestBuilder).performAsync(new QBEntityCallback<ArrayList<QBUser>>() {
+            @Override
+            public void onSuccess(ArrayList<QBUser> qbUsers, Bundle bundle) {
+                // createChatDialog(pacifyer,qbUsers);
+                // createChatDialog(pacifyer,qbUsers);
+                qbUsers.add(ChatHelper.getCurrentUser());
+                hideProgress();
+                if (isPrivateDialogExist(qbUsers)) {
+                    qbUsers.remove(ChatHelper.getCurrentUser());
+                    QBChatDialog existingPrivateDialog = QbDialogHolder.getInstance().getPrivateDialogWithUser(qbUsers.get(0));
+                    // isProcessingResultInProgress = false;
+                    // isProcessingResultInProgress = false;
+
+                    ChatActivity.start(PacifyerActivity.this, existingPrivateDialog,pacifyer);
+                    //ChatActivity.start(this,DialogsActivity. REQUEST_DIALOG_ID_FOR_UPDATE, existingPrivateDialog);
+                } else {
+                    //ProgressDialogFragment.show(getSupportFragmentManager(), com.quickblox.sample.chat.R.string.create_chat);
+                    createChatDialog(pacifyer,qbUsers);
+                }
+            }
+
+            @Override
+            public void onError(QBResponseException e) {
+                hideProgress();
+
+                showErrorSnackbar(0, e, null);
+            }
+        });
+
+
+
+    }
+
     public void handlerLogoutFinish(String s) {
-        try{
+        try {
             setStatus(s);
             showStatus();
             new Handler().postDelayed(new Runnable() {
@@ -841,7 +846,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
                             clearSharedAll();
                             clearServices();
                             LoginManager mLoginManager = LoginManager.getInstance();
-                            if(isValid(mLoginManager))
+                            if (isValid(mLoginManager))
                                 mLoginManager.logOut();
                             hideStatus();
                             //   NetworkService.GLOBALURL=NetworkService.SIGN_GLOBALURL;
@@ -851,137 +856,125 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
                     hideStatus();
                     finish();
                 }
-            },2000);
+            }, 2000);
+
+        } catch (Exception e) {
+
+        }
+    }
+
+    public static MSessionRoot call_session_root = null;
+    // public static MConnectSessionRoot call_session_detail_root=null;
+
+    private void createChatDialog(final MUser pacifyer,final ArrayList<QBUser> selectedUsers) {
+
+        setLoading("Creating Chat");
+        showProgress();
+
+
+        ChatHelper.getInstance().createDialogWithSelectedUsers(selectedUsers,
+                new QBEntityCallback<QBChatDialog>() {
+                    @Override
+                    public void onSuccess(QBChatDialog dialog, Bundle args) {
+                        hideProgress();
+                        //  isProcessingResultInProgress = false;
+                        // dialogsManager.sendSystemMessageAboutCreatingDialog(systemMessagesManager, dialog);
+                        //    ChatActivity.startForResult(this, DialogsActivity.REQUEST_DIALOG_ID_FOR_UPDATE, dialog);
+                        ChatActivity.start(PacifyerActivity.this, dialog,pacifyer);
+                        // ProgressDialogFragment.hide(getSupportFragmentManager());
+                    }
+
+                    @Override
+                    public void onError(QBResponseException e) {
+                        hideProgress();
+                        // isProcessingResultInProgress = false;
+                        //ProgressDialogFragment.hide(getSupportFragmentManager());
+                        showErrorSnackbar(com.quickblox.sample.chat.R.string.group_chat_join_error, e, null);
+                    }
+                }
+        );
+    }
+
+    public static String sessionid = null;
+
+    /*
+        private void startCall(boolean isVideoCall) {
+            try {
+                //Set conference type
+                //There are two types of calls:
+                // - QB_CONFERENCE_TYPE_VIDEO - for video call;
+                // - QB_CONFERENCE_TYPE_AUDIO - for audio call;
+                QBRTCTypes.QBConferenceType qbConferenceType = QB_CONFERENCE_TYPE_VIDEO;
+                LogUtils.LOGD("jp","BVCA startCall start ");
+
+                //Initiate opponents list
+                List<Integer> opponents = new ArrayList<Integer>();
+                opponents.add((int) qbID); //12345 - QBUser ID
+
+                //Set user information
+                // User can set any string key and value in user info
+                // Then retrieve this data from sessions which are returned in callbacks
+                // and parse them as he wish
+                Map<String, String> userInfo = new HashMap<>();
+                //   userInfo.put("user", "samsad");
+                userInfo.put("user", qbID+"");
+                //Init session
+                QBRTCSignalingCallback signalingCallback = new QBRTCSignalingCallback(){
+                    public void onSuccessSendingPacket(QBSignalingSpec.QBSignalCMD packetType, Integer opponentId){
+                        LogUtils.LOGD("jp","BVCA onCreate  onSuccessSendingPacket");
+                    }
+                    public void onErrorSendingPacket(QBSignalingSpec.QBSignalCMD packetType, Integer opponentId,
+                                                     QBRTCSignalException e){
+                        LogUtils.LOGD("jp","BVCA onCreate  onErrorSendingPacket"+e.getMessage());
+                    }
+                };
+
+
+                QBRTCSession session = QBRTCClient.getInstance(this).createNewSessionWithOpponents(opponents, qbConferenceType);
+                LogUtils.LOGD("jp","BVCA startCall midddle");
+                session.addSignalingCallback(signalingCallback);
+                //session.removeSignalingCallback(signalingCallback);
+
+
+                //Start call
+                session.startCall(userInfo);
+                LogUtils.LOGD("jp","BVCA startCall end");
+
+                session.addVideoTrackCallbacksListener(this);
+            }
+            catch (Exception ex)
+            {
+                LogUtils.LOGD("jp","BVCA startCall exce "+ ex.getMessage());
+                ex.printStackTrace();
+            }
+        }*/
+    public Boolean isValidLogout(String text, String error) {
+        if (text != null)
+            if (!text.trim().equalsIgnoreCase(""))
+                return true;
+
+        handlerLogoutFinish("" + error);
+        return false;
+
+    }
+
+    public void handlerFinish(String s) {
+        try{
+            setStatus(s,R.color.white,R.color.Color_Crimson);
+            showStatus();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    hideStatus();
+                    finish();
+                }
+            }, 3000);
 
         }catch (Exception e)
         {
 
         }
     }
-
-    public static MSessionRoot call_session_root=null;
-   // public static MConnectSessionRoot call_session_detail_root=null;
-
-  public static MSessionDetailRoot call_session_detail_root=null;
-
-    public static String sessionid=null;
-   // public static  String call_emotionid=null;
-    public static  MEmotion call_emotion=null;
-
-    public AvailableMinuteListner listner =new AvailableMinuteListner() {
-     /*   @Override
-        public void onAvailable(ModelUserProfile results, boolean isVideoCall, long qbid) {
-            //startSessionWeb(results,true,qbid);
-            *//*if(isValid(results.getQbid()))
-                startSessionWeb(results,isVideoCall,results.getQbid());
-            else*//*
-                startSessionWeb(results,isVideoCall,qbid);
-        }*/
-
-
-        @Override
-        public void onAvailable(ModelUserProfile mCurrentUser, MUser pacifyerDetial, boolean isVideoCall) {
-            //startSessionWeb(pacifyerDetial,isVideoCall);
-            updateProfileStartCallWeb(pacifyerDetial,isVideoCall);
-        }
-       /* @Override
-        public void onAvailable() {
-           // startSessionWeb(pacifyerDetial,true,qbID);
-
-
-        }
-
-        @Override
-        public void onAlert(long time) {
-         *//*   setAlertStatusInBlue2("Add Card", time+" minutes only left. Add Credit card for further calls.", "Ok", "NO", new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                  //  startSessionWeb(pacifyerDetial,true,qbID);
-                }
-            });*//*
-
-        }*/
-
-   /*     @Override
-        public void onAlert(final long time,final ModelUserProfile results,final boolean isVideoCall,final long qbid) {
-            setAlertStatusInBlue2("Add Card", time+" minutes only left. Add Credit card for further calls.", "Ok", "NO", new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                 *//*    if(isValid(results.getQbid()))
-                       startSessionWeb(results,isVideoCall,results.getQbid());
-                    else*//*
-                        startSessionWeb(results,isVideoCall,qbid);
-                }
-            });
-        }
-*/
-        @Override
-        public void onAlert(long time,final  MUser pacifyerDetial, final boolean isVideoCall) {
-
-            setAlertStatusInBlue2("Add Card", " You have "+time+" minutes of free call time left. Please setup payment to continue. If payment is not set up, the call will be disconnected.", "Ok", "NO", new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-                    hideProgress();
-                    hideStatus2();
-                    updateProfileStartCallWeb(pacifyerDetial,isVideoCall);
-                }
-            });
-        }
-
-      /*  @Override
-        public void onAlert(long time, ModelUserProfile mCurrentUser, boolean isVideoCall) {
-            setAlertStatusInBlue2("Add Card", time+" minutes only left. Add Credit card for further calls.", "Ok", "NO", new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                 *//*    if(isValid(results.getQbid()))
-                       startSessionWeb(results,isVideoCall,results.getQbid());
-                    else*//*
-                    startSessionWeb(results,isVideoCall,qbid);
-                }
-            });
-        }
-*/
-        @Override
-        public void onPacifyerAlert(long time,ModelUserProfile mCurrentUser, MUser pacifyerDetial, boolean isVideoCall) {
-            updateProfileStartCallWeb(pacifyerDetial,isVideoCall);
-          /*  setAlertStatusInBlue2("Pacifyer Free limit crossed ", " Add Credit card for further calls.", "Ok", "NO", new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-//time+" minutes only left. Add Credit card for further calls."
-                    AlertAddCrediCardActivty.start(PacifyerActivity.this);
-                }
-            });*/
-        }
-
-        @Override
-        public void onNotAvailable(long time) {
-            setAlertStatusInBlue2("Add Card", "Your free minutes are expired. Please continue enjoying our services by updating your credit card information", "Ok", "NO", new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    hideProgress();
-                    hideStatus2();
-                    AlertAddCrediCardActivty.start(PacifyerActivity.this);
-                }
-            });
-
-
-        }
-
-        @Override
-        public void onException(Exception e) {
-            setAlertOKStatusInBlue("Session Expired ","Please try to Re-Login ","Ok");
-        }
-
-        @Override
-        public void onError(String e) {
-            setAlertOKStatusInBlue("Error ","Please try later ","Ok");
-        }
-
-
-    };
-
-
 
     public void getSavedCardWebChat( final MUser pacifyerDetial) {
         try {
@@ -1006,9 +999,9 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
                         iOSDialogClickListener listener = new iOSDialogClickListener() {
                             @Override
                             public void onClick(iOSDialog dialog) {
-                               Intent i = new Intent(PacifyerActivity.this, PaymentActivity.class);
-                               startActivity(i);
-                               dialog.dismiss();
+                                Intent i = new Intent(PacifyerActivity.this, PaymentActivity.class);
+                                startActivity(i);
+                                dialog.dismiss();
                             }
                         };
                         hideProgress();
@@ -1111,40 +1104,39 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
             }
             setLoadingWait();
             showProgress();
-        String url= NetworkService.GLOBAL_URL+"payment/savedcard/"+getUserID();
-        AjaxCallback cb = new AjaxCallback<JSONArray>() {
-            @Override
-            public void callback(String url, JSONArray json, AjaxStatus status) {
-                try {
-                    hideProgress();
-                    LogUtils.LOGD("session", "PA getSavedCardWeb callbaack "+json );
-                    if(isValid(json)) {
-                        String jsonString = json.toString();
-                        int l=jsonString.length();
-                         if(l>3) {
-                             LogUtils.LOGD("session", "PA saveCardExist true " );
-                            saveCardExist(true);
-                            listner.onAvailable(NetworkService.mCurrentUser,pacifyerDetial,isVideoCall);
+            String url = NetworkService.GLOBAL_URL + "payment/savedcard/" + getUserID();
+            AjaxCallback cb = new AjaxCallback<JSONArray>() {
+                @Override
+                public void callback(String url, JSONArray json, AjaxStatus status) {
+                    try {
+                        hideProgress();
+                        LogUtils.LOGD("session", "PA getSavedCardWeb callbaack " + json);
+                        if (isValid(json)) {
+                            String jsonString = json.toString();
+                            int l = jsonString.length();
+                            if (l > 3) {
+                                LogUtils.LOGD("session", "PA saveCardExist true ");
+                                saveCardExist(true);
+                                listner.onAvailable(NetworkService.mCurrentUser, pacifyerDetial, isVideoCall);
+                            } else {
+                                saveCardExist(false);
+                                callCardCheck(pacifyerDetial, listner, isVideoCall);
+                            }
+                        } else {
+                            saveCardExist(false);
+                            callCardCheck(pacifyerDetial, listner, isVideoCall);
                         }
-                        else{
-                             saveCardExist(false);
-                            callCardCheck(pacifyerDetial,listner,isVideoCall);
-                        }
-                    }else{
+                    } catch (Exception e) {
+                        //  e.printStackTrace();
                         saveCardExist(false);
-                        callCardCheck(pacifyerDetial,listner,isVideoCall);
+                        callCardCheck(pacifyerDetial, listner, isVideoCall);
                     }
-                } catch (Exception e) {
-                  //  e.printStackTrace();
-                    saveCardExist(false);
-                    callCardCheck(pacifyerDetial,listner,isVideoCall);
                 }
-            }
-        };
-        AQuery aq = new AQuery(PacifyerActivity.this);
-        cb.header("Content-Type", "application/json");
-        cb.header("AccessToken",getAccessToken());
-        aq.ajax(url,JSONArray.class, cb);
+            };
+            AQuery aq = new AQuery(PacifyerActivity.this);
+            cb.header("Content-Type", "application/json");
+            cb.header("AccessToken", getAccessToken());
+            aq.ajax(url, JSONArray.class, cb);
         }
         catch (Exception ex)
         {
@@ -1196,7 +1188,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
                         NetworkService.mCurrentUser.setReasonForTheCall(EmotionSpecialityAdapter.reason_forcall);
                         getPrefManager().savePacifyrID(pacifyerDetial.getId());
                         startSessionWeb(pacifyerDetial,isVideoCall);
-                      //  startSessionWeb
+                        //  startSessionWeb
                     /*    if (isValid(result)) {
 
                             //final JSONObject jsonObject = new JSONObject(result.toString());
@@ -1208,7 +1200,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
                               */
                     } catch (Exception eee) {
                         hideProgress();
-                       // com.pacifyr.pacifyrapp.utils.ToastHandler.newInstance(PacifyerActivity.this).mustShowToast("Error :"+eee.getMessage());
+                        // com.pacifyr.pacifyrapp.utils.ToastHandler.newInstance(PacifyerActivity.this).mustShowToast("Error :"+eee.getMessage());
 
                     }
                 }
@@ -1274,12 +1266,12 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
                                     }
                                     else
                                     {
-                                       stopSessionWeb(pacifyer);
+                                        stopSessionWeb(pacifyer);
                                         if (json.has("message")) {
                                             ToastHandler.newInstance(PacifyerActivity.this).mustShowToast(json.getString("message"));
                                         }
 
-                                      //setAlertOKStatusInBlue("Connect call","Connect the call","OK");
+                                        //setAlertOKStatusInBlue("Connect call","Connect the call","OK");
                                         //startCall(isVideoCall,pacifyer, pacifyer.getQbid(), pacifyer.getId(), sessionid);
 
                                         //ToastHandler.newInstance(PacifyerActivity.this).mustShowToast(call_session_root.getMessage());
@@ -1594,7 +1586,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
             public void onClick(View v) {
                 hideProgress();
                 if(isValid(getPrefManager().getSessionId()))
-                stopSessionWeb(getPrefManager().getSessionId());
+                    stopSessionWeb(getPrefManager().getSessionId());
                 hideStatus();
 
 
@@ -1684,7 +1676,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
 
     public void stopSessionWeb( String sessionid) {
         try {
-          //  ToastHandler.newInstance(PacifyerActivity.this).showToast("stopSessionWeb api called ");
+            //  ToastHandler.newInstance(PacifyerActivity.this).showToast("stopSessionWeb api called ");
             LogUtils.LOGD("call", "stopSessionWeb getUserID "+ getUserID());
             LogUtils.LOGD("call", "stopSessionWeb getAccessToken() "+getAccessToken());
 
@@ -1692,7 +1684,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
                 handlerLogoutFinish("Session expired, please login");
                 return;
             }
-               // return;
+            // return;
           /*
              if (!isValid(getUserID(),"Stop Session getUserID null"))
                 return;
@@ -1705,14 +1697,14 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
                 @Override
                 public void callback(String url, JSONObject json, AjaxStatus status) {
 
-                  //  SessionSummaryActivity.start(PacifyerActivity.this);
+                    //  SessionSummaryActivity.start(PacifyerActivity.this);
                     if (json == null) {
 
 
                         //ToastHandler.newInstance(PacifyerActivity.this).showToast("Please Try again");
                         LogUtils.LOGD("call", "stopSessionWeb json null ");
                     } else {
-                       try {
+                        try {
                             LogUtils.LOGD("call", "stopSessionWeb json  " + json);
                         } catch (Exception e){
                             //ToastHandler.newInstance(PacifyerActivity.this).showToast("Please Try again");
@@ -1727,8 +1719,8 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
             cb.header("Content-Type", "application/json");
 
             JSONObject input = new JSONObject();
-           // input.putOpt("userId", getUserID());
-           // input.putOpt("pacifyrId", oppenentid);
+            // input.putOpt("userId", getUserID());
+            // input.putOpt("pacifyrId", oppenentid);
             input.putOpt("id", sessionid);
             aq.post(GLOBAL_URL + "session/stop", input, JSONObject.class, cb);
             SessionSummaryActivity.start(PacifyerActivity.this);
@@ -1802,7 +1794,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
 
     public void declineSessionWeb( String sessionid) {
         try {
-           // ToastHandler.newInstance(PacifyerActivity.this).showToast("declineSessionWeb");
+            // ToastHandler.newInstance(PacifyerActivity.this).showToast("declineSessionWeb");
             LogUtils.LOGD("call", "declineSessionWeb getAccessToken() "+getAccessToken());
 
             if (!isValid(getAccessToken(),"Decline accesstoken error"))
@@ -1929,7 +1921,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
 
     public void missedSessionWeb( String sessionid) {
         try {
-          //  ToastHandler.newInstance(PacifyerActivity.this).showToast("missedSessionWeb");
+            //  ToastHandler.newInstance(PacifyerActivity.this).showToast("missedSessionWeb");
             LogUtils.LOGD("call", "missedSessionWeb getAccessToken() "+getAccessToken());
 
             if (!isValid(getAccessToken(),"missed call accesstoken error"))
@@ -1983,7 +1975,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
                             NetworkService.mCurrentUser = GsonUtils.getInstance().gsonToModelUserProfile(json);
                             //ProfileScreenActivity.pacifyerDetial = GsonUtils.getInstance().gsonToModelUserProfile(json);
 
-                             postEventOnMainThread(new NotifyEvent());
+                            postEventOnMainThread(new NotifyEvent());
 
                         }
                         else
@@ -2331,33 +2323,29 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
         boolean ret=true;
         try {
 
-        if(!isValid(cardNumberEdt.getText()))
-        {
-            //Toast.makeText(PacifyerActivity.this, cardNo, Toast.LENGTH_LONG).show();
-            cardNumberEdt.setError("Please enter valid card number");
-            ret = false;
-        }
-        if(!isValid(cardMonthEdt.getText()))
-        {
-            //Toast.makeText(PacifyerActivity.this, month, Toast.LENGTH_LONG).show();
-            cardMonthEdt.setError("Please enter valid month");
-            ret = false;
+            if (!isValid(cardNumberEdt.getText())) {
+                //Toast.makeText(PacifyerActivity.this, cardNo, Toast.LENGTH_LONG).show();
+                cardNumberEdt.setError("Please enter valid card number");
+                ret = false;
+            }
+            if (!isValid(cardMonthEdt.getText())) {
+                //Toast.makeText(PacifyerActivity.this, month, Toast.LENGTH_LONG).show();
+                cardMonthEdt.setError("Please enter valid month");
+                ret = false;
 
-        }
-        if(!isValid(cardYearEdt.getText()))
-        {
-            //Toast.makeText(PacifyerActivity.this, year, Toast.LENGTH_LONG).show();
-            cardYearEdt.setError("Please enter valid year");
-            ret = false;
+            }
+            if (!isValid(cardYearEdt.getText())) {
+                //Toast.makeText(PacifyerActivity.this, year, Toast.LENGTH_LONG).show();
+                cardYearEdt.setError("Please enter valid year");
+                ret = false;
 
-        }
-        if(!isValid(cardCvvEdt.getText()))
-        {
-            //Toast.makeText(PacifyerActivity.this, cvv, Toast.LENGTH_LONG).show();
-            cardCvvEdt.setError("Please enter valid cvv");
-            ret = false;
+            }
+            if (!isValid(cardCvvEdt.getText())) {
+                //Toast.makeText(PacifyerActivity.this, cvv, Toast.LENGTH_LONG).show();
+                cardCvvEdt.setError("Please enter valid cvv");
+                ret = false;
 
-        }
+            }
 
             Card card = new Card(cardNumberEdt.getText()+"",Integer.parseInt(cardMonthEdt.getText()+""), Integer.parseInt(cardYearEdt.getText()+""), cardCvvEdt.getText()+"");
             // Remember to validate the card object before you use it to save time.
@@ -2375,18 +2363,17 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
 
     public Card getCardValid(CustomEditText cardNumberEdt, CustomEditText cardMonthEdt,  CustomEditText cardYearEdt, CustomEditText cardCvvEdt )
     {
-      Card card=null;
-      try {
-          card = new Card(cardNumberEdt.getText()+"",Integer.parseInt(cardMonthEdt.getText()+""), Integer.parseInt(cardYearEdt.getText()+""), cardCvvEdt.getText()+"");
-          if (!card.validateCard()) {
-              card = null;
-              //ToastHandler.newInstance(PacifyerActivity.this).mustShowToast("Invalid Card");
-          }
-      }catch (Exception e)
-      {
-          card=null;
-      }
-      return card;
+        Card card = null;
+        try {
+            card = new Card(cardNumberEdt.getText() + "", Integer.parseInt(cardMonthEdt.getText() + ""), Integer.parseInt(cardYearEdt.getText() + ""), cardCvvEdt.getText() + "");
+            if (!card.validateCard()) {
+                card = null;
+                //ToastHandler.newInstance(PacifyerActivity.this).mustShowToast("Invalid Card");
+            }
+        } catch (Exception e) {
+            card = null;
+        }
+        return card;
 
     }
     private void performCardSave(Card card ) {
@@ -2398,7 +2385,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
                 public void onSuccess(Token token) {
                     String type = token.getType();
                     Token genaratedToken = token;
-                   // hideProgress();
+                    // hideProgress();
                     saveCardDetails(genaratedToken);
                 }
 
@@ -2416,36 +2403,36 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
 
     private void saveCardDetails(Token genaratedToken) {
         try {
-        PrefManager prefM= PrefManager.getInstance(PacifyerActivity.this);
-        String userToken=prefM.getAccessToken();
-        String userid=prefM.getUserID();
+            PrefManager prefM = PrefManager.getInstance(PacifyerActivity.this);
+            String userToken = prefM.getAccessToken();
+            String userid = prefM.getUserID();
         /*setLoading();
         showProgress();*/
-        String url = NetworkService.GLOBAL_URL+"payment/saveCard";
-        AjaxCallback cb = new AjaxCallback<JSONObject>() {
-            @Override
-            public void callback(String url, JSONObject json, AjaxStatus status) {
-                try {
-                    hideProgress();
-                    String message=json.getString("message");
-                    String my=json.toString();
-                    if(message.equals("Card added")){
+            String url = NetworkService.GLOBAL_URL + "payment/saveCard";
+            AjaxCallback cb = new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject json, AjaxStatus status) {
+                    try {
+                        hideProgress();
+                        String message = json.getString("message");
+                        String my = json.toString();
+                        if (message.equals("Card added")) {
 
-                        saveCardExist(true);
-                        hideStatus2();
-                        setStatus("Succesfully added your card", R.color.md_green_400);
-                        showStatus();
-                        final Handler handler = new Handler();
-                         handler.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                hideStatus();
-                               // finish();
-                            }
-                        }, 2000);
+                            saveCardExist(true);
+                            hideStatus2();
+                            setStatus("Succesfully added your card", R.color.md_green_400);
+                            showStatus();
+                            final Handler handler = new Handler();
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    hideStatus();
+                                    // finish();
+                                }
+                            }, 2000);
 
-                    }else {
-                        errorStatus();
+                        } else {
+                            errorStatus();
                     /*    setStatus("Error occured. Please try again.", R.color.md_red_500);
                         showStatus();
                         final Handler handler = new Handler();
@@ -2455,15 +2442,15 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
                                 hideStatus();
                             }
                         }, 2000);*/
+                        }
+                    } catch (Exception e) {
+                        errorStatus();
                     }
-                } catch (Exception e) {
-                    errorStatus();
                 }
-            }
-        };
-        AQuery aq = new AQuery(PacifyerActivity.this);
-        cb.header("Content-Type", "application/json");
-        cb.header("AccessToken",userToken);
+            };
+            AQuery aq = new AQuery(PacifyerActivity.this);
+            cb.header("Content-Type", "application/json");
+            cb.header("AccessToken", userToken);
 
             JSONObject jsonObject = new JSONObject();
             jsonObject.putOpt("userId", userid);
