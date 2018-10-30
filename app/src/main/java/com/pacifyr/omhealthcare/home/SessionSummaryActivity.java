@@ -155,7 +155,7 @@ public class SessionSummaryActivity  extends PacifyrAppCompactActivity{
     }
     public static void start(Context context) {
         Intent intent = new Intent(context, SessionSummaryActivity.class);
-        //  intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         // intent.putExtra(Consts.EXTRA_IS_STARTED_FOR_CALL, isRunForCall);
         SessionSummaryActivity.isAudioCall=true;
         isEditable = true;
@@ -177,6 +177,7 @@ public class SessionSummaryActivity  extends PacifyrAppCompactActivity{
 
     public static void start(Context context,String sId) {
         Intent intent = new Intent(context, SessionSummaryActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         isEditable = false;
         SessionSummaryActivity.isAudioCall=true;
         sessionid = sId;

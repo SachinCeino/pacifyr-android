@@ -66,7 +66,7 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
 
     private LinearLayout profileLlay;
     private CustomFontTextView profileNameCtxv;
-    private CustomFontTextView pacifyrRoleCtxv,connect_pacifyr_ctxv;
+    private CustomFontTextView connect_pacifyr_ctxv;
     private AppCompatRatingBar profileRating;
     private CustomFontTextView ratingCtxv;
     private CircleImageView profileCimv;
@@ -824,7 +824,7 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
         profileLlay = (LinearLayout) findViewById(R.id.profile_llay);
         call_llay = (LinearLayout) findViewById(R.id.call_llay);
         profileNameCtxv = (CustomFontTextView) findViewById(R.id.profile_name_ctxv);
-        pacifyrRoleCtxv = (CustomFontTextView) findViewById(R.id.pacifyr_role_ctxv);
+//        pacifyrRoleCtxv = (CustomFontTextView) findViewById(R.id.pacifyr_role_ctxv);
         profileRating = (AppCompatRatingBar) findViewById(R.id.profile_rating);
         ratingCtxv = (CustomFontTextView) findViewById(R.id.rating_ctxv);
         profileCimv = (CircleImageView) findViewById(R.id.profile_cimv);

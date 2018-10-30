@@ -68,6 +68,7 @@ import com.pacifyr.omhealthcare.quickblox.App;
 import com.pacifyr.omhealthcare.quickblox.chat.utils.qb.callback.QbEntityCallbackImpl;
 import com.pacifyr.omhealthcare.quickblox.util.QBResRequestExecutor;
 import com.pacifyr.omhealthcare.quickblox.utils.QBEntityCallbackImpl;
+import com.pacifyr.omhealthcare.utils.Constants;
 import com.pacifyr.omhealthcare.utils.LogUtils;
 import com.pacifyr.omhealthcare.utils.Utility;
 import com.quickblox.auth.QBAuth;
@@ -97,9 +98,10 @@ import static com.ceino.utilitylibrary.network.UtilityNetworkService.APP_ID;
 import static com.ceino.utilitylibrary.network.UtilityNetworkService.AUTH_KEY;
 import static com.ceino.utilitylibrary.network.UtilityNetworkService.AUTH_SECRET;
 import static com.ceino.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
-import static com.ceino.utilitylibrary.network.UtilityNetworkService.termOfUseUrl;
 import static com.pacifyr.omhealthcare.network.NetworkService.countryData;
 import static com.pacifyr.omhealthcare.sign.RegisterVerifyActivity.phoneRegister;
+
+//import static com.ceino.utilitylibrary.network.UtilityNetworkService.termOfUseUrl;
 
 /**
  * Created by ceino on 11/7/17.
@@ -330,7 +332,7 @@ public class RegisterActivity extends PacifyerActivity {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(RegisterActivity.this,TermsOfUseActivity.class);
-                    intent.putExtra("spurl", termOfUseUrl);
+                    intent.putExtra("spurl", Constants.URL_TERMS);
                     startActivity(intent);
                 }
 

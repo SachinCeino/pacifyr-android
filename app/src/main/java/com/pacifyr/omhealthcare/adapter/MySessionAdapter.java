@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.ceino.utilitylibrary.CustomFontTextView;
 import com.ceino.utilitylibrary.model.pacifyr.MEmotion;
@@ -305,7 +306,12 @@ public class MySessionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 @Override
                 public void onClick(View v) {
                     showProgress();
-                    ( (DashboardActivity) (context)).callchatEventListner.onChatEventClick((new ChatEvent(results.getPacifyr(), false)));
+                    try {
+                        ((DashboardActivity) (context)).callchatEventListner.onChatEventClick((new ChatEvent(results.getPacifyr(), false)));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        Toast.makeText(context, "Sorry, something went wrong. Please try later", Toast.LENGTH_LONG).show();
+                    }
                     //    ConnectToPacifyrActivity.callchatEventListner.onChatEventClick(new ChatEvent(searchResults.get(position), false));
                     // postEventOnMainThread(new ChatEvent(searchResults.get(position),false));
                     new Handler().postDelayed(new Runnable() {

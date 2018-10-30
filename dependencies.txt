@@ -1,4 +1,3 @@
-Starting a Gradle Daemon, 1 incompatible and 1 stopped Daemons could not be reused, use --status for details
 The project name 'om-android 3.1' contains at least one of the following characters: [ , /, \, :, <, >, ", ?, *, |]. This has been deprecated and is scheduled to be removed in Gradle 5.0. Set the 'rootProject.name' or adjust the 'include' statement (see https://docs.gradle.org/4.4/dsl/org.gradle.api.initialization.Settings.html#org.gradle.api.initialization.Settings:include(java.lang.String[]) for more details).
 WARNING: Configuration 'compile' is obsolete and has been replaced with 'implementation' and 'api'.
 It will be removed at the end of 2018. For more information see: http://d.android.com/r/tools/update-dependency-configurations.html
@@ -175,34 +174,15 @@ debugAndroidTestCompileClasspath - Resolved configuration for compilation for va
 |    \--- com.android.support:transition:26.1.0
 |         +--- com.android.support:support-annotations:26.1.0 -> 27.0.2
 |         \--- com.android.support:support-v4:26.1.0 (*)
-+--- com.google.firebase:firebase-auth:11.0.2
-|    +--- com.google.android.gms:play-services-base:[11.0.2] -> 11.0.2
-|    |    +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2
-|    |    |    \--- com.android.support:support-v4:25.2.0 -> 26.1.0 (*)
-|    |    \--- com.google.android.gms:play-services-tasks:[11.0.2] -> 11.0.2
-|    |         \--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    +--- com.google.firebase:firebase-common:[11.0.2] -> 11.0.2
-|    |    +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    |    \--- com.google.android.gms:play-services-tasks:[11.0.2] -> 11.0.2 (*)
-|    \--- com.google.android.gms:play-services-tasks:[11.0.2] -> 11.0.2 (*)
-+--- com.google.firebase:firebase-core:11.0.2
-|    \--- com.google.firebase:firebase-analytics:[11.0.2] -> 11.0.2
-|         +--- com.google.firebase:firebase-analytics-impl:[11.0.2] -> 11.0.2
-|         |    +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|         |    +--- com.google.firebase:firebase-iid:[11.0.2] -> 11.0.2
-|         |    |    +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|         |    |    \--- com.google.firebase:firebase-common:[11.0.2] -> 11.0.2 (*)
-|         |    +--- com.google.firebase:firebase-common:[11.0.2] -> 11.0.2 (*)
-|         |    \--- com.google.android.gms:play-services-tasks:[11.0.2] -> 11.0.2 (*)
-|         +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|         \--- com.google.firebase:firebase-common:[11.0.2] -> 11.0.2 (*)
-+--- com.google.android.gms:play-services-gcm:11.0.2
-|    +--- com.google.android.gms:play-services-base:[11.0.2] -> 11.0.2 (*)
-|    +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    \--- com.google.android.gms:play-services-iid:[11.0.2] -> 11.0.2
-|         +--- com.google.android.gms:play-services-base:[11.0.2] -> 11.0.2 (*)
-|         \--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
++--- com.crashlytics.sdk.android:crashlytics:2.9.5
+|    +--- com.crashlytics.sdk.android:answers:1.4.3
+|    |    \--- io.fabric.sdk.android:fabric:1.4.4
+|    +--- com.crashlytics.sdk.android:crashlytics-core:2.6.4
+|    |    +--- com.crashlytics.sdk.android:answers:1.4.3 (*)
+|    |    \--- io.fabric.sdk.android:fabric:1.4.4
+|    +--- io.fabric.sdk.android:fabric:1.4.4
+|    \--- com.crashlytics.sdk.android:beta:1.2.10
+|         \--- io.fabric.sdk.android:fabric:1.4.4
 +--- com.quickblox:quickblox-android-sdk-videochat-webrtc:3.3.5
 |    +--- com.quickblox:quickblox-android-sdk-core:3.3.5
 |    |    \--- com.google.code.gson:gson:2.4 -> 2.8.2
@@ -215,13 +195,7 @@ debugAndroidTestCompileClasspath - Resolved configuration for compilation for va
 +--- com.quickblox:quickblox-android-sdk-content:3.3.5
 |    \--- com.quickblox:quickblox-android-sdk-core:3.3.5 (*)
 +--- com.quickblox:quickblox-android-sdk-messages:3.3.5
-|    +--- com.quickblox:quickblox-android-sdk-core:3.3.5 (*)
-|    +--- com.google.firebase:firebase-messaging:11.0.2
-|    |    +--- com.google.firebase:firebase-iid:[11.0.2] -> 11.0.2 (*)
-|    |    +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    |    \--- com.google.firebase:firebase-common:[11.0.2] -> 11.0.2 (*)
-|    +--- com.google.firebase:firebase-core:11.0.2 (*)
-|    \--- com.google.android.gms:play-services-gcm:11.0.2 (*)
+|    \--- com.quickblox:quickblox-android-sdk-core:3.3.5 (*)
 +--- project :quickblox-core
 +--- com.github.JesusM:HoloCircleSeekBar:v2.2.2
 +--- com.minimize.library:seekbar-compat:0.2.5
@@ -234,7 +208,7 @@ debugAndroidTestCompileClasspath - Resolved configuration for compilation for va
 +--- com.android.support:support-annotations:26.1.0 -> 27.0.2
 +--- com.android.support:support-compat:26.1.0 (*)
 +--- com.android.support:support-core-ui:26.1.0 (*)
-+--- de.hdodenhof:circleimageview:2.1.0
++--- de.hdodenhof:circleimageview:2.2.0
 +--- com.stripe:stripe-android:5.1.0
 |    +--- com.android.support:support-annotations:26.0.1 -> 27.0.2
 |    +--- com.android.support:appcompat-v7:26.0.1 -> 26.1.0 (*)
@@ -280,11 +254,11 @@ debugAndroidTestCompileClasspath - Resolved configuration for compilation for va
 +--- com.koushikdutta.ion:ion:2.1.7
 |    +--- com.google.code.gson:gson:2.3 -> 2.8.2
 |    \--- com.koushikdutta.async:androidasync:2.1.7
-+--- com.amazonaws:aws-android-sdk-sns:2.6.31
-|    +--- com.amazonaws:aws-android-sdk-core:2.6.31
++--- com.amazonaws:aws-android-sdk-sns:2.7.0
+|    +--- com.amazonaws:aws-android-sdk-core:2.7.0
 |    |    \--- com.google.code.gson:gson:2.2.4 -> 2.8.2
-|    \--- com.amazonaws:aws-android-sdk-sqs:2.6.31
-|         \--- com.amazonaws:aws-android-sdk-core:2.6.31 (*)
+|    \--- com.amazonaws:aws-android-sdk-sqs:2.7.0
+|         \--- com.amazonaws:aws-android-sdk-core:2.7.0 (*)
 +--- com.daprlabs.aaron:cardstack:0.3.1-beta0
 +--- com.android.support:cardview-v7:26.1.0
 |    \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
@@ -293,7 +267,10 @@ debugAndroidTestCompileClasspath - Resolved configuration for compilation for va
 |    \--- com.android.support:support-annotations:27.0.2
 +--- com.github.bumptech.glide:glide:3.6.1
 +--- se.emilsjolander:stickylistheaders:2.7.0
-\--- com.github.orangegangsters:swipy:1.2.3
++--- com.github.orangegangsters:swipy:1.2.3
+\--- com.android.support:customtabs:26.1.0
+     +--- com.android.support:support-compat:26.1.0 (*)
+     \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
 
 debugAndroidTestRuntimeClasspath - Resolved configuration for runtime for variant: debugAndroidTest
 +--- com.android.support.test.espresso:espresso-core:2.2.2
@@ -364,11 +341,11 @@ debugAndroidTestRuntimeClasspath - Resolved configuration for runtime for varian
 |    |    \--- com.facebook.android:facebook-messenger:4.33.0
 |    |         +--- com.facebook.android:facebook-core:4.33.0 (*)
 |    |         \--- com.parse.bolts:bolts-android:1.4.0 (*)
-|    +--- com.amazonaws:aws-android-sdk-sns:2.6.31
-|    |    +--- com.amazonaws:aws-android-sdk-core:2.6.31
+|    +--- com.amazonaws:aws-android-sdk-sns:2.6.31 -> 2.7.0
+|    |    +--- com.amazonaws:aws-android-sdk-core:2.7.0
 |    |    |    \--- com.google.code.gson:gson:2.2.4 -> 2.8.2
-|    |    \--- com.amazonaws:aws-android-sdk-sqs:2.6.31
-|    |         \--- com.amazonaws:aws-android-sdk-core:2.6.31 (*)
+|    |    \--- com.amazonaws:aws-android-sdk-sqs:2.7.0
+|    |         \--- com.amazonaws:aws-android-sdk-core:2.7.0 (*)
 |    +--- com.squareup.okhttp:okhttp:2.7.0
 |    |    \--- com.squareup.okio:okio:1.6.0 -> 1.14.0
 |    +--- com.github.florent37:singledateandtimepicker:1.0.8
@@ -405,36 +382,6 @@ debugAndroidTestRuntimeClasspath - Resolved configuration for runtime for varian
 |    +--- com.android.support:support-v4:26.1.0 (*)
 |    +--- project :quickblox-core
 |    |    +--- com.android.support:multidex:1.0.2 -> 1.0.3
-|    |    +--- com.quickblox:quickblox-android-sdk-messages:3.3.5
-|    |    |    +--- com.quickblox:quickblox-android-sdk-core:3.3.5
-|    |    |    |    \--- com.google.code.gson:gson:2.4 -> 2.8.2
-|    |    |    +--- com.google.firebase:firebase-messaging:11.0.2
-|    |    |    |    +--- com.google.firebase:firebase-iid:[11.0.2] -> 11.0.2
-|    |    |    |    |    +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2
-|    |    |    |    |    |    \--- com.android.support:support-v4:25.2.0 -> 26.1.0 (*)
-|    |    |    |    |    \--- com.google.firebase:firebase-common:[11.0.2] -> 11.0.2
-|    |    |    |    |         +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    |    |    |    |         \--- com.google.android.gms:play-services-tasks:[11.0.2] -> 11.0.2
-|    |    |    |    |              \--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    |    |    |    +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    |    |    |    \--- com.google.firebase:firebase-common:[11.0.2] -> 11.0.2 (*)
-|    |    |    +--- com.google.firebase:firebase-core:11.0.2
-|    |    |    |    \--- com.google.firebase:firebase-analytics:[11.0.2] -> 11.0.2
-|    |    |    |         +--- com.google.firebase:firebase-analytics-impl:[11.0.2] -> 11.0.2
-|    |    |    |         |    +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    |    |    |         |    +--- com.google.firebase:firebase-iid:[11.0.2] -> 11.0.2 (*)
-|    |    |    |         |    +--- com.google.firebase:firebase-common:[11.0.2] -> 11.0.2 (*)
-|    |    |    |         |    \--- com.google.android.gms:play-services-tasks:[11.0.2] -> 11.0.2 (*)
-|    |    |    |         +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    |    |    |         \--- com.google.firebase:firebase-common:[11.0.2] -> 11.0.2 (*)
-|    |    |    \--- com.google.android.gms:play-services-gcm:11.0.2
-|    |    |         +--- com.google.android.gms:play-services-base:[11.0.2] -> 11.0.2
-|    |    |         |    +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    |    |         |    \--- com.google.android.gms:play-services-tasks:[11.0.2] -> 11.0.2 (*)
-|    |    |         +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    |    |         \--- com.google.android.gms:play-services-iid:[11.0.2] -> 11.0.2
-|    |    |              +--- com.google.android.gms:play-services-base:[11.0.2] -> 11.0.2 (*)
-|    |    |              \--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
 |    |    +--- com.android.support:design:26.1.0
 |    |    |    +--- com.android.support:support-v4:26.1.0 (*)
 |    |    |    +--- com.android.support:appcompat-v7:26.1.0 (*)
@@ -456,7 +403,10 @@ debugAndroidTestRuntimeClasspath - Resolved configuration for runtime for varian
 |    |    +--- com.github.orangegangsters:swipy:1.2.2 -> 1.2.3
 |    |    +--- com.github.bumptech.glide:glide:3.6.1
 |    |    \--- se.emilsjolander:stickylistheaders:2.7.0
-|    \--- com.gdacciaro:iosdialog:1.0.3
+|    +--- com.gdacciaro:iosdialog:1.0.3
+|    \--- com.android.support:customtabs:26.1.0
+|         +--- com.android.support:support-compat:26.1.0 (*)
+|         \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
 +--- com.android.support:multidex-instrumentation:1.0.2
 |    \--- com.android.support:multidex:1.0.2 -> 1.0.3
 +--- com.android.support.constraint:constraint-layout:1.0.2
@@ -469,15 +419,18 @@ debugAndroidTestRuntimeClasspath - Resolved configuration for runtime for varian
 +--- com.android.support:appcompat-v7:26.1.0 (*)
 +--- com.android.support:support-v4:26.1.0 (*)
 +--- com.android.support:design:26.1.0 (*)
-+--- com.google.firebase:firebase-auth:11.0.2
-|    +--- com.google.android.gms:play-services-base:[11.0.2] -> 11.0.2 (*)
-|    +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    +--- com.google.firebase:firebase-common:[11.0.2] -> 11.0.2 (*)
-|    \--- com.google.android.gms:play-services-tasks:[11.0.2] -> 11.0.2 (*)
-+--- com.google.firebase:firebase-core:11.0.2 (*)
-+--- com.google.android.gms:play-services-gcm:11.0.2 (*)
++--- com.crashlytics.sdk.android:crashlytics:2.9.5
+|    +--- com.crashlytics.sdk.android:answers:1.4.3
+|    |    \--- io.fabric.sdk.android:fabric:1.4.4
+|    +--- com.crashlytics.sdk.android:crashlytics-core:2.6.4
+|    |    +--- com.crashlytics.sdk.android:answers:1.4.3 (*)
+|    |    \--- io.fabric.sdk.android:fabric:1.4.4
+|    +--- io.fabric.sdk.android:fabric:1.4.4
+|    \--- com.crashlytics.sdk.android:beta:1.2.10
+|         \--- io.fabric.sdk.android:fabric:1.4.4
 +--- com.quickblox:quickblox-android-sdk-videochat-webrtc:3.3.5
-|    +--- com.quickblox:quickblox-android-sdk-core:3.3.5 (*)
+|    +--- com.quickblox:quickblox-android-sdk-core:3.3.5
+|    |    \--- com.google.code.gson:gson:2.4 -> 2.8.2
 |    \--- com.quickblox:quickblox-android-sdk-chat:3.3.5
 |         +--- com.quickblox:quickblox-android-sdk-core:3.3.5 (*)
 |         +--- org.jxmpp:jxmpp-core:0.4.2
@@ -486,7 +439,8 @@ debugAndroidTestRuntimeClasspath - Resolved configuration for runtime for varian
 +--- com.quickblox:quickblox-android-sdk-chat:3.3.5 (*)
 +--- com.quickblox:quickblox-android-sdk-content:3.3.5
 |    \--- com.quickblox:quickblox-android-sdk-core:3.3.5 (*)
-+--- com.quickblox:quickblox-android-sdk-messages:3.3.5 (*)
++--- com.quickblox:quickblox-android-sdk-messages:3.3.5
+|    \--- com.quickblox:quickblox-android-sdk-core:3.3.5 (*)
 +--- project :quickblox-core (*)
 +--- com.github.JesusM:HoloCircleSeekBar:v2.2.2
 +--- com.minimize.library:seekbar-compat:0.2.5
@@ -499,7 +453,7 @@ debugAndroidTestRuntimeClasspath - Resolved configuration for runtime for varian
 +--- com.android.support:support-annotations:26.1.0 -> 27.0.2
 +--- com.android.support:support-compat:26.1.0 (*)
 +--- com.android.support:support-core-ui:26.1.0 (*)
-+--- de.hdodenhof:circleimageview:2.1.0 -> 2.2.0
++--- de.hdodenhof:circleimageview:2.2.0
 +--- com.stripe:stripe-android:5.1.0
 |    +--- com.android.support:support-annotations:26.0.1 -> 27.0.2
 |    +--- com.android.support:appcompat-v7:26.0.1 -> 26.1.0 (*)
@@ -521,7 +475,7 @@ debugAndroidTestRuntimeClasspath - Resolved configuration for runtime for varian
 +--- com.gdacciaro:iosdialog:1.0.3
 +--- com.kaopiz:kprogresshud:1.0.4
 +--- com.koushikdutta.ion:ion:2.1.7 (*)
-+--- com.amazonaws:aws-android-sdk-sns:2.6.31 (*)
++--- com.amazonaws:aws-android-sdk-sns:2.7.0 (*)
 +--- com.daprlabs.aaron:cardstack:0.3.1-beta0
 +--- com.android.support:cardview-v7:26.1.0 (*)
 +--- com.androidplot:androidplot-core:1.5.3
@@ -529,7 +483,8 @@ debugAndroidTestRuntimeClasspath - Resolved configuration for runtime for varian
 |    \--- com.android.support:support-annotations:27.0.2
 +--- com.github.bumptech.glide:glide:3.6.1
 +--- se.emilsjolander:stickylistheaders:2.7.0
-\--- com.github.orangegangsters:swipy:1.2.3
++--- com.github.orangegangsters:swipy:1.2.3
+\--- com.android.support:customtabs:26.1.0 (*)
 
 debugAnnotationProcessor - Classpath for the annotation processor for 'debug'. (n)
 No dependencies
@@ -600,34 +555,15 @@ debugCompileClasspath - Resolved configuration for compilation for variant: debu
 |    \--- com.android.support:transition:26.1.0
 |         +--- com.android.support:support-annotations:26.1.0 -> 27.0.2
 |         \--- com.android.support:support-v4:26.1.0 (*)
-+--- com.google.firebase:firebase-auth:11.0.2
-|    +--- com.google.android.gms:play-services-base:[11.0.2] -> 11.0.2
-|    |    +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2
-|    |    |    \--- com.android.support:support-v4:25.2.0 -> 26.1.0 (*)
-|    |    \--- com.google.android.gms:play-services-tasks:[11.0.2] -> 11.0.2
-|    |         \--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    +--- com.google.firebase:firebase-common:[11.0.2] -> 11.0.2
-|    |    +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    |    \--- com.google.android.gms:play-services-tasks:[11.0.2] -> 11.0.2 (*)
-|    \--- com.google.android.gms:play-services-tasks:[11.0.2] -> 11.0.2 (*)
-+--- com.google.firebase:firebase-core:11.0.2
-|    \--- com.google.firebase:firebase-analytics:[11.0.2] -> 11.0.2
-|         +--- com.google.firebase:firebase-analytics-impl:[11.0.2] -> 11.0.2
-|         |    +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|         |    +--- com.google.firebase:firebase-iid:[11.0.2] -> 11.0.2
-|         |    |    +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|         |    |    \--- com.google.firebase:firebase-common:[11.0.2] -> 11.0.2 (*)
-|         |    +--- com.google.firebase:firebase-common:[11.0.2] -> 11.0.2 (*)
-|         |    \--- com.google.android.gms:play-services-tasks:[11.0.2] -> 11.0.2 (*)
-|         +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|         \--- com.google.firebase:firebase-common:[11.0.2] -> 11.0.2 (*)
-+--- com.google.android.gms:play-services-gcm:11.0.2
-|    +--- com.google.android.gms:play-services-base:[11.0.2] -> 11.0.2 (*)
-|    +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    \--- com.google.android.gms:play-services-iid:[11.0.2] -> 11.0.2
-|         +--- com.google.android.gms:play-services-base:[11.0.2] -> 11.0.2 (*)
-|         \--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
++--- com.crashlytics.sdk.android:crashlytics:2.9.5
+|    +--- com.crashlytics.sdk.android:answers:1.4.3
+|    |    \--- io.fabric.sdk.android:fabric:1.4.4
+|    +--- com.crashlytics.sdk.android:crashlytics-core:2.6.4
+|    |    +--- com.crashlytics.sdk.android:answers:1.4.3 (*)
+|    |    \--- io.fabric.sdk.android:fabric:1.4.4
+|    +--- io.fabric.sdk.android:fabric:1.4.4
+|    \--- com.crashlytics.sdk.android:beta:1.2.10
+|         \--- io.fabric.sdk.android:fabric:1.4.4
 +--- com.quickblox:quickblox-android-sdk-videochat-webrtc:3.3.5
 |    +--- com.quickblox:quickblox-android-sdk-core:3.3.5
 |    |    \--- com.google.code.gson:gson:2.4 -> 2.8.2
@@ -640,13 +576,7 @@ debugCompileClasspath - Resolved configuration for compilation for variant: debu
 +--- com.quickblox:quickblox-android-sdk-content:3.3.5
 |    \--- com.quickblox:quickblox-android-sdk-core:3.3.5 (*)
 +--- com.quickblox:quickblox-android-sdk-messages:3.3.5
-|    +--- com.quickblox:quickblox-android-sdk-core:3.3.5 (*)
-|    +--- com.google.firebase:firebase-messaging:11.0.2
-|    |    +--- com.google.firebase:firebase-iid:[11.0.2] -> 11.0.2 (*)
-|    |    +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    |    \--- com.google.firebase:firebase-common:[11.0.2] -> 11.0.2 (*)
-|    +--- com.google.firebase:firebase-core:11.0.2 (*)
-|    \--- com.google.android.gms:play-services-gcm:11.0.2 (*)
+|    \--- com.quickblox:quickblox-android-sdk-core:3.3.5 (*)
 +--- project :quickblox-core
 +--- com.github.JesusM:HoloCircleSeekBar:v2.2.2
 +--- com.minimize.library:seekbar-compat:0.2.5
@@ -659,7 +589,7 @@ debugCompileClasspath - Resolved configuration for compilation for variant: debu
 +--- com.android.support:support-annotations:26.1.0 -> 27.0.2
 +--- com.android.support:support-compat:26.1.0 (*)
 +--- com.android.support:support-core-ui:26.1.0 (*)
-+--- de.hdodenhof:circleimageview:2.1.0
++--- de.hdodenhof:circleimageview:2.2.0
 +--- com.stripe:stripe-android:5.1.0
 |    +--- com.android.support:support-annotations:26.0.1 -> 27.0.2
 |    +--- com.android.support:appcompat-v7:26.0.1 -> 26.1.0 (*)
@@ -705,11 +635,11 @@ debugCompileClasspath - Resolved configuration for compilation for variant: debu
 +--- com.koushikdutta.ion:ion:2.1.7
 |    +--- com.google.code.gson:gson:2.3 -> 2.8.2
 |    \--- com.koushikdutta.async:androidasync:2.1.7
-+--- com.amazonaws:aws-android-sdk-sns:2.6.31
-|    +--- com.amazonaws:aws-android-sdk-core:2.6.31
++--- com.amazonaws:aws-android-sdk-sns:2.7.0
+|    +--- com.amazonaws:aws-android-sdk-core:2.7.0
 |    |    \--- com.google.code.gson:gson:2.2.4 -> 2.8.2
-|    \--- com.amazonaws:aws-android-sdk-sqs:2.6.31
-|         \--- com.amazonaws:aws-android-sdk-core:2.6.31 (*)
+|    \--- com.amazonaws:aws-android-sdk-sqs:2.7.0
+|         \--- com.amazonaws:aws-android-sdk-core:2.7.0 (*)
 +--- com.daprlabs.aaron:cardstack:0.3.1-beta0
 +--- com.android.support:cardview-v7:26.1.0
 |    \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
@@ -718,7 +648,10 @@ debugCompileClasspath - Resolved configuration for compilation for variant: debu
 |    \--- com.android.support:support-annotations:27.0.2
 +--- com.github.bumptech.glide:glide:3.6.1
 +--- se.emilsjolander:stickylistheaders:2.7.0
-\--- com.github.orangegangsters:swipy:1.2.3
++--- com.github.orangegangsters:swipy:1.2.3
+\--- com.android.support:customtabs:26.1.0
+     +--- com.android.support:support-compat:26.1.0 (*)
+     \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
 
 debugCompileOnly - Compile only dependencies for 'debug' sources. (n)
 No dependencies
@@ -785,11 +718,11 @@ debugRuntimeClasspath - Resolved configuration for runtime for variant: debug
 |    |    \--- com.facebook.android:facebook-messenger:4.33.0
 |    |         +--- com.facebook.android:facebook-core:4.33.0 (*)
 |    |         \--- com.parse.bolts:bolts-android:1.4.0 (*)
-|    +--- com.amazonaws:aws-android-sdk-sns:2.6.31
-|    |    +--- com.amazonaws:aws-android-sdk-core:2.6.31
+|    +--- com.amazonaws:aws-android-sdk-sns:2.6.31 -> 2.7.0
+|    |    +--- com.amazonaws:aws-android-sdk-core:2.7.0
 |    |    |    \--- com.google.code.gson:gson:2.2.4 -> 2.8.2
-|    |    \--- com.amazonaws:aws-android-sdk-sqs:2.6.31
-|    |         \--- com.amazonaws:aws-android-sdk-core:2.6.31 (*)
+|    |    \--- com.amazonaws:aws-android-sdk-sqs:2.7.0
+|    |         \--- com.amazonaws:aws-android-sdk-core:2.7.0 (*)
 |    +--- com.squareup.okhttp:okhttp:2.7.0
 |    |    \--- com.squareup.okio:okio:1.6.0 -> 1.14.0
 |    +--- com.github.florent37:singledateandtimepicker:1.0.8
@@ -826,36 +759,6 @@ debugRuntimeClasspath - Resolved configuration for runtime for variant: debug
 |    +--- com.android.support:support-v4:26.1.0 (*)
 |    +--- project :quickblox-core
 |    |    +--- com.android.support:multidex:1.0.2 -> 1.0.3
-|    |    +--- com.quickblox:quickblox-android-sdk-messages:3.3.5
-|    |    |    +--- com.quickblox:quickblox-android-sdk-core:3.3.5
-|    |    |    |    \--- com.google.code.gson:gson:2.4 -> 2.8.2
-|    |    |    +--- com.google.firebase:firebase-messaging:11.0.2
-|    |    |    |    +--- com.google.firebase:firebase-iid:[11.0.2] -> 11.0.2
-|    |    |    |    |    +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2
-|    |    |    |    |    |    \--- com.android.support:support-v4:25.2.0 -> 26.1.0 (*)
-|    |    |    |    |    \--- com.google.firebase:firebase-common:[11.0.2] -> 11.0.2
-|    |    |    |    |         +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    |    |    |    |         \--- com.google.android.gms:play-services-tasks:[11.0.2] -> 11.0.2
-|    |    |    |    |              \--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    |    |    |    +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    |    |    |    \--- com.google.firebase:firebase-common:[11.0.2] -> 11.0.2 (*)
-|    |    |    +--- com.google.firebase:firebase-core:11.0.2
-|    |    |    |    \--- com.google.firebase:firebase-analytics:[11.0.2] -> 11.0.2
-|    |    |    |         +--- com.google.firebase:firebase-analytics-impl:[11.0.2] -> 11.0.2
-|    |    |    |         |    +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    |    |    |         |    +--- com.google.firebase:firebase-iid:[11.0.2] -> 11.0.2 (*)
-|    |    |    |         |    +--- com.google.firebase:firebase-common:[11.0.2] -> 11.0.2 (*)
-|    |    |    |         |    \--- com.google.android.gms:play-services-tasks:[11.0.2] -> 11.0.2 (*)
-|    |    |    |         +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    |    |    |         \--- com.google.firebase:firebase-common:[11.0.2] -> 11.0.2 (*)
-|    |    |    \--- com.google.android.gms:play-services-gcm:11.0.2
-|    |    |         +--- com.google.android.gms:play-services-base:[11.0.2] -> 11.0.2
-|    |    |         |    +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    |    |         |    \--- com.google.android.gms:play-services-tasks:[11.0.2] -> 11.0.2 (*)
-|    |    |         +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    |    |         \--- com.google.android.gms:play-services-iid:[11.0.2] -> 11.0.2
-|    |    |              +--- com.google.android.gms:play-services-base:[11.0.2] -> 11.0.2 (*)
-|    |    |              \--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
 |    |    +--- com.android.support:design:26.1.0
 |    |    |    +--- com.android.support:support-v4:26.1.0 (*)
 |    |    |    +--- com.android.support:appcompat-v7:26.1.0 (*)
@@ -877,7 +780,10 @@ debugRuntimeClasspath - Resolved configuration for runtime for variant: debug
 |    |    +--- com.github.orangegangsters:swipy:1.2.2 -> 1.2.3
 |    |    +--- com.github.bumptech.glide:glide:3.6.1
 |    |    \--- se.emilsjolander:stickylistheaders:2.7.0
-|    \--- com.gdacciaro:iosdialog:1.0.3
+|    +--- com.gdacciaro:iosdialog:1.0.3
+|    \--- com.android.support:customtabs:26.1.0
+|         +--- com.android.support:support-compat:26.1.0 (*)
+|         \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
 +--- com.android.support:multidex:1.0.2 -> 1.0.3
 +--- com.android.support.constraint:constraint-layout:1.0.2
 |    \--- com.android.support.constraint:constraint-layout-solver:1.0.2
@@ -889,15 +795,18 @@ debugRuntimeClasspath - Resolved configuration for runtime for variant: debug
 +--- com.android.support:appcompat-v7:26.1.0 (*)
 +--- com.android.support:support-v4:26.1.0 (*)
 +--- com.android.support:design:26.1.0 (*)
-+--- com.google.firebase:firebase-auth:11.0.2
-|    +--- com.google.android.gms:play-services-base:[11.0.2] -> 11.0.2 (*)
-|    +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    +--- com.google.firebase:firebase-common:[11.0.2] -> 11.0.2 (*)
-|    \--- com.google.android.gms:play-services-tasks:[11.0.2] -> 11.0.2 (*)
-+--- com.google.firebase:firebase-core:11.0.2 (*)
-+--- com.google.android.gms:play-services-gcm:11.0.2 (*)
++--- com.crashlytics.sdk.android:crashlytics:2.9.5
+|    +--- com.crashlytics.sdk.android:answers:1.4.3
+|    |    \--- io.fabric.sdk.android:fabric:1.4.4
+|    +--- com.crashlytics.sdk.android:crashlytics-core:2.6.4
+|    |    +--- com.crashlytics.sdk.android:answers:1.4.3 (*)
+|    |    \--- io.fabric.sdk.android:fabric:1.4.4
+|    +--- io.fabric.sdk.android:fabric:1.4.4
+|    \--- com.crashlytics.sdk.android:beta:1.2.10
+|         \--- io.fabric.sdk.android:fabric:1.4.4
 +--- com.quickblox:quickblox-android-sdk-videochat-webrtc:3.3.5
-|    +--- com.quickblox:quickblox-android-sdk-core:3.3.5 (*)
+|    +--- com.quickblox:quickblox-android-sdk-core:3.3.5
+|    |    \--- com.google.code.gson:gson:2.4 -> 2.8.2
 |    \--- com.quickblox:quickblox-android-sdk-chat:3.3.5
 |         +--- com.quickblox:quickblox-android-sdk-core:3.3.5 (*)
 |         +--- org.jxmpp:jxmpp-core:0.4.2
@@ -906,7 +815,8 @@ debugRuntimeClasspath - Resolved configuration for runtime for variant: debug
 +--- com.quickblox:quickblox-android-sdk-chat:3.3.5 (*)
 +--- com.quickblox:quickblox-android-sdk-content:3.3.5
 |    \--- com.quickblox:quickblox-android-sdk-core:3.3.5 (*)
-+--- com.quickblox:quickblox-android-sdk-messages:3.3.5 (*)
++--- com.quickblox:quickblox-android-sdk-messages:3.3.5
+|    \--- com.quickblox:quickblox-android-sdk-core:3.3.5 (*)
 +--- project :quickblox-core (*)
 +--- com.github.JesusM:HoloCircleSeekBar:v2.2.2
 +--- com.minimize.library:seekbar-compat:0.2.5
@@ -919,7 +829,7 @@ debugRuntimeClasspath - Resolved configuration for runtime for variant: debug
 +--- com.android.support:support-annotations:26.1.0 -> 27.0.2
 +--- com.android.support:support-compat:26.1.0 (*)
 +--- com.android.support:support-core-ui:26.1.0 (*)
-+--- de.hdodenhof:circleimageview:2.1.0 -> 2.2.0
++--- de.hdodenhof:circleimageview:2.2.0
 +--- com.stripe:stripe-android:5.1.0
 |    +--- com.android.support:support-annotations:26.0.1 -> 27.0.2
 |    +--- com.android.support:appcompat-v7:26.0.1 -> 26.1.0 (*)
@@ -941,7 +851,7 @@ debugRuntimeClasspath - Resolved configuration for runtime for variant: debug
 +--- com.gdacciaro:iosdialog:1.0.3
 +--- com.kaopiz:kprogresshud:1.0.4
 +--- com.koushikdutta.ion:ion:2.1.7 (*)
-+--- com.amazonaws:aws-android-sdk-sns:2.6.31 (*)
++--- com.amazonaws:aws-android-sdk-sns:2.7.0 (*)
 +--- com.daprlabs.aaron:cardstack:0.3.1-beta0
 +--- com.android.support:cardview-v7:26.1.0 (*)
 +--- com.androidplot:androidplot-core:1.5.3
@@ -949,7 +859,8 @@ debugRuntimeClasspath - Resolved configuration for runtime for variant: debug
 |    \--- com.android.support:support-annotations:27.0.2
 +--- com.github.bumptech.glide:glide:3.6.1
 +--- se.emilsjolander:stickylistheaders:2.7.0
-\--- com.github.orangegangsters:swipy:1.2.3
++--- com.github.orangegangsters:swipy:1.2.3
+\--- com.android.support:customtabs:26.1.0 (*)
 
 debugRuntimeElements - Runtime elements for debug (n)
 No dependencies
@@ -1007,34 +918,15 @@ debugUnitTestCompileClasspath - Resolved configuration for compilation for varia
 |    \--- com.android.support:transition:26.1.0
 |         +--- com.android.support:support-annotations:26.1.0 -> 27.0.2
 |         \--- com.android.support:support-v4:26.1.0 (*)
-+--- com.google.firebase:firebase-auth:11.0.2
-|    +--- com.google.android.gms:play-services-base:[11.0.2] -> 11.0.2
-|    |    +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2
-|    |    |    \--- com.android.support:support-v4:25.2.0 -> 26.1.0 (*)
-|    |    \--- com.google.android.gms:play-services-tasks:[11.0.2] -> 11.0.2
-|    |         \--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    +--- com.google.firebase:firebase-common:[11.0.2] -> 11.0.2
-|    |    +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    |    \--- com.google.android.gms:play-services-tasks:[11.0.2] -> 11.0.2 (*)
-|    \--- com.google.android.gms:play-services-tasks:[11.0.2] -> 11.0.2 (*)
-+--- com.google.firebase:firebase-core:11.0.2
-|    \--- com.google.firebase:firebase-analytics:[11.0.2] -> 11.0.2
-|         +--- com.google.firebase:firebase-analytics-impl:[11.0.2] -> 11.0.2
-|         |    +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|         |    +--- com.google.firebase:firebase-iid:[11.0.2] -> 11.0.2
-|         |    |    +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|         |    |    \--- com.google.firebase:firebase-common:[11.0.2] -> 11.0.2 (*)
-|         |    +--- com.google.firebase:firebase-common:[11.0.2] -> 11.0.2 (*)
-|         |    \--- com.google.android.gms:play-services-tasks:[11.0.2] -> 11.0.2 (*)
-|         +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|         \--- com.google.firebase:firebase-common:[11.0.2] -> 11.0.2 (*)
-+--- com.google.android.gms:play-services-gcm:11.0.2
-|    +--- com.google.android.gms:play-services-base:[11.0.2] -> 11.0.2 (*)
-|    +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    \--- com.google.android.gms:play-services-iid:[11.0.2] -> 11.0.2
-|         +--- com.google.android.gms:play-services-base:[11.0.2] -> 11.0.2 (*)
-|         \--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
++--- com.crashlytics.sdk.android:crashlytics:2.9.5
+|    +--- com.crashlytics.sdk.android:answers:1.4.3
+|    |    \--- io.fabric.sdk.android:fabric:1.4.4
+|    +--- com.crashlytics.sdk.android:crashlytics-core:2.6.4
+|    |    +--- com.crashlytics.sdk.android:answers:1.4.3 (*)
+|    |    \--- io.fabric.sdk.android:fabric:1.4.4
+|    +--- io.fabric.sdk.android:fabric:1.4.4
+|    \--- com.crashlytics.sdk.android:beta:1.2.10
+|         \--- io.fabric.sdk.android:fabric:1.4.4
 +--- com.quickblox:quickblox-android-sdk-videochat-webrtc:3.3.5
 |    +--- com.quickblox:quickblox-android-sdk-core:3.3.5
 |    |    \--- com.google.code.gson:gson:2.4 -> 2.8.2
@@ -1047,13 +939,7 @@ debugUnitTestCompileClasspath - Resolved configuration for compilation for varia
 +--- com.quickblox:quickblox-android-sdk-content:3.3.5
 |    \--- com.quickblox:quickblox-android-sdk-core:3.3.5 (*)
 +--- com.quickblox:quickblox-android-sdk-messages:3.3.5
-|    +--- com.quickblox:quickblox-android-sdk-core:3.3.5 (*)
-|    +--- com.google.firebase:firebase-messaging:11.0.2
-|    |    +--- com.google.firebase:firebase-iid:[11.0.2] -> 11.0.2 (*)
-|    |    +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    |    \--- com.google.firebase:firebase-common:[11.0.2] -> 11.0.2 (*)
-|    +--- com.google.firebase:firebase-core:11.0.2 (*)
-|    \--- com.google.android.gms:play-services-gcm:11.0.2 (*)
+|    \--- com.quickblox:quickblox-android-sdk-core:3.3.5 (*)
 +--- project :quickblox-core
 +--- com.github.JesusM:HoloCircleSeekBar:v2.2.2
 +--- com.minimize.library:seekbar-compat:0.2.5
@@ -1066,7 +952,7 @@ debugUnitTestCompileClasspath - Resolved configuration for compilation for varia
 +--- com.android.support:support-annotations:26.1.0 -> 27.0.2
 +--- com.android.support:support-compat:26.1.0 (*)
 +--- com.android.support:support-core-ui:26.1.0 (*)
-+--- de.hdodenhof:circleimageview:2.1.0
++--- de.hdodenhof:circleimageview:2.2.0
 +--- com.stripe:stripe-android:5.1.0
 |    +--- com.android.support:support-annotations:26.0.1 -> 27.0.2
 |    +--- com.android.support:appcompat-v7:26.0.1 -> 26.1.0 (*)
@@ -1112,11 +998,11 @@ debugUnitTestCompileClasspath - Resolved configuration for compilation for varia
 +--- com.koushikdutta.ion:ion:2.1.7
 |    +--- com.google.code.gson:gson:2.3 -> 2.8.2
 |    \--- com.koushikdutta.async:androidasync:2.1.7
-+--- com.amazonaws:aws-android-sdk-sns:2.6.31
-|    +--- com.amazonaws:aws-android-sdk-core:2.6.31
++--- com.amazonaws:aws-android-sdk-sns:2.7.0
+|    +--- com.amazonaws:aws-android-sdk-core:2.7.0
 |    |    \--- com.google.code.gson:gson:2.2.4 -> 2.8.2
-|    \--- com.amazonaws:aws-android-sdk-sqs:2.6.31
-|         \--- com.amazonaws:aws-android-sdk-core:2.6.31 (*)
+|    \--- com.amazonaws:aws-android-sdk-sqs:2.7.0
+|         \--- com.amazonaws:aws-android-sdk-core:2.7.0 (*)
 +--- com.daprlabs.aaron:cardstack:0.3.1-beta0
 +--- com.android.support:cardview-v7:26.1.0
 |    \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
@@ -1126,6 +1012,9 @@ debugUnitTestCompileClasspath - Resolved configuration for compilation for varia
 +--- com.github.bumptech.glide:glide:3.6.1
 +--- se.emilsjolander:stickylistheaders:2.7.0
 +--- com.github.orangegangsters:swipy:1.2.3
++--- com.android.support:customtabs:26.1.0
+|    +--- com.android.support:support-compat:26.1.0 (*)
+|    \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
 \--- junit:junit:4.12
      \--- org.hamcrest:hamcrest-core:1.3
 
@@ -1182,11 +1071,11 @@ debugUnitTestRuntimeClasspath - Resolved configuration for runtime for variant: 
 |    |    \--- com.facebook.android:facebook-messenger:4.33.0
 |    |         +--- com.facebook.android:facebook-core:4.33.0 (*)
 |    |         \--- com.parse.bolts:bolts-android:1.4.0 (*)
-|    +--- com.amazonaws:aws-android-sdk-sns:2.6.31
-|    |    +--- com.amazonaws:aws-android-sdk-core:2.6.31
+|    +--- com.amazonaws:aws-android-sdk-sns:2.6.31 -> 2.7.0
+|    |    +--- com.amazonaws:aws-android-sdk-core:2.7.0
 |    |    |    \--- com.google.code.gson:gson:2.2.4 -> 2.8.2
-|    |    \--- com.amazonaws:aws-android-sdk-sqs:2.6.31
-|    |         \--- com.amazonaws:aws-android-sdk-core:2.6.31 (*)
+|    |    \--- com.amazonaws:aws-android-sdk-sqs:2.7.0
+|    |         \--- com.amazonaws:aws-android-sdk-core:2.7.0 (*)
 |    +--- com.squareup.okhttp:okhttp:2.7.0
 |    |    \--- com.squareup.okio:okio:1.6.0 -> 1.14.0
 |    +--- com.github.florent37:singledateandtimepicker:1.0.8
@@ -1223,36 +1112,6 @@ debugUnitTestRuntimeClasspath - Resolved configuration for runtime for variant: 
 |    +--- com.android.support:support-v4:26.1.0 (*)
 |    +--- project :quickblox-core
 |    |    +--- com.android.support:multidex:1.0.2 -> 1.0.3
-|    |    +--- com.quickblox:quickblox-android-sdk-messages:3.3.5
-|    |    |    +--- com.quickblox:quickblox-android-sdk-core:3.3.5
-|    |    |    |    \--- com.google.code.gson:gson:2.4 -> 2.8.2
-|    |    |    +--- com.google.firebase:firebase-messaging:11.0.2
-|    |    |    |    +--- com.google.firebase:firebase-iid:[11.0.2] -> 11.0.2
-|    |    |    |    |    +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2
-|    |    |    |    |    |    \--- com.android.support:support-v4:25.2.0 -> 26.1.0 (*)
-|    |    |    |    |    \--- com.google.firebase:firebase-common:[11.0.2] -> 11.0.2
-|    |    |    |    |         +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    |    |    |    |         \--- com.google.android.gms:play-services-tasks:[11.0.2] -> 11.0.2
-|    |    |    |    |              \--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    |    |    |    +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    |    |    |    \--- com.google.firebase:firebase-common:[11.0.2] -> 11.0.2 (*)
-|    |    |    +--- com.google.firebase:firebase-core:11.0.2
-|    |    |    |    \--- com.google.firebase:firebase-analytics:[11.0.2] -> 11.0.2
-|    |    |    |         +--- com.google.firebase:firebase-analytics-impl:[11.0.2] -> 11.0.2
-|    |    |    |         |    +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    |    |    |         |    +--- com.google.firebase:firebase-iid:[11.0.2] -> 11.0.2 (*)
-|    |    |    |         |    +--- com.google.firebase:firebase-common:[11.0.2] -> 11.0.2 (*)
-|    |    |    |         |    \--- com.google.android.gms:play-services-tasks:[11.0.2] -> 11.0.2 (*)
-|    |    |    |         +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    |    |    |         \--- com.google.firebase:firebase-common:[11.0.2] -> 11.0.2 (*)
-|    |    |    \--- com.google.android.gms:play-services-gcm:11.0.2
-|    |    |         +--- com.google.android.gms:play-services-base:[11.0.2] -> 11.0.2
-|    |    |         |    +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    |    |         |    \--- com.google.android.gms:play-services-tasks:[11.0.2] -> 11.0.2 (*)
-|    |    |         +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    |    |         \--- com.google.android.gms:play-services-iid:[11.0.2] -> 11.0.2
-|    |    |              +--- com.google.android.gms:play-services-base:[11.0.2] -> 11.0.2 (*)
-|    |    |              \--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
 |    |    +--- com.android.support:design:26.1.0
 |    |    |    +--- com.android.support:support-v4:26.1.0 (*)
 |    |    |    +--- com.android.support:appcompat-v7:26.1.0 (*)
@@ -1274,7 +1133,10 @@ debugUnitTestRuntimeClasspath - Resolved configuration for runtime for variant: 
 |    |    +--- com.github.orangegangsters:swipy:1.2.2 -> 1.2.3
 |    |    +--- com.github.bumptech.glide:glide:3.6.1
 |    |    \--- se.emilsjolander:stickylistheaders:2.7.0
-|    \--- com.gdacciaro:iosdialog:1.0.3
+|    +--- com.gdacciaro:iosdialog:1.0.3
+|    \--- com.android.support:customtabs:26.1.0
+|         +--- com.android.support:support-compat:26.1.0 (*)
+|         \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
 +--- com.android.support.constraint:constraint-layout:1.0.2
 |    \--- com.android.support.constraint:constraint-layout-solver:1.0.2
 +--- com.github.rjsvieira:circularView:1.3.0
@@ -1285,15 +1147,18 @@ debugUnitTestRuntimeClasspath - Resolved configuration for runtime for variant: 
 +--- com.android.support:appcompat-v7:26.1.0 (*)
 +--- com.android.support:support-v4:26.1.0 (*)
 +--- com.android.support:design:26.1.0 (*)
-+--- com.google.firebase:firebase-auth:11.0.2
-|    +--- com.google.android.gms:play-services-base:[11.0.2] -> 11.0.2 (*)
-|    +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    +--- com.google.firebase:firebase-common:[11.0.2] -> 11.0.2 (*)
-|    \--- com.google.android.gms:play-services-tasks:[11.0.2] -> 11.0.2 (*)
-+--- com.google.firebase:firebase-core:11.0.2 (*)
-+--- com.google.android.gms:play-services-gcm:11.0.2 (*)
++--- com.crashlytics.sdk.android:crashlytics:2.9.5
+|    +--- com.crashlytics.sdk.android:answers:1.4.3
+|    |    \--- io.fabric.sdk.android:fabric:1.4.4
+|    +--- com.crashlytics.sdk.android:crashlytics-core:2.6.4
+|    |    +--- com.crashlytics.sdk.android:answers:1.4.3 (*)
+|    |    \--- io.fabric.sdk.android:fabric:1.4.4
+|    +--- io.fabric.sdk.android:fabric:1.4.4
+|    \--- com.crashlytics.sdk.android:beta:1.2.10
+|         \--- io.fabric.sdk.android:fabric:1.4.4
 +--- com.quickblox:quickblox-android-sdk-videochat-webrtc:3.3.5
-|    +--- com.quickblox:quickblox-android-sdk-core:3.3.5 (*)
+|    +--- com.quickblox:quickblox-android-sdk-core:3.3.5
+|    |    \--- com.google.code.gson:gson:2.4 -> 2.8.2
 |    \--- com.quickblox:quickblox-android-sdk-chat:3.3.5
 |         +--- com.quickblox:quickblox-android-sdk-core:3.3.5 (*)
 |         +--- org.jxmpp:jxmpp-core:0.4.2
@@ -1302,7 +1167,8 @@ debugUnitTestRuntimeClasspath - Resolved configuration for runtime for variant: 
 +--- com.quickblox:quickblox-android-sdk-chat:3.3.5 (*)
 +--- com.quickblox:quickblox-android-sdk-content:3.3.5
 |    \--- com.quickblox:quickblox-android-sdk-core:3.3.5 (*)
-+--- com.quickblox:quickblox-android-sdk-messages:3.3.5 (*)
++--- com.quickblox:quickblox-android-sdk-messages:3.3.5
+|    \--- com.quickblox:quickblox-android-sdk-core:3.3.5 (*)
 +--- project :quickblox-core (*)
 +--- com.github.JesusM:HoloCircleSeekBar:v2.2.2
 +--- com.minimize.library:seekbar-compat:0.2.5
@@ -1315,7 +1181,7 @@ debugUnitTestRuntimeClasspath - Resolved configuration for runtime for variant: 
 +--- com.android.support:support-annotations:26.1.0 -> 27.0.2
 +--- com.android.support:support-compat:26.1.0 (*)
 +--- com.android.support:support-core-ui:26.1.0 (*)
-+--- de.hdodenhof:circleimageview:2.1.0 -> 2.2.0
++--- de.hdodenhof:circleimageview:2.2.0
 +--- com.stripe:stripe-android:5.1.0
 |    +--- com.android.support:support-annotations:26.0.1 -> 27.0.2
 |    +--- com.android.support:appcompat-v7:26.0.1 -> 26.1.0 (*)
@@ -1337,7 +1203,7 @@ debugUnitTestRuntimeClasspath - Resolved configuration for runtime for variant: 
 +--- com.gdacciaro:iosdialog:1.0.3
 +--- com.kaopiz:kprogresshud:1.0.4
 +--- com.koushikdutta.ion:ion:2.1.7 (*)
-+--- com.amazonaws:aws-android-sdk-sns:2.6.31 (*)
++--- com.amazonaws:aws-android-sdk-sns:2.7.0 (*)
 +--- com.daprlabs.aaron:cardstack:0.3.1-beta0
 +--- com.android.support:cardview-v7:26.1.0 (*)
 +--- com.androidplot:androidplot-core:1.5.3
@@ -1346,6 +1212,7 @@ debugUnitTestRuntimeClasspath - Resolved configuration for runtime for variant: 
 +--- com.github.bumptech.glide:glide:3.6.1
 +--- se.emilsjolander:stickylistheaders:2.7.0
 +--- com.github.orangegangsters:swipy:1.2.3
++--- com.android.support:customtabs:26.1.0 (*)
 \--- junit:junit:4.12
      \--- org.hamcrest:hamcrest-core:1.3
 
@@ -1368,9 +1235,7 @@ implementation - Implementation only dependencies for 'main' sources. (n)
 +--- com.android.support:appcompat-v7:26.1.0 (n)
 +--- com.android.support:support-v4:26.1.0 (n)
 +--- com.android.support:design:26.1.0 (n)
-+--- com.google.firebase:firebase-auth:11.0.2 (n)
-+--- com.google.firebase:firebase-core:11.0.2 (n)
-+--- com.google.android.gms:play-services-gcm:11.0.2 (n)
++--- com.crashlytics.sdk.android:crashlytics:2.9.5 (n)
 +--- com.quickblox:quickblox-android-sdk-videochat-webrtc:3.3.5 (n)
 +--- com.quickblox:quickblox-android-sdk-chat:3.3.5 (n)
 +--- com.quickblox:quickblox-android-sdk-content:3.3.5 (n)
@@ -1384,7 +1249,7 @@ implementation - Implementation only dependencies for 'main' sources. (n)
 +--- com.android.support:support-annotations:26.1.0 (n)
 +--- com.android.support:support-compat:26.1.0 (n)
 +--- com.android.support:support-core-ui:26.1.0 (n)
-+--- de.hdodenhof:circleimageview:2.1.0 (n)
++--- de.hdodenhof:circleimageview:2.2.0 (n)
 +--- com.stripe:stripe-android:5.1.0 (n)
 +--- net.danlew:android.joda:2.9.9.1 (n)
 +--- com.github.eralpyucel:CircleProgressView:v1.1 (n)
@@ -1397,13 +1262,17 @@ implementation - Implementation only dependencies for 'main' sources. (n)
 +--- com.gdacciaro:iosdialog:1.0.3 (n)
 +--- com.kaopiz:kprogresshud:1.0.4 (n)
 +--- com.koushikdutta.ion:ion:2.1.7 (n)
-+--- com.amazonaws:aws-android-sdk-sns:2.6.31 (n)
++--- com.amazonaws:aws-android-sdk-sns:2.7.0 (n)
 +--- com.daprlabs.aaron:cardstack:0.3.1-beta0 (n)
 +--- com.android.support:cardview-v7:26.1.0 (n)
 +--- com.androidplot:androidplot-core:1.5.3 (n)
 +--- com.github.bumptech.glide:glide:3.6.1 (n)
 +--- se.emilsjolander:stickylistheaders:2.7.0 (n)
-\--- com.github.orangegangsters:swipy:1.2.3 (n)
++--- com.github.orangegangsters:swipy:1.2.3 (n)
+\--- com.android.support:customtabs:26.1.0 (n)
+
+io.fabric - fabric and its transitive dependencies.
+No dependencies
 
 lintChecks - Configuration to apply external lint check jar
 No dependencies
@@ -1632,34 +1501,15 @@ releaseCompileClasspath - Resolved configuration for compilation for variant: re
 |    \--- com.android.support:transition:26.1.0
 |         +--- com.android.support:support-annotations:26.1.0 -> 27.0.2
 |         \--- com.android.support:support-v4:26.1.0 (*)
-+--- com.google.firebase:firebase-auth:11.0.2
-|    +--- com.google.android.gms:play-services-base:[11.0.2] -> 11.0.2
-|    |    +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2
-|    |    |    \--- com.android.support:support-v4:25.2.0 -> 26.1.0 (*)
-|    |    \--- com.google.android.gms:play-services-tasks:[11.0.2] -> 11.0.2
-|    |         \--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    +--- com.google.firebase:firebase-common:[11.0.2] -> 11.0.2
-|    |    +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    |    \--- com.google.android.gms:play-services-tasks:[11.0.2] -> 11.0.2 (*)
-|    \--- com.google.android.gms:play-services-tasks:[11.0.2] -> 11.0.2 (*)
-+--- com.google.firebase:firebase-core:11.0.2
-|    \--- com.google.firebase:firebase-analytics:[11.0.2] -> 11.0.2
-|         +--- com.google.firebase:firebase-analytics-impl:[11.0.2] -> 11.0.2
-|         |    +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|         |    +--- com.google.firebase:firebase-iid:[11.0.2] -> 11.0.2
-|         |    |    +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|         |    |    \--- com.google.firebase:firebase-common:[11.0.2] -> 11.0.2 (*)
-|         |    +--- com.google.firebase:firebase-common:[11.0.2] -> 11.0.2 (*)
-|         |    \--- com.google.android.gms:play-services-tasks:[11.0.2] -> 11.0.2 (*)
-|         +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|         \--- com.google.firebase:firebase-common:[11.0.2] -> 11.0.2 (*)
-+--- com.google.android.gms:play-services-gcm:11.0.2
-|    +--- com.google.android.gms:play-services-base:[11.0.2] -> 11.0.2 (*)
-|    +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    \--- com.google.android.gms:play-services-iid:[11.0.2] -> 11.0.2
-|         +--- com.google.android.gms:play-services-base:[11.0.2] -> 11.0.2 (*)
-|         \--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
++--- com.crashlytics.sdk.android:crashlytics:2.9.5
+|    +--- com.crashlytics.sdk.android:answers:1.4.3
+|    |    \--- io.fabric.sdk.android:fabric:1.4.4
+|    +--- com.crashlytics.sdk.android:crashlytics-core:2.6.4
+|    |    +--- com.crashlytics.sdk.android:answers:1.4.3 (*)
+|    |    \--- io.fabric.sdk.android:fabric:1.4.4
+|    +--- io.fabric.sdk.android:fabric:1.4.4
+|    \--- com.crashlytics.sdk.android:beta:1.2.10
+|         \--- io.fabric.sdk.android:fabric:1.4.4
 +--- com.quickblox:quickblox-android-sdk-videochat-webrtc:3.3.5
 |    +--- com.quickblox:quickblox-android-sdk-core:3.3.5
 |    |    \--- com.google.code.gson:gson:2.4 -> 2.8.2
@@ -1672,13 +1522,7 @@ releaseCompileClasspath - Resolved configuration for compilation for variant: re
 +--- com.quickblox:quickblox-android-sdk-content:3.3.5
 |    \--- com.quickblox:quickblox-android-sdk-core:3.3.5 (*)
 +--- com.quickblox:quickblox-android-sdk-messages:3.3.5
-|    +--- com.quickblox:quickblox-android-sdk-core:3.3.5 (*)
-|    +--- com.google.firebase:firebase-messaging:11.0.2
-|    |    +--- com.google.firebase:firebase-iid:[11.0.2] -> 11.0.2 (*)
-|    |    +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    |    \--- com.google.firebase:firebase-common:[11.0.2] -> 11.0.2 (*)
-|    +--- com.google.firebase:firebase-core:11.0.2 (*)
-|    \--- com.google.android.gms:play-services-gcm:11.0.2 (*)
+|    \--- com.quickblox:quickblox-android-sdk-core:3.3.5 (*)
 +--- project :quickblox-core
 +--- com.github.JesusM:HoloCircleSeekBar:v2.2.2
 +--- com.minimize.library:seekbar-compat:0.2.5
@@ -1691,7 +1535,7 @@ releaseCompileClasspath - Resolved configuration for compilation for variant: re
 +--- com.android.support:support-annotations:26.1.0 -> 27.0.2
 +--- com.android.support:support-compat:26.1.0 (*)
 +--- com.android.support:support-core-ui:26.1.0 (*)
-+--- de.hdodenhof:circleimageview:2.1.0
++--- de.hdodenhof:circleimageview:2.2.0
 +--- com.stripe:stripe-android:5.1.0
 |    +--- com.android.support:support-annotations:26.0.1 -> 27.0.2
 |    +--- com.android.support:appcompat-v7:26.0.1 -> 26.1.0 (*)
@@ -1737,11 +1581,11 @@ releaseCompileClasspath - Resolved configuration for compilation for variant: re
 +--- com.koushikdutta.ion:ion:2.1.7
 |    +--- com.google.code.gson:gson:2.3 -> 2.8.2
 |    \--- com.koushikdutta.async:androidasync:2.1.7
-+--- com.amazonaws:aws-android-sdk-sns:2.6.31
-|    +--- com.amazonaws:aws-android-sdk-core:2.6.31
++--- com.amazonaws:aws-android-sdk-sns:2.7.0
+|    +--- com.amazonaws:aws-android-sdk-core:2.7.0
 |    |    \--- com.google.code.gson:gson:2.2.4 -> 2.8.2
-|    \--- com.amazonaws:aws-android-sdk-sqs:2.6.31
-|         \--- com.amazonaws:aws-android-sdk-core:2.6.31 (*)
+|    \--- com.amazonaws:aws-android-sdk-sqs:2.7.0
+|         \--- com.amazonaws:aws-android-sdk-core:2.7.0 (*)
 +--- com.daprlabs.aaron:cardstack:0.3.1-beta0
 +--- com.android.support:cardview-v7:26.1.0
 |    \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
@@ -1751,6 +1595,9 @@ releaseCompileClasspath - Resolved configuration for compilation for variant: re
 +--- com.github.bumptech.glide:glide:3.6.1
 +--- se.emilsjolander:stickylistheaders:2.7.0
 +--- com.github.orangegangsters:swipy:1.2.3
++--- com.android.support:customtabs:26.1.0
+|    +--- com.android.support:support-compat:26.1.0 (*)
+|    \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
 \--- com.android.support:multidex:1.0.2 -> 1.0.3
 
 releaseCompileOnly - Compile only dependencies for 'release' sources. (n)
@@ -1817,11 +1664,11 @@ releaseRuntimeClasspath - Resolved configuration for runtime for variant: releas
 |    |    \--- com.facebook.android:facebook-messenger:4.33.0
 |    |         +--- com.facebook.android:facebook-core:4.33.0 (*)
 |    |         \--- com.parse.bolts:bolts-android:1.4.0 (*)
-|    +--- com.amazonaws:aws-android-sdk-sns:2.6.31
-|    |    +--- com.amazonaws:aws-android-sdk-core:2.6.31
+|    +--- com.amazonaws:aws-android-sdk-sns:2.6.31 -> 2.7.0
+|    |    +--- com.amazonaws:aws-android-sdk-core:2.7.0
 |    |    |    \--- com.google.code.gson:gson:2.2.4 -> 2.8.2
-|    |    \--- com.amazonaws:aws-android-sdk-sqs:2.6.31
-|    |         \--- com.amazonaws:aws-android-sdk-core:2.6.31 (*)
+|    |    \--- com.amazonaws:aws-android-sdk-sqs:2.7.0
+|    |         \--- com.amazonaws:aws-android-sdk-core:2.7.0 (*)
 |    +--- com.squareup.okhttp:okhttp:2.7.0
 |    |    \--- com.squareup.okio:okio:1.6.0 -> 1.14.0
 |    +--- com.github.florent37:singledateandtimepicker:1.0.8
@@ -1857,36 +1704,6 @@ releaseRuntimeClasspath - Resolved configuration for runtime for variant: releas
 |    |         \--- com.android.support:support-core-ui:26.1.0 (*)
 |    +--- com.android.support:support-v4:26.1.0 (*)
 |    +--- project :quickblox-core
-|    |    +--- com.quickblox:quickblox-android-sdk-messages:3.3.5
-|    |    |    +--- com.quickblox:quickblox-android-sdk-core:3.3.5
-|    |    |    |    \--- com.google.code.gson:gson:2.4 -> 2.8.2
-|    |    |    +--- com.google.firebase:firebase-messaging:11.0.2
-|    |    |    |    +--- com.google.firebase:firebase-iid:[11.0.2] -> 11.0.2
-|    |    |    |    |    +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2
-|    |    |    |    |    |    \--- com.android.support:support-v4:25.2.0 -> 26.1.0 (*)
-|    |    |    |    |    \--- com.google.firebase:firebase-common:[11.0.2] -> 11.0.2
-|    |    |    |    |         +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    |    |    |    |         \--- com.google.android.gms:play-services-tasks:[11.0.2] -> 11.0.2
-|    |    |    |    |              \--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    |    |    |    +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    |    |    |    \--- com.google.firebase:firebase-common:[11.0.2] -> 11.0.2 (*)
-|    |    |    +--- com.google.firebase:firebase-core:11.0.2
-|    |    |    |    \--- com.google.firebase:firebase-analytics:[11.0.2] -> 11.0.2
-|    |    |    |         +--- com.google.firebase:firebase-analytics-impl:[11.0.2] -> 11.0.2
-|    |    |    |         |    +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    |    |    |         |    +--- com.google.firebase:firebase-iid:[11.0.2] -> 11.0.2 (*)
-|    |    |    |         |    +--- com.google.firebase:firebase-common:[11.0.2] -> 11.0.2 (*)
-|    |    |    |         |    \--- com.google.android.gms:play-services-tasks:[11.0.2] -> 11.0.2 (*)
-|    |    |    |         +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    |    |    |         \--- com.google.firebase:firebase-common:[11.0.2] -> 11.0.2 (*)
-|    |    |    \--- com.google.android.gms:play-services-gcm:11.0.2
-|    |    |         +--- com.google.android.gms:play-services-base:[11.0.2] -> 11.0.2
-|    |    |         |    +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    |    |         |    \--- com.google.android.gms:play-services-tasks:[11.0.2] -> 11.0.2 (*)
-|    |    |         +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    |    |         \--- com.google.android.gms:play-services-iid:[11.0.2] -> 11.0.2
-|    |    |              +--- com.google.android.gms:play-services-base:[11.0.2] -> 11.0.2 (*)
-|    |    |              \--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
 |    |    +--- com.android.support:design:26.1.0
 |    |    |    +--- com.android.support:support-v4:26.1.0 (*)
 |    |    |    +--- com.android.support:appcompat-v7:26.1.0 (*)
@@ -1910,6 +1727,9 @@ releaseRuntimeClasspath - Resolved configuration for runtime for variant: releas
 |    |    +--- com.github.bumptech.glide:glide:3.6.1
 |    |    \--- se.emilsjolander:stickylistheaders:2.7.0
 |    +--- com.gdacciaro:iosdialog:1.0.3
+|    +--- com.android.support:customtabs:26.1.0
+|    |    +--- com.android.support:support-compat:26.1.0 (*)
+|    |    \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
 |    \--- com.android.support:multidex:1.0.2 -> 1.0.3
 +--- com.android.support.constraint:constraint-layout:1.0.2
 |    \--- com.android.support.constraint:constraint-layout-solver:1.0.2
@@ -1921,15 +1741,18 @@ releaseRuntimeClasspath - Resolved configuration for runtime for variant: releas
 +--- com.android.support:appcompat-v7:26.1.0 (*)
 +--- com.android.support:support-v4:26.1.0 (*)
 +--- com.android.support:design:26.1.0 (*)
-+--- com.google.firebase:firebase-auth:11.0.2
-|    +--- com.google.android.gms:play-services-base:[11.0.2] -> 11.0.2 (*)
-|    +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    +--- com.google.firebase:firebase-common:[11.0.2] -> 11.0.2 (*)
-|    \--- com.google.android.gms:play-services-tasks:[11.0.2] -> 11.0.2 (*)
-+--- com.google.firebase:firebase-core:11.0.2 (*)
-+--- com.google.android.gms:play-services-gcm:11.0.2 (*)
++--- com.crashlytics.sdk.android:crashlytics:2.9.5
+|    +--- com.crashlytics.sdk.android:answers:1.4.3
+|    |    \--- io.fabric.sdk.android:fabric:1.4.4
+|    +--- com.crashlytics.sdk.android:crashlytics-core:2.6.4
+|    |    +--- com.crashlytics.sdk.android:answers:1.4.3 (*)
+|    |    \--- io.fabric.sdk.android:fabric:1.4.4
+|    +--- io.fabric.sdk.android:fabric:1.4.4
+|    \--- com.crashlytics.sdk.android:beta:1.2.10
+|         \--- io.fabric.sdk.android:fabric:1.4.4
 +--- com.quickblox:quickblox-android-sdk-videochat-webrtc:3.3.5
-|    +--- com.quickblox:quickblox-android-sdk-core:3.3.5 (*)
+|    +--- com.quickblox:quickblox-android-sdk-core:3.3.5
+|    |    \--- com.google.code.gson:gson:2.4 -> 2.8.2
 |    \--- com.quickblox:quickblox-android-sdk-chat:3.3.5
 |         +--- com.quickblox:quickblox-android-sdk-core:3.3.5 (*)
 |         +--- org.jxmpp:jxmpp-core:0.4.2
@@ -1938,7 +1761,8 @@ releaseRuntimeClasspath - Resolved configuration for runtime for variant: releas
 +--- com.quickblox:quickblox-android-sdk-chat:3.3.5 (*)
 +--- com.quickblox:quickblox-android-sdk-content:3.3.5
 |    \--- com.quickblox:quickblox-android-sdk-core:3.3.5 (*)
-+--- com.quickblox:quickblox-android-sdk-messages:3.3.5 (*)
++--- com.quickblox:quickblox-android-sdk-messages:3.3.5
+|    \--- com.quickblox:quickblox-android-sdk-core:3.3.5 (*)
 +--- project :quickblox-core (*)
 +--- com.github.JesusM:HoloCircleSeekBar:v2.2.2
 +--- com.minimize.library:seekbar-compat:0.2.5
@@ -1951,7 +1775,7 @@ releaseRuntimeClasspath - Resolved configuration for runtime for variant: releas
 +--- com.android.support:support-annotations:26.1.0 -> 27.0.2
 +--- com.android.support:support-compat:26.1.0 (*)
 +--- com.android.support:support-core-ui:26.1.0 (*)
-+--- de.hdodenhof:circleimageview:2.1.0 -> 2.2.0
++--- de.hdodenhof:circleimageview:2.2.0
 +--- com.stripe:stripe-android:5.1.0
 |    +--- com.android.support:support-annotations:26.0.1 -> 27.0.2
 |    +--- com.android.support:appcompat-v7:26.0.1 -> 26.1.0 (*)
@@ -1973,7 +1797,7 @@ releaseRuntimeClasspath - Resolved configuration for runtime for variant: releas
 +--- com.gdacciaro:iosdialog:1.0.3
 +--- com.kaopiz:kprogresshud:1.0.4
 +--- com.koushikdutta.ion:ion:2.1.7 (*)
-+--- com.amazonaws:aws-android-sdk-sns:2.6.31 (*)
++--- com.amazonaws:aws-android-sdk-sns:2.7.0 (*)
 +--- com.daprlabs.aaron:cardstack:0.3.1-beta0
 +--- com.android.support:cardview-v7:26.1.0 (*)
 +--- com.androidplot:androidplot-core:1.5.3
@@ -1982,6 +1806,7 @@ releaseRuntimeClasspath - Resolved configuration for runtime for variant: releas
 +--- com.github.bumptech.glide:glide:3.6.1
 +--- se.emilsjolander:stickylistheaders:2.7.0
 +--- com.github.orangegangsters:swipy:1.2.3
++--- com.android.support:customtabs:26.1.0 (*)
 \--- com.android.support:multidex:1.0.2 -> 1.0.3
 
 releaseRuntimeElements - Runtime elements for release (n)
@@ -2040,34 +1865,15 @@ releaseUnitTestCompileClasspath - Resolved configuration for compilation for var
 |    \--- com.android.support:transition:26.1.0
 |         +--- com.android.support:support-annotations:26.1.0 -> 27.0.2
 |         \--- com.android.support:support-v4:26.1.0 (*)
-+--- com.google.firebase:firebase-auth:11.0.2
-|    +--- com.google.android.gms:play-services-base:[11.0.2] -> 11.0.2
-|    |    +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2
-|    |    |    \--- com.android.support:support-v4:25.2.0 -> 26.1.0 (*)
-|    |    \--- com.google.android.gms:play-services-tasks:[11.0.2] -> 11.0.2
-|    |         \--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    +--- com.google.firebase:firebase-common:[11.0.2] -> 11.0.2
-|    |    +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    |    \--- com.google.android.gms:play-services-tasks:[11.0.2] -> 11.0.2 (*)
-|    \--- com.google.android.gms:play-services-tasks:[11.0.2] -> 11.0.2 (*)
-+--- com.google.firebase:firebase-core:11.0.2
-|    \--- com.google.firebase:firebase-analytics:[11.0.2] -> 11.0.2
-|         +--- com.google.firebase:firebase-analytics-impl:[11.0.2] -> 11.0.2
-|         |    +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|         |    +--- com.google.firebase:firebase-iid:[11.0.2] -> 11.0.2
-|         |    |    +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|         |    |    \--- com.google.firebase:firebase-common:[11.0.2] -> 11.0.2 (*)
-|         |    +--- com.google.firebase:firebase-common:[11.0.2] -> 11.0.2 (*)
-|         |    \--- com.google.android.gms:play-services-tasks:[11.0.2] -> 11.0.2 (*)
-|         +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|         \--- com.google.firebase:firebase-common:[11.0.2] -> 11.0.2 (*)
-+--- com.google.android.gms:play-services-gcm:11.0.2
-|    +--- com.google.android.gms:play-services-base:[11.0.2] -> 11.0.2 (*)
-|    +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    \--- com.google.android.gms:play-services-iid:[11.0.2] -> 11.0.2
-|         +--- com.google.android.gms:play-services-base:[11.0.2] -> 11.0.2 (*)
-|         \--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
++--- com.crashlytics.sdk.android:crashlytics:2.9.5
+|    +--- com.crashlytics.sdk.android:answers:1.4.3
+|    |    \--- io.fabric.sdk.android:fabric:1.4.4
+|    +--- com.crashlytics.sdk.android:crashlytics-core:2.6.4
+|    |    +--- com.crashlytics.sdk.android:answers:1.4.3 (*)
+|    |    \--- io.fabric.sdk.android:fabric:1.4.4
+|    +--- io.fabric.sdk.android:fabric:1.4.4
+|    \--- com.crashlytics.sdk.android:beta:1.2.10
+|         \--- io.fabric.sdk.android:fabric:1.4.4
 +--- com.quickblox:quickblox-android-sdk-videochat-webrtc:3.3.5
 |    +--- com.quickblox:quickblox-android-sdk-core:3.3.5
 |    |    \--- com.google.code.gson:gson:2.4 -> 2.8.2
@@ -2080,13 +1886,7 @@ releaseUnitTestCompileClasspath - Resolved configuration for compilation for var
 +--- com.quickblox:quickblox-android-sdk-content:3.3.5
 |    \--- com.quickblox:quickblox-android-sdk-core:3.3.5 (*)
 +--- com.quickblox:quickblox-android-sdk-messages:3.3.5
-|    +--- com.quickblox:quickblox-android-sdk-core:3.3.5 (*)
-|    +--- com.google.firebase:firebase-messaging:11.0.2
-|    |    +--- com.google.firebase:firebase-iid:[11.0.2] -> 11.0.2 (*)
-|    |    +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    |    \--- com.google.firebase:firebase-common:[11.0.2] -> 11.0.2 (*)
-|    +--- com.google.firebase:firebase-core:11.0.2 (*)
-|    \--- com.google.android.gms:play-services-gcm:11.0.2 (*)
+|    \--- com.quickblox:quickblox-android-sdk-core:3.3.5 (*)
 +--- project :quickblox-core
 +--- com.github.JesusM:HoloCircleSeekBar:v2.2.2
 +--- com.minimize.library:seekbar-compat:0.2.5
@@ -2099,7 +1899,7 @@ releaseUnitTestCompileClasspath - Resolved configuration for compilation for var
 +--- com.android.support:support-annotations:26.1.0 -> 27.0.2
 +--- com.android.support:support-compat:26.1.0 (*)
 +--- com.android.support:support-core-ui:26.1.0 (*)
-+--- de.hdodenhof:circleimageview:2.1.0
++--- de.hdodenhof:circleimageview:2.2.0
 +--- com.stripe:stripe-android:5.1.0
 |    +--- com.android.support:support-annotations:26.0.1 -> 27.0.2
 |    +--- com.android.support:appcompat-v7:26.0.1 -> 26.1.0 (*)
@@ -2145,11 +1945,11 @@ releaseUnitTestCompileClasspath - Resolved configuration for compilation for var
 +--- com.koushikdutta.ion:ion:2.1.7
 |    +--- com.google.code.gson:gson:2.3 -> 2.8.2
 |    \--- com.koushikdutta.async:androidasync:2.1.7
-+--- com.amazonaws:aws-android-sdk-sns:2.6.31
-|    +--- com.amazonaws:aws-android-sdk-core:2.6.31
++--- com.amazonaws:aws-android-sdk-sns:2.7.0
+|    +--- com.amazonaws:aws-android-sdk-core:2.7.0
 |    |    \--- com.google.code.gson:gson:2.2.4 -> 2.8.2
-|    \--- com.amazonaws:aws-android-sdk-sqs:2.6.31
-|         \--- com.amazonaws:aws-android-sdk-core:2.6.31 (*)
+|    \--- com.amazonaws:aws-android-sdk-sqs:2.7.0
+|         \--- com.amazonaws:aws-android-sdk-core:2.7.0 (*)
 +--- com.daprlabs.aaron:cardstack:0.3.1-beta0
 +--- com.android.support:cardview-v7:26.1.0
 |    \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
@@ -2159,6 +1959,9 @@ releaseUnitTestCompileClasspath - Resolved configuration for compilation for var
 +--- com.github.bumptech.glide:glide:3.6.1
 +--- se.emilsjolander:stickylistheaders:2.7.0
 +--- com.github.orangegangsters:swipy:1.2.3
++--- com.android.support:customtabs:26.1.0
+|    +--- com.android.support:support-compat:26.1.0 (*)
+|    \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
 \--- junit:junit:4.12
      \--- org.hamcrest:hamcrest-core:1.3
 
@@ -2214,11 +2017,11 @@ releaseUnitTestRuntimeClasspath - Resolved configuration for runtime for variant
 |    |    \--- com.facebook.android:facebook-messenger:4.33.0
 |    |         +--- com.facebook.android:facebook-core:4.33.0 (*)
 |    |         \--- com.parse.bolts:bolts-android:1.4.0 (*)
-|    +--- com.amazonaws:aws-android-sdk-sns:2.6.31
-|    |    +--- com.amazonaws:aws-android-sdk-core:2.6.31
+|    +--- com.amazonaws:aws-android-sdk-sns:2.6.31 -> 2.7.0
+|    |    +--- com.amazonaws:aws-android-sdk-core:2.7.0
 |    |    |    \--- com.google.code.gson:gson:2.2.4 -> 2.8.2
-|    |    \--- com.amazonaws:aws-android-sdk-sqs:2.6.31
-|    |         \--- com.amazonaws:aws-android-sdk-core:2.6.31 (*)
+|    |    \--- com.amazonaws:aws-android-sdk-sqs:2.7.0
+|    |         \--- com.amazonaws:aws-android-sdk-core:2.7.0 (*)
 |    +--- com.squareup.okhttp:okhttp:2.7.0
 |    |    \--- com.squareup.okio:okio:1.6.0 -> 1.14.0
 |    +--- com.github.florent37:singledateandtimepicker:1.0.8
@@ -2254,36 +2057,6 @@ releaseUnitTestRuntimeClasspath - Resolved configuration for runtime for variant
 |    |         \--- com.android.support:support-core-ui:26.1.0 (*)
 |    +--- com.android.support:support-v4:26.1.0 (*)
 |    +--- project :quickblox-core
-|    |    +--- com.quickblox:quickblox-android-sdk-messages:3.3.5
-|    |    |    +--- com.quickblox:quickblox-android-sdk-core:3.3.5
-|    |    |    |    \--- com.google.code.gson:gson:2.4 -> 2.8.2
-|    |    |    +--- com.google.firebase:firebase-messaging:11.0.2
-|    |    |    |    +--- com.google.firebase:firebase-iid:[11.0.2] -> 11.0.2
-|    |    |    |    |    +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2
-|    |    |    |    |    |    \--- com.android.support:support-v4:25.2.0 -> 26.1.0 (*)
-|    |    |    |    |    \--- com.google.firebase:firebase-common:[11.0.2] -> 11.0.2
-|    |    |    |    |         +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    |    |    |    |         \--- com.google.android.gms:play-services-tasks:[11.0.2] -> 11.0.2
-|    |    |    |    |              \--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    |    |    |    +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    |    |    |    \--- com.google.firebase:firebase-common:[11.0.2] -> 11.0.2 (*)
-|    |    |    +--- com.google.firebase:firebase-core:11.0.2
-|    |    |    |    \--- com.google.firebase:firebase-analytics:[11.0.2] -> 11.0.2
-|    |    |    |         +--- com.google.firebase:firebase-analytics-impl:[11.0.2] -> 11.0.2
-|    |    |    |         |    +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    |    |    |         |    +--- com.google.firebase:firebase-iid:[11.0.2] -> 11.0.2 (*)
-|    |    |    |         |    +--- com.google.firebase:firebase-common:[11.0.2] -> 11.0.2 (*)
-|    |    |    |         |    \--- com.google.android.gms:play-services-tasks:[11.0.2] -> 11.0.2 (*)
-|    |    |    |         +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    |    |    |         \--- com.google.firebase:firebase-common:[11.0.2] -> 11.0.2 (*)
-|    |    |    \--- com.google.android.gms:play-services-gcm:11.0.2
-|    |    |         +--- com.google.android.gms:play-services-base:[11.0.2] -> 11.0.2
-|    |    |         |    +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    |    |         |    \--- com.google.android.gms:play-services-tasks:[11.0.2] -> 11.0.2 (*)
-|    |    |         +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    |    |         \--- com.google.android.gms:play-services-iid:[11.0.2] -> 11.0.2
-|    |    |              +--- com.google.android.gms:play-services-base:[11.0.2] -> 11.0.2 (*)
-|    |    |              \--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
 |    |    +--- com.android.support:design:26.1.0
 |    |    |    +--- com.android.support:support-v4:26.1.0 (*)
 |    |    |    +--- com.android.support:appcompat-v7:26.1.0 (*)
@@ -2307,6 +2080,9 @@ releaseUnitTestRuntimeClasspath - Resolved configuration for runtime for variant
 |    |    +--- com.github.bumptech.glide:glide:3.6.1
 |    |    \--- se.emilsjolander:stickylistheaders:2.7.0
 |    +--- com.gdacciaro:iosdialog:1.0.3
+|    +--- com.android.support:customtabs:26.1.0
+|    |    +--- com.android.support:support-compat:26.1.0 (*)
+|    |    \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
 |    \--- com.android.support:multidex:1.0.2 -> 1.0.3
 +--- com.android.support.constraint:constraint-layout:1.0.2
 |    \--- com.android.support.constraint:constraint-layout-solver:1.0.2
@@ -2318,15 +2094,18 @@ releaseUnitTestRuntimeClasspath - Resolved configuration for runtime for variant
 +--- com.android.support:appcompat-v7:26.1.0 (*)
 +--- com.android.support:support-v4:26.1.0 (*)
 +--- com.android.support:design:26.1.0 (*)
-+--- com.google.firebase:firebase-auth:11.0.2
-|    +--- com.google.android.gms:play-services-base:[11.0.2] -> 11.0.2 (*)
-|    +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    +--- com.google.firebase:firebase-common:[11.0.2] -> 11.0.2 (*)
-|    \--- com.google.android.gms:play-services-tasks:[11.0.2] -> 11.0.2 (*)
-+--- com.google.firebase:firebase-core:11.0.2 (*)
-+--- com.google.android.gms:play-services-gcm:11.0.2 (*)
++--- com.crashlytics.sdk.android:crashlytics:2.9.5
+|    +--- com.crashlytics.sdk.android:answers:1.4.3
+|    |    \--- io.fabric.sdk.android:fabric:1.4.4
+|    +--- com.crashlytics.sdk.android:crashlytics-core:2.6.4
+|    |    +--- com.crashlytics.sdk.android:answers:1.4.3 (*)
+|    |    \--- io.fabric.sdk.android:fabric:1.4.4
+|    +--- io.fabric.sdk.android:fabric:1.4.4
+|    \--- com.crashlytics.sdk.android:beta:1.2.10
+|         \--- io.fabric.sdk.android:fabric:1.4.4
 +--- com.quickblox:quickblox-android-sdk-videochat-webrtc:3.3.5
-|    +--- com.quickblox:quickblox-android-sdk-core:3.3.5 (*)
+|    +--- com.quickblox:quickblox-android-sdk-core:3.3.5
+|    |    \--- com.google.code.gson:gson:2.4 -> 2.8.2
 |    \--- com.quickblox:quickblox-android-sdk-chat:3.3.5
 |         +--- com.quickblox:quickblox-android-sdk-core:3.3.5 (*)
 |         +--- org.jxmpp:jxmpp-core:0.4.2
@@ -2335,7 +2114,8 @@ releaseUnitTestRuntimeClasspath - Resolved configuration for runtime for variant
 +--- com.quickblox:quickblox-android-sdk-chat:3.3.5 (*)
 +--- com.quickblox:quickblox-android-sdk-content:3.3.5
 |    \--- com.quickblox:quickblox-android-sdk-core:3.3.5 (*)
-+--- com.quickblox:quickblox-android-sdk-messages:3.3.5 (*)
++--- com.quickblox:quickblox-android-sdk-messages:3.3.5
+|    \--- com.quickblox:quickblox-android-sdk-core:3.3.5 (*)
 +--- project :quickblox-core (*)
 +--- com.github.JesusM:HoloCircleSeekBar:v2.2.2
 +--- com.minimize.library:seekbar-compat:0.2.5
@@ -2348,7 +2128,7 @@ releaseUnitTestRuntimeClasspath - Resolved configuration for runtime for variant
 +--- com.android.support:support-annotations:26.1.0 -> 27.0.2
 +--- com.android.support:support-compat:26.1.0 (*)
 +--- com.android.support:support-core-ui:26.1.0 (*)
-+--- de.hdodenhof:circleimageview:2.1.0 -> 2.2.0
++--- de.hdodenhof:circleimageview:2.2.0
 +--- com.stripe:stripe-android:5.1.0
 |    +--- com.android.support:support-annotations:26.0.1 -> 27.0.2
 |    +--- com.android.support:appcompat-v7:26.0.1 -> 26.1.0 (*)
@@ -2370,7 +2150,7 @@ releaseUnitTestRuntimeClasspath - Resolved configuration for runtime for variant
 +--- com.gdacciaro:iosdialog:1.0.3
 +--- com.kaopiz:kprogresshud:1.0.4
 +--- com.koushikdutta.ion:ion:2.1.7 (*)
-+--- com.amazonaws:aws-android-sdk-sns:2.6.31 (*)
++--- com.amazonaws:aws-android-sdk-sns:2.7.0 (*)
 +--- com.daprlabs.aaron:cardstack:0.3.1-beta0
 +--- com.android.support:cardview-v7:26.1.0 (*)
 +--- com.androidplot:androidplot-core:1.5.3
@@ -2379,6 +2159,7 @@ releaseUnitTestRuntimeClasspath - Resolved configuration for runtime for variant
 +--- com.github.bumptech.glide:glide:3.6.1
 +--- se.emilsjolander:stickylistheaders:2.7.0
 +--- com.github.orangegangsters:swipy:1.2.3
++--- com.android.support:customtabs:26.1.0 (*)
 \--- junit:junit:4.12
      \--- org.hamcrest:hamcrest-core:1.3
 
@@ -2456,34 +2237,15 @@ repositoriesCompileClasspath - Resolved configuration for compilation for varian
 |    \--- com.android.support:transition:26.1.0
 |         +--- com.android.support:support-annotations:26.1.0 -> 27.0.2
 |         \--- com.android.support:support-v4:26.1.0 (*)
-+--- com.google.firebase:firebase-auth:11.0.2
-|    +--- com.google.android.gms:play-services-base:[11.0.2] -> 11.0.2
-|    |    +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2
-|    |    |    \--- com.android.support:support-v4:25.2.0 -> 26.1.0 (*)
-|    |    \--- com.google.android.gms:play-services-tasks:[11.0.2] -> 11.0.2
-|    |         \--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    +--- com.google.firebase:firebase-common:[11.0.2] -> 11.0.2
-|    |    +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    |    \--- com.google.android.gms:play-services-tasks:[11.0.2] -> 11.0.2 (*)
-|    \--- com.google.android.gms:play-services-tasks:[11.0.2] -> 11.0.2 (*)
-+--- com.google.firebase:firebase-core:11.0.2
-|    \--- com.google.firebase:firebase-analytics:[11.0.2] -> 11.0.2
-|         +--- com.google.firebase:firebase-analytics-impl:[11.0.2] -> 11.0.2
-|         |    +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|         |    +--- com.google.firebase:firebase-iid:[11.0.2] -> 11.0.2
-|         |    |    +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|         |    |    \--- com.google.firebase:firebase-common:[11.0.2] -> 11.0.2 (*)
-|         |    +--- com.google.firebase:firebase-common:[11.0.2] -> 11.0.2 (*)
-|         |    \--- com.google.android.gms:play-services-tasks:[11.0.2] -> 11.0.2 (*)
-|         +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|         \--- com.google.firebase:firebase-common:[11.0.2] -> 11.0.2 (*)
-+--- com.google.android.gms:play-services-gcm:11.0.2
-|    +--- com.google.android.gms:play-services-base:[11.0.2] -> 11.0.2 (*)
-|    +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    \--- com.google.android.gms:play-services-iid:[11.0.2] -> 11.0.2
-|         +--- com.google.android.gms:play-services-base:[11.0.2] -> 11.0.2 (*)
-|         \--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
++--- com.crashlytics.sdk.android:crashlytics:2.9.5
+|    +--- com.crashlytics.sdk.android:answers:1.4.3
+|    |    \--- io.fabric.sdk.android:fabric:1.4.4
+|    +--- com.crashlytics.sdk.android:crashlytics-core:2.6.4
+|    |    +--- com.crashlytics.sdk.android:answers:1.4.3 (*)
+|    |    \--- io.fabric.sdk.android:fabric:1.4.4
+|    +--- io.fabric.sdk.android:fabric:1.4.4
+|    \--- com.crashlytics.sdk.android:beta:1.2.10
+|         \--- io.fabric.sdk.android:fabric:1.4.4
 +--- com.quickblox:quickblox-android-sdk-videochat-webrtc:3.3.5
 |    +--- com.quickblox:quickblox-android-sdk-core:3.3.5
 |    |    \--- com.google.code.gson:gson:2.4 -> 2.8.2
@@ -2496,13 +2258,7 @@ repositoriesCompileClasspath - Resolved configuration for compilation for varian
 +--- com.quickblox:quickblox-android-sdk-content:3.3.5
 |    \--- com.quickblox:quickblox-android-sdk-core:3.3.5 (*)
 +--- com.quickblox:quickblox-android-sdk-messages:3.3.5
-|    +--- com.quickblox:quickblox-android-sdk-core:3.3.5 (*)
-|    +--- com.google.firebase:firebase-messaging:11.0.2
-|    |    +--- com.google.firebase:firebase-iid:[11.0.2] -> 11.0.2 (*)
-|    |    +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    |    \--- com.google.firebase:firebase-common:[11.0.2] -> 11.0.2 (*)
-|    +--- com.google.firebase:firebase-core:11.0.2 (*)
-|    \--- com.google.android.gms:play-services-gcm:11.0.2 (*)
+|    \--- com.quickblox:quickblox-android-sdk-core:3.3.5 (*)
 +--- project :quickblox-core
 +--- com.github.JesusM:HoloCircleSeekBar:v2.2.2
 +--- com.minimize.library:seekbar-compat:0.2.5
@@ -2515,7 +2271,7 @@ repositoriesCompileClasspath - Resolved configuration for compilation for varian
 +--- com.android.support:support-annotations:26.1.0 -> 27.0.2
 +--- com.android.support:support-compat:26.1.0 (*)
 +--- com.android.support:support-core-ui:26.1.0 (*)
-+--- de.hdodenhof:circleimageview:2.1.0
++--- de.hdodenhof:circleimageview:2.2.0
 +--- com.stripe:stripe-android:5.1.0
 |    +--- com.android.support:support-annotations:26.0.1 -> 27.0.2
 |    +--- com.android.support:appcompat-v7:26.0.1 -> 26.1.0 (*)
@@ -2561,11 +2317,11 @@ repositoriesCompileClasspath - Resolved configuration for compilation for varian
 +--- com.koushikdutta.ion:ion:2.1.7
 |    +--- com.google.code.gson:gson:2.3 -> 2.8.2
 |    \--- com.koushikdutta.async:androidasync:2.1.7
-+--- com.amazonaws:aws-android-sdk-sns:2.6.31
-|    +--- com.amazonaws:aws-android-sdk-core:2.6.31
++--- com.amazonaws:aws-android-sdk-sns:2.7.0
+|    +--- com.amazonaws:aws-android-sdk-core:2.7.0
 |    |    \--- com.google.code.gson:gson:2.2.4 -> 2.8.2
-|    \--- com.amazonaws:aws-android-sdk-sqs:2.6.31
-|         \--- com.amazonaws:aws-android-sdk-core:2.6.31 (*)
+|    \--- com.amazonaws:aws-android-sdk-sqs:2.7.0
+|         \--- com.amazonaws:aws-android-sdk-core:2.7.0 (*)
 +--- com.daprlabs.aaron:cardstack:0.3.1-beta0
 +--- com.android.support:cardview-v7:26.1.0
 |    \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
@@ -2575,6 +2331,9 @@ repositoriesCompileClasspath - Resolved configuration for compilation for varian
 +--- com.github.bumptech.glide:glide:3.6.1
 +--- se.emilsjolander:stickylistheaders:2.7.0
 +--- com.github.orangegangsters:swipy:1.2.3
++--- com.android.support:customtabs:26.1.0
+|    +--- com.android.support:support-compat:26.1.0 (*)
+|    \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
 \--- com.android.support:multidex:1.0.2 -> 1.0.3
 
 repositoriesCompileOnly - Compile only dependencies for 'repositories' sources. (n)
@@ -2641,11 +2400,11 @@ repositoriesRuntimeClasspath - Resolved configuration for runtime for variant: r
 |    |    \--- com.facebook.android:facebook-messenger:4.33.0
 |    |         +--- com.facebook.android:facebook-core:4.33.0 (*)
 |    |         \--- com.parse.bolts:bolts-android:1.4.0 (*)
-|    +--- com.amazonaws:aws-android-sdk-sns:2.6.31
-|    |    +--- com.amazonaws:aws-android-sdk-core:2.6.31
+|    +--- com.amazonaws:aws-android-sdk-sns:2.6.31 -> 2.7.0
+|    |    +--- com.amazonaws:aws-android-sdk-core:2.7.0
 |    |    |    \--- com.google.code.gson:gson:2.2.4 -> 2.8.2
-|    |    \--- com.amazonaws:aws-android-sdk-sqs:2.6.31
-|    |         \--- com.amazonaws:aws-android-sdk-core:2.6.31 (*)
+|    |    \--- com.amazonaws:aws-android-sdk-sqs:2.7.0
+|    |         \--- com.amazonaws:aws-android-sdk-core:2.7.0 (*)
 |    +--- com.squareup.okhttp:okhttp:2.7.0
 |    |    \--- com.squareup.okio:okio:1.6.0 -> 1.14.0
 |    +--- com.github.florent37:singledateandtimepicker:1.0.8
@@ -2681,36 +2440,6 @@ repositoriesRuntimeClasspath - Resolved configuration for runtime for variant: r
 |    |         \--- com.android.support:support-core-ui:26.1.0 (*)
 |    +--- com.android.support:support-v4:26.1.0 (*)
 |    +--- project :quickblox-core
-|    |    +--- com.quickblox:quickblox-android-sdk-messages:3.3.5
-|    |    |    +--- com.quickblox:quickblox-android-sdk-core:3.3.5
-|    |    |    |    \--- com.google.code.gson:gson:2.4 -> 2.8.2
-|    |    |    +--- com.google.firebase:firebase-messaging:11.0.2
-|    |    |    |    +--- com.google.firebase:firebase-iid:[11.0.2] -> 11.0.2
-|    |    |    |    |    +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2
-|    |    |    |    |    |    \--- com.android.support:support-v4:25.2.0 -> 26.1.0 (*)
-|    |    |    |    |    \--- com.google.firebase:firebase-common:[11.0.2] -> 11.0.2
-|    |    |    |    |         +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    |    |    |    |         \--- com.google.android.gms:play-services-tasks:[11.0.2] -> 11.0.2
-|    |    |    |    |              \--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    |    |    |    +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    |    |    |    \--- com.google.firebase:firebase-common:[11.0.2] -> 11.0.2 (*)
-|    |    |    +--- com.google.firebase:firebase-core:11.0.2
-|    |    |    |    \--- com.google.firebase:firebase-analytics:[11.0.2] -> 11.0.2
-|    |    |    |         +--- com.google.firebase:firebase-analytics-impl:[11.0.2] -> 11.0.2
-|    |    |    |         |    +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    |    |    |         |    +--- com.google.firebase:firebase-iid:[11.0.2] -> 11.0.2 (*)
-|    |    |    |         |    +--- com.google.firebase:firebase-common:[11.0.2] -> 11.0.2 (*)
-|    |    |    |         |    \--- com.google.android.gms:play-services-tasks:[11.0.2] -> 11.0.2 (*)
-|    |    |    |         +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    |    |    |         \--- com.google.firebase:firebase-common:[11.0.2] -> 11.0.2 (*)
-|    |    |    \--- com.google.android.gms:play-services-gcm:11.0.2
-|    |    |         +--- com.google.android.gms:play-services-base:[11.0.2] -> 11.0.2
-|    |    |         |    +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    |    |         |    \--- com.google.android.gms:play-services-tasks:[11.0.2] -> 11.0.2 (*)
-|    |    |         +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    |    |         \--- com.google.android.gms:play-services-iid:[11.0.2] -> 11.0.2
-|    |    |              +--- com.google.android.gms:play-services-base:[11.0.2] -> 11.0.2 (*)
-|    |    |              \--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
 |    |    +--- com.android.support:design:26.1.0
 |    |    |    +--- com.android.support:support-v4:26.1.0 (*)
 |    |    |    +--- com.android.support:appcompat-v7:26.1.0 (*)
@@ -2734,6 +2463,9 @@ repositoriesRuntimeClasspath - Resolved configuration for runtime for variant: r
 |    |    +--- com.github.bumptech.glide:glide:3.6.1
 |    |    \--- se.emilsjolander:stickylistheaders:2.7.0
 |    +--- com.gdacciaro:iosdialog:1.0.3
+|    +--- com.android.support:customtabs:26.1.0
+|    |    +--- com.android.support:support-compat:26.1.0 (*)
+|    |    \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
 |    \--- com.android.support:multidex:1.0.2 -> 1.0.3
 +--- com.android.support.constraint:constraint-layout:1.0.2
 |    \--- com.android.support.constraint:constraint-layout-solver:1.0.2
@@ -2745,15 +2477,18 @@ repositoriesRuntimeClasspath - Resolved configuration for runtime for variant: r
 +--- com.android.support:appcompat-v7:26.1.0 (*)
 +--- com.android.support:support-v4:26.1.0 (*)
 +--- com.android.support:design:26.1.0 (*)
-+--- com.google.firebase:firebase-auth:11.0.2
-|    +--- com.google.android.gms:play-services-base:[11.0.2] -> 11.0.2 (*)
-|    +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    +--- com.google.firebase:firebase-common:[11.0.2] -> 11.0.2 (*)
-|    \--- com.google.android.gms:play-services-tasks:[11.0.2] -> 11.0.2 (*)
-+--- com.google.firebase:firebase-core:11.0.2 (*)
-+--- com.google.android.gms:play-services-gcm:11.0.2 (*)
++--- com.crashlytics.sdk.android:crashlytics:2.9.5
+|    +--- com.crashlytics.sdk.android:answers:1.4.3
+|    |    \--- io.fabric.sdk.android:fabric:1.4.4
+|    +--- com.crashlytics.sdk.android:crashlytics-core:2.6.4
+|    |    +--- com.crashlytics.sdk.android:answers:1.4.3 (*)
+|    |    \--- io.fabric.sdk.android:fabric:1.4.4
+|    +--- io.fabric.sdk.android:fabric:1.4.4
+|    \--- com.crashlytics.sdk.android:beta:1.2.10
+|         \--- io.fabric.sdk.android:fabric:1.4.4
 +--- com.quickblox:quickblox-android-sdk-videochat-webrtc:3.3.5
-|    +--- com.quickblox:quickblox-android-sdk-core:3.3.5 (*)
+|    +--- com.quickblox:quickblox-android-sdk-core:3.3.5
+|    |    \--- com.google.code.gson:gson:2.4 -> 2.8.2
 |    \--- com.quickblox:quickblox-android-sdk-chat:3.3.5
 |         +--- com.quickblox:quickblox-android-sdk-core:3.3.5 (*)
 |         +--- org.jxmpp:jxmpp-core:0.4.2
@@ -2762,7 +2497,8 @@ repositoriesRuntimeClasspath - Resolved configuration for runtime for variant: r
 +--- com.quickblox:quickblox-android-sdk-chat:3.3.5 (*)
 +--- com.quickblox:quickblox-android-sdk-content:3.3.5
 |    \--- com.quickblox:quickblox-android-sdk-core:3.3.5 (*)
-+--- com.quickblox:quickblox-android-sdk-messages:3.3.5 (*)
++--- com.quickblox:quickblox-android-sdk-messages:3.3.5
+|    \--- com.quickblox:quickblox-android-sdk-core:3.3.5 (*)
 +--- project :quickblox-core (*)
 +--- com.github.JesusM:HoloCircleSeekBar:v2.2.2
 +--- com.minimize.library:seekbar-compat:0.2.5
@@ -2775,7 +2511,7 @@ repositoriesRuntimeClasspath - Resolved configuration for runtime for variant: r
 +--- com.android.support:support-annotations:26.1.0 -> 27.0.2
 +--- com.android.support:support-compat:26.1.0 (*)
 +--- com.android.support:support-core-ui:26.1.0 (*)
-+--- de.hdodenhof:circleimageview:2.1.0 -> 2.2.0
++--- de.hdodenhof:circleimageview:2.2.0
 +--- com.stripe:stripe-android:5.1.0
 |    +--- com.android.support:support-annotations:26.0.1 -> 27.0.2
 |    +--- com.android.support:appcompat-v7:26.0.1 -> 26.1.0 (*)
@@ -2797,7 +2533,7 @@ repositoriesRuntimeClasspath - Resolved configuration for runtime for variant: r
 +--- com.gdacciaro:iosdialog:1.0.3
 +--- com.kaopiz:kprogresshud:1.0.4
 +--- com.koushikdutta.ion:ion:2.1.7 (*)
-+--- com.amazonaws:aws-android-sdk-sns:2.6.31 (*)
++--- com.amazonaws:aws-android-sdk-sns:2.7.0 (*)
 +--- com.daprlabs.aaron:cardstack:0.3.1-beta0
 +--- com.android.support:cardview-v7:26.1.0 (*)
 +--- com.androidplot:androidplot-core:1.5.3
@@ -2806,6 +2542,7 @@ repositoriesRuntimeClasspath - Resolved configuration for runtime for variant: r
 +--- com.github.bumptech.glide:glide:3.6.1
 +--- se.emilsjolander:stickylistheaders:2.7.0
 +--- com.github.orangegangsters:swipy:1.2.3
++--- com.android.support:customtabs:26.1.0 (*)
 \--- com.android.support:multidex:1.0.2 -> 1.0.3
 
 repositoriesRuntimeElements - Runtime elements for repositories (n)
@@ -2864,34 +2601,15 @@ repositoriesUnitTestCompileClasspath - Resolved configuration for compilation fo
 |    \--- com.android.support:transition:26.1.0
 |         +--- com.android.support:support-annotations:26.1.0 -> 27.0.2
 |         \--- com.android.support:support-v4:26.1.0 (*)
-+--- com.google.firebase:firebase-auth:11.0.2
-|    +--- com.google.android.gms:play-services-base:[11.0.2] -> 11.0.2
-|    |    +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2
-|    |    |    \--- com.android.support:support-v4:25.2.0 -> 26.1.0 (*)
-|    |    \--- com.google.android.gms:play-services-tasks:[11.0.2] -> 11.0.2
-|    |         \--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    +--- com.google.firebase:firebase-common:[11.0.2] -> 11.0.2
-|    |    +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    |    \--- com.google.android.gms:play-services-tasks:[11.0.2] -> 11.0.2 (*)
-|    \--- com.google.android.gms:play-services-tasks:[11.0.2] -> 11.0.2 (*)
-+--- com.google.firebase:firebase-core:11.0.2
-|    \--- com.google.firebase:firebase-analytics:[11.0.2] -> 11.0.2
-|         +--- com.google.firebase:firebase-analytics-impl:[11.0.2] -> 11.0.2
-|         |    +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|         |    +--- com.google.firebase:firebase-iid:[11.0.2] -> 11.0.2
-|         |    |    +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|         |    |    \--- com.google.firebase:firebase-common:[11.0.2] -> 11.0.2 (*)
-|         |    +--- com.google.firebase:firebase-common:[11.0.2] -> 11.0.2 (*)
-|         |    \--- com.google.android.gms:play-services-tasks:[11.0.2] -> 11.0.2 (*)
-|         +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|         \--- com.google.firebase:firebase-common:[11.0.2] -> 11.0.2 (*)
-+--- com.google.android.gms:play-services-gcm:11.0.2
-|    +--- com.google.android.gms:play-services-base:[11.0.2] -> 11.0.2 (*)
-|    +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    \--- com.google.android.gms:play-services-iid:[11.0.2] -> 11.0.2
-|         +--- com.google.android.gms:play-services-base:[11.0.2] -> 11.0.2 (*)
-|         \--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
++--- com.crashlytics.sdk.android:crashlytics:2.9.5
+|    +--- com.crashlytics.sdk.android:answers:1.4.3
+|    |    \--- io.fabric.sdk.android:fabric:1.4.4
+|    +--- com.crashlytics.sdk.android:crashlytics-core:2.6.4
+|    |    +--- com.crashlytics.sdk.android:answers:1.4.3 (*)
+|    |    \--- io.fabric.sdk.android:fabric:1.4.4
+|    +--- io.fabric.sdk.android:fabric:1.4.4
+|    \--- com.crashlytics.sdk.android:beta:1.2.10
+|         \--- io.fabric.sdk.android:fabric:1.4.4
 +--- com.quickblox:quickblox-android-sdk-videochat-webrtc:3.3.5
 |    +--- com.quickblox:quickblox-android-sdk-core:3.3.5
 |    |    \--- com.google.code.gson:gson:2.4 -> 2.8.2
@@ -2904,13 +2622,7 @@ repositoriesUnitTestCompileClasspath - Resolved configuration for compilation fo
 +--- com.quickblox:quickblox-android-sdk-content:3.3.5
 |    \--- com.quickblox:quickblox-android-sdk-core:3.3.5 (*)
 +--- com.quickblox:quickblox-android-sdk-messages:3.3.5
-|    +--- com.quickblox:quickblox-android-sdk-core:3.3.5 (*)
-|    +--- com.google.firebase:firebase-messaging:11.0.2
-|    |    +--- com.google.firebase:firebase-iid:[11.0.2] -> 11.0.2 (*)
-|    |    +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    |    \--- com.google.firebase:firebase-common:[11.0.2] -> 11.0.2 (*)
-|    +--- com.google.firebase:firebase-core:11.0.2 (*)
-|    \--- com.google.android.gms:play-services-gcm:11.0.2 (*)
+|    \--- com.quickblox:quickblox-android-sdk-core:3.3.5 (*)
 +--- project :quickblox-core
 +--- com.github.JesusM:HoloCircleSeekBar:v2.2.2
 +--- com.minimize.library:seekbar-compat:0.2.5
@@ -2923,7 +2635,7 @@ repositoriesUnitTestCompileClasspath - Resolved configuration for compilation fo
 +--- com.android.support:support-annotations:26.1.0 -> 27.0.2
 +--- com.android.support:support-compat:26.1.0 (*)
 +--- com.android.support:support-core-ui:26.1.0 (*)
-+--- de.hdodenhof:circleimageview:2.1.0
++--- de.hdodenhof:circleimageview:2.2.0
 +--- com.stripe:stripe-android:5.1.0
 |    +--- com.android.support:support-annotations:26.0.1 -> 27.0.2
 |    +--- com.android.support:appcompat-v7:26.0.1 -> 26.1.0 (*)
@@ -2969,11 +2681,11 @@ repositoriesUnitTestCompileClasspath - Resolved configuration for compilation fo
 +--- com.koushikdutta.ion:ion:2.1.7
 |    +--- com.google.code.gson:gson:2.3 -> 2.8.2
 |    \--- com.koushikdutta.async:androidasync:2.1.7
-+--- com.amazonaws:aws-android-sdk-sns:2.6.31
-|    +--- com.amazonaws:aws-android-sdk-core:2.6.31
++--- com.amazonaws:aws-android-sdk-sns:2.7.0
+|    +--- com.amazonaws:aws-android-sdk-core:2.7.0
 |    |    \--- com.google.code.gson:gson:2.2.4 -> 2.8.2
-|    \--- com.amazonaws:aws-android-sdk-sqs:2.6.31
-|         \--- com.amazonaws:aws-android-sdk-core:2.6.31 (*)
+|    \--- com.amazonaws:aws-android-sdk-sqs:2.7.0
+|         \--- com.amazonaws:aws-android-sdk-core:2.7.0 (*)
 +--- com.daprlabs.aaron:cardstack:0.3.1-beta0
 +--- com.android.support:cardview-v7:26.1.0
 |    \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
@@ -2983,6 +2695,9 @@ repositoriesUnitTestCompileClasspath - Resolved configuration for compilation fo
 +--- com.github.bumptech.glide:glide:3.6.1
 +--- se.emilsjolander:stickylistheaders:2.7.0
 +--- com.github.orangegangsters:swipy:1.2.3
++--- com.android.support:customtabs:26.1.0
+|    +--- com.android.support:support-compat:26.1.0 (*)
+|    \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
 \--- junit:junit:4.12
      \--- org.hamcrest:hamcrest-core:1.3
 
@@ -3038,11 +2753,11 @@ repositoriesUnitTestRuntimeClasspath - Resolved configuration for runtime for va
 |    |    \--- com.facebook.android:facebook-messenger:4.33.0
 |    |         +--- com.facebook.android:facebook-core:4.33.0 (*)
 |    |         \--- com.parse.bolts:bolts-android:1.4.0 (*)
-|    +--- com.amazonaws:aws-android-sdk-sns:2.6.31
-|    |    +--- com.amazonaws:aws-android-sdk-core:2.6.31
+|    +--- com.amazonaws:aws-android-sdk-sns:2.6.31 -> 2.7.0
+|    |    +--- com.amazonaws:aws-android-sdk-core:2.7.0
 |    |    |    \--- com.google.code.gson:gson:2.2.4 -> 2.8.2
-|    |    \--- com.amazonaws:aws-android-sdk-sqs:2.6.31
-|    |         \--- com.amazonaws:aws-android-sdk-core:2.6.31 (*)
+|    |    \--- com.amazonaws:aws-android-sdk-sqs:2.7.0
+|    |         \--- com.amazonaws:aws-android-sdk-core:2.7.0 (*)
 |    +--- com.squareup.okhttp:okhttp:2.7.0
 |    |    \--- com.squareup.okio:okio:1.6.0 -> 1.14.0
 |    +--- com.github.florent37:singledateandtimepicker:1.0.8
@@ -3078,36 +2793,6 @@ repositoriesUnitTestRuntimeClasspath - Resolved configuration for runtime for va
 |    |         \--- com.android.support:support-core-ui:26.1.0 (*)
 |    +--- com.android.support:support-v4:26.1.0 (*)
 |    +--- project :quickblox-core
-|    |    +--- com.quickblox:quickblox-android-sdk-messages:3.3.5
-|    |    |    +--- com.quickblox:quickblox-android-sdk-core:3.3.5
-|    |    |    |    \--- com.google.code.gson:gson:2.4 -> 2.8.2
-|    |    |    +--- com.google.firebase:firebase-messaging:11.0.2
-|    |    |    |    +--- com.google.firebase:firebase-iid:[11.0.2] -> 11.0.2
-|    |    |    |    |    +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2
-|    |    |    |    |    |    \--- com.android.support:support-v4:25.2.0 -> 26.1.0 (*)
-|    |    |    |    |    \--- com.google.firebase:firebase-common:[11.0.2] -> 11.0.2
-|    |    |    |    |         +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    |    |    |    |         \--- com.google.android.gms:play-services-tasks:[11.0.2] -> 11.0.2
-|    |    |    |    |              \--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    |    |    |    +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    |    |    |    \--- com.google.firebase:firebase-common:[11.0.2] -> 11.0.2 (*)
-|    |    |    +--- com.google.firebase:firebase-core:11.0.2
-|    |    |    |    \--- com.google.firebase:firebase-analytics:[11.0.2] -> 11.0.2
-|    |    |    |         +--- com.google.firebase:firebase-analytics-impl:[11.0.2] -> 11.0.2
-|    |    |    |         |    +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    |    |    |         |    +--- com.google.firebase:firebase-iid:[11.0.2] -> 11.0.2 (*)
-|    |    |    |         |    +--- com.google.firebase:firebase-common:[11.0.2] -> 11.0.2 (*)
-|    |    |    |         |    \--- com.google.android.gms:play-services-tasks:[11.0.2] -> 11.0.2 (*)
-|    |    |    |         +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    |    |    |         \--- com.google.firebase:firebase-common:[11.0.2] -> 11.0.2 (*)
-|    |    |    \--- com.google.android.gms:play-services-gcm:11.0.2
-|    |    |         +--- com.google.android.gms:play-services-base:[11.0.2] -> 11.0.2
-|    |    |         |    +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    |    |         |    \--- com.google.android.gms:play-services-tasks:[11.0.2] -> 11.0.2 (*)
-|    |    |         +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    |    |         \--- com.google.android.gms:play-services-iid:[11.0.2] -> 11.0.2
-|    |    |              +--- com.google.android.gms:play-services-base:[11.0.2] -> 11.0.2 (*)
-|    |    |              \--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
 |    |    +--- com.android.support:design:26.1.0
 |    |    |    +--- com.android.support:support-v4:26.1.0 (*)
 |    |    |    +--- com.android.support:appcompat-v7:26.1.0 (*)
@@ -3131,6 +2816,9 @@ repositoriesUnitTestRuntimeClasspath - Resolved configuration for runtime for va
 |    |    +--- com.github.bumptech.glide:glide:3.6.1
 |    |    \--- se.emilsjolander:stickylistheaders:2.7.0
 |    +--- com.gdacciaro:iosdialog:1.0.3
+|    +--- com.android.support:customtabs:26.1.0
+|    |    +--- com.android.support:support-compat:26.1.0 (*)
+|    |    \--- com.android.support:support-annotations:26.1.0 -> 27.0.2
 |    \--- com.android.support:multidex:1.0.2 -> 1.0.3
 +--- com.android.support.constraint:constraint-layout:1.0.2
 |    \--- com.android.support.constraint:constraint-layout-solver:1.0.2
@@ -3142,15 +2830,18 @@ repositoriesUnitTestRuntimeClasspath - Resolved configuration for runtime for va
 +--- com.android.support:appcompat-v7:26.1.0 (*)
 +--- com.android.support:support-v4:26.1.0 (*)
 +--- com.android.support:design:26.1.0 (*)
-+--- com.google.firebase:firebase-auth:11.0.2
-|    +--- com.google.android.gms:play-services-base:[11.0.2] -> 11.0.2 (*)
-|    +--- com.google.android.gms:play-services-basement:[11.0.2] -> 11.0.2 (*)
-|    +--- com.google.firebase:firebase-common:[11.0.2] -> 11.0.2 (*)
-|    \--- com.google.android.gms:play-services-tasks:[11.0.2] -> 11.0.2 (*)
-+--- com.google.firebase:firebase-core:11.0.2 (*)
-+--- com.google.android.gms:play-services-gcm:11.0.2 (*)
++--- com.crashlytics.sdk.android:crashlytics:2.9.5
+|    +--- com.crashlytics.sdk.android:answers:1.4.3
+|    |    \--- io.fabric.sdk.android:fabric:1.4.4
+|    +--- com.crashlytics.sdk.android:crashlytics-core:2.6.4
+|    |    +--- com.crashlytics.sdk.android:answers:1.4.3 (*)
+|    |    \--- io.fabric.sdk.android:fabric:1.4.4
+|    +--- io.fabric.sdk.android:fabric:1.4.4
+|    \--- com.crashlytics.sdk.android:beta:1.2.10
+|         \--- io.fabric.sdk.android:fabric:1.4.4
 +--- com.quickblox:quickblox-android-sdk-videochat-webrtc:3.3.5
-|    +--- com.quickblox:quickblox-android-sdk-core:3.3.5 (*)
+|    +--- com.quickblox:quickblox-android-sdk-core:3.3.5
+|    |    \--- com.google.code.gson:gson:2.4 -> 2.8.2
 |    \--- com.quickblox:quickblox-android-sdk-chat:3.3.5
 |         +--- com.quickblox:quickblox-android-sdk-core:3.3.5 (*)
 |         +--- org.jxmpp:jxmpp-core:0.4.2
@@ -3159,7 +2850,8 @@ repositoriesUnitTestRuntimeClasspath - Resolved configuration for runtime for va
 +--- com.quickblox:quickblox-android-sdk-chat:3.3.5 (*)
 +--- com.quickblox:quickblox-android-sdk-content:3.3.5
 |    \--- com.quickblox:quickblox-android-sdk-core:3.3.5 (*)
-+--- com.quickblox:quickblox-android-sdk-messages:3.3.5 (*)
++--- com.quickblox:quickblox-android-sdk-messages:3.3.5
+|    \--- com.quickblox:quickblox-android-sdk-core:3.3.5 (*)
 +--- project :quickblox-core (*)
 +--- com.github.JesusM:HoloCircleSeekBar:v2.2.2
 +--- com.minimize.library:seekbar-compat:0.2.5
@@ -3172,7 +2864,7 @@ repositoriesUnitTestRuntimeClasspath - Resolved configuration for runtime for va
 +--- com.android.support:support-annotations:26.1.0 -> 27.0.2
 +--- com.android.support:support-compat:26.1.0 (*)
 +--- com.android.support:support-core-ui:26.1.0 (*)
-+--- de.hdodenhof:circleimageview:2.1.0 -> 2.2.0
++--- de.hdodenhof:circleimageview:2.2.0
 +--- com.stripe:stripe-android:5.1.0
 |    +--- com.android.support:support-annotations:26.0.1 -> 27.0.2
 |    +--- com.android.support:appcompat-v7:26.0.1 -> 26.1.0 (*)
@@ -3194,7 +2886,7 @@ repositoriesUnitTestRuntimeClasspath - Resolved configuration for runtime for va
 +--- com.gdacciaro:iosdialog:1.0.3
 +--- com.kaopiz:kprogresshud:1.0.4
 +--- com.koushikdutta.ion:ion:2.1.7 (*)
-+--- com.amazonaws:aws-android-sdk-sns:2.6.31 (*)
++--- com.amazonaws:aws-android-sdk-sns:2.7.0 (*)
 +--- com.daprlabs.aaron:cardstack:0.3.1-beta0
 +--- com.android.support:cardview-v7:26.1.0 (*)
 +--- com.androidplot:androidplot-core:1.5.3
@@ -3203,6 +2895,7 @@ repositoriesUnitTestRuntimeClasspath - Resolved configuration for runtime for va
 +--- com.github.bumptech.glide:glide:3.6.1
 +--- se.emilsjolander:stickylistheaders:2.7.0
 +--- com.github.orangegangsters:swipy:1.2.3
++--- com.android.support:customtabs:26.1.0 (*)
 \--- junit:junit:4.12
      \--- org.hamcrest:hamcrest-core:1.3
 
@@ -3330,5 +3023,5 @@ No dependencies
 
 (n) - Not resolved (configuration is not meant to be resolved)
 
-BUILD SUCCESSFUL in 14s
+BUILD SUCCESSFUL in 1s
 1 actionable task: 1 executed

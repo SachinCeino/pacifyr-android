@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
 
 android {
     compileSdkVersion 26
@@ -26,7 +27,9 @@ android {
 
         }
         debug{
-
+            applicationVariants.all { variant ->
+                renameAPK(variant, defaultConfig, 'Test')
+            }
         }
         release {
             minifyEnabled false
@@ -36,6 +39,9 @@ android {
 
             // minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), "proguard-rules.pro"
+            applicationVariants.all { variant ->
+                renameAPK(variant, defaultConfig, 'Prod')
+            }
 
             //Other parameters
            /* debuggable false
@@ -101,6 +107,18 @@ android {
 
 
 }
+def renameAPK(variant, defaultConfig, buildType) {
+    variant.outputs.all { output ->
+        def formattedDate = new Date().format('dd-MM-yy')
+
+//        def file = output.packageApplication.outputFile
+        def fileName = buildType + "_"+ applicationName + "_" + formattedDate + ".apk"
+        def relativeRootDir = output.packageApplication.outputDirectory.toPath()
+                .relativize(rootDir.toPath()).toFile()
+        outputFileName = new File( "$relativeRootDir/release", fileName)
+//        output.packageApplication.outputFileName = new File(file.parent, fileName)
+    }
+}
 
 repositories {
     jcenter()
@@ -115,7 +133,9 @@ repositories {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    compile project (':utilitylibrary')
+    compile (project (':utilitylibrary')){
+        exclude group : 'com.quickblox', module : 'quickblox-android-sdk-messages'
+    }
     androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
@@ -135,15 +155,21 @@ dependencies {
     implementation 'com.android.support:support-v4:26.1.0'
     implementation 'com.android.support:design:26.1.0'
 
-    implementation 'com.google.firebase:firebase-auth:11.0.2'
-    implementation 'com.google.firebase:firebase-core:11.0.2'
-    implementation 'com.google.firebase:firebase-messaging:11.0.2'
-//    implementation 'com.google.android.gms:play-services-gcm:11.0.2'
+    implementation 'com.google.firebase:firebase-auth:11.4.2'
+    implementation 'com.google.firebase:firebase-core:11.4.2'
+    implementation 'com.google.firebase:firebase-messaging:11.4.2'
+    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.5'
+    implementation 'com.google.android.gms:play-services-gcm:11.4.2'
     implementation "com.quickblox:quickblox-android-sdk-videochat-webrtc:$rootProject.qbSdkVersion"
     implementation("com.quickblox:quickblox-android-sdk-chat:$rootProject.qbSdkVersion")
     implementation("com.quickblox:quickblox-android-sdk-content:$rootProject.qbSdkVersion")
-    implementation ("com.quickblox:quickblox-android-sdk-messages:$rootProject.qbSdkVersion")
-    implementation project(':quickblox-core')
+    implementation ("com.quickblox:quickblox-android-sdk-messages:$rootProject.qbSdkVersion"){
+        exclude group : 'com.google.android.gms'
+        exclude group : 'com.google.firebase'
+    }
+    implementation (project(':quickblox-core') ){
+        exclude group : 'com.quickblox', module : 'quickblox-android-sdk-messages'
+    }
     implementation 'com.github.JesusM:HoloCircleSeekBar:v2.2.2'
     //implementation 'com.crystal:crystalrangeseekbar:1.1.1'
     implementation 'com.minimize.library:seekbar-compat:0.2.5'

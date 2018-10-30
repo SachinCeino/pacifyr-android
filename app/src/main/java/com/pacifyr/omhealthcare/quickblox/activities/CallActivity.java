@@ -25,6 +25,7 @@ import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.ceino.utilitylibrary.model.pacifyr.MSessionDetailRoot;
 import com.ceino.utilitylibrary.model.pacifyr.MUser;
+import com.ceino.utilitylibrary.network.UtilityNetworkService;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.event.AlertTypeEvent;
 import com.pacifyr.omhealthcare.event.CallTimerEvent;
@@ -278,14 +279,18 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
     private void startSuitableFragment(boolean isInComingCall) {
         if (isInComingCall) {
             ringtonePlayer = new RingtonePlayer(this, R.raw.pacifyr_3);
-            ringtonePlayer.play(false);
+            if (UtilityNetworkService.isRelease) {
+                ringtonePlayer.play(false);
+            }
             initIncomingCallTask();
             startLoadAbsentUsers();
             addIncomeCallFragment();
             checkPermission();
         } else {
             ringtonePlayer = new RingtonePlayer(this, R.raw.beep);
-            ringtonePlayer.play(true);
+            if (UtilityNetworkService.isRelease) {
+                ringtonePlayer.play(true);
+            }
             addConversationFragment(isInComingCall);
         }
     }

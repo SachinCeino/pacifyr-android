@@ -3,7 +3,6 @@ package com.pacifyr.omhealthcare.home;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -15,15 +14,16 @@ import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.activity.TermsOfUseActivity;
 import com.pacifyr.omhealthcare.event.AlertTypeEvent;
 import com.pacifyr.omhealthcare.event.NotifyEvent;
-import com.pacifyr.omhealthcare.quickblox.chat.ui.activity.DialogsActivity;
-import com.pacifyr.omhealthcare.sign.RegisterActivity;
 import com.pacifyr.omhealthcare.utility.PacifyrAppCompactActivity;
+import com.pacifyr.omhealthcare.utils.Constants;
 
 import org.greenrobot.eventbus.Subscribe;
 
+/*
 import static com.ceino.utilitylibrary.network.UtilityNetworkService.copyrightUrl;
 import static com.ceino.utilitylibrary.network.UtilityNetworkService.privacypolicyUrl;
 import static com.ceino.utilitylibrary.network.UtilityNetworkService.termOfUseUrl;
+*/
 
 public class PolicyDocumentActivity extends PacifyrAppCompactActivity {
 
@@ -47,7 +47,7 @@ public class PolicyDocumentActivity extends PacifyrAppCompactActivity {
             @Override
             public void onClick(View v) {
                 Intent i=new Intent(PolicyDocumentActivity.this,TermsOfUseActivity.class);
-                i.putExtra("spurl", termOfUseUrl);
+                i.putExtra("spurl", Constants.URL_TERMS);
                 i.putExtra("title","policy documents");
                 startActivity(i);
 
@@ -58,7 +58,7 @@ public class PolicyDocumentActivity extends PacifyrAppCompactActivity {
             @Override
             public void onClick(View v) {
                 Intent i=new Intent(PolicyDocumentActivity.this,TermsOfUseActivity.class);
-                i.putExtra("spurl", privacypolicyUrl);
+                i.putExtra("spurl", Constants.URL_PRIVACY_POLICY);
                 i.putExtra("title","policy documents");
                 startActivity(i);
             }
@@ -68,7 +68,7 @@ public class PolicyDocumentActivity extends PacifyrAppCompactActivity {
             @Override
             public void onClick(View v) {
                 Intent i=new Intent(PolicyDocumentActivity.this,TermsOfUseActivity.class);
-                i.putExtra("spurl", copyrightUrl);
+                i.putExtra("spurl", Constants.URL_DISPUTE_POLICY);
                 i.putExtra("title","policy documents");
                 startActivity(i);
             }
