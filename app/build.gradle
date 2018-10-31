@@ -9,11 +9,11 @@ android {
         minSdkVersion 16
         // minSdkVersion 21
         targetSdkVersion 26
-        versionCode 5
-        versionName "1.2"
+        versionCode 6
+        versionName "1.3"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
-        resConfigs "en", "hi"
+//        resConfigs "en", "hi"
     }
     buildTypes {
         repositories {
@@ -27,9 +27,9 @@ android {
 
         }
         debug{
-            applicationVariants.all { variant ->
+           /* applicationVariants.all { variant ->
                 renameAPK(variant, defaultConfig, 'Test')
-            }
+            }*/
         }
         release {
             minifyEnabled false
@@ -39,9 +39,9 @@ android {
 
             // minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), "proguard-rules.pro"
-            applicationVariants.all { variant ->
+            /*applicationVariants.all { variant ->
                 renameAPK(variant, defaultConfig, 'Prod')
-            }
+            }*/
 
             //Other parameters
            /* debuggable false
