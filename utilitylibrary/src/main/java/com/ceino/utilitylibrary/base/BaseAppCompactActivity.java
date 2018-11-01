@@ -1,6 +1,5 @@
 package com.ceino.utilitylibrary.base;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -9,7 +8,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
-
 import android.text.TextUtils;
 import android.util.Patterns;
 import android.view.LayoutInflater;
@@ -24,23 +22,18 @@ import com.androidquery.AQuery;
 import com.ceino.utilitylibrary.CustomEditText;
 import com.ceino.utilitylibrary.CustomFontTextView;
 import com.ceino.utilitylibrary.DeviceFitImageView;
-import com.ceino.utilitylibrary.LogUtilsutility;
 import com.ceino.utilitylibrary.R;
 import com.ceino.utilitylibrary.ToastHandler;
 import com.ceino.utilitylibrary.model.pacifyr.MUser;
 import com.ceino.utilitylibrary.network.UtilityNetworkService;
 import com.ceino.utilitylibrary.utils.PrefManager;
 import com.kaopiz.kprogresshud.KProgressHUD;
-import com.quickblox.sample.core.gcm.GooglePlayServicesHelper;
 import com.quickblox.sample.core.ui.activity.CoreBaseActivity;
-import com.quickblox.sample.core.utils.SharedPrefsHelper;
 import com.squareup.picasso.Picasso;
 
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -262,6 +255,46 @@ public class BaseAppCompactActivity extends CoreBaseActivity {
 
             }
         });
+    }
+
+    public void setAlertOKStatusInBlue(String title, String desc, String ok, View.OnClickListener clickListener) {
+        //View.OnClickListener oklistner
+        View view = LayoutInflater.from(this).inflate(R.layout.alert_ok, null, false);
+        CustomFontTextView title_dtxv = (CustomFontTextView) view.findViewById(R.id.title_dtxv);
+        CustomFontTextView desc_dtxv = (CustomFontTextView) view.findViewById(R.id.desc_dtxv);
+        CustomFontTextView ok_dtxv = (CustomFontTextView) view.findViewById(R.id.ok_dtxv);
+
+        if (isValid(title))
+            defSetText(title_dtxv, title);
+        else
+            title_dtxv.setVisibility(View.GONE);
+        defSetText(desc_dtxv, desc);
+        ok_dtxv.setText(ok);
+        hideStatus();
+        hud_status = KProgressHUD.create(this).setStyle(KProgressHUD.Style.SPIN_INDETERMINATE).setCustomView(view).setWindowColor(this.getResources().getColor(R.color.transparent)).setCancellable(false).setAnimationSpeed(2).setDimAmount(0.5f);
+        showStatus();
+
+        ok_dtxv.setOnClickListener(clickListener);
+    }
+
+    public void setAlertOKStatusInRed(String title, String desc, String ok, View.OnClickListener clickListener) {
+        //View.OnClickListener oklistner
+        View view = LayoutInflater.from(this).inflate(R.layout.alert_ok_red, null, false);
+        CustomFontTextView title_dtxv = (CustomFontTextView) view.findViewById(R.id.title_dtxv);
+        CustomFontTextView desc_dtxv = (CustomFontTextView) view.findViewById(R.id.desc_dtxv);
+        CustomFontTextView ok_dtxv = (CustomFontTextView) view.findViewById(R.id.ok_dtxv);
+
+        if (isValid(title))
+            defSetText(title_dtxv, title);
+        else
+            title_dtxv.setVisibility(View.GONE);
+        defSetText(desc_dtxv, desc);
+        ok_dtxv.setText(ok);
+        hideStatus();
+        hud_status = KProgressHUD.create(this).setStyle(KProgressHUD.Style.SPIN_INDETERMINATE).setCustomView(view).setWindowColor(this.getResources().getColor(R.color.transparent)).setCancellable(false).setAnimationSpeed(2).setDimAmount(0.5f);
+        showStatus();
+
+        ok_dtxv.setOnClickListener(clickListener);
     }
     public void setAlertOKStatusInBlue(String title,String desc,String ok,boolean autohide) {
         //View.OnClickListener oklistner

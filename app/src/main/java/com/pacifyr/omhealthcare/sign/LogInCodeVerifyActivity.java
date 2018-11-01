@@ -186,12 +186,19 @@ public class LogInCodeVerifyActivity extends PacifyerActivity {
                     // [START_EXCLUDE silent]
                     mVerificationInProgress = false;
                     // [END_EXCLUDE]
+                    hideProgress();
 
                     if (e instanceof FirebaseAuthInvalidCredentialsException) {
                         // Invalid request
                         // [START_EXCLUDE]
                         //otpEditText.setError("Invalid phone number format. Check the phone number you entered and the country code.");
-                        Toast.makeText(LogInCodeVerifyActivity.this,"Invalid phone number format. Check the phone number you entered and the country code.",Toast.LENGTH_LONG).show();
+//                        Toast.makeText(LogInCodeVerifyActivity.this,"Invalid phone number format. Check the phone number you entered and the country code.",Toast.LENGTH_LONG).show();
+                        setAlertOKStatusInRed("Login failed", "Invalid phone number format. Check the phone number you entered and the country code.", "OK", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                hideStatus();
+                            }
+                        });
                         // [END_EXCLUDE]
                     } else if (e instanceof FirebaseTooManyRequestsException) {
                         // The SMS quota for the project has been exceeded
@@ -199,9 +206,10 @@ public class LogInCodeVerifyActivity extends PacifyerActivity {
                         Snackbar.make(findViewById(android.R.id.content), "Quota exceeded.",
                                 Snackbar.LENGTH_SHORT).show();
                         // [END_EXCLUDE]
-                    }
+                    } else {
 
-                    Toast.makeText(getApplicationContext(), "Failed " + e.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "Failed " + e.getMessage(), Toast.LENGTH_LONG).show();
+                    }
                     // Show a message and update the UI
                     // [START_EXCLUDE]
                   //  updateUI(STATE_VERIFY_FAILED);
@@ -310,6 +318,7 @@ public class LogInCodeVerifyActivity extends PacifyerActivity {
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+                        hideProgress();
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("jithish", "signInWithCredential:success");
@@ -337,7 +346,13 @@ public class LogInCodeVerifyActivity extends PacifyerActivity {
                                 // The verification code entered was invalid
                                 // [START_EXCLUDE silent]
                                 //otpEditText.setError("Invalid code.");
-                                Toast.makeText(LogInCodeVerifyActivity.this,"Invalid code.",Toast.LENGTH_LONG).show();
+                                setAlertOKStatusInRed("Login failed", "Invalid verfication code. Please try again", "OK", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        hideStatus();
+                                    }
+                                });
+//                                Toast.makeText(LogInCodeVerifyActivity.this,"Invalid code.",Toast.LENGTH_LONG).show();
                                 // [END_EXCLUDE]
                             }
                             // [START_EXCLUDE silent]

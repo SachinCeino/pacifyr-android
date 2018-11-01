@@ -255,6 +255,7 @@ public class LoginActivity extends PacifyerActivity {
                 hideProgress();
                 return;
             }
+            hideProgress();
 
             countryData = (ItemData) spinner.getSelectedItem();
             String code = countryData.getCode();
@@ -297,17 +298,14 @@ public class LoginActivity extends PacifyerActivity {
                     try {
                         jsonStrng = json.toString();
                         loginModel = GsonUtils.getInstance().gsonToLoginModel(json);
-                        userModel = loginModel.getUser();
-                        companyId = userModel.getCompanyId();
-                        prefM.saveCompanyID(companyId);
-
-
 
 
                         String logstat = loginModel.getStatus().toString();
                         if (isValid(logstat)) {
                             if (logstat.equals("success")) {
-
+                                userModel = loginModel.getUser();
+                                companyId = userModel.getCompanyId();
+                                prefM.saveCompanyID(companyId);
                                 new Handler().postDelayed(new Runnable() {
                                     @Override
                                     public void run() {
@@ -326,25 +324,32 @@ public class LoginActivity extends PacifyerActivity {
                                 }, 3000);
                             } else {
                                 hideProgress();
-                                Toast.makeText(LoginActivity.this,loginModel.getMessage(),Toast.LENGTH_LONG);
+//                                Toast.makeText(LoginActivity.this,loginModel.getMessage(),Toast.LENGTH_LONG);
                                 prefM.clear();
                                 LoginManager mLoginManager = LoginManager.getInstance();
                                 mLoginManager.logOut();
-                                setStatus(loginModel.getMessage(), R.color.md_red_400);
+                                setAlertOKStatusInRed("Error", loginModel.getMessage(), "OK", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        hideStatus();
+                                        finish();
+                                    }
+                                });
+                               /* setStatus(loginModel.getMessage(), R.color.md_red_400);
                                 showStatus();
                                 new Handler().postDelayed(new Runnable() {
                                     @Override
                                     public void run() {
                                         hideStatus();
                                         finish();
-                                        /*hideKeyboard();*/
+                                        *//*hideKeyboard();*//*
                                     }
-                                }, 3000);
+                                }, 3000);*/
                             }
                         }
                     } catch (Exception e) {
                         hideProgress();
-                        Toast.makeText(LoginActivity.this,/*loginModel.getMessage()+"/n"+*/e.getMessage(),Toast.LENGTH_LONG);
+                        Toast.makeText(LoginActivity.this,/*loginModel.getMessage()+"/n"+*/e.getMessage(), Toast.LENGTH_LONG).show();
                         LoginManager mLoginManager = LoginManager.getInstance();
                         mLoginManager.logOut();
                         main_label="error";
@@ -370,7 +375,6 @@ public class LoginActivity extends PacifyerActivity {
             Toast.makeText(LoginActivity.this,ex.getMessage(),Toast.LENGTH_LONG);
         }
     }
-
 
 
     private void signInCreatedUser( ) {

@@ -30,7 +30,6 @@ import com.quickblox.auth.session.QBSession;
 import com.quickblox.auth.session.QBSettings;
 import com.quickblox.core.QBEntityCallback;
 import com.quickblox.core.exception.QBResponseException;
-import com.quickblox.sample.core.utils.Toaster;
 import com.quickblox.users.model.QBUser;
 
 import org.json.JSONObject;
@@ -139,12 +138,20 @@ public class LoginPhoneActivity extends PacifyerActivity {
                             if (logstat.equals("success")) {
                                 if (main_label.equals("pacifyr")){
                                     hideProgress();
-                                    setStatus(getResources().getString(R.string.user_type_error), R.color.md_red_400);
-                                    showStatus();
+                                    setAlertOKStatusInBlue("Info", getResources().getString(R.string.user_type_error), "OK", new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            Intent i = new Intent(LoginPhoneActivity.this, SignActivity.class);
+                                            startActivity(i);
+                                            finish();
+                                        }
+                                    });
+                                    /*setStatus(getResources().getString(R.string.user_type_error), R.color.md_red_400);
+                                    showStatus();*/
                                     fbLogout();
                                     prefM.clearSharedAll();
                                     prefM.clear();
-                                    new Handler().postDelayed(new Runnable() {
+                                    /*new Handler().postDelayed(new Runnable() {
                                         @Override
                                         public void run() {
                                             hideProgress();
@@ -153,13 +160,13 @@ public class LoginPhoneActivity extends PacifyerActivity {
                                             startActivity(i);
                                             finish();
                                         }
-                                    }, 3000);
+                                    }, 3000);*/
                                 }else{
                                     signInCreatedUser();
                                 }
                             } else {
                                 hideProgress();
-                                setStatus("Login failed : \n,"+modelPhoneLogin.getMessage(), R.color.endcall);
+                               /* setStatus("Login failed : \n,"+modelPhoneLogin.getMessage(), R.color.endcall);
                                 showStatus();
                                 new Handler().postDelayed(new Runnable() {
                                     @Override
@@ -170,7 +177,15 @@ public class LoginPhoneActivity extends PacifyerActivity {
                                         Intent intent=new Intent(LoginPhoneActivity.this,SignActivity.class);
                                         startActivity(intent);
                                     }
-                                }, 900);
+                                }, 900);*/
+                                setAlertOKStatusInRed("Login failed", modelPhoneLogin.getMessage(), "OK", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        Intent intent = new Intent(LoginPhoneActivity.this, SignActivity.class);
+                                        startActivity(intent);
+                                        finish();
+                                    }
+                                });
                             }
                         }
                     }
@@ -179,7 +194,7 @@ public class LoginPhoneActivity extends PacifyerActivity {
                         hideProgress();
                         e.printStackTrace();
                         hideProgress();
-                        setStatus("Login failed : \n,"+modelPhoneLogin.getMessage(), R.color.endcall);
+                        /*setStatus("Login failed : \n,"+modelPhoneLogin.getMessage(), R.color.endcall);
                         showStatus();
                         new Handler().postDelayed(new Runnable() {
                             @Override
@@ -190,7 +205,15 @@ public class LoginPhoneActivity extends PacifyerActivity {
                                 Intent intent=new Intent(LoginPhoneActivity.this,SignActivity.class);
                                 startActivity(intent);
                             }
-                        }, 900);
+                        }, 900);*/
+                        setAlertOKStatusInRed("Login failed", "Please contact your administrator", "OK", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(LoginPhoneActivity.this, SignActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        });
                     }
                 }
             };
@@ -205,7 +228,15 @@ public class LoginPhoneActivity extends PacifyerActivity {
         {
             ex.printStackTrace();
             hideProgress();
-            setStatus("Login failed : \n,"+modelPhoneLogin.getMessage(), R.color.endcall);
+            setAlertOKStatusInRed("Login failed", "Please contact your administrator", "OK", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(LoginPhoneActivity.this, SignActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            });
+/*            setStatus("Login failed : \n,"+modelPhoneLogin.getMessage(), R.color.endcall);
             showStatus();
             new Handler().postDelayed(new Runnable() {
                 @Override
@@ -216,7 +247,7 @@ public class LoginPhoneActivity extends PacifyerActivity {
                     Intent intent=new Intent(LoginPhoneActivity.this,SignActivity.class);
                     startActivity(intent);
                 }
-            }, 900);
+            }, 900);*/
         }
     }
 
@@ -262,13 +293,33 @@ public class LoginPhoneActivity extends PacifyerActivity {
                     @Override
                     public void onError(QBResponseException responseException) {
                         hideProgress();
-                        Toaster.longToast("User signInUser failed!"+ responseException.getMessage());
+                        if (responseException.getHttpStatusCode() == 401) {
+                            setAlertOKStatusInRed("Login failed", "You are not registered in our system. Please register.", "OK", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Intent intent = new Intent(LoginPhoneActivity.this, SignActivity.class);
+                                    startActivity(intent);
+                                    finish();
+                                }
+                            });
+                        } else {
+                            setAlertOKStatusInRed("Login failed", responseException.getMessage(), "OK", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Intent intent = new Intent(LoginPhoneActivity.this, SignActivity.class);
+                                    startActivity(intent);
+                                    finish();
+                                }
+                            });
+                        }
+
+                        /*Toaster.longToast("User signInUser failed!"+ responseException.getMessage());
                         Toast.makeText(LoginPhoneActivity.this, "User signInUser failed!" + responseException.getMessage(),
-                                Toast.LENGTH_LONG).show();
+                                Toast.LENGTH_LONG).show();*/
                         prefM.clearSharedAll();
                         fbLogout();
-                        startActivity(new Intent(LoginPhoneActivity.this,SignActivity.class));
-                        finish();
+                        /*startActivity(new Intent(LoginPhoneActivity.this,SignActivity.class));
+                        finish();*/
                     }
                 });
             }
