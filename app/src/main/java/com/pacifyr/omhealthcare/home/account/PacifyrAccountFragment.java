@@ -1,6 +1,5 @@
 package com.pacifyr.omhealthcare.home.account;
 
-import android.app.MediaRouteButton;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,15 +11,16 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 
+import com.androidquery.callback.AjaxCallback;
+import com.androidquery.callback.AjaxStatus;
 import com.ceino.utilitylibrary.CustomFontTextView;
-import com.ceino.utilitylibrary.model.pacifyr.MUser;
 import com.ceino.utilitylibrary.model.pacifyr.ModelUserProfile;
 import com.ceino.utilitylibrary.utils.PrefManager;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.adapter.CertificationProfileAdapter;
 import com.pacifyr.omhealthcare.adapter.EducationProfileAdapter;
 import com.pacifyr.omhealthcare.event.NotifyEvent;
-import com.pacifyr.omhealthcare.home.ProfileScreenActivity;
+import com.pacifyr.omhealthcare.network.GsonUtils;
 import com.pacifyr.omhealthcare.network.NetworkService;
 import com.pacifyr.omhealthcare.utility.BaseFragment;
 import com.pacifyr.omhealthcare.utils.LogUtils;
@@ -28,7 +28,7 @@ import com.pacifyr.omhealthcare.utils.Utility;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -78,7 +78,7 @@ public class PacifyrAccountFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        userDetailWeb(getUserID());
+
         return inflater.inflate(R.layout.fragment_current_pacifyr_profile, null);
 
     }
@@ -134,6 +134,29 @@ public class PacifyrAccountFragment extends BaseFragment {
             defSetText(isonlineCtxv, "OFFLINE");
             onlineOfflineImv.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.offline));
         }
+        showProgress();
+        userDetailWeb(getUserID(), new AjaxCallback<JSONObject>() {
+            @Override
+            public void callback(String url, JSONObject json, AjaxStatus status) {
+                hideProgress();
+                try {
+                    if (json != null) {
+                        NetworkService.mCurrentUser = GsonUtils.getInstance().gsonToModelUserProfile(json);
+                        //ProfileScreenActivity.pacifyerDetial = GsonUtils.getInstance().gsonToModelUserProfile(json);
+
+                        onSetValues(getView());
+
+                    } else {
+                        LogUtils.LOGD("base", "bAF userDetailWeb json null  : " + status.getMessage());
+                    }
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    LogUtils.LOGD("base", "bAF userDetailWeb callback exception : " + e.getMessage());
+                }
+            }
+        });
 
     }
 

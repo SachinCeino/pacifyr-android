@@ -9,6 +9,7 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.ceino.utilitylibrary.network.UtilityNetworkService;
 import com.ceino.utilitylibrary.utils.PrefManager;
 import com.pacifyr.omhealthcare.quickblox.chat.utils.chat.ChatHelper;
 import com.pacifyr.omhealthcare.quickblox.util.ChatPingAlarmManager;
@@ -201,7 +202,7 @@ public class CallService extends Service {
         });
 
         // Configure
-        QBRTCConfig.setDebugEnabled(true);
+        QBRTCConfig.setDebugEnabled(!UtilityNetworkService.isRelease);
         SettingsUtil.configRTCTimers(CallService.this);
 
         // Add service as callback to RTCClient

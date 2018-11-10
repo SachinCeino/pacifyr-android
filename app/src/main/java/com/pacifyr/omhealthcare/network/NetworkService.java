@@ -1059,4 +1059,25 @@ public class NetworkService  extends IntentService {
         }
     }
 
+    public void sendNotification(String toUserId, String type, AjaxCallback cb) {
+        try {
+            String uuid = Constants.getUDID();
+            PrefManager prefM = PrefManager.getInstance(this);
+            String token = prefM.getAccessToken();
+            String userID = prefM.getUserID();
+            String url = GLOBAL_URL + "notification/";
+            AQuery aq = new AQuery(this);
+            cb.header("Content-Type", "application/json");
+            cb.header("AccessToken", token);
+            JSONObject params = new JSONObject();
+            params.putOpt("toUserId", toUserId);
+            params.putOpt("fromUserId", userID);
+            params.putOpt("type", type);
+            aq.post(url, params, JSONObject.class, cb);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }

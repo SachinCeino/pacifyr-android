@@ -30,6 +30,7 @@ import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.ceino.utilitylibrary.CustomFontTextView;
@@ -42,6 +43,7 @@ import com.pacifyr.omhealthcare.base.PacifyerActivity;
 import com.pacifyr.omhealthcare.event.CallEvent;
 import com.pacifyr.omhealthcare.event.NotifyEvent;
 import com.pacifyr.omhealthcare.home.CustomerDetailActivity;
+import com.pacifyr.omhealthcare.interfaces.EmpMinutesListener;
 import com.pacifyr.omhealthcare.network.NetworkService;
 import com.pacifyr.omhealthcare.quickblox.activities.CallActivity;
 import com.pacifyr.omhealthcare.quickblox.adapters.OpponentsFromCallAdapter;
@@ -135,6 +137,25 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
     private DeviceFitImageView moreDimv;
     private RelativeLayout more_rlay;
     private TextView billingStatus;
+    private EmpMinutesListener empMinutesListener = new EmpMinutesListener() {
+        @Override
+        public void onMinutesLeft(long minutes) {
+            setAlertStatusInBlue2("Warning", "Your monthly free sessions is expiring soon. Please enter your Credit Card to continue service.",
+                    "Add Card", "Cancel", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            setAlertAddCardInBlue2();
+                        }
+                    });
+        }
+
+        @Override
+        public void expired() {
+            Toast.makeText(getActivity(), "Your monthly free sessions has expired. Please enter your Credit Card to continue.", Toast.LENGTH_LONG).show();
+            if (conversationFragmentCallbackListener != null)
+                conversationFragmentCallbackListener.onHangUpCurrentSession();
+        }
+    };
     private BroadcastReceiver eventReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -144,10 +165,13 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
             if (type != null && type.equals("billing")) {
                 billingStatus.setVisibility(View.VISIBLE);
                 ((PacifyerActivity) getActivity()).setBillingStarted(true);
+                if (isEmployee()) {
+                    setEmpMinutesListener(empMinutesListener);
+                    checkEmpAvailableMinutes();
+                }
             }
         }
     };
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
       //  view = super.onCreateView(inflater, container, savedInstanceState);

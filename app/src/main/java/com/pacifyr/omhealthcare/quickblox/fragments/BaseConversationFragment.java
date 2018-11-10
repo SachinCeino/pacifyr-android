@@ -15,20 +15,29 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
-import com.ceino.utilitylibrary.ToastHandler;
+import com.androidquery.callback.AjaxCallback;
+import com.androidquery.callback.AjaxStatus;
 import com.ceino.utilitylibrary.model.pacifyr.MUser;
-import com.pacifyr.omhealthcare.Payment.AlertAddCrediCardActivty;
+import com.ceino.utilitylibrary.utils.PrefManager;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.base.PacifyerActivity;
 import com.pacifyr.omhealthcare.event.CallTimerEvent;
+import com.pacifyr.omhealthcare.interfaces.EmpMinutesListener;
 import com.pacifyr.omhealthcare.network.NetworkService;
 import com.pacifyr.omhealthcare.quickblox.activities.CallActivity;
 import com.pacifyr.omhealthcare.quickblox.db.QbUsersDbManager;
-import com.pacifyr.omhealthcare.quickblox.utils.CollectionsUtils;
 import com.pacifyr.omhealthcare.quickblox.utils.Consts;
 import com.pacifyr.omhealthcare.quickblox.utils.UsersUtils;
 import com.pacifyr.omhealthcare.quickblox.utils.WebRtcSessionManager;
 import com.quickblox.chat.QBChatService;
+import com.quickblox.users.model.QBUser;
+import com.quickblox.videochat.webrtc.QBRTCSession;
+import com.quickblox.videochat.webrtc.QBRTCTypes;
+
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+
 /*import com.quickblox.sample.groupchatwebrtc.R;
 import com.quickblox.sample.groupchatwebrtc.activities.CallActivity;
 import com.quickblox.sample.groupchatwebrtc.db.QbUsersDbManager;
@@ -36,12 +45,7 @@ import com.quickblox.sample.groupchatwebrtc.utils.CollectionsUtils;
 import com.quickblox.sample.groupchatwebrtc.utils.Consts;
 import com.quickblox.sample.groupchatwebrtc.utils.UsersUtils;
 import com.quickblox.sample.groupchatwebrtc.utils.WebRtcSessionManager;*/
-import com.quickblox.users.model.QBUser;
 /*import com.quickblox.videochat.webrtc.BaseSession;*/
-import com.quickblox.videochat.webrtc.QBRTCSession;
-import com.quickblox.videochat.webrtc.QBRTCTypes;
-
-import java.util.ArrayList;
 
 public abstract class BaseConversationFragment extends BaseToolBarFragment implements CallActivity.CurrentCallStateCallback {
 
@@ -65,6 +69,20 @@ public abstract class BaseConversationFragment extends BaseToolBarFragment imple
     protected TextView ringingTextView;
     protected QBUser currentUser;
     public ArrayList<MUser>call_particpants_list=new ArrayList<MUser>();
+    private static final String FREE_MINUTES_10 = "freeMinutes10";
+    private static final String FREE_MINUTES_5 = "freeMinutes5";
+    private static final String FREE_MINUTES_OVER = "freeMinutesOver";
+    boolean freeMinuteAlert10, freeMinuteAlert5, freeMinuteAlert0 = false; // track which of the 3 alerts are shown. 10, 5 or 0;
+    private CountDownTimer countDownTimer;
+    private EmpMinutesListener empMinutesListener;
+
+    public EmpMinutesListener getEmpMinutesListener() {
+        return empMinutesListener;
+    }
+
+    public void setEmpMinutesListener(EmpMinutesListener empMinutesListener) {
+        this.empMinutesListener = empMinutesListener;
+    }
 
 
     public static BaseConversationFragment newInstance(BaseConversationFragment baseConversationFragment, boolean isIncomingCall) {
@@ -111,7 +129,6 @@ public abstract class BaseConversationFragment extends BaseToolBarFragment imple
         initActionBar();
         initButtonsListener();
         prepareAndShowOutgoingScreen();
-
         return view;
     }
 
@@ -243,6 +260,91 @@ public abstract class BaseConversationFragment extends BaseToolBarFragment imple
         micToggleVideoCall.setActivated(inability);
     }
 
+    public boolean isEmployee() {
+        String role = PrefManager.getInstance(getActivity()).getCustomerRole();
+        if (role.equals("") || !role.equals("employee")) {
+            return false;
+        } else if (role.equals("employee")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public void checkEmpAvailableMinutes() {
+        boolean cardExist = isCardExist();
+        if (!cardExist && isEmployee()) {
+            if (NetworkService.mCurrentUser == null) {
+                return;
+            }
+            long freeMinutes = NetworkService.mCurrentUser.getAvailableMinutes();
+            if (freeMinutes > 0) {
+                long freeMillis = freeMinutes * 60 * 1000;
+                final long ONE_MINUTE = 60 * 1000;
+                countDownTimer = new CountDownTimer(freeMillis, ONE_MINUTE) {
+                    @Override
+                    public void onTick(long millisUntilFinished) {
+                        long minutesLeft = millisUntilFinished / (60 * 1000);
+
+                        if (minutesLeft <= 0 && !freeMinuteAlert0) {
+                            if (empMinutesListener != null) {
+                                empMinutesListener.expired();
+                            }
+                            if (getCallPacifyr() != null) {
+                                new NetworkService().sendNotification(getCallPacifyr().getId(), FREE_MINUTES_OVER, new AjaxCallback<JSONObject>() {
+                                    @Override
+                                    public void callback(String url, JSONObject json, AjaxStatus status) {
+                                        if (json != null) {
+                                            freeMinuteAlert0 = true;
+                                        }
+                                    }
+                                });
+                            }
+                        } else if (minutesLeft <= 5 && !freeMinuteAlert5) {
+                            if (empMinutesListener != null) {
+                                empMinutesListener.onMinutesLeft(minutesLeft);
+                            }
+                            if (getCallPacifyr() != null) {
+                                new NetworkService().sendNotification(getCallPacifyr().getId(), FREE_MINUTES_5, new AjaxCallback<JSONObject>() {
+                                    @Override
+                                    public void callback(String url, JSONObject json, AjaxStatus status) {
+                                        if (json != null) {
+                                            freeMinuteAlert5 = true;
+                                        }
+                                    }
+                                });
+                            }
+                        } else if (minutesLeft <= 10 && !freeMinuteAlert10) {
+                            if (empMinutesListener != null) {
+                                empMinutesListener.onMinutesLeft(minutesLeft);
+                            }
+                            if (getCallPacifyr() != null) {
+                                new NetworkService().sendNotification(getCallPacifyr().getId(), FREE_MINUTES_10, new AjaxCallback<JSONObject>() {
+                                    @Override
+                                    public void callback(String url, JSONObject json, AjaxStatus status) {
+                                        if (json != null) {
+                                            freeMinuteAlert10 = true;
+                                        }
+
+                                    }
+                                });
+                            }
+                        } else {
+                            Log.d(TAG, minutesLeft + " minutes left");
+                        }
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        if (empMinutesListener != null) {
+                            empMinutesListener.onMinutesLeft(0);
+                        }
+                    }
+                };
+                countDownTimer.start();
+            }
+        }
+    }
     private void startTimer() {
         if (!isStarted) {
             timerChronometer.setVisibility(View.VISIBLE);
@@ -295,7 +397,7 @@ public abstract class BaseConversationFragment extends BaseToolBarFragment imple
                     Log.d("session", "BCF CountDownTimer millisUntilFinished = " + millisUntilFinished);
                     if((300>=(millisUntilFinished/10000)&&!isFirsttime)) {
                         isFirsttime=true;
-                        setAlertStatusInBlue2("Add Card", "Your free minutes are expired. Please continue enjoying ourhi services by updating your credit card information", "Ok", "NO", new View.OnClickListener() {
+                        setAlertStatusInBlue2("Add Card", "Your free minutes are expired. Please continue enjoying our services by updating your credit card information", "Ok", "NO", new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
                                 hideProgress();

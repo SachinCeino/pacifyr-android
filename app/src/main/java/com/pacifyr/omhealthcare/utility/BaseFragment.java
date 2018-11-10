@@ -33,7 +33,6 @@ import com.kaopiz.kprogresshud.KProgressHUD;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.event.BusProvider;
 import com.pacifyr.omhealthcare.event.NotifyEvent;
-import com.pacifyr.omhealthcare.network.GsonUtils;
 import com.pacifyr.omhealthcare.network.NetworkService;
 import com.pacifyr.omhealthcare.quickblox.activities.CallActivity;
 import com.pacifyr.omhealthcare.utils.LogUtils;
@@ -1016,7 +1015,7 @@ public abstract class BaseFragment extends Fragment {
 
 
     public void setAlertStatusInBlue2(String title,String desc,String ok,String dismiss,View.OnClickListener oklistner) {
-        View view = LayoutInflater.from(getApplicationContext()).inflate(com.ceino.utilitylibrary.R.layout.alert_yes_no, null, false);
+        View view = LayoutInflater.from(getActivity()).inflate(com.ceino.utilitylibrary.R.layout.alert_yes_no, null, false);
         CustomFontTextView title_dtxv = (CustomFontTextView) view.findViewById(com.ceino.utilitylibrary.R.id.title_dtxv);
         CustomFontTextView desc_dtxv = (CustomFontTextView) view.findViewById(com.ceino.utilitylibrary.R.id.desc_dtxv);
         CustomFontTextView dismis_dtxv = (CustomFontTextView) view.findViewById(com.ceino.utilitylibrary.R.id.dismis_dtxv);
@@ -1032,7 +1031,7 @@ public abstract class BaseFragment extends Fragment {
 
         hideStatus();
         hideStatus2();
-        hud_status2 = KProgressHUD.create(getApplicationContext()).setStyle(KProgressHUD.Style.SPIN_INDETERMINATE).setCustomView(view).setWindowColor(this.getResources().getColor(com.ceino.utilitylibrary.R.color.transparent)).setCancellable(false).setAnimationSpeed(2).setDimAmount(0.5f);
+        hud_status2 = KProgressHUD.create(getActivity()).setStyle(KProgressHUD.Style.SPIN_INDETERMINATE).setCustomView(view).setWindowColor(this.getResources().getColor(com.ceino.utilitylibrary.R.color.transparent)).setCancellable(false).setAnimationSpeed(2).setDimAmount(0.5f);
         showStatus2();
         ok_dtxv.setOnClickListener(oklistner);
         dismis_dtxv.setOnClickListener(new View.OnClickListener() {
@@ -1047,7 +1046,7 @@ public abstract class BaseFragment extends Fragment {
     }
 
 
-    public void userDetailWeb(String id ) {
+    public void userDetailWeb(String id, AjaxCallback cb) {
         try {
             //showProgress();
 
@@ -1055,29 +1054,7 @@ public abstract class BaseFragment extends Fragment {
             String token = prefM.getAccessToken();
 
             String url = GLOBAL_URL + "user/profile/" + id;
-            AjaxCallback cb = new AjaxCallback<JSONObject>() {
-                @Override
-                public void callback(String url, JSONObject json, AjaxStatus status) {
-                    try {
-                        if(json!=null) {
-                            NetworkService.mCurrentUser = GsonUtils.getInstance().gsonToModelUserProfile(json);
-                            //ProfileScreenActivity.pacifyerDetial = GsonUtils.getInstance().gsonToModelUserProfile(json);
 
-                            postEventOnMainThread(new NotifyEvent());
-
-                        }
-                        else
-                        {
-                            LogUtils.LOGD("base", "bAF userDetailWeb json null  : " + status.getMessage());
-                        }
-
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        LogUtils.LOGD("base", "bAF userDetailWeb callback exception : " + e.getMessage());
-                    }
-                }
-            };
 
             AQuery aq = new AQuery(getApplicationContext());
             //cb.header("Content-Type", "application/json");
@@ -1096,7 +1073,7 @@ public abstract class BaseFragment extends Fragment {
 
     public void setAlertAddCardInBlue2() {
         try {
-            View view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.alert_add_credit_card, null, false);
+            View view = LayoutInflater.from(getActivity()).inflate(R.layout.alert_add_credit_card, null, false);
             final CustomEditText cardNumberEdt = (CustomEditText) view.findViewById(R.id.card_number_edt);
             final CustomEditText cardMonthEdt = (CustomEditText) view.findViewById(R.id.card_month_edt);
             final CustomEditText cardYearEdt = (CustomEditText) view.findViewById(R.id.card_year_edt);
@@ -1106,7 +1083,7 @@ public abstract class BaseFragment extends Fragment {
             CustomFontTextView saveCtxv = (CustomFontTextView) view.findViewById(R.id.save_ctxv);
             hideStatus();
             hideStatus2();
-            hud_status2 = KProgressHUD.create(getApplicationContext()).setStyle(KProgressHUD.Style.SPIN_INDETERMINATE).setCustomView(view).setWindowColor(this.getResources().getColor(com.ceino.utilitylibrary.R.color.transparent)).setCancellable(false).setAnimationSpeed(2).setDimAmount(0.5f);
+            hud_status2 = KProgressHUD.create(getActivity()).setStyle(KProgressHUD.Style.SPIN_INDETERMINATE).setCustomView(view).setWindowColor(this.getResources().getColor(com.ceino.utilitylibrary.R.color.transparent)).setCancellable(false).setAnimationSpeed(2).setDimAmount(0.5f);
             showStatus2();
             close_dimv.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -1122,13 +1099,13 @@ public abstract class BaseFragment extends Fragment {
                     if(isValidCard(cardNumberEdt,cardMonthEdt,cardYearEdt,cardCvvEdt)) {
                         Card card=  getCardValid(cardNumberEdt,cardMonthEdt,cardYearEdt,cardCvvEdt);
                         if(!isValid(card))
-                            com.ceino.utilitylibrary.ToastHandler.newInstance(getApplicationContext()).mustShowToast("Invalid Card");
+                            com.ceino.utilitylibrary.ToastHandler.newInstance(getActivity()).mustShowToast("Invalid Card");
                         else {
                             performCardSave(card);
                         }
                     }
                     else{
-                        ToastHandler.newInstance(getApplicationContext()).mustShowToast("Invalid Card");
+                        ToastHandler.newInstance(getActivity()).mustShowToast("Invalid Card");
                     }
                 }
             });

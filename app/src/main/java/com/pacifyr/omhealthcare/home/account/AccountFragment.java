@@ -7,14 +7,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.androidquery.callback.AjaxCallback;
+import com.androidquery.callback.AjaxStatus;
 import com.ceino.utilitylibrary.CustomFontTextView;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.event.NotifyEvent;
+import com.pacifyr.omhealthcare.network.GsonUtils;
 import com.pacifyr.omhealthcare.network.NetworkService;
 import com.pacifyr.omhealthcare.utility.BaseFragment;
 import com.pacifyr.omhealthcare.utils.LogUtils;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
+
+import org.json.JSONObject;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -40,9 +45,36 @@ public class AccountFragment  extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        userDetailWeb(getUserID());
+
         return inflater.inflate(R.layout.fragment_current_user_profile, null);
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        userDetailWeb(getUserID(), new AjaxCallback<JSONObject>() {
+            @Override
+            public void callback(String url, JSONObject json, AjaxStatus status) {
+                hideProgress();
+                try {
+                    if (json != null) {
+                        NetworkService.mCurrentUser = GsonUtils.getInstance().gsonToModelUserProfile(json);
+                        //ProfileScreenActivity.pacifyerDetial = GsonUtils.getInstance().gsonToModelUserProfile(json);
+
+                        onSetValues(getView());
+
+                    } else {
+                        LogUtils.LOGD("base", "bAF userDetailWeb json null  : " + status.getMessage());
+                    }
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    LogUtils.LOGD("base", "bAF userDetailWeb callback exception : " + e.getMessage());
+                }
+            }
+        });
     }
 
     @Override
