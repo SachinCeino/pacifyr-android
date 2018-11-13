@@ -88,7 +88,7 @@
     <string name="fb_login_protocol_scheme">fb180931982441982</string>
 
     <!-- Strings related to login -->
-    <string name="signup">sign up</string>
+    <string name="validate">Validate</string>
     <string name="login">log in</string>
     <string name="snapshot">Snapshot</string>
     <string name="login_fb">continue with facebook</string>

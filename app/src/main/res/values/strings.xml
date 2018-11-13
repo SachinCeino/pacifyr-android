@@ -132,4 +132,6 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="no_messages">There are no messages.</string>
     <string name="register">register</string>
     <string name="start_session">Session Started</string>
+    <string name="have_discount_code">Have a discount code?</string>
+    <string name="skip_this_step">Skip this step</string>
 </resources>

@@ -2004,6 +2004,26 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
         }
     }
 
+    public void getUserProfile(String id, AjaxCallback cb) {
+        try {
+            //showProgress();
+
+            PrefManager prefM = PrefManager.getInstance(PacifyerActivity.this);
+            String token = prefM.getAccessToken();
+
+            String url = GLOBAL_URL + "user/profile/" + id;
+
+            AQuery aq = new AQuery(PacifyerActivity.this);
+            //cb.header("Content-Type", "application/json");
+            cb.header("AccessToken", token);
+            aq.ajax(url, JSONObject.class, cb);
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            LogUtils.LOGD("base", "PA userDetailWeb  exception : " + ex.getMessage());
+        }
+    }
+
 
     public void checkRoleRequest(final MUser pacifyerDetial, final AvailableMinuteListner listner,final boolean isVideoCall) {
 

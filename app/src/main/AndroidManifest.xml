@@ -211,6 +211,10 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/CustomNoActionBarTheme2" />
+        <activity
+            android:name=".sign.DiscountCodeActivity"
+            android:screenOrientation="portrait" />
+
 
         <!-- android:launchMode = "singleInstance" -->
         <activity

@@ -1080,4 +1080,21 @@ public class NetworkService  extends IntentService {
         }
     }
 
+    public void validateDiscountCode(String code, AjaxCallback cb) {
+        try {
+            PrefManager prefM = PrefManager.getInstance(this);
+            String token = prefM.getAccessToken();
+            String url = GLOBAL_URL + "companies/validateCode";
+            AQuery aq = new AQuery(this);
+            cb.header("Content-Type", "application/json");
+            cb.header("AccessToken", token);
+            JSONObject params = new JSONObject();
+            params.putOpt("code", code);
+            aq.post(url, params, JSONObject.class, cb);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }

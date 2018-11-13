@@ -1072,14 +1072,14 @@ public class RegisterActivity extends PacifyerActivity {
                                 } else if (label.equalsIgnoreCase("customer")) {
                                     //  ConnectToPacifyrActivity.start(SignUpActivity.this);
                                     PrefManager.getInstance(RegisterActivity.this).saveCustomerRole("customer");
-                                    Intent i = new Intent(RegisterActivity.this, WelcomeTourActivity.class);
+                                    Intent i = new Intent(RegisterActivity.this, DiscountCodeActivity.class);
                                     startActivity(i);
                                     finishAffinity();
                                     //finish();
                                 } else if (label.equalsIgnoreCase("paidMember")) {
                                     //  ConnectToPacifyrActivity.start(SignUpActivity.this);
                                     PrefManager.getInstance(RegisterActivity.this).saveCustomerRole("paidMember");
-                                    Intent i = new Intent(RegisterActivity.this, WelcomeTourActivity.class);
+                                    Intent i = new Intent(RegisterActivity.this, DiscountCodeActivity.class);
                                     startActivity(i);
                                     finishAffinity();
                                     //finish();
@@ -1152,14 +1152,14 @@ public class RegisterActivity extends PacifyerActivity {
                                             } else if (label.equalsIgnoreCase("customer")) {
                                                 //  ConnectToPacifyrActivity.start(SignUpActivity.this);
                                                 PrefManager.getInstance(RegisterActivity.this).saveCustomerRole("customer");
-                                                Intent i = new Intent(RegisterActivity.this, WelcomeTourActivity.class);
+                                                Intent i = new Intent(RegisterActivity.this, DiscountCodeActivity.class);
                                                 startActivity(i);
                                                 finishAffinity();
                                                 //finish();
                                             } else if (label.equalsIgnoreCase("paidMember")) {
                                                 //  ConnectToPacifyrActivity.start(SignUpActivity.this);
                                                 PrefManager.getInstance(RegisterActivity.this).saveCustomerRole("paidMember");
-                                                Intent i = new Intent(RegisterActivity.this, WelcomeTourActivity.class);
+                                                Intent i = new Intent(RegisterActivity.this, DiscountCodeActivity.class);
                                                 startActivity(i);
                                                 finishAffinity();
                                                 //finish();
