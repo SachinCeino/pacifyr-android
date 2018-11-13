@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"  android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white">
 
 
-
-    <android.support.percent.PercentRelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white">
@@ -48,7 +45,7 @@
 
             <ImageView
                 android:layout_width="150dp"
-                android:src="@drawable/omhealth_icon_orange"
+                android:src="@drawable/powered_logo"
                 android:layout_height="150dp"
                 android:layout_centerHorizontal="true"
                 android:id="@+id/logo_blue"/>
