@@ -12,6 +12,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -27,6 +28,7 @@ import com.pacifyr.omhealthcare.sign.SignActivity;
 import com.pacifyr.omhealthcare.utils.Constants;
 import com.quickblox.sample.core.utils.SharedPrefsHelper;
 import com.quickblox.users.model.QBUser;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
 
@@ -42,6 +44,7 @@ public class SplachScreen extends BaseAppCompactActivity {
     private SharedPrefsHelper sharedPrefsHelper;
     Intent mServiceIntent;
     private CallService mSensorService;
+    private ImageView image_splash;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,8 +55,10 @@ public class SplachScreen extends BaseAppCompactActivity {
         NetworkService.webListEmotions(SplachScreen.this);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_splash_screen);
+        image_splash = (ImageView) findViewById(R.id.image_splash);
         mSensorService = new CallService(SplachScreen.this);
         mServiceIntent = new Intent(SplachScreen.this, mSensorService.getClass());
+        Picasso.with(this).load(R.drawable.splash).placeholder(R.drawable.placeholder_image).into(image_splash);
         if (!isMyServiceRunning(mSensorService.getClass())) {
             startService(mServiceIntent);
         }

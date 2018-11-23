@@ -33,6 +33,7 @@ import com.pacifyr.omhealthcare.network.GsonUtils;
 import com.pacifyr.omhealthcare.network.NetworkService;
 import com.pacifyr.omhealthcare.utility.BaseFragment;
 import com.pacifyr.omhealthcare.utility.EventMessage;
+import com.pacifyr.omhealthcare.utils.Utility;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
 
@@ -85,12 +86,17 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
         // Required empty public constructor
     }
 
+    private void getPermissions() {
+        Utility.checkPermission(getActivity(), "essential");
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         NetworkService.startActionCutomerDashboard(getActivity());
       //  if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             setMyAdapter();
+        getPermissions();
         //}
     }
 
