@@ -11,6 +11,8 @@ import android.widget.Toast;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.ceino.utilitylibrary.utils.PrefManager;
+import com.gdacciaro.iOSDialog.iOSDialog;
+import com.gdacciaro.iOSDialog.iOSDialogClickListener;
 import com.google.gson.Gson;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.base.PacifyerActivity;
@@ -50,9 +52,9 @@ public class DiscountCodeActivity extends PacifyerActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.discount_activity);
 
-        edit_discount = (EditText) findViewById(R.id.edit_discount_code);
-        button_validate = (RelativeLayout) findViewById(R.id.button_validate);
-        skip = (TextView) findViewById(R.id.text_skip);
+        edit_discount = findViewById(R.id.edit_discount_code);
+        button_validate = findViewById(R.id.button_validate);
+        skip = findViewById(R.id.text_skip);
 
         button_validate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,7 +75,7 @@ public class DiscountCodeActivity extends PacifyerActivity {
                             Toast.makeText(DiscountCodeActivity.this, "Something went wrong. Please try again.", Toast.LENGTH_SHORT).show();
                         } else {
 //                            Log.d(TAG, "Resp " + json.toString());
-                            ApiResponse apiResponse = new Gson().fromJson(json.toString(), ApiResponse.class);
+                            final ApiResponse apiResponse = new Gson().fromJson(json.toString(), ApiResponse.class);
                             if (apiResponse.isSuccess()) {
                                 getUserProfile(getUserID(), new AjaxCallback<JSONObject>() {
                                     @Override
@@ -88,9 +90,17 @@ public class DiscountCodeActivity extends PacifyerActivity {
                                                         PrefManager prefManager = PrefManager.getInstance(DiscountCodeActivity.this);
                                                         prefManager.saveCompanyID(NetworkService.mCurrentUser.getCompanyId());
                                                         prefManager.saveCustomerRole("employee");
-                                                        Intent i = new Intent(DiscountCodeActivity.this, WelcomeTourActivity.class);
-                                                        startActivity(i);
-                                                        finishAffinity();
+                                                        showIOSDialogOK("Success", apiResponse.getMessage(), "ok", new iOSDialogClickListener() {
+                                                            @Override
+                                                            public void onClick(iOSDialog dialog) {
+                                                                //Toast.makeText(PacifyerActivity.this,"Clicked!",Toast.LENGTH_LONG).show();
+                                                                dialog.dismiss();
+                                                                Intent i = new Intent(DiscountCodeActivity.this, WelcomeTourActivity.class);
+                                                                startActivity(i);
+                                                                finishAffinity();
+                                                            }
+                                                        });
+
                                                     }
                                                 }
                                             } else {

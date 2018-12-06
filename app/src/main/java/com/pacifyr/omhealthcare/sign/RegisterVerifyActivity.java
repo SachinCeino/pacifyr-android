@@ -6,7 +6,6 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -129,8 +128,7 @@ public class RegisterVerifyActivity extends PacifyerActivity {
                                             setAlertOKStatusInWhite(getResources().getString(R.string.registration_failed), getResources().getString(R.string.failed_register_message),"Ok");
 
 
-
-                                        }else if (logstat.equals("error")) {
+                                        } else if (stat.equals("error")) {
 
                                             Toast.makeText(RegisterVerifyActivity.this, "Mobile number not registered", Toast.LENGTH_LONG).show();
 
@@ -191,11 +189,28 @@ public class RegisterVerifyActivity extends PacifyerActivity {
                     if (e instanceof FirebaseAuthInvalidCredentialsException) {
                         // Invalid request
                         //otpRecieveEditText.setError("Invalid phone number format. Check the phone number you entered and the country code.");
-                        Toast.makeText(RegisterVerifyActivity.this,"Invalid phone number format. Check the phone number you entered and the country code.",Toast.LENGTH_LONG).show();
+//                        Toast.makeText(RegisterVerifyActivity.this,"Invalid phone number format. Check the phone number you entered and the country code.",Toast.LENGTH_LONG).show();
+                        setAlertOKStatusInRed("Login failed", "Invalid phone number format. Check the phone number you entered and the country code.", "OK", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                hideStatus();
+                            }
+                        });
                     } else if (e instanceof FirebaseTooManyRequestsException) {
                         // The SMS quota for the project has been exceeded
-                        Snackbar.make(findViewById(android.R.id.content), "Quota exceeded.",
-                                Snackbar.LENGTH_SHORT).show();
+                        setAlertOKStatusInRed("Login failed", e.getMessage(), "OK", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                hideStatus();
+                            }
+                        });
+                    } else {
+                        setAlertOKStatusInRed("Login failed", e.getMessage(), "OK", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                hideStatus();
+                            }
+                        });
                     }
                 }
 
@@ -204,6 +219,7 @@ public class RegisterVerifyActivity extends PacifyerActivity {
                                        PhoneAuthProvider.ForceResendingToken token) {
                     mVerificationId = verificationId;
                     mResendToken = token;
+                    Toast.makeText(getApplicationContext(), "Verification code sent", Toast.LENGTH_LONG).show();
                 }
             };
 
@@ -263,8 +279,21 @@ public class RegisterVerifyActivity extends PacifyerActivity {
                             // Sign in failed, display a message and update the UI
                             Log.w("LOG", "signInWithCredential:failure", task.getException());
                             if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
-                               //otpRecieveEditText.setError("Invalid code.");
+                                //otpRecieveEditText.setError("Invalid code.");
                                 //Toast.makeText(RegisterVerifyActivity.this,"Invalid code ",Toast.LENGTH_LONG).show();
+                                setAlertOKStatusInRed("Login failed", "Invalid verfication code. Please try again", "OK", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        hideStatus();
+                                    }
+                                });
+                            } else {
+                                setAlertOKStatusInRed("Login failed", task.getException().getMessage(), "OK", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        hideStatus();
+                                    }
+                                });
                             }
                         }
                     }
@@ -273,18 +302,18 @@ public class RegisterVerifyActivity extends PacifyerActivity {
 
     private void initialiseViews() {
         try {
-            pinview = (Pinview) findViewById(R.id.pinview);
+            pinview = findViewById(R.id.pinview);
             pinview.setInputType(Pinview.InputType.NUMBER);
-            imgBack = (ImageView) findViewById(R.id.img_back);
-            logoRlay = (RelativeLayout) findViewById(R.id.logo_rlay);
-            logoBlue = (ImageView) findViewById(R.id.logo_blue);
-            hintLlay = (LinearLayout) findViewById(R.id.hint_llay);
-            otpsendText = (CustomFontTextView) findViewById(R.id.otpsend_phone_tv);
-            createAcccountLlay = (LinearLayout) findViewById(R.id.create_acccount_llay);
+            imgBack = findViewById(R.id.img_back);
+            logoRlay = findViewById(R.id.logo_rlay);
+            logoBlue = findViewById(R.id.logo_blue);
+            hintLlay = findViewById(R.id.hint_llay);
+            otpsendText = findViewById(R.id.otpsend_phone_tv);
+            createAcccountLlay = findViewById(R.id.create_acccount_llay);
             //otpRecieveEditText = (CustomEditText) findViewById(R.id.otp_recieve_edittext);
-            createAccountRlay = (RelativeLayout) findViewById(R.id.create_account_rlay);
-            createAccountCtxv = (CustomFontTextView) findViewById(R.id.create_account_ctxv);
-            resendCtxv = (CustomFontTextView) findViewById(R.id.resend_ctxv);
+            createAccountRlay = findViewById(R.id.create_account_rlay);
+            createAccountCtxv = findViewById(R.id.create_account_ctxv);
+            resendCtxv = findViewById(R.id.resend_ctxv);
             phoneText=otpsendText.getText().toString();
             /*pinview.setPinViewEventListener(new Pinview.PinViewEventListener() {
                 @Override
@@ -339,15 +368,15 @@ public class RegisterVerifyActivity extends PacifyerActivity {
     private DeviceFitImageView rightImv;
 
     public void onSetActionBar() {
-        actionBarTopLlay = (LinearLayout) findViewById(R.id.action_bar_top_llay);
-        bottomPanel = (RelativeLayout) findViewById(R.id.bottom_panel);
-        leftLlay = (LinearLayout) findViewById(R.id.left_llay);
-        backImv = (DeviceFitImageView) findViewById(R.id.back_imv);
-        leftTxv = (CustomFontTextView) findViewById(R.id.left_txv);
-        titleTxv = (CustomFontTextView) findViewById(R.id.title_txv);
-        rightLlay = (LinearLayout) findViewById(R.id.right_llay);
-        rightTxv = (CustomFontTextView) findViewById(R.id.right_txv);
-        rightImv = (DeviceFitImageView) findViewById(R.id.right_imv);
+        actionBarTopLlay = findViewById(R.id.action_bar_top_llay);
+        bottomPanel = findViewById(R.id.bottom_panel);
+        leftLlay = findViewById(R.id.left_llay);
+        backImv = findViewById(R.id.back_imv);
+        leftTxv = findViewById(R.id.left_txv);
+        titleTxv = findViewById(R.id.title_txv);
+        rightLlay = findViewById(R.id.right_llay);
+        rightTxv = findViewById(R.id.right_txv);
+        rightImv = findViewById(R.id.right_imv);
         rightImv.setVisibility(View.INVISIBLE);
         rightTxv.setVisibility(View.INVISIBLE);
         rightLlay.setVisibility(View.INVISIBLE);
@@ -369,10 +398,10 @@ public class RegisterVerifyActivity extends PacifyerActivity {
 
     public void setAlertStatusInWhite(String title,String desc,String ok,String dismiss,View.OnClickListener oklistner) {
         View view = LayoutInflater.from(this).inflate(R.layout.alert_white_yes_no, null, false);
-        CustomFontTextView title_dtxv = (CustomFontTextView) view.findViewById(com.ceino.utilitylibrary.R.id.title_dtxv);
-        CustomFontTextView desc_dtxv = (CustomFontTextView) view.findViewById(com.ceino.utilitylibrary.R.id.desc_dtxv);
-        CustomFontTextView dismis_dtxv = (CustomFontTextView) view.findViewById(com.ceino.utilitylibrary.R.id.dismis_dtxv);
-        CustomFontTextView ok_dtxv = (CustomFontTextView) view.findViewById(com.ceino.utilitylibrary.R.id.ok_dtxv);
+        CustomFontTextView title_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.title_dtxv);
+        CustomFontTextView desc_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.desc_dtxv);
+        CustomFontTextView dismis_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.dismis_dtxv);
+        CustomFontTextView ok_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.ok_dtxv);
         if(isValid(title))
             defSetText(title_dtxv,title);
         else
@@ -403,9 +432,9 @@ public class RegisterVerifyActivity extends PacifyerActivity {
     public void setAlertOKStatusInWhite(String title,String desc,String ok) {
         //View.OnClickListener oklistner
         View view = LayoutInflater.from(this).inflate(R.layout.alert_white_ok, null, false);
-        CustomFontTextView title_dtxv = (CustomFontTextView) view.findViewById(com.ceino.utilitylibrary.R.id.title_dtxv);
-        CustomFontTextView desc_dtxv = (CustomFontTextView) view.findViewById(com.ceino.utilitylibrary.R.id.desc_dtxv);
-        CustomFontTextView ok_dtxv = (CustomFontTextView) view.findViewById(com.ceino.utilitylibrary.R.id.ok_dtxv);
+        CustomFontTextView title_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.title_dtxv);
+        CustomFontTextView desc_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.desc_dtxv);
+        CustomFontTextView ok_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.ok_dtxv);
 
         if(isValid(title))
             defSetText(title_dtxv,title);

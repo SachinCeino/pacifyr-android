@@ -105,27 +105,27 @@ public class PacifyrDashboardActivity extends PacifyrAppCompactActivity {
             configPushNotifications();
             // permissionCheck();
             webListEmotions(getApplicationContext());
-            leftPane = (LinearLayout) findViewById(R.id.left_pane);
-            privacyPolicyLlay = (LinearLayout) findViewById(R.id.policy_document_llay);
-            detailLlay = (LinearLayout) findViewById(R.id.detail_llay);
-            account_rlay = (RelativeLayout) findViewById(R.id.account_rlay);
-            detailNameCtxv = (CustomFontTextView) findViewById(R.id.detail_name_ctxv);
-            detailMailCtxv = (CustomFontTextView) findViewById(R.id.detail_mail_ctxv);
-            dashboardLlay = (LinearLayout) findViewById(R.id.dashboard_llay);
-            dashboardDimv = (DeviceFitImageView) findViewById(R.id.dashboard_dimv);
-            dashboardCtxv = (CustomFontTextView) findViewById(R.id.dashboard_ctxv);
-            mysessionsLlay = (LinearLayout) findViewById(R.id.mysessions_llay);
-            mesessionsDimv = (DeviceFitImageView) findViewById(R.id.mesessions_dimv);
-            mysessionsCtxv = (CustomFontTextView) findViewById(R.id.mysessions_ctxv);
-            earningsLlay = (LinearLayout) findViewById(R.id.earnings_llay);
-            earningsDimv = (DeviceFitImageView) findViewById(R.id.earnings_dimv);
-            earningsCtxv = (CustomFontTextView) findViewById(R.id.earnings_ctxv);
-            logoutLlay = (LinearLayout) findViewById(R.id.logout_llay);
-            logoutDimv = (DeviceFitImageView) findViewById(R.id.logout_dimv);
-            logoutCtxv = (CustomFontTextView) findViewById(R.id.logout_ctxv);
-            supportLlay = (LinearLayout) findViewById(R.id.support_llay);
-            messagesLlay = (LinearLayout) findViewById(R.id.mssages_llay);
-            profile_cimv = (CircleImageView) findViewById(R.id.profile_cimv);
+            leftPane = findViewById(R.id.left_pane);
+            privacyPolicyLlay = findViewById(R.id.policy_document_llay);
+            detailLlay = findViewById(R.id.detail_llay);
+            account_rlay = findViewById(R.id.account_rlay);
+            detailNameCtxv = findViewById(R.id.detail_name_ctxv);
+            detailMailCtxv = findViewById(R.id.detail_mail_ctxv);
+            dashboardLlay = findViewById(R.id.dashboard_llay);
+            dashboardDimv = findViewById(R.id.dashboard_dimv);
+            dashboardCtxv = findViewById(R.id.dashboard_ctxv);
+            mysessionsLlay = findViewById(R.id.mysessions_llay);
+            mesessionsDimv = findViewById(R.id.mesessions_dimv);
+            mysessionsCtxv = findViewById(R.id.mysessions_ctxv);
+            earningsLlay = findViewById(R.id.earnings_llay);
+            earningsDimv = findViewById(R.id.earnings_dimv);
+            earningsCtxv = findViewById(R.id.earnings_ctxv);
+            logoutLlay = findViewById(R.id.logout_llay);
+            logoutDimv = findViewById(R.id.logout_dimv);
+            logoutCtxv = findViewById(R.id.logout_ctxv);
+            supportLlay = findViewById(R.id.support_llay);
+            messagesLlay = findViewById(R.id.mssages_llay);
+            profile_cimv = findViewById(R.id.profile_cimv);
             prefM = getPrefManager();
             String name = prefM.getUserFirstName();
             String mail = prefM.geteMail();
@@ -147,7 +147,7 @@ public class PacifyrDashboardActivity extends PacifyrAppCompactActivity {
             MultiDex.install(this);
             onSetActionBar();
             hideRightLayActionbar();
-            mSlidingPaneLayout = (WrappingSlidingPaneLayout) findViewById(R.id.pacifyr_sliding_pane);
+            mSlidingPaneLayout = findViewById(R.id.pacifyr_sliding_pane);
             mSlidingPaneLayout.setSliderFadeColor(getResources().getColor(android.R.color.transparent));
             mSlidingPaneLayout.setParallaxDistance(350);
 
@@ -174,7 +174,7 @@ public class PacifyrDashboardActivity extends PacifyrAppCompactActivity {
                 public void onClick(View v) {
                     hideRightLayActionbar();
                     showFragment(new PacifyrDashboardFragment());
-                    defSetText(titleTxv, "My Dashboard");
+                    defSetText(titleTxv, "My Dash board");
                 }
             });
             profile_cimv.setOnClickListener(new View.OnClickListener() {
@@ -311,15 +311,15 @@ public class PacifyrDashboardActivity extends PacifyrAppCompactActivity {
     private DeviceFitImageView rightImv;
 
     public void onSetActionBar() {
-        actionBarTopLlay = (LinearLayout) findViewById(R.id.action_bar_top_llay);
-        bottomPanel = (RelativeLayout) findViewById(R.id.bottom_panel);
-        leftLlay = (LinearLayout) findViewById(R.id.left_llay);
-        backImv = (DeviceFitImageView) findViewById(R.id.back_imv);
-        leftTxv = (CustomFontTextView) findViewById(R.id.left_txv);
-        titleTxv = (CustomFontTextView) findViewById(R.id.title_txv);
-        rightLlay = (LinearLayout) findViewById(R.id.right_llay);
-        rightTxv = (CustomFontTextView) findViewById(R.id.right_txv);
-        rightImv = (DeviceFitImageView) findViewById(R.id.right_imv);
+        actionBarTopLlay = findViewById(R.id.action_bar_top_llay);
+        bottomPanel = findViewById(R.id.bottom_panel);
+        leftLlay = findViewById(R.id.left_llay);
+        backImv = findViewById(R.id.back_imv);
+        leftTxv = findViewById(R.id.left_txv);
+        titleTxv = findViewById(R.id.title_txv);
+        rightLlay = findViewById(R.id.right_llay);
+        rightTxv = findViewById(R.id.right_txv);
+        rightImv = findViewById(R.id.right_imv);
         rightImv.setVisibility(View.INVISIBLE);
         rightTxv.setVisibility(View.INVISIBLE);
         rightLlay.setVisibility(View.INVISIBLE);
@@ -327,7 +327,7 @@ public class PacifyrDashboardActivity extends PacifyrAppCompactActivity {
         backImv.setVisibility(View.VISIBLE);
         titleTxv.setVisibility(View.VISIBLE);
         leftLlay.setVisibility(View.VISIBLE);
-        defSetText(titleTxv,"My Dashboard");
+        defSetText(titleTxv, "My Dash board");
         backImv.setImageDrawable(getResources().getDrawable(R.drawable.leftmen));
         hideRightLayActionbar();
         //backImv.setBackgroundResource(R.drawable.leftmen);
@@ -436,7 +436,7 @@ public class PacifyrDashboardActivity extends PacifyrAppCompactActivity {
     @Subscribe
     public void onActionbarEvent(ActionbarEvent event) {
         try {
-            defSetText(titleTxv, "My Dashboard");
+            defSetText(titleTxv, "My Dash board");
         }catch (Exception e)
         {
             LogUtils.LOGD("session","DA onActionbarEvent exce " + e.getMessage());

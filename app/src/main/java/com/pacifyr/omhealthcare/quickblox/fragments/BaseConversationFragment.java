@@ -72,7 +72,7 @@ public abstract class BaseConversationFragment extends BaseToolBarFragment imple
     private static final String FREE_MINUTES_10 = "freeMinutes10";
     private static final String FREE_MINUTES_5 = "freeMinutes5";
     private static final String FREE_MINUTES_OVER = "freeMinutesOver";
-    boolean freeMinuteAlert10, freeMinuteAlert5, freeMinuteAlert0 = false; // track which of the 3 alerts are shown. 10, 5 or 0;
+    boolean freeMinuteAlert10, freeMinuteAlert5, freeMinuteAlert0, freeMinuteAlertMore10 = false; // track which of the 3 alerts are shown. 10, 5 or 0;
     private CountDownTimer countDownTimer;
     private EmpMinutesListener empMinutesListener;
 
@@ -219,11 +219,11 @@ public abstract class BaseConversationFragment extends BaseToolBarFragment imple
     }
 
     protected void initViews(View view) {
-        micToggleVideoCall = (ToggleButton) view.findViewById(R.id.toggle_mic);
-        handUpVideoCall = (ImageButton) view.findViewById(R.id.button_hangup_call);
+        micToggleVideoCall = view.findViewById(R.id.toggle_mic);
+        handUpVideoCall = view.findViewById(R.id.button_hangup_call);
         outgoingOpponentsRelativeLayout = view.findViewById(R.id.layout_background_outgoing_screen);
-        allOpponentsTextView = (TextView) view.findViewById(R.id.text_outgoing_opponents_names);
-        ringingTextView = (TextView) view.findViewById(R.id.text_ringing);
+        allOpponentsTextView = view.findViewById(R.id.text_outgoing_opponents_names);
+        ringingTextView = view.findViewById(R.id.text_ringing);
 
         if (isIncomingCall) {
             hideOutgoingScreen();
@@ -264,11 +264,7 @@ public abstract class BaseConversationFragment extends BaseToolBarFragment imple
         String role = PrefManager.getInstance(getActivity()).getCustomerRole();
         if (role.equals("") || !role.equals("employee")) {
             return false;
-        } else if (role.equals("employee")) {
-            return true;
-        } else {
-            return false;
-        }
+        } else return role.equals("employee");
     }
 
     public void checkEmpAvailableMinutes() {
@@ -329,6 +325,12 @@ public abstract class BaseConversationFragment extends BaseToolBarFragment imple
                                     }
                                 });
                             }
+                        } else if (minutesLeft > 10 && !freeMinuteAlertMore10) {
+                            if (empMinutesListener != null) {
+                                empMinutesListener.onMinutesLeft(minutesLeft);
+                                freeMinuteAlertMore10 = true;
+                            }
+
                         } else {
                             Log.d(TAG, minutesLeft + " minutes left");
                         }
@@ -345,7 +347,8 @@ public abstract class BaseConversationFragment extends BaseToolBarFragment imple
             }
         }
     }
-    private void startTimer() {
+
+    public void startTimer() {
         if (!isStarted) {
             timerChronometer.setVisibility(View.VISIBLE);
             timerChronometer.setBase(SystemClock.elapsedRealtime());
@@ -423,7 +426,8 @@ public abstract class BaseConversationFragment extends BaseToolBarFragment imple
             Log.d("session", "BCF setAvaiableTimer exception = " + e.getMessage());
         }
     }
-    private void stopTimer() {
+
+    public void stopTimer() {
         if (timerChronometer != null) {
             timerChronometer.stop();
             isStarted = false;

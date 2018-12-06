@@ -80,10 +80,6 @@ public class PacifyrReceiver extends WakefulBroadcastReceiver {
             this.context=context;
 
             if (intent != null) {
-                Intent background = new Intent(context, CallService.class);
-                context.startService(background);
-
-
 
                 Bundle extras = intent.getExtras();
 
@@ -103,6 +99,9 @@ public class PacifyrReceiver extends WakefulBroadcastReceiver {
                         callIntent.putExtra("id", _id);
                         LocalBroadcastManager.getInstance(context).sendBroadcast(callIntent);
                     }
+
+                    Intent background = new Intent(context, CallService.class);
+                    context.startService(background);
 
                     LogUtils.LOGD("app_rec", "PR  onReceive message " + message);
                     LogUtils.LOGD("app_rec", "PR  onReceive actual_type " + actual_type);
@@ -251,7 +250,7 @@ public class PacifyrReceiver extends WakefulBroadcastReceiver {
     }
 
     public Boolean isValid(String text) {
-        if(text != null) if(!text.trim().equalsIgnoreCase("")) return true;
+        if (text != null) return !text.trim().equalsIgnoreCase("");
         return false;
 
     }

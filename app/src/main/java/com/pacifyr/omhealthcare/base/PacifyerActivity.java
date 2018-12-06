@@ -243,7 +243,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
             actionBar.setSubtitle(null);
     }
     public Boolean isValidhtml(String text) {
-        if(isValid(text)) if(text.contains("http")||text.contains("https")) return true;
+        if (isValid(text)) return text.contains("http") || text.contains("https");
         return false;
 
     }
@@ -472,9 +472,9 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
         try {
             //View.OnClickListener oklistner
             View view = LayoutInflater.from(this).inflate(R.layout.alert_white_ok, null, false);
-            CustomFontTextView title_dtxv = (CustomFontTextView) view.findViewById(com.ceino.utilitylibrary.R.id.title_dtxv);
-            CustomFontTextView desc_dtxv = (CustomFontTextView) view.findViewById(com.ceino.utilitylibrary.R.id.desc_dtxv);
-            CustomFontTextView ok_dtxv = (CustomFontTextView) view.findViewById(com.ceino.utilitylibrary.R.id.ok_dtxv);
+            CustomFontTextView title_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.title_dtxv);
+            CustomFontTextView desc_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.desc_dtxv);
+            CustomFontTextView ok_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.ok_dtxv);
 
             if (isValid(title))
                 defSetText(title_dtxv, title);
@@ -1187,7 +1187,17 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
                         NetworkService.mCurrentUser.setEmotionId(PacifyerActivity.call_emotion.getId());
                         NetworkService.mCurrentUser.setReasonForTheCall(EmotionSpecialityAdapter.reason_forcall);
                         getPrefManager().savePacifyrID(pacifyerDetial.getId());
-                        startSessionWeb(pacifyerDetial,isVideoCall);
+                        if (NetworkService.mCurrentUser.getAvailableMinutes() > 0 && isEmployee()) {
+                            setAlertOKStatusInBlue("Info", "You have " + NetworkService.mCurrentUser.getAvailableMinutes() + " free minutes available", "OK", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    startSessionWeb(pacifyerDetial, isVideoCall);
+                                    hideStatus();
+                                }
+                            });
+                        } else {
+                            startSessionWeb(pacifyerDetial, isVideoCall);
+                        }
                         //  startSessionWeb
                     /*    if (isValid(result)) {
 
@@ -1216,6 +1226,12 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
         }
     }
 
+    public boolean isEmployee() {
+        String role = PrefManager.getInstance(this).getCustomerRole();
+        if (role.equals("") || !role.equals("employee")) {
+            return false;
+        } else return role.equals("employee");
+    }
 
 
     public void startSessionWeb(final MUser pacifyer, final boolean isVideoCall) {
@@ -1567,9 +1583,9 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
     public void setAlertSessionStop(String title,String desc,String ok) {
         //View.OnClickListener oklistner
         View view = LayoutInflater.from(this).inflate(com.ceino.utilitylibrary.R.layout.alert_ok, null, false);
-        CustomFontTextView title_dtxv = (CustomFontTextView) view.findViewById(com.ceino.utilitylibrary.R.id.title_dtxv);
-        CustomFontTextView desc_dtxv = (CustomFontTextView) view.findViewById(com.ceino.utilitylibrary.R.id.desc_dtxv);
-        CustomFontTextView ok_dtxv = (CustomFontTextView) view.findViewById(com.ceino.utilitylibrary.R.id.ok_dtxv);
+        CustomFontTextView title_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.title_dtxv);
+        CustomFontTextView desc_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.desc_dtxv);
+        CustomFontTextView ok_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.ok_dtxv);
 
         if(isValid(title))
             defSetText(title_dtxv,title);
@@ -1595,13 +1611,12 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
     }
 
 
-
-    public void setAlertOKStatusInBlue(String title,String desc,String ok) {
+    public void setAlertOKStatusInBlue(String title, String desc, String ok, View.OnClickListener listener) {
         //View.OnClickListener oklistner
         View view = LayoutInflater.from(this).inflate(com.ceino.utilitylibrary.R.layout.alert_ok, null, false);
-        CustomFontTextView title_dtxv = (CustomFontTextView) view.findViewById(com.ceino.utilitylibrary.R.id.title_dtxv);
-        CustomFontTextView desc_dtxv = (CustomFontTextView) view.findViewById(com.ceino.utilitylibrary.R.id.desc_dtxv);
-        CustomFontTextView ok_dtxv = (CustomFontTextView) view.findViewById(com.ceino.utilitylibrary.R.id.ok_dtxv);
+        CustomFontTextView title_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.title_dtxv);
+        CustomFontTextView desc_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.desc_dtxv);
+        CustomFontTextView ok_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.ok_dtxv);
 
         if(isValid(title))
             defSetText(title_dtxv,title);
@@ -1613,15 +1628,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
         hud_status = KProgressHUD.create(this).setStyle(KProgressHUD.Style.SPIN_INDETERMINATE).setCustomView(view).setWindowColor(this.getResources().getColor(com.ceino.utilitylibrary.R.color.transparent)).setCancellable(false).setAnimationSpeed(2).setDimAmount(0.5f);
         showStatus();
 
-        ok_dtxv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                hideProgress();
-                hideStatus();
-
-
-            }
-        });
+        ok_dtxv.setOnClickListener(listener);
     }
 
 
@@ -2294,13 +2301,13 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
     public void setAlertAddCardInBlue2() {
         try {
             View view = LayoutInflater.from(this).inflate(R.layout.alert_add_credit_card, null, false);
-            final CustomEditText cardNumberEdt = (CustomEditText) view.findViewById(R.id.card_number_edt);
-            final CustomEditText cardMonthEdt = (CustomEditText) view.findViewById(R.id.card_month_edt);
-            final CustomEditText cardYearEdt = (CustomEditText) view.findViewById(R.id.card_year_edt);
-            final CustomEditText cardCvvEdt = (CustomEditText) view.findViewById(R.id.card_cvv_edt);
-            final DeviceFitImageView close_dimv = (DeviceFitImageView) view.findViewById(R.id.close_dimv);
-            RelativeLayout saveRlay = (RelativeLayout) view.findViewById(R.id.save_rlay);
-            CustomFontTextView saveCtxv = (CustomFontTextView) view.findViewById(R.id.save_ctxv);
+            final CustomEditText cardNumberEdt = view.findViewById(R.id.card_number_edt);
+            final CustomEditText cardMonthEdt = view.findViewById(R.id.card_month_edt);
+            final CustomEditText cardYearEdt = view.findViewById(R.id.card_year_edt);
+            final CustomEditText cardCvvEdt = view.findViewById(R.id.card_cvv_edt);
+            final DeviceFitImageView close_dimv = view.findViewById(R.id.close_dimv);
+            RelativeLayout saveRlay = view.findViewById(R.id.save_rlay);
+            CustomFontTextView saveCtxv = view.findViewById(R.id.save_ctxv);
             hideStatus();
             hideStatus2();
             hud_status2 = KProgressHUD.create(this).setStyle(KProgressHUD.Style.SPIN_INDETERMINATE).setCustomView(view).setWindowColor(this.getResources().getColor(com.ceino.utilitylibrary.R.color.transparent)).setCancellable(false).setAnimationSpeed(2).setDimAmount(0.5f);
@@ -2553,11 +2560,11 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
         final Integer[] vals = {null};
         //View.OnClickListener oklistner
         View view = LayoutInflater.from(this).inflate(R.layout.dialog_show_year_picker, null, false);
-        TextView title_dtxv = (TextView) view.findViewById(R.id.title_dtxv);
-        TextView ok_dtxv = (TextView) view.findViewById(R.id.save_ctxv);
-        TextView cancelTxv = (TextView) view.findViewById(R.id.cancel_ctxv);
-        ImageView closeDimv = (ImageView) view.findViewById(R.id.close_dimv);
-        WheelYearPicker wheelYearPicker = (WheelYearPicker) view.findViewById(R.id.wheel_date_picker_year);
+        TextView title_dtxv = view.findViewById(R.id.title_dtxv);
+        TextView ok_dtxv = view.findViewById(R.id.save_ctxv);
+        TextView cancelTxv = view.findViewById(R.id.cancel_ctxv);
+        ImageView closeDimv = view.findViewById(R.id.close_dimv);
+        WheelYearPicker wheelYearPicker = view.findViewById(R.id.wheel_date_picker_year);
         wheelYearPicker.setSelectedItemTextColor(Color.parseColor("#3F51B5"));
         //wheelYearPicker.setIndicator(true);
         //wheelYearPicker.setIndicatorColor(R.color.black);

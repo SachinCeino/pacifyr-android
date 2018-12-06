@@ -6,7 +6,6 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -77,23 +76,23 @@ public class LogInCodeVerifyActivity extends PacifyerActivity {
             InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
             imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
 
-            imgBack = (ImageView) findViewById(R.id.img_back);
-            logoRlay = (RelativeLayout) findViewById(R.id.logo_rlay);
-            logoBlue = (ImageView) findViewById(R.id.logo_blue);
+            imgBack = findViewById(R.id.img_back);
+            logoRlay = findViewById(R.id.logo_rlay);
+            logoBlue = findViewById(R.id.logo_blue);
 
-            pin= (Pinview) findViewById(R.id.pinview);
+            pin = findViewById(R.id.pinview);
             pin.setHint("_");
 
 
             hideKeyboard();
 
             //otpEditText = (CustomEditText) findViewById(R.id.otp_edtit_text);
-            hintLlay = (LinearLayout) findViewById(R.id.hint_llay);
-            createLlay = (LinearLayout) findViewById(R.id.create_llay);
-            createaccountRlay = (RelativeLayout) findViewById(R.id.createaccount_rlay);
-            cAccountCtxv = (CustomFontTextView) findViewById(R.id.c_account_ctxv);
-            resend_ctxv = (CustomFontTextView) findViewById(R.id.resend_ctxv);
-            otp_phone_tv=(CustomFontTextView) findViewById(R.id.otp_phone_tv);
+            hintLlay = findViewById(R.id.hint_llay);
+            createLlay = findViewById(R.id.create_llay);
+            createaccountRlay = findViewById(R.id.createaccount_rlay);
+            cAccountCtxv = findViewById(R.id.c_account_ctxv);
+            resend_ctxv = findViewById(R.id.resend_ctxv);
+            otp_phone_tv = findViewById(R.id.otp_phone_tv);
             phoneText=otp_phone_tv.getText().toString();
 
 
@@ -172,7 +171,7 @@ public class LogInCodeVerifyActivity extends PacifyerActivity {
                             signInWithPhoneAuthCredential(credential);
                             hideProgress();
                         }
-                    }, 5000);
+                    }, 900);
 
                     Toast.makeText(getApplicationContext(), "Success : Verification complete", Toast.LENGTH_LONG).show();
 
@@ -203,12 +202,24 @@ public class LogInCodeVerifyActivity extends PacifyerActivity {
                     } else if (e instanceof FirebaseTooManyRequestsException) {
                         // The SMS quota for the project has been exceeded
                         // [START_EXCLUDE]
-                        Snackbar.make(findViewById(android.R.id.content), "Quota exceeded.",
-                                Snackbar.LENGTH_SHORT).show();
+                        setAlertOKStatusInRed("Login failed", e.getMessage(), "OK", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                hideStatus();
+                            }
+                        });
+                        /*Snackbar.make(findViewById(android.R.id.content), "SMS Quota for this project has exceeded limits. Please contact administrator",
+                                Snackbar.LENGTH_LONG).show();*/
                         // [END_EXCLUDE]
                     } else {
 
-                        Toast.makeText(getApplicationContext(), "Failed " + e.getMessage(), Toast.LENGTH_LONG).show();
+                        setAlertOKStatusInRed("Login failed", e.getMessage(), "OK", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                hideStatus();
+                            }
+                        });
+//                        Toast.makeText(getApplicationContext(), "Failed " + e.getMessage(), Toast.LENGTH_LONG).show();
                     }
                     // Show a message and update the UI
                     // [START_EXCLUDE]
@@ -398,15 +409,15 @@ public class LogInCodeVerifyActivity extends PacifyerActivity {
     private DeviceFitImageView rightImv;
 
     public void onSetActionBar() {
-        actionBarTopLlay = (LinearLayout) findViewById(R.id.action_bar_top_llay);
-        bottomPanel = (RelativeLayout) findViewById(R.id.bottom_panel);
-        leftLlay = (LinearLayout) findViewById(R.id.left_llay);
-        backImv = (DeviceFitImageView) findViewById(R.id.back_imv);
-        leftTxv = (CustomFontTextView) findViewById(R.id.left_txv);
-        titleTxv = (CustomFontTextView) findViewById(R.id.title_txv);
-        rightLlay = (LinearLayout) findViewById(R.id.right_llay);
-        rightTxv = (CustomFontTextView) findViewById(R.id.right_txv);
-        rightImv = (DeviceFitImageView) findViewById(R.id.right_imv);
+        actionBarTopLlay = findViewById(R.id.action_bar_top_llay);
+        bottomPanel = findViewById(R.id.bottom_panel);
+        leftLlay = findViewById(R.id.left_llay);
+        backImv = findViewById(R.id.back_imv);
+        leftTxv = findViewById(R.id.left_txv);
+        titleTxv = findViewById(R.id.title_txv);
+        rightLlay = findViewById(R.id.right_llay);
+        rightTxv = findViewById(R.id.right_txv);
+        rightImv = findViewById(R.id.right_imv);
         rightImv.setVisibility(View.INVISIBLE);
         rightTxv.setVisibility(View.INVISIBLE);
         rightLlay.setVisibility(View.INVISIBLE);

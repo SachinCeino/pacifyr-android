@@ -14,7 +14,8 @@ public class AWSManager {
 
     /*public static final String ARN = "arn:aws:sns:us-east-1:106428918470:app/GCM/GetSmartLive";
     public static final String AWS_PROJECT = "GetSmartLive";*/
-    public static final String ARN = "arn:aws:sns:us-east-1:271048179034:app/GCM/Android_OM_Healthcare_dev";
+//    public static final String ARN = "arn:aws:sns:us-east-1:271048179034:app/GCM/Android_OM_Healthcare_dev";
+    public static final String ARN = "arn:aws:sns:us-east-1:271048179034:app/GCM/Android_OMHealth_Development";
     private static final String _SECRET_KEY = "qLBBgBeGwl6eHjOSkXAoeljWQOIJx/nhvXdAvqBT";
     public static final String AWS_PROJECT = "OMDev";
     /*public static final String ARN = "arn:aws:sns:us-east-1:271048179034:app/GCM/PacifyrAndroidDev";

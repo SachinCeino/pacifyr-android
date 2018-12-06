@@ -1,35 +1,27 @@
 {
   "project_info": {
-    "project_number": "200135963019",
-    "firebase_url": "https://om-healthcare-1af51.firebaseio.com",
-    "project_id": "om-healthcare-1af51",
-    "storage_bucket": "om-healthcare-1af51.appspot.com"
+    "project_number": "337455525233",
+    "firebase_url": "https://omhealth-894de.firebaseio.com",
+    "project_id": "omhealth-894de",
+    "storage_bucket": "omhealth-894de.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:200135963019:android:002c2524d18c20ac",
+        "mobilesdk_app_id": "1:337455525233:android:002c2524d18c20ac",
         "android_client_info": {
           "package_name": "com.ceino.pacifyr.omhealthcare"
         }
       },
       "oauth_client": [
         {
-          "client_id": "200135963019-1c8vrv5qvg120qo3bd7neuell2300omr.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.ceino.pacifyr.omhealthcare",
-            "certificate_hash": "653232b02b44ce70caaf2849d4628dde2599f6c2"
-          }
-        },
-        {
-          "client_id": "200135963019-bq0sf4q5fheesou3oe0o8otb0138tmo7.apps.googleusercontent.com",
+          "client_id": "337455525233-tar5aj1penkk7u68hhjc8lssd8upj8pi.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAjdaU-2ksU_rc_6dLOqmX7ra8w3Tn-to4"
+          "current_key": "AIzaSyBdWIzRWOK-_lnqk1ShQohss5f3VTZ6JMA"
         }
       ],
       "services": {
@@ -37,13 +29,8 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 2,
-          "other_platform_oauth_client": [
-            {
-              "client_id": "200135963019-bq0sf4q5fheesou3oe0o8otb0138tmo7.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "status": 1,
+          "other_platform_oauth_client": []
         },
         "ads_service": {
           "status": 2

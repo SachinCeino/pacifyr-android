@@ -87,13 +87,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private void handleNow(RemoteMessage remoteMessage) {
         final Context context = getApplicationContext();
         if (remoteMessage != null) {
-            Log.d(TAG, "Remote message ");
-
 
             if (isValid(PrefManager.getInstance(context).getUserID())) {
-
-                Intent background = new Intent(context, CallService.class);
-                context.startService(background);
 
                 try {
                     String message = null;
@@ -115,6 +110,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                         callIntent.putExtra("id", _id);
                         LocalBroadcastManager.getInstance(context).sendBroadcast(callIntent);
                     }
+                    Intent background = new Intent(context, CallService.class);
+                    context.startService(background);
 
                     LogUtils.LOGD("app_rec", "PR  onReceive message " + message);
                     LogUtils.LOGD("app_rec", "PR  onReceive actual_type " + actual_type);
@@ -263,7 +260,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
      * @param messageBody FCM message body received.
      */
     public Boolean isValid(String text) {
-        if (text != null) if (!text.trim().equalsIgnoreCase("")) return true;
+        if (text != null) return !text.trim().equalsIgnoreCase("");
         return false;
 
     }

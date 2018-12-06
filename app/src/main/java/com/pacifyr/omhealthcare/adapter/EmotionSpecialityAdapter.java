@@ -165,13 +165,12 @@ public class EmotionSpecialityAdapter extends RecyclerView.Adapter<EmotionSpecia
                 customerEmotion=list.get(position).getTitle();
 
 
-
-                imgRcv = (RecyclerView) activity.findViewById(R.id.image_rcv);
-                Button button1 = (Button) activity.findViewById(R.id.button1);
-                Button button2 = (Button) activity.findViewById(R.id.button2);
-                Button button3 = (Button) activity.findViewById(R.id.button3);
-                Button button4 = (Button) activity.findViewById(R.id.button4);
-                noPacifyrCtxv = (CustomFontTextView) activity.findViewById(R.id.no_pacifyr_ctxv);
+                imgRcv = activity.findViewById(R.id.image_rcv);
+                Button button1 = activity.findViewById(R.id.button1);
+                Button button2 = activity.findViewById(R.id.button2);
+                Button button3 = activity.findViewById(R.id.button3);
+                Button button4 = activity.findViewById(R.id.button4);
+                noPacifyrCtxv = activity.findViewById(R.id.no_pacifyr_ctxv);
                 button3.setBackgroundResource(R.drawable.circle_button);
                 button4.setBackgroundResource(R.drawable.circle_click_btn);
                 button3.setClickable(true);
@@ -194,7 +193,7 @@ public class EmotionSpecialityAdapter extends RecyclerView.Adapter<EmotionSpecia
                     category = list.get(position).getTitle();
                     showCategories(category);
 
-                    LinearLayout showallLlay = (LinearLayout)  activity.findViewById(R.id.showall_llay);
+                    LinearLayout showallLlay = activity.findViewById(R.id.showall_llay);
 
                     if(customerRole.equals("customer")){
                         employeeFlag = false;
@@ -226,7 +225,7 @@ public class EmotionSpecialityAdapter extends RecyclerView.Adapter<EmotionSpecia
                     });
 
 
-                    cardStack = (SwipeDeck) activity.findViewById(R.id.swipe_deck);
+                    cardStack = activity.findViewById(R.id.swipe_deck);
 
                     //webSearchPacifyrWOptions(category);
 
@@ -269,14 +268,51 @@ public class EmotionSpecialityAdapter extends RecyclerView.Adapter<EmotionSpecia
         return list.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
-        public CustomFontTextView commentCtx;
-        public LinearLayout commentLlay;
+    public void showCategories(String category) {
+        try {
+            String url = GLOBAL_URL + "specialities/byCategory?category=" + category;
 
-        public MyViewHolder(View view) {
-            super(view);
-            commentCtx=(CustomFontTextView) view.findViewById(R.id.comment_ctxv);
-            commentLlay = (LinearLayout) view.findViewById(R.id.comment_llay);
+            AjaxCallback cb = new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject json, AjaxStatus status) {
+                    try {
+                        String js = json.toString();
+
+                        ModelSpecialityByCategory model = GsonUtils.getInstance().gsonToModelSpecialityByCategory(json);
+                        ModelSpecialityByCategory.Results[] item = model.getResults();
+
+                        CategoryListAdapter categoryListAdapter = new CategoryListAdapter(item, context);
+                        String[] array = item[0].getCategory();
+                        webSearchPacifyrWOptions(array);
+                        imgRcv.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
+                        imgRcv.setAdapter(categoryListAdapter);
+
+                    /* String imgURL = GLOBAL_IMAGE_URL + res[i].getImage();
+                    String title = res[i].getTitle();
+                    if (isValidhtml(imgURL))
+                        Picasso.with(context).load(imgURL).placeholder(R.drawable.placeholder_user).into(emotionDimv);*/
+
+
+                        //emotionDimv  = (ImageView) activity.findViewById(R.id.emotion_dimv);
+
+                        //modelAllEmployees= GsonUtils.getInstance().gsonToMListEmployees(json);
+                        //postEventOnMainThread(new NotifyEvent(true, false));
+                        //EventBus.getDefault().post(new EventMessage(getString(R.string.list_all_employees)));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        if (noPacifyrCtxv != null) {
+                            noPacifyrCtxv.setVisibility(View.VISIBLE);
+                        }
+
+                    }
+                }
+            };
+            AQuery aq = new AQuery(context);
+            cb.header("Content-Type", "application/json");
+            cb.header("AccessToken", acessToken);
+            aq.ajax(url, JSONObject.class, cb);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -328,51 +364,9 @@ public class EmotionSpecialityAdapter extends RecyclerView.Adapter<EmotionSpecia
             }
     }
 
-    public void  showCategories(String category)
-    {
-        try {
-            String url = GLOBAL_URL + "specialities/byCategory?category=" + category;
+    public Boolean isValid(Object object) {
+        return object != null;
 
-            AjaxCallback cb = new AjaxCallback<JSONObject>() {
-                @Override
-                public void callback(String url, JSONObject json, AjaxStatus status) {
-                    try {
-                        String js = json.toString();
-
-                        ModelSpecialityByCategory model = GsonUtils.getInstance().gsonToModelSpecialityByCategory(json);
-                        ModelSpecialityByCategory.Results[] item = model.getResults();
-
-                        CategoryListAdapter categoryListAdapter = new CategoryListAdapter(item, context);
-                        String[] array = item[0].getCategory();
-                        webSearchPacifyrWOptions(array);
-                        imgRcv.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
-                        imgRcv.setAdapter(categoryListAdapter);
-
-                    /* String imgURL = GLOBAL_IMAGE_URL + res[i].getImage();
-                    String title = res[i].getTitle();
-                    if (isValidhtml(imgURL))
-                        Picasso.with(context).load(imgURL).placeholder(R.drawable.placeholder_user).into(emotionDimv);*/
-
-
-                        //emotionDimv  = (ImageView) activity.findViewById(R.id.emotion_dimv);
-
-                        //modelAllEmployees= GsonUtils.getInstance().gsonToMListEmployees(json);
-                        //postEventOnMainThread(new NotifyEvent(true, false));
-                        //EventBus.getDefault().post(new EventMessage(getString(R.string.list_all_employees)));
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            };
-            AQuery aq = new AQuery(context);
-            cb.header("Content-Type", "application/json");
-            cb.header("AccessToken", acessToken);
-            aq.ajax(url, JSONObject.class, cb);
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
     }
 
     public void webSearchPacifyrWOptions(String[] emotion) {
@@ -445,19 +439,21 @@ public class EmotionSpecialityAdapter extends RecyclerView.Adapter<EmotionSpecia
         }
     }
 
-
-
-
-    public Boolean isValid(Object object) {
-        if(object != null) return true;
+    public Boolean isValidhtml(String text) {
+        if (isValid(text)) return text.contains("http") || text.contains("https");
         return false;
 
     }
 
-    public Boolean isValidhtml(String text) {
-        if(isValid(text)) if(text.contains("http")||text.contains("https")) return true;
-        return false;
+    public class MyViewHolder extends RecyclerView.ViewHolder {
+        public CustomFontTextView commentCtx;
+        public LinearLayout commentLlay;
 
+        public MyViewHolder(View view) {
+            super(view);
+            commentCtx = view.findViewById(R.id.comment_ctxv);
+            commentLlay = view.findViewById(R.id.comment_llay);
+        }
     }
 
     public HashMap<String , String> getRoleSearchMap() {

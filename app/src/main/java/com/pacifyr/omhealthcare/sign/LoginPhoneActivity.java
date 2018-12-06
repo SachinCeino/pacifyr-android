@@ -112,6 +112,18 @@ public class LoginPhoneActivity extends PacifyerActivity {
                 @Override
                 public void callback(String url, final JSONObject json, final AjaxStatus status) {
                     try {
+                        if (json != null && json.has("status") && json.getString("status").equals("error")) {
+                            setAlertOKStatusInRed("Login failed", json.getString("message"), "OK", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Intent intent = new Intent(LoginPhoneActivity.this, SignActivity.class);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    startActivity(intent);
+                                    finish();
+                                }
+                            });
+                            return;
+                        }
                         modelPhoneLogin = GsonUtils.getInstance().gsonToModelPhoneLogin(json);
                         userModel = modelPhoneLogin.getUser();
                         prefM.saveCompanyID(userModel.getCompanyId());
@@ -119,7 +131,7 @@ public class LoginPhoneActivity extends PacifyerActivity {
                         String logstat = modelPhoneLogin.getStatus().toString();
 
 
-                        ModelUserProfile mCurrentUser = GsonUtils.getInstance().gsonToModelUserProfile(json);
+                        ModelUserProfile mCurrentUser = GsonUtils.getInstance().gsonToModelUserProfile(json.getJSONObject("user"));
                         if(isValid(mCurrentUser))
                             NetworkService.mCurrentUser=mCurrentUser;
                         else {
@@ -142,6 +154,7 @@ public class LoginPhoneActivity extends PacifyerActivity {
                                         @Override
                                         public void onClick(View v) {
                                             Intent i = new Intent(LoginPhoneActivity.this, SignActivity.class);
+                                            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                             startActivity(i);
                                             finish();
                                         }
@@ -182,6 +195,7 @@ public class LoginPhoneActivity extends PacifyerActivity {
                                     @Override
                                     public void onClick(View v) {
                                         Intent intent = new Intent(LoginPhoneActivity.this, SignActivity.class);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                         startActivity(intent);
                                         finish();
                                     }
@@ -210,6 +224,7 @@ public class LoginPhoneActivity extends PacifyerActivity {
                             @Override
                             public void onClick(View v) {
                                 Intent intent = new Intent(LoginPhoneActivity.this, SignActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                 startActivity(intent);
                                 finish();
                             }
@@ -232,6 +247,7 @@ public class LoginPhoneActivity extends PacifyerActivity {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(LoginPhoneActivity.this, SignActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
                     finish();
                 }
@@ -285,7 +301,9 @@ public class LoginPhoneActivity extends PacifyerActivity {
                                 e.printStackTrace();
                                 prefM.clearSharedAll();
                                 fbLogout();
-                                startActivity(new Intent(LoginPhoneActivity.this,SignActivity.class));
+                               Intent intent = new Intent(LoginPhoneActivity.this, SignActivity.class);
+                               intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                               startActivity(intent);
                                 finish();
                         }
                     }
@@ -298,6 +316,7 @@ public class LoginPhoneActivity extends PacifyerActivity {
                                 @Override
                                 public void onClick(View v) {
                                     Intent intent = new Intent(LoginPhoneActivity.this, SignActivity.class);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                     startActivity(intent);
                                     finish();
                                 }
@@ -307,6 +326,7 @@ public class LoginPhoneActivity extends PacifyerActivity {
                                 @Override
                                 public void onClick(View v) {
                                     Intent intent = new Intent(LoginPhoneActivity.this, SignActivity.class);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                     startActivity(intent);
                                     finish();
                                 }
@@ -330,7 +350,9 @@ public class LoginPhoneActivity extends PacifyerActivity {
                 Toast.makeText(LoginPhoneActivity.this, "QB sessron create failure !" + e.getMessage(),Toast.LENGTH_LONG).show();
                 prefM.clearSharedAll();
                 fbLogout();
-                startActivity(new Intent(LoginPhoneActivity.this,SignActivity.class));
+                Intent intent = new Intent(LoginPhoneActivity.this, SignActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
                 finish();
             }
         });

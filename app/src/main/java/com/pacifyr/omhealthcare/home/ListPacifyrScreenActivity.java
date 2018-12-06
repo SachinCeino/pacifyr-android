@@ -96,11 +96,11 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
 
         //NetworkService.startActionSearchPacifyr(this);
 
-        showallLlay = (LinearLayout) findViewById(R.id.showall_llay);
-        showallCtxv = (CustomFontTextView) findViewById(R.id.showall_ctxv);
-        noPacifyrCtxv = (CustomFontTextView) findViewById(R.id.no_pacifyr_ctxv);
+        showallLlay = findViewById(R.id.showall_llay);
+        showallCtxv = findViewById(R.id.showall_ctxv);
+        noPacifyrCtxv = findViewById(R.id.no_pacifyr_ctxv);
 
-        recyclerView = (RecyclerView) findViewById(R.id.special_recycle);
+        recyclerView = findViewById(R.id.special_recycle);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(layoutManager);
@@ -139,8 +139,7 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
         }
 
 
-
-        cardStack = (SwipeDeck) findViewById(R.id.swipe_deck);
+        cardStack = findViewById(R.id.swipe_deck);
 
 
         cardStack.setEventCallback(new SwipeDeck.SwipeEventCallback() {
@@ -240,7 +239,7 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
         try {
             if(modelSpecialist!=null)
                 if(modelSpecialist.getResults()!=null) {
-                    recyclerView = (RecyclerView) findViewById(R.id.special_recycle);
+                    recyclerView = findViewById(R.id.special_recycle);
                     recyclerView.setHasFixedSize(true);
                     layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
                     recyclerView.setLayoutManager(layoutManager);
@@ -279,15 +278,15 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
 
     public void onSetActionBar() {
         try {
-            actionBarTopLlay = (LinearLayout) findViewById(R.id.action_bar_top_llay);
-            bottomPanel = (RelativeLayout) findViewById(R.id.bottom_panel);
-            leftLlay = (LinearLayout) findViewById(R.id.left_llay);
-            backImv = (DeviceFitImageView) findViewById(R.id.back_imv);
-            leftTxv = (CustomFontTextView) findViewById(R.id.left_txv);
-            titleTxv = (CustomFontTextView) findViewById(R.id.title_txv);
-            rightLlay = (LinearLayout) findViewById(R.id.right_llay);
-            rightTxv = (CustomFontTextView) findViewById(R.id.right_txv);
-            rightImv = (DeviceFitImageView) findViewById(R.id.right_imv);
+            actionBarTopLlay = findViewById(R.id.action_bar_top_llay);
+            bottomPanel = findViewById(R.id.bottom_panel);
+            leftLlay = findViewById(R.id.left_llay);
+            backImv = findViewById(R.id.back_imv);
+            leftTxv = findViewById(R.id.left_txv);
+            titleTxv = findViewById(R.id.title_txv);
+            rightLlay = findViewById(R.id.right_llay);
+            rightTxv = findViewById(R.id.right_txv);
+            rightImv = findViewById(R.id.right_imv);
             rightImv.setVisibility(View.INVISIBLE);
             rightTxv.setVisibility(View.INVISIBLE);
             rightLlay.setVisibility(View.INVISIBLE);
@@ -315,7 +314,6 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
 
     @Override
     public void OnEmotionClickkListener() {
-        showProgress();
         webSearchPacifyrWOptions(customerEmotion);
         cardStack.setVisibility(View.VISIBLE);
     }
@@ -323,42 +321,45 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
     public void webSearchPacifyrWOptions(String emotion) {
         try{
 
-        String url = GLOBAL_URL + getRoleSearchMap().get(prefM.getCustomerRole());
 
-        AjaxCallback cb = new AjaxCallback<JSONObject>() {
-            @Override
-            public void callback(String url, JSONObject json, AjaxStatus status) {
-                try {
-                    pSearchPacifyrWOptionsResponse= GsonUtils.getInstance().gsonToRespSearchPacifyrWOption(json);
-                    //searchResults=modelSearchPacifyr.getResultsList();
-                    pSearchPacifyrWOptionsResponse.toString();
-                    String js=json.toString();
-                    hideProgress();
-                    setAdapterSearchOption();
-                } catch (Exception e) {
-                    e.printStackTrace();
+            setLoading("Searching for Pacifyrs...");
+            showProgress();
+            String url = GLOBAL_URL + getRoleSearchMap().get(prefM.getCustomerRole());
+
+            AjaxCallback cb = new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject json, AjaxStatus status) {
+                    try {
+                        pSearchPacifyrWOptionsResponse = GsonUtils.getInstance().gsonToRespSearchPacifyrWOption(json);
+                        //searchResults=modelSearchPacifyr.getResultsList();
+                        pSearchPacifyrWOptionsResponse.toString();
+                        String js = json.toString();
+                        hideProgress();
+                        setAdapterSearchOption();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
-            }
-        };
+            };
 
-        AQuery aq = new AQuery(ListPacifyrScreenActivity.this);
-        cb.header("Content-Type", "application/json");
-        cb.header("AccessToken", accessToken);
+            AQuery aq = new AQuery(ListPacifyrScreenActivity.this);
+            cb.header("Content-Type", "application/json");
+            cb.header("AccessToken", accessToken);
 
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.putOpt("initiatorId", userID);
-        jsonObject.putOpt("companyId",companyID);
-        jsonObject.putOpt("includeChargeablePacifyrs",showAllFlag);
-        jsonObject.putOpt("country",prefM.getCountry());
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.putOpt("initiatorId", userID);
+            jsonObject.putOpt("companyId", companyID);
+            jsonObject.putOpt("includeChargeablePacifyrs", showAllFlag);
+            jsonObject.putOpt("country", prefM.getCountry());
 
-        List<String> list = new ArrayList<String>();
-        list.add(emotion);
-        JSONArray array = new JSONArray();
-        for (int i = 0; i < list.size(); i++) {
+            List<String> list = new ArrayList<String>();
+            list.add(emotion);
+            JSONArray array = new JSONArray();
+            for (int i = 0; i < list.size(); i++) {
                 array.put(list.get(i));
-        }
-        jsonObject.putOpt("specialities",array);
-        aq.post(url, jsonObject, JSONObject.class, cb);
+            }
+            jsonObject.putOpt("specialities", array);
+            aq.post(url, jsonObject, JSONObject.class, cb);
         }
         catch (Exception ex)
         {

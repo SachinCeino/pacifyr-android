@@ -133,43 +133,41 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
         context = DashboardActivity.this;
         //    permissionCheck();
 
-        connectToPacifyr=(LinearLayout) findViewById(R.id.connect_pacifyr_llay);
-        leftPane = (LinearLayout) findViewById(R.id.left_pane);
-        account_rlay=(RelativeLayout) findViewById(R.id.account_rlay);
-        detailLlay = (LinearLayout) findViewById(R.id.detail_llay);
-        detailNameCtxv = (CustomFontTextView) findViewById(R.id.detail_name_ctxv);
-        detailMailCtxv = (CustomFontTextView) findViewById(R.id.detail_mail_ctxv);
-        dashboardLlay = (LinearLayout) findViewById(R.id.dashboard_llay);
-        dashboardDimv = (DeviceFitImageView) findViewById(R.id.dashboard_dimv);
-        profile_cimv = (CircleImageView) findViewById(R.id.profile_cimv);
-        dashboardCtxv = (CustomFontTextView) findViewById(R.id.dashboard_ctxv);
-        mysessionsLlay = (LinearLayout) findViewById(R.id.mysessions_llay);
-        mesessionsDimv = (DeviceFitImageView) findViewById(R.id.mesessions_dimv);
-        mysessionsCtxv = (CustomFontTextView) findViewById(R.id.mysessions_ctxv);
-        paymentLlay = (LinearLayout) findViewById(R.id.payment_llay);
-        browsePacifyr=(LinearLayout) findViewById(R.id.browse_llay);
-        tutotial_llay = (LinearLayout) findViewById(R.id.tutotial_llay);
-        supportLlay=(LinearLayout) findViewById(R.id.support_llay);
-        policyDocumentLlay = (LinearLayout) findViewById(R.id.policy_document_llay);
+        connectToPacifyr = findViewById(R.id.connect_pacifyr_llay);
+        leftPane = findViewById(R.id.left_pane);
+        account_rlay = findViewById(R.id.account_rlay);
+        detailLlay = findViewById(R.id.detail_llay);
+        detailNameCtxv = findViewById(R.id.detail_name_ctxv);
+        detailMailCtxv = findViewById(R.id.detail_mail_ctxv);
+        dashboardLlay = findViewById(R.id.dashboard_llay);
+        dashboardDimv = findViewById(R.id.dashboard_dimv);
+        profile_cimv = findViewById(R.id.profile_cimv);
+        dashboardCtxv = findViewById(R.id.dashboard_ctxv);
+        mysessionsLlay = findViewById(R.id.mysessions_llay);
+        mesessionsDimv = findViewById(R.id.mesessions_dimv);
+        mysessionsCtxv = findViewById(R.id.mysessions_ctxv);
+        paymentLlay = findViewById(R.id.payment_llay);
+        browsePacifyr = findViewById(R.id.browse_llay);
+        tutotial_llay = findViewById(R.id.tutotial_llay);
+        supportLlay = findViewById(R.id.support_llay);
+        policyDocumentLlay = findViewById(R.id.policy_document_llay);
 
-        logoutLlay = (LinearLayout) findViewById(R.id.logout_llay);
-        logoutDimv = (DeviceFitImageView) findViewById(R.id.logout_dimv);
-        logoutCtxv = (CustomFontTextView) findViewById(R.id.logout_ctxv);
+        logoutLlay = findViewById(R.id.logout_llay);
+        logoutDimv = findViewById(R.id.logout_dimv);
+        logoutCtxv = findViewById(R.id.logout_ctxv);
 
-        crisisCtxv = (CustomFontTextView) findViewById(R.id.crisis_ctxv);
-        crisisDimv = (DeviceFitImageView) findViewById(R.id.crisis_dimv);
-        crisisLlay = (LinearLayout) findViewById(R.id.crisis_llay);
-        crisisView = (View) findViewById(R.id.crisis_view);
-
-
-        resourcesCtxv = (CustomFontTextView) findViewById(R.id.resourses_ctxv);
-        resourcesDimv = (DeviceFitImageView) findViewById(R.id.resourses_dimv);
-        resourcesLlay = (LinearLayout) findViewById(R.id.resourses_llay);
+        crisisCtxv = findViewById(R.id.crisis_ctxv);
+        crisisDimv = findViewById(R.id.crisis_dimv);
+        crisisLlay = findViewById(R.id.crisis_llay);
+        crisisView = findViewById(R.id.crisis_view);
 
 
+        resourcesCtxv = findViewById(R.id.resourses_ctxv);
+        resourcesDimv = findViewById(R.id.resourses_dimv);
+        resourcesLlay = findViewById(R.id.resourses_llay);
 
 
-        messagesLlay =(LinearLayout) findViewById(R.id.message_llay);
+        messagesLlay = findViewById(R.id.message_llay);
 
         //NetworkService.startActionCutomerDashboard(this);
         showFragment();
@@ -196,8 +194,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
         setProfileValues();
 
 
-
-        mSlidingPaneLayout = (WrappingSlidingPaneLayout) findViewById(R.id.sliding_pane);
+        mSlidingPaneLayout = findViewById(R.id.sliding_pane);
         mSlidingPaneLayout.setSliderFadeColor(getResources().getColor(android.R.color.transparent));
         mSlidingPaneLayout.setParallaxDistance(480);
 
@@ -423,7 +420,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
     @Subscribe
     public void onActionbarEvent(ActionbarEvent event) {
         try {
-            defSetText(titleTxv, "My Dashboard");
+            defSetText(titleTxv, "My Dash board");
         }catch (Exception e)
         {
             LogUtils.LOGD("session","DA onActionbarEvent exce " + e.getMessage());
@@ -440,15 +437,15 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
     private DeviceFitImageView rightImv;
 
     public void onSetActionBar() {
-        actionBarTopLlay = (LinearLayout) findViewById(R.id.action_bar_top_llay);
-        bottomPanel = (RelativeLayout) findViewById(R.id.bottom_panel);
-        leftLlay = (LinearLayout) findViewById(R.id.left_llay);
-        backImv = (DeviceFitImageView) findViewById(R.id.back_imv);
-        leftTxv = (CustomFontTextView) findViewById(R.id.left_txv);
-        titleTxv = (CustomFontTextView) findViewById(R.id.title_txv);
-        rightLlay = (LinearLayout) findViewById(R.id.right_llay);
-        rightTxv = (CustomFontTextView) findViewById(R.id.right_txv);
-        rightImv = (DeviceFitImageView) findViewById(R.id.right_imv);
+        actionBarTopLlay = findViewById(R.id.action_bar_top_llay);
+        bottomPanel = findViewById(R.id.bottom_panel);
+        leftLlay = findViewById(R.id.left_llay);
+        backImv = findViewById(R.id.back_imv);
+        leftTxv = findViewById(R.id.left_txv);
+        titleTxv = findViewById(R.id.title_txv);
+        rightLlay = findViewById(R.id.right_llay);
+        rightTxv = findViewById(R.id.right_txv);
+        rightImv = findViewById(R.id.right_imv);
         rightImv.setVisibility(View.INVISIBLE);
         rightTxv.setVisibility(View.INVISIBLE);
         rightLlay.setVisibility(View.INVISIBLE);

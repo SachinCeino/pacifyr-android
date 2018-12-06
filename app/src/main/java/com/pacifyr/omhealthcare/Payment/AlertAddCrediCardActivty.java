@@ -17,15 +17,10 @@ import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.ceino.utilitylibrary.CustomFontTextView;
 import com.ceino.utilitylibrary.DeviceFitImageView;
-import com.ceino.utilitylibrary.model.pacifyr.MUser;
 import com.ceino.utilitylibrary.utils.PrefManager;
 import com.pacifyr.omhealthcare.R;
-import com.pacifyr.omhealthcare.adapter.EmotionSpecialityAdapter;
 import com.pacifyr.omhealthcare.event.AlertTypeEvent;
 import com.pacifyr.omhealthcare.event.NotifyEvent;
-import com.pacifyr.omhealthcare.home.ConnectToSinglePacifyrActivity;
-import com.pacifyr.omhealthcare.home.DashboardActivity;
-import com.pacifyr.omhealthcare.network.NetworkService;
 import com.pacifyr.omhealthcare.utility.PacifyrAppCompactActivity;
 import com.squareup.otto.Subscribe;
 import com.stripe.android.Stripe;
@@ -147,7 +142,7 @@ public class AlertAddCrediCardActivty extends PacifyrAppCompactActivity {
 							// Send token to your server
 							String type = token.getType();
 							genaratedToken=token;
-							Toast.makeText(AlertAddCrediCardActivty.this, token.getId(), Toast.LENGTH_LONG).show();
+//							Toast.makeText(AlertAddCrediCardActivty.this, token.getId(), Toast.LENGTH_LONG).show();
 							hideProgress();
 							saveCardDetails();
 						}
@@ -227,11 +222,11 @@ public class AlertAddCrediCardActivty extends PacifyrAppCompactActivity {
 
 	private void initializeViews() {
 
-		saveRlay =(RelativeLayout) findViewById(R.id.save_rlay);
-		cardMonhEdt = (EditText) findViewById(R.id.card_month_edt);
-		cardYearEdt = (EditText) findViewById(R.id.card_year_edt);
-		cardCvvEdt = (EditText) findViewById(R.id.card_cvv_edt);
-		cardNumber = (EditText) findViewById(R.id.card_number_edt);
+		saveRlay = findViewById(R.id.save_rlay);
+		cardMonhEdt = findViewById(R.id.card_month_edt);
+		cardYearEdt = findViewById(R.id.card_year_edt);
+		cardCvvEdt = findViewById(R.id.card_cvv_edt);
+		cardNumber = findViewById(R.id.card_number_edt);
 		cardNumber.addTextChangedListener(new TextWatcher() {
 			@Override
 			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -347,15 +342,15 @@ public class AlertAddCrediCardActivty extends PacifyrAppCompactActivity {
 	private DeviceFitImageView rightImv;
 
 	public void onSetActionBar() {
-		actionBarTopLlay = (LinearLayout) findViewById(R.id.action_bar_top_llay);
-		bottomPanel = (RelativeLayout) findViewById(R.id.bottom_panel);
-		leftLlay = (LinearLayout) findViewById(R.id.left_llay);
-		backImv = (DeviceFitImageView) findViewById(R.id.back_imv);
-		leftTxv = (CustomFontTextView) findViewById(R.id.left_txv);
-		titleTxv = (CustomFontTextView) findViewById(R.id.title_txv);
-		rightLlay = (LinearLayout) findViewById(R.id.right_llay);
-		rightTxv = (CustomFontTextView) findViewById(R.id.right_txv);
-		rightImv = (DeviceFitImageView) findViewById(R.id.right_imv);
+		actionBarTopLlay = findViewById(R.id.action_bar_top_llay);
+		bottomPanel = findViewById(R.id.bottom_panel);
+		leftLlay = findViewById(R.id.left_llay);
+		backImv = findViewById(R.id.back_imv);
+		leftTxv = findViewById(R.id.left_txv);
+		titleTxv = findViewById(R.id.title_txv);
+		rightLlay = findViewById(R.id.right_llay);
+		rightTxv = findViewById(R.id.right_txv);
+		rightImv = findViewById(R.id.right_imv);
 		rightImv.setVisibility(View.INVISIBLE);
 		rightTxv.setVisibility(View.INVISIBLE);
 		rightLlay.setVisibility(View.INVISIBLE);

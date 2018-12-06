@@ -80,6 +80,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
     private MUser prefpac;
     private CustomFontTextView minutesCtxv;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private CustomFontTextView feel_err_text;
 
 
     public UserDashboardFragment() {
@@ -231,6 +232,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
             handleActionCustomerDashboard();
 
             if (isValid(call_emotion)) {
+                feel_err_text.setVisibility(View.GONE);
                 String emotionImg = GLOBAL_IMAGE_URL + call_emotion.getImage();
                 String emotionTitle = call_emotion.getTitle();
 
@@ -249,6 +251,8 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                     feelImageDimv.setColorFilter(filter);
                     feelTitleCtxv.setText(emotionTitle);
                 }
+            } else {
+                feel_err_text.setVisibility(View.VISIBLE);
             }
             getUnratedSessions();
         }
@@ -357,6 +361,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                     emotionTitle = modelCustomerDashboard2.getUser().getEmotion().getTitle();
 
                     if(isValidhtml(emotionImg)){
+                        feel_err_text.setVisibility(View.GONE);
                         Picasso.with(getActivity()).load(emotionImg).into(feelImageDimv);
 
                         float brightness = (float)100;
@@ -374,6 +379,8 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                         feelImageDimv.setColorFilter(filter);
 
                         feelTitleCtxv.setText(emotionTitle);
+                    } else {
+                        feel_err_text.setVisibility(View.VISIBLE);
                     }
                 }
 
@@ -558,37 +565,38 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
 
     public void intializeViews(View view)
     {
-        feelRlay = (RelativeLayout) view.findViewById(R.id.feel_rlay);
-        connect_btn_rlay = (RelativeLayout) view.findViewById(R.id.connect_btn_rlay);
+        feelRlay = view.findViewById(R.id.feel_rlay);
+        feel_err_text = view.findViewById(R.id.text_feel_error);
+        connect_btn_rlay = view.findViewById(R.id.connect_btn_rlay);
         //feelImage = (DeviceFitImageView) view.findViewById(R.id.feel_image_dimv);
-        lastSessionRlay = (RelativeLayout) view.findViewById(last_session_rlay);
-        lastSessionDimv = (CircleImageView) view.findViewById(R.id.last_session_dimv);
-        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.user_swipe_layout);
-        last_session_top_llay = (LinearLayout) view.findViewById(R.id.last_session_top_llay);
-        no_pacifyr_ctxv = (CustomFontTextView) view.findViewById(R.id.no_pacifyr_ctxv);
-        no_lastsession_ctxv = (CustomFontTextView) view.findViewById(R.id.no_lastsession_ctxv);
-        lastSsnPacfyrCtxv = (CustomFontTextView) view.findViewById(R.id.lastSsn_pacfyr_ctxv);
-        videoCamImg = (DeviceFitImageView) view.findViewById(R.id.video_cam_img);
-        lastSessionMinuteTxv = (CustomFontTextView) view.findViewById(R.id.last_session_minute_txv);
-        daysTxv = (CustomFontTextView) view.findViewById(R.id.days_txv);
-        cirPrefPacifyr = (RelativeLayout) view.findViewById(R.id.cir_pref_pacifyr);
-        llayTop = (LinearLayout) view.findViewById(R.id.llay_top);
+        lastSessionRlay = view.findViewById(last_session_rlay);
+        lastSessionDimv = view.findViewById(R.id.last_session_dimv);
+        swipeRefreshLayout = view.findViewById(R.id.user_swipe_layout);
+        last_session_top_llay = view.findViewById(R.id.last_session_top_llay);
+        no_pacifyr_ctxv = view.findViewById(R.id.no_pacifyr_ctxv);
+        no_lastsession_ctxv = view.findViewById(R.id.no_lastsession_ctxv);
+        lastSsnPacfyrCtxv = view.findViewById(R.id.lastSsn_pacfyr_ctxv);
+        videoCamImg = view.findViewById(R.id.video_cam_img);
+        lastSessionMinuteTxv = view.findViewById(R.id.last_session_minute_txv);
+        daysTxv = view.findViewById(R.id.days_txv);
+        cirPrefPacifyr = view.findViewById(R.id.cir_pref_pacifyr);
+        llayTop = view.findViewById(R.id.llay_top);
 
-        llay_bottom = (LinearLayout) view.findViewById(R.id.llay_bottom);
-        pacifyr1Dimv = (CircleImageView) view.findViewById(R.id.pacifyr1_dimv);
-        pacifyr2Dimv = (CircleImageView) view.findViewById(R.id.pacifyr2_dimv);
-        llayBottom = (LinearLayout) view.findViewById(R.id.llay_bottom);
-        pacifyr3Dimv = (CircleImageView) view.findViewById(R.id.pacifyr3_dimv);
-        pacifyr4Dimv = (CircleImageView) view.findViewById(R.id.pacifyr4_dimv);
-        thisWeekRlay = (RelativeLayout) view.findViewById(R.id.this_week_rlay);
-        sessionsTxv = (CustomFontTextView) view.findViewById(R.id.sessions_txv);
-        hoursTxv = (CustomFontTextView) view.findViewById(R.id.hours_txv);
-        minutesCtxv = (CustomFontTextView) view.findViewById(R.id.min_ctxv);
-        paidTxv = (CustomFontTextView) view.findViewById(R.id.paid_amt_ctxv);
-        this_week_rlay=(RelativeLayout) view.findViewById(R.id.this_week_rlay);
+        llay_bottom = view.findViewById(R.id.llay_bottom);
+        pacifyr1Dimv = view.findViewById(R.id.pacifyr1_dimv);
+        pacifyr2Dimv = view.findViewById(R.id.pacifyr2_dimv);
+        llayBottom = view.findViewById(R.id.llay_bottom);
+        pacifyr3Dimv = view.findViewById(R.id.pacifyr3_dimv);
+        pacifyr4Dimv = view.findViewById(R.id.pacifyr4_dimv);
+        thisWeekRlay = view.findViewById(R.id.this_week_rlay);
+        sessionsTxv = view.findViewById(R.id.sessions_txv);
+        hoursTxv = view.findViewById(R.id.hours_txv);
+        minutesCtxv = view.findViewById(R.id.min_ctxv);
+        paidTxv = view.findViewById(R.id.paid_amt_ctxv);
+        this_week_rlay = view.findViewById(R.id.this_week_rlay);
 
-        feelImageDimv = (DeviceFitImageView) view.findViewById(R.id.feel_image_dimv);
-        feelTitleCtxv = (CustomFontTextView) view.findViewById(R.id.feel_title_ctxv);
+        feelImageDimv = view.findViewById(R.id.feel_image_dimv);
+        feelTitleCtxv = view.findViewById(R.id.feel_title_ctxv);
         defSetText(no_pacifyr_ctxv,"");
     }
 

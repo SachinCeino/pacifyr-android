@@ -20,7 +20,6 @@ import com.quickblox.auth.QBAuth;
 import com.quickblox.auth.session.QBSession;
 import com.quickblox.chat.QBChatService;
 import com.quickblox.chat.QBSignaling;
-import com.quickblox.chat.QBWebRTCSignaling;
 import com.quickblox.chat.listeners.QBVideoChatSignalingManagerListener;
 import com.quickblox.core.QBEntityCallback;
 import com.quickblox.core.exception.QBResponseException;
@@ -189,25 +188,29 @@ public class CallService extends Service {
     }
 
     private void initQBRTCClient() {
-        Log.d(TAG, "CallService initQBRTCClient");
-        rtcClient = QBRTCClient.getInstance(getApplicationContext());
-        // Add signalling manager
-        chatService.getVideoChatWebRTCSignalingManager().addSignalingManagerListener(new QBVideoChatSignalingManagerListener() {
-            @Override
-            public void signalingCreated(QBSignaling qbSignaling, boolean createdLocally) {
-                if (!createdLocally) {
-                    rtcClient.addSignaling((QBWebRTCSignaling) qbSignaling);
+        try {
+            Log.d(TAG, "CallService initQBRTCClient");
+            rtcClient = QBRTCClient.getInstance(getApplicationContext());
+            // Add signalling manager
+            chatService.getVideoChatWebRTCSignalingManager().addSignalingManagerListener(new QBVideoChatSignalingManagerListener() {
+                @Override
+                public void signalingCreated(QBSignaling qbSignaling, boolean createdLocally) {
+                    if (!createdLocally) {
+                        rtcClient.addSignaling(qbSignaling);
+                    }
                 }
-            }
-        });
+            });
 
-        // Configure
-        QBRTCConfig.setDebugEnabled(!UtilityNetworkService.isRelease);
-        SettingsUtil.configRTCTimers(CallService.this);
+            // Configure
+            QBRTCConfig.setDebugEnabled(!UtilityNetworkService.isRelease);
+            SettingsUtil.configRTCTimers(CallService.this);
 
-        // Add service as callback to RTCClient
-        rtcClient.addSessionCallbacksListener(WebRtcSessionManager.getInstance(this));
-        rtcClient.prepareToProcessCalls();
+            // Add service as callback to RTCClient
+            rtcClient.addSessionCallbacksListener(WebRtcSessionManager.getInstance(this));
+            rtcClient.prepareToProcessCalls();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void sendResultToActivity(boolean isSuccess, String errorMessage) {

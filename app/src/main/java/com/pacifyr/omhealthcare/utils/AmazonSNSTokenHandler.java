@@ -102,7 +102,7 @@ public class AmazonSNSTokenHandler {
                 }
             }
         };
-        new NetworkService().getInstallation(cb);
+        new NetworkService().getInstallation(getUDID(), cb);
     }
 
     private void createEndPointTask(final String arn, final String gcmToken, final String userData) {
@@ -124,6 +124,7 @@ public class AmazonSNSTokenHandler {
                         if (isValid(result)) {
                             LogUtils.LOGD("install", "CreatePlatformEndpointResult success: " + result.getEndpointArn());
                             PrefManager.getInstance(context).putSharedString(PrefManager.AWS_ENDPOINT, result.getEndpointArn());
+                            deleteInstallationWeb();
                             installationWeb();
 
                         }
@@ -242,15 +243,47 @@ public class AmazonSNSTokenHandler {
         }
     }
 
+    public void deleteInstallationWeb() {
+
+        try {
+            final String udid = getUDID();
+            AjaxCallback<JSONObject> cbc = new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject json, AjaxStatus status) {
+                    if (json == null) {
+
+                    } else {
+
+                    }
+
+
+                }
+            };
+
+            AQuery aq = new AQuery(context);
+            cbc.header("Content-Type", "application/json");
+            cbc.header("AccessToken", getAccessToken());
+
+            String url = NetworkService.GLOBAL_URL + "installation/" + udid + "";
+            aq.delete(url, JSONObject.class, cbc);
+
+        } catch (Exception e) {
+            //Crashlytics.logException(e);
+            LogUtils.LOGD("install", "installationWeb Exception : " + e.getMessage());
+        }
+    }
+
     public Boolean isValid(Object object) {
-        if (object != null)
-            return true;
-        return false;
+        return object != null;
 
     }
 
     public String getUDID() {
-        String android_id = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
+        String android_id = null;
+        android_id = PrefManager.getInstance(context).getSharedString(PrefManager.UDID, null);
+        if (android_id == null) {
+            android_id = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
+        }
         return android_id;
     }
 

@@ -52,11 +52,11 @@
     <string name="certificates">Certificates</string>
     <string name="specialities">Specialities</string>
     <string name="upload_documents">Upload Documents</string>
-    <string name="document_upload_instruction">JPG, PNG or PDF fromat only maximum file size -5MB</string>
+    <string name="document_upload_instruction">JPG, PNG or PDF format only maximum file size -5MB</string>
     <string name="request">Request</string>
     <string name="year">Year</string>
     <string name="payout">PAYOUT</string>
-    <string name="no_pacifyr">There is no Wellness Experts available for selected Category.</string>
+    <string name="no_pacifyr">There are no Wellness Experts available for selected Category.</string>
     <string name="educations">Education</string>
 
     <string name="policy_documents">policy documents</string>
@@ -110,7 +110,7 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="no_sessions_yet">No sessions yet, Connect to Wellness Experts.</string>
 
 
-    <string name="mydashboard">my dashboard</string>
+    <string name="mydashboard">my dash board</string>
     <string name="mysessions">my sessions</string>
     <string name="confirmation">confirmation</string>
     <string name="avantica_bold_header">fonts/ITCAvantGardeStd-Bold.otf</string>
@@ -128,7 +128,7 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="please_try_again">Please try again</string>
     <string name="success">success</string>
     <string name="contact_us">contact us</string>
-    <string name="title_activity_android_dashoard">my dashboard</string>
+    <string name="title_activity_android_dashoard">my dash board</string>
     <string name="no_messages">There are no messages.</string>
     <string name="register">register</string>
     <string name="start_session">Session Started</string>

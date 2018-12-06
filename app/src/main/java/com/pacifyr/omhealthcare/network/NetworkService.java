@@ -55,7 +55,6 @@ import com.pacifyr.omhealthcare.event.NotifyEvent;
 import com.pacifyr.omhealthcare.model.ItemData;
 import com.pacifyr.omhealthcare.model.MCustomerList;
 import com.pacifyr.omhealthcare.utility.EventMessage;
-import com.pacifyr.omhealthcare.utils.Constants;
 import com.pacifyr.omhealthcare.utils.LogUtils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -951,16 +950,13 @@ public class NetworkService  extends IntentService {
 
     public Boolean isValid(String text) {
         if (text != null)
-            if (!text.trim().equalsIgnoreCase(""))
-                return true;
+            return !text.trim().equalsIgnoreCase("");
         return false;
 
     }
 
     public Boolean isValid(Object object) {
-        if (object != null)
-            return true;
-        return false;
+        return object != null;
 
     }
 
@@ -1042,13 +1038,12 @@ public class NetworkService  extends IntentService {
         }
     }
 
-    public void getInstallation(AjaxCallback cb) {
+    public void getInstallation(String udid, AjaxCallback cb) {
         try {
-            String uuid = Constants.getUDID();
             PrefManager prefM = PrefManager.getInstance(this);
             String token = prefM.getAccessToken();
             String userID = prefM.getUserID();
-            String url = GLOBAL_URL + "installation/" + uuid;
+            String url = GLOBAL_URL + "installation/" + udid;
             AQuery aq = new AQuery(this);
             cb.header("Content-Type", "application/json");
             cb.header("AccessToken", token);
@@ -1061,7 +1056,6 @@ public class NetworkService  extends IntentService {
 
     public void sendNotification(String toUserId, String type, AjaxCallback cb) {
         try {
-            String uuid = Constants.getUDID();
             PrefManager prefM = PrefManager.getInstance(this);
             String token = prefM.getAccessToken();
             String userID = prefM.getUserID();

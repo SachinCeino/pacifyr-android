@@ -82,58 +82,51 @@ public abstract class BaseFragment extends Fragment {
         BusProvider.getInstance().unregister(this);
     }
     public Boolean isValid(String text) {
-        if(text != null) if(!text.trim().equalsIgnoreCase("")) return true;
+        if (text != null) return !text.trim().equalsIgnoreCase("");
         return false;
 
     }
 
     public Boolean isValid(List list) {
-        if(list != null) if(list.size() > 0) return true;
+        if (list != null) return list.size() > 0;
         return false;
 
     }
 
     public Boolean isValid(List list,int pos) {
         if (isValid(list))
-            if (list.size() >= pos)
-                return true;
+            return list.size() >= pos;
         return false;
 
     }
     public Boolean isValidPos(List list,int pos) {
         if (isValid(list))
-            if (list.size() >= pos)
-                return true;
+            return list.size() >= pos;
         return false;
 
     }
     public Boolean isValidNotNull(List list) {
-        if(list != null)
-            // if(list.size()>0)
-            return true;
-        return false;
+        return list != null;
 
     }
 
     public Boolean isValidSize(List list) {
-        if(list != null) if(list.size() > 0) return true;
+        if (list != null) return list.size() > 0;
         return false;
 
     }
 
     public Boolean isValid(Object object) {
-        if(object != null) return true;
-        return false;
+        return object != null;
 
     }
 
     public Boolean isValid(int object) {
-        if(object > 0) return true;
-        return false;
+        return object > 0;
 
     }
     public Boolean isValidhtml(String text) {
-        if(isValid(text)) if(text.contains("http")||text.contains("https")) return true;
+        if (isValid(text)) return text.contains("http") || text.contains("https");
         return false;
 
     }
@@ -144,13 +137,12 @@ public abstract class BaseFragment extends Fragment {
 
     }
     public Boolean isValidAlert(Object object, String error) {
-        if(object != null) return true;
+        return object != null;
       //  setAlertInWhiteBox("",error,"OK");
-        return false;
 
     }
     public Boolean isValidAlert(List list, String error) {
-        if(list != null) if(list.size() > 0) return true;
+        if (list != null) return list.size() > 0;
        // setAlertInWhiteBox("",error,"OK");
         return false;
 
@@ -169,7 +161,7 @@ public abstract class BaseFragment extends Fragment {
 
       }*/
     public Boolean isValid(EditText text, String error) {
-        if(text != null) if(isValid(text.getText() + "")) return true;
+        if (text != null) return isValid(text.getText() + "");
       //  setAlertInWhiteBox("",error,"OK");
         // text.setError(error + "");
 
@@ -177,7 +169,7 @@ public abstract class BaseFragment extends Fragment {
 
     }
     public Boolean isValid(EditText text) {
-        if(text != null) if(isValid(text.getText() + "")) return true;
+        if (text != null) return isValid(text.getText() + "");
         //  setAlertInWhiteBox("",error,"OK");
         // text.setError(error + "");
 
@@ -185,14 +177,14 @@ public abstract class BaseFragment extends Fragment {
 
     }
     public Boolean isValidPlusWarning(EditText text, String error) {
-        if(text != null) if(isValid(text.getText() + "")) return true;
+        if (text != null) return isValid(text.getText() + "");
       //  setAlertStatusMessage("Warning!",error,"Ok");
         return false;
 
     }
 
     public Boolean isValid(String text, String error) {
-        if(text != null) if(!text.trim().equalsIgnoreCase("")) return true;
+        if (text != null) return !text.trim().equalsIgnoreCase("");
        // ToastHandler.newInstance(getActivity()).mustShowToast("" + error);
         return false;
 
@@ -206,7 +198,7 @@ public abstract class BaseFragment extends Fragment {
     }
 
     public Boolean isValid(List list, String error) {
-        if(list != null) if(list.size() > 0) return true;
+        if (list != null) return list.size() > 0;
       //  setAlertStatusMessage("Warning", error,"Ok");
         // ToastHandler.newInstance(getActivity()).mustShowToast(""+error);
         return false;
@@ -214,12 +206,7 @@ public abstract class BaseFragment extends Fragment {
     }
 
     public Boolean isValid(Date date) {
-        if(date != null) return true;
-        return false;
-
-
-
-
+        return date != null;
 
 
     }
@@ -229,10 +216,8 @@ public abstract class BaseFragment extends Fragment {
 
     public Boolean isEquals(String pwd, String pwd2) {
 
-        if(pwd2.equals(pwd)) return true;
+        return pwd2.equals(pwd);
 
-
-        return false;
 
     }
 
@@ -272,16 +257,13 @@ public abstract class BaseFragment extends Fragment {
 
     // validating password with retype password
     public boolean isValidPassword(String pass) {
-        if(pass != null && pass.length() > 3) {
-            return true;
-        }
-        return false;
+        return pass != null && pass.length() > 3;
     }
 
 
 
     public Boolean isErrorStatus(String object) {
-        if(isValid(object)) if(object.trim().equalsIgnoreCase("error")) return true;
+        if (isValid(object)) return object.trim().equalsIgnoreCase("error");
         return false;
 
     }
@@ -336,18 +318,28 @@ public abstract class BaseFragment extends Fragment {
     public KProgressHUD hud_progress = null;
     public KProgressHUD hud_status = null;
     public void setLoading() {
-        hud_progress = KProgressHUD.create(getActivity()).setStyle(KProgressHUD.Style.SPIN_INDETERMINATE).setAnimationSpeed(2).setCancellable(true).setMaxProgress(100).setDimAmount(0.5f);
+        try {
+            hud_progress = KProgressHUD.create(getActivity()).setStyle(KProgressHUD.Style.SPIN_INDETERMINATE).setAnimationSpeed(2).setCancellable(true).setMaxProgress(100).setDimAmount(0.5f);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
     public void setLoadingWait() {
-        hud_progress = KProgressHUD.create(getActivity()).setStyle(KProgressHUD.Style.SPIN_INDETERMINATE).setLabel("Please wait").setAnimationSpeed(2).setCancellable(true).setMaxProgress(100).setDimAmount(0.5f);
-
+        try {
+            hud_progress = KProgressHUD.create(getActivity()).setStyle(KProgressHUD.Style.SPIN_INDETERMINATE).setLabel("Please wait").setAnimationSpeed(2).setCancellable(true).setMaxProgress(100).setDimAmount(0.5f);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void setLoading(String message) {
-        hud_progress = KProgressHUD.create(getActivity()).setStyle(KProgressHUD.Style.SPIN_INDETERMINATE).setLabel(""+message).setAnimationSpeed(2).setCancellable(true).setMaxProgress(100).setDimAmount(0.5f);
-
+        try {
+            hud_progress = KProgressHUD.create(getActivity()).setStyle(KProgressHUD.Style.SPIN_INDETERMINATE).setLabel("" + message).setAnimationSpeed(2).setCancellable(true).setMaxProgress(100).setDimAmount(0.5f);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     public void showStatus() {
         if(hud_status != null) if(!hud_status.isShowing()) hud_status.show();
@@ -365,7 +357,7 @@ public abstract class BaseFragment extends Fragment {
     }
     public void setStatus(String status, int color) {
         View view = LayoutInflater.from(getActivity()).inflate(com.ceino.utilitylibrary.R.layout.status_dialog, null, false);
-        CustomFontTextView status_dtxv = (CustomFontTextView) view.findViewById(com.ceino.utilitylibrary.R.id.status_dtxv);
+        CustomFontTextView status_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.status_dtxv);
         status_dtxv.setText("" + status);
         hideStatus();
         hud_status = KProgressHUD.create(getActivity()).setStyle(KProgressHUD.Style.SPIN_INDETERMINATE).setCustomView(view).setWindowColor(getActivity().getResources().getColor(color)).setCancellable(false).setAnimationSpeed(2).setDimAmount(0.5f);
@@ -1015,11 +1007,14 @@ public abstract class BaseFragment extends Fragment {
 
 
     public void setAlertStatusInBlue2(String title,String desc,String ok,String dismiss,View.OnClickListener oklistner) {
+        if (getActivity() == null) {
+            return;
+        }
         View view = LayoutInflater.from(getActivity()).inflate(com.ceino.utilitylibrary.R.layout.alert_yes_no, null, false);
-        CustomFontTextView title_dtxv = (CustomFontTextView) view.findViewById(com.ceino.utilitylibrary.R.id.title_dtxv);
-        CustomFontTextView desc_dtxv = (CustomFontTextView) view.findViewById(com.ceino.utilitylibrary.R.id.desc_dtxv);
-        CustomFontTextView dismis_dtxv = (CustomFontTextView) view.findViewById(com.ceino.utilitylibrary.R.id.dismis_dtxv);
-        CustomFontTextView ok_dtxv = (CustomFontTextView) view.findViewById(com.ceino.utilitylibrary.R.id.ok_dtxv);
+        CustomFontTextView title_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.title_dtxv);
+        CustomFontTextView desc_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.desc_dtxv);
+        CustomFontTextView dismis_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.dismis_dtxv);
+        CustomFontTextView ok_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.ok_dtxv);
         if(isValid(title))
             defSetText(title_dtxv,title);
         else
@@ -1073,14 +1068,17 @@ public abstract class BaseFragment extends Fragment {
 
     public void setAlertAddCardInBlue2() {
         try {
+            if (getActivity() == null) {
+                return;
+            }
             View view = LayoutInflater.from(getActivity()).inflate(R.layout.alert_add_credit_card, null, false);
-            final CustomEditText cardNumberEdt = (CustomEditText) view.findViewById(R.id.card_number_edt);
-            final CustomEditText cardMonthEdt = (CustomEditText) view.findViewById(R.id.card_month_edt);
-            final CustomEditText cardYearEdt = (CustomEditText) view.findViewById(R.id.card_year_edt);
-            final CustomEditText cardCvvEdt = (CustomEditText) view.findViewById(R.id.card_cvv_edt);
-            final DeviceFitImageView close_dimv = (DeviceFitImageView) view.findViewById(R.id.close_dimv);
-            RelativeLayout saveRlay = (RelativeLayout) view.findViewById(R.id.save_rlay);
-            CustomFontTextView saveCtxv = (CustomFontTextView) view.findViewById(R.id.save_ctxv);
+            final CustomEditText cardNumberEdt = view.findViewById(R.id.card_number_edt);
+            final CustomEditText cardMonthEdt = view.findViewById(R.id.card_month_edt);
+            final CustomEditText cardYearEdt = view.findViewById(R.id.card_year_edt);
+            final CustomEditText cardCvvEdt = view.findViewById(R.id.card_cvv_edt);
+            final DeviceFitImageView close_dimv = view.findViewById(R.id.close_dimv);
+            RelativeLayout saveRlay = view.findViewById(R.id.save_rlay);
+            CustomFontTextView saveCtxv = view.findViewById(R.id.save_ctxv);
             hideStatus();
             hideStatus2();
             hud_status2 = KProgressHUD.create(getActivity()).setStyle(KProgressHUD.Style.SPIN_INDETERMINATE).setCustomView(view).setWindowColor(this.getResources().getColor(com.ceino.utilitylibrary.R.color.transparent)).setCancellable(false).setAnimationSpeed(2).setDimAmount(0.5f);

@@ -12,7 +12,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Chronometer;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
@@ -102,6 +101,13 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
                     setEmpMinutesListener(empMinutesListener);
                     checkEmpAvailableMinutes();
                 }
+                try {
+                    stopTimer();
+                    startTimer();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
             }
         }
     };
@@ -114,6 +120,7 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
     @Override
     public void onStart() {
         super.onStart();
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(eventReceiver, new IntentFilter(CallEvent.CALL_EVENT));
         conversationFragmentCallbackListener.addOnChangeDynamicToggle(this);
     }
 
@@ -121,18 +128,6 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return super.onCreateView(inflater, container, savedInstanceState);
-    }
-
-    @Override
-    public void onResume() {
-        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(eventReceiver, new IntentFilter(CallEvent.CALL_EVENT));
-        super.onResume();
-    }
-
-    @Override
-    public void onPause() {
-        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(eventReceiver);
-        super.onPause();
     }
 
     @Override
@@ -165,12 +160,12 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
         super.initViews(view);
         if(isValid( actionBar))
             actionBar.hide();
-        timerChronometer = (Chronometer) view.findViewById(R.id.chronometer_timer_audio_call);
-        emotion_dimv = (DeviceFitImageView) view.findViewById(R.id.emotion_dimv);
-        reason_ctxv = (CustomFontTextView) view.findViewById(R.id.reason_ctxv);
-        connectionStatusLocal = (TextView) view.findViewById(R.id.connectionStatusLocal);
-        emotion_ctxv = (CustomFontTextView) view.findViewById(R.id.emotion_ctxv);
-        billingStatus = (CustomFontTextView) view.findViewById(R.id.billing_status);
+        timerChronometer = view.findViewById(R.id.chronometer_timer_audio_call);
+        emotion_dimv = view.findViewById(R.id.emotion_dimv);
+        reason_ctxv = view.findViewById(R.id.reason_ctxv);
+        connectionStatusLocal = view.findViewById(R.id.connectionStatusLocal);
+        emotion_ctxv = view.findViewById(R.id.emotion_ctxv);
+        billingStatus = view.findViewById(R.id.billing_status);
 //        billingSwitch = (Switch) view.findViewById(R.id.billing_switch);
         emotion_dimv.setVisibility(View.GONE);
         reason_ctxv.setVisibility(View.GONE);
@@ -200,17 +195,16 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
         firstOpponentAvatarImageView.setBackgroundDrawable(UiUtils.getColorCircleDrawable(opponents.get(0).getId()));
 */
         //setUserInfoViews();
-        alsoOnCallText = (TextView) view.findViewById(R.id.text_also_on_call);
+        alsoOnCallText = view.findViewById(R.id.text_also_on_call);
         setVisibilityAlsoOnCallTextView();
 
 
-
-        otherOpponentsTextView = (TextView) view.findViewById(R.id.text_other_inc_users);
+        otherOpponentsTextView = view.findViewById(R.id.text_other_inc_users);
         otherOpponentsTextView.setText(getOtherOpponentsNames());
         otherOpponentsTextView.setVisibility(View.GONE);
 
 
-        audioSwitchToggleButton = (ToggleButton) view.findViewById(R.id.toggle_speaker);
+        audioSwitchToggleButton = view.findViewById(R.id.toggle_speaker);
         audioSwitchToggleButton.setVisibility(View.VISIBLE);
 
         actionButtonsEnabled(false);
@@ -251,13 +245,13 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
         try {
             if(isValid( actionBar))
                 actionBar.hide();
-            info_overlay_llay = (LinearLayout) view.findViewById(R.id.info_overlay_llay);
-            userRlay = (RelativeLayout) view.findViewById(R.id.user_rlay);
-            callCtxv = (CustomFontTextView) view.findViewById(R.id.call_ctxv);
-            userDimv = (CircleImageView) view.findViewById(R.id.user_dimv);
-            usernameCtxv = (CustomFontTextView) view.findViewById(R.id.username_ctxv);
-            more_rlay = (RelativeLayout) view.findViewById(R.id.more_rlay);
-            moreDimv = (DeviceFitImageView) view.findViewById(R.id.more_dimv);
+            info_overlay_llay = view.findViewById(R.id.info_overlay_llay);
+            userRlay = view.findViewById(R.id.user_rlay);
+            callCtxv = view.findViewById(R.id.call_ctxv);
+            userDimv = view.findViewById(R.id.user_dimv);
+            usernameCtxv = view.findViewById(R.id.username_ctxv);
+            more_rlay = view.findViewById(R.id.more_rlay);
+            moreDimv = view.findViewById(R.id.more_dimv);
             moreDimv.setVisibility(View.VISIBLE);
             more_rlay.setVisibility(View.GONE);
         }catch (Exception e)
@@ -536,6 +530,7 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
     @Override
     public void onStop() {
         super.onStop();
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(eventReceiver);
         conversationFragmentCallbackListener.removeOnChangeDynamicToggle(this);
     }
 

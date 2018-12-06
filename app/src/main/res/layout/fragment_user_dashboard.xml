@@ -58,6 +58,19 @@
                 android:layout_below="@id/feel_image_dimv"
                 android:textColor="@color/white"/>
 
+            <com.ceino.utilitylibrary.CustomFontTextView
+                android:id="@+id/text_feel_error"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/feel_image_dimv"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:text="Please select an emotion"
+                android:textColor="@color/white"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
         </RelativeLayout>
 
         <com.ceino.utilitylibrary.CustomFontTextView
