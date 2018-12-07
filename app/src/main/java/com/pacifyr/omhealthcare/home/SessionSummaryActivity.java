@@ -149,8 +149,7 @@ public class SessionSummaryActivity  extends PacifyrAppCompactActivity{
         context.startActivity(intent);
     }
     public static Boolean isValidStatic(Object object) {
-        if(object != null) return true;
-        return false;
+        return object != null;
 
     }
     public static void start(Context context) {
@@ -237,7 +236,7 @@ public class SessionSummaryActivity  extends PacifyrAppCompactActivity{
     protected void onResume() {
         super.onResume();
 
-        ((App) App.getInstance()).setCurrentActivity(this);
+        App.getInstance().setCurrentActivity(this);
     }
     @Override
     protected View getSnackbarAnchorView() {
@@ -258,10 +257,10 @@ public class SessionSummaryActivity  extends PacifyrAppCompactActivity{
             LogUtils.LOGD("session", " SSA onCreateView ");
             onSetActionBar();
 
-            img_blue_bg=(CircleImageView)findViewById(R.id.img_blue_bg);
+            img_blue_bg = findViewById(R.id.img_blue_bg);
 
-            pacifyrImgCimv = (CircleImageView) findViewById(R.id.last_session_cimv);
-            before_feel_ctxv = (CustomFontTextView) findViewById(R.id.before_feel_ctxv);
+            pacifyrImgCimv = findViewById(R.id.last_session_cimv);
+            before_feel_ctxv = findViewById(R.id.before_feel_ctxv);
           /*  after_feel_ctxv = (CustomFontTextView) findViewById(R.id.after_feel_ctxv);
             after_feel_llay = (LinearLayout) findViewById(R.id.after_feel_llay);*/
 
@@ -270,36 +269,36 @@ public class SessionSummaryActivity  extends PacifyrAppCompactActivity{
             after_feel_llay = (LinearLayout) findViewById(R.id.after_feel_llay);
             afterFeelSelectionLlay = (LinearLayout) findViewById(R.id.after_feel_selection_llay);*/
 
-            rating_llay = (RelativeLayout) findViewById(R.id.rating_llay);
-            before_feel_llay = (RelativeLayout) findViewById(R.id.before_feel_llay);
+            rating_llay = findViewById(R.id.rating_llay);
+            before_feel_llay = findViewById(R.id.before_feel_llay);
             //  after_feel_llay = (RelativeLayout) findViewById(R.id.after_feel_llay);
-            afterFeelSelectionLlay = (RelativeLayout) findViewById(R.id.after_feel_selection_llay);
+            afterFeelSelectionLlay = findViewById(R.id.after_feel_selection_llay);
 
-            afterFeelSelectionCtxv = (CustomFontTextView) findViewById(R.id.after_feel_selection_ctxv);
-            pacifyrEaringsLlay = (LinearLayout) findViewById(R.id.pacifyr_earings_llay);
-            earingstCtxv = (CustomFontTextView) findViewById(R.id.earingst_ctxv);
-            comapnyfeesCtxv = (CustomFontTextView) findViewById(R.id.comapnyfees_ctxv);
-            customer_fees_llay = (LinearLayout) findViewById(R.id.customer_fees_llay);
+            afterFeelSelectionCtxv = findViewById(R.id.after_feel_selection_ctxv);
+            pacifyrEaringsLlay = findViewById(R.id.pacifyr_earings_llay);
+            earingstCtxv = findViewById(R.id.earingst_ctxv);
+            comapnyfeesCtxv = findViewById(R.id.comapnyfees_ctxv);
+            customer_fees_llay = findViewById(R.id.customer_fees_llay);
 
-            before_emotion_ctxv = (CustomFontTextView) findViewById(R.id.before_emotion_ctxv);
+            before_emotion_ctxv = findViewById(R.id.before_emotion_ctxv);
 
 
-            callback_ctxv = (CustomFontTextView) findViewById(R.id.callback_ctxv);
-            sessionCostCtxv = (CustomFontTextView) findViewById(R.id.session_cost_ctxv);
-            pacifyrNameCtxv = (CustomFontTextView) findViewById(R.id.pacifyr_name_ctxv);
-            beforeFeelDimv = (ImageView) findViewById(R.id.before_feel_dimv);
-            recyclerView = (RecyclerView) findViewById(R.id.begning_rcv);
-            commentsRcv = (RecyclerView) findViewById(R.id.comments_rcv);
-            pacifyrRateCtxv = (CustomFontTextView) findViewById(R.id.pacifyr_rate_ctxv);
-            durationCtxv = (CustomFontTextView) findViewById(R.id.duration_ctxv);
-            comments_cedt = (CustomEditText) findViewById(R.id.comments_cedt);
+            callback_ctxv = findViewById(R.id.callback_ctxv);
+            sessionCostCtxv = findViewById(R.id.session_cost_ctxv);
+            pacifyrNameCtxv = findViewById(R.id.pacifyr_name_ctxv);
+            beforeFeelDimv = findViewById(R.id.before_feel_dimv);
+            recyclerView = findViewById(R.id.begning_rcv);
+            commentsRcv = findViewById(R.id.comments_rcv);
+            pacifyrRateCtxv = findViewById(R.id.pacifyr_rate_ctxv);
+            durationCtxv = findViewById(R.id.duration_ctxv);
+            comments_cedt = findViewById(R.id.comments_cedt);
 
-            rating_bar = (ScaleRatingBar) findViewById(R.id.rating_bar);
+            rating_bar = findViewById(R.id.rating_bar);
             //rating_bar = (RatingBar) findViewById(R.id.rating_bar);
-            effective_seekbar = (SeekBarCompat) findViewById(R.id.effective_seekbar);
+            effective_seekbar = findViewById(R.id.effective_seekbar);
             //holoCircleSeekBar=(HoloCircleSeekBar) findViewById(R.id.picker);
             //effective_circle_view = (CircleView) findViewById(R.id.effective_circle_view);
-            circleProgressView = (CircleProgressView) findViewById(R.id.circle_progress_view);
+            circleProgressView = findViewById(R.id.circle_progress_view);
 
             effective_seekbar.setProgress(effectiveness);
             circleProgressView.setProgress(effectiveness);
@@ -661,10 +660,10 @@ public class SessionSummaryActivity  extends PacifyrAppCompactActivity{
 
     }
 
-    private MSessionRating getMSessionRating() {
+    private MSessionRating getMSessionRating(String sessionId) {
         MSessionRating mSessionRating = new MSessionRating();
         mSessionRating.setUserId(getUserID());
-        mSessionRating.setSessionId(sessionid);
+        mSessionRating.setSessionId(sessionId);
         mSessionRating.setEffectiveness(effectiveness+"");
         if(isCustomer)
             mSessionRating.setRating(rating+"");
@@ -695,7 +694,7 @@ public class SessionSummaryActivity  extends PacifyrAppCompactActivity{
 
     }
 
-    private void saveSession() {
+    private void saveSession(String sessionId) {
 
         try {
 
@@ -704,7 +703,7 @@ public class SessionSummaryActivity  extends PacifyrAppCompactActivity{
                 return;
             }
             // finish();
-            if (!isValid(sessionid, "Session id null ")) {
+            if (!isValid(sessionId, "Session id null ")) {
                 handlerFinish("Error : Session id null , Please Re-Login");
                 return;
             }
@@ -724,7 +723,7 @@ public class SessionSummaryActivity  extends PacifyrAppCompactActivity{
                     return;
             }
 
-            MSessionRating mSessionRating=getMSessionRating();
+            MSessionRating mSessionRating = getMSessionRating(sessionId);
             if (!isValid(mSessionRating, "Error")) {
                 handlerFinish("Error :Token Invalid , Please Re-Login");
                 return;
@@ -875,17 +874,17 @@ public class SessionSummaryActivity  extends PacifyrAppCompactActivity{
     CustomFontTextView submit_ctxv;
     public void onSetActionBar() {
         try {
-            actionBarTopLlay = (LinearLayout) findViewById(R.id.action_bar_top_llay);
-            bottomPanel = (RelativeLayout) findViewById(R.id.bottom_panel);
-            leftLlay = (LinearLayout) findViewById(R.id.left_llay);
-            backImv = (DeviceFitImageView) findViewById(R.id.back_imv);
-            leftTxv = (CustomFontTextView) findViewById(R.id.left_txv);
-            titleTxv = (CustomFontTextView) findViewById(R.id.title_txv);
-            rightLlay = (LinearLayout) findViewById(R.id.right_llay);
-            rightTxv = (CustomFontTextView) findViewById(R.id.right_txv);
-            rightImv = (DeviceFitImageView) findViewById(R.id.right_imv);
-            submit_ctxv = (CustomFontTextView) findViewById(R.id.submit_ctxv);
-            mSlidingPaneLayout = (WrappingSlidingPaneLayout) findViewById(R.id.sliding_pane);
+            actionBarTopLlay = findViewById(R.id.action_bar_top_llay);
+            bottomPanel = findViewById(R.id.bottom_panel);
+            leftLlay = findViewById(R.id.left_llay);
+            backImv = findViewById(R.id.back_imv);
+            leftTxv = findViewById(R.id.left_txv);
+            titleTxv = findViewById(R.id.title_txv);
+            rightLlay = findViewById(R.id.right_llay);
+            rightTxv = findViewById(R.id.right_txv);
+            rightImv = findViewById(R.id.right_imv);
+            submit_ctxv = findViewById(R.id.submit_ctxv);
+            mSlidingPaneLayout = findViewById(R.id.sliding_pane);
             rightImv.setVisibility(View.INVISIBLE);
             if (isEditable) {
                 rightTxv.setVisibility(View.VISIBLE);
@@ -913,13 +912,13 @@ public class SessionSummaryActivity  extends PacifyrAppCompactActivity{
             rightLlay.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    saveSession();
+                    saveSession(sessionid);
                 }
             });
             submit_ctxv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    saveSession();
+                    saveSession(sessionid);
                 }
             });
             //backImv.setBackgroundResource(R.drawable.leftmen);

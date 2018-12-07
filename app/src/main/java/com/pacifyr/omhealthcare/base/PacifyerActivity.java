@@ -195,9 +195,9 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
         super.onCreate(savedInstanceState);
         checker = new PermissionsChecker(PacifyerActivity.this);
 
-        if(isValid(getPrefManager().getSessionId())) {
+       /* if(isValid(getPrefManager().getSessionId())) {
             setAlertSessionStop("Stop session","Previous sessson is not closed.","OK");
-        }
+        }*/
 
         requestExecutor = App.getInstance().getQbResRequestExecutor();
         sharedPrefsHelper = SharedPrefsHelper.getInstance();
@@ -752,11 +752,11 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
         userInfo.put("firstName", getUserFirstName()+"");
         userInfo.put("imageAvathar", getProfileImageURL()+"");
         userInfo.put("OpponentUserid", getUserID()+"");
-        userInfo.put("sessionId", sessionid+"");
+        userInfo.put("sessionId", idsession + "");
 
         Log.d("call", "startCall lastName"+getUserLastName());
         Log.d("call", "startCall firstName"+getUserFirstName());
-        Log.d("call", "startCall sessionId"+sessionid);
+        Log.d("call", "startCall sessionId" + idsession);
 
         WebRtcSessionManager.getInstance(this).setCurrentSession(newQbRtcSession);
 
@@ -1282,7 +1282,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
                                     }
                                     else
                                     {
-                                        stopSessionWeb(pacifyer);
+//                                        stopSessionWeb(pacifyer);
                                         if (json.has("message")) {
                                             ToastHandler.newInstance(PacifyerActivity.this).mustShowToast(json.getString("message"));
                                         }
@@ -1306,7 +1306,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
                                                 startCall(isVideoCall, pacifyer, pacifyer.getQbid(), pacifyer.getId(), sessionid);
 //                                                startSessionTracking();
                                             }
-                                        } else if (statusmsg.equalsIgnoreCase("error")) {
+                                        } /*else if (statusmsg.equalsIgnoreCase("error")) {
                                             stopSessionWeb(pacifyer);
                                             ToastHandler.newInstance(PacifyerActivity.this).mustShowToast(message);
                                         } else {
@@ -1315,7 +1315,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
                                             //startCall(isVideoCall,pacifyer, pacifyer.getQbid(), pacifyer.getId(), sessionid);
                                             //ToastHandler.newInstance(PacifyerActivity.this).mustShowToast(json.getString("message"));
                                             ToastHandler.newInstance(PacifyerActivity.this).mustShowToast("Network error. Please try again");
-                                        }
+                                        }*/
 
                                     }catch (Exception e)
                                     {
@@ -1336,7 +1336,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
                                             startCall(isVideoCall, pacifyer, pacifyer.getQbid(), pacifyer.getId(), sessionid);
 //                                            startSessionTracking();
                                         }
-                                    } else if (statusmsg.equalsIgnoreCase("error")) {
+                                    } /*else if (statusmsg.equalsIgnoreCase("error")) {
                                         stopSessionWeb(pacifyer);
                                         ToastHandler.newInstance(PacifyerActivity.this).mustShowToast(message);
                                     } else {
@@ -1345,7 +1345,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
                                         //setAlertOKStatusInBlue("Connect call","Connect the call","OK");
                                         //startCall(isVideoCall,pacifyer, pacifyer.getQbid(), pacifyer.getId(), sessionid);
                                         // ToastHandler.newInstance(PacifyerActivity.this).mustShowToast(json.getString("message"));
-                                    }
+                                    }*/
 
                                 }catch (Exception ex)
                                 {
@@ -1738,7 +1738,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
 
 
 
-    public void stopSessionWeb(MUser pacifyr) {
+    /*public void stopSessionWeb(MUser pacifyr) {
         try {
             //  ToastHandler.newInstance(PacifyerActivity.this).showToast("stopSessionWeb api called ");
             LogUtils.LOGD("call", "stopSessionWeb getUserID "+ getUserID());
@@ -1749,13 +1749,13 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
                 return;
             }
             // return;
-          /*
+          *//*
              if (!isValid(getUserID(),"Stop Session getUserID null"))
                 return;
 
             LogUtils.LOGD("call", "stopSessionWeb oppenentid "+oppenentid);
           if (!isValid(oppenentid,"Stop Session Oppenant id null "))
-                return;*/
+                return;*//*
 
             AjaxCallback<JSONObject> cb = new AjaxCallback<JSONObject>() {
                 @Override
@@ -1797,7 +1797,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
         } catch (Exception e){
             LogUtils.LOGD("call", "stopSessionWeb end exception : " + e.getMessage());
         }
-    }
+    }*/
 
     public void declineSessionWeb( String sessionid) {
         try {

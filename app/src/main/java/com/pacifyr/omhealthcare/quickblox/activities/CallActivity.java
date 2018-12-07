@@ -715,7 +715,7 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
     protected void onResume() {
         super.onResume();
        networkConnectionChecker.registerListener(this);
-        ((App) App.getInstance()).setCurrentActivity(this);
+        App.getInstance().setCurrentActivity(this);
     }
 
     @Override
@@ -940,7 +940,7 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
                 }
                 else if(!isMissed && !isDeclined && isOpponenetConnected&&isOppenentHangUP)
                 {
-                    SessionSummaryActivity.start(CallActivity.this);
+                    SessionSummaryActivity.start(CallActivity.this, session.getSessionID());
                     getPrefManager().saveSessionId(null);
                 }
                 else

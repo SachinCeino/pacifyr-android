@@ -25,7 +25,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.widget.Chronometer;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -168,6 +167,12 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
                 if (isEmployee()) {
                     setEmpMinutesListener(empMinutesListener);
                     checkEmpAvailableMinutes();
+                }
+                try {
+                    stopTimer();
+                    startTimer();
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
         }
@@ -409,14 +414,14 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
     public void onUserInfoViews(View view) {
       try {
 
-          info_overlay_llay = (LinearLayout) view.findViewById(R.id.info_overlay_llay);
+          info_overlay_llay = view.findViewById(R.id.info_overlay_llay);
         //  localVideoView = (QBRTCSurfaceView) view.findViewById(R.id.local_video_view);
-          userRlay = (RelativeLayout) view.findViewById(R.id.user_rlay);
-          callCtxv = (CustomFontTextView) view.findViewById(R.id.call_ctxv);
-          userDimv = (CircleImageView) view.findViewById(R.id.user_dimv);
-          usernameCtxv = (CustomFontTextView) view.findViewById(R.id.username_ctxv);
-          moreDimv = (DeviceFitImageView) view.findViewById(R.id.more_dimv);
-          more_rlay = (RelativeLayout) view.findViewById(R.id.more_rlay);
+          userRlay = view.findViewById(R.id.user_rlay);
+          callCtxv = view.findViewById(R.id.call_ctxv);
+          userDimv = view.findViewById(R.id.user_dimv);
+          usernameCtxv = view.findViewById(R.id.username_ctxv);
+          moreDimv = view.findViewById(R.id.more_dimv);
+          more_rlay = view.findViewById(R.id.more_rlay);
  moreDimv.setVisibility(View.VISIBLE);
           more_rlay.setVisibility(View.GONE);
       }catch (Exception e)
@@ -432,12 +437,12 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
          opponentViewHolders = new SparseArray<>(opponents.size());
          isRemoteShown = false;
          isCurrentCameraFront = true;
-         timerChronometer = (Chronometer) view.findViewById(R.id.chronometer_timer_video_call);
-         emotion_dimv = (DeviceFitImageView) view.findViewById(R.id.emotion_dimv);
-          emotion_rlay = (RelativeLayout) view.findViewById(R.id.emotion_rlay);
-         reason_ctxv = (CustomFontTextView) view.findViewById(R.id.reason_ctxv);
-        emotion_ctxv = (CustomFontTextView) view.findViewById(R.id.emotion_ctxv);
-        billingStatus = (TextView) view.findViewById(R.id.billing_status);
+        timerChronometer = view.findViewById(R.id.chronometer_timer_video_call);
+        emotion_dimv = view.findViewById(R.id.emotion_dimv);
+        emotion_rlay = view.findViewById(R.id.emotion_rlay);
+        reason_ctxv = view.findViewById(R.id.reason_ctxv);
+        emotion_ctxv = view.findViewById(R.id.emotion_ctxv);
+        billingStatus = view.findViewById(R.id.billing_status);
 
 
 
@@ -450,15 +455,15 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
         emotion_ctxv.setVisibility(View.GONE);
         setEmotionViews();
 
-        localVideoView = (QBRTCSurfaceView) view.findViewById(R.id.local_video_view);
+        localVideoView = view.findViewById(R.id.local_video_view);
         initCorrectSizeForLocalView();
         localVideoView.setZOrderMediaOverlay(true);
 
-        remoteFullScreenVideoView = (QBRTCSurfaceView) view.findViewById(R.id.remote_video_view);
+        remoteFullScreenVideoView = view.findViewById(R.id.remote_video_view);
         remoteFullScreenVideoView.setOnClickListener(localViewOnClickListener);
 
         if (!isPeerToPeerCall) {
-            recyclerView = (RecyclerView) view.findViewById(R.id.grid_opponents);
+            recyclerView = view.findViewById(R.id.grid_opponents);
 
             recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), R.dimen.grid_item_divider));
             recyclerView.setHasFixedSize(true);
@@ -477,12 +482,12 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
                 }
             });
         }
-        connectionStatusLocal = (TextView) view.findViewById(R.id.connectionStatusLocal);
+        connectionStatusLocal = view.findViewById(R.id.connectionStatusLocal);
 
-        cameraToggle = (ToggleButton) view.findViewById(R.id.toggle_camera);
+        cameraToggle = view.findViewById(R.id.toggle_camera);
         cameraToggle.setVisibility(View.VISIBLE);
 
-        actionVideoButtonsLayout = (LinearLayout) view.findViewById(R.id.element_set_video_buttons);
+        actionVideoButtonsLayout = view.findViewById(R.id.element_set_video_buttons);
 
         actionButtonsEnabled(false);
         restoreSession();
@@ -968,7 +973,7 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
             }
         }
         return null;
-    };
+    }
 
     private void releseOpponentsViews(){
         RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
