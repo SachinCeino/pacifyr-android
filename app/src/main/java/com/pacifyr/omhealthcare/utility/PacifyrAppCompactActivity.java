@@ -542,7 +542,6 @@ public abstract class PacifyrAppCompactActivity  extends PacifyerActivity {
                         } catch (Exception e){
                             //Crashlytics.logException(e);
                             ToastHandler.newInstance(getApplicationContext()).showToast("Please Try again");
-                            ;
                             LogUtils.LOGD("install", "installationWeb exception callback : " + e.getMessage());
                             e.printStackTrace();
                         }
@@ -874,9 +873,9 @@ public abstract class PacifyrAppCompactActivity  extends PacifyerActivity {
                 }
                 else {
                     View view = LayoutInflater.from(this).inflate(com.ceino.utilitylibrary.R.layout.alert_ok, null, false);
-                    CustomFontTextView title_dtxv = (CustomFontTextView) view.findViewById(com.ceino.utilitylibrary.R.id.title_dtxv);
-                    CustomFontTextView desc_dtxv = (CustomFontTextView) view.findViewById(com.ceino.utilitylibrary.R.id.desc_dtxv);
-                    CustomFontTextView ok_dtxv = (CustomFontTextView) view.findViewById(com.ceino.utilitylibrary.R.id.ok_dtxv);
+                    CustomFontTextView title_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.title_dtxv);
+                    CustomFontTextView desc_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.desc_dtxv);
+                    CustomFontTextView ok_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.ok_dtxv);
                     type = capitalizeString(type);
                     defSetText(title_dtxv, type + "!");
                     defSetText(desc_dtxv, alert.getDesc());
@@ -903,11 +902,12 @@ public abstract class PacifyrAppCompactActivity  extends PacifyerActivity {
         //View.OnClickListener oklistner
         LogUtils.LOGD("receiver", "topapp setAlertJoin " + alert.getType());
         View view = LayoutInflater.from(this).inflate(R.layout.alert_two_options, null, false);
-        CustomFontTextView title_dtxv = (CustomFontTextView) view.findViewById(com.ceino.utilitylibrary.R.id.title_dtxv);
-        CustomFontTextView desc_dtxv = (CustomFontTextView) view.findViewById(com.ceino.utilitylibrary.R.id.desc_dtxv);
-        CustomFontTextView ok_dtxv = (CustomFontTextView) view.findViewById(com.ceino.utilitylibrary.R.id.ok_dtxv);
+        CustomFontTextView title_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.title_dtxv);
+        CustomFontTextView desc_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.desc_dtxv);
+        CustomFontTextView ok_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.ok_dtxv);
 
-        CustomFontTextView dismissDtxv = (CustomFontTextView) view.findViewById(R.id.dismiss_dtxv);  String type = alert.getType();
+        CustomFontTextView dismissDtxv = view.findViewById(R.id.dismiss_dtxv);
+        String type = alert.getType();
        /* String collection = alert.getCollection();
         if (isValid(collection)) {
             if (collection.equalsIgnoreCase("hangout")) {
@@ -953,11 +953,12 @@ public abstract class PacifyrAppCompactActivity  extends PacifyerActivity {
         //View.OnClickListener oklistner
         LogUtils.LOGD("receiver", "topapp setAlertStart " + alert.getType());
         View view = LayoutInflater.from(this).inflate(R.layout.alert_two_options, null, false);
-        CustomFontTextView title_dtxv = (CustomFontTextView) view.findViewById(com.ceino.utilitylibrary.R.id.title_dtxv);
-        CustomFontTextView desc_dtxv = (CustomFontTextView) view.findViewById(com.ceino.utilitylibrary.R.id.desc_dtxv);
-        CustomFontTextView ok_dtxv = (CustomFontTextView) view.findViewById(com.ceino.utilitylibrary.R.id.ok_dtxv);
+        CustomFontTextView title_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.title_dtxv);
+        CustomFontTextView desc_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.desc_dtxv);
+        CustomFontTextView ok_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.ok_dtxv);
 
-        CustomFontTextView dismissDtxv = (CustomFontTextView) view.findViewById(R.id.dismiss_dtxv);  String type = alert.getType();
+        CustomFontTextView dismissDtxv = view.findViewById(R.id.dismiss_dtxv);
+        String type = alert.getType();
        /* String collection = alert.getCollection();
         if (isValid(collection)) {
             if (collection.equalsIgnoreCase("hangout")) {
@@ -1269,9 +1270,9 @@ public abstract class PacifyrAppCompactActivity  extends PacifyerActivity {
             showProgress();
             String userid = getPrefManager().getUserID();
             final String userID = PrefManager.getInstance(context).getUserID();
-            //String mail = modelPhoneLogin.getUser().getEmail();
+            String mail = PrefManager.getInstance(PacifyrAppCompactActivity.this).getEmail();
             final QBUser user = new QBUser(userID, userID);
-            //user.setEmail(mail);
+            user.setEmail(mail);
             QBSettings.getInstance().init(context, APP_ID, AUTH_KEY, AUTH_SECRET);
             QBSettings.getInstance().setAccountKey(ACCOUNT_KEY);
             if( !QBAuth.getSession().isCanceled()) {

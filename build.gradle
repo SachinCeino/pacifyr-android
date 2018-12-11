@@ -2,6 +2,7 @@
 
 buildscript {
     repositories {
+        google()
         jcenter()
         mavenCentral()
         maven { url 'https://jitpack.io' }
@@ -30,9 +31,9 @@ buildscript {
 
 allprojects {
     repositories {
+        google()
         jcenter()
         mavenCentral()
-        google()
         maven {
             url "https://github.com/QuickBlox/quickblox-android-sdk-releases/raw/master/"
         }
@@ -52,13 +53,13 @@ ext {
     // minSdkVersion = 21
     targetSdkVersion = 26
 
-    sourceCompatibility = JavaVersion.VERSION_1_7
-    targetCompatibility = JavaVersion.VERSION_1_7
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 
     lintAbortOnError = false
 
     // QuickBlox SDK version
-    qbSdkVersion = '3.3.5'
+    qbSdkVersion = '3.8.1'
 
     versionName = '3.3.0'
 
@@ -67,7 +68,7 @@ ext {
 
     // Dependency versions
     /* playServicesVersion = '10.2.1'*/
-    playServicesVersion = '11.0.2'
+    playServicesVersion = '11.4.2'
     supportV4Version = '26.1.0'
     appcompatV7Version = '26.1.0'
     recyclerviewV7Version = '26.1.0'

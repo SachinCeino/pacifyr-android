@@ -6,7 +6,6 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
@@ -21,21 +20,14 @@ import com.pacifyr.omhealthcare.event.NotifyEvent;
 import com.pacifyr.omhealthcare.model.MCustomerList;
 import com.pacifyr.omhealthcare.model.interfaces.CallChatEventListner;
 import com.pacifyr.omhealthcare.network.NetworkService;
-import com.pacifyr.omhealthcare.utility.FlexLayout;
 import com.pacifyr.omhealthcare.utility.PacifyrAppCompactActivity;
 import com.pacifyr.omhealthcare.utils.LogUtils;
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Objects;
 
-import static com.pacifyr.omhealthcare.Fragment.PacifyrDashboardFragment.mCustomerslist;
 import static com.pacifyr.omhealthcare.network.NetworkService.customerList;
 import static com.pacifyr.omhealthcare.network.NetworkService.listCustomer1Paged;
-import static com.pacifyr.omhealthcare.network.NetworkService.modelPacifyrDashboard;
 
 public class CustomerListActivity extends PacifyrAppCompactActivity {
 
@@ -63,14 +55,12 @@ public class CustomerListActivity extends PacifyrAppCompactActivity {
 
         NetworkService.startActionListCustomer(CustomerListActivity.this,0,20);
 
-       // log.d("Hi , i am pottan");
-
         //emptyFlay = (Flux) findViewById(R.id.empty_flay);
         try {
             onSetActionBar();
-            emptyDtxv = (CustomFontTextView) findViewById(R.id.empty_dtxv);
+            emptyDtxv = findViewById(R.id.empty_dtxv);
 
-            swipeLay = (SwipeRefreshLayout) findViewById(R.id.swipe_lay);
+            swipeLay = findViewById(R.id.swipe_lay);
             swipeLay.setColorSchemeResources(R.color.md_blue_300, R.color.colorPrimary, R.color.colorPrimaryDark, R.color.md_amber_300);
             swipeLay.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                 @Override
@@ -272,16 +262,16 @@ public class CustomerListActivity extends PacifyrAppCompactActivity {
 
     private void onSetActionBar() {
         try {
-            actionBarTopLlay = (LinearLayout) findViewById(R.id.action_bar_top_llay);
-            bottomPanel = (RelativeLayout) findViewById(R.id.bottom_panel);
-            leftLlay = (LinearLayout) findViewById(R.id.left_llay);
-            backImv = (DeviceFitImageView) findViewById(R.id.back_imv);
-            leftTxv = (CustomFontTextView) findViewById(R.id.left_txv);
-            titleTxv = (CustomFontTextView) findViewById(R.id.title_txv);
-            rightLlay = (LinearLayout) findViewById(R.id.right_llay);
-            rightTxv = (CustomFontTextView) findViewById(R.id.right_txv);
-            rightImv = (DeviceFitImageView) findViewById(R.id.right_imv);
-            customerRcv = (RecyclerView) findViewById(R.id.customers_rcv);
+            actionBarTopLlay = findViewById(R.id.action_bar_top_llay);
+            bottomPanel = findViewById(R.id.bottom_panel);
+            leftLlay = findViewById(R.id.left_llay);
+            backImv = findViewById(R.id.back_imv);
+            leftTxv = findViewById(R.id.left_txv);
+            titleTxv = findViewById(R.id.title_txv);
+            rightLlay = findViewById(R.id.right_llay);
+            rightTxv = findViewById(R.id.right_txv);
+            rightImv = findViewById(R.id.right_imv);
+            customerRcv = findViewById(R.id.customers_rcv);
             rightImv.setVisibility(View.INVISIBLE);
             rightTxv.setVisibility(View.INVISIBLE);
             rightLlay.setVisibility(View.INVISIBLE);
