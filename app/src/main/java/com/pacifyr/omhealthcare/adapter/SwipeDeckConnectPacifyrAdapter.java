@@ -112,7 +112,7 @@ public class SwipeDeckConnectPacifyrAdapter extends BaseAdapter {
      }
  */
     public SwipeDeckConnectPacifyrAdapter(ArrayList<MUser> resultsList, Context context, Activity activity) {
-        this.searchResults = resultsList;
+        searchResults = resultsList;
         this.context = context;
         this.activity = activity;
     }
@@ -157,7 +157,7 @@ public class SwipeDeckConnectPacifyrAdapter extends BaseAdapter {
 
                 //v = inflater.inflate(R.layout.swipecard_connect, parent, false);
                 v = inflater.inflate(R.layout.swipe_card_cons, parent, false);
-                chatPriceCtxv = (CustomFontTextView) v.findViewById(R.id.chat_price_ctxv);
+                chatPriceCtxv = v.findViewById(R.id.chat_price_ctxv);
                 //chatLlay = (LinearLayout) v.findViewById(R.id.chat_llay);
 
                 imgURL = GLOBAL_IMAGE_URL + searchResults.get(position).getImage();
@@ -173,9 +173,9 @@ public class SwipeDeckConnectPacifyrAdapter extends BaseAdapter {
 
                 //userID=searchResults.get(position).getId();
                 boolean isOnline = searchResults.get(position).getOnline();
-                ImageView indicatorDimv = (ImageView) v.findViewById(R.id.indicator_dimv);
-                CustomFontTextView descriptionCtxv = (CustomFontTextView) v.findViewById(R.id.description_ctxv);
-                CustomFontTextView indicatorCtxv = (CustomFontTextView) v.findViewById(R.id.indicator_ctxv);
+                ImageView indicatorDimv = v.findViewById(R.id.indicator_dimv);
+                CustomFontTextView descriptionCtxv = v.findViewById(R.id.description_ctxv);
+                CustomFontTextView indicatorCtxv = v.findViewById(R.id.indicator_ctxv);
                 indicatorCtxv.setTextSize(7f);
                 if (isOnline) {
                     indicatorDimv.setImageDrawable(context.getResources().getDrawable(R.drawable.online));
@@ -196,7 +196,7 @@ public class SwipeDeckConnectPacifyrAdapter extends BaseAdapter {
                     descriptionCtxv.setVisibility(View.GONE);
                 }
 
-                TextView specialties = (TextView) v.findViewById(R.id.specialities_ctxv);
+                TextView specialties = v.findViewById(R.id.specialities_ctxv);
                 if (isValid(searchResults.get(position).getSpecialities())) {
                     String specl[] = searchResults.get(position).getSpecialities();
                     specialties.setText(TextUtils.join(", ", specl));
@@ -229,9 +229,9 @@ public class SwipeDeckConnectPacifyrAdapter extends BaseAdapter {
                 ((RatingBar) v.findViewById(R.id.myRatingBar)).setRating(Float.valueOf(rating));
                 ((TextView) v.findViewById(R.id.item_review_tv)).setText(review + "  Reviews");
 
-                RelativeLayout chat_rlay = (RelativeLayout) v.findViewById(R.id.chat_rlay);
-                RelativeLayout audiocall_rlay = (RelativeLayout) v.findViewById(R.id.audiocall_rlay);
-                RelativeLayout videocall_rlay = (RelativeLayout) v.findViewById(R.id.videocall_rlay);
+                RelativeLayout chat_rlay = v.findViewById(R.id.chat_rlay);
+                RelativeLayout audiocall_rlay = v.findViewById(R.id.audiocall_rlay);
+                RelativeLayout videocall_rlay = v.findViewById(R.id.videocall_rlay);
                 chat_rlay.setVisibility(View.VISIBLE);
 
             /*if(pacifyer.isChatEnabled())
@@ -253,7 +253,7 @@ public class SwipeDeckConnectPacifyrAdapter extends BaseAdapter {
                             }, 1000);
 
                         } else {
-                            Snackbar offlineSnackbar = Snackbar.make(v, pacifyer.getName() + " is currently offline. You can either chat with " + pacifyer.getName() + " or try agein later", Snackbar.LENGTH_LONG);
+                            Snackbar offlineSnackbar = Snackbar.make(v, pacifyer.getName() + " is currently offline. You can either chat with " + pacifyer.getName() + " or try again later", Snackbar.LENGTH_LONG);
                             offlineSnackbar.show();
                             //ToastHandler.newInstance(context).mustShowToast(pacifyer.getName() + " is currently offline. You can either chat with " + pacifyer.getName() + " or try agein later");
                             //ToastHandler.newInstance(context).mustShowToast("Please contact later. Pacifyer not available now");
@@ -290,7 +290,7 @@ public class SwipeDeckConnectPacifyrAdapter extends BaseAdapter {
                             }, 1000);
 
                         } else {
-                            Snackbar offlineSnackbar = Snackbar.make(v, pacifyer.getName() + " is currently offline. You can either chat with " + pacifyer.getName() + " or try agein later", Snackbar.LENGTH_SHORT);
+                            Snackbar offlineSnackbar = Snackbar.make(v, pacifyer.getName() + " is currently offline. You can either chat with " + pacifyer.getName() + " or try again later", Snackbar.LENGTH_SHORT);
                             offlineSnackbar.show();
                             //ToastHandler.newInstance(context).mustShowToast(pacifyer.getName() + " is currently offline. You can either chat with " + pacifyer.getName() + " or try agein later");
                             //ToastHandler.newInstance(context).mustShowToast("Please contact later. Pacifyer not available now");
@@ -389,8 +389,8 @@ public class SwipeDeckConnectPacifyrAdapter extends BaseAdapter {
 
                 //ImageView img = (ImageView) v.findViewById(R.id.img_prof);
                 //Picasso.with(context).load(imgUrl).into(img);
-                CircleImageView img_prof = (CircleImageView) v.findViewById(R.id.img_prof);
-                CardView cardView = (CardView) v.findViewById(R.id.card_pacifyr);
+                CircleImageView img_prof = v.findViewById(R.id.img_prof);
+                CardView cardView = v.findViewById(R.id.card_pacifyr);
 
                 if (isValidhtml(imgURL))
                     Picasso.with(context).load(imgURL).placeholder(R.drawable.placeholder_user).into(img_prof);
@@ -739,9 +739,7 @@ public class SwipeDeckConnectPacifyrAdapter extends BaseAdapter {
     }*/
 
     public Boolean isValid(Object object) {
-        if (object != null)
-            return true;
-        return false;
+        return object != null;
 
     }
 
@@ -749,7 +747,7 @@ public class SwipeDeckConnectPacifyrAdapter extends BaseAdapter {
 
 
     public Boolean isValidhtml(String text) {
-        if(isValid(text)) if(text.contains("http")) return true;
+        if (isValid(text)) return text.contains("http");
         return false;
 
     }

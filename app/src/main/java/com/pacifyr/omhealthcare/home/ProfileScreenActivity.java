@@ -217,7 +217,7 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
 
                         if(!mpacifyerDetial.isReadyToCall()) {
 
-                            offlineSnackbar = Snackbar.make(topRlay, mpacifyerDetial.getName() + " is currently offline. You can either chat with " + mpacifyerDetial.getName() + " or try agein later", Snackbar.LENGTH_LONG);
+                            offlineSnackbar = Snackbar.make(topRlay, mpacifyerDetial.getName() + " is currently offline. You can either chat with " + mpacifyerDetial.getName() + " or try again later", Snackbar.LENGTH_LONG);
                             offlineSnackbar.show();
                             //ToastHandler.newInstance(ProfileScreenActivity.this).mustShowToast(mpacifyerDetial.getName() + " is currently offline. You can either chat with " + mpacifyerDetial.getName() + " or try agein later");
                             return;
@@ -288,7 +288,7 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
                             return;
 
                         if(!mpacifyerDetial.isReadyToCall()) {
-                            offlineSnackbar = Snackbar.make(topRlay, mpacifyerDetial.getName() + " is currently offline. You can either chat with " + mpacifyerDetial.getName() +" or try agein later", Snackbar.LENGTH_LONG);
+                            offlineSnackbar = Snackbar.make(topRlay, mpacifyerDetial.getName() + " is currently offline. You can either chat with " + mpacifyerDetial.getName() + " or try again later", Snackbar.LENGTH_LONG);
                             offlineSnackbar.show();
                             //ToastHandler.newInstance(ProfileScreenActivity.this).mustShowToast(mpacifyerDetial.getName() + " is currently offline. You can either chat with " + mpacifyerDetial.getName() + " or try agein later");
                             return;
@@ -580,7 +580,7 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
 
                 String[] spec=pacifyerDetial.getSpecialities();
 
-                CustomFontTextView spCtxv=(CustomFontTextView) findViewById(R.id.special_list_ctxv);
+                CustomFontTextView spCtxv = findViewById(R.id.special_list_ctxv);
                 spCtxv.setText(TextUtils.join(", ",spec));
                 //Speciality adapter
                /* SpecialRecyclerView = (RecyclerView) findViewById(R.id.special_rcv);
@@ -594,7 +594,7 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
             educationsList = pacifyerDetial.getEducationList();
             if (isValid(educationsList)) {
                 //education adapter
-                EducationRecyclerView = (RecyclerView) findViewById(R.id.education_rcv);
+                EducationRecyclerView = findViewById(R.id.education_rcv);
                 EducationLayoutManager = new LinearLayoutManager(this);
                 EducationRecyclerView.setLayoutManager(EducationLayoutManager);
                 EducationAdapter = new EducationProfileAdapter(educationsList, ProfileScreenActivity.this);
@@ -605,7 +605,7 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
             certificateList = pacifyerDetial.getCertificationList();
             if (isValid(certificateList)) {
                 //certificate adapter
-                CertificateRecyclerView = (RecyclerView) findViewById(R.id.certification_rcv);
+                CertificateRecyclerView = findViewById(R.id.certification_rcv);
                 CertificateLayoutManager = new LinearLayoutManager(this);
                 CertificateRecyclerView.setLayoutManager(CertificateLayoutManager);
                 CertificateAdapter = new CertificationProfileAdapter(certificateList, ProfileScreenActivity.this);
@@ -687,12 +687,12 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
     }
 
     public Boolean isValidhtml(String text) {
-        if(isValid(text)) if(text.contains("http")||text.contains("https")) return true;
+        if (isValid(text)) return text.contains("http") || text.contains("https");
         return false;
 
     }
     public Boolean isValid(String text) {
-        if(text != null) if(!text.trim().equalsIgnoreCase("")) return true;
+        if (text != null) return !text.trim().equalsIgnoreCase("");
         return false;
 
     }
@@ -817,32 +817,32 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
 
     private void initializeViews() {
 
-        startVideoCimv=(CircleImageView) findViewById(R.id.start_video_cimv);
-        startAudioCimv=(CircleImageView) findViewById(R.id.start_audio_cimv);
-        startChatCimv=(CircleImageView) findViewById(R.id.start_chat_cimv);
-        indicateOnline=(ImageView) findViewById(R.id.online_offline_imv);
-        profileLlay = (LinearLayout) findViewById(R.id.profile_llay);
-        call_llay = (LinearLayout) findViewById(R.id.call_llay);
-        profileNameCtxv = (CustomFontTextView) findViewById(R.id.profile_name_ctxv);
+        startVideoCimv = findViewById(R.id.start_video_cimv);
+        startAudioCimv = findViewById(R.id.start_audio_cimv);
+        startChatCimv = findViewById(R.id.start_chat_cimv);
+        indicateOnline = findViewById(R.id.online_offline_imv);
+        profileLlay = findViewById(R.id.profile_llay);
+        call_llay = findViewById(R.id.call_llay);
+        profileNameCtxv = findViewById(R.id.profile_name_ctxv);
 //        pacifyrRoleCtxv = (CustomFontTextView) findViewById(R.id.pacifyr_role_ctxv);
-        profileRating = (AppCompatRatingBar) findViewById(R.id.profile_rating);
-        ratingCtxv = (CustomFontTextView) findViewById(R.id.rating_ctxv);
-        profileCimv = (CircleImageView) findViewById(R.id.profile_cimv);
-        isonlineCtxv = (CustomFontTextView) findViewById(R.id.isonline_ctxv);
-        dollarSignCtxv = (CustomFontTextView) findViewById(R.id.dollar_sign_ctxv);
-        priceCtxv = (CustomFontTextView) findViewById(R.id.price_ctxv);
-        perHourCtxv = (CustomFontTextView) findViewById(R.id.per_hour_ctxv);
-        snapshotCard = (CardView) findViewById(R.id.snapshot_card);
-        snapshotCtxv = (CustomFontTextView) findViewById(R.id.snapshot_ctxv);
-        blogCard = (CardView) findViewById(R.id.blog_card);
-        websiteCtxv = (CustomFontTextView) findViewById(R.id.website_ctxv);
-        connect_pacifyr_ctxv = (CustomFontTextView) findViewById(R.id.connect_pacifyr_ctxv);
-        specialityCard = (CardView) findViewById(R.id.speciality_card);
-        specialRcv = (RecyclerView) findViewById(R.id.special_rcv);
-        educationCard = (CardView) findViewById(R.id.education_card);
-        educationRcv = (RecyclerView) findViewById(R.id.education_rcv);
-        certificationCard = (CardView) findViewById(R.id.certification_card);
-        topRlay = (RelativeLayout) findViewById(R.id.prof_top_rlay);
+        profileRating = findViewById(R.id.profile_rating);
+        ratingCtxv = findViewById(R.id.rating_ctxv);
+        profileCimv = findViewById(R.id.profile_cimv);
+        isonlineCtxv = findViewById(R.id.isonline_ctxv);
+        dollarSignCtxv = findViewById(R.id.dollar_sign_ctxv);
+        priceCtxv = findViewById(R.id.price_ctxv);
+        perHourCtxv = findViewById(R.id.per_hour_ctxv);
+        snapshotCard = findViewById(R.id.snapshot_card);
+        snapshotCtxv = findViewById(R.id.snapshot_ctxv);
+        blogCard = findViewById(R.id.blog_card);
+        websiteCtxv = findViewById(R.id.website_ctxv);
+        connect_pacifyr_ctxv = findViewById(R.id.connect_pacifyr_ctxv);
+        specialityCard = findViewById(R.id.speciality_card);
+        specialRcv = findViewById(R.id.special_rcv);
+        educationCard = findViewById(R.id.education_card);
+        educationRcv = findViewById(R.id.education_rcv);
+        certificationCard = findViewById(R.id.certification_card);
+        topRlay = findViewById(R.id.prof_top_rlay);
 
     }
 
@@ -873,15 +873,15 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
     private DeviceFitImageView rightImv;
 
     public void onSetActionBar() {
-        actionBarTopLlay = (LinearLayout) findViewById(R.id.action_bar_top_llay);
-        bottomPanel = (RelativeLayout) findViewById(R.id.bottom_panel);
-        leftLlay = (LinearLayout) findViewById(R.id.left_llay);
-        backImv = (DeviceFitImageView) findViewById(R.id.back_imv);
-        leftTxv = (CustomFontTextView) findViewById(R.id.left_txv);
-        titleTxv = (CustomFontTextView) findViewById(R.id.title_txv);
-        rightLlay = (LinearLayout) findViewById(R.id.right_llay);
-        rightTxv = (CustomFontTextView) findViewById(R.id.right_txv);
-        rightImv = (DeviceFitImageView) findViewById(R.id.right_imv);
+        actionBarTopLlay = findViewById(R.id.action_bar_top_llay);
+        bottomPanel = findViewById(R.id.bottom_panel);
+        leftLlay = findViewById(R.id.left_llay);
+        backImv = findViewById(R.id.back_imv);
+        leftTxv = findViewById(R.id.left_txv);
+        titleTxv = findViewById(R.id.title_txv);
+        rightLlay = findViewById(R.id.right_llay);
+        rightTxv = findViewById(R.id.right_txv);
+        rightImv = findViewById(R.id.right_imv);
         rightImv.setVisibility(View.INVISIBLE);
         rightTxv.setVisibility(View.INVISIBLE);
         rightLlay.setVisibility(View.INVISIBLE);
@@ -946,7 +946,7 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
             }
             if (isValid(myList)) {
                 //Speciality adapter
-                SpecialRecyclerView = (RecyclerView) findViewById(R.id.special_rcv);
+                SpecialRecyclerView = findViewById(R.id.special_rcv);
                 SpecialLayoutManager = new LinearLayoutManager(this);
                 SpecialRecyclerView.setLayoutManager(SpecialLayoutManager);
                 SpecialAdapter = new SpecilaListProfileAdapter(myList, ProfileScreenActivity.this);
@@ -960,7 +960,7 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
             JSONArray eduArray=user.getJSONArray("education");
             if (isValid(eduArray)) {
                 //education adapter
-                EducationRecyclerView = (RecyclerView) findViewById(R.id.education_rcv);
+                EducationRecyclerView = findViewById(R.id.education_rcv);
                 EducationLayoutManager = new LinearLayoutManager(this);
                 EducationRecyclerView.setLayoutManager(EducationLayoutManager);
                 // EducationAdapter = new EducationProfileAdapter(eduArray, ProfileScreenActivity.this);

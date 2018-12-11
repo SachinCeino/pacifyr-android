@@ -39,6 +39,7 @@ import com.pacifyr.omhealthcare.event.NotifyEvent;
 import com.pacifyr.omhealthcare.model.MComments;
 import com.pacifyr.omhealthcare.model.interfaces.CommentClick;
 import com.pacifyr.omhealthcare.network.GsonUtils;
+import com.pacifyr.omhealthcare.network.NetworkService;
 import com.pacifyr.omhealthcare.quickblox.App;
 import com.pacifyr.omhealthcare.quickblox.utils.Consts;
 import com.pacifyr.omhealthcare.utility.PacifyrAppCompactActivity;
@@ -60,6 +61,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import static com.ceino.utilitylibrary.network.UtilityNetworkService.GLOBAL_IMAGE_URL;
 import static com.pacifyr.omhealthcare.network.NetworkService.GLOBAL_URL;
 import static com.pacifyr.omhealthcare.network.NetworkService.modelAllEmotions;
+import static com.pacifyr.omhealthcare.network.NetworkService.modelListPosEmotions;
 
 /**
  * Created by Mani-Ceino on 12/14/2017.
@@ -798,7 +800,12 @@ public class SessionSummaryActivity  extends PacifyrAppCompactActivity{
     {
         try {
             LogUtils.LOGD("session","SSA setAdapter " );
-            if (isValid(mSessionDetailRoot)) {
+            if (isValid(NetworkService.modelListNegEmotions) && isValid(NetworkService.modelListPosEmotions)) {
+                emotions = modelListPosEmotions.getResultsList();
+                emotions.addAll(NetworkService.modelListNegEmotions.getResultsList());
+                emotionsListAdapter = new EmotionsListAdapter(emotions, this);
+                recyclerView.setAdapter(emotionsListAdapter);
+            } else if (isValid(mSessionDetailRoot)) {
                 if(isValid(modelAllEmotions)) {
                     emotions = modelAllEmotions.getResultsList();
                     emotionsListAdapter = new EmotionsListAdapter(emotions, SessionSummaryActivity.this);

@@ -18,6 +18,7 @@ import org.greenrobot.eventbus.Subscribe;
 import java.util.List;
 
 import static com.pacifyr.omhealthcare.network.NetworkService.modelAllEmotions;
+import static com.pacifyr.omhealthcare.network.NetworkService.modelListPosEmotions;
 
 public class CallSummaryActivity extends PacifyrAppCompactActivity {
 
@@ -34,9 +35,17 @@ public class CallSummaryActivity extends PacifyrAppCompactActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_call_summary);
 
-        calsum_emotions_rcv=(RecyclerView) findViewById(R.id.calsum_emotions_rcv);
+        calsum_emotions_rcv = findViewById(R.id.calsum_emotions_rcv);
         calsum_emotions_rcv.setLayoutManager(new LinearLayoutManager(CallSummaryActivity.this,LinearLayoutManager.HORIZONTAL, false));
-        NetworkService.webListEmotions(this);
+        if (isValid(NetworkService.modelListNegEmotions) && isValid(NetworkService.modelListPosEmotions)) {
+            emotions = modelListPosEmotions.getResultsList();
+            emotions.addAll(NetworkService.modelListNegEmotions.getResultsList());
+            emotionsListAdapter = new EmotionsListAdapter(emotions, this);
+            //postiveEmotions.setClickListener(this);
+            calsum_emotions_rcv.setAdapter(emotionsListAdapter);
+        } else {
+            NetworkService.webListEmotions(this);
+        }
 
 
 

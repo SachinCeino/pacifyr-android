@@ -36,6 +36,8 @@ import com.ceino.utilitylibrary.CustomFontTextView;
 import com.ceino.utilitylibrary.DeviceFitImageView;
 import com.ceino.utilitylibrary.model.pacifyr.MEmotion;
 import com.ceino.utilitylibrary.model.pacifyr.MUser;
+import com.gdacciaro.iOSDialog.iOSDialog;
+import com.gdacciaro.iOSDialog.iOSDialogClickListener;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.adapter.EmotionSpecialityAdapter;
 import com.pacifyr.omhealthcare.base.PacifyerActivity;
@@ -136,25 +138,7 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
     private DeviceFitImageView moreDimv;
     private RelativeLayout more_rlay;
     private TextView billingStatus;
-    private EmpMinutesListener empMinutesListener = new EmpMinutesListener() {
-        @Override
-        public void onMinutesLeft(long minutes) {
-            setAlertStatusInBlue2("Warning", "Your monthly free sessions is expiring soon. Please enter your Credit Card to continue service.",
-                    "Add Card", "Cancel", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            setAlertAddCardInBlue2();
-                        }
-                    });
-        }
-
-        @Override
-        public void expired() {
-            Toast.makeText(getActivity(), "Your monthly free sessions has expired. Please enter your Credit Card to continue.", Toast.LENGTH_LONG).show();
-            if (conversationFragmentCallbackListener != null)
-                conversationFragmentCallbackListener.onHangUpCurrentSession();
-        }
-    };
+    private TextView text_remaining_minutes;
     private BroadcastReceiver eventReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -177,6 +161,43 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
             }
         }
     };
+    private EmpMinutesListener empMinutesListener = new EmpMinutesListener() {
+        @Override
+        public void onMinutesLeft(long minutes) {
+           /* setAlertStatusInBlue2("Warning", "Your monthly free sessions is expiring soon. Please enter your Credit Card to continue service.",
+                    "Add Card", "Cancel", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            setAlertAddCardInBlue2();
+                        }
+                    });*/
+            if (getActivity() != null && getActivity() instanceof PacifyerActivity) {
+                ((PacifyerActivity) getActivity()).showIOSDialogOKCancel("Warning", "Your monthly free sessions is expiring soon. Please enter your Credit Card to continue service.", "Add Card", new iOSDialogClickListener() {
+                    @Override
+                    public void onClick(iOSDialog dialog) {
+                        //Toast.makeText(PacifyerActivity.this,"Clicked!",Toast.LENGTH_LONG).show();
+                        dialog.dismiss();
+                        setAlertAddCardInBlue2();
+
+                    }
+                }, "Cancel");
+            }
+        }
+
+        @Override
+        public void expired() {
+            Toast.makeText(getActivity(), "Your monthly free sessions has expired. Please enter your Credit Card to continue.", Toast.LENGTH_LONG).show();
+            if (conversationFragmentCallbackListener != null)
+                conversationFragmentCallbackListener.onHangUpCurrentSession();
+        }
+
+        @Override
+        public void tick(long minutes) {
+            text_remaining_minutes.setText(minutes + " free minutes remaining");
+            text_remaining_minutes.setVisibility(View.VISIBLE);
+        }
+    };
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
       //  view = super.onCreateView(inflater, container, savedInstanceState);
@@ -438,13 +459,14 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
          isRemoteShown = false;
          isCurrentCameraFront = true;
         timerChronometer = view.findViewById(R.id.chronometer_timer_video_call);
+        text_remaining_minutes = view.findViewById(R.id.text_remaining_minutes);
         emotion_dimv = view.findViewById(R.id.emotion_dimv);
         emotion_rlay = view.findViewById(R.id.emotion_rlay);
         reason_ctxv = view.findViewById(R.id.reason_ctxv);
         emotion_ctxv = view.findViewById(R.id.emotion_ctxv);
         billingStatus = view.findViewById(R.id.billing_status);
 
-
+        text_remaining_minutes.setVisibility(View.GONE);
 
         onUserInfoViews(view);
  //  participants_ctxv = (CustomFontTextView) view.findViewById(R.id.participants_ctxv);

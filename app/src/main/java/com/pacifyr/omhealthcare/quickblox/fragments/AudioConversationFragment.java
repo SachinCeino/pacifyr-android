@@ -23,6 +23,8 @@ import com.ceino.utilitylibrary.CustomFontTextView;
 import com.ceino.utilitylibrary.DeviceFitImageView;
 import com.ceino.utilitylibrary.model.pacifyr.MEmotion;
 import com.ceino.utilitylibrary.model.pacifyr.MUser;
+import com.gdacciaro.iOSDialog.iOSDialog;
+import com.gdacciaro.iOSDialog.iOSDialogClickListener;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.adapter.EmotionSpecialityAdapter;
 import com.pacifyr.omhealthcare.base.PacifyerActivity;
@@ -69,25 +71,7 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
     private CustomFontTextView billingStatus;
 
     private  Switch billingSwitch;
-    private EmpMinutesListener empMinutesListener = new EmpMinutesListener() {
-        @Override
-        public void onMinutesLeft(long minutes) {
-            setAlertStatusInBlue2("Warning", "Your monthly free sessions is expiring soon. Please enter your Credit Card to continue service.",
-                    "Add Card", "Cancel", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            setAlertAddCardInBlue2();
-                        }
-                    });
-        }
-
-        @Override
-        public void expired() {
-            Toast.makeText(getActivity(), "Your monthly free sessions has expired. Please enter your Credit Card to continue.", Toast.LENGTH_LONG).show();
-            if (conversationFragmentCallbackListener != null)
-                conversationFragmentCallbackListener.onHangUpCurrentSession();
-        }
-    };
+    private TextView text_remaining_minutes;
     private BroadcastReceiver eventReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -109,6 +93,42 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
                 }
 
             }
+        }
+    };
+    private EmpMinutesListener empMinutesListener = new EmpMinutesListener() {
+        @Override
+        public void onMinutesLeft(long minutes) {
+            if (getActivity() != null && getActivity() instanceof PacifyerActivity) {
+                ((PacifyerActivity) getActivity()).showIOSDialogOKCancel("Warning", "Your monthly free sessions is expiring soon. Please enter your Credit Card to continue service.", "Add Card", new iOSDialogClickListener() {
+                    @Override
+                    public void onClick(iOSDialog dialog) {
+                        dialog.dismiss();
+                        //Toast.makeText(PacifyerActivity.this,"Clicked!",Toast.LENGTH_LONG).show();
+                        setAlertAddCardInBlue2();
+
+                    }
+                }, "Cancel");
+            }
+            /*setAlertStatusInBlue2("Warning", "Your monthly free sessions is expiring soon. Please enter your Credit Card to continue service.",
+                    "Add Card", "Cancel", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            setAlertAddCardInBlue2();
+                        }
+                    });*/
+        }
+
+        @Override
+        public void expired() {
+            Toast.makeText(getActivity(), "Your monthly free sessions has expired. Please enter your Credit Card to continue.", Toast.LENGTH_LONG).show();
+            if (conversationFragmentCallbackListener != null)
+                conversationFragmentCallbackListener.onHangUpCurrentSession();
+        }
+
+        @Override
+        public void tick(long minutes) {
+            text_remaining_minutes.setText(minutes + " free minutes remaining");
+            text_remaining_minutes.setVisibility(View.VISIBLE);
         }
     };
 
@@ -166,10 +186,12 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
         connectionStatusLocal = view.findViewById(R.id.connectionStatusLocal);
         emotion_ctxv = view.findViewById(R.id.emotion_ctxv);
         billingStatus = view.findViewById(R.id.billing_status);
+        text_remaining_minutes = view.findViewById(R.id.text_remaining_minutes);
 //        billingSwitch = (Switch) view.findViewById(R.id.billing_switch);
         emotion_dimv.setVisibility(View.GONE);
         reason_ctxv.setVisibility(View.GONE);
         emotion_ctxv.setVisibility(View.GONE);
+        text_remaining_minutes.setVisibility(View.GONE);
 //        callerAvatarImageView = (CircleImageView) view.findViewById(R.id.image_caller_avatar);
         //  firstOpponentNameTextView = (TextView) view.findViewById(R.id.text_caller_name);
         //    firstOpponentNameTextView.setText(opponents.get(0).getFullName());

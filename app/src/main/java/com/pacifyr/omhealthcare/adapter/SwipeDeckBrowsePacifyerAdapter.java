@@ -79,7 +79,7 @@ public class SwipeDeckBrowsePacifyerAdapter extends BaseAdapter {
 
 
     public SwipeDeckBrowsePacifyerAdapter(ArrayList<MUser> resultsList, Context context) {
-        this.searchResults = resultsList;
+        searchResults = resultsList;
         this.context = context;
     }
 
@@ -200,9 +200,9 @@ public class SwipeDeckBrowsePacifyerAdapter extends BaseAdapter {
 
             //userID=searchResults.get(position).getId();
             boolean isOnline=searchResults.get(position).getOnline();
-            ImageView indicatorDimv=(ImageView) v.findViewById(R.id.indicator_dimv);
-            CustomFontTextView descriptionCtxv =(CustomFontTextView) v.findViewById(R.id.description_ctxv);
-            CustomFontTextView indicatorCtxv=(CustomFontTextView) v.findViewById(R.id.indicator_ctxv);
+            ImageView indicatorDimv = v.findViewById(R.id.indicator_dimv);
+            CustomFontTextView descriptionCtxv = v.findViewById(R.id.description_ctxv);
+            CustomFontTextView indicatorCtxv = v.findViewById(R.id.indicator_ctxv);
 
 
            /* RelativeLayout chat_rlay = (RelativeLayout) v.findViewById(R.id.chat_rlay);
@@ -231,7 +231,7 @@ public class SwipeDeckBrowsePacifyerAdapter extends BaseAdapter {
                 descriptionCtxv.setText(searchResults.get(position).getDescription());
             }
 
-            TextView specialties=(TextView) v.findViewById(R.id.specialities_ctxv);
+            TextView specialties = v.findViewById(R.id.specialities_ctxv);
             if (isValid(searchResults.get(position).getSpecialities())) {
                 String specl[] = searchResults.get(position).getSpecialities();
                 specialties.setText(TextUtils.join(", ",specl));
@@ -255,7 +255,7 @@ public class SwipeDeckBrowsePacifyerAdapter extends BaseAdapter {
                 ((TextView) v.findViewById(R.id.price_dollar)).setText("Employer Designated Pacifyr");
             }
 
-            CustomFontTextView connectCtxv=(CustomFontTextView)v.findViewById(R.id.connect_pacifyr_ctxv);
+            CustomFontTextView connectCtxv = v.findViewById(R.id.connect_pacifyr_ctxv);
             connectCtxv.setText("Connect to "+searchResults.get(position).getFirstName());
 
             ((TextView) v.findViewById(R.id.tv_name)).setText(namePacifyr);
@@ -265,8 +265,8 @@ public class SwipeDeckBrowsePacifyerAdapter extends BaseAdapter {
             ((TextView) v.findViewById(R.id.item_review_tv)).setText(review + "  Reviews");
             //ImageView img = (ImageView) v.findViewById(R.id.img_prof);
             //Picasso.with(context).load(imgUrl).into(img);
-            CircleImageView img_prof = (CircleImageView) v.findViewById(R.id.img_prof);
-            CardView cardView = (CardView) v.findViewById(R.id.card_pacifyr);
+            CircleImageView img_prof = v.findViewById(R.id.img_prof);
+            CardView cardView = v.findViewById(R.id.card_pacifyr);
 
             if (isValidhtml(imgURL))
                 Picasso.with(context).load(imgURL).placeholder(R.drawable.placeholder_user).into(img_prof);
@@ -289,7 +289,7 @@ public class SwipeDeckBrowsePacifyerAdapter extends BaseAdapter {
                      ConnectToSinglePacifyrActivity.start(context,searchResults.get(position));
                     else
                     {
-                        Snackbar offlineSnackbar = Snackbar.make(v, pacifyer.getName() + " is currently offline. You can either chat with " + pacifyer.getName() + " or try agein later", Snackbar.LENGTH_SHORT);
+                        Snackbar offlineSnackbar = Snackbar.make(v, pacifyer.getName() + " is currently offline. You can either chat with " + pacifyer.getName() + " or try again later", Snackbar.LENGTH_SHORT);
                         offlineSnackbar.show();
                         //ToastHandler.newInstance(context).mustShowToast(pacifyer.getName()+" is currently offline. You can either chat with "+pacifyer.getName()+" or try agein later");
                     }
@@ -333,15 +333,13 @@ public class SwipeDeckBrowsePacifyerAdapter extends BaseAdapter {
     }*/
 
     public Boolean isValid(Object object) {
-        if (object != null)
-            return true;
-        return false;
+        return object != null;
 
     }
 
 
     public Boolean isValidhtml(String text) {
-        if(isValid(text)) if(text.contains("http")||text.contains("https")) return true;
+        if (isValid(text)) return text.contains("http") || text.contains("https");
         return false;
 
     }

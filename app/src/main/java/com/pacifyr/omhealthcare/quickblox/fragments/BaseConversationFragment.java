@@ -282,6 +282,9 @@ public abstract class BaseConversationFragment extends BaseToolBarFragment imple
                     public void onTick(long millisUntilFinished) {
                         long minutesLeft = millisUntilFinished / (60 * 1000);
 
+                        if (empMinutesListener != null) {
+                            empMinutesListener.tick(minutesLeft);
+                        }
                         if (minutesLeft <= 0 && !freeMinuteAlert0) {
                             if (empMinutesListener != null) {
                                 empMinutesListener.expired();

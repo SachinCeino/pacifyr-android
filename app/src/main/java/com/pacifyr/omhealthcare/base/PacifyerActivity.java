@@ -278,6 +278,24 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
                 .build().show();
     }
 
+    public void showIOSDialogOKCancel(String title, String subTitle, String okLabel, iOSDialogClickListener listener, String negativeLabel) {
+        new iOSDialogBuilder(this)
+                .setTitle(title)
+                .setSubtitle(subTitle)
+                .setBoldPositiveLabel(false)
+                .setCancelable(true)
+                .setPositiveListener(okLabel, listener)
+                .setNegativeListener(negativeLabel, new iOSDialogClickListener() {
+                    @Override
+                    public void onClick(iOSDialog dialog) {
+                        //Toast.makeText(PacifyerActivity.this,"Clicked!",Toast.LENGTH_LONG).show();
+                        dialog.dismiss();
+
+                    }
+                })
+                .build().show();
+    }
+
 
     void showProgressDialog(@StringRes int messageId) {
         if (progressDialog == null) {

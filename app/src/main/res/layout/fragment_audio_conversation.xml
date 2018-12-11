@@ -77,7 +77,7 @@
         <RelativeLayout
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="wrap_content"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="30dp"
             android:layout_marginLeft="5dp"
             android:padding="5dp"
             android:gravity="center"
@@ -128,7 +128,6 @@
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
                         android:singleLine="true"
-                        android:text="ddddddd"
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/sp16"
                         android:textStyle="bold"
@@ -165,7 +164,6 @@
                             android:layout_height="wrap_content"
                             android:layout_centerHorizontal="true"
                             android:singleLine="true"
-                            android:text="ddddddddddddd"
                             android:textColor="@color/colorPrimary"
                             android:textSize="@dimen/sp16"
                             android:textStyle="bold"
@@ -187,6 +185,13 @@
             android:textColor="@color/white"
             android:textSize="@dimen/text_size"
             android:visibility="invisible" />
+
+        <TextView
+            android:id="@+id/text_remaining_minutes"
+            style="@style/WrapContent"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/white"
+            android:textSize="@dimen/also_on_call_text_size" />
 
         <TextView
             android:id="@+id/text_also_on_call"
@@ -278,7 +283,7 @@
                         android:layout_marginLeft="10dp"
                         android:padding="5dp"
                         android:text=""
-                        android:textColor="@color/white"
+                        android:textColor="@color/blue_button_primary"
                         android:layout_height="wrap_content" />
 
                 <RelativeLayout

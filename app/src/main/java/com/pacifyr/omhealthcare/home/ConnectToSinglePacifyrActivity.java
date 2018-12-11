@@ -162,48 +162,47 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
         activity=this;
 
         onSetActionBar();
-        button1 = (Button) findViewById(R.id.button1);
-        button2 = (Button) findViewById(R.id.button2);
-        button3 = (Button) findViewById(R.id.button3);
-        button4 = (Button) findViewById(R.id.button4);
-        topRlay = (RelativeLayout) findViewById(R.id.connectsingle_top_rlay);
-        buttonRlay = (RelativeLayout) findViewById(R.id.top_rlay);
-        chatLlay = (LinearLayout) findViewById(R.id.chat_llay);
-        chatPriceCtxv = (CustomFontTextView) findViewById(R.id.chat_price_ctxv);
-        moreButton = (Button) findViewById(R.id.more_button);
-        userNameCtxv = (CustomFontTextView) findViewById(R.id.user_name_ctxv);
-        sadDimv=(DeviceFitImageView) findViewById(R.id.sad_dimv);
-        happyDimv=(DeviceFitImageView) findViewById(R.id.happy_dimv);
-        selectFeelingRlay = (RelativeLayout) findViewById(R.id.select_feeling_rlay);
-        selectEmotionRlay = (RelativeLayout) findViewById(R.id.select_emotion_rlay);
-        listPacifyrRlay = (RelativeLayout) findViewById(R.id.select_list_pacifyr_rlay);
+        button1 = findViewById(R.id.button1);
+        button2 = findViewById(R.id.button2);
+        button3 = findViewById(R.id.button3);
+        button4 = findViewById(R.id.button4);
+        topRlay = findViewById(R.id.connectsingle_top_rlay);
+        buttonRlay = findViewById(R.id.top_rlay);
+        chatLlay = findViewById(R.id.chat_llay);
+        chatPriceCtxv = findViewById(R.id.chat_price_ctxv);
+        moreButton = findViewById(R.id.more_button);
+        userNameCtxv = findViewById(R.id.user_name_ctxv);
+        sadDimv = findViewById(R.id.sad_dimv);
+        happyDimv = findViewById(R.id.happy_dimv);
+        selectFeelingRlay = findViewById(R.id.select_feeling_rlay);
+        selectEmotionRlay = findViewById(R.id.select_emotion_rlay);
+        listPacifyrRlay = findViewById(R.id.select_list_pacifyr_rlay);
 
-        pacifyr_swipelay = (SwipeRefreshLayout) findViewById(R.id.pacifyr_swipelay);
-        selectEmotionDetailRlay = (RelativeLayout) findViewById(R.id.select_emotion_detail_rlay);
-        emotionRcv = (RecyclerView) findViewById(R.id.emotion_rcv);
-        emotionDetailRcv = (RecyclerView) findViewById(R.id.emotion_detail_rcv);
-
-
-        chat_rlay = (RelativeLayout) findViewById(R.id.chat_rlay);
-        audiocall_rlay = (RelativeLayout) findViewById(R.id.audiocall_rlay);
-        videocall_rlay = (RelativeLayout) findViewById(R.id.videocall_rlay);
-        pacifyer_cimv = (CircleImageView) findViewById(R.id.pacifyer_cimv);
-        pac_name_ctxv = (CustomFontTextView) findViewById(R.id.pac_name_ctxv);
-        pac_des_ctxv = (CustomFontTextView) findViewById(R.id.pac_des_ctxv);
-        pac_rate_ctxv = (CustomFontTextView) findViewById(R.id.pac_rate_ctxv);
+        pacifyr_swipelay = findViewById(R.id.pacifyr_swipelay);
+        selectEmotionDetailRlay = findViewById(R.id.select_emotion_detail_rlay);
+        emotionRcv = findViewById(R.id.emotion_rcv);
+        emotionDetailRcv = findViewById(R.id.emotion_detail_rcv);
 
 
+        chat_rlay = findViewById(R.id.chat_rlay);
+        audiocall_rlay = findViewById(R.id.audiocall_rlay);
+        videocall_rlay = findViewById(R.id.videocall_rlay);
+        pacifyer_cimv = findViewById(R.id.pacifyer_cimv);
+        pac_name_ctxv = findViewById(R.id.pac_name_ctxv);
+        pac_des_ctxv = findViewById(R.id.pac_des_ctxv);
+        pac_rate_ctxv = findViewById(R.id.pac_rate_ctxv);
 
-        status_indicator_dimv = (ImageView) findViewById(R.id.status_indicator_dimv);
-        status_indicator_ctxv = (CustomFontTextView) findViewById(R.id.status_indicator_ctxv);
+
+        status_indicator_dimv = findViewById(R.id.status_indicator_dimv);
+        status_indicator_ctxv = findViewById(R.id.status_indicator_ctxv);
         listPacifyrRlay.setVisibility(View.GONE);
         setPacifyerValues();
 
         buttonRlay.bringToFront();
 
-        txt_emergency_usa=(CustomFontTextView) findViewById(R.id.txt_emergency_usa);
+        txt_emergency_usa = findViewById(R.id.txt_emergency_usa);
         Utility gps=new Utility();
-        String country=gps.getUserCountry(ConnectToSinglePacifyrActivity.this);
+        String country = Utility.getUserCountry(ConnectToSinglePacifyrActivity.this);
         if(isValid(country)){
             if(country.equals("us"))
                 txt_emergency_usa.setVisibility(View.VISIBLE);
@@ -211,7 +210,7 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
 
         defSetText(userNameCtxv,"Hello "+getUserName());
 
-        emotionDimv = (DeviceFitImageView) findViewById(R.id.emotion_dimv);
+        emotionDimv = findViewById(R.id.emotion_dimv);
         //specialityRcv = (RecyclerView) findViewById(R.id.speciality_rcv);
 
         button2.setClickable(false);
@@ -330,7 +329,7 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
                         try {
                             hideProgress();
                             ModelSpecialityByEmotion modelSpeciltyByEmotion= GsonUtils.getInstance().gsonToModelSpeciltyByEmotion(json);
-                            RecyclerView detailRcv=(RecyclerView)  activity.findViewById(R.id.emotion_detail_rcv);
+                            RecyclerView detailRcv = activity.findViewById(R.id.emotion_detail_rcv);
                             detailRcv.setLayoutManager(new LinearLayoutManager(ConnectToSinglePacifyrActivity.this, LinearLayoutManager.VERTICAL, false));
                             EmotionSpecialityAdapter adapter=new EmotionSpecialityAdapter(ConnectToSinglePacifyrActivity.this,activity,modelSpeciltyByEmotion.getResultsList());
                             detailRcv.setAdapter(adapter);
@@ -366,7 +365,7 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
                     public void onClick(View view) {
 
                         if(!pacifyer_obj.isReadyToCall()) {
-                            Snackbar offlineSnackbar = Snackbar.make(topRlay, pacifyer_obj.getName() + " is currently offline. You can either chat with " + pacifyer_obj.getName() + " or try agein later", Snackbar.LENGTH_LONG);
+                            Snackbar offlineSnackbar = Snackbar.make(topRlay, pacifyer_obj.getName() + " is currently offline. You can either chat with " + pacifyer_obj.getName() + " or try again later", Snackbar.LENGTH_LONG);
                             offlineSnackbar.show();
                             //ToastHandler.newInstance(ConnectToSinglePacifyrActivity.this).mustShowToast(pacifyer_obj.getName() + " is currently offline. You can either chat with " + pacifyer_obj.getName() + " or try agein later");
                             return;
@@ -417,7 +416,7 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
                     public void onClick(View view) {
 
                         if(!pacifyer_obj.isReadyToCall()) {
-                            Snackbar offlineSnackbar = Snackbar.make(topRlay, pacifyer_obj.getName() + " is currently offline. You can either chat with " + pacifyer_obj.getName() + " or try agein later", Snackbar.LENGTH_LONG);
+                            Snackbar offlineSnackbar = Snackbar.make(topRlay, pacifyer_obj.getName() + " is currently offline. You can either chat with " + pacifyer_obj.getName() + " or try again later", Snackbar.LENGTH_LONG);
                             offlineSnackbar.show();
                             //ToastHandler.newInstance(ConnectToSinglePacifyrActivity.this).mustShowToast(pacifyer_obj.getName() + " is currently offline. You can either chat with " + pacifyer_obj.getName() + " or try agein later");
                             return;
@@ -901,15 +900,15 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
     private DeviceFitImageView rightImv;
 
     public void onSetActionBar() {
-        actionBarTopLlay = (LinearLayout) findViewById(R.id.action_bar_top_llay);
-        bottomPanel = (RelativeLayout) findViewById(R.id.bottom_panel);
-        leftLlay = (LinearLayout) findViewById(R.id.left_llay);
-        backImv = (ImageView) findViewById(R.id.back_imv);
-        leftTxv = (CustomFontTextView) findViewById(R.id.left_txv);
-        titleTxv = (CustomFontTextView) findViewById(R.id.title_txv);
-        rightLlay = (LinearLayout) findViewById(R.id.right_llay);
-        rightTxv = (CustomFontTextView) findViewById(R.id.right_txv);
-        rightImv = (DeviceFitImageView) findViewById(R.id.right_imv);
+        actionBarTopLlay = findViewById(R.id.action_bar_top_llay);
+        bottomPanel = findViewById(R.id.bottom_panel);
+        leftLlay = findViewById(R.id.left_llay);
+        backImv = findViewById(R.id.back_imv);
+        leftTxv = findViewById(R.id.left_txv);
+        titleTxv = findViewById(R.id.title_txv);
+        rightLlay = findViewById(R.id.right_llay);
+        rightTxv = findViewById(R.id.right_txv);
+        rightImv = findViewById(R.id.right_imv);
         rightImv.setVisibility(View.INVISIBLE);
         rightTxv.setVisibility(View.INVISIBLE);
         rightLlay.setVisibility(View.INVISIBLE);
