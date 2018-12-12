@@ -26,8 +26,10 @@ import com.ceino.utilitylibrary.model.pacifyr.MUser;
 import com.gdacciaro.iOSDialog.iOSDialog;
 import com.gdacciaro.iOSDialog.iOSDialogClickListener;
 import com.pacifyr.omhealthcare.R;
+import com.pacifyr.omhealthcare.activity.ActivityChngEmotionFromCall;
 import com.pacifyr.omhealthcare.adapter.EmotionSpecialityAdapter;
 import com.pacifyr.omhealthcare.base.PacifyerActivity;
+import com.pacifyr.omhealthcare.event.CallChangeEmotion;
 import com.pacifyr.omhealthcare.event.CallEvent;
 import com.pacifyr.omhealthcare.event.NotifyEvent;
 import com.pacifyr.omhealthcare.home.CustomerDetailActivity;
@@ -182,15 +184,16 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
             actionBar.hide();
         timerChronometer = view.findViewById(R.id.chronometer_timer_audio_call);
         emotion_dimv = view.findViewById(R.id.emotion_dimv);
+        emotion_rlay = view.findViewById(R.id.emotion_rlay);
         reason_ctxv = view.findViewById(R.id.reason_ctxv);
         connectionStatusLocal = view.findViewById(R.id.connectionStatusLocal);
         emotion_ctxv = view.findViewById(R.id.emotion_ctxv);
         billingStatus = view.findViewById(R.id.billing_status);
         text_remaining_minutes = view.findViewById(R.id.text_remaining_minutes);
 //        billingSwitch = (Switch) view.findViewById(R.id.billing_switch);
-        emotion_dimv.setVisibility(View.GONE);
-        reason_ctxv.setVisibility(View.GONE);
-        emotion_ctxv.setVisibility(View.GONE);
+        emotion_dimv.setVisibility(View.INVISIBLE);
+        reason_ctxv.setVisibility(View.INVISIBLE);
+        emotion_ctxv.setVisibility(View.INVISIBLE);
         text_remaining_minutes.setVisibility(View.GONE);
 //        callerAvatarImageView = (CircleImageView) view.findViewById(R.id.image_caller_avatar);
         //  firstOpponentNameTextView = (TextView) view.findViewById(R.id.text_caller_name);
@@ -230,6 +233,16 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
         audioSwitchToggleButton.setVisibility(View.VISIBLE);
 
         actionButtonsEnabled(false);
+
+        emotion_rlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), ActivityChngEmotionFromCall.class);
+                startActivity(intent);
+
+
+            }
+        });
     }
 
     /*private void startBilling() {
@@ -631,6 +644,25 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
             e.printStackTrace();
         }
     }
+
+    @Subscribe
+    public void onChangedEmotionEvent(CallChangeEmotion event) {
+        try {
+            if (isValid(event.getEmotion()))
+                if (isValid(event.getEmotion().getImage())) {
+                    emotion_dimv.setVisibility(View.VISIBLE);
+                    Picasso.with(getActivity()).load(NetworkService.GLOBAL_IMAGE_URL + event.getEmotion().getImage()).placeholder(R.drawable.placeholder_image).into(emotion_dimv);
+                }
+
+            if (isValid(event.getEmotion().getTitle())) {
+                emotion_ctxv.setVisibility(View.VISIBLE);
+                defSetText(emotion_ctxv, event.getEmotion().getTitle());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
 
 }

@@ -107,6 +107,11 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden" />
 
+        <activity
+            android:name=".activity.ActivityChngEmotionFromCall"
+            android:screenOrientation="portrait"
+            android:theme="@style/CustomNoActionBarTheme2"
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <service
             android:name=".network.NetworkService"
             android:exported="false" />

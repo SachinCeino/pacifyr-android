@@ -39,8 +39,10 @@ import com.ceino.utilitylibrary.model.pacifyr.MUser;
 import com.gdacciaro.iOSDialog.iOSDialog;
 import com.gdacciaro.iOSDialog.iOSDialogClickListener;
 import com.pacifyr.omhealthcare.R;
+import com.pacifyr.omhealthcare.activity.ActivityChngEmotionFromCall;
 import com.pacifyr.omhealthcare.adapter.EmotionSpecialityAdapter;
 import com.pacifyr.omhealthcare.base.PacifyerActivity;
+import com.pacifyr.omhealthcare.event.CallChangeEmotion;
 import com.pacifyr.omhealthcare.event.CallEvent;
 import com.pacifyr.omhealthcare.event.NotifyEvent;
 import com.pacifyr.omhealthcare.home.CustomerDetailActivity;
@@ -465,6 +467,7 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
         reason_ctxv = view.findViewById(R.id.reason_ctxv);
         emotion_ctxv = view.findViewById(R.id.emotion_ctxv);
         billingStatus = view.findViewById(R.id.billing_status);
+        emotion_rlay = view.findViewById(R.id.emotion_rlay);
 
         text_remaining_minutes.setVisibility(View.GONE);
 
@@ -482,7 +485,7 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
         localVideoView.setZOrderMediaOverlay(true);
 
         remoteFullScreenVideoView = view.findViewById(R.id.remote_video_view);
-        remoteFullScreenVideoView.setOnClickListener(localViewOnClickListener);
+        remoteFullScreenVideoView.setOnClickListener(null);
 
         if (!isPeerToPeerCall) {
             recyclerView = view.findViewById(R.id.grid_opponents);
@@ -513,6 +516,14 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
 
         actionButtonsEnabled(false);
         restoreSession();
+
+        emotion_rlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), ActivityChngEmotionFromCall.class);
+                startActivity(intent);
+            }
+        });
        // ArrayList<MUser>call_user_list=getCallParticipantlist();
     }
 
@@ -1484,6 +1495,24 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
     @Override
     public void onSetValues(View view) throws Exception {
 
+    }
+
+    @Subscribe
+    public void onChangedEmotionEvent(CallChangeEmotion event) {
+        try {
+            if (isValid(event.getEmotion()))
+                if (isValid(event.getEmotion().getImage())) {
+                    emotion_dimv.setVisibility(View.VISIBLE);
+                    Picasso.with(getActivity()).load(NetworkService.GLOBAL_IMAGE_URL + event.getEmotion().getImage()).placeholder(R.drawable.placeholder_image).into(emotion_dimv);
+                }
+
+            if (isValid(event.getEmotion().getTitle())) {
+                emotion_ctxv.setVisibility(View.VISIBLE);
+                defSetText(emotion_ctxv, event.getEmotion().getTitle());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
 

@@ -57,6 +57,9 @@ public class PostRegisterModel {
         this.emotionId = emotionId;
     }
 
+    public PostRegisterModel(String emotionId) {
+        this.emotionId = emotionId;
+    }
     public String getSelectedSpeciality() {
         return selectedSpecialityCategory;
     }
