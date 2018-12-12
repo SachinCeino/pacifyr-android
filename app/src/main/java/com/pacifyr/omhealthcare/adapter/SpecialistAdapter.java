@@ -8,7 +8,6 @@ package com.pacifyr.omhealthcare.adapter;
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,19 +36,11 @@ public class SpecialistAdapter extends RecyclerView.Adapter<SpecialistAdapter.My
         emotionClickkListener= listener;
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView title, year, genre;
-        public CircleImageView circleImageView;
-        public CustomFontTextView pac_name;
-
-        public MyViewHolder(View view) {
-            super(view);
-            circleImageView=(CircleImageView) view.findViewById(R.id.circle_image);
-            pac_name=(CustomFontTextView) view.findViewById(R.id.pac_name);
-            /*title = (TextView) view.findViewById(R.id
-            .title);
-            genre = (TextView) view.findViewById(R.id.genre);
-            year = (TextView) view.findViewById(R.id.year);*/
+    public SpecialistAdapter(List<ModelSpecialist.Results> specialList, Context context) {
+        this.specialList = specialList;
+        this.context = context;
+        if (this.specialList != null && this.specialList.size() > 0) {
+            this.specialList.get(0).setSelect(true);
         }
     }
 
@@ -58,10 +49,22 @@ public class SpecialistAdapter extends RecyclerView.Adapter<SpecialistAdapter.My
         this.specialList = specialList;
     }*/
 
-    public SpecialistAdapter(List<ModelSpecialist.Results> specialList, Context context) {
-        this.specialList = specialList;
-        this.context=context;
+    public class MyViewHolder extends RecyclerView.ViewHolder {
+        public TextView title, year, genre;
+        public CircleImageView circleImageView;
+        public CustomFontTextView pac_name;
+
+        public MyViewHolder(View view) {
+            super(view);
+            circleImageView = view.findViewById(R.id.circle_image);
+            pac_name = view.findViewById(R.id.pac_name);
+            /*title = (TextView) view.findViewById(R.id
+            .title);
+            genre = (TextView) view.findViewById(R.id.genre);
+            year = (TextView) view.findViewById(R.id.year);*/
+        }
     }
+
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

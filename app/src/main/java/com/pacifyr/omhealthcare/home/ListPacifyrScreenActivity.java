@@ -85,6 +85,8 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
         accessToken = prefM.getAccessToken();
         userID = prefM.getUserID();
 
+        setLoading();
+        showProgress();
         NetworkService.startActionSpecialist(this);
 
 
@@ -130,13 +132,13 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
 
         setAdapterSpecial();
 
-        webSearchPacifyrWOptions(customerEmotion);
+//        webSearchPacifyrWOptions(customerEmotion);
 
-        final ArrayList<String> testData = new ArrayList<>();
+        /*final ArrayList<String> testData = new ArrayList<>();
         for(int i=0;i<50;i++)
         {
             testData.add(Integer.toString(i));
-        }
+        }*/
 
 
         cardStack = findViewById(R.id.swipe_deck);
@@ -202,7 +204,7 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void messageEventFromService(EventMessage event){
         try {
-
+            hideProgress();
             String msg = event.getNotification();
             if (msg.equals("Event Pacifyr Search")) {
 
@@ -211,6 +213,11 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
             } else if (msg.equals("Event")) {
 
                 setAdapterSpecial();
+                if (modelSpecialist != null && modelSpecialist.getResultsList() != null &&
+                        modelSpecialist.getResultsList().size() > 0) {
+                    customerEmotion = modelSpecialist.getResultsList().get(0).getTitle();
+                }
+                webSearchPacifyrWOptions(customerEmotion);
             }
         }
         catch (Exception ex)
