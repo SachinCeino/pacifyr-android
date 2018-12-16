@@ -222,7 +222,7 @@ android:background="@drawable/shape_circle"
             android:layout_width="wrap_content"
             android:layout_gravity="left"
             android:layout_margin="@dimen/margin_common"
-            android:textColor="@color/white"
+            android:textColor="@color/blue_button_primary"
             android:textSize="@dimen/text_size"
             android:visibility="invisible" />
 
@@ -231,7 +231,7 @@ android:background="@drawable/shape_circle"
             style="@style/WrapContent"
             android:layout_marginLeft="4dp"
             android:layout_marginTop="5dp"
-            android:textColor="@color/white"
+            android:textColor="@color/blue_button_primary"
             android:textSize="@dimen/also_on_call_text_size" />
         <RelativeLayout
             android:layout_width="match_parent"
@@ -247,7 +247,7 @@ android:background="@drawable/shape_circle"
                 android:text="Ringing..."
                 android:layout_marginLeft="4dp"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@color/white"
+                android:textColor="@color/blue_button_primary"
                 android:textStyle="normal" />
 
 
