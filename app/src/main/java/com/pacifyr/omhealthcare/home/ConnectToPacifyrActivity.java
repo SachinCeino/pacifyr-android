@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -46,7 +45,6 @@ import com.pacifyr.omhealthcare.quickblox.activities.PermissionsActivity;
 import com.pacifyr.omhealthcare.quickblox.utils.Consts;
 import com.pacifyr.omhealthcare.utility.PacifyrAppCompactActivity;
 import com.pacifyr.omhealthcare.utils.LogUtils;
-import com.pacifyr.omhealthcare.utils.ToastHandler;
 import com.pacifyr.omhealthcare.utils.Utility;
 import com.squareup.otto.Subscribe;
 
@@ -151,34 +149,34 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
         activity=this;
 
         onSetActionBar();
-        noPacifyrCtxv = (CustomFontTextView) findViewById(R.id.no_pacifyr_ctxv);
-        imgRcv = (RecyclerView) findViewById(R.id.image_rcv);
-        button1 = (Button) findViewById(R.id.button1);
-        button2 = (Button) findViewById(R.id.button2);
-        button3 = (Button) findViewById(R.id.button3);
-        button4 = (Button) findViewById(R.id.button4);
-        moreButton = (Button) findViewById(R.id.more_button);
-        userNameCtxv = (CustomFontTextView) findViewById(R.id.user_name_ctxv);
-        sadDimv=(DeviceFitImageView) findViewById(R.id.sad_dimv);
-        happyDimv=(DeviceFitImageView) findViewById(R.id.happy_dimv);
-        selectFeelingRlay = (RelativeLayout) findViewById(R.id.select_feeling_rlay);
-        selectEmotionRlay = (RelativeLayout) findViewById(R.id.select_emotion_rlay);
-        listPacifyrRlay = (RelativeLayout) findViewById(R.id.select_list_pacifyr_rlay);
-        selectEmotionDetailRlay = (RelativeLayout) findViewById(R.id.select_emotion_detail_rlay);
-        emotionRcv = (RecyclerView) findViewById(R.id.emotion_rcv);
-        emotionDetailRcv = (RecyclerView) findViewById(R.id.emotion_detail_rcv);
-        morePacifyrsRlay = (RelativeLayout) findViewById(R.id.more_pacifyrs_rlay);
-        swipeDeck = (SwipeDeck) findViewById(R.id.swipe_deck);
-        emotionDimv = (DeviceFitImageView) findViewById(R.id.emotion_dimv);
-        showallLlay = (LinearLayout) findViewById(R.id.showall_llay);
-        showallCtxv = (CustomFontTextView) findViewById(R.id.showall_ctxv);
-        topRlay = (RelativeLayout) findViewById(R.id.top_rlay);
+        noPacifyrCtxv = findViewById(R.id.no_pacifyr_ctxv);
+        imgRcv = findViewById(R.id.image_rcv);
+        button1 = findViewById(R.id.button1);
+        button2 = findViewById(R.id.button2);
+        button3 = findViewById(R.id.button3);
+        button4 = findViewById(R.id.button4);
+        moreButton = findViewById(R.id.more_button);
+        userNameCtxv = findViewById(R.id.user_name_ctxv);
+        sadDimv = findViewById(R.id.sad_dimv);
+        happyDimv = findViewById(R.id.happy_dimv);
+        selectFeelingRlay = findViewById(R.id.select_feeling_rlay);
+        selectEmotionRlay = findViewById(R.id.select_emotion_rlay);
+        listPacifyrRlay = findViewById(R.id.select_list_pacifyr_rlay);
+        selectEmotionDetailRlay = findViewById(R.id.select_emotion_detail_rlay);
+        emotionRcv = findViewById(R.id.emotion_rcv);
+        emotionDetailRcv = findViewById(R.id.emotion_detail_rcv);
+        morePacifyrsRlay = findViewById(R.id.more_pacifyrs_rlay);
+        swipeDeck = findViewById(R.id.swipe_deck);
+        emotionDimv = findViewById(R.id.emotion_dimv);
+        showallLlay = findViewById(R.id.showall_llay);
+        showallCtxv = findViewById(R.id.showall_ctxv);
+        topRlay = findViewById(R.id.top_rlay);
 
         topRlay.bringToFront();
 
-        txt_emergency_usa=(CustomFontTextView) findViewById(R.id.txt_emergency_usa);
+        txt_emergency_usa = findViewById(R.id.txt_emergency_usa);
         Utility gps=new Utility();
-        String country=gps.getUserCountry(ConnectToPacifyrActivity.this);
+        String country = Utility.getUserCountry(ConnectToPacifyrActivity.this);
         if(isValid(country)) {
             country = prefM.getCountry();
             if (country.equalsIgnoreCase("us")) {
@@ -305,7 +303,7 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
                         try {
                             hideProgress();
                             ModelSpecialityByEmotion modelSpeciltyByEmotion= GsonUtils.getInstance().gsonToModelSpeciltyByEmotion(json);
-                            RecyclerView detailRcv=(RecyclerView)  activity.findViewById(R.id.emotion_detail_rcv);
+                            RecyclerView detailRcv = activity.findViewById(R.id.emotion_detail_rcv);
                             detailRcv.setLayoutManager(new LinearLayoutManager(ConnectToPacifyrActivity.this, LinearLayoutManager.VERTICAL, false));
                             EmotionSpecialityAdapter adapter=new EmotionSpecialityAdapter(ConnectToPacifyrActivity.this,activity,modelSpeciltyByEmotion.getResultsList());
                             detailRcv.setAdapter(adapter);
@@ -328,11 +326,11 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
                 if(isValid(PacifyerActivity.call_emotion)){
                     //ToastHandler.newInstance(ConnectToPacifyrActivity.this).showToast(PacifyerActivity.call_emotion.getTitle());
                 }
-                ListPacifyrScreenActivity.start(ConnectToPacifyrActivity.this);
+                ListPacifyrScreenActivity.start(ConnectToPacifyrActivity.this, true);
             }
         });
 
-        cardStack = (SwipeDeck) activity.findViewById(R.id.swipe_deck);
+        cardStack = activity.findViewById(R.id.swipe_deck);
 
         if(customerRole.equals("customer")){
             employeeFlag = false;
@@ -640,15 +638,15 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
     private DeviceFitImageView rightImv;
 
     public void onSetActionBar() {
-        actionBarTopLlay = (LinearLayout) findViewById(R.id.action_bar_top_llay);
-        bottomPanel = (RelativeLayout) findViewById(R.id.bottom_panel);
-        leftLlay = (LinearLayout) findViewById(R.id.left_llay);
-        backImv = (ImageView) findViewById(R.id.back_imv);
-        leftTxv = (CustomFontTextView) findViewById(R.id.left_txv);
-        titleTxv = (CustomFontTextView) findViewById(R.id.title_txv);
-        rightLlay = (LinearLayout) findViewById(R.id.right_llay);
-        rightTxv = (CustomFontTextView) findViewById(R.id.right_txv);
-        rightImv = (DeviceFitImageView) findViewById(R.id.right_imv);
+        actionBarTopLlay = findViewById(R.id.action_bar_top_llay);
+        bottomPanel = findViewById(R.id.bottom_panel);
+        leftLlay = findViewById(R.id.left_llay);
+        backImv = findViewById(R.id.back_imv);
+        leftTxv = findViewById(R.id.left_txv);
+        titleTxv = findViewById(R.id.title_txv);
+        rightLlay = findViewById(R.id.right_llay);
+        rightTxv = findViewById(R.id.right_txv);
+        rightImv = findViewById(R.id.right_imv);
         rightImv.setVisibility(View.INVISIBLE);
         rightTxv.setVisibility(View.INVISIBLE);
         rightLlay.setVisibility(View.INVISIBLE);

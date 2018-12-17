@@ -1206,7 +1206,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
                         NetworkService.mCurrentUser.setReasonForTheCall(EmotionSpecialityAdapter.reason_forcall);
                         getPrefManager().savePacifyrID(pacifyerDetial.getId());
                         if (NetworkService.mCurrentUser.getAvailableMinutes() > 0 && isEmployee()) {
-                            setAlertOKStatusInBlue("Info", "You have " + NetworkService.mCurrentUser.getAvailableMinutes() + " free minutes available", "OK", new View.OnClickListener() {
+                            setAlertOKStatusInBlue("", "You have " + NetworkService.mCurrentUser.getAvailableMinutes() + " free minutes available", "OK", new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     startSessionWeb(pacifyerDetial, isVideoCall);

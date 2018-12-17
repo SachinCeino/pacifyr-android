@@ -26,11 +26,16 @@ import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.adapter.SpecialistAdapter;
 import com.pacifyr.omhealthcare.adapter.SwipeDeckBrowsePacifyerAdapter;
 import com.pacifyr.omhealthcare.event.AlertTypeEvent;
+import com.pacifyr.omhealthcare.event.CallEvent;
+import com.pacifyr.omhealthcare.event.ChatEvent;
 import com.pacifyr.omhealthcare.event.NotifyEvent;
+import com.pacifyr.omhealthcare.model.interfaces.CallChatEventListner;
 import com.pacifyr.omhealthcare.network.GsonUtils;
 import com.pacifyr.omhealthcare.network.NetworkService;
+import com.pacifyr.omhealthcare.quickblox.utils.Consts;
 import com.pacifyr.omhealthcare.utility.EventMessage;
 import com.pacifyr.omhealthcare.utility.PacifyrAppCompactActivity;
+import com.pacifyr.omhealthcare.utils.LogUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -67,12 +72,99 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
     private boolean showAllFlag=false;
     private String customerRole;
     private CustomFontTextView noPacifyrCtxv;
+    CallEvent event_call = null;
+    public CallChatEventListner callchatEventListner = new CallChatEventListner() {
+        @Override
+        public void onCallEventClick(CallEvent event) {
+            onCallEvent(event);
+        }
+
+        @Override
+        public void onChatEventClick(ChatEvent event) {
+            onChatEvent(event);
+        }
+
+        @Override
+        public void onException(Exception e) {
+
+        }
+
+        @Override
+        public void onError(String e) {
+
+        }
+    };
+    private boolean emoSelected;
+
+    public CheckBox getShowallCbox() {
+        return (CheckBox) findViewById(R.id.showall_cbox);
+    }
+
+    @Override
+    protected View getSnackbarAnchorView() {
+        return null;
+    }
+
+    @Override
+    public void onSetValues() throws Exception {
+
+    }
+
+    @Subscribe
+    public void onNotifyEvent(NotifyEvent event) {
 
 
+    }
 
-    public static void start(Context context) {
+    @Override
+    public void onAlertTypeEvent(AlertTypeEvent event) {
+
+    }
+
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void messageEventFromService(EventMessage event) {
+        try {
+            hideProgress();
+            String msg = event.getNotification();
+            if (msg.equals("Event Pacifyr Search")) {
+
+                setAdapterSearchOption();
+
+            } else if (msg.equals("Event")) {
+
+                setAdapterSpecial();
+                if (modelSpecialist != null && modelSpecialist.getResultsList() != null &&
+                        modelSpecialist.getResultsList().size() > 0) {
+                    customerEmotion = modelSpecialist.getResultsList().get(0).getTitle();
+                }
+                webSearchPacifyrWOptions(customerEmotion);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public static void start(Context context, boolean emoSelected) {
         Intent intent = new Intent(context, ListPacifyrScreenActivity.class);
+        intent.putExtra("emo_selected", emoSelected);
         context.startActivity(intent);
+    }
+
+    private void setAdapterSpecial() {
+        try {
+            if (modelSpecialist != null)
+                if (modelSpecialist.getResults() != null) {
+                    recyclerView = findViewById(R.id.special_recycle);
+                    recyclerView.setHasFixedSize(true);
+                    layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+                    recyclerView.setLayoutManager(layoutManager);
+                    RecyclerView.Adapter adapter = new SpecialistAdapter(modelSpecialist.getResultsList(), ListPacifyrScreenActivity.this);
+                    recyclerView.setAdapter(adapter);
+                }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
     @Override
@@ -84,10 +176,12 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
         customerRole = prefM.getCustomerRole();
         accessToken = prefM.getAccessToken();
         userID = prefM.getUserID();
-
         setLoading();
         showProgress();
         NetworkService.startActionSpecialist(this);
+        if (getIntent().getExtras() != null && getIntent().getExtras().containsKey("emo_selected")) {
+            emoSelected = getIntent().getExtras().getBoolean("emo_selected");
+        }
 
 
         onSetActionBar();
@@ -175,57 +269,6 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
 
     }
 
-    public CheckBox getShowallCbox(){
-        return (CheckBox) findViewById(R.id.showall_cbox);
-    }
-
-    @Override
-    protected View getSnackbarAnchorView() {
-        return null;
-    }
-
-    @Override
-    public void onSetValues() throws Exception {
-
-    }
-
-    @Subscribe
-    public void onNotifyEvent(NotifyEvent event) {
-
-
-    }
-
-    @Override
-    public void onAlertTypeEvent(AlertTypeEvent event) {
-
-    }
-
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void messageEventFromService(EventMessage event){
-        try {
-            hideProgress();
-            String msg = event.getNotification();
-            if (msg.equals("Event Pacifyr Search")) {
-
-                setAdapterSearchOption();
-
-            } else if (msg.equals("Event")) {
-
-                setAdapterSpecial();
-                if (modelSpecialist != null && modelSpecialist.getResultsList() != null &&
-                        modelSpecialist.getResultsList().size() > 0) {
-                    customerEmotion = modelSpecialist.getResultsList().get(0).getTitle();
-                }
-                webSearchPacifyrWOptions(customerEmotion);
-            }
-        }
-        catch (Exception ex)
-        {
-            ex.printStackTrace();
-        }
-    }
-
     private void setAdapterSearchOption() {
         if (isValid(pSearchPacifyrWOptionsResponse)) {
             ArrayList<MUser> list = new ArrayList<MUser>();
@@ -233,7 +276,7 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
             list = pSearchPacifyrWOptionsResponse.getResultsList();
             if(isValid(list)) {
                 noPacifyrCtxv.setVisibility(View.GONE);
-                adapter = new SwipeDeckBrowsePacifyerAdapter(list, ListPacifyrScreenActivity.this);
+                adapter = new SwipeDeckBrowsePacifyerAdapter(list, ListPacifyrScreenActivity.this, emoSelected);
                 cardStack.setAdapter(adapter);
             }else {
                 cardStack.setVisibility(View.GONE);
@@ -242,22 +285,121 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
         }
     }
 
-    private void setAdapterSpecial() {
+    @com.squareup.otto.Subscribe
+    public void onCallEvent(final CallEvent event) {
         try {
-            if(modelSpecialist!=null)
-                if(modelSpecialist.getResults()!=null) {
-                    recyclerView = findViewById(R.id.special_recycle);
-                    recyclerView.setHasFixedSize(true);
-                    layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-                    recyclerView.setLayoutManager(layoutManager);
-                    RecyclerView.Adapter adapter = new SpecialistAdapter(modelSpecialist.getResultsList(), ListPacifyrScreenActivity.this);
-                    recyclerView.setAdapter(adapter);
+            LogUtils.LOGD("session", "CPA onCallEvent called ");
+            if (!isValid(event.mpacifyer, "Please try again"))
+                return;
+            event_call = event;
+            if (event_call.isVideoCall) {
+                if (checker.lacksPermissions(Consts.PERMISSIONS)) {
+                    event_call = event;
+
+                    startPermissionsActivity(false, ListPacifyrScreenActivity.this);
+
+                    if (isLoggedInChat()) {
+
+                        setAlertStartCall(event.mpacifyer, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                hideStatus();
+                                checkRoleRequest(event.mpacifyer, listner, event.isVideoCall);
+                            }
+                        });
+
+                        //callRequestWeb(pacifyer_obj, listner, true);
+                    }
+                } else {
+                    if (isLoggedInChat()) {
+
+                        setAlertStartCall(event.mpacifyer, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                hideStatus();
+                                checkRoleRequest(event.mpacifyer, listner, event.isVideoCall);
+                            }
+                        });
+
+                            /*
+                            //callRequestWeb(event.mpacifyer, listner, event.isVideoCall);
+                            checkRoleRequest(event.mpacifyer, listner, event.isVideoCall);*/
+                    }
                 }
+            } else {
+                if (checker.lacksPermissions(Consts.PERMISSIONS[1])) {
+                    event_call = event;
+
+                    startPermissionsActivity(true, ListPacifyrScreenActivity.this);
+
+                    if (isLoggedInChat()) {
+
+                        setAlertStartCall(event.mpacifyer, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                hideStatus();
+                                checkRoleRequest(event.mpacifyer, listner, event.isVideoCall);
+                            }
+                        });
+
+                        //callRequestWeb(pacifyer_obj, listner, true);
+                    }
+
+                } else {
+                    if (isLoggedInChat()) {
+                        setAlertStartCall(event.mpacifyer, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                hideStatus();
+                                checkRoleRequest(event.mpacifyer, listner, event.isVideoCall);
+                            }
+                        });
+
+
+                        //callRequestWeb(event.mpacifyer, listner, event.isVideoCall);
+//                            checkRoleRequest(event.mpacifyer, listner, event.isVideoCall);
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+            LogUtils.LOGD("session", "CPA onCallEvent exce " + e.getMessage());
         }
-        catch (Exception ex)
+
+    }
+
+    @com.squareup.otto.Subscribe
+    public void onChatEvent(ChatEvent event) {
+        try {
+            LogUtils.LOGD("session", "CPA onCallEvent called ");
+            if (!isValid(event.mpacifyer, "Network Error"))
+                return;
+            boolean isChatSubscriptionRequired = event.mpacifyer.isChatSubscriptionRequired();
+            int priceForChat = Integer.parseInt(event.mpacifyer.getPriceForChat());
+
+            if (!isChatSubscriptionRequired) {
+                startChat(event.mpacifyer);
+                //showIOSDialogOK("","Please purchase unlimited chat per day","OK");
+
+            } else if (priceForChat == 0) {
+                startChat(event.mpacifyer);
+            } else {
+                //chatLlay.setVisibility(View.VISIBLE);
+
+                if (event.mpacifyer.getChatSubscription() == null) {
+                    showIOSDialogOK("", "Please purchase unlimited chat per day", "OK");
+                    //chat_price_ctxv.setText("Chat for " + Utility.getPriceSign(ProfileScreenActivity.this) + priceForChat + " a day");
+                } else {
+                    startChat(event.mpacifyer);
+                }
+            }
+            //startChat(event.mpacifyer);
+
+        } catch (Exception e)
         {
-            ex.printStackTrace();
+            LogUtils.LOGD("session", "CPA ChatEvent exce " + e.getMessage());
         }
+
     }
 
 

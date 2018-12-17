@@ -2,16 +2,16 @@ package com.pacifyr.omhealthcare.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
 import android.support.design.widget.Snackbar;
-import android.support.v7.widget.CardView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.androidquery.AQuery;
@@ -28,7 +28,11 @@ import com.gdacciaro.iOSDialog.iOSDialogBuilder;
 import com.gdacciaro.iOSDialog.iOSDialogClickListener;
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.pacifyr.omhealthcare.R;
+import com.pacifyr.omhealthcare.base.PacifyerActivity;
+import com.pacifyr.omhealthcare.event.CallEvent;
+import com.pacifyr.omhealthcare.event.ChatEvent;
 import com.pacifyr.omhealthcare.home.ConnectToSinglePacifyrActivity;
+import com.pacifyr.omhealthcare.home.ListPacifyrScreenActivity;
 import com.pacifyr.omhealthcare.home.PaymentActivity;
 import com.pacifyr.omhealthcare.home.ProfileScreenActivity;
 import com.pacifyr.omhealthcare.network.NetworkService;
@@ -76,11 +80,16 @@ public class SwipeDeckBrowsePacifyerAdapter extends BaseAdapter {
     private ArrayList<ModelUserProfile.Education> educationsList= new ArrayList<>();
     private boolean isChatSubscriptionRequired;
     private int priceForChat;
+    private CustomFontTextView chat_price_ctxv;
+    private int type = 0;
 
 
-    public SwipeDeckBrowsePacifyerAdapter(ArrayList<MUser> resultsList, Context context) {
+    public SwipeDeckBrowsePacifyerAdapter(ArrayList<MUser> resultsList, Context context, boolean emoSelected) {
         searchResults = resultsList;
         this.context = context;
+        if (PacifyerActivity.call_emotion != null && EmotionSpecialityAdapter.reason_forcall != null && emoSelected) {
+            type = 1;
+        }
     }
 
     @Override
@@ -114,7 +123,11 @@ public class SwipeDeckBrowsePacifyerAdapter extends BaseAdapter {
         if(v == null){
             LayoutInflater inflater = LayoutInflater.from(context);
             // normally use a viewholder
-            v = inflater.inflate(R.layout.test_card, parent, false);
+            if (type == 1) {
+                v = inflater.inflate(R.layout.swipe_card_cons, parent, false);
+            } else {
+                v = inflater.inflate(R.layout.test_card, parent, false);
+            }
         }
         if(isValid(searchResults)){
             imgURL = GLOBAL_IMAGE_URL + searchResults.get(position).getImage();
@@ -136,67 +149,11 @@ public class SwipeDeckBrowsePacifyerAdapter extends BaseAdapter {
             }
 
 
-            LinearLayout chatLlay = v.findViewById(R.id.chat_llay);
-            CustomFontTextView chat_price_ctxv = v.findViewById(R.id.chat_price_ctxv);
-
-            chatLlay.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //callChatSubScription(searchResults.get(position));
-                    getSavedCardWebChat(searchResults.get(position));
-                }
-            });
+//            LinearLayout chatLlay = v.findViewById(R.id.chat_llay);
 
 
-            if(!isChatSubscriptionRequired)
-            {
-                chatLlay.setVisibility(View.GONE);
 
-            }else if(priceForChat==0){
-                chatLlay.setVisibility(View.GONE);
-            }else{
-                chatLlay.setVisibility(View.VISIBLE);
 
-                if(searchResults.get(position).getChatSubscription()==null) {
-                    chat_price_ctxv.setText("Chat for " + Utility.getPriceSign(context) + priceForChat + " a day");
-                    chatLlay.setClickable(true);
-                }else{
-                    try {
-                        ChatSubscription subscription = searchResults.get(position).getChatSubscription();
-                        String expiryDate = subscription.getExpiryDate();
-
-                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.mmm'Z'");
-                        Date parsedTime = sdf.parse(expiryDate);
-
-                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.mmm'Z'");
-                        Date date = new Date();
-                        System.out.println(dateFormat.format(date));
-
-                        long diff = parsedTime.getTime() - date.getTime();
-
-                        long diffSeconds = diff / 1000 % 60;
-                        long diffMinutes = diff / (60 * 1000) % 60;
-                        long diffHours = diff / (60 * 60 * 1000) % 24;
-                        long diffDays = diff / (24 * 60 * 60 * 1000);
-
-                        if (diffDays>0)
-                        {
-                            chat_price_ctxv.setText("Unlimited chat remainng for "+diffDays+" days");
-                        }else if(diffHours>1){
-                            chat_price_ctxv.setText("Unlimited chat remainng for "+diffHours+" hours and "+diffMinutes+" minutes");
-                        }else if(diffMinutes>0){
-                            chat_price_ctxv.setText("Unlimited chat remainng for "+diffMinutes+" minutes");
-                        }
-                        chatLlay.setClickable(false);
-
-                        //chatPriceCtxv.setText("Unlimited chat remainng for ");
-                    }
-                    catch (Exception e)
-                    {
-                        e.printStackTrace();
-                    }
-                }
-            }
 
             //userID=searchResults.get(position).getId();
             boolean isOnline=searchResults.get(position).getOnline();
@@ -255,8 +212,6 @@ public class SwipeDeckBrowsePacifyerAdapter extends BaseAdapter {
                 ((TextView) v.findViewById(R.id.price_dollar)).setText("Employer Designated Pacifyr");
             }
 
-            CustomFontTextView connectCtxv = v.findViewById(R.id.connect_pacifyr_ctxv);
-            connectCtxv.setText("Connect to "+searchResults.get(position).getFirstName());
 
             ((TextView) v.findViewById(R.id.tv_name)).setText(namePacifyr);
             //((TextView) v.findViewById(R.id.angr_mgmt)).setText(emotion);
@@ -266,7 +221,9 @@ public class SwipeDeckBrowsePacifyerAdapter extends BaseAdapter {
             //ImageView img = (ImageView) v.findViewById(R.id.img_prof);
             //Picasso.with(context).load(imgUrl).into(img);
             CircleImageView img_prof = v.findViewById(R.id.img_prof);
-            CardView cardView = v.findViewById(R.id.card_pacifyr);
+            chat_price_ctxv = v.findViewById(R.id.chat_price_ctxv);
+//            CardView cardView = v.findViewById(R.id.card_pacifyr);
+//            RelativeLayout chat_rlay = v.findViewById(R.id.chat_rlay);
 
             if (isValidhtml(imgURL))
                 Picasso.with(context).load(imgURL).placeholder(R.drawable.placeholder_user).into(img_prof);
@@ -281,7 +238,7 @@ public class SwipeDeckBrowsePacifyerAdapter extends BaseAdapter {
                 }
             });
 
-            connectCtxv.setOnClickListener(new View.OnClickListener() {
+            /*connectCtxv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
@@ -296,7 +253,196 @@ public class SwipeDeckBrowsePacifyerAdapter extends BaseAdapter {
 
 
                 }
-            });
+            });*/
+            if (type == 1) {
+                RelativeLayout audiocall_rlay = v.findViewById(R.id.audiocall_rlay);
+                RelativeLayout videocall_rlay = v.findViewById(R.id.videocall_rlay);
+                RelativeLayout chat_rlay = v.findViewById(R.id.chat_rlay);
+                chat_rlay.setVisibility(View.VISIBLE);
+
+
+                chatSubsFun(position);
+                videocall_rlay.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // Toast.makeText(context,"Video call",Toast.LENGTH_SHORT).show();
+                        if (pacifyer.isReadyToCall()) {
+                            showProgress();
+                            if (PacifyerActivity.call_emotion != null && EmotionSpecialityAdapter.reason_forcall != null) {
+                                ((ListPacifyrScreenActivity) (context)).callchatEventListner.onCallEventClick((new CallEvent(searchResults.get(position), true)));
+                            } else {
+                                ConnectToSinglePacifyrActivity.start(context, searchResults.get(position));
+                            }
+                            // ConnectToPacifyrActivity.callchatEventListner.onCallEventClick(new CallEvent(searchResults.get(position), true));
+                            //  postEventOnMainThread(new CallEvent(searchResults.get(position), true));
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    hideProgress();
+                                }
+                            }, 1000);
+
+                        } else {
+                            Snackbar offlineSnackbar = Snackbar.make(v, pacifyer.getName() + " is currently offline. You can either chat with " + pacifyer.getName() + " or try again later", Snackbar.LENGTH_LONG);
+                            offlineSnackbar.show();
+                            //ToastHandler.newInstance(context).mustShowToast(pacifyer.getName() + " is currently offline. You can either chat with " + pacifyer.getName() + " or try agein later");
+                            //ToastHandler.newInstance(context).mustShowToast("Please contact later. Pacifyer not available now");
+                        }
+
+
+                 /*   if (isLoggedInChat()) {
+
+                        callRequestWeb(getUserID(),listner,true,qbID);
+
+                        //startCall(true,qbID);
+                    }
+                    if (checker.lacksPermissions(Consts.PERMISSIONS)) {
+                        startPermissionsActivity(false);
+                    }*/
+                    }
+                });
+
+                audiocall_rlay.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        if (pacifyer.isReadyToCall()) {
+                            showProgress();
+
+                            if (PacifyerActivity.call_emotion != null && EmotionSpecialityAdapter.reason_forcall != null) {
+                                ((ListPacifyrScreenActivity) (context)).callchatEventListner.onCallEventClick((new CallEvent(searchResults.get(position), false)));
+                            } else {
+                                ConnectToSinglePacifyrActivity.start(context, searchResults.get(position));
+                            }
+                            //    ConnectToPacifyrActivity.callchatEventListner.onCallEventClick((new CallEvent(searchResults.get(position), false)));
+                            // postEventOnMainThread(new CallEvent(searchResults.get(position), false));
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    hideProgress();
+                                }
+                            }, 1000);
+
+                        } else {
+                            Snackbar offlineSnackbar = Snackbar.make(v, pacifyer.getName() + " is currently offline. You can either chat with " + pacifyer.getName() + " or try again later", Snackbar.LENGTH_SHORT);
+                            offlineSnackbar.show();
+                            //ToastHandler.newInstance(context).mustShowToast(pacifyer.getName() + " is currently offline. You can either chat with " + pacifyer.getName() + " or try agein later");
+                            //ToastHandler.newInstance(context).mustShowToast("Please contact later. Pacifyer not available now");
+                        }
+
+                        //  Toast.makeText(context,"Video call",Toast.LENGTH_SHORT).show();
+
+                 /*   if (isLoggedInChat()) {
+                        callRequestWeb(userID,listner,false,qbID);
+                        // startSessionWeb(pacifyerDetial,false,qbID);
+                        //   startCall(false,qbID);
+                    }
+                    if (checker.lacksPermissions(Consts.PERMISSIONS[1])) {
+                        startPermissionsActivity(true);
+                    }*/
+
+                    }
+                });
+                chat_rlay.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        isChatSubscriptionRequired = searchResults.get(position).isChatSubscriptionRequired();
+                        try {
+                            priceForChat = Integer.parseInt(searchResults.get(position).getPriceForChat());
+                        } catch (NumberFormatException ne) {
+                            ne.printStackTrace();
+                        }
+
+
+                        if (!isChatSubscriptionRequired) {
+                            showProgress();
+                            ((ListPacifyrScreenActivity) (context)).callchatEventListner.onChatEventClick((new ChatEvent(searchResults.get(position), false)));
+                            //    ConnectToPacifyrActivity.callchatEventListner.onChatEventClick(new ChatEvent(searchResults.get(position), false));
+                            // postEventOnMainThread(new ChatEvent(searchResults.get(position),false));
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    hideProgress();
+                                }
+                            }, 500);
+                            //showIOSDialogOK("","Please purchase unlimited chat per day","OK");
+
+                        } else if (priceForChat == 0) {
+                            showProgress();
+                            ((ListPacifyrScreenActivity) (context)).callchatEventListner.onChatEventClick((new ChatEvent(searchResults.get(position), false)));
+                            //    ConnectToPacifyrActivity.callchatEventListner.onChatEventClick(new ChatEvent(searchResults.get(position), false));
+                            // postEventOnMainThread(new ChatEvent(searchResults.get(position),false));
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    hideProgress();
+                                }
+                            }, 500);
+                        } else {
+                            //chatLlay.setVisibility(View.VISIBLE);
+
+                            if (searchResults.get(position).getChatSubscription() == null) {
+                                showIOSDialogOK("", "Please purchase unlimited chat per day", "OK");
+                                //chat_price_ctxv.setText("Chat for " + Utility.getPriceSign(ProfileScreenActivity.this) + priceForChat + " a day");
+                            } else {
+                                showProgress();
+                                ((ListPacifyrScreenActivity) (context)).callchatEventListner.onChatEventClick((new ChatEvent(searchResults.get(position), false)));
+                                //    ConnectToPacifyrActivity.callchatEventListner.onChatEventClick(new ChatEvent(searchResults.get(position), false));
+                                // postEventOnMainThread(new ChatEvent(searchResults.get(position),false));
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        hideProgress();
+                                    }
+                                }, 500);
+                            }
+                        }
+
+                    /*showProgress();
+                    ( (ConnectToPacifyrActivity) (activity)).callchatEventListner.onChatEventClick((new ChatEvent(searchResults.get(position), false)));
+                //    ConnectToPacifyrActivity.callchatEventListner.onChatEventClick(new ChatEvent(searchResults.get(position), false));
+                   // postEventOnMainThread(new ChatEvent(searchResults.get(position),false));
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            hideProgress();
+                        }
+                    },500);*/
+                        //   if(pacifyer.isReadyToCall())
+
+                    /*else
+                    {
+                        ToastHandler.newInstance(context).mustShowToast("Please contact later. Pacifyer not available now");
+                    }*/
+
+
+                    }
+                });
+
+            } else {
+                chat_price_ctxv.setVisibility(View.GONE);
+                CustomFontTextView connectCtxv = v.findViewById(R.id.connect_pacifyr_ctxv);
+                connectCtxv.setText("Connect to " + searchResults.get(position).getFirstName());
+                connectCtxv.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        if (pacifyer.isReadyToCall())
+                            ConnectToSinglePacifyrActivity.start(context, searchResults.get(position));
+                        else {
+                            Snackbar offlineSnackbar = Snackbar.make(v, pacifyer.getName() + " is currently offline. You can either chat with " + pacifyer.getName() + " or try again later", Snackbar.LENGTH_SHORT);
+                            offlineSnackbar.show();
+                            //ToastHandler.newInstance(context).mustShowToast(pacifyer.getName()+" is currently offline. You can either chat with "+pacifyer.getName()+" or try agein later");
+                        }
+
+
+                    }
+                });
+
+            }
+
+
             /*img_prof.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -327,6 +473,76 @@ public class SwipeDeckBrowsePacifyerAdapter extends BaseAdapter {
         return v;
     }
 
+    private void chatSubsFun(final int position) {
+        isChatSubscriptionRequired = searchResults.get(position).isChatSubscriptionRequired();
+        try {
+            priceForChat = Integer.parseInt(searchResults.get(position).getPriceForChat());
+        } catch (NumberFormatException ne) {
+            ne.printStackTrace();
+        }
+
+        //chatLlay
+        chat_price_ctxv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //callChatSubScription(searchResults.get(position));
+                getSavedCardWebChat(searchResults.get(position));
+            }
+        });
+
+        if (!isChatSubscriptionRequired) {
+            //chatLlay
+            chat_price_ctxv.setVisibility(View.GONE);
+
+        } else if (priceForChat == 0) {
+            //chatLlay
+            chat_price_ctxv.setVisibility(View.GONE);
+        } else {
+            //chatLlay
+            chat_price_ctxv.setVisibility(View.VISIBLE);
+
+            if (searchResults.get(position).getChatSubscription() == null) {
+                chat_price_ctxv.setText("Chat for " + Utility.getPriceSign(context) + priceForChat + " a day");
+                //chatLlay
+                chat_price_ctxv.setClickable(true);
+            } else {
+                try {
+                    ChatSubscription subscription = searchResults.get(position).getChatSubscription();
+                    String expiryDate = subscription.getExpiryDate();
+
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.mmm'Z'");
+                    Date parsedTime = sdf.parse(expiryDate);
+
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.mmm'Z'");
+                    Date date = new Date();
+                    System.out.println(dateFormat.format(date));
+
+                    long diff = parsedTime.getTime() - date.getTime();
+
+                    long diffSeconds = diff / 1000 % 60;
+                    long diffMinutes = diff / (60 * 1000) % 60;
+                    long diffHours = diff / (60 * 60 * 1000) % 24;
+                    long diffDays = diff / (24 * 60 * 60 * 1000);
+
+                    if (diffDays > 0) {
+                        chat_price_ctxv.setText("Unlimited chat remainng for " + diffDays + " days");
+                    } else if (diffHours > 1) {
+                        chat_price_ctxv.setText("Unlimited chat remainng for " + diffHours + " hours and " + diffMinutes + " minutes");
+                    } else if (diffMinutes > 0) {
+                        chat_price_ctxv.setText("Unlimited chat remainng for " + diffMinutes + " minutes");
+                    }
+                    //chatLlay
+                    chat_price_ctxv.setClickable(false);
+
+                    //chatPriceCtxv.setText("Unlimited chat remainng for ");
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
     /*public void showQuickblox() {
         Intent i=new Intent(context, VideoChatActivity.class);
         context. startActivity(i);
