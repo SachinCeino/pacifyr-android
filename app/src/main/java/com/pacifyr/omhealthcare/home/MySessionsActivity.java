@@ -99,8 +99,6 @@ public class MySessionsActivity extends PacifyrAppCompactActivity {
             final String weekStatUrl = GLOBAL_URL+"dashboard/customer/"+userid+"/sessionStatistics?fromDate="+fromDateWeek+"&toDate="+toDate;
             final String monthStatUrl = GLOBAL_URL+"dashboard/customer/"+userid+"/sessionStatistics?fromDate="+fromDateMonth+"&toDate="+toDate;
             final String yearStatUrl = GLOBAL_URL+"dashboard/customer/"+userid+"/sessionStatistics?fromDate="+fromDateYear+"&toDate="+toDate;
-            setLoading();
-            showProgress();
             getStatistics(weekStatUrl);
             callThisWeekSession(thisWeekUrl);
             SessionWeekCustomerAdapter adapter =new SessionWeekCustomerAdapter(MySessionsActivity.this,"week");
@@ -114,8 +112,6 @@ public class MySessionsActivity extends PacifyrAppCompactActivity {
             thisWkCtxv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    setLoading();
-                    showProgress();
                     getStatistics(weekStatUrl);
                     callThisWeekSession(thisWeekUrl);
                     SessionWeekCustomerAdapter adapter =new SessionWeekCustomerAdapter(MySessionsActivity.this,"week");
@@ -139,8 +135,6 @@ public class MySessionsActivity extends PacifyrAppCompactActivity {
             thisMntCtxv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    setLoading();
-                    showProgress();
                     getStatistics(monthStatUrl);
                     callThisMonthSession(thisMonthUrl);
                     SessionWeekCustomerAdapter adapter =new SessionWeekCustomerAdapter(MySessionsActivity.this,"month");
@@ -164,8 +158,6 @@ public class MySessionsActivity extends PacifyrAppCompactActivity {
             thisYearCtxv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    setLoading();
-                    showProgress();
                     getStatistics(yearStatUrl);
                     callThisYearSession(thisYearUrl);
                     SessionWeekCustomerAdapter adapter =new SessionWeekCustomerAdapter(MySessionsActivity.this,"year");
@@ -233,6 +225,8 @@ public class MySessionsActivity extends PacifyrAppCompactActivity {
             monthSessionsRcv.setVisibility(View.GONE);
             yearSessionsRcv.setVisibility(View.GONE);
             noDataCtxv.setVisibility(View.GONE);
+            setLoading();
+            showProgress();
             AjaxCallback cb = new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, JSONObject json, AjaxStatus status) {
@@ -271,6 +265,8 @@ public class MySessionsActivity extends PacifyrAppCompactActivity {
             monthSessionsRcv.setVisibility(View.GONE);
             yearSessionsRcv.setVisibility(View.GONE);
             noDataCtxv.setVisibility(View.GONE);
+            setLoading();
+            showProgress();
             AjaxCallback cb = new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, JSONObject json, AjaxStatus status) {
@@ -306,6 +302,8 @@ public class MySessionsActivity extends PacifyrAppCompactActivity {
             monthSessionsRcv.setVisibility(View.GONE);
             yearSessionsRcv.setVisibility(View.GONE);
             noDataCtxv.setVisibility(View.GONE);
+            setLoading();
+            showProgress();
             AjaxCallback cb = new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, JSONObject json, AjaxStatus status) {
@@ -343,20 +341,20 @@ public class MySessionsActivity extends PacifyrAppCompactActivity {
             accessToken=prefM.getAccessToken();
             userid=prefM.getUserID();
 
-            mySessionsTopLlay = (LinearLayout) findViewById(R.id.my_sessions_top_llay);
-            upperRlay = (RelativeLayout) findViewById(R.id.upper_rlay);
-            sessionNoCtxv = (CustomFontTextView) findViewById(R.id.session_no_ctxv);
-            hoursNoCtxv = (CustomFontTextView) findViewById(R.id.hours_no_ctxv);
-            minutesNoCtxv = (CustomFontTextView) findViewById(R.id.minutes_no_ctxv);
-            earningsNoCtxv = (CustomFontTextView) findViewById(R.id.earnings_no_ctxv);
-            thisWkCtxv = (CustomFontTextView) findViewById(R.id.this_wk_ctxv);
-            thisMntCtxv = (CustomFontTextView) findViewById(R.id.this_mnt_ctxv);
-            thisYearCtxv = (CustomFontTextView) findViewById(R.id.this_year_ctxv);
-            dateListRcv = (RecyclerView) findViewById(R.id.date_list_rcv);
-            noDataCtxv = (CustomFontTextView) findViewById(R.id.no_data_ctxv);
-            weekSessionsRcv = (RecyclerView) findViewById(R.id.week_sessions_rcv);
-            monthSessionsRcv = (RecyclerView) findViewById(R.id.month_sessions_rcv);
-            yearSessionsRcv = (RecyclerView) findViewById(R.id.year_sessions_rcv);
+            mySessionsTopLlay = findViewById(R.id.my_sessions_top_llay);
+            upperRlay = findViewById(R.id.upper_rlay);
+            sessionNoCtxv = findViewById(R.id.session_no_ctxv);
+            hoursNoCtxv = findViewById(R.id.hours_no_ctxv);
+            minutesNoCtxv = findViewById(R.id.minutes_no_ctxv);
+            earningsNoCtxv = findViewById(R.id.earnings_no_ctxv);
+            thisWkCtxv = findViewById(R.id.this_wk_ctxv);
+            thisMntCtxv = findViewById(R.id.this_mnt_ctxv);
+            thisYearCtxv = findViewById(R.id.this_year_ctxv);
+            dateListRcv = findViewById(R.id.date_list_rcv);
+            noDataCtxv = findViewById(R.id.no_data_ctxv);
+            weekSessionsRcv = findViewById(R.id.week_sessions_rcv);
+            monthSessionsRcv = findViewById(R.id.month_sessions_rcv);
+            yearSessionsRcv = findViewById(R.id.year_sessions_rcv);
         }
         catch (Exception e)
         {
@@ -393,15 +391,15 @@ public class MySessionsActivity extends PacifyrAppCompactActivity {
 
     public void onSetActionBar() {
         try {
-            actionBarTopLlay = (LinearLayout) findViewById(R.id.action_bar_top_llay);
-            bottomPanel = (RelativeLayout) findViewById(R.id.bottom_panel);
-            leftLlay = (LinearLayout) findViewById(R.id.left_llay);
-            backImv = (DeviceFitImageView) findViewById(R.id.back_imv);
-            leftTxv = (CustomFontTextView) findViewById(R.id.left_txv);
-            titleTxv = (CustomFontTextView) findViewById(R.id.title_txv);
-            rightLlay = (LinearLayout) findViewById(R.id.right_llay);
-            rightTxv = (CustomFontTextView) findViewById(R.id.right_txv);
-            rightImv = (DeviceFitImageView) findViewById(R.id.right_imv);
+            actionBarTopLlay = findViewById(R.id.action_bar_top_llay);
+            bottomPanel = findViewById(R.id.bottom_panel);
+            leftLlay = findViewById(R.id.left_llay);
+            backImv = findViewById(R.id.back_imv);
+            leftTxv = findViewById(R.id.left_txv);
+            titleTxv = findViewById(R.id.title_txv);
+            rightLlay = findViewById(R.id.right_llay);
+            rightTxv = findViewById(R.id.right_txv);
+            rightImv = findViewById(R.id.right_imv);
             rightImv.setVisibility(View.INVISIBLE);
             rightTxv.setVisibility(View.INVISIBLE);
             rightLlay.setVisibility(View.INVISIBLE);
@@ -431,7 +429,6 @@ public class MySessionsActivity extends PacifyrAppCompactActivity {
     @Subscribe
     public void onWeekSetSessionEvent(WeekSetSessionEvent event) {
         try {
-            showProgress();
             if(event.getWeekType().equals("week")) {
                 callThisWeekSession(event.getUrl());
                 getStatistics(event.getStatUrl());
