@@ -19,7 +19,6 @@ import com.pacifyr.omhealthcare.quickblox.chat.ui.adapter.CheckboxUsersAdapter;
 import com.quickblox.chat.model.QBChatDialog;
 import com.quickblox.core.QBEntityCallback;
 import com.quickblox.core.exception.QBResponseException;
-
 import com.quickblox.sample.core.utils.Toaster;
 import com.quickblox.users.QBUsers;
 import com.quickblox.users.model.QBUser;
@@ -82,7 +81,9 @@ public class SelectUsersActivity extends BaseActivity {
         } else {
             setActionBarTitle(R.string.select_users_create_chat);
         }
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
 
         loadUsersFromQb();
     }

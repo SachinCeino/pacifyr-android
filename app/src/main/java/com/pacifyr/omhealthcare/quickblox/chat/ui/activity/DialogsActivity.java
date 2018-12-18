@@ -23,19 +23,19 @@ import android.widget.Toast;
 
 import com.ceino.utilitylibrary.CustomFontTextView;
 import com.ceino.utilitylibrary.DeviceFitImageView;
+import com.ceino.utilitylibrary.utils.PrefManager;
 import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout;
 import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
-
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.base.PacifyerActivity;
-import com.pacifyr.omhealthcare.home.ConnectToPacifyrActivity;
-import com.pacifyr.omhealthcare.home.DashboardActivity;
 import com.pacifyr.omhealthcare.quickblox.chat.managers.DialogsManager;
 import com.pacifyr.omhealthcare.quickblox.chat.ui.adapter.DialogsAdapter;
 import com.pacifyr.omhealthcare.quickblox.chat.utils.chat.ChatHelper;
 import com.pacifyr.omhealthcare.quickblox.chat.utils.qb.QbChatDialogMessageListenerImp;
 import com.pacifyr.omhealthcare.quickblox.chat.utils.qb.QbDialogHolder;
 import com.pacifyr.omhealthcare.quickblox.chat.utils.qb.callback.QbEntityCallbackImpl;
+import com.quickblox.auth.QBAuth;
+import com.quickblox.auth.session.QBSession;
 import com.quickblox.chat.QBChatService;
 import com.quickblox.chat.QBIncomingMessagesManager;
 import com.quickblox.chat.QBSystemMessagesManager;
@@ -48,7 +48,6 @@ import com.quickblox.core.QBEntityCallback;
 import com.quickblox.core.exception.QBResponseException;
 import com.quickblox.core.request.QBRequestGetBuilder;
 import com.quickblox.messages.services.SubscribeService;
-
 import com.quickblox.sample.core.gcm.GooglePlayServicesHelper;
 import com.quickblox.sample.core.ui.dialog.ProgressDialogFragment;
 import com.quickblox.sample.core.utils.SharedPrefsHelper;
@@ -258,7 +257,7 @@ public class DialogsActivity extends PacifyerActivity implements DialogsManager.
         ListView dialogsListView = _findViewById(R.id.list_dialogs_chats);
         progressBar = _findViewById(R.id.progress_dialogs);
         fab = _findViewById(R.id.fab_dialogs_new_chat);
-        noMessagesCtxv = (CustomFontTextView) findViewById(R.id.noMessagesCtxv);
+        noMessagesCtxv = findViewById(R.id.noMessagesCtxv);
         setOnRefreshListener = _findViewById(R.id.swipy_refresh_layout);
 
         dialogsAdapter = new DialogsAdapter(this, new ArrayList<>(QbDialogHolder.getInstance().getDialogs().values()));
@@ -358,6 +357,53 @@ public class DialogsActivity extends PacifyerActivity implements DialogsManager.
             progressBar.setVisibility(View.VISIBLE);
         }
 
+        /*if (ChatHelper.getInstance().isLogged()){
+            getChatDialogs(clearDialogHolder);
+            return;
+        }*/
+        SharedPrefsHelper sharedPrefsHelper = SharedPrefsHelper.getInstance();
+        if (sharedPrefsHelper.hasQbUser()) {
+            QBUser qbUser = sharedPrefsHelper.getQbUser();
+            if (qbUser.getPassword() == null) {
+                qbUser.setPassword(PrefManager.getInstance(getApplicationContext()).getUserID());
+            }
+            if (qbUser.getLogin() == null) {
+                qbUser.setLogin(PrefManager.getInstance(getApplicationContext()).getUserID());
+            }
+
+            QBAuth.createSession(qbUser).performAsync(new QBEntityCallback<QBSession>() {
+                @Override
+                public void onSuccess(QBSession qbSession, Bundle bundle) {
+                    qbUser.setId(qbSession.getId());
+                    if (QBChatService.getInstance().isLoggedIn()) {
+                        getChatDialogs(clearDialogHolder);
+                        return;
+                    }
+                    QBChatService.getInstance().login(qbUser, new QBEntityCallback<QBUser>() {
+                        @Override
+                        public void onSuccess(QBUser qbUser2, Bundle bundle) {
+                            Log.d(TAG, "CallService loginToChat onSuccess");
+                            getChatDialogs(clearDialogHolder);
+                        }
+
+                        @Override
+                        public void onError(QBResponseException e) {
+                            Log.d(TAG, "CallService loginToChat onError " + e.getMessage());
+
+                        }
+                    });
+                }
+
+                @Override
+                public void onError(QBResponseException e) {
+                    Log.d(TAG, "CallService QBAuth.createSession() error  " + e.getMessage());
+                }
+            });
+        }
+
+    }
+
+    private void getChatDialogs(final boolean clearDialogHolder) {
         ChatHelper.getInstance().getDialogs(requestBuilder, new QBEntityCallback<ArrayList<QBChatDialog>>() {
             @Override
             public void onSuccess(ArrayList<QBChatDialog> dialogs, Bundle bundle) {
@@ -512,15 +558,15 @@ public class DialogsActivity extends PacifyerActivity implements DialogsManager.
     private DeviceFitImageView rightImv;
 
     public void onSetActionBar() {
-        actionBarTopLlay = (LinearLayout) findViewById(R.id.action_bar_top_llay);
-        bottomPanel = (RelativeLayout) findViewById(R.id.bottom_panel);
-        leftLlay = (LinearLayout) findViewById(R.id.left_llay);
-        backImv = (DeviceFitImageView) findViewById(R.id.back_imv);
-        leftTxv = (CustomFontTextView) findViewById(R.id.left_txv);
-        titleTxv = (CustomFontTextView) findViewById(R.id.title_txv);
-        rightLlay = (LinearLayout) findViewById(R.id.right_llay);
-        rightTxv = (CustomFontTextView) findViewById(R.id.right_txv);
-        rightImv = (DeviceFitImageView) findViewById(R.id.right_imv);
+        actionBarTopLlay = findViewById(R.id.action_bar_top_llay);
+        bottomPanel = findViewById(R.id.bottom_panel);
+        leftLlay = findViewById(R.id.left_llay);
+        backImv = findViewById(R.id.back_imv);
+        leftTxv = findViewById(R.id.left_txv);
+        titleTxv = findViewById(R.id.title_txv);
+        rightLlay = findViewById(R.id.right_llay);
+        rightTxv = findViewById(R.id.right_txv);
+        rightImv = findViewById(R.id.right_imv);
         rightImv.setVisibility(View.INVISIBLE);
         rightTxv.setVisibility(View.INVISIBLE);
         rightLlay.setVisibility(View.INVISIBLE);

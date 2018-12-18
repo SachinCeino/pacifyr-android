@@ -31,9 +31,11 @@ import com.pacifyr.omhealthcare.home.SessionSummaryActivity;
 import com.pacifyr.omhealthcare.model.Session;
 import com.pacifyr.omhealthcare.network.GsonUtils;
 import com.pacifyr.omhealthcare.network.NetworkService;
+import com.pacifyr.omhealthcare.quickblox.services.CallService;
 import com.pacifyr.omhealthcare.utility.BaseFragment;
 import com.pacifyr.omhealthcare.utility.EventMessage;
 import com.pacifyr.omhealthcare.utils.Utility;
+import com.quickblox.sample.core.utils.SharedPrefsHelper;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
 
@@ -99,6 +101,15 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
             setMyAdapter();
         getPermissions();
         //}
+    }
+
+    private void loginToQuickblox() {
+        SharedPrefsHelper sharedPrefsHelper = SharedPrefsHelper.getInstance();
+        if (sharedPrefsHelper.hasQbUser()) {
+            CallService.start(getActivity(), sharedPrefsHelper.getQbUser());
+            // startOpponentsActivity();
+            //return;
+        }
     }
 
     @Override
@@ -255,6 +266,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                 feel_err_text.setVisibility(View.VISIBLE);
             }
             getUnratedSessions();
+            loginToQuickblox();
         }
         catch (Exception e)
         {
