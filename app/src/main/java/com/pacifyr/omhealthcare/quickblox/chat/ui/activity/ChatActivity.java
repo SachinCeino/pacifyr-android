@@ -16,12 +16,16 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
+import com.androidquery.callback.AjaxCallback;
+import com.androidquery.callback.AjaxStatus;
 import com.ceino.utilitylibrary.CustomFontTextView;
 import com.ceino.utilitylibrary.DeviceFitImageView;
 import com.ceino.utilitylibrary.model.pacifyr.MUser;
+import com.ceino.utilitylibrary.utils.PrefManager;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.event.AlertTypeEvent;
 import com.pacifyr.omhealthcare.event.NotifyEvent;
+import com.pacifyr.omhealthcare.network.NetworkService;
 import com.pacifyr.omhealthcare.quickblox.chat.ui.adapter.AttachmentPreviewAdapter;
 import com.pacifyr.omhealthcare.quickblox.chat.ui.adapter.ChatAdapter;
 import com.pacifyr.omhealthcare.quickblox.chat.ui.widget.AttachmentPreviewAdapterView;
@@ -50,6 +54,7 @@ import com.squareup.picasso.Picasso;
 import org.jivesoftware.smack.ConnectionListener;
 import org.jivesoftware.smack.SmackException;
 import org.jivesoftware.smack.XMPPException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -88,6 +93,9 @@ public class ChatActivity extends PacifyrAppCompactActivity implements OnImagePi
     private int skipPagination = 0;
     private ChatMessageListener chatMessageListener;
     public static MUser mPacifyr;
+    private String myUserId;
+    private ArrayList<String> opponentIds;
+
     public static void startForResult(Activity activity, int code, QBChatDialog dialogId,MUser mPaci) {
         mPacifyr=null;
         mPacifyr=mPaci;
@@ -120,6 +128,8 @@ public class ChatActivity extends PacifyrAppCompactActivity implements OnImagePi
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.quickblox_activit_chat);
+
+        myUserId = PrefManager.getInstance(this).getUserID();
 
         LogUtils.LOGD("jp", "ChatActivity onCreate");
         LogUtils.LOGD("jp",  "onCreate ChatActivity on Thread ID = " + Thread.currentThread().getId());
@@ -377,6 +387,25 @@ public class ChatActivity extends PacifyrAppCompactActivity implements OnImagePi
                 showMessage(chatMessage);
             }
 
+            if (opponentIds != null && opponentIds.size() > 0 && opponentIds.size() < 20) {
+                for (int i = 0; i < opponentIds.size(); i++) {
+                    AjaxCallback cb = new AjaxCallback<JSONObject>() {
+                        @Override
+                        public void callback(String url, JSONObject json, AjaxStatus status) {
+                            if (json != null) {
+                                Log.d(TAG, "sendChatNotification Response " + json.toString());
+                            } else {
+                                Log.d(TAG, "sendChatNotification Response null");
+                            }
+                        }
+                    };
+                    if (attachment != null) {
+                        new NetworkService().sendChatNotification(opponentIds.get(i), "chat", attachment.getType(), cb);
+                    } else if (text != null) {
+                        new NetworkService().sendChatNotification(opponentIds.get(i), "chat", text, cb);
+                    }
+                }
+            }
             if (attachment != null) {
                 attachmentPreviewAdapter.remove(attachment);
             } else {
@@ -467,6 +496,7 @@ public class ChatActivity extends PacifyrAppCompactActivity implements OnImagePi
             @Override
             public void onSuccess(ArrayList<QBUser> users, Bundle bundle) {
                 setChatNameToActionBar();
+                opponentIds = getOpponents(users);
                 loadChatHistory();
             }
 
@@ -481,6 +511,18 @@ public class ChatActivity extends PacifyrAppCompactActivity implements OnImagePi
                         });
             }
         });
+    }
+
+    private ArrayList<String> getOpponents(ArrayList<QBUser> users) {
+        ArrayList<String> oppIds = new ArrayList<>();
+        if (users != null && users.size() > 0) {
+            for (int i = 0; i < users.size(); i++) {
+                if (myUserId != null && !users.get(i).getLogin().equals(myUserId)) {
+                    oppIds.add(users.get(i).getLogin());
+                }
+            }
+        }
+        return oppIds;
     }
 
     /*private void setChatNameToActionBar() {
@@ -710,15 +752,15 @@ public class ChatActivity extends PacifyrAppCompactActivity implements OnImagePi
     protected void onSetActionBar() {
 
 
-        actionBarTopLlay = (LinearLayout) findViewById(R.id.action_bar_top_llay);
-        bottomPanel = (RelativeLayout) findViewById(R.id.bottom_panel);
-        leftLlay = (LinearLayout) findViewById(R.id.left_llay);
-        userCimv = (CircleImageView) findViewById(R.id.user_cimv);
-        leftTxv = (CustomFontTextView) findViewById(R.id.left_txv);
-        titleTxv = (CustomFontTextView) findViewById(R.id.title_txv);
-        rightLlay = (LinearLayout) findViewById(R.id.right_llay);
-        rightTxv = (CustomFontTextView) findViewById(R.id.right_txv);
-        rightImv = (DeviceFitImageView) findViewById(R.id.right_imv);
+        actionBarTopLlay = findViewById(R.id.action_bar_top_llay);
+        bottomPanel = findViewById(R.id.bottom_panel);
+        leftLlay = findViewById(R.id.left_llay);
+        userCimv = findViewById(R.id.user_cimv);
+        leftTxv = findViewById(R.id.left_txv);
+        titleTxv = findViewById(R.id.title_txv);
+        rightLlay = findViewById(R.id.right_llay);
+        rightTxv = findViewById(R.id.right_txv);
+        rightImv = findViewById(R.id.right_imv);
         rightImv.setVisibility(View.INVISIBLE);
         rightTxv.setVisibility(View.VISIBLE);
         rightLlay.setVisibility(View.VISIBLE);

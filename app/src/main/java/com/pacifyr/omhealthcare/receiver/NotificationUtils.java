@@ -24,6 +24,7 @@ import java.util.List;
  */
 public class NotificationUtils {
 
+    public static final String NOTIFY_INTENT = "notify_intent";
     private String TAG = NotificationUtils.class.getSimpleName();
 
     private Context mContext;

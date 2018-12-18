@@ -24,6 +24,7 @@ import com.pacifyr.omhealthcare.event.CallEvent;
 import com.pacifyr.omhealthcare.quickblox.activities.CallActivity;
 import com.pacifyr.omhealthcare.quickblox.services.CallService;
 import com.pacifyr.omhealthcare.quickblox.utils.WebRtcSessionManager;
+import com.pacifyr.omhealthcare.receiver.NotificationUtils;
 import com.pacifyr.omhealthcare.receiver.PacifyrReceiver;
 
 import static com.pacifyr.omhealthcare.receiver.NotificationUtils.isAppIsInBackground;
@@ -110,8 +111,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                         callIntent.putExtra("id", _id);
                         LocalBroadcastManager.getInstance(context).sendBroadcast(callIntent);
                     }
-                    Intent background = new Intent(context, CallService.class);
-                    context.startService(background);
 
                     LogUtils.LOGD("app_rec", "PR  onReceive message " + message);
                     LogUtils.LOGD("app_rec", "PR  onReceive actual_type " + actual_type);
@@ -183,6 +182,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                                             }, 10000);
                                         }
                                     }
+                                } else {
+                                    Intent intent = new Intent(NotificationUtils.NOTIFY_INTENT);
+                                    intent.putExtra("type", actual_type);
+                                    intent.putExtra("message", message);
+                                    LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
                                 }
                             }
                         } else {
@@ -241,6 +245,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
                     }
 
+                    if (!isAppIsInBackground(context)) {
+                        Intent background = new Intent(context, CallService.class);
+                        context.startService(background);
+                    }
                     LogUtils.LOGD("app_rec", "PR  onReceive End ");
                 } catch (Exception e) {
                     LogUtils.LOGD("app_rec", "notification" + " exception: " + e.getMessage());

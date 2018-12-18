@@ -76,6 +76,7 @@ import com.pacifyr.omhealthcare.quickblox.App;
 import com.pacifyr.omhealthcare.quickblox.activities.CallActivity;
 import com.pacifyr.omhealthcare.quickblox.activities.PermissionsActivity;
 import com.pacifyr.omhealthcare.quickblox.chat.ui.activity.ChatActivity;
+import com.pacifyr.omhealthcare.quickblox.chat.ui.activity.DialogsActivity;
 import com.pacifyr.omhealthcare.quickblox.chat.utils.chat.ChatHelper;
 import com.pacifyr.omhealthcare.quickblox.chat.utils.qb.QbDialogHolder;
 import com.pacifyr.omhealthcare.quickblox.services.CallService;
@@ -83,6 +84,7 @@ import com.pacifyr.omhealthcare.quickblox.util.QBResRequestExecutor;
 import com.pacifyr.omhealthcare.quickblox.utils.Consts;
 import com.pacifyr.omhealthcare.quickblox.utils.PermissionsChecker;
 import com.pacifyr.omhealthcare.quickblox.utils.WebRtcSessionManager;
+import com.pacifyr.omhealthcare.receiver.NotificationUtils;
 import com.pacifyr.omhealthcare.sign.SignActivity;
 import com.pacifyr.omhealthcare.utils.Constants;
 import com.pacifyr.omhealthcare.utils.FontCache;
@@ -172,6 +174,25 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
             }
         }
     };
+
+    private BroadcastReceiver notificationReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent != null && intent.hasExtra("message")) {
+                String message = intent.getExtras().getString("message");
+                if (message != null && message != "") {
+                    showIOSDialogOKCancel("Message", message, "View", new iOSDialogClickListener() {
+                        @Override
+                        public void onClick(iOSDialog dialog) {
+                            dialog.dismiss();
+                            Intent intent1 = new Intent(PacifyerActivity.this, DialogsActivity.class);
+                            startActivity(intent1);
+                        }
+                    }, "Close");
+                }
+            }
+        }
+    };
     public static Timer trackTimer;
     public static TimerTask trackTimerTask;
     private boolean billingStarted = false;
@@ -180,6 +201,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
     protected void onStart() {
         super.onStart();
         Log.d(TAG, "Register receiver");
+        LocalBroadcastManager.getInstance(this).registerReceiver(notificationReceiver, new IntentFilter(NotificationUtils.NOTIFY_INTENT));
         LocalBroadcastManager.getInstance(this).registerReceiver(eventReceiver, new IntentFilter(CallEvent.CALL_EVENT));
     }
 
@@ -188,6 +210,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
         super.onStop();
         Log.d(TAG, "UnRegister receiver");
         LocalBroadcastManager.getInstance(this).unregisterReceiver(eventReceiver);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(notificationReceiver);
     }
 
     @Override

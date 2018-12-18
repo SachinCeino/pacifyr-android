@@ -1074,6 +1074,27 @@ public class NetworkService  extends IntentService {
         }
     }
 
+    public void sendChatNotification(String toUserId, String type, String text, AjaxCallback cb) {
+        try {
+            PrefManager prefM = PrefManager.getInstance(this);
+            String token = prefM.getAccessToken();
+            String userID = prefM.getUserID();
+            String url = GLOBAL_URL + "notification/sendChatNotification";
+            AQuery aq = new AQuery(this);
+            cb.header("Content-Type", "application/json");
+            cb.header("AccessToken", token);
+            JSONObject params = new JSONObject();
+            params.putOpt("toUserId", toUserId);
+            params.putOpt("fromUserId", userID);
+            params.putOpt("type", type);
+            params.putOpt("text", text);
+            aq.post(url, params, JSONObject.class, cb);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void validateDiscountCode(String code, AjaxCallback cb) {
         try {
             PrefManager prefM = PrefManager.getInstance(this);
