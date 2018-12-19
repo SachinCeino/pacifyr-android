@@ -40,7 +40,7 @@ public class UtilityNetworkService extends IntentService {
     public static final String ACCOUNT_ID = "77234";
     /** dev*/
 
-    /*public static final String GLOBAL_URL = "http://testapp.pacifyr.net:8080/pacifyr/v1/";
+   /* public static final String GLOBAL_URL = "http://testapp.pacifyr.net:8080/pacifyr/v1/";
     public static String GLOBAL_IMAGE_URL = "https://pacifyrtest.storage.googleapis.com/";
     public static final String STRIPE_PUBLISH_KEY ="pk_test_FAVrlQ9hMG3RELCIcWUJpdZf";
 
