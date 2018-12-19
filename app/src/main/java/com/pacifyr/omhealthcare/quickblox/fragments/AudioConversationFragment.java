@@ -23,6 +23,7 @@ import com.ceino.utilitylibrary.CustomFontTextView;
 import com.ceino.utilitylibrary.DeviceFitImageView;
 import com.ceino.utilitylibrary.model.pacifyr.MEmotion;
 import com.ceino.utilitylibrary.model.pacifyr.MUser;
+import com.ceino.utilitylibrary.utils.PrefManager;
 import com.gdacciaro.iOSDialog.iOSDialog;
 import com.gdacciaro.iOSDialog.iOSDialogClickListener;
 import com.pacifyr.omhealthcare.R;
@@ -33,6 +34,7 @@ import com.pacifyr.omhealthcare.event.CallChangeEmotion;
 import com.pacifyr.omhealthcare.event.CallEvent;
 import com.pacifyr.omhealthcare.event.NotifyEvent;
 import com.pacifyr.omhealthcare.home.CustomerDetailActivity;
+import com.pacifyr.omhealthcare.home.ProfileScreenActivity;
 import com.pacifyr.omhealthcare.interfaces.EmpMinutesListener;
 import com.pacifyr.omhealthcare.network.NetworkService;
 import com.pacifyr.omhealthcare.quickblox.activities.CallActivity;
@@ -122,9 +124,13 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
 
         @Override
         public void expired() {
-            Toast.makeText(getActivity(), "Your monthly free sessions has expired. Please enter your Credit Card to continue.", Toast.LENGTH_LONG).show();
-            if (conversationFragmentCallbackListener != null)
-                conversationFragmentCallbackListener.onHangUpCurrentSession();
+            try {
+                Toast.makeText(getActivity(), "Your monthly free sessions has expired. Please enter your Credit Card to continue.", Toast.LENGTH_LONG).show();
+                if (conversationFragmentCallbackListener != null)
+                    conversationFragmentCallbackListener.onHangUpCurrentSession();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         @Override
@@ -243,6 +249,26 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
 
             }
         });
+        userDimv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isValid(getOpponentId())) {
+                    ProfileScreenActivity.start(getActivity(), getOpponentId(), false);
+                }
+            }
+        });
+    }
+
+    private String getOpponentId() {
+        String mUserId = PrefManager.getInstance(getActivity()).getUserID();
+        if (isValid(call_particpants_list)) {
+            for (int i = 0; i < call_particpants_list.size(); i++) {
+                if (!call_particpants_list.get(i).getId().equals(mUserId)) {
+                    return call_particpants_list.get(i).getId();
+                }
+            }
+        }
+        return null;
     }
 
     /*private void startBilling() {

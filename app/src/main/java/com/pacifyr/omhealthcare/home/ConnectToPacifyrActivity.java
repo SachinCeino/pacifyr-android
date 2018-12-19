@@ -8,9 +8,11 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -54,7 +56,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.pacifyr.omhealthcare.adapter.CategoryListAdapter.selectedEmotion;
 import static com.pacifyr.omhealthcare.network.NetworkService.GLOBAL_URL;
 import static com.pacifyr.omhealthcare.network.NetworkService.pSearchPacifyrWOptionsResponse;
 
@@ -98,6 +99,9 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
     private String customerRole;
     private boolean employeeFlag;
     private SwipeDeck cardStack;
+    public static String customerEmotion;
+    private boolean showAllFlag;
+    private CategoryListAdapter categoryListAdapter;
 
     public static void start(Context context) {
         EmotionSpecialityAdapter.reason_forcall=null;
@@ -347,7 +351,50 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
             employeeFlag = true;
         }
 
-        CategoryListAdapter.addListener(this);
+        getShowallCbox().setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    showAllFlag = true;
+                    webSearchPacifyrWOptions(customerEmotion);
+                } else {
+                    showAllFlag = false;
+                    webSearchPacifyrWOptions(customerEmotion);
+                }
+            }
+        });
+
+        cardStack.setEventCallback(new SwipeDeck.SwipeEventCallback() {
+            @Override
+            public void cardSwipedLeft(int position) {
+                Log.i("MainActivity", "card was swiped left, position in adapter: " + position);
+            }
+
+            @Override
+            public void cardSwipedRight(int position) {
+                Log.i("MainActivity", "card was swiped right, position in adapter: " + position);
+            }
+
+
+            @Override
+            public void cardsDepleted() {
+                Log.i("MainActivity", "no more cards");
+                setAdapterSearchOption();
+            }
+
+            @Override
+            public void cardActionDown() {
+
+            }
+
+            @Override
+            public void cardActionUp() {
+
+            }
+        });
+
+
+
     }
 
     @Override
@@ -708,8 +755,11 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
     @Override
     public void OnEmotionClickkListener() {
         showProgress();
+        if (adapter != null) {
+            adapter.clear();
+        }
         //showCategories(customerEmotion);
-        webSearchPacifyrWOptions(selectedEmotion);
+        webSearchPacifyrWOptions(customerEmotion);
     }
 
 
@@ -740,7 +790,7 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
             url = GLOBAL_URL + getRoleSearchMap().get(prefM.getCustomerRole());
             companyID = prefM.getCompanyId();
             jsonObject.putOpt("companyId",companyID);
-            jsonObject.putOpt("includeChargeablePacifyrs",employeeFlag);
+            jsonObject.putOpt("includeChargeablePacifyrs", showAllFlag);
             jsonObject.putOpt("initiatorId", userid);
             jsonObject.putOpt("country", prefM.getCountry());
             List<String> list = new ArrayList<String>();
@@ -766,7 +816,7 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
     private void setAdapterSearchOption() {
 
         if(!NetworkService.isConnectSinglePacifyer) {
-            if (isValid(pSearchPacifyrWOptionsResponse)) {
+            if (isValid(pSearchPacifyrWOptionsResponse) && isValid(pSearchPacifyrWOptionsResponse.getResultsList())) {
                 cardStack.setVisibility(View.VISIBLE);
                 noPacifyrCtxv.setVisibility(View.GONE);
                 adapter = new SwipeDeckConnectPacifyrAdapter(pSearchPacifyrWOptionsResponse.getResultsList(), ConnectToPacifyrActivity.this,activity);
@@ -797,9 +847,11 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
                     try {
                         hideProgress();
                         ModelSpecialityByCategory model = GsonUtils.getInstance().gsonToModelSpecialityByCategory(json);
-                        CategoryListAdapter categoryListAdapter = new CategoryListAdapter(model.getResults(), ConnectToPacifyrActivity.this);
+                        categoryListAdapter = new CategoryListAdapter(model.getResults(), ConnectToPacifyrActivity.this);
                         imgRcv.setLayoutManager(new LinearLayoutManager(ConnectToPacifyrActivity.this, LinearLayoutManager.HORIZONTAL, false));
                         imgRcv.setAdapter(categoryListAdapter);
+                        categoryListAdapter.addListener(ConnectToPacifyrActivity.this);
+                        categoryListAdapter.setSelected(0);
 
                     /* String imgURL = GLOBAL_IMAGE_URL + res[i].getImage();
                     String title = res[i].getTitle();

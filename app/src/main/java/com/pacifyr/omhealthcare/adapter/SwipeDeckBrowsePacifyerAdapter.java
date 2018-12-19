@@ -92,6 +92,13 @@ public class SwipeDeckBrowsePacifyerAdapter extends BaseAdapter {
         }
     }
 
+    public void clear() {
+        if (searchResults != null) {
+            searchResults.clear();
+            notifyDataSetChanged();
+        }
+    }
+
     @Override
     public int getCount() {
         //return searchResults == null ? 0 : searchResults.size() * 20;

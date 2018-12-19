@@ -30,17 +30,33 @@ public class SpecialistAdapter extends RecyclerView.Adapter<SpecialistAdapter.My
 
     private List<ModelSpecialist.Results> specialList;
     Context context;
-    public static EmotionClickkListener emotionClickkListener;
-
-    public static void addListener(EmotionClickkListener listener) {
-        emotionClickkListener= listener;
-    }
+    EmotionClickkListener emotionClickkListener;
 
     public SpecialistAdapter(List<ModelSpecialist.Results> specialList, Context context) {
         this.specialList = specialList;
         this.context = context;
+
+    }
+
+    public void addListener(EmotionClickkListener listener) {
+        emotionClickkListener = listener;
+    }
+
+    public void setSelected(int position) {
         if (this.specialList != null && this.specialList.size() > 0) {
-            this.specialList.get(0).setSelect(true);
+            this.specialList.get(position).setSelect(true);
+            notifyDataSetChanged();
+            customerEmotion = this.specialList.get(position).getTitle();
+            if (emotionClickkListener != null) {
+                emotionClickkListener.OnEmotionClickkListener();
+            }
+        }
+    }
+
+    public void clear() {
+        if (this.specialList != null) {
+            this.specialList.clear();
+            notifyDataSetChanged();
         }
     }
 

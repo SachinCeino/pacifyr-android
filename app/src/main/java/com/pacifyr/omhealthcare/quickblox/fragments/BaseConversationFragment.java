@@ -328,12 +328,6 @@ public abstract class BaseConversationFragment extends BaseToolBarFragment imple
                                     }
                                 });
                             }
-                        } else if (minutesLeft > 10 && !freeMinuteAlertMore10) {
-                            if (empMinutesListener != null) {
-                                empMinutesListener.onMinutesLeft(minutesLeft);
-                                freeMinuteAlertMore10 = true;
-                            }
-
                         } else {
                             Log.d(TAG, minutesLeft + " minutes left");
                         }
@@ -434,6 +428,9 @@ public abstract class BaseConversationFragment extends BaseToolBarFragment imple
         if (timerChronometer != null) {
             timerChronometer.stop();
             isStarted = false;
+        }
+        if (countDownTimer != null) {
+            countDownTimer.cancel();
         }
     }
 

@@ -95,6 +95,7 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
         }
     };
     private boolean emoSelected;
+    private SpecialistAdapter specialistAdapter;
 
     public CheckBox getShowallCbox() {
         return (CheckBox) findViewById(R.id.showall_cbox);
@@ -159,8 +160,10 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
                     recyclerView.setHasFixedSize(true);
                     layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
                     recyclerView.setLayoutManager(layoutManager);
-                    RecyclerView.Adapter adapter = new SpecialistAdapter(modelSpecialist.getResultsList(), ListPacifyrScreenActivity.this);
-                    recyclerView.setAdapter(adapter);
+                    specialistAdapter = new SpecialistAdapter(modelSpecialist.getResultsList(), ListPacifyrScreenActivity.this);
+                    recyclerView.setAdapter(specialistAdapter);
+                    specialistAdapter.addListener(ListPacifyrScreenActivity.this);
+                    specialistAdapter.setSelected(0);
                 }
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -185,7 +188,6 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
 
 
         onSetActionBar();
-        SpecialistAdapter.addListener(this);
 
 
 
@@ -278,6 +280,7 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
                 noPacifyrCtxv.setVisibility(View.GONE);
                 adapter = new SwipeDeckBrowsePacifyerAdapter(list, ListPacifyrScreenActivity.this, emoSelected);
                 cardStack.setAdapter(adapter);
+                cardStack.setVisibility(View.VISIBLE);
             }else {
                 cardStack.setVisibility(View.GONE);
                 noPacifyrCtxv.setVisibility(View.VISIBLE);
@@ -463,8 +466,10 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
 
     @Override
     public void OnEmotionClickkListener() {
+        if (adapter != null) {
+            adapter.clear();
+        }
         webSearchPacifyrWOptions(customerEmotion);
-        cardStack.setVisibility(View.VISIBLE);
     }
 
     public void webSearchPacifyrWOptions(String emotion) {

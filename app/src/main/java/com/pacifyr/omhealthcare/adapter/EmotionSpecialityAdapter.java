@@ -4,13 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -20,7 +17,6 @@ import com.androidquery.callback.AjaxStatus;
 import com.ceino.utilitylibrary.CustomFontTextView;
 import com.ceino.utilitylibrary.model.pacifyr.post.PostRegisterModel;
 import com.ceino.utilitylibrary.utils.PrefManager;
-import com.daprlabs.cardstack.SwipeDeck;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.koushikdutta.ion.Ion;
@@ -32,17 +28,13 @@ import com.pacifyr.omhealthcare.model.ModelSpecialityByEmotion;
 import com.pacifyr.omhealthcare.network.GsonUtils;
 import com.pacifyr.omhealthcare.network.NetworkService;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 
-import static com.pacifyr.omhealthcare.home.ListPacifyrScreenActivity.customerEmotion;
+import static com.pacifyr.omhealthcare.home.ConnectToPacifyrActivity.customerEmotion;
 import static com.pacifyr.omhealthcare.network.NetworkService.GLOBAL_URL;
-import static com.pacifyr.omhealthcare.network.NetworkService.pSearchPacifyrWOptionsResponse;
 
 /**
  * Created by ceino on 19/12/17.
@@ -55,7 +47,7 @@ public class EmotionSpecialityAdapter extends RecyclerView.Adapter<EmotionSpecia
     Activity activity;
     private String userRole;
     public SwipeDeckConnectPacifyrAdapter adapter;
-    SwipeDeck cardStack;
+    //    SwipeDeck cardStack;
     RecyclerView imgRcv;
     public static  String reason_forcall=null;
     //ImageView emotionDimv;
@@ -210,7 +202,7 @@ public class EmotionSpecialityAdapter extends RecyclerView.Adapter<EmotionSpecia
                         employeeFlag = false;
                         showallLlay.setVisibility(View.GONE);
                     }
-                    CheckBox showallCbox = ((ConnectToPacifyrActivity)activity).getShowallCbox();
+                    /*CheckBox showallCbox = ((ConnectToPacifyrActivity)activity).getShowallCbox();
                     showallCbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                         @Override
                         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -222,10 +214,10 @@ public class EmotionSpecialityAdapter extends RecyclerView.Adapter<EmotionSpecia
                                 webSearchPacifyrWOptions(reason_forcall);
                             }
                         }
-                    });
+                    });*/
 
 
-                    cardStack = activity.findViewById(R.id.swipe_deck);
+                    /*cardStack = activity.findViewById(R.id.swipe_deck);
 
                     //webSearchPacifyrWOptions(category);
 
@@ -257,7 +249,7 @@ public class EmotionSpecialityAdapter extends RecyclerView.Adapter<EmotionSpecia
                         public void cardActionUp() {
 
                         }
-                    });
+                    });*/
                 }
             }
         });
@@ -282,10 +274,12 @@ public class EmotionSpecialityAdapter extends RecyclerView.Adapter<EmotionSpecia
                         ModelSpecialityByCategory.Results[] item = model.getResults();
 
                         CategoryListAdapter categoryListAdapter = new CategoryListAdapter(item, context);
-                        String[] array = item[0].getCategory();
-                        webSearchPacifyrWOptions(array);
+                       /* String[] array = item[0].getCategory();
+                        webSearchPacifyrWOptions(array);*/
                         imgRcv.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
                         imgRcv.setAdapter(categoryListAdapter);
+                        categoryListAdapter.addListener((ConnectToPacifyrActivity) activity);
+                        categoryListAdapter.setSelected(0);
 
                     /* String imgURL = GLOBAL_IMAGE_URL + res[i].getImage();
                     String title = res[i].getTitle();
@@ -316,7 +310,7 @@ public class EmotionSpecialityAdapter extends RecyclerView.Adapter<EmotionSpecia
         }
     }
 
-    private void setAdapterSearchOption() {
+    /*private void setAdapterSearchOption() {
 
         if(!NetworkService.isConnectSinglePacifyer) {
             if (isValid(pSearchPacifyrWOptionsResponse)) {
@@ -325,7 +319,7 @@ public class EmotionSpecialityAdapter extends RecyclerView.Adapter<EmotionSpecia
             }
         }
 
-    }
+    }*/
 
     public void updateUserEmotion(){
         //call_emotion
@@ -369,7 +363,7 @@ public class EmotionSpecialityAdapter extends RecyclerView.Adapter<EmotionSpecia
 
     }
 
-    public void webSearchPacifyrWOptions(String[] emotion) {
+    /*public void webSearchPacifyrWOptions(String[] emotion) {
         try {
             JSONObject jsonObject = new JSONObject();
             JSONArray mJSONArray = new JSONArray(Arrays.asList(emotion));
@@ -381,9 +375,9 @@ public class EmotionSpecialityAdapter extends RecyclerView.Adapter<EmotionSpecia
         {
             ex.printStackTrace();
         }
-    }
+    }*/
 
-    public void searchPacifyr(JSONObject jsonObject){
+    /*public void searchPacifyr(JSONObject jsonObject){
         try {
 
             String url = GLOBAL_URL + getRoleSearchMap().get(userRole);
@@ -394,7 +388,7 @@ public class EmotionSpecialityAdapter extends RecyclerView.Adapter<EmotionSpecia
                     try {
                         pSearchPacifyrWOptionsResponse = GsonUtils.getInstance().gsonToRespSearchPacifyrWOption(json);
                         //pSearchPacifyrWOptionsResponse.toString();
-                        setAdapterSearchOption();
+//                        setAdapterSearchOption();
 
                     } catch (Exception e) {
 
@@ -416,9 +410,9 @@ public class EmotionSpecialityAdapter extends RecyclerView.Adapter<EmotionSpecia
             e.printStackTrace();
         }
 
-    }
+    }*/
 
-    public void webSearchPacifyrWOptions(String emotion) {
+    /*public void webSearchPacifyrWOptions(String emotion) {
         try {
 
             JSONObject jsonObject = new JSONObject();
@@ -437,7 +431,7 @@ public class EmotionSpecialityAdapter extends RecyclerView.Adapter<EmotionSpecia
         {
             ex.printStackTrace();
         }
-    }
+    }*/
 
     public Boolean isValidhtml(String text) {
         if (isValid(text)) return text.contains("http") || text.contains("https");

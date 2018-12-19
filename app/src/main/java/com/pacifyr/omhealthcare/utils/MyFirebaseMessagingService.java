@@ -182,7 +182,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                                             }, 10000);
                                         }
                                     }
-                                } else {
+                                } else if (actual_type.equalsIgnoreCase("chat")) {
                                     Intent intent = new Intent(NotificationUtils.NOTIFY_INTENT);
                                     intent.putExtra("type", actual_type);
                                     intent.putExtra("message", message);

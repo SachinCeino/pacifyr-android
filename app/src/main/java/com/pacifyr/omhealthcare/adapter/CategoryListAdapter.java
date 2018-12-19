@@ -15,11 +15,13 @@ import android.widget.TextView;
 
 import com.ceino.utilitylibrary.CustomFontTextView;
 import com.pacifyr.omhealthcare.R;
+import com.pacifyr.omhealthcare.home.ConnectToPacifyrActivity;
 import com.pacifyr.omhealthcare.model.ModelSpecialityByCategory;
 import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static com.pacifyr.omhealthcare.home.ListPacifyrScreenActivity.customerEmotion;
 import static com.pacifyr.omhealthcare.network.NetworkService.GLOBAL_IMAGE_URL;
 
 
@@ -29,42 +31,27 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
     private ModelSpecialityByCategory.Results[] specalArray;
     Context context;
 
-    public static EmotionClickkListener categorySelectListener;
-    public static String selectedEmotion;
+    public EmotionClickkListener categorySelectListener;
+    public String selectedEmotion;
    /* public static EmotionClickkListener emotionClickkListener;
 
     public static void addListener(EmotionClickkListener listener) {
         emotionClickkListener= listener;
     }*/
 
-    public static void addListener(EmotionClickkListener listener) {
+    public void addListener(EmotionClickkListener listener) {
         categorySelectListener= listener;
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView title, year, genre;
-        public CircleImageView circleImageView;
-        public CustomFontTextView pac_name;
-
-        public MyViewHolder(View view) {
-            super(view);
-            circleImageView=(CircleImageView) view.findViewById(R.id.circle_image);
-            pac_name=(CustomFontTextView) view.findViewById(R.id.pac_name);
+    public void setSelected(int position) {
+        if (this.specalArray != null && this.specalArray.length > 0) {
+            this.specalArray[position].setSelect(true);
+            notifyDataSetChanged();
+            customerEmotion = this.specalArray[position].getTitle();
+            if (categorySelectListener != null) {
+                categorySelectListener.OnEmotionClickkListener();
+            }
         }
-    }
-
-    public CategoryListAdapter(ModelSpecialityByCategory.Results[] specalArray, Context context) {
-        this.specalArray = specalArray;
-        this.context=context;
-    }
-
-    @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
-        View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.pacifyr_list, parent, false);
-
-        return new MyViewHolder(itemView);
     }
 
     @Override
@@ -111,7 +98,7 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
             public void onClick(View v) {
                 for (int i=0;i<specalArray.length;i++)
                 {
-                    selectedEmotion =specalArray[position].getTitle();
+                    ConnectToPacifyrActivity.customerEmotion = specalArray[position].getTitle();
                     if (i==position) {
                         specalArray[position].setSelect(true);
                         holder.circleImageView.setBorderColor(ContextCompat.getColor(context, R.color.colorPrimary));
@@ -133,6 +120,32 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
         holder.genre.setText(special.getGenre());
         holder.year.setText(special.getDuration());*/
 
+    }
+
+    public CategoryListAdapter(ModelSpecialityByCategory.Results[] specalArray, Context context) {
+        this.specalArray = specalArray;
+        this.context = context;
+    }
+
+    @Override
+    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
+        View itemView = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.pacifyr_list, parent, false);
+
+        return new MyViewHolder(itemView);
+    }
+
+    public class MyViewHolder extends RecyclerView.ViewHolder {
+        public TextView title, year, genre;
+        public CircleImageView circleImageView;
+        public CustomFontTextView pac_name;
+
+        public MyViewHolder(View view) {
+            super(view);
+            circleImageView = view.findViewById(R.id.circle_image);
+            pac_name = view.findViewById(R.id.pac_name);
+        }
     }
 
     public interface EmotionClickkListener{

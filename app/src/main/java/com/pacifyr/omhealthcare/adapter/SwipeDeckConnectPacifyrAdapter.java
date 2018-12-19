@@ -776,4 +776,10 @@ public class SwipeDeckConnectPacifyrAdapter extends BaseAdapter {
 
     }
 
+    public void clear() {
+        if (searchResults != null) {
+            searchResults.clear();
+            notifyDataSetChanged();
+        }
+    }
 }

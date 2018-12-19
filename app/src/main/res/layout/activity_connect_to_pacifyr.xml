@@ -313,7 +313,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"
-        android:layout_marginTop="-17dp"
+        android:layout_marginTop="5dp"
         android:layout_below="@+id/top_rlay"
         android:id="@+id/select_list_pacifyr_rlay"
         android:background="#F0F3F5">
@@ -348,7 +348,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_below="@+id/showall_llay"
-            android:layout_margin="10dp"
+            android:layout_margin="5dp"
             android:gravity="center_horizontal">
 
             <android.support.v7.widget.RecyclerView
@@ -362,8 +362,9 @@
             <com.daprlabs.cardstack.SwipeDeck
                 android:id="@+id/swipe_deck"
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
+                android:layout_height="270dp"
                 android:padding="5dp"
+                android:visibility="gone"
                 swipedeck:card_spacing="5dp"
                 swipedeck:max_visible="3"
                 swipedeck:render_above="true"
@@ -384,7 +385,7 @@
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:id="@+id/more_pacifyrs_rlay"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:layout_centerInParent="true">
 
                 <com.ceino.utilitylibrary.CustomFontTextView
