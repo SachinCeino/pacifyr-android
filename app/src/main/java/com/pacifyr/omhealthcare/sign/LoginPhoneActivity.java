@@ -19,6 +19,11 @@ import com.ceino.utilitylibrary.model.pacifyr.MUser;
 import com.ceino.utilitylibrary.model.pacifyr.ModelPhoneLogin;
 import com.ceino.utilitylibrary.model.pacifyr.ModelUserProfile;
 import com.ceino.utilitylibrary.utils.PrefManager;
+import com.facebook.login.LoginManager;
+import com.gdacciaro.iOSDialog.iOSDialog;
+import com.gdacciaro.iOSDialog.iOSDialogClickListener;
+import com.google.gson.JsonObject;
+import com.koushikdutta.ion.Ion;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.base.PacifyerActivity;
 import com.pacifyr.omhealthcare.home.DashboardActivity;
@@ -30,9 +35,12 @@ import com.quickblox.auth.session.QBSession;
 import com.quickblox.auth.session.QBSettings;
 import com.quickblox.core.QBEntityCallback;
 import com.quickblox.core.exception.QBResponseException;
+import com.quickblox.users.QBUsers;
 import com.quickblox.users.model.QBUser;
 
 import org.json.JSONObject;
+
+import java.util.HashMap;
 
 import static com.ceino.utilitylibrary.network.UtilityNetworkService.ACCOUNT_KEY;
 import static com.ceino.utilitylibrary.network.UtilityNetworkService.APP_ID;
@@ -268,6 +276,139 @@ public class LoginPhoneActivity extends PacifyerActivity {
     }
 
 
+    private void quickbloxNewLogin(final QBUser qbUser) {
+        try {
+            QBSettings.getInstance().init(LoginPhoneActivity.this, APP_ID, AUTH_KEY, AUTH_SECRET);
+            QBSettings.getInstance().setAccountKey(ACCOUNT_KEY);
+            //create a quickblox application session
+            QBAuth.createSession().performAsync(new QBEntityCallback<QBSession>() {
+                @Override
+                public void onSuccess(QBSession qbSession, Bundle bundle) {
+                    // Register new user
+
+                    QBUsers.signUp(qbUser).performAsync(new QBEntityCallback<QBUser>() {
+                        @Override
+                        public void onSuccess(QBUser qbUser, Bundle bundle) {
+
+                            saveUserData(qbUser);
+                            startLoginService(qbUser);
+                            getPrefManager(LoginPhoneActivity.this).saveQBID(qbUser.getId().toString());
+                            updateProfileWeb(qbUser);
+                        }
+
+                        @Override
+                        public void onError(QBResponseException responseException) {
+                            responseException.printStackTrace();
+                            Toast.makeText(context, responseException.getMessage(), Toast.LENGTH_LONG).show();
+                            hideProgress();
+                            LoginManager mLoginManager = LoginManager.getInstance();
+                            mLoginManager.logOut();
+                            prefM.clear();
+                            startActivity(new Intent(context, SignActivity.class));
+                        }
+                    });
+
+                }
+
+                @Override
+                public void onError(QBResponseException e) {
+                    e.printStackTrace();
+                    if (e.getHttpStatusCode() == 422 && e.getMessage().toLowerCase().contains("bad timestamp")) {
+                        iOSDialogClickListener listener = new iOSDialogClickListener() {
+                            @Override
+                            public void onClick(iOSDialog dialog) {
+                                dialog.dismiss();
+                                prefM.clearSharedAll();
+                                fbLogout();
+                                startActivity(new Intent(android.provider.Settings.ACTION_DATE_SETTINGS));
+                                finish();
+                            }
+                        };
+                        showIOSDialogOK("", "Your device date & time is not correct. Please correct it and try sign in.", "Settings", listener);
+
+                    } else {
+                        Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
+                        hideProgress();
+                        fbLogout();
+                        prefM.clear();
+                        startActivity(new Intent(context, SignActivity.class));
+                    }
+                }
+            });
+
+        } catch (Exception exc) {
+            hideProgress();
+            exc.printStackTrace();
+            Toast.makeText(context, exc.getMessage(), Toast.LENGTH_LONG).show();
+            fbLogout();
+            prefM.clear();
+            startActivity(new Intent(context, SignActivity.class));
+
+        }
+
+    }
+
+    private void updateProfileWeb(QBUser qbUser) {
+        try {
+            String url = GLOBAL_URL + "user/editprofile/" + qbUser.getLogin();
+            com.koushikdutta.async.future.FutureCallback<JsonObject> futureCallback = new com.koushikdutta.async.future.FutureCallback<JsonObject>() {
+                @Override
+                public void onCompleted(Exception e, JsonObject result) {
+                    try {
+                        if (isValid(result)) {
+
+                            final JSONObject jsonObject = new JSONObject(result.toString());
+                            //String js = result.toString();
+                            String phone = jsonObject.getString("phoneNumber");
+                            //String messag= json.getString("message");
+                            //String logstat = status.getMessage();
+                            if (isValid(phone)) {
+                                hideProgress();
+                                setStatus("User registered Successfully", R.color.md_green_400);
+                                showStatus();
+
+                                final Handler handler = new Handler();
+                                handler.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                       /* Intent i = new Intent(RegisterActivity.this, WelcomeTourActivity.class);
+                                        startActivity(i);
+                                        finish();*/
+                                        hideStatus();
+                                        loginTheUser(qbUser);
+
+
+                                    }
+                                }, 2000);
+
+                            } else/* if (logstat.equals("error"))*/ {
+                                Toast.makeText(LoginPhoneActivity.this, "Error :" + e.getMessage(), Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    } catch (Exception eee) {
+                        hideProgress();
+                        Toast.makeText(LoginPhoneActivity.this, "Error :" + eee.getMessage(), Toast.LENGTH_LONG).show();
+                        eee.printStackTrace();
+                    }
+                }
+            };
+            //AQuery aq = new AQuery(RegisterActivity.this);
+            //cb.header("AccessToken", accessToken);
+            //cb.header("enctype", "multipart/form-data");
+            JSONObject postDataParams = new JSONObject();
+            postDataParams.putOpt("qbid", Long.valueOf(qbUser.getId().toString()));
+            postDataParams.putOpt("phoneNumber", phoneNo);
+            String json = postDataParams.toString();
+            HashMap<String, JSONObject> map = new HashMap<String, JSONObject>();
+            map.put("data", postDataParams);
+            Ion.with(context).load(url).setHeader("AccessToken", prefM.getAccessToken()).setHeader("enctype", "multipart/form-data").setMultipartParameter("data", json).asJsonObject().setCallback(futureCallback);
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            Toast.makeText(context, ex.getMessage(), Toast.LENGTH_LONG).show();
+
+        }
+    }
 
     private void signInCreatedUser( ) {
         hideStatus();
@@ -312,7 +453,7 @@ public class LoginPhoneActivity extends PacifyerActivity {
                     public void onError(QBResponseException responseException) {
                         hideProgress();
                         if (responseException.getHttpStatusCode() == 401) {
-                            setAlertOKStatusInRed("Login failed", "You are not registered in our system. Please register.", "OK", new View.OnClickListener() {
+                            /*setAlertOKStatusInRed("Login failed", "You are not registered in our system. Please register.", "OK", new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     Intent intent = new Intent(LoginPhoneActivity.this, SignActivity.class);
@@ -320,8 +461,12 @@ public class LoginPhoneActivity extends PacifyerActivity {
                                     startActivity(intent);
                                     finish();
                                 }
-                            });
+                            });*/
+                            saveValuesToPrefM(context, modelPhoneLogin);
+                            quickbloxNewLogin(user);
                         } else {
+                            prefM.clearSharedAll();
+                            fbLogout();
                             setAlertOKStatusInRed("Login failed", responseException.getMessage(), "OK", new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -336,8 +481,6 @@ public class LoginPhoneActivity extends PacifyerActivity {
                         /*Toaster.longToast("User signInUser failed!"+ responseException.getMessage());
                         Toast.makeText(LoginPhoneActivity.this, "User signInUser failed!" + responseException.getMessage(),
                                 Toast.LENGTH_LONG).show();*/
-                        prefM.clearSharedAll();
-                        fbLogout();
                         /*startActivity(new Intent(LoginPhoneActivity.this,SignActivity.class));
                         finish();*/
                     }
@@ -347,13 +490,28 @@ public class LoginPhoneActivity extends PacifyerActivity {
             @Override
             public void onError(QBResponseException e) {
                 hideProgress();
-                Toast.makeText(LoginPhoneActivity.this, "QB sessron create failure !" + e.getMessage(),Toast.LENGTH_LONG).show();
-                prefM.clearSharedAll();
-                fbLogout();
-                Intent intent = new Intent(LoginPhoneActivity.this, SignActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-                finish();
+                if (e.getHttpStatusCode() == 422 && e.getMessage().toLowerCase().contains("bad timestamp")) {
+                    iOSDialogClickListener listener = new iOSDialogClickListener() {
+                        @Override
+                        public void onClick(iOSDialog dialog) {
+                            dialog.dismiss();
+                            prefM.clearSharedAll();
+                            fbLogout();
+                            startActivity(new Intent(android.provider.Settings.ACTION_DATE_SETTINGS));
+                            finish();
+                        }
+                    };
+                    showIOSDialogOK("", "Your device date & time is not correct. Please correct it and try sign in.", "Settings", listener);
+
+                } else {
+                    Toast.makeText(LoginPhoneActivity.this, "QB session create failure !" + e.getMessage(), Toast.LENGTH_LONG).show();
+                    prefM.clearSharedAll();
+                    fbLogout();
+                    Intent intent = new Intent(LoginPhoneActivity.this, SignActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    finish();
+                }
             }
         });
 

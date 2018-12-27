@@ -51,6 +51,8 @@ import com.ceino.utilitylibrary.model.pacifyr.post.PRegistrationModel;
 import com.ceino.utilitylibrary.model.pacifyr.post.PostRegisterModel;
 import com.ceino.utilitylibrary.utils.PrefManager;
 import com.facebook.login.LoginManager;
+import com.gdacciaro.iOSDialog.iOSDialog;
+import com.gdacciaro.iOSDialog.iOSDialogClickListener;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.kaopiz.kprogresshud.KProgressHUD;
@@ -197,24 +199,24 @@ public class RegisterActivity extends PacifyerActivity {
             setContentView(R.layout.activity_register);
             onSetActionBar();
             prefM = PrefManager.getInstance(RegisterActivity.this);
-            imgBack = (ImageView) findViewById(R.id.img_back);
-            logoRlay = (RelativeLayout) findViewById(R.id.logo_rlay);
-            logoBlue = (ImageView) findViewById(R.id.logo_blue);
-            hintLlay = (RelativeLayout) findViewById(R.id.hint_llay);
-            nameEdt = (CustomEditText) findViewById(R.id.name_edt);
-            emailEdt = (CustomEditText) findViewById(R.id.email_edt);
-            nextLlay = (LinearLayout) findViewById(R.id.next_llay);
-            nextRlay = (RelativeLayout) findViewById(R.id.next_rlay);
-            nextCtxv = (CustomFontTextView) findViewById(R.id.next_ctxv);
-            phoneEdit=(CustomEditText) findViewById(R.id.phone_edt);
-            yearEdit=(CustomEditText) findViewById(R.id.year_edt);
-            wheelYearPicker =(WheelYearPicker) findViewById(R.id.wheel_date_picker_year);
-            termsCtxv=(CustomFontTextView) findViewById(R.id.terms_of_use);
-            checkBox=(CheckBox) findViewById(R.id.checkBox);
-            profileCimv = (CircleImageView) findViewById(R.id.profile_cimv);
-            phoneCedt = (CustomEditText) findViewById(R.id.phone_cedit);
-            spinner = (Spinner) findViewById(R.id.spinner);
-            phone_llay = (LinearLayout) findViewById(R.id.phone_llay);
+            imgBack = findViewById(R.id.img_back);
+            logoRlay = findViewById(R.id.logo_rlay);
+            logoBlue = findViewById(R.id.logo_blue);
+            hintLlay = findViewById(R.id.hint_llay);
+            nameEdt = findViewById(R.id.name_edt);
+            emailEdt = findViewById(R.id.email_edt);
+            nextLlay = findViewById(R.id.next_llay);
+            nextRlay = findViewById(R.id.next_rlay);
+            nextCtxv = findViewById(R.id.next_ctxv);
+            phoneEdit = findViewById(R.id.phone_edt);
+            yearEdit = findViewById(R.id.year_edt);
+            wheelYearPicker = findViewById(R.id.wheel_date_picker_year);
+            termsCtxv = findViewById(R.id.terms_of_use);
+            checkBox = findViewById(R.id.checkBox);
+            profileCimv = findViewById(R.id.profile_cimv);
+            phoneCedt = findViewById(R.id.phone_cedit);
+            spinner = findViewById(R.id.spinner);
+            phone_llay = findViewById(R.id.phone_llay);
 
             context = RegisterActivity.this;
 
@@ -641,15 +643,15 @@ public class RegisterActivity extends PacifyerActivity {
 
     public void onSetActionBar() {
         try {
-            actionBarTopLlay = (LinearLayout) findViewById(R.id.action_bar_top_llay);
-            bottomPanel = (RelativeLayout) findViewById(R.id.bottom_panel);
-            leftLlay = (LinearLayout) findViewById(R.id.left_llay);
-            backImv = (DeviceFitImageView) findViewById(R.id.back_imv);
-            leftTxv = (CustomFontTextView) findViewById(R.id.left_txv);
-            titleTxv = (CustomFontTextView) findViewById(R.id.title_txv);
-            rightLlay = (LinearLayout) findViewById(R.id.right_llay);
-            rightTxv = (CustomFontTextView) findViewById(R.id.right_txv);
-            rightImv = (DeviceFitImageView) findViewById(R.id.right_imv);
+            actionBarTopLlay = findViewById(R.id.action_bar_top_llay);
+            bottomPanel = findViewById(R.id.bottom_panel);
+            leftLlay = findViewById(R.id.left_llay);
+            backImv = findViewById(R.id.back_imv);
+            leftTxv = findViewById(R.id.left_txv);
+            titleTxv = findViewById(R.id.title_txv);
+            rightLlay = findViewById(R.id.right_llay);
+            rightTxv = findViewById(R.id.right_txv);
+            rightImv = findViewById(R.id.right_imv);
             rightImv.setVisibility(View.INVISIBLE);
             rightTxv.setVisibility(View.INVISIBLE);
             rightLlay.setVisibility(View.INVISIBLE);
@@ -784,9 +786,9 @@ public class RegisterActivity extends PacifyerActivity {
         try {
             //View.OnClickListener oklistner
             View view = LayoutInflater.from(this).inflate(R.layout.alert_white_ok, null, false);
-            CustomFontTextView title_dtxv = (CustomFontTextView) view.findViewById(com.ceino.utilitylibrary.R.id.title_dtxv);
-            CustomFontTextView desc_dtxv = (CustomFontTextView) view.findViewById(com.ceino.utilitylibrary.R.id.desc_dtxv);
-            CustomFontTextView ok_dtxv = (CustomFontTextView) view.findViewById(com.ceino.utilitylibrary.R.id.ok_dtxv);
+            CustomFontTextView title_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.title_dtxv);
+            CustomFontTextView desc_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.desc_dtxv);
+            CustomFontTextView ok_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.ok_dtxv);
 
             if (isValid(title))
                 defSetText(title_dtxv, title);
@@ -838,12 +840,7 @@ public class RegisterActivity extends PacifyerActivity {
         int currentYear = calendar.get(Calendar.YEAR);
         Integer birthYear=Integer.parseInt(s);
         int diff=currentYear-birthYear;
-        if (diff<=18) {
-            return false;
-        }
-        else {
-            return true;
-        }
+        return diff > 18;
     }
 
     private void registerWeb(final PostRegisterModel regpost) {
@@ -1247,11 +1244,26 @@ public class RegisterActivity extends PacifyerActivity {
                 @Override
                 public void onError(QBResponseException e) {
                     e.printStackTrace();
-                    Toast.makeText(context,e.getMessage(),Toast.LENGTH_LONG).show();
-                    hideProgress();
-                    fbLogout();
-                    prefM.clear();
-                    startActivity(new Intent(context,SignActivity.class));
+                    if (e.getHttpStatusCode() == 422 && e.getMessage().toLowerCase().contains("bad timestamp")) {
+                        iOSDialogClickListener listener = new iOSDialogClickListener() {
+                            @Override
+                            public void onClick(iOSDialog dialog) {
+                                dialog.dismiss();
+                                prefM.clearSharedAll();
+                                fbLogout();
+                                startActivity(new Intent(android.provider.Settings.ACTION_DATE_SETTINGS));
+                                finish();
+                            }
+                        };
+                        showIOSDialogOK("", "Your device date & time is not correct. Please correct it and try sign in.", "Settings", listener);
+
+                    } else {
+                        Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
+                        hideProgress();
+                        fbLogout();
+                        prefM.clear();
+                        startActivity(new Intent(context, SignActivity.class));
+                    }
                 }
             });
 
