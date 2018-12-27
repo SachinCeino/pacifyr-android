@@ -243,8 +243,10 @@ public class MySessionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 @Override
                 public void onClick(View v) {
                     try {
-                        String sessionID = results.getId();
-                        LastSessionActivity.start(context,sessionID);
+                        if (position == 0) {
+                            String sessionID = results.getId();
+                            LastSessionActivity.start(context, sessionID);
+                        }
 
                        /* String url = GLOBAL_URL + "session/" + sessionID;
                         AjaxCallback cb = new AjaxCallback<JSONObject>() {
@@ -382,12 +384,11 @@ public class MySessionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     public Boolean isValid(int object) {
-        if(object > 0) return true;
-        return false;
+        return object > 0;
 
     }
     public Boolean isValidhtml(String text) {
-        if(isValid(text)) if(text.contains("http")||text.contains("https")) return true;
+        if (isValid(text)) return text.contains("http") || text.contains("https");
         return false;
 
     }
@@ -413,8 +414,7 @@ public class MySessionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public Boolean isValid(List list)
     {
         if(list!=null)
-            if(list.size()>0)
-                return  true;
+            return list.size() > 0;
         return  false;
 
     }
@@ -422,22 +422,19 @@ public class MySessionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public Boolean isValid(List list, int position)
     {
         if(isValid(list))
-            if(list.size()>=position)
-                return  true;
+            return list.size() >= position;
         return  false;
 
     }
 
     public Boolean isValid(Object object)
     {
-        if(object!=null)
-            return  true;
-        return  false;
+        return object != null;
 
     }
 
     public Boolean isValid(String text) {
-        if(text != null) if(!text.trim().equalsIgnoreCase("")) return true;
+        if (text != null) return !text.trim().equalsIgnoreCase("");
         return false;
 
     }
@@ -465,20 +462,20 @@ public class MySessionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         public MyViewHolder(View view) {
             super(view);
-            topLlay = (LinearLayout) view.findViewById(R.id.top_llay);
-            callTimeCtxv = (CustomFontTextView) view.findViewById(R.id.call_time_ctxv);
-            nameUserCtxv = (CustomFontTextView) view.findViewById(R.id.name_user_ctxv);
-            userCimv = (CircleImageView) view.findViewById(R.id.user_cimv);
-            priceCtxv = (CustomFontTextView) view.findViewById(R.id.price_ctxv);
-            dateCtxv = (CustomFontTextView) view.findViewById(R.id.date_ctxv);
-            feltCtxv = (CustomFontTextView) view.findViewById(R.id.felt_ctxv);
-            beforeCallCtxv = (CustomFontTextView) view.findViewById(R.id.before_call_ctxv);
-            beforeEmotionImg = (ImageView) view.findViewById(R.id.before_emotion_img);
-            beforeFeelCtxv = (CustomFontTextView) view.findViewById(R.id.before_feel_ctxv);
-            afterCallCtxv = (CustomFontTextView) view.findViewById(R.id.after_call_ctxv);
-            afterEmotionImg = (ImageView) view.findViewById(R.id.after_emotion_img);
-            afterFeelCtxv = (CustomFontTextView) view.findViewById(R.id.after_feel_ctxv);
-            calltype_imv = (ImageView) view.findViewById(R.id.calltype_imv);
+            topLlay = view.findViewById(R.id.top_llay);
+            callTimeCtxv = view.findViewById(R.id.call_time_ctxv);
+            nameUserCtxv = view.findViewById(R.id.name_user_ctxv);
+            userCimv = view.findViewById(R.id.user_cimv);
+            priceCtxv = view.findViewById(R.id.price_ctxv);
+            dateCtxv = view.findViewById(R.id.date_ctxv);
+            feltCtxv = view.findViewById(R.id.felt_ctxv);
+            beforeCallCtxv = view.findViewById(R.id.before_call_ctxv);
+            beforeEmotionImg = view.findViewById(R.id.before_emotion_img);
+            beforeFeelCtxv = view.findViewById(R.id.before_feel_ctxv);
+            afterCallCtxv = view.findViewById(R.id.after_call_ctxv);
+            afterEmotionImg = view.findViewById(R.id.after_emotion_img);
+            afterFeelCtxv = view.findViewById(R.id.after_feel_ctxv);
+            calltype_imv = view.findViewById(R.id.calltype_imv);
 
         }
     }
@@ -496,12 +493,12 @@ public class MySessionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         public MissedViewHolder(View view) {
             super(view);
-            topLlay = (LinearLayout) view.findViewById(R.id.top_llay);
-            userCimv = (CircleImageView) view.findViewById(R.id.user_cimv);
-            nameUserCtxv = (CustomFontTextView) view.findViewById(R.id.name_user_ctxv);
-            callTypeImg = (ImageView) view.findViewById(R.id.call_type_img);
-            missedCtxv = (CustomFontTextView) view.findViewById(R.id.missed_ctxv);
-            dateCtxv = (CustomFontTextView) view.findViewById(R.id.date_ctxv);
+            topLlay = view.findViewById(R.id.top_llay);
+            userCimv = view.findViewById(R.id.user_cimv);
+            nameUserCtxv = view.findViewById(R.id.name_user_ctxv);
+            callTypeImg = view.findViewById(R.id.call_type_img);
+            missedCtxv = view.findViewById(R.id.missed_ctxv);
+            dateCtxv = view.findViewById(R.id.date_ctxv);
 
         }
     }
@@ -517,12 +514,12 @@ public class MySessionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         public ServiceNotProvided(View view) {
             super(view);
-            topLlay = (LinearLayout) view.findViewById(R.id.top_llay);
-            userCimv = (CircleImageView) view.findViewById(R.id.user_cimv);
-            nameUserCtxv = (CustomFontTextView) view.findViewById(R.id.name_user_ctxv);
-            callTypeImg = (ImageView) view.findViewById(R.id.call_type_img);
-            missedCtxv = (CustomFontTextView) view.findViewById(R.id.missed_ctxv);
-            dateCtxv = (CustomFontTextView) view.findViewById(R.id.date_ctxv);
+            topLlay = view.findViewById(R.id.top_llay);
+            userCimv = view.findViewById(R.id.user_cimv);
+            nameUserCtxv = view.findViewById(R.id.name_user_ctxv);
+            callTypeImg = view.findViewById(R.id.call_type_img);
+            missedCtxv = view.findViewById(R.id.missed_ctxv);
+            dateCtxv = view.findViewById(R.id.date_ctxv);
 
         }
     }
