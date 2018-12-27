@@ -52,7 +52,7 @@ public class UtilityNetworkService extends IntentService {
     public static final String ACCOUNT_KEY = "xMeisck3BS_X6xbjYTQi";
     public static final String ACCOUNT_ID = "77234";
     public static final String TURN_SERVER = "turnserver.quickblox.com";*/
-    public static boolean isRelease = false;
+    public static boolean isRelease = true;
 
     /*public static final String  termOfUseUrl = "https://pacifyr.com/terms.html";
     public static final String  copyrightUrl = "https://pacifyr.com/copyright.html";
