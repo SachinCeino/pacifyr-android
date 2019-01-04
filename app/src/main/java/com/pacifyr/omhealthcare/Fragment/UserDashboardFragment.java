@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -83,7 +84,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
     private CustomFontTextView minutesCtxv;
     private SwipeRefreshLayout swipeRefreshLayout;
     private CustomFontTextView feel_err_text;
-
+    public String EmotionTitle="";
 
     public UserDashboardFragment() {
         // Required empty public constructor
@@ -128,18 +129,23 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
         lastSessionRlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("laaaaasstt1","l: "+lastSession);
-                if(isValid(lastSession))
-                { Log.i("laaaaasstt12","l: "+lastSession);
-                    LastSessionActivity.start(getActivity());}
-                else{
-                Log.i("laaaaasstt13","l: "+lastSession);
-                    ConnectToPacifyrActivity.start(getActivity());}
-              /*  FragmentManager fm=getActivity().getSupportFragmentManager();
-                FragmentTransaction ft=fm.beginTransaction();
-                LastSssionFragment fragment=new LastSssionFragment();
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.activity_main_content_fragment,fragment).commit();
-                //defSetText(titleTxv,"Dashboard");*/
+
+                try {
+                    if (isValid(lastSession)&&isValid(lastSession.getId()))
+                    {
+                        String sessionID = lastSession.getId();
+                        LastSessionActivity.start(getActivity(),sessionID);
+                    }
+                    else {
+                        ConnectToPacifyrActivity.start(getActivity());
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    ex.printStackTrace();
+                }
+
             }
         });
         feelRlay.setOnClickListener(new View.OnClickListener() {
@@ -243,10 +249,10 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
             handleActionCustomerDashboard();
 
             if (isValid(call_emotion)) {
-                feel_err_text.setVisibility(View.GONE);
+               // feel_err_text.setVisibility(View.GONE);
                 String emotionImg = GLOBAL_IMAGE_URL + call_emotion.getImage();
                 String emotionTitle = call_emotion.getTitle();
-
+                EmotionTitle=emotionTitle;
                 if (isValidhtml(emotionImg)) {
                     Picasso.with(getActivity()).load(emotionImg).into(feelImageDimv);
                     float brightness = (float) 100;
@@ -261,9 +267,15 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                     ColorMatrixColorFilter filter = new ColorMatrixColorFilter(colorMatrix);
                     feelImageDimv.setColorFilter(filter);
                     feelTitleCtxv.setText(emotionTitle);
+                    if(isValid(feel_err_text))
+                    {
+                        feel_err_text.setVisibility(View.GONE);
+
+                    }
+
                 }
             } else {
-                feel_err_text.setVisibility(View.VISIBLE);
+                //feel_err_text.setVisibility(View.VISIBLE);
             }
             getUnratedSessions();
             loginToQuickblox();
@@ -364,6 +376,18 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
             String emotionImg = null;
             String emotionTitle = null;
 
+            if (isValid(feelTitleCtxv))
+            {
+                if (EmotionTitle.equals(""))
+                {
+                    if(isValid(feel_err_text))
+                    {feel_err_text.setVisibility(View.VISIBLE);
+                        defSetText(feel_err_text,"Please select an emotion");
+                    }
+                }
+
+            }
+
             if (isValid(modelCustomerDashboard2)) {
                 final MUser pfc[] = modelCustomerDashboard2.getPreferredPacifyrs();
                 ModelCustomerDashboard2.ThisWeekStatistics lastWeek = modelCustomerDashboard2.getThisWeekStatistics();
@@ -371,9 +395,10 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                 if(isValid(modelCustomerDashboard2.getUser().getEmotion())){
                     emotionImg =   GLOBAL_IMAGE_URL+modelCustomerDashboard2.getUser().getEmotion().getImage();
                     emotionTitle = modelCustomerDashboard2.getUser().getEmotion().getTitle();
+                    EmotionTitle=emotionTitle;
 
                     if(isValidhtml(emotionImg)){
-                        feel_err_text.setVisibility(View.GONE);
+                       // feel_err_text.setVisibility(View.GONE);
                         Picasso.with(getActivity()).load(emotionImg).into(feelImageDimv);
 
                         float brightness = (float)100;
@@ -391,8 +416,13 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                         feelImageDimv.setColorFilter(filter);
 
                         feelTitleCtxv.setText(emotionTitle);
+                        if(isValid(feel_err_text))
+                        {
+                            feel_err_text.setVisibility(View.GONE);
+
+                        }
                     } else {
-                        feel_err_text.setVisibility(View.VISIBLE);
+                      //  feel_err_text.setVisibility(View.VISIBLE);
                     }
                 }
 

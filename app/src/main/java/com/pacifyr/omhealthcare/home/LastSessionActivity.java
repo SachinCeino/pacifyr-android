@@ -178,6 +178,7 @@ public class LastSessionActivity   extends PacifyrAppCompactActivity {
         Intent intent = new Intent(context, LastSessionActivity.class);
         //  intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         // intent.putExtra(Consts.EXTRA_IS_STARTED_FOR_CALL, isRunForCall);
+        intent.putExtra("id", sessionID);
         LastSessionActivity.isAudioCall=true;
         mysessions=true;
         sessionid=sessionID;
@@ -201,16 +202,22 @@ public class LastSessionActivity   extends PacifyrAppCompactActivity {
         super.onCreate(savedInstanceState);
 
 
-        if (!isValid(lastSession,"Please check later")) {
+       /* if (!isValid(lastSession,"Please check later")) {
           // handlerFinish("Error in last session ");
             handlerFinish("No sessions yet, Connect to Pacifyr");
         }
-        else {
-            if(mysessions==true){
+        else {*/
+           /* if(mysessions==true){
                 //Log.i("sesssionid1","s:  "+sessionid);
-            }
-            else {
-            sessionid = lastSession.getId();}
+            }*/
+           /* else {
+            sessionid = lastSession.getId();}*/
+
+        if(isValid(getIntent().getExtras().getString("id")))
+        {
+            sessionid = getIntent().getExtras().getString("id")+"";
+        }
+
             ratingId = null;
             LogUtils.LOGD("session", " LSa onCreate sessionid " + sessionid);
             if(!isValid(sessionid, "Please check later")) {
@@ -237,7 +244,7 @@ public class LastSessionActivity   extends PacifyrAppCompactActivity {
                 handlerFinish("Data not updated in last session ");
                 // finish();
             }
-        }
+       /* }*/
 
     }
 

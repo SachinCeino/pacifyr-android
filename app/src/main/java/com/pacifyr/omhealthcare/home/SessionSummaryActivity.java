@@ -182,6 +182,7 @@ public class SessionSummaryActivity  extends PacifyrAppCompactActivity{
         isEditable = false;
         SessionSummaryActivity.isAudioCall=true;
         sessionid = sId;
+        intent.putExtra("id", sId);
         context.startActivity(intent);
     }
 
@@ -209,6 +210,14 @@ public class SessionSummaryActivity  extends PacifyrAppCompactActivity{
             finish();
         }
         isCustomer=isCustomer();
+        if(isValid(getIntent().getExtras().getString("id")))
+        {
+          String id = getIntent().getExtras().getString("id")+"";
+          if (isValid(id))
+          {
+              sessionid=id;
+          }
+        }
 
         if(!isValid(sessionid,"Session id null "))
             handlerFinish("Network Interrupted");

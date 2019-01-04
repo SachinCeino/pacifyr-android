@@ -216,49 +216,72 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                button2.setBackgroundResource(R.drawable.circle_click_btn);
-                button1.setBackgroundResource(R.drawable.circle_button);
-                button3.setBackgroundResource(R.drawable.circle_button);
-                button4.setBackgroundResource(R.drawable.circle_button);
-                button1.setClickable(true);
-                button3.setClickable(false);
-                button4.setClickable(false);
-                selectFeelingRlay.setVisibility(View.GONE);
-                selectEmotionRlay.setVisibility(View.VISIBLE);
-                selectEmotionDetailRlay.setVisibility(View.GONE);
-                listPacifyrRlay.setVisibility(View.GONE);
+                if(selectEmotionRlay.getVisibility()==View.VISIBLE)
+                {
+                    button2.setBackgroundResource(R.drawable.circle_click_btn);
+                    button1.setBackgroundResource(R.drawable.circle_button);
+                    button3.setBackgroundResource(R.drawable.circle_button);
+                    button4.setBackgroundResource(R.drawable.circle_button);
+                    button1.setClickable(true);
+                    button3.setClickable(false);
+                    button4.setClickable(false);
+                    selectFeelingRlay.setVisibility(View.GONE);
+                    selectEmotionRlay.setVisibility(View.VISIBLE);
+                    selectEmotionDetailRlay.setVisibility(View.GONE);
+                    listPacifyrRlay.setVisibility(View.GONE);
+                }
+                else {
+                    Toast.makeText(v.getContext(), "Please select option", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
         button3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                button3.setBackgroundResource(R.drawable.circle_click_btn);
-                button2.setBackgroundResource(R.drawable.circle_button);
-                button1.setBackgroundResource(R.drawable.circle_button);
-                button4.setBackgroundResource(R.drawable.circle_button);
-                button4.setClickable(false);
-                button1.setClickable(true);
-                button2.setClickable(true);
-                selectFeelingRlay.setVisibility(View.GONE);
-                selectEmotionRlay.setVisibility(View.GONE);
-                selectEmotionDetailRlay.setVisibility(View.VISIBLE);
-                listPacifyrRlay.setVisibility(View.GONE);
+                if (selectEmotionDetailRlay.getVisibility()==View.VISIBLE)
+                {
+                    button3.setBackgroundResource(R.drawable.circle_click_btn);
+                    button2.setBackgroundResource(R.drawable.circle_button);
+                    button1.setBackgroundResource(R.drawable.circle_button);
+                    button4.setBackgroundResource(R.drawable.circle_button);
+                    button4.setClickable(false);
+                    button1.setClickable(true);
+                    button2.setClickable(true);
+                    selectFeelingRlay.setVisibility(View.GONE);
+                    selectEmotionRlay.setVisibility(View.GONE);
+                    selectEmotionDetailRlay.setVisibility(View.VISIBLE);
+                    listPacifyrRlay.setVisibility(View.GONE);
+                }
+                else
+                {
+                    Toast.makeText(v.getContext(), "No emotion selected", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
         button4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                button4.setBackgroundResource(R.drawable.circle_click_btn);
-                button2.setBackgroundResource(R.drawable.circle_button);
-                button3.setBackgroundResource(R.drawable.circle_button);
-                button1.setBackgroundResource(R.drawable.circle_button);
-                button1.setClickable(true);
-                button2.setClickable(true);
-                button3.setClickable(true);
-                selectFeelingRlay.setVisibility(View.GONE);
-                selectEmotionRlay.setVisibility(View.GONE);
-                selectEmotionDetailRlay.setVisibility(View.GONE);
-                listPacifyrRlay.setVisibility(View.VISIBLE);
+                if (listPacifyrRlay.getVisibility()==View.VISIBLE)
+                {
+                    button4.setBackgroundResource(R.drawable.circle_click_btn);
+                    button2.setBackgroundResource(R.drawable.circle_button);
+                    button3.setBackgroundResource(R.drawable.circle_button);
+                    button1.setBackgroundResource(R.drawable.circle_button);
+                    button1.setClickable(true);
+                    button2.setClickable(true);
+                    button3.setClickable(true);
+                    selectFeelingRlay.setVisibility(View.GONE);
+                    selectEmotionRlay.setVisibility(View.GONE);
+                    selectEmotionDetailRlay.setVisibility(View.GONE);
+                    listPacifyrRlay.setVisibility(View.VISIBLE);
+                }
+                else
+                {
+                    Toast.makeText(v.getContext(), "Select any option", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
 

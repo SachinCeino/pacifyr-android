@@ -66,6 +66,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:gravity="center"
+                android:visibility="gone"
                 android:text="Please select an emotion"
                 android:textColor="@color/white"
                 android:textSize="15sp"
