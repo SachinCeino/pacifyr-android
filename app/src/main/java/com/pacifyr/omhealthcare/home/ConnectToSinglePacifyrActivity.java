@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
@@ -237,6 +238,7 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(selectEmotionRlay.getVisibility()==View.VISIBLE) {
                 button2.setBackgroundResource(R.drawable.circle_click_btn);
                 button1.setBackgroundResource(R.drawable.circle_button);
                 button3.setBackgroundResource(R.drawable.circle_button);
@@ -249,11 +251,17 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
                 selectEmotionRlay.setVisibility(View.VISIBLE);
                 selectEmotionDetailRlay.setVisibility(View.GONE);
                 listPacifyrRlay.setVisibility(View.GONE);
+                }
+                else {
+                    Toast.makeText(v.getContext(), "Please select option", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         button3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (selectEmotionDetailRlay.getVisibility()==View.VISIBLE)
+                {
                 button3.setBackgroundResource(R.drawable.circle_click_btn);
                 button2.setBackgroundResource(R.drawable.circle_button);
                 button1.setBackgroundResource(R.drawable.circle_button);
@@ -265,11 +273,18 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
                 selectEmotionRlay.setVisibility(View.GONE);
                 selectEmotionDetailRlay.setVisibility(View.VISIBLE);
                 listPacifyrRlay.setVisibility(View.GONE);
+                }
+                else
+                {
+                    Toast.makeText(v.getContext(), "No emotion selected", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         button4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (listPacifyrRlay.getVisibility()==View.VISIBLE)
+                {
                 button4.setBackgroundResource(R.drawable.circle_click_btn);
                 button2.setBackgroundResource(R.drawable.circle_button);
                 button3.setBackgroundResource(R.drawable.circle_button);
@@ -281,6 +296,11 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
                 selectEmotionRlay.setVisibility(View.GONE);
                 selectEmotionDetailRlay.setVisibility(View.GONE);
                 listPacifyrRlay.setVisibility(View.VISIBLE);
+                }
+                else
+                {
+                    Toast.makeText(v.getContext(), "Select any option", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

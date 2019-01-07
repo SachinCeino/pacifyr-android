@@ -41,6 +41,8 @@
                 android:text=""
                 android:textSize="17sp"
                 android:textStyle="bold"
+                android:maxLength="12"
+                android:ellipsize="end"
                 android:textColor="@color/blue_text_dark"
                 android:id="@+id/name_user_ctxv"/>
 
