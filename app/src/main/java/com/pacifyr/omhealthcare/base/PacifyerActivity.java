@@ -804,6 +804,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
         newQbRtcSession.startCall(userInfo);
 
 
+
         // WebRtcSessionManager.getInstance(this).getCurrentSession().startCall(userInfo);
         new Handler().postDelayed(new Runnable()
         {
@@ -818,7 +819,8 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
         //convertModel()
 
         CallActivity.mPacifyr = pacifyer;
-
+        /** Sending Notificarion to the IOS App to get Out side Call Notification **/
+        new NetworkService().sendCallNotificationToIOSDevices(qbID,getUserName());
         CallActivity.start(this, false);
         Log.d("jp", "conferenceType = " + conferenceType);
     }
@@ -2078,6 +2080,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
         try {
             PrefManager prefManager = PrefManager.getInstance(PacifyerActivity.this);
             String customerRole = prefManager.getCustomerRole();
+
             if(customerRole.equals("customer")){
                 callRequestWeb(pacifyerDetial, listner, isVideoCall);
             }else if(customerRole.equals("employee")||customerRole.equals("unpaidEmployee")){

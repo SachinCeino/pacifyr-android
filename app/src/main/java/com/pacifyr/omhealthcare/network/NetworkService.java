@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.androidquery.AQuery;
@@ -56,6 +57,13 @@ import com.pacifyr.omhealthcare.model.ItemData;
 import com.pacifyr.omhealthcare.model.MCustomerList;
 import com.pacifyr.omhealthcare.utility.EventMessage;
 import com.pacifyr.omhealthcare.utils.LogUtils;
+import com.quickblox.core.QBEntityCallback;
+import com.quickblox.core.exception.QBResponseException;
+import com.quickblox.core.helper.StringifyArrayList;
+import com.quickblox.messages.QBPushNotifications;
+import com.quickblox.messages.model.QBEnvironment;
+import com.quickblox.messages.model.QBEvent;
+import com.quickblox.messages.model.QBNotificationType;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONArray;
@@ -1106,6 +1114,52 @@ public class NetworkService  extends IntentService {
             JSONObject params = new JSONObject();
             params.putOpt("code", code);
             aq.post(url, params, JSONObject.class, cb);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public void sendCallNotificationToIOSDevices(long toUserId, String recepientName) {
+        try {
+
+
+            StringifyArrayList<Integer> userIds = new StringifyArrayList<Integer>();
+            userIds.add(Integer.valueOf((int) toUserId));
+
+            QBEvent event = new QBEvent();
+            event.setUserIds(userIds);
+            event.setEnvironment(QBEnvironment.DEVELOPMENT);
+            event.setNotificationType(QBNotificationType.PUSH);
+
+            JSONObject json = new JSONObject();
+            try {
+                json.put("message", recepientName+" is calling you.");
+                // custom parameters
+                json.put("ios_voip", "1");
+                json.put("VOIPCall","1");
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            event.setMessage(json.toString());
+
+
+            QBPushNotifications.createEvent(event).performAsync(new QBEntityCallback<QBEvent>() {
+                @Override
+                public void onSuccess(QBEvent qbEvent, Bundle args) {
+                    // sent
+                    Log.w("QQQQQQ","onSuccess");
+                }
+
+                @Override
+                public void onError(QBResponseException errors) {
+                    Log.w("QQQQQQ","onError");
+                }
+            });
+
 
         } catch (Exception e) {
             e.printStackTrace();
