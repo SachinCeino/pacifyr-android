@@ -73,6 +73,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import static com.ceino.utilitylibrary.network.UtilityNetworkService.CIRTIFICATE_KEY;
+
 /**
  * Created by ceino on 27/6/17.
  */
@@ -1130,7 +1132,14 @@ public class NetworkService  extends IntentService {
 
             QBEvent event = new QBEvent();
             event.setUserIds(userIds);
-            event.setEnvironment(QBEnvironment.DEVELOPMENT);
+            if (CIRTIFICATE_KEY.equals(QBEnvironment.DEVELOPMENT))
+            {
+                event.setEnvironment(QBEnvironment.DEVELOPMENT);
+            }
+            else {
+                event.setEnvironment(QBEnvironment.PRODUCTION);
+            }
+
             event.setNotificationType(QBNotificationType.PUSH);
 
             JSONObject json = new JSONObject();
