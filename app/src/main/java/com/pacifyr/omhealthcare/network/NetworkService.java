@@ -1123,7 +1123,7 @@ public class NetworkService  extends IntentService {
     }
 
 
-    public void sendCallNotificationToIOSDevices(long toUserId, String recepientName) {
+    public void sendCallNotificationToIOSDevices(String sessionID,long toUserId, String recepientName) {
         try {
 
 
@@ -1148,6 +1148,11 @@ public class NetworkService  extends IntentService {
                 // custom parameters
                 json.put("ios_voip", "1");
                 json.put("VOIPCall","1");
+                if (isValid(sessionID))
+                {
+                    json.put("id",sessionID);
+                }
+
 
             } catch (Exception e) {
                 e.printStackTrace();

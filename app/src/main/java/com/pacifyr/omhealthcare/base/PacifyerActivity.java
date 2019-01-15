@@ -820,7 +820,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
 
         CallActivity.mPacifyr = pacifyer;
         /** Sending Notificarion to the IOS App to get Out side Call Notification **/
-    new NetworkService().sendCallNotificationToIOSDevices(qbID,getUserName());
+    new NetworkService().sendCallNotificationToIOSDevices(sessionid,qbID,getUserName());
         CallActivity.start(this, false);
         Log.d("jp", "conferenceType = " + conferenceType);
     }
