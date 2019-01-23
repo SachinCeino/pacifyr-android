@@ -25,6 +25,7 @@ import com.ceino.utilitylibrary.CustomFontTextView;
 import com.ceino.utilitylibrary.DeviceFitImageView;
 import com.ceino.utilitylibrary.model.pacifyr.MListNegativeEmotions;
 import com.ceino.utilitylibrary.model.pacifyr.MListPositiveEmotions;
+import com.ceino.utilitylibrary.model.pacifyr.RespSearchPacifyrWOption;
 import com.ceino.utilitylibrary.utils.PrefManager;
 import com.daprlabs.cardstack.SwipeDeck;
 import com.pacifyr.omhealthcare.R;
@@ -55,6 +56,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import static com.pacifyr.omhealthcare.network.NetworkService.GLOBAL_URL;
 import static com.pacifyr.omhealthcare.network.NetworkService.pSearchPacifyrWOptionsResponse;
@@ -133,6 +136,11 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
         activity.startActivity(intent);
         activity.finish();
     }
+
+    private Timer trackTimer_check_online;
+    private TimerTask trackTimerTask_check_online;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -285,6 +293,9 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
             }
         });
 
+
+
+
         sadDimv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -391,11 +402,13 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
             @Override
             public void cardSwipedLeft(int position) {
                 Log.i("MainActivity", "card was swiped left, position in adapter: " + position);
+
             }
 
             @Override
             public void cardSwipedRight(int position) {
                 Log.i("MainActivity", "card was swiped right, position in adapter: " + position);
+
             }
 
 
@@ -415,6 +428,25 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
 
             }
         });
+
+        /**
+         * here we are checking the pacifyrs are status online or offline  **/
+        trackTimer_check_online = new Timer();
+        trackTimerTask_check_online = new TimerTask() {
+            @Override
+            public void run() {
+
+
+                if (listPacifyrRlay.getVisibility()==View.VISIBLE)
+                {
+                            checkOnLineOrOffline();
+
+                }
+
+            }
+        };
+        trackTimer_check_online.scheduleAtFixedRate(trackTimerTask_check_online, 0, 10000);
+
 
 
 
@@ -852,6 +884,10 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
 
     }
 
+    private void checkOnLineOrOffline() {
+
+        webSearchPacifyrWOptions(customerEmotion);
+    }
 
 
     @Override
@@ -901,5 +937,20 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
         {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        trackTimer_check_online.cancel();
+        trackTimerTask_check_online.cancel();
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        trackTimer_check_online.cancel();
+        trackTimerTask_check_online.cancel();
     }
 }
