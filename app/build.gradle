@@ -237,7 +237,8 @@ dependencies {
 //    implementation "com.androidplot:afandroid.support.customtabsndroidplot-core:1.5.3"
 
 
-
+/**App Auto Update Library**/
+    implementation 'com.github.javiersantos:AppUpdater:2.7'
 
 }
 apply plugin: 'com.google.gms.google-services'

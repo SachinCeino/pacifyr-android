@@ -23,6 +23,7 @@ import com.ceino.utilitylibrary.DeviceFitImageView;
 import com.ceino.utilitylibrary.WrappingSlidingPaneLayout;
 import com.ceino.utilitylibrary.model.pacifyr.MUser;
 import com.ceino.utilitylibrary.utils.PrefManager;
+import com.github.javiersantos.appupdater.AppUpdater;
 import com.pacifyr.omhealthcare.Fragment.MySessionFragment;
 import com.pacifyr.omhealthcare.Fragment.ResourcesFragment;
 import com.pacifyr.omhealthcare.Fragment.SupportFragment;
@@ -122,6 +123,20 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
         activity.finish();
     }
 
+
+    AppUpdater appUpdater;
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (isValid(appUpdater))
+        {
+            appUpdater.stop();
+        }
+
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -132,6 +147,9 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
         hideKeyboard();
         context = DashboardActivity.this;
         //    permissionCheck();
+        /**the library will work in background for checking new update available or not**/
+        appUpdater = new AppUpdater(this);
+        appUpdater.start();
 
         connectToPacifyr = findViewById(R.id.connect_pacifyr_llay);
         leftPane = findViewById(R.id.left_pane);
