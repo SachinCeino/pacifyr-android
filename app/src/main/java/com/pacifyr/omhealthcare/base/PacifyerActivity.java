@@ -768,13 +768,15 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
     }
 
     public void startCall(boolean isVideoCall,final MUser pacifyer, long  qbID,String oppentid,String idsession) {
-        sessionid = idsession;
-        /*if (opponentsAdapter.getSelectedItems().size() > Consts.MAX_OPPONENTS_COUNT) {
-            Toaster.longToast(String.format(getString(R.string.error_max_opponents_count),
-                    Consts.MAX_OPPONENTS_COUNT));
-            return;
-        }*/
+        if (isValid(pacifyer.getForwardToPacifyrId())&& isValid(pacifyer.getForwardToPacifyr()))
+        {
+            if (isValid(pacifyer.getForwardToPacifyr().getQbid()))
+            {
+                qbID=pacifyer.getForwardToPacifyr().getQbid();
+            }
 
+        }
+        sessionid=idsession;
         Log.d("call", "startCall sessionid"+sessionid);
         final ArrayList<Integer> opponentsList = new ArrayList<Integer>();
         opponentsList.add((int) qbID);

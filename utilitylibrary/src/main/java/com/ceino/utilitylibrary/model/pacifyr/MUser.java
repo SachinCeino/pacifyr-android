@@ -2,7 +2,10 @@ package com.ceino.utilitylibrary.model.pacifyr;
 
 import com.ceino.utilitylibrary.model.pacifyr.ModelUserProfile;
 import com.ceino.utilitylibrary.network.UtilityNetworkService;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -10,7 +13,7 @@ import java.util.Arrays;
  * Created by Mani-Ceino on 12/14/2017.
  */
 
-public class MUser {
+public class MUser implements Serializable{
 
 
         private String dateOfBirth;
@@ -105,6 +108,31 @@ public class MUser {
         private String rating;
 
         private String reasonForTheCall;
+
+    @SerializedName("forwardToPacifyrId")
+    @Expose
+    private String forwardToPacifyrId;
+
+    @SerializedName("forwardToPacifyr")
+    @Expose
+    private MUser forwardToPacifyr;
+
+    public String getForwardToPacifyrId() {
+        return forwardToPacifyrId;
+    }
+
+    public void setForwardToPacifyrId(String forwardToPacifyrId) {
+        this.forwardToPacifyrId = forwardToPacifyrId;
+    }
+
+    public MUser getForwardToPacifyr() {
+        return forwardToPacifyr;
+    }
+
+    public void setForwardToPacifyr(MUser forwardToPacifyr) {
+        this.forwardToPacifyr = forwardToPacifyr;
+    }
+
         public String getReasonForTheCall ()
     {
         return reasonForTheCall;
