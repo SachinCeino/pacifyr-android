@@ -663,6 +663,10 @@ public class MUser implements Serializable{
     }
 
     public String getPriceForChat() {
+        if (priceForChat==null)
+        {
+            priceForChat="0";
+        }
         return priceForChat;
     }
 

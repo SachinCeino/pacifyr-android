@@ -179,7 +179,7 @@ public class ActivityChngEmotionFromCall extends PacifyrAppCompactActivity {
             rightLlay.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(ActivityChngEmotionFromCall.this, "Done", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(ActivityChngEmotionFromCall.this, "Done", Toast.LENGTH_SHORT).show();
                 }
             });
 

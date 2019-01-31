@@ -495,6 +495,7 @@ public class ChatActivity extends PacifyrAppCompactActivity implements OnImagePi
         ChatHelper.getInstance().getUsersFromDialog(qbChatDialog, new QBEntityCallback<ArrayList<QBUser>>() {
             @Override
             public void onSuccess(ArrayList<QBUser> users, Bundle bundle) {
+                Log.w("QQQQ",String.valueOf(users));
                 setChatNameToActionBar();
                 opponentIds = getOpponents(users);
                 loadChatHistory();
@@ -517,8 +518,16 @@ public class ChatActivity extends PacifyrAppCompactActivity implements OnImagePi
         ArrayList<String> oppIds = new ArrayList<>();
         if (users != null && users.size() > 0) {
             for (int i = 0; i < users.size(); i++) {
-                if (myUserId != null && !users.get(i).getLogin().equals(myUserId)) {
-                    oppIds.add(users.get(i).getLogin());
+
+                try {
+                    if (myUserId != null && !users.get(i).getLogin().equals(myUserId)) {
+                        oppIds.add(users.get(i).getLogin());
+                    }
+
+                }
+                catch (Exception e)
+                {
+                    Log.w("QQQQ",String.valueOf(e)+"Position"+String.valueOf(i));
                 }
             }
         }

@@ -183,6 +183,7 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
         showallLlay = findViewById(R.id.showall_llay);
         showallCtxv = findViewById(R.id.showall_ctxv);
         topRlay = findViewById(R.id.top_rlay);
+        morePacifyrsRlay.setVisibility(View.GONE);
 
         topRlay.bringToFront();
 
@@ -829,6 +830,7 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
                         //searchResults=modelSearchPacifyr.getResultsList();
                         pSearchPacifyrWOptionsResponse.toString();
                         setAdapterSearchOption();
+                        morePacifyrsRlay.setVisibility(View.VISIBLE);
                     } catch (Exception e) {
                         e.printStackTrace();//RespSearchPacifyrWOption
                     }
@@ -952,5 +954,13 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
         super.onDestroy();
         trackTimer_check_online.cancel();
         trackTimerTask_check_online.cancel();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (morePacifyrsRlay!=null)
+        {morePacifyrsRlay.setVisibility(View.GONE);}
+
     }
 }

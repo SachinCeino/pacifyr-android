@@ -345,7 +345,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical"
             android:layout_below="@+id/showall_llay"
             android:layout_margin="5dp"
@@ -358,17 +358,16 @@
 
             </android.support.v7.widget.RecyclerView>
 
-
-            <com.daprlabs.cardstack.SwipeDeck
-                android:id="@+id/swipe_deck"
-                android:layout_width="match_parent"
-                android:layout_height="270dp"
-                android:padding="5dp"
-                android:visibility="gone"
-                swipedeck:card_spacing="5dp"
-                swipedeck:max_visible="3"
-                swipedeck:render_above="true"
-                swipedeck:rotation_degrees="15" />
+               <com.daprlabs.cardstack.SwipeDeck
+                   android:id="@+id/swipe_deck"
+                   android:layout_width="match_parent"
+                   android:layout_height="350dp"
+                   android:padding="5dp"
+                   android:visibility="gone"
+                   swipedeck:card_spacing="5dp"
+                   swipedeck:max_visible="3"
+                   swipedeck:render_above="true"
+                   swipedeck:rotation_degrees="15" />
 
             <com.ceino.utilitylibrary.CustomFontTextView
                 android:layout_width="wrap_content"
@@ -381,26 +380,32 @@
                 android:gravity="center"
                 android:text="@string/no_pacifyr"/>
 
-            <RelativeLayout
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:id="@+id/more_pacifyrs_rlay"
-                android:layout_marginTop="5dp"
-                android:layout_centerInParent="true">
 
-                <com.ceino.utilitylibrary.CustomFontTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="15sp"
-                    android:padding="10dp"
-                    android:textColor="@color/white"
-                    android:background="@drawable/blue_round_square"
-                    android:text="@string/more_wellness_experts"/>
-
-            </RelativeLayout>
 
         </LinearLayout>
 
     </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/more_pacifyrs_rlay"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone"
+        android:layout_marginBottom="25dp">
+        <com.ceino.utilitylibrary.CustomFontTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/blue_round_square"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="@string/more_wellness_experts"
+            android:textColor="@color/white"
+            android:textSize="15sp" />
+
+    </RelativeLayout>
+
 
 </RelativeLayout>
