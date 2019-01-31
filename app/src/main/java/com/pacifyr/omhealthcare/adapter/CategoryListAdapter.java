@@ -48,6 +48,7 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
             this.specalArray[position].setSelect(true);
             notifyDataSetChanged();
             customerEmotion = this.specalArray[position].getTitle();
+            ConnectToPacifyrActivity.customerEmotion = this.specalArray[position].getTitle();
             if (categorySelectListener != null) {
                 categorySelectListener.OnEmotionClickkListener();
             }

@@ -25,7 +25,6 @@ import com.ceino.utilitylibrary.CustomFontTextView;
 import com.ceino.utilitylibrary.DeviceFitImageView;
 import com.ceino.utilitylibrary.model.pacifyr.MListNegativeEmotions;
 import com.ceino.utilitylibrary.model.pacifyr.MListPositiveEmotions;
-import com.ceino.utilitylibrary.model.pacifyr.RespSearchPacifyrWOption;
 import com.ceino.utilitylibrary.utils.PrefManager;
 import com.daprlabs.cardstack.SwipeDeck;
 import com.pacifyr.omhealthcare.R;
@@ -105,6 +104,7 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
     public static String customerEmotion;
     private boolean showAllFlag;
     private CategoryListAdapter categoryListAdapter;
+    private boolean selfSelectCategory = false;
 
     public static void start(Context context) {
         EmotionSpecialityAdapter.reason_forcall=null;
@@ -365,7 +365,7 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
                 if(isValid(PacifyerActivity.call_emotion)){
                     //ToastHandler.newInstance(ConnectToPacifyrActivity.this).showToast(PacifyerActivity.call_emotion.getTitle());
                 }
-                ListPacifyrScreenActivity.start(ConnectToPacifyrActivity.this, true);
+                ListPacifyrScreenActivity.start(ConnectToPacifyrActivity.this, ConnectToPacifyrActivity.customerEmotion);
             }
         });
 
@@ -831,6 +831,14 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
                         pSearchPacifyrWOptionsResponse.toString();
                         setAdapterSearchOption();
                         morePacifyrsRlay.setVisibility(View.VISIBLE);
+                        try {
+                            if (adapter != null && adapter.getCount() == 0 && !selfSelectCategory) {
+                                selfSelectCategory = true;
+                                ((CategoryListAdapter) imgRcv.getAdapter()).setSelected(0);
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     } catch (Exception e) {
                         e.printStackTrace();//RespSearchPacifyrWOption
                     }

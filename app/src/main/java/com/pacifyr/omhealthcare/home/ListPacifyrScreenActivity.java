@@ -94,7 +94,7 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
 
         }
     };
-    private boolean emoSelected;
+    private String emoSelected;
     private SpecialistAdapter specialistAdapter;
 
     public CheckBox getShowallCbox() {
@@ -122,6 +122,11 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
 
     }
 
+    public static void start(Context context, String emoSelected) {
+        Intent intent = new Intent(context, ListPacifyrScreenActivity.class);
+        intent.putExtra("emo_selected", emoSelected);
+        context.startActivity(intent);
+    }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void messageEventFromService(EventMessage event) {
@@ -136,7 +141,7 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
 
                 setAdapterSpecial();
                 if (modelSpecialist != null && modelSpecialist.getResultsList() != null &&
-                        modelSpecialist.getResultsList().size() > 0) {
+                        modelSpecialist.getResultsList().size() > 0 && emoSelected == null) {
                     customerEmotion = modelSpecialist.getResultsList().get(0).getTitle();
                 }
                 webSearchPacifyrWOptions(customerEmotion);
@@ -144,12 +149,6 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-    }
-
-    public static void start(Context context, boolean emoSelected) {
-        Intent intent = new Intent(context, ListPacifyrScreenActivity.class);
-        intent.putExtra("emo_selected", emoSelected);
-        context.startActivity(intent);
     }
 
     private void setAdapterSpecial() {
@@ -163,7 +162,24 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
                     specialistAdapter = new SpecialistAdapter(modelSpecialist.getResultsList(), ListPacifyrScreenActivity.this);
                     recyclerView.setAdapter(specialistAdapter);
                     specialistAdapter.addListener(ListPacifyrScreenActivity.this);
-                    specialistAdapter.setSelected(0);
+                    if (emoSelected != null) {
+                        int emoPosition = -1;
+                        for (int i = 0; i < modelSpecialist.getResultsList().size(); i++) {
+                            if (modelSpecialist.getResultsList().get(i).getTitle() != null
+                                    && modelSpecialist.getResultsList().get(i).getTitle().equalsIgnoreCase(emoSelected)) {
+                                emoPosition = i;
+                                break;
+                            }
+                        }
+                        if (emoPosition > -1 && emoPosition < specialistAdapter.getItemCount()) {
+                            specialistAdapter.setSelected(emoPosition);
+                            recyclerView.scrollToPosition(emoPosition);
+                        } else {
+                            specialistAdapter.setSelected(0);
+                        }
+                    } else {
+                        specialistAdapter.setSelected(0);
+                    }
                 }
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -183,7 +199,7 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
         showProgress();
         NetworkService.startActionSpecialist(this);
         if (getIntent().getExtras() != null && getIntent().getExtras().containsKey("emo_selected")) {
-            emoSelected = getIntent().getExtras().getBoolean("emo_selected");
+            emoSelected = getIntent().getExtras().getString("emo_selected");
         }
 
 
@@ -278,7 +294,7 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
             list = pSearchPacifyrWOptionsResponse.getResultsList();
             if(isValid(list)) {
                 noPacifyrCtxv.setVisibility(View.GONE);
-                adapter = new SwipeDeckBrowsePacifyerAdapter(list, ListPacifyrScreenActivity.this, emoSelected);
+                adapter = new SwipeDeckBrowsePacifyerAdapter(list, ListPacifyrScreenActivity.this, emoSelected != null);
                 cardStack.setAdapter(adapter);
                 cardStack.setVisibility(View.VISIBLE);
             }else {
