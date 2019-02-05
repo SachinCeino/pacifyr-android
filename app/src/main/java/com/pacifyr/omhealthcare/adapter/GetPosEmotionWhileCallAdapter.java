@@ -257,6 +257,12 @@ public class GetPosEmotionWhileCallAdapter extends RecyclerView.Adapter<GetPosEm
 
 
     }*/
+   public void setSelected(int position) {
+       if (this.list != null && this.list.size() > 0) {
+           this.list.get(position).setSelect(true);
+           notifyDataSetChanged();
+       }
 
+   }
 
 }

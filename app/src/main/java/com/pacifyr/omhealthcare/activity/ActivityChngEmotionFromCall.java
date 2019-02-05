@@ -3,6 +3,7 @@ package com.pacifyr.omhealthcare.activity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -45,7 +46,7 @@ public class ActivityChngEmotionFromCall extends PacifyrAppCompactActivity {
     private LinearLayout rightLlay;
     private CustomFontTextView rightTxv;
     private DeviceFitImageView rightImv;
-
+    private String current_emotion;
     @Override
     protected void onStart() {
         super.onStart();
@@ -63,7 +64,10 @@ public class ActivityChngEmotionFromCall extends PacifyrAppCompactActivity {
         mNegativeRcv = findViewById(R.id.negative_emotions_rcv);
         mPositiveRcv = findViewById(R.id.positive_emotions_rcv);
         prefM = PrefManager.getInstance(getApplicationContext());
-
+        if(isValid(getIntent().getExtras().get("emotion")))
+        {
+            current_emotion=getIntent().getExtras().get("emotion").toString();
+        }
         onSetActionBar();
         setNegativeAdapter();
         setPositiveAdapter();
@@ -103,6 +107,18 @@ public class ActivityChngEmotionFromCall extends PacifyrAppCompactActivity {
                     mNegativeRcv.setLayoutManager(new GridLayoutManager(getApplicationContext(), 6));
                     if (modelListNegEmotions != null && modelListNegEmotions.getResultsList() != null && modelListNegEmotions.getResultsList().size() > 0) {
                         mNegativeRcv.setAdapter(new GetNegEmotionsWhileCallAdapter(ActivityChngEmotionFromCall.this, modelListNegEmotions.getResultsList()));
+
+                        if (isValid(current_emotion))
+                        {
+                            for (int i=0;i<modelListPosEmotions.getResultsList().size();i++)
+                            {
+                                if (modelListNegEmotions.getResultsList().get(i).getTitle().equals(current_emotion))
+                                {
+                                    Log.w("QQQ",modelListNegEmotions.getResultsList().get(i).getTitle()+":"+current_emotion);
+                                    ((GetNegEmotionsWhileCallAdapter)mNegativeRcv.getAdapter()).setSelected(i);
+                                }
+                            }
+                        }
                     }
 
                 } catch (Exception e) {
@@ -133,7 +149,18 @@ public class ActivityChngEmotionFromCall extends PacifyrAppCompactActivity {
                         mPositiveRcv.setAdapter(new GetPosEmotionWhileCallAdapter(ActivityChngEmotionFromCall.this, modelListPosEmotions.getResultsList()));
                     }
 
+                    if (isValid(current_emotion))
+                    {
+                        for (int i=0;i<modelListPosEmotions.getResultsList().size();i++)
+                        {
+                            if (modelListPosEmotions.getResultsList().get(i).getTitle().equals(current_emotion))
+                            {
+                                Log.w("QQQ",modelListPosEmotions.getResultsList().get(i).getTitle()+":"+current_emotion);
+                                ((GetPosEmotionWhileCallAdapter)mPositiveRcv.getAdapter()).setSelected(i);
+                            }
 
+                        }
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

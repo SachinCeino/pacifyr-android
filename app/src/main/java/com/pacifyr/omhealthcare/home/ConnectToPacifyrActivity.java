@@ -25,6 +25,7 @@ import com.ceino.utilitylibrary.CustomFontTextView;
 import com.ceino.utilitylibrary.DeviceFitImageView;
 import com.ceino.utilitylibrary.model.pacifyr.MListNegativeEmotions;
 import com.ceino.utilitylibrary.model.pacifyr.MListPositiveEmotions;
+import com.ceino.utilitylibrary.model.pacifyr.RespSearchPacifyrWOption;
 import com.ceino.utilitylibrary.utils.PrefManager;
 import com.daprlabs.cardstack.SwipeDeck;
 import com.pacifyr.omhealthcare.R;
@@ -896,7 +897,85 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
 
     private void checkOnLineOrOffline() {
 
-        webSearchPacifyrWOptions(customerEmotion);
+
+        webCheckOnlineOffline(customerEmotion);
+    }
+
+
+    private void webCheckOnlineOffline(String emotion) {
+
+        try {
+            hideProgress();
+            AjaxCallback cb = new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject json, AjaxStatus status) {
+                    try {
+
+                        RespSearchPacifyrWOption mRespSearchPacifyrWOption=GsonUtils.getInstance().gsonToRespSearchPacifyrWOption(json);
+
+                        if (isValid(mRespSearchPacifyrWOption)&&isValid(pSearchPacifyrWOptionsResponse))
+                        {
+                            if (isValid(mRespSearchPacifyrWOption.getResultsList())&&isValid(pSearchPacifyrWOptionsResponse.getResultsList()))
+                            {
+                                for (int i=0;i<pSearchPacifyrWOptionsResponse.getResultsList().size();i++)
+                                {
+                                    if (isValid(pSearchPacifyrWOptionsResponse.getResultsList().get(i).getOnline())
+                                            &&isValid(mRespSearchPacifyrWOption.getResultsList().get(i).getOnline()))
+                                    {
+                                        if(pSearchPacifyrWOptionsResponse.getResultsList().get(i).getOnline()!=
+                                                mRespSearchPacifyrWOption.getResultsList().get(i).getOnline())
+                                        {
+                                            boolean onOrOff=mRespSearchPacifyrWOption.getResultsList().get(i).getOnline();
+                                            if (isValid(onOrOff))
+                                            {
+                                                pSearchPacifyrWOptionsResponse.getResultsList().get(i).setOnline(onOrOff);
+                                                if (isValid(adapter))
+                                                {
+                                                    adapter.notifyDataSetChanged();
+                                                }
+                                            }
+
+                                        }
+                                    }
+
+                                }
+                            }
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();//RespSearchPacifyrWOption
+                    }
+                }
+            };
+
+            String url;
+            AQuery aq = new AQuery(ConnectToPacifyrActivity.this);
+            JSONObject jsonObject;
+            cb.header("Content-Type", "application/json");
+            cb.header("AccessToken", token);
+            jsonObject = new JSONObject();
+
+            url = GLOBAL_URL + getRoleSearchMap().get(prefM.getCustomerRole());
+            companyID = prefM.getCompanyId();
+            jsonObject.putOpt("companyId",companyID);
+            jsonObject.putOpt("includeChargeablePacifyrs",showAllFlag);
+            jsonObject.putOpt("initiatorId", userid);
+            jsonObject.putOpt("country", prefM.getCountry());
+            List<String> list = new ArrayList<String>();
+            list.add(emotion);
+            //list.add("b");
+            JSONArray array = new JSONArray();
+            for (int i = 0; i < list.size(); i++) {
+                array.put(list.get(i));
+            }
+            jsonObject.putOpt("specialities",array);
+            aq.post(url, jsonObject, JSONObject.class, cb);
+            //aq.ajax(url,JSONObject.class, cb);
+        }
+        catch (Exception ex)
+        {
+            hideProgress();
+            ex.printStackTrace();
+        }
     }
 
 
@@ -969,6 +1048,30 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
         super.onResume();
         if (morePacifyrsRlay!=null)
         {morePacifyrsRlay.setVisibility(View.GONE);}
+
+        trackTimer_check_online = new Timer();
+        if (isValid(trackTimerTask_check_online)&& isValid(trackTimer_check_online))
+        {
+            trackTimerTask_check_online = new TimerTask() {
+                @Override
+                public void run() {
+
+                    if (isValid(listPacifyrRlay))
+                    {
+                        if (listPacifyrRlay.getVisibility()==View.VISIBLE)
+                        {
+                            checkOnLineOrOffline();
+
+                        }
+                    }
+
+                }
+            };
+            trackTimer_check_online.scheduleAtFixedRate(trackTimerTask_check_online, 0, 10000);
+        }
+
+
+
 
     }
 }

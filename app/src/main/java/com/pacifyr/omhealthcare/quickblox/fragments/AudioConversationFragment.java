@@ -76,6 +76,7 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
 
     private  Switch billingSwitch;
     private TextView text_remaining_minutes;
+    private String change_Emotion_name;
     private BroadcastReceiver eventReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -244,6 +245,10 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), ActivityChngEmotionFromCall.class);
+                if (isValid(change_Emotion_name))
+                {
+                    intent.putExtra("emotion",change_Emotion_name);
+                }
                 startActivity(intent);
 
 
@@ -429,6 +434,7 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
 
             if(isValid(emotion)) {
                 emotion_ctxv.setVisibility(View.VISIBLE);
+                change_Emotion_name=emotion.getTitle();
                 defSetText(emotion_ctxv,emotion.getTitle());
             }
             if(isValid( actionBar))
@@ -682,6 +688,7 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
 
             if (isValid(event.getEmotion().getTitle())) {
                 emotion_ctxv.setVisibility(View.VISIBLE);
+                change_Emotion_name=event.getEmotion().getTitle();
                 defSetText(emotion_ctxv, event.getEmotion().getTitle());
             }
         } catch (Exception e) {

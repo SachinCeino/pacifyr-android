@@ -330,7 +330,8 @@ android:background="@drawable/shape_circle"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="18sp"
-        android:visibility="invisible" />
+        android:visibility="invisible"
+        />
     <!--  <View
           android:id="@+id/empty_stub"
           android:layout_width="match_parent"

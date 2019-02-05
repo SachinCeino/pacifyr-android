@@ -341,14 +341,19 @@ public class RegisterVerifyActivity extends PacifyerActivity {
 
     private void startPhoneNumberVerification(String phoneNumber) {
         // [START start_phone_auth]
-        PhoneAuthProvider.getInstance().verifyPhoneNumber(
-                phoneNumber,        // Phone number to verify
-                60,                 // Timeout duration
-                TimeUnit.SECONDS,   // Unit of timeout
-                this,               // Activity (for callback binding)
-                mCallbacks);        // OnVerificationStateChangedCallbacks
+       try {
+           PhoneAuthProvider.getInstance().verifyPhoneNumber(
+                   phoneNumber,        // Phone number to verify
+                   60,                 // Timeout duration
+                   TimeUnit.SECONDS,   // Unit of timeout
+                   this,               // Activity (for callback binding)
+                   mCallbacks);        // OnVerificationStateChangedCallbacks
 
-        mVerificationInProgress = true;
+           mVerificationInProgress = true;
+           } catch (Exception e)
+       {
+
+       }
     }
 
 

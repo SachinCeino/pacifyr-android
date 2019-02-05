@@ -143,6 +143,7 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
     private RelativeLayout more_rlay;
     private TextView billingStatus;
     private TextView text_remaining_minutes;
+    private String change_Emotion_name;
     private BroadcastReceiver eventReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -527,6 +528,10 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), ActivityChngEmotionFromCall.class);
+                if (isValid(change_Emotion_name))
+                {
+                    intent.putExtra("emotion",change_Emotion_name);
+                }
                 startActivity(intent);
             }
         });
@@ -628,6 +633,7 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
                  Picasso.with(getActivity()).load(NetworkService.GLOBAL_IMAGE_URL + image).placeholder(R.drawable.placeholder_image).into(emotion_dimv);
              }
             if(isValid(emotion)) {
+                change_Emotion_name=emotion.getTitle();
                 emotion_ctxv.setVisibility(View.VISIBLE);
                  defSetText(emotion_ctxv,emotion.getTitle());
             }
@@ -1534,6 +1540,7 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
 
             if (isValid(event.getEmotion().getTitle())) {
                 emotion_ctxv.setVisibility(View.VISIBLE);
+                change_Emotion_name=event.getEmotion().getTitle();
                 defSetText(emotion_ctxv, event.getEmotion().getTitle());
             }
         } catch (Exception e) {
