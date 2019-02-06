@@ -74,7 +74,10 @@ public class AmazonSNSTokenHandler {
             Log.d(TAG, "Invalid Token exiting...");
             return;
         }
-        AjaxCallback cb = new AjaxCallback<JSONObject>() {
+
+        installationWeb();
+
+       /* AjaxCallback cb = new AjaxCallback<JSONObject>() {
             @Override
             public void callback(String url, JSONObject json, AjaxStatus status) {
                 try {
@@ -102,7 +105,7 @@ public class AmazonSNSTokenHandler {
                 }
             }
         };
-        new NetworkService().getInstallation(getUDID(), cb);
+        new NetworkService().getInstallation(getUDID(), cb);*/
     }
 
     private void createEndPointTask(final String arn, final String gcmToken, final String userData) {
@@ -381,7 +384,7 @@ public class AmazonSNSTokenHandler {
                     new SetEndPointTask(installation.getArn(), getProfileName()).execute();
                 }
             } else if (o instanceof NotFoundException || o instanceof AuthorizationErrorException) {
-                createEndPointTask(AWSManager.ARN, token, getProfileName());
+               // createEndPointTask(AWSManager.ARN, token, getProfileName());
             }
         }
     }
