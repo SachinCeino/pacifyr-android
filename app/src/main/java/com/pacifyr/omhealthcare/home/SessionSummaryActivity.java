@@ -224,7 +224,8 @@ public class SessionSummaryActivity  extends PacifyrAppCompactActivity{
 
         // webListEmotions(SessionSummaryActivity.this);
 
-
+        NetworkService.webListPositiveEmotions(this);
+        NetworkService.webListNegativeEmotions(this);
         onCreateView();
         if(isValid(sessionid)) {
             webGetSessionDetail(sessionid);
@@ -814,7 +815,8 @@ public class SessionSummaryActivity  extends PacifyrAppCompactActivity{
                 emotions.addAll(NetworkService.modelListNegEmotions.getResultsList());
                 emotionsListAdapter = new EmotionsListAdapter(emotions, this);
                 recyclerView.setAdapter(emotionsListAdapter);
-            } else if (isValid(mSessionDetailRoot)) {
+            }
+            else if (isValid(mSessionDetailRoot)) {
                 if(isValid(modelAllEmotions)) {
                     emotions = modelAllEmotions.getResultsList();
                     emotionsListAdapter = new EmotionsListAdapter(emotions, SessionSummaryActivity.this);

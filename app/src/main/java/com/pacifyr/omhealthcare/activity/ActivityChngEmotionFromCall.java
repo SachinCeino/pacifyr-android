@@ -187,7 +187,7 @@ public class ActivityChngEmotionFromCall extends PacifyrAppCompactActivity {
 
             rightImv.setVisibility(View.INVISIBLE);
             rightTxv.setVisibility(View.VISIBLE);
-            rightLlay.setVisibility(View.VISIBLE);
+            rightLlay.setVisibility(View.GONE);
             leftTxv.setVisibility(View.INVISIBLE);
             backImv.setVisibility(View.VISIBLE);
             titleTxv.setVisibility(View.VISIBLE);

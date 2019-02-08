@@ -32,10 +32,16 @@ import com.pacifyr.omhealthcare.home.SessionSummaryActivity;
 import com.pacifyr.omhealthcare.model.Session;
 import com.pacifyr.omhealthcare.network.GsonUtils;
 import com.pacifyr.omhealthcare.network.NetworkService;
+import com.pacifyr.omhealthcare.quickblox.chat.ui.activity.DialogsActivity;
+import com.pacifyr.omhealthcare.quickblox.chat.utils.qb.QbDialogHolder;
 import com.pacifyr.omhealthcare.quickblox.services.CallService;
 import com.pacifyr.omhealthcare.utility.BaseFragment;
 import com.pacifyr.omhealthcare.utility.EventMessage;
 import com.pacifyr.omhealthcare.utils.Utility;
+import com.quickblox.chat.QBRestChatService;
+import com.quickblox.chat.model.QBChatDialog;
+import com.quickblox.core.QBEntityCallback;
+import com.quickblox.core.exception.QBResponseException;
 import com.quickblox.sample.core.utils.SharedPrefsHelper;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
@@ -44,7 +50,14 @@ import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
+
 import de.hdodenhof.circleimageview.CircleImageView;
+import me.leolin.shortcutbadger.ShortcutBadger;
 
 import static com.ceino.utilitylibrary.network.UtilityNetworkService.GLOBAL_IMAGE_URL;
 import static com.ceino.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
@@ -86,6 +99,12 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
     private CustomFontTextView feel_err_text;
     public String EmotionTitle="";
 
+    private CustomFontTextView unreadChatCtxv;
+    public Integer unreadCount =0;
+
+    private boolean isClickedOnChat=false;
+    private int badgeCount=0;
+
     public UserDashboardFragment() {
         // Required empty public constructor
     }
@@ -97,7 +116,10 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        badgeCount = 0;
+        prefM = PrefManager.getInstance(getContext());
         NetworkService.startActionCutomerDashboard(getActivity());
+        ShortcutBadger.applyCount(getActivity(), badgeCount); //for 1.1.4+
       //  if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             setMyAdapter();
         getPermissions();
@@ -125,6 +147,21 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
+
+
+
+        unreadChatCtxv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogsActivity.start(getActivity());
+                unreadCount=0;
+                /*showFragment(new PacifyrMessageFragment(/));*/
+                //defSetText(titleTxv, "Messages");
+
+            }
+        });
+
+        prefM.saveBadgeValue(badgeCount);
 
         lastSessionRlay.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -234,7 +271,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
             }
         });
 
-
+        //NetworkService.webListEmotions(getActivity());
         return view;
     }
 
@@ -247,7 +284,6 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
             setLoading();
             showProgress();
             handleActionCustomerDashboard();
-
             if (isValid(call_emotion)) {
                // feel_err_text.setVisibility(View.GONE);
                 String emotionImg = GLOBAL_IMAGE_URL + call_emotion.getImage();
@@ -279,6 +315,9 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
             }
             getUnratedSessions();
             loginToQuickblox();
+            setChatCountInfo();
+            ShortcutBadger.applyCount(getActivity(), badgeCount);
+            prefM.saveBadgeValue(badgeCount);
         }
         catch (Exception e)
         {
@@ -639,9 +678,59 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
 
         feelImageDimv = view.findViewById(R.id.feel_image_dimv);
         feelTitleCtxv = view.findViewById(R.id.feel_title_ctxv);
+        unreadChatCtxv = view.findViewById(R.id.unread_chat_ctxv);
         defSetText(no_pacifyr_ctxv,"");
+        setChatCountInfo();
     }
 
+    private void setChatCountInfo() {
+
+        try {
+            Collection<QBChatDialog> dialogList = (QbDialogHolder.getInstance().getDialogs().values());
+            ArrayList<QBChatDialog> list = new ArrayList<>(dialogList);
+            Set<String> dialogSet = new HashSet<String>();
+
+            Iterator<QBChatDialog> iterator = dialogList.iterator();
+            while (iterator.hasNext()) {
+                dialogSet.add(iterator.next().getDialogId());
+            }
+
+            QBRestChatService.getTotalUnreadMessagesCount(dialogSet,null).performAsync(new QBEntityCallback<Integer>() {
+                @Override
+                public void onSuccess(Integer integer, Bundle bundle) {
+
+                    unreadCount=integer;
+
+                }
+
+                @Override
+                public void onError(QBResponseException e) {
+                    //Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_LONG).show();
+
+                }
+            });
+
+            badgeCount = 0;
+            if (isValid(unreadCount)){
+                if(unreadCount>0)
+                {
+                    unreadChatCtxv.setVisibility(View.VISIBLE);
+                    unreadChatCtxv.setText(Integer.toString(unreadCount)+" unread messages");
+                    badgeCount+=unreadCount;
+
+                }else {
+                    isClickedOnChat=true;
+                    unreadChatCtxv.setVisibility(View.GONE);
+                }
+            }
+
+        }catch (Exception e)
+        {
+            Log.w("QQQ",String.valueOf(e));
+        }
+
+
+    }
 
     @org.greenrobot.eventbus.Subscribe(threadMode = ThreadMode.MAIN)
     public void messageEventFromService(EventMessage event){
@@ -658,6 +747,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                 setLoading();
                 showProgress();
                 handleActionCustomerDashboard();
+                setChatCountInfo();
             }
         }, 2000);
     }
