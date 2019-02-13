@@ -418,6 +418,11 @@ public class LoginPhoneActivity extends PacifyerActivity {
         String mail = modelPhoneLogin.getUser().getEmail();
         final QBUser user = new QBUser(userID, userID);
         user.setEmail(mail);
+        if (isValid(modelPhoneLogin.getUser().getFirstName()))
+        {
+            user.setFullName(modelPhoneLogin.getUser().getFirstName());
+
+        }
         QBSettings.getInstance().init(LoginPhoneActivity.this, APP_ID, AUTH_KEY, AUTH_SECRET);
         QBSettings.getInstance().setAccountKey(ACCOUNT_KEY);
         QBAuth.createSession().performAsync(new QBEntityCallback<QBSession>() {

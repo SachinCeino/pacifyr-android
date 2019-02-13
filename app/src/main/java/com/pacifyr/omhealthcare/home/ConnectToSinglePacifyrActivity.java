@@ -9,6 +9,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -51,10 +52,13 @@ import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.pacifyr.omhealthcare.network.NetworkService.GLOBAL_URL;
+import static com.pacifyr.omhealthcare.network.NetworkService.modelCustomerDashboard2;
 
 //import com.pacifyr.pacifyrapp.Fragment.SelecetFeelingFragment;
 
@@ -103,7 +107,8 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
    // private PermissionsChecker checker;
     public SwipeRefreshLayout pacifyr_swipelay;
     private RelativeLayout buttonRlay;
-
+    private Timer trackTimer_check_online;
+    private TimerTask trackTimerTask_check_online;
     public static void start(Context context, MUser results) {
         Intent intent = new Intent(context, ConnectToSinglePacifyrActivity.class);
         pacifyer_obj=null;
@@ -367,6 +372,113 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
         });
 
         selectFeelingRlay.setVisibility(View.VISIBLE);
+
+        /** refresh pacifyr object**/
+        /**
+         * here we are checking the pacifyrs are status online or offline  **/
+
+        trackTimer_check_online = new Timer();
+        trackTimerTask_check_online = new TimerTask() {
+            @Override
+            public void run() {
+
+                NetworkService.startActionCutomerDashboard((getApplicationContext()));
+
+            }
+        };
+        trackTimer_check_online.scheduleAtFixedRate(trackTimerTask_check_online, 0, 10000);
+
+
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        trackTimer_check_online.cancel();
+        trackTimerTask_check_online.cancel();
+
+
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        trackTimer_check_online.cancel();
+        trackTimerTask_check_online.cancel();
+
+
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        try {
+
+            trackTimer_check_online = new Timer();
+            if (isValid(trackTimerTask_check_online)&& isValid(trackTimer_check_online))
+            {
+                trackTimerTask_check_online = new TimerTask() {
+                    @Override
+                    public void run() {
+
+                        NetworkService.startActionCutomerDashboard((getApplicationContext()));
+
+                    }
+                };
+                trackTimer_check_online.scheduleAtFixedRate(trackTimerTask_check_online, 0, 10000);
+            }
+
+        }
+        catch (Exception e)
+        {
+            Log.w("QQQQ",String.valueOf(e));
+        }
+
+    }
+
+
+
+    @Subscribe
+    public void onNotifyEvent(NotifyEvent event) {
+
+        if (event.isSuccess)
+        {
+
+            if (isValid(modelCustomerDashboard2))
+            {
+                for (int i=0;i<modelCustomerDashboard2.getPreferredPacifyrs().length;i++)
+                {
+                    MUser[] m= modelCustomerDashboard2.getPreferredPacifyrs();
+                    if (isValid(m))
+                    {
+                        if (m[i].getId().equals(pacifyer_obj.getId()))
+                        {
+                            pacifyer_obj=m[i];
+                            boolean isOnline=pacifyer_obj.getOnline();
+                            if(isOnline){
+                                status_indicator_dimv.setImageDrawable(getResources().getDrawable(R.drawable.online));
+                                status_indicator_ctxv.setText("ONLINE");
+                                if(!pacifyer_obj.getCurrentlyAvailable())
+                                {
+                                    status_indicator_dimv.setImageDrawable(getResources().getDrawable(R.drawable.online));
+                                    status_indicator_ctxv.setText("In-Session");
+                                }
+                            }
+                            else{
+                                status_indicator_dimv.setImageDrawable(getResources().getDrawable(R.drawable.offline));
+                                status_indicator_ctxv.setText("OFFLINE");
+                            }
+                        }
+                    }
+
+                }
+            }
+
+
+        }
+
     }
 
     private void setPacifyerValues() {
@@ -870,11 +982,6 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
         }
     }
 
-
-    @Subscribe
-    public void onNotifyEvent(NotifyEvent event) {
-
-    }
 
     @Override
     public void onAlertTypeEvent(AlertTypeEvent event) {

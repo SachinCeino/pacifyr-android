@@ -384,10 +384,14 @@ public class LoginActivity extends PacifyerActivity {
             showProgress();
             final String userID = loginModel.getUser().getId();
             String mail = loginModel.getUser().getEmail();
-            String fullname = loginModel.getUser().getFirstName();
             // Register new user
             final QBUser user = new QBUser(userID, userID);
-            user.setEmail(null);
+            user.setEmail(mail);
+            if (isValid(loginModel.getUser().getFirstName()))
+            {
+                user.setFullName(loginModel.getUser().getFirstName());
+            }
+
             QBSettings.getInstance().init(LoginActivity.this, APP_ID, AUTH_KEY, AUTH_SECRET);
             QBSettings.getInstance().setAccountKey(ACCOUNT_KEY);
             QBAuth.createSession().performAsync(new QbEntityCallbackImpl<QBSession>() {
