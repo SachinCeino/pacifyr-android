@@ -782,4 +782,34 @@ public class SwipeDeckConnectPacifyrAdapter extends BaseAdapter {
             notifyDataSetChanged();
         }
     }
+
+    public void changeOfflineOnLine(List<MUser> resultsList) {
+
+        if (isValid(resultsList)&& isValid(searchResults))
+        {
+
+            for (int i=0;i<resultsList.size();i++)
+            {
+                for (int j=0;j<searchResults.size();j++)
+                {
+                    if (resultsList.get(i).getId().equals(searchResults.get(j).getId()))
+                    {
+
+                        if (resultsList.get(i).getOnline()!=searchResults.get(j).getOnline())
+                        {
+
+
+                            searchResults.get(j).setOnline(resultsList.get(i).getOnline());
+                            notifyDataSetChanged();
+                            notifyDataSetInvalidated();
+
+                        }
+
+                    }
+                }
+
+            }
+        }
+
+    }
 }

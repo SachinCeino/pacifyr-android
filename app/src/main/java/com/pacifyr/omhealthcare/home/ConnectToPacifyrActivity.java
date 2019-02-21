@@ -140,6 +140,7 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
 
     private Timer trackTimer_check_online;
     private TimerTask trackTimerTask_check_online;
+    private int card_position=0;
 
 
     @Override
@@ -404,13 +405,13 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
             @Override
             public void cardSwipedLeft(int position) {
                 Log.i("MainActivity", "card was swiped left, position in adapter: " + position);
-
+                card_position=position;
             }
 
             @Override
             public void cardSwipedRight(int position) {
                 Log.i("MainActivity", "card was swiped right, position in adapter: " + position);
-
+                card_position=position;
             }
 
 
@@ -431,23 +432,6 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
             }
         });
 
-        /**
-         * here we are checking the pacifyrs are status online or offline  **/
-        trackTimer_check_online = new Timer();
-        trackTimerTask_check_online = new TimerTask() {
-            @Override
-            public void run() {
-
-
-                if (listPacifyrRlay.getVisibility()==View.VISIBLE)
-                {
-                            checkOnLineOrOffline();
-
-                }
-
-            }
-        };
-        trackTimer_check_online.scheduleAtFixedRate(trackTimerTask_check_online, 0, 10000);
 
 
 
@@ -913,26 +897,28 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
 
                         RespSearchPacifyrWOption mRespSearchPacifyrWOption=GsonUtils.getInstance().gsonToRespSearchPacifyrWOption(json);
 
-                        if (isValid(mRespSearchPacifyrWOption)&&isValid(pSearchPacifyrWOptionsResponse))
+                        if (isValid(mRespSearchPacifyrWOption.getResultsList()))
                         {
-                            if (isValid(mRespSearchPacifyrWOption.getResultsList())&&isValid(pSearchPacifyrWOptionsResponse.getResultsList()))
+
+
+                            if (isValid(pSearchPacifyrWOptionsResponse.getResultsList()))
                             {
-                                for (int i=0;i<pSearchPacifyrWOptionsResponse.getResultsList().size();i++)
+
+                                for (int i=0;i<mRespSearchPacifyrWOption.getResultsList().size();i++)
                                 {
-                                    if (isValid(pSearchPacifyrWOptionsResponse.getResultsList().get(i).getOnline())
-                                            &&isValid(mRespSearchPacifyrWOption.getResultsList().get(i).getOnline()))
+                                    for (int j=0;j<pSearchPacifyrWOptionsResponse.getResultsList().size();j++)
                                     {
-                                        if(pSearchPacifyrWOptionsResponse.getResultsList().get(i).getOnline()!=
-                                                mRespSearchPacifyrWOption.getResultsList().get(i).getOnline())
+                                        if (mRespSearchPacifyrWOption.getResultsList().get(i).getId().equals(pSearchPacifyrWOptionsResponse.getResultsList().get(j).getId()))
                                         {
-                                            boolean onOrOff=mRespSearchPacifyrWOption.getResultsList().get(i).getOnline();
-                                            if (isValid(onOrOff))
+
+                                            if (mRespSearchPacifyrWOption.getResultsList().get(i).getOnline()!=pSearchPacifyrWOptionsResponse.getResultsList().get(j).getOnline())
                                             {
-                                                pSearchPacifyrWOptionsResponse.getResultsList().get(i).setOnline(onOrOff);
-                                                if (isValid(adapter))
-                                                {
-                                                    adapter.notifyDataSetChanged();
-                                                }
+                                                pSearchPacifyrWOptionsResponse.getResultsList().get(j).setOnline(mRespSearchPacifyrWOption.getResultsList().get(i).getOnline());
+                                                adapter.notifyDataSetChanged();
+                                                adapter.notifyDataSetInvalidated();
+                                                cardStack.setSelection(card_position+1);
+
+
                                             }
 
                                         }
@@ -940,7 +926,11 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
 
                                 }
                             }
+
                         }
+
+
+
                     } catch (Exception e) {
                         e.printStackTrace();//RespSearchPacifyrWOption
                     }
@@ -1031,14 +1021,19 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
     @Override
     protected void onStop() {
         super.onStop();
-        trackTimer_check_online.cancel();
-        trackTimerTask_check_online.cancel();
+
 
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
         trackTimer_check_online.cancel();
         trackTimerTask_check_online.cancel();
     }
@@ -1050,8 +1045,7 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
         {morePacifyrsRlay.setVisibility(View.GONE);}
 
         trackTimer_check_online = new Timer();
-        if (isValid(trackTimerTask_check_online)&& isValid(trackTimer_check_online))
-        {
+
             trackTimerTask_check_online = new TimerTask() {
                 @Override
                 public void run() {
@@ -1068,7 +1062,7 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
                 }
             };
             trackTimer_check_online.scheduleAtFixedRate(trackTimerTask_check_online, 0, 10000);
-        }
+
 
 
 

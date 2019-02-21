@@ -20,6 +20,7 @@ import com.androidquery.callback.AjaxStatus;
 import com.ceino.utilitylibrary.CustomFontTextView;
 import com.ceino.utilitylibrary.DeviceFitImageView;
 import com.ceino.utilitylibrary.model.pacifyr.MUser;
+import com.ceino.utilitylibrary.model.pacifyr.RespSearchPacifyrWOption;
 import com.ceino.utilitylibrary.utils.PrefManager;
 import com.daprlabs.cardstack.SwipeDeck;
 import com.pacifyr.omhealthcare.R;
@@ -45,6 +46,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import static com.pacifyr.omhealthcare.network.NetworkService.GLOBAL_URL;
 import static com.pacifyr.omhealthcare.network.NetworkService.modelSpecialist;
@@ -73,6 +76,12 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
     private String customerRole;
     private CustomFontTextView noPacifyrCtxv;
     CallEvent event_call = null;
+
+    private Timer trackTimer_check_online;
+    private TimerTask trackTimerTask_check_online;
+    private int card_position=0;
+
+
     public CallChatEventListner callchatEventListner = new CallChatEventListner() {
         @Override
         public void onCallEventClick(CallEvent event) {
@@ -260,11 +269,13 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
             @Override
             public void cardSwipedLeft(int position) {
                 Log.i("MainActivity", "card was swiped left, position in adapter: " + position);
+                card_position=position;
             }
 
             @Override
             public void cardSwipedRight(int position) {
                 Log.i("MainActivity", "card was swiped right, position in adapter: " + position);
+                card_position=position;
             }
 
 
@@ -538,5 +549,116 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
     }
 
 
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        trackTimer_check_online.cancel();
+        trackTimerTask_check_online.cancel();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        try {
+
+            trackTimer_check_online = new Timer();
+            trackTimerTask_check_online = new TimerTask() {
+                @Override
+                public void run() {
+
+                    checkOnLineOrOffline();
+
+                }
+            };
+            trackTimer_check_online.scheduleAtFixedRate(trackTimerTask_check_online, 0, 10000);
+
+        }
+        catch (Exception e)
+        {
+            Log.w("QQQQ",String.valueOf(e));
+        }
+    }
+
+    private void checkOnLineOrOffline() {
+
+        webCheckOnlineOffline(customerEmotion);
+    }
+
+    private void webCheckOnlineOffline(String emotion) {
+
+        try{
+
+            String url = GLOBAL_URL + getRoleSearchMap().get(prefM.getCustomerRole());
+
+            AjaxCallback cb = new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject json, AjaxStatus status) {
+                    try {
+
+                        RespSearchPacifyrWOption mRespSearchPacifyrWOption=GsonUtils.getInstance().gsonToRespSearchPacifyrWOption(json);
+
+                        if (isValid(mRespSearchPacifyrWOption.getResultsList()) &&isValid(adapter))
+                        {
+                            if (isValid(pSearchPacifyrWOptionsResponse.getResultsList()))
+                            {
+
+                                for (int i=0;i<mRespSearchPacifyrWOption.getResultsList().size();i++)
+                                {
+                                    for (int j=0;j<pSearchPacifyrWOptionsResponse.getResultsList().size();j++)
+                                    {
+                                        if (mRespSearchPacifyrWOption.getResultsList().get(i).getId().equals(pSearchPacifyrWOptionsResponse.getResultsList().get(j).getId()))
+                                        {
+
+                                            if (mRespSearchPacifyrWOption.getResultsList().get(i).getOnline()!=pSearchPacifyrWOptionsResponse.getResultsList().get(j).getOnline())
+                                            {
+                                                pSearchPacifyrWOptionsResponse.getResultsList().get(j).setOnline(mRespSearchPacifyrWOption.getResultsList().get(i).getOnline());
+                                                adapter.notifyDataSetChanged();
+                                                adapter.notifyDataSetInvalidated();
+                                                cardStack.setSelection(card_position+1);
+
+                                            }
+
+                                        }
+                                    }
+
+                                }
+                            }
+
+
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            };
+
+            AQuery aq = new AQuery(ListPacifyrScreenActivity.this);
+            cb.header("Content-Type", "application/json");
+            cb.header("AccessToken", accessToken);
+
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.putOpt("initiatorId", userID);
+            jsonObject.putOpt("companyId",companyID);
+            jsonObject.putOpt("includeChargeablePacifyrs",showAllFlag);
+            jsonObject.putOpt("country",prefM.getCountry());
+
+            List<String> list = new ArrayList<String>();
+            list.add(emotion);
+            JSONArray array = new JSONArray();
+            for (int i = 0; i < list.size(); i++) {
+                array.put(list.get(i));
+            }
+            jsonObject.putOpt("specialities",array);
+            aq.post(url, jsonObject, JSONObject.class, cb);
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
+
+
+    }
 
 }

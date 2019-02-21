@@ -779,4 +779,6 @@ public class SwipeDeckBrowsePacifyerAdapter extends BaseAdapter {
                 .build().show();
     }
 
+
+
 }
