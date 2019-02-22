@@ -26,7 +26,7 @@ import com.pacifyr.omhealthcare.quickblox.services.CallService;
 import com.pacifyr.omhealthcare.quickblox.utils.WebRtcSessionManager;
 import com.pacifyr.omhealthcare.receiver.NotificationUtils;
 import com.pacifyr.omhealthcare.receiver.PacifyrReceiver;
-
+import me.leolin.shortcutbadger.ShortcutBadger;
 import static com.pacifyr.omhealthcare.receiver.NotificationUtils.isAppIsInBackground;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
@@ -274,6 +274,17 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     }
 
     private void showNotification(Context context, String qsid, String message, String actualType) {
+
+        /**Unreadchat push notification Badge implmentation **/
+
+        if (actualType.equals("chat"))
+        {
+            PrefManager prefM=PrefManager.getInstance(context);
+            prefM.saveBadgeValue(prefM.getBadgeValue()+1);
+            int badgeCount = prefM.getBadgeValue();
+            ShortcutBadger.applyCount(context, badgeCount);
+        }
+
         Intent cIntent = new Intent(context, SplachScreen.class);
         Bundle b = new Bundle();
         // b.putString("type", type);
@@ -292,7 +303,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setContentText(message)
                 .setContentTitle("Pacifyr")
                 .setContentIntent(pendingIntent)
-                .setSound(notificationSound);
+                .setSound(notificationSound)
+                .setAutoCancel(true);
 
 
         Notification notification = builder.build();

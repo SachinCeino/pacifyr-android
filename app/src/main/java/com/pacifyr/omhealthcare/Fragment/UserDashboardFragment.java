@@ -116,10 +116,10 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        badgeCount = 0;
+
         prefM = PrefManager.getInstance(getContext());
         NetworkService.startActionCutomerDashboard(getActivity());
-        ShortcutBadger.applyCount(getActivity(), badgeCount); //for 1.1.4+
+        ShortcutBadger.applyCount(getActivity(), prefM.getBadgeValue()); //for 1.1.4+
       //  if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             setMyAdapter();
         getPermissions();
@@ -161,7 +161,6 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
             }
         });
 
-        prefM.saveBadgeValue(badgeCount);
 
         lastSessionRlay.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -316,8 +315,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
             getUnratedSessions();
             loginToQuickblox();
             setChatCountInfo();
-            ShortcutBadger.applyCount(getActivity(), badgeCount);
-            prefM.saveBadgeValue(badgeCount);
+
         }
         catch (Exception e)
         {
@@ -700,6 +698,23 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                 public void onSuccess(Integer integer, Bundle bundle) {
 
                     unreadCount=integer;
+                    badgeCount = 0;
+                    if (isValid(unreadCount)){
+                        if(unreadCount>0)
+                        {
+                            unreadChatCtxv.setVisibility(View.VISIBLE);
+                            unreadChatCtxv.setText(Integer.toString(unreadCount)+" unread messages");
+                            badgeCount+=unreadCount;
+                            prefM.saveBadgeValue(badgeCount);
+                            ShortcutBadger.applyCount(getActivity(), prefM.getBadgeValue());
+
+                        }else {
+                            isClickedOnChat=true;
+                            unreadChatCtxv.setVisibility(View.GONE);
+                            prefM.saveBadgeValue(badgeCount);
+                            ShortcutBadger.applyCount(getActivity(), 0);
+                        }
+                    }
 
                 }
 
@@ -710,19 +725,6 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                 }
             });
 
-            badgeCount = 0;
-            if (isValid(unreadCount)){
-                if(unreadCount>0)
-                {
-                    unreadChatCtxv.setVisibility(View.VISIBLE);
-                    unreadChatCtxv.setText(Integer.toString(unreadCount)+" unread messages");
-                    badgeCount+=unreadCount;
-
-                }else {
-                    isClickedOnChat=true;
-                    unreadChatCtxv.setVisibility(View.GONE);
-                }
-            }
 
         }catch (Exception e)
         {
