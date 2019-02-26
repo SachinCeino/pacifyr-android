@@ -373,20 +373,6 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
 
         selectFeelingRlay.setVisibility(View.VISIBLE);
 
-        /** refresh pacifyr object**/
-        /**
-         * here we are checking the pacifyrs are status online or offline  **/
-
-        trackTimer_check_online = new Timer();
-        trackTimerTask_check_online = new TimerTask() {
-            @Override
-            public void run() {
-
-                NetworkService.startActionCutomerDashboard((getApplicationContext()));
-
-            }
-        };
-        trackTimer_check_online.scheduleAtFixedRate(trackTimerTask_check_online, 0, 10000);
 
 
     }
@@ -395,40 +381,41 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
     protected void onStop() {
         super.onStop();
 
-        trackTimer_check_online.cancel();
-        trackTimerTask_check_online.cancel();
-
-
     }
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        
+    }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
         trackTimer_check_online.cancel();
         trackTimerTask_check_online.cancel();
-
-
-
     }
+
 
     @Override
     protected void onResume() {
         super.onResume();
         try {
 
+            /** refresh pacifyr object**/
+            /**
+             * here we are checking the pacifyrs are status online or offline  **/
+
             trackTimer_check_online = new Timer();
-            if (isValid(trackTimerTask_check_online)&& isValid(trackTimer_check_online))
-            {
-                trackTimerTask_check_online = new TimerTask() {
-                    @Override
-                    public void run() {
+            trackTimerTask_check_online = new TimerTask() {
+                @Override
+                public void run() {
 
-                        NetworkService.startActionCutomerDashboard((getApplicationContext()));
+                    NetworkService.startActionCutomerDashboard((getApplicationContext()));
 
-                    }
-                };
-                trackTimer_check_online.scheduleAtFixedRate(trackTimerTask_check_online, 0, 10000);
-            }
+                }
+            };
+            trackTimer_check_online.scheduleAtFixedRate(trackTimerTask_check_online, 0, 10000);
+
 
         }
         catch (Exception e)
