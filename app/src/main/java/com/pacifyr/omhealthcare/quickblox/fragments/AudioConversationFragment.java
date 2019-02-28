@@ -434,7 +434,7 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
 
             if(isValid(emotion)) {
                 emotion_ctxv.setVisibility(View.VISIBLE);
-                change_Emotion_name=emotion.getTitle();
+                change_Emotion_name=emotion.getId();
                 defSetText(emotion_ctxv,emotion.getTitle());
             }
             if(isValid( actionBar))
@@ -688,7 +688,7 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
 
             if (isValid(event.getEmotion().getTitle())) {
                 emotion_ctxv.setVisibility(View.VISIBLE);
-                change_Emotion_name=event.getEmotion().getTitle();
+                change_Emotion_name=event.getEmotion().getId();
                 defSetText(emotion_ctxv, event.getEmotion().getTitle());
             }
         } catch (Exception e) {

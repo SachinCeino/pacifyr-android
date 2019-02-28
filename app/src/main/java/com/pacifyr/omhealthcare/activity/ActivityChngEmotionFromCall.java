@@ -108,18 +108,9 @@ public class ActivityChngEmotionFromCall extends PacifyrAppCompactActivity {
                     if (modelListNegEmotions != null && modelListNegEmotions.getResultsList() != null && modelListNegEmotions.getResultsList().size() > 0) {
                         mNegativeRcv.setAdapter(new GetNegEmotionsWhileCallAdapter(ActivityChngEmotionFromCall.this, modelListNegEmotions.getResultsList()));
 
-                        if (isValid(current_emotion))
-                        {
-                            for (int i=0;i<modelListPosEmotions.getResultsList().size();i++)
-                            {
-                                if (modelListNegEmotions.getResultsList().get(i).getTitle().equals(current_emotion))
-                                {
-                                    Log.w("QQQ",modelListNegEmotions.getResultsList().get(i).getTitle()+":"+current_emotion);
-                                    ((GetNegEmotionsWhileCallAdapter)mNegativeRcv.getAdapter()).setSelected(i);
-                                }
-                            }
-                        }
+                        ((GetNegEmotionsWhileCallAdapter)mNegativeRcv.getAdapter()).setSelected(current_emotion);
                     }
+
 
                 } catch (Exception e) {
                     //hideProgress();
@@ -147,20 +138,10 @@ public class ActivityChngEmotionFromCall extends PacifyrAppCompactActivity {
 
                     {
                         mPositiveRcv.setAdapter(new GetPosEmotionWhileCallAdapter(ActivityChngEmotionFromCall.this, modelListPosEmotions.getResultsList()));
+                        ((GetPosEmotionWhileCallAdapter)mPositiveRcv.getAdapter()).setSelected(current_emotion);
                     }
 
-                    if (isValid(current_emotion))
-                    {
-                        for (int i=0;i<modelListPosEmotions.getResultsList().size();i++)
-                        {
-                            if (modelListPosEmotions.getResultsList().get(i).getTitle().equals(current_emotion))
-                            {
-                                Log.w("QQQ",modelListPosEmotions.getResultsList().get(i).getTitle()+":"+current_emotion);
-                                ((GetPosEmotionWhileCallAdapter)mPositiveRcv.getAdapter()).setSelected(i);
-                            }
 
-                        }
-                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

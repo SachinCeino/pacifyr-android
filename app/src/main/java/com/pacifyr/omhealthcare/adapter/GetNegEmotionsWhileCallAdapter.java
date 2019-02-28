@@ -206,10 +206,17 @@ public class GetNegEmotionsWhileCallAdapter extends RecyclerView.Adapter<GetNegE
         }
     }
 
-    public void setSelected(int position) {
+    public void setSelected(String current_emotion) {
         if (this.list != null && this.list.size() > 0) {
-            this.list.get(position).setSelect(true);
-            notifyDataSetChanged();
+            for (int i=0;i<list.size();i++)
+            {
+                if (list.get(i).getId().equals(current_emotion))
+                {
+                    this.list.get(i).setSelect(true);
+                    notifyDataSetChanged();
+                }
+            }
+
         }
 
     }
