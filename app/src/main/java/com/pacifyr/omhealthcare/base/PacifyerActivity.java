@@ -840,7 +840,20 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
         final  ArrayList<Integer> opponentsList = new ArrayList<Integer>();
         ArrayList<Integer> usersIds = new ArrayList<Integer>();
         //  usersIds.add(getUserID());
-        usersIds.add((int)pacifyer.getQbid());
+        if (isValid(pacifyer.getForwardToPacifyrId())&& isValid(pacifyer.getForwardToPacifyr()))
+        {
+            if (isValid(pacifyer.getForwardToPacifyr().getQbid()))
+            {
+
+                usersIds.add((int)pacifyer.getForwardToPacifyr().getQbid());
+            }
+
+        }
+        else
+        {
+            usersIds.add((int)pacifyer.getQbid());
+        }
+
 
         QBUsers.getUsersByIDs(usersIds,pagedRequestBuilder).performAsync(new QBEntityCallback<ArrayList<QBUser>>() {
             @Override
