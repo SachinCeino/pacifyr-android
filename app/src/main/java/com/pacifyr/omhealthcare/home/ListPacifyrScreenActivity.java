@@ -72,7 +72,7 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
     private CustomFontTextView showallCtxv;
 
     private CharSequence mTitle;
-    private boolean showAllFlag=false;
+    private boolean showAllFlag;
     private String customerRole;
     private CustomFontTextView noPacifyrCtxv;
     CallEvent event_call = null;
@@ -131,9 +131,10 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
 
     }
 
-    public static void start(Context context, String emoSelected) {
+    public static void start(Context context, String emoSelected,boolean showAllFlag) {
         Intent intent = new Intent(context, ListPacifyrScreenActivity.class);
         intent.putExtra("emo_selected", emoSelected);
+        intent.putExtra("showAllFlag",showAllFlag);
         context.startActivity(intent);
     }
 
@@ -211,6 +212,11 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
             emoSelected = getIntent().getExtras().getString("emo_selected");
         }
 
+        if (isValid(getIntent().getExtras().get("showAllFlag"))&&customerRole.equals("employee"))
+        {
+            showAllFlag=getIntent().getBooleanExtra("showAllFlag",false);
+            getShowallCbox().setChecked(showAllFlag);
+        }
 
         onSetActionBar();
 
@@ -233,7 +239,6 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
         }
 
         //Default emotion set as Anger
-        showAllFlag = false;
 
 
         //webSearchPacifyrWOptions(customerEmotion);

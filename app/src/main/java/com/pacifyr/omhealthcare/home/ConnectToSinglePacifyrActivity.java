@@ -219,10 +219,6 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
         emotionDimv = findViewById(R.id.emotion_dimv);
         //specialityRcv = (RecyclerView) findViewById(R.id.speciality_rcv);
 
-        button2.setClickable(false);
-        button3.setClickable(false);
-        button4.setClickable(false);
-
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -231,9 +227,6 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
                 button3.setBackgroundResource(R.drawable.circle_button);
                 button4.setBackgroundResource(R.drawable.circle_button);
                 button1.setBackgroundResource(R.drawable.circle_click_btn);
-                button2.setClickable(false);
-                button3.setClickable(false);
-                button4.setClickable(false);
                 selectFeelingRlay.setVisibility(View.VISIBLE);
                 selectEmotionRlay.setVisibility(View.GONE);
                 selectEmotionDetailRlay.setVisibility(View.GONE);
@@ -243,15 +236,11 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(selectEmotionRlay.getVisibility()==View.VISIBLE) {
+                if(selectEmotionRlay.getVisibility()==View.VISIBLE ||selectEmotionDetailRlay.getVisibility()==View.VISIBLE||listPacifyrRlay.getVisibility() == View.VISIBLE) {
                 button2.setBackgroundResource(R.drawable.circle_click_btn);
                 button1.setBackgroundResource(R.drawable.circle_button);
                 button3.setBackgroundResource(R.drawable.circle_button);
                 button4.setBackgroundResource(R.drawable.circle_button);
-                button1.setClickable(true);
-                button1.setEnabled(true);
-                button3.setClickable(false);
-                button4.setClickable(false);
                 selectFeelingRlay.setVisibility(View.GONE);
                 selectEmotionRlay.setVisibility(View.VISIBLE);
                 selectEmotionDetailRlay.setVisibility(View.GONE);
@@ -265,15 +254,13 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
         button3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (selectEmotionDetailRlay.getVisibility()==View.VISIBLE)
+                if (selectEmotionDetailRlay.getVisibility()==View.VISIBLE ||listPacifyrRlay.getVisibility()==View.VISIBLE)
                 {
                 button3.setBackgroundResource(R.drawable.circle_click_btn);
                 button2.setBackgroundResource(R.drawable.circle_button);
                 button1.setBackgroundResource(R.drawable.circle_button);
                 button4.setBackgroundResource(R.drawable.circle_button);
-                button4.setClickable(false);
-                button1.setClickable(true);
-                button2.setClickable(true);
+
                 selectFeelingRlay.setVisibility(View.GONE);
                 selectEmotionRlay.setVisibility(View.GONE);
                 selectEmotionDetailRlay.setVisibility(View.VISIBLE);
@@ -294,9 +281,7 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
                 button2.setBackgroundResource(R.drawable.circle_button);
                 button3.setBackgroundResource(R.drawable.circle_button);
                 button1.setBackgroundResource(R.drawable.circle_button);
-                button1.setClickable(true);
-                button2.setClickable(true);
-                button3.setClickable(true);
+
                 selectFeelingRlay.setVisibility(View.GONE);
                 selectEmotionRlay.setVisibility(View.GONE);
                 selectEmotionDetailRlay.setVisibility(View.GONE);
@@ -315,8 +300,7 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
                 happyDimv.clearColorFilter();
                 sadDimv.setColorFilter(getResources().getColor( R.color.colorPrimary), android.graphics.PorterDuff.Mode.MULTIPLY);
                 type="negative";
-                button1.setClickable(true);
-                button1.setEnabled(true);
+
                 button1.setBackgroundResource(R.drawable.circle_button);
                 button2.setBackgroundResource(R.drawable.circle_click_btn);
                  //callFragmant();
@@ -328,8 +312,7 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
         happyDimv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                button1.setClickable(true);
-                button1.setEnabled(true);
+
                 sadDimv.clearColorFilter();
                 happyDimv.setColorFilter(getResources().getColor( R.color.colorPrimary), android.graphics.PorterDuff.Mode.MULTIPLY);
                 type="positive";

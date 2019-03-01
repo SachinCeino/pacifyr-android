@@ -201,9 +201,6 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
 
         //specialityRcv = (RecyclerView) findViewById(R.id.speciality_rcv);
         defSetText(userNameCtxv,"Hello "+getUserName());
-        button2.setClickable(false);
-        button3.setClickable(false);
-        button4.setClickable(false);
         selectFeelingRlay.setVisibility(View.VISIBLE);
 
         listPacifyrRlay.setVisibility(View.GONE);
@@ -215,31 +212,27 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
                 button2.setBackgroundResource(R.drawable.circle_button);
                 button3.setBackgroundResource(R.drawable.circle_button);
                 button4.setBackgroundResource(R.drawable.circle_button);
-                button2.setClickable(false);
-                button3.setClickable(false);
-                button4.setClickable(false);
                 selectFeelingRlay.setVisibility(View.VISIBLE);
                 selectEmotionRlay.setVisibility(View.GONE);
                 selectEmotionDetailRlay.setVisibility(View.GONE);
                 listPacifyrRlay.setVisibility(View.GONE);
+                morePacifyrsRlay.setVisibility(View.GONE);
             }
         });
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(selectEmotionRlay.getVisibility()==View.VISIBLE)
+                if(selectEmotionRlay.getVisibility()==View.VISIBLE ||selectEmotionDetailRlay.getVisibility()==View.VISIBLE||listPacifyrRlay.getVisibility() == View.VISIBLE)
                 {
                     button2.setBackgroundResource(R.drawable.circle_click_btn);
                     button1.setBackgroundResource(R.drawable.circle_button);
                     button3.setBackgroundResource(R.drawable.circle_button);
                     button4.setBackgroundResource(R.drawable.circle_button);
-                    button1.setClickable(true);
-                    button3.setClickable(false);
-                    button4.setClickable(false);
                     selectFeelingRlay.setVisibility(View.GONE);
                     selectEmotionRlay.setVisibility(View.VISIBLE);
                     selectEmotionDetailRlay.setVisibility(View.GONE);
                     listPacifyrRlay.setVisibility(View.GONE);
+                    morePacifyrsRlay.setVisibility(View.GONE);
                 }
                 else {
                     Toast.makeText(v.getContext(), "Please select option", Toast.LENGTH_SHORT).show();
@@ -250,19 +243,17 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
         button3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (selectEmotionDetailRlay.getVisibility()==View.VISIBLE)
+                if (selectEmotionDetailRlay.getVisibility()==View.VISIBLE ||listPacifyrRlay.getVisibility()==View.VISIBLE)
                 {
                     button3.setBackgroundResource(R.drawable.circle_click_btn);
                     button2.setBackgroundResource(R.drawable.circle_button);
                     button1.setBackgroundResource(R.drawable.circle_button);
                     button4.setBackgroundResource(R.drawable.circle_button);
-                    button4.setClickable(false);
-                    button1.setClickable(true);
-                    button2.setClickable(true);
                     selectFeelingRlay.setVisibility(View.GONE);
                     selectEmotionRlay.setVisibility(View.GONE);
                     selectEmotionDetailRlay.setVisibility(View.VISIBLE);
                     listPacifyrRlay.setVisibility(View.GONE);
+                    morePacifyrsRlay.setVisibility(View.GONE);
                 }
                 else
                 {
@@ -280,9 +271,6 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
                     button2.setBackgroundResource(R.drawable.circle_button);
                     button3.setBackgroundResource(R.drawable.circle_button);
                     button1.setBackgroundResource(R.drawable.circle_button);
-                    button1.setClickable(true);
-                    button2.setClickable(true);
-                    button3.setClickable(true);
                     selectFeelingRlay.setVisibility(View.GONE);
                     selectEmotionRlay.setVisibility(View.GONE);
                     selectEmotionDetailRlay.setVisibility(View.GONE);
@@ -305,8 +293,6 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
                 happyDimv.clearColorFilter();
                 sadDimv.setColorFilter(getResources().getColor( R.color.colorPrimary), android.graphics.PorterDuff.Mode.MULTIPLY);
                 type="negative";
-                button1.setClickable(true);
-                button1.setEnabled(true);
                 button1.setBackgroundResource(R.drawable.circle_button);
                 button2.setBackgroundResource(R.drawable.circle_click_btn);
                 //callFragmant();
@@ -318,9 +304,7 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
         happyDimv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                button1.setClickable(true);
                 sadDimv.clearColorFilter();
-                button1.setEnabled(true);
                 happyDimv.setColorFilter(getResources().getColor( R.color.colorPrimary), android.graphics.PorterDuff.Mode.MULTIPLY);
                 type="positive";
                 button1.setBackgroundResource(R.drawable.circle_button);
@@ -367,7 +351,7 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
                 if(isValid(PacifyerActivity.call_emotion)){
                     //ToastHandler.newInstance(ConnectToPacifyrActivity.this).showToast(PacifyerActivity.call_emotion.getTitle());
                 }
-                ListPacifyrScreenActivity.start(ConnectToPacifyrActivity.this, ConnectToPacifyrActivity.customerEmotion);
+                ListPacifyrScreenActivity.start(ConnectToPacifyrActivity.this, ConnectToPacifyrActivity.customerEmotion,showAllFlag);
             }
         });
 
