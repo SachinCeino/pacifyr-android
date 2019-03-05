@@ -28,7 +28,7 @@ public class UtilityNetworkService extends IntentService {
 
 
     //** prod*/
-   /* public static final String GLOBAL_URL = "https://app.pacifyr.net/pacifyr/v1/";
+    /*public static final String GLOBAL_URL = "https://app.pacifyr.net/pacifyr/v1/";
     //prod quickblox
     public static final String APP_ID = "61574";
     public static String GLOBAL_IMAGE_URL = "https://pacifyrprod.storage.googleapis.com/";
@@ -57,9 +57,9 @@ public class UtilityNetworkService extends IntentService {
       //public static final String CIRTIFICATE_KEY="development";
      public static final String CIRTIFICATE_KEY="production";
 
-    /*public static final String  termOfUseUrl = "https://pacifyr.com/terms.html";
+    public static final String termOfUseUrl = "https://pacifyr.com/terms.html";
     public static final String  copyrightUrl = "https://pacifyr.com/copyright.html";
-    public static final String  privacypolicyUrl = "https://pacifyr.com/privacy.html";*/
+    public static final String privacypolicyUrl = "https://pacifyr.com/privacy.html";
 
     public static final String  termOfUsersUrl = "https://pacifyr.com/TermsUsers.html";
 
