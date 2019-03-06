@@ -356,7 +356,6 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
                         hideStatus();
                             /*PrefManager prefM= PrefManager.getInstance(getActivity());
                             prefM.clearSharedAll();*/
-                        new AmazonSNSTokenHandler(context).deleteEndpoint();
                         deleteInstallationWeb();
                            /* LoginManager mLoginManager = LoginManager.getInstance();
                             if(isValid(mLoginManager))

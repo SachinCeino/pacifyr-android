@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -17,10 +16,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
 
-import com.amazonaws.services.sns.model.CreatePlatformEndpointRequest;
-import com.amazonaws.services.sns.model.CreatePlatformEndpointResult;
-import com.amazonaws.services.sns.model.InvalidParameterException;
-import com.amazonaws.services.sns.model.SetEndpointAttributesRequest;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
@@ -31,8 +26,6 @@ import com.ceino.utilitylibrary.model.pacifyr.MUser;
 import com.ceino.utilitylibrary.network.UtilityNetworkService;
 import com.ceino.utilitylibrary.utils.PrefManager;
 import com.facebook.login.LoginManager;
-import com.google.android.gms.gcm.GoogleCloudMessaging;
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.koushikdutta.ion.Ion;
@@ -67,10 +60,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.TimeZone;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import static com.ceino.utilitylibrary.network.UtilityNetworkService.ACCOUNT_KEY;
 import static com.ceino.utilitylibrary.network.UtilityNetworkService.APP_ID;
@@ -374,206 +364,6 @@ public abstract class PacifyrAppCompactActivity  extends PacifyerActivity {
             LogUtils.LOGD("install", "configPushNotifications Exception " + e.getMessage());
         }
 */
-    }
-
-
-    private void register() {
-        final GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(getApplicationContext());
-        LogUtils.LOGD("install", "register: ");
-        new AsyncTask() {
-            protected Object doInBackground(final Object... params) {
-
-                String gcmToken = PrefManager.getInstance(getApplicationContext()).getSharedString(PrefManager.FCM_TOKEN, null);
-                LogUtils.LOGD("install", "registrationId: " + gcmToken);
-                PrefManager.getInstance(getApplicationContext()).putSharedString(PrefManager.FCM_TOKEN, gcmToken);
-                createEndPointTask(AWSManager.ARN, gcmToken, getProfileName());
-
-                return true;
-            }
-        }.execute(null, null, null);
-    }
-    /*  private void createEndPointTask(final String arn, final String gcmToken, final String userData) {
-          try {
-              final GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(getApplicationContext());
-              LogUtils.LOGD("install","amaz_sns"+" createEndPointTask: ");
-              new AsyncTask() {
-                  protected Object doInBackground(final Object... params) {
-
-                      try {
-
-                          CreatePlatformEndpointRequest request = new CreatePlatformEndpointRequest();
-
-                          request.setCustomUserData(userData);
-
-                          request.setToken(gcmToken);
-
-                          request.setPlatformApplicationArn(arn);
-                          CreatePlatformEndpointResult result = AWSManager.getSNSClient().createPlatformEndpoint(request);
-                          if(isValid(result)) {
-                              LogUtils.LOGD("install","amaz_sns"+" CreatePlatformEndpointResult success: " + result.getEndpointArn());
-                              PrefManager.getInstance(getApplicationContext()).putSharedString(Constants.AWS_ENDPOINT, result.getEndpointArn());
-                              installationWeb();
-
-                          }
-
-                          // }
-                      } catch (InvalidParameterException ipe) {
-                          // Invalid parameter: Token Reason: Endpoint arn:aws:sns:us-east-1:106428918470:endpoint/GCM/FluidGuy-Sample/5af0662e-31b8-3733-8aa7-c21f911b7360 already exists with the same Token, but different attributes.
-
-                          String message = ipe.getErrorMessage();
-                          LogUtils.LOGD("install","Exception message: " + message);
-                          LogUtils.LOGD("install","amaz_sns"+" CreatePlatformEndpointResult fail : " + message);
-                          Pattern p = Pattern.compile(".*Endpoint (arn:aws:sns[^ ]+) already exists " + "with the same Token.*");
-                          Matcher m = p.matcher(message);
-                          if(m.matches()) {
-
-                              PrefManager.getInstance(getApplicationContext()).putSharedString(Constants.AWS_ENDPOINT, m.group(1));
-                              LogUtils.LOGD("install","amaz_sns"+" CreatePlatformEndpointResult fail :endpoint  " + m.group(1));
-                              installationWeb();
-                          } else {
-                              // rethrow exception, the input is actually bad
-                              throw ipe;
-                          }
-                      } catch (Exception ex) {
-                          LogUtils.LOGD("install","amaz_sns"+" CreatePlatformEndpointResult Exception : " + ex.getMessage());
-                      }
-                      return true;
-                  }
-              }.execute(null, null, null);
-          } catch (Exception ex) {
-              LogUtils.LOGD("install","amaz_sns"+" CreatePlatformEndpointResult Exception end  : " + ex.getMessage());
-          }
-      }*/
-    private void createEndPointTask(final String arn, final String gcmToken, final String userData) {
-        try {
-            final GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(getApplicationContext());
-            LogUtils.LOGD("install", "createEndPointTask: ");
-            new AsyncTask() {
-                protected Object doInBackground(final Object... params) {
-
-                    try {
-
-                        CreatePlatformEndpointRequest request = new CreatePlatformEndpointRequest();
-
-                        request.setCustomUserData(userData);
-
-                        request.setToken(gcmToken);
-
-                        request.setPlatformApplicationArn(arn);
-                        CreatePlatformEndpointResult result = AWSManager.getSNSClient().createPlatformEndpoint(request);
-                        if(isValid(result)) {
-                            LogUtils.LOGD("install", "CreatePlatformEndpointResult success: " + result.getEndpointArn());
-                            putSharedString(PrefManager.AWS_ENDPOINT, result.getEndpointArn());
-
-                            installationWeb();
-
-                        }
-
-                        // }
-                    } catch (InvalidParameterException ipe) {
-                        // Invalid parameter: Token Reason: Endpoint arn:aws:sns:us-east-1:106428918470:endpoint/GCM/FluidGuy-Sample/5af0662e-31b8-3733-8aa7-c21f911b7360 already exists with the same Token, but different attributes.
-
-                        String message = ipe.getErrorMessage();
-                        System.out.println("Exception message: " + message);
-                        LogUtils.LOGD("install", "CreatePlatformEndpointResult fail : " + message);
-                        Pattern p = Pattern.compile(".*Endpoint (arn:aws:sns[^ ]+) already exists " + "with the same Token.*");
-                        Matcher m = p.matcher(message);
-                        if(m.matches()) {
-                            // the endpoint already exists for this token, but with
-                            // additional custom data that
-                            // CreateEndpoint doesn't want to overwrite. Just use the
-                            // existing endpoint.
-                            //endpointArn = m.group(1);
-                            putSharedString(PrefManager.AWS_ENDPOINT, m.group(1));
-                            LogUtils.LOGD("install", "CreatePlatformEndpointResult fail :endpoint  " + m.group(1));
-                            setEndpointAttributes(m.group(1), userData);
-
-                            installationWeb();
-                        } else {
-                            // rethrow exception, the input is actually bad
-                            throw ipe;
-                        }
-                    } catch (Exception ex) {
-                        LogUtils.LOGD("install", "CreatePlatformEndpointResult Exception : " + ex.getMessage());
-                    }
-                    return true;
-                }
-            }.execute(null, null, null);
-        } catch (Exception ex) {
-            LogUtils.LOGD("install", "CreatePlatformEndpointResult Exception end  : " + ex.getMessage());
-        }
-    }
-
-    private void setEndpointAttributes(final String endpointArn, final String userData) {
-        try {
-            SetEndpointAttributesRequest setEndpointAttributesRequest = new SetEndpointAttributesRequest();
-            setEndpointAttributesRequest.setEndpointArn(endpointArn);
-            Map<String, String> attributes = new HashMap<>();
-            attributes.put("CustomUserData", userData);
-            setEndpointAttributesRequest.setAttributes(attributes);
-            AWSManager.getSNSClient().setEndpointAttributes(setEndpointAttributesRequest);
-
-        } catch (InvalidParameterException ipe) {
-            ipe.printStackTrace();
-        }
-    }
-
-
-    public void installationWeb() {
-        LogUtils.LOGD("install", "installationWeb");
-
-        try {
-            final String udid = getUDID();
-            LogUtils.LOGD("install", "installationWeb " + udid);
-            AjaxCallback<JSONObject> cbc = new AjaxCallback<JSONObject>() {
-                @Override
-                public void callback(String url, JSONObject json, AjaxStatus status) {
-                    LogUtils.LOGD("install", "installationWeb callback : " + json);
-                    if(json == null) {
-                        LogUtils.LOGD("install", "installationWeb fail : " + status.getMessage());
-                        ToastHandler.newInstance(getApplicationContext()).showToast("Install : Please Try again");
-
-                    } else {
-                        try {
-                            saveUDID(udid);
-                            Gson gson = new Gson();
-                            String json2 = gson.toJson(json);
-                            LogUtils.LOGD("install", "installationWeb suceess : " + json2);
-                        } catch (Exception e){
-                            //Crashlytics.logException(e);
-                            ToastHandler.newInstance(getApplicationContext()).showToast("Please Try again");
-                            LogUtils.LOGD("install", "installationWeb exception callback : " + e.getMessage());
-                            e.printStackTrace();
-                        }
-                    }
-
-
-                }
-            };
-
-            AQuery aq = new AQuery(this);
-            // cbc.header("support-app-id", "appid");
-            //  cbc.header("support-app-key", "appkey");
-            cbc.header("Content-Type", "application/json");
-            cbc.header("AccessToken", getAccessToken());
-
-            JSONObject input = new JSONObject();
-            input.putOpt("userId", getUserID());
-            input.putOpt("arn", getAWSEndPoint());
-            input.putOpt("udid", udid);
-            input.putOpt("devicetoken", getGCMToken());
-            input.putOpt("deviceType", PrefManager.DEVICETYPE);
-            input.putOpt("applicationname", AWSManager.AWS_PROJECT);
-            Gson gson = new Gson();
-            String json = gson.toJson(input);
-            LogUtils.LOGD("install", "installationWeb : " + json);
-            aq.post(NetworkService.GLOBAL_URL + "installation", input, JSONObject.class, cbc);
-            LogUtils.LOGD("install", "installation url: " + NetworkService.GLOBAL_URL + "installation");
-
-        } catch (Exception e){
-            //Crashlytics.logException(e);
-            LogUtils.LOGD("install", "installationWeb Exception : " + e.getMessage());
-        }
     }
 
     //////////////////////////////////////////////

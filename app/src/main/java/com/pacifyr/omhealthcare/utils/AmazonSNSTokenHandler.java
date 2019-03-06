@@ -1,19 +1,9 @@
 package com.pacifyr.omhealthcare.utils;
 
 import android.content.Context;
-import android.os.AsyncTask;
 import android.provider.Settings;
 import android.util.Log;
 
-import com.amazonaws.services.sns.model.AuthorizationErrorException;
-import com.amazonaws.services.sns.model.CreatePlatformEndpointRequest;
-import com.amazonaws.services.sns.model.CreatePlatformEndpointResult;
-import com.amazonaws.services.sns.model.DeleteEndpointRequest;
-import com.amazonaws.services.sns.model.GetEndpointAttributesRequest;
-import com.amazonaws.services.sns.model.GetEndpointAttributesResult;
-import com.amazonaws.services.sns.model.InvalidParameterException;
-import com.amazonaws.services.sns.model.NotFoundException;
-import com.amazonaws.services.sns.model.SetEndpointAttributesRequest;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
@@ -25,11 +15,7 @@ import com.pacifyr.omhealthcare.model.Installation;
 import com.pacifyr.omhealthcare.network.NetworkService;
 import com.pacifyr.omhealthcare.utility.AWSManager;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /* PSEUDO CODE
 * retrieve the latest device token from the mobile operating system
@@ -108,86 +94,7 @@ public class AmazonSNSTokenHandler {
         new NetworkService().getInstallation(getUDID(), cb);*/
     }
 
-    private void createEndPointTask(final String arn, final String gcmToken, final String userData) {
-        try {
-            LogUtils.LOGD("install", "createEndPointTask: ");
-            new AsyncTask() {
-                protected Object doInBackground(final Object... params) {
 
-                    try {
-
-                        CreatePlatformEndpointRequest request = new CreatePlatformEndpointRequest();
-
-                        request.setCustomUserData(userData);
-
-                        request.setToken(gcmToken);
-
-                        request.setPlatformApplicationArn(arn);
-                        CreatePlatformEndpointResult result = AWSManager.getSNSClient().createPlatformEndpoint(request);
-                        if (isValid(result)) {
-                            LogUtils.LOGD("install", "CreatePlatformEndpointResult success: " + result.getEndpointArn());
-                            PrefManager.getInstance(context).putSharedString(PrefManager.AWS_ENDPOINT, result.getEndpointArn());
-                            deleteInstallationWeb();
-                            installationWeb();
-
-                        }
-
-                        // }
-                    } catch (InvalidParameterException ipe) {
-                        LogUtils.LOGD("install", "CreatePlatformEndpointResult Exception : " + ipe.getMessage());
-                        // Invalid parameter: Token Reason: Endpoint arn:aws:sns:us-east-1:106428918470:endpoint/GCM/FluidGuy-Sample/5af0662e-31b8-3733-8aa7-c21f911b7360 already exists with the same Token, but different attributes.
-
-                        /*String message = ipe.getErrorMessage();
-                        System.out.println("Exception message: " + message);
-                        LogUtils.LOGD("install", "CreatePlatformEndpointResult fail : " + message);
-                        Pattern p = Pattern.compile(".*Endpoint (arn:aws:sns[^ ]+) already exists " + "with the same Token.*");
-                        Matcher m = p.matcher(message);
-                        if(m.matches()) {
-                            // the endpoint already exists for this token, but with
-                            // additional custom data that
-                            // CreateEndpoint doesn't want to overwrite. Just use the
-                            // existing endpoint.
-                            //endpointArn = m.group(1);
-                            PrefManager.getInstance(context).putSharedString(PrefManager.AWS_ENDPOINT, m.group(1));
-                            LogUtils.LOGD("install", "CreatePlatformEndpointResult fail :endpoint  " + m.group(1));
-                            new SetEndPointTask(m.group(1), userData).execute();
-                            installationWeb();
-                        } else {
-                            // rethrow exception, the input is actually bad
-                            throw ipe;
-                        }*/
-                    } catch (Exception ex) {
-                        LogUtils.LOGD("install", "CreatePlatformEndpointResult Exception : " + ex.getMessage());
-                    }
-                    return true;
-                }
-            }.execute(null, null, null);
-        } catch (Exception ex) {
-            LogUtils.LOGD("install", "CreatePlatformEndpointResult Exception end  : " + ex.getMessage());
-        }
-    }
-
-    private void setEndpointAttributes(final String endpointArn, final String userData) {
-        try {
-            SetEndpointAttributesRequest setEndpointAttributesRequest = new SetEndpointAttributesRequest();
-            setEndpointAttributesRequest.setEndpointArn(endpointArn);
-            Map<String, String> attributes = new HashMap<>();
-            attributes.put("CustomUserData", userData);
-            attributes.put("Token", token);
-            attributes.put("Enabled", "true");
-            setEndpointAttributesRequest.setAttributes(attributes);
-            AWSManager.getSNSClient().setEndpointAttributes(setEndpointAttributesRequest);
-
-        } catch (InvalidParameterException ipe) {
-            ipe.printStackTrace();
-        }
-    }
-
-    public GetEndpointAttributesResult getEndpointAttributes(String endpointArn) {
-        GetEndpointAttributesRequest getEndpointAttributesRequest = new GetEndpointAttributesRequest();
-        getEndpointAttributesRequest.setEndpointArn(endpointArn);
-        return AWSManager.getSNSClient().getEndpointAttributes(getEndpointAttributesRequest);
-    }
 
     public void installationWeb() {
         LogUtils.LOGD("install", "installationWeb");
@@ -330,83 +237,4 @@ public class AmazonSNSTokenHandler {
 
     }
 
-    public class SetEndPointTask extends AsyncTask {
-
-        private final String arn;
-        private final String data;
-
-        public SetEndPointTask(String endPointArn, String userData) {
-            this.arn = endPointArn;
-            this.data = userData;
-        }
-
-        @Override
-        protected Object doInBackground(Object[] objects) {
-            try {
-                setEndpointAttributes(arn, data);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-    }
-
-    public class GetEndPointAttributesTask extends AsyncTask {
-
-        private final String arn;
-
-        public GetEndPointAttributesTask(String endPointArn) {
-            this.arn = endPointArn;
-        }
-
-        @Override
-        protected Object doInBackground(Object[] objects) {
-
-            try {
-                return getEndpointAttributes(arn);
-            } catch (NotFoundException nf) {
-                nf.printStackTrace();
-                return nf;
-            } catch (AuthorizationErrorException aee) {
-                aee.printStackTrace();
-                return aee;
-            }
-        }
-
-        @Override
-        protected void onPostExecute(Object o) {
-            super.onPostExecute(o);
-            if (o != null && o instanceof GetEndpointAttributesResult) {
-                GetEndpointAttributesResult getEndpointAttributesResult = (GetEndpointAttributesResult) o;
-                Log.d(TAG, "GetEndpointAttributesResult " + getEndpointAttributesResult.toString());
-                if (!getEndpointAttributesResult.getAttributes().get("Token").equals(token)
-                        || getEndpointAttributesResult.getAttributes().get("Enabled").equals("false")) {
-                    new SetEndPointTask(installation.getArn(), getProfileName()).execute();
-                }
-            } else if (o instanceof NotFoundException || o instanceof AuthorizationErrorException) {
-               // createEndPointTask(AWSManager.ARN, token, getProfileName());
-            }
-        }
-    }
-
-    public void deleteEndpoint() {
-        new DeleteEndPointTask().execute();
-    }
-
-    public class DeleteEndPointTask extends AsyncTask {
-        @Override
-        protected Object doInBackground(Object[] objects) {
-            try {
-                DeleteEndpointRequest deleteEndpointRequest = new DeleteEndpointRequest();
-                String endPoint = PrefManager.getInstance(context).getSharedString(PrefManager.AWS_ENDPOINT, null);
-                if (endPoint != null) {
-                    deleteEndpointRequest.setEndpointArn(endPoint);
-                    AWSManager.getSNSClient().deleteEndpoint(deleteEndpointRequest);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-    }
 }
