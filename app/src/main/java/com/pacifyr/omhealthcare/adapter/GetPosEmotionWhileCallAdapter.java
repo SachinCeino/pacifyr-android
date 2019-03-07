@@ -44,7 +44,6 @@ public class GetPosEmotionWhileCallAdapter extends RecyclerView.Adapter<GetPosEm
 
 
     public GetPosEmotionWhileCallAdapter(Activity context, ArrayList<MEmotion> list) {
-        PacifyerActivity.call_emotion = null;
         this.mInflater = LayoutInflater.from(context);
         this.list = list;
         this.context = context;

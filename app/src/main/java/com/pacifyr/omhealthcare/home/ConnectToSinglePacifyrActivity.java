@@ -440,6 +440,8 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
                                 status_indicator_dimv.setImageDrawable(getResources().getDrawable(R.drawable.offline));
                                 status_indicator_ctxv.setText("OFFLINE");
                             }
+
+                            chatSubsCall(pacifyer_obj);
                         }
                     }
 
