@@ -243,7 +243,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
                 defSetText(titleTxv,getResources().getString(R.string.mydashboard));
             }
         });
-        profile_cimv.setOnClickListener(new View.OnClickListener() {
+        detailLlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showRightLayActionbar();

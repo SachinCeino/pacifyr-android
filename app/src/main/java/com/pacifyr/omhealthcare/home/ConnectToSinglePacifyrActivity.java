@@ -462,7 +462,21 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
 
                 defSetText(pac_name_ctxv,pacifyer_obj.getFirstName()+""+pacifyer_obj.getLastName());
                 defSetText(pac_des_ctxv,pacifyer_obj.getDescription());
-                defSetText(pac_rate_ctxv,pacifyer_obj.getPriceWithSign()+" per hour");
+                prefM = PrefManager.getInstance(ConnectToSinglePacifyrActivity.this);
+                String customerRole = prefM.getCustomerRole();
+                if(customerRole.equals("employee")) {
+                    if (pacifyer_obj.isSessionChargeable()){
+                        defSetText(pac_rate_ctxv,pacifyer_obj.getPriceWithSign()+" per hour");
+
+                    }else {
+                        defSetText(pac_rate_ctxv,"Employer Designated Pacifyr");
+                    }
+                }else if(customerRole.equals("customer")){
+                    defSetText(pac_rate_ctxv,pacifyer_obj.getPriceWithSign()+" per hour");
+                }
+                else if(customerRole.equals("paidMember")){
+                    defSetText(pac_rate_ctxv,"Employer Designated Pacifyr");
+                }
 
                 videocall_rlay.setOnClickListener(new View.OnClickListener() {
                     @Override

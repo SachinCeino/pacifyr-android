@@ -145,7 +145,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
                     defSetText(titleTxv, "My Dash board");
                 }
             });
-            account_rlay.setOnClickListener(new View.OnClickListener() {
+            detailLlay.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     showRightLayActionbar();

@@ -127,6 +127,16 @@ public class ModelUserProfile
 
     private String rating;
 
+    private boolean sessionChargeable;
+
+    public boolean isSessionChargeable() {
+        return sessionChargeable;
+    }
+
+    public void setSessionChargeable(boolean sessionChargeable) {
+        this.sessionChargeable = sessionChargeable;
+    }
+
     public String getQualifications ()
     {
         return qualifications;

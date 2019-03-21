@@ -2344,7 +2344,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
             mUser.setPhoneNumber(pacifyerDetial.getPhoneNumber());
             mUser.setPrice(pacifyerDetial.getPrice());
             mUser.setCountry(pacifyerDetial.getCountry());
-
+            mUser.setSessionChargeable(pacifyerDetial.isSessionChargeable());
             mUser.setBonusProfileId(pacifyerDetial.getBonusProfileId());
             mUser.setCompanyId(pacifyerDetial.getCompanyId());
             mUser.setReasonForTheCall(pacifyerDetial.getReasonForTheCall());
