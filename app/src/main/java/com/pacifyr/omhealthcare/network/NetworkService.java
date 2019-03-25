@@ -779,7 +779,7 @@ public class NetworkService  extends IntentService {
         PrefManager prefM= PrefManager.getInstance(getApplicationContext());
         String token=prefM.getAccessToken();
 
-        String url = GLOBAL_URL+"specialities";
+        String url = GLOBAL_URL+"specialities/byCategory?category=all";
         AjaxCallback cb = new AjaxCallback<JSONObject>() {
             @Override
             public void callback(String url, JSONObject json, AjaxStatus status) {
