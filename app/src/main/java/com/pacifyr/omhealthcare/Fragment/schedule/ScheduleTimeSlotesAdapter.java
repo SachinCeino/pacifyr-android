@@ -1,0 +1,163 @@
+package com.pacifyr.omhealthcare.Fragment.schedule;
+
+import android.content.Context;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+
+import com.ceino.utilitylibrary.CustomFontTextView;
+import com.pacifyr.omhealthcare.R;
+
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
+
+public class ScheduleTimeSlotesAdapter extends RecyclerView.Adapter<ScheduleTimeSlotesAdapter.MyViewHolder>{
+
+    private List<Slot> mSlotesData;
+    private Context context;
+    private boolean Available;
+    private boolean isDateIsPassed;
+
+    private SloteBookedListener mListener;
+
+    public interface SloteBookedListener { // create an interface
+        void onSloteBooked(int position); // create callback function
+    }
+
+
+    public class MyViewHolder extends RecyclerView.ViewHolder {
+        public CustomFontTextView schedule_timelotes;
+        private ImageView img_cancel_slot;
+
+
+        public MyViewHolder(View view) {
+            super(view);
+
+                     schedule_timelotes=(CustomFontTextView) view.findViewById(R.id.schedule_timelotes);
+            img_cancel_slot=view.findViewById(R.id.img_cancel_slot);
+
+        }
+    }
+
+
+
+    public ScheduleTimeSlotesAdapter(Context context, List<Slot> mSlotesData, boolean isDateIsPassed,SloteBookedListener mListener) {
+        this.mSlotesData = mSlotesData;
+       // this.Available=Available;
+        this.context=context;
+        this.isDateIsPassed=isDateIsPassed;
+        this.mListener= mListener;
+    }
+
+    @Override
+    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
+        View itemView = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_slotes_list, parent, false);
+
+
+        return new MyViewHolder(itemView);
+    }
+
+    @Override
+    public void onBindViewHolder(final MyViewHolder holder, final int position) {
+
+        Slot object=mSlotesData.get(position);
+        if (isValid(object)) {
+
+            if (isValid(object.getStartTime()) && isValid(object.getEndTime())) {
+                String S_time = convertTime(object.getStartTime());
+                String E_time = convertTime(object.getEndTime());
+
+                holder.schedule_timelotes.setText(S_time + "\t>\t" + E_time);
+
+            }
+
+            if (object.getBooked()) {
+                holder.itemView.setBackgroundResource(R.drawable.blue_background_white_border);
+                holder.img_cancel_slot.setVisibility(View.VISIBLE);
+            } else {
+                holder.itemView.setBackgroundResource(R.drawable.black_border_white_back);
+                holder.img_cancel_slot.setVisibility(View.GONE);
+            }
+
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    mListener.onSloteBooked(position);
+
+                }
+            });
+
+
+        }
+
+    }
+
+    private String convertTime(String time) {
+
+        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm:ss");
+        SimpleDateFormat sdfs = new SimpleDateFormat("hh:mm a");
+        Date dt = null;
+        try {
+            dt = sdf.parse(time+":00");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return sdfs.format(dt);
+    }
+
+
+    public Boolean isValid(List list)
+    {
+        if(list!=null)
+            if(list.size()>0)
+                return  true;
+        return  false;
+
+    }
+
+    public Boolean isValid(List list, int position)
+    {
+        if(isValid(list))
+            if(list.size()>=position)
+                return  true;
+        return  false;
+
+    }
+
+    public Boolean isValid(Object object)
+    {
+        if(object!=null)
+            return  true;
+        return  false;
+
+    }
+
+    public Boolean isValid(String text) {
+        if(text != null) if(!text.trim().equalsIgnoreCase("")) return true;
+        return false;
+
+    }
+    @Override
+    public int getItemCount() {
+        return mSlotesData.size();
+    }
+
+    public void setselected(int position ,boolean flag)
+    {
+        if (isValid(mSlotesData))
+        {
+            mSlotesData.get(position).setAvailable(flag);
+            notifyDataSetChanged();
+        }
+    }
+}

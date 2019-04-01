@@ -53,6 +53,9 @@ import com.ceino.utilitylibrary.model.pacifyr.RespSetSessionAsConnected;
 import com.ceino.utilitylibrary.model.pacifyr.RespStartSessionWithPacifyr;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+import com.pacifyr.omhealthcare.Fragment.schedule.ScheduleData;
+import com.pacifyr.omhealthcare.Fragment.schedule.Slot;
 import com.pacifyr.omhealthcare.model.MCustomerList;
 import com.pacifyr.omhealthcare.model.ModelResources;
 import com.pacifyr.omhealthcare.model.ModelSpecialityByCategory;
@@ -62,6 +65,9 @@ import com.pacifyr.omhealthcare.utils.LogUtils;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.lang.reflect.Type;
+import java.util.List;
 
 public class GsonUtils<T> {
 
@@ -808,5 +814,30 @@ public class GsonUtils<T> {
         return model;
     }
 
+    public List<ScheduleData> gsonToModelScheduleData(JSONArray jsonArray) {
+
+        List<ScheduleData> model = null;
+        try {
+            Type listType = new TypeToken<List<ScheduleData>>(){}.getType();
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            model= gson.fromJson(jsonArray.toString(), listType);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return model;
+    }
+
+    public List<Slot> gsonToModelSlotesModel(JSONArray jsonArray) {
+
+        List<Slot> model = null;
+        try {
+            Type listType = new TypeToken<List<Slot>>(){}.getType();
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            model= gson.fromJson(jsonArray.toString(), listType);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return model;
+    }
 }
 

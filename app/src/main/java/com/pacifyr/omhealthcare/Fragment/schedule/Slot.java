@@ -1,0 +1,175 @@
+package com.pacifyr.omhealthcare.Fragment.schedule;
+
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
+
+/**
+ * Created by ceino on 11/1/18.
+ */
+
+public class Slot implements Serializable{
+
+        @SerializedName("startTime")
+        @Expose
+        private String startTime;
+        @SerializedName("endTime")
+        @Expose
+        private String endTime;
+        @SerializedName("isAvailable")
+        @Expose
+        private Boolean isAvailable;
+
+        @SerializedName("id")
+        @Expose
+        private String id;
+
+
+    @SerializedName("booked")
+    @Expose
+    private Boolean booked;
+    @SerializedName("bookedUserModel")
+    @Expose
+    private Object bookedUserModel;
+    @SerializedName("available")
+    @Expose
+    private Boolean available;
+    @SerializedName("pacifyrId")
+    @Expose
+    private String pacifyrId;
+    @SerializedName("createdAt")
+    @Expose
+    private String createdAt;
+    @SerializedName("default")
+    @Expose
+    private Boolean _default;
+
+    @SerializedName("day")
+    @Expose
+    private String day;
+    @SerializedName("bookedUserId")
+    @Expose
+    private Object bookedUserId;
+    @SerializedName("scheduleId")
+    @Expose
+    private String scheduleId;
+    @SerializedName("updatedAt")
+    @Expose
+    private String updatedAt;
+
+
+        public String getStartTime() {
+            return startTime;
+        }
+
+        public void setStartTime(String startTime) {
+            this.startTime = startTime;
+        }
+
+        public String getEndTime() {
+            return endTime;
+        }
+
+        public void setEndTime(String endTime) {
+            this.endTime = endTime;
+        }
+
+        public Boolean getIsAvailable() {
+            return isAvailable;
+        }
+
+        public void setIsAvailable(Boolean isAvailable) {
+            this.isAvailable = isAvailable;
+        }
+
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+
+    public Boolean getBooked() {
+        return booked;
+    }
+
+    public void setBooked(Boolean booked) {
+        this.booked = booked;
+    }
+
+    public Object getBookedUserModel() {
+        return bookedUserModel;
+    }
+
+    public void setBookedUserModel(Object bookedUserModel) {
+        this.bookedUserModel = bookedUserModel;
+    }
+
+    public Boolean getAvailable() {
+        return available;
+    }
+
+    public void setAvailable(Boolean available) {
+        this.available = available;
+    }
+
+    public String getPacifyrId() {
+        return pacifyrId;
+    }
+
+    public void setPacifyrId(String pacifyrId) {
+        this.pacifyrId = pacifyrId;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Boolean getDefault() {
+        return _default;
+    }
+
+    public void setDefault(Boolean _default) {
+        this._default = _default;
+    }
+
+
+    public String getDay() {
+        return day;
+    }
+
+    public void setDay(String day) {
+        this.day = day;
+    }
+
+    public Object getBookedUserId() {
+        return bookedUserId;
+    }
+
+    public void setBookedUserId(Object bookedUserId) {
+        this.bookedUserId = bookedUserId;
+    }
+
+    public String getScheduleId() {
+        return scheduleId;
+    }
+
+    public void setScheduleId(String scheduleId) {
+        this.scheduleId = scheduleId;
+    }
+
+    public String getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(String updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+}

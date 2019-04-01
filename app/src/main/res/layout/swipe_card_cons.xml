@@ -289,6 +289,32 @@
                 app:width_percentage="8" />
 
         </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="10dp"
+            android:visibility="visible"
+            android:layout_marginLeft="25dp"
+            android:id="@+id/schedule_rlay"
+            android:background="@drawable/blue_cirlce">
+
+            <com.ceino.utilitylibrary.DeviceFitImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/img_schedule"
+                app:height_percentage="9"
+                app:parameter="aspect_width"
+                app:width_percentage="8"
+                app:aspect_ratio="1"
+                android:padding="2dp"
+                android:scaleType="fitCenter"
+                android:layout_centerInParent="true"
+                android:src="@drawable/ic_schedule" />
+
+        </RelativeLayout>
+
         <!--  <de.hdodenhof.circleimageview.CircleImageView
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"

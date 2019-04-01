@@ -83,7 +83,7 @@ public class SwipeDeckBrowsePacifyerAdapter extends BaseAdapter {
     private CustomFontTextView chat_price_ctxv;
     private int type = 0;
 
-
+    private  RelativeLayout schedule_rlay;
     public SwipeDeckBrowsePacifyerAdapter(ArrayList<MUser> resultsList, Context context, boolean emoSelected) {
         searchResults = resultsList;
         this.context = context;
@@ -267,6 +267,17 @@ public class SwipeDeckBrowsePacifyerAdapter extends BaseAdapter {
                 RelativeLayout chat_rlay = v.findViewById(R.id.chat_rlay);
                 chat_rlay.setVisibility(View.VISIBLE);
 
+
+                schedule_rlay=v.findViewById(R.id.schedule_rlay);
+
+                schedule_rlay.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (isValid(pacifyer)) {
+                            ((ListPacifyrScreenActivity) context).showScheduleDialogueFragment(pacifyer);
+                        }
+                    }
+                });
 
                 chatSubsFun(position);
                 videocall_rlay.setOnClickListener(new View.OnClickListener() {

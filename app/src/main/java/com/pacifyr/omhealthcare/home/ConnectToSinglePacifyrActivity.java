@@ -30,6 +30,7 @@ import com.ceino.utilitylibrary.model.pacifyr.MUser;
 import com.ceino.utilitylibrary.model.pacifyr.ModelUserProfile;
 import com.ceino.utilitylibrary.network.UtilityNetworkService;
 import com.ceino.utilitylibrary.utils.PrefManager;
+import com.pacifyr.omhealthcare.Fragment.schedule.ScheduleBottomSheetFragment;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.adapter.EmotionSpecialityAdapter;
 import com.pacifyr.omhealthcare.adapter.NegativeEmotionsAdapter;
@@ -103,7 +104,7 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
     public CustomFontTextView pac_name_ctxv,pac_des_ctxv,pac_rate_ctxv,status_indicator_ctxv;
     //static  RespSearchPacifyrWOption.Results pacifyer_obj=null;
     static MUser pacifyer_obj=null;
-    RelativeLayout videocall_rlay,audiocall_rlay,chat_rlay;
+    RelativeLayout videocall_rlay,audiocall_rlay,chat_rlay,schedule_rlay;
    // private PermissionsChecker checker;
     public SwipeRefreshLayout pacifyr_swipelay;
     private RelativeLayout buttonRlay;
@@ -197,7 +198,7 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
         pac_name_ctxv = findViewById(R.id.pac_name_ctxv);
         pac_des_ctxv = findViewById(R.id.pac_des_ctxv);
         pac_rate_ctxv = findViewById(R.id.pac_rate_ctxv);
-
+        schedule_rlay= findViewById(R.id.schedule_rlay);
 
         status_indicator_dimv = findViewById(R.id.status_indicator_dimv);
         status_indicator_ctxv = findViewById(R.id.status_indicator_ctxv);
@@ -647,6 +648,14 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
                 }
 
                 chatSubsCall(pacifyer_obj);
+                schedule_rlay.setVisibility(View.VISIBLE);
+                schedule_rlay.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        showScheduleDialogueFragment(pacifyer_obj);
+                    }
+                });
+
             }
         }catch (Exception e)
         {
@@ -1058,5 +1067,19 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
             }
         });
     }
+
+    private void showScheduleDialogueFragment(MUser pacifyer_obj) {
+        if (isValid(pacifyer_obj))
+        {
+
+            ScheduleBottomSheetFragment bottomSheetFragment = new ScheduleBottomSheetFragment();
+            Bundle bundle=new Bundle();
+            bundle.putSerializable("OBJECT",pacifyer_obj);
+            bottomSheetFragment.setArguments(bundle);
+            bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
+        }
+
+    }
+
 
 }

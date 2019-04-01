@@ -105,6 +105,7 @@ public class SwipeDeckConnectPacifyrAdapter extends BaseAdapter {
 
     CustomFontTextView chatPriceCtxv;
     private LinearLayout chatLlay;
+    private  RelativeLayout schedule_rlay;
 
     /* public SwipeDeckConnectPacifyrAdapter(ArrayList<MUser> resultsList, Context context) {
          this.searchResults = resultsList;
@@ -159,6 +160,8 @@ public class SwipeDeckConnectPacifyrAdapter extends BaseAdapter {
                 v = inflater.inflate(R.layout.swipe_card_cons, parent, false);
                 chatPriceCtxv = v.findViewById(R.id.chat_price_ctxv);
                 //chatLlay = (LinearLayout) v.findViewById(R.id.chat_llay);
+
+                schedule_rlay= v.findViewById(R.id.schedule_rlay);
 
                 imgURL = GLOBAL_IMAGE_URL + searchResults.get(position).getImage();
                 namePacifyr = searchResults.get(position).getFirstName() + " " + searchResults.get(position).getLastName();
@@ -309,6 +312,17 @@ public class SwipeDeckConnectPacifyrAdapter extends BaseAdapter {
 
                     }
                 });
+
+                schedule_rlay.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ((ConnectToPacifyrActivity)context).showScheduleDialogueFragment(pacifyer);
+                    }
+                });
+
+
+
+
                 chat_rlay.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

@@ -23,6 +23,7 @@ import com.ceino.utilitylibrary.model.pacifyr.MUser;
 import com.ceino.utilitylibrary.model.pacifyr.RespSearchPacifyrWOption;
 import com.ceino.utilitylibrary.utils.PrefManager;
 import com.daprlabs.cardstack.SwipeDeck;
+import com.pacifyr.omhealthcare.Fragment.schedule.ScheduleBottomSheetFragment;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.adapter.SpecialistAdapter;
 import com.pacifyr.omhealthcare.adapter.SwipeDeckBrowsePacifyerAdapter;
@@ -663,6 +664,19 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
             ex.printStackTrace();
         }
 
+
+    }
+
+    public void showScheduleDialogueFragment(MUser pacifyer_obj) {
+        if (isValid(pacifyer_obj))
+        {
+
+            ScheduleBottomSheetFragment bottomSheetFragment = new ScheduleBottomSheetFragment();
+            Bundle bundle=new Bundle();
+            bundle.putSerializable("OBJECT",pacifyer_obj);
+            bottomSheetFragment.setArguments(bundle);
+            bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
+        }
 
     }
 
