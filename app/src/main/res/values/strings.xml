@@ -134,4 +134,5 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="start_session">Session Started</string>
     <string name="have_discount_code">Have a discount code?</string>
     <string name="skip_this_step">Skip this step</string>
+    <string name="query_hint_search_pacifyr">search for a pacifyr</string>
 </resources>

@@ -47,6 +47,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -82,14 +83,18 @@ public class SwipeDeckBrowsePacifyerAdapter extends BaseAdapter {
     private int priceForChat;
     private CustomFontTextView chat_price_ctxv;
     private int type = 0;
+    private List<MUser> tempPAcifyrSearchList;
 
     private  RelativeLayout schedule_rlay;
     public SwipeDeckBrowsePacifyerAdapter(ArrayList<MUser> resultsList, Context context, boolean emoSelected) {
         searchResults = resultsList;
+        tempPAcifyrSearchList=new ArrayList<MUser>();
         this.context = context;
         if (PacifyerActivity.call_emotion != null && EmotionSpecialityAdapter.reason_forcall != null && emoSelected) {
             type = 1;
         }
+        if (isValid(tempPAcifyrSearchList)&&isValid(searchResults))
+            this.tempPAcifyrSearchList.addAll(searchResults);
     }
 
     public void clear() {
@@ -791,5 +796,22 @@ public class SwipeDeckBrowsePacifyerAdapter extends BaseAdapter {
     }
 
 
-
+    public void filter(String charText) {
+        charText = charText.toLowerCase(Locale.getDefault());
+        searchResults.clear();
+        if (charText.length() == 0) {
+            searchResults.addAll(tempPAcifyrSearchList);
+        } else {
+            for (MUser searchItem : tempPAcifyrSearchList) {
+                if (searchItem.getFirstName().toLowerCase(Locale.getDefault()).contains(charText)) {
+                    searchResults.add(searchItem);
+                }
+            }
+            if (searchResults.size()==0)
+            {
+                ((ListPacifyrScreenActivity)context).showNoPacifyrAvailbleAfterSearch();
+            }
+        }
+        notifyDataSetChanged();
+    }
 }
