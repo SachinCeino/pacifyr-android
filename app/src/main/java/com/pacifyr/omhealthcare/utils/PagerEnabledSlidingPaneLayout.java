@@ -5,13 +5,12 @@ package com.pacifyr.omhealthcare.utils;
  * samsad@ceinotech.com
  */
 
-        import android.content.Context;
-        import android.support.v4.view.MotionEventCompat;
-        import android.util.AttributeSet;
-        import android.view.MotionEvent;
-        import android.view.ViewConfiguration;
+import android.content.Context;
+import android.support.v4.view.MotionEventCompat;
+import android.util.AttributeSet;
+import android.view.MotionEvent;
+import android.view.ViewConfiguration;
 
-        import com.pacifyr.omhealthcare.utils.WrappingSlidingPaneLayout;
 
 /**
  * Created by ceino on 3/2/15.

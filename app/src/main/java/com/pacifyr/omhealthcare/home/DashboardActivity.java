@@ -20,7 +20,6 @@ import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.ceino.utilitylibrary.CustomFontTextView;
 import com.ceino.utilitylibrary.DeviceFitImageView;
-import com.ceino.utilitylibrary.WrappingSlidingPaneLayout;
 import com.ceino.utilitylibrary.model.pacifyr.MUser;
 import com.ceino.utilitylibrary.utils.PrefManager;
 import com.github.javiersantos.appupdater.AppUpdater;
@@ -62,7 +61,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
     boolean showingFirst = true;
     private Context context;
 
-    WrappingSlidingPaneLayout mSlidingPaneLayout;
+    PagerEnabledSlidingPaneLayout mSlidingPaneLayout;
     boolean onceBackpressed =false;
     private PagerEnabledSlidingPaneLayout slidingPane;
     private LinearLayout leftPane;
@@ -217,7 +216,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
         mSlidingPaneLayout.setParallaxDistance(480);
 
 
-        mSlidingPaneLayout.setPanelSlideListener(new WrappingSlidingPaneLayout.PanelSlideListener()
+        mSlidingPaneLayout.setPanelSlideListener(new PagerEnabledSlidingPaneLayout.PanelSlideListener()
         {
             @Override
             public void onPanelSlide(View panel, float slideOffset) {

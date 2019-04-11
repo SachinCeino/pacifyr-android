@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "904937773105",
+    "firebase_url": "https://pacifyr-4049b.firebaseio.com",
+    "project_id": "pacifyr-4049b",
+    "storage_bucket": "pacifyr-4049b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:904937773105:android:5f78240f766baf07",
+        "android_client_info": {
+          "package_name": "com.pacifyr.pacifyrapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "904937773105-k5drdkf2uidvmgq3lk4cbqd02mbfaihh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDSKhYmmcn20EayQcVul6hbnrpMtjE3sp4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
