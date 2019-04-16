@@ -52,7 +52,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="@string/e_phonenumber"
-                android:textColor="@color/grey_dark"
+                android:textColor="@color/_color_enter_phone_ctxv"
                 android:textSize="17sp"
                 app:fontName="@string/raleway_bold" />
 
@@ -186,7 +186,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="15dp"
                     android:text="or"
-                    android:textColor="@color/grey_dark"
+                    android:textColor="@color/_color_or_text"
                     android:textSize="@dimen/sp16" />
 
                 <View

@@ -47,4 +47,20 @@
     <color name="grey_dark_text">#777776</color>
     <color name="grey_background">#F0F3F5</color>
     <color name="om_blue">#36B0FF</color>
+
+    //new colour codes common
+
+    <color name="_color_get_ready_feel_better">#ffffff</color>
+    <color name="_color_connect_to_wellness">#ffffff</color>
+    <color name="_color_thirty_free">#ffffff</color>
+    <color name="_color_no_credit_card">#ffffff</color>
+    <color name="_color_enter_phone_ctxv">#777776</color>
+    <color name="_color_or_text">#777776</color>
+    <color name="_color_e_con_code">#777776</color>
+    <color name = "_color_back_arrow_tint">#000000</color>
+    <color name = "_color_action_bar_text_color">#777776</color>
+    <color name = "_color_action_bar_background_color">#F0F3F5</color>
+
+
+
 </resources>

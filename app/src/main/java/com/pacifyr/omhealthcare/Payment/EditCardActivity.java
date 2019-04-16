@@ -96,8 +96,8 @@ public class EditCardActivity extends PacifyrAppCompactActivity {
         Typeface type = Typeface.createFromAsset(getAssets(),getResources().getString(R.string.avantica_bold_header));
         titleTxv.setTypeface(type);
         rightTxv.setText("done");
-        rightTxv.setTextColor(getResources().getColor(R.color.black));
-        titleTxv.setTextColor(getResources().getColor(R.color.black));
+        rightTxv.setTextColor(getResources().getColor(R.color._color_action_bar_text_color));
+        titleTxv.setTextColor(getResources().getColor(R.color._color_action_bar_text_color));
         //backImv.setBackgroundResource(R.drawable.leftmen);
         leftLlay.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -16,6 +16,7 @@ import com.androidquery.callback.AjaxStatus;
 import com.ceino.utilitylibrary.CustomFontTextView;
 import com.ceino.utilitylibrary.utils.PrefManager;
 import com.pacifyr.omhealthcare.R;
+import com.pacifyr.omhealthcare.activity.SplachScreen;
 import com.pacifyr.omhealthcare.base.PacifyerActivity;
 
 import org.json.JSONObject;
@@ -37,7 +38,7 @@ public class SignActivity extends PacifyerActivity {
         relative_bg = (RelativeLayout) findViewById(R.id.relative_bg);
         relative_bg.setBackground(getResources().getDrawable(R.drawable.loginbg));
         emergencyCtxv = (CustomFontTextView) findViewById(R.id.emergency_ctxv);
-
+        SplachScreen.PACKAGE_NAME = getApplicationContext().getPackageName();
         String crisisString = getResources().getString(R.string.if_emergency2);
         //If in emergency call 911 or rush to an emergency room. Crisis Info
         SpannableString spannableString = new SpannableString(crisisString);

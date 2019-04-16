@@ -349,7 +349,7 @@ public class AddCreditCardActivity extends PacifyrAppCompactActivity {
         leftLlay.setVisibility(View.VISIBLE);
         defSetText(titleTxv,"add credit card");
         //titleTxv.setText("Add Credit Card");
-        titleTxv.setTextColor(getResources().getColor(R.color.black));
+        titleTxv.setTextColor(getResources().getColor(R.color._color_action_bar_text_color));
         //backImv.setBackgroundResource(R.drawable.leftmen);
         leftLlay.setOnClickListener(new View.OnClickListener() {
             @Override

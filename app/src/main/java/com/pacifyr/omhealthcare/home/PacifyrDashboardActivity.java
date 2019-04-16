@@ -351,7 +351,7 @@ public class PacifyrDashboardActivity extends PacifyrAppCompactActivity {
             rightLlay.setVisibility(View.VISIBLE);
             rightImv.setVisibility(View.INVISIBLE);
             defSetText(rightTxv,"edit");
-            rightTxv.setTextColor(getResources().getColor(R.color.black));
+            rightTxv.setTextColor(getResources().getColor(R.color._color_action_bar_text_color));
             rightLlay.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

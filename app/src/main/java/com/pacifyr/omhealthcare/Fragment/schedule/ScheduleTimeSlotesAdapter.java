@@ -82,15 +82,21 @@ public class ScheduleTimeSlotesAdapter extends RecyclerView.Adapter<ScheduleTime
             if (object.getBooked()) {
                 holder.itemView.setBackgroundResource(R.drawable.blue_background_white_border);
                 holder.img_cancel_slot.setVisibility(View.VISIBLE);
-            } else {
+            }  else if (object.isHideSlote())
+            {
+                holder.itemView.setBackgroundResource(R.drawable.grey_border_grey_solid_rectangle_sharp);
+                holder.img_cancel_slot.setVisibility(View.GONE);
+            }else {
+
                 holder.itemView.setBackgroundResource(R.drawable.black_border_white_back);
                 holder.img_cancel_slot.setVisibility(View.GONE);
+
             }
 
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    if (!object.isHideSlote())
                     mListener.onSloteBooked(position);
 
                 }

@@ -420,7 +420,7 @@ public class CustomerDetailActivity extends PacifyrAppCompactActivity {
             titleTxv.setVisibility(View.VISIBLE);
             leftLlay.setVisibility(View.VISIBLE);
             defSetText(titleTxv, custListUser.getName());
-            titleTxv.setTextColor(getResources().getColor(R.color.white));
+            titleTxv.setTextColor(getResources().getColor(R.color._color_action_bar_text_color));
             backImv.setVisibility(View.VISIBLE);
             leftTxv.setVisibility(View.GONE);
 

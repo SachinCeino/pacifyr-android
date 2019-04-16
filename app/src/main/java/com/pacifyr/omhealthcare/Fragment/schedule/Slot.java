@@ -58,6 +58,16 @@ public class Slot implements Serializable{
     @Expose
     private String updatedAt;
 
+    private  boolean hideSlote;
+
+
+    public boolean isHideSlote() {
+        return hideSlote;
+    }
+
+    public void setHideSlote(boolean hideSlote) {
+        this.hideSlote = hideSlote;
+    }
 
         public String getStartTime() {
             return startTime;

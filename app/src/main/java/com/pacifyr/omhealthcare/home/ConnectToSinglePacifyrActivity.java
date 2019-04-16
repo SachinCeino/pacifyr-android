@@ -1039,12 +1039,11 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
         titleTxv.setVisibility(View.VISIBLE);
         leftLlay.setVisibility(View.VISIBLE);
         defSetText(titleTxv,"connect");
-        titleTxv.setTextColor(getResources().getColor(R.color.black));
         leftTxv.setVisibility(View.GONE);
         ///leftTxv.setText("Cancel");
 
-        Typeface type = Typeface.createFromAsset(getAssets(),"fonts/ITCAvantGardeStd-Bold.otf");
-        /*Typeface typeface = Typeface.createFromAsset(ConnectToPacifyrActivity.this.getAssets(), "ITCAvantGardeStd-Bold.otf");*/
+        Typeface type = Typeface.createFromAsset(getAssets(),"fonts/ActionBarCommonFont.otf");
+        /*Typeface typeface = Typeface.createFromAsset(ConnectToPacifyrActivity.this.getAssets(), "ActionBarCommonFont.otf");*/
         titleTxv.setTypeface(type);
 
         backImv.setVisibility(View.VISIBLE);

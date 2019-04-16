@@ -30,7 +30,7 @@
                 app:width_percentage="8"
                 app:parameter="aspect_width"
                 android:padding="3dp"
-                android:tint="@color/black"
+                android:tint="@color/_color_back_arrow_tint"
                 android:visibility="gone"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
@@ -49,7 +49,7 @@
 
 
                 android:layout_centerVertical="true"
-                android:textColor="@color/black"
+                android:textColor="@color/_color_action_bar_text_color"
                 />
         </LinearLayout>
         <com.ceino.utilitylibrary.CustomFontTextView
@@ -60,7 +60,7 @@
             android:maxLines="1"
             android:maxLength="25"
             android:ellipsize="end"
-            app:fontName="@string/avanti_std_bold"
+           app:fontName="@string/avanti_std_bold"
             android:layout_centerInParent="true"
             android:text=""
             android:padding="5dp"
@@ -68,7 +68,7 @@
             android:textStyle="bold"
             android:textSize="@dimen/sp20_title"
             android:id="@+id/title_txv"
-            android:textColor="@color/black"
+            android:textColor="@color/_color_action_bar_text_color"
             />
         <!--  app:font="@string/avenir_roman"-->
         <LinearLayout
@@ -89,7 +89,7 @@
                 android:textSize="@dimen/sp18"
                 android:text=""
 
-                android:textColor="@color/black"
+                android:textColor="@color/_color_action_bar_text_color"
                 android:layout_centerVertical="true"
                 />
             <com.ceino.utilitylibrary.DeviceFitImageView

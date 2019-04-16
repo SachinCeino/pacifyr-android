@@ -124,6 +124,7 @@ import java.util.TimerTask;
 
 import static com.ceino.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
 import static com.ceino.utilitylibrary.network.UtilityNetworkService.STRIPE_PUBLISH_KEY;
+import static com.quickblox.sample.core.utils.ResourceUtils.getString;
 
 /**
  * Created by Mani-Ceino on 12/4/2017.
@@ -1425,7 +1426,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
                 input.putOpt("pacifyrId", pacifyer.getId());
                 //     input.putOpt("deviceType", Constants.DEVICETYPE);
                 input.putOpt("sessionType", roomType);
-                input.putOpt("appSource", Constants.APP_SOURCE);
+                input.putOpt("appSource", getString(R.string.APP_SOURCE));
                 input.putOpt("reasonForTheCall", EmotionSpecialityAdapter.reason_forcall);
                 aq.post(GLOBAL_URL + "session/start", input, JSONObject.class, cb);
             }
