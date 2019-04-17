@@ -1426,7 +1426,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
                 input.putOpt("pacifyrId", pacifyer.getId());
                 //     input.putOpt("deviceType", Constants.DEVICETYPE);
                 input.putOpt("sessionType", roomType);
-                input.putOpt("appSource", getString(R.string.APP_SOURCE));
+                input.putOpt("appSource", Constants.getAppSource(getApplicationContext()));
                 input.putOpt("reasonForTheCall", EmotionSpecialityAdapter.reason_forcall);
                 aq.post(GLOBAL_URL + "session/start", input, JSONObject.class, cb);
             }

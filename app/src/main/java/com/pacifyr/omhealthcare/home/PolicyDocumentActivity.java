@@ -47,7 +47,7 @@ public class PolicyDocumentActivity extends PacifyrAppCompactActivity {
             @Override
             public void onClick(View v) {
                 Intent i=new Intent(PolicyDocumentActivity.this,TermsOfUseActivity.class);
-                i.putExtra("spurl", Constants.URL_TERMS);
+                i.putExtra("spurl", Constants.getUrlTerms(getApplicationContext()));
                 i.putExtra("title","policy documents");
                 startActivity(i);
 
@@ -58,7 +58,7 @@ public class PolicyDocumentActivity extends PacifyrAppCompactActivity {
             @Override
             public void onClick(View v) {
                 Intent i=new Intent(PolicyDocumentActivity.this,TermsOfUseActivity.class);
-                i.putExtra("spurl", Constants.URL_PRIVACY_POLICY);
+                i.putExtra("spurl", Constants.getUrlPrivacyPolicy(getApplicationContext()));
                 i.putExtra("title","policy documents");
                 startActivity(i);
             }
@@ -68,7 +68,7 @@ public class PolicyDocumentActivity extends PacifyrAppCompactActivity {
             @Override
             public void onClick(View v) {
                 Intent i=new Intent(PolicyDocumentActivity.this,TermsOfUseActivity.class);
-                i.putExtra("spurl", Constants.URL_DISPUTE_POLICY);
+                i.putExtra("spurl", Constants.getUrlDisputePolicy(getApplicationContext()));
                 i.putExtra("title","policy documents");
                 startActivity(i);
             }

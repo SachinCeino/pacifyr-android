@@ -140,7 +140,7 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="APP_SOURCE">om</string>
     <string name="URL_PRIVACY_POLICY">https://omhealthcare.com/privacyPolicy</string>
     <string name="URL_TERMS">https://omhealthcare.com/termsOfUse</string>
-    <string name="URL_DISPUTE_POLICURL_DISPUTE_POLICYY">https://omhealthcare.com/copyrightDisputePolicy</string>
+    <string name="URL_DISPUTE_POLICY">https://omhealthcare.com/copyrightDisputePolicy</string>
     <string name="AWS_PROJECT">OMDev</string>
 
 

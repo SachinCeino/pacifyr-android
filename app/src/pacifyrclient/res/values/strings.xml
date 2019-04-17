@@ -109,10 +109,9 @@ Yor call is routed to the nearest crisis center.</string>
     /** URLS **/
    <string name="CHANNEL_ID">pacifyr_general_notifications</string>
     <string name="APP_SOURCE">pacifyr</string>
-    <string name="URL_PRIVACY_POLICY">https://omhealthcare.com/privacyPolicy</string>
-    <string name="URL_TERMS">https://omhealthcare.com/termsOfUse</string>
-    <string name="URL_DISPUTE_POLICY">https://omhealthcare.com/copyrightDisputePolicy</string>
-
+    <string name="URL_PRIVACY_POLICY">https://pacifyr.com/privacy.html</string>
+    <string name="URL_TERMS">https://pacifyr.com/terms.html</string>
+    <string name="URL_DISPUTE_POLICY">https://pacifyr.com/copyright.html</string>
 
 
 

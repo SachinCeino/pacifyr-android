@@ -1,9 +1,10 @@
 package com.pacifyr.omhealthcare.utility;
 
+import android.content.Context;
+
 import com.ceino.utilitylibrary.network.UtilityNetworkService;
 import com.pacifyr.omhealthcare.BuildConfig;
 
-import static com.pacifyr.omhealthcare.activity.SplachScreen.PACKAGE_NAME;
 
 /**
  * Created by jp on 23/5/16.
@@ -22,8 +23,10 @@ public class AWSManager {
     /**
      * pacifyr,om are using different key for installation AWS server
      * according to the right package Name changing the key from calling this function
-     * **/
-    public static String getProjectName() {
+     *
+     * @param context**/
+    public static String getProjectName(Context context) {
+      String  PACKAGE_NAME = context.getPackageName();
         if (PACKAGE_NAME.equals("com.pacifyr.pacifyrapp"))
         {
             if (UtilityNetworkService.isProd) {

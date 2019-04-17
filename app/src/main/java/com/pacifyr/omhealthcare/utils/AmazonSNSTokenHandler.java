@@ -140,7 +140,7 @@ public class AmazonSNSTokenHandler {
             input.putOpt("udid", udid);
             input.putOpt("devicetoken", getFcmToken());
             input.putOpt("deviceType", PrefManager.DEVICETYPE);
-            input.putOpt("applicationname", AWSManager.getProjectName());
+            input.putOpt("applicationname", AWSManager.getProjectName(context));
             Gson gson = new Gson();
             String json = gson.toJson(input);
             LogUtils.LOGD("install", "installationWeb : " + json);

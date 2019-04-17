@@ -59,7 +59,7 @@ public class NotificationUtils {
             NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
 
             NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
-                    mContext, mContext.getResources().getString(R.string.CHANNEL_ID));
+                    mContext, Constants.getChannelId(mContext));
             Notification notification = mBuilder.setSmallIcon(icon).setTicker(title).setWhen(0)
                     .setAutoCancel(true)
                     .setContentTitle(title)

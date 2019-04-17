@@ -103,7 +103,7 @@ public class LoginActivity extends PacifyerActivity {
             onSetActionBar();
             context = LoginActivity.this;
             prefM = PrefManager.getInstance(context);
-            SplachScreen.PACKAGE_NAME = getApplicationContext().getPackageName();
+
             spinner = (Spinner) findViewById(R.id.spinner);
             phoneCedit = (CustomEditText) findViewById(R.id.phone_cedit);
             facebookRlay = (RelativeLayout) findViewById(R.id.facebook_rlay);
