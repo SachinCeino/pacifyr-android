@@ -28,7 +28,7 @@ public class UtilityNetworkService extends IntentService {
 
 
     //** prod*/
-    public static final String GLOBAL_URL = "https://app.pacifyr.net/pacifyr/v1/";
+    /*public static final String GLOBAL_URL = "https://app.pacifyr.net/pacifyr/v1/";
     //prod quickblox
     public static final String APP_ID = "61574";
     public static String GLOBAL_IMAGE_URL = "https://pacifyrprod.storage.googleapis.com/";
@@ -38,10 +38,11 @@ public class UtilityNetworkService extends IntentService {
     public static final String AUTH_SECRET = "jjpWMb9HRUVnTj7";
     public static final String ACCOUNT_KEY = "xMeisck3BS_X6xbjYTQi";
     public static final String ACCOUNT_ID = "77234";
-    public static final String CIRTIFICATE_KEY = "production";
+    public static final String CIRTIFICATE_KEY = "production";*/
+
     /** dev*/
 
-   /* public static final String GLOBAL_URL = "http://testapp.pacifyr.net:8080/pacifyr/v1/";
+    public static final String GLOBAL_URL = "http://testapp.pacifyr.net:8080/pacifyr/v1/";
     public static String GLOBAL_IMAGE_URL = "https://pacifyrtest.storage.googleapis.com/";
     public static final String STRIPE_PUBLISH_KEY ="pk_test_FAVrlQ9hMG3RELCIcWUJpdZf";
 
@@ -53,9 +54,10 @@ public class UtilityNetworkService extends IntentService {
     public static final String ACCOUNT_KEY = "xMeisck3BS_X6xbjYTQi";
     public static final String ACCOUNT_ID = "77234";
     public static final String TURN_SERVER = "turnserver.quickblox.com";
-    public static final String CIRTIFICATE_KEY="development";*/
+    public static final String CIRTIFICATE_KEY="development";
 
     public static boolean isRelease = false;
+    public static boolean isProd=false;
 
 
 
@@ -96,6 +98,7 @@ public class UtilityNetworkService extends IntentService {
 
 
     public static Users users;
+
 
     public UtilityNetworkService() {
 

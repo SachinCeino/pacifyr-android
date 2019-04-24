@@ -495,7 +495,7 @@ public abstract class PacifyrAppCompactActivity  extends PacifyerActivity {
                             deleteCache(getApplicationContext());
                             clearApplicationData();
                             QBChatService.getInstance().destroy();
-                            setStatus("You have been logged out",R.color.color_primary);
+                            setStatus("You have been logged out",R.color.colorPrimary);
                             showStatus();
                             new Handler().postDelayed(new Runnable() {
                                 @Override

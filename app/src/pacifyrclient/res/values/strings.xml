@@ -30,10 +30,10 @@
     <string name="card_number">Card Number</string>
 
     <!--new adding-->
-    <string name="feel_better">Feel better with Pacifyr</string>
+    <string name="get_ready_feel_better">Feel better with Pacifyr</string>
     <string name="connect_to_wellness">Connect to wellness/health expert through Video,Audio or chat.</string>
     <string name="thirty_free">30 minutes FREE consulting time.</string>
-    <string name="no_credit_card">No Credit Card required.</string>
+    <string name="no_credit_card">Free Introductory call time.</string>
     <string name="if_emergency">If in emergency call 911 or rush to an emergency room.</string>
 
 
@@ -43,7 +43,7 @@
     <string name="show_all">Show all</string>
     <string name="copyright">Copyright</string>
     <string name="request_access_for_pacifyrs">Request access for Pacifyrs</string>
-    <string name="accept_policy_text">I have read, understand and agree to be bound by the Pacifyr Terms of Use</string>
+    <string name="register_terms_text">I have read, understand and agree to be bound by the Pacifyr Terms of Use</string>
     <string name="education">Education</string>
     <string name="add_education">Add Education</string>
     <string name="add_certificate">Add Certification</string>
@@ -102,5 +102,33 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="validate">Validate</string>
     <string name="user_first_time_emotion">Select your emotion before your call</string>
     <string name="more_wellness_experts">More wellness experts</string>
+
+
+
+
+    /** URLS **/
+   <string name="CHANNEL_ID">pacifyr_general_notifications</string>
+    <string name="APP_SOURCE">pacifyr</string>
+    <string name="URL_PRIVACY_POLICY">https://pacifyr.com/privacy.html</string>
+    <string name="URL_TERMS">https://pacifyr.com/terms.html</string>
+    <string name="URL_DISPUTE_POLICY">https://pacifyr.com/copyright.html</string>
+
+
+
+    <!--Pacifyr Raleway Font-->
+    <string name="avanti_std_bold">Raleway-Light.ttf</string>
+    <string name="raleway_light">Raleway-Light.ttf</string>
+    <string name="raleway_medium">Raleway-Medium.ttf</string>
+    <string name="raleway_semi_bold">Raleway-SemiBold.ttf</string>
+    <string name="raleway_thin">Raleway-Thin.ttf</string>
+
+
+    <string name="avenir_black">GOTHICB.ttf</string>
+    <string name="avenir_book">GOTHICB.ttf</string>
+    <string name="avenir_medium">CenturyGothic.ttf</string>
+    <string name="CenturyGothic">CenturyGothic.ttf</string>
+
+    <string name="audio_call">Pacifyr AUDIOCALL</string>
+    <string name="video_call">Pacifyr VIDEOCALL</string>
 
 </resources>

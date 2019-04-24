@@ -204,7 +204,7 @@
                 android:textSize="10dp"
                 android:textCursorDrawable="@color/om_blue"
                 android:layout_marginTop="20dp"
-                android:text="@string/term_of_use"/>
+                android:text="@string/register_terms_text"/>
 
 
             <LinearLayout

@@ -155,9 +155,9 @@ public class PaymentActivity extends PacifyrAppCompactActivity {
             titleTxv.setVisibility(View.VISIBLE);
             leftLlay.setVisibility(View.VISIBLE);
             defSetText(titleTxv, getResources().getString(R.string.payment));
-            Typeface type = Typeface.createFromAsset(getAssets(),"fonts/ITCAvantGardeStd-Bold.otf");
+            Typeface type = Typeface.createFromAsset(getAssets(),"fonts/ActionBarCommonFont.otf");
             titleTxv.setTypeface(type);
-            titleTxv.setTextColor(getResources().getColor(R.color.black));
+            titleTxv.setTextColor(getResources().getColor(R.color._color_action_bar_text_color));
             backImv.setVisibility(View.VISIBLE);
             leftTxv.setVisibility(View.GONE);
             backImv.setOnClickListener(new View.OnClickListener() {

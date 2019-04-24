@@ -16,6 +16,7 @@ import com.androidquery.callback.AjaxStatus;
 import com.ceino.utilitylibrary.CustomFontTextView;
 import com.ceino.utilitylibrary.utils.PrefManager;
 import com.pacifyr.omhealthcare.R;
+import com.pacifyr.omhealthcare.activity.SplachScreen;
 import com.pacifyr.omhealthcare.base.PacifyerActivity;
 
 import org.json.JSONObject;

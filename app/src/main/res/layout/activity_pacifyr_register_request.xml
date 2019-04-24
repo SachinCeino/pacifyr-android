@@ -403,7 +403,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:text="@string/accept_policy_text"
+                android:text="@string/register_terms_text"
                 app:layout_constraintEnd_toEndOf="@+id/file_list_rcv"
                 app:layout_constraintStart_toStartOf="@+id/file_list_rcv"
                 app:layout_constraintTop_toBottomOf="@+id/file_list_rcv" />

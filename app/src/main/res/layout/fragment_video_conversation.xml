@@ -52,7 +52,7 @@
             android:textSize="@dimen/sp16"
             android:singleLine="true"
             android:textStyle="bold"
-            android:text="@string/omhealth_video"
+            android:text="@string/video_call"
             android:textColor="@color/grey_fit"
             android:layout_height="wrap_content" />
 

@@ -34,5 +34,23 @@
     <color name="om_blue">#36B0FF</color>
     <color name="bg_gray">#F0F3F5</color>
 
+    //new colour codes common
+
     <color name="blue_button_primary">#36b0ff</color>
+    <color name="_color_get_ready_feel_better">#0091Bc</color>
+    <color name="_color_connect_to_wellness">#000000</color>
+    <color name="_color_thirty_free">#000000</color>
+    <color name="_color_no_credit_card">#000000</color>
+    <color name="_color_enter_phone_ctxv">#000000</color>
+    <color name="_color_or_text">#000000</color>
+    <color name="_color_e_con_code">#000000</color>
+    <color name = "_color_back_arrow_tint">#ffffff</color>
+
+    //excluding signup actionbars(_color_back_arrow_tint includes signup actionbar )
+
+    <color name = "_color_action_bar_text_color">#ffffff</color>
+    <color name = "_color_action_bar_background_color">#454A4A</color>
+
+
+
 </resources>

@@ -68,7 +68,39 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
     private ScheduleData TempScheduleData=new ScheduleData();
     private RelativeLayout noDataAvailable;
 
+    boolean after,before,today,passedTime;
 
+    public boolean isAfter() {
+        return after;
+    }
+
+    public void setAfter(boolean after) {
+        this.after = after;
+    }
+
+    public boolean isBefore() {
+        return before;
+    }
+
+    public void setBefore(boolean before) {
+        this.before = before;
+    }
+
+    public boolean isToday() {
+        return today;
+    }
+
+    public void setToday(boolean today) {
+        this.today = today;
+    }
+
+    public boolean isPassedTime() {
+        return passedTime;
+    }
+
+    public void setPassedTime(boolean passedTime) {
+        this.passedTime = passedTime;
+    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -270,7 +302,9 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
     }
 
     private void setWeekScheduleAdapter(List<ScheduleData> weekScheduleData) {
-
+        setToday(false);
+        setBefore(false);
+        setAfter(false);
         mWeekScheduleListAdapter=new WeekScheduleListAdapter(weekScheduleData,getActivity(),isDateIsPassed, new WeekScheduleListAdapter.ListAdapterListener() {
             @Override
             public void onDateClick(int position) {
@@ -296,6 +330,66 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
         rcv_week_schedule_.setAdapter(mWeekScheduleListAdapter);
 
         rcv_week_schedule_.setItemAnimator(new DefaultItemAnimator());
+    }
+
+
+    private void checkIsItCurrentDate(String date_value) {
+
+        setToday(false);
+        setBefore(false);
+        setAfter(false);
+
+        SimpleDateFormat input = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        SimpleDateFormat output = new SimpleDateFormat("dd/MM/yyyy");
+
+        Date d = null;
+        try
+        {
+            d = input.parse(date_value);
+        }
+        catch (ParseException e)
+        {
+            e.printStackTrace();
+        }
+        String formatted = output.format(d);
+
+
+        Date todayDate = Calendar.getInstance().getTime();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        String todayString = formatter.format(todayDate);
+
+
+        if (todayString.equals(formatted))
+        {
+            setToday(true);
+
+            Log.w("WWWWW","today");
+        }
+
+        Date enteredDate=null;
+        try
+        {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            enteredDate = sdf.parse(formatted);
+        }catch (Exception ex)
+        {
+            // enteredDate will be null if date="287686";
+        }
+        Date currentDate = new Date();
+        if(enteredDate.after(currentDate)){
+            setBefore(false);
+
+        }else {
+            setBefore(true);
+
+        }
+
+
+
+
+
+
+
     }
 
     public Boolean isValid(String text) {
@@ -522,11 +616,12 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
                             availableSlotArray.clear();
                             if (isValid(mSlotesData))
                             {
+                                checkIsItCurrentDate(mObject.getDate());
                                 setTimeSlotesAdapter(mSlotesData);
                             }
                            else  {
                                 noDataAvailable.setVisibility(View.VISIBLE);
-                                rcv_week_schedule_.setVisibility(View.GONE);
+                                rcv_week_schedule_.setVisibility(View.VISIBLE);
                                 rcv_slote_schedule_.setVisibility(View.GONE);
                             }
 
@@ -570,7 +665,57 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
 
     private void setTimeSlotesAdapter(List<Slot> mSlotesData) {
 
+        if (!isToday())
+        {
+            if (isBefore())
+            {
+                for (Slot slot:mSlotesData)
+                {
+                    slot.setHideSlote(true);
 
+                }
+
+            }
+            else
+            {
+                for (Slot slot:mSlotesData)
+                {
+                    slot.setHideSlote(false);
+
+                }
+            }
+
+        }
+        else {
+
+            int to=0;
+            for (int i=0;i<mSlotesData.size();i++)
+            {
+                mSlotesData.get(i).setHideSlote(false);
+                if (mSlotesData.get(i).getStartTime().equals(getCurrentTime()))
+                {
+                    to=i;
+                }
+
+            }
+
+            if (isValid(to))
+            {
+                for (int j=0;j<mSlotesData.size();j++)
+                {
+                    if (j<=to)
+                    {
+                        mSlotesData.get(j).setHideSlote(true);
+                    }
+                    else
+                    {
+                        mSlotesData.get(j).setHideSlote(false);
+                    }
+                }
+            }
+
+
+        }
         noDataAvailable.setVisibility(View.GONE);
         rcv_week_schedule_.setVisibility(View.VISIBLE);
         rcv_slote_schedule_.setVisibility(View.VISIBLE);
@@ -870,4 +1015,26 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
         }
 
         }
+
+
+    private String getCurrentTime() {
+
+        Calendar rightNow = Calendar.getInstance();
+        int HOUR_OF_DAY = rightNow.get(Calendar.HOUR_OF_DAY);
+        int MINUTE = rightNow.get(Calendar.MINUTE);
+        String hr=String.valueOf(HOUR_OF_DAY);
+        String min="";
+
+        if (MINUTE>=30)
+        {
+            min="30";
+        }
+        else
+        {
+            min="00";
+        }
+        Log.w("QQQQQQ",String.valueOf(hr+min));
+        return hr+":"+min;
+    }
+
 }

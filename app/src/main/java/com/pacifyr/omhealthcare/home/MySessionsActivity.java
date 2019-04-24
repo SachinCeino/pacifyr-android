@@ -409,7 +409,7 @@ public class MySessionsActivity extends PacifyrAppCompactActivity {
 
             //leftLlay.setVisibility(View.VISIBLE);
             defSetText(titleTxv, getResources().getString(R.string.mysessions));
-            Typeface type = Typeface.createFromAsset(getAssets(),"fonts/ITCAvantGardeStd-Bold.otf");
+            Typeface type = Typeface.createFromAsset(getAssets(),"fonts/ActionBarCommonFont.otf");
             titleTxv.setTypeface(type);
             backImv.setImageDrawable(getResources().getDrawable(R.drawable.backarrow));
             //backImv.setBackgroundResource(R.drawable.leftmen);

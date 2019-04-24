@@ -472,7 +472,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
         defSetText(titleTxv,getResources().getString(R.string.mydashboard));
         Typeface type = Typeface.createFromAsset(getAssets(),getResources().getString(R.string.avantica_bold_header));
         titleTxv.setTypeface(type);
-        titleTxv.setTextColor(getResources().getColor(R.color.grey_dark_text));
+        titleTxv.setTextColor(getResources().getColor(R.color._color_action_bar_text_color));
         backImv.setImageDrawable(getResources().getDrawable(R.drawable.leftmen));
         //backImv.setBackgroundResource(R.drawable.leftmen);
         leftLlay.setOnClickListener(new View.OnClickListener() {
@@ -497,7 +497,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
             rightLlay.setVisibility(View.VISIBLE);
             rightImv.setVisibility(View.INVISIBLE);
             defSetText(rightTxv,getResources().getString(R.string.edit));
-            rightTxv.setTextColor(getResources().getColor(R.color.black));
+            rightTxv.setTextColor(getResources().getColor(R.color._color_action_bar_text_color));
             rightLlay.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

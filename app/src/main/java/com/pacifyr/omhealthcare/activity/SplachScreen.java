@@ -56,6 +56,7 @@ public class SplachScreen extends BaseAppCompactActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_splash_screen);
         image_splash = (ImageView) findViewById(R.id.image_splash);
+
         mSensorService = new CallService(SplachScreen.this);
         mServiceIntent = new Intent(SplachScreen.this, mSensorService.getClass());
         Picasso.with(this).load(R.drawable.splash).placeholder(R.drawable.placeholder_image).into(image_splash);
@@ -163,7 +164,7 @@ public class SplachScreen extends BaseAppCompactActivity {
             CharSequence name = "om_healthcare";
             String description = "general_notifications";
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
-            NotificationChannel channel = new NotificationChannel(Constants.CHANNEL_ID, name, importance);
+            NotificationChannel channel = new NotificationChannel(Constants.getChannelId(context), name, importance);
             channel.setDescription(description);
             // Register the channel with the system; you can't change the importance
             // or other notification behaviors after this

@@ -38,6 +38,7 @@ import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.pacifyr.omhealthcare.R;
+import com.pacifyr.omhealthcare.activity.SplachScreen;
 import com.pacifyr.omhealthcare.adapter.CountrySpinnerAdapter;
 import com.pacifyr.omhealthcare.base.PacifyerActivity;
 import com.pacifyr.omhealthcare.home.DashboardActivity;
@@ -102,6 +103,7 @@ public class LoginActivity extends PacifyerActivity {
             onSetActionBar();
             context = LoginActivity.this;
             prefM = PrefManager.getInstance(context);
+
             spinner = (Spinner) findViewById(R.id.spinner);
             phoneCedit = (CustomEditText) findViewById(R.id.phone_cedit);
             facebookRlay = (RelativeLayout) findViewById(R.id.facebook_rlay);

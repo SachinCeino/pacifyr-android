@@ -731,8 +731,9 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
         leftLlay.setVisibility(View.VISIBLE);
         /*defSetText(titleTxv,"Connect to "+pacifyrName);*/
         defSetText(titleTxv,"connect");
-        Typeface type = Typeface.createFromAsset(getAssets(),"fonts/ITCAvantGardeStd-Bold.otf");
+        Typeface type = Typeface.createFromAsset(getAssets(),"fonts/ActionBarCommonFont.otf");
         titleTxv.setTypeface(type);
+
 
         backImv.setVisibility(View.VISIBLE);
         backImv.setImageDrawable(getResources().getDrawable(R.drawable.ic_cancel2));

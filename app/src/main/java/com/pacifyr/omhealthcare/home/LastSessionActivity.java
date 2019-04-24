@@ -1089,8 +1089,8 @@ public class LastSessionActivity   extends PacifyrAppCompactActivity {
         leftLlay.setVisibility(View.VISIBLE);
         defSetText(titleTxv,"call summary");
         defSetText(rightTxv,"Submit");
-        rightTxv.setTextColor(getResources().getColor(R.color.white));
-        Typeface type = Typeface.createFromAsset(getAssets(),"fonts/ITCAvantGardeStd-Bold.otf");
+        rightTxv.setTextColor(getResources().getColor(R.color._color_action_bar_text_color));
+        Typeface type = Typeface.createFromAsset(getAssets(),"fonts/ActionBarCommonFont.otf");
         titleTxv.setTypeface(type);
 
         rightTxv.setBackground(getResources().getDrawable(R.drawable.blue_border_lightblue));

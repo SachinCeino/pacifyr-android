@@ -20,7 +20,7 @@
         <ImageView
             android:layout_height="150dp"
             android:layout_width="150dp"
-            android:src="@drawable/powered_logo_white" />
+            android:src="@drawable/signscreenlogo" />
 
     </RelativeLayout>
 
@@ -58,7 +58,7 @@
                 android:orientation="vertical"
                 android:text="@string/get_ready_feel_better"
                 android:textAlignment="center"
-                android:textColor="@color/white"
+                android:textColor="@color/_color_get_ready_feel_better"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:fontName="@string/avanti_demi"
@@ -73,7 +73,7 @@
                 android:textAlignment="center"
                 app:fontName="@string/avanti_std_bk"
                 android:text="@string/connect_to_wellness"
-                android:textColor="@color/white"
+                android:textColor="@color/_color_connect_to_wellness"
                 android:textSize="14sp" />
 
 
@@ -83,7 +83,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/thirty_free"
                 android:textAlignment="center"
-                android:textColor="@color/white"
+                android:textColor="@color/_color_thirty_free"
                 android:textSize="14sp"
                 app:fontName="@string/avanti_std_bk" />
 
@@ -93,7 +93,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="@string/no_credit_card"
-                android:textColor="@color/white"
+                android:textColor="@color/_color_no_credit_card"
                 android:textSize="14sp"
                 android:visibility="gone"
                 app:fontName="@string/avanti_std_bk"
@@ -181,7 +181,7 @@
                 android:id="@+id/tv_login"
                 android:layout_width="160dp"
                 android:layout_height="40dp"
-                android:background="@drawable/blue_round_square"
+                android:background="@drawable/sign_in_background_round_corner"
                 android:gravity="center"
                 android:onClick="showLogin"
                 android:text="@string/sign_in"
@@ -197,7 +197,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@+id/tv_login"
                 android:layout_alignBottom="@+id/tv_login"
-                android:background="@drawable/blue_round_square"
+                android:background="@drawable/sign_in_background_round_corner"
                 android:gravity="center"
                 android:onClick="showSignUp"
                 android:text="@string/register"

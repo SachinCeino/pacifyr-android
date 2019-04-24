@@ -49,7 +49,7 @@
                 android:visibility="gone"
                 android:text=""
                 android:layout_centerVertical="true"
-                android:textColor="@color/grey_dark_text"
+                android:textColor="@color/_color_action_bar_text_color"
                 />
         </LinearLayout>
         <com.ceino.utilitylibrary.CustomFontTextView
@@ -68,7 +68,7 @@
             android:textStyle="bold"
             android:textSize="@dimen/sp20_title"
             android:id="@+id/title_txv"
-            android:textColor="@color/grey_dark_text"
+            android:textColor="@color/_color_action_bar_text_color"
             />
         <!--  app:font="@string/avenir_roman"-->
         <LinearLayout
@@ -87,7 +87,7 @@
                 android:paddingRight="2dp"
                 android:textSize="@dimen/sp18"
                 android:text=""
-                android:textColor="@color/grey_dark_text"
+                android:textColor="@color/_color_action_bar_text_color"
                 android:layout_centerVertical="true"
                 />
             <com.ceino.utilitylibrary.DeviceFitImageView

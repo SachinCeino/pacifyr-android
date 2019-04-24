@@ -268,10 +268,10 @@ public class PacifyrReceiver extends WakefulBroadcastReceiver {
                 cIntent, PendingIntent.FLAG_CANCEL_CURRENT);
         // cIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         Uri notificationSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, Constants.CHANNEL_ID)
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, Constants.getChannelId(context))
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentText(message)
-                .setContentTitle("Pacifyr")
+                .setContentTitle(context.getResources().getString(R.string.app_name))
                 .setContentIntent(pendingIntent)
                 .setSound(notificationSound);
 

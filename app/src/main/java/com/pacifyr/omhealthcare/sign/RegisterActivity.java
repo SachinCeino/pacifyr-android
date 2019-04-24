@@ -334,7 +334,7 @@ public class RegisterActivity extends PacifyerActivity {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(RegisterActivity.this,TermsOfUseActivity.class);
-                    intent.putExtra("spurl", Constants.URL_TERMS);
+                    intent.putExtra("spurl", Constants.getUrlTerms(getApplicationContext()));
                     startActivity(intent);
                 }
 
