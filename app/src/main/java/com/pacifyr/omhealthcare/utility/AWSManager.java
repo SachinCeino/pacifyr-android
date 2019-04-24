@@ -3,7 +3,6 @@ package com.pacifyr.omhealthcare.utility;
 import android.content.Context;
 
 import com.ceino.utilitylibrary.network.UtilityNetworkService;
-import com.pacifyr.omhealthcare.BuildConfig;
 
 
 /**
@@ -39,8 +38,15 @@ public class AWSManager {
         }
         else if (PACKAGE_NAME.equals("com.ceino.pacifyr.omhealthcare")){
             return  "OMDev";
-        }
-        else {
+        } else if (PACKAGE_NAME.equals("com.pacifyr.leadersup")) {
+            if (UtilityNetworkService.isProd) {
+                //Prod
+                return "LeadersupPROD";
+            } else {
+                //Dev
+                return "LeadersupDEV";
+            }
+        } else {
             return "";
         }
 
