@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "162987456710",
+    "firebase_url": "https://leadersup-c716e.firebaseio.com",
+    "project_id": "leadersup-c716e",
+    "storage_bucket": "leadersup-c716e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:162987456710:android:a18ac76360b8b333",
+        "android_client_info": {
+          "package_name": "com.pacifyr.leadersup"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "162987456710-3os425f25c9td56m5vkscc313ks7niif.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pacifyr.leadersup",
+            "certificate_hash": "d75dce095e59da6dc40b70075402cda8ecd7b43c"
+          }
+        },
+        {
+          "client_id": "162987456710-qd7tg7ukji5rv6374j9n8l0h05uo6iju.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCRVUcc_S9zsuHhV_gGrxSf3vB31xAo22Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "162987456710-qd7tg7ukji5rv6374j9n8l0h05uo6iju.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "162987456710-fa3qb94ddu018ub77lepsmu0ikuftjqd.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.leadersappDev"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
