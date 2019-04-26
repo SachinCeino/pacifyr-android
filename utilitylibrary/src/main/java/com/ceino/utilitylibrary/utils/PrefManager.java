@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 
 import com.ceino.utilitylibrary.LogUtilsutility;
 import com.ceino.utilitylibrary.event.BusProvider;
@@ -335,6 +336,8 @@ public class PrefManager {
     public void saveAccessToken(String accesstoken)
     {
         putSharedString(ACCESSTOKEN,accesstoken);
+        Log.w("QQQQ",accesstoken);
+        Log.w("QQQQ",accesstoken);
 
     }
 

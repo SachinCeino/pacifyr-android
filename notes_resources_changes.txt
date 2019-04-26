@@ -15,6 +15,7 @@
         2.loginbg.png---->login background image
         3.splash.png--->splash background
         4.powered_logo.png-->inregister screen logo
+        5.welcometour1,welcometour2,welcometour3
 
 
 
