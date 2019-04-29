@@ -2,10 +2,10 @@
 <resources>
 
     <!--<color name="colorPrimary">#0fbeff</color>-->
-    <color name="colorPrimary">#67A34F</color>
+    <color name="colorPrimary">#146047</color>
     <color name="blue_pacifyr">#146047</color>
     <color name="colorAccent">#ffffff</color>
-    <color name="colorPrimaryDark">#67A34F</color>
+    <color name="colorPrimaryDark">#146047</color>
 
 
     <color name="text_inside_circle_light">#e6f9fe</color>
@@ -46,7 +46,7 @@
 
     <color name="grey_dark_text">#777776</color>
     <color name="grey_background">#F0F3F5</color>
-    <color name="om_blue">#67A34F</color>
+    <color name="om_blue">#146047</color>
 
     //new colour codes common
 
@@ -59,8 +59,8 @@
     <color name="_color_e_con_code">#777776</color>
     <color name = "_color_back_arrow_tint">#ffffff</color>
     <color name = "_color_action_bar_text_color">#ffffff</color>
-    <color name = "_color_action_bar_background_color">#67A34F</color>
-    <color name="blue_button_primary">#146047</color>
+    <color name = "_color_action_bar_background_color">#146047</color>
+    <color name="blue_button_primary">#F9BC1F</color>
     <color name="color_blue_accent">#F9BC1F</color>
 
 </resources>

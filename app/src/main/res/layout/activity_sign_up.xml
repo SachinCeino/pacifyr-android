@@ -116,7 +116,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="43dp"
                 android:layout_gravity="center"
-                android:background="@drawable/blue_border_lightblue"
+                android:background="@drawable/blue_round_square"
                 android:padding="10dp">
 
                 <com.ceino.utilitylibrary.CustomFontTextView
