@@ -129,7 +129,7 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="contact_us">contact us</string>
     <string name="title_activity_android_dashoard">my dash board</string>
     <string name="no_messages">There are no messages.</string>
-    <string name="register">register</string>
+    <string name="register">REGISTER</string>
     <string name="start_session">Session Started</string>
     <string name="have_discount_code">Have a discount code?</string>
     <string name="skip_this_step">Skip this step</string>
@@ -187,7 +187,7 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="zipcode">Zip Code</string>
     <string name="Would_you_like_reffered_services">Would you like to be reffered to any of these services?*"</string>
     <string name="select_organization">if you were reffered,select your organization from the list below.</string>
-    <string name="type_school_name">if you selected Chicago Public Scholls,type your school's name:</string>
+    <string name="type_school_name">if you selected Chicago Public Schools,type your school's name:</string>
 
     <string name="select_region">Select Your Region*</string>
     <string name="gender">Gender*</string>
@@ -199,4 +199,16 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="receiving_sms_text">By submitting your registration for a LeadersUp training, you understand and agree to receive email and SMS text communications from or on behalf of LeadersUp.*</string>
     <string name="visa_content">Want to get paid take quick surveys?.Join our list and we will send you surveys with opportunities for Visa e-gift cards and other prizes.*</string>
     <string name="organization_not_listed">If your reffering organization was not listed ,please type in the name of the organization below.</string>
+
+
+    <string name="lato_black">Lato-Black.ttf</string>
+    <string name="lato_light">Lato-Light.ttf</string>
+    <string name="lato_regular">Lato-Regular.ttf</string>
+    <string name="lato_bold">Lato-Bold.ttf</string>
+
+    <string name="the_future_at_work">The Future@Work</string>
+    <string name="connected">Connected</string>
+    <string name="powered_by_leaders_up">Powered by LeadersUp</string>
+    <string name="sign_in">SIGNIN</string>
+
 </resources>

@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
@@ -24,12 +25,11 @@ import org.json.JSONObject;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
-
 /**
  * Created by Mani-Ceino on 12/29/2017.
  */
 
-public class AccountFragment  extends BaseFragment {
+public class AccountFragment extends BaseFragment {
 
     private LinearLayout profileLlay;
     private CircleImageView profileCimv;
@@ -38,9 +38,11 @@ public class AccountFragment  extends BaseFragment {
     private LinearLayout mailLlay;
     private CustomFontTextView mailDtxv;
     private LinearLayout pnumberLlay;
-    private CustomFontTextView pnumberDtxv;
+    private CustomFontTextView pnumberDtxv,tv_ethnicity,tv_regione,tv_edustatus,tv_services,tv_organization,tv_schoolname;
     private CardView aboutmeCard;
     private CustomFontTextView aboutmeCtxv;
+    TextView tv_view_more;
+    LinearLayout LL_view_more;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -91,6 +93,15 @@ public class AccountFragment  extends BaseFragment {
             pnumberDtxv = (CustomFontTextView) view.findViewById(R.id.pnumber_dtxv);
             aboutmeCard = (CardView) view.findViewById(R.id.aboutme_card);
             aboutmeCtxv = (CustomFontTextView) view.findViewById(R.id.aboutme_ctxv);
+            tv_view_more=(TextView) view.findViewById(R.id.tv_view_more);
+            LL_view_more=view.findViewById(R.id.LL_view_more);
+            tv_ethnicity=view.findViewById(R.id.tv_ethnicity);
+            tv_edustatus=view.findViewById(R.id.tv_edustatus);
+            tv_services=view.findViewById(R.id.tv_services);
+            tv_organization=view.findViewById(R.id.tv_organization);
+            tv_schoolname=view.findViewById(R.id.tv_schoolname);
+            tv_regione=view.findViewById(R.id.tv_regione);
+
             onSetValues(view);
         }catch (Exception e)
         {
@@ -110,6 +121,29 @@ public class AccountFragment  extends BaseFragment {
                 defSetText(mailDtxv,NetworkService.mCurrentUser.getEmail());
                 defSetText(pnumberDtxv,NetworkService.mCurrentUser.getPhoneNumber());
                 defSetText(aboutmeCtxv,NetworkService.mCurrentUser.getDescription());
+
+                defSetText(tv_ethnicity,NetworkService.mCurrentUser.getRace());
+                defSetText(tv_edustatus,NetworkService.mCurrentUser.getEducationStatus());
+                defSetText(tv_services,NetworkService.mCurrentUser.getReferredServices());
+                defSetText(tv_organization,NetworkService.mCurrentUser.getRefferedOrganisation());
+                defSetText(tv_schoolname,NetworkService.mCurrentUser.getSchoolName());
+                defSetText(tv_regione,NetworkService.mCurrentUser.getRegion());
+
+                tv_view_more.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (LL_view_more.getVisibility()==View.VISIBLE)
+                        {
+                            LL_view_more.setVisibility(View.GONE);
+                            tv_view_more.setText("ViewMore");
+                        }
+                        else {
+                            LL_view_more.setVisibility(View.VISIBLE);
+                            tv_view_more.setText("ViewLess");
+                        }
+
+                    }
+                });
             }
         }catch (Exception e)
         {

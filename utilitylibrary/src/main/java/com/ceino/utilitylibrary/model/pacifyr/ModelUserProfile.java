@@ -127,6 +127,80 @@ public class ModelUserProfile
 
     private String rating;
 
+    //for leadersup
+    private String zipCode;
+    private String getPaidForQuickSurveys;
+    private String refferedOrganisation;
+    private String region;
+    private String referredServices;
+    private String race;
+    private String educationStatus;
+    private String schoolName;
+
+    public String getZipCode() {
+        return zipCode;
+    }
+
+    public void setZipCode(String zipCode) {
+        this.zipCode = zipCode;
+    }
+
+    public String getGetPaidForQuickSurveys() {
+        return getPaidForQuickSurveys;
+    }
+
+    public void setGetPaidForQuickSurveys(String getPaidForQuickSurveys) {
+        this.getPaidForQuickSurveys = getPaidForQuickSurveys;
+    }
+
+    public String getRefferedOrganisation() {
+        return refferedOrganisation;
+    }
+
+    public void setRefferedOrganisation(String refferedOrganisation) {
+        this.refferedOrganisation = refferedOrganisation;
+    }
+
+    public String getRegion() {
+        return region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
+    }
+
+    public String getReferredServices() {
+        return referredServices;
+    }
+
+    public void setReferredServices(String referredServices) {
+        this.referredServices = referredServices;
+    }
+
+    public String getRace() {
+        return race;
+    }
+
+    public void setRace(String race) {
+        this.race = race;
+    }
+
+    public String getEducationStatus() {
+        return educationStatus;
+    }
+
+    public void setEducationStatus(String educationStatus) {
+        this.educationStatus = educationStatus;
+    }
+
+    public String getSchoolName() {
+        return schoolName;
+    }
+
+    public void setSchoolName(String schoolName) {
+        this.schoolName = schoolName;
+    }
+
     private boolean sessionChargeable;
 
     public boolean isSessionChargeable() {
