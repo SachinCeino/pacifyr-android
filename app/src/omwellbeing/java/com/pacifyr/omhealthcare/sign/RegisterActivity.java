@@ -70,8 +70,6 @@ import com.pacifyr.omhealthcare.quickblox.App;
 import com.pacifyr.omhealthcare.quickblox.chat.utils.qb.callback.QbEntityCallbackImpl;
 import com.pacifyr.omhealthcare.quickblox.util.QBResRequestExecutor;
 import com.pacifyr.omhealthcare.quickblox.utils.QBEntityCallbackImpl;
-import com.pacifyr.omhealthcare.sign.DiscountCodeActivity;
-import com.pacifyr.omhealthcare.sign.SignActivity;
 import com.pacifyr.omhealthcare.utils.Constants;
 import com.pacifyr.omhealthcare.utils.LogUtils;
 import com.pacifyr.omhealthcare.utils.Utility;

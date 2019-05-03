@@ -41,8 +41,7 @@ public class AccountFragment extends BaseFragment {
     private CustomFontTextView pnumberDtxv,tv_ethnicity,tv_regione,tv_edustatus,tv_services,tv_organization,tv_schoolname;
     private CardView aboutmeCard;
     private CustomFontTextView aboutmeCtxv;
-    TextView tv_view_more;
-    LinearLayout LL_view_more;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -93,8 +92,6 @@ public class AccountFragment extends BaseFragment {
             pnumberDtxv = (CustomFontTextView) view.findViewById(R.id.pnumber_dtxv);
             aboutmeCard = (CardView) view.findViewById(R.id.aboutme_card);
             aboutmeCtxv = (CustomFontTextView) view.findViewById(R.id.aboutme_ctxv);
-            tv_view_more=(TextView) view.findViewById(R.id.tv_view_more);
-            LL_view_more=view.findViewById(R.id.LL_view_more);
             tv_ethnicity=view.findViewById(R.id.tv_ethnicity);
             tv_edustatus=view.findViewById(R.id.tv_edustatus);
             tv_services=view.findViewById(R.id.tv_services);
@@ -129,21 +126,6 @@ public class AccountFragment extends BaseFragment {
                 defSetText(tv_schoolname,NetworkService.mCurrentUser.getSchoolName());
                 defSetText(tv_regione,NetworkService.mCurrentUser.getRegion());
 
-                tv_view_more.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (LL_view_more.getVisibility()==View.VISIBLE)
-                        {
-                            LL_view_more.setVisibility(View.GONE);
-                            tv_view_more.setText("ViewMore");
-                        }
-                        else {
-                            LL_view_more.setVisibility(View.VISIBLE);
-                            tv_view_more.setText("ViewLess");
-                        }
-
-                    }
-                });
             }
         }catch (Exception e)
         {
