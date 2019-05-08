@@ -5,11 +5,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -74,10 +77,11 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
     private boolean isClick=false;
     private String type;
 
-    public RelativeLayout selectFeelingRlay;
-    public RelativeLayout selectEmotionRlay;
-    public RelativeLayout selectEmotionDetailRlay;
+    public RelativeLayout FirstScreenLayout;
+    public RelativeLayout second_screen_layout;
+    public RelativeLayout third_Screen_layout;
     public RelativeLayout listPacifyrRlay;
+    public RelativeLayout third_Screen_second_layout;
     private CustomFontTextView noPacifyrCtxv;
     private CustomFontTextView txt_emergency_usa;
 
@@ -108,6 +112,10 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
     private boolean showAllFlag;
     private CategoryListAdapter categoryListAdapter;
     private boolean selfSelectCategory = false;
+    private  RecyclerView rcv_secondScreen_instruction,rcv_thirdScreen_instruct,rcv_thirdScreen_second_instruct;
+    private  SecondScreenInstructionAdapter mInstructionSecondAdapter ;
+    private  ThirdScreenInstructionAdapter mInstructionAdapter ;
+    private  ThirdScreenInstructionSubAdapter mInstructionBAdapter ;
 
     public static void start(Context context) {
         EmotionSpecialityAdapter.reason_forcall=null;
@@ -171,16 +179,17 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
         button2 = findViewById(R.id.button2);
         button3 = findViewById(R.id.button3);
         button4 = findViewById(R.id.button4);
-        moreButton = findViewById(R.id.more_button);
-        userNameCtxv = findViewById(R.id.user_name_ctxv);
+       // moreButton = findViewById(R.id.more_button);
+       // userNameCtxv = findViewById(R.id.user_name_ctxv);
         sadDimv = findViewById(R.id.sad_dimv);
         happyDimv = findViewById(R.id.happy_dimv);
-        selectFeelingRlay = findViewById(R.id.select_feeling_rlay);
-        selectEmotionRlay = findViewById(R.id.select_emotion_rlay);
+        FirstScreenLayout = findViewById(R.id.FirstScreenLayout);
+        second_screen_layout = findViewById(R.id.second_screen_layout);
         listPacifyrRlay = findViewById(R.id.select_list_pacifyr_rlay);
-        selectEmotionDetailRlay = findViewById(R.id.select_emotion_detail_rlay);
-        emotionRcv = findViewById(R.id.emotion_rcv);
-        emotionDetailRcv = findViewById(R.id.emotion_detail_rcv);
+        third_Screen_second_layout=findViewById(R.id.third_Screen_second_layout);
+        third_Screen_layout = findViewById(R.id.third_Screen_layout);
+       // emotionRcv = findViewById(R.id.emotion_rcv);
+       // emotionDetailRcv = findViewById(R.id.emotion_detail_rcv);
         morePacifyrsRlay = findViewById(R.id.more_pacifyrs_rlay);
         swipeDeck = findViewById(R.id.swipe_deck);
         emotionDimv = findViewById(R.id.emotion_dimv);
@@ -202,10 +211,14 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
         }
 
         //specialityRcv = (RecyclerView) findViewById(R.id.speciality_rcv);
-        defSetText(userNameCtxv,"Hello "+getUserName());
-        selectFeelingRlay.setVisibility(View.VISIBLE);
+        //defSetText(userNameCtxv,"Hello "+getUserName());
+        FirstScreenLayout.setVisibility(View.VISIBLE);
 
         listPacifyrRlay.setVisibility(View.GONE);
+        rcv_thirdScreen_instruct=findViewById(R.id.rcv_thirdScreen_instruct);
+        rcv_thirdScreen_second_instruct=findViewById(R.id.rcv_thirdScreen_second_instruct);
+        rcv_secondScreen_instruction=findViewById(R.id.rcv_secondScreen_instruction);
+        makeThirdScreenInstructionList();
 
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -214,25 +227,27 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
                 button2.setBackgroundResource(R.drawable.circle_button);
                 button3.setBackgroundResource(R.drawable.circle_button);
                 button4.setBackgroundResource(R.drawable.circle_button);
-                selectFeelingRlay.setVisibility(View.VISIBLE);
-                selectEmotionRlay.setVisibility(View.GONE);
-                selectEmotionDetailRlay.setVisibility(View.GONE);
+                FirstScreenLayout.setVisibility(View.VISIBLE);
+                second_screen_layout.setVisibility(View.GONE);
+                third_Screen_layout.setVisibility(View.GONE);
                 listPacifyrRlay.setVisibility(View.GONE);
                 morePacifyrsRlay.setVisibility(View.GONE);
+                third_Screen_second_layout.setVisibility(View.GONE);
             }
         });
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(selectEmotionRlay.getVisibility()==View.VISIBLE ||selectEmotionDetailRlay.getVisibility()==View.VISIBLE||listPacifyrRlay.getVisibility() == View.VISIBLE)
+                if(second_screen_layout.getVisibility()==View.VISIBLE ||third_Screen_layout.getVisibility()==View.VISIBLE||listPacifyrRlay.getVisibility() == View.VISIBLE)
                 {
                     button2.setBackgroundResource(R.drawable.circle_click_btn);
                     button1.setBackgroundResource(R.drawable.circle_button);
                     button3.setBackgroundResource(R.drawable.circle_button);
                     button4.setBackgroundResource(R.drawable.circle_button);
-                    selectFeelingRlay.setVisibility(View.GONE);
-                    selectEmotionRlay.setVisibility(View.VISIBLE);
-                    selectEmotionDetailRlay.setVisibility(View.GONE);
+                    FirstScreenLayout.setVisibility(View.GONE);
+                    second_screen_layout.setVisibility(View.VISIBLE);
+
+                    third_Screen_layout.setVisibility(View.GONE);
                     listPacifyrRlay.setVisibility(View.GONE);
                     morePacifyrsRlay.setVisibility(View.GONE);
                 }
@@ -245,21 +260,21 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
         button3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (selectEmotionDetailRlay.getVisibility()==View.VISIBLE ||listPacifyrRlay.getVisibility()==View.VISIBLE)
+                if (third_Screen_layout.getVisibility()==View.VISIBLE ||listPacifyrRlay.getVisibility()==View.VISIBLE)
                 {
                     button3.setBackgroundResource(R.drawable.circle_click_btn);
                     button2.setBackgroundResource(R.drawable.circle_button);
                     button1.setBackgroundResource(R.drawable.circle_button);
                     button4.setBackgroundResource(R.drawable.circle_button);
-                    selectFeelingRlay.setVisibility(View.GONE);
-                    selectEmotionRlay.setVisibility(View.GONE);
-                    selectEmotionDetailRlay.setVisibility(View.VISIBLE);
+                    FirstScreenLayout.setVisibility(View.GONE);
+                    second_screen_layout.setVisibility(View.GONE);
+                    third_Screen_layout.setVisibility(View.VISIBLE);
                     listPacifyrRlay.setVisibility(View.GONE);
                     morePacifyrsRlay.setVisibility(View.GONE);
                 }
                 else
                 {
-                    Toast.makeText(v.getContext(), "No emotion selected", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(v.getContext(), "Please select option", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -273,14 +288,14 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
                     button2.setBackgroundResource(R.drawable.circle_button);
                     button3.setBackgroundResource(R.drawable.circle_button);
                     button1.setBackgroundResource(R.drawable.circle_button);
-                    selectFeelingRlay.setVisibility(View.GONE);
-                    selectEmotionRlay.setVisibility(View.GONE);
-                    selectEmotionDetailRlay.setVisibility(View.GONE);
+                    FirstScreenLayout.setVisibility(View.GONE);
+                    second_screen_layout.setVisibility(View.GONE);
+                    third_Screen_layout.setVisibility(View.GONE);
                     listPacifyrRlay.setVisibility(View.VISIBLE);
                 }
                 else
                 {
-                    Toast.makeText(v.getContext(), "Select any option", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(v.getContext(), "Please select option", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -317,7 +332,7 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
             }
         });
 
-        moreButton.setOnClickListener(new View.OnClickListener() {
+      /*  moreButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 setLoading();
@@ -346,7 +361,7 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
                 aq.ajax(url,JSONObject.class, cb);
             }
         });
-
+*/
         morePacifyrsRlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -365,7 +380,7 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
         }
         else if(customerRole.equals("employee")||customerRole.equals("unpaidEmployee")){
             employeeFlag = true;
-            showallLlay.setVisibility(View.VISIBLE);
+           // showallLlay.setVisibility(View.VISIBLE);
         }
         else if(customerRole.equals("paidMember")){
             employeeFlag = false;
@@ -424,12 +439,14 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
 
     }
 
+
+
     @Override
     protected void onRestart() {
         super.onRestart();
-        selectFeelingRlay.setVisibility(View.VISIBLE);
-        selectEmotionRlay.setVisibility(View.GONE);
-        selectEmotionDetailRlay.setVisibility(View.GONE);
+        FirstScreenLayout.setVisibility(View.VISIBLE);
+        second_screen_layout.setVisibility(View.GONE);
+        third_Screen_layout.setVisibility(View.GONE);
         listPacifyrRlay.setVisibility(View.GONE);
         button4.setBackgroundResource(R.drawable.circle_button);
         button3.setBackgroundResource(R.drawable.circle_button);
@@ -449,14 +466,17 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
 
     public void changeToSecondScreen() {
 
-        selectEmotionRlay.setVisibility(View.VISIBLE);
-        selectFeelingRlay.setVisibility(View.GONE);
-        setLoading();
-        showProgress();
+
+
+
+        second_screen_layout.setVisibility(View.VISIBLE);
+        FirstScreenLayout.setVisibility(View.GONE);
+        //setLoading();
+        //showProgress();
 
         if(type.equals("positive")){
 
-            String url = GLOBAL_URL+"emotions/positive";
+           /* String url = GLOBAL_URL+"emotions/positive";
             AjaxCallback cb = new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, JSONObject json, AjaxStatus status) {
@@ -477,11 +497,11 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
             cb.header("Content-Type", "application/json");
             //cb.header("AccessToken",token);
             cb.header("AccessToken",token);
-            aq.ajax(url,JSONObject.class, cb);
+            aq.ajax(url,JSONObject.class, cb);*/
 
         }else if (type.equals("negative")){
 
-            String url = GLOBAL_URL+"emotions/negative";
+           /* String url = GLOBAL_URL+"emotions/negative";
             AjaxCallback cb = new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, JSONObject json, AjaxStatus status) {
@@ -500,7 +520,7 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
             AQuery aq = new AQuery(ConnectToPacifyrActivity.this);
             cb.header("Content-Type", "application/json");
             cb.header("AccessToken",token);
-            aq.ajax(url,JSONObject.class, cb);
+            aq.ajax(url,JSONObject.class, cb);*/
 
         }
 
@@ -731,7 +751,7 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
         leftLlay.setVisibility(View.VISIBLE);
         /*defSetText(titleTxv,"Connect to "+pacifyrName);*/
         defSetText(titleTxv,"connect");
-        Typeface type = Typeface.createFromAsset(getAssets(),"fonts/ActionBarCommonFont.otf");
+        Typeface type = Typeface.createFromAsset(getAssets(), "fonts/ActionBarCommonFont.otf");
         titleTxv.setTypeface(type);
 
 
@@ -1070,5 +1090,313 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
 
     }
 
+    private void makeThirdScreenInstructionList() {
+        
+        /** Second screen instruction **/
+
+        mInstructionSecondAdapter =new SecondScreenInstructionAdapter(getApplicationContext());
+        RecyclerView.LayoutManager mLayoutsecond=new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.VERTICAL,false);
+        rcv_secondScreen_instruction.setLayoutManager(mLayoutsecond);
+        rcv_secondScreen_instruction.setAdapter(mInstructionSecondAdapter);
+        rcv_secondScreen_instruction.setItemAnimator(new DefaultItemAnimator());
+        
+        /*** Third Screen instruction**/
+        mInstructionAdapter =new ThirdScreenInstructionAdapter(getApplicationContext());
+        RecyclerView.LayoutManager mLayout=new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.VERTICAL,false);
+        rcv_thirdScreen_instruct.setLayoutManager(mLayout);
+        rcv_thirdScreen_instruct.setAdapter(mInstructionAdapter);
+        rcv_thirdScreen_instruct.setItemAnimator(new DefaultItemAnimator());
+
+    /** third screen second screen recyclerview**/
+        mInstructionBAdapter=new ThirdScreenInstructionSubAdapter(getApplicationContext());
+        RecyclerView.LayoutManager mLayoutb=new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.VERTICAL,false);
+        rcv_thirdScreen_second_instruct.setLayoutManager(mLayoutb);
+        rcv_thirdScreen_second_instruct.setAdapter(mInstructionBAdapter);
+        rcv_thirdScreen_second_instruct.setItemAnimator(new DefaultItemAnimator());
+    }
+
+    
+    private class SecondScreenInstructionAdapter extends RecyclerView.Adapter<SecondScreenInstructionAdapter.MyViewHolderr>{
+
+        List<String> list;
+        Context context;
+
+
+        public SecondScreenInstructionAdapter(Context context) {
+            list=new ArrayList<String>();
+            list.add("I have a job offer(s),but no start dates yet");
+            list.add("I haven't heard back from a recruiter");
+            list.add("I have a start date!");
+            list.add("I'm still looking for job opportunities");
+            this.context=context;
+        }
+
+
+        @Override
+        public MyViewHolderr onCreateViewHolder(ViewGroup parent, int viewType) {
+            View itemView = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.adapter_item_instruction_second_screen, parent, false);
+
+            return new MyViewHolderr(itemView);
+        }
+
+        @Override
+        public void onBindViewHolder(final MyViewHolderr holder, final int position) {
+
+            holder.tv_instruction.setText(list.get(position));
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (position==0)
+                    {
+                        button1.setBackgroundResource(R.drawable.circle_button);
+                        button2.setBackgroundResource(R.drawable.circle_button);
+                        button3.setBackgroundResource(R.drawable.circle_click_btn);
+                        button4.setBackgroundResource(R.drawable.circle_button);
+                        button2.setClickable(true);
+
+                        button1.setClickable(true);
+                        button3.setClickable(true);
+                        button4.setClickable(true);
+
+                        FirstScreenLayout.setVisibility(View.GONE);
+                        second_screen_layout.setVisibility(View.GONE);
+                        third_Screen_layout.setVisibility(View.VISIBLE);
+                        third_Screen_second_layout.setVisibility(View.GONE);
+                        listPacifyrRlay.setVisibility(View.GONE);
+                        morePacifyrsRlay.setVisibility(View.GONE);
+                    }
+                    else if (position==1)
+                    {
+                        button1.setBackgroundResource(R.drawable.circle_button);
+                        button2.setBackgroundResource(R.drawable.circle_button);
+                        button3.setBackgroundResource(R.drawable.circle_button);
+                        button4.setBackgroundResource(R.drawable.circle_click_btn);
+                        button2.setClickable(false);
+                        button3.setClickable(false);
+                        button3.setClickable(false);
+
+                        button1.setClickable(true);
+                        button4.setClickable(true);
+                        FirstScreenLayout.setVisibility(View.GONE);
+                        second_screen_layout.setVisibility(View.GONE);
+                        third_Screen_layout.setVisibility(View.GONE);
+                        third_Screen_second_layout.setVisibility(View.GONE);
+                        listPacifyrRlay.setVisibility(View.VISIBLE);
+                        morePacifyrsRlay.setVisibility(View.GONE);
+                        Toast.makeText(context, "pacifyr list screen", Toast.LENGTH_SHORT).show();
+                    }
+                    else if (position==2)
+                    {
+                        button1.setBackgroundResource(R.drawable.circle_button);
+                        button2.setBackgroundResource(R.drawable.circle_button);
+                        button3.setBackgroundResource(R.drawable.circle_click_btn);
+                        button4.setBackgroundResource(R.drawable.circle_button);
+                        button2.setClickable(false);
+
+                        button1.setClickable(true);
+                        button3.setClickable(true);
+                        button4.setClickable(true);
+                        FirstScreenLayout.setVisibility(View.GONE);
+                        second_screen_layout.setVisibility(View.GONE);
+                        third_Screen_layout.setVisibility(View.GONE);
+                        third_Screen_second_layout.setVisibility(View.VISIBLE);
+                        listPacifyrRlay.setVisibility(View.GONE);
+                        morePacifyrsRlay.setVisibility(View.GONE);
+                    }
+                    else if (position==3)
+                    {
+                        button1.setBackgroundResource(R.drawable.circle_button);
+                        button2.setBackgroundResource(R.drawable.circle_button);
+                        button3.setBackgroundResource(R.drawable.circle_button);
+                        button4.setBackgroundResource(R.drawable.circle_click_btn);
+
+
+                        button1.setClickable(true);
+                        button2.setClickable(false);
+                        button3.setClickable(false);
+                        button4.setClickable(true);
+
+                        FirstScreenLayout.setVisibility(View.GONE);
+                        second_screen_layout.setVisibility(View.GONE);
+                        third_Screen_layout.setVisibility(View.GONE);
+                        third_Screen_second_layout.setVisibility(View.GONE);
+                        listPacifyrRlay.setVisibility(View.VISIBLE);
+                        morePacifyrsRlay.setVisibility(View.GONE);
+                    }
+                    
+
+                }
+            });
+
+        }
+
+
+        @Override
+        public int getItemCount() {
+            return list.size();
+        }
+
+        public class MyViewHolderr extends RecyclerView.ViewHolder {
+            public CustomFontTextView tv_instruction;
+
+
+            public MyViewHolderr(View view) {
+                super(view);
+                tv_instruction=view.findViewById(R.id.tv_instruction);
+            }
+        }
+    }
+
+    
+    
+
+
+    private class ThirdScreenInstructionAdapter extends RecyclerView.Adapter<ThirdScreenInstructionAdapter.MyViewHolderr>{
+
+        List<String> list;
+        Context context;
+
+
+        public ThirdScreenInstructionAdapter(Context context) {
+            list=new ArrayList<String>();
+            list.add("Complete job application");
+            list.add("Create or polish resume");
+            list.add("Practice for 2nd Interview");
+            list.add("Get interview/ work clothes");
+            list.add("I need transportation support");
+            list.add("   I need other support   ");
+
+
+            this.context=context;
+        }
+
+
+        @Override
+        public MyViewHolderr onCreateViewHolder(ViewGroup parent, int viewType) {
+            View itemView = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.adapter_item_instruction, parent, false);
+
+            return new MyViewHolderr(itemView);
+        }
+
+        @Override
+        public void onBindViewHolder(final MyViewHolderr holder, final int position) {
+            
+            holder.tv_instruction.setText(list.get(position));
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    button1.setBackgroundResource(R.drawable.circle_button);
+                    button2.setBackgroundResource(R.drawable.circle_button);
+                    button3.setBackgroundResource(R.drawable.circle_button);
+                    button4.setBackgroundResource(R.drawable.circle_click_btn);
+
+
+                    button1.setClickable(true);
+                    button2.setClickable(true);
+                    button3.setClickable(true);
+                    button4.setClickable(true);
+
+                    FirstScreenLayout.setVisibility(View.GONE);
+                    second_screen_layout.setVisibility(View.GONE);
+                    third_Screen_layout.setVisibility(View.GONE);
+                    third_Screen_second_layout.setVisibility(View.GONE);
+                    listPacifyrRlay.setVisibility(View.VISIBLE);
+                    morePacifyrsRlay.setVisibility(View.GONE);
+                }
+            });
+
+        }
+       
+
+        @Override
+        public int getItemCount() {
+            return list.size();
+        }
+
+        public class MyViewHolderr extends RecyclerView.ViewHolder {
+            public CustomFontTextView tv_instruction;
+
+
+            public MyViewHolderr(View view) {
+                super(view);
+                tv_instruction=view.findViewById(R.id.tv_instruction);
+            }
+        }
+    }
+
+
+
+
+    private class ThirdScreenInstructionSubAdapter extends RecyclerView.Adapter<ThirdScreenInstructionSubAdapter.MyViewHolderr>{
+
+        List<String> list;
+        Context context;
+
+
+        public ThirdScreenInstructionSubAdapter(Context context) {
+            list=new ArrayList<String>();
+            list.add("I need work clothes");
+            list.add("I need transportation support");
+            list.add("Gain more workplace skills");
+            list.add("I want to build my career");
+            this.context=context;
+        }
+
+
+        @Override
+        public MyViewHolderr onCreateViewHolder(ViewGroup parent, int viewType) {
+            View itemView = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.adapter_item_instruction, parent, false);
+
+            return new MyViewHolderr(itemView);
+        }
+
+        @Override
+        public void onBindViewHolder(final MyViewHolderr holder, final int position) {
+
+            holder.tv_instruction.setText(list.get(position));
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    button1.setBackgroundResource(R.drawable.circle_button);
+                    button2.setBackgroundResource(R.drawable.circle_button);
+                    button3.setBackgroundResource(R.drawable.circle_button);
+                    button4.setBackgroundResource(R.drawable.circle_click_btn);
+
+
+                    button1.setClickable(true);
+                    button2.setClickable(true);
+                    button3.setClickable(true);
+                    button4.setClickable(true);
+
+                    FirstScreenLayout.setVisibility(View.GONE);
+                    second_screen_layout.setVisibility(View.GONE);
+                    third_Screen_layout.setVisibility(View.GONE);
+                    third_Screen_second_layout.setVisibility(View.GONE);
+                    listPacifyrRlay.setVisibility(View.VISIBLE);
+                    morePacifyrsRlay.setVisibility(View.GONE);
+                }
+            });
+
+        }
+
+
+        @Override
+        public int getItemCount() {
+            return list.size();
+        }
+
+        public class MyViewHolderr extends RecyclerView.ViewHolder {
+            public CustomFontTextView tv_instruction;
+
+
+            public MyViewHolderr(View view) {
+                super(view);
+                tv_instruction=view.findViewById(R.id.tv_instruction);
+            }
+        }
+    }
 
 }

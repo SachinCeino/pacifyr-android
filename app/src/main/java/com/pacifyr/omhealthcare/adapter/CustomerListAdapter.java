@@ -2,8 +2,6 @@ package com.pacifyr.omhealthcare.adapter;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.LayerDrawable;
 import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RatingBar;
 
 import com.ceino.utilitylibrary.CustomFontTextView;
 import com.ceino.utilitylibrary.model.pacifyr.MUser;

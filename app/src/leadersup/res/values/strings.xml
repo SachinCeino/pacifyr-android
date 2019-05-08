@@ -205,10 +205,39 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="lato_light">Lato-Light.ttf</string>
     <string name="lato_regular">Lato-Regular.ttf</string>
     <string name="lato_bold">Lato-Bold.ttf</string>
+    <string name="lato_italic">Lato-Italic.ttf</string>
+    <string name="custom_font_bold_italics">custom_font_bold_italics.otf</string>
 
     <string name="the_future_at_work">The Future@Work</string>
     <string name="connected">Connected</string>
     <string name="powered_by_leaders_up">Powered by LeadersUp</string>
     <string name="sign_in">SIGNIN</string>
+    <string name="pref_wellness_experts">Preferred Career Coach</string>
+    <string name="This_Week">My E-learning</string>
+    <string name="Connect_to_Wellness_Experts">connect with a career coach</string>
+    <string name="connect_to_wellness_experts">CONNECT WITH A \nCAREER COACH</string>
+    <string name="my_session">GOTO E-LEARNING</string>
 
+    <string name="before_we_get_started">Before we get started,let our Career Coaches know how you\'re feeling today?</string>
+    <string name="select_an_emotion">Select an emotion first?</string>
+    <string name="why_do_we_ask">Why do we ask?</string>
+    <string name="congrats_on_your_interview">Congrats on your interviews at the LeadersUp Summit</string>
+    <string name="to_give_as_a_better">To give as a better idea on how we can help you today,tell us why you feelthis was today? </string>
+    <string name="why_do_we_ask_answer_text">Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs.</string>
+
+
+    /**second screen instructions  **/
+    <string name="second_screen_instructions_one">I have a job offer(s),\nbut no start dates yet</string>
+    <string name="second_screen_instructions_two">I haven\'t heard back\n from a recruiter</string>
+    <string name="second_screen_instructions_three">I have a start date!</string>
+    <string name="second_screen_instructions_four">I\'m still looking for\n job opportunities </string>
+
+    <string name="congrats_on_the_new_job_offer">Congrats on the job offer !</string>
+    <string name="how_we_can_help">How we can help</string>
+    <string name="turn_your_job">turn your job offer into a start date?</string>
+    <string name="have_the_best_first_day">Have the best first day on the job?</string>
+
+
+    /**Third screen instructions **/
+    <string name="third_screen_instructions_one">Complete job application</string>
 </resources>

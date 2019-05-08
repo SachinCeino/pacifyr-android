@@ -182,5 +182,5 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="avanti_std__xlt_cn">ITCAvantGardeStd-XLtCn.otf</string>
     <string name="avanti_std__xlt_cn_obl">ITCAvantGardeStd-XLtCnObl.otf</string>
     <string name="avanti_std__xlt_obl">ITCAvantGardeStd-XLtObl.otf</string>
-
+    <string name="pref_wellness_experts">Preferred Wellness Experts</string>
 </resources>

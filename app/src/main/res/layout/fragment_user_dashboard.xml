@@ -524,8 +524,8 @@
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
                 android:padding="10dp"
-                android:textColor="@color/white"
-                android:background="@drawable/blue_round_square"
+                android:textColor="@color/connect_wellness_expert_color"
+                android:background="@drawable/round_square_for_round_cuttons"
                 android:text="@string/Connect_to_Wellness_Experts"/>
 
         </RelativeLayout>

@@ -51,6 +51,9 @@
     <color name = "_color_action_bar_text_color">#ffffff</color>
     <color name = "_color_action_bar_background_color">#454A4A</color>
 
+    <color name = "round_button_fill_color">#ffffff</color>
+    <color name = "round_button_border_color">#38569a</color>
+    <color name="connect_wellness_expert_color">#0091Bc</color>
 
 
 </resources>
