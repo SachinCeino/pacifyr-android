@@ -1,22 +1,19 @@
 package com.pacifyr.omhealthcare.Fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.ceino.utilitylibrary.CustomFontTextView;
-import com.ceino.utilitylibrary.utils.PrefManager;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.adapter.CustomPagerAdapter;
 import com.pacifyr.omhealthcare.event.ActionbarEvent;
 import com.pacifyr.omhealthcare.event.NotifyEvent;
-import com.pacifyr.omhealthcare.home.DashboardActivity;
+import com.pacifyr.omhealthcare.fragment.UserDashboardFragment;
 import com.pacifyr.omhealthcare.utility.BaseFragment;
 
 public class WelcomeTourFragment extends BaseFragment {

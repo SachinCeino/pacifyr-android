@@ -136,8 +136,8 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="query_hint_search_pacifyr">search for a pacifyr</string>
 
     /** URLS **/
-    <string name="CHANNEL_ID">om_general_notifications</string>
-    <string name="APP_SOURCE">om</string>
+    <string name="CHANNEL_ID">leadersup_general_notifications</string>
+    <string name="APP_SOURCE">leadersup</string>
     <string name="URL_PRIVACY_POLICY">https://omhealthcare.com/privacyPolicy</string>
     <string name="URL_TERMS">https://omhealthcare.com/termsOfUse</string>
     <string name="URL_DISPUTE_POLICY">https://omhealthcare.com/copyrightDisputePolicy</string>
@@ -187,7 +187,7 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="zipcode">Zip Code</string>
     <string name="Would_you_like_reffered_services">Would you like to be reffered to any of these services?*"</string>
     <string name="select_organization">if you were reffered,select your organization from the list below.</string>
-    <string name="type_school_name">if you selected Chicago Public Schools,type your school's name:</string>
+    <string name="type_school_name">if you selected Chicago Public Schools,type your school\'s name:</string>
 
     <string name="select_region">Select Your Region*</string>
     <string name="gender">Gender*</string>
@@ -230,14 +230,16 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="second_screen_instructions_one">I have a job offer(s),\nbut no start dates yet</string>
     <string name="second_screen_instructions_two">I haven\'t heard back\n from a recruiter</string>
     <string name="second_screen_instructions_three">I have a start date!</string>
-    <string name="second_screen_instructions_four">I\'m still looking for\n job opportunities </string>
+    <string name="second_screen_instructions_four">I\'m still looking for\njob opportunities </string>
 
     <string name="congrats_on_the_new_job_offer">Congrats on the job offer !</string>
     <string name="how_we_can_help">How we can help</string>
-    <string name="turn_your_job">turn your job offer into a start date?</string>
+    <string name="turn_your_job">turn your job offer into a star date?</string>
     <string name="have_the_best_first_day">Have the best first day on the job?</string>
 
 
     /**Third screen instructions **/
     <string name="third_screen_instructions_one">Complete job application</string>
+    <string name="go_to_e_learning_url">https://leadersup.org/</string>
+    <string name="go_to_career_e_learning">  Go to career\ne-learning</string>
 </resources>

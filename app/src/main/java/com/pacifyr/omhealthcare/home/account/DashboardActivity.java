@@ -19,7 +19,7 @@ import com.ceino.utilitylibrary.utils.PrefManager;
 import com.facebook.login.LoginManager;
 import com.pacifyr.omhealthcare.Fragment.MySessionFragment;
 import com.pacifyr.omhealthcare.Fragment.SupportFragment;
-import com.pacifyr.omhealthcare.Fragment.UserDashboardFragment;
+import com.pacifyr.omhealthcare.fragment.UserDashboardFragment;
 import com.pacifyr.omhealthcare.Fragment.WelcomeTourFragment;
 import com.pacifyr.omhealthcare.Payment.PaymentFragment;
 import com.pacifyr.omhealthcare.R;

@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.pacifyr.omhealthcare.Fragment.UserDashboardFragment">
+    tools:context="com.pacifyr.omhealthcare.fragment.UserDashboardFragment">
     <android.support.v4.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -502,6 +502,7 @@
                 android:textSize="13sp"
                 android:id="@+id/this_week_ctxv"
                 android:layout_marginLeft="50dp"
+                android:padding="5dp"
                 android:layout_toRightOf="@id/feel_rlay"
                 android:layout_below="@id/this_week_rlay"
                 android:textColor="@color/text_dashboard"

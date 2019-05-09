@@ -516,12 +516,24 @@
                 android:layout_height="80dp"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:layout_margin="25dp"
+                android:id="@+id/button_close"
+                android:layout_marginRight="25dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginBottom="25dp"
+                android:layout_marginTop="10dp"
+
                 android:padding="10dp">
-                <Button
+                <com.ceino.utilitylibrary.CustomFontTextView
                     android:layout_width="100dp"
                     android:layout_height="match_parent"
                     android:text="CLOSE"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textSize="20sp"
+                    android:background="#cfcece"
+                    android:padding="5dp"
+                    app:fontName="@string/lato_bold"
+                    android:textColor="@color/grey_dark_text"
                     android:textStyle="bold"
 
                     />

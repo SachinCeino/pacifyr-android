@@ -1228,7 +1228,8 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
     private void updateProfileStartCallWeb( final MUser pacifyerDetial, final boolean isVideoCall) {
         try {
 
-            PostRegisterModel postRegisterModel=new PostRegisterModel(PacifyerActivity.call_emotion.getId(),EmotionSpecialityAdapter.reason_forcall);
+
+          PostRegisterModel postRegisterModel=new PostRegisterModel(PacifyerActivity.call_emotion.getId(),EmotionSpecialityAdapter.reason_forcall);
             if (!isValidLogout(getUserID(),"Session expired, please re login"))
                 return;
             setLoadingWait();

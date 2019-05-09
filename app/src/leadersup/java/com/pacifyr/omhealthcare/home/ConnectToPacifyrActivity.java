@@ -26,6 +26,7 @@ import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.ceino.utilitylibrary.CustomFontTextView;
 import com.ceino.utilitylibrary.DeviceFitImageView;
+import com.ceino.utilitylibrary.model.pacifyr.MEmotion;
 import com.ceino.utilitylibrary.model.pacifyr.MListNegativeEmotions;
 import com.ceino.utilitylibrary.model.pacifyr.MListPositiveEmotions;
 import com.ceino.utilitylibrary.model.pacifyr.MUser;
@@ -313,6 +314,8 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
                 button1.setBackgroundResource(R.drawable.circle_button);
                 button2.setBackgroundResource(R.drawable.circle_click_btn);
                 //callFragmant();
+                PacifyerActivity.call_emotion=new MEmotion();
+                PacifyerActivity.call_emotion.setId("Not Happy");
                 changeToSecondScreen();
 
             }
@@ -327,6 +330,8 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
                 button1.setBackgroundResource(R.drawable.circle_button);
                 button2.setBackgroundResource(R.drawable.circle_click_btn);
                 //callFragmant();
+                PacifyerActivity.call_emotion=new MEmotion();
+                PacifyerActivity.call_emotion.setId("Happy");
                 changeToSecondScreen();
 
             }
@@ -389,6 +394,7 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
             employeeFlag = true;
         }
 
+        showCategories();
         getShowallCbox().setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -822,7 +828,7 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
                         //searchResults=modelSearchPacifyr.getResultsList();
                         pSearchPacifyrWOptionsResponse.toString();
                         setAdapterSearchOption();
-                        morePacifyrsRlay.setVisibility(View.VISIBLE);
+                        morePacifyrsRlay.setVisibility(View.GONE);
                         try {
                             if (adapter != null && adapter.getCount() == 0 && !selfSelectCategory) {
                                 selfSelectCategory = true;
@@ -844,7 +850,7 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
             cb.header("AccessToken", token);
             jsonObject = new JSONObject();
 
-            url = GLOBAL_URL + getRoleSearchMap().get(prefM.getCustomerRole());
+            url = GLOBAL_URL + "search/pacifyrs";
             companyID = prefM.getCompanyId();
             jsonObject.putOpt("companyId",companyID);
             jsonObject.putOpt("includeChargeablePacifyrs", showAllFlag);
@@ -951,7 +957,7 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
             cb.header("AccessToken", token);
             jsonObject = new JSONObject();
 
-            url = GLOBAL_URL + getRoleSearchMap().get(prefM.getCustomerRole());
+            url = GLOBAL_URL + "search/pacifyrs";
             companyID = prefM.getCompanyId();
             jsonObject.putOpt("companyId",companyID);
             jsonObject.putOpt("includeChargeablePacifyrs",showAllFlag);
@@ -981,10 +987,10 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
 
     }
 
-    public void  showCategories(String category)
+    public void  showCategories()
     {
         try {
-            String url = GLOBAL_URL + "specialities/byCategory?category=" + category;
+            String url = GLOBAL_URL + "specialities/byAppSource?appSource=leadersup";
 
             AjaxCallback cb = new AjaxCallback<JSONObject>() {
                 @Override
