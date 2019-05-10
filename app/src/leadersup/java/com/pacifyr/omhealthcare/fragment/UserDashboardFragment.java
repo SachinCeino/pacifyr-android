@@ -110,6 +110,9 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
         // Required empty public constructor
     }
 
+    //for leaders up demo purpose reason for the call is assigning
+    public static String LeadersUpReasonFortheCall="";
+
     private void getPermissions() {
         Utility.checkPermission(getActivity(), "essential");
     }
@@ -122,7 +125,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
         NetworkService.startActionCutomerDashboard(getActivity());
         ShortcutBadger.applyCount(getActivity(), prefM.getBadgeValue()); //for 1.1.4+
       //  if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            setMyAdapter();
+
         getPermissions();
         //}
     }
@@ -150,6 +153,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                 android.R.color.holo_red_light);
 
 
+        setMyAdapter();
 
         unreadChatCtxv.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -543,12 +543,12 @@
                                         android:layout_gravity="top"
                                         android:gravity="top"
                                         android:textColor="@color/text_inside_circle_light"
-                                        android:textSize="16sp"
+                                        android:textSize="14sp"
                                         />
                                     <View
                                         android:layout_width="20dp"
                                         android:layout_height="1dp"
-                                        android:background="@color/sign_blue"></View>
+                                        android:background="@color/color_blue_accent"></View>
                                 </LinearLayout>
 
 
@@ -556,6 +556,16 @@
 
 
                             </LinearLayout>
+
+                            <View
+                                android:layout_width="100dp"
+                                android:layout_height="2dp"
+                                android:padding="5dp"
+                                android:layout_marginRight="@dimen/sp15"
+                                android:layout_marginLeft="@dimen/sp15"
+                                android:layout_marginBottom="@dimen/sp10"
+                                android:layout_marginTop="5dp"
+                                android:background="@color/white"></View>
 
                             <com.ceino.utilitylibrary.CustomFontTextView
                                 android:layout_width="match_parent"

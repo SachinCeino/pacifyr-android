@@ -43,6 +43,7 @@ import com.pacifyr.omhealthcare.base.PacifyerActivity;
 import com.pacifyr.omhealthcare.event.AlertTypeEvent;
 import com.pacifyr.omhealthcare.event.CallEvent;
 import com.pacifyr.omhealthcare.event.NotifyEvent;
+import com.pacifyr.omhealthcare.fragment.UserDashboardFragment;
 import com.pacifyr.omhealthcare.model.ModelSpecialityByEmotion;
 import com.pacifyr.omhealthcare.network.GsonUtils;
 import com.pacifyr.omhealthcare.network.NetworkService;
@@ -331,7 +332,7 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
                 button2.setBackgroundResource(R.drawable.circle_click_btn);
                  //callFragmant();
                 PacifyerActivity.call_emotion=new MEmotion();
-                PacifyerActivity.call_emotion.setId("Not Happy");
+                PacifyerActivity.call_emotion.setId("5971c472734d1d6202a81958");
                 changeToSecondScreen();
 
             }
@@ -348,7 +349,7 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
                 button2.setBackgroundResource(R.drawable.circle_click_btn);
                 //callFragmant();
                 PacifyerActivity.call_emotion=new MEmotion();
-                PacifyerActivity.call_emotion.setId("Happy");
+                PacifyerActivity.call_emotion.setId("5971c472734d1d6202a81958");
                 changeToSecondScreen();
 
             }
@@ -1165,9 +1166,11 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
         public void onBindViewHolder(final MyViewHolderr holder, final int position) {
 
             holder.tv_instruction.setText(list.get(position));
+
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    UserDashboardFragment.LeadersUpReasonFortheCall=list.get(position);
                     if (position==0)
                     {
                         button1.setBackgroundResource(R.drawable.circle_button);
@@ -1193,11 +1196,10 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
                         button2.setBackgroundResource(R.drawable.circle_button);
                         button3.setBackgroundResource(R.drawable.circle_button);
                         button4.setBackgroundResource(R.drawable.circle_click_btn);
-                        button2.setClickable(false);
-                        button3.setClickable(false);
                         button3.setClickable(false);
 
                         button1.setClickable(true);
+                        button2.setClickable(true);
                         button4.setClickable(true);
                         FirstScreenLayout.setVisibility(View.GONE);
                         second_screen_layout.setVisibility(View.GONE);
@@ -1213,9 +1215,9 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
                         button2.setBackgroundResource(R.drawable.circle_button);
                         button3.setBackgroundResource(R.drawable.circle_click_btn);
                         button4.setBackgroundResource(R.drawable.circle_button);
-                        button2.setClickable(false);
 
                         button1.setClickable(true);
+                        button2.setClickable(true);
                         button3.setClickable(true);
                         button4.setClickable(true);
                         FirstScreenLayout.setVisibility(View.GONE);
@@ -1234,7 +1236,7 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
 
 
                         button1.setClickable(true);
-                        button2.setClickable(false);
+                        button2.setClickable(true);
                         button3.setClickable(false);
                         button4.setClickable(true);
 

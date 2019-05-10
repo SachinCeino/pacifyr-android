@@ -65,6 +65,7 @@ import com.pacifyr.omhealthcare.adapter.EmotionSpecialityAdapter;
 import com.pacifyr.omhealthcare.event.BusProvider;
 import com.pacifyr.omhealthcare.event.CallEvent;
 import com.pacifyr.omhealthcare.event.NotifyEvent;
+import com.pacifyr.omhealthcare.fragment.UserDashboardFragment;
 import com.pacifyr.omhealthcare.home.PaymentActivity;
 import com.pacifyr.omhealthcare.home.SessionSummaryActivity;
 import com.pacifyr.omhealthcare.model.BillingSummary;
@@ -1228,7 +1229,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
     private void updateProfileStartCallWeb( final MUser pacifyerDetial, final boolean isVideoCall) {
         try {
 
-
+            EmotionSpecialityAdapter.reason_forcall= UserDashboardFragment.LeadersUpReasonFortheCall;
           PostRegisterModel postRegisterModel=new PostRegisterModel(PacifyerActivity.call_emotion.getId(),EmotionSpecialityAdapter.reason_forcall);
             if (!isValidLogout(getUserID(),"Session expired, please re login"))
                 return;

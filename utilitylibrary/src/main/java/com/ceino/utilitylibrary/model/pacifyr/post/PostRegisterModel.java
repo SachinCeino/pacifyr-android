@@ -59,6 +59,15 @@ public class PostRegisterModel {
     private String refferedOrganisation;
     private String schoolName;
     private String getPaidForQuickSurveys;
+    private String appSource;
+
+    public String getAppSource() {
+        return appSource;
+    }
+
+    public void setAppSource(String appSource) {
+        this.appSource = appSource;
+    }
 
     public PostRegisterModel() {
 

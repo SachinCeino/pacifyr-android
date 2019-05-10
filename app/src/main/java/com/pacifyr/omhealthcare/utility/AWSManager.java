@@ -41,10 +41,10 @@ public class AWSManager {
         } else if (PACKAGE_NAME.equals("com.pacifyr.leadersup")) {
             if (UtilityNetworkService.isProd) {
                 //Prod
-                return "LeadersupPROD";
+                return "leadersupprod";
             } else {
                 //Dev
-                return "LeadersupDEV";
+                return "leadersupdev";
             }
         } else {
             return "";

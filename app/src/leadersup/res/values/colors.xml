@@ -9,7 +9,7 @@
 
 
     <color name="text_inside_circle_light">#e6f9fe</color>
-    <color name="sign_blue">#F9BC1F</color>
+    <color name="sign_blue">#38569a</color>
 
     <!--<color name="colorPrimary">#FF7E57</color>-->
     <!--<color name="blue_pacifyr">#FF7E57</color>-->
@@ -60,10 +60,11 @@
     <color name = "_color_back_arrow_tint">#454A4A</color>
     <color name = "_color_action_bar_text_color">#454A4A</color>
     <color name = "_color_action_bar_background_color">#e1e2e2</color>
-    <color name="blue_button_primary">#F9BC1F</color>
+    <color name="blue_button_primary">#36b0ff</color>
     <color name="color_blue_accent">#F9BC1F</color>
     <color name = "round_button_fill_color">#146047</color>
     <color name = "round_button_border_color">#146047</color>
     <color name="connect_wellness_expert_color">#FFFFFF</color>
+    <color name="circle_button_click_color">#146047</color>
 
 </resources>

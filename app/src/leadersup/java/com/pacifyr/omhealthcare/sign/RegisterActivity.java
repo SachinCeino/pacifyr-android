@@ -1210,6 +1210,7 @@ public class RegisterActivity extends PacifyerActivity {
             postRegisterModel.setCountry(countryData.getCountry());
             postRegisterModel.setDateOfBirth("01-Jan-"+yearEdit.getText().toString());
             postRegisterModel.setPhoneNumber(phoneRegister);
+            postRegisterModel.setAppSource(Constants.getAppSource(getApplicationContext()));
             // postRegisterModel.
             if (agree)
             {

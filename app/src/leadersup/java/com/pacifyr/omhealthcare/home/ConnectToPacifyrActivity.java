@@ -45,6 +45,7 @@ import com.pacifyr.omhealthcare.event.AlertTypeEvent;
 import com.pacifyr.omhealthcare.event.CallEvent;
 import com.pacifyr.omhealthcare.event.ChatEvent;
 import com.pacifyr.omhealthcare.event.NotifyEvent;
+import com.pacifyr.omhealthcare.fragment.UserDashboardFragment;
 import com.pacifyr.omhealthcare.model.ModelSpecialityByCategory;
 import com.pacifyr.omhealthcare.model.ModelSpecialityByEmotion;
 import com.pacifyr.omhealthcare.model.interfaces.CallChatEventListner;
@@ -315,7 +316,7 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
                 button2.setBackgroundResource(R.drawable.circle_click_btn);
                 //callFragmant();
                 PacifyerActivity.call_emotion=new MEmotion();
-                PacifyerActivity.call_emotion.setId("Not Happy");
+                PacifyerActivity.call_emotion.setId("5971c472734d1d6202a81958");
                 changeToSecondScreen();
 
             }
@@ -331,7 +332,7 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
                 button2.setBackgroundResource(R.drawable.circle_click_btn);
                 //callFragmant();
                 PacifyerActivity.call_emotion=new MEmotion();
-                PacifyerActivity.call_emotion.setId("Happy");
+                PacifyerActivity.call_emotion.setId("5971c472734d1d6202a81958");
                 changeToSecondScreen();
 
             }
@@ -381,15 +382,15 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
 
         if(customerRole.equals("customer")){
             employeeFlag = false;
-            //showallLlay.setVisibility(View.GONE);
+           showallLlay.setVisibility(View.GONE);
         }
         else if(customerRole.equals("employee")||customerRole.equals("unpaidEmployee")){
             employeeFlag = true;
-           // showallLlay.setVisibility(View.VISIBLE);
+          showallLlay.setVisibility(View.VISIBLE);
         }
         else if(customerRole.equals("paidMember")){
             employeeFlag = false;
-            //showallLlay.setVisibility(View.GONE);
+          showallLlay.setVisibility(View.GONE);
         }else if(customerRole.equals("unpaidEmployee")){
             employeeFlag = true;
         }
@@ -850,7 +851,7 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
             cb.header("AccessToken", token);
             jsonObject = new JSONObject();
 
-            url = GLOBAL_URL + "search/pacifyrs";
+            url = GLOBAL_URL + getRoleSearchMap().get(prefM.getCustomerRole());
             companyID = prefM.getCompanyId();
             jsonObject.putOpt("companyId",companyID);
             jsonObject.putOpt("includeChargeablePacifyrs", showAllFlag);
@@ -991,7 +992,7 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
     {
         try {
             String url = GLOBAL_URL + "specialities/byAppSource?appSource=leadersup";
-
+           // String url = GLOBAL_URL + "specialities/getCategories/byEmotion?emotionId="+emotionID;
             AjaxCallback cb = new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, JSONObject json, AjaxStatus status) {
@@ -1150,9 +1151,11 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
         public void onBindViewHolder(final MyViewHolderr holder, final int position) {
 
             holder.tv_instruction.setText(list.get(position));
+
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    UserDashboardFragment.LeadersUpReasonFortheCall=list.get(position);
                     if (position==0)
                     {
                         button1.setBackgroundResource(R.drawable.circle_button);
