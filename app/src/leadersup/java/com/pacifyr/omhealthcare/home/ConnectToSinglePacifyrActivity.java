@@ -1207,7 +1207,7 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
                         third_Screen_second_layout.setVisibility(View.GONE);
                         listPacifyrRlay.setVisibility(View.VISIBLE);
                        // morePacifyrsRlay.setVisibility(View.GONE);
-                        Toast.makeText(context, "pacifyr list screen", Toast.LENGTH_SHORT).show();
+
                     }
                     else if (position==2)
                     {

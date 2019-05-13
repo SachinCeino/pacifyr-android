@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Leaders Up</string>
+    <string name="app_name">Future@Work</string>
     <string name="tutorial">TUTORIAL</string>
 
     <string name="title_activity_home_screen">HomeScreenActivity</string>
@@ -223,7 +223,7 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="why_do_we_ask">Why do we ask?</string>
     <string name="congrats_on_your_interview">Congrats on your interviews at the LeadersUp Summit</string>
     <string name="to_give_as_a_better">To give as a better idea on how we can help you today,tell us why you feelthis was today? </string>
-    <string name="why_do_we_ask_answer_text">Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs.</string>
+    <string name="why_do_we_ask_answer_text">If this is an emergency call,please hangup and\n dial 911 or rush to the nearest hospital.</string>
 
 
     /**second screen instructions  **/
