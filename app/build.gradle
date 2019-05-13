@@ -108,8 +108,8 @@ android {
         leadersup {
             dimension "Pacifyr"
             applicationId "com.pacifyr.leadersup"
-            versionName "1.0"
-            versionCode 1
+            versionName "1.0.1"
+            versionCode 2
         }
     }
 
