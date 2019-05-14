@@ -218,6 +218,7 @@
                 app:fontName="@string/lato_black"
                 android:layout_marginTop="35dp"
                 android:textColor="@color/black"
+                android:visibility="gone"
                 android:text="@string/why_do_we_ask"/>
 
             <com.ceino.utilitylibrary.CustomFontTextView
@@ -229,6 +230,7 @@
                 app:fontName="@string/lato_regular"
                 android:layout_marginTop="10dp"
                 android:textColor="@color/grey_dark"
+                android:visibility="gone"
                 android:text="@string/why_do_we_ask_answer_text"/>
 
         </LinearLayout>

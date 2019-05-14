@@ -208,7 +208,7 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
         if(isValid(country)) {
             country = prefM.getCountry();
             if (country.equalsIgnoreCase("us")) {
-                txt_emergency_usa.setVisibility(View.VISIBLE);
+                //txt_emergency_usa.setVisibility(View.VISIBLE);
             }
         }
 

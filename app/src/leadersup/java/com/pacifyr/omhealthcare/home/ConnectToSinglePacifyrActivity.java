@@ -229,8 +229,11 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
         Utility gps=new Utility();
         String country = Utility.getUserCountry(ConnectToSinglePacifyrActivity.this);
         if(isValid(country)){
-            if(country.equals("us"))
-                txt_emergency_usa.setVisibility(View.VISIBLE);
+            if(country.equals("us"));
+            {
+                // txt_emergency_usa.setVisibility(View.VISIBLE);
+            }
+
         }
 
         defSetText(userNameCtxv,"Hello "+getUserName());
