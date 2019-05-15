@@ -37,8 +37,11 @@ import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.gdacciaro.iOSDialog.iOSDialog;
+import com.gdacciaro.iOSDialog.iOSDialogClickListener;
+import com.google.gson.JsonObject;
+import com.koushikdutta.ion.Ion;
 import com.pacifyr.omhealthcare.R;
-import com.pacifyr.omhealthcare.activity.SplachScreen;
 import com.pacifyr.omhealthcare.adapter.CountrySpinnerAdapter;
 import com.pacifyr.omhealthcare.base.PacifyerActivity;
 import com.pacifyr.omhealthcare.home.DashboardActivity;
@@ -49,7 +52,9 @@ import com.pacifyr.omhealthcare.quickblox.chat.utils.qb.callback.QbEntityCallbac
 import com.quickblox.auth.QBAuth;
 import com.quickblox.auth.session.QBSession;
 import com.quickblox.auth.session.QBSettings;
+import com.quickblox.core.QBEntityCallback;
 import com.quickblox.core.exception.QBResponseException;
+import com.quickblox.users.QBUsers;
 import com.quickblox.users.model.QBUser;
 
 import org.json.JSONException;
@@ -57,6 +62,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
 import static com.ceino.utilitylibrary.network.UtilityNetworkService.ACCOUNT_KEY;
 import static com.ceino.utilitylibrary.network.UtilityNetworkService.APP_ID;
@@ -104,9 +110,9 @@ public class LoginActivity extends PacifyerActivity {
             context = LoginActivity.this;
             prefM = PrefManager.getInstance(context);
 
-            spinner = (Spinner) findViewById(R.id.spinner);
-            phoneCedit = (CustomEditText) findViewById(R.id.phone_cedit);
-            facebookRlay = (RelativeLayout) findViewById(R.id.facebook_rlay);
+            spinner = findViewById(R.id.spinner);
+            phoneCedit = findViewById(R.id.phone_cedit);
+            facebookRlay = findViewById(R.id.facebook_rlay);
             facebookRlay.setOnClickListener(new View.OnClickListener() {
 
                 @Override
@@ -117,10 +123,10 @@ public class LoginActivity extends PacifyerActivity {
                 }
             });
 
-            loginButton = (LoginButton) findViewById(R.id.login_button);
+            loginButton = findViewById(R.id.login_button);
             loginButton.setReadPermissions("user_friends", "email");
             callbackManager = CallbackManager.Factory.create();
-            loginButton = (LoginButton) findViewById(R.id.login_button);
+            loginButton = findViewById(R.id.login_button);
 
             if (isValid(alreadyRegisteresPhone)) {
                 phoneCedit.setText(alreadyRegisteresPhone.substring(2));
@@ -210,7 +216,7 @@ public class LoginActivity extends PacifyerActivity {
                 }
             });
 
-            loginRlay = (RelativeLayout) findViewById(R.id.login_rlay);
+            loginRlay = findViewById(R.id.login_rlay);
             loginRlay.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -302,7 +308,7 @@ public class LoginActivity extends PacifyerActivity {
                         loginModel = GsonUtils.getInstance().gsonToLoginModel(json);
 
 
-                        String logstat = loginModel.getStatus().toString();
+                        String logstat = loginModel.getStatus();
                         if (isValid(logstat)) {
                             if (logstat.equals("success")) {
                                 userModel = loginModel.getUser();
@@ -475,24 +481,28 @@ public class LoginActivity extends PacifyerActivity {
 
                         @Override
                         public void onError(QBResponseException responseException) {
-                            String res = responseException.getMessage();
-                            Toast.makeText(LoginActivity.this, responseException.getMessage(), Toast.LENGTH_LONG);
-                            //  hideProgressDialog();
-                            // Toaster.longToast(com.quickblox.sample.groupchatwebrtc.R.string.sign_up_error);
-                            setStatus("Login Failed. Please Try again", R.color.endcall);
-                            showStatus();
-                            prefM.clearSharedAll();
-                            prefM.clear();
-                            new Handler().postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    hideProgress();
-                                    hideStatus();
-                                    Intent i = new Intent(LoginActivity.this, SignActivity.class);
-                                    startActivity(i);
-                                    finish();
-                                }
-                            }, 3000);
+                            if (responseException.getHttpStatusCode() == 401) {
+                                quickbloxNewLogin(user);
+                            } else {
+                                String res = responseException.getMessage();
+                                Toast.makeText(LoginActivity.this, responseException.getMessage(), Toast.LENGTH_LONG);
+                                //  hideProgressDialog();
+                                // Toaster.longToast(com.quickblox.sample.groupchatwebrtc.R.string.sign_up_error);
+                                setStatus("Login Failed. Please Try again", R.color.endcall);
+                                showStatus();
+                                prefM.clearSharedAll();
+                                prefM.clear();
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        hideProgress();
+                                        hideStatus();
+                                        Intent i = new Intent(LoginActivity.this, SignActivity.class);
+                                        startActivity(i);
+                                        finish();
+                                    }
+                                }, 3000);
+                            }
                         }
                     });
                 }
@@ -512,6 +522,141 @@ public class LoginActivity extends PacifyerActivity {
             Toast.makeText(LoginActivity.this,e.getMessage(),Toast.LENGTH_LONG);
         }
     }
+
+
+    private void quickbloxNewLogin(final QBUser qbUser) {
+        try {
+            QBSettings.getInstance().init(LoginActivity.this, APP_ID, AUTH_KEY, AUTH_SECRET);
+            QBSettings.getInstance().setAccountKey(ACCOUNT_KEY);
+            //create a quickblox application session
+            QBAuth.createSession().performAsync(new QBEntityCallback<QBSession>() {
+                @Override
+                public void onSuccess(QBSession qbSession, Bundle bundle) {
+                    // Register new user
+
+                    QBUsers.signUp(qbUser).performAsync(new QBEntityCallback<QBUser>() {
+                        @Override
+                        public void onSuccess(QBUser qbUser, Bundle bundle) {
+
+                            saveUserData(qbUser);
+                            startLoginService(qbUser);
+                            getPrefManager(LoginActivity.this).saveQBID(qbUser.getId().toString());
+                            saveToPrefM();
+                            updateProfileWeb(qbUser);
+                        }
+
+                        @Override
+                        public void onError(QBResponseException responseException) {
+                            responseException.printStackTrace();
+                            Toast.makeText(context, responseException.getMessage(), Toast.LENGTH_LONG).show();
+                            hideProgress();
+                            LoginManager mLoginManager = LoginManager.getInstance();
+                            mLoginManager.logOut();
+                            prefM.clear();
+                            startActivity(new Intent(context, SignActivity.class));
+                        }
+                    });
+
+                }
+
+                @Override
+                public void onError(QBResponseException e) {
+                    e.printStackTrace();
+                    if (e.getHttpStatusCode() == 422 && e.getMessage().toLowerCase().contains("bad timestamp")) {
+                        iOSDialogClickListener listener = new iOSDialogClickListener() {
+                            @Override
+                            public void onClick(iOSDialog dialog) {
+                                dialog.dismiss();
+                                prefM.clearSharedAll();
+                                fbLogout();
+                                startActivity(new Intent(android.provider.Settings.ACTION_DATE_SETTINGS));
+                                finish();
+                            }
+                        };
+                        showIOSDialogOK("", "Your device date & time is not correct. Please correct it and try sign in.", "Settings", listener);
+
+                    } else {
+                        Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
+                        hideProgress();
+                        fbLogout();
+                        prefM.clear();
+                        startActivity(new Intent(context, SignActivity.class));
+                    }
+                }
+            });
+
+        } catch (Exception exc) {
+            hideProgress();
+            exc.printStackTrace();
+            Toast.makeText(context, exc.getMessage(), Toast.LENGTH_LONG).show();
+            fbLogout();
+            prefM.clear();
+            startActivity(new Intent(context, SignActivity.class));
+
+        }
+
+    }
+
+    private void updateProfileWeb(QBUser qbUser) {
+        try {
+            String url = GLOBAL_URL + "user/editprofile/" + qbUser.getLogin();
+            com.koushikdutta.async.future.FutureCallback<JsonObject> futureCallback = new com.koushikdutta.async.future.FutureCallback<JsonObject>() {
+                @Override
+                public void onCompleted(Exception e, JsonObject result) {
+                    try {
+                        if (isValid(result)) {
+
+                            final JSONObject jsonObject = new JSONObject(result.toString());
+                            //String js = result.toString();
+                            String phone = jsonObject.getString("phoneNumber");
+                            //String messag= json.getString("message");
+                            //String logstat = status.getMessage();
+                            if (isValid(phone)) {
+                                hideProgress();
+                                setStatus("User registered Successfully", R.color.md_green_400);
+                                showStatus();
+
+                                final Handler handler = new Handler();
+                                handler.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                       /* Intent i = new Intent(RegisterActivity.this, WelcomeTourActivity.class);
+                                        startActivity(i);
+                                        finish();*/
+                                        hideStatus();
+                                        signInCreatedUser();
+
+                                    }
+                                }, 2000);
+
+                            } else/* if (logstat.equals("error"))*/ {
+                                Toast.makeText(LoginActivity.this, "Error :" + e.getMessage(), Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    } catch (Exception eee) {
+                        hideProgress();
+                        Toast.makeText(LoginActivity.this, "Error :" + eee.getMessage(), Toast.LENGTH_LONG).show();
+                        eee.printStackTrace();
+                    }
+                }
+            };
+            //AQuery aq = new AQuery(RegisterActivity.this);
+            //cb.header("AccessToken", accessToken);
+            //cb.header("enctype", "multipart/form-data");
+            JSONObject postDataParams = new JSONObject();
+            postDataParams.putOpt("qbid", Long.valueOf(qbUser.getId().toString()));
+            String json = postDataParams.toString();
+            HashMap<String, JSONObject> map = new HashMap<String, JSONObject>();
+            map.put("data", postDataParams);
+            Ion.with(context).load(url).setHeader("AccessToken", prefM.getAccessToken()).setHeader("enctype", "multipart/form-data").setMultipartParameter("data", json).asJsonObject().setCallback(futureCallback);
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            Toast.makeText(context, ex.getMessage(), Toast.LENGTH_LONG).show();
+
+        }
+    }
+
 
     private void saveCustomerData(Context context,String role) {
         if(isValid(companyId))
@@ -559,15 +704,15 @@ public class LoginActivity extends PacifyerActivity {
     private DeviceFitImageView rightImv;
 
     public void onSetActionBar() {
-        actionBarTopLlay = (LinearLayout) findViewById(R.id.action_bar_top_llay);
-        bottomPanel = (RelativeLayout) findViewById(R.id.bottom_panel);
-        leftLlay = (LinearLayout) findViewById(R.id.left_llay);
-        backImv = (DeviceFitImageView) findViewById(R.id.back_imv);
-        leftTxv = (CustomFontTextView) findViewById(R.id.left_txv);
-        titleTxv = (CustomFontTextView) findViewById(R.id.title_txv);
-        rightLlay = (LinearLayout) findViewById(R.id.right_llay);
-        rightTxv = (CustomFontTextView) findViewById(R.id.right_txv);
-        rightImv = (DeviceFitImageView) findViewById(R.id.right_imv);
+        actionBarTopLlay = findViewById(R.id.action_bar_top_llay);
+        bottomPanel = findViewById(R.id.bottom_panel);
+        leftLlay = findViewById(R.id.left_llay);
+        backImv = findViewById(R.id.back_imv);
+        leftTxv = findViewById(R.id.left_txv);
+        titleTxv = findViewById(R.id.title_txv);
+        rightLlay = findViewById(R.id.right_llay);
+        rightTxv = findViewById(R.id.right_txv);
+        rightImv = findViewById(R.id.right_imv);
         rightImv.setVisibility(View.INVISIBLE);
         rightTxv.setVisibility(View.INVISIBLE);
         rightLlay.setVisibility(View.INVISIBLE);
