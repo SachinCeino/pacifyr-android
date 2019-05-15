@@ -279,7 +279,6 @@
                     android:gravity="left"
                     android:padding="10dp"
                     android:hint="select option"
-                    android:onClick="showDialogueWithList"
                     android:focusable="false"
                     android:background="@drawable/black_border_white_back"
                     android:textColor="@color/medium_grey_pacifyr"
@@ -306,7 +305,6 @@
                     android:gravity="left"
                     android:padding="10dp"
                     android:hint="select option"
-                    android:onClick="showDialogueWithList"
                     android:focusable="false"
                     android:background="@drawable/black_border_white_back"
                     android:textColor="@color/medium_grey_pacifyr"
@@ -335,7 +333,6 @@
                     android:padding="10dp"
                     android:hint="select option"
                     android:focusable="false"
-                    android:onClick="showDialogueWithList"
                     android:background="@drawable/black_border_white_back"
                     android:textColor="@color/medium_grey_pacifyr"
                     android:layout_marginBottom="5dp"/>
@@ -362,7 +359,6 @@
                     android:gravity="left"
                     android:padding="10dp"
                     android:focusable="false"
-                    android:onClick="showDialogueWithList"
                     android:background="@drawable/black_border_white_back"
                     android:textColor="@color/medium_grey_pacifyr"
                     android:layout_marginBottom="5dp"/>
@@ -406,7 +402,6 @@
                     android:hint="select option"
                     android:padding="10dp"
                     android:focusable="false"
-                    android:onClick="showDialogueWithList"
                     android:background="@drawable/black_border_white_back"
                     android:textColor="@color/medium_grey_pacifyr"
                     android:layout_marginBottom="5dp"/>

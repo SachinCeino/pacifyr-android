@@ -478,6 +478,44 @@ public class RegisterActivity extends PacifyerActivity {
                 }
             });
 
+
+            CustomEditText_region.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    showDialogueWithList(view);
+                }
+            });
+
+            CustomEditText_gender.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    showDialogueWithList(view);
+                }
+            });
+
+            CustomEditText_race.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    showDialogueWithList(view);
+                }
+            });
+
+            CustomEditText_education.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    showDialogueWithList(view);
+                }
+            });
+
+            CustomEditText_organization.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    showDialogueWithList(view);
+                }
+            });
+
+
+
             setClicks();
 
         }catch (Exception e)
@@ -1351,7 +1389,7 @@ public class RegisterActivity extends PacifyerActivity {
                             hideProgress();
                             String message = json.get(getResources().getString(R.string.message_string)).getAsString();
                             setAlertOKStatusInWhite(getResources().getString(R.string.registration_failed), message,"Ok");
-                            ToastHandler.newInstance(RegisterActivity.this).mustShowToast("Please try again Json is null");
+                            ToastHandler.newInstance(RegisterActivity.this).mustShowToast("Please try again !");
                         } else {
                             final JSONObject json2 = new JSONObject(json.toString());
                             PRegistrationModel regModel = GsonUtils.getInstance().gsonToRegistrationModel(json2);
