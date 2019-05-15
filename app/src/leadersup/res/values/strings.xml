@@ -29,7 +29,7 @@
     <string name="card_number">card number</string>
 
     <!--new adding-->
-    <string name="get_ready_feel_better">Get ready to feel better!</string>
+    <string name="get_ready_feel_better">Get ready to get hired!</string>
     <string name="feel_better">Feel better with Leaders Up</string>
     <string name="connect_to_wellness">Connect to wellness/health expert through Video, Audio or Chat.</string>
     <string name="thirty_free">Free Introductory call time</string>
@@ -104,7 +104,7 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="user_type_error">You are a Wellness Expert. Please login using Provider app</string>
     <string name="audio_call">Leaders Up AUDIOCALL</string>
     <string name="video_call">Leaders Up VIDEOCALL</string>
-    <string name="no_prefered_pacifyr">You have no preferred Wellness Experts.</string>
+    <string name="no_prefered_pacifyr">You have no preferred Career Coach.</string>
     <string name="reviews">Reviews</string>
     <string name="no_sessions_yet">No sessions yet, Connect to Wellness Experts.</string>
 
@@ -221,8 +221,8 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="before_we_get_started">Before we get started,let our Career Coaches know how you\'re feeling today?</string>
     <string name="select_an_emotion">Select an emotion first?</string>
     <string name="why_do_we_ask">Why do we ask?</string>
-    <string name="congrats_on_your_interview">Congrats on your interviews at the LeadersUp Summit</string>
-    <string name="to_give_as_a_better">To give as a better idea on how we can help you today,tell us why you feelthis was today? </string>
+    <string name="congrats_on_your_interview">To give us a better idea on how we can help you today, tell us what you would like to talk about?</string>
+    <string name="to_give_as_a_better">To give as a better idea on how we can help you today,tell us why you feel this was today? </string>
     <string name="why_do_we_ask_answer_text">If this is an emergency call,please hangup and\n dial 911 or rush to the nearest hospital.</string>
 
 
@@ -233,9 +233,9 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="second_screen_instructions_four">I\'m still looking for\njob opportunities </string>
 
     <string name="congrats_on_the_new_job_offer">Congrats on the job offer !</string>
-    <string name="how_we_can_help">How we can help</string>
-    <string name="turn_your_job">turn your job offer into a star date?</string>
-    <string name="have_the_best_first_day">Have the best first day on the job?</string>
+    <string name="how_we_can_help">How we can help you </string>
+    <string name="turn_your_job">turn your job offer into a start date?</string>
+    <string name="have_the_best_first_day">have the best first day on the job?</string>
 
 
     /**Third screen instructions **/

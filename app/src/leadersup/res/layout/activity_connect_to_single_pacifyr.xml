@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:id="@+id/connectsingle_top_rlay"
-    xmlns:swipedeck="http://schemas.android.com/apk/res-auto">
+    android:id="@+id/connectsingle_top_rlay">
 
     <include layout="@layout/actionbar_grey_close"
         android:id="@+id/include"
@@ -31,7 +29,7 @@
             android:layout_centerHorizontal="true"
             android:gravity="center"
             app:fontName="@string/avanti_std_bold"
-            android:text="Get ready to feel better!"
+            android:text="@string/get_ready_feel_better"
             android:textColor="#898989"
             android:layout_marginBottom="7dp"
             android:textSize="18sp"
@@ -338,6 +336,7 @@
                     android:gravity="center"
                     android:layout_margin="5dp"
                     app:fontName="@string/lato_regular"
+                    android:visibility="gone"
                     android:textColor="@color/grey_hex_83"
                     android:text="@string/to_give_as_a_better"/>
 
