@@ -93,6 +93,8 @@ public class ModelUserProfile
 
     private String selectedSpeciality;
 
+    private String selectedSpecialityCategory;
+
     private String lastName;
 
     private String emotionId;
@@ -583,6 +585,14 @@ public class ModelUserProfile
 
     public void setSelectedSpeciality(String selectedSpeciality) {
         this.selectedSpeciality = selectedSpeciality;
+    }
+
+    public String getSelectedSpecialityCategory() {
+        return selectedSpecialityCategory;
+    }
+
+    public void setSelectedSpecialityCategory(String selectedSpecialityCategory) {
+        this.selectedSpecialityCategory = selectedSpecialityCategory;
     }
 
     public String getTermsAccepted() {

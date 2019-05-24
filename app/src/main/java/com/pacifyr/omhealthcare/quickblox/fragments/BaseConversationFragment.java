@@ -13,6 +13,7 @@ import android.widget.Chronometer;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.androidquery.callback.AjaxCallback;
@@ -52,7 +53,7 @@ public abstract class BaseConversationFragment extends BaseToolBarFragment imple
     private static final String TAG = BaseConversationFragment.class.getSimpleName();
     protected QbUsersDbManager dbManager;
     protected WebRtcSessionManager sessionManager;
-    private boolean isIncomingCall;
+    public boolean isIncomingCall;
     protected QBRTCSession currentSession;
     protected ArrayList<QBUser> opponents;
     private QBRTCTypes.QBConferenceType qbConferenceType;
@@ -381,8 +382,23 @@ public abstract class BaseConversationFragment extends BaseToolBarFragment imple
         try {
             isFirsttime=false;
             if(availableseconds<30) {
-                postEventOnMainThread(new CallTimerEvent(true));
-                return;
+                if(isIncomingCall)
+                {
+
+                    setIncommingPacifyrCallAlertCardStatusInBlue("Add Card", "Your free minutes are expired. Please continue enjoying our services by updating your credit card information", "Ok", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            hideProgress();
+                            hideStatus2();
+                            handUpVideoCall.performClick();
+                        }
+                    });
+
+                }
+                else {
+                    postEventOnMainThread(new CallTimerEvent(true));
+                    return;
+                }
             }
             availableseconds=availableseconds*1000;
             Log.d("session", "BCF setAvaiableTimer availableseconds = " + availableseconds);

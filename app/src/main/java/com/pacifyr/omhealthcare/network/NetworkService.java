@@ -1180,4 +1180,21 @@ public class NetworkService  extends IntentService {
         }
     }
 
+    public void incomingVideoCallUserEmotion(String id, AjaxCallback<JSONObject> ajaxCallback) {
+
+        try {
+            PrefManager prefM = PrefManager.getInstance(this);
+            String token = prefM.getAccessToken();
+            String url = GLOBAL_URL + "user/profile/" + id;
+            AQuery aq = new AQuery(this);
+            //cb.header("Content-Type", "application/json");
+            ajaxCallback.header("AccessToken", token);
+            aq.ajax(url, JSONObject.class, ajaxCallback);
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+            LogUtils.LOGD("base", "PA userDetailWeb  exception : " + ex.getMessage());
+        }
+    }
 }

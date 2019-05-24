@@ -32,6 +32,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.androidquery.callback.AjaxCallback;
+import com.androidquery.callback.AjaxStatus;
 import com.ceino.utilitylibrary.CustomFontTextView;
 import com.ceino.utilitylibrary.DeviceFitImageView;
 import com.ceino.utilitylibrary.model.pacifyr.MEmotion;
@@ -50,6 +52,7 @@ import com.pacifyr.omhealthcare.fragment.UserDashboardFragment;
 import com.pacifyr.omhealthcare.home.CustomerDetailActivity;
 import com.pacifyr.omhealthcare.home.ProfileScreenActivity;
 import com.pacifyr.omhealthcare.interfaces.EmpMinutesListener;
+import com.pacifyr.omhealthcare.network.GsonUtils;
 import com.pacifyr.omhealthcare.network.NetworkService;
 import com.pacifyr.omhealthcare.quickblox.activities.CallActivity;
 import com.pacifyr.omhealthcare.quickblox.adapters.OpponentsFromCallAdapter;
@@ -67,6 +70,7 @@ import com.quickblox.videochat.webrtc.view.QBRTCVideoTrack;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONObject;
 import org.webrtc.CameraVideoCapturer;
 import org.webrtc.RendererCommon;
 import org.webrtc.SurfaceViewRenderer;
@@ -166,7 +170,31 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
                 }
             }
         }
-    };
+    };private void getCurrentUserInformation() {
+        if (isValid(getCallUser()) && isValid(getCallUser().getId()))
+        {
+            new NetworkService().incomingVideoCallUserEmotion(getCallUser().getId(), new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject json, AjaxStatus status) {
+                    MEmotion emotion=null;
+                    String image=null;
+
+                    if (isValid(json))
+                    {
+
+                        NetworkService.mCurrentUser= GsonUtils.getInstance().gsonToModelUserProfile(json);
+                        if(isValid(NetworkService.mCurrentUser))
+                        {
+                            setEmotionViews();
+                        }
+                    }
+                }
+            });
+        }
+
+    }
+
+
     private EmpMinutesListener empMinutesListener = new EmpMinutesListener() {
         @Override
         public void onMinutesLeft(long minutes) {
@@ -331,7 +359,11 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
             }
             else {
                 if(isPacifyer()) {
-                   final MUser muser=  getCallUser();
+                    final MUser muser;
+                    if (isIncomingCall)
+                        muser = getCallPacifyr();
+                    else
+                        muser = getCallUser();
                    if(isValid(muser)) {
                        userRlay.setVisibility(View.VISIBLE);
                        defSetText(usernameCtxv, muser.getName());
@@ -357,7 +389,11 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
                    }
                 }
                 else  if(isCustomer()) {
-                    MUser muser=  getCallPacifyr();
+                    final MUser muser;
+                    if (isIncomingCall)
+                        muser = getCallPacifyr();
+                    else
+                        muser = getCallUser();
                     if(isValid(muser)) {
                         userRlay.setVisibility(View.VISIBLE);
                         defSetText(usernameCtxv, muser.getName());
@@ -595,16 +631,36 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
             String image=null;
             MEmotion emotion=null;
             if(isCustomer()) {
+                emotion=new MEmotion();
+                emotion.setId("5971c472734d1d6202a81958");
+                emotion.setImage("pride@3x.png");
+                PacifyerActivity.call_emotion=emotion;
+
                 emotion=PacifyerActivity.call_emotion;
                 image= PacifyerActivity.call_emotion.getImage();
                 call_particpants_list=new ArrayList<MUser>();
                 call_particpants_list.add( convertModel(NetworkService.mCurrentUser));
                 call_particpants_list.add(CallActivity.mPacifyr);
 
+                /**call from pacifyr to user **/
+                if (isIncomingCall)
+                {
+                    if (isValid(NetworkService.mCurrentUser))
+                        if(isValid(NetworkService.mCurrentUser.getSelectedSpecialityCategory()))
+                            defSetText(reason_ctxv,NetworkService.mCurrentUser.getSelectedSpecialityCategory());
+                        else if (isValid(NetworkService.mCurrentUser.getSelectedSpeciality()))
+                            defSetText(reason_ctxv,NetworkService.mCurrentUser.getSelectedSpeciality());
+                }
+
+
             }
             else {
                 call_particpants_list=getCallParticipantlist();
-                MUser mUser = getCallUser();
+                MUser mUser;
+                if (isIncomingCall)
+                    mUser = getCallPacifyr();
+                else
+                    mUser = getCallUser();
 
                 emotion_dimv.setVisibility(View.GONE);
                // reason_ctxv.setVisibility(View.GONE);
@@ -627,6 +683,10 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
 
                 }
             }
+
+
+
+
             setPartipantViews();
          //   setParticipantBar();
             setUserInfoViews();

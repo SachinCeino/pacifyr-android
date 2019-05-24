@@ -396,6 +396,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
         }
     }
     public String getAccessToken() {
+        Log.w("@@@",getPrefManager().getAccessToken());
         return getPrefManager().getAccessToken();
 
     }

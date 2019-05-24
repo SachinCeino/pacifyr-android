@@ -651,6 +651,7 @@ public abstract class BaseFragment extends Fragment {
         return mUser;
     }
 
+
     public MEmotion getEmotion(String emotionid) {
         MEmotion mEmotion=null;
         try {
@@ -1290,4 +1291,33 @@ public abstract class BaseFragment extends Fragment {
         });
 
     }
+
+
+
+    public void setIncommingPacifyrCallAlertCardStatusInBlue(String title, String desc, String ok, View.OnClickListener listener) {
+        if (getActivity() == null) {
+            return;
+        }
+
+            //View.OnClickListener oklistner
+            View view = LayoutInflater.from(getActivity() ).inflate(R.layout.alert_ok_card_incomming_pacifyr_call, null, false);
+            CustomFontTextView title_dtxv = view.findViewById(R.id.title_dtxv);
+            CustomFontTextView desc_dtxv = view.findViewById(R.id.desc_dtxv);
+            CustomFontTextView ok_dtxv = view.findViewById(R.id.ok_dtxv);
+
+            if(isValid(title))
+                defSetText(title_dtxv,title);
+            else
+                title_dtxv.setVisibility(View.GONE);
+            defSetText(desc_dtxv,desc);
+            ok_dtxv.setText(ok);
+            hideStatus();
+            hud_status = KProgressHUD.create(getActivity() ).setStyle(KProgressHUD.Style.SPIN_INDETERMINATE).setCustomView(view).setWindowColor(this.getResources().getColor(com.ceino.utilitylibrary.R.color.transparent)).setCancellable(false).setAnimationSpeed(2).setDimAmount(0.5f);
+            showStatus();
+
+            ok_dtxv.setOnClickListener(listener);
+
+    }
+
+
 }

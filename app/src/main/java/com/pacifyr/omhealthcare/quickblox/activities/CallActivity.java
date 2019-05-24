@@ -280,8 +280,9 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
         if (isInComingCall) {
             ringtonePlayer = new RingtonePlayer(this, R.raw.pacifyr_3);
             if (UtilityNetworkService.isRelease) {
-                ringtonePlayer.play(false);
+
             }
+            ringtonePlayer.play(true);
             initIncomingCallTask();
             startLoadAbsentUsers();
             addIncomeCallFragment();
@@ -938,7 +939,7 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
                     getPrefManager().saveSessionId(null);
                     finish();
                 }
-                else if(!isMissed && !isDeclined && isOpponenetConnected&&isOppenentHangUP)
+                else if(!isMissed && !isDeclined && isOpponenetConnected&&isOppenentHangUP&&!isInCommingCall)
                 {
                     SessionSummaryActivity.start(CallActivity.this, session.getSessionID());
                     getPrefManager().saveSessionId(null);

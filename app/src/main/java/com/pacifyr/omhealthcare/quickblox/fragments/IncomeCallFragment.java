@@ -86,6 +86,19 @@ public class IncomeCallFragment extends BaseFragment implements Serializable, Vi
         return mUser;
     }
 
+    public MUser getPacifyrForNameAndImage()
+    {
+        MUser mUser=null;
+        try{
+
+            mUser= CallActivity.mSessionDetailRoot.getPacifyr();
+        }catch (Exception e)
+        {
+            mUser=null;
+        }
+        return mUser;
+    }
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -113,7 +126,7 @@ public class IncomeCallFragment extends BaseFragment implements Serializable, Vi
     @Subscribe
     public void onCallDetailEvent(CallDetailEvent event) {
         try {
-            MUser mUser = getCallUser();
+            MUser mUser = getPacifyrForNameAndImage();
             if (isValid(mUser)) {
                 defSetText(callerNameTextView, "" + mUser.getName());
                 if (isValid(mUser.getImageUrl()))
