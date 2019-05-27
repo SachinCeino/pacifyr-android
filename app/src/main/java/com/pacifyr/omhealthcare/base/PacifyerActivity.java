@@ -1,5 +1,6 @@
 package com.pacifyr.omhealthcare.base;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
@@ -8,6 +9,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -23,6 +25,8 @@ import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -73,6 +77,7 @@ import com.pacifyr.omhealthcare.model.Session;
 import com.pacifyr.omhealthcare.model.interfaces.AvailableMinuteListner;
 import com.pacifyr.omhealthcare.network.GsonUtils;
 import com.pacifyr.omhealthcare.network.NetworkService;
+import com.pacifyr.omhealthcare.paytmpayment.Paytm;
 import com.pacifyr.omhealthcare.quickblox.App;
 import com.pacifyr.omhealthcare.quickblox.activities.CallActivity;
 import com.pacifyr.omhealthcare.quickblox.activities.PermissionsActivity;
@@ -91,6 +96,9 @@ import com.pacifyr.omhealthcare.utils.Constants;
 import com.pacifyr.omhealthcare.utils.FontCache;
 import com.pacifyr.omhealthcare.utils.LogUtils;
 import com.pacifyr.omhealthcare.utils.Utility;
+import com.paytm.pgsdk.PaytmOrder;
+import com.paytm.pgsdk.PaytmPGService;
+import com.paytm.pgsdk.PaytmPaymentTransactionCallback;
 import com.quickblox.chat.QBChatService;
 import com.quickblox.chat.model.QBChatDialog;
 import com.quickblox.core.QBEntityCallback;
@@ -141,6 +149,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
     public PermissionsChecker checker;
     private android.app.AlertDialog billSummary;
     private boolean showRating = false;
+
     private BroadcastReceiver eventReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -1229,8 +1238,8 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
 
     private void updateProfileStartCallWeb( final MUser pacifyerDetial, final boolean isVideoCall) {
         try {
-
-            EmotionSpecialityAdapter.reason_forcall= UserDashboardFragment.LeadersUpReasonFortheCall;
+            //only for leaders up
+           // EmotionSpecialityAdapter.reason_forcall= UserDashboardFragment.LeadersUpReasonFortheCall;
           PostRegisterModel postRegisterModel=new PostRegisterModel(PacifyerActivity.call_emotion.getId(),EmotionSpecialityAdapter.reason_forcall);
             if (!isValidLogout(getUserID(),"Session expired, please re login"))
                 return;
@@ -2181,7 +2190,10 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
                         if(json!=null) {
                             NetworkService.mCurrentUser = GsonUtils.getInstance().gsonToModelUserProfile(json);
 
-                            getSavedCardWeb(pacifyerDetial,listner,isVideoCall);
+                            if (prefM.getCountry().equals("India"))
+                                listner.onAvailable(NetworkService.mCurrentUser, pacifyerDetial, isVideoCall);
+                            else
+                                getSavedCardWeb(pacifyerDetial,listner,isVideoCall);
 
                            /* if (NetworkService.mCurrentUser.getAvailableMinutes() > 10) {
                               //  ToastHandler.newInstance(PacifyerActivity.this).mustShowToast("Free minutes :" +pacifyerDetial.getAvailableMinutes());
@@ -2877,6 +2889,261 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
 
     public boolean hasBillingStarted() {
         return this.billingStarted;
+    }
+
+
+
+    /** PAYTM INTEGRATION
+     * @param sessionid**/
+    public void generateCheckSum(String sessionid) {
+
+        if (ContextCompat.checkSelfPermission(PacifyerActivity.this, Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(PacifyerActivity.this, new String[]{Manifest.permission.READ_SMS, Manifest.permission.RECEIVE_SMS}, 101);
+        }
+        //getting the tax amount first.
+        String txnAmount="100";
+        final Paytm paytm = new Paytm(
+                com.pacifyr.omhealthcare.paytmpayment.Constants.M_ID,
+                com.pacifyr.omhealthcare.paytmpayment.Constants.CHANNEL_ID,
+                txnAmount,
+                com.pacifyr.omhealthcare.paytmpayment.Constants.WEBSITE,
+                com.pacifyr.omhealthcare.paytmpayment.Constants.CALLBACK_URL,
+                com.pacifyr.omhealthcare.paytmpayment.Constants.INDUSTRY_TYPE_ID
+        );
+
+        try{
+            String url = NetworkService.GLOBAL_URL+"paytm/checksum/generate";
+            PrefManager prefM = PrefManager.getInstance(PacifyerActivity.this);
+            String token = prefM.getAccessToken();
+            AjaxCallback cb = new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject json, AjaxStatus status) {
+                    try {
+                        String jsonS = json.toString();
+                        //generateCheckSum-----{"status":"success","paytmChecksum":"DK4aCSQEuEMr9OXcbskeXqHrFvDM9RCJhfJaG\/dGTeOIrGBm1BbthHxYckTC07z79Q\/2x9\/O21++coAskab5EdI7lKqoOgCP4KcSf6zOuJI="}
+
+                        if (isValid(json))
+                        {
+                            if (json.has("status"))
+                            {
+                                String stat=json.getString("status");
+                                if (stat.equals("success"))
+                                {
+                                    Log.w("PAYTMLOG","generateCheckSum-----"+stat);
+                                    if (json.has("paytmChecksum"))
+                                    {
+                                        String paytmChecksum=json.getString("paytmChecksum");
+                                        Log.w("PAYTMLOG","paytmChecksum-----"+paytmChecksum);
+                                        initializePaytmPayment(paytmChecksum, paytm,sessionid);
+                                    }else {
+                                        Log.w("PAYTMLOG","generateCheckSum-----"+"paytmChecksum not available !");
+                                        return;
+                                    }
+                                }
+                                else {
+                                    Toast.makeText(PacifyerActivity.this, stat, Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
+
+                            }
+                            {
+                                Log.w("PAYTMLOG","generateCheckSum-----"+"status not available");
+                                return;
+                            }
+                        }
+                        else {
+                            Log.w("PAYTMLOG","generateCheckSum-----"+"Json not valid");
+                            return;
+                        }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            };
+
+            AQuery aq = new AQuery(PacifyerActivity.this);
+            cb.header("Content-Type", "application/json");
+            cb.header("AccessToken", token);
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.putOpt("orderId", sessionid);
+            jsonObject.putOpt("custId", prefM.getUserID());
+            jsonObject.putOpt("mobileNo", "8075136606");
+            jsonObject.putOpt("txnAmount", paytm.getTxnAmount());
+            jsonObject.putOpt("email", prefM.getEmail());
+
+            aq.post(url, jsonObject, JSONObject.class, cb);
+
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+    }
+
+
+
+    public void initializePaytmPayment(String checksumHash, Paytm paytm, String sessionid) {
+
+        //getting paytm service
+        PaytmPGService Service = PaytmPGService.getStagingService();
+        PrefManager prefM = PrefManager.getInstance(PacifyerActivity.this);
+        //use this when using for production
+        //PaytmPGService Service = PaytmPGService.getProductionService();
+
+        //creating a hashmap and adding all the values required
+        Map<String, String> paramMap = new HashMap<>();
+        paramMap.put("MID", com.pacifyr.omhealthcare.paytmpayment.Constants.M_ID);
+        paramMap.put("ORDER_ID", sessionid);
+        paramMap.put("CUST_ID", prefM.getUserID());
+        paramMap.put("CHANNEL_ID", paytm.getChannelId());
+        paramMap.put("TXN_AMOUNT", paytm.getTxnAmount());
+        paramMap.put("WEBSITE", paytm.getWebsite());
+        paramMap.put("CALLBACK_URL", paytm.getCallBackUrl()+sessionid);
+        paramMap.put("CHECKSUMHASH", checksumHash);
+        paramMap.put("MOBILE_NO", "8075136606");
+        paramMap.put( "EMAIL" , prefM.getEmail());
+        paramMap.put("INDUSTRY_TYPE_ID", paytm.getIndustryTypeId());
+
+
+        PaytmOrder Order = new PaytmOrder((HashMap<String, String>) paramMap);
+        Service.initialize(Order, null);
+
+        Service.startPaymentTransaction(this, true, true, new PaytmPaymentTransactionCallback() {
+            /*Call Backs*/
+            public void someUIErrorOccurred(String inErrorMessage) {
+                Log.w("PAYTMLOG","someUIErrorOccurred-----"+inErrorMessage);
+            }
+
+            public void onTransactionResponse(Bundle inResponse) {
+                Log.w("PAYTMLOG","onTransactionResponse-----"+inResponse.toString());
+
+                /**After completing payment call the API to confirm and once again verify from server ! **/
+                if (isValid(inResponse))
+                {
+                    ConfirmationFromSever(inResponse);
+                }
+
+
+            }
+
+            public void networkNotAvailable() {
+                Log.w("PAYTMLOG","networkNotAvailable-----");
+            }
+
+            public void clientAuthenticationFailed(String inErrorMessage) {
+                Toast.makeText(getApplicationContext(), "" + inErrorMessage.toString(), Toast.LENGTH_SHORT).show();
+
+            }
+
+            public void onErrorLoadingWebPage(int iniErrorCode, String inErrorMessage, String inFailingUrl) {
+                Toast.makeText(getApplicationContext(), "" + inErrorMessage.toString(), Toast.LENGTH_SHORT).show();
+
+            }
+
+            public void onBackPressedCancelTransaction() {
+                Toast.makeText(getApplicationContext(), "Transaction cancel", Toast.LENGTH_SHORT).show();
+
+            }
+
+            public void onTransactionCancel(String inErrorMessage, Bundle inResponse) {
+                Toast.makeText(getApplicationContext(), "" + inErrorMessage.toString(), Toast.LENGTH_SHORT).show();
+
+            }
+        });
+    }
+
+
+    public void ConfirmationFromSever(Bundle inResponse) {
+
+        /**split values **/
+
+        String responce_message = inResponse.getString("RESPMSG");
+        String status = inResponse.getString("STATUS");
+        String checksum_hash = inResponse.getString("CHECKSUMHASH");
+
+        String payment_mode = inResponse.getString("PAYMENTMODE");
+        String currency_type = inResponse.getString("CURRENCY");
+        String bank_name = inResponse.getString("BANKNAME");
+        String gateway_name = inResponse.getString("GATEWAYNAME");
+
+        String bank_transaction_id = inResponse.getString("BANKTXNID");
+        String orderId = inResponse.getString("ORDERID");
+        String transaction_date = inResponse.getString("TXNDATE");
+        String transaction_id = inResponse.getString("TXNID");
+        String txnAmount = inResponse.getString("TXNAMOUNT");
+
+
+
+        try{
+            String url = NetworkService.GLOBAL_URL+"paytm/checksum/verify";
+            PrefManager prefM = PrefManager.getInstance(PacifyerActivity.this);
+            String token = prefM.getAccessToken();
+            AjaxCallback cb = new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject json, AjaxStatus status) {
+                    try {
+                        String jsonS = json.toString();
+                        //generateCheckSum-----{"status":"success","paytmChecksum":"DK4aCSQEuEMr9OXcbskeXqHrFvDM9RCJhfJaG\/dGTeOIrGBm1BbthHxYckTC07z79Q\/2x9\/O21++coAskab5EdI7lKqoOgCP4KcSf6zOuJI="}
+
+                        if (isValid(json))
+                        {
+                            if (json.has("status"))
+                            {
+                                String stat=json.getString("status");
+                                if (stat.equals("success"))
+                                {
+                                    Log.w("PAYTMLOG2","generateCheckSum-----"+stat);
+                                    if (json.has("paytmChecksum"))
+                                    {
+                                        String paytmChecksum=json.getString("paytmChecksum");
+                                        Log.w("PAYTMLOG2","paytmChecksum-----"+paytmChecksum);
+
+                                    }else {
+                                        Log.w("PAYTMLOG2","generateCheckSum-----"+"paytmChecksum not available !");
+                                        return;
+                                    }
+                                }
+                                else {
+                                    Toast.makeText(PacifyerActivity.this, stat, Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
+
+                            }
+                            {
+                                Log.w("PAYTMLOG2","generateCheckSum-----"+"status not available");
+                                return;
+                            }
+                        }
+                        else {
+                            Log.w("PAYTMLOG2","generateCheckSum-----"+"Json not valid");
+                            return;
+                        }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            };
+
+            AQuery aq = new AQuery(PacifyerActivity.this);
+            cb.header("Content-Type", "application/json");
+            cb.header("AccessToken", token);
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.putOpt("orderId", orderId);
+            jsonObject.putOpt("custId", prefM.getUserID());
+            jsonObject.putOpt("mobileNo", "8075136606");
+            jsonObject.putOpt("txnAmount", txnAmount);
+            jsonObject.putOpt("email", prefM.getEmail());
+            jsonObject.putOpt("checkSumHash", checksum_hash);
+
+            aq.post(url, jsonObject, JSONObject.class, cb);
+
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
     }
 }
 

@@ -676,7 +676,8 @@ public class LoginActivity extends PacifyerActivity {
         prefM.saveCountry(userModel.getCountry());
         prefM.saveCountry(userModel.getCountry());
         prefM.saveCompanyID(userModel.getCompanyId());
-
+        if (isValid(userModel.getPhoneNumber()))
+            prefM.savePhoneNumber(userModel.getPhoneNumber());
         prefM.saveQBID(qbID);
 
         if(isValid(FName)){

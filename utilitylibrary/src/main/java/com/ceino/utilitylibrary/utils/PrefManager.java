@@ -63,6 +63,7 @@ public class PrefManager {
     public static final String QB_TOKEN="QBToken";
     public static final String CARD_EXIST="card_exist";//mybadgeValue
     public static final String BADGE_VALUE="badgeValue";
+    public static final String PHONE_NUMBER="phoneNumber";
 
     Context context;
     SharedPreferences sharedpreferences;
@@ -467,6 +468,18 @@ public class PrefManager {
         //this.country = country;
         return getSharedString(Country,"");
     }
+
+    public String getPhoneNumber() {
+        //this.country = country;
+        return getSharedString(PHONE_NUMBER,"");
+    }
+
+    public void savePhoneNumber(String  id)
+    {
+        putSharedString(PHONE_NUMBER,id);
+
+    }
+
 
     public String getCountryCode() {
         //this.country = country;

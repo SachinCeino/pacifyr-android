@@ -931,6 +931,9 @@ public class RegisterActivity extends PacifyerActivity {
         prefM.saveAccessToken(registrationModel.getAccessToken());
         prefM.saveCountry(registrationModel.getUser().getCountry());
 
+        if (isValid(userModel.getPhoneNumber()))
+            prefM.savePhoneNumber(userModel.getPhoneNumber());
+
         prefM.saveUserFirstName(userModel.getFirstName());
         prefM.saveUserUserLastName(userModel.getLastName());
         prefM.saveMail(userModel.getEmail());

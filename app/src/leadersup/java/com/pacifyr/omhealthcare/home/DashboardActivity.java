@@ -375,7 +375,8 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
         button_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+               finish();
+
             }
         });
 

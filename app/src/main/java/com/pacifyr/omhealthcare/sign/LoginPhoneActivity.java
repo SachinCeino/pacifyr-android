@@ -630,6 +630,8 @@ public class LoginPhoneActivity extends PacifyerActivity {
             prefM.savefbName(userModel.getName());
             prefM.saveCompanyID(userModel.getCompanyId());
             prefM.saveCountry(userModel.getCountry());
+            if (isValid(userModel.getPhoneNumber()))
+                prefM.savePhoneNumber(userModel.getPhoneNumber());
             if (isValid(userModel.getImage())) {
                 prefM.saveProfileImageURL(userModel.getImage());
                 NetworkService.mCurrentUser.setImage(userModel.getImage());
