@@ -82,7 +82,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
 
         // Also if you intend on generating your own notifications as a result of a received FCM
-        // message, here is where that should be initiated. See sendNotification method below.
+        // message, here is where that should be initiated. See sendCardAddedNotification method below.
     }
 
     private void handleNow(RemoteMessage remoteMessage) {
@@ -188,6 +188,15 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                                     intent.putExtra("message", message);
                                     LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
                                 }
+
+                                else if (actual_type.equalsIgnoreCase("payment")) {
+                                    Intent intent = new Intent(NotificationUtils.PAYTM_PAYMENT_EVENT);
+                                    intent.putExtra("type", actual_type);
+                                    intent.putExtra("message", message);
+                                    intent.putExtra("id", _id);
+                                    LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+                                }
+
                             }
                         } else {
                             if (isAppIsInBackground(context)) {

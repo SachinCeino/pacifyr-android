@@ -26,7 +26,7 @@ import com.github.javiersantos.appupdater.AppUpdater;
 import com.pacifyr.omhealthcare.Fragment.MySessionFragment;
 import com.pacifyr.omhealthcare.Fragment.ResourcesFragment;
 import com.pacifyr.omhealthcare.Fragment.SupportFragment;
-import com.pacifyr.omhealthcare.Fragment.UserDashboardFragment;
+
 import com.pacifyr.omhealthcare.Fragment.WelcomeTourFragment;
 import com.pacifyr.omhealthcare.Payment.PaymentFragment;
 import com.pacifyr.omhealthcare.R;
@@ -35,6 +35,7 @@ import com.pacifyr.omhealthcare.event.AlertTypeEvent;
 import com.pacifyr.omhealthcare.event.CallEvent;
 import com.pacifyr.omhealthcare.event.ChatEvent;
 import com.pacifyr.omhealthcare.event.NotifyEvent;
+import com.pacifyr.omhealthcare.fragment.UserDashboardFragment;
 import com.pacifyr.omhealthcare.home.account.AccountEditActivity;
 import com.pacifyr.omhealthcare.home.account.AccountFragment;
 import com.pacifyr.omhealthcare.model.interfaces.CallChatEventListner;
@@ -207,6 +208,8 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
             crisisView.setVisibility(View.GONE);
 
         }
+        if (country.equals("India"))
+            paymentLlay.setVisibility(View.GONE);
 
         setProfileValues();
 

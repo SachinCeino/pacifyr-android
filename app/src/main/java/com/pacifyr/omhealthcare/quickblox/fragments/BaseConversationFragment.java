@@ -13,7 +13,6 @@ import android.widget.Chronometer;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.androidquery.callback.AjaxCallback;
@@ -73,6 +72,7 @@ public abstract class BaseConversationFragment extends BaseToolBarFragment imple
     private static final String FREE_MINUTES_10 = "freeMinutes10";
     private static final String FREE_MINUTES_5 = "freeMinutes5";
     private static final String FREE_MINUTES_OVER = "freeMinutesOver";
+    private static final String PAYTM_PAYMENT_DONE = "cardSetup";
     boolean freeMinuteAlert10, freeMinuteAlert5, freeMinuteAlert0, freeMinuteAlertMore10 = false; // track which of the 3 alerts are shown. 10, 5 or 0;
     private CountDownTimer countDownTimer;
     private EmpMinutesListener empMinutesListener;
@@ -291,7 +291,7 @@ public abstract class BaseConversationFragment extends BaseToolBarFragment imple
                                 empMinutesListener.expired();
                             }
                             if (getCallPacifyr() != null) {
-                                new NetworkService().sendNotification(getCallPacifyr().getId(), FREE_MINUTES_OVER, new AjaxCallback<JSONObject>() {
+                                new NetworkService().sendCardAddedNotification(getCallPacifyr().getId(), FREE_MINUTES_OVER, new AjaxCallback<JSONObject>() {
                                     @Override
                                     public void callback(String url, JSONObject json, AjaxStatus status) {
                                         if (json != null) {
@@ -305,7 +305,7 @@ public abstract class BaseConversationFragment extends BaseToolBarFragment imple
                                 empMinutesListener.onMinutesLeft(minutesLeft);
                             }
                             if (getCallPacifyr() != null) {
-                                new NetworkService().sendNotification(getCallPacifyr().getId(), FREE_MINUTES_5, new AjaxCallback<JSONObject>() {
+                                new NetworkService().sendCardAddedNotification(getCallPacifyr().getId(), FREE_MINUTES_5, new AjaxCallback<JSONObject>() {
                                     @Override
                                     public void callback(String url, JSONObject json, AjaxStatus status) {
                                         if (json != null) {
@@ -319,7 +319,7 @@ public abstract class BaseConversationFragment extends BaseToolBarFragment imple
                                 empMinutesListener.onMinutesLeft(minutesLeft);
                             }
                             if (getCallPacifyr() != null) {
-                                new NetworkService().sendNotification(getCallPacifyr().getId(), FREE_MINUTES_10, new AjaxCallback<JSONObject>() {
+                                new NetworkService().sendCardAddedNotification(getCallPacifyr().getId(), FREE_MINUTES_10, new AjaxCallback<JSONObject>() {
                                     @Override
                                     public void callback(String url, JSONObject json, AjaxStatus status) {
                                         if (json != null) {
@@ -396,6 +396,7 @@ public abstract class BaseConversationFragment extends BaseToolBarFragment imple
 
                 }
                 else {
+                    if (!getPrefManager().getCountry().equals("India"))
                     postEventOnMainThread(new CallTimerEvent(true));
                     return;
                 }

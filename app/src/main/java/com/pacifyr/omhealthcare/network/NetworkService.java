@@ -1064,7 +1064,7 @@ public class NetworkService  extends IntentService {
         }
     }
 
-    public void sendNotification(String toUserId, String type, AjaxCallback cb) {
+    public void sendCardAddedNotification(String toUserId, String type, AjaxCallback cb) {
         try {
             PrefManager prefM = PrefManager.getInstance(this);
             String token = prefM.getAccessToken();

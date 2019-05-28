@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="16dp">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:layout_gravity="center"
+                android:gravity="left"
+                android:padding="5dp"
+                android:textSize="15sp"
+                android:textColor="@color/black"
+                android:fontFamily="@string/CenturyGothic"
+                android:text="transactionID" />
+            <TextView
+                android:id="@+id/transactionId"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:gravity="left"
+                android:fontFamily="@string/CenturyGothic"
+                android:text=""
+                android:padding="5dp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp"
+            android:weightSum="2">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:layout_gravity="center"
+                android:gravity="left"
+                android:padding="5dp"
+                android:textSize="15sp"
+                android:textColor="@color/black"
+                android:fontFamily="@string/CenturyGothic"
+                android:text="Date" />
+            <TextView
+                android:id="@+id/text_date"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:gravity="left"
+                android:fontFamily="@string/CenturyGothic"
+                android:text=""
+                android:padding="5dp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp"
+            android:weightSum="2">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:layout_gravity="center"
+                android:gravity="left"
+                android:padding="5dp"
+                android:textSize="15sp"
+                android:textColor="@color/black"
+                android:fontFamily="@string/CenturyGothic"
+                android:text="Amount Charged" />
+            <TextView
+                android:id="@+id/text_amount_charged"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:gravity="left"
+                android:fontFamily="@string/CenturyGothic"
+                android:text=""
+                android:padding="5dp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/view_separator"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_below="@+id/layout_bill_table"
+            android:layout_marginTop="30dp"
+            android:background="@color/bg_gray" />
+
+        <Button
+            android:id="@+id/button_ok"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/view_separator"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/button_white"
+            android:text="OK"
+            android:textColor="@color/om_blue" />
+
+    </LinearLayout>
+
+
+</RelativeLayout>

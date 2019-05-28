@@ -61,6 +61,7 @@ import com.pacifyr.omhealthcare.model.ModelResources;
 import com.pacifyr.omhealthcare.model.ModelSpecialityByCategory;
 import com.pacifyr.omhealthcare.model.ModelSpecialityByEmotion;
 import com.pacifyr.omhealthcare.model.UserDetailsModel;
+import com.pacifyr.omhealthcare.paytmpayment.TransactionResponce;
 import com.pacifyr.omhealthcare.utils.LogUtils;
 
 import org.json.JSONArray;
@@ -839,5 +840,20 @@ public class GsonUtils<T> {
         }
         return model;
     }
+
+
+    public TransactionResponce gsonToTransactionResponce(JSONObject json) {
+
+        TransactionResponce model = null;
+        try {
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            String jsonString =  json.toString();
+            model = gson.fromJson(jsonString, TransactionResponce.class);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return model;
+    }
+
 }
 

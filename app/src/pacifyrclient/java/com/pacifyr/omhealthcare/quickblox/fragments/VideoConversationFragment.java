@@ -82,6 +82,7 @@ import java.util.Map;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static android.support.v7.widget.LinearLayoutManager.HORIZONTAL;
+import static com.pacifyr.omhealthcare.base.PacifyerActivity.sessionid;
 
 /*import com.quickblox.videochat.webrtc.BaseSession;*/
 
@@ -192,9 +193,13 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
         @Override
         public void expired() {
             try {
-                Toast.makeText(getActivity(), "Your monthly free sessions has expired. Please enter your Credit Card to continue.", Toast.LENGTH_LONG).show();
-                if (conversationFragmentCallbackListener != null)
-                    conversationFragmentCallbackListener.onHangUpCurrentSession();
+
+
+                    Toast.makeText(getActivity(), "Your monthly free sessions has expired. Please enter your Credit Card to continue.", Toast.LENGTH_LONG).show();
+                    if (conversationFragmentCallbackListener != null)
+                        conversationFragmentCallbackListener.onHangUpCurrentSession();
+
+
             } catch (Exception e) {
                 e.printStackTrace();
             }

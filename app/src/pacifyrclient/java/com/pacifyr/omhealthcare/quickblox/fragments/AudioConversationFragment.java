@@ -127,41 +127,13 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
 
         @Override
         public void expired() {
-            PrefManager pref=PrefManager.getInstance(getActivity());
-            if (pref.getCountry().equals("India"))
-            {
-                if (getActivity() != null && getActivity() instanceof PacifyerActivity) {
-                    ((PacifyerActivity) getActivity()).showIOSDialogOKCancel("Update", "Your monthly free sessions is expiring soon. Please enter your Credit Card to continue service.", "Add Card", new iOSDialogClickListener() {
-                        @Override
-                        public void onClick(iOSDialog dialog) {
-                            dialog.dismiss();
-                            //Toast.makeText(PacifyerActivity.this,"Clicked!",Toast.LENGTH_LONG).show();
-                            if (isValid(sessionid))
-                            {
-                                ((PacifyerActivity)getActivity()).generateCheckSum(sessionid);
-                                if (conversationFragmentCallbackListener != null)
-                                    conversationFragmentCallbackListener.onHangUpCurrentSession();
-                            }
-                            else
-                            {
-                                Toast.makeText(getActivity(), "Session id not valid !", Toast.LENGTH_SHORT).show();
-                            }
-
-
-                        }
-                    }, "Cancel");
-                }
-            }
-            else
-            {
-                try {
+            try {
                     Toast.makeText(getActivity(), "Your monthly free sessions has expired. Please enter your Credit Card to continue.", Toast.LENGTH_LONG).show();
                     if (conversationFragmentCallbackListener != null)
                         conversationFragmentCallbackListener.onHangUpCurrentSession();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            }
 
         }
 

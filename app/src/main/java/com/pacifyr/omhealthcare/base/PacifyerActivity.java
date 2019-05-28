@@ -78,6 +78,7 @@ import com.pacifyr.omhealthcare.model.interfaces.AvailableMinuteListner;
 import com.pacifyr.omhealthcare.network.GsonUtils;
 import com.pacifyr.omhealthcare.network.NetworkService;
 import com.pacifyr.omhealthcare.paytmpayment.Paytm;
+import com.pacifyr.omhealthcare.paytmpayment.TransactionResponce;
 import com.pacifyr.omhealthcare.quickblox.App;
 import com.pacifyr.omhealthcare.quickblox.activities.CallActivity;
 import com.pacifyr.omhealthcare.quickblox.activities.PermissionsActivity;
@@ -125,6 +126,7 @@ import java.io.File;
 import java.io.FileDescriptor;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -148,7 +150,17 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
     protected QBResRequestExecutor requestExecutor;
     public PermissionsChecker checker;
     private android.app.AlertDialog billSummary;
+    private android.app.AlertDialog PaymentPopup;
     private boolean showRating = false;
+
+    String responce_message;
+    String payment_mode;
+    String currency_type;
+    String bank_name;
+    String gateway_name;
+    String orderId ;
+    String transaction_date ;
+    String txnAmount;
 
     private BroadcastReceiver eventReceiver = new BroadcastReceiver() {
         @Override
@@ -204,6 +216,48 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
             }
         }
     };
+
+
+    private BroadcastReceiver waringToAddPayTmPaymentReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // Get extra data included in the Intent
+            String type = intent.getStringExtra("type");
+            String id = intent.getStringExtra("id");
+            Log.d("receiver", "Got message: " + type);
+
+                if (type != null && type.equals("payment") &&
+                        id != null && !id.isEmpty()) {
+                    if (getPrefManager().getCountry().equals("India"))
+                    {
+
+                        showIOSDialogOKCancel("Update", "Your monthly free sessions is expiring soon. Please enter your Credit Card to continue service.", "Add Card", new iOSDialogClickListener() {
+                            @Override
+                            public void onClick(iOSDialog dialog) {
+                                dialog.dismiss();
+                                //Toast.makeText(PacifyerActivity.this,"Clicked!",Toast.LENGTH_LONG).show();
+                                if (isValid(id))
+                                {
+                                    generateCheckSum(id);
+                                }
+                                else
+                                {
+                                    Toast.makeText(getApplicationContext(), "Session id not valid !", Toast.LENGTH_SHORT).show();
+                                }
+
+
+                            }
+                        }, "Cancel");
+
+                    }
+                }
+
+
+        }
+    };
+
+
+
     public static Timer trackTimer;
     public static TimerTask trackTimerTask;
     private boolean billingStarted = false;
@@ -214,6 +268,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
         Log.d(TAG, "Register receiver");
         LocalBroadcastManager.getInstance(this).registerReceiver(notificationReceiver, new IntentFilter(NotificationUtils.NOTIFY_INTENT));
         LocalBroadcastManager.getInstance(this).registerReceiver(eventReceiver, new IntentFilter(CallEvent.CALL_EVENT));
+        LocalBroadcastManager.getInstance(this).registerReceiver(waringToAddPayTmPaymentReceiver, new IntentFilter(NotificationUtils.PAYTM_PAYMENT_EVENT));
     }
 
     @Override
@@ -222,6 +277,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
         Log.d(TAG, "UnRegister receiver");
         LocalBroadcastManager.getInstance(this).unregisterReceiver(eventReceiver);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(notificationReceiver);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(waringToAddPayTmPaymentReceiver);
     }
 
     @Override
@@ -2901,7 +2957,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
             ActivityCompat.requestPermissions(PacifyerActivity.this, new String[]{Manifest.permission.READ_SMS, Manifest.permission.RECEIVE_SMS}, 101);
         }
         //getting the tax amount first.
-        String txnAmount="100";
+        String txnAmount=new DecimalFormat("####0.00").format(100);
         final Paytm paytm = new Paytm(
                 com.pacifyr.omhealthcare.paytmpayment.Constants.M_ID,
                 com.pacifyr.omhealthcare.paytmpayment.Constants.CHANNEL_ID,
@@ -2946,7 +3002,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
                                 }
 
                             }
-                            {
+                           else {
                                 Log.w("PAYTMLOG","generateCheckSum-----"+"status not available");
                                 return;
                             }
@@ -2968,10 +3024,10 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
             JSONObject jsonObject = new JSONObject();
             jsonObject.putOpt("orderId", sessionid);
             jsonObject.putOpt("custId", prefM.getUserID());
-            jsonObject.putOpt("mobileNo", "8075136606");
+            jsonObject.putOpt("mobileNo",prefM.getPhoneNumber());
             jsonObject.putOpt("txnAmount", paytm.getTxnAmount());
             jsonObject.putOpt("email", prefM.getEmail());
-
+            Log.w("PAYTMLOG","jsonObjectBeforeCreatingCheckSum-----"+jsonObject.toString());
             aq.post(url, jsonObject, JSONObject.class, cb);
 
         }catch (Exception e)
@@ -3001,7 +3057,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
         paramMap.put("WEBSITE", paytm.getWebsite());
         paramMap.put("CALLBACK_URL", paytm.getCallBackUrl()+sessionid);
         paramMap.put("CHECKSUMHASH", checksumHash);
-        paramMap.put("MOBILE_NO", "8075136606");
+        paramMap.put("MOBILE_NO", prefM.getPhoneNumber());
         paramMap.put( "EMAIL" , prefM.getEmail());
         paramMap.put("INDUSTRY_TYPE_ID", paytm.getIndustryTypeId());
 
@@ -3021,7 +3077,8 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
                 /**After completing payment call the API to confirm and once again verify from server ! **/
                 if (isValid(inResponse))
                 {
-                    ConfirmationFromSever(inResponse);
+                    Log.w("PAYTMLOG","Bundle inResponse-----"+inResponse.toString());
+                    ConfirmationFromSever(inResponse,checksumHash);
                 }
 
 
@@ -3054,24 +3111,24 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
     }
 
 
-    public void ConfirmationFromSever(Bundle inResponse) {
+    public void ConfirmationFromSever(Bundle inResponse, String checksumHash) {
 
         /**split values **/
 
-        String responce_message = inResponse.getString("RESPMSG");
+
         String status = inResponse.getString("STATUS");
-        String checksum_hash = inResponse.getString("CHECKSUMHASH");
-
-        String payment_mode = inResponse.getString("PAYMENTMODE");
-        String currency_type = inResponse.getString("CURRENCY");
-        String bank_name = inResponse.getString("BANKNAME");
-        String gateway_name = inResponse.getString("GATEWAYNAME");
-
         String bank_transaction_id = inResponse.getString("BANKTXNID");
-        String orderId = inResponse.getString("ORDERID");
-        String transaction_date = inResponse.getString("TXNDATE");
         String transaction_id = inResponse.getString("TXNID");
-        String txnAmount = inResponse.getString("TXNAMOUNT");
+        //String checksum_hash = inResponse.getString("CHECKSUMHASH");
+
+        payment_mode = inResponse.getString("PAYMENTMODE");
+        currency_type = inResponse.getString("CURRENCY");
+        bank_name = inResponse.getString("BANKNAME");
+        gateway_name = inResponse.getString("GATEWAYNAME");
+        responce_message = inResponse.getString("RESPMSG");
+        orderId = inResponse.getString("ORDERID");
+        transaction_date = inResponse.getString("TXNDATE");
+        txnAmount = inResponse.getString("TXNAMOUNT");
 
 
 
@@ -3088,32 +3145,16 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
 
                         if (isValid(json))
                         {
-                            if (json.has("status"))
-                            {
-                                String stat=json.getString("status");
-                                if (stat.equals("success"))
-                                {
-                                    Log.w("PAYTMLOG2","generateCheckSum-----"+stat);
-                                    if (json.has("paytmChecksum"))
-                                    {
-                                        String paytmChecksum=json.getString("paytmChecksum");
-                                        Log.w("PAYTMLOG2","paytmChecksum-----"+paytmChecksum);
+                           TransactionResponce object= GsonUtils.getInstance().gsonToTransactionResponce(json);
+                           if (isValid(object))
+                           {
+                               if (isValid(object.getIsChecksumValid()))
+                                   if (object.getIsChecksumValid()&&object.getTransactionStatus().equals("success"))
+                                       ShowTransactionSuccesResultToUSer(object);
+                                    else
+                                       showIOSDialogOK("","Payment Verification is not Success !","OK");
+                           }
 
-                                    }else {
-                                        Log.w("PAYTMLOG2","generateCheckSum-----"+"paytmChecksum not available !");
-                                        return;
-                                    }
-                                }
-                                else {
-                                    Toast.makeText(PacifyerActivity.this, stat, Toast.LENGTH_SHORT).show();
-                                    return;
-                                }
-
-                            }
-                            {
-                                Log.w("PAYTMLOG2","generateCheckSum-----"+"status not available");
-                                return;
-                            }
                         }
                         else {
                             Log.w("PAYTMLOG2","generateCheckSum-----"+"Json not valid");
@@ -3132,11 +3173,11 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
             JSONObject jsonObject = new JSONObject();
             jsonObject.putOpt("orderId", orderId);
             jsonObject.putOpt("custId", prefM.getUserID());
-            jsonObject.putOpt("mobileNo", "8075136606");
+            jsonObject.putOpt("mobileNo", prefM.getPhoneNumber());
             jsonObject.putOpt("txnAmount", txnAmount);
             jsonObject.putOpt("email", prefM.getEmail());
-            jsonObject.putOpt("checkSumHash", checksum_hash);
-
+            jsonObject.putOpt("checkSumHash", checksumHash);
+            Log.w("PAYTMLOG","jsonObjectAfterPayTmSuccess-----"+jsonObject.toString());
             aq.post(url, jsonObject, JSONObject.class, cb);
 
         }catch (Exception e)
@@ -3145,6 +3186,64 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
         }
 
     }
+
+    private void ShowTransactionSuccesResultToUSer(TransactionResponce object) {
+
+
+            if (PaymentPopup != null && PaymentPopup.isShowing()) {
+                PaymentPopup.dismiss();
+            }
+
+            View view = LayoutInflater.from(PacifyerActivity.this).inflate(R.layout.layout_paytm_payment_report, null);
+            TextView ok = view.findViewById(R.id.button_ok);
+            TextView transactionId = view.findViewById(R.id.transactionId);
+            TextView text_date = view.findViewById(R.id.text_date);
+            TextView text_amount_charged = view.findViewById(R.id.text_amount_charged);
+            ok.setTypeface(FontCache.get(getString(R.string.CenturyGothic), PacifyerActivity.this));
+            transactionId.setTypeface(FontCache.get(getString(R.string.CenturyGothic), PacifyerActivity.this));
+            text_date.setTypeface(FontCache.get(getString(R.string.CenturyGothic), PacifyerActivity.this));
+            text_amount_charged.setTypeface(FontCache.get(getString(R.string.CenturyGothic), PacifyerActivity.this));
+            try {
+                transactionId.setText(object.getTransactionId());
+                text_date.setText(transaction_date);
+                text_amount_charged.setText("RS:"+txnAmount);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            ok.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (PaymentPopup != null) {
+                        PaymentPopup.dismiss();
+                    }
+                   /** send Notification to the Provider that user Done the Payment Success fully and able to start Session now.
+                    * type "cardSetup**/
+                   if (isValid(CallActivity.mSessionDetailRoot)&&
+                           isValid(CallActivity.mSessionDetailRoot.getPacifyr())&&
+                           isValid(CallActivity.mSessionDetailRoot.getPacifyr().getId()))
+                       new NetworkService().sendCardAddedNotification(CallActivity.mSessionDetailRoot.getPacifyr().getId(), "cardSetup", new AjaxCallback<JSONObject>() {
+                        @Override
+                        public void callback(String url, JSONObject json, AjaxStatus status) {
+                            if (json != null) {
+                                Log.w("PAYTMLOG","sendCardAddedNotification responce"+json.toString());
+                            }
+                        }
+                    });
+                   else
+                       Toast.makeText(PacifyerActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
+
+                }
+            });
+            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(PacifyerActivity.this);
+            builder.setTitle("Payment "+object.getTransactionStatus());
+            builder.setView(view);
+            builder.setCancelable(false);
+             PaymentPopup = builder.create();
+             PaymentPopup.show();
+
+    }
+
+
 }
 
 

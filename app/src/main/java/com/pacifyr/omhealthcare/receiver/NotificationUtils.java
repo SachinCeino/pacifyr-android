@@ -25,6 +25,7 @@ import java.util.List;
 public class NotificationUtils {
 
     public static final String NOTIFY_INTENT = "notify_intent";
+    public static final String PAYTM_PAYMENT_EVENT="paytm_payment_intent";
     private String TAG = NotificationUtils.class.getSimpleName();
 
     private Context mContext;
