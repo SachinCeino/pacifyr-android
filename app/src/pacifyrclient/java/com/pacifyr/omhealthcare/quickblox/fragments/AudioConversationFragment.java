@@ -19,6 +19,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.androidquery.callback.AjaxCallback;
+import com.androidquery.callback.AjaxStatus;
 import com.ceino.utilitylibrary.CustomFontTextView;
 import com.ceino.utilitylibrary.DeviceFitImageView;
 import com.ceino.utilitylibrary.model.pacifyr.MEmotion;
@@ -36,6 +38,7 @@ import com.pacifyr.omhealthcare.event.NotifyEvent;
 import com.pacifyr.omhealthcare.home.CustomerDetailActivity;
 import com.pacifyr.omhealthcare.home.ProfileScreenActivity;
 import com.pacifyr.omhealthcare.interfaces.EmpMinutesListener;
+import com.pacifyr.omhealthcare.network.GsonUtils;
 import com.pacifyr.omhealthcare.network.NetworkService;
 import com.pacifyr.omhealthcare.quickblox.activities.CallActivity;
 import com.pacifyr.omhealthcare.quickblox.utils.CollectionsUtils;
@@ -43,6 +46,8 @@ import com.pacifyr.omhealthcare.utils.LogUtils;
 import com.quickblox.users.model.QBUser;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -211,7 +216,8 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
         // firstOpponentNameTextView.setVisibility(View.GONE);
         onUserInfoViews(view);
         setEmotionViews();
-
+        if (isIncomingCall)
+            getCurrentUserInformation();
         /*billingSwitch.setVisibility(View.VISIBLE);
         billingSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -277,6 +283,28 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
             }
         }
         return null;
+    }
+
+
+    private void getCurrentUserInformation() {
+        if (isValid(getCallUser()) && isValid(getCallUser().getId())) {
+            new NetworkService().incomingVideoCallUserEmotion(getCallUser().getId(), new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject json, AjaxStatus status) {
+                    MEmotion emotion = null;
+                    String image = null;
+
+                    if (isValid(json)) {
+
+                        NetworkService.mCurrentUser = GsonUtils.getInstance().gsonToModelUserProfile(json);
+                        if (isValid(NetworkService.mCurrentUser)) {
+                            setEmotionViews();
+                        }
+                    }
+                }
+            });
+        }
+
     }
 
     /*private void startBilling() {
@@ -379,7 +407,19 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
         try{
             reason_ctxv.setVisibility(View.VISIBLE);
             if(isCustomer())
-                defSetText(reason_ctxv, EmotionSpecialityAdapter.reason_forcall);
+                if (isIncomingCall) {
+                    /**call from pacifyr to user **/
+
+                    if (isValid(NetworkService.mCurrentUser))
+                        if (isValid(NetworkService.mCurrentUser.getSelectedSpecialityCategory()))
+                            defSetText(reason_ctxv, NetworkService.mCurrentUser.getSelectedSpecialityCategory());
+                        else if (isValid(NetworkService.mCurrentUser.getSelectedSpeciality()))
+                            defSetText(reason_ctxv, NetworkService.mCurrentUser.getSelectedSpeciality());
+
+                } else {
+                    defSetText(reason_ctxv, EmotionSpecialityAdapter.reason_forcall);
+                }
+
             else {
                 defSetText(reason_ctxv, CallActivity.mSessionDetailRoot.getReasonForTheCall());
             }
@@ -406,7 +446,11 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
                 call_particpants_list.add(CallActivity.mPacifyr);
             }
             else {
-                MUser mUser = getCallUser();
+                MUser mUser;
+                if (isIncomingCall)
+                    mUser = getCallPacifyr();
+                else
+                    mUser = getCallUser();
                 call_particpants_list=getCallParticipantlist();
                 emotion_dimv.setVisibility(View.GONE);
                 // reason_ctxv.setVisibility(View.GONE);
@@ -496,7 +540,11 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
             }
             else {
                 if(isPacifyer()) {
-                    final MUser muser=  getCallUser();
+                    final MUser muser;
+                    if (isIncomingCall)
+                        muser = getCallPacifyr();
+                    else
+                        muser = getCallUser();
                     if(isValid(muser)) {
                         userRlay.setVisibility(View.VISIBLE);
                         defSetText(usernameCtxv, muser.getName());
@@ -519,7 +567,11 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
                     }
                 }
                 else  if(isCustomer()) {
-                    MUser muser=  getCallPacifyr();
+                    final MUser muser;
+                    if (isIncomingCall)
+                        muser = getCallPacifyr();
+                    else
+                        muser = getCallUser();
                     if(isValid(muser)) {
                         userRlay.setVisibility(View.VISIBLE);
                         defSetText(usernameCtxv, muser.getName());

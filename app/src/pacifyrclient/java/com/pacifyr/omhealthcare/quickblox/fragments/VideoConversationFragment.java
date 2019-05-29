@@ -32,6 +32,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.androidquery.callback.AjaxCallback;
+import com.androidquery.callback.AjaxStatus;
 import com.ceino.utilitylibrary.CustomFontTextView;
 import com.ceino.utilitylibrary.DeviceFitImageView;
 import com.ceino.utilitylibrary.model.pacifyr.MEmotion;
@@ -49,6 +51,7 @@ import com.pacifyr.omhealthcare.event.NotifyEvent;
 import com.pacifyr.omhealthcare.home.CustomerDetailActivity;
 import com.pacifyr.omhealthcare.home.ProfileScreenActivity;
 import com.pacifyr.omhealthcare.interfaces.EmpMinutesListener;
+import com.pacifyr.omhealthcare.network.GsonUtils;
 import com.pacifyr.omhealthcare.network.NetworkService;
 import com.pacifyr.omhealthcare.quickblox.activities.CallActivity;
 import com.pacifyr.omhealthcare.quickblox.adapters.OpponentsFromCallAdapter;
@@ -66,6 +69,7 @@ import com.quickblox.videochat.webrtc.view.QBRTCVideoTrack;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONObject;
 import org.webrtc.CameraVideoCapturer;
 import org.webrtc.RendererCommon;
 import org.webrtc.SurfaceViewRenderer;
@@ -335,7 +339,11 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
             }
             else {
                 if(isPacifyer()) {
-                   final MUser muser=  getCallUser();
+                    final MUser muser;
+                    if (isIncomingCall)
+                        muser = getCallPacifyr();
+                    else
+                        muser = getCallUser();
                    if(isValid(muser)) {
                        userRlay.setVisibility(View.VISIBLE);
                        defSetText(usernameCtxv, muser.getName());
@@ -361,7 +369,11 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
                    }
                 }
                 else  if(isCustomer()) {
-                    MUser muser=  getCallPacifyr();
+                    final MUser muser;
+                    if (isIncomingCall)
+                        muser = getCallPacifyr();
+                    else
+                        muser = getCallUser();
                     if(isValid(muser)) {
                         userRlay.setVisibility(View.VISIBLE);
                         defSetText(usernameCtxv, muser.getName());
@@ -491,6 +503,8 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
         reason_ctxv.setVisibility(View.GONE);
         emotion_ctxv.setVisibility(View.GONE);
         setEmotionViews();
+        if (isIncomingCall)
+            getCurrentUserInformation();
 
         localVideoView = view.findViewById(R.id.local_video_view);
         initCorrectSizeForLocalView();
@@ -551,6 +565,28 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
        // ArrayList<MUser>call_user_list=getCallParticipantlist();
     }
 
+
+    private void getCurrentUserInformation() {
+        if (isValid(getCallUser()) && isValid(getCallUser().getId())) {
+            new NetworkService().incomingVideoCallUserEmotion(getCallUser().getId(), new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject json, AjaxStatus status) {
+                    MEmotion emotion = null;
+                    String image = null;
+
+                    if (isValid(json)) {
+
+                        NetworkService.mCurrentUser = GsonUtils.getInstance().gsonToModelUserProfile(json);
+                        if (isValid(NetworkService.mCurrentUser)) {
+                            setEmotionViews();
+                        }
+                    }
+                }
+            });
+        }
+
+    }
+
     private String getOpponentId() {
         String mUserId = PrefManager.getInstance(getActivity()).getUserID();
         if (isValid(call_particpants_list)) {
@@ -607,7 +643,11 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
             }
             else {
                 call_particpants_list=getCallParticipantlist();
-                MUser mUser = getCallUser();
+                final MUser mUser;
+                if (isIncomingCall)
+                    mUser = getCallPacifyr();
+                else
+                    mUser = getCallUser();
 
                 emotion_dimv.setVisibility(View.GONE);
                // reason_ctxv.setVisibility(View.GONE);

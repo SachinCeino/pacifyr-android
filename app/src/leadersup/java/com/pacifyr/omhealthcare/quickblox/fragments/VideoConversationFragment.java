@@ -170,7 +170,8 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
                 }
             }
         }
-    };private void getCurrentUserInformation() {
+    };
+    private void getCurrentUserInformation() {
         if (isValid(getCallUser()) && isValid(getCallUser().getId()))
         {
             new NetworkService().incomingVideoCallUserEmotion(getCallUser().getId(), new AjaxCallback<JSONObject>() {
@@ -523,6 +524,8 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
         reason_ctxv.setVisibility(View.GONE);
         emotion_ctxv.setVisibility(View.GONE);
         setEmotionViews();
+        if (isIncomingCall)
+            getCurrentUserInformation();
 
         localVideoView = view.findViewById(R.id.local_video_view);
         initCorrectSizeForLocalView();

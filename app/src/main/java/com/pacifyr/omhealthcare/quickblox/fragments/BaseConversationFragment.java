@@ -385,14 +385,16 @@ public abstract class BaseConversationFragment extends BaseToolBarFragment imple
                 if(isIncomingCall)
                 {
 
-                    setIncommingPacifyrCallAlertCardStatusInBlue("Add Card", "Your free minutes are expired. Please continue enjoying our services by updating your credit card information", "Ok", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            hideProgress();
-                            hideStatus2();
-                            handUpVideoCall.performClick();
-                        }
-                    });
+                    if (!getPrefManager().getCountry().equals("India")) {
+                        setIncommingPacifyrCallAlertCardStatusInBlue("Add Card", "Your free minutes are expired. Please continue enjoying our services by updating your credit card information", "Ok", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                hideProgress();
+                                hideStatus2();
+                                handUpVideoCall.performClick();
+                            }
+                        });
+                    }
 
                 }
                 else {

@@ -60,6 +60,7 @@ public class MUser implements Serializable{
         private String roleId;
 
         private String selectedSpeciality;
+    private String selectedSpecialityCategory;
 
         private String lastName;
 
@@ -116,6 +117,15 @@ public class MUser implements Serializable{
     @SerializedName("forwardToPacifyr")
     @Expose
     private MUser forwardToPacifyr;
+
+
+    public String getSelectedSpecialityCategory() {
+        return selectedSpecialityCategory;
+    }
+
+    public void setSelectedSpecialityCategory(String selectedSpecialityCategory) {
+        this.selectedSpecialityCategory = selectedSpecialityCategory;
+    }
 
     public String getForwardToPacifyrId() {
         return forwardToPacifyrId;
