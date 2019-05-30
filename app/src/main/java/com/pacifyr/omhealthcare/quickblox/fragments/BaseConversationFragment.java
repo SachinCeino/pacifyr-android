@@ -29,6 +29,7 @@ import com.pacifyr.omhealthcare.quickblox.db.QbUsersDbManager;
 import com.pacifyr.omhealthcare.quickblox.utils.Consts;
 import com.pacifyr.omhealthcare.quickblox.utils.UsersUtils;
 import com.pacifyr.omhealthcare.quickblox.utils.WebRtcSessionManager;
+import com.pacifyr.omhealthcare.utils.Constants;
 import com.quickblox.chat.QBChatService;
 import com.quickblox.users.model.QBUser;
 import com.quickblox.videochat.webrtc.QBRTCSession;
@@ -385,7 +386,8 @@ public abstract class BaseConversationFragment extends BaseToolBarFragment imple
                 if(isIncomingCall)
                 {
 
-                    if (!getPrefManager().getCountry().equals("India")) {
+                    if (!getPrefManager().getCountry().equals(Constants.CHECK_COUNTRY_ONE) &&
+                            !getPrefManager().getCountry().equals(Constants.CHECK_COUNTRY_TWO)) {
                         setIncommingPacifyrCallAlertCardStatusInBlue("Add Card", "Your free minutes are expired. Please continue enjoying our services by updating your credit card information", "Ok", new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -398,7 +400,8 @@ public abstract class BaseConversationFragment extends BaseToolBarFragment imple
 
                 }
                 else {
-                    if (!getPrefManager().getCountry().equals("India"))
+                    if (!getPrefManager().getCountry().equals(Constants.CHECK_COUNTRY_ONE) &&
+                            !getPrefManager().getCountry().equals(Constants.CHECK_COUNTRY_TWO))
                     postEventOnMainThread(new CallTimerEvent(true));
                     return;
                 }

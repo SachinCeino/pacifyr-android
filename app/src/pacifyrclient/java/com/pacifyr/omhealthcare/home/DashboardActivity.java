@@ -44,6 +44,7 @@ import com.pacifyr.omhealthcare.quickblox.chat.ui.activity.DialogsActivity;
 import com.pacifyr.omhealthcare.sign.CrisisActivity;
 import com.pacifyr.omhealthcare.utility.PacifyrAppCompactActivity;
 import com.pacifyr.omhealthcare.utils.AmazonSNSTokenHandler;
+import com.pacifyr.omhealthcare.utils.Constants;
 import com.pacifyr.omhealthcare.utils.LogUtils;
 import com.pacifyr.omhealthcare.utils.PagerEnabledSlidingPaneLayout;
 import com.pacifyr.omhealthcare.utils.ToastHandler;
@@ -278,6 +279,13 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
                 startActivity(i);
             }
         });
+
+        if (getPrefManager().getCountry().equals(Constants.CHECK_COUNTRY_ONE) ||
+                getPrefManager().getCountry().equals(Constants.CHECK_COUNTRY_ONE))
+            paymentLlay.setVisibility(View.GONE);
+        else
+            paymentLlay.setVisibility(View.VISIBLE);
+
 
         paymentLlay.setOnClickListener(new View.OnClickListener() {
             @Override

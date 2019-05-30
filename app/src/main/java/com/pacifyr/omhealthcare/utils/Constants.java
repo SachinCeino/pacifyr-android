@@ -6,7 +6,8 @@ import com.pacifyr.omhealthcare.R;
 
 public class Constants {
 
-
+    public static final String CHECK_COUNTRY_ONE = "India";
+    public static final String CHECK_COUNTRY_TWO = "Wakanda";
     public static String getChannelId(Context context) {
         return context.getResources().getString(R.string.CHANNEL_ID);
     }

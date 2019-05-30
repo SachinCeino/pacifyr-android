@@ -224,20 +224,23 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
             // Get extra data included in the Intent
             String type = intent.getStringExtra("type");
             String id = intent.getStringExtra("id");
+            String message = intent.getStringExtra("message");
             Log.d("receiver", "Got message: " + type);
 
                 if (type != null && type.equals("payment") &&
                         id != null && !id.isEmpty()) {
-                    if (getPrefManager().getCountry().equals("India"))
+                    if (getPrefManager().getCountry().equals(Constants.CHECK_COUNTRY_ONE) ||
+                            getPrefManager().getCountry().equals(Constants.CHECK_COUNTRY_TWO))
                     {
 
-                        showIOSDialogOKCancel("Update", "Your monthly free sessions is expiring soon. Please enter your Credit Card to continue service.", "Add Card", new iOSDialogClickListener() {
+                        showIOSDialogOKCancel("", message, "Set up Payment", new iOSDialogClickListener() {
                             @Override
                             public void onClick(iOSDialog dialog) {
                                 dialog.dismiss();
                                 //Toast.makeText(PacifyerActivity.this,"Clicked!",Toast.LENGTH_LONG).show();
                                 if (isValid(id))
                                 {
+
                                     generateCheckSum(id);
                                 }
                                 else
@@ -2246,7 +2249,8 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
                         if(json!=null) {
                             NetworkService.mCurrentUser = GsonUtils.getInstance().gsonToModelUserProfile(json);
 
-                            if (prefM.getCountry().equals("India"))
+                            if (prefM.getCountry().equals(Constants.CHECK_COUNTRY_ONE) ||
+                                    prefM.getCountry().equals(Constants.CHECK_COUNTRY_ONE))
                                 listner.onAvailable(NetworkService.mCurrentUser, pacifyerDetial, isVideoCall);
                             else
                                 getSavedCardWeb(pacifyerDetial,listner,isVideoCall);
@@ -3206,7 +3210,17 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
             try {
                 transactionId.setText(object.getTransactionId());
                 text_date.setText(transaction_date);
-                text_amount_charged.setText("RS:"+txnAmount);
+
+                PrefManager prefM = PrefManager.getInstance(getApplicationContext());
+                String country = prefM.getCountry();
+                String sign = "$";
+                if (country.equals(Constants.CHECK_COUNTRY_ONE)) {
+                    sign = getApplicationContext().getResources().getString(R.string.rupee);
+                } else {
+                    sign = getApplicationContext().getResources().getString(R.string.dollar);
+                }
+
+                text_amount_charged.setText(sign + " : " + txnAmount);
             } catch (Exception e) {
                 e.printStackTrace();
             }
