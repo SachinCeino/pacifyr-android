@@ -4,10 +4,10 @@ import android.content.Context;
 
 import com.pacifyr.omhealthcare.R;
 
+import java.util.ArrayList;
+
 public class Constants {
 
-    public static final String CHECK_COUNTRY_ONE = "India";
-    public static final String CHECK_COUNTRY_TWO = "Wakanda";
     public static String getChannelId(Context context) {
         return context.getResources().getString(R.string.CHANNEL_ID);
     }
@@ -26,5 +26,14 @@ public class Constants {
 
     public static String getUrlDisputePolicy(Context context) {
         return context.getResources().getString(R.string.URL_DISPUTE_POLICY);
+    }
+
+    public static ArrayList<String> getCountryChecks() {
+
+        ArrayList<String> COUNTRY_CHECKS = new ArrayList<String>();
+        COUNTRY_CHECKS.add("India");
+        COUNTRY_CHECKS.add("US");
+
+        return COUNTRY_CHECKS;
     }
 }

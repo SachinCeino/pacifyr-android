@@ -135,6 +135,7 @@ import java.util.TimerTask;
 
 import static com.ceino.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
 import static com.ceino.utilitylibrary.network.UtilityNetworkService.STRIPE_PUBLISH_KEY;
+import static com.pacifyr.omhealthcare.utils.Constants.getCountryChecks;
 import static com.quickblox.sample.core.utils.ResourceUtils.getString;
 
 /**
@@ -229,8 +230,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
 
                 if (type != null && type.equals("payment") &&
                         id != null && !id.isEmpty()) {
-                    if (getPrefManager().getCountry().equals(Constants.CHECK_COUNTRY_ONE) ||
-                            getPrefManager().getCountry().equals(Constants.CHECK_COUNTRY_TWO))
+                    if (getCountryChecks().contains(getPrefManager().getCountry()))
                     {
 
                         showIOSDialogOKCancel("", message, "Set up Payment", new iOSDialogClickListener() {
@@ -241,7 +241,11 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
                                 if (isValid(id))
                                 {
 
-                                    generateCheckSum(id);
+                                    if (isValid(CallActivity.mSessionDetailRoot) && isValid(CallActivity.mSessionDetailRoot.getPacifyr()) &&
+                                            isValid(CallActivity.mSessionDetailRoot.getPacifyr().getPrice())) {
+                                        generateCheckSum(id, Integer.parseInt(CallActivity.mSessionDetailRoot.getPacifyr().getPrice()));
+                                    }
+
                                 }
                                 else
                                 {
@@ -2249,8 +2253,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
                         if(json!=null) {
                             NetworkService.mCurrentUser = GsonUtils.getInstance().gsonToModelUserProfile(json);
 
-                            if (prefM.getCountry().equals(Constants.CHECK_COUNTRY_ONE) ||
-                                    prefM.getCountry().equals(Constants.CHECK_COUNTRY_ONE))
+                            if (getCountryChecks().contains(getPrefManager().getCountry()))
                                 listner.onAvailable(NetworkService.mCurrentUser, pacifyerDetial, isVideoCall);
                             else
                                 getSavedCardWeb(pacifyerDetial,listner,isVideoCall);
@@ -2954,14 +2957,15 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
 
 
     /** PAYTM INTEGRATION
-     * @param sessionid**/
-    public void generateCheckSum(String sessionid) {
+     * @param sessionid
+     * @param price**/
+    public void generateCheckSum(String sessionid, int price) {
 
-        if (ContextCompat.checkSelfPermission(PacifyerActivity.this, Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED) {
+       /* if (ContextCompat.checkSelfPermission(PacifyerActivity.this, Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(PacifyerActivity.this, new String[]{Manifest.permission.READ_SMS, Manifest.permission.RECEIVE_SMS}, 101);
-        }
+        }*/
         //getting the tax amount first.
-        String txnAmount=new DecimalFormat("####0.00").format(100);
+        String txnAmount = new DecimalFormat("####0.00").format(price);
         final Paytm paytm = new Paytm(
                 com.pacifyr.omhealthcare.paytmpayment.Constants.M_ID,
                 com.pacifyr.omhealthcare.paytmpayment.Constants.CHANNEL_ID,
@@ -3045,8 +3049,17 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
 
     public void initializePaytmPayment(String checksumHash, Paytm paytm, String sessionid) {
 
-        //getting paytm service
-        PaytmPGService Service = PaytmPGService.getStagingService();
+        //getting paytm test service 'TEST'
+        //
+        //getting paytm Production service 'PROD'
+
+        PaytmPGService Service;
+        if (com.pacifyr.omhealthcare.paytmpayment.Constants.TEST_OR_PROD.equals("TEST"))
+            Service = PaytmPGService.getStagingService();
+        else
+            Service = PaytmPGService.getProductionService();
+
+
         PrefManager prefM = PrefManager.getInstance(PacifyerActivity.this);
         //use this when using for production
         //PaytmPGService Service = PaytmPGService.getProductionService();
@@ -3156,7 +3169,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
                                    if (object.getIsChecksumValid()&&object.getTransactionStatus().equals("success"))
                                        ShowTransactionSuccesResultToUSer(object);
                                     else
-                                       showIOSDialogOK("","Payment Verification is not Success !","OK");
+                                       showIOSDialogOK(object.getTransactionResponse() + "", "Payment Verification is not Success !", "OK");
                            }
 
                         }
@@ -3214,7 +3227,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
                 PrefManager prefM = PrefManager.getInstance(getApplicationContext());
                 String country = prefM.getCountry();
                 String sign = "$";
-                if (country.equals(Constants.CHECK_COUNTRY_ONE)) {
+                if (country.equals("India")) {
                     sign = getApplicationContext().getResources().getString(R.string.rupee);
                 } else {
                     sign = getApplicationContext().getResources().getString(R.string.dollar);

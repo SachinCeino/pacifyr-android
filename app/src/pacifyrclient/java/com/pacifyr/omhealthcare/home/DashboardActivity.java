@@ -56,6 +56,7 @@ import org.json.JSONObject;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.ceino.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
+import static com.pacifyr.omhealthcare.utils.Constants.getCountryChecks;
 
 
 public class DashboardActivity extends PacifyrAppCompactActivity{
@@ -280,8 +281,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
             }
         });
 
-        if (getPrefManager().getCountry().equals(Constants.CHECK_COUNTRY_ONE) ||
-                getPrefManager().getCountry().equals(Constants.CHECK_COUNTRY_ONE))
+        if (getCountryChecks().contains(getPrefManager().getCountry()))
             paymentLlay.setVisibility(View.GONE);
         else
             paymentLlay.setVisibility(View.VISIBLE);
