@@ -36,6 +36,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.pacifyr.omhealthcare.network.NetworkService.GLOBAL_IMAGE_URL;
 import static com.pacifyr.omhealthcare.network.NetworkService.GLOBAL_URL;
 
 
@@ -79,7 +80,7 @@ public class AttendingEmployerFragment extends BaseFragment {
             txtv_company_phone.setText(phoneNumbers);
 
             Glide.with(getActivity())
-                    .load(object.getImage())
+                    .load(GLOBAL_IMAGE_URL + object.getImage())
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .listener(new RequestListener<String, GlideDrawable>() {
                         @Override
