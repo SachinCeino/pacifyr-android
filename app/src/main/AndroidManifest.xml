@@ -371,6 +371,11 @@
             android:screenOrientation="portrait" />
         <activity android:name=".sign.UploadActivity" />
 
+        //Events
+        <activity
+            android:name=".events.activity.EventActivity"
+            android:screenOrientation="portrait" />
+
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${applicationId}.android.fileprovider"

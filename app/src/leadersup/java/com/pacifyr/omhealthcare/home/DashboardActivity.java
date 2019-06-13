@@ -25,6 +25,7 @@ import com.ceino.utilitylibrary.utils.PrefManager;
 import com.github.javiersantos.appupdater.AppUpdater;
 import com.pacifyr.omhealthcare.Fragment.ResourcesFragment;
 import com.pacifyr.omhealthcare.Fragment.SupportFragment;
+import com.pacifyr.omhealthcare.events.activity.EventActivity;
 import com.pacifyr.omhealthcare.fragment.UserDashboardFragment;
 import com.pacifyr.omhealthcare.Fragment.WelcomeTourFragment;
 import com.pacifyr.omhealthcare.Payment.PaymentFragment;
@@ -97,6 +98,8 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
     private CustomFontTextView resourcesCtxv;
     private LinearLayout resourcesLlay;
     private DeviceFitImageView resourcesDimv;
+
+    private LinearLayout event_llay;
 
 
     private LinearLayout messagesLlay;
@@ -183,6 +186,10 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
         resourcesCtxv = findViewById(R.id.resourses_ctxv);
         resourcesDimv = findViewById(R.id.resourses_dimv);
         resourcesLlay = findViewById(R.id.resourses_llay);
+
+        event_llay = findViewById(R.id.event_llay);
+
+
 
 
         messagesLlay = findViewById(R.id.message_llay);
@@ -380,6 +387,14 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
             }
         });
 
+
+        event_llay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                EventActivity.start(getApplicationContext());
+            }
+        });
         new AmazonSNSTokenHandler(context).register();
 
     }

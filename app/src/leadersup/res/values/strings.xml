@@ -63,7 +63,7 @@
     <string name="policy_document">POLICY DOCUMENT</string>
     <string name="RESOURCES">RESOURCES</string>
     <string name="resources">resources</string>
-
+    <string name="Events">EVENTS</string>
     <string name="CRISIS_INFO">CRISIS INFO</string>
     <string name="crisis_info">crisis info</string>
 
@@ -242,4 +242,12 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="third_screen_instructions_one">Complete job application</string>
     <string name="go_to_e_learning_url">https://leadersup.org/</string>
     <string name="go_to_career_e_learning">  Go to career\ne-learning</string>
+    <string name="description">DESCRIPTION</string>
+    <string name="schedule">SCHEDULE</string>
+    <string name="attending_employers">ATTENDINGEMPLOYERS</string>
+    <string name="current_opening">CURRENT OPENING</string>
+    <string name="bennefits">BENNEFITS</string>
+    <string name="qualification">QUALIFICATION</string>
+    <string name="website">WEBSITE</string>
+
 </resources>

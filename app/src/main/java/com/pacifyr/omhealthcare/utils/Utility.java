@@ -11,6 +11,7 @@ import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.telephony.TelephonyManager;
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -19,8 +20,10 @@ import android.widget.TextView;
 import com.ceino.utilitylibrary.utils.PrefManager;
 import com.pacifyr.omhealthcare.R;
 
+import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -404,5 +407,94 @@ public class Utility {
         }
         return null;
     }
+
+    public static String getDateAndTime(String input) {
+        String outPutString = "";
+        //example Aug 7,10 30:am
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        format.setTimeZone(TimeZone.getTimeZone("GMT"));
+        SimpleDateFormat outFormat = null;
+        SimpleDateFormat timeFormat = null;
+        outFormat = new SimpleDateFormat("MMM dd");
+        timeFormat = new SimpleDateFormat("hh:mm a");
+        outFormat.setTimeZone(TimeZone.getDefault());
+        timeFormat.setTimeZone(TimeZone.getDefault());
+        Date date = null;
+        try {
+            date = format.parse(input);
+            outPutString = outFormat.format(date);
+            outPutString = outPutString + "," + timeFormat.format(date);
+
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return outPutString;
+    }
+
+
+    public static String getDateFormatOne(String input) {
+        String outPutString = "";
+        //example Sun, 4 Aug
+
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Date date = format.parse(input);
+
+            String dayOfTheWeek = (String) DateFormat.format("EEEE", date); // Thursday
+            String day = (String) DateFormat.format("dd", date); // 20
+            String monthString = (String) DateFormat.format("MMM", date); // Jun
+            String monthNumber = (String) DateFormat.format("MM", date); // 06
+            String year = (String) DateFormat.format("yyyy", date); // 2013
+
+            dayOfTheWeek = dayOfTheWeek.substring(0, 3).toUpperCase();
+            outPutString = dayOfTheWeek + "," + day + " " + monthString;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return outPutString;
+    }
+
+
+    public static String convertTime(String time) {
+
+        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm:ss");
+        SimpleDateFormat sdfs = new SimpleDateFormat("hh:mm a");
+        Date dt = null;
+        try {
+            dt = sdf.parse(time + ":00");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return sdfs.format(dt);
+    }
+
+
+    public static long converToMilliSeconds(String date) {
+        long millis = 0;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date dt = null;
+        try {
+
+            Date ddd = sdf.parse(date);
+            millis = ddd.getTime();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return millis;
+    }
+
+    public static long getCurrentDateinMilliSeconds() {
+        long millis = 0;
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        millis = calendar.get(Calendar.DATE);
+
+        return millis;
+    }
+
 
 }

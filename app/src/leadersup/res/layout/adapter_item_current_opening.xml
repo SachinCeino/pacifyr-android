@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:padding="5dp">
+
+    <com.pacifyr.omhealthcare.events.views.EventTextViewBold
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtv_title"
+        android:textColor="@color/black"
+        android:textSize="@dimen/event_title_size"
+        android:textStyle="bold"
+        android:layout_marginBottom="3dp" />
+
+    <com.pacifyr.omhealthcare.events.views.EventTextViewMedium
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtv_opening"
+        android:textColor="@color/grey_hex_8b"
+        android:textSize="@dimen/event_title_size"
+        android:layout_marginBottom="3dp" />
+
+    <com.pacifyr.omhealthcare.events.views.EventTextViewMedium
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtv_description"
+        android:maxLines="1"
+        android:ellipsize="end"
+
+        android:textColor="@color/grey_hex_8b"
+        android:textSize="@dimen/event_title_size"
+        android:layout_marginBottom="3dp" />
+
+    <View
+
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginBottom="3dp"
+        android:background="@color/view_color" />
+
+</LinearLayout>

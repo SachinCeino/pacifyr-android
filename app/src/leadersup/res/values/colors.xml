@@ -67,4 +67,8 @@
     <color name="connect_wellness_expert_color">#FFFFFF</color>
     <color name="circle_button_click_color">#146047</color>
 
+    <color name="event_svg_icon_color">#8b8b8b</color>
+    <color name="view_color">#cfcece</color>
+    <color name="event_svg_checkin_color">@color/colorPrimary</color>
+    <color name="bullet_color">#454A4A</color>
 </resources>

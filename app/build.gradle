@@ -13,6 +13,7 @@ android {
         versionName "1.4.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
+        vectorDrawables.useSupportLibrary = true
 //        resConfigs "en", "hi"
     }
     buildTypes {

@@ -141,15 +141,15 @@ public class WebActivity extends BaseAppCompactActivity {
             rightLlay.setVisibility(View.VISIBLE);
          //   rightTxv.setVisibility(View.INVISIBLE);
             rightImv.setVisibility(View.VISIBLE);
-            logoImv.setVisibility(View.VISIBLE);
+            logoImv.setVisibility(View.INVISIBLE);
             titleTxv.setVisibility(View.INVISIBLE);
             leftLlay.setVisibility(View.VISIBLE);
             backImv.setVisibility(View.VISIBLE);
             leftTxv.setVisibility(View.VISIBLE);
 
             leftTxv.setText("Back");
-            leftTxv.setTextColor(getResources().getColor(R.color.color_scheme));
-            backImv.getDrawable().setColorFilter(getResources().getColor(R.color.color_scheme), PorterDuff.Mode.SRC_ATOP);
+            leftTxv.setTextColor(getResources().getColor(R.color.colorPrimary));
+            backImv.getDrawable().setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
             backImv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
