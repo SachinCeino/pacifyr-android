@@ -91,7 +91,7 @@ public class EventActivity extends PacifyerActivity {
     public void onBackPressed() {
 
         Fragment f = getSupportFragmentManager().findFragmentById(R.id.event_fragment_containe);
-        if (f instanceof EventsListFragment)
+        if (f instanceof EventsListFragment || empty_layout.getVisibility() == View.VISIBLE)
             finish();
 
         else {
@@ -143,12 +143,13 @@ public class EventActivity extends PacifyerActivity {
             @Override
             public void onClick(View v) {
                 Fragment f = getSupportFragmentManager().findFragmentById(R.id.event_fragment_containe);
-                if (f instanceof EventsListFragment)
+                if (f instanceof EventsListFragment || empty_layout.getVisibility() == View.VISIBLE)
                     finish();
 
                 else {
                     getSupportFragmentManager().popBackStackImmediate();
                 }
+
             }
         });
     }
