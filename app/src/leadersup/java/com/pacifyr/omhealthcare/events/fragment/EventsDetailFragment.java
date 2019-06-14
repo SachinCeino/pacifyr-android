@@ -58,6 +58,7 @@ public class EventsDetailFragment extends BaseFragment {
     private RecyclerView rcv_attending_company;
     private AttendingCompanyListAdapter mAttendingCompanyListAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+    private String actualDate;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -78,11 +79,12 @@ public class EventsDetailFragment extends BaseFragment {
         if (isValid(bundle)) {
 
             mModelEvent = (ModelEvent.Result) bundle.getSerializable("object");
+            actualDate = bundle.getString("actualDate");
 
             event_detail_image.setTransitionName("event_transition");
             txtv_event_title.setText(mModelEvent.getTitle());
-            if (isValidSize(mModelEvent.getDate())) {
-                txtv_event_time.setText(Utility.getDateFormatOne(mModelEvent.getDate().get(mModelEvent.getDate().size() - 1)) + " at " +
+            if (isValid(actualDate)) {
+                txtv_event_time.setText(Utility.getDateFormatOne(actualDate) + " at " +
                         Utility.convertTime(mModelEvent.getStartTime()) + "-" + Utility.convertTime(mModelEvent.getEndTime()));
 
             }

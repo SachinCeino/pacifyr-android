@@ -249,5 +249,6 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="bennefits">BENNEFITS</string>
     <string name="qualification">QUALIFICATION</string>
     <string name="website">WEBSITE</string>
+    <string name="empty_event">No events available now!</string>
 
 </resources>

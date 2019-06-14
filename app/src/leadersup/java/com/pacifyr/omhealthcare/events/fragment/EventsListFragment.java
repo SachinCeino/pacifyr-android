@@ -44,6 +44,7 @@ public class EventsListFragment extends BaseFragment {
     private RecyclerView rcv_eventList;
     private RecyclerView.LayoutManager mLayoutManager;
     private EventListAdapter mEventListAdapter;
+    private List<ModelEvent.Result> listEvent;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -53,7 +54,13 @@ public class EventsListFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_list_events, container, false);
 
         rcv_eventList = view.findViewById(R.id.rcv_eventList);
-        getWebData();
+        Bundle bundle = getArguments();
+        if (isValid(bundle) && isValid(bundle.getSerializable("data"))) {
+            listEvent = (List<ModelEvent.Result>) bundle.getSerializable("data");
+            if (isValid(listEvent))
+                setAdpater(listEvent);
+        }
+
 
         return view;
     }
@@ -109,60 +116,6 @@ public class EventsListFragment extends BaseFragment {
     }
 
 
-    public void getWebData() {
-
-        setLoading();
-        showProgress();
-
-        String token = getPrefManager().getAccessToken();
-
-        AjaxCallback cb = new AjaxCallback<JSONObject>() {
-            @Override
-            public void callback(String url, JSONObject json, AjaxStatus status) {
-                try {
-
-                    hideProgress();
-                    if (isValid(json)) {
-                        // Log.w("@@@@",String.valueOf(json));
-
-                        ModelEvent data = GsonUtils.getInstance().gsonToModelEvent(json);
-                        if (isValid(data)) {
-                            List<ModelEvent.Result> listEvent = data.getResults();
-                            if (isValid(listEvent))
-                                setAdpater(listEvent);
-                        }
-                    } else {
-                        if (isValid(status.getMessage())) {
-                            Toast.makeText(getActivity(), status.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    }
-
-                } catch (Exception e) {
-
-                    hideProgress();
-
-                    e.printStackTrace();
-                }
-            }
-        };
-        try {
-            AQuery aq = new AQuery(getActivity());
-
-            cb.header("Content-Type", "application/json");
-
-            cb.header("AccessToken", token);
-
-            aq.ajax(GLOBAL_URL + "events/list?skip=0&limit=10", JSONObject.class, cb);
-
-        } catch (Exception ex)
-
-        {
-            hideProgress();
-
-            ex.printStackTrace();
-        }
-
-    }
 
     private void setAdpater(List<ModelEvent.Result> list) {
 

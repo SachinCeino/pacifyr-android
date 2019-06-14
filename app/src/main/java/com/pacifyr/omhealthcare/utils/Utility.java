@@ -12,6 +12,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.telephony.TelephonyManager;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -23,7 +24,9 @@ import com.pacifyr.omhealthcare.R;
 import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -411,7 +414,7 @@ public class Utility {
     public static String getDateAndTime(String input) {
         String outPutString = "";
         //example Aug 7,10 30:am
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         format.setTimeZone(TimeZone.getTimeZone("GMT"));
         SimpleDateFormat outFormat = null;
         SimpleDateFormat timeFormat = null;
@@ -494,6 +497,32 @@ public class Utility {
         millis = calendar.get(Calendar.DATE);
 
         return millis;
+    }
+
+    public static String convertMillisecondsTodate(Long dateInMillis) {
+
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String dateString = formatter.format(new Date(dateInMillis));
+//get date like 2019-06-14
+        return dateString;
+    }
+
+
+    public static String convertDateToMilliseconds(List<String> date) {
+
+        String display_Date = "";
+        ArrayList<Long> milliseconds = new ArrayList<>();
+        for (int position = 0; position < date.size(); position++) {
+            milliseconds.add(Utility.converToMilliSeconds(date.get(position)));
+        }
+
+        if (isValid(milliseconds)) {
+            Collections.sort(milliseconds);
+            display_Date = Utility.convertMillisecondsTodate(milliseconds.get(milliseconds.size() - 1));
+        }
+
+        // pasing date like 2019-06-14
+        return display_Date;
     }
 
 

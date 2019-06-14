@@ -12,6 +12,7 @@ import android.support.transition.TransitionSet;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -79,8 +80,20 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.MyVi
         final ModelEvent.Result object = getItem(position);
         if (isValid(object)) {
 
-            if (isValid(Utility.getDateAndTime(object.getUpdatedAt())))
-                holder.txtv_event_date.setText(Utility.getDateAndTime(object.getUpdatedAt()));
+            /** there is a list of dates comming, need to take the latest date from the datelist for display
+             * first convert all date list to millisecndes
+             * sort the list
+             * pick the last item
+             * then convert the milliseconds to date
+             * then format the date how we are displaying.
+             * **/
+            String Display_date = "";
+            String actualDate = "";
+            if (isValid(Utility.convertDateToMilliseconds(object.getDate())))
+                actualDate = Utility.convertDateToMilliseconds(object.getDate());
+            Display_date = Utility.getDateAndTime(actualDate);
+            if (isValid(Display_date))
+                holder.txtv_event_date.setText(Display_date);
             holder.txtv_event_title.setText(object.getTitle());
             holder.txtv_event_address.setText(object.getLocation());
             holder.txtv_event_description.setText(object.getDescription());
@@ -108,6 +121,7 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.MyVi
                     .override(Consts.PREFERRED_IMAGE_SIZE_FULL, Consts.PREFERRED_IMAGE_SIZE_FULL)
                     .into(holder.event_image);
 
+            String finalActualDate = actualDate;
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
                 @Override
@@ -119,6 +133,7 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.MyVi
                     AppCompatActivity activity = (AppCompatActivity) v.getContext();
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("object", object);
+                    bundle.putString("actualDate", finalActualDate);
 
                     Fragment mEventsDetailFragment = new EventsDetailFragment();
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

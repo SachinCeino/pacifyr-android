@@ -11,14 +11,26 @@ import android.view.View;
 import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
+import com.androidquery.AQuery;
+import com.androidquery.callback.AjaxCallback;
+import com.androidquery.callback.AjaxStatus;
 import com.ceino.utilitylibrary.CustomFontTextView;
 import com.ceino.utilitylibrary.DeviceFitImageView;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.base.PacifyerActivity;
 import com.pacifyr.omhealthcare.events.fragment.EventsListFragment;
+import com.pacifyr.omhealthcare.events.model.ModelEvent;
+import com.pacifyr.omhealthcare.network.GsonUtils;
+
+import org.json.JSONObject;
+
+import java.io.Serializable;
+import java.util.List;
 
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
+import static com.pacifyr.omhealthcare.network.NetworkService.GLOBAL_URL;
 
 public class EventActivity extends PacifyerActivity {
 
@@ -29,19 +41,22 @@ public class EventActivity extends PacifyerActivity {
     }
 
     private String titleText;
+    private RelativeLayout empty_layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_events);
+        empty_layout = findViewById(R.id.empty_layout);
+        empty_layout.setVisibility(View.GONE);
         Bundle bundle = getIntent().getExtras();
         titleText = "Events";
+
         onSetActionBar();
 
-        /**show first fragment  **/
-        Fragment mEventsListFragment = new EventsListFragment();
-        ShowEventFragments(mEventsListFragment);
+        getWebData();
+
 
 
     }
@@ -136,5 +151,72 @@ public class EventActivity extends PacifyerActivity {
                 }
             }
         });
+    }
+
+
+    public void getWebData() {
+
+        setLoading();
+        showProgress();
+
+        String token = getPrefManager().getAccessToken();
+
+        AjaxCallback cb = new AjaxCallback<JSONObject>() {
+            @Override
+            public void callback(String url, JSONObject json, AjaxStatus status) {
+                try {
+
+                    hideProgress();
+                    if (isValid(json)) {
+                        ModelEvent data = GsonUtils.getInstance().gsonToModelEvent(json);
+                        if (isValid(data)) {
+                            List<ModelEvent.Result> listEvent = data.getResults();
+                            /**show EventsListFragment  **/
+                            if (isValid(listEvent)) {
+                                empty_layout.setVisibility(View.GONE);
+                                Fragment mEventsListFragment = new EventsListFragment();
+                                Bundle bundle = new Bundle();
+                                bundle.putSerializable("data", (Serializable) listEvent);
+                                mEventsListFragment.setArguments(bundle);
+                                ShowEventFragments(mEventsListFragment);
+
+                            } else {
+                                empty_layout.setVisibility(View.VISIBLE);
+                            }
+
+                        }
+                    } else {
+                        if (isValid(status.getMessage())) {
+                            empty_layout.setVisibility(View.VISIBLE);
+                            Toast.makeText(getApplicationContext(), status.getMessage(), Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                    }
+
+                } catch (Exception e) {
+
+                    hideProgress();
+                    empty_layout.setVisibility(View.VISIBLE);
+                    e.printStackTrace();
+                }
+            }
+        };
+        try {
+            AQuery aq = new AQuery(getApplicationContext());
+
+            cb.header("Content-Type", "application/json");
+
+            cb.header("AccessToken", token);
+
+            aq.ajax(GLOBAL_URL + "events/list?skip=0&limit=10", JSONObject.class, cb);
+
+        } catch (Exception ex)
+
+        {
+            hideProgress();
+
+            ex.printStackTrace();
+        }
+
     }
 }
