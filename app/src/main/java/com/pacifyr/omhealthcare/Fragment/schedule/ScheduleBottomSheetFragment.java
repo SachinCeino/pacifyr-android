@@ -302,9 +302,11 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
     }
 
     private void setWeekScheduleAdapter(List<ScheduleData> weekScheduleData) {
+
         setToday(false);
         setBefore(false);
         setAfter(false);
+
         mWeekScheduleListAdapter=new WeekScheduleListAdapter(weekScheduleData,getActivity(),isDateIsPassed, new WeekScheduleListAdapter.ListAdapterListener() {
             @Override
             public void onDateClick(int position) {
@@ -331,6 +333,7 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
 
         rcv_week_schedule_.setItemAnimator(new DefaultItemAnimator());
     }
+
 
 
     private void checkIsItCurrentDate(String date_value) {
@@ -385,12 +388,9 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
         }
 
 
-
-
-
-
-
     }
+
+
 
     public Boolean isValid(String text) {
         if(text != null) if(!text.trim().equalsIgnoreCase("")) return true;
@@ -665,6 +665,7 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
 
     private void setTimeSlotesAdapter(List<Slot> mSlotesData) {
 
+
         if (!isToday())
         {
             if (isBefore())
@@ -689,13 +690,19 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
         else {
 
             int to=0;
+            ArrayList<String> times = new ArrayList<>();
             for (int i=0;i<mSlotesData.size();i++)
             {
                 mSlotesData.get(i).setHideSlote(false);
-                if (mSlotesData.get(i).getStartTime().equals(getCurrentTime()))
-                {
-                    to=i;
+                times.add(mSlotesData.get(i).getStartTime());
+                if (times.contains(getCurrentTime())) {
+                    if (mSlotesData.get(i).getStartTime().equals(getCurrentTime())) {
+                        to = i;
+                    }
+                } else {
+                    mSlotesData.get(i).setHideSlote(true);
                 }
+
 
             }
 
@@ -716,6 +723,8 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
 
 
         }
+
+
         noDataAvailable.setVisibility(View.GONE);
         rcv_week_schedule_.setVisibility(View.VISIBLE);
         rcv_slote_schedule_.setVisibility(View.VISIBLE);
@@ -729,8 +738,16 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
                     if (isValid(singleSlote)) {
                         if (singleSlote.getBooked()==false)
                             showSlotBookedConfirmationPopup(singleSlote);
-                        if (singleSlote.getBooked())
-                            showBookedSlotCancel(singleSlote);
+                        if (singleSlote.getBooked()) {
+                            if (isValid(singleSlote.getBookedUserId()) && isValid(prefM.getUserID())) {
+                                if (singleSlote.getBookedUserId().equals(prefM.getUserID())) {
+                                    showBookedSlotCancel(singleSlote);
+                                }
+
+                            }
+
+                        }
+
                     }
                 }
 
@@ -755,6 +772,27 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
         });
 
     }
+
+
+    private String getCurrentTime() {
+
+        Calendar rightNow = Calendar.getInstance();
+        int HOUR_OF_DAY = rightNow.get(Calendar.HOUR_OF_DAY);
+        int MINUTE = rightNow.get(Calendar.MINUTE);
+        String hr = String.valueOf(HOUR_OF_DAY);
+        String min = "";
+
+        if (MINUTE >= 30) {
+            min = "30";
+        } else {
+            min = "00";
+        }
+        Log.w("QQQQQQ", String.valueOf(hr + min));
+        return hr + ":" + min;
+    }
+
+
+
 
     private void callCAncelBookedSlotApi(Slot singleSlote) {
 
@@ -1015,26 +1053,4 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
         }
 
         }
-
-
-    private String getCurrentTime() {
-
-        Calendar rightNow = Calendar.getInstance();
-        int HOUR_OF_DAY = rightNow.get(Calendar.HOUR_OF_DAY);
-        int MINUTE = rightNow.get(Calendar.MINUTE);
-        String hr=String.valueOf(HOUR_OF_DAY);
-        String min="";
-
-        if (MINUTE>=30)
-        {
-            min="30";
-        }
-        else
-        {
-            min="00";
-        }
-        Log.w("QQQQQQ",String.valueOf(hr+min));
-        return hr+":"+min;
-    }
-
 }

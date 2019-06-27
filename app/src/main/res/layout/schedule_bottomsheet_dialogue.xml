@@ -13,7 +13,7 @@
 
     <!-- NOTE: This list should be displayed in a list
     instead of nested layouts -->
-    <ScrollView
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -139,5 +139,5 @@
 
 
     </RelativeLayout>
-    </ScrollView>
+    </android.support.v4.widget.NestedScrollView>
 </RelativeLayout>

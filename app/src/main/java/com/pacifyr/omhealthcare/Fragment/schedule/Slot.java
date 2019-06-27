@@ -2,6 +2,7 @@ package com.pacifyr.omhealthcare.Fragment.schedule;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.pacifyr.omhealthcare.model.User;
 
 import java.io.Serializable;
 
@@ -29,9 +30,6 @@ public class Slot implements Serializable{
     @SerializedName("booked")
     @Expose
     private Boolean booked;
-    @SerializedName("bookedUserModel")
-    @Expose
-    private Object bookedUserModel;
     @SerializedName("available")
     @Expose
     private Boolean available;
@@ -58,6 +56,18 @@ public class Slot implements Serializable{
     @Expose
     private String updatedAt;
 
+    @SerializedName("bookedUserModel")
+    @Expose
+    private User bookedUserModel;
+
+    public User getBookedUserModel() {
+        return bookedUserModel;
+    }
+
+    public void setBookedUserModel(User bookedUserModel) {
+        this.bookedUserModel = bookedUserModel;
+    }
+
     private  boolean hideSlote;
 
 
@@ -69,7 +79,8 @@ public class Slot implements Serializable{
         this.hideSlote = hideSlote;
     }
 
-        public String getStartTime() {
+
+    public String getStartTime() {
             return startTime;
         }
 
@@ -110,13 +121,7 @@ public class Slot implements Serializable{
         this.booked = booked;
     }
 
-    public Object getBookedUserModel() {
-        return bookedUserModel;
-    }
 
-    public void setBookedUserModel(Object bookedUserModel) {
-        this.bookedUserModel = bookedUserModel;
-    }
 
     public Boolean getAvailable() {
         return available;

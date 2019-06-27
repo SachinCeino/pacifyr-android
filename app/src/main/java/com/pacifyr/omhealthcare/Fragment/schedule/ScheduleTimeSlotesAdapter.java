@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.ceino.utilitylibrary.CustomFontTextView;
+import com.ceino.utilitylibrary.utils.PrefManager;
 import com.pacifyr.omhealthcare.R;
 
 
@@ -23,8 +24,9 @@ public class ScheduleTimeSlotesAdapter extends RecyclerView.Adapter<ScheduleTime
     private Context context;
     private boolean Available;
     private boolean isDateIsPassed;
-
+    PrefManager pref;
     private SloteBookedListener mListener;
+
 
     public interface SloteBookedListener { // create an interface
         void onSloteBooked(int position); // create callback function
@@ -68,6 +70,7 @@ public class ScheduleTimeSlotesAdapter extends RecyclerView.Adapter<ScheduleTime
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
 
+        pref = PrefManager.getInstance(context);
         Slot object=mSlotesData.get(position);
         if (isValid(object)) {
 
@@ -80,24 +83,43 @@ public class ScheduleTimeSlotesAdapter extends RecyclerView.Adapter<ScheduleTime
             }
 
             if (object.getBooked()) {
-                holder.itemView.setBackgroundResource(R.drawable.blue_background_white_border);
-                holder.img_cancel_slot.setVisibility(View.VISIBLE);
-            }  else if (object.isHideSlote())
+                if (isValid(object.getBookedUserId()) && isValid(pref.getUserID())) {
+                    if (object.getBookedUserId().equals(pref.getUserID())) {
+                        holder.itemView.setBackgroundResource(R.drawable.blue_background_white_border);
+                        if (!object.isHideSlote()) {
+                            holder.img_cancel_slot.setVisibility(View.VISIBLE);
+                        }
+
+                    } else {
+                        holder.itemView.setBackgroundResource(R.drawable.blue_background_white_border);
+                        holder.img_cancel_slot.setVisibility(View.GONE);
+                        holder.itemView.setAlpha((float) 0.7);
+
+
+                    }
+                }
+
+
+            } else if (object.isHideSlote())
             {
                 holder.itemView.setBackgroundResource(R.drawable.grey_border_grey_solid_rectangle_sharp);
                 holder.img_cancel_slot.setVisibility(View.GONE);
-            }else {
+            } else {
 
                 holder.itemView.setBackgroundResource(R.drawable.black_border_white_back);
                 holder.img_cancel_slot.setVisibility(View.GONE);
 
             }
 
+
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (!object.isHideSlote())
-                    mListener.onSloteBooked(position);
+                    if (!object.isHideSlote()) {
+                        mListener.onSloteBooked(position);
+
+                    }
+
 
                 }
             });
