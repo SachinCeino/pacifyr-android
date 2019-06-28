@@ -88,7 +88,10 @@ public class OpeningDetailFragment extends BaseFragment {
         txtv_company_website.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                WebActivity.startWebActivity(getActivity(), txtv_company_website.getText() + "");
+                String inputUrl=txtv_company_website.getText().toString();
+                if (!inputUrl.contains("http://"))
+                   inputUrl = "http://" + inputUrl;
+                WebActivity.startWebActivity(getActivity(), inputUrl + "");
             }
         });
 

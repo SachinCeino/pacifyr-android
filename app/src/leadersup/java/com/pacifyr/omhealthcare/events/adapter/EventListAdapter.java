@@ -27,6 +27,7 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.ceino.utilitylibrary.CustomFontTextView;
 import com.pacifyr.omhealthcare.R;
+import com.pacifyr.omhealthcare.events.activity.EventActivity;
 import com.pacifyr.omhealthcare.events.fragment.EventsDetailFragment;
 import com.pacifyr.omhealthcare.events.model.ModelEvent;
 import com.pacifyr.omhealthcare.model.MComments;
@@ -127,29 +128,37 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.MyVi
                 @Override
                 public void onClick(View v) {
 
+                    double lan=((EventActivity) context).getmLatitude();
+                    double lon=((EventActivity) context).getmLongitude();
+                    if (lan!=0.0 && lon!=0.0)
+                    {
+                        holder.event_image.setTransitionName("event_transition");
 
-                    holder.event_image.setTransitionName("event_transition");
+                        AppCompatActivity activity = (AppCompatActivity) v.getContext();
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("object", object);
+                        bundle.putString("actualDate", finalActualDate);
 
-                    AppCompatActivity activity = (AppCompatActivity) v.getContext();
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("object", object);
-                    bundle.putString("actualDate", finalActualDate);
+                        Fragment mEventsDetailFragment = new EventsDetailFragment();
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            mEventsDetailFragment.setSharedElementEnterTransition(new DetailsTransition());
+                            mEventsDetailFragment.setEnterTransition(new Fade());
+                            mEventsDetailFragment.setExitTransition(new Fade());
+                            mEventsDetailFragment.setSharedElementReturnTransition(new DetailsTransition());
+                        }
 
-                    Fragment mEventsDetailFragment = new EventsDetailFragment();
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        mEventsDetailFragment.setSharedElementEnterTransition(new DetailsTransition());
-                        mEventsDetailFragment.setEnterTransition(new Fade());
-                        mEventsDetailFragment.setExitTransition(new Fade());
-                        mEventsDetailFragment.setSharedElementReturnTransition(new DetailsTransition());
+
+                        mEventsDetailFragment.setArguments(bundle);
+                        activity.getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.event_fragment_containe, mEventsDetailFragment)
+                                .addSharedElement(holder.event_image, holder.event_image.getTransitionName())
+                                .addToBackStack("new").commit();
+                    }
+                    else {
+                        ((EventActivity) context).checkPremissionFineLocation();
                     }
 
-
-                    mEventsDetailFragment.setArguments(bundle);
-                    activity.getSupportFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.event_fragment_containe, mEventsDetailFragment)
-                            .addSharedElement(holder.event_image, holder.event_image.getTransitionName())
-                            .addToBackStack("new").commit();
 
                 }
             });

@@ -259,5 +259,8 @@ dependencies {
     implementation('com.paytm:pgplussdk:1.3.3') {
         transitive = true;
     }
+
+    implementation 'com.google.android.gms:play-services:11.4.2'
+    implementation 'com.google.android.gms:play-services-location:11.4.2'
 }
 apply plugin: 'com.google.gms.google-services'

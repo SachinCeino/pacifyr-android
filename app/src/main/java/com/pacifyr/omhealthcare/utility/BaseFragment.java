@@ -1268,7 +1268,7 @@ public abstract class BaseFragment extends Fragment {
 
     }
 
-    private void errorStatus() {
+    public void errorStatus() {
         setStatus("Error,Please try later", R.color.red);
         showStatus();
         final Handler handler = new Handler();

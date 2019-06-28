@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
@@ -53,8 +54,6 @@ import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-import static com.pacifyr.omhealthcare.base.PacifyerActivity.sessionid;
-
 /**
  * Created by tereha on 25.05.16.
  */
@@ -84,6 +83,7 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
     private  Switch billingSwitch;
     private TextView text_remaining_minutes;
     private String change_Emotion_name;
+    private ImageButton img_button_add_note;
     private BroadcastReceiver eventReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -210,6 +210,8 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
         reason_ctxv.setVisibility(View.INVISIBLE);
         emotion_ctxv.setVisibility(View.INVISIBLE);
         text_remaining_minutes.setVisibility(View.GONE);
+        img_button_add_note = view.findViewById(R.id.img_button_add_note);
+
 //        callerAvatarImageView = (CircleImageView) view.findViewById(R.id.image_caller_avatar);
         //  firstOpponentNameTextView = (TextView) view.findViewById(R.id.text_caller_name);
         //    firstOpponentNameTextView.setText(opponents.get(0).getFullName());
@@ -269,6 +271,15 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
                 if (isValid(getOpponentId())) {
                     ProfileScreenActivity.start(getActivity(), getOpponentId(), false);
                 }
+            }
+        });
+
+
+        img_button_add_note.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showaddNotePopupDialogue();
+
             }
         });
     }
@@ -750,7 +761,6 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
             e.printStackTrace();
         }
     }
-
 
 
 }

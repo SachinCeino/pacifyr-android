@@ -1,12 +1,22 @@
 package com.pacifyr.omhealthcare.events.activity;
 
+import android.Manifest;
+import android.app.Service;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Typeface;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.LinearLayout;
@@ -32,7 +42,7 @@ import java.util.List;
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 import static com.pacifyr.omhealthcare.network.NetworkService.GLOBAL_URL;
 
-public class EventActivity extends PacifyerActivity {
+public class EventActivity extends PacifyerActivity implements LocationListener {
 
     public static void start(Context context) {
         Intent intent = new Intent(context, EventActivity.class);
@@ -42,7 +52,11 @@ public class EventActivity extends PacifyerActivity {
 
     private String titleText;
     private RelativeLayout empty_layout;
+    private LocationManager locationManager;
+    private Location location;
+    private final int REQUEST_LOCATION = 200;
 
+    public double mLatitude,mLongitude;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -52,13 +66,44 @@ public class EventActivity extends PacifyerActivity {
         empty_layout.setVisibility(View.GONE);
         Bundle bundle = getIntent().getExtras();
         titleText = "Events";
+        locationManager = (LocationManager) getSystemService(Service.LOCATION_SERVICE);
 
         onSetActionBar();
 
         getWebData();
 
+        checkPremissionFineLocation();
 
 
+
+    }
+
+    public void checkPremissionFineLocation() {
+        if (ActivityCompat.checkSelfPermission(EventActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) !=
+                PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(
+                        EventActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION
+                ) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(EventActivity.this, new String[]{
+                    Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION
+            }, REQUEST_LOCATION);
+        } else {
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 100, 2, this);
+            if (locationManager != null)
+                location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        }
+        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            if (location != null) {
+                Log.w("@@@@", "latitude=" + location.getLatitude());
+                Log.w("@@@@", "longitude=" + location.getLongitude());
+
+                mLatitude=location.getLatitude();
+                mLongitude=location.getLongitude();
+
+            }
+        } else {
+            showGPSDisabledAlertToUser();
+        }
     }
 
     public void ShowEventFragments(Fragment fragment) {
@@ -219,5 +264,65 @@ public class EventActivity extends PacifyerActivity {
             ex.printStackTrace();
         }
 
+    }
+
+
+
+    private void showGPSDisabledAlertToUser() {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(EventActivity.this);
+        alertDialogBuilder.setMessage("GPS is disabled in your device. \n Would you like to enable it?")
+                .setCancelable(false)
+                .setPositiveButton("Enable GPS", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        Intent callGPSSettingIntent = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                        startActivity(callGPSSettingIntent);
+                    }
+                });
+        alertDialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+            }
+        });
+        AlertDialog alert = alertDialogBuilder.create();
+        alert.show();
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+       /* Log.w("@@@@1", "latitude=" + location.getLatitude());
+        Log.w("@@@@1", "longitude=" + location.getLongitude());
+*/
+        mLatitude=location.getLatitude();
+        mLongitude=location.getLongitude();
+
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+        if (provider.equals(LocationManager.GPS_PROVIDER)) {
+            showGPSDisabledAlertToUser();
+        }
+
+    }
+
+    public double getmLatitude()
+    {
+        return mLatitude;
+    }
+
+    public double getmLongitude()
+    {
+
+        return mLongitude;
     }
 }

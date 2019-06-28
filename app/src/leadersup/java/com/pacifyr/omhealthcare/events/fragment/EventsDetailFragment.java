@@ -2,8 +2,10 @@ package com.pacifyr.omhealthcare.events.fragment;
 
 
 import android.content.Context;
+import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.RequiresApi;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
@@ -13,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,22 +27,25 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.ceino.utilitylibrary.utils.PrefManager;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.event.NotifyEvent;
 import com.pacifyr.omhealthcare.events.activity.EventActivity;
 import com.pacifyr.omhealthcare.events.adapter.AttendingCompanyListAdapter;
 import com.pacifyr.omhealthcare.events.model.ModelEvent;
 import com.pacifyr.omhealthcare.network.GsonUtils;
+import com.pacifyr.omhealthcare.network.NetworkService;
 import com.pacifyr.omhealthcare.quickblox.chat.utils.Consts;
 import com.pacifyr.omhealthcare.utility.BaseFragment;
 import com.pacifyr.omhealthcare.utils.Utility;
 import com.squareup.otto.Subscribe;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import static com.facebook.FacebookSdk.getApplicationContext;
 import static com.pacifyr.omhealthcare.network.NetworkService.GLOBAL_IMAGE_URL;
 import static com.pacifyr.omhealthcare.network.NetworkService.GLOBAL_URL;
 
@@ -59,6 +65,10 @@ public class EventsDetailFragment extends BaseFragment {
     private AttendingCompanyListAdapter mAttendingCompanyListAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private String actualDate;
+    private LinearLayout layout_attending, layout_checkIn;
+
+
+
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -74,6 +84,10 @@ public class EventsDetailFragment extends BaseFragment {
         txtv_event_description = view.findViewById(R.id.txtv_event_description);
         txtv_event_schedule = view.findViewById(R.id.txtv_event_schedule);
         rcv_attending_company = view.findViewById(R.id.rcv_attending_company);
+        layout_attending = view.findViewById(R.id.layout_attending);
+        layout_checkIn = view.findViewById(R.id.layout_checkIn);
+
+
         if (isValid(getArguments()))
             bundle = getArguments();
         if (isValid(bundle)) {
@@ -121,10 +135,218 @@ public class EventsDetailFragment extends BaseFragment {
                     getWebData(mModelEvent.getId());
 
 
+            layout_checkIn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    setUpCheckin(mModelEvent.getId());
+                }
+            });
+
+            layout_attending.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    setUpAttending(mModelEvent.getId());
+                }
+            });
+
+
         }
 
 
         return view;
+    }
+
+    private void setUpAttending(String event_id) {
+
+        try {
+            PrefManager prefM= PrefManager.getInstance(getApplicationContext());
+            String userToken=prefM.getAccessToken();
+            String userid=prefM.getUserID();
+            setLoading();
+            showProgress();
+            String url = NetworkService.GLOBAL_URL+"events/attend/"+event_id;
+            AjaxCallback cb = new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject json, AjaxStatus status) {
+                    try {
+                        hideProgress();
+
+                        String my=json.toString();
+                        String message=json.toString();
+
+                        if (json.has("status"))
+                        {
+                            String statusMessage= "";
+                            try {
+                                statusMessage = json
+                                        .getString("status");
+                            } catch (JSONException e1) {
+                                e1.printStackTrace();
+                            }
+
+                            if (isValid(statusMessage) && statusMessage.equals("success"))
+                            {
+                                layout_attending.setClickable(false);
+                                layout_attending.setAlpha((float) 0.4);
+                                if (json.has("message"))
+                                {String mesg="";
+                                    try {
+                                        mesg=json.getString("message");
+                                    } catch (JSONException e1) {
+                                        e1.printStackTrace();
+                                    }
+                                    hideStatus2();
+                                    setStatus(mesg, R.color.md_green_400);
+                                    showStatus();
+                                    final Handler handler = new Handler();
+                                    handler.postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            hideStatus();
+                                        }
+                                    }, 2000);
+                                }
+
+                            }
+                            else
+                            {
+                                if (json.has("message"))
+                                {String mesg="";
+                                    try {
+                                        mesg=json.getString("message");
+                                    } catch (JSONException e1) {
+                                        e1.printStackTrace();
+                                    }
+                                    hideStatus2();
+                                    setStatus(mesg, R.color.md_green_400);
+                                    showStatus();
+                                    final Handler handler = new Handler();
+                                    handler.postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            hideStatus();
+                                            getActivity().onBackPressed();
+                                        }
+                                    }, 2000);
+                                }
+
+                            }
+                        }
+
+
+
+                    } catch (Exception e) {
+                        errorStatus();
+                    }
+                }
+            };
+            AQuery aq = new AQuery(getApplicationContext());
+            cb.header("Content-Type", "application/json");
+            cb.header("AccessToken",userToken);
+
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.putOpt("userId", userid);
+            aq.post(url, jsonObject, JSONObject.class, cb);
+        }
+        catch (Exception ex)
+        {
+            errorStatus();
+        }
+    }
+
+    private void setUpCheckin(String event_id) {
+
+        try {
+            PrefManager prefM= PrefManager.getInstance(getApplicationContext());
+            String userToken=prefM.getAccessToken();
+            String userid=prefM.getUserID();
+        setLoading();
+        showProgress();
+            String url = NetworkService.GLOBAL_URL+"events/checkin/"+event_id;
+            AjaxCallback cb = new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject json, AjaxStatus status) {
+                    try {
+                        hideProgress();
+                        if (json.has("status"))
+                        {
+                            String statusMessage= "";
+                            try {
+                                statusMessage = json
+                                        .getString("status");
+                            } catch (JSONException e1) {
+                                e1.printStackTrace();
+                            }
+
+                            if (isValid(statusMessage) && statusMessage.equals("success"))
+                            {
+                                layout_checkIn.setClickable(false);
+                                layout_checkIn.setAlpha((float) 0.4);
+                                if (json.has("message"))
+                                {String mesg="";
+                                    try {
+                                        mesg=json.getString("message");
+                                    } catch (JSONException e1) {
+                                        e1.printStackTrace();
+                                    }
+                                    hideStatus2();
+                                    setStatus(mesg, R.color.md_green_400);
+                                    showStatus();
+                                    final Handler handler = new Handler();
+                                    handler.postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            hideStatus();
+                                        }
+                                    }, 2000);
+                                }
+
+                            }
+                            else
+                            {
+                                if (json.has("message"))
+                                {String mesg="";
+                                    try {
+                                        mesg=json.getString("message");
+                                    } catch (JSONException e1) {
+                                        e1.printStackTrace();
+                                    }
+                                    hideStatus2();
+                                    setStatus(mesg, R.color.md_green_400);
+                                    showStatus();
+                                    final Handler handler = new Handler();
+                                    handler.postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            hideStatus();
+                                            getActivity().onBackPressed();
+                                        }
+                                    }, 2000);
+                                }
+
+                            }
+                        }
+
+                    } catch (Exception e) {
+                      errorStatus();
+                    }
+                }
+            };
+            AQuery aq = new AQuery(getApplicationContext());
+            cb.header("Content-Type", "application/json");
+            cb.header("AccessToken",userToken);
+
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.putOpt("userId", userid);
+            aq.post(url, jsonObject, JSONObject.class, cb);
+        }
+        catch (Exception ex)
+        {
+            errorStatus();
+        }
+
     }
 
 
@@ -199,6 +421,7 @@ public class EventsDetailFragment extends BaseFragment {
                             List<ModelEvent.Employer> listEvent = data.getEmployers();
                             if (isValid(listEvent))
                                 setAdpater(listEvent);
+                            setUpUIForAttendAndChecking(data);
                         }
                     } else {
                         if (isValid(status.getMessage())) {
@@ -223,14 +446,100 @@ public class EventsDetailFragment extends BaseFragment {
 
             aq.ajax(GLOBAL_URL + "events/" + eventID, JSONObject.class, cb);
 
-        } catch (Exception ex)
-
-        {
+        } catch (Exception ex) {
             hideProgress();
 
             ex.printStackTrace();
         }
         //setAdpater(list);
+    }
+
+    private void setUpUIForAttendAndChecking(ModelEvent data) {
+
+        if (data.getAttendingUserIds()!=null && data.getAttendingUserIds().size()==0)
+        {
+            layout_attending.setClickable(true);
+        }
+       else if (isValid(data.getAttendingUserIds())) {
+            if (data.getAttendingUserIds().contains(getPrefManager().getUserID())) {
+                layout_attending.setClickable(false);
+                layout_attending.setAlpha((float) 0.4);
+            } else {
+                layout_attending.setClickable(true);
+            }
+        }
+        else {
+            layout_attending.setClickable(false);
+            layout_attending.setAlpha((float) 0.4);
+        }
+
+
+        if (data.getCheckinUserIds()!=null) {
+            if (data.getCheckinUserIds().size()==0)
+            {
+                if (isValid(data.getLatitude()) && isValid(data.getLongitude())) {
+                    float distance = getDistanceFromLocation(data.getLatitude(), data.getLongitude());
+                    if (distance<=100)
+                    {
+                        layout_checkIn.setClickable(true);
+                    }
+                    else
+                    {
+                        layout_checkIn.setClickable(false);
+                        layout_checkIn.setAlpha((float) 0.4);
+                    }
+
+                }
+            }
+           else if (data.getCheckinUserIds().contains(getPrefManager().getUserID())) {
+
+                layout_checkIn.setClickable(false);
+                layout_checkIn.setAlpha((float) 0.4);
+            } else {
+                if (isValid(data.getLatitude()) && isValid(data.getLongitude())) {
+                    float distance = getDistanceFromLocation(data.getLatitude(), data.getLongitude());
+                    if (distance<=100)
+                    {
+                        layout_checkIn.setClickable(true);
+                    }
+                    else
+                    {
+                        layout_checkIn.setClickable(false);
+                        layout_checkIn.setAlpha((float) 0.4);
+                    }
+
+                }
+
+            }
+        }
+        else {
+            layout_checkIn.setClickable(false);
+            layout_checkIn.setAlpha((float) 0.4);
+        }
+    }
+
+    private float getDistanceFromLocation(String latitude, String longitude) {
+
+        double currentLatitude=((EventActivity) getActivity()).getmLatitude();
+        double currentLongitude=((EventActivity) getActivity()).getmLongitude();
+
+        double serverLatitude= Double.parseDouble(latitude);
+        double serverLongitude= Double.parseDouble(longitude);
+
+
+        Location loc1 = new Location("");
+        loc1.setLatitude(currentLatitude);
+        loc1.setLongitude(currentLongitude);
+        Location loc2 = new Location("");
+        loc2.setLatitude(serverLatitude);
+        loc2.setLongitude(serverLongitude);
+        float distanceInMeters = loc1.distanceTo(loc2);
+
+
+        return distanceInMeters;
+
+
+
     }
 
     private void setAdpater(List<ModelEvent.Employer> list) {
@@ -239,8 +548,11 @@ public class EventsDetailFragment extends BaseFragment {
         mLayoutManager = new GridLayoutManager(getActivity(), 3);
         rcv_attending_company.setLayoutManager(mLayoutManager);
         rcv_attending_company.setItemAnimator(new DefaultItemAnimator());
-
     }
+
+
+
+
 
 
 }

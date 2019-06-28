@@ -26,6 +26,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -86,7 +87,6 @@ import java.util.Map;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static android.support.v7.widget.LinearLayoutManager.HORIZONTAL;
-import static com.pacifyr.omhealthcare.base.PacifyerActivity.sessionid;
 
 /*import com.quickblox.videochat.webrtc.BaseSession;*/
 
@@ -149,6 +149,7 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
     private TextView billingStatus;
     private TextView text_remaining_minutes;
     private String change_Emotion_name;
+    private ImageButton img_button_add_note;
     private BroadcastReceiver eventReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -494,7 +495,7 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
         emotion_rlay = view.findViewById(R.id.emotion_rlay);
 
         text_remaining_minutes.setVisibility(View.GONE);
-
+        img_button_add_note = view.findViewById(R.id.img_button_add_note);
         onUserInfoViews(view);
  //  participants_ctxv = (CustomFontTextView) view.findViewById(R.id.participants_ctxv);
         emotion_dimv.setVisibility(View.GONE);
@@ -562,6 +563,16 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
                 }
             }
         });
+
+        img_button_add_note.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showaddNotePopupDialogue();
+
+            }
+        });
+
+
        // ArrayList<MUser>call_user_list=getCallParticipantlist();
     }
 

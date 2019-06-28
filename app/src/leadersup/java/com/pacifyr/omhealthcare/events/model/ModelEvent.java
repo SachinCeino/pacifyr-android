@@ -20,6 +20,26 @@ public class ModelEvent implements Serializable {
     @SerializedName("positions")
     @Expose
     private List<Position> positions = null;
+    @SerializedName("attendingUserIds")
+    @Expose
+    private List<String> attendingUserIds = null;
+
+    @SerializedName("checkinUserIds")
+    @Expose
+    private List<String> checkinUserIds = null;
+
+    @SerializedName("latitude")
+    @Expose
+    private String latitude;
+
+    @SerializedName("longitude")
+    @Expose
+    private String longitude;
+
+
+    @SerializedName("location")
+    @Expose
+    private String location;
 
     public List<Position> getPositions() {
         return positions;
@@ -51,6 +71,46 @@ public class ModelEvent implements Serializable {
 
     public void setEmployers(List<Employer> employers) {
         this.employers = employers;
+    }
+
+    public List<String> getAttendingUserIds() {
+        return attendingUserIds;
+    }
+
+    public void setAttendingUserIds(List<String> attendingUserIds) {
+        this.attendingUserIds = attendingUserIds;
+    }
+
+    public List<String> getCheckinUserIds() {
+        return checkinUserIds;
+    }
+
+    public void setCheckinUserIds(List<String> checkinUserIds) {
+        this.checkinUserIds = checkinUserIds;
+    }
+
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
+    }
+
+    public String getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public class Result implements Serializable {
