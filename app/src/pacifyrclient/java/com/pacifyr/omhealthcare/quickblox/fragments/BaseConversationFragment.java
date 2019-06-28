@@ -582,7 +582,7 @@ public abstract class BaseConversationFragment extends BaseToolBarFragment imple
                 @Override
                 public void callback(String url, JSONObject json, AjaxStatus status) {
                     try {
-
+                        Toast.makeText(getActivity(), "Notes Updated", Toast.LENGTH_SHORT).show();
                         /*  String my=json.toString();
                         String message=json.toString();
 
