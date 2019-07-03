@@ -127,6 +127,10 @@ public class LastSessionActivity   extends PacifyrAppCompactActivity {
     private ImageView afterFeelDimv;
     private LinearLayout pacifyrEaringsLlay,customer_fees_llay;
     private CustomFontTextView earingstCtxv,comapnyfeesCtxv;
+
+
+    private RelativeLayout notes_Layout;
+    private  CustomEditText etv_notes;
     public static void start(Context context, boolean isAudioCall) {
         Intent intent = new Intent(context, LastSessionActivity.class);
         //  intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
@@ -341,6 +345,11 @@ public class LastSessionActivity   extends PacifyrAppCompactActivity {
             //effective_circle_view = (CircleView) findViewById(R.id.effective_circle_view);
             rating_llay.setVisibility(View.GONE);
             callback_ctxv.setVisibility(View.GONE);
+
+
+            notes_Layout=findViewById(R.id.notes_Layout);
+            etv_notes=findViewById(R.id.etv_notes);
+
             if(isCustomer) {
                 pacifyrEaringsLlay.setVisibility(View.GONE);
                 customer_fees_llay.setVisibility(View.VISIBLE);
@@ -379,6 +388,9 @@ public class LastSessionActivity   extends PacifyrAppCompactActivity {
                     rating = (int) baseRatingBar.getRating();
                 }
             });
+
+
+
        /*     rating_bar.setNumStars(5);
             rating =5;
             rating_bar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
@@ -585,6 +597,9 @@ public class LastSessionActivity   extends PacifyrAppCompactActivity {
                             Picasso.with(LastSessionActivity.this).load(imagePac).placeholder(R.drawable.placeholder_user).into(pacifyrImgCimv);
                     }
 
+
+
+
                 }
                 else
                 {
@@ -616,6 +631,17 @@ public class LastSessionActivity   extends PacifyrAppCompactActivity {
                     if(session_pos>=0) {
 
                         MSessionRating sessionRating = mSessionDetailRoot.getSessionRatingList().get(session_pos);
+
+
+                        if (isValid(sessionRating.getNotes()))
+                        {
+                            notes_Layout.setVisibility(View.VISIBLE);
+                            etv_notes.setText(sessionRating.getNotes());
+                        }
+                        else
+                        {
+                            notes_Layout.setVisibility(View.GONE);
+                        }
                         ratingId=sessionRating.getId();
                         oldRating = Integer.parseInt(sessionRating.getRating());
                         if (isValid(sessionRating.getEffectiveness())) {
@@ -624,6 +650,9 @@ public class LastSessionActivity   extends PacifyrAppCompactActivity {
                             circleProgressView.setProgress(effectiveness);
                             //effective_circle_view.setProgressValue(effectiveness);
                         }
+
+
+
                         ArrayList<String> cmtlist = sessionRating.getCommentList();
                         ArrayList<MComments> exist_cmt_list = new ArrayList<MComments>();
                         exist_cmt_list.add(new MComments("Excellent call"));

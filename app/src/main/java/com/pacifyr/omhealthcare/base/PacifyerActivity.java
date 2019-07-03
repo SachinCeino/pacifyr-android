@@ -2631,7 +2631,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
 
     }
 
-    private void errorStatus() {
+    public void errorStatus() {
         setStatus("Error,Please try later", R.color.red);
         showStatus();
         final Handler handler = new Handler();
@@ -2967,12 +2967,12 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
         //getting the tax amount first.
         String txnAmount = new DecimalFormat("####0.00").format(price);
         final Paytm paytm = new Paytm(
-                com.pacifyr.omhealthcare.paytmpayment.Constants.M_ID,
-                com.pacifyr.omhealthcare.paytmpayment.Constants.CHANNEL_ID,
+                com.pacifyr.omhealthcare.paytmpayment.Constants.getM_ID(),
+                com.pacifyr.omhealthcare.paytmpayment.Constants.getChannel_ID(),
                 txnAmount,
-                com.pacifyr.omhealthcare.paytmpayment.Constants.WEBSITE,
-                com.pacifyr.omhealthcare.paytmpayment.Constants.CALLBACK_URL,
-                com.pacifyr.omhealthcare.paytmpayment.Constants.INDUSTRY_TYPE_ID
+                com.pacifyr.omhealthcare.paytmpayment.Constants.getWebSite(),
+                com.pacifyr.omhealthcare.paytmpayment.Constants.getCallBackUrl(),
+                com.pacifyr.omhealthcare.paytmpayment.Constants.getIndustryTypeId()
         );
 
         try{
@@ -3054,7 +3054,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
         //getting paytm Production service 'PROD'
 
         PaytmPGService Service;
-        if (com.pacifyr.omhealthcare.paytmpayment.Constants.TEST_OR_PROD.equals("TEST"))
+        if (com.pacifyr.omhealthcare.paytmpayment.Constants.getTestOrProd().equals("TEST"))
             Service = PaytmPGService.getStagingService();
         else
             Service = PaytmPGService.getProductionService();
@@ -3066,7 +3066,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
 
         //creating a hashmap and adding all the values required
         Map<String, String> paramMap = new HashMap<>();
-        paramMap.put("MID", com.pacifyr.omhealthcare.paytmpayment.Constants.M_ID);
+        paramMap.put("MID", com.pacifyr.omhealthcare.paytmpayment.Constants.getM_ID());
         paramMap.put("ORDER_ID", sessionid);
         paramMap.put("CUST_ID", prefM.getUserID());
         paramMap.put("CHANNEL_ID", paytm.getChannelId());

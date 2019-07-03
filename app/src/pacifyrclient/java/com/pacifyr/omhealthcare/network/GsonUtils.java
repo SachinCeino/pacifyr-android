@@ -56,6 +56,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.pacifyr.omhealthcare.Fragment.schedule.ScheduleData;
 import com.pacifyr.omhealthcare.Fragment.schedule.Slot;
+import com.pacifyr.omhealthcare.home.notes.Notes;
 import com.pacifyr.omhealthcare.model.MCustomerList;
 import com.pacifyr.omhealthcare.model.ModelResources;
 import com.pacifyr.omhealthcare.model.ModelSpecialityByCategory;
@@ -862,6 +863,20 @@ public class GsonUtils<T> {
             e.printStackTrace();
         }
         return model;
+    }
+
+
+    public Notes gsonToNotes(JSONObject json) {
+
+        Notes search = null;
+        try {
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            String jsonString = json.toString();
+            search = gson.fromJson(jsonString, Notes.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return search;
     }
 
 }

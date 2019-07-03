@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -119,7 +120,15 @@
                                         android:textColor="@color/blue_text_dark"
                                         android:textSize="13sp"/>
 
-
+                                    <ImageButton
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        app:srcCompat="@drawable/svg_add_note_primary"
+                                        android:layout_alignParentRight="true"
+                                        android:background="@android:color/transparent"
+                                        android:layout_margin="5dp"
+                                        android:visibility="gone"
+                                        android:id="@+id/img_notes" />
                                 </RelativeLayout>
 
                                 <LinearLayout
@@ -551,6 +560,7 @@
 
 
                         </RelativeLayout>
+
                         <com.ceino.utilitylibrary.CustomFontTextView
                             android:layout_width="match_parent"
                             android:layout_marginLeft="5dp"

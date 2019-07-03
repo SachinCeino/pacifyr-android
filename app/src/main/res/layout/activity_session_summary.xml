@@ -119,6 +119,15 @@
                                         android:textColor="@color/md_grey_user"
                                         android:textSize="13sp"/>
 
+                                    <ImageButton
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        app:srcCompat="@drawable/svg_add_note_primary"
+                                        android:layout_alignParentRight="true"
+                                        android:background="@android:color/transparent"
+                                        android:layout_margin="5dp"
+                                        android:visibility="gone"
+                                        android:id="@+id/img_notes" />
 
                                 </RelativeLayout>
 
@@ -508,6 +517,39 @@
                                 android:layout_height="wrap_content" />
 
                         </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"
+                            android:layout_marginTop="10dp"
+                            android:id="@+id/notes_Layout"
+                            android:orientation="vertical">
+
+                            <com.ceino.utilitylibrary.CustomFontTextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/notes"
+                                android:text="Notes"
+                                android:textColor="@color/grey_dark"
+                                app:fontName="@string/avanti_std_bk"
+                                android:textSize="14sp" />
+
+                            <com.ceino.utilitylibrary.CustomEditText
+                                android:id="@+id/etv_notes"
+                                android:layout_marginTop="3dp"
+                                android:layout_below="@+id/notes"
+                                android:layout_width="wrap_content"
+                                android:inputType="textMultiLine"
+                                android:textSize="@dimen/sp17"
+                                android:hint="@string/comments"
+
+                                android:textColorHint="@color/medium_grey_pacifyr"
+                                android:layout_height="wrap_content" />
+
+
+                        </RelativeLayout>
+
 
                         <com.ceino.utilitylibrary.CustomFontTextView
                             android:layout_width="match_parent"

@@ -27,7 +27,7 @@ import org.json.JSONObject;
 public class UtilityNetworkService extends IntentService {
 
 
-    //** prod*/
+    /** Production*/
    /* public static final String GLOBAL_URL = "https://app.pacifyr.net/pacifyr/v1/";
     //prod quickblox
     public static final String APP_ID = "61574";

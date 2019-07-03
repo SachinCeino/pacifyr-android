@@ -1,0 +1,104 @@
+package com.pacifyr.omhealthcare.home.notes;
+
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
+
+public class Notes {
+
+    @SerializedName("total_count")
+    @Expose
+    private Integer totalCount;
+    @SerializedName("results")
+    @Expose
+    private List<Result> results = null;
+
+    public Integer getTotalCount() {
+        return totalCount;
+    }
+
+    public void setTotalCount(Integer totalCount) {
+        this.totalCount = totalCount;
+    }
+
+    public List<Result> getResults() {
+        return results;
+    }
+
+    public void setResults(List<Result> results) {
+        this.results = results;
+    }
+
+
+    public class Result {
+
+        @SerializedName("createdAt")
+        @Expose
+        private String createdAt;
+        @SerializedName("id")
+        @Expose
+        private String id;
+        @SerializedName("sessionId")
+        @Expose
+        private String sessionId;
+        @SerializedName("text")
+        @Expose
+        private String text;
+        @SerializedName("userId")
+        @Expose
+        private String userId;
+        @SerializedName("updatedAt")
+        @Expose
+        private String updatedAt;
+
+        public String getCreatedAt() {
+            return createdAt;
+        }
+
+        public void setCreatedAt(String createdAt) {
+            this.createdAt = createdAt;
+        }
+
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        public String getSessionId() {
+            return sessionId;
+        }
+
+        public void setSessionId(String sessionId) {
+            this.sessionId = sessionId;
+        }
+
+        public String getText() {
+            return text;
+        }
+
+        public void setText(String text) {
+            this.text = text;
+        }
+
+        public String getUserId() {
+            return userId;
+        }
+
+        public void setUserId(String userId) {
+            this.userId = userId;
+        }
+
+        public String getUpdatedAt() {
+            return updatedAt;
+        }
+
+        public void setUpdatedAt(String updatedAt) {
+            this.updatedAt = updatedAt;
+        }
+
+    }
+}

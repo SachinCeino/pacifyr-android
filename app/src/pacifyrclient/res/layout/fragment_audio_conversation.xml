@@ -373,7 +373,9 @@
         layout="@layout/view_outgoing_screen"
         android:visibility="gone" />
 
-    <include layout="@layout/view_audio_action_buttons_conversation_fragment" />
+    <include
+        android:id="@+id/call_layout"
+        layout="@layout/view_audio_action_buttons_conversation_fragment" />
 
     <com.ceino.utilitylibrary.CustomFontTextView
         android:id="@+id/billing_status"
@@ -392,13 +394,30 @@
         android:textSize="18sp"
         android:visibility="invisible" />
 
-    <ImageButton
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/svg_add_note"
-        android:layout_alignParentRight="true"
-        android:layout_margin="30dp"
-        android:id="@+id/img_button_add_note"
-        android:background="@android:color/transparent" />
+        android:orientation="vertical"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/call_layout"
+        android:gravity="center"
+        android:layout_marginBottom="30dp">
+
+        <ImageButton
+            android:id="@+id/img_button_add_note"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            app:srcCompat="@drawable/svg_add_note" />
+
+        <com.ceino.utilitylibrary.CustomFontTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:layout_margin="3dp"
+            android:textSize="13sp"
+            app:fontName="@string/avenir_black"
+            android:text="Add Note" />
+    </LinearLayout>
 
 </RelativeLayout>

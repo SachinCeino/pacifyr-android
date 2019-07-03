@@ -38,6 +38,7 @@ import com.pacifyr.omhealthcare.event.CallEvent;
 import com.pacifyr.omhealthcare.event.NotifyEvent;
 import com.pacifyr.omhealthcare.home.CustomerDetailActivity;
 import com.pacifyr.omhealthcare.home.ProfileScreenActivity;
+import com.pacifyr.omhealthcare.home.notes.NotesActivity;
 import com.pacifyr.omhealthcare.interfaces.EmpMinutesListener;
 import com.pacifyr.omhealthcare.network.GsonUtils;
 import com.pacifyr.omhealthcare.network.NetworkService;
@@ -278,7 +279,8 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
         img_button_add_note.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showaddNotePopupDialogue();
+                NotesActivity.start(getActivity(), PacifyerActivity.sessionid);
+
 
             }
         });

@@ -371,11 +371,15 @@
             android:screenOrientation="portrait" />
         <activity android:name=".sign.UploadActivity" />
 
-        //Events
+        <!--//Events-->
         <activity
             android:name=".events.activity.EventActivity"
             android:screenOrientation="portrait" />
-
+        <!--//Notes-->
+        <activity
+            android:name=".home.notes.NotesActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/CustomNoActionBarTheme2" />
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${applicationId}.android.fileprovider"

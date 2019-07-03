@@ -37,6 +37,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 import static com.ceino.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
 
@@ -689,37 +690,23 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
         }
         else {
 
-            int to=0;
-            ArrayList<String> times = new ArrayList<>();
+
             for (int i=0;i<mSlotesData.size();i++)
             {
-                mSlotesData.get(i).setHideSlote(false);
-                times.add(mSlotesData.get(i).getStartTime());
-                if (times.contains(getCurrentTime())) {
-                    if (mSlotesData.get(i).getStartTime().equals(getCurrentTime())) {
-                        to = i;
-                    }
+                long currentMill = getMilliSecondsTime(getCurrentTime());
+                long servermilli = getMilliSecondsTime(mSlotesData.get(i).getStartTime());
+
+                if (servermilli > currentMill) {
+                    mSlotesData.get(i).setHideSlote(false);
                 } else {
                     mSlotesData.get(i).setHideSlote(true);
                 }
+               /* Log.w("@@@currentMill", String.valueOf(currentMill));
+                Log.w("@@@servermilli", String.valueOf(servermilli));*/
 
 
             }
 
-            if (isValid(to))
-            {
-                for (int j=0;j<mSlotesData.size();j++)
-                {
-                    if (j<=to)
-                    {
-                        mSlotesData.get(j).setHideSlote(true);
-                    }
-                    else
-                    {
-                        mSlotesData.get(j).setHideSlote(false);
-                    }
-                }
-            }
 
 
         }
@@ -792,6 +779,15 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
     }
 
 
+    private long getMilliSecondsTime(String time) {
+        String[] values = time.split(":");
+
+        int hours = Integer.parseInt(values[0]);
+        int minutes = Integer.parseInt(values[1]);
+
+        long milliseconds = TimeUnit.SECONDS.toMillis(TimeUnit.HOURS.toSeconds(hours) + TimeUnit.MINUTES.toSeconds(minutes));
+        return milliseconds;
+    }
 
 
     private void callCAncelBookedSlotApi(Slot singleSlote) {
