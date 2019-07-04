@@ -210,7 +210,7 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
 
 
         img_notes = findViewById(R.id.img_notes);
-        img_notes.setVisibility(View.VISIBLE);
+        img_notes.setVisibility(View.GONE);
         if (!isCustomer() && !isPacifyer()) {
             ToastHandler.newInstance(this).mustShowToast("Session Expired : Please login again");
             deleteInstallationWeb();

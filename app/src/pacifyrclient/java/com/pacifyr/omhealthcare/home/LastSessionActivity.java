@@ -363,7 +363,7 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
 
 
             img_notes = findViewById(R.id.img_notes);
-            img_notes.setVisibility(View.VISIBLE);
+            img_notes.setVisibility(View.GONE);
 
             if (isCustomer) {
                 pacifyrEaringsLlay.setVisibility(View.GONE);
