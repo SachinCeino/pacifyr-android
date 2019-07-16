@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.ceino.utilitylibrary.base.BaseAppCompactActivity;
 import com.ceino.utilitylibrary.utils.PrefManager;
+import com.google.firebase.FirebaseApp;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.home.DashboardActivity;
 import com.pacifyr.omhealthcare.home.PacifyrDashboardActivity;
@@ -49,13 +50,14 @@ public class SplachScreen extends BaseAppCompactActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+        FirebaseApp.initializeApp(this);
         //  overridePendingTransition(0, 0);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         NetworkService.webListEmotions(SplachScreen.this);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_splash_screen);
-        image_splash = (ImageView) findViewById(R.id.image_splash);
+        image_splash = findViewById(R.id.image_splash);
 
         mSensorService = new CallService(SplachScreen.this);
         mServiceIntent = new Intent(SplachScreen.this, mSensorService.getClass());
@@ -65,7 +67,7 @@ public class SplachScreen extends BaseAppCompactActivity {
         }
         try {
             //generateHashkey();
-            progressquest2 = (ProgressBar) findViewById(R.id.progressquest2);
+            progressquest2 = findViewById(R.id.progressquest2);
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -192,7 +194,7 @@ public class SplachScreen extends BaseAppCompactActivity {
     }*/
 
     private boolean isMyServiceRunning(Class<?> serviceClass) {
-        ActivityManager manager = (ActivityManager) getSystemService(SplachScreen.this.ACTIVITY_SERVICE);
+        ActivityManager manager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
         for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
             if (serviceClass.getName().equals(service.service.getClassName())) {
                 Log.i ("isMyServiceRunning?", true+"");
