@@ -56,7 +56,7 @@ public class UtilityNetworkService extends IntentService {
     public static final String TURN_SERVER = "turnserver.quickblox.com";
     public static final String CIRTIFICATE_KEY="development";*/
 
-    public static boolean isRelease = false;
+    public static boolean isRelease = true;
     public static boolean isProd = true;
 
 
