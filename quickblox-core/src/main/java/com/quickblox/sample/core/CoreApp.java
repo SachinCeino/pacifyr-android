@@ -4,6 +4,7 @@ import android.support.multidex.MultiDexApplication;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.google.firebase.FirebaseApp;
 import com.quickblox.auth.session.QBSettings;
 import com.quickblox.core.ServiceZone;
 import com.quickblox.sample.core.models.QbConfigs;
@@ -19,6 +20,7 @@ public class CoreApp extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+        FirebaseApp.initializeApp(this);
         instance = this;
         initQbConfigs();
         initCredentials();
