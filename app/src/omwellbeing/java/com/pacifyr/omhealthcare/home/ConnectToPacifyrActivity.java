@@ -427,7 +427,7 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
     @Override
     protected void onRestart() {
         super.onRestart();
-        selectFeelingRlay.setVisibility(View.VISIBLE);
+      /*  selectFeelingRlay.setVisibility(View.VISIBLE);
         selectEmotionRlay.setVisibility(View.GONE);
         selectEmotionDetailRlay.setVisibility(View.GONE);
         listPacifyrRlay.setVisibility(View.GONE);
@@ -439,7 +439,7 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
         button3.setClickable(false);
         button4.setClickable(false);
         happyDimv.clearColorFilter();
-        sadDimv.clearColorFilter();
+        sadDimv.clearColorFilter();*/
     }
 
 
@@ -1013,6 +1013,12 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
     }
 
     @Override
+    protected void onStart() {
+
+        super.onStart();
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
 
@@ -1030,6 +1036,9 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
         super.onResume();
         if (morePacifyrsRlay!=null)
         {morePacifyrsRlay.setVisibility(View.GONE);}
+        if (isValid(morePacifyrsRlay) &&
+                listPacifyrRlay.getVisibility() == View.VISIBLE)
+            morePacifyrsRlay.setVisibility(View.VISIBLE);
 
         trackTimer_check_online = new Timer();
 

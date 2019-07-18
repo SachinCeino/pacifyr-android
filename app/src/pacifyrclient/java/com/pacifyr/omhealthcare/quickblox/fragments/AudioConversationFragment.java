@@ -34,6 +34,7 @@ import com.pacifyr.omhealthcare.activity.ActivityChngEmotionFromCall;
 import com.pacifyr.omhealthcare.adapter.EmotionSpecialityAdapter;
 import com.pacifyr.omhealthcare.base.PacifyerActivity;
 import com.pacifyr.omhealthcare.event.CallChangeEmotion;
+import com.pacifyr.omhealthcare.event.CallDetailEvent;
 import com.pacifyr.omhealthcare.event.CallEvent;
 import com.pacifyr.omhealthcare.event.NotifyEvent;
 import com.pacifyr.omhealthcare.home.CustomerDetailActivity;
@@ -453,6 +454,8 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
 
             if(isCustomer()) {
                 emotion=PacifyerActivity.call_emotion;
+                if (isValid(PacifyerActivity.call_emotion))
+                if (isValid(PacifyerActivity.call_emotion.getImage()))
                 image= PacifyerActivity.call_emotion.getImage();
                 call_particpants_list=new ArrayList<MUser>();
                 call_particpants_list.add( convertModel(NetworkService.mCurrentUser));
@@ -764,5 +767,24 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
         }
     }
 
+
+    @Subscribe
+    public void onCallDetailEvent(CallDetailEvent event) {
+        try {
+           if (isIncomingCall)
+           {
+               MUser mUser = getCallPacifyr();
+               if (isValid(mUser)) {
+                   // defSetText(callerNameTextView, "" + mUser.getName());
+                   if (isValid(mUser.getImageUrl()))
+                       setEmotionViews();
+                   //Picasso.with(getActivity()).load(mUser.getImageUrl()).into(callerAvatarImageView);
+                   //.placeholder(R.drawable.placeholder_user)
+               }
+           }
+        } catch (Exception e) {
+
+        }
+    }
 
 }
