@@ -25,6 +25,7 @@ import com.google.gson.Gson;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.activity.TermsOfUseActivity;
 import com.pacifyr.omhealthcare.event.NotifyEvent;
+import com.pacifyr.omhealthcare.events.activity.EventActivity;
 import com.pacifyr.omhealthcare.home.ConnectToPacifyrActivity;
 import com.pacifyr.omhealthcare.home.ConnectToSinglePacifyrActivity;
 import com.pacifyr.omhealthcare.home.LastSessionActivity;
@@ -71,7 +72,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
 
     private static final String TAG = UserDashboardFragment.class.getSimpleName();
     private RelativeLayout feelRlay,this_week_rlay,connect_btn_rlay;
-    //private DeviceFitImageView feelImage;
+    private DeviceFitImageView feelImage;
     private RelativeLayout lastSessionRlay;
     private CircleImageView lastSessionDimv;
     private CustomFontTextView lastSsnPacfyrCtxv,no_pacifyr_ctxv,no_lastsession_ctxv;
@@ -195,7 +196,8 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                 /*Intent i= new Intent(getContext(),FeelSelectActivity.class);
                 startActivity(i);*/
 
-                ConnectToPacifyrActivity.start(getActivity());
+                // ConnectToPacifyrActivity.start(getActivity());
+                EventActivity.start(getActivity());
              /*    Intent intent= new Intent(getContext(),ConnectToPacifyrActivity.class);
                 intent.putExtra("display","Pacifyr");
                 startActivity(intent);*/
@@ -309,7 +311,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                 String emotionTitle = call_emotion.getTitle();
                 EmotionTitle=emotionTitle;
                 if (isValidhtml(emotionImg)) {
-                    Picasso.with(getActivity()).load(emotionImg).into(feelImageDimv);
+                    // Picasso.with(getActivity()).load(emotionImg).into(feelImageDimv);
                     float brightness = (float) 100;
                     float[] colorMatrix = {
                             0.33f, 0.33f, 0.33f, 0, brightness, //red
@@ -320,13 +322,13 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                     ColorMatrix matrix = new ColorMatrix();
                     matrix.setSaturation(0);
                     ColorMatrixColorFilter filter = new ColorMatrixColorFilter(colorMatrix);
-                    feelImageDimv.setColorFilter(filter);
-                    feelTitleCtxv.setText(emotionTitle);
-                    if(isValid(feel_err_text))
+                    // feelImageDimv.setColorFilter(filter);
+                    //  feelTitleCtxv.setText(emotionTitle);
+                   /* if(isValid(feel_err_text))
                     {
                         feel_err_text.setVisibility(View.GONE);
 
-                    }
+                    }*/
 
                 }
             } else {
@@ -433,7 +435,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
             String emotionImg = null;
             String emotionTitle = null;
 
-            if (isValid(feelTitleCtxv))
+           /* if (isValid(feelTitleCtxv))
             {
                 if (EmotionTitle.equals(""))
                 {
@@ -443,7 +445,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                     }
                 }
 
-            }
+            }*/
 
             if (isValid(modelCustomerDashboard2)) {
                 final MUser pfc[] = modelCustomerDashboard2.getPreferredPacifyrs();
@@ -456,7 +458,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
 
                     if(isValidhtml(emotionImg)){
                        // feel_err_text.setVisibility(View.GONE);
-                        Picasso.with(getActivity()).load(emotionImg).into(feelImageDimv);
+                        // Picasso.with(getActivity()).load(emotionImg).into(feelImageDimv);
 
                         float brightness = (float)100;
 
@@ -470,14 +472,14 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                         ColorMatrix matrix = new ColorMatrix();
                         matrix.setSaturation(0);
                         ColorMatrixColorFilter filter = new ColorMatrixColorFilter(colorMatrix);
-                        feelImageDimv.setColorFilter(filter);
+                        //feelImageDimv.setColorFilter(filter);
 
-                        feelTitleCtxv.setText(emotionTitle);
-                        if(isValid(feel_err_text))
+                        // feelTitleCtxv.setText(emotionTitle);
+                       /* if(isValid(feel_err_text))
                         {
                             feel_err_text.setVisibility(View.GONE);
 
-                        }
+                        }*/
                     } else {
                       //  feel_err_text.setVisibility(View.VISIBLE);
                     }
@@ -665,9 +667,9 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
     public void intializeViews(View view)
     {
         feelRlay = view.findViewById(R.id.feel_rlay);
-        feel_err_text = view.findViewById(R.id.text_feel_error);
+        // feel_err_text = view.findViewById(R.id.text_feel_error);
         connect_btn_rlay = view.findViewById(R.id.connect_btn_rlay);
-        //feelImage = (DeviceFitImageView) view.findViewById(R.id.feel_image_dimv);
+        feelImage = (DeviceFitImageView) view.findViewById(R.id.feel_image_dimv);
         lastSessionRlay = view.findViewById(last_session_rlay);
         lastSessionDimv = view.findViewById(R.id.last_session_dimv);
         swipeRefreshLayout = view.findViewById(R.id.user_swipe_layout);
@@ -695,7 +697,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
         this_week_rlay = view.findViewById(R.id.this_week_rlay);
 
         feelImageDimv = view.findViewById(R.id.feel_image_dimv);
-        feelTitleCtxv = view.findViewById(R.id.feel_title_ctxv);
+        // feelTitleCtxv = view.findViewById(R.id.feel_title_ctxv);
         unreadChatCtxv = view.findViewById(R.id.unread_chat_ctxv);
         defSetText(no_pacifyr_ctxv,"");
         setChatCountInfo();
