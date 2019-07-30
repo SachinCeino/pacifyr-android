@@ -1,10 +1,15 @@
 package com.pacifyr.omhealthcare.utils;
 
 
-import android.support.v4.view.ViewCompat;
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.*;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.PixelFormat;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Parcel;
@@ -16,8 +21,13 @@ import android.support.v4.view.accessibility.AccessibilityNodeInfoCompat;
 import android.support.v4.widget.ViewDragHelper;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.*;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewConfiguration;
+import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.view.accessibility.AccessibilityEvent;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -145,29 +155,45 @@ public class WrappingSlidingPaneLayout extends ViewGroup {
         }
     }
 
-    /**
-     * Listener for monitoring events about sliding panes.
-     */
-    public interface PanelSlideListener {
-        /**
-         * Called when a sliding pane's position changes.
-         * @param panel The child view that was moved
-         * @param slideOffset The new offset of this sliding pane within its range, from 0-1
-         */
-        public void onPanelSlide(View panel, float slideOffset);
-        /**
-         * Called when a sliding pane becomes slid completely open. The pane may or may not
-         * be interactive at this point depending on how much of the pane is visible.
-         * @param panel The child view that was slid to an open position, revealing other panes
-         */
-        public void onPanelOpened(View panel);
+    @Override
+    protected boolean drawChild(Canvas canvas, View child, long drawingTime) {
+        final LayoutParams lp = (LayoutParams) child.getLayoutParams();
+        boolean result;
+        final int save = canvas.save();
 
-        /**
-         * Called when a sliding pane becomes slid completely closed. The pane is now guaranteed
-         * to be interactive. It may now obscure other views in the layout.
-         * @param panel The child view that was slid to a closed position
-         */
-        public void onPanelClosed(View panel);
+        if (mCanSlide && !lp.slideable && mSlideableView != null) {
+            // Clip against the slider; no sense drawing what will immediately be covered.
+            canvas.getClipBounds(mTmpRect);
+            mTmpRect.right = Math.min(mTmpRect.right, mSlideableView.getLeft());
+            canvas.clipRect(mTmpRect);
+        }
+
+        if (Build.VERSION.SDK_INT >= 11) { // HC
+            result = super.drawChild(canvas, child, drawingTime);
+        } else {
+            if (lp.dimWhenOffset && mSlideOffset > 0) {
+                if (!child.isDrawingCacheEnabled()) {
+                    child.setDrawingCacheEnabled(true);
+                }
+                final Bitmap cache = child.getDrawingCache();
+                if (cache != null) {
+                    canvas.drawBitmap(cache, child.getLeft(), child.getTop(), lp.dimPaint);
+                    result = false;
+                } else {
+                    Log.e(TAG, "drawChild: child view " + child + " returned null drawing cache");
+                    result = super.drawChild(canvas, child, drawingTime);
+                }
+            } else {
+                if (child.isDrawingCacheEnabled()) {
+                    child.setDrawingCacheEnabled(false);
+                }
+                result = super.drawChild(canvas, child, drawingTime);
+            }
+        }
+
+        canvas.restoreToCount(save);
+
+        return result;
     }
 
     /**
@@ -857,45 +883,33 @@ public class WrappingSlidingPaneLayout extends ViewGroup {
         }
     }
 
-    @Override
-    protected boolean drawChild(Canvas canvas, View child, long drawingTime) {
-        final LayoutParams lp = (LayoutParams) child.getLayoutParams();
-        boolean result;
-        final int save = canvas.save(Canvas.CLIP_SAVE_FLAG);
+    /**
+     * Listener for monitoring events about sliding panes.
+     */
+    public interface PanelSlideListener {
+        /**
+         * Called when a sliding pane's position changes.
+         *
+         * @param panel       The child view that was moved
+         * @param slideOffset The new offset of this sliding pane within its range, from 0-1
+         */
+        void onPanelSlide(View panel, float slideOffset);
 
-        if (mCanSlide && !lp.slideable && mSlideableView != null) {
-            // Clip against the slider; no sense drawing what will immediately be covered.
-            canvas.getClipBounds(mTmpRect);
-            mTmpRect.right = Math.min(mTmpRect.right, mSlideableView.getLeft());
-            canvas.clipRect(mTmpRect);
-        }
+        /**
+         * Called when a sliding pane becomes slid completely open. The pane may or may not
+         * be interactive at this point depending on how much of the pane is visible.
+         *
+         * @param panel The child view that was slid to an open position, revealing other panes
+         */
+        void onPanelOpened(View panel);
 
-        if (Build.VERSION.SDK_INT >= 11) { // HC
-            result = super.drawChild(canvas, child, drawingTime);
-        } else {
-            if (lp.dimWhenOffset && mSlideOffset > 0) {
-                if (!child.isDrawingCacheEnabled()) {
-                    child.setDrawingCacheEnabled(true);
-                }
-                final Bitmap cache = child.getDrawingCache();
-                if (cache != null) {
-                    canvas.drawBitmap(cache, child.getLeft(), child.getTop(), lp.dimPaint);
-                    result = false;
-                } else {
-                    Log.e(TAG, "drawChild: child view " + child + " returned null drawing cache");
-                    result = super.drawChild(canvas, child, drawingTime);
-                }
-            } else {
-                if (child.isDrawingCacheEnabled()) {
-                    child.setDrawingCacheEnabled(false);
-                }
-                result = super.drawChild(canvas, child, drawingTime);
-            }
-        }
-
-        canvas.restoreToCount(save);
-
-        return result;
+        /**
+         * Called when a sliding pane becomes slid completely closed. The pane is now guaranteed
+         * to be interactive. It may now obscure other views in the layout.
+         *
+         * @param panel The child view that was slid to a closed position
+         */
+        void onPanelClosed(View panel);
     }
 
     private void invalidateChildRegion(View v) {

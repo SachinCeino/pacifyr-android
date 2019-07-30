@@ -60,7 +60,7 @@ public class MaskedImageView extends ImageView {
     @Override
     protected void onDraw(Canvas canvas) {
         int sc = canvas.saveLayer(boundsRectF, copyPaint,
-                Canvas.HAS_ALPHA_LAYER_SAVE_FLAG | Canvas.FULL_COLOR_LAYER_SAVE_FLAG);
+                Canvas.ALL_SAVE_FLAG);
         maskDrawable.setBounds(boundsRect);
         maskDrawable.draw(canvas);
         canvas.saveLayer(boundsRectF, maskedPaint, 0);

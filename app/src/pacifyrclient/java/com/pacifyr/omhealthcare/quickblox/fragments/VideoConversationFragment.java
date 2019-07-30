@@ -565,6 +565,7 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
             }
         });
 
+        img_button_add_note.setVisibility(View.GONE);
         img_button_add_note.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

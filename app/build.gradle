@@ -3,13 +3,13 @@ apply plugin: 'io.fabric'
 apply plugin: 'com.google.gms.google-services'
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion 28
     buildToolsVersion "26.0.3"
     defaultConfig {
         applicationId "com.ceino.pacifyr.omhealthcare"
         minSdkVersion 16
         // minSdkVersion 21
-        targetSdkVersion 26
+        targetSdkVersion 28
         versionCode 23
         versionName "1.4.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
