@@ -4,7 +4,6 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/om-android.iml" filepath="$PROJECT_DIR$/om-android.iml" />
-      <module fileurl="file://$PROJECT_DIR$/om-android 3.1.iml" filepath="$PROJECT_DIR$/om-android 3.1.iml" />
       <module fileurl="file://$PROJECT_DIR$/quickblox-chat/quickblox-chat.iml" filepath="$PROJECT_DIR$/quickblox-chat/quickblox-chat.iml" />
       <module fileurl="file://$PROJECT_DIR$/quickblox-content/quickblox-content.iml" filepath="$PROJECT_DIR$/quickblox-content/quickblox-content.iml" />
       <module fileurl="file://$PROJECT_DIR$/quickblox-core/quickblox-core.iml" filepath="$PROJECT_DIR$/quickblox-core/quickblox-core.iml" />
