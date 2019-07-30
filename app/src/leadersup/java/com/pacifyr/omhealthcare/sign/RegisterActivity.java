@@ -1440,7 +1440,11 @@ public class RegisterActivity extends PacifyerActivity {
                 }
             };
             String url= NetworkService.GLOBAL_URL+"register";
-            Ion.with(RegisterActivity.this).load(url).setHeader("enctype", "multipart/form-data").setMultipartParameter("data", json).asJsonObject().setCallback(callback2);
+            Ion.with(RegisterActivity.this)
+                    .load(url)
+                    .setHeader("enctype", "multipart/form-data")
+                    .setMultipartParameter("data", json)
+                    .asJsonObject().setCallback(callback2);
         } catch (Exception e){
             hideProgress();
             e.printStackTrace();
@@ -1510,7 +1514,7 @@ public class RegisterActivity extends PacifyerActivity {
                     hideProgress();
                     if(json == null) {
                         Toast.makeText(RegisterActivity.this, "please try again  ", Toast.LENGTH_SHORT);
-                        LogUtils.LOGD("exception", " profile up web json null ");
+                        LogUtils.LOGD("exception", "profile up web json null");
 
                     } else {
                         saveInformation(json);

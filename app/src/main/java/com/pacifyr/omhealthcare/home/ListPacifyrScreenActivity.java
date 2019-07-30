@@ -590,7 +590,7 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
         try{
 
 
-            setLoading("Searching for Pacifyrs...");
+            setLoading("loading...");
             showProgress();
             String url = GLOBAL_URL + getRoleSearchMap().get(prefM.getCustomerRole());
 
@@ -647,7 +647,6 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
     @Override
     protected void onResume() {
         super.onResume();
-
         try {
 
             trackTimer_check_online = new Timer();

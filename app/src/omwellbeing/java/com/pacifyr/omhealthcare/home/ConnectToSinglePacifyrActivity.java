@@ -470,13 +470,15 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
                         defSetText(pac_rate_ctxv,pacifyer_obj.getPriceWithSign()+" per hour");
 
                     }else {
-                        defSetText(pac_rate_ctxv,"Employer Designated Pacifyr");
+                        //defSetText(pac_rate_ctxv,"Employer Designated Pacifyr");
+                        defSetText(pac_rate_ctxv, "");
                     }
                 }else if(customerRole.equals("customer")){
                     defSetText(pac_rate_ctxv,pacifyer_obj.getPriceWithSign()+" per hour");
                 }
                 else if(customerRole.equals("paidMember")){
-                    defSetText(pac_rate_ctxv,"Employer Designated Pacifyr");
+                    defSetText(pac_rate_ctxv, "");
+                    //defSetText(pac_rate_ctxv,"Employer Designated Pacifyr");
                 }
 
                 videocall_rlay.setOnClickListener(new View.OnClickListener() {
