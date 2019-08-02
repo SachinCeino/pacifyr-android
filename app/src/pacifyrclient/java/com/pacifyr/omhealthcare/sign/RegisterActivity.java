@@ -16,6 +16,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.text.Html;
 import android.text.InputFilter;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -330,30 +331,15 @@ public class RegisterActivity extends PacifyerActivity {
             termsCtxv.append(ic_link);*/
 
             String policyString = getResources().getString(R.string.register_terms_text);
-            SpannableString spannableString = new SpannableString(policyString);
-            //I have read, understand, and agree to be bound by the OMHealth Terms of Use
-            ClickableSpan clickableSpan = new ClickableSpan() {
+            termsCtxv.setText(Html.fromHtml("<u><font color=" + getResources().getColor(R.color.colorPrimary) + ">" + policyString + "</font></u>"));
+            termsCtxv.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View view) {
+                public void onClick(View v) {
                     Intent intent = new Intent(RegisterActivity.this,TermsOfUseActivity.class);
                     intent.putExtra("spurl", Constants.getUrlTerms(getApplicationContext()));
                     startActivity(intent);
                 }
-
-                @Override
-                public void updateDrawState(TextPaint ds) {
-                    super.updateDrawState(ds);
-                    ds.setColor(getResources().getColor(R.color.color_primary));
-                    //ds.setUnderlineText(false);
-                }
-            };
-
-            spannableString.setSpan(clickableSpan,54,79, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            termsCtxv.setText(spannableString);
-            termsCtxv.setMovementMethod(LinkMovementMethod.getInstance());
-
-
-
+            });
 
 
             /*SpannableString ss = new SpannableString("I have read, understand, and agree to be bound by the Pacifyr Terms of Use");
