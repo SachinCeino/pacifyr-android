@@ -7,110 +7,160 @@
     android:paddingRight="16dp"
     android:paddingTop="16dp">
 
-    <TableLayout
-        android:id="@+id/layout_bill_table"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/layout_bill_table">
 
-        <TableRow android:gravity="center">
-
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="2"
+            android:orientation="horizontal"
+            android:padding="5dp"
+            android:layout_gravity="center">
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:fontFamily="@string/CenturyGothic"
-                android:text="Provider" />
+                android:text="Provider"
+                android:layout_gravity="center_horizontal" />
 
             <TextView
                 android:id="@+id/text_provider"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:fontFamily="@string/CenturyGothic"
                 android:text=""
+                android:layout_gravity="center_horizontal"
                 android:textStyle="bold" />
-        </TableRow>
+        </LinearLayout>
 
-        <TableRow
-            android:layout_marginTop="20dp"
-            android:gravity="center">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="2"
+            android:orientation="horizontal"
+            android:padding="5dp"
+            android:layout_gravity="center">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:ems="10"
                 android:fontFamily="@string/CenturyGothic"
-                android:text="Date" />
+                android:text="Date"
+                android:layout_gravity="center_horizontal" />
 
             <TextView
                 android:id="@+id/text_date"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:fontFamily="@string/CenturyGothic"
                 android:text=""
+                android:layout_gravity="center_horizontal"
                 android:textStyle="bold" />
-        </TableRow>
 
-        <TableRow
-            android:layout_marginTop="20dp"
-            android:gravity="center">
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="2"
+            android:orientation="horizontal"
+            android:padding="5dp"
+            android:layout_gravity="center">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:ems="10"
+                android:layout_gravity="center_horizontal"
                 android:fontFamily="@string/CenturyGothic"
-                android:text="Session Start Time" />date
+                android:text="Session Start Time" />
 
             <TextView
                 android:id="@+id/text_start_date"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:fontFamily="@string/CenturyGothic"
                 android:text=""
+                android:layout_gravity="center_horizontal"
                 android:textStyle="bold" />
-        </TableRow>
 
-        <TableRow
-            android:layout_marginTop="20dp"
-            android:gravity="center"
-            android:visibility="gone">
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="2"
+            android:orientation="horizontal"
+            android:padding="5dp"
+            android:layout_gravity="center">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:ems="10"
                 android:fontFamily="@string/CenturyGothic"
                 android:text="Duration" />
 
             <TextView
-                android:id="@+id/text_duration"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:fontFamily="@string/CenturyGothic"
                 android:text=""
-                android:textStyle="bold" />
-        </TableRow>
+                android:textStyle="bold"
+                android:id="@+id/text_duration"
+                android:layout_gravity="center_horizontal" />
+        </LinearLayout>
 
-        <TableRow
-            android:layout_marginTop="20dp"
-            android:gravity="center">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="2"
+            android:orientation="horizontal"
+            android:padding="5dp"
+            android:layout_gravity="center">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:ems="10"
                 android:fontFamily="@string/CenturyGothic"
                 android:text="Amount Charged" />
 
             <TextView
-                android:id="@+id/text_amount_charged"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:fontFamily="@string/CenturyGothic"
                 android:text=""
-                android:textStyle="bold" />
-        </TableRow>
-    </TableLayout>
+                android:textStyle="bold"
+                android:id="@+id/text_amount_charged"
+                android:layout_gravity="center_horizontal" />
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
 
     <View
         android:id="@+id/view_separator"

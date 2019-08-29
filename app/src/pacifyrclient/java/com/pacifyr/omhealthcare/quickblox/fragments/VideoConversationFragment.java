@@ -797,11 +797,11 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
 
     @Override
     public void onPause() {
-        // If camera state is CameraState.ENABLED_FROM_USER or CameraState.NONE
+       /* // If camera state is CameraState.ENABLED_FROM_USER or CameraState.NONE
         // than we turn off cam
         if (cameraState != CameraState.DISABLED_FROM_USER) {
             toggleCamera(false);
-        }
+        }*/
         LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(eventReceiver);
         super.onPause();
     }

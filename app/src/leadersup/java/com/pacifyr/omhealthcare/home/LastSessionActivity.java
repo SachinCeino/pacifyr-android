@@ -588,7 +588,7 @@ public class LastSessionActivity   extends PacifyrAppCompactActivity {
                     if(isValid( mSessionDetailRoot.getPacifyr())) {
                         String pacName = mSessionDetailRoot.getPacifyr().getFirstName() + " " + mSessionDetailRoot.getPacifyr().getLastName();
                         pacifyrNameCtxv.setText(pacName);
-                        pacifyrRateCtxv.setText("$ " + mSessionDetailRoot.getPacifyr().getPrice() + " per hour");
+                        pacifyrRateCtxv.setText(Utility.getPriceSign(LastSessionActivity.this) + mSessionDetailRoot.getPacifyr().getPrice() + " per hour");
                         String  imagePac = mSessionDetailRoot.getPacifyr().getImageUrl();
                         if (isValid(imagePac))
                             Picasso.with(LastSessionActivity.this).load(imagePac).placeholder(R.drawable.placeholder_user).into(pacifyrImgCimv);
