@@ -100,7 +100,7 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
     private CustomFontTextView sessionCostCtxv;
     private CustomFontTextView before_emotion_ctxv, after_emotion_ctxv;
     private int oldRating;
-
+    private ImageView callTypeDimv;
     public MSessionDetailRoot mSessionDetailRoot;
     public SeekBarCompat effective_seekbar;
     public ScaleRatingBar rating_bar;
@@ -313,7 +313,7 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
             onSetActionBar();
             circleProgressView = (CircleProgressView) findViewById(R.id.circle_progress_view);
             pacifyrImgCimv = (CircleImageView) findViewById(R.id.last_session_cimv);
-
+            callTypeDimv = findViewById(R.id.call_type_dimv);
             img_blue_bg = (CircleImageView) findViewById(R.id.img_blue_bg);
             img_blue_bg_after = (CircleImageView) findViewById(R.id.img_blue_bg_after);
         /*    rating_llay = (LinearLayout) findViewById(R.id.rating_llay);
@@ -580,7 +580,7 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
             LogUtils.LOGD("session", " SSA onSetValues ");
             if (isValid(mSessionDetailRoot)) {
                 oldRating = 0;
-
+                String callType = mSessionDetailRoot.getSessionType();
                 durationCtxv.setText(mSessionDetailRoot.getDuration());
                 if (isValid(mSessionDetailRoot.getEndTime()))
                     durationCtxv.setText(mSessionDetailRoot.getDuration() + " " + mSessionDetailRoot.getStartFormatDate(mSessionDetailRoot.getEndTime()));
@@ -607,7 +607,9 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
                             Picasso.with(LastSessionActivity.this).load(imagePac).placeholder(R.drawable.placeholder_user).into(pacifyrImgCimv);
                     }
                 }
-
+                if (callType.equals("video")) {
+                    callTypeDimv.setImageResource(R.drawable.ic_videocam);
+                }
 
                 if (isValid(mSessionDetailRoot.getSessionRatingList())) {
 

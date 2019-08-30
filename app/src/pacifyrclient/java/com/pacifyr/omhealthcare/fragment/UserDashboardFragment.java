@@ -63,7 +63,9 @@ import static com.ceino.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
 import static com.pacifyr.omhealthcare.R.id.last_session_rlay;
 import static com.pacifyr.omhealthcare.base.PacifyerActivity.call_emotion;
 import static com.pacifyr.omhealthcare.network.NetworkService.lastSession;
+import static com.pacifyr.omhealthcare.network.NetworkService.modelAllEmotions;
 import static com.pacifyr.omhealthcare.network.NetworkService.modelCustomerDashboard2;
+import static com.pacifyr.omhealthcare.network.NetworkService.webListEmotions;
 
 public class UserDashboardFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
 
@@ -201,7 +203,11 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
             @Override
             public void onClick(View v) {
                 try {
-                    MySessionsActivity.start(getActivity());
+                    if (isValid(modelAllEmotions))
+                        MySessionsActivity.start(getActivity());
+                    else
+                        callAllEmotions();
+
 
                    /* getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.activity_main_content_fragment, new MySessionFragment()).commit();
                     //showFragment(new PacifyrSessionsFragment());
@@ -271,6 +277,28 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
 
         //NetworkService.webListEmotions(getActivity());
         return view;
+    }
+
+    private void callAllEmotions() {
+        PrefManager prefM = PrefManager.getInstance(getActivity());
+        String token = prefM.getAccessToken();
+        String userid = prefM.getUserID();
+        String url = GLOBAL_URL + "emotions/ordered";
+        AjaxCallback cb = new AjaxCallback<JSONObject>() {
+            @Override
+            public void callback(String url, JSONObject json, AjaxStatus status) {
+                try {
+                    modelAllEmotions = GsonUtils.getInstance().gsonToMListAllEmotionsI(json);
+                    MySessionsActivity.start(getActivity());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        AQuery aq = new AQuery(getActivity());
+        cb.header("Content-Type", "application/json");
+        cb.header("AccessToken", token);
+        aq.ajax(url, JSONObject.class, cb);
     }
 
     @Override

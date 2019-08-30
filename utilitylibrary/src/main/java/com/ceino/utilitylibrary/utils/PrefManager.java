@@ -35,7 +35,6 @@ public class PrefManager {
 
 
 
-
     public static final String LOGIN_PREFERENCES = "Login";
     public static final String USERID = "Userid";
     public static final String PACIFYR_ID ="PacifyrID";

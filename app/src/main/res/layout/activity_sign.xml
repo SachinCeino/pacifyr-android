@@ -110,7 +110,7 @@
                 android:visibility="visible"
                 app:fontName="@string/avanti_std_bk"
                 android:text="@string/if_emergency2"
-                android:textColor="@color/white"
+                android:textColor="@color/_color_connect_to_wellness"
                 android:textSize="14sp" />
 
 

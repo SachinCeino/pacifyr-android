@@ -102,8 +102,8 @@ Yor call is routed to the nearest crisis center.</string>
 
 
     <string name="user_type_error">You are a Wellness Expert. Please login using Provider app</string>
-    <string name="audio_call">OMHealth Care AUDIOCALL</string>
-    <string name="video_call">OMHealth Care VIDEOCALL</string>
+    <string name="audio_call">OMHEALTH CARE AUDIOCALL</string>
+    <string name="video_call">OMHEALTH CARE VIDEOCALL</string>
     <string name="no_prefered_pacifyr">You have no preferred Wellness Experts.</string>
     <string name="reviews">Reviews</string>
     <string name="no_sessions_yet">No sessions yet, Connect to Wellness Experts.</string>

@@ -120,7 +120,7 @@
     <string name="hours">HOURS</string>
     <string name="minutes">MINUTES</string>
     <string name="hrs">hrs</string>
-    <string name="mns">mns</string>
+    <string name="mns">mins</string>
     <string name="Session_Summary">Session Summary</string>
     <string name="session_summary">SESSION SUMMARY</string>
     <string name="available_min">AVAILABLE MIN</string>

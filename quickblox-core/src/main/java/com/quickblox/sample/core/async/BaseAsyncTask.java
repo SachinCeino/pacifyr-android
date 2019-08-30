@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
+@SuppressWarnings("deprecation")
 public abstract class BaseAsyncTask<Params, Progress, Result> extends AsyncTask<Params, Progress, Result> {
     private static final String TAG = BaseAsyncTask.class.getSimpleName();
 

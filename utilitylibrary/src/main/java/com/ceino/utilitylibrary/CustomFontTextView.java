@@ -302,6 +302,7 @@ public class CustomFontTextView extends TextView {
         public int onTestSize(int suggestedSize, RectF availableSpace);
     }
 
+
     //AvenirLTStd-Black.otf
     //AvenirLTStd-Book.otf
     //AvenirLTStd-Medium.otf

@@ -633,7 +633,13 @@ public class AccountEditActivity extends PacifyrAppCompactActivity {
 
 
                     };
-                    Ion.with(AccountEditActivity.this).load(url).setHeader("AccessToken",getAccessToken()).setHeader("enctype", "multipart/form-data").setMultipartParameter("data", json).asJsonObject().setCallback(futureCallback);
+            Ion.with(AccountEditActivity.this)
+                    .load(url)
+                    .setHeader("AccessToken", getAccessToken())
+                    .setHeader("enctype", "multipart/form-data")
+                    .setMultipartParameter("data", json)
+                    .asJsonObject()
+                    .setCallback(futureCallback);
         }
         catch (Exception ex)
         {

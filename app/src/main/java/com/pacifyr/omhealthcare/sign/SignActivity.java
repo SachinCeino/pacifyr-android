@@ -2,6 +2,7 @@ package com.pacifyr.omhealthcare.sign;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextPaint;
@@ -41,34 +42,14 @@ public class SignActivity extends PacifyerActivity {
 
         String crisisString = getResources().getString(R.string.if_emergency2);
         //If in emergency call 911 or rush to an emergency room. Crisis Info
-        SpannableString spannableString = new SpannableString(crisisString);
-
-        ClickableSpan clickableSpan = new ClickableSpan() {
-            @Override
-            public void onClick(View view) {
-               Intent intent = new Intent(SignActivity.this,CrisisActivity.class);
-               startActivity(intent);
-            }
-
-            @Override
-            public void updateDrawState(TextPaint ds) {
-                super.updateDrawState(ds);
-                ds.setColor(getResources().getColor(R.color.om_blue));
-                //ds.setUnderlineText(false);
-            }
-        };
-
-        spannableString.setSpan(clickableSpan,74,85, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        emergencyCtxv.setText(spannableString);
-        emergencyCtxv.setMovementMethod(LinkMovementMethod.getInstance());
-
-        /*pacifyrRequestTxv = (CustomFontTextView) findViewById(R.id.pacifyr_request_txv);
-        pacifyrRequestTxv.setOnClickListener(new View.OnClickListener() {
+        emergencyCtxv.setText(Html.fromHtml("<u><font color=" + getResources().getColor(R.color.om_blue) + ">" + crisisString + "</font></u>"));
+        emergencyCtxv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(SignActivity.this,PacifyrRequestAccessActivity.class));
+                Intent intent = new Intent(SignActivity.this, CrisisActivity.class);
+                startActivity(intent);
             }
-        });*/
+        });
         fbLogout();
 
     }

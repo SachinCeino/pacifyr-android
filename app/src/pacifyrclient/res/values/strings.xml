@@ -128,8 +128,8 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="avenir_medium">CenturyGothic.ttf</string>
     <string name="CenturyGothic">CenturyGothic.ttf</string>
 
-    <string name="audio_call">Pacifyr AUDIOCALL</string>
-    <string name="video_call">Pacifyr VIDEOCALL</string>
+    <string name="audio_call">PACIFYR AUDIOCALL</string>
+    <string name="video_call">PACIFYR VIDEOCALL</string>
     <string name="pref_wellness_experts">Preferred Wellness Experts</string>
     <string name="This_Week">This Week</string>
 
