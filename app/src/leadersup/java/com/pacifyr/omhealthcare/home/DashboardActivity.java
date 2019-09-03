@@ -256,7 +256,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
             public void onClick(View v) {
                 showRightLayActionbar();
                 showFragment(new AccountFragment());
-                defSetText(titleTxv,"profile");
+                defSetText(titleTxv,"PROFILE");
             }
         });
         connectToPacifyr.setOnClickListener(new View.OnClickListener() {
@@ -275,7 +275,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
             public void onClick(View v) {
                 hideRightLayActionbar();
                 showFragment(new WelcomeTourFragment());
-                defSetText(titleTxv,"tutorial");
+                defSetText(titleTxv,"TUTORIAL");
             }
         });
         browsePacifyr.setOnClickListener(new View.OnClickListener() {

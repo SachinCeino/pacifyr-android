@@ -451,7 +451,7 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
     @Override
     protected void onRestart() {
         super.onRestart();
-        FirstScreenLayout.setVisibility(View.VISIBLE);
+        /*FirstScreenLayout.setVisibility(View.VISIBLE);
         second_screen_layout.setVisibility(View.GONE);
         third_Screen_layout.setVisibility(View.GONE);
         listPacifyrRlay.setVisibility(View.GONE);
@@ -463,7 +463,7 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
         button3.setClickable(false);
         button4.setClickable(false);
         happyDimv.clearColorFilter();
-        sadDimv.clearColorFilter();
+        sadDimv.clearColorFilter();*/
     }
 
 
@@ -757,7 +757,7 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
         titleTxv.setVisibility(View.VISIBLE);
         leftLlay.setVisibility(View.VISIBLE);
         /*defSetText(titleTxv,"Connect to "+pacifyrName);*/
-        defSetText(titleTxv,"connect");
+        defSetText(titleTxv,"CONNECT");
         Typeface type = Typeface.createFromAsset(getAssets(), "fonts/ActionBarCommonFont.otf");
         titleTxv.setTypeface(type);
 

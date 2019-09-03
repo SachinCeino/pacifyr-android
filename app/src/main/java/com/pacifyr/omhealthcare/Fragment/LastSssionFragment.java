@@ -269,7 +269,7 @@ public class LastSssionFragment extends BaseFragment {
                         FragmentTransaction ft=fm.beginTransaction();
                         UserDashboardFragment fragment=new UserDashboardFragment();
                         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.activity_main_content_fragment,fragment).commit();
-                        postEventOnMainThread(new ActionbarEvent("My Dashboard"));
+                        postEventOnMainThread(new ActionbarEvent("MY DASHBOARD"));
                         //defSetText(titleTxv,"Dashboard");
                        } catch (Exception e) {
                         e.printStackTrace();//RespSearchPacifyrWOption
