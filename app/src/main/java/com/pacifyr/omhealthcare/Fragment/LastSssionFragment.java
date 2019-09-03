@@ -150,11 +150,11 @@ public class LastSssionFragment extends BaseFragment {
         ScaleRatingBar ratingBar = (ScaleRatingBar) view.findViewById(R.id.simpleRatingBar5);
         ratingBar.setNumStars(5);
         ratingBar.setStarPadding(10);
-        ratingBar.setTouchable(true);
+        ratingBar.setClickable(true);
         ratingBar.setClearRatingEnabled(true);
         ratingBar.setOnRatingChangeListener(new BaseRatingBar.OnRatingChangeListener() {
             @Override
-            public void onRatingChange(BaseRatingBar baseRatingBar, float v) {
+            public void onRatingChange(BaseRatingBar baseRatingBar, float v, boolean fromUser) {
                 //Log.e(TAG, "onRatingChange: " + rating);
                 changedRating= (int) baseRatingBar.getRating();
             }

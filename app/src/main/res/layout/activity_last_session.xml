@@ -369,9 +369,9 @@
                                 android:layout_marginTop="8dp"
                                 android:layout_below="@+id/rating_ctxv"
                                 android:layout_height="wrap_content"
-                                rb:numStars="5"
-                                rb:starPadding="10"
-                                rb:touchable="true">
+                                app:srb_numStars="5"
+                                app:srb_starPadding="10dp"
+                                app:srb_clickable="true">
                             </com.willy.ratingbar.ScaleRatingBar>
 
 
