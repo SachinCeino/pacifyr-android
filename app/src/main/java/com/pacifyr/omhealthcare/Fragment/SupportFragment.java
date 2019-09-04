@@ -112,7 +112,7 @@ public class SupportFragment extends BaseFragment {
                                         PacifyrDashboardFragment fragment = new PacifyrDashboardFragment();
                                         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.pacifyr_content_fragment, fragment).commit();
                                     }
-                                    postEventOnMainThread(new ActionbarEvent("My Dashboard"));
+                                    postEventOnMainThread(new ActionbarEvent("MY DASHBOARD"));
                                 }
                             }, 2000);
 

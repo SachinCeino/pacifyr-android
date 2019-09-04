@@ -393,11 +393,11 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
             rating_bar.setNumStars(5);
             rating = 5;
             rating_bar.setStarPadding(10);
-            rating_bar.setTouchable(true);
+            rating_bar.setClickable(true);
             rating_bar.setClearRatingEnabled(true);
             rating_bar.setOnRatingChangeListener(new BaseRatingBar.OnRatingChangeListener() {
                 @Override
-                public void onRatingChange(BaseRatingBar baseRatingBar, float v) {
+                public void onRatingChange(BaseRatingBar baseRatingBar, float v, boolean fromUser) {
                     //Log.e(TAG, "onRatingChange: " + rating);
                     rating = (int) baseRatingBar.getRating();
                 }

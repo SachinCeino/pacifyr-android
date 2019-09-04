@@ -48,7 +48,7 @@ public class PolicyDocumentActivity extends PacifyrAppCompactActivity {
             public void onClick(View v) {
                 Intent i=new Intent(PolicyDocumentActivity.this,TermsOfUseActivity.class);
                 i.putExtra("spurl", Constants.getUrlTerms(getApplicationContext()));
-                i.putExtra("title","policy documents");
+                i.putExtra("title", "POLICY DOCUMENTS");
                 startActivity(i);
 
             }
@@ -59,7 +59,7 @@ public class PolicyDocumentActivity extends PacifyrAppCompactActivity {
             public void onClick(View v) {
                 Intent i=new Intent(PolicyDocumentActivity.this,TermsOfUseActivity.class);
                 i.putExtra("spurl", Constants.getUrlPrivacyPolicy(getApplicationContext()));
-                i.putExtra("title","policy documents");
+                i.putExtra("title", "POLICY DOCUMENTS");
                 startActivity(i);
             }
         });
@@ -69,7 +69,7 @@ public class PolicyDocumentActivity extends PacifyrAppCompactActivity {
             public void onClick(View v) {
                 Intent i=new Intent(PolicyDocumentActivity.this,TermsOfUseActivity.class);
                 i.putExtra("spurl", Constants.getUrlDisputePolicy(getApplicationContext()));
-                i.putExtra("title","policy documents");
+                i.putExtra("title", "POLICY DOCUMENTS");
                 startActivity(i);
             }
         });
@@ -130,7 +130,7 @@ public class PolicyDocumentActivity extends PacifyrAppCompactActivity {
             backImv.setVisibility(View.VISIBLE);
             titleTxv.setVisibility(View.VISIBLE);
             leftLlay.setVisibility(View.VISIBLE);
-            defSetText(titleTxv,getResources().getString(R.string.policy_documents));
+            defSetText(titleTxv, getResources().getString(R.string.Policy_Documents));
             Typeface type = Typeface.createFromAsset(getAssets(),getResources().getString(R.string.avantica_bold_header));
             titleTxv.setTypeface(type);
             backImv.setImageDrawable(getResources().getDrawable(R.drawable.backarrow));

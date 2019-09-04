@@ -252,9 +252,9 @@
                 android:gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                rb:numStars="5"
-                rb:starPadding="15"
-                rb:touchable="true">
+                app:srb_numStars="5"
+                app:srb_starPadding="10dp"
+                app:srb_clickable="true">
             </com.willy.ratingbar.ScaleRatingBar>
 
 

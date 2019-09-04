@@ -178,7 +178,7 @@
                             android:textColor="@color/grey_dark_text"
                             android:layout_height="wrap_content"
                             android:textSize="17sp"
-                            android:text="@string/hrs"/>
+                            android:text="HRS" />
 
                     </LinearLayout>
 
@@ -205,7 +205,7 @@
                             android:layout_height="wrap_content"
                             android:textSize="17sp"
                             android:textColor="@color/grey_dark_text"
-                            android:text="@string/mns"/>
+                            android:text="MINS" />
 
                     </LinearLayout>
 
@@ -236,7 +236,7 @@
                         android:layout_height="wrap_content"
                         android:textSize="17sp"
                         android:textColor="@color/grey_dark_text"
-                        android:text="@string/paid"/>
+                        android:text="PAID" />
 
 
                 </LinearLayout>

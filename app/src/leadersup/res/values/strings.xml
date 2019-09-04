@@ -109,8 +109,8 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="no_sessions_yet">No sessions yet, Connect to Wellness Experts.</string>
 
 
-    <string name="mydashboard">My Dashboard</string>
-    <string name="mysessions">my sessions</string>
+    <string name="mydashboard">MY DASHBOARD</string>
+    <string name="mysessions">MY SESSIONS</string>
     <string name="confirmation">confirmation</string>
     <string name="avantica_bold_header">fonts/ActionBarCommonFont.otf</string>
 
@@ -126,7 +126,7 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="no_wellness_experts_category">No Wellness Experts for the selected category.</string>
     <string name="please_try_again">Please try again</string>
     <string name="success">success</string>
-    <string name="contact_us">contact us</string>
+    <string name="contact_us">SUPPORT</string>
     <string name="title_activity_android_dashoard">my dash board</string>
     <string name="no_messages">There are no messages.</string>
     <string name="register">REGISTER</string>
