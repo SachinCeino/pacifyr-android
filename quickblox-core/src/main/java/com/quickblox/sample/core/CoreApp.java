@@ -22,8 +22,8 @@ public class CoreApp extends MultiDexApplication {
         super.onCreate();
         FirebaseApp.initializeApp(this);
         instance = this;
-        initQbConfigs();
-        initCredentials();
+        /*initQbConfigs();
+        initCredentials();*/
     }
 
     private void initQbConfigs() {

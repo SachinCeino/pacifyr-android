@@ -10,11 +10,17 @@ import com.pacifyr.omhealthcare.quickblox.chat.utils.Consts;
 import com.pacifyr.omhealthcare.quickblox.chat.utils.configs.ConfigUtils;
 import com.pacifyr.omhealthcare.quickblox.services.CallService;
 import com.pacifyr.omhealthcare.quickblox.util.QBResRequestExecutor;
+import com.quickblox.auth.session.QBSettings;
 import com.quickblox.sample.core.CoreApp;
 import com.quickblox.sample.core.utils.ActivityLifecycle;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
+
+import static com.ceino.utilitylibrary.network.UtilityNetworkService.ACCOUNT_KEY;
+import static com.ceino.utilitylibrary.network.UtilityNetworkService.APP_ID;
+import static com.ceino.utilitylibrary.network.UtilityNetworkService.AUTH_KEY;
+import static com.ceino.utilitylibrary.network.UtilityNetworkService.AUTH_SECRET;
 
 public class App extends CoreApp {
     private static App instance;
@@ -35,7 +41,9 @@ public class App extends CoreApp {
         initApplication();
             /*chat*/
         ActivityLifecycle.init(this);
-        initSampleConfigs();
+//        initSampleConfigs();
+        QBSettings.getInstance().init(this, APP_ID, AUTH_KEY, AUTH_SECRET);
+        QBSettings.getInstance().setAccountKey(ACCOUNT_KEY);
         try {
             Intent intent = new Intent(this, CallService.class);
             startService(intent);
