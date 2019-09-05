@@ -11,6 +11,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -263,9 +264,24 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
             }
         });
         /* }*/
-
+        comments_cedt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showKeyboard();
+            }
+        });
     }
 
+
+    public void showKeyboard() {
+        comments_cedt.setFocusable(true);
+        comments_cedt.setFocusableInTouchMode(true);
+        comments_cedt.requestFocus();
+        InputMethodManager imm = (InputMethodManager) getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm != null) {
+            imm.showSoftInput(comments_cedt, InputMethodManager.SHOW_FORCED);
+        }
+    }
     @Override
     protected void onResume() {
         super.onResume();

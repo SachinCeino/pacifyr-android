@@ -539,7 +539,8 @@
                                 android:inputType="textMultiLine"
                                 android:textSize="@dimen/sp17"
                                 android:hint="@string/comments"
-
+                                android:focusedByDefault="false"
+                                android:defaultFocusHighlightEnabled="false"
                                 android:textColorHint="@color/medium_grey_pacifyr"
                                 android:layout_height="wrap_content" />
 

@@ -235,8 +235,24 @@ public class SessionSummaryActivity  extends PacifyrAppCompactActivity{
             handlerFinish("Network Interrupted");
         //  finish();
 
+        comments_cedt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showKeyboard();
+            }
+        });
     }
 
+
+    public void showKeyboard(){
+        comments_cedt.setFocusable(true);
+        comments_cedt.setFocusableInTouchMode(true);
+        comments_cedt.requestFocus();
+        InputMethodManager imm = (InputMethodManager) getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm != null) {
+            imm.showSoftInput(comments_cedt, InputMethodManager.SHOW_FORCED);
+        }
+    }
     @Override
     protected void onDestroy() {
         super.onDestroy();

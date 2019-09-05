@@ -547,6 +547,8 @@
                                 android:layout_width="match_parent"
                                 android:inputType="text"
                                 android:visibility="gone"
+                                android:focusedByDefault="false"
+                                android:defaultFocusHighlightEnabled="false"
                                 android:textSize="@dimen/sp17"
                                 android:hint="@string/comments"
                                 android:textColorHint="@color/medium_grey_pacifyr"
