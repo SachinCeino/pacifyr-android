@@ -129,6 +129,7 @@ public class ChatActivity extends PacifyrAppCompactActivity implements OnImagePi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.quickblox_activit_chat);
 
+        showNotificationPopups(false);
         myUserId = PrefManager.getInstance(this).getUserID();
 
         LogUtils.LOGD("jp", "ChatActivity onCreate");
@@ -527,7 +528,7 @@ public class ChatActivity extends PacifyrAppCompactActivity implements OnImagePi
                 }
                 catch (Exception e)
                 {
-                    Log.w("QQQQ",String.valueOf(e)+"Position"+String.valueOf(i));
+                    Log.w("QQQQ", e + "Position" + i);
                 }
             }
         }

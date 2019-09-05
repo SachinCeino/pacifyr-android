@@ -1,6 +1,5 @@
 package com.pacifyr.omhealthcare.base;
 
-import android.Manifest;
 import android.app.Activity;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
@@ -9,7 +8,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -25,8 +23,6 @@ import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -69,7 +65,6 @@ import com.pacifyr.omhealthcare.adapter.EmotionSpecialityAdapter;
 import com.pacifyr.omhealthcare.event.BusProvider;
 import com.pacifyr.omhealthcare.event.CallEvent;
 import com.pacifyr.omhealthcare.event.NotifyEvent;
-import com.pacifyr.omhealthcare.fragment.UserDashboardFragment;
 import com.pacifyr.omhealthcare.home.PaymentActivity;
 import com.pacifyr.omhealthcare.home.SessionSummaryActivity;
 import com.pacifyr.omhealthcare.model.BillingSummary;
@@ -136,7 +131,6 @@ import java.util.TimerTask;
 import static com.ceino.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
 import static com.ceino.utilitylibrary.network.UtilityNetworkService.STRIPE_PUBLISH_KEY;
 import static com.pacifyr.omhealthcare.utils.Constants.getCountryChecks;
-import static com.quickblox.sample.core.utils.ResourceUtils.getString;
 
 /**
  * Created by Mani-Ceino on 12/4/2017.
@@ -199,12 +193,13 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
         }
     };
 
+    private boolean showNotification = true;
     private BroadcastReceiver notificationReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent != null && intent.hasExtra("message")) {
                 String message = intent.getExtras().getString("message");
-                if (message != null && message != "") {
+                if (message != null && message != "" && showNotification) {
                     showIOSDialogOKCancel("Message", message, "View", new iOSDialogClickListener() {
                         @Override
                         public void onClick(iOSDialog dialog) {
@@ -217,6 +212,10 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
             }
         }
     };
+
+    public void showNotificationPopups(boolean val) {
+        this.showNotification = val;
+    }
 
 
     private BroadcastReceiver waringToAddPayTmPaymentReceiver = new BroadcastReceiver() {
@@ -3106,12 +3105,12 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
             }
 
             public void clientAuthenticationFailed(String inErrorMessage) {
-                Toast.makeText(getApplicationContext(), "" + inErrorMessage.toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "" + inErrorMessage, Toast.LENGTH_SHORT).show();
 
             }
 
             public void onErrorLoadingWebPage(int iniErrorCode, String inErrorMessage, String inFailingUrl) {
-                Toast.makeText(getApplicationContext(), "" + inErrorMessage.toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "" + inErrorMessage, Toast.LENGTH_SHORT).show();
 
             }
 
@@ -3121,7 +3120,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
             }
 
             public void onTransactionCancel(String inErrorMessage, Bundle inResponse) {
-                Toast.makeText(getApplicationContext(), "" + inErrorMessage.toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "" + inErrorMessage, Toast.LENGTH_SHORT).show();
 
             }
         });
