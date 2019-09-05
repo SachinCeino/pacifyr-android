@@ -676,6 +676,14 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
                             if (isValid(cmt_edt)) {
                                 comments_cedt.setText(cmt_edt);
                                 comments_cedt.setVisibility(View.VISIBLE);
+
+                                exist_cmt_list.get(4).isSelected = true;
+                                exist_cmt_list.get(0).isSelected = false;
+                                exist_cmt_list.get(1).isSelected = false;
+                                exist_cmt_list.get(2).isSelected = false;
+                                exist_cmt_list.get(3).isSelected = false;
+                                commentsRcv.scrollToPosition(4);
+                                commentsRcv.getLayoutManager().scrollToPosition(4);
                             }
                         }
 

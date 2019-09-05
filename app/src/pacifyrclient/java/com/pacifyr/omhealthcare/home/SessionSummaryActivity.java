@@ -200,7 +200,7 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
         LogUtils.LOGD("session", " SSA onCreate sessionid " + sessionid);
         setContentView(R.layout.activity_session_summary);
 
-        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN |
+        /*this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN |
                         WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
                         WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
                         WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON,
@@ -208,7 +208,7 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
                         WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
                         WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
                         WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
-
+*/
 
         img_notes = findViewById(R.id.img_notes);
         img_notes.setVisibility(View.GONE);

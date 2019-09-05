@@ -29,15 +29,10 @@
         <RelativeLayout android:layout_below="@+id/action_bar"
             android:orientation="vertical" android:layout_width="match_parent"
             android:background="@color/white"
-            android:layout_height="match_parent">
-            <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                xmlns:rb="http://schemas.android.com/apk/res-auto"
-                android:layout_height="match_parent"
-                xmlns:circleview="http://schemas.android.com/apk/res-auto"
-                >
+            xmlns:rb="http://schemas.android.com/apk/res-auto"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/submit_ctxv"
+            xmlns:circleview="http://schemas.android.com/apk/res-auto">
 
                 <android.support.v4.widget.NestedScrollView
                     android:layout_width="match_parent"
@@ -552,27 +547,27 @@
                         </RelativeLayout>
 
 
-                        <com.ceino.utilitylibrary.CustomFontTextView
-                            android:layout_width="match_parent"
-                            android:layout_marginLeft="5dp"
-                            android:layout_marginRight="5dp"
-                            android:layout_marginBottom="5dp"
-                            android:layout_marginTop="20dp"
-                            android:id="@+id/submit_ctxv"
-                            android:padding="10dp"
-                            android:gravity="center_horizontal"
-                            android:background="@drawable/blue_border_lightblue"
-                            android:layout_height="wrap_content"
-                            android:layout_centerHorizontal="true"
-                            android:text="Submit"
-                            android:textColor="@color/white"
-                            android:textSize="20sp"/>
-
                     </LinearLayout>
                 </android.support.v4.widget.NestedScrollView>
 
 
-            </FrameLayout>
         </RelativeLayout>
+
+        <com.ceino.utilitylibrary.CustomFontTextView
+            android:layout_width="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="20dp"
+            android:id="@+id/submit_ctxv"
+            android:padding="10dp"
+            android:layout_alignParentBottom="true"
+            android:gravity="center_horizontal"
+            android:background="@drawable/blue_border_lightblue"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="Submit"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>

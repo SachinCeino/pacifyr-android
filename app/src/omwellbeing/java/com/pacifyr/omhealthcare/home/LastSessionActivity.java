@@ -668,21 +668,27 @@ public class LastSessionActivity   extends PacifyrAppCompactActivity {
                                 switch (cmtlist.get(j)) {
                                     case "Excellent call":
                                         exist_cmt_list.get(0).isSelected = true;
+                                        comments_cedt.setVisibility(View.INVISIBLE);
                                         break;
                                     case "Good quality ":
                                         exist_cmt_list.get(1).isSelected = true;
+                                        comments_cedt.setVisibility(View.INVISIBLE);
                                         break;
                                     case "good quality ":
                                         exist_cmt_list.get(1).isSelected = true;
+                                        comments_cedt.setVisibility(View.INVISIBLE);
                                         break;
                                     case "Audio issues":
                                         exist_cmt_list.get(2).isSelected = true;
+                                        comments_cedt.setVisibility(View.INVISIBLE);
                                         break;
                                     case "Video issues":
                                         exist_cmt_list.get(3).isSelected = true;
+                                        comments_cedt.setVisibility(View.INVISIBLE);
                                         break;
                                     case "Other":
                                         exist_cmt_list.get(4).isSelected = true;
+                                        comments_cedt.setVisibility(View.VISIBLE);
                                         break;
                                     default:
                                         exist_cmt_list.get(4).isSelected = true;
@@ -693,6 +699,14 @@ public class LastSessionActivity   extends PacifyrAppCompactActivity {
                             if (isValid(cmt_edt)) {
                                 comments_cedt.setText(cmt_edt);
                                 comments_cedt.setVisibility(View.VISIBLE);
+
+                                exist_cmt_list.get(4).isSelected = true;
+                                exist_cmt_list.get(0).isSelected = false;
+                                exist_cmt_list.get(1).isSelected = false;
+                                exist_cmt_list.get(2).isSelected = false;
+                                exist_cmt_list.get(3).isSelected = false;
+                                commentsRcv.scrollToPosition(4);
+                                commentsRcv.getLayoutManager().scrollToPosition(4);
                             }
                         }
 

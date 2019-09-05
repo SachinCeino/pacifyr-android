@@ -784,7 +784,7 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
-        selectFeelingRlay.setVisibility(View.VISIBLE);
+       /* selectFeelingRlay.setVisibility(View.VISIBLE);
         selectEmotionRlay.setVisibility(View.GONE);
         selectEmotionDetailRlay.setVisibility(View.GONE);
         listPacifyrRlay.setVisibility(View.GONE);
@@ -796,7 +796,7 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
         button3.setClickable(false);
         button4.setClickable(false);
         happyDimv.clearColorFilter();
-        sadDimv.clearColorFilter();
+        sadDimv.clearColorFilter();*/
     }
 
 

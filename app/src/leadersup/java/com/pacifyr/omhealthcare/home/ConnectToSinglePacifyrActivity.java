@@ -815,7 +815,7 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
-        FirstScreenLayout.setVisibility(View.VISIBLE);
+        /*FirstScreenLayout.setVisibility(View.VISIBLE);
         second_screen_layout.setVisibility(View.GONE);
         third_Screen_layout.setVisibility(View.GONE);
         listPacifyrRlay.setVisibility(View.GONE);
@@ -827,7 +827,7 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
         button3.setClickable(false);
         button4.setClickable(false);
         happyDimv.clearColorFilter();
-        sadDimv.clearColorFilter();
+        sadDimv.clearColorFilter();*/
     }
 
 
