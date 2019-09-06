@@ -293,7 +293,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/sp20"
                 android:id="@+id/emotion_detail_rcv"
-                android:scrollbars="vertical">
+                android:scrollbars="vertical"
+                android:fadeScrollbars="false">
 
             </android.support.v7.widget.RecyclerView>
 
