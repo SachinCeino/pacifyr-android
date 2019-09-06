@@ -35,6 +35,7 @@ import java.util.HashMap;
 
 import static com.pacifyr.omhealthcare.home.ConnectToPacifyrActivity.customerEmotion;
 import static com.pacifyr.omhealthcare.network.NetworkService.GLOBAL_URL;
+import static com.pacifyr.omhealthcare.network.NetworkService.webListPositiveEmotions;
 
 /**
  * Created by ceino on 19/12/17.
@@ -80,6 +81,7 @@ public class EmotionSpecialityAdapter extends RecyclerView.Adapter<EmotionSpecia
     public EmotionSpecialityAdapter(Context context,Activity activity, ArrayList<ModelSpecialityByEmotion.Results> mListEmotions) {
         this.context=context;
         list=mListEmotions;
+
         this.activity=activity;
         prefM = PrefManager.getInstance(context);
         userID = prefM.getUserID();
@@ -88,6 +90,23 @@ public class EmotionSpecialityAdapter extends RecyclerView.Adapter<EmotionSpecia
         companyID = prefM.getCompanyId();
         reason_forcall=null;
         userRole =prefM.getCustomerRole();
+        ModelSpecialityByEmotion.Results mTempObject = null;
+        for (int i = 0; i < list.size(); i++) {
+            ModelSpecialityByEmotion.Results object = list.get(i);
+
+            if (isValid(object)) {
+                if (object.getTitle().equalsIgnoreCase("Others")) {
+                    mTempObject = object;
+                    list.remove(object);
+                }
+            }
+
+        }
+        if (isValid(mTempObject)) {
+            list.add(mTempObject);
+            notifyDataSetChanged();
+            mTempObject = null;
+        }
     }
 
     @Override

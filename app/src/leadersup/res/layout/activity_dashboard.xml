@@ -19,7 +19,7 @@
         <LinearLayout
             android:id="@+id/left_pane"
             android:background="@android:color/white"
-            android:layout_width="wrap_content"
+            android:layout_width="250dp"
             android:layout_height="match_parent"
             android:orientation="vertical">
         <ScrollView
@@ -83,7 +83,7 @@
                 android:background="@color/grey"/>
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/dashboard_llay"
                 android:padding="20dp"
@@ -117,7 +117,7 @@
                 android:background="@color/grey"/>
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/message_llay"
                 android:padding="20dp"
@@ -151,7 +151,7 @@
                 android:layout_height="1dp"
                 android:background="@color/grey"/>
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/mysessions_llay"
                 android:padding="20dp"
@@ -184,7 +184,7 @@
 
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/browse_llay"
                 android:padding="10dp"
@@ -218,7 +218,7 @@
 
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/payment_llay"
                 android:padding="10dp"
@@ -261,7 +261,7 @@
                 android:layout_height="1dp"
                 android:background="@color/grey"/>
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/connect_pacifyr_llay"
                 android:padding="20dp"
@@ -294,7 +294,7 @@
                 android:layout_height="1dp"
                 android:background="@color/grey"/>
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/support_llay"
                 android:padding="20dp"
@@ -331,7 +331,7 @@
 
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/crisis_llay"
                 android:padding="10dp"
@@ -367,7 +367,7 @@
 
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/tutotial_llay"
                 android:padding="10dp"
@@ -402,7 +402,7 @@
 
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/policy_document_llay"
                 android:padding="10dp"
@@ -438,7 +438,7 @@
 
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/resourses_llay"
                 android:padding="10dp"
@@ -479,7 +479,7 @@
                 android:background="@color/grey"/>
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/event_llay"
                 android:padding="20dp"
@@ -514,7 +514,7 @@
                 android:layout_height="1dp"
                 android:background="@color/grey" />
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/logout_llay"
                 android:padding="20dp"
