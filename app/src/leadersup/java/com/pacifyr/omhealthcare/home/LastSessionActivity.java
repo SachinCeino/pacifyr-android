@@ -11,6 +11,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -393,11 +394,11 @@ public class LastSessionActivity   extends PacifyrAppCompactActivity {
             rating_bar.setNumStars(5);
             rating =5;
             rating_bar.setStarPadding(10);
-            rating_bar.setTouchable(true);
+            rating_bar.setClickable(true);
             rating_bar.setClearRatingEnabled(true);
             rating_bar.setOnRatingChangeListener(new BaseRatingBar.OnRatingChangeListener() {
                 @Override
-                public void onRatingChange(BaseRatingBar baseRatingBar, float v) {
+                public void onRatingChange(BaseRatingBar baseRatingBar, float v, boolean fromUser) {
                     //Log.e(TAG, "onRatingChange: " + rating);
                     rating = (int) baseRatingBar.getRating();
                 }
@@ -1132,7 +1133,7 @@ public class LastSessionActivity   extends PacifyrAppCompactActivity {
         backImv.setVisibility(View.VISIBLE);
         titleTxv.setVisibility(View.VISIBLE);
         leftLlay.setVisibility(View.VISIBLE);
-        defSetText(titleTxv,"call summary");
+        defSetText(titleTxv, "CALL SUMMARY");
         defSetText(rightTxv,"Submit");
         rightTxv.setTextColor(getResources().getColor(R.color._color_action_bar_text_color));
         Typeface type = Typeface.createFromAsset(getAssets(),"fonts/ActionBarCommonFont.otf");

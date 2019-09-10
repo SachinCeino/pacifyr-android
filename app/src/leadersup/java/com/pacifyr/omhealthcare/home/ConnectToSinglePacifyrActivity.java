@@ -1071,7 +1071,7 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
         backImv.setVisibility(View.VISIBLE);
         titleTxv.setVisibility(View.VISIBLE);
         leftLlay.setVisibility(View.VISIBLE);
-        defSetText(titleTxv,"connect");
+        defSetText(titleTxv, "CONNECT");
         leftTxv.setVisibility(View.GONE);
         ///leftTxv.setText("Cancel");
 

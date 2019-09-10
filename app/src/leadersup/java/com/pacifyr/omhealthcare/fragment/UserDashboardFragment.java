@@ -211,7 +211,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
 
                 Intent i=new Intent(getActivity(),TermsOfUseActivity.class);
                 i.putExtra("spurl", getResources().getString(R.string.go_to_e_learning_url));
-                i.putExtra("title","E-Learning");
+                i.putExtra("title", "E-LEARNING");
                 startActivity(i);
                /* try {
                     MySessionsActivity.start(getActivity());

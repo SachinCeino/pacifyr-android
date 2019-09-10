@@ -65,7 +65,7 @@ public class EventActivity extends PacifyerActivity implements LocationListener 
         empty_layout = findViewById(R.id.empty_layout);
         empty_layout.setVisibility(View.GONE);
         Bundle bundle = getIntent().getExtras();
-        titleText = "Events";
+        titleText = "EVENTS";
         locationManager = (LocationManager) getSystemService(Service.LOCATION_SERVICE);
 
         onSetActionBar();

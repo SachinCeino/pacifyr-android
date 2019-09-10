@@ -321,7 +321,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
             public void onClick(View v) {
                 Intent i=new Intent(getApplicationContext(),TermsOfUseActivity.class);
                 i.putExtra("spurl", getResources().getString(R.string.go_to_e_learning_url));
-                i.putExtra("title","E-Learning");
+                i.putExtra("title", "E-LEARNING");
                 startActivity(i);
             }
         });

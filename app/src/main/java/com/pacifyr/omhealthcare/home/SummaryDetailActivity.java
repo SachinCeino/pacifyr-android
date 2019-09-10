@@ -867,7 +867,7 @@ public class SummaryDetailActivity   extends PacifyrAppCompactActivity {
         backImv.setVisibility(View.VISIBLE);
         titleTxv.setVisibility(View.VISIBLE);
         leftLlay.setVisibility(View.VISIBLE);
-        defSetText(titleTxv,"call summary");
+        defSetText(titleTxv, "CALL SUMMARY");
         defSetText(rightTxv,"Submit");
 
         rightTxv.setBackground(getResources().getDrawable(R.drawable.blue_border_lightblue));

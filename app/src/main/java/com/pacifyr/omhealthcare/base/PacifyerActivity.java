@@ -1317,6 +1317,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
                     hideProgress();
                     hideKeyboard();
                     try {
+
                         NetworkService.mCurrentUser.setEmotionId(PacifyerActivity.call_emotion.getId());
                         NetworkService.mCurrentUser.setReasonForTheCall(EmotionSpecialityAdapter.reason_forcall);
                         getPrefManager().savePacifyrID(pacifyerDetial.getId());
@@ -2171,8 +2172,10 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
             PrefManager prefManager = PrefManager.getInstance(PacifyerActivity.this);
             String customerRole = prefManager.getCustomerRole();
 
-            if(customerRole.equals("customer")){
-                callRequestWeb(pacifyerDetial, listner, isVideoCall);
+            callRequestWeb(pacifyerDetial, listner, isVideoCall);
+
+         /*   if(customerRole.equals("customer")){
+
             }else if(customerRole.equals("employee")||customerRole.equals("unpaidEmployee")){
 
                 Boolean chargable = pacifyerDetial.isSessionChargeable();
@@ -2180,13 +2183,13 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
                 if(!chargable){
                     createCurrentUserAndCall(NetworkService.mCurrentUser,pacifyerDetial,isVideoCall);
                     //listner.onAvailable(NetworkService.mCurrentUser,pacifyerDetial,isVideoCall);
-
+                    listner.onAvailable(NetworkService.mCurrentUser, pacifyerDetial, isVideoCall);
                 }else{
                     callRequestWeb(pacifyerDetial, listner, isVideoCall);
                 }
             }else if(customerRole.equals("paidMember")){
                 createCurrentUserAndCall(NetworkService.mCurrentUser,pacifyerDetial,isVideoCall);
-            }
+            }*/
 
         }
         catch (Exception ex)
@@ -2252,11 +2255,13 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
                         if(json!=null) {
                             NetworkService.mCurrentUser = GsonUtils.getInstance().gsonToModelUserProfile(json);
 
-                            if (getCountryChecks().contains(getPrefManager().getCountry()))
+                            listner.onAvailable(NetworkService.mCurrentUser, pacifyerDetial, isVideoCall);
+
+                            /*if (getCountryChecks().contains(getPrefManager().getCountry()))
                                 listner.onAvailable(NetworkService.mCurrentUser, pacifyerDetial, isVideoCall);
                             else
                                 getSavedCardWeb(pacifyerDetial,listner,isVideoCall);
-
+*/
                            /* if (NetworkService.mCurrentUser.getAvailableMinutes() > 10) {
                               //  ToastHandler.newInstance(PacifyerActivity.this).mustShowToast("Free minutes :" +pacifyerDetial.getAvailableMinutes());
                                 listner.onAvailable(NetworkService.mCurrentUser,pacifyerDetial,isVideoCall);
