@@ -459,6 +459,29 @@ public class Utility {
         return outPutString;
     }
 
+    public static String getDateFormatOneWithYear(String input) {
+        String outPutString = "";
+        //example Sun, 4 Aug
+
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Date date = format.parse(input);
+
+            String dayOfTheWeek = (String) DateFormat.format("EEEE", date); // Thursday
+            String day = (String) DateFormat.format("dd", date); // 20
+            String monthString = (String) DateFormat.format("MMM", date); // Jun
+            String monthNumber = (String) DateFormat.format("MM", date); // 06
+            String year = (String) DateFormat.format("yyyy", date); // 2013
+
+            dayOfTheWeek = dayOfTheWeek.substring(0, 3).toUpperCase();
+            outPutString = monthString + "," + day + " " + year;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return outPutString;
+    }
+
 
     public static String convertTime(String time) {
 

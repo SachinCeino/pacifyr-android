@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -65,8 +66,8 @@ public class EventsDetailFragment extends BaseFragment {
     private AttendingCompanyListAdapter mAttendingCompanyListAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private String actualDate;
-    private LinearLayout layout_attending, layout_checkIn;
-
+    private LinearLayout layout_checkIn;
+    private CheckBox attending_toggle;
 
 
 
@@ -84,8 +85,8 @@ public class EventsDetailFragment extends BaseFragment {
         txtv_event_description = view.findViewById(R.id.txtv_event_description);
         txtv_event_schedule = view.findViewById(R.id.txtv_event_schedule);
         rcv_attending_company = view.findViewById(R.id.rcv_attending_company);
-        layout_attending = view.findViewById(R.id.layout_attending);
-        layout_checkIn = view.findViewById(R.id.layout_checkIn);
+
+        attending_toggle = view.findViewById(R.id.attending_toggle);
 
 
         if (isValid(getArguments()))
@@ -135,22 +136,12 @@ public class EventsDetailFragment extends BaseFragment {
                     getWebData(mModelEvent.getId());
 
 
-            layout_checkIn.setOnClickListener(new View.OnClickListener() {
+            attending_toggle.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
-                    setUpCheckin(mModelEvent.getId());
-                }
-            });
-
-            layout_attending.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
                     setUpAttending(mModelEvent.getId());
                 }
             });
-
 
         }
 
@@ -188,8 +179,7 @@ public class EventsDetailFragment extends BaseFragment {
 
                             if (isValid(statusMessage) && statusMessage.equals("success"))
                             {
-                                layout_attending.setClickable(false);
-                                layout_attending.setAlpha((float) 0.4);
+                                attending_toggle.setChecked(true);
                                 if (json.has("message"))
                                 {String mesg="";
                                     try {
@@ -256,98 +246,6 @@ public class EventsDetailFragment extends BaseFragment {
         }
     }
 
-    private void setUpCheckin(String event_id) {
-
-        try {
-            PrefManager prefM= PrefManager.getInstance(getApplicationContext());
-            String userToken=prefM.getAccessToken();
-            String userid=prefM.getUserID();
-        setLoading();
-        showProgress();
-            String url = NetworkService.GLOBAL_URL+"events/checkin/"+event_id;
-            AjaxCallback cb = new AjaxCallback<JSONObject>() {
-                @Override
-                public void callback(String url, JSONObject json, AjaxStatus status) {
-                    try {
-                        hideProgress();
-                        if (json.has("status"))
-                        {
-                            String statusMessage= "";
-                            try {
-                                statusMessage = json
-                                        .getString("status");
-                            } catch (JSONException e1) {
-                                e1.printStackTrace();
-                            }
-
-                            if (isValid(statusMessage) && statusMessage.equals("success"))
-                            {
-                                layout_checkIn.setClickable(false);
-                                layout_checkIn.setAlpha((float) 0.4);
-                                if (json.has("message"))
-                                {String mesg="";
-                                    try {
-                                        mesg=json.getString("message");
-                                    } catch (JSONException e1) {
-                                        e1.printStackTrace();
-                                    }
-                                    hideStatus2();
-                                    setStatus(mesg, R.color.md_green_400);
-                                    showStatus();
-                                    final Handler handler = new Handler();
-                                    handler.postDelayed(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            hideStatus();
-                                        }
-                                    }, 2000);
-                                }
-
-                            }
-                            else
-                            {
-                                if (json.has("message"))
-                                {String mesg="";
-                                    try {
-                                        mesg=json.getString("message");
-                                    } catch (JSONException e1) {
-                                        e1.printStackTrace();
-                                    }
-                                    hideStatus2();
-                                    setStatus(mesg, R.color.md_green_400);
-                                    showStatus();
-                                    final Handler handler = new Handler();
-                                    handler.postDelayed(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            hideStatus();
-                                            getActivity().onBackPressed();
-                                        }
-                                    }, 2000);
-                                }
-
-                            }
-                        }
-
-                    } catch (Exception e) {
-                      errorStatus();
-                    }
-                }
-            };
-            AQuery aq = new AQuery(getApplicationContext());
-            cb.header("Content-Type", "application/json");
-            cb.header("AccessToken",userToken);
-
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.putOpt("userId", userid);
-            aq.post(url, jsonObject, JSONObject.class, cb);
-        }
-        catch (Exception ex)
-        {
-            errorStatus();
-        }
-
-    }
 
 
     @Override
@@ -458,64 +356,21 @@ public class EventsDetailFragment extends BaseFragment {
 
         if (data.getAttendingUserIds()!=null && data.getAttendingUserIds().size()==0)
         {
-            layout_attending.setClickable(true);
+            attending_toggle.setChecked(false);
         }
        else if (isValid(data.getAttendingUserIds())) {
             if (data.getAttendingUserIds().contains(getPrefManager().getUserID())) {
-                layout_attending.setClickable(false);
-                layout_attending.setAlpha((float) 0.4);
+                attending_toggle.setChecked(true);
             } else {
-                layout_attending.setClickable(true);
+                attending_toggle.setChecked(false);
             }
         }
         else {
-            layout_attending.setClickable(false);
-            layout_attending.setAlpha((float) 0.4);
+            attending_toggle.setChecked(true);
         }
 
 
-        if (data.getCheckinUserIds()!=null) {
-            if (data.getCheckinUserIds().size()==0)
-            {
-                if (isValid(data.getLatitude()) && isValid(data.getLongitude())) {
-                    float distance = getDistanceFromLocation(data.getLatitude(), data.getLongitude());
-                    if (distance<=100)
-                    {
-                        layout_checkIn.setClickable(true);
-                    }
-                    else
-                    {
-                        layout_checkIn.setClickable(false);
-                        layout_checkIn.setAlpha((float) 0.4);
-                    }
 
-                }
-            }
-           else if (data.getCheckinUserIds().contains(getPrefManager().getUserID())) {
-
-                layout_checkIn.setClickable(false);
-                layout_checkIn.setAlpha((float) 0.4);
-            } else {
-                if (isValid(data.getLatitude()) && isValid(data.getLongitude())) {
-                    float distance = getDistanceFromLocation(data.getLatitude(), data.getLongitude());
-                    if (distance<=100)
-                    {
-                        layout_checkIn.setClickable(true);
-                    }
-                    else
-                    {
-                        layout_checkIn.setClickable(false);
-                        layout_checkIn.setAlpha((float) 0.4);
-                    }
-
-                }
-
-            }
-        }
-        else {
-            layout_checkIn.setClickable(false);
-            layout_checkIn.setAlpha((float) 0.4);
-        }
     }
 
     private float getDistanceFromLocation(String latitude, String longitude) {

@@ -2,6 +2,7 @@ package com.pacifyr.omhealthcare.events.fragment;
 
 
 import android.content.Context;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,12 +49,15 @@ public class AttendingEmployerFragment extends BaseFragment {
 
     }
 
+    private String eventId;
+
     private ImageView img_company_logo;
     private TextView txtv_company_phone, txtv_company_mail, txtv_company_title;
     private RecyclerView rcv_attendList;
     private CurrentOpeningAdapter mCurrentOpeningAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private ModelEvent.Employer object;
+    private LinearLayout layout_checkIn;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -65,6 +70,7 @@ public class AttendingEmployerFragment extends BaseFragment {
         txtv_company_mail = view.findViewById(R.id.txtv_company_mail);
         txtv_company_phone = view.findViewById(R.id.txtv_company_phone);
         rcv_attendList = view.findViewById(R.id.rcv_attendList);
+        layout_checkIn = view.findViewById(R.id.layout_checkIn);
 
         Bundle bundle = getArguments();
         if (isValid(bundle) && isValid(bundle.getSerializable("object")))
@@ -182,6 +188,7 @@ public class AttendingEmployerFragment extends BaseFragment {
                             List<ModelEvent.Position> listEvent = data.getPositions();
                             if (isValid(listEvent))
                                 setAdpater(listEvent);
+                            setUpCheckinView(data);
                         }
                     } else {
                         if (isValid(status.getMessage())) {
@@ -213,6 +220,66 @@ public class AttendingEmployerFragment extends BaseFragment {
 
             ex.printStackTrace();
         }
+    }
+
+    private void setUpCheckinView(ModelEvent data) {
+        if (data.getCheckinUserIds() != null) {
+            if (data.getCheckinUserIds().size() == 0) {
+                if (isValid(data.getLatitude()) && isValid(data.getLongitude())) {
+                    float distance = getDistanceFromLocation(data.getLatitude(), data.getLongitude());
+                    if (distance <= 100) {
+                        layout_checkIn.setClickable(true);
+                    } else {
+                        layout_checkIn.setClickable(false);
+                        layout_checkIn.setAlpha((float) 0.4);
+                    }
+
+                }
+            } else if (data.getCheckinUserIds().contains(getPrefManager().getUserID())) {
+
+                layout_checkIn.setClickable(false);
+                layout_checkIn.setAlpha((float) 0.4);
+            } else {
+                if (isValid(data.getLatitude()) && isValid(data.getLongitude())) {
+                    float distance = getDistanceFromLocation(data.getLatitude(), data.getLongitude());
+                    if (distance <= 100) {
+                        layout_checkIn.setClickable(true);
+                    } else {
+                        layout_checkIn.setClickable(false);
+                        layout_checkIn.setAlpha((float) 0.4);
+                    }
+
+                }
+
+            }
+        } else {
+            layout_checkIn.setClickable(false);
+            layout_checkIn.setAlpha((float) 0.4);
+        }
+    }
+
+
+    private float getDistanceFromLocation(String latitude, String longitude) {
+
+        double currentLatitude = ((EventActivity) getActivity()).getmLatitude();
+        double currentLongitude = ((EventActivity) getActivity()).getmLongitude();
+
+        double serverLatitude = Double.parseDouble(latitude);
+        double serverLongitude = Double.parseDouble(longitude);
+
+
+        Location loc1 = new Location("");
+        loc1.setLatitude(currentLatitude);
+        loc1.setLongitude(currentLongitude);
+        Location loc2 = new Location("");
+        loc2.setLatitude(serverLatitude);
+        loc2.setLongitude(serverLongitude);
+        float distanceInMeters = loc1.distanceTo(loc2);
+
+
+        return distanceInMeters;
+
+
     }
 
     private void setAdpater(List<ModelEvent.Position> list) {

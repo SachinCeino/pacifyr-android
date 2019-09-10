@@ -245,27 +245,27 @@
             android:orientation="horizontal"
             android:weightSum="2">
 
+
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:id="@+id/layout_attending"
-                android:layout_gravity="center"
+                android:layout_gravity="center_vertical"
                 android:layout_margin="10dp"
-                android:background="@drawable/primary_border_transparent"
-                android:padding="15dp">
+                android:padding="10dp">
 
                 <com.pacifyr.omhealthcare.events.views.EventTextViewBold
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Attending"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:textSize="@dimen/event_sub_title_size_in_detail"
+                    android:layout_gravity="left"
+                    android:gravity="left"
+                    android:textSize="@dimen/title_size_in_detail"
                     android:drawablePadding="5dp"
-                    android:textColor="@color/colorPrimary"
-                    android:drawableLeft="@drawable/svg_attending"
+                    android:textColor="@color/black"
+
 
                     />
             </LinearLayout>
@@ -275,26 +275,23 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:id="@+id/layout_checkIn"
                 android:layout_gravity="center"
                 android:layout_margin="10dp"
-                android:background="@drawable/primary_border_transparent"
-                android:padding="15dp">
+                android:padding="10dp">
 
-                <com.pacifyr.omhealthcare.events.views.EventTextViewBold
+                <CheckBox xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/attending_toggle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-
-                    android:text="Check in"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:textSize="@dimen/event_sub_title_size_in_detail"
-                    android:drawablePadding="5dp"
-                    android:textColor="@color/colorPrimary"
-                    android:drawableLeft="@drawable/svg_checkin"
-
-                    />
+                    android:layout_marginRight="5dp"
+                    android:button="@null"
+                    android:checked="false"
+                    android:clickable="false"
+                    android:drawableRight="@drawable/attending_checkbox_selector"
+                    android:focusable="false"
+                    android:textColor="@color/black" />
             </LinearLayout>
+
         </LinearLayout>
 
     </LinearLayout>

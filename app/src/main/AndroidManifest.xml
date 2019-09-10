@@ -373,6 +373,11 @@
         <activity
             android:name=".events.activity.EventActivity"
             android:screenOrientation="portrait" />
+        <!--//offers-->
+        <activity
+            android:name=".events.activity.OffersActivity"
+            android:screenOrientation="portrait" />
+
         <!--//Notes-->
         <activity
             android:name=".home.notes.NotesActivity"

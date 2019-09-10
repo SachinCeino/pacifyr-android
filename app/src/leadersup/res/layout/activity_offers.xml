@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <include
+        layout="@layout/actionbar_three_text_image"
+        android:id="@+id/include"
+        android:layout_height="50dp"
+        android:layout_width="match_parent"></include>
+
+    <FrameLayout
+        android:id="@+id/offer_fragment_container"
+        android:layout_width="fill_parent"
+        android:layout_below="@+id/include"
+        android:layout_height="fill_parent">
+
+    </FrameLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/include"
+        android:visibility="gone"
+        android:gravity="center"
+        android:id="@+id/empty_layout">
+
+        <com.pacifyr.omhealthcare.events.views.EventTextViewBold
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/empty_offers"
+            android:textSize="@dimen/event_title_size"
+            android:textColor="@color/grey_hex_9a" />
+    </RelativeLayout>
+
+</RelativeLayout>

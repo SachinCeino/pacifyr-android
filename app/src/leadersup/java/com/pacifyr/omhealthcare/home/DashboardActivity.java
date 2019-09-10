@@ -26,6 +26,7 @@ import com.github.javiersantos.appupdater.AppUpdater;
 import com.pacifyr.omhealthcare.Fragment.ResourcesFragment;
 import com.pacifyr.omhealthcare.Fragment.SupportFragment;
 import com.pacifyr.omhealthcare.events.activity.EventActivity;
+import com.pacifyr.omhealthcare.events.activity.OffersActivity;
 import com.pacifyr.omhealthcare.fragment.UserDashboardFragment;
 import com.pacifyr.omhealthcare.Fragment.WelcomeTourFragment;
 import com.pacifyr.omhealthcare.Payment.PaymentFragment;
@@ -99,7 +100,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
     private LinearLayout resourcesLlay;
     private DeviceFitImageView resourcesDimv;
 
-    private LinearLayout event_llay;
+    private LinearLayout event_llay, offer_llay;
 
 
     private LinearLayout messagesLlay;
@@ -188,6 +189,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
         resourcesLlay = findViewById(R.id.resourses_llay);
 
         event_llay = findViewById(R.id.event_llay);
+        offer_llay = findViewById(R.id.offer_llay);
 
 
 
@@ -395,6 +397,15 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
                 EventActivity.start(getApplicationContext());
             }
         });
+
+        offer_llay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                OffersActivity.start(getApplicationContext());
+            }
+        });
+
         new AmazonSNSTokenHandler(context).register();
 
     }

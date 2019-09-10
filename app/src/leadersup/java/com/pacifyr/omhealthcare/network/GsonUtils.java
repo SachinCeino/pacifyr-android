@@ -57,6 +57,7 @@ import com.google.gson.reflect.TypeToken;
 import com.pacifyr.omhealthcare.Fragment.schedule.ScheduleData;
 import com.pacifyr.omhealthcare.Fragment.schedule.Slot;
 import com.pacifyr.omhealthcare.events.model.ModelEvent;
+import com.pacifyr.omhealthcare.events.model.ModelOffer;
 import com.pacifyr.omhealthcare.model.MCustomerList;
 import com.pacifyr.omhealthcare.model.ModelResources;
 import com.pacifyr.omhealthcare.model.ModelSpecialityByCategory;
@@ -870,5 +871,20 @@ public class GsonUtils<T> {
         }
         return model;
     }
+
+    //offer
+    public ModelOffer gsonToModelOffer(JSONObject json) {
+
+        ModelOffer model = null;
+        try {
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            String jsonString = json.toString();
+            model = gson.fromJson(jsonString, ModelOffer.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return model;
+    }
+
 }
 
