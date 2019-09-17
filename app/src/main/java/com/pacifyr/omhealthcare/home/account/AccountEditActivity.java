@@ -10,6 +10,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
+import android.graphics.Typeface;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -494,6 +495,8 @@ public class AccountEditActivity extends PacifyrAppCompactActivity {
         leftLlay.setVisibility(View.VISIBLE);
             defSetText(titleTxv, "EDIT PROFILE");
             defSetText(rightTxv,"save");
+            Typeface type = Typeface.createFromAsset(getAssets(), "fonts/ActionBarCommonFont.otf");
+            titleTxv.setTypeface(type);
             rightTxv.setTextColor(getResources().getColor(R.color._color_action_bar_text_color));
         titleTxv.setTextColor(getResources().getColor(R.color._color_action_bar_text_color));
         //backImv.setBackgroundResource(R.drawable.leftmen);
