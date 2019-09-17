@@ -785,8 +785,10 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
                                 }
                             }
                             else {
-
+                                showNoPacifyrAvailbleAfterSearch();
                             }
+                        } else {
+                            showNoPacifyrAvailbleAfterSearch();
                         }
 
 
@@ -794,6 +796,7 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
 
                     } catch (Exception e) {
                         e.printStackTrace();
+                        showNoPacifyrAvailbleAfterSearch();
                     }
                 }
             };
@@ -807,6 +810,9 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
             jsonObject.putOpt("companyId",companyID);
             jsonObject.putOpt("includeChargeablePacifyrs",showAllFlag);
             jsonObject.putOpt("country",prefM.getCountry());
+            if (searchQuery != null && !searchQuery.isEmpty()) {
+                jsonObject.putOpt("searchQuery", searchQuery);
+            }
 
             List<String> list = new ArrayList<String>();
             list.add(emotion);
@@ -829,7 +835,7 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
             cardStack.setVisibility(View.VISIBLE);
             adapter = new SwipeDeckBrowsePacifyerAdapter(pacifyrList, ListPacifyrScreenActivity.this,emoSelected != null);
             cardStack.setAdapter(adapter);
-            adapter.filter(getSearchQuery());
+//            adapter.filter(getSearchQuery());
         }else {
             cardStack.setVisibility(View.GONE);
             noPacifyrCtxv.setVisibility(View.VISIBLE);
