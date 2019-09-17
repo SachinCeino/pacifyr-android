@@ -44,6 +44,7 @@ public class MySessionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     ArrayList<MEmotion> emotionList;
 
     String userid,token;
+    private boolean firstItemEditable = true;
 
 
     public MySessionAdapter(Context context, ArrayList<MSessionDetailRoot> list,String userid,String token) {
@@ -86,6 +87,10 @@ public class MySessionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 
     }*/
+
+    public void setFirstItemEditable(boolean firstItemEditable) {
+        this.firstItemEditable = firstItemEditable;
+    }
 
     public MSessionDetailRoot getItem (int position) {
         MSessionDetailRoot results = null;
@@ -166,7 +171,7 @@ public class MySessionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         try {
             String sessionType=results.getSessionType();
-            MSessionRating rating[]=results.getSessionRatings();
+            MSessionRating[] rating = results.getSessionRatings();
             MSessionRating customerRatings = null;
 
             MUser pac = results.getPacifyr();
@@ -242,25 +247,13 @@ public class MySessionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             holder.topLlay.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    boolean editable = true;
+                    if (position > 0 || !firstItemEditable) {
+                        editable = false;
+                    }
                     try {
-                        if (position == 0) {
                             String sessionID = results.getId();
-                            LastSessionActivity.start(context, sessionID);
-                        }
-
-                       /* String url = GLOBAL_URL + "session/" + sessionID;
-                        AjaxCallback cb = new AjaxCallback<JSONObject>() {
-                            @Override
-                            public void callback(String url, JSONObject json, AjaxStatus status) {
-                                String js = json.toString();
-                                String st = status.getMessage();
-                                MSessionDetailRoot root = GsonUtils.getInstance().gsonToMSessionDetailRoot(json);
-                            }
-                        };
-                        AQuery aq = new AQuery(getActivity());
-                        cb.header("Content-Type", "application/json");
-                        cb.header("AccessToken",token);
-                        aq.ajax(url,JSONObject.class, cb);*/
+                        LastSessionActivity.start(context, sessionID, editable);
                     }
                     catch (Exception ex)
                     {

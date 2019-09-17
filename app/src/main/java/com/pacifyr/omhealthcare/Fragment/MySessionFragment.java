@@ -70,7 +70,7 @@ public class MySessionFragment extends BaseFragment {
     ArrayList<MSessionDetailRoot> listTemp=new ArrayList<>();
     int tab=0;//0:Week,1:Month,2:Year
     NestedScrollView nestedscrollView;
-
+    private boolean firstItemEditable = true;
 
 
     //public static ArrayList<ModelListEmotion.Results> emotionList;
@@ -264,6 +264,7 @@ public class MySessionFragment extends BaseFragment {
                 tab=0;
                 list.clear();
                 listTemp.clear();
+                firstItemEditable = true;
                 getStatistics(weekStatUrl);
                 callThisWeekSession(thisWeekUrl);
                 SessionWeekCustomerAdapter adapter =new SessionWeekCustomerAdapter(getActivity(),"week");
@@ -294,6 +295,7 @@ public class MySessionFragment extends BaseFragment {
                 tab=1;
                 list.clear();
                 listTemp.clear();
+                firstItemEditable = true;
                 getStatistics(monthStatUrl);
                 callThisMonthSession(thisMonthUrl);
                 SessionWeekCustomerAdapter adapter =new SessionWeekCustomerAdapter(getActivity(),"month");
@@ -323,6 +325,7 @@ public class MySessionFragment extends BaseFragment {
                 tab=2;
                 list.clear();
                 listTemp.clear();
+                firstItemEditable = true;
                 getStatistics(yearStatUrl);
                 callThisYearSession(thisYearUrl);
                 SessionWeekCustomerAdapter adapter =new SessionWeekCustomerAdapter(getActivity(),"year");
@@ -432,6 +435,7 @@ public class MySessionFragment extends BaseFragment {
         try {
             Log.i("sesssssss11","l:  "+userid+"   "+token);
             MySessionAdapter adapter = new MySessionAdapter(getActivity(), list, userid, token);
+            adapter.setFirstItemEditable(firstItemEditable);
             LinearLayoutManager verticalLayoutmanager
                     = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
             recyclerView.setLayoutManager(verticalLayoutmanager);
@@ -564,6 +568,7 @@ public class MySessionFragment extends BaseFragment {
 
     @Subscribe
     public void onWeekSetSessionEvent(WeekSetSessionEvent event) {
+        firstItemEditable = event.getEditable();
         try {
 
             if(event.getWeekType().equals("week")) {

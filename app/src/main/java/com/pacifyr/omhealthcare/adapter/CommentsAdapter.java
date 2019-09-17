@@ -2,7 +2,6 @@ package com.pacifyr.omhealthcare.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +24,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.MyView
     List<MComments> list;
     Context context;
     CommentClick clicklistner;
+    private boolean editable;
    /* public class MComments
     {
         public String item;
@@ -102,22 +102,23 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.MyView
             holder.commentCtx.setText(mComment.item);
             holder.commentLlay.setSelected(list.get(position).isSelected);
             holder.commentCtx.setSelected(list.get(position).isSelected);
-            holder.commentLlay.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+            if (editable) {
+                holder.commentLlay.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
 
-                    for (int i = 0; i <5 ; i++) {
-                        list.get(i).isSelected = false;
-                    }
+                        for (int i = 0; i < 5; i++) {
+                            list.get(i).isSelected = false;
+                        }
 
 //                    list.get(position).isSelected = !list.get(position).isSelected;
 //                    list.get(position).isSelected = true;
 
-                  list.get(position).isSelected = true;
+                        list.get(position).isSelected = true;
 
-                    mComment.isSelected  =   list.get(position).isSelected;
-                    if (isValid(clicklistner))
-                        clicklistner.CommentCliked(mComment);
+                        mComment.isSelected = list.get(position).isSelected;
+                        if (isValid(clicklistner))
+                            clicklistner.CommentCliked(mComment);
                  /*   if (mComment.item.equalsIgnoreCase("other")) {
                             if (isValid(clicklistner))
                                 clicklistner.CommentCliked(mComment);
@@ -128,8 +129,9 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.MyView
                 /*holder.commentLlay.setBackground(context.getResources().getDrawable(R.drawable.layout_round_blueback));
                 holder.commentLlay.setPadding(9,9,4,4);
                 holder.commentCtx.setTextColor(context.getResources().getColor(R.color.white));*/
-                }
-            });
+                    }
+                });
+            }
         }
         else
         {
@@ -140,8 +142,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.MyView
     public Boolean isValid(List list)
     {
         if(list!=null)
-            if(list.size()>0)
-                return  true;
+            return list.size() > 0;
         return  false;
 
     }
@@ -149,22 +150,19 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.MyView
     public Boolean isValid(List list, int position)
     {
         if(isValid(list))
-            if(list.size()>=position)
-                return  true;
+            return list.size() >= position;
         return  false;
 
     }
 
     public Boolean isValid(Object object)
     {
-        if(object!=null)
-            return  true;
-        return  false;
+        return object != null;
 
     }
 
     public Boolean isValid(String text) {
-        if(text != null) if(!text.trim().equalsIgnoreCase("")) return true;
+        if (text != null) return !text.trim().equalsIgnoreCase("");
         return false;
 
     }
@@ -189,14 +187,18 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.MyView
         return list.size();
     }
 
+    public void setEditable(boolean editable) {
+        this.editable = editable;
+    }
+
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public CustomFontTextView commentCtx;
         public LinearLayout commentLlay;
 
         public MyViewHolder(View view) {
             super(view);
-            commentCtx=(CustomFontTextView) view.findViewById(R.id.comment_ctxv);
-            commentLlay = (LinearLayout) view.findViewById(R.id.comment_llay);
+            commentCtx = view.findViewById(R.id.comment_ctxv);
+            commentLlay = view.findViewById(R.id.comment_llay);
         }
     }
 }

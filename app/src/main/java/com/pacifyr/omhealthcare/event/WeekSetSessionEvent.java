@@ -15,6 +15,7 @@ public class WeekSetSessionEvent {
     private String fromDWeek;
 
     private String toDWeek;
+    private boolean editable;
 
 
     public WeekSetSessionEvent(String url) {
@@ -69,5 +70,11 @@ public class WeekSetSessionEvent {
         this.toDWeek = toDWeek;
     }
 
+    public boolean getEditable() {
+        return editable;
+    }
 
+    public void setEditable(boolean editable) {
+        this.editable = editable;
+    }
 }

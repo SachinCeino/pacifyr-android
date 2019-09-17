@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
@@ -37,7 +38,6 @@ import com.pacifyr.omhealthcare.adapter.CommentsAdapter;
 import com.pacifyr.omhealthcare.adapter.EmotionsListAdapter;
 import com.pacifyr.omhealthcare.event.AlertTypeEvent;
 import com.pacifyr.omhealthcare.event.NotifyEvent;
-import com.pacifyr.omhealthcare.home.notes.Notes;
 import com.pacifyr.omhealthcare.home.notes.NotesActivity;
 import com.pacifyr.omhealthcare.model.MComments;
 import com.pacifyr.omhealthcare.model.interfaces.CommentClick;
@@ -133,6 +133,7 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
 
 
     private ImageButton img_notes;
+    private boolean editable = true;
 
     public static void start(Context context, boolean isAudioCall) {
         Intent intent = new Intent(context, LastSessionActivity.class);
@@ -155,8 +156,7 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
     }
 
     public static Boolean isValidStatic(Object object) {
-        if (object != null) return true;
-        return false;
+        return object != null;
 
     }
 
@@ -205,6 +205,31 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
         context.startActivity(intent);
     }
 
+
+    public static void start(Context context, String sessionID, boolean editable) {
+        Intent intent = new Intent(context, LastSessionActivity.class);
+        //  intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        // intent.putExtra(Consts.EXTRA_IS_STARTED_FOR_CALL, isRunForCall);
+        intent.putExtra("id", sessionID);
+        intent.putExtra("editable", editable);
+        LastSessionActivity.isAudioCall = true;
+        mysessions = true;
+        sessionid = sessionID;
+       /* try {
+            Activity activity = null;
+            activity = ((AppChatNotUSe) AppChatNotUSe.getInstance()).getCurrentActivity();
+            if(isValidStatic(activity))
+                if (activity instanceof CallActivity ) {
+                    ((AppChatNotUSe) AppChatNotUSe.getInstance()).setCurrentActivity(null);
+                    activity.finish();
+
+                }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }*/
+        context.startActivity(intent);
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -225,6 +250,9 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
             sessionid = getIntent().getExtras().getString("id") + "";
         }
 
+        if (getIntent().getExtras().containsKey("editable")) {
+            editable = getIntent().getExtras().getBoolean("editable");
+        }
         ratingId = null;
         LogUtils.LOGD("session", " LSa onCreate sessionid " + sessionid);
         if (!isValid(sessionid, "Please check later")) {
@@ -286,7 +314,7 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
     protected void onResume() {
         super.onResume();
 
-        ((App) App.getInstance()).setCurrentActivity(this);
+        App.getInstance().setCurrentActivity(this);
     }
 
     @Override
@@ -327,51 +355,51 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
 
             LogUtils.LOGD("session", " SSA onCreateView ");
             onSetActionBar();
-            circleProgressView = (CircleProgressView) findViewById(R.id.circle_progress_view);
-            pacifyrImgCimv = (CircleImageView) findViewById(R.id.last_session_cimv);
+            circleProgressView = findViewById(R.id.circle_progress_view);
+            pacifyrImgCimv = findViewById(R.id.last_session_cimv);
             callTypeDimv = findViewById(R.id.call_type_dimv);
-            img_blue_bg = (CircleImageView) findViewById(R.id.img_blue_bg);
-            img_blue_bg_after = (CircleImageView) findViewById(R.id.img_blue_bg_after);
+            img_blue_bg = findViewById(R.id.img_blue_bg);
+            img_blue_bg_after = findViewById(R.id.img_blue_bg_after);
         /*    rating_llay = (LinearLayout) findViewById(R.id.rating_llay);
             before_feel_llay = (LinearLayout) findViewById(R.id.before_feel_llay);
             after_feel_llay = (LinearLayout) findViewById(R.id.after_feel_llay);
             afterFeelSelectionLlay = (LinearLayout) findViewById(R.id.after_feel_selection_llay);*/
 
-            rating_llay = (RelativeLayout) findViewById(R.id.rating_llay);
-            before_feel_llay = (RelativeLayout) findViewById(R.id.before_feel_llay);
-            after_feel_llay = (RelativeLayout) findViewById(R.id.after_feel_llay);
-            afterFeelSelectionLlay = (RelativeLayout) findViewById(R.id.after_feel_selection_llay);
+            rating_llay = findViewById(R.id.rating_llay);
+            before_feel_llay = findViewById(R.id.before_feel_llay);
+            after_feel_llay = findViewById(R.id.after_feel_llay);
+            afterFeelSelectionLlay = findViewById(R.id.after_feel_selection_llay);
 
-            before_feel_ctxv = (CustomFontTextView) findViewById(R.id.before_feel_ctxv);
-            after_feel_ctxv = (CustomFontTextView) findViewById(R.id.after_feel_ctxv);
+            before_feel_ctxv = findViewById(R.id.before_feel_ctxv);
+            after_feel_ctxv = findViewById(R.id.after_feel_ctxv);
 
 
-            before_emotion_ctxv = (CustomFontTextView) findViewById(R.id.before_emotion_ctxv);
-            after_emotion_ctxv = (CustomFontTextView) findViewById(R.id.after_emotion_ctxv);
+            before_emotion_ctxv = findViewById(R.id.before_emotion_ctxv);
+            after_emotion_ctxv = findViewById(R.id.after_emotion_ctxv);
 
            /* setBeforeEmotionViews();
             setAfterEmotionViews();*/
 
-            customer_fees_llay = (LinearLayout) findViewById(R.id.customer_fees_llay);
-            afterFeelDimv = (ImageView) findViewById(R.id.after_feel_dimv);
+            customer_fees_llay = findViewById(R.id.customer_fees_llay);
+            afterFeelDimv = findViewById(R.id.after_feel_dimv);
 
-            afterFeelSelectionCtxv = (CustomFontTextView) findViewById(R.id.after_feel_selection_ctxv);
-            callback_ctxv = (CustomFontTextView) findViewById(R.id.callback_ctxv);
-            sessionCostCtxv = (CustomFontTextView) findViewById(R.id.session_cost_ctxv);
-            pacifyrEaringsLlay = (LinearLayout) findViewById(R.id.pacifyr_earings_llay);
-            earingstCtxv = (CustomFontTextView) findViewById(R.id.earingst_ctxv);
-            comapnyfeesCtxv = (CustomFontTextView) findViewById(R.id.comapnyfees_ctxv);
-            pacifyrNameCtxv = (CustomFontTextView) findViewById(R.id.pacifyr_name_ctxv);
-            beforeFeelDimv = (ImageView) findViewById(R.id.before_feel_dimv);
-            recyclerView = (RecyclerView) findViewById(R.id.begning_rcv);
-            commentsRcv = (RecyclerView) findViewById(R.id.comments_rcv);
-            pacifyrRateCtxv = (CustomFontTextView) findViewById(R.id.pacifyr_rate_ctxv);
-            durationCtxv = (CustomFontTextView) findViewById(R.id.duration_ctxv);
-            comments_cedt = (CustomEditText) findViewById(R.id.comments_cedt);
-            rating_bar = (ScaleRatingBar) findViewById(R.id.rating_bar);
+            afterFeelSelectionCtxv = findViewById(R.id.after_feel_selection_ctxv);
+            callback_ctxv = findViewById(R.id.callback_ctxv);
+            sessionCostCtxv = findViewById(R.id.session_cost_ctxv);
+            pacifyrEaringsLlay = findViewById(R.id.pacifyr_earings_llay);
+            earingstCtxv = findViewById(R.id.earingst_ctxv);
+            comapnyfeesCtxv = findViewById(R.id.comapnyfees_ctxv);
+            pacifyrNameCtxv = findViewById(R.id.pacifyr_name_ctxv);
+            beforeFeelDimv = findViewById(R.id.before_feel_dimv);
+            recyclerView = findViewById(R.id.begning_rcv);
+            commentsRcv = findViewById(R.id.comments_rcv);
+            pacifyrRateCtxv = findViewById(R.id.pacifyr_rate_ctxv);
+            durationCtxv = findViewById(R.id.duration_ctxv);
+            comments_cedt = findViewById(R.id.comments_cedt);
+            rating_bar = findViewById(R.id.rating_bar);
             //  rating_bar = (RatingBar) findViewById(R.id.rating_bar);
 
-            effective_seekbar = (SeekBarCompat) findViewById(R.id.effective_seekbar);
+            effective_seekbar = findViewById(R.id.effective_seekbar);
             //holoCircleSeekBar=(HoloCircleSeekBar) findViewById(R.id.picker);
             //effective_circle_view = (CircleView) findViewById(R.id.effective_circle_view);
             rating_llay.setVisibility(View.GONE);
@@ -411,13 +439,17 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
             rating_bar.setStarPadding(10);
             rating_bar.setClickable(true);
             rating_bar.setClearRatingEnabled(true);
-            rating_bar.setOnRatingChangeListener(new BaseRatingBar.OnRatingChangeListener() {
-                @Override
-                public void onRatingChange(BaseRatingBar baseRatingBar, float v, boolean fromUser) {
-                    //Log.e(TAG, "onRatingChange: " + rating);
-                    rating = (int) baseRatingBar.getRating();
-                }
-            });
+            if (editable) {
+                rating_bar.setOnRatingChangeListener(new BaseRatingBar.OnRatingChangeListener() {
+                    @Override
+                    public void onRatingChange(BaseRatingBar baseRatingBar, float v, boolean fromUser) {
+                        //Log.e(TAG, "onRatingChange: " + rating);
+                        rating = (int) baseRatingBar.getRating();
+                    }
+                });
+            } else {
+                rating_bar.setIsIndicator(true);
+            }
 
 
 
@@ -432,25 +464,30 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
             //effective_circle_view.setProgressStepAsInteger(true);
             // effective_circle_view.setSuffixEnabled(true);
             // effective_circle_view.setSuffixValue("%");
-            effective_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-                @Override
-                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+            if (editable) {
+                effective_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                    @Override
+                    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 
-                    circleProgressView.setProgress(progress);
-                    effectiveness = progress;
+                        circleProgressView.setProgress(progress);
+                        effectiveness = progress;
 
-                }
+                    }
 
-                @Override
-                public void onStartTrackingTouch(SeekBar seekBar) {
+                    @Override
+                    public void onStartTrackingTouch(SeekBar seekBar) {
 
-                }
+                    }
 
-                @Override
-                public void onStopTrackingTouch(SeekBar seekBar) {
+                    @Override
+                    public void onStopTrackingTouch(SeekBar seekBar) {
 
-                }
-            });
+                    }
+                });
+            } else {
+                effective_seekbar.setEnabled(false);
+                effective_seekbar.setFocusableInTouchMode(false);
+            }
             if (isValid(mSessionDetailRoot)) {
                 onSetValues();
                 setAdapter();
@@ -732,6 +769,7 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
 
 
                 commentsAdapter = new CommentsAdapter(LastSessionActivity.this, click);
+                commentsAdapter.setEditable(editable);
                 commentsRcv.setAdapter(commentsAdapter);
 
             }
@@ -901,7 +939,7 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
                         if (json != null) {
                             Log.d(TAG, "Save seeion resspomse " + json.toString());
                         }
-                        ((App) App.getInstance()).setCurrentActivity(null);
+                        App.getInstance().setCurrentActivity(null);
                         NetworkService.startActionCutomerDashboard(LastSessionActivity.this);
 
                         new Handler().postDelayed(new Runnable() {
@@ -987,6 +1025,7 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
                     }
 
                     emotionsListAdapter = new EmotionsListAdapter(emotions, LastSessionActivity.this);
+                    emotionsListAdapter.setclickable(editable);
                     //postiveEmotions.setClickListener(this);
                     recyclerView.setAdapter(emotionsListAdapter);
                     recyclerView.scrollToPosition(postion);
@@ -1089,17 +1128,17 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
     CustomFontTextView submit_ctxv;
 
     public void onSetActionBar() {
-        actionBarTopLlay = (LinearLayout) findViewById(R.id.action_bar_top_llay);
-        bottomPanel = (RelativeLayout) findViewById(R.id.bottom_panel);
-        leftLlay = (LinearLayout) findViewById(R.id.left_llay);
-        backImv = (DeviceFitImageView) findViewById(R.id.back_imv);
-        leftTxv = (CustomFontTextView) findViewById(R.id.left_txv);
-        titleTxv = (CustomFontTextView) findViewById(R.id.title_txv);
-        rightLlay = (LinearLayout) findViewById(R.id.right_llay);
-        rightTxv = (CustomFontTextView) findViewById(R.id.right_txv);
-        rightImv = (DeviceFitImageView) findViewById(R.id.right_imv);
-        submit_ctxv = (CustomFontTextView) findViewById(R.id.submit_ctxv);
-        mSlidingPaneLayout = (WrappingSlidingPaneLayout) findViewById(R.id.sliding_pane);
+        actionBarTopLlay = findViewById(R.id.action_bar_top_llay);
+        bottomPanel = findViewById(R.id.bottom_panel);
+        leftLlay = findViewById(R.id.left_llay);
+        backImv = findViewById(R.id.back_imv);
+        leftTxv = findViewById(R.id.left_txv);
+        titleTxv = findViewById(R.id.title_txv);
+        rightLlay = findViewById(R.id.right_llay);
+        rightTxv = findViewById(R.id.right_txv);
+        rightImv = findViewById(R.id.right_imv);
+        submit_ctxv = findViewById(R.id.submit_ctxv);
+        mSlidingPaneLayout = findViewById(R.id.sliding_pane);
         rightImv.setVisibility(View.INVISIBLE);
         rightTxv.setVisibility(View.VISIBLE);
         rightLlay.setVisibility(View.VISIBLE);
@@ -1124,13 +1163,23 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
         rightLlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                saveSession();
+                if (editable) {
+                    saveSession();
+                } else {
+                    Toast.makeText(LastSessionActivity.this, "You cannot submit this session now",
+                            Toast.LENGTH_LONG).show();
+                }
             }
         });
         submit_ctxv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                saveSession();
+                if (editable) {
+                    saveSession();
+                } else {
+                    Toast.makeText(LastSessionActivity.this, "You cannot submit this session now",
+                            Toast.LENGTH_LONG).show();
+                }
             }
         });
         //backImv.setBackgroundResource(R.drawable.leftmen);

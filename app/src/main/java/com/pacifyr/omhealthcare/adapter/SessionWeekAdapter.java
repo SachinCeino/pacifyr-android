@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -135,7 +134,9 @@ public class SessionWeekAdapter extends RecyclerView.Adapter<SessionWeekAdapter.
                         }
                     }
                 }
-                postEventOnMainThread(new WeekSetSessionEvent(ratingUrl,statUrl,dateType,fromDWeek,toDWeek));
+                WeekSetSessionEvent weekEvent = new WeekSetSessionEvent(ratingUrl, statUrl, dateType, fromDWeek, toDWeek);
+                weekEvent.setEditable(position == modelList.size() - 1);
+                postEventOnMainThread(weekEvent);
                 notifyDataSetChanged();
 
             }
@@ -369,19 +370,9 @@ public class SessionWeekAdapter extends RecyclerView.Adapter<SessionWeekAdapter.
         this.context=context;
     }
 
+    public Boolean isValid(Object object) {
+        return object != null;
 
-
-    public class MyViewHolder extends RecyclerView.ViewHolder {
-        public CustomFontTextView titleCtxv;
-        public LinearLayout topLlay;
-        public RelativeLayout topRlay;
-
-        public MyViewHolder(View view) {
-            super(view);
-            topRlay = (RelativeLayout) view.findViewById(R.id.top_rlay);
-            topLlay=(LinearLayout) view.findViewById(R.id.top_llay);
-            titleCtxv = (CustomFontTextView) view.findViewById(R.id.title_ctxv);
-        }
     }
 
     void postEventOnMainThread(final Object event) {
@@ -395,10 +386,16 @@ public class SessionWeekAdapter extends RecyclerView.Adapter<SessionWeekAdapter.
 
     }
 
-    public Boolean isValid(Object object) {
-        if (object != null)
-            return true;
-        return false;
+    public class MyViewHolder extends RecyclerView.ViewHolder {
+        public CustomFontTextView titleCtxv;
+        public LinearLayout topLlay;
+        public RelativeLayout topRlay;
 
+        public MyViewHolder(View view) {
+            super(view);
+            topRlay = view.findViewById(R.id.top_rlay);
+            topLlay = view.findViewById(R.id.top_llay);
+            titleCtxv = view.findViewById(R.id.title_ctxv);
+        }
     }
 }

@@ -6,7 +6,6 @@ import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.PorterDuff;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,39 +29,11 @@ public class EmotionsListAdapter extends RecyclerView.Adapter<EmotionsListAdapte
 
         private List<MEmotion> emotions;
         Context context;
+    private boolean editable = true;
 
-        public class MyViewHolder extends RecyclerView.ViewHolder {
-            public DeviceFitImageView emotionIMG;
-            public CustomFontTextView emotion_title;
-            public CircleImageView img_blue_bg;
-
-            public MyViewHolder(View view) {
-                super(view);
-                emotionIMG=(DeviceFitImageView) view.findViewById(R.id.emotion_dimv);
-                emotion_title=(CustomFontTextView) view.findViewById(R.id.emotion_title);
-                img_blue_bg=(CircleImageView)view.findViewById(R.id.img_blue_bg);
-            }
-        }
-
-
-        public EmotionsListAdapter(List<MEmotion> emotions) {
-            this.emotions = emotions;
-
-        }
-
-        public EmotionsListAdapter(List<MEmotion> emotions, Context context) {
-            this.emotions = emotions;
-            this.context=context;
-        }
-
-        @Override
-        public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
-            View itemView = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.list_emitions_item, parent, false);
-
-            return new MyViewHolder(itemView);
-        }
+    public void setclickable(boolean editable) {
+        this.editable = editable;
+    }
 
         @Override
         public void onBindViewHolder(final MyViewHolder holder, final int position) {
@@ -197,25 +168,25 @@ public class EmotionsListAdapter extends RecyclerView.Adapter<EmotionsListAdapte
                // holder.emotionIMG.setColorFilter(R.color.transparent_white_percent_55, PorterDuff.Mode.MULTIPLY);
             }
 
-            holder.emotionIMG.setOnClickListener(new View.OnClickListener() {
+            if (editable) {
+                holder.emotionIMG.setOnClickListener(new View.OnClickListener() {
 
-                @Override
-                public void onClick(View v) {
-                    for (int i=0;i<emotions.size();i++)
-                    {
-                        if (i==position){
-                            emotions.get(position).setClicked(true);
-                            holder.emotionIMG.clearColorFilter();
-                            selEmotion = emotions.get(position);
-                            setSelectedIndex(position);
+                    @Override
+                    public void onClick(View v) {
+                        for (int i = 0; i < emotions.size(); i++) {
+                            if (i == position) {
+                                emotions.get(position).setClicked(true);
+                                holder.emotionIMG.clearColorFilter();
+                                selEmotion = emotions.get(position);
+                                setSelectedIndex(position);
+                            } else
+                                emotions.get(i).setClicked(false);
+
                         }
-                        else
-                            emotions.get(i).setClicked(false);
-
+                        notifyDataSetChanged();
                     }
-                    notifyDataSetChanged();
-                }
-            });
+                });
+            }
 
 
         /*holder.title.setText(special.getTitle());
@@ -223,6 +194,33 @@ public class EmotionsListAdapter extends RecyclerView.Adapter<EmotionsListAdapte
         holder.year.setText(special.getDuration());*/
 
         }
+
+
+    public EmotionsListAdapter(List<MEmotion> emotions) {
+        this.emotions = emotions;
+
+    }
+
+    public EmotionsListAdapter(List<MEmotion> emotions, Context context) {
+        this.emotions = emotions;
+        this.context = context;
+    }
+
+    @Override
+    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
+        View itemView = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.list_emitions_item, parent, false);
+
+        return new MyViewHolder(itemView);
+    }
+
+    public Boolean isValid(List list) {
+        if (list != null)
+            return list.size() > 0;
+        return false;
+
+    }
 
     int selectedIndex = -1;
     public void setSelectedIndex(int index){
@@ -242,36 +240,37 @@ public class EmotionsListAdapter extends RecyclerView.Adapter<EmotionsListAdapte
         return results;
     }
 
-    public Boolean isValid(List list)
-    {
-        if(list!=null)
-            if(list.size()>0)
-                return  true;
-        return  false;
-
-    }
-
     public Boolean isValid(List list, int position)
     {
         if(isValid(list))
-            if(list.size()>=position)
-                return  true;
+            return list.size() >= position;
         return  false;
 
     }
 
     public Boolean isValid(Object object)
     {
-        if(object!=null)
-            return  true;
-        return  false;
+        return object != null;
 
     }
 
     public Boolean isValid(String text) {
-        if(text != null) if(!text.trim().equalsIgnoreCase("")) return true;
+        if (text != null) return !text.trim().equalsIgnoreCase("");
         return false;
 
+    }
+
+    public class MyViewHolder extends RecyclerView.ViewHolder {
+        public DeviceFitImageView emotionIMG;
+        public CustomFontTextView emotion_title;
+        public CircleImageView img_blue_bg;
+
+        public MyViewHolder(View view) {
+            super(view);
+            emotionIMG = view.findViewById(R.id.emotion_dimv);
+            emotion_title = view.findViewById(R.id.emotion_title);
+            img_blue_bg = view.findViewById(R.id.img_blue_bg);
+        }
     }
         @Override
         public int getItemCount() {
