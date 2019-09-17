@@ -1,0 +1,205 @@
+<resources>
+    <string name="app_name">PAM</string>
+    <string name="tutorial">TUTORIAL</string>
+
+    <string name="title_activity_home_screen">HomeScreenActivity</string>
+
+    <string name="title_section1">Section 1</string>
+    <string name="title">Title</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section3">Section 3</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="lest_us_know">Let us know if you have any questions or feedbacks</string>
+    <string name="question_or_issue">Type your question or feedback</string>
+
+    <string name="add">Add</string>
+    <string name="cost_for_one_hour">Cost for one hour</string>
+    <string name="price">Price</string>
+
+    <string name="sms_text_login">PAM will send you an SMS message to confirm your phone number</string>
+    <string name="call_emergency">If this is an emergency call, please hang up and dial 911 or rush to the nearest hospital.</string>
+    <string name="card_number">card number</string>
+
+    <!--new adding-->
+    <string name="get_ready_feel_better">Get ready to feel better!</string>
+    <string name="feel_better">Feel better with Pacifyr</string>
+    <string name="connect_to_wellness">Connect to wellness/health expert through Video, Audio or Chat.</string>
+    <string name="thirty_free">Free Introductory call time</string>
+    <string name="no_credit_card">No Credit Card required.</string>
+    <string name="if_emergency">If in emergency, call 911 or rush to an emergency room. Crisis Info</string>
+    <string name="if_emergency2">If this is an emergency, please call 911 or rush to the nearest hospital. Crisis Info</string>
+
+
+    <string name="term_of_use2">Terms of Use</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="bussines_agrement">Business Associate Agreement</string>
+    <string name="show_all">Show all</string>
+    <string name="copyright">Copyright</string>
+    <string name="copyright_dispute_policy">Copyright Dispute Policy</string>
+    <string name="request_access_for_pacifyrs">Request access for Pacifyrs</string>
+    <string name="education">Education</string>
+    <string name="add_education">Add Education</string>
+    <string name="add_certificate">Add Certification</string>
+    <string name="certificates">Certificates</string>
+    <string name="specialities">Specialities</string>
+    <string name="upload_documents">Upload Documents</string>
+    <string name="document_upload_instruction">JPG, PNG or PDF format only maximum file size -5MB</string>
+    <string name="request">Request</string>
+    <string name="year">Year</string>
+    <string name="payout">PAYOUT</string>
+    <string name="no_pacifyr">There are no Wellness Experts available for selected Category.</string>
+    <string name="educations">Education</string>
+
+    <string name="policy_documents">policy documents</string>
+    <string name="Policy_Documents">POLICY DOCUMENTS</string>
+    <string name="policy_document">POLICY DOCUMENT</string>
+    <string name="RESOURCES">RESOURCES</string>
+    <string name="resources">RESOURCES</string>
+
+    <string name="CRISIS_INFO">CRISIS INFO</string>
+    <string name="crisis_info">crisis info</string>
+
+    <string name="signout_message">Do you want to log out?</string>
+
+
+    <string name="suicide_header">National Suicide Prevention Lifeline</string>
+    <string name="suicide_url"><u>www.suicidepreventionlifeline.org</u></string>
+    <string name="suicide_http_url">https://suicidepreventionlifeline.org/</string>
+    <string name="suicide_talk">1-800-273-TALK (8255)</string>
+    <string name="suicicde_tty">TTY: 1-800-799-4889</string>
+    <string name="suicide_description">24-hour toll-free, private suicide prevention lifeline,
+Yor call is routed to the nearest crisis center.</string>
+
+
+    <string name="samhsa_header">SAMHSA Referral Helpline</string>
+    <string name="samhsa_talk">1-800-662-HELP (4357)</string>
+    <string name="samhsa_tty">TTY: 1-800-487-4889</string>
+    <string name="samhsa_description">24-hour free and private treatment referal and
+        information about mental and/or substance disorders, prevention, and recovery.
+        Calls in Englisi and Spanish.</string>
+
+    <string name="veterans_header">Veterans Crisis Line</string>
+    <string name="veterans_url"><u>www.veteranscrisisline.net</u></string>
+    <string name="veterans_http_url">https://www.veteranscrisisline.net/</string>
+    <string name="veterans_talk">1-800-273-8255</string>
+    <string name="veterans_tty">TTY: 1-800-799-4889</string>
+    <string name="veterans_description">Connects vetarans in crisis with a qualified and
+        caring Department of Vetarans Affairs (VA) responders. User private,
+        free hotline, chat, or text. Also for families and friends..</string>
+
+
+    <string name="content_type">Content-Type</string>
+    <string name="application_json">application/json</string>
+    <string name="AccessToken">AccessToken</string>
+
+
+    <string name="user_type_error">You are a Wellness Expert. Please login using Provider app</string>
+    <string name="audio_call">PAM AUDIOCALL</string>
+    <string name="video_call">PAM VIDEOCALL</string>
+    <string name="no_prefered_pacifyr">You have no preferred Wellness Experts.</string>
+    <string name="reviews">Reviews</string>
+    <string name="no_sessions_yet">No sessions yet, Connect to Wellness Experts.</string>
+
+
+    <string name="mydashboard">MY DASHBOARD</string>
+    <string name="mysessions">MY SESSIONS</string>
+    <string name="confirmation">confirmation</string>
+    <string name="avantica_bold_header">fonts/ActionBarCommonFont.otf</string>
+
+    <string name="register_terms_text">I have read, understand, and agree to be bound by the OMHealthCare Terms of Use</string>
+    <string name="edit">edit</string>
+    <string name="more_wellness_experts">more wellness experts</string>
+
+    <string name="payout_url">https://pacifyr.com/stripe_dev.html</string>
+    <string name="sign_up">sign up</string>
+    <string name="registration_failed">Registration Failed</string>
+    <string name="failed_register_message">\"Register Failed - Your mobile number is already registered. Please log in using the new verification code.\"</string>
+    <string name="select_specialisation">Select a specilaization</string>
+    <string name="no_wellness_experts_category">No Wellness Experts for the selected category.</string>
+    <string name="please_try_again">Please try again</string>
+    <string name="success">success</string>
+    <string name="contact_us">SUPPORT</string>
+    <string name="title_activity_android_dashoard">my dash board</string>
+    <string name="no_messages">There are no messages.</string>
+    <string name="register">register</string>
+    <string name="start_session">Session Started</string>
+    <string name="have_discount_code">Have a discount code?</string>
+    <string name="skip_this_step">Skip this step</string>
+    <string name="query_hint_search_pacifyr">search for a pacifyr</string>
+
+    /** URLS **/
+    <string name="CHANNEL_ID">pam_general_notifications</string>
+    <string name="APP_SOURCE">pam</string>
+    <string name="URL_PRIVACY_POLICY">https://omhealthcare.com/privacyPolicy</string>
+    <string name="URL_TERMS">https://omhealthcare.com/termsOfUse</string>
+    <string name="URL_DISPUTE_POLICY">https://omhealthcare.com/copyrightDisputePolicy</string>
+    <string name="AWS_PROJECT">PAMDev</string>
+
+
+    <string name="raleway_bold">Raleway-Bold.ttf</string>
+    <string name="raleway_light">Raleway-Light.ttf</string>
+    <string name="raleway_medium">Raleway-Medium.ttf</string>
+    <string name="raleway_semi_bold">Raleway-SemiBold.ttf</string>
+    <string name="raleway_thin">Raleway-Thin.ttf</string>
+
+
+    <string name="avenir_black">GOTHICB.ttf</string>
+    <string name="avenir_book">GOTHICB.ttf</string>
+    <string name="avenir_medium">CenturyGothic.ttf</string>
+    <string name="CenturyGothic">CenturyGothic.ttf</string>
+
+
+    <string name="avanti_std_bk">ITCAvantGardeStd-Bk.otf</string>
+    <string name="avanti_std__bk_cn">ITCAvantGardeStd-BkCn.otf</string>
+    <string name="avanti_std__bk_cn_obl">ITCAvantGardeStd-BkCnObl.otf</string>
+    <string name="avanti_std__bk_obl">ITCAvantGardeStd-BkObl.otf</string>
+
+    <string name="avanti_std_bold">ActionBarCommonFont.otf</string>
+    <string name="avanti_std__bold_cn">ActionBarCommonFontCn.otf</string>
+    <string name="avanti_std__bold_cn_obl">ActionBarCommonFontCnObl.otf</string>
+    <string name="avanti_std__bold_obl">ActionBarCommonFontObl.otf</string>
+
+    <string name="avanti_demi">ITCAvantGardeStd-Demi.otf</string>
+    <string name="avanti_std_demi_cn">ITCAvantGardeStd-DemiCn.otf</string>
+    <string name="avanti_std__demi_cn_obl">ITCAvantGardeStd-DemiCnObl.otf</string>
+    <string name="avanti_std__demi_obl">ITCAvantGardeStd-DemiObl.otf</string>
+
+
+    <string name="avanti_std_md">ITCAvantGardeStd-Md.otf</string>
+    <string name="avanti_std__md_cn">ITCAvantGardeStd-MdCn.otf</string>
+    <string name="avanti_std__md_cn_obl">ITCAvantGardeStd-MdCnObl.otf</string>
+    <string name="avanti_std__md_obl">ITCAvantGardeStd-MdObl.otf</string>
+
+    <string name="avanti_std_xlt">ITCAvantGardeStd-.XLtotf</string>
+    <string name="avanti_std__xlt_cn">ITCAvantGardeStd-XLtCn.otf</string>
+    <string name="avanti_std__xlt_cn_obl">ITCAvantGardeStd-XLtCnObl.otf</string>
+    <string name="avanti_std__xlt_obl">ITCAvantGardeStd-XLtObl.otf</string>
+    <string name="pref_wellness_experts">Preferred Wellness Experts</string>
+
+
+    /**FindCare **/
+    <string name="primary_cares">Primary care</string>
+    <string name="where_are_you">WHERE ARE YOU?</string>
+    <string name="find_a_doctor">FIND A DOCTOR BY:</string>
+    <string name="current_location">Current location</string>
+    <string name="submit">Submit</string>
+    <string name="facility_hours">Facility hours</string>
+    <string name="website">Website</string>
+    <string name="prices">Prices</string>
+    <string name="gender">Gender</string>
+    <string name="board_certificates">Board-Certifications</string>
+    <string name="languagesspoken">Languages spoken</string>
+    <string name="hos_sur_center_affiliation">Hospital/Surgery Center affiliations</string>
+    <string name="office_visit">Office visit</string>
+    <string name="request_book">Request to book</string>
+    <string name="accept_new_pacients">Accept new pacients</string>
+
+</resources>

@@ -31,8 +31,8 @@ android {
             maven { url "https://jitpack.io" }
 
         }
-        debug{
-           /* applicationVariants.all { variant ->
+        debug {
+            /* applicationVariants.all { variant ->
                 renameAPK(variant, defaultConfig, 'Test')
             }*/
         }
@@ -49,7 +49,7 @@ android {
             }*/
 
             //Other parameters
-           /* debuggable false
+            /* debuggable false
             jniDebuggable false
             renderscriptDebuggable false
             pseudoLocalesEnabled false
@@ -113,6 +113,12 @@ android {
             versionName "1.0.2"
             versionCode 3
         }
+        pamapp {
+            dimension "Pacifyr"
+            applicationId "com.pacifyr.pam"
+            versionName "1.0.1"
+            versionCode 1
+        }
     }
 
 
@@ -148,15 +154,16 @@ android {
 
 
 }
+
 def renameAPK(variant, defaultConfig, buildType) {
     variant.outputs.all { output ->
         def formattedDate = new Date().format('dd-MM-yy')
 
 //        def file = output.packageApplication.outputFile
-        def fileName = buildType + "_"+ applicationName + "_" + formattedDate + ".apk"
+        def fileName = buildType + "_" + applicationName + "_" + formattedDate + ".apk"
         def relativeRootDir = output.packageApplication.outputDirectory.toPath()
                 .relativize(rootDir.toPath()).toFile()
-        outputFileName = new File( "$relativeRootDir/release", fileName)
+        outputFileName = new File("$relativeRootDir/release", fileName)
 //        output.packageApplication.outputFileName = new File(file.parent, fileName)
     }
 }

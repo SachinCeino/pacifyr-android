@@ -1,0 +1,559 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@color/white"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/include"
+        layout="@layout/actionbar_grey"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"></include>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/include">
+
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/request_booking">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="320dp"
+                    android:id="@+id/top_header">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:id="@+id/l1"
+                        android:background="@color/color_primary">
+
+                        <com.pacifyr.omhealthcare.views.PamTextViewMedium
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:text="Vineesh Kumsr mk"
+                            android:textColor="@color/white"
+                            android:textStyle="bold"
+                            android:textSize="@dimen/text_view_find_care_sub" />
+                    </LinearLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:id="@+id/l2"
+                        android:orientation="vertical"
+                        android:layout_below="@+id/l1">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            android:weightSum="3">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="0.5"></LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="right"
+                                android:layout_weight="2"
+                                android:gravity="right"
+                                android:orientation="vertical">
+
+                                <com.pacifyr.omhealthcare.views.PamTextViewMedium
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="right"
+                                    android:gravity="right"
+                                    android:text="Primary Doctor care"
+                                    android:layout_marginLeft="25dp"
+                                    android:textSize="@dimen/text_view_find_care_sub" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:layout_gravity="right"
+                                    android:gravity="right">
+
+                                    <include
+                                        android:id="@+id/rating"
+                                        layout="@layout/doctor_horizontal_rating_bar"
+                                        android:layout_width="145dp"
+                                        android:layout_height="25dp"
+                                        android:layout_marginLeft="30dp"
+                                        android:layout_gravity="right"></include>
+
+                                    <com.pacifyr.omhealthcare.views.PamTextViewBold
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="770"
+                                        android:textSize="9sp"
+                                        android:textStyle="bold"
+                                        android:gravity="center"
+                                        android:layout_gravity="center"
+                                        android:layout_margin="3dp" />
+
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="0.5"
+                                android:layout_gravity="center"
+                                android:gravity="center">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:id="@+id/favorite_doctor"
+                                    app:srcCompat="@drawable/favorite_doctor" />
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="170dp"
+                        android:layout_below="@+id/l2"
+                        android:id="@+id/map"
+                        android:orientation="vertical"
+                        android:background="@drawable/map_demo"></LinearLayout>
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_margin="15dp"
+                    android:layout_below="@+id/top_header">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:weightSum="3">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="0.5"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            android:padding="10dp">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:srcCompat="@drawable/svg_address"
+                                android:layout_gravity="center" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="2"
+                            android:layout_height="wrap_content">
+
+                            <com.pacifyr.omhealthcare.views.PamTextViewMedium
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="10dp"
+                                android:text="wbedoywebweyd Straaat awlfwbecwyfwhklechifbeffemcfehf"
+                                android:textSize="14sp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="0.5"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            android:padding="10dp">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:srcCompat="@drawable/svg_next"
+                                android:layout_gravity="center" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/grey"></View>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:weightSum="3">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="0.5"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            android:padding="10dp">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:srcCompat="@drawable/svg_call"
+                                android:layout_gravity="center" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="2"
+                            android:layout_height="wrap_content">
+
+                            <com.pacifyr.omhealthcare.views.PamTextViewMedium
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="10dp"
+                                android:text="7-5885-8584-96"
+                                android:textSize="14sp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="0.5"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            android:padding="10dp">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:srcCompat="@drawable/svg_next"
+                                android:layout_gravity="center" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/grey"></View>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginBottom="10dp">
+
+                        <com.pacifyr.omhealthcare.views.PamTextViewBold
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/facility_hours"
+                            android:textColor="@color/blue_fb"
+                            android:textStyle="bold"
+                            android:textSize="@dimen/text_view_sub_title" />
+
+                        <com.pacifyr.omhealthcare.views.PamTextViewMedium
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+                            android:textColor="@color/grey_dark"
+                            android:textSize="@dimen/text_view_sub_title" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginBottom="10dp">
+
+                        <com.pacifyr.omhealthcare.views.PamTextViewBold
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/website"
+                            android:textColor="@color/blue_fb"
+                            android:textStyle="bold"
+                            android:textSize="@dimen/text_view_sub_title" />
+
+                        <com.pacifyr.omhealthcare.views.PamTextViewMedium
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="www.google.com"
+                            android:textColor="@color/grey_dark"
+                            android:textSize="@dimen/text_view_sub_title" />
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginBottom="10dp">
+
+                        <com.pacifyr.omhealthcare.views.PamTextViewBold
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/prices"
+                            android:textColor="@color/blue_fb"
+                            android:textStyle="bold"
+                            android:textSize="@dimen/text_view_sub_title" />
+
+                        <com.pacifyr.omhealthcare.views.PamTextViewMedium
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Lorem ipmod t l\ne magna aliqua"
+                            android:textColor="@color/grey_dark"
+                            android:textSize="@dimen/text_view_sub_title" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginBottom="10dp">
+
+                        <com.pacifyr.omhealthcare.views.PamTextViewBold
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/accept_new_pacients"
+                            android:textColor="@color/blue_fb"
+                            android:textStyle="bold"
+                            android:textSize="@dimen/text_view_sub_title" />
+
+                        <com.pacifyr.omhealthcare.views.PamTextViewMedium
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Yes"
+                            android:textColor="@color/grey_dark"
+                            android:textSize="@dimen/text_view_sub_title" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginBottom="10dp">
+
+                        <com.pacifyr.omhealthcare.views.PamTextViewBold
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/education"
+                            android:textColor="@color/blue_fb"
+                            android:textStyle="bold"
+                            android:textSize="@dimen/text_view_sub_title" />
+
+                        <com.pacifyr.omhealthcare.views.PamTextViewMedium
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Lorem ipmod t l\ne magna aliquasdvferwcwrwr wef aer\ngvesfcdfs"
+                            android:textColor="@color/grey_dark"
+                            android:textSize="@dimen/text_view_sub_title" />
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginBottom="10dp">
+
+                        <com.pacifyr.omhealthcare.views.PamTextViewBold
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/gender"
+                            android:textColor="@color/blue_fb"
+                            android:textStyle="bold"
+                            android:textSize="@dimen/text_view_sub_title" />
+
+                        <com.pacifyr.omhealthcare.views.PamTextViewMedium
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Male"
+                            android:textColor="@color/grey_dark"
+                            android:textSize="@dimen/text_view_sub_title" />
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginBottom="10dp">
+
+                        <com.pacifyr.omhealthcare.views.PamTextViewBold
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/specialities"
+                            android:textColor="@color/blue_fb"
+                            android:textStyle="bold"
+                            android:textSize="@dimen/text_view_sub_title" />
+
+                        <com.pacifyr.omhealthcare.views.PamTextViewMedium
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="cebeifnercey\nxwbtitecerer"
+                            android:textColor="@color/grey_dark"
+                            android:textSize="@dimen/text_view_sub_title" />
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginBottom="10dp">
+
+                        <com.pacifyr.omhealthcare.views.PamTextViewBold
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/board_certificates"
+                            android:textColor="@color/blue_fb"
+                            android:textStyle="bold"
+                            android:textSize="@dimen/text_view_sub_title" />
+
+                        <com.pacifyr.omhealthcare.views.PamTextViewMedium
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="cebeifnercey\qwwegffdsadfghnngfdsa\nfsdhfvgdshasdfghgnbvc"
+                            android:textColor="@color/grey_dark"
+                            android:textSize="@dimen/text_view_sub_title" />
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginBottom="10dp">
+
+                        <com.pacifyr.omhealthcare.views.PamTextViewBold
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/hos_sur_center_affiliation"
+                            android:textColor="@color/blue_fb"
+                            android:textStyle="bold"
+                            android:textSize="@dimen/text_view_sub_title" />
+
+                        <com.pacifyr.omhealthcare.views.PamTextViewMedium
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="cebeifnercey\qwwegffdsadfghnngfdsa\nfsdhfvgdshasdfghgnbvc"
+                            android:textColor="@color/grey_dark"
+                            android:textSize="@dimen/text_view_sub_title" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginBottom="10dp">
+
+                        <com.pacifyr.omhealthcare.views.PamTextViewBold
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/languagesspoken"
+                            android:textColor="@color/blue_fb"
+                            android:textStyle="bold"
+                            android:textSize="@dimen/text_view_sub_title" />
+
+                        <com.pacifyr.omhealthcare.views.PamTextViewMedium
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="English\nJapaniese\nFrench"
+                            android:textColor="@color/grey_dark"
+                            android:textSize="@dimen/text_view_sub_title" />
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="110dp"
+                    android:layout_height="120dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:src="@drawable/doctor_demo"
+                    app:civ_border_color="@color/grey"
+                    app:civ_border_width="5dp"
+                    android:layout_marginTop="20dp"
+                    app:civ_circle_background_color="@color/color_primary" />
+
+
+            </RelativeLayout>
+        </android.support.v4.widget.NestedScrollView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:orientation="horizontal"
+            android:background="@color/grey_dark"
+            android:layout_alignParentBottom="true"
+            android:id="@+id/request_booking">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                android:layout_gravity="center_vertical">
+
+                <com.pacifyr.omhealthcare.views.PamTextViewBold
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="$75"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_view_find_care_main"
+                    android:textStyle="bold"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="10dp" />
+
+                <com.pacifyr.omhealthcare.views.PamTextViewMedium
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/office_visit"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_view_find_care_sub"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:layout_marginLeft="15dp" />
+            </LinearLayout>
+
+            <com.pacifyr.omhealthcare.views.PamTextViewMedium
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="@string/request_book"
+                android:textColor="@color/white"
+                android:background="@drawable/blue_round_square"
+                android:layout_marginRight="20dp"
+                android:textSize="@dimen/text_view_find_care_sub"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_marginLeft="20dp" />
+        </LinearLayout>
+    </RelativeLayout>
+
+</RelativeLayout>
