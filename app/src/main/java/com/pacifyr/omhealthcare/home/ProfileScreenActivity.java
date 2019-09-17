@@ -2,6 +2,7 @@ package com.pacifyr.omhealthcare.home;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.AppCompatRatingBar;
@@ -889,9 +890,11 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
         backImv.setVisibility(View.VISIBLE);
         titleTxv.setVisibility(View.VISIBLE);
         leftLlay.setVisibility(View.VISIBLE);
-        defSetText(titleTxv,"profile");
+        defSetText(titleTxv, "PROFILE");
+        Typeface type = Typeface.createFromAsset(getAssets(), "fonts/ActionBarCommonFont.otf");
+        titleTxv.setTypeface(type);
         //titleTxv.setText("Add Credit Card");
-        titleTxv.setTextColor(getResources().getColor(R.color.black));
+        titleTxv.setTextColor(getResources().getColor(R.color.white));
         //backImv.setBackgroundResource(R.drawable.leftmen);
         leftLlay.setOnClickListener(new View.OnClickListener() {
             @Override
