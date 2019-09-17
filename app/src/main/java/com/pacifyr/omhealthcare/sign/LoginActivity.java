@@ -721,7 +721,7 @@ public class LoginActivity extends PacifyerActivity {
         backImv.setVisibility(View.VISIBLE);
         titleTxv.setVisibility(View.VISIBLE);
         leftLlay.setVisibility(View.VISIBLE);
-        defSetText(titleTxv,"log in");
+        defSetText(titleTxv, "Sign in");
         Typeface type = Typeface.createFromAsset(getAssets(),getResources().getString(R.string.avantica_bold_header));
         titleTxv.setTypeface(type);
         //backImv.setBackgroundResource(R.drawable.leftmen);

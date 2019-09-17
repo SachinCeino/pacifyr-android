@@ -64,7 +64,7 @@
     <string name="title_activity_login">Sign in</string>
     <string name="prompt_password">Password</string>
     <string name="prompt_phone">Phone number</string>
-    <string name="signup_fb">sign up via facebook</string>
+    <string name="signup_fb">Sign up via Facebook</string>
     <string name="e_phonenumber">Enter your phone number </string>
     <string name="e_con_code">Enter confirmation code</string>
     <string name="phone">Phone number</string>
@@ -81,7 +81,7 @@
     <string name="terms_of_use">Terms of Use</string>
     <string name="send_confirmcode">send confirmation code </string>
     <string name="didnt_get_code">Did not receive a code? Resend </string>
-    <string name="action_sign_in">sign in or register</string>
+    <string name="action_sign_in">Sign in or Register</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">This password is too short</string>
@@ -190,7 +190,7 @@
     <string name="action_screen_share">Screen share</string>
     <string name="action_update_opponens_list">Update opponents list</string>
     <string name="action_logout">Logout</string>
-    <string name="sign_in">sign in</string>
+    <string name="sign_in">Sign in</string>
     <string name="action_start_video_call">Video call</string>
     <string name="action_start_audio_call">Audio call</string>
 

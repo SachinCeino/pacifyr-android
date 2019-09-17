@@ -119,7 +119,7 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="more_wellness_experts">more wellness experts</string>
 
     <string name="payout_url">https://pacifyr.com/stripe_dev.html</string>
-    <string name="sign_up">sign up</string>
+    <string name="sign_up">Sign up</string>
     <string name="registration_failed">Registration Failed</string>
     <string name="failed_register_message">\"Register Failed - Your mobile number is already registered. Please log in using the new verification code.\"</string>
     <string name="select_specialisation">Select a specilaization</string>
@@ -129,7 +129,7 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="contact_us">SUPPORT</string>
     <string name="title_activity_android_dashoard">my dash board</string>
     <string name="no_messages">There are no messages.</string>
-    <string name="register">register</string>
+    <string name="register">Register</string>
     <string name="start_session">Session Started</string>
     <string name="have_discount_code">Have a discount code?</string>
     <string name="skip_this_step">Skip this step</string>
