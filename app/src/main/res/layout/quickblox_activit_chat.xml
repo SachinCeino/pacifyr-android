@@ -78,7 +78,7 @@
             android:layout_margin="4dp"
             android:padding="5sp"
             android:hint="@string/chat_edit_text_hint"
-            android:inputType="textShortMessage"
+            android:inputType="textShortMessage|textCapSentences"
             android:maxLength="1024" />
 
         <ImageButton
