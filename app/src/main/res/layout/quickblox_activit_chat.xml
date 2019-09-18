@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    xmlns:swipedeck="http://schemas.android.com/apk/res-auto">
+    android:background="@color/white">
 
     <include layout="@layout/actionbar_chat_three_text_image"
         android:id="@+id/include"
@@ -20,7 +18,7 @@
     style="@style/MatchParent"
     tools:ignore="RtlHardcoded">
 
-    <se.emilsjolander.stickylistheaders.StickyListHeadersListView
+    <ListView
         android:id="@+id/list_chat_messages"
         style="@style/ListViewWithoutDividerStyle"
         android:layout_above="@+id/layout_attachment_preview_container"

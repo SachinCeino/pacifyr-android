@@ -487,7 +487,6 @@ public class DialogsActivity extends PacifyerActivity implements DialogsManager.
         public void onDestroyActionMode(ActionMode mode) {
             currentActionMode = null;
             dialogsAdapter.clearSelection();
-            fab.show();
         }
 
         private void deleteSelectedDialogs() {

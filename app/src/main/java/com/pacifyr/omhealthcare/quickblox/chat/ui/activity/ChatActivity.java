@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
@@ -63,7 +64,6 @@ import java.util.Collections;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
 import static com.pacifyr.omhealthcare.network.NetworkService.GLOBAL_IMAGE_URL;
 
@@ -78,7 +78,7 @@ public class ChatActivity extends PacifyrAppCompactActivity implements OnImagePi
     public static final String EXTRA_DIALOG_ID = "dialogId";
 
     private ProgressBar progressBar;
-    private StickyListHeadersListView messagesListView;
+    private ListView messagesListView;
     private EditText messageEditText;
 
     private LinearLayout attachmentPreviewContainerLayout;
@@ -654,7 +654,6 @@ public class ChatActivity extends PacifyrAppCompactActivity implements OnImagePi
                         }
                     }
                     messagesListView.setAdapter(chatAdapter);
-                    messagesListView.setAreHeadersSticky(false);
                     messagesListView.setDivider(null);
                 } else {
                     chatAdapter.addList(messages);
