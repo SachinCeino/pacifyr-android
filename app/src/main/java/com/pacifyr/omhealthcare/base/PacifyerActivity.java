@@ -793,13 +793,21 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
         text_date.setTypeface(FontCache.get(getString(R.string.CenturyGothic), PacifyerActivity.this));
         text_start_date.setTypeface(FontCache.get(getString(R.string.CenturyGothic), PacifyerActivity.this));
         text_duration.setTypeface(FontCache.get(getString(R.string.CenturyGothic), PacifyerActivity.this));
+        PrefManager prefM = PrefManager.getInstance(getApplicationContext());
+        String country = prefM.getCountry();
+        String sign = "$";
+        if (country.equals("India")) {
+            sign = getApplicationContext().getResources().getString(R.string.rupee);
+        } else {
+            sign = getApplicationContext().getResources().getString(R.string.dollar);
+        }
         text_amount_charged.setTypeface(FontCache.get(getString(R.string.CenturyGothic), PacifyerActivity.this));
         try {
-            text_provider.setText(billingSummary.getSession().getUser().getFirstName());
+            text_provider.setText(billingSummary.getSession().getPacifyr().getFirstName());
             text_date.setText(date);
             text_start_date.setText(time);
             text_duration.setText(billingSummary.getSession().getDuration());
-            text_amount_charged.setText(billingSummary.getSessionCost() + "");
+            text_amount_charged.setText(sign + " : " + billingSummary.getSessionCost() + "");
         } catch (Exception e) {
             e.printStackTrace();
         }

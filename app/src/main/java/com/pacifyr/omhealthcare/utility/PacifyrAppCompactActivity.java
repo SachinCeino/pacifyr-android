@@ -68,6 +68,7 @@ import static com.ceino.utilitylibrary.network.UtilityNetworkService.AUTH_KEY;
 import static com.ceino.utilitylibrary.network.UtilityNetworkService.AUTH_SECRET;
 import static com.ceino.utilitylibrary.network.UtilityNetworkService.GLOBAL_IMAGE_URL;
 import static com.pacifyr.omhealthcare.network.NetworkService.GLOBAL_URL;
+import static com.pacifyr.omhealthcare.network.NetworkService.modelCustomerDashboard2;
 
 //import com.google.android.gms.gcm.GoogleCloudMessaging;
 //import com.pacifyr.pacifyrapp.utils.LogUtils;
@@ -503,6 +504,9 @@ public abstract class PacifyrAppCompactActivity  extends PacifyerActivity {
                                     hideStatus();
                                     //NetworkService.GLOBALURL=NetworkService.SIGN_GLOBALURL;
                                     showSignActivty();
+                                    if (isValid(modelCustomerDashboard2))
+                                        modelCustomerDashboard2 = null;
+
                                 }
                             }, 500);
 

@@ -21,7 +21,7 @@
                 android:textStyle="bold"
                 android:textColor="@color/colorPrimary"
                 android:id="@+id/nagative_ctxv"
-                android:text="NEAGATIVE"/>
+                android:text="NEGATIVE" />
 
 
             <android.support.v7.widget.RecyclerView
