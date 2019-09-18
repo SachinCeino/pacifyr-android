@@ -24,7 +24,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.MyView
     List<MComments> list;
     Context context;
     CommentClick clicklistner;
-    private boolean editable;
+    private boolean editable = true;
    /* public class MComments
     {
         public String item;
