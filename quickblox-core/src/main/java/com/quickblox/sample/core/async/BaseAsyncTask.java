@@ -1,11 +1,13 @@
 package com.quickblox.sample.core.async;
 
+import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
 @SuppressWarnings("deprecation")
+@SuppressLint("unchecked")
 public abstract class BaseAsyncTask<Params, Progress, Result> extends AsyncTask<Params, Progress, Result> {
     private static final String TAG = BaseAsyncTask.class.getSimpleName();
 

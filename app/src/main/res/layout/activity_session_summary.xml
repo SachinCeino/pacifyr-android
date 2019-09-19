@@ -513,41 +513,6 @@
                                 android:layout_height="wrap_content" />
 
                         </RelativeLayout>
-
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:visibility="gone"
-                            android:layout_marginTop="10dp"
-                            android:id="@+id/notes_Layout"
-                            android:orientation="vertical">
-
-                            <com.ceino.utilitylibrary.CustomFontTextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:id="@+id/notes"
-                                android:text="Notes"
-                                android:textColor="@color/grey_dark"
-                                app:fontName="@string/avanti_std_bk"
-                                android:textSize="14sp" />
-
-                            <com.ceino.utilitylibrary.CustomEditText
-                                android:id="@+id/etv_notes"
-                                android:layout_marginTop="3dp"
-                                android:layout_below="@+id/notes"
-                                android:layout_width="wrap_content"
-                                android:inputType="textMultiLine"
-                                android:textSize="@dimen/sp17"
-                                android:hint="@string/comments"
-                                android:focusedByDefault="false"
-                                android:defaultFocusHighlightEnabled="false"
-                                android:textColorHint="@color/medium_grey_pacifyr"
-                                android:layout_height="wrap_content" />
-
-
-                        </RelativeLayout>
-
-
                     </LinearLayout>
                 </android.support.v4.widget.NestedScrollView>
 

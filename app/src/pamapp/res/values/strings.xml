@@ -201,5 +201,8 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="office_visit">Office visit</string>
     <string name="request_book">Request to book</string>
     <string name="accept_new_pacients">Accept new pacients</string>
+    <string name="find_care">FIND CARE</string>
+    <string name="search_result">SEARCH RESULT</string>
+    <string name="doctor_profile">DOCTOR PROFILE</string>
 
 </resources>

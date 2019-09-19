@@ -2,5 +2,9 @@
 
     <application>
         <activity android:name="com.pacifyr.omhealthcare.home.DoctorsActivity"></activity>
+        <activity android:name="com.pacifyr.omhealthcare.home.DoctorsSearchResultActivity"></activity>
+        <activity android:name="com.pacifyr.omhealthcare.home.DoctorsMoreInformationActivity"></activity>
+
+
     </application>
 </manifest>

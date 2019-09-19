@@ -394,31 +394,4 @@
         android:textSize="18sp"
         android:visibility="invisible" />
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_centerHorizontal="true"
-        android:layout_above="@+id/call_layout"
-        android:gravity="center"
-        android:visibility="gone"
-        android:layout_marginBottom="30dp">
-
-        <ImageButton
-            android:id="@+id/img_button_add_note"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            app:srcCompat="@drawable/svg_add_note" />
-
-        <com.ceino.utilitylibrary.CustomFontTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:layout_margin="3dp"
-            android:textSize="13sp"
-            app:fontName="@string/avenir_black"
-            android:text="Add Note" />
-    </LinearLayout>
-
 </RelativeLayout>

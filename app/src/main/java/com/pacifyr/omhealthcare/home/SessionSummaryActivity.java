@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -190,6 +191,9 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
         context.startActivity(intent);
     }
 
+    private ImageButton img_notes;
+    private ImageView callTypeDimv;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -205,6 +209,49 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
                         WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
                         WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
 */
+
+        img_notes = findViewById(R.id.img_notes);
+        img_notes.setVisibility(View.GONE);
+        img_blue_bg = findViewById(R.id.img_blue_bg);
+        callTypeDimv = findViewById(R.id.call_type_dimv);
+        pacifyrImgCimv = findViewById(R.id.last_session_cimv);
+        before_feel_ctxv = findViewById(R.id.before_feel_ctxv);
+          /*  after_feel_ctxv = (CustomFontTextView) findViewById(R.id.after_feel_ctxv);
+            after_feel_llay = (LinearLayout) findViewById(R.id.after_feel_llay);*/
+
+          /*    rating_llay = (LinearLayout) findViewById(R.id.rating_llay);
+            before_feel_llay = (LinearLayout) findViewById(R.id.before_feel_llay);
+            after_feel_llay = (LinearLayout) findViewById(R.id.after_feel_llay);
+            afterFeelSelectionLlay = (LinearLayout) findViewById(R.id.after_feel_selection_llay);*/
+
+        rating_llay = findViewById(R.id.rating_llay);
+        before_feel_llay = findViewById(R.id.before_feel_llay);
+        //  after_feel_llay = (RelativeLayout) findViewById(R.id.after_feel_llay);
+        afterFeelSelectionLlay = findViewById(R.id.after_feel_selection_llay);
+
+        afterFeelSelectionCtxv = findViewById(R.id.after_feel_selection_ctxv);
+        pacifyrEaringsLlay = findViewById(R.id.pacifyr_earings_llay);
+        earingstCtxv = findViewById(R.id.earingst_ctxv);
+        comapnyfeesCtxv = findViewById(R.id.comapnyfees_ctxv);
+        customer_fees_llay = findViewById(R.id.customer_fees_llay);
+
+        before_emotion_ctxv = findViewById(R.id.before_emotion_ctxv);
+        callback_ctxv = findViewById(R.id.callback_ctxv);
+        sessionCostCtxv = findViewById(R.id.session_cost_ctxv);
+        pacifyrNameCtxv = findViewById(R.id.pacifyr_name_ctxv);
+        beforeFeelDimv = findViewById(R.id.before_feel_dimv);
+        recyclerView = findViewById(R.id.begning_rcv);
+        commentsRcv = findViewById(R.id.comments_rcv);
+        pacifyrRateCtxv = findViewById(R.id.pacifyr_rate_ctxv);
+        durationCtxv = findViewById(R.id.duration_ctxv);
+        comments_cedt = findViewById(R.id.comments_cedt);
+
+        rating_bar = findViewById(R.id.rating_bar);
+        //rating_bar = (RatingBar) findViewById(R.id.rating_bar);
+        effective_seekbar = findViewById(R.id.effective_seekbar);
+        //holoCircleSeekBar=(HoloCircleSeekBar) findViewById(R.id.picker);
+        //effective_circle_view = (CircleView) findViewById(R.id.effective_circle_view);
+        circleProgressView = findViewById(R.id.circle_progress_view);
 
 
         if (!isCustomer() && !isPacifyer()) {
@@ -234,6 +281,7 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
         } else
             handlerFinish("Network Interrupted");
         //  finish();
+
 
         comments_cedt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -287,49 +335,7 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
             LogUtils.LOGD("session", " SSA onCreateView ");
             onSetActionBar();
 
-            img_blue_bg = findViewById(R.id.img_blue_bg);
 
-            pacifyrImgCimv = findViewById(R.id.last_session_cimv);
-            before_feel_ctxv = findViewById(R.id.before_feel_ctxv);
-          /*  after_feel_ctxv = (CustomFontTextView) findViewById(R.id.after_feel_ctxv);
-            after_feel_llay = (LinearLayout) findViewById(R.id.after_feel_llay);*/
-
-          /*    rating_llay = (LinearLayout) findViewById(R.id.rating_llay);
-            before_feel_llay = (LinearLayout) findViewById(R.id.before_feel_llay);
-            after_feel_llay = (LinearLayout) findViewById(R.id.after_feel_llay);
-            afterFeelSelectionLlay = (LinearLayout) findViewById(R.id.after_feel_selection_llay);*/
-
-            rating_llay = findViewById(R.id.rating_llay);
-            before_feel_llay = findViewById(R.id.before_feel_llay);
-            //  after_feel_llay = (RelativeLayout) findViewById(R.id.after_feel_llay);
-            afterFeelSelectionLlay = findViewById(R.id.after_feel_selection_llay);
-
-            afterFeelSelectionCtxv = findViewById(R.id.after_feel_selection_ctxv);
-            pacifyrEaringsLlay = findViewById(R.id.pacifyr_earings_llay);
-            earingstCtxv = findViewById(R.id.earingst_ctxv);
-            comapnyfeesCtxv = findViewById(R.id.comapnyfees_ctxv);
-            customer_fees_llay = findViewById(R.id.customer_fees_llay);
-
-            before_emotion_ctxv = findViewById(R.id.before_emotion_ctxv);
-
-            notes_Layout = findViewById(R.id.notes_Layout);
-            etv_notes = findViewById(R.id.etv_notes);
-            callback_ctxv = findViewById(R.id.callback_ctxv);
-            sessionCostCtxv = findViewById(R.id.session_cost_ctxv);
-            pacifyrNameCtxv = findViewById(R.id.pacifyr_name_ctxv);
-            beforeFeelDimv = findViewById(R.id.before_feel_dimv);
-            recyclerView = findViewById(R.id.begning_rcv);
-            commentsRcv = findViewById(R.id.comments_rcv);
-            pacifyrRateCtxv = findViewById(R.id.pacifyr_rate_ctxv);
-            durationCtxv = findViewById(R.id.duration_ctxv);
-            comments_cedt = findViewById(R.id.comments_cedt);
-
-            rating_bar = findViewById(R.id.rating_bar);
-            //rating_bar = (RatingBar) findViewById(R.id.rating_bar);
-            effective_seekbar = findViewById(R.id.effective_seekbar);
-            //holoCircleSeekBar=(HoloCircleSeekBar) findViewById(R.id.picker);
-            //effective_circle_view = (CircleView) findViewById(R.id.effective_circle_view);
-            circleProgressView = findViewById(R.id.circle_progress_view);
 
             effective_seekbar.setProgress(effectiveness);
             circleProgressView.setProgress(effectiveness);
@@ -439,7 +445,7 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
             rating_bar.setClearRatingEnabled(true);
             rating_bar.setOnRatingChangeListener(new BaseRatingBar.OnRatingChangeListener() {
                 @Override
-                public void onRatingChange(BaseRatingBar baseRatingBar, float v, boolean f) {
+                public void onRatingChange(BaseRatingBar baseRatingBar, float v, boolean fromUser) {
                     //Log.e(TAG, "onRatingChange: " + rating);
                     rating = (int) baseRatingBar.getRating();
                 }
@@ -509,7 +515,7 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
 
 
                 oldRating = 0;
-
+                String callType = mSessionDetailRoot.getSessionType();
 
                 durationCtxv.setText(mSessionDetailRoot.getDuration());
                 if (isValid(mSessionDetailRoot.getEndTime()))
@@ -550,6 +556,11 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
                             Picasso.with(SessionSummaryActivity.this).load(imagePac).placeholder(R.drawable.placeholder_user).into(pacifyrImgCimv);
                     }
                 }
+
+                if (callType.equals("video")) {
+                    callTypeDimv.setImageResource(R.drawable.ic_videocam);
+                }
+
                 try {
                     MEmotion emotion = getEmotion();
                     LogUtils.LOGD("session", "SSA  onSetValues getEmotion() emotion " + emotion);

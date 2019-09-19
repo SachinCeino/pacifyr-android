@@ -7,8 +7,8 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="text_view_title">16dp</dimen>
     <dimen name="text_view_sub_title">16dp</dimen>
-    <dimen name="text_view_find_care_main">20sp</dimen>
-    <dimen name="text_view_find_care_sub">16sp</dimen>
+    <dimen name="text_view_find_care_main">18sp</dimen>
+    <dimen name="text_view_find_care_sub">15sp</dimen>
 
     <!-- Per the design guidelines, navigation drawers should be between 240dp and 320dp:
          https://developer.android.com/design/patterns/navigation-drawer.html -->

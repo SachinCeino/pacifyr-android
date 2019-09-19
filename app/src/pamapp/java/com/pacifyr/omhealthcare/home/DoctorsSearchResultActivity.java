@@ -1,0 +1,273 @@
+package com.pacifyr.omhealthcare.home;
+
+import android.graphics.Typeface;
+import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.androidquery.AQuery;
+import com.androidquery.callback.AjaxCallback;
+import com.androidquery.callback.AjaxStatus;
+import com.ceino.utilitylibrary.CustomFontTextView;
+import com.ceino.utilitylibrary.DeviceFitImageView;
+import com.ceino.utilitylibrary.model.pacifyr.MUser;
+import com.ceino.utilitylibrary.model.pacifyr.ModelSpecialist;
+import com.ceino.utilitylibrary.model.pacifyr.RespSearchPacifyrWOption;
+import com.ceino.utilitylibrary.utils.PrefManager;
+import com.pacifyr.omhealthcare.R;
+import com.pacifyr.omhealthcare.adapter.DoctorsSpecialityAdapter;
+import com.pacifyr.omhealthcare.adapter.PacifyrResultListViewAdapter;
+import com.pacifyr.omhealthcare.base.PacifyerActivity;
+import com.pacifyr.omhealthcare.event.AlertTypeEvent;
+import com.pacifyr.omhealthcare.event.NotifyEvent;
+import com.pacifyr.omhealthcare.network.GsonUtils;
+import com.pacifyr.omhealthcare.utility.PacifyrAppCompactActivity;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.pacifyr.omhealthcare.network.NetworkService.GLOBAL_URL;
+import static com.pacifyr.omhealthcare.network.NetworkService.pSearchPacifyrWOptionsResponse;
+
+public class DoctorsSearchResultActivity extends PacifyrAppCompactActivity {
+
+
+    private String Speciality = "";
+    private RespSearchPacifyrWOption pSearchPacifyrWOptionsResponse;
+    private RecyclerView rcv_SearchResult;
+    private PacifyrResultListViewAdapter mPacifyrResultListViewAdapter;
+    private TextView total_results;
+    private RadioGroup mSegmentedGroup;
+    private RadioButton mRadioButtonA, mRadioButtonB;
+    private LinearLayout listViewTypeLayout, mapViewTypeLayout;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_doctors_search_result);
+        onSetActionBar();
+        rcv_SearchResult = findViewById(R.id.rcv_SearchResult);
+        total_results = findViewById(R.id.total_results);
+        mSegmentedGroup = (RadioGroup) findViewById(R.id.segmentedgroup);
+        mRadioButtonB = (RadioButton) findViewById(R.id.rblistView);
+        mRadioButtonA = (RadioButton) findViewById(R.id.rbMapView);
+        listViewTypeLayout = findViewById(R.id.listViewTypeLayout);
+        mapViewTypeLayout = findViewById(R.id.mapViewTypeLayout);
+        fillColour_ForRadioButton(mRadioButtonB);
+        fillNoColor_ForRadioButton(mRadioButtonA);
+
+        mSegmentedGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                switch (i) {
+                    case R.id.rblistView:
+
+                        fillColour_ForRadioButton(mRadioButtonB);
+                        fillNoColor_ForRadioButton(mRadioButtonA);
+                        listViewTypeLayout.setVisibility(View.VISIBLE);
+                        mapViewTypeLayout.setVisibility(View.GONE);
+                        break;
+
+
+                    case R.id.rbMapView:
+
+                        fillColour_ForRadioButton(mRadioButtonA);
+                        fillNoColor_ForRadioButton(mRadioButtonB);
+                        listViewTypeLayout.setVisibility(View.GONE);
+                        mapViewTypeLayout.setVisibility(View.VISIBLE);
+                        break;
+
+                }
+            }
+        });
+
+        if (isValid(getIntent().getExtras().get("Speciality"))) {
+            Speciality = getIntent().getExtras().get("Speciality").toString();
+        }
+
+        if (isValid(Speciality))
+            webSearchPacifyrWOptions(Speciality);
+
+
+    }
+
+    @Override
+    public void onSetValues() throws Exception {
+
+    }
+
+    @Override
+    public void onNotifyEvent(NotifyEvent event) {
+
+    }
+
+    @Override
+    public void onAlertTypeEvent(AlertTypeEvent event) {
+
+    }
+
+
+    /**
+     * set background
+     * as filling a colour
+     **/
+
+    private void fillColour_ForRadioButton(RadioButton _RadioButton) {
+
+
+        if (_RadioButton.getId() == R.id.rblistView) {
+
+            _RadioButton.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.segment_background_radiobutton_fill_right));
+        } else {
+            _RadioButton.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.segment_background_radiobutton_fill_left));
+
+        }
+
+        _RadioButton.setTextColor(getResources().getColor(R.color.RadioButtonSelectedColour));
+    }
+
+    /**
+     * set background
+     * as no colour
+     **/
+
+    private void fillNoColor_ForRadioButton(RadioButton _RadioButton) {
+        if (_RadioButton.getId() == R.id.rblistView) {
+
+            _RadioButton.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.segment_background_radiobutton_empty_right_button));
+
+        } else {
+
+            _RadioButton.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.segment_background_radiobutton_empty_left_button));
+
+        }
+
+        _RadioButton.setTextColor(getResources().getColor(R.color.RadioButtonUnSelectedColour));
+    }
+
+
+    public void webSearchPacifyrWOptions(String Speciality) {
+        try {
+
+
+            setLoading("loading...");
+            showProgress();
+            String url = GLOBAL_URL + getRoleSearchMap().get(getPrefManager().getCustomerRole());
+
+            AjaxCallback cb = new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject json, AjaxStatus status) {
+                    try {
+                        pSearchPacifyrWOptionsResponse = GsonUtils.getInstance().gsonToRespSearchPacifyrWOption(json);
+                        pSearchPacifyrWOptionsResponse.toString();
+                        String js = json.toString();
+                        hideProgress();
+                        setPacifyrsListView();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            };
+
+            AQuery aq = new AQuery(DoctorsSearchResultActivity.this);
+            cb.header("Content-Type", "application/json");
+            cb.header("AccessToken", getPrefManager().getAccessToken());
+
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.putOpt("initiatorId", getPrefManager().getUserID());
+            jsonObject.putOpt("companyId", getPrefManager().getCompanyId());
+            jsonObject.putOpt("includeChargeablePacifyrs", true);
+            jsonObject.putOpt("country", getPrefManager().getCountry());
+
+            List<String> list = new ArrayList<String>();
+            list.add(Speciality);
+            JSONArray array = new JSONArray();
+            for (int i = 0; i < list.size(); i++) {
+                array.put(list.get(i));
+            }
+            jsonObject.putOpt("specialities", array);
+            aq.post(url, jsonObject, JSONObject.class, cb);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private void setPacifyrsListView() {
+        if (isValid(pSearchPacifyrWOptionsResponse)) {
+            ArrayList<MUser> list = new ArrayList<MUser>();
+            list.clear();
+            list = pSearchPacifyrWOptionsResponse.getResultsList();
+            if (isValid(list)) {
+                total_results.setText(list.size() + " result");
+                mPacifyrResultListViewAdapter = new PacifyrResultListViewAdapter(list, getApplicationContext());
+                RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
+                rcv_SearchResult.setLayoutManager(layoutManager);
+                rcv_SearchResult.setAdapter(mPacifyrResultListViewAdapter);
+                rcv_SearchResult.setItemAnimator(new DefaultItemAnimator());
+
+            } else {
+
+            }
+        }
+    }
+
+    @Override
+    protected View getSnackbarAnchorView() {
+        return null;
+    }
+
+
+    private LinearLayout actionBarTopLlay;
+    private RelativeLayout bottomPanel;
+    private LinearLayout leftLlay;
+    private DeviceFitImageView backImv;
+    private CustomFontTextView leftTxv;
+    private CustomFontTextView titleTxv;
+    private LinearLayout rightLlay;
+    private CustomFontTextView rightTxv;
+    private DeviceFitImageView rightImv;
+
+    public void onSetActionBar() {
+        actionBarTopLlay = (LinearLayout) findViewById(R.id.action_bar_top_llay);
+        bottomPanel = (RelativeLayout) findViewById(R.id.bottom_panel);
+        leftLlay = (LinearLayout) findViewById(R.id.left_llay);
+        backImv = (DeviceFitImageView) findViewById(R.id.back_imv);
+        leftTxv = (CustomFontTextView) findViewById(R.id.left_txv);
+        titleTxv = (CustomFontTextView) findViewById(R.id.title_txv);
+        rightLlay = (LinearLayout) findViewById(R.id.right_llay);
+        rightTxv = (CustomFontTextView) findViewById(R.id.right_txv);
+        rightImv = (DeviceFitImageView) findViewById(R.id.right_imv);
+        rightImv.setVisibility(View.INVISIBLE);
+        rightTxv.setVisibility(View.INVISIBLE);
+        rightLlay.setVisibility(View.INVISIBLE);
+        leftTxv.setVisibility(View.INVISIBLE);
+        backImv.setVisibility(View.VISIBLE);
+        titleTxv.setVisibility(View.VISIBLE);
+        leftLlay.setVisibility(View.VISIBLE);
+        defSetText(titleTxv, getResources().getString(R.string.search_result));
+        Typeface type = Typeface.createFromAsset(getAssets(), getResources().getString(R.string.avantica_bold_header));
+        titleTxv.setTypeface(type);
+        //backImv.setBackgroundResource(R.drawable.leftmen);
+        leftLlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+    }
+
+
+}

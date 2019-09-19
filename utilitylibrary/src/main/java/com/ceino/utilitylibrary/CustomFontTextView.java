@@ -171,6 +171,7 @@ public class CustomFontTextView extends TextView {
         reAdjust();
     }
 
+
     @Override
     public void setLines(final int lines) {
         super.setLines(lines);

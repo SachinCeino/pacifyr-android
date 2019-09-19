@@ -61,8 +61,8 @@
     <color name="_color_action_bar_background_color">#F0F3F5</color>
 
 
-    <color name="round_button_fill_color">#E91E63</color>
-    <color name="round_button_border_color">#E91E63</color>
+    <color name="round_button_fill_color">@color/color_primary</color>
+    <color name="round_button_border_color">@color/color_primary</color>
     <color name="connect_wellness_expert_color">#FFFFFF</color>
 
 

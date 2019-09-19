@@ -6,7 +6,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <include
+        android:id="@+id/include"
+        layout="@layout/actionbar_grey"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"></include>
     <RelativeLayout
+        android:layout_below="@+id/include"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/submit">
@@ -27,8 +33,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/text_view_find_care_main"
-                    android:layout_marginBottom="20dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginTop="15dp"
                     android:textColor="@color/colorPrimary"
                     android:textStyle="bold"
                     android:lineSpacingExtra="10sp"
@@ -38,16 +44,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/current_location"
-                    android:padding="10dp"
+                    android:padding="8dp"
                     android:background="@drawable/black_border_white_back"
-                    android:layout_marginBottom="20dp" />
+                    android:layout_marginBottom="15dp" />
 
                 <com.pacifyr.omhealthcare.views.PamTextViewBold
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/text_view_find_care_main"
-                    android:layout_marginBottom="20dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginTop="15dp"
                     android:textColor="@color/colorPrimary"
                     android:textStyle="bold"
                     android:lineSpacingExtra="10sp"
@@ -87,7 +93,7 @@
                             android:background="@drawable/segment_background_radiobutton_empty_right_button"
                             android:button="@null"
                             android:gravity="center"
-                            android:padding="10dp"
+                            android:padding="5dp"
                             android:text="@string/primary_cares"
                             android:textColor="@color/colorPrimary"
                             android:textSize="19sp"
@@ -96,7 +102,7 @@
                         <RadioButton
                             android:id="@+id/rb3"
                             android:layout_width="match_parent"
-                            android:padding="10dp"
+                            android:padding="5dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:background="@drawable/segment_background_radiobutton_empty_left_button"
@@ -111,22 +117,83 @@
 
                 </LinearLayout>
 
-                <EditText
+                <com.pacifyr.omhealthcare.views.PamTextViewMedium
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/current_location"
-                    android:padding="10dp"
+                    android:hint="select one"
+                    android:padding="8dp"
+                    android:gravity="center_vertical"
+                    android:id="@+id/ETV_showSpecialities"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/black_border_white_back_search"
-                    android:layout_marginBottom="20dp" />
+                    android:layout_marginBottom="15dp"
+                    android:drawableEnd="@drawable/svg_down_arrow"
+                    android:drawableRight="@drawable/svg_down_arrow" />
+
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
-                    android:id="@+id/suggesionLayout"
+                    android:id="@+id/specialitiesLayout"
                     android:orientation="vertical"
+                    android:visibility="gone"
                     android:background="@drawable/black_border_white_back"
-                    android:layout_marginBottom="20dp"></LinearLayout>
+                    android:layout_marginBottom="15dp">
+
+                    <android.support.v7.widget.RecyclerView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/specialitiesRCV"
+                        android:scrollbars="vertical"
+                        android:nestedScrollingEnabled="true"
+                        android:scrollbarStyle="insideOverlay"
+                        android:scrollbarSize="2dp"></android.support.v7.widget.RecyclerView>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/primaryLayout"
+                    android:visibility="gone"
+                    android:orientation="vertical">
+
+                    <com.pacifyr.omhealthcare.views.PamTextViewMedium
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Facility"
+                        android:textSize="@dimen/text_view_find_care_sub"
+                        android:textStyle="bold"
+                        android:textColor="@color/blue_fb" />
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="eg.valley clininc"
+                        android:padding="8dp"
+                        android:focusedByDefault="false"
+                        android:background="@drawable/black_border_white_back"
+                        android:layout_marginBottom="15dp" />
+
+                    <com.pacifyr.omhealthcare.views.PamTextViewMedium
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Facility Type"
+                        android:textSize="@dimen/text_view_find_care_sub"
+                        android:textStyle="bold"
+                        android:textColor="@color/blue_fb" />
+
+                    <com.pacifyr.omhealthcare.views.PamTextViewMedium
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Not available now"
+                        android:gravity="center_vertical"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/black_border_white_back_search"
+                        android:layout_marginBottom="15dp"
+                        android:padding="8dp"
+                        android:drawableEnd="@drawable/svg_down_arrow"
+                        android:drawableRight="@drawable/svg_down_arrow" />
+                </LinearLayout>
 
                 <com.pacifyr.omhealthcare.views.PamTextViewMedium
                     android:layout_width="wrap_content"
@@ -140,9 +207,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="eg.Smith"
-                    android:padding="10dp"
+                    android:padding="8dp"
                     android:background="@drawable/black_border_white_back"
-                    android:layout_marginBottom="20dp" />
+                    android:layout_marginBottom="15dp" />
             </LinearLayout>
 
         </android.support.v4.widget.NestedScrollView>

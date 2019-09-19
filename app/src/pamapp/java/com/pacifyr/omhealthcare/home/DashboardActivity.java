@@ -101,6 +101,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity {
 
 
     private LinearLayout messagesLlay;
+    private LinearLayout findCare_layout;
 
 
     // private PermissionsChecker checker;
@@ -185,6 +186,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity {
 
 
         messagesLlay = findViewById(R.id.message_llay);
+        findCare_layout = findViewById(R.id.findCare_layout);
 
         //NetworkService.startActionCutomerDashboard(this);
         showFragment();
@@ -271,6 +273,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity {
 
             }
         });
+        browsePacifyr.setVisibility(View.VISIBLE);
         browsePacifyr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -369,7 +372,15 @@ public class DashboardActivity extends PacifyrAppCompactActivity {
                 //Toast.makeText(getActivity(),"Logout",Toast.LENGTH_LONG).show();
             }
         });
+        findCare_layout.setVisibility(View.VISIBLE);
+        findCare_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+                Intent intent = new Intent(DashboardActivity.this, DoctorsActivity.class);
+                startActivity(intent);
+            }
+        });
         new AmazonSNSTokenHandler(context).register();
 
     }

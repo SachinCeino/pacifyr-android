@@ -51,7 +51,6 @@ import com.pacifyr.omhealthcare.event.CallEvent;
 import com.pacifyr.omhealthcare.event.NotifyEvent;
 import com.pacifyr.omhealthcare.home.CustomerDetailActivity;
 import com.pacifyr.omhealthcare.home.ProfileScreenActivity;
-import com.pacifyr.omhealthcare.home.notes.NotesActivity;
 import com.pacifyr.omhealthcare.interfaces.EmpMinutesListener;
 import com.pacifyr.omhealthcare.network.GsonUtils;
 import com.pacifyr.omhealthcare.network.NetworkService;
@@ -496,7 +495,6 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
         emotion_rlay = view.findViewById(R.id.emotion_rlay);
 
         text_remaining_minutes.setVisibility(View.GONE);
-        img_button_add_note = view.findViewById(R.id.img_button_add_note);
         onUserInfoViews(view);
  //  participants_ctxv = (CustomFontTextView) view.findViewById(R.id.participants_ctxv);
         emotion_dimv.setVisibility(View.GONE);
@@ -564,17 +562,6 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
                 }
             }
         });
-
-        img_button_add_note.setVisibility(View.GONE);
-        img_button_add_note.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                NotesActivity.start(getActivity(), PacifyerActivity.sessionid);
-
-
-            }
-        });
-
 
        // ArrayList<MUser>call_user_list=getCallParticipantlist();
     }

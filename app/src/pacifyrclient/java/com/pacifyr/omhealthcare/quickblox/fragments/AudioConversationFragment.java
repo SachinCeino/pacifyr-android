@@ -39,7 +39,6 @@ import com.pacifyr.omhealthcare.event.CallEvent;
 import com.pacifyr.omhealthcare.event.NotifyEvent;
 import com.pacifyr.omhealthcare.home.CustomerDetailActivity;
 import com.pacifyr.omhealthcare.home.ProfileScreenActivity;
-import com.pacifyr.omhealthcare.home.notes.NotesActivity;
 import com.pacifyr.omhealthcare.interfaces.EmpMinutesListener;
 import com.pacifyr.omhealthcare.network.GsonUtils;
 import com.pacifyr.omhealthcare.network.NetworkService;
@@ -212,7 +211,6 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
         reason_ctxv.setVisibility(View.INVISIBLE);
         emotion_ctxv.setVisibility(View.INVISIBLE);
         text_remaining_minutes.setVisibility(View.GONE);
-        img_button_add_note = view.findViewById(R.id.img_button_add_note);
 
 //        callerAvatarImageView = (CircleImageView) view.findViewById(R.id.image_caller_avatar);
         //  firstOpponentNameTextView = (TextView) view.findViewById(R.id.text_caller_name);
@@ -277,15 +275,7 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
         });
 
 
-        img_button_add_note.setVisibility(View.GONE);
-        img_button_add_note.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                NotesActivity.start(getActivity(), PacifyerActivity.sessionid);
 
-
-            }
-        });
     }
 
     private String getOpponentId() {

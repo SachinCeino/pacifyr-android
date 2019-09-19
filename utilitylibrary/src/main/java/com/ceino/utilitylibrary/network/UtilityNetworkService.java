@@ -27,8 +27,10 @@ import org.json.JSONObject;
 public class UtilityNetworkService extends IntentService {
 
 
+
     /** Production*/
-    public static final String GLOBAL_URL = "https://app.pacifyr.net/pacifyr/v1/";
+    /** Please Check GLOBAL_URL before making Build**/
+   /*public static final String GLOBAL_URL =getGlobalUrl() ;
     //prod quickblox
     public static final String APP_ID = "61574";
     public static String GLOBAL_IMAGE_URL = "https://pacifyrprod.storage.googleapis.com/";
@@ -38,25 +40,39 @@ public class UtilityNetworkService extends IntentService {
     public static final String AUTH_SECRET = "jjpWMb9HRUVnTj7";
     public static final String ACCOUNT_KEY = "xMeisck3BS_X6xbjYTQi";
     public static final String ACCOUNT_ID = "77234";
-    public static final String CIRTIFICATE_KEY = "production";
+    public static final String CIRTIFICATE_KEY = "production";*/
     /** dev*/
-
-    /*public static final String GLOBAL_URL = "http://testapp.pacifyr.net:8080/pacifyr/v1/";
+    /**
+     * Please Check GLOBAL_URL before making Build
+     **/
+    public static String GLOBAL_URL = getGlobalUrl();
     public static String GLOBAL_IMAGE_URL = "https://pacifyrtest.storage.googleapis.com/";
     public static final String STRIPE_PUBLISH_KEY ="pk_test_FAVrlQ9hMG3RELCIcWUJpdZf";
 
 
     //dev
-    public static final String APP_ID = "60603";
-    public static final String AUTH_KEY = "RMyP9v64ke8ccet";
-    public static final String AUTH_SECRET = "6TAfArmeSzME8su";
+    //    /** Please Comment these three while bilding  Pam**/
+    // public static final String APP_ID = "60603";
+    //public static final String AUTH_KEY = "RMyP9v64ke8ccet";
+    // public static final String AUTH_SECRET = "6TAfArmeSzME8su";
+
+
     public static final String ACCOUNT_KEY = "xMeisck3BS_X6xbjYTQi";
     public static final String ACCOUNT_ID = "77234";
     public static final String TURN_SERVER = "turnserver.quickblox.com";
-    public static final String CIRTIFICATE_KEY="development";*/
-    public static boolean isRelease = true;
-    public static boolean isProd = true;
+    public static final String CIRTIFICATE_KEY = "development";
+    public static boolean isRelease = false;
+    public static boolean isProd = false;
 
+
+    //for PAM
+    /** dev*/
+    /**
+     * Please UnComment for Pam
+     **/
+    public static final String APP_ID = "78571";
+    public static final String AUTH_KEY = "6ZSW67fV5vcUOc7";
+    public static final String AUTH_SECRET = "7mQzMYGczcznz6z";
 
 
     /*public static final String  termOfUseUrl = "https://pacifyr.com/terms.html";
@@ -95,6 +111,26 @@ public class UtilityNetworkService extends IntentService {
 
 
     public static Users users;
+
+
+    public static String getGlobalUrl() {
+
+        /**-------TEST URL--------- **/
+
+        /**for  OM,Pacifyr,and LeadersUp**/
+        GLOBAL_URL = "http://testapp.pacifyr.net:8080/pacifyr/v1/";
+
+        /**for only Pam**/
+        //GLOBAL_URL="http://pam_test.pacifyr.net:8080/pacifyr/v1/";
+
+
+        /**-----------LIVE URL----------------**/
+
+        /**for  OM,Pacifyr,and LeadersUp**/
+        //GLOBAL_URL="https://app.pacifyr.net/pacifyr/v1/";
+
+        return GLOBAL_URL;
+    }
 
 
     public UtilityNetworkService() {
