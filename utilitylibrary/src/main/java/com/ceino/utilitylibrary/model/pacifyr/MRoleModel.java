@@ -1,10 +1,12 @@
 package com.ceino.utilitylibrary.model.pacifyr;
 
+import java.io.Serializable;
+
 /**
  * Created by Mani-Ceino on 12/14/2017.
  */
 
-public class MRoleModel {
+public class MRoleModel implements Serializable {
 
         private String updatedAt;
 

@@ -3,11 +3,13 @@ package com.ceino.utilitylibrary.model.pacifyr;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.io.Serializable;
+
 /**
  * Created by ceino on 8/3/18.
  */
 
-public class Education implements Parcelable
+public class Education implements Parcelable, Serializable
 {
     private String id;
 

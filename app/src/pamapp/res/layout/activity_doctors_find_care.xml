@@ -15,7 +15,7 @@
         android:layout_below="@+id/include"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/submit">
+        android:layout_above="@+id/footer">
 
         <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -40,7 +40,7 @@
                     android:lineSpacingExtra="10sp"
                     android:text="@string/where_are_you" />
 
-                <EditText
+                <com.pacifyr.omhealthcare.views.PamEditTextMedium
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/current_location"
@@ -59,7 +59,7 @@
                     android:lineSpacingExtra="10sp"
                     android:text="@string/find_a_doctor" />
 
-                <com.pacifyr.omhealthcare.views.PamTextViewMedium
+                <com.pacifyr.omhealthcare.views.PamTextViewBold
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="type"
@@ -108,7 +108,7 @@
                             android:background="@drawable/segment_background_radiobutton_empty_left_button"
                             android:button="@null"
                             android:gravity="center"
-                            android:text="speciallists"
+                            android:text="specialists"
                             android:textColor="@color/colorPrimary"
                             android:textStyle="bold"
                             android:textSize="19sp" />
@@ -120,7 +120,7 @@
                 <com.pacifyr.omhealthcare.views.PamTextViewMedium
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="select one"
+                    android:hint="Select Speciality"
                     android:padding="8dp"
                     android:gravity="center_vertical"
                     android:id="@+id/ETV_showSpecialities"
@@ -157,7 +157,7 @@
                     android:visibility="gone"
                     android:orientation="vertical">
 
-                    <com.pacifyr.omhealthcare.views.PamTextViewMedium
+                    <com.pacifyr.omhealthcare.views.PamTextViewBold
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Facility"
@@ -165,16 +165,16 @@
                         android:textStyle="bold"
                         android:textColor="@color/blue_fb" />
 
-                    <EditText
+                    <com.pacifyr.omhealthcare.views.PamEditTextMedium
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="eg.valley clininc"
-                        android:padding="8dp"
+                        android:padding="12dp"
                         android:focusedByDefault="false"
                         android:background="@drawable/black_border_white_back"
                         android:layout_marginBottom="15dp" />
 
-                    <com.pacifyr.omhealthcare.views.PamTextViewMedium
+                    <com.pacifyr.omhealthcare.views.PamTextViewBold
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Facility Type"
@@ -187,7 +187,6 @@
                         android:layout_height="wrap_content"
                         android:hint="Not available now"
                         android:gravity="center_vertical"
-                        android:layout_marginTop="10dp"
                         android:background="@drawable/black_border_white_back_search"
                         android:layout_marginBottom="15dp"
                         android:padding="8dp"
@@ -195,7 +194,7 @@
                         android:drawableRight="@drawable/svg_down_arrow" />
                 </LinearLayout>
 
-                <com.pacifyr.omhealthcare.views.PamTextViewMedium
+                <com.pacifyr.omhealthcare.views.PamTextViewBold
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="name"
@@ -203,36 +202,187 @@
                     android:textStyle="bold"
                     android:textColor="@color/blue_fb" />
 
-                <EditText
+                <com.pacifyr.omhealthcare.views.PamEditTextMedium
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="eg.Smith"
                     android:padding="8dp"
                     android:background="@drawable/black_border_white_back"
                     android:layout_marginBottom="15dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/submit"
+                    android:orientation="vertical"
+                    android:layout_alignParentBottom="true"
+                    android:layout_margin="15dp"
+                    android:gravity="center"
+                    android:background="@drawable/blue_border_lightblue">
+
+                    <com.pacifyr.omhealthcare.views.PamTextViewMedium
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="search"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_view_find_care_main"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
             </LinearLayout>
 
         </android.support.v4.widget.NestedScrollView>
     </RelativeLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/submit"
-        android:orientation="vertical"
         android:layout_alignParentBottom="true"
-        android:layout_margin="15dp"
-        android:gravity="center"
-        android:background="@drawable/blue_border_lightblue">
+        android:id="@+id/footer"
+        android:visibility="gone">
 
-        <com.pacifyr.omhealthcare.views.PamTextViewBold
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="search"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_view_find_care_main"
-            android:textStyle="bold" />
-    </LinearLayout>
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@color/grey_dark"
+            android:weightSum="5">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:background="@color/grey_dark"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:padding="5dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    app:srcCompat="@drawable/svg_footer_find_care" />
+
+                <com.pacifyr.omhealthcare.views.PamTextViewMedium
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textSize="@dimen/footer_text_size"
+                    android:text="Find Care"
+                    android:textColor="@color/white"
+                    android:padding="5dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:background="@color/grey_dark"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:padding="5dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    app:srcCompat="@drawable/svg_footer_my_doctors" />
+
+                <com.pacifyr.omhealthcare.views.PamTextViewMedium
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textSize="@dimen/footer_text_size"
+                    android:text="My Doctors"
+                    android:textColor="@color/white"
+                    android:padding="5dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_gravity="center"
+                android:gravity="center"></LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:background="@color/grey_dark"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:padding="5dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    app:srcCompat="@drawable/svg_footer_spending" />
+
+                <com.pacifyr.omhealthcare.views.PamTextViewMedium
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textSize="@dimen/footer_text_size"
+                    android:text="Spending"
+                    android:textColor="@color/white"
+                    android:padding="5dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:background="@color/grey_dark"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:padding="5dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    app:srcCompat="@drawable/svg_footer_appts" />
+
+                <com.pacifyr.omhealthcare.views.PamTextViewMedium
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textSize="@dimen/footer_text_size"
+                    android:text="Appts"
+                    android:textColor="@color/white"
+                    android:padding="5dp" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:visibility="gone"
+        app:civ_border_color="@color/white"
+        app:civ_border_width="5dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        android:layout_margin="5dp" />
 </RelativeLayout>

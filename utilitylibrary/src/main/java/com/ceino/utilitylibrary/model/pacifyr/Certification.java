@@ -1,10 +1,12 @@
 package com.ceino.utilitylibrary.model.pacifyr;
 
+import java.io.Serializable;
+
 /**
  * Created by ceino on 8/3/18.
  */
 
-public class Certification
+public class Certification implements Serializable
 {
     private String id;
 

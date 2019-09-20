@@ -3,6 +3,7 @@ package com.pacifyr.omhealthcare.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
@@ -58,6 +59,7 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -161,6 +163,9 @@ public class PacifyrResultListViewAdapter extends RecyclerView.Adapter<PacifyrRe
                     public void onClick(View v) {
 
                         Intent intent = new Intent(context, DoctorsMoreInformationActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("Object", pacifyer);
+                        intent.putExtras(bundle);
                         context.startActivity(intent);
                     }
                 });

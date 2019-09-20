@@ -25,7 +25,7 @@ public class PamTextViewBold extends TextView {
 
     private void init() {
         if (!isInEditMode()) {
-            Typeface tf = Typeface.createFromAsset(getContext().getAssets(), "fonts/EventTextViewBold.ttf");
+            Typeface tf = Typeface.createFromAsset(getContext().getAssets(), "fonts/Helvetica-Bold.otf");
             setTypeface(tf);
         }
     }

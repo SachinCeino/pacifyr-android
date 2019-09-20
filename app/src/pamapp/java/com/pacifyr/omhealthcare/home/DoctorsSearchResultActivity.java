@@ -1,11 +1,15 @@
 package com.pacifyr.omhealthcare.home;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SnapHelper;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -23,6 +27,14 @@ import com.ceino.utilitylibrary.model.pacifyr.MUser;
 import com.ceino.utilitylibrary.model.pacifyr.ModelSpecialist;
 import com.ceino.utilitylibrary.model.pacifyr.RespSearchPacifyrWOption;
 import com.ceino.utilitylibrary.utils.PrefManager;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.adapter.DoctorsSpecialityAdapter;
 import com.pacifyr.omhealthcare.adapter.PacifyrResultListViewAdapter;
@@ -41,7 +53,7 @@ import java.util.List;
 import static com.pacifyr.omhealthcare.network.NetworkService.GLOBAL_URL;
 import static com.pacifyr.omhealthcare.network.NetworkService.pSearchPacifyrWOptionsResponse;
 
-public class DoctorsSearchResultActivity extends PacifyrAppCompactActivity {
+public class DoctorsSearchResultActivity extends PacifyrAppCompactActivity implements OnMapReadyCallback {
 
 
     private String Speciality = "";
@@ -52,6 +64,11 @@ public class DoctorsSearchResultActivity extends PacifyrAppCompactActivity {
     private RadioGroup mSegmentedGroup;
     private RadioButton mRadioButtonA, mRadioButtonB;
     private LinearLayout listViewTypeLayout, mapViewTypeLayout;
+    private RecyclerView.LayoutManager layoutManager;
+    private ArrayList<MUser> list;
+
+
+    private GoogleMap mMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +95,7 @@ public class DoctorsSearchResultActivity extends PacifyrAppCompactActivity {
                         fillNoColor_ForRadioButton(mRadioButtonA);
                         listViewTypeLayout.setVisibility(View.VISIBLE);
                         mapViewTypeLayout.setVisibility(View.GONE);
+                        setPacifyrsListView();
                         break;
 
 
@@ -85,8 +103,8 @@ public class DoctorsSearchResultActivity extends PacifyrAppCompactActivity {
 
                         fillColour_ForRadioButton(mRadioButtonA);
                         fillNoColor_ForRadioButton(mRadioButtonB);
-                        listViewTypeLayout.setVisibility(View.GONE);
                         mapViewTypeLayout.setVisibility(View.VISIBLE);
+                        setPacifyrsMapView();
                         break;
 
                 }
@@ -100,8 +118,26 @@ public class DoctorsSearchResultActivity extends PacifyrAppCompactActivity {
         if (isValid(Speciality))
             webSearchPacifyrWOptions(Speciality);
 
-
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
     }
+
+
+    /**
+     * Manipulates the map once available.
+     * This callback is triggered when the map is ready to be used.
+     * This is where we can add markers or lines, add listeners or move the camera. In this case,
+     * we just add a marker near Sydney, Australia.
+     * If Google Play services is not installed on the device, the user will be prompted to install
+     * it inside the SupportMapFragment. This method will only be triggered once the user has
+     * installed Google Play services and returned to the app.
+     */
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+    }
+
 
     @Override
     public void onSetValues() throws Exception {
@@ -164,7 +200,7 @@ public class DoctorsSearchResultActivity extends PacifyrAppCompactActivity {
 
             setLoading("loading...");
             showProgress();
-            String url = GLOBAL_URL + getRoleSearchMap().get(getPrefManager().getCustomerRole());
+            String url = GLOBAL_URL + "search/pacifyrs/byLocation";
 
             AjaxCallback cb = new AjaxCallback<JSONObject>() {
                 @Override
@@ -187,17 +223,8 @@ public class DoctorsSearchResultActivity extends PacifyrAppCompactActivity {
 
             JSONObject jsonObject = new JSONObject();
             jsonObject.putOpt("initiatorId", getPrefManager().getUserID());
-            jsonObject.putOpt("companyId", getPrefManager().getCompanyId());
-            jsonObject.putOpt("includeChargeablePacifyrs", true);
-            jsonObject.putOpt("country", getPrefManager().getCountry());
-
-            List<String> list = new ArrayList<String>();
-            list.add(Speciality);
-            JSONArray array = new JSONArray();
-            for (int i = 0; i < list.size(); i++) {
-                array.put(list.get(i));
-            }
-            jsonObject.putOpt("specialities", array);
+            jsonObject.putOpt("latitude", "11.25416");
+            jsonObject.putOpt("longitude", "75.83717");
             aq.post(url, jsonObject, JSONObject.class, cb);
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -206,7 +233,7 @@ public class DoctorsSearchResultActivity extends PacifyrAppCompactActivity {
 
     private void setPacifyrsListView() {
         if (isValid(pSearchPacifyrWOptionsResponse)) {
-            ArrayList<MUser> list = new ArrayList<MUser>();
+            list = new ArrayList<MUser>();
             list.clear();
             list = pSearchPacifyrWOptionsResponse.getResultsList();
             if (isValid(list)) {
@@ -216,7 +243,39 @@ public class DoctorsSearchResultActivity extends PacifyrAppCompactActivity {
                 rcv_SearchResult.setLayoutManager(layoutManager);
                 rcv_SearchResult.setAdapter(mPacifyrResultListViewAdapter);
                 rcv_SearchResult.setItemAnimator(new DefaultItemAnimator());
+                setUpMarkerOnMap(list);
+            } else {
 
+            }
+        }
+    }
+
+    private void setUpMarkerOnMap(ArrayList<MUser> list) {
+
+        if (isValid(mMap)) {
+            for (int i = 0; i < list.size(); i++) {
+                LatLng mPacifyrPoint = new LatLng(list.get(i).getLatitude(), list.get(i).getLongitude());
+                mMap.addMarker(new MarkerOptions().position(mPacifyrPoint).title(list.get(i).getFirstName() + "")).showInfoWindow();
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(mPacifyrPoint));
+
+            }
+        }
+
+
+    }
+
+    private void setPacifyrsMapView() {
+        if (isValid(pSearchPacifyrWOptionsResponse)) {
+            ArrayList<MUser> list = new ArrayList<MUser>();
+            list.clear();
+            list = pSearchPacifyrWOptionsResponse.getResultsList();
+            if (isValid(list)) {
+                total_results.setText(list.size() + " result");
+                mPacifyrResultListViewAdapter = new PacifyrResultListViewAdapter(list, getApplicationContext());
+                layoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
+                rcv_SearchResult.setLayoutManager(layoutManager);
+                rcv_SearchResult.setAdapter(mPacifyrResultListViewAdapter);
+                rcv_SearchResult.setItemAnimator(new DefaultItemAnimator());
             } else {
 
             }

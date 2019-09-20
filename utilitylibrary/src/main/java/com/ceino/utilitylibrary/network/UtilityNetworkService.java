@@ -118,10 +118,10 @@ public class UtilityNetworkService extends IntentService {
         /**-------TEST URL--------- **/
 
         /**for  OM,Pacifyr,and LeadersUp**/
-        GLOBAL_URL = "http://testapp.pacifyr.net:8080/pacifyr/v1/";
+        //GLOBAL_URL = "http://testapp.pacifyr.net:8080/pacifyr/v1/";
 
         /**for only Pam**/
-        //GLOBAL_URL="http://pam_test.pacifyr.net:8080/pacifyr/v1/";
+        GLOBAL_URL = "http://pam_test.pacifyr.net:8080/pacifyr/v1/";
 
 
         /**-----------LIVE URL----------------**/

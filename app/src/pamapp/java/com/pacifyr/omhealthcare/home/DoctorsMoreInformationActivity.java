@@ -1,8 +1,11 @@
 package com.pacifyr.omhealthcare.home;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +15,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
@@ -20,12 +24,19 @@ import com.ceino.utilitylibrary.CustomFontTextView;
 import com.ceino.utilitylibrary.DeviceFitImageView;
 import com.ceino.utilitylibrary.model.pacifyr.MUser;
 import com.ceino.utilitylibrary.model.pacifyr.RespSearchPacifyrWOption;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.adapter.PacifyrResultListViewAdapter;
 import com.pacifyr.omhealthcare.event.AlertTypeEvent;
 import com.pacifyr.omhealthcare.event.NotifyEvent;
 import com.pacifyr.omhealthcare.network.GsonUtils;
 import com.pacifyr.omhealthcare.utility.PacifyrAppCompactActivity;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -33,9 +44,33 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
+import static com.pacifyr.omhealthcare.network.NetworkService.GLOBAL_IMAGE_URL;
 import static com.pacifyr.omhealthcare.network.NetworkService.GLOBAL_URL;
 
-public class DoctorsMoreInformationActivity extends PacifyrAppCompactActivity {
+public class DoctorsMoreInformationActivity extends PacifyrAppCompactActivity implements OnMapReadyCallback {
+
+    private GoogleMap mMap;
+    private MUser pacifyerObject;
+
+
+    private TextView pacifyr_name;
+    private TextView pacifyr_description;
+    private CircleImageView pacifyr_image;
+    private TextView pacifyr_number;
+    private TextView pacifyr_address;
+    private TextView pacifyr_facility_hours;
+    private TextView pacifyr_webisite;
+    private TextView pacifyr_prices;
+    private TextView pacifyr_educations;
+    private TextView pacifyr_sex;
+    private TextView pacifyr_specialities;
+    private TextView pacifyr_cirtification;
+    private TextView pacifyr_affiliations;
+    private TextView pacifyr_language_spoken;
+    private TextView pacifyr_price_booking;
+    private TextView requestBook;
 
 
     @Override
@@ -43,6 +78,147 @@ public class DoctorsMoreInformationActivity extends PacifyrAppCompactActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doctor_profile);
         onSetActionBar();
+
+        pacifyr_name = findViewById(R.id.pacifyr_name);
+        pacifyr_description = findViewById(R.id.pacifyr_description);
+        pacifyr_number = findViewById(R.id.pacifyr_number);
+        pacifyr_image = findViewById(R.id.pacifyr_image);
+        pacifyr_address = findViewById(R.id.pacifyr_address);
+        pacifyr_facility_hours = findViewById(R.id.pacifyr_facility_hours);
+        pacifyr_webisite = findViewById(R.id.pacifyr_webisite);
+        pacifyr_prices = findViewById(R.id.pacifyr_prices);
+        pacifyr_educations = findViewById(R.id.pacifyr_educations);
+        pacifyr_sex = findViewById(R.id.pacifyr_sex);
+        pacifyr_specialities = findViewById(R.id.pacifyr_specialities);
+        pacifyr_cirtification = findViewById(R.id.pacifyr_cirtification);
+        pacifyr_affiliations = findViewById(R.id.pacifyr_affiliations);
+        pacifyr_language_spoken = findViewById(R.id.pacifyr_language_spoken);
+        pacifyr_price_booking = findViewById(R.id.pacifyr_price_booking);
+        requestBook = findViewById(R.id.requestBook);
+
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+
+        if (isValid(bundle)) {
+            pacifyerObject = (MUser) bundle.getSerializable("Object");
+        }
+        if (isValid(pacifyerObject)) {
+            initUI(pacifyerObject);
+        }
+
+
+        requestBook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(DoctorsMoreInformationActivity.this, "Booked", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
+    private void initUI(MUser pacifyerObject) {
+        String namePacifyr = pacifyerObject.getFirstName() + " " + pacifyerObject.getLastName();
+
+        if (isValid(namePacifyr))
+            pacifyr_name.setText(namePacifyr);
+        if (isValid(pacifyerObject.getQualifications()))
+            pacifyr_description.setText(pacifyerObject.getQualifications());
+
+        if (isValid(pacifyerObject.getImage()))
+            Picasso.with(getApplicationContext()).load(GLOBAL_IMAGE_URL + pacifyerObject.getImage()).placeholder(R.drawable.placeholder_user).into(pacifyr_image);
+        if (isValid(pacifyerObject.getPhoneNumber()))
+            pacifyr_number.setText(pacifyerObject.getPhoneNumber());
+        if (isValid(pacifyerObject.getCountry()))
+            pacifyr_address.setText(pacifyerObject.getCountry());
+        if (isValid(pacifyerObject.getAvailableMinutes()))
+            pacifyr_facility_hours.setText(pacifyerObject.getCountry());
+        if (isValid(pacifyerObject.getWebsiteURL()))
+            pacifyr_webisite.setText(pacifyerObject.getWebsiteURL());
+        else
+            pacifyr_webisite.setText("Not Avaialbe");
+
+        if (isValid(pacifyerObject.getPriceWithSign()))
+            pacifyr_prices.setText(pacifyerObject.getPriceWithSign());
+        if (isValid(pacifyerObject.getEducation())) {
+            StringBuffer buffer = new StringBuffer();
+
+            for (int i = 0; i < pacifyerObject.getEducation().length; i++) {
+                buffer.append(pacifyerObject.getEducation()[i].getTitle() + "\n");
+            }
+            if (isValid(buffer))
+                pacifyr_educations.setText(buffer);
+            else
+                pacifyr_educations.setText("Not Avaialbe");
+        } else {
+            pacifyr_educations.setText("Not Avaialbe");
+        }
+
+        if (isValid(pacifyerObject.getSpecialities())) {
+            StringBuffer buffer = new StringBuffer();
+
+            for (int i = 0; i < pacifyerObject.getSpecialities().length; i++) {
+                buffer.append(pacifyerObject.getSpecialities()[i] + "\n");
+            }
+            if (isValid(buffer))
+                pacifyr_specialities.setText(buffer);
+            else
+                pacifyr_specialities.setText("Not Avaialbe");
+        } else {
+            pacifyr_specialities.setText("Not Avaialbe");
+        }
+
+        if (isValid(pacifyerObject.getCertification())) {
+            StringBuffer buffer = new StringBuffer();
+
+            for (int i = 0; i < pacifyerObject.getCertification().length; i++) {
+                buffer.append(pacifyerObject.getCertification()[i] + "\n");
+            }
+            if (isValid(buffer))
+                pacifyr_cirtification.setText(buffer);
+            else
+                pacifyr_cirtification.setText("Not Avaialbe");
+        } else {
+            pacifyr_cirtification.setText("Not Avaialbe");
+        }
+
+        if (isValid(pacifyerObject.getCertification())) {
+            StringBuffer buffer = new StringBuffer();
+
+            for (int i = 0; i < pacifyerObject.getCertification().length; i++) {
+                buffer.append(pacifyerObject.getCertification()[i] + "\n");
+            }
+            if (isValid(buffer))
+                pacifyr_affiliations.setText(buffer);
+            else
+                pacifyr_affiliations.setText("Not Avaialbe");
+        } else {
+            pacifyr_affiliations.setText("Not Avaialbe");
+        }
+
+        if (isValid(pacifyerObject.getDescription())) {
+            pacifyr_language_spoken.setText(pacifyerObject.getDescription());
+        } else {
+            pacifyr_language_spoken.setText("Not Avaialbe");
+        }
+
+        if (isValid(pacifyerObject.getPriceWithSign()))
+            pacifyr_price_booking.setText(pacifyerObject.getPriceWithSign());
+
+        if (isValid(pacifyerObject.getGender()))
+            pacifyr_sex.setText(pacifyerObject.getGender());
+        else
+            pacifyr_sex.setText("Not Avaialbe");
+
+
+    }
+
+    private void setUpMarkerOnMap(MUser pacifyrItem) {
+        if (isValid(mMap)) {
+
+            LatLng mPacifyrPoint = new LatLng(pacifyrItem.getLatitude(), pacifyrItem.getLongitude());
+            mMap.addMarker(new MarkerOptions().position(mPacifyrPoint).title(pacifyrItem.getFirstName() + "")).showInfoWindow();
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(mPacifyrPoint));
+        }
 
 
     }
@@ -107,7 +283,28 @@ public class DoctorsMoreInformationActivity extends PacifyrAppCompactActivity {
             }
         });
 
+
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+
     }
 
+    /**
+     * Manipulates the map once available.
+     * This callback is triggered when the map is ready to be used.
+     * This is where we can add markers or lines, add listeners or move the camera. In this case,
+     * we just add a marker near Sydney, Australia.
+     * If Google Play services is not installed on the device, the user will be prompted to install
+     * it inside the SupportMapFragment. This method will only be triggered once the user has
+     * installed Google Play services and returned to the app.
+     */
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+        if (isValid(pacifyerObject)) {
+            setUpMarkerOnMap(pacifyerObject);
+        }
 
+    }
 }

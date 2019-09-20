@@ -25,7 +25,7 @@ public class PamTextViewMedium extends TextView {
 
     private void init() {
         if (!isInEditMode()) {
-            Typeface tf = Typeface.createFromAsset(getContext().getAssets(), "fonts/EventTextViewMedium.ttf");
+            Typeface tf = Typeface.createFromAsset(getContext().getAssets(), "fonts/Helvetica.ttf");
             setTypeface(tf);
         }
     }

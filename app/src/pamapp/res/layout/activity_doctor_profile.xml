@@ -34,8 +34,9 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="60dp"
+                        android:layout_height="wrap_content"
                         android:id="@+id/l1"
+                        android:padding="20dp"
                         android:background="@color/color_primary">
 
                         <com.pacifyr.omhealthcare.views.PamTextViewMedium
@@ -43,10 +44,11 @@
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
                             android:gravity="center"
-                            android:text="Vineesh Kumsr mk"
+                            android:text="vineesh"
+                            android:id="@+id/pacifyr_name"
                             android:textColor="@color/white"
                             android:textStyle="bold"
-                            android:textSize="@dimen/text_view_find_care_sub" />
+                            android:textSize="20dp" />
                     </LinearLayout>
 
                     <RelativeLayout
@@ -80,7 +82,8 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="right"
                                     android:gravity="right"
-                                    android:text="Primary Doctor care"
+                                    android:text=""
+                                    android:id="@+id/pacifyr_description"
                                     android:layout_marginLeft="25dp"
                                     android:textSize="@dimen/text_view_find_care_sub" />
 
@@ -133,11 +136,18 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="170dp"
+                        android:layout_height="200dp"
                         android:layout_below="@+id/l2"
-                        android:id="@+id/map"
-                        android:orientation="vertical"
-                        android:background="@drawable/map_demo"></LinearLayout>
+                        android:orientation="vertical">
+
+                        <include
+                            android:id="@+id/mapLayout"
+                            layout="@layout/activity_maps"
+                            android:layout_width="match_parent"
+                            android:layout_height="170dp">
+
+                        </include>
+                    </LinearLayout>
 
                 </RelativeLayout>
 
@@ -145,7 +155,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
-                    android:layout_margin="15dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
                     android:layout_below="@+id/top_header">
 
                     <LinearLayout
@@ -177,7 +189,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:padding="10dp"
-                                android:text="wbedoywebweyd Straaat awlfwbecwyfwhklechifbeffemcfehf"
+                                android:text=""
+                                android:id="@+id/pacifyr_address"
                                 android:textSize="14sp" />
                         </LinearLayout>
 
@@ -232,7 +245,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:padding="10dp"
-                                android:text="7-5885-8584-96"
+                                android:text=""
+                                android:id="@+id/pacifyr_number"
                                 android:textSize="14sp" />
                         </LinearLayout>
 
@@ -277,7 +291,8 @@
                         <com.pacifyr.omhealthcare.views.PamTextViewMedium
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+                            android:text=""
+                            android:id="@+id/pacifyr_facility_hours"
                             android:textColor="@color/grey_dark"
                             android:textSize="@dimen/text_view_sub_title" />
                     </LinearLayout>
@@ -299,8 +314,9 @@
                         <com.pacifyr.omhealthcare.views.PamTextViewMedium
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="www.google.com"
+                            android:text=""
                             android:textColor="@color/grey_dark"
+                            android:id="@+id/pacifyr_webisite"
                             android:textSize="@dimen/text_view_sub_title" />
                     </LinearLayout>
 
@@ -322,7 +338,8 @@
                         <com.pacifyr.omhealthcare.views.PamTextViewMedium
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Lorem ipmod t l\ne magna aliqua"
+                            android:text=""
+                            android:id="@+id/pacifyr_prices"
                             android:textColor="@color/grey_dark"
                             android:textSize="@dimen/text_view_sub_title" />
                     </LinearLayout>
@@ -366,7 +383,8 @@
                         <com.pacifyr.omhealthcare.views.PamTextViewMedium
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Lorem ipmod t l\ne magna aliquasdvferwcwrwr wef aer\ngvesfcdfs"
+                            android:text=""
+                            android:id="@+id/pacifyr_educations"
                             android:textColor="@color/grey_dark"
                             android:textSize="@dimen/text_view_sub_title" />
                     </LinearLayout>
@@ -389,7 +407,8 @@
                         <com.pacifyr.omhealthcare.views.PamTextViewMedium
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Male"
+                            android:text=""
+                            android:id="@+id/pacifyr_sex"
                             android:textColor="@color/grey_dark"
                             android:textSize="@dimen/text_view_sub_title" />
                     </LinearLayout>
@@ -412,7 +431,8 @@
                         <com.pacifyr.omhealthcare.views.PamTextViewMedium
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="cebeifnercey\nxwbtitecerer"
+                            android:text=""
+                            android:id="@+id/pacifyr_specialities"
                             android:textColor="@color/grey_dark"
                             android:textSize="@dimen/text_view_sub_title" />
                     </LinearLayout>
@@ -435,7 +455,8 @@
                         <com.pacifyr.omhealthcare.views.PamTextViewMedium
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="cebeifnercey\qwwegffdsadfghnngfdsa\nfsdhfvgdshasdfghgnbvc"
+                            android:text=""
+                            android:id="@+id/pacifyr_cirtification"
                             android:textColor="@color/grey_dark"
                             android:textSize="@dimen/text_view_sub_title" />
                     </LinearLayout>
@@ -458,7 +479,8 @@
                         <com.pacifyr.omhealthcare.views.PamTextViewMedium
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="cebeifnercey\qwwegffdsadfghnngfdsa\nfsdhfvgdshasdfghgnbvc"
+                            android:text=""
+                            android:id="@+id/pacifyr_affiliations"
                             android:textColor="@color/grey_dark"
                             android:textSize="@dimen/text_view_sub_title" />
                     </LinearLayout>
@@ -480,7 +502,8 @@
                         <com.pacifyr.omhealthcare.views.PamTextViewMedium
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="English\nJapaniese\nFrench"
+                            android:text=""
+                            android:id="@+id/pacifyr_language_spoken"
                             android:textColor="@color/grey_dark"
                             android:textSize="@dimen/text_view_sub_title" />
                     </LinearLayout>
@@ -493,10 +516,10 @@
                     android:layout_height="120dp"
                     android:layout_marginStart="10dp"
                     android:layout_marginLeft="10dp"
-                    android:src="@drawable/doctor_demo"
+                    android:id="@+id/pacifyr_image"
                     app:civ_border_color="@color/grey"
                     app:civ_border_width="5dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="30dp"
                     app:civ_circle_background_color="@color/color_primary" />
 
 
@@ -521,7 +544,8 @@
                 <com.pacifyr.omhealthcare.views.PamTextViewBold
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="$75"
+                    android:text=""
+                    android:id="@+id/pacifyr_price_booking"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_view_find_care_main"
                     android:textStyle="bold"
@@ -550,6 +574,7 @@
                 android:background="@drawable/blue_round_square"
                 android:layout_marginRight="20dp"
                 android:textSize="@dimen/text_view_find_care_sub"
+                android:id="@+id/requestBook"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:layout_marginLeft="20dp" />

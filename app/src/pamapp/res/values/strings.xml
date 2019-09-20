@@ -204,5 +204,6 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="find_care">FIND CARE</string>
     <string name="search_result">SEARCH RESULT</string>
     <string name="doctor_profile">DOCTOR PROFILE</string>
+    <string name="title_activity_maps">Map</string>
 
 </resources>

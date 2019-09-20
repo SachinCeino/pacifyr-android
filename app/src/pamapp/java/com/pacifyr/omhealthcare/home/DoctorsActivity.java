@@ -97,7 +97,11 @@ public class DoctorsActivity extends PacifyrAppCompactActivity implements Doctor
         ETV_showSpecialities.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                specialitiesLayout.setVisibility(View.VISIBLE);
+                if (specialitiesLayout.getVisibility() == View.VISIBLE)
+                    specialitiesLayout.setVisibility(View.GONE);
+                else
+                    specialitiesLayout.setVisibility(View.VISIBLE);
+
             }
         });
 
