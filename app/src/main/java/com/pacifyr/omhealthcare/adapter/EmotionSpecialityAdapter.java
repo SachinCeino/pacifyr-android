@@ -2,14 +2,15 @@ package com.pacifyr.omhealthcare.adapter;
 
 import android.app.Activity;
 import android.content.Context;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
@@ -35,7 +36,6 @@ import java.util.HashMap;
 
 import static com.pacifyr.omhealthcare.home.ConnectToPacifyrActivity.customerEmotion;
 import static com.pacifyr.omhealthcare.network.NetworkService.GLOBAL_URL;
-import static com.pacifyr.omhealthcare.network.NetworkService.webListPositiveEmotions;
 
 /**
  * Created by ceino on 19/12/17.

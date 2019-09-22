@@ -3,12 +3,13 @@ package com.pacifyr.omhealthcare.adapter;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.ceino.utilitylibrary.CustomFontTextView;
 import com.ceino.utilitylibrary.model.pacifyr.ModelRatingDateDetail;
@@ -17,7 +18,6 @@ import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.event.BusProvider;
 import com.pacifyr.omhealthcare.event.WeekSetEvent;
 
-
 import org.joda.time.DateTimeConstants;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
@@ -25,6 +25,7 @@ import org.joda.time.format.DateTimeFormatter;
 
 import java.util.ArrayList;
 import java.util.Collections;
+
 import static com.ceino.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
 
 /**
@@ -398,18 +399,9 @@ public class SortWeekAdapter extends RecyclerView.Adapter<SortWeekAdapter.MyView
     }
 
 
+    public Boolean isValid(Object object) {
+        return object != null;
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
-        public CustomFontTextView titleCtxv;
-        public LinearLayout topLlay;
-        public RelativeLayout topRlay;
-
-        public MyViewHolder(View view) {
-            super(view);
-            topRlay = (RelativeLayout) view.findViewById(R.id.top_rlay);
-            topLlay=(LinearLayout) view.findViewById(R.id.top_llay);
-            titleCtxv = (CustomFontTextView) view.findViewById(R.id.title_ctxv);
-        }
     }
 
     void postEventOnMainThread(final Object event) {
@@ -423,10 +415,16 @@ public class SortWeekAdapter extends RecyclerView.Adapter<SortWeekAdapter.MyView
 
     }
 
-    public Boolean isValid(Object object) {
-        if (object != null)
-            return true;
-        return false;
+    public class MyViewHolder extends RecyclerView.ViewHolder {
+        public CustomFontTextView titleCtxv;
+        public LinearLayout topLlay;
+        public RelativeLayout topRlay;
 
+        public MyViewHolder(View view) {
+            super(view);
+            topRlay = view.findViewById(R.id.top_rlay);
+            topLlay = view.findViewById(R.id.top_llay);
+            titleCtxv = view.findViewById(R.id.title_ctxv);
+        }
     }
 }

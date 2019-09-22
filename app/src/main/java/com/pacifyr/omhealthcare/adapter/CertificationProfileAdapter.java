@@ -1,10 +1,11 @@
 package com.pacifyr.omhealthcare.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.ceino.utilitylibrary.CustomFontTextView;
 import com.ceino.utilitylibrary.model.pacifyr.ModelUserProfile;
@@ -48,8 +49,8 @@ import java.util.ArrayList;
 
         public CertificationViewHolder(View itemView) {
             super(itemView);
-            title = (CustomFontTextView) itemView.findViewById(R.id.cert_title_ctxv);
-            duration = (CustomFontTextView) itemView.findViewById(R.id.cert_dur_ctxv);
+            title = itemView.findViewById(R.id.cert_title_ctxv);
+            duration = itemView.findViewById(R.id.cert_dur_ctxv);
         }
     }
 }

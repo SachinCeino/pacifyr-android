@@ -1,7 +1,7 @@
 package com.pacifyr.omhealthcare.events.helper;
 
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Created by ceino on 16/11/17.

@@ -1,13 +1,9 @@
 package com.pacifyr.omhealthcare.quickblox.chat.utils.chat;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.quickblox.content.QBContent;
 import com.pacifyr.omhealthcare.R;
-import com.pacifyr.omhealthcare.quickblox.App;
-import com.pacifyr.omhealthcare.quickblox.chat.models.SampleConfigs;
 import com.pacifyr.omhealthcare.quickblox.chat.utils.qb.QbDialogHolder;
 import com.pacifyr.omhealthcare.quickblox.chat.utils.qb.QbDialogUtils;
 import com.pacifyr.omhealthcare.quickblox.chat.utils.qb.QbUsersHolder;
@@ -22,7 +18,7 @@ import com.quickblox.chat.model.QBChatMessage;
 import com.quickblox.chat.model.QBDialogType;
 import com.quickblox.chat.request.QBDialogRequestBuilder;
 import com.quickblox.chat.utils.DialogUtils;
-
+import com.quickblox.content.QBContent;
 import com.quickblox.content.model.QBFile;
 import com.quickblox.core.LogLevel;
 import com.quickblox.core.QBEntityCallback;
@@ -31,8 +27,6 @@ import com.quickblox.core.exception.QBResponseException;
 import com.quickblox.core.helper.StringifyArrayList;
 import com.quickblox.core.request.QBPagedRequestBuilder;
 import com.quickblox.core.request.QBRequestGetBuilder;
-import com.quickblox.messages.services.SubscribeService;
-
 import com.quickblox.sample.core.utils.Toaster;
 import com.quickblox.users.QBUsers;
 import com.quickblox.users.model.QBUser;
@@ -86,30 +80,28 @@ public class ChatHelper {
 
     private static QBChatService.ConfigurationBuilder buildChatConfigs() {
         QBChatService.ConfigurationBuilder configurationBuilder = new QBChatService.ConfigurationBuilder();
-        SampleConfigs sampleConfigs = App.getSampleConfigs();
+//        SampleConfigs sampleConfigs = App.getSampleConfigs();
 
-        if (sampleConfigs != null) {
-            int port = sampleConfigs.getChatPort();
-            int socketTimeout = sampleConfigs.getChatSocketTimeout();
-            boolean useTls = sampleConfigs.isUseTls();
-            boolean keepAlive = sampleConfigs.isKeepAlive();
-            boolean autoJoinEnabled = sampleConfigs.isAutoJoinEnabled();
-            boolean autoMarkDelivered = sampleConfigs.isAutoMarkDelivered();
-            boolean reconnectionAllowed = sampleConfigs.isReconnectionAllowed();
-            boolean allowListenNetwork = sampleConfigs.isAllowListenNetwork();
+        int port = 5233;
+        int socketTimeout = 300;
+        boolean useTls = true;
+        boolean keepAlive = true;
+        boolean autoJoinEnabled = false;
+        boolean autoMarkDelivered = true;
+        boolean reconnectionAllowed = true;
+        boolean allowListenNetwork = true;
 
-            if (port != 0) {
-                configurationBuilder.setPort(port);
-            }
-
-            configurationBuilder.setSocketTimeout(socketTimeout);
-            configurationBuilder.setUseTls(useTls);
-            configurationBuilder.setKeepAlive(keepAlive);
-            configurationBuilder.setAutojoinEnabled(autoJoinEnabled);
-            configurationBuilder.setAutoMarkDelivered(autoMarkDelivered);
-            configurationBuilder.setReconnectionAllowed(reconnectionAllowed);
-            configurationBuilder.setAllowListenNetwork(allowListenNetwork);
+        if (port != 0) {
+            configurationBuilder.setPort(port);
         }
+
+        configurationBuilder.setSocketTimeout(socketTimeout);
+        configurationBuilder.setUseTls(useTls);
+        configurationBuilder.setKeepAlive(keepAlive);
+        configurationBuilder.setAutojoinEnabled(autoJoinEnabled);
+        configurationBuilder.setAutoMarkDelivered(autoMarkDelivered);
+        configurationBuilder.setReconnectionAllowed(reconnectionAllowed);
+        configurationBuilder.setAllowListenNetwork(allowListenNetwork);
 
         return configurationBuilder;
     }

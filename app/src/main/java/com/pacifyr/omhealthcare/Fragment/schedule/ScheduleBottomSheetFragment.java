@@ -2,10 +2,6 @@ package com.pacifyr.omhealthcare.Fragment.schedule;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.design.widget.BottomSheetDialogFragment;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,17 +10,21 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.ceino.utilitylibrary.CustomFontTextView;
 import com.ceino.utilitylibrary.model.pacifyr.MUser;
 import com.ceino.utilitylibrary.utils.PrefManager;
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.base.PacifyerActivity;
 import com.pacifyr.omhealthcare.network.GsonUtils;
 import com.pacifyr.omhealthcare.network.NetworkService;
-
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -247,7 +247,7 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
 
             cb.header("AccessToken", token);
 
-            aq.ajax(GLOBAL_URL + "schedule/byWeek?pacifyrId="+pacifyer_obj.getId()+"&weekNumber="+String.valueOf(weekNumber), JSONArray.class, cb);
+            aq.ajax(GLOBAL_URL + "schedule/byWeek?pacifyrId=" + pacifyer_obj.getId() + "&weekNumber=" + weekNumber, JSONArray.class, cb);
 
         }
         catch (Exception ex)
@@ -289,14 +289,7 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
         if (isValid(serverDates))
         {
             String dd = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
-            if (!serverDates.contains(dd))
-            {
-                isDateIsPassed=true;
-            }
-            else
-            {
-                isDateIsPassed=false;
-            }
+            isDateIsPassed = !serverDates.contains(dd);
         }
 
 
@@ -394,54 +387,48 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
 
 
     public Boolean isValid(String text) {
-        if(text != null) if(!text.trim().equalsIgnoreCase("")) return true;
+        if (text != null) return !text.trim().equalsIgnoreCase("");
         return false;
 
     }
 
     public Boolean isValid(List list) {
-        if(list != null) if(list.size() > 0) return true;
+        if (list != null) return list.size() > 0;
         return false;
 
     }
 
     public Boolean isValid(List list,int pos) {
         if (isValid(list))
-            if (list.size() >= pos)
-                return true;
+            return list.size() >= pos;
         return false;
 
     }
     public Boolean isValidPos(List list,int pos) {
         if (isValid(list))
-            if (list.size() >= pos)
-                return true;
+            return list.size() >= pos;
         return false;
 
     }
     public Boolean isValidNotNull(List list) {
-        if(list != null)
-            // if(list.size()>0)
-            return true;
-        return false;
+        // if(list.size()>0)
+        return list != null;
 
     }
 
     public Boolean isValidSize(List list) {
-        if(list != null) if(list.size() > 0) return true;
+        if (list != null) return list.size() > 0;
         return false;
 
     }
 
     public Boolean isValid(Object object) {
-        if(object != null) return true;
-        return false;
+        return object != null;
 
     }
 
     public Boolean isValid(int object) {
-        if(object > 0) return true;
-        return false;
+        return object > 0;
 
     }
 
@@ -774,7 +761,7 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
         } else {
             min = "00";
         }
-        Log.w("QQQQQQ", String.valueOf(hr + min));
+        Log.w("QQQQQQ", hr + min);
         return hr + ":" + min;
     }
 
@@ -813,7 +800,7 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
                                     String jsonS = json.toString();
                                     String status;
                                     String messsage = null;
-                                    Log.w("QQQQ", String.valueOf(jsonS));
+                                    Log.w("QQQQ", jsonS);
 
                                     if (json.has("status"))
                                     {
@@ -951,7 +938,7 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
                                     String jsonS = json.toString();
                                     String status;
                                     String messsage;
-                                    Log.w("QQQQ", String.valueOf(jsonS));
+                                    Log.w("QQQQ", jsonS);
 
                                     if (json.has("status"))
                                     {

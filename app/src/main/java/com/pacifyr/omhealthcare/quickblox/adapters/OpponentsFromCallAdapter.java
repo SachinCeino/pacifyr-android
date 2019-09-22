@@ -1,7 +1,6 @@
 package com.pacifyr.omhealthcare.quickblox.adapters;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,17 +10,16 @@ import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.ceino.utilitylibrary.model.pacifyr.MUser;
 import com.pacifyr.omhealthcare.quickblox.utils.QBRTCSessionUtils;
 import com.quickblox.sample.groupchatwebrtc.R;
-
-import com.quickblox.users.model.QBUser;
 import com.quickblox.videochat.webrtc.QBRTCSession;
 import com.quickblox.videochat.webrtc.QBRTCTypes;
 import com.quickblox.videochat.webrtc.view.QBRTCSurfaceView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * QuickBlox team
@@ -159,10 +157,10 @@ public class OpponentsFromCallAdapter extends RecyclerView.Adapter<OpponentsFrom
         public ViewHolder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
-            opponentsName = (TextView) itemView.findViewById(R.id.opponentName);
-            connectionStatus = (TextView) itemView.findViewById(R.id.connectionStatus);
-            opponentView = (QBRTCSurfaceView) itemView.findViewById(R.id.opponentView);
-            progressBar = (ProgressBar) itemView.findViewById(R.id.progress_bar_adapter);
+            opponentsName = itemView.findViewById(R.id.opponentName);
+            connectionStatus = itemView.findViewById(R.id.connectionStatus);
+            opponentView = itemView.findViewById(R.id.opponentView);
+            progressBar = itemView.findViewById(R.id.progress_bar_adapter);
         }
 
         private void setListener(ViewHolderClickListener viewHolderClickListener) {

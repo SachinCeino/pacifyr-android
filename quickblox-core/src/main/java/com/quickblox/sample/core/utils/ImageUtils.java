@@ -5,8 +5,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.FileProvider;
+
+import androidx.fragment.app.Fragment;
 
 import com.quickblox.sample.core.CoreApp;
 import com.quickblox.sample.core.R;
@@ -41,7 +41,7 @@ public class ImageUtils {
         BufferedInputStream bis = new BufferedInputStream(inputStream);
 
         File parentDir = StorageUtils.getAppExternalDataDirectoryFile();
-        String fileName = String.valueOf(System.currentTimeMillis()) + ".jpg";
+        String fileName = System.currentTimeMillis() + ".jpg";
         File resultFile = new File(parentDir, fileName);
 
         BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(resultFile));

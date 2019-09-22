@@ -2,22 +2,20 @@ package com.pacifyr.omhealthcare.adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.ceino.utilitylibrary.CustomFontTextView;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.model.ModelPacifyrDocuments;
 import com.pacifyr.omhealthcare.model.interfaces.AddFileClickListner;
-import com.pacifyr.omhealthcare.sign.UploadActivity;
 
 import java.util.ArrayList;
-
-import static com.pacifyr.omhealthcare.sign.PacifyrRequestAccessActivity.documentFileList;
 
 /**
  * Created by ceino on 16/5/18.
@@ -111,10 +109,10 @@ public class FileChooserAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         public FileChoserHolder(View itemView) {
             super(itemView);
-            fileLlay = (RelativeLayout) itemView.findViewById(R.id.file_llay);
-            closeImv = (ImageView) itemView.findViewById(R.id.close_imv);
-            fileImv = (ImageView) itemView.findViewById(R.id.file_imv);
-            fileNameCtxv = (CustomFontTextView) itemView.findViewById(R.id.file_name_ctxv);
+            fileLlay = itemView.findViewById(R.id.file_llay);
+            closeImv = itemView.findViewById(R.id.close_imv);
+            fileImv = itemView.findViewById(R.id.file_imv);
+            fileNameCtxv = itemView.findViewById(R.id.file_name_ctxv);
         }
     }
 
@@ -122,7 +120,7 @@ public class FileChooserAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         private ImageView addDocumentImv;
         public ViewHolder2(View itemView) {
             super(itemView);
-            addDocumentImv = (ImageView) itemView.findViewById(R.id.add_document_imv);
+            addDocumentImv = itemView.findViewById(R.id.add_document_imv);
 
         }
 

@@ -6,13 +6,13 @@ package com.pacifyr.omhealthcare.adapter;
  */
 
 import android.content.Context;
-import android.graphics.Color;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.ceino.utilitylibrary.CustomFontTextView;
 import com.ceino.utilitylibrary.model.pacifyr.ModelSpecialist;
@@ -20,11 +20,9 @@ import com.pacifyr.omhealthcare.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-import static com.pacifyr.omhealthcare.home.ListPacifyrScreenActivity.customerEmotion;
 import static com.pacifyr.omhealthcare.network.NetworkService.GLOBAL_IMAGE_URL;
 import static com.pacifyr.omhealthcare.sign.PacifyrRequestAccessActivity.specialList;
 
@@ -46,8 +44,8 @@ public class RequestSpecialistAdapter extends RecyclerView.Adapter<RequestSpecia
 
         public MyViewHolder(View view) {
             super(view);
-            circleImageView=(CircleImageView) view.findViewById(R.id.circle_image);
-            pac_name=(CustomFontTextView) view.findViewById(R.id.pac_name);
+            circleImageView = view.findViewById(R.id.circle_image);
+            pac_name = view.findViewById(R.id.pac_name);
 
         }
     }

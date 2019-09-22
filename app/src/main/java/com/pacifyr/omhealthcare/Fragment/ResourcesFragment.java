@@ -1,27 +1,21 @@
 package com.pacifyr.omhealthcare.Fragment;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
+
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.ceino.utilitylibrary.CustomFontTextView;
 import com.ceino.utilitylibrary.utils.PrefManager;
-import com.pacifyr.omhealthcare.Payment.EditCardActivity;
 import com.pacifyr.omhealthcare.R;
-import com.pacifyr.omhealthcare.activity.TermsOfUseActivity;
-import com.pacifyr.omhealthcare.adapter.ListSavedCardAdapter;
 import com.pacifyr.omhealthcare.adapter.ResourcesListAdapter;
 import com.pacifyr.omhealthcare.event.NotifyEvent;
 import com.pacifyr.omhealthcare.model.ModelResources;
@@ -141,7 +135,7 @@ public class ResourcesFragment extends BaseFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        resourcesRcv = (RecyclerView) view.findViewById(R.id.resources_list_rcv);
+        resourcesRcv = view.findViewById(R.id.resources_list_rcv);
         
         if(isValid(resourcesList)){
             setResourcesAdapter();
@@ -161,9 +155,7 @@ public class ResourcesFragment extends BaseFragment {
     }
 
     public Boolean isValid(Object object) {
-        if (object != null)
-            return true;
-        return false;
+        return object != null;
 
     }
 

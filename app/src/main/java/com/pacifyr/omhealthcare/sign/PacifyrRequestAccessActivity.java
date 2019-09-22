@@ -15,10 +15,6 @@ import android.os.Environment;
 import android.os.Handler;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
-import android.support.v4.content.FileProvider;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -30,6 +26,11 @@ import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.core.content.FileProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
@@ -55,11 +56,10 @@ import com.pacifyr.omhealthcare.model.ModelPacifyrCertificates;
 import com.pacifyr.omhealthcare.model.ModelPacifyrDocuments;
 import com.pacifyr.omhealthcare.model.PostPacifyrRequest;
 import com.pacifyr.omhealthcare.network.ApiClient;
-import com.pacifyr.omhealthcare.network.GsonUtils;
 import com.pacifyr.omhealthcare.network.ApiService;
+import com.pacifyr.omhealthcare.network.GsonUtils;
 import com.pacifyr.omhealthcare.utils.LogUtils;
 import com.pacifyr.omhealthcare.utils.Utility;
-
 
 import org.json.JSONObject;
 
@@ -76,7 +76,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -84,7 +83,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.pacifyr.omhealthcare.network.NetworkService.GLOBAL_URL;
-import static com.pacifyr.omhealthcare.utils.Utility.isValid;
 
 public class PacifyrRequestAccessActivity extends PacifyerActivity implements RequestSpecialistAdapter.EmotionClickkListenerRequest{
 
@@ -167,7 +165,7 @@ public class PacifyrRequestAccessActivity extends PacifyerActivity implements Re
             context = PacifyrRequestAccessActivity.this;
             documentFileList = new ArrayList<ModelPacifyrDocuments>();
             modelpostPacifyrRequest = new PostPacifyrRequest();
-            spinner = (Spinner) findViewById(R.id.spinner);
+            spinner = findViewById(R.id.spinner);
 
             ArrayList<ItemData> list = new ArrayList<>();
             list.add(new ItemData("+1", "US", R.drawable.flag_usa));
@@ -416,9 +414,9 @@ public class PacifyrRequestAccessActivity extends PacifyerActivity implements Re
     public void showSpecialityPicker() {
         try {
             View view = LayoutInflater.from(this).inflate(R.layout.dialog_show_speciality_picker, null, false);
-            TextView saveCtxv = (TextView) view.findViewById(R.id.save_ctxv);
-            ImageView closeImv = (ImageView) view.findViewById(R.id.close_dimv);
-            specialityRcv = (RecyclerView) view.findViewById(R.id.speciality_rcv);
+            TextView saveCtxv = view.findViewById(R.id.save_ctxv);
+            ImageView closeImv = view.findViewById(R.id.close_dimv);
+            specialityRcv = view.findViewById(R.id.speciality_rcv);
             //ImageView closeDimv = (ImageView) view.findViewById(R.id.close_dimv);
             handleActionSpecilaist();
             /*hideStatus();*/
@@ -537,12 +535,7 @@ public class PacifyrRequestAccessActivity extends PacifyerActivity implements Re
         int currentYear = calendar.get(Calendar.YEAR);
         Integer birthYear=Integer.parseInt(s);
         int diff=currentYear-birthYear;
-        if (diff<=18) {
-            return false;
-        }
-        else {
-            return true;
-        }
+        return diff > 18;
     }
 
     public static final int GALLERY_CODE = 111;
@@ -837,14 +830,14 @@ public class PacifyrRequestAccessActivity extends PacifyerActivity implements Re
 
     private void onSetActionBar() {
         try {
-            actionBarTopLlay = (LinearLayout) findViewById(R.id.action_bar_top_llay);
-            bottomPanel = (RelativeLayout) findViewById(R.id.bottom_panel);
-            leftLlay = (LinearLayout) findViewById(R.id.left_llay);
-            backImv = (DeviceFitImageView) findViewById(R.id.back_imv);
-            leftTxv = (CustomFontTextView) findViewById(R.id.left_txv);
-            rightLlay = (LinearLayout) findViewById(R.id.right_llay);
-            rightTxv = (CustomFontTextView) findViewById(R.id.right_txv);
-            rightImv = (DeviceFitImageView) findViewById(R.id.right_imv);
+            actionBarTopLlay = findViewById(R.id.action_bar_top_llay);
+            bottomPanel = findViewById(R.id.bottom_panel);
+            leftLlay = findViewById(R.id.left_llay);
+            backImv = findViewById(R.id.back_imv);
+            leftTxv = findViewById(R.id.left_txv);
+            rightLlay = findViewById(R.id.right_llay);
+            rightTxv = findViewById(R.id.right_txv);
+            rightImv = findViewById(R.id.right_imv);
 
             leftLlay.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -862,35 +855,35 @@ public class PacifyrRequestAccessActivity extends PacifyerActivity implements Re
     private void initializeViews() {
         try {
 
-            nameCedt = (CustomEditText) findViewById(R.id.name_txv);
-            scrollView2 = (ScrollView) findViewById(R.id.scrollView2);
-            uploadImage = (ImageView) findViewById(R.id.upload_image);
-            emailTxv = (CustomEditText) findViewById(R.id.email_txv);
-            phoneCedit = (CustomEditText) findViewById(R.id.phone_cedit);
-            birthYearTxv = (CustomFontTextView) findViewById(R.id.birth_year_txv);
-            snapshotTxv = (CustomEditText) findViewById(R.id.snapshot_txv);
-            textView2 = (CustomFontTextView) findViewById(R.id.textView2);
-            costCtxv = (CustomEditText) findViewById(R.id.cost_ctxv);
-            educationRlay = (RelativeLayout) findViewById(R.id.education_rlay);
-            educationCedt = (CustomEditText) findViewById(R.id.education_cedt);
-            addEducationCtxv = (CustomFontTextView) findViewById(R.id.add_education_ctxv);
-            educationRcv = (RecyclerView) findViewById(R.id.education_rcv);
-            certificatesRlay = (RelativeLayout) findViewById(R.id.certificates_rlay);
-            certificatesCedt = (CustomEditText) findViewById(R.id.certificates_cedt);
-            addCertificatesCedit = (CustomFontTextView) findViewById(R.id.add_certificates_cedit);
-            certificatesRcv = (RecyclerView) findViewById(R.id.certificates_rcv);
+            nameCedt = findViewById(R.id.name_txv);
+            scrollView2 = findViewById(R.id.scrollView2);
+            uploadImage = findViewById(R.id.upload_image);
+            emailTxv = findViewById(R.id.email_txv);
+            phoneCedit = findViewById(R.id.phone_cedit);
+            birthYearTxv = findViewById(R.id.birth_year_txv);
+            snapshotTxv = findViewById(R.id.snapshot_txv);
+            textView2 = findViewById(R.id.textView2);
+            costCtxv = findViewById(R.id.cost_ctxv);
+            educationRlay = findViewById(R.id.education_rlay);
+            educationCedt = findViewById(R.id.education_cedt);
+            addEducationCtxv = findViewById(R.id.add_education_ctxv);
+            educationRcv = findViewById(R.id.education_rcv);
+            certificatesRlay = findViewById(R.id.certificates_rlay);
+            certificatesCedt = findViewById(R.id.certificates_cedt);
+            addCertificatesCedit = findViewById(R.id.add_certificates_cedit);
+            certificatesRcv = findViewById(R.id.certificates_rcv);
             //specialityRlay = (RelativeLayout) findViewById(R.id.speciality_rlay);
-            specialitiesCtxv = (CustomFontTextView) findViewById(R.id.specialities_ctxv);
+            specialitiesCtxv = findViewById(R.id.specialities_ctxv);
             //specialityImv = (ImageView) findViewById(R.id.speciality_imv);
-            uploadDocsCtxv = (CustomFontTextView) findViewById(R.id.upload_docs_ctxv);
+            uploadDocsCtxv = findViewById(R.id.upload_docs_ctxv);
             //uploadRightImv = (ImageView) findViewById(R.id.upload_right_imv);
-            uploadInstructionTxv = (TextView) findViewById(R.id.upload_instruction_txv);
-            requestRlay = (RelativeLayout) findViewById(R.id.request_rlay);
-            requestCtxv = (CustomFontTextView) findViewById(R.id.request_ctxv);
-            termsofUseCbox = (CheckBox) findViewById(R.id.terms_of_use_cbox);
-            specialityView = (View) findViewById(R.id.speciality_view);
+            uploadInstructionTxv = findViewById(R.id.upload_instruction_txv);
+            requestRlay = findViewById(R.id.request_rlay);
+            requestCtxv = findViewById(R.id.request_ctxv);
+            termsofUseCbox = findViewById(R.id.terms_of_use_cbox);
+            specialityView = findViewById(R.id.speciality_view);
 
-            fileListRcv = (RecyclerView) findViewById(R.id.file_list_rcv);
+            fileListRcv = findViewById(R.id.file_list_rcv);
         }
         catch (Exception e)
         {

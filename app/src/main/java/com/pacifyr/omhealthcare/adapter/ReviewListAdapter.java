@@ -1,26 +1,23 @@
 package com.pacifyr.omhealthcare.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RatingBar;
-import android.widget.TextView;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.ceino.utilitylibrary.CustomFontTextView;
 import com.ceino.utilitylibrary.model.pacifyr.MReviews;
 import com.ceino.utilitylibrary.model.pacifyr.MUser;
 import com.pacifyr.omhealthcare.R;
-import com.pacifyr.omhealthcare.model.ModelSpecialityByCategory;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by ceino on 15/2/18.
@@ -97,16 +94,13 @@ public class ReviewListAdapter extends RecyclerView.Adapter<ReviewListAdapter.My
 
     public Boolean isValid(List list) {
         if (list != null)
-            if (list.size() > 0)
-                return true;
+            return list.size() > 0;
         return false;
 
     }
 
     public Boolean isValid(Object object) {
-        if (object != null)
-            return true;
-        return false;
+        return object != null;
 
     }
 
@@ -118,9 +112,9 @@ public class ReviewListAdapter extends RecyclerView.Adapter<ReviewListAdapter.My
 
         public MyViewHolder(View view) {
             super(view);
-            timeCtxv = (CustomFontTextView) view.findViewById(R.id.time_ctxv);
-            ratingBar = (RatingBar) view.findViewById(R.id.rating_bar);
-            qualityCtxv = (CustomFontTextView) view.findViewById(R.id.quality_ctxv);
+            timeCtxv = view.findViewById(R.id.time_ctxv);
+            ratingBar = view.findViewById(R.id.rating_bar);
+            qualityCtxv = view.findViewById(R.id.quality_ctxv);
         }
     }
 }

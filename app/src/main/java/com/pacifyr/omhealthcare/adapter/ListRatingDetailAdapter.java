@@ -1,18 +1,13 @@
 package com.pacifyr.omhealthcare.adapter;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RatingBar;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.ceino.utilitylibrary.CustomFontTextView;
 import com.ceino.utilitylibrary.model.pacifyr.MEmotion;
@@ -20,6 +15,12 @@ import com.ceino.utilitylibrary.model.pacifyr.MRatingDetail;
 import com.ceino.utilitylibrary.model.pacifyr.MSessionDetailRoot;
 import com.ceino.utilitylibrary.model.pacifyr.MSessionRating;
 import com.pacifyr.omhealthcare.R;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 public class ListRatingDetailAdapter  extends RecyclerView.Adapter<ListRatingDetailAdapter.ViewHolder> {
 
@@ -108,6 +109,34 @@ public class ListRatingDetailAdapter  extends RecyclerView.Adapter<ListRatingDet
 
 
 
+    public Boolean isValid(List list)
+    {
+        if(list!=null)
+            return list.size() > 0;
+        return  false;
+
+    }
+
+    public Boolean isValid(List list, int position)
+    {
+        if(isValid(list))
+            return list.size() >= position;
+        return  false;
+
+    }
+
+    public Boolean isValid(Object object)
+    {
+        return object != null;
+
+    }
+
+    public Boolean isValid(String text) {
+        if (text != null) return !text.trim().equalsIgnoreCase("");
+        return false;
+
+    }
+
     protected class ViewHolder extends RecyclerView.ViewHolder {
         private View view1;
         private RatingBar raingBar;
@@ -118,41 +147,9 @@ public class ListRatingDetailAdapter  extends RecyclerView.Adapter<ListRatingDet
             super(itemView);
 
             //view1 = (View) itemView.findViewById(R.id.view1);
-            raingBar = (RatingBar) itemView.findViewById(R.id.raing_bar);
-            dateCtxv = (CustomFontTextView) itemView.findViewById(R.id.date_ctxv);
-            typeIcoImv = (ImageView) itemView.findViewById(R.id.type_ico_imv);
+            raingBar = itemView.findViewById(R.id.raing_bar);
+            dateCtxv = itemView.findViewById(R.id.date_ctxv);
+            typeIcoImv = itemView.findViewById(R.id.type_ico_imv);
         }
-    }
-
-    public Boolean isValid(List list)
-    {
-        if(list!=null)
-            if(list.size()>0)
-                return  true;
-        return  false;
-
-    }
-
-    public Boolean isValid(List list, int position)
-    {
-        if(isValid(list))
-            if(list.size()>=position)
-                return  true;
-        return  false;
-
-    }
-
-    public Boolean isValid(Object object)
-    {
-        if(object!=null)
-            return  true;
-        return  false;
-
-    }
-
-    public Boolean isValid(String text) {
-        if(text != null) if(!text.trim().equalsIgnoreCase("")) return true;
-        return false;
-
     }
 }

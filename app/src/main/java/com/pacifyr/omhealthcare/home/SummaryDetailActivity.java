@@ -3,14 +3,15 @@ package com.pacifyr.omhealthcare.home;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
@@ -111,8 +112,7 @@ public class SummaryDetailActivity   extends PacifyrAppCompactActivity {
     private CustomFontTextView earingstCtxv,comapnyfeesCtxv;
 
     public static Boolean isValidStatic(Object object) {
-        if(object != null) return true;
-        return false;
+        return object != null;
 
     }
 
@@ -162,7 +162,7 @@ public class SummaryDetailActivity   extends PacifyrAppCompactActivity {
     protected void onResume() {
         super.onResume();
 
-        ((App) App.getInstance()).setCurrentActivity(this);
+        App.getInstance().setCurrentActivity(this);
     }
     @Override
     protected View getSnackbarAnchorView() {
@@ -202,48 +202,48 @@ public class SummaryDetailActivity   extends PacifyrAppCompactActivity {
 
             LogUtils.LOGD("session", " SSA onCreateView ");
             onSetActionBar();
-            pacifyrImgCimv = (CircleImageView) findViewById(R.id.last_session_cimv);
+            pacifyrImgCimv = findViewById(R.id.last_session_cimv);
         /*    rating_llay = (LinearLayout) findViewById(R.id.rating_llay);
             before_feel_llay = (LinearLayout) findViewById(R.id.before_feel_llay);
             after_feel_llay = (LinearLayout) findViewById(R.id.after_feel_llay);
             afterFeelSelectionLlay = (LinearLayout) findViewById(R.id.after_feel_selection_llay);*/
 
-            rating_llay = (RelativeLayout) findViewById(R.id.rating_llay);
-            before_feel_llay = (RelativeLayout) findViewById(R.id.before_feel_llay);
-            after_feel_llay = (RelativeLayout) findViewById(R.id.after_feel_llay);
-            afterFeelSelectionLlay = (RelativeLayout) findViewById(R.id.after_feel_selection_llay);
+            rating_llay = findViewById(R.id.rating_llay);
+            before_feel_llay = findViewById(R.id.before_feel_llay);
+            after_feel_llay = findViewById(R.id.after_feel_llay);
+            afterFeelSelectionLlay = findViewById(R.id.after_feel_selection_llay);
 
-            before_feel_ctxv = (CustomFontTextView) findViewById(R.id.before_feel_ctxv);
-            after_feel_ctxv = (CustomFontTextView) findViewById(R.id.after_feel_ctxv);
+            before_feel_ctxv = findViewById(R.id.before_feel_ctxv);
+            after_feel_ctxv = findViewById(R.id.after_feel_ctxv);
 
 
-            before_emotion_ctxv = (CustomFontTextView) findViewById(R.id.before_emotion_ctxv);
-            after_emotion_ctxv = (CustomFontTextView) findViewById(R.id.after_emotion_ctxv);
+            before_emotion_ctxv = findViewById(R.id.before_emotion_ctxv);
+            after_emotion_ctxv = findViewById(R.id.after_emotion_ctxv);
 
            /* setBeforeEmotionViews();
             setAfterEmotionViews();*/
 
-            customer_fees_llay = (LinearLayout) findViewById(R.id.customer_fees_llay);
-            afterFeelDimv = (ImageView) findViewById(R.id.after_feel_dimv);
+            customer_fees_llay = findViewById(R.id.customer_fees_llay);
+            afterFeelDimv = findViewById(R.id.after_feel_dimv);
 
-            afterFeelSelectionCtxv = (CustomFontTextView) findViewById(R.id.after_feel_selection_ctxv);
-            callback_ctxv = (CustomFontTextView) findViewById(R.id.callback_ctxv);
-            sessionCostCtxv = (CustomFontTextView) findViewById(R.id.session_cost_ctxv);
-            pacifyrEaringsLlay = (LinearLayout) findViewById(R.id.pacifyr_earings_llay);
-            earingstCtxv = (CustomFontTextView) findViewById(R.id.earingst_ctxv);
-            comapnyfeesCtxv = (CustomFontTextView) findViewById(R.id.comapnyfees_ctxv);
-            pacifyrNameCtxv = (CustomFontTextView) findViewById(R.id.pacifyr_name_ctxv);
-            beforeFeelDimv = (ImageView) findViewById(R.id.before_feel_dimv);
-            recyclerView = (RecyclerView) findViewById(R.id.begning_rcv);
-            commentsRcv = (RecyclerView) findViewById(R.id.comments_rcv);
-            pacifyrRateCtxv = (CustomFontTextView) findViewById(R.id.pacifyr_rate_ctxv);
-            durationCtxv = (CustomFontTextView) findViewById(R.id.duration_ctxv);
-            comments_cedt = (CustomEditText) findViewById(R.id.comments_cedt);
-            rating_bar = (ScaleRatingBar) findViewById(R.id.rating_bar);
-            effective_seekbar = (SeekBarCompat) findViewById(R.id.effective_seekbar);
+            afterFeelSelectionCtxv = findViewById(R.id.after_feel_selection_ctxv);
+            callback_ctxv = findViewById(R.id.callback_ctxv);
+            sessionCostCtxv = findViewById(R.id.session_cost_ctxv);
+            pacifyrEaringsLlay = findViewById(R.id.pacifyr_earings_llay);
+            earingstCtxv = findViewById(R.id.earingst_ctxv);
+            comapnyfeesCtxv = findViewById(R.id.comapnyfees_ctxv);
+            pacifyrNameCtxv = findViewById(R.id.pacifyr_name_ctxv);
+            beforeFeelDimv = findViewById(R.id.before_feel_dimv);
+            recyclerView = findViewById(R.id.begning_rcv);
+            commentsRcv = findViewById(R.id.comments_rcv);
+            pacifyrRateCtxv = findViewById(R.id.pacifyr_rate_ctxv);
+            durationCtxv = findViewById(R.id.duration_ctxv);
+            comments_cedt = findViewById(R.id.comments_cedt);
+            rating_bar = findViewById(R.id.rating_bar);
+            effective_seekbar = findViewById(R.id.effective_seekbar);
             //holoCircleSeekBar=(HoloCircleSeekBar) findViewById(R.id.picker);
             //effective_circle_view = (CircleView) findViewById(R.id.effective_circle_view);
-            circleProgressView = (CircleProgressView) findViewById(R.id.circle_progress_view);
+            circleProgressView = findViewById(R.id.circle_progress_view);
             rating_llay.setVisibility(View.GONE);
             callback_ctxv.setVisibility(View.GONE);
             if(isCustomer) {
@@ -849,17 +849,17 @@ public class SummaryDetailActivity   extends PacifyrAppCompactActivity {
     CustomFontTextView submit_ctxv;
 
     public void onSetActionBar() {
-        actionBarTopLlay = (LinearLayout) findViewById(R.id.action_bar_top_llay);
-        bottomPanel = (RelativeLayout) findViewById(R.id.bottom_panel);
-        leftLlay = (LinearLayout) findViewById(R.id.left_llay);
-        backImv = (DeviceFitImageView) findViewById(R.id.back_imv);
-        leftTxv = (CustomFontTextView) findViewById(R.id.left_txv);
-        titleTxv = (CustomFontTextView) findViewById(R.id.title_txv);
-        rightLlay = (LinearLayout) findViewById(R.id.right_llay);
-        rightTxv = (CustomFontTextView) findViewById(R.id.right_txv);
-        rightImv = (DeviceFitImageView) findViewById(R.id.right_imv);
+        actionBarTopLlay = findViewById(R.id.action_bar_top_llay);
+        bottomPanel = findViewById(R.id.bottom_panel);
+        leftLlay = findViewById(R.id.left_llay);
+        backImv = findViewById(R.id.back_imv);
+        leftTxv = findViewById(R.id.left_txv);
+        titleTxv = findViewById(R.id.title_txv);
+        rightLlay = findViewById(R.id.right_llay);
+        rightTxv = findViewById(R.id.right_txv);
+        rightImv = findViewById(R.id.right_imv);
 
-        mSlidingPaneLayout = (WrappingSlidingPaneLayout) findViewById(R.id.sliding_pane);
+        mSlidingPaneLayout = findViewById(R.id.sliding_pane);
         rightImv.setVisibility(View.INVISIBLE);
         rightTxv.setVisibility(View.INVISIBLE);
         rightLlay.setVisibility(View.INVISIBLE);

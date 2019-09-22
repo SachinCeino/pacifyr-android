@@ -3,15 +3,16 @@ package com.pacifyr.omhealthcare.quickblox.fragments;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 
 import com.pacifyr.omhealthcare.utility.BaseFragment;
 import com.quickblox.sample.groupchatwebrtc.R;
@@ -43,7 +44,7 @@ public abstract class BaseToolBarFragment extends BaseFragment {
     }
 
     private void initActionBar() {
-        toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar_call);
+        toolbar = getActivity().findViewById(R.id.toolbar_call);
 
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         actionBar = ((AppCompatActivity) getActivity()).getDelegate().getSupportActionBar();

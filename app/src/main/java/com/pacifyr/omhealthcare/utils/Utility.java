@@ -8,20 +8,19 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.os.Build;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.telephony.TelephonyManager;
 import android.text.format.DateFormat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
 import com.ceino.utilitylibrary.utils.PrefManager;
 import com.pacifyr.omhealthcare.R;
 
-import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -301,72 +300,61 @@ public class Utility {
 
     public static Boolean isValid(String text) {
         if (text != null)
-            if (!text.trim().equalsIgnoreCase(""))
-                return true;
+            return !text.trim().equalsIgnoreCase("");
         return false;
 
     }
 
     public static Boolean isValid(String text,int size) {
         if (isValid(text))
-            if (text.length()>=size)
-                return true;
+            return text.length() >= size;
         return false;
 
     }
 
     public static Boolean isValid(List list) {
         if (list != null)
-            if (list.size() > 0)
-                return true;
+            return list.size() > 0;
         return false;
 
     }
 
     public static Boolean isValid(List list,int pos) {
         if (isValid(list))
-            if (list.size() >= pos)
-                return true;
+            return list.size() >= pos;
         return false;
 
     }
 
     public static Boolean isListSize(List list,int size) {
         if (isValid(list))
-            if (list.size() == size)
-                return true;
+            return list.size() == size;
         return false;
 
     }
 
     public static Boolean isValidPos(List list,int pos) {
         if (isValid(list))
-            if (list.size() >= pos)
-                return true;
+            return list.size() >= pos;
         return false;
     }
 
     public static Boolean isValid(String[] list,int size) {
 
         if (isValid(list))
-            if (list.length >= size)
-                return true;
+            return list.length >= size;
         return false;
 
     }
 
     public static Boolean isValidNotNull(List list) {
-        if (list != null)
-            // if(list.size()>0)
-            return true;
-        return false;
+        // if(list.size()>0)
+        return list != null;
 
     }
 
     public static Boolean isValid(Object object) {
-        if (object != null)
-            return true;
-        return false;
+        return object != null;
 
     }
 

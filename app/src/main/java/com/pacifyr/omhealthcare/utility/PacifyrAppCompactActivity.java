@@ -1,6 +1,7 @@
 package com.pacifyr.omhealthcare.utility;
 
 import android.app.Activity;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
@@ -10,11 +11,12 @@ import android.os.Looper;
 import android.os.PersistableBundle;
 import android.os.PowerManager;
 import android.provider.Settings;
-import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
 
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
@@ -493,6 +495,8 @@ public abstract class PacifyrAppCompactActivity  extends PacifyerActivity {
                             clearSharedAll();
                             clearServices();
                             fbLogout();
+                            NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                            mNotificationManager.cancelAll();
                             deleteCache(getApplicationContext());
                             clearApplicationData();
                             QBChatService.getInstance().destroy();

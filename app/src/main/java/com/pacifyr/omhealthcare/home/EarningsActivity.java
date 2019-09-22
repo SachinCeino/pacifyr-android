@@ -7,15 +7,15 @@ import android.graphics.Color;
 import android.graphics.EmbossMaskFilter;
 import android.graphics.PointF;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.androidplot.pie.PieRenderer;
 import com.androidplot.pie.Segment;
@@ -123,18 +123,17 @@ public class EarningsActivity extends PacifyrAppCompactActivity {
      try {
 
          pieINitial();
-         wkly_total_ctxv = (CustomFontTextView) findViewById(R.id.wkly_total_ctxv);
-         text_dialog_hourstowork = (CustomFontTextView) findViewById(R.id.text_dialog_hourstowork);
-         text_dialog_hourstobonus = (CustomFontTextView) findViewById(R.id.text_dialog_hourstobonus);
-         text_dialog_bonusmessage = (CustomFontTextView) findViewById(R.id.text_dialog_bonusmessage);
+         wkly_total_ctxv = findViewById(R.id.wkly_total_ctxv);
+         text_dialog_hourstowork = findViewById(R.id.text_dialog_hourstowork);
+         text_dialog_hourstobonus = findViewById(R.id.text_dialog_hourstobonus);
+         text_dialog_bonusmessage = findViewById(R.id.text_dialog_bonusmessage);
 
 
          webGetEarnings();
          webGetBonus();
 
 
-
-         list_weeks_rcv = (RecyclerView) findViewById(R.id.list_weeks_rcv);
+         list_weeks_rcv = findViewById(R.id.list_weeks_rcv);
          LinearLayoutManager horizontalLayoutmanager = new LinearLayoutManager(EarningsActivity.this, LinearLayoutManager.HORIZONTAL, false);
          list_weeks_rcv.setLayoutManager(horizontalLayoutmanager);
          list_weeks_rcv.setVisibility(View.VISIBLE);
@@ -161,7 +160,7 @@ public class EarningsActivity extends PacifyrAppCompactActivity {
 
     private void pieINitial() {
         try{
-            piechart = (com.androidplot.pie.PieChart) findViewById(R.id.piechart);
+            piechart = findViewById(R.id.piechart);
 
             // enable the legend:
             piechart.getLegend().setVisible(true);
@@ -479,7 +478,7 @@ public class EarningsActivity extends PacifyrAppCompactActivity {
                 // ArrayList<Entry> yvalues = new ArrayList<Entry>();
                 //ArrayList<String> xVals = new ArrayList<String>();
                 //hideProgress();
-                String week[]={"Sun","Mon","Tue","Wed","Thu","Fri","Sat"};
+                String[] week = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
                 Float total= Float.valueOf(0);
                 MEarningsRoot.Earnings[] earnings=modelEarningsAPI.getEarnings();
                 int size=earnings.length;
@@ -729,15 +728,15 @@ public class EarningsActivity extends PacifyrAppCompactActivity {
 
     public void onSetActionBar() {
         try {
-            actionBarTopLlay = (LinearLayout) findViewById(R.id.action_bar_top_llay);
-            bottomPanel = (RelativeLayout) findViewById(R.id.bottom_panel);
-            leftLlay = (LinearLayout) findViewById(R.id.left_llay);
-            backImv = (DeviceFitImageView) findViewById(R.id.back_imv);
-            leftTxv = (CustomFontTextView) findViewById(R.id.left_txv);
-            titleTxv = (CustomFontTextView) findViewById(R.id.title_txv);
-            rightLlay = (LinearLayout) findViewById(R.id.right_llay);
-            rightTxv = (CustomFontTextView) findViewById(R.id.right_txv);
-            rightImv = (DeviceFitImageView) findViewById(R.id.right_imv);
+            actionBarTopLlay = findViewById(R.id.action_bar_top_llay);
+            bottomPanel = findViewById(R.id.bottom_panel);
+            leftLlay = findViewById(R.id.left_llay);
+            backImv = findViewById(R.id.back_imv);
+            leftTxv = findViewById(R.id.left_txv);
+            titleTxv = findViewById(R.id.title_txv);
+            rightLlay = findViewById(R.id.right_llay);
+            rightTxv = findViewById(R.id.right_txv);
+            rightImv = findViewById(R.id.right_imv);
 
             rightImv.setVisibility(View.INVISIBLE);
             rightTxv.setVisibility(View.INVISIBLE);

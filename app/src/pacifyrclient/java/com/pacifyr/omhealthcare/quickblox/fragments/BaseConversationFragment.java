@@ -1,28 +1,21 @@
 package com.pacifyr.omhealthcare.quickblox.fragments;
 
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.os.Handler;
 import android.os.SystemClock;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AlertDialog;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Chronometer;
 import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ToggleButton;
 
-import com.androidquery.AQuery;
+import androidx.annotation.Nullable;
+
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.ceino.utilitylibrary.model.pacifyr.MUser;
@@ -37,13 +30,11 @@ import com.pacifyr.omhealthcare.quickblox.db.QbUsersDbManager;
 import com.pacifyr.omhealthcare.quickblox.utils.Consts;
 import com.pacifyr.omhealthcare.quickblox.utils.UsersUtils;
 import com.pacifyr.omhealthcare.quickblox.utils.WebRtcSessionManager;
-import com.pacifyr.omhealthcare.utils.Constants;
 import com.quickblox.chat.QBChatService;
 import com.quickblox.users.model.QBUser;
 import com.quickblox.videochat.webrtc.QBRTCSession;
 import com.quickblox.videochat.webrtc.QBRTCTypes;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;

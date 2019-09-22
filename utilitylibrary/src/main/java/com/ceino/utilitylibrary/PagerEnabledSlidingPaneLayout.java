@@ -1,10 +1,11 @@
 package com.ceino.utilitylibrary;
 
 import android.content.Context;
-import android.support.v4.view.MotionEventCompat;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.ViewConfiguration;
+
+import androidx.core.view.MotionEventCompat;
 
 /**
  * Created by ceino on 3/2/15.

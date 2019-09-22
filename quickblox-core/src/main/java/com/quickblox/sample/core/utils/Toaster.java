@@ -1,13 +1,14 @@
 package com.quickblox.sample.core.utils;
 
 import android.graphics.Rect;
-import android.support.annotation.IntDef;
-import android.support.annotation.StringRes;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.widget.Toast;
+
+import androidx.annotation.IntDef;
+import androidx.annotation.StringRes;
 
 import com.quickblox.sample.core.CoreApp;
 

@@ -3,8 +3,6 @@ package com.pacifyr.omhealthcare.sign;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -12,11 +10,14 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+
 import com.ceino.utilitylibrary.CustomEditText;
 import com.ceino.utilitylibrary.CustomFontTextView;
 import com.ceino.utilitylibrary.base.BaseAppCompactActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.FirebaseTooManyRequestsException;
 import com.google.firebase.auth.AuthResult;
@@ -62,16 +63,16 @@ public class CodeVerifyActivity extends BaseAppCompactActivity {
         try {
             setContentView(R.layout.activity_code_verify);
 
-            imgBack = (ImageView) findViewById(R.id.img_back);
-            logoRlay = (RelativeLayout) findViewById(R.id.logo_rlay);
-            logoBlue = (ImageView) findViewById(R.id.logo_blue);
-            otp_cedt = (CustomEditText) findViewById(R.id.otp_cedt);
-            hintLlay = (LinearLayout) findViewById(R.id.hint_llay);
-            createLlay = (LinearLayout) findViewById(R.id.create_llay);
-            createaccountRlay = (RelativeLayout) findViewById(R.id.createaccount_rlay);
-            cAccountCtxv = (CustomFontTextView) findViewById(R.id.c_account_ctxv);
-            resend_ctxv = (CustomFontTextView) findViewById(R.id.resend_ctxv);
-            otp_phone_tv=(CustomFontTextView) findViewById(R.id.otp_phone_tv);
+            imgBack = findViewById(R.id.img_back);
+            logoRlay = findViewById(R.id.logo_rlay);
+            logoBlue = findViewById(R.id.logo_blue);
+            otp_cedt = findViewById(R.id.otp_cedt);
+            hintLlay = findViewById(R.id.hint_llay);
+            createLlay = findViewById(R.id.create_llay);
+            createaccountRlay = findViewById(R.id.createaccount_rlay);
+            cAccountCtxv = findViewById(R.id.c_account_ctxv);
+            resend_ctxv = findViewById(R.id.resend_ctxv);
+            otp_phone_tv = findViewById(R.id.otp_phone_tv);
             phoneText=otp_phone_tv.getText().toString();
             setClicks();
 

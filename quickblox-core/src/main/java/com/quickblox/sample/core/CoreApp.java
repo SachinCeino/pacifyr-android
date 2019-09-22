@@ -1,8 +1,9 @@
 package com.quickblox.sample.core;
 
-import android.support.multidex.MultiDexApplication;
 import android.text.TextUtils;
 import android.util.Log;
+
+import androidx.multidex.MultiDexApplication;
 
 import com.google.firebase.FirebaseApp;
 import com.quickblox.auth.session.QBSettings;

@@ -3,10 +3,11 @@ package com.quickblox.sample.core.ui.activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.annotation.StringRes;
 import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
+
+import androidx.annotation.StringRes;
 
 import com.quickblox.auth.session.QBSessionManager;
 import com.quickblox.core.exception.QBResponseException;

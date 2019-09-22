@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
+
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
@@ -191,48 +192,48 @@ public class PacifyrDashboardFragment extends BaseFragment implements SwipeRefre
 
     private void inintailzieView(View view) {
          try {
-             swipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.pacifyr_swipe_layout);
-             onlineSwitch = (DeviceFitImageView) view.findViewById(R.id.online_switch);
-             chatSwitch = (DeviceFitImageView) view.findViewById(R.id.chat_switch);
-             search_dimv = (DeviceFitImageView) view.findViewById(R.id.search_dimv);
+             swipeLayout = view.findViewById(R.id.pacifyr_swipe_layout);
+             onlineSwitch = view.findViewById(R.id.online_switch);
+             chatSwitch = view.findViewById(R.id.chat_switch);
+             search_dimv = view.findViewById(R.id.search_dimv);
              //currentRatingRlay = (RelativeLayout) view.findViewById(R.id.rating_inner_llay);
-             ratingInnerLlay = (LinearLayout) view.findViewById(R.id.rating_inner_llay);
-             starDimv = (DeviceFitImageView) view.findViewById(R.id.star_dimv);
-             zeroReviewCtxv = (CustomFontTextView) view.findViewById(R.id.zero_review_ctxv);
-             ratingCtxv = (CustomFontTextView) view.findViewById(R.id.rating_ctxv);
-             ratingSessionCtxv = (CustomFontTextView) view.findViewById(R.id.rating_session_ctxv);
-             ratingStarsCtxv = (CustomFontTextView) view.findViewById(R.id.rating_stars_ctxv);
-             lastSessionRlay = (RelativeLayout) view.findViewById(R.id.last_session_rlay);
-             lastSessionDimv = (CircleImageView) view.findViewById(R.id.last_session_dimv);
-             lastSsnPacfyrCtxv = (CustomFontTextView) view.findViewById(R.id.lastSsn_pacfyr_ctxv);
-             sessionLlay = (LinearLayout) view.findViewById(R.id.session_llay);
-             videoCamImg = (DeviceFitImageView) view.findViewById(R.id.video_cam_img);
-             lastSessionMinuteTxv = (CustomFontTextView) view.findViewById(R.id.last_session_minute_txv);
-             lastSessionCostCtxv = (CustomFontTextView) view.findViewById(R.id.last_session_cost_txv);
-             daysTxv = (CustomFontTextView) view.findViewById(R.id.days_txv);
-             earingSessionsCtxv = (CustomFontTextView) view.findViewById(R.id.sessions_ctxv);
-             cirPrefPacifyr = (RelativeLayout) view.findViewById(R.id.cir_pref_pacifyr);
-             sessionsTxv = (CustomFontTextView) view.findViewById(R.id.sessions_txv);
-             earningHoursCtxv = (CustomFontTextView) view.findViewById(R.id.earning_hours_ctxv);
-             earningMinutesCtxv = (CustomFontTextView) view.findViewById(R.id.earning_minutes_ctxv);
-             week3Llay = (LinearLayout) view.findViewById(R.id.week3_llay);
-             earnedCtxv = (CustomFontTextView) view.findViewById(R.id.earned_ctxv);
-             customersRlay = (RelativeLayout) view.findViewById(R.id.customers_rlay);
-             dateCtxv = (CustomFontTextView) view.findViewById(R.id.date_ctxv);
-             llayTop = (LinearLayout) view.findViewById(R.id.llay_top);
-             customer1Dimav = (CircleImageView) view.findViewById(R.id.customer1_dimv);
-             customer2Dimav = (CircleImageView) view.findViewById(R.id.customer2_dimv);
-             llayBottom = (LinearLayout) view.findViewById(R.id.llay_bottom);
-             customer3Dimav = (CircleImageView) view.findViewById(R.id.customer3_dimv);
-             searchDimv = (DeviceFitImageView) view.findViewById(R.id.search_dimv);
-             thisWeekCtxv = (CustomFontTextView) view.findViewById(R.id.this_week_ctxv);
-             thisWeekRatingLlay = (LinearLayout) view.findViewById(R.id.this_week_rating_llay);
-             ratingSessionLlay = (LinearLayout) view.findViewById(R.id.rating_session_llay);
-             star5Llay = (LinearLayout) view.findViewById(R.id.stars5_llay);
-             no_lastsession_ctxv = (CustomFontTextView) view.findViewById(R.id.no_lastsession_ctxv);
-             last_session_top_llay = (LinearLayout) view.findViewById(R.id.last_session_top_llay);
-             unreadChatCtxv = (CustomFontTextView) view.findViewById(R.id.unread_chat_ctxv);
-             missedCallCtxv = (CustomFontTextView) view.findViewById(R.id.missed_call_ctxv);
+             ratingInnerLlay = view.findViewById(R.id.rating_inner_llay);
+             starDimv = view.findViewById(R.id.star_dimv);
+             zeroReviewCtxv = view.findViewById(R.id.zero_review_ctxv);
+             ratingCtxv = view.findViewById(R.id.rating_ctxv);
+             ratingSessionCtxv = view.findViewById(R.id.rating_session_ctxv);
+             ratingStarsCtxv = view.findViewById(R.id.rating_stars_ctxv);
+             lastSessionRlay = view.findViewById(R.id.last_session_rlay);
+             lastSessionDimv = view.findViewById(R.id.last_session_dimv);
+             lastSsnPacfyrCtxv = view.findViewById(R.id.lastSsn_pacfyr_ctxv);
+             sessionLlay = view.findViewById(R.id.session_llay);
+             videoCamImg = view.findViewById(R.id.video_cam_img);
+             lastSessionMinuteTxv = view.findViewById(R.id.last_session_minute_txv);
+             lastSessionCostCtxv = view.findViewById(R.id.last_session_cost_txv);
+             daysTxv = view.findViewById(R.id.days_txv);
+             earingSessionsCtxv = view.findViewById(R.id.sessions_ctxv);
+             cirPrefPacifyr = view.findViewById(R.id.cir_pref_pacifyr);
+             sessionsTxv = view.findViewById(R.id.sessions_txv);
+             earningHoursCtxv = view.findViewById(R.id.earning_hours_ctxv);
+             earningMinutesCtxv = view.findViewById(R.id.earning_minutes_ctxv);
+             week3Llay = view.findViewById(R.id.week3_llay);
+             earnedCtxv = view.findViewById(R.id.earned_ctxv);
+             customersRlay = view.findViewById(R.id.customers_rlay);
+             dateCtxv = view.findViewById(R.id.date_ctxv);
+             llayTop = view.findViewById(R.id.llay_top);
+             customer1Dimav = view.findViewById(R.id.customer1_dimv);
+             customer2Dimav = view.findViewById(R.id.customer2_dimv);
+             llayBottom = view.findViewById(R.id.llay_bottom);
+             customer3Dimav = view.findViewById(R.id.customer3_dimv);
+             searchDimv = view.findViewById(R.id.search_dimv);
+             thisWeekCtxv = view.findViewById(R.id.this_week_ctxv);
+             thisWeekRatingLlay = view.findViewById(R.id.this_week_rating_llay);
+             ratingSessionLlay = view.findViewById(R.id.rating_session_llay);
+             star5Llay = view.findViewById(R.id.stars5_llay);
+             no_lastsession_ctxv = view.findViewById(R.id.no_lastsession_ctxv);
+             last_session_top_llay = view.findViewById(R.id.last_session_top_llay);
+             unreadChatCtxv = view.findViewById(R.id.unread_chat_ctxv);
+             missedCallCtxv = view.findViewById(R.id.missed_call_ctxv);
 
 
              setOnlineViews();
@@ -413,7 +414,7 @@ public class PacifyrDashboardFragment extends BaseFragment implements SwipeRefre
                      try {
                          getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.pacifyr_content_fragment, new PacifyrSessionsFragment()).commit();
                          //showFragment(new PacifyrSessionsFragment());
-                         CustomFontTextView titleTxv = (CustomFontTextView) getActivity().findViewById(R.id.title_txv);
+                         CustomFontTextView titleTxv = getActivity().findViewById(R.id.title_txv);
                          Log.i("emooooooojiif","e:");
                          defSetText(titleTxv, "My Sessions");
                          //Toast.makeText(getContext(),"sessions rating",Toast.LENGTH_LONG).show();
@@ -701,7 +702,7 @@ public class PacifyrDashboardFragment extends BaseFragment implements SwipeRefre
                     if(unreadCount>0)
                     {
                         unreadChatCtxv.setVisibility(View.VISIBLE);
-                        unreadChatCtxv.setText(Integer.toString(unreadCount)+" unread messages");
+                        unreadChatCtxv.setText(unreadCount + " unread messages");
                         badgeCount+=unreadCount;
                     }else {
                         isClickedOnChat=true;
@@ -906,7 +907,7 @@ public class PacifyrDashboardFragment extends BaseFragment implements SwipeRefre
                 value = "Yesterday";
 
             } else if (days > 1) {
-                value = String.valueOf(days) + " days ago";
+                value = days + " days ago";
 
             } else if (days == 0) {
 
@@ -925,12 +926,12 @@ public class PacifyrDashboardFragment extends BaseFragment implements SwipeRefre
 
                             value = "Moments ago";
                         } else {
-                            value = String.valueOf(minutes) + " min ago";
+                            value = minutes + " min ago";
                         }
 
 
                     } else {
-                        value = String.valueOf(hours) + " hour ago";
+                        value = hours + " hour ago";
                     }
 
                 }
@@ -955,11 +956,11 @@ public class PacifyrDashboardFragment extends BaseFragment implements SwipeRefre
                 value = "Yesterday";
 
             } else if (days > 1) {
-                value = String.valueOf(days) + " days ago";
+                value = days + " days ago";
 
             } else if (hour == 0) {
 
-                value = String.valueOf(minutes) + " min ago";
+                value = minutes + " min ago";
             } else if (minutes == 0) {
 
                 value = "moments ago";
@@ -969,7 +970,7 @@ public class PacifyrDashboardFragment extends BaseFragment implements SwipeRefre
                 if (hours > 12) {
                     value = "Today";
                 } else {
-                    value = String.valueOf(hours) + " hour ago";
+                    value = hours + " hour ago";
                 }
             }
 

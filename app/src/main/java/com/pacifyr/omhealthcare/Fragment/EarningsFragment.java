@@ -6,14 +6,15 @@ import android.graphics.Color;
 import android.graphics.EmbossMaskFilter;
 import android.graphics.PointF;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.Toast;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.androidplot.pie.PieRenderer;
 import com.androidplot.pie.Segment;
@@ -102,11 +103,11 @@ public class EarningsFragment extends BaseFragment{
        // pieChart = (PieChart) view.findViewById(R.id.piechart);
 
         pieINitial(view);
-        wkly_total_ctxv= (CustomFontTextView) view.findViewById(R.id.wkly_total_ctxv);
+        wkly_total_ctxv = view.findViewById(R.id.wkly_total_ctxv);
 
-        text_dialog_hourstowork = (CustomFontTextView) view.findViewById(R.id.text_dialog_hourstowork);
-        text_dialog_hourstobonus = (CustomFontTextView) view.findViewById(R.id.text_dialog_hourstobonus);
-        text_dialog_bonusmessage = (CustomFontTextView) view.findViewById(R.id.text_dialog_bonusmessage);
+        text_dialog_hourstowork = view.findViewById(R.id.text_dialog_hourstowork);
+        text_dialog_hourstobonus = view.findViewById(R.id.text_dialog_hourstobonus);
+        text_dialog_bonusmessage = view.findViewById(R.id.text_dialog_bonusmessage);
 
 
 
@@ -115,8 +116,7 @@ public class EarningsFragment extends BaseFragment{
         webGetBonus();
 
 
-
-        list_weeks_rcv= (RecyclerView) view.findViewById(R.id.list_weeks_rcv);
+        list_weeks_rcv = view.findViewById(R.id.list_weeks_rcv);
         LinearLayoutManager horizontalLayoutmanager
                 = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         list_weeks_rcv.setLayoutManager(horizontalLayoutmanager);
@@ -251,7 +251,7 @@ public class EarningsFragment extends BaseFragment{
 
     private void pieINitial(View view) {
         try{
-            piechart = (com.androidplot.pie.PieChart) view.findViewById(R.id.piechart);
+            piechart = view.findViewById(R.id.piechart);
 
             // enable the legend:
             piechart.getLegend().setVisible(true);
@@ -348,7 +348,7 @@ public class EarningsFragment extends BaseFragment{
         String fromDateWeek = formatter.print(startofWeek);
         String fromDateMonth = formatter.print(startofMonth);
         String fromDateYear = formatter.print(startofYear);
-        String toDate = formatter.print(now)*/;
+        String toDate = formatter.print(now)*/
 
 
         LocalDate now = new LocalDate();
@@ -457,7 +457,7 @@ public class EarningsFragment extends BaseFragment{
                 //ArrayList<String> xVals = new ArrayList<String>();
                 //hideProgress();
 
-                String week[]={"Sun","Mon","Tue","Wed","Thu","Fri","Sat"};
+                String[] week = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
 
                Float total= Float.valueOf(0);
                 MEarningsRoot.Earnings[] earnings=modelEarningsAPI.getEarnings();

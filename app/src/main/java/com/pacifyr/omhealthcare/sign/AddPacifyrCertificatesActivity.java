@@ -4,8 +4,6 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -15,29 +13,20 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.aigestudio.wheelpicker.WheelPicker;
 import com.aigestudio.wheelpicker.widgets.WheelYearPicker;
-import com.androidquery.AQuery;
-import com.androidquery.callback.AjaxCallback;
-import com.androidquery.callback.AjaxStatus;
 import com.ceino.utilitylibrary.CustomFontTextView;
 import com.ceino.utilitylibrary.DeviceFitImageView;
-import com.ceino.utilitylibrary.model.pacifyr.ModelSpecialist;
-import com.ceino.utilitylibrary.utils.PrefManager;
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.adapter.ListCertificatesAdapter;
 import com.pacifyr.omhealthcare.base.PacifyerActivity;
 import com.pacifyr.omhealthcare.model.ModelPacifyrCertificates;
-import com.pacifyr.omhealthcare.network.GsonUtils;
-import com.pacifyr.omhealthcare.utility.EventMessage;
-
-import org.greenrobot.eventbus.EventBus;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
-
-import static com.pacifyr.omhealthcare.network.NetworkService.GLOBAL_URL;
 
 public class AddPacifyrCertificatesActivity extends PacifyerActivity {
 
@@ -61,8 +50,8 @@ public class AddPacifyrCertificatesActivity extends PacifyerActivity {
                 certificatesList = i.getParcelableArrayListExtra("CERT_LIST");
             //this.getIntent().getParcelableArrayListExtra("extraextra");
             mLayoutManager = new LinearLayoutManager(this);
-            addEducationBtn = (CustomFontTextView) findViewById(R.id.add_education_btn);
-            certificateListRcv = (RecyclerView) findViewById(R.id.certificate_list_rcv);
+            addEducationBtn = findViewById(R.id.add_education_btn);
+            certificateListRcv = findViewById(R.id.certificate_list_rcv);
             certificateListRcv.setLayoutManager(mLayoutManager);
 
             addEducationBtn.setOnClickListener(new View.OnClickListener() {
@@ -107,11 +96,11 @@ public class AddPacifyrCertificatesActivity extends PacifyerActivity {
             //View.OnClickListener oklistner
             View view = LayoutInflater.from(this).inflate(R.layout.dialog_add_pacifyr_certificates, null, false);
 
-            ImageView closeDimv = (ImageView) view.findViewById(R.id.close_dimv);
-            final EditText titleEdt = (EditText) view.findViewById(R.id.title_edt);
-            final CustomFontTextView dateCtxv = (CustomFontTextView) view.findViewById(R.id.date_ctxv);
-            RelativeLayout saveRlay = (RelativeLayout) view.findViewById(R.id.save_rlay);
-            CustomFontTextView saveCtxv = (CustomFontTextView) view.findViewById(R.id.save_ctxv);
+            ImageView closeDimv = view.findViewById(R.id.close_dimv);
+            final EditText titleEdt = view.findViewById(R.id.title_edt);
+            final CustomFontTextView dateCtxv = view.findViewById(R.id.date_ctxv);
+            RelativeLayout saveRlay = view.findViewById(R.id.save_rlay);
+            CustomFontTextView saveCtxv = view.findViewById(R.id.save_ctxv);
             closeDimv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -157,7 +146,7 @@ public class AddPacifyrCertificatesActivity extends PacifyerActivity {
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             dialog.setCancelable(false);
             dialog.setContentView(R.layout.dialog_show_year_picker);
-            WheelYearPicker wheelYearPicker = (WheelYearPicker) dialog.findViewById(R.id.wheel_date_picker_year);
+            WheelYearPicker wheelYearPicker = dialog.findViewById(R.id.wheel_date_picker_year);
             wheelYearPicker.setSelectedItemTextColor(Color.parseColor("#3F51B5"));
             wheelYearPicker.setCurved(true);
             wheelYearPicker.setOnItemSelectedListener(new WheelPicker.OnItemSelectedListener() {
@@ -167,9 +156,9 @@ public class AddPacifyrCertificatesActivity extends PacifyerActivity {
                 }
             });
 
-            TextView selectTxv = (TextView) dialog.findViewById(R.id.select_year_txv);
+            TextView selectTxv = dialog.findViewById(R.id.select_year_txv);
             selectTxv.setText("Please select " + string + " year");
-            TextView cancelTxv = (TextView) dialog.findViewById(R.id.cancel_ctxv);
+            TextView cancelTxv = dialog.findViewById(R.id.cancel_ctxv);
             cancelTxv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -177,7 +166,7 @@ public class AddPacifyrCertificatesActivity extends PacifyerActivity {
                 }
             });
             dialog.show();
-            TextView saveTxv = (TextView) dialog.findViewById(R.id.save_ctxv);
+            TextView saveTxv = dialog.findViewById(R.id.save_ctxv);
             saveTxv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -205,15 +194,15 @@ public class AddPacifyrCertificatesActivity extends PacifyerActivity {
 
     private void onSetActionBar() {
         try {
-            headerCtxv = (CustomFontTextView) findViewById(R.id.header_ctxv);
-            actionBarTopLlay = (LinearLayout) findViewById(R.id.action_bar_top_llay);
-            bottomPanel = (RelativeLayout) findViewById(R.id.bottom_panel);
-            leftLlay = (LinearLayout) findViewById(R.id.left_llay);
-            backImv = (DeviceFitImageView) findViewById(R.id.back_imv);
-            leftTxv = (CustomFontTextView) findViewById(R.id.left_txv);
-            rightLlay = (LinearLayout) findViewById(R.id.right_llay);
-            rightTxv = (CustomFontTextView) findViewById(R.id.right_txv);
-            rightImv = (DeviceFitImageView) findViewById(R.id.right_imv);
+            headerCtxv = findViewById(R.id.header_ctxv);
+            actionBarTopLlay = findViewById(R.id.action_bar_top_llay);
+            bottomPanel = findViewById(R.id.bottom_panel);
+            leftLlay = findViewById(R.id.left_llay);
+            backImv = findViewById(R.id.back_imv);
+            leftTxv = findViewById(R.id.left_txv);
+            rightLlay = findViewById(R.id.right_llay);
+            rightTxv = findViewById(R.id.right_txv);
+            rightImv = findViewById(R.id.right_imv);
 
             headerCtxv.setText("Certificates");
 

@@ -1,10 +1,9 @@
 package com.pacifyr.omhealthcare.quickblox.chat.utils.qb;
 
-import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.View;
 
-
+import com.google.android.material.snackbar.Snackbar;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.quickblox.App;
 

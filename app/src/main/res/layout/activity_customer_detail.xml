@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:card_view="http://schemas.android.com/apk/res-auto">
@@ -78,7 +76,7 @@
 
         </LinearLayout>
 
-        <android.support.v7.widget.CardView
+        <androidx.cardview.widget.CardView
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginTop="-25dp"
@@ -115,7 +113,7 @@
 
             </LinearLayout>
 
-        </android.support.v7.widget.CardView>
+        </androidx.cardview.widget.CardView>
 
         <com.ceino.utilitylibrary.CustomFontTextView
             android:layout_width="wrap_content"
@@ -136,13 +134,14 @@
             android:orientation="vertical">
 
 
-            <android.support.v4.widget.SwipeRefreshLayout
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
                 android:id="@+id/swipe_lay"
                 android:layout_width="match_parent"
                 android:visibility="gone"
 
                 android:layout_height="match_parent">
-                <android.support.v7.widget.RecyclerView
+
+                <androidx.recyclerview.widget.RecyclerView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:paddingLeft="20dp"
@@ -151,13 +150,13 @@
                     android:id="@+id/pacifyr_list_rcv"
                     android:layout_below="@+id/past_session_ctxv">
 
-                </android.support.v7.widget.RecyclerView>
+                </androidx.recyclerview.widget.RecyclerView>
                <!-- <android.support.v7.widget.RecyclerView
                     android:id="@+id/rcv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>-->
 
-            </android.support.v4.widget.SwipeRefreshLayout>
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
             <include layout="@layout/empty" android:visibility="visible"/>
         </LinearLayout>
 

@@ -6,10 +6,11 @@ package com.pacifyr.omhealthcare.utils;
  */
 
 import android.content.Context;
-import android.support.v4.view.MotionEventCompat;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.ViewConfiguration;
+
+import androidx.core.view.MotionEventCompat;
 
 
 /**

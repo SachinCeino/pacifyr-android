@@ -3,10 +3,6 @@ package com.pacifyr.omhealthcare.Fragment;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +11,11 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
+
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
@@ -131,23 +132,23 @@ public class LastSssionFragment extends BaseFragment {
         webListEmotions(getActivity());
         View view=inflater.inflate(R.layout.fragment_last_sssion,container,false);
         onSetActionBar();
-        pacifyrImgCimv = (CircleImageView) view.findViewById(R.id.last_session_cimv);
-        submitRlay = (RelativeLayout) view.findViewById(R.id.sumit_lastsesn_rlay);
-        sessionCostCtxv = (CustomFontTextView) view.findViewById(R.id.session_cost_ctxv);
-        pacifyrNameCtxv = (CustomFontTextView) view.findViewById(R.id.pacifyr_name_ctxv);
-        beforeFeelDimv = (ImageView) view.findViewById(R.id.before_feel_dimv);
-        commentCedt = (CustomEditText) view.findViewById(R.id.comments_cedt);
-        recyclerView = (RecyclerView) view.findViewById(R.id.begning_rcv);
-        commentsRcv = (RecyclerView) view.findViewById(R.id.comments_rcv);
-        pacifyrRateCtxv= (CustomFontTextView) view.findViewById(R.id.pacifyr_rate_ctxv);
-        durationCtxv = (CustomFontTextView) view.findViewById(R.id.duration_ctxv);
+        pacifyrImgCimv = view.findViewById(R.id.last_session_cimv);
+        submitRlay = view.findViewById(R.id.sumit_lastsesn_rlay);
+        sessionCostCtxv = view.findViewById(R.id.session_cost_ctxv);
+        pacifyrNameCtxv = view.findViewById(R.id.pacifyr_name_ctxv);
+        beforeFeelDimv = view.findViewById(R.id.before_feel_dimv);
+        commentCedt = view.findViewById(R.id.comments_cedt);
+        recyclerView = view.findViewById(R.id.begning_rcv);
+        commentsRcv = view.findViewById(R.id.comments_rcv);
+        pacifyrRateCtxv = view.findViewById(R.id.pacifyr_rate_ctxv);
+        durationCtxv = view.findViewById(R.id.duration_ctxv);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL, false));
         commentsRcv.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL, false));
         commentsAdapter=new CommentsAdapter(getContext());
         commentsRcv.setAdapter(commentsAdapter);
 
-        ScaleRatingBar ratingBar = (ScaleRatingBar) view.findViewById(R.id.simpleRatingBar5);
+        ScaleRatingBar ratingBar = view.findViewById(R.id.simpleRatingBar5);
         ratingBar.setNumStars(5);
         ratingBar.setStarPadding(10);
         ratingBar.setClickable(true);
@@ -160,9 +161,9 @@ public class LastSssionFragment extends BaseFragment {
             }
         });
 
-        SeekBarCompat seekBarCompat = (SeekBarCompat) view.findViewById(R.id.materialSeekBar);
+        SeekBarCompat seekBarCompat = view.findViewById(R.id.materialSeekBar);
         //holoCircleSeekBar=(HoloCircleSeekBar) view.findViewById(R.id.picker);
-        final CircleView circle_view = (CircleView) view.findViewById(R.id.circle_view);
+        final CircleView circle_view = view.findViewById(R.id.circle_view);
         circle_view.setProgressStepAsInteger(true);
         seekBarCompat.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -328,16 +329,16 @@ public class LastSssionFragment extends BaseFragment {
     private DeviceFitImageView rightImv;
 
     public void onSetActionBar() {
-        actionBarTopLlay = (LinearLayout) getActivity().findViewById(R.id.action_bar_top_llay);
-        bottomPanel = (RelativeLayout) getActivity().findViewById(R.id.bottom_panel);
-        leftLlay = (LinearLayout) getActivity().findViewById(R.id.left_llay);
-        backImv = (DeviceFitImageView) getActivity().findViewById(R.id.back_imv);
-        leftTxv = (CustomFontTextView) getActivity().findViewById(R.id.left_txv);
-        titleTxv = (CustomFontTextView) getActivity().findViewById(R.id.title_txv);
-        rightLlay = (LinearLayout) getActivity().findViewById(R.id.right_llay);
-        rightTxv = (CustomFontTextView) getActivity().findViewById(R.id.right_txv);
-        rightImv = (DeviceFitImageView) getActivity().findViewById(R.id.right_imv);
-        mSlidingPaneLayout = (WrappingSlidingPaneLayout) getActivity().findViewById(R.id.sliding_pane);
+        actionBarTopLlay = getActivity().findViewById(R.id.action_bar_top_llay);
+        bottomPanel = getActivity().findViewById(R.id.bottom_panel);
+        leftLlay = getActivity().findViewById(R.id.left_llay);
+        backImv = getActivity().findViewById(R.id.back_imv);
+        leftTxv = getActivity().findViewById(R.id.left_txv);
+        titleTxv = getActivity().findViewById(R.id.title_txv);
+        rightLlay = getActivity().findViewById(R.id.right_llay);
+        rightTxv = getActivity().findViewById(R.id.right_txv);
+        rightImv = getActivity().findViewById(R.id.right_imv);
+        mSlidingPaneLayout = getActivity().findViewById(R.id.sliding_pane);
         rightImv.setVisibility(View.INVISIBLE);
         rightTxv.setVisibility(View.INVISIBLE);
         rightLlay.setVisibility(View.INVISIBLE);

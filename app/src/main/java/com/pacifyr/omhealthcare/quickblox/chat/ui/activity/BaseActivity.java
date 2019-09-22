@@ -2,11 +2,12 @@ package com.pacifyr.omhealthcare.quickblox.chat.ui.activity;
 
 import android.os.Bundle;
 import android.os.PersistableBundle;
-import android.support.annotation.StringRes;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.ActionBar;
 import android.view.View;
 
+import androidx.annotation.StringRes;
+import androidx.appcompat.app.ActionBar;
+
+import com.google.android.material.snackbar.Snackbar;
 import com.quickblox.sample.core.ui.activity.CoreBaseActivity;
 import com.quickblox.sample.core.utils.ErrorUtils;
 

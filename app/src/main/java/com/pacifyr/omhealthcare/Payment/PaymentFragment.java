@@ -3,12 +3,13 @@ package com.pacifyr.omhealthcare.Payment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
@@ -23,7 +24,6 @@ import com.squareup.otto.Subscribe;
 
 import org.json.JSONArray;
 
-import static com.facebook.FacebookSdk.getApplicationContext;
 import static com.pacifyr.omhealthcare.network.NetworkService.GLOBAL_URL;
 
 public class PaymentFragment extends BaseFragment {
@@ -121,9 +121,9 @@ public class PaymentFragment extends BaseFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        paymentMethodCtxv = (CustomFontTextView) view.findViewById(R.id.payment_method_ctxv);
-        credictCardCtxv = (CustomFontTextView) view.findViewById(R.id.credict_card_ctxv);
-        cardRcv = (RecyclerView) view.findViewById(R.id.card_rcv);
+        paymentMethodCtxv = view.findViewById(R.id.payment_method_ctxv);
+        credictCardCtxv = view.findViewById(R.id.credict_card_ctxv);
+        cardRcv = view.findViewById(R.id.card_rcv);
 
         credictCardCtxv.setOnClickListener(new View.OnClickListener() {
             @Override

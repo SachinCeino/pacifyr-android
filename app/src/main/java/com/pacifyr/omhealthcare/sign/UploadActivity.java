@@ -12,20 +12,20 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.OpenableColumns;
-import android.support.v4.app.ActivityCompat;
-import android.os.Bundle;
-import android.support.v4.content.FileProvider;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
+
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.FileProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.ceino.utilitylibrary.CustomFontTextView;
 import com.ceino.utilitylibrary.DeviceFitImageView;
@@ -71,8 +71,8 @@ public class UploadActivity extends PacifyerActivity implements AddFileClickList
         /*if(isValid(this.getIntent().getParcelableArrayListExtra("FILE_LIST")))
             documentsArrayList = i.getParcelableArrayListExtra("FILE_LIST");*/
 
-        filesRcv = (RecyclerView) findViewById(R.id.files_rcv);
-        listner = (AddFileClickListner) this;
+        filesRcv = findViewById(R.id.files_rcv);
+        listner = this;
 
         setAdapter();
 
@@ -93,7 +93,7 @@ public class UploadActivity extends PacifyerActivity implements AddFileClickList
             if (hasCamPerm == PackageManager.PERMISSION_GRANTED) {
                 if(hasFilePerm == PackageManager.PERMISSION_GRANTED) {
                     final CharSequence[] options = {"Select PDF", "Take Photo", "Choose From Gallery", "Cancel"};
-                    android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(context);
+                    androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(context);
                     builder.setTitle("Choose File");
                     builder.setItems(options, new DialogInterface.OnClickListener() {
                         @Override
@@ -442,15 +442,15 @@ public class UploadActivity extends PacifyerActivity implements AddFileClickList
     private DeviceFitImageView rightImv;
 
     private void onSetActionBar() {
-        actionBarTopLlay = (LinearLayout) findViewById(R.id.action_bar_top_llay);
-        bottomPanel = (RelativeLayout) findViewById(R.id.bottom_panel);
-        leftLlay = (LinearLayout) findViewById(R.id.left_llay);
-        backImv = (DeviceFitImageView) findViewById(R.id.back_imv);
-        leftTxv = (CustomFontTextView) findViewById(R.id.left_txv);
-        rightLlay = (LinearLayout) findViewById(R.id.right_llay);
-        rightTxv = (CustomFontTextView) findViewById(R.id.right_txv);
-        rightImv = (DeviceFitImageView) findViewById(R.id.right_imv);
-        headerCtxv = (CustomFontTextView) findViewById(R.id.header_ctxv);
+        actionBarTopLlay = findViewById(R.id.action_bar_top_llay);
+        bottomPanel = findViewById(R.id.bottom_panel);
+        leftLlay = findViewById(R.id.left_llay);
+        backImv = findViewById(R.id.back_imv);
+        leftTxv = findViewById(R.id.left_txv);
+        rightLlay = findViewById(R.id.right_llay);
+        rightTxv = findViewById(R.id.right_txv);
+        rightImv = findViewById(R.id.right_imv);
+        headerCtxv = findViewById(R.id.header_ctxv);
 
         leftLlay.setOnClickListener(new View.OnClickListener() {
             @Override

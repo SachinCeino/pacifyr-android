@@ -23,11 +23,12 @@ package com.ceino.utilitylibrary;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.support.v4.view.GravityCompat;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout;
+
+import androidx.core.view.GravityCompat;
 
 import java.util.ArrayList;
 

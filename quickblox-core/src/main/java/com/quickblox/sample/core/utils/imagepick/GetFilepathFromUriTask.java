@@ -5,9 +5,10 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
-import android.support.v4.app.FragmentManager;
 import android.text.TextUtils;
 import android.util.Log;
+
+import androidx.fragment.app.FragmentManager;
 
 import com.quickblox.sample.core.CoreApp;
 import com.quickblox.sample.core.async.BaseAsyncTask;

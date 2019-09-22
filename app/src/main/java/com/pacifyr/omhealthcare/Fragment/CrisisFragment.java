@@ -3,13 +3,14 @@ package com.pacifyr.omhealthcare.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.ceino.utilitylibrary.CustomFontTextView;
 import com.ceino.utilitylibrary.utils.PrefManager;
@@ -101,34 +102,34 @@ public class CrisisFragment extends BaseFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        suicideRlay = (RelativeLayout) view.findViewById(R.id.suicide_rlay);
-        suicideHeaderCtxv = (CustomFontTextView) view.findViewById(R.id.suicide_header_ctxv);
-        suicideUrlLlay = (LinearLayout) view.findViewById(R.id.suicide_url_llay);
-        suicideUrlCtxv = (CustomFontTextView) view.findViewById(R.id.suicide_url_ctxv);
-        suicideTalkLlay = (RelativeLayout) view.findViewById(R.id.suicide_talk_llay);
-        suicideTalkImv = (ImageView) view.findViewById(R.id.suicide_talk_imv);
-        suicideTalkCtxv = (CustomFontTextView) view.findViewById(R.id.suicide_talk_ctxv);
-        suicideTtyCtxv = (CustomFontTextView) view.findViewById(R.id.suicide_tty_ctxv);
-        suicideDescriptionLlay = (LinearLayout) view.findViewById(R.id.suicide_description_llay);
-        suicideDescriptionCtxv = (CustomFontTextView) view.findViewById(R.id.suicide_description_ctxv);
-        samhsaRlay = (RelativeLayout) view.findViewById(R.id.samhsa_rlay);
-        samhsaHeaderCtxv = (CustomFontTextView) view.findViewById(R.id.samhsa_header_ctxv);
-        samhsaTalkLlay = (RelativeLayout) view.findViewById(R.id.samhsa_talk_llay);
-        samhsaTalkImv = (ImageView) view.findViewById(R.id.samhsa_talk_imv);
-        samhsaTalkCtxv = (CustomFontTextView) view.findViewById(R.id.samhsa_talk_ctxv);
-        samhsaTtyCtxv = (CustomFontTextView) view.findViewById(R.id.samhsa_tty_ctxv);
-        samhsaDescriptionLlay = (LinearLayout) view.findViewById(R.id.samhsa_description_llay);
-        samhsaDescriptionCtxv = (CustomFontTextView) view.findViewById(R.id.samhsa_description_ctxv);
-        veteransRlay = (RelativeLayout) view.findViewById(R.id.veterans_rlay);
-        veteransHeaderCtxv = (CustomFontTextView) view.findViewById(R.id.veterans_header_ctxv);
-        veteransUrlLlay = (LinearLayout) view.findViewById(R.id.veterans_url_llay);
-        veteransUrlCtxv = (CustomFontTextView) view.findViewById(R.id.veterans_url_ctxv);
-        veteransTalkLlay = (RelativeLayout) view.findViewById(R.id.veterans_talk_llay);
-        veteransTalkImv = (ImageView) view.findViewById(R.id.veterans_talk_imv);
-        veteransTalkCtxv = (CustomFontTextView) view.findViewById(R.id.veterans_talk_ctxv);
-        vetaransTtyCtxv = (CustomFontTextView) view.findViewById(R.id.vetarans_tty_ctxv);
-        veteransDescriptionLlay = (LinearLayout) view.findViewById(R.id.veterans_description_llay);
-        veteransDescriptionCtxv = (CustomFontTextView) view.findViewById(R.id.veterans_description_ctxv);
+        suicideRlay = view.findViewById(R.id.suicide_rlay);
+        suicideHeaderCtxv = view.findViewById(R.id.suicide_header_ctxv);
+        suicideUrlLlay = view.findViewById(R.id.suicide_url_llay);
+        suicideUrlCtxv = view.findViewById(R.id.suicide_url_ctxv);
+        suicideTalkLlay = view.findViewById(R.id.suicide_talk_llay);
+        suicideTalkImv = view.findViewById(R.id.suicide_talk_imv);
+        suicideTalkCtxv = view.findViewById(R.id.suicide_talk_ctxv);
+        suicideTtyCtxv = view.findViewById(R.id.suicide_tty_ctxv);
+        suicideDescriptionLlay = view.findViewById(R.id.suicide_description_llay);
+        suicideDescriptionCtxv = view.findViewById(R.id.suicide_description_ctxv);
+        samhsaRlay = view.findViewById(R.id.samhsa_rlay);
+        samhsaHeaderCtxv = view.findViewById(R.id.samhsa_header_ctxv);
+        samhsaTalkLlay = view.findViewById(R.id.samhsa_talk_llay);
+        samhsaTalkImv = view.findViewById(R.id.samhsa_talk_imv);
+        samhsaTalkCtxv = view.findViewById(R.id.samhsa_talk_ctxv);
+        samhsaTtyCtxv = view.findViewById(R.id.samhsa_tty_ctxv);
+        samhsaDescriptionLlay = view.findViewById(R.id.samhsa_description_llay);
+        samhsaDescriptionCtxv = view.findViewById(R.id.samhsa_description_ctxv);
+        veteransRlay = view.findViewById(R.id.veterans_rlay);
+        veteransHeaderCtxv = view.findViewById(R.id.veterans_header_ctxv);
+        veteransUrlLlay = view.findViewById(R.id.veterans_url_llay);
+        veteransUrlCtxv = view.findViewById(R.id.veterans_url_ctxv);
+        veteransTalkLlay = view.findViewById(R.id.veterans_talk_llay);
+        veteransTalkImv = view.findViewById(R.id.veterans_talk_imv);
+        veteransTalkCtxv = view.findViewById(R.id.veterans_talk_ctxv);
+        vetaransTtyCtxv = view.findViewById(R.id.vetarans_tty_ctxv);
+        veteransDescriptionLlay = view.findViewById(R.id.veterans_description_llay);
+        veteransDescriptionCtxv = view.findViewById(R.id.veterans_description_ctxv);
 
 
         suicideUrlCtxv.setOnClickListener(new View.OnClickListener() {

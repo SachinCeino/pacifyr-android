@@ -27,12 +27,12 @@
             android:textStyle="bold" />
 
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/negative_emotions_rcv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="23dp"
-            android:visibility="visible"></android.support.v7.widget.RecyclerView>
+            android:visibility="visible"></androidx.recyclerview.widget.RecyclerView>
 
         <com.ceino.utilitylibrary.CustomFontTextView
             android:id="@+id/positive_ctxv"
@@ -46,12 +46,12 @@
             android:textStyle="bold" />
 
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/positive_emotions_rcv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="23dp"
-            android:visibility="visible"></android.support.v7.widget.RecyclerView>
+            android:visibility="visible"></androidx.recyclerview.widget.RecyclerView>
 
     </LinearLayout>
 

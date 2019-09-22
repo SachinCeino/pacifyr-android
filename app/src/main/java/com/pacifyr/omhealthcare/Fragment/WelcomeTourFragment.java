@@ -1,12 +1,13 @@
 package com.pacifyr.omhealthcare.Fragment;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.viewpager.widget.ViewPager;
 
 import com.ceino.utilitylibrary.CustomFontTextView;
 import com.pacifyr.omhealthcare.R;
@@ -37,8 +38,8 @@ public class WelcomeTourFragment extends BaseFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        viewpager = (ViewPager) view.findViewById(R.id.viewpager);
-        skipCtxv = (CustomFontTextView) view.findViewById(R.id.skip_ctxv);
+        viewpager = view.findViewById(R.id.viewpager);
+        skipCtxv = view.findViewById(R.id.skip_ctxv);
 
         //skipCtxv=(CustomFontTextView) findViewById(R.id.skip_ctxv);
         //ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);

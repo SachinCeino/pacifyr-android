@@ -5,8 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.design.widget.Snackbar;
-import android.support.v7.widget.CardView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +15,8 @@ import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import androidx.cardview.widget.CardView;
 
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
@@ -30,6 +30,7 @@ import com.ceino.utilitylibrary.utils.PrefManager;
 import com.gdacciaro.iOSDialog.iOSDialog;
 import com.gdacciaro.iOSDialog.iOSDialogBuilder;
 import com.gdacciaro.iOSDialog.iOSDialogClickListener;
+import com.google.android.material.snackbar.Snackbar;
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.event.BusProvider;
@@ -201,7 +202,7 @@ public class SwipeDeckConnectPacifyrAdapter extends BaseAdapter {
 
                 TextView specialties = v.findViewById(R.id.specialities_ctxv);
                 if (isValid(searchResults.get(position).getSpecialities())) {
-                    String specl[] = searchResults.get(position).getSpecialities();
+                    String[] specl = searchResults.get(position).getSpecialities();
                     specialties.setText(TextUtils.join(", ", specl));
                 }
 

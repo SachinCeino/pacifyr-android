@@ -7,13 +7,14 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.os.Vibrator;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
+import androidx.appcompat.widget.Toolbar;
 
 import com.ceino.utilitylibrary.model.pacifyr.MUser;
 import com.pacifyr.omhealthcare.event.CallDetailEvent;
@@ -40,8 +41,6 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-
-import static com.facebook.FacebookSdk.getApplicationContext;
 
 /**
  * QuickBlox team
@@ -173,7 +172,7 @@ public class IncomeCallFragment extends BaseFragment implements Serializable, Vi
     }
 
     public void hideToolBar() {
-        Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar_call);
+        Toolbar toolbar = getActivity().findViewById(R.id.toolbar_call);
         toolbar.setVisibility(View.GONE);
     }
 
@@ -190,12 +189,12 @@ public class IncomeCallFragment extends BaseFragment implements Serializable, Vi
     TextView callerNameTextView;
     CircleImageView callerAvatarImageView;
     private void initUI(View view) {
-        callTypeTextView = (TextView) view.findViewById(R.id.call_type);
+        callTypeTextView = view.findViewById(R.id.call_type);
 
-        callerAvatarImageView = (CircleImageView) view.findViewById(R.id.image_caller_avatar);
+        callerAvatarImageView = view.findViewById(R.id.image_caller_avatar);
 
 
-        callerNameTextView = (TextView) view.findViewById(R.id.text_caller_name);
+        callerNameTextView = view.findViewById(R.id.text_caller_name);
 
         MUser mUser=getCallUser();
         if(isValid(mUser))
@@ -212,14 +211,14 @@ public class IncomeCallFragment extends BaseFragment implements Serializable, Vi
         }
 
 
-        TextView otherIncUsersTextView = (TextView) view.findViewById(R.id.text_other_inc_users);
+        TextView otherIncUsersTextView = view.findViewById(R.id.text_other_inc_users);
         otherIncUsersTextView.setText(getOtherIncUsersNames());
 
-        alsoOnCallText = (TextView) view.findViewById(R.id.text_also_on_call);
+        alsoOnCallText = view.findViewById(R.id.text_also_on_call);
         setVisibilityAlsoOnCallTextView();
 
-        rejectButton = (ImageButton) view.findViewById(R.id.image_button_reject_call);
-        takeButton = (ImageButton) view.findViewById(R.id.image_button_accept_call);
+        rejectButton = view.findViewById(R.id.image_button_reject_call);
+        takeButton = view.findViewById(R.id.image_button_accept_call);
     }
 
     private void setVisibilityAlsoOnCallTextView() {

@@ -9,10 +9,11 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.DrawableRes;
 import android.util.AttributeSet;
 import android.view.InflateException;
 import android.widget.ImageView;
+
+import androidx.annotation.DrawableRes;
 
 import com.pacifyr.omhealthcare.R;
 

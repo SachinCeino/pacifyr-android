@@ -94,8 +94,8 @@ dependencies {
     implementation (("com.quickblox:quickblox-android-sdk-messages:$rootProject.qbSdkVersion" )){
         exclude group : 'com.android.support'
     }
-    implementation "com.android.support:design:${rootProject.designVersion}"
-    implementation 'com.android.support:multidex:1.0.3'
+    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'androidx.multidex:multidex:2.0.0'
     // compile "com.github.johnkil.android-robototextview:robototextview:${rootProject.robotoTextViewVersion}"
 
 }

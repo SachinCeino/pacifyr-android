@@ -2,8 +2,9 @@ package com.quickblox.sample.core.utils;
 
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
-import android.support.annotation.ColorInt;
-import android.support.annotation.IntRange;
+
+import androidx.annotation.ColorInt;
+import androidx.annotation.IntRange;
 
 import com.quickblox.sample.core.CoreApp;
 import com.quickblox.sample.core.R;

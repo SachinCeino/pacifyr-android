@@ -20,6 +20,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
+
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
@@ -1024,7 +1026,7 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
         }
     }
 
-    private android.support.v4.app.Fragment getCurrentFragment() {
+    private Fragment getCurrentFragment() {
         return getSupportFragmentManager().findFragmentById(R.id.fragment_container);
     }
 
@@ -1095,7 +1097,7 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
 
     @Override
     public void onBackPressed() {
-        android.support.v4.app.Fragment fragmentByTag = getSupportFragmentManager().findFragmentByTag(ScreenShareFragment.TAG);
+        Fragment fragmentByTag = getSupportFragmentManager().findFragmentByTag(ScreenShareFragment.TAG);
         if (fragmentByTag instanceof ScreenShareFragment) {
             returnToCamera();
             super.onBackPressed();

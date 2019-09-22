@@ -3,11 +3,13 @@ package com.pacifyr.omhealthcare.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
+
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
@@ -16,9 +18,6 @@ import com.ceino.utilitylibrary.CustomEditText;
 import com.ceino.utilitylibrary.CustomFontTextView;
 import com.ceino.utilitylibrary.utils.PrefManager;
 import com.pacifyr.omhealthcare.R;
-
-import android.widget.RelativeLayout;
-
 import com.pacifyr.omhealthcare.event.ActionbarEvent;
 import com.pacifyr.omhealthcare.event.NotifyEvent;
 import com.pacifyr.omhealthcare.fragment.UserDashboardFragment;
@@ -61,9 +60,9 @@ public class SupportFragment extends BaseFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        sendRlay = (RelativeLayout) view.findViewById(R.id.send_rlay);
-        sendMsgCtxv = (CustomFontTextView) view.findViewById(R.id.send_msg_ctxv);
-        messageEdit= (CustomEditText) view.findViewById(R.id.message_edt);
+        sendRlay = view.findViewById(R.id.send_rlay);
+        sendMsgCtxv = view.findViewById(R.id.send_msg_ctxv);
+        messageEdit = view.findViewById(R.id.message_edt);
 
         messageText=messageEdit.getText().toString();
 

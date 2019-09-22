@@ -2,12 +2,13 @@ package com.pacifyr.omhealthcare.emotionupdate;
 
 import android.app.Fragment;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.ceino.utilitylibrary.CustomFontTextView;
 import com.pacifyr.omhealthcare.R;
@@ -26,9 +27,9 @@ public class ListCategoryFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragent_list_emotion_detail,container);
 
-        detailRcv = (RecyclerView) view.findViewById(R.id.detail_rcv);
-        moreCtxv = (CustomFontTextView) view.findViewById(R.id.more_ctxv);
-        whyCtxv = (CustomFontTextView) view.findViewById(R.id.why_ctxv);
+        detailRcv = view.findViewById(R.id.detail_rcv);
+        moreCtxv = view.findViewById(R.id.more_ctxv);
+        whyCtxv = view.findViewById(R.id.why_ctxv);
 
 
 

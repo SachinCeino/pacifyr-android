@@ -4,12 +4,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
@@ -17,7 +18,6 @@ import com.androidquery.callback.AjaxStatus;
 import com.ceino.utilitylibrary.CustomFontTextView;
 import com.ceino.utilitylibrary.DeviceFitImageView;
 import com.ceino.utilitylibrary.model.pacifyr.MEmotion;
-import com.ceino.utilitylibrary.model.pacifyr.MListPositiveEmotions;
 import com.ceino.utilitylibrary.utils.PrefManager;
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.pacifyr.omhealthcare.R;
@@ -30,8 +30,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import static com.pacifyr.omhealthcare.network.NetworkService.GLOBAL_URL;
 import static com.pacifyr.omhealthcare.network.NetworkService.GLOBAL_IMAGE_URL;
+import static com.pacifyr.omhealthcare.network.NetworkService.GLOBAL_URL;
 
 
 public class PostiveEmotionsAdapter extends RecyclerView.Adapter<PostiveEmotionsAdapter.ViewHolder> {
@@ -123,7 +123,7 @@ public class PostiveEmotionsAdapter extends RecyclerView.Adapter<PostiveEmotions
                 activity.findViewById(R.id.select_emotion_detail_rlay).setVisibility(View.VISIBLE);
                 activity.findViewById(R.id.button3).setBackgroundResource(R.drawable.circle_click_btn);
                 activity.findViewById(R.id.button2).setBackgroundResource(R.drawable.circle_button);
-                CustomFontTextView whyFellCtxv = (CustomFontTextView) activity.findViewById(R.id.why_feeling_ctxv);
+                CustomFontTextView whyFellCtxv = activity.findViewById(R.id.why_feeling_ctxv);
                 whyFellCtxv.setText("Why are you feeling "+list.get(position).getTitle()+"?");
                 Button b1=activity.findViewById(R.id.button1);
                 Button b2=activity.findViewById(R.id.button2);
@@ -143,7 +143,7 @@ public class PostiveEmotionsAdapter extends RecyclerView.Adapter<PostiveEmotions
                         try {
 
                             ModelSpecialityByEmotion modelSpecialityByEmotion = GsonUtils.getInstance().gsonToModelSpeciltyByEmotion(json);
-                            RecyclerView detailRcv=(RecyclerView)  activity.findViewById(R.id.emotion_detail_rcv);
+                            RecyclerView detailRcv = activity.findViewById(R.id.emotion_detail_rcv);
                             detailRcv.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
                             EmotionSpecialityAdapter adapter=new EmotionSpecialityAdapter(context,activity, modelSpecialityByEmotion.getResultsList());
                             detailRcv.setAdapter(adapter);
@@ -170,17 +170,10 @@ public class PostiveEmotionsAdapter extends RecyclerView.Adapter<PostiveEmotions
     public int getItemCount() {
         return list.size();
     }
-    // stores and recycles views as they are scrolled off screen
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        public DeviceFitImageView imageView;
-        public CustomFontTextView emotion_ctxv;
 
-        public ViewHolder(View itemView) {
-            super(itemView);
-            emotion_ctxv =(CustomFontTextView) itemView.findViewById(R.id.emotion_ctxv);
-            imageView = (DeviceFitImageView) itemView.findViewById(R.id.emotion_dimv);
+    public Boolean isValid(Object object) {
+        return object != null;
 
-        }
     }
 
 
@@ -221,10 +214,16 @@ public class PostiveEmotionsAdapter extends RecyclerView.Adapter<PostiveEmotions
         if(isValid(hud_progress)) if(!hud_progress.isShowing()) hud_progress.show();
     }
 
+    // stores and recycles views as they are scrolled off screen
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        public DeviceFitImageView imageView;
+        public CustomFontTextView emotion_ctxv;
 
-    public Boolean isValid(Object object) {
-        if(object != null) return true;
-        return false;
+        public ViewHolder(View itemView) {
+            super(itemView);
+            emotion_ctxv = itemView.findViewById(R.id.emotion_ctxv);
+            imageView = itemView.findViewById(R.id.emotion_dimv);
 
+        }
     }
 }

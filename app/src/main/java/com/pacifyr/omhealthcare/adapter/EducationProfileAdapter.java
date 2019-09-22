@@ -1,12 +1,11 @@
 package com.pacifyr.omhealthcare.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.ceino.utilitylibrary.CustomFontTextView;
 import com.ceino.utilitylibrary.model.pacifyr.ModelUserProfile;
@@ -52,9 +51,9 @@ public class EducationProfileAdapter extends RecyclerView.Adapter<EducationProfi
 
         public EducationViewHolder(View itemView) {
             super(itemView);
-            title = (CustomFontTextView) itemView.findViewById(R.id.edu_title_ctxv);
-            location  = (CustomFontTextView) itemView.findViewById(R.id.edu_desc_ctxv);
-            edu_duration_ctxv = (CustomFontTextView) itemView.findViewById(R.id.edu_duration_ctxv);
+            title = itemView.findViewById(R.id.edu_title_ctxv);
+            location = itemView.findViewById(R.id.edu_desc_ctxv);
+            edu_duration_ctxv = itemView.findViewById(R.id.edu_duration_ctxv);
         }
     }
 }

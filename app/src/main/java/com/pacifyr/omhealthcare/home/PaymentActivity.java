@@ -3,12 +3,13 @@ package com.pacifyr.omhealthcare.home;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
@@ -45,9 +46,9 @@ public class PaymentActivity extends PacifyrAppCompactActivity {
         onSetActionBar();
 
         prefM = PrefManager.getInstance(PaymentActivity.this);
-        paymentMethodCtxv = (CustomFontTextView) findViewById(R.id.payment_method_ctxv);
-        credictCardCtxv = (CustomFontTextView) findViewById(R.id.credict_card_ctxv);
-        cardRcv = (RecyclerView) findViewById(R.id.card_rcv);
+        paymentMethodCtxv = findViewById(R.id.payment_method_ctxv);
+        credictCardCtxv = findViewById(R.id.credict_card_ctxv);
+        cardRcv = findViewById(R.id.card_rcv);
 
         getSavedCard();
 
@@ -138,15 +139,15 @@ public class PaymentActivity extends PacifyrAppCompactActivity {
 
     public void onSetActionBar() {
         try {
-            actionBarTopLlay = (LinearLayout) findViewById(R.id.action_bar_top_llay);
-            bottomPanel = (RelativeLayout) findViewById(R.id.bottom_panel);
-            leftLlay = (LinearLayout) findViewById(R.id.left_llay);
-            backImv = (DeviceFitImageView) findViewById(R.id.back_imv);
-            leftTxv = (CustomFontTextView) findViewById(R.id.left_txv);
-            titleTxv = (CustomFontTextView) findViewById(R.id.title_txv);
-            rightLlay = (LinearLayout) findViewById(R.id.right_llay);
-            rightTxv = (CustomFontTextView) findViewById(R.id.right_txv);
-            rightImv = (DeviceFitImageView) findViewById(R.id.right_imv);
+            actionBarTopLlay = findViewById(R.id.action_bar_top_llay);
+            bottomPanel = findViewById(R.id.bottom_panel);
+            leftLlay = findViewById(R.id.left_llay);
+            backImv = findViewById(R.id.back_imv);
+            leftTxv = findViewById(R.id.left_txv);
+            titleTxv = findViewById(R.id.title_txv);
+            rightLlay = findViewById(R.id.right_llay);
+            rightTxv = findViewById(R.id.right_txv);
+            rightImv = findViewById(R.id.right_imv);
             rightImv.setVisibility(View.VISIBLE);
             rightTxv.setVisibility(View.INVISIBLE);
             rightLlay.setVisibility(View.VISIBLE);

@@ -2,15 +2,16 @@ package com.pacifyr.omhealthcare.Fragment;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.widget.NestedScrollView;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+
+import androidx.core.widget.NestedScrollView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
@@ -98,30 +99,30 @@ public class PacifyrSessionsFragment extends BaseFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        nestedscrollView=(NestedScrollView)view.findViewById(R.id.nestedscrollView);
-        linearUnreadMissed = (LinearLayout) view.findViewById(R.id.linear_unread_missed);
-        linearUnreadDeclined = (LinearLayout) view.findViewById(R.id.linear_unread_declined);
-        tabRlay = (LinearLayout) view.findViewById(R.id.tab_rlay);
-        thisWkCtxv = (CustomFontTextView) view.findViewById(R.id.this_wk_ctxv);
-        thisMntCtxv = (CustomFontTextView) view.findViewById(R.id.this_mnt_ctxv);
-        thisYearCtxv = (CustomFontTextView) view.findViewById(R.id.this_year_ctxv);
-        mySessionsTopLlay = (LinearLayout) view.findViewById(R.id.my_sessions_top_llay);
-        upperRlay = (RelativeLayout) view.findViewById(R.id.upper_rlay);
-        sessionNoCtxv = (CustomFontTextView) view.findViewById(R.id.session_no_ctxv);
-        hoursNoCtxv = (CustomFontTextView) view.findViewById(R.id.hours_no_ctxv);
-        minutesNoCtxv = (CustomFontTextView) view.findViewById(R.id.minutes_no_ctxv);
-        earningsNoCtxv = (CustomFontTextView) view.findViewById(R.id.earnings_no_ctxv);
-        missedRlay = (RelativeLayout) view.findViewById(R.id.missed_rlay);
-        missedCallCtxv = (CustomFontTextView) view.findViewById(R.id.missed_call_ctxv);
-        declinedCallCtxv = (CustomFontTextView) view.findViewById(R.id.declined_call_ctxv);
-        noDataCtxv = (CustomFontTextView) view.findViewById(R.id.no_data_ctxv);
-        mySessionsRcv = (RecyclerView) view.findViewById(R.id.my_sessions_rcv);
-        monthSessionsRcv = (RecyclerView) view.findViewById(R.id.month_sessions_rcv);
-        yearSessionsRcv = (RecyclerView) view.findViewById(R.id.year_sessions_rcv);
-        unreadSessionsRcv=(RecyclerView) view.findViewById(R.id.unread_sessions_rcv);
-        missedCtxv = (CustomFontTextView) view.findViewById(R.id.missed_call_ctxv);
-        declinedCtxv = (CustomFontTextView) view.findViewById(R.id.declined_call_ctxv);
-        dateTypeRcv = (RecyclerView) view.findViewById(R.id.date_type_rcv);
+        nestedscrollView = view.findViewById(R.id.nestedscrollView);
+        linearUnreadMissed = view.findViewById(R.id.linear_unread_missed);
+        linearUnreadDeclined = view.findViewById(R.id.linear_unread_declined);
+        tabRlay = view.findViewById(R.id.tab_rlay);
+        thisWkCtxv = view.findViewById(R.id.this_wk_ctxv);
+        thisMntCtxv = view.findViewById(R.id.this_mnt_ctxv);
+        thisYearCtxv = view.findViewById(R.id.this_year_ctxv);
+        mySessionsTopLlay = view.findViewById(R.id.my_sessions_top_llay);
+        upperRlay = view.findViewById(R.id.upper_rlay);
+        sessionNoCtxv = view.findViewById(R.id.session_no_ctxv);
+        hoursNoCtxv = view.findViewById(R.id.hours_no_ctxv);
+        minutesNoCtxv = view.findViewById(R.id.minutes_no_ctxv);
+        earningsNoCtxv = view.findViewById(R.id.earnings_no_ctxv);
+        missedRlay = view.findViewById(R.id.missed_rlay);
+        missedCallCtxv = view.findViewById(R.id.missed_call_ctxv);
+        declinedCallCtxv = view.findViewById(R.id.declined_call_ctxv);
+        noDataCtxv = view.findViewById(R.id.no_data_ctxv);
+        mySessionsRcv = view.findViewById(R.id.my_sessions_rcv);
+        monthSessionsRcv = view.findViewById(R.id.month_sessions_rcv);
+        yearSessionsRcv = view.findViewById(R.id.year_sessions_rcv);
+        unreadSessionsRcv = view.findViewById(R.id.unread_sessions_rcv);
+        missedCtxv = view.findViewById(R.id.missed_call_ctxv);
+        declinedCtxv = view.findViewById(R.id.declined_call_ctxv);
+        dateTypeRcv = view.findViewById(R.id.date_type_rcv);
 
         prefM= PrefManager.getInstance(getActivity());
         token=prefM.getAccessToken();

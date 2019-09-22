@@ -1,6 +1,6 @@
 package com.pacifyr.omhealthcare.quickblox.util;
 
-import android.support.v4.widget.NestedScrollView;
+import androidx.core.widget.NestedScrollView;
 
 /**
  * Created by wiinnovauser1 on 11/12/17.

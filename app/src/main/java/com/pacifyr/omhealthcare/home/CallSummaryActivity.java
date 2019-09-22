@@ -1,9 +1,10 @@
 package com.pacifyr.omhealthcare.home;
 
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.ceino.utilitylibrary.model.pacifyr.MEmotion;
 import com.pacifyr.omhealthcare.R;

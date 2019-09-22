@@ -1,29 +1,26 @@
 package com.pacifyr.omhealthcare.home.account;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Typeface;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
-import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
+
+import androidx.cardview.widget.CardView;
 
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
@@ -31,7 +28,6 @@ import com.androidquery.callback.AjaxStatus;
 import com.ceino.utilitylibrary.CustomEditText;
 import com.ceino.utilitylibrary.CustomFontTextView;
 import com.ceino.utilitylibrary.DeviceFitImageView;
-import com.ceino.utilitylibrary.model.pacifyr.MUser;
 import com.ceino.utilitylibrary.model.pacifyr.ModelUserProfile;
 import com.ceino.utilitylibrary.model.pacifyr.post.PostRegisterModel;
 import com.ceino.utilitylibrary.network.UtilityNetworkService;
@@ -42,7 +38,6 @@ import com.koushikdutta.ion.Ion;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.event.AlertTypeEvent;
 import com.pacifyr.omhealthcare.event.NotifyEvent;
-import com.pacifyr.omhealthcare.home.WelcomeTourActivity;
 import com.pacifyr.omhealthcare.network.GsonUtils;
 import com.pacifyr.omhealthcare.network.NetworkService;
 import com.pacifyr.omhealthcare.utility.PacifyrAppCompactActivity;
@@ -72,7 +67,6 @@ import java.util.Map;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.ceino.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
-import static com.pacifyr.omhealthcare.sign.RegisterVerifyActivity.phoneRegister;
 
 /**
  * Created by Mani-Ceino on 1/2/2018.
@@ -99,16 +93,16 @@ public class AccountEditActivity extends PacifyrAppCompactActivity {
         try {
             profileCimv=null;
             // include = (include) findViewById(R.id.include);
-            profileLlay = (LinearLayout) findViewById(R.id.profile_llay);
-            profileCimv = (CircleImageView) findViewById(R.id.profile_cimv);
-            profileNameCedt = (CustomEditText) findViewById(R.id.profile_name_cedt);
-            mailCard = (CardView) findViewById(R.id.mail_card);
-            mailLlay = (LinearLayout) findViewById(R.id.mail_llay);
-            mailCedt = (CustomEditText) findViewById(R.id.mail_cedt);
-            pnumberLlay = (LinearLayout) findViewById(R.id.pnumber_llay);
-            pnumberCedt = (CustomEditText) findViewById(R.id.pnumber_cedt);
-            aboutmeCard = (CardView) findViewById(R.id.aboutme_card);
-            aboutmeCedt = (CustomEditText) findViewById(R.id.aboutme_cedt);
+            profileLlay = findViewById(R.id.profile_llay);
+            profileCimv = findViewById(R.id.profile_cimv);
+            profileNameCedt = findViewById(R.id.profile_name_cedt);
+            mailCard = findViewById(R.id.mail_card);
+            mailLlay = findViewById(R.id.mail_llay);
+            mailCedt = findViewById(R.id.mail_cedt);
+            pnumberLlay = findViewById(R.id.pnumber_llay);
+            pnumberCedt = findViewById(R.id.pnumber_cedt);
+            aboutmeCard = findViewById(R.id.aboutme_card);
+            aboutmeCedt = findViewById(R.id.aboutme_cedt);
             onSetActionBar();
             onSetValues();
             profileCimv.setOnClickListener(new View.OnClickListener() {
@@ -247,7 +241,7 @@ public class AccountEditActivity extends PacifyrAppCompactActivity {
             @Override
             protected File doInBackground(String... params) {
                 File file = null;
-                String temp=new String();
+                String temp = "";
 
 
                     try {
@@ -477,15 +471,15 @@ public class AccountEditActivity extends PacifyrAppCompactActivity {
 
     public void onSetActionBar() {
         try {
-        actionBarTopLlay = (LinearLayout) findViewById(R.id.action_bar_top_llay);
-        bottomPanel = (RelativeLayout) findViewById(R.id.bottom_panel);
-        leftLlay = (LinearLayout) findViewById(R.id.left_llay);
-        backImv = (DeviceFitImageView) findViewById(R.id.back_imv);
-        leftTxv = (CustomFontTextView) findViewById(R.id.left_txv);
-        titleTxv = (CustomFontTextView) findViewById(R.id.title_txv);
-        rightLlay = (LinearLayout) findViewById(R.id.right_llay);
-        rightTxv = (CustomFontTextView) findViewById(R.id.right_txv);
-        rightImv = (DeviceFitImageView) findViewById(R.id.right_imv);
+            actionBarTopLlay = findViewById(R.id.action_bar_top_llay);
+            bottomPanel = findViewById(R.id.bottom_panel);
+            leftLlay = findViewById(R.id.left_llay);
+            backImv = findViewById(R.id.back_imv);
+            leftTxv = findViewById(R.id.left_txv);
+            titleTxv = findViewById(R.id.title_txv);
+            rightLlay = findViewById(R.id.right_llay);
+            rightTxv = findViewById(R.id.right_txv);
+            rightImv = findViewById(R.id.right_imv);
         rightImv.setVisibility(View.INVISIBLE);
         rightTxv.setVisibility(View.VISIBLE);
         rightLlay.setVisibility(View.VISIBLE);

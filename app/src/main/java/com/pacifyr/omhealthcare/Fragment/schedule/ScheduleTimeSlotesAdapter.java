@@ -1,16 +1,16 @@
 package com.pacifyr.omhealthcare.Fragment.schedule;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.ceino.utilitylibrary.CustomFontTextView;
 import com.ceino.utilitylibrary.utils.PrefManager;
 import com.pacifyr.omhealthcare.R;
-
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -33,18 +33,11 @@ public class ScheduleTimeSlotesAdapter extends RecyclerView.Adapter<ScheduleTime
     }
 
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
-        public CustomFontTextView schedule_timelotes;
-        private ImageView img_cancel_slot;
+    public Boolean isValid(List list) {
+        if (list != null)
+            return list.size() > 0;
+        return false;
 
-
-        public MyViewHolder(View view) {
-            super(view);
-
-                     schedule_timelotes=(CustomFontTextView) view.findViewById(R.id.schedule_timelotes);
-            img_cancel_slot=view.findViewById(R.id.img_cancel_slot);
-
-        }
     }
 
 
@@ -143,37 +136,38 @@ public class ScheduleTimeSlotesAdapter extends RecyclerView.Adapter<ScheduleTime
         return sdfs.format(dt);
     }
 
-
-    public Boolean isValid(List list)
-    {
-        if(list!=null)
-            if(list.size()>0)
-                return  true;
-        return  false;
-
-    }
-
     public Boolean isValid(List list, int position)
     {
         if(isValid(list))
-            if(list.size()>=position)
-                return  true;
+            return list.size() >= position;
         return  false;
 
     }
 
     public Boolean isValid(Object object)
     {
-        if(object!=null)
-            return  true;
-        return  false;
+        return object != null;
 
     }
 
     public Boolean isValid(String text) {
-        if(text != null) if(!text.trim().equalsIgnoreCase("")) return true;
+        if (text != null) return !text.trim().equalsIgnoreCase("");
         return false;
 
+    }
+
+    public class MyViewHolder extends RecyclerView.ViewHolder {
+        public CustomFontTextView schedule_timelotes;
+        private ImageView img_cancel_slot;
+
+
+        public MyViewHolder(View view) {
+            super(view);
+
+            schedule_timelotes = view.findViewById(R.id.schedule_timelotes);
+            img_cancel_slot = view.findViewById(R.id.img_cancel_slot);
+
+        }
     }
     @Override
     public int getItemCount() {

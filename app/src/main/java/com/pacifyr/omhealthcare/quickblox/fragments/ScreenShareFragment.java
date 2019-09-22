@@ -2,12 +2,6 @@ package com.pacifyr.omhealthcare.quickblox.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -15,6 +9,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.event.NotifyEvent;
@@ -40,7 +41,7 @@ public class ScreenShareFragment extends BaseToolBarFragment {
 
         MyAdapter adapter = new MyAdapter(getChildFragmentManager());
 
-        ViewPager pager = (ViewPager) view.findViewById(R.id.pager);
+        ViewPager pager = view.findViewById(R.id.pager);
         pager.setAdapter(adapter);
 
         toolbar.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.white));

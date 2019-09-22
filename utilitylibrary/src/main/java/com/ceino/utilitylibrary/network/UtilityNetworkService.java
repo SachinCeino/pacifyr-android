@@ -25,6 +25,57 @@ import org.json.JSONObject;
  */
 
 public class UtilityNetworkService extends IntentService {
+    /**
+     * Please Check GLOBAL_URL before making Build
+     **/
+//    public static String GLOBAL_URL = getGlobalUrl();
+//    public static String GLOBAL_IMAGE_URL = "https://pacifyrtest.storage.googleapis.com/";
+//    public static  String STRIPE_PUBLISH_KEY ="pk_test_FAVrlQ9hMG3RELCIcWUJpdZf";
+//
+//
+//    //dev
+//    //    /** Please Comment these three while bilding  Pam**/
+//    // public static final String APP_ID = "60603";
+//    //public static final String AUTH_KEY = "RMyP9v64ke8ccet";
+//    // public static final String AUTH_SECRET = "6TAfArmeSzME8su";
+//
+//
+//    public static String ACCOUNT_KEY = "xMeisck3BS_X6xbjYTQi";
+//    public static String ACCOUNT_ID = "77234";
+//    public static String TURN_SERVER = "turnserver.quickblox.com";
+//    public static String CIRTIFICATE_KEY = "development";
+//    public static boolean isRelease = false;
+//    public static boolean isProd = false;
+//
+//
+//    //for PAM
+//    /** dev*/
+//    /**
+//     * Please UnComment for Pam
+//     **/
+//    public static String APP_ID = "78571";
+//    public static String AUTH_KEY = "6ZSW67fV5vcUOc7";
+//    public static String AUTH_SECRET = "7mQzMYGczcznz6z";
+
+
+    /*public static final String  termOfUseUrl = "https://pacifyr.com/terms.html";
+    public static final String  copyrightUrl = "https://pacifyr.com/copyright.html";
+    public static final String  privacypolicyUrl = "https://pacifyr.com/privacy.html";*/
+
+    public static final String termOfUsersUrl = "https://pacifyr.com/TermsUsers.html";
+    private static final String PACKAGE_PAM = "com.pacifyr.pam";
+    public static boolean isRelease = false;
+    public static boolean isProd = true;
+    public static String ACCOUNT_KEY = "";
+    public static String ACCOUNT_ID = "";
+    public static String TURN_SERVER = "";
+    public static String CIRTIFICATE_KEY = "";
+    public static String APP_ID = "";
+    public static String AUTH_KEY = "";
+    public static String AUTH_SECRET = "";
+    public static String GLOBAL_URL = "";
+    public static String GLOBAL_IMAGE_URL = "";
+    public static String STRIPE_PUBLISH_KEY = "";
 
 
 
@@ -42,44 +93,46 @@ public class UtilityNetworkService extends IntentService {
     public static final String ACCOUNT_ID = "77234";
     public static final String CIRTIFICATE_KEY = "production";*/
     /** dev*/
-    /**
-     * Please Check GLOBAL_URL before making Build
-     **/
-    public static String GLOBAL_URL = getGlobalUrl();
-    public static String GLOBAL_IMAGE_URL = "https://pacifyrtest.storage.googleapis.com/";
-    public static final String STRIPE_PUBLISH_KEY ="pk_test_FAVrlQ9hMG3RELCIcWUJpdZf";
 
+    // Should call this method on Application onCreate();
+    public static void init(Context context) {
+        ACCOUNT_KEY = "xMeisck3BS_X6xbjYTQi";
+        ACCOUNT_ID = "77234";
+        TURN_SERVER = "turnserver.quickblox.com";
+        CIRTIFICATE_KEY = "development";
+        if (context.getPackageName().equalsIgnoreCase(PACKAGE_PAM)) {
+            if (isProd) {
+                GLOBAL_URL = "<----- PAM production url here --->";
+                GLOBAL_IMAGE_URL = "https://pacifyrprod.storage.googleapis.com/";
+                STRIPE_PUBLISH_KEY = "pk_live_GClqoTSF6tHpuUmqQET2nxsg";
+                CIRTIFICATE_KEY = "production";
+            } else {
+                GLOBAL_URL = "http://pam_test.pacifyr.net:8080/pacifyr/v1/";
+                GLOBAL_IMAGE_URL = "https://pacifyrtest.storage.googleapis.com/";
+                STRIPE_PUBLISH_KEY = "pk_test_FAVrlQ9hMG3RELCIcWUJpdZf";
+                CIRTIFICATE_KEY = "development";
+            }
+            APP_ID = "78571";
+            AUTH_KEY = "6ZSW67fV5vcUOc7";
+            AUTH_SECRET = "7mQzMYGczcznz6z";
+        } else {
+            if (isProd) {
+                GLOBAL_URL = "https://app.pacifyr.net/pacifyr/v1/";
+                GLOBAL_IMAGE_URL = "https://pacifyrprod.storage.googleapis.com/";
+                STRIPE_PUBLISH_KEY = "pk_live_GClqoTSF6tHpuUmqQET2nxsg";
+                CIRTIFICATE_KEY = "production";
+            } else {
+                GLOBAL_URL = "http://testapp.pacifyr.net:8080/pacifyr/v1/";
+                GLOBAL_IMAGE_URL = "https://pacifyrtest.storage.googleapis.com/";
+                STRIPE_PUBLISH_KEY = "pk_test_FAVrlQ9hMG3RELCIcWUJpdZf";
+                CIRTIFICATE_KEY = "development";
+            }
 
-    //dev
-    //    /** Please Comment these three while bilding  Pam**/
-    // public static final String APP_ID = "60603";
-    //public static final String AUTH_KEY = "RMyP9v64ke8ccet";
-    // public static final String AUTH_SECRET = "6TAfArmeSzME8su";
-
-
-    public static final String ACCOUNT_KEY = "xMeisck3BS_X6xbjYTQi";
-    public static final String ACCOUNT_ID = "77234";
-    public static final String TURN_SERVER = "turnserver.quickblox.com";
-    public static final String CIRTIFICATE_KEY = "development";
-    public static boolean isRelease = false;
-    public static boolean isProd = false;
-
-
-    //for PAM
-    /** dev*/
-    /**
-     * Please UnComment for Pam
-     **/
-    public static final String APP_ID = "78571";
-    public static final String AUTH_KEY = "6ZSW67fV5vcUOc7";
-    public static final String AUTH_SECRET = "7mQzMYGczcznz6z";
-
-
-    /*public static final String  termOfUseUrl = "https://pacifyr.com/terms.html";
-    public static final String  copyrightUrl = "https://pacifyr.com/copyright.html";
-    public static final String  privacypolicyUrl = "https://pacifyr.com/privacy.html";*/
-
-    public static final String  termOfUsersUrl = "https://pacifyr.com/TermsUsers.html";
+            APP_ID = "61574";
+            AUTH_KEY = "2qzAw4EjRen6JeC";
+            AUTH_SECRET = "jjpWMb9HRUVnTj7";
+        }
+    }
 
 
 

@@ -1,12 +1,13 @@
 package com.pacifyr.omhealthcare.Fragment.schedule;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.pacifyr.omhealthcare.R;
 
@@ -176,8 +177,7 @@ public class WeekScheduleListAdapter extends RecyclerView.Adapter<WeekScheduleLi
     public Boolean isValid(List list)
     {
         if(list!=null)
-            if(list.size()>0)
-                return  true;
+            return list.size() > 0;
         return  false;
 
     }
@@ -185,22 +185,19 @@ public class WeekScheduleListAdapter extends RecyclerView.Adapter<WeekScheduleLi
     public Boolean isValid(List list, int position)
     {
         if(isValid(list))
-            if(list.size()>=position)
-                return  true;
+            return list.size() >= position;
         return  false;
 
     }
 
     public Boolean isValid(Object object)
     {
-        if(object!=null)
-            return  true;
-        return  false;
+        return object != null;
 
     }
 
     public Boolean isValid(String text) {
-        if(text != null) if(!text.trim().equalsIgnoreCase("")) return true;
+        if (text != null) return !text.trim().equalsIgnoreCase("");
         return false;
 
     }
@@ -231,7 +228,7 @@ public class WeekScheduleListAdapter extends RecyclerView.Adapter<WeekScheduleLi
             String formatted = output.format(d);
             Log.w("DATE", "" + formatted);
 
-        String str[] = formatted.split("/");
+        String[] str = formatted.split("/");
 
         return str[0];
 

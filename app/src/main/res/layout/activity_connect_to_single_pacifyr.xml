@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:id="@+id/connectsingle_top_rlay"
-    xmlns:swipedeck="http://schemas.android.com/apk/res-auto">
+    android:id="@+id/connectsingle_top_rlay">
 
     <include layout="@layout/actionbar_grey_close"
         android:id="@+id/include"
@@ -247,7 +245,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <android.support.v7.widget.RecyclerView
+                <androidx.recyclerview.widget.RecyclerView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
@@ -297,14 +295,14 @@
                 android:text="Why are you feeling"
                 android:layout_marginBottom="20dp"/>
 
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/emotion_detail_rcv"
                 android:scrollbars="vertical"
                 android:fadeScrollbars="false">
 
-            </android.support.v7.widget.RecyclerView>
+            </androidx.recyclerview.widget.RecyclerView>
 
             <Button
                 android:layout_width="wrap_content"
@@ -328,7 +326,7 @@
         android:id="@+id/select_list_pacifyr_rlay"
         android:background="#F0F3F5">
 
-        <android.support.v4.widget.SwipeRefreshLayout
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:layout_width="match_parent"
             android:id="@+id/pacifyr_swipelay"
             android:layout_height="wrap_content">
@@ -538,7 +536,7 @@
 
 
         </LinearLayout>
-        </android.support.v4.widget.SwipeRefreshLayout>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     </RelativeLayout>
 
 

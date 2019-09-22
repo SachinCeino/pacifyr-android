@@ -4,13 +4,14 @@ import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
@@ -65,7 +66,6 @@ import static com.pacifyr.omhealthcare.base.PacifyerActivity.call_emotion;
 import static com.pacifyr.omhealthcare.network.NetworkService.lastSession;
 import static com.pacifyr.omhealthcare.network.NetworkService.modelAllEmotions;
 import static com.pacifyr.omhealthcare.network.NetworkService.modelCustomerDashboard2;
-import static com.pacifyr.omhealthcare.network.NetworkService.webListEmotions;
 
 public class UserDashboardFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
 
@@ -453,7 +453,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
             }
 
             if (isValid(modelCustomerDashboard2)) {
-                final MUser pfc[] = modelCustomerDashboard2.getPreferredPacifyrs();
+                final MUser[] pfc = modelCustomerDashboard2.getPreferredPacifyrs();
                 ModelCustomerDashboard2.ThisWeekStatistics lastWeek = modelCustomerDashboard2.getThisWeekStatistics();
                 lastSession = modelCustomerDashboard2.getLastSession();
                 if(isValid(modelCustomerDashboard2.getUser().getEmotion())){
@@ -730,7 +730,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                         if(unreadCount>0)
                         {
                             unreadChatCtxv.setVisibility(View.VISIBLE);
-                            unreadChatCtxv.setText(Integer.toString(unreadCount)+" unread messages");
+                            unreadChatCtxv.setText(unreadCount + " unread messages");
                             badgeCount+=unreadCount;
                             prefM.saveBadgeValue(badgeCount);
                             ShortcutBadger.applyCount(getActivity(), prefM.getBadgeValue());

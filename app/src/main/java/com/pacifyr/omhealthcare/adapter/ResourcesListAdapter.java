@@ -2,13 +2,14 @@ package com.pacifyr.omhealthcare.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.activity.TermsOfUseActivity;
@@ -79,10 +80,10 @@ public class ResourcesListAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         public ViewHolder(View itemView) {
             super(itemView);
-            linearLayout = (LinearLayout) itemView.findViewById(R.id.top_llay);
-            resourcesImv = (ImageView) itemView.findViewById(R.id.resources_imv);
-            resourcesTitle = (TextView) itemView.findViewById(R.id.header_txv);
-            resourcesDate = (TextView) itemView.findViewById(R.id.date_txv);
+            linearLayout = itemView.findViewById(R.id.top_llay);
+            resourcesImv = itemView.findViewById(R.id.resources_imv);
+            resourcesTitle = itemView.findViewById(R.id.header_txv);
+            resourcesDate = itemView.findViewById(R.id.date_txv);
         }
     }
 }

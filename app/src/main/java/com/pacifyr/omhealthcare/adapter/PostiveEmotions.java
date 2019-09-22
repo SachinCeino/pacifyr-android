@@ -6,15 +6,15 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.ceino.utilitylibrary.CustomFontTextView;
 import com.ceino.utilitylibrary.DeviceFitImageView;
 import com.ceino.utilitylibrary.model.pacifyr.MEmotion;
-import com.ceino.utilitylibrary.model.pacifyr.MListPositiveEmotions;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.event.BusProvider;
 import com.pacifyr.omhealthcare.event.NotifyEvent;
@@ -111,8 +111,8 @@ public class PostiveEmotions extends RecyclerView.Adapter<PostiveEmotions.ViewHo
 
         public ViewHolder(View itemView) {
             super(itemView);
-            emotion_ctxv =(CustomFontTextView) itemView.findViewById(R.id.emotion_ctxv);
-            imageView = (DeviceFitImageView) itemView.findViewById(R.id.emotion_dimv);
+            emotion_ctxv = itemView.findViewById(R.id.emotion_ctxv);
+            imageView = itemView.findViewById(R.id.emotion_dimv);
 
         }
     }

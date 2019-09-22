@@ -74,10 +74,7 @@
         </LinearLayout>
 
 
-
-
-
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
 
             android:layout_gravity="center"
             android:id="@+id/save_rlay"
@@ -121,7 +118,7 @@
                 app:layout_constraintStart_toEndOf="@+id/cancel_ctxv"
                 app:layout_constraintTop_toTopOf="parent" />
 
-        </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     </LinearLayout>

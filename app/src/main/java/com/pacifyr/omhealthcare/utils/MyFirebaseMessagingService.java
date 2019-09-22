@@ -3,6 +3,7 @@ package com.pacifyr.omhealthcare.utils;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
 import android.media.RingtoneManager;
@@ -10,9 +11,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
+
+import androidx.annotation.NonNull;
+import androidx.core.app.NotificationCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.ceino.utilitylibrary.utils.PrefManager;
 import com.google.firebase.messaging.FirebaseMessagingService;
@@ -22,17 +25,55 @@ import com.pacifyr.omhealthcare.activity.SplachScreen;
 import com.pacifyr.omhealthcare.base.PacifyerActivity;
 import com.pacifyr.omhealthcare.event.CallEvent;
 import com.pacifyr.omhealthcare.quickblox.activities.CallActivity;
+import com.pacifyr.omhealthcare.quickblox.chat.ui.activity.DialogsActivity;
 import com.pacifyr.omhealthcare.quickblox.services.CallService;
 import com.pacifyr.omhealthcare.quickblox.utils.WebRtcSessionManager;
 import com.pacifyr.omhealthcare.receiver.NotificationUtils;
 import com.pacifyr.omhealthcare.receiver.PacifyrReceiver;
+
 import me.leolin.shortcutbadger.ShortcutBadger;
+
 import static com.pacifyr.omhealthcare.receiver.NotificationUtils.isAppIsInBackground;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private static final String TAG = "MyFirebaseMsgService";
     private static boolean isCall = false;
+
+
+    @Override
+    public void onNewToken(@NonNull String s) {
+        super.onNewToken(s);
+        PrefManager.getInstance(getApplicationContext()).putSharedString(PrefManager.FCM_TOKEN, s);
+        sendRegistrationToServer(s);
+    }
+
+    public Boolean isValid(Object object) {
+        return object != null;
+
+    }
+
+    public String getAccessToken() {
+        return PrefManager.getInstance(getApplicationContext()).getSharedString(PrefManager.ACCESSTOKEN, null);
+
+    }
+
+    public String getUserID() {
+        return PrefManager.getInstance(getApplicationContext()).getSharedString(PrefManager.USERID, null);
+    }
+
+    private void sendRegistrationToServer(String token) {
+        // TODO: Implement this method to send token to your app server.
+        if (!isValid(getUserID())) {
+            Log.d(TAG, "Invalid userId cancelling sendRegistrationToServer");
+            return;
+        }
+        if (!isValid(getAccessToken())) {
+            Log.d(TAG, "Invalid access token cancelling sendRegistrationToServer");
+            return;
+        }
+        new AmazonSNSTokenHandler(getApplicationContext()).register();
+    }
 
     /**
      * Called when message is received.
@@ -286,29 +327,38 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         /**Unreadchat push notification Badge implmentation **/
 
+        Intent cIntent = null;
+        PendingIntent pendingIntent = null;
         if (actualType.equals("chat"))
         {
             PrefManager prefM=PrefManager.getInstance(context);
             prefM.saveBadgeValue(prefM.getBadgeValue()+1);
             int badgeCount = prefM.getBadgeValue();
             ShortcutBadger.applyCount(context, badgeCount);
+
+            cIntent = new Intent(context, DialogsActivity.class);
+            TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+            stackBuilder.addNextIntentWithParentStack(cIntent);
+            pendingIntent =
+                    stackBuilder.getPendingIntent(0, PendingIntent.FLAG_CANCEL_CURRENT);
+        } else {
+
+            cIntent = new Intent(context, SplachScreen.class);
+            Bundle b = new Bundle();
+            // b.putString("type", type);
+            b.putString("id", qsid);
+            b.putString("actualType", actualType);
+            cIntent.putExtra("Bundle", b);
+            cIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            cIntent.setAction(Long.toString(System.currentTimeMillis()));
+
+            pendingIntent = PendingIntent.getActivity(context, (int) System.currentTimeMillis(),
+                    cIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         }
-
-        Intent cIntent = new Intent(context, SplachScreen.class);
-        Bundle b = new Bundle();
-        // b.putString("type", type);
-        b.putString("id", qsid);
-        b.putString("actualType", actualType);
-        cIntent.putExtra("Bundle", b);
-        cIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        cIntent.setAction(Long.toString(System.currentTimeMillis()));
-
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, (int) System.currentTimeMillis(),
-                cIntent, PendingIntent.FLAG_CANCEL_CURRENT);
         // cIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         Uri notificationSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context,Constants.getChannelId(context))
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(R.drawable.ic_pacifyr_notification)
                 .setContentText(message)
                 .setContentTitle(getResources().getString(R.string.app_name))
                 .setContentIntent(pendingIntent)

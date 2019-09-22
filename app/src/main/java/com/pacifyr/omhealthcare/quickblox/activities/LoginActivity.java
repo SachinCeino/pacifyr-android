@@ -4,7 +4,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -12,6 +11,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+
+import androidx.annotation.Nullable;
 
 import com.pacifyr.omhealthcare.quickblox.services.CallService;
 import com.pacifyr.omhealthcare.quickblox.utils.Consts;
@@ -26,12 +27,13 @@ import com.quickblox.sample.core.utils.KeyboardUtils;
 import com.quickblox.sample.core.utils.SharedPrefsHelper;
 import com.quickblox.sample.core.utils.Toaster;
 import com.quickblox.sample.groupchatwebrtc.R;
+import com.quickblox.users.model.QBUser;
+
 /*import com.quickblox.sample.groupchatwebrtc.services.CallService;
 import com.quickblox.sample.groupchatwebrtc.utils.Consts;
 import com.quickblox.sample.groupchatwebrtc.utils.QBEntityCallbackImpl;
 import com.quickblox.sample.groupchatwebrtc.utils.UsersUtils;
 import com.quickblox.sample.groupchatwebrtc.utils.ValidationUtils;*/
-import com.quickblox.users.model.QBUser;
 
 public class LoginActivity extends BaseActivity {
 
@@ -62,10 +64,10 @@ public class LoginActivity extends BaseActivity {
 
     private void initUI() {
         setActionBarTitle(R.string.title_login_activity);
-        userNameEditText = (EditText) findViewById(R.id.user_name);
+        userNameEditText = findViewById(R.id.user_name);
         userNameEditText.addTextChangedListener(new LoginEditTextWatcher(userNameEditText));
 
-        chatRoomNameEditText = (EditText) findViewById(R.id.chat_room_name);
+        chatRoomNameEditText = findViewById(R.id.chat_room_name);
         chatRoomNameEditText.addTextChangedListener(new LoginEditTextWatcher(chatRoomNameEditText));
     }
 

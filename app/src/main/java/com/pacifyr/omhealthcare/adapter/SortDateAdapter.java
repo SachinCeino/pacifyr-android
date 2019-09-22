@@ -1,15 +1,15 @@
 package com.pacifyr.omhealthcare.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.ceino.utilitylibrary.CustomFontTextView;
-import com.ceino.utilitylibrary.model.pacifyr.ModelSpecialist;
 import com.pacifyr.omhealthcare.R;
 
 import java.util.List;
@@ -59,9 +59,9 @@ public class SortDateAdapter extends RecyclerView.Adapter<SortDateAdapter.MyView
 
         public MyViewHolder(View view) {
             super(view);
-            topRlay = (RelativeLayout) view.findViewById(R.id.top_rlay);
-            topLlay=(LinearLayout) view.findViewById(R.id.top_llay);
-            titleCtxv = (CustomFontTextView) view.findViewById(R.id.title_ctxv);
+            topRlay = view.findViewById(R.id.top_rlay);
+            topLlay = view.findViewById(R.id.top_llay);
+            titleCtxv = view.findViewById(R.id.title_ctxv);
         }
     }
 }

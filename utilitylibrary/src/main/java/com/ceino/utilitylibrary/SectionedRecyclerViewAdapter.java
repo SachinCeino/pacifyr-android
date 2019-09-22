@@ -1,8 +1,9 @@
 package com.ceino.utilitylibrary;
 
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
+
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -162,7 +163,7 @@ public abstract class SectionedRecyclerViewAdapter<SH extends RecyclerView.ViewH
             if (subheaderPosition > itemPositionInRv) {
                 final int previousSubheaderPosition = subheaderPositions.get(i - 1);
                 if (subheaderPosition - previousSubheaderPosition == 2) {
-                    subheaderPositions.remove(subheaderPositions.indexOf(previousSubheaderPosition));
+                    subheaderPositions.remove(previousSubheaderPosition);
                     decreaseSubheaderPositions(subheaderPositions.indexOf(subheaderPosition), 2);
                     notifyItemRangeRemoved(itemPositionInRv - 1, 2);
                 } else {

@@ -3,8 +3,10 @@ package com.pacifyr.omhealthcare.quickblox;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.StrictMode;
-import android.support.multidex.MultiDex;
 
+import androidx.multidex.MultiDex;
+
+import com.ceino.utilitylibrary.network.UtilityNetworkService;
 import com.pacifyr.omhealthcare.quickblox.chat.models.SampleConfigs;
 import com.pacifyr.omhealthcare.quickblox.chat.utils.Consts;
 import com.pacifyr.omhealthcare.quickblox.chat.utils.configs.ConfigUtils;
@@ -37,7 +39,7 @@ public class App extends CoreApp {
         MultiDex.install(getBaseContext());
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
-
+        UtilityNetworkService.init(this);
         initApplication();
             /*chat*/
         ActivityLifecycle.init(this);

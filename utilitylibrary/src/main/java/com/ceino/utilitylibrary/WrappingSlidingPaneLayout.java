@@ -17,11 +17,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.v4.view.AccessibilityDelegateCompat;
-import android.support.v4.view.MotionEventCompat;
-import android.support.v4.view.ViewCompat;
-import android.support.v4.view.accessibility.AccessibilityNodeInfoCompat;
-import android.support.v4.widget.ViewDragHelper;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -30,6 +25,12 @@ import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.view.accessibility.AccessibilityEvent;
+
+import androidx.core.view.AccessibilityDelegateCompat;
+import androidx.core.view.MotionEventCompat;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
+import androidx.customview.widget.ViewDragHelper;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -45,7 +46,7 @@ import java.util.ArrayList;
  * the entire layout.
  */
 public class WrappingSlidingPaneLayout extends ViewGroup {
-    private static final String TAG = "WrappingSlidingPaneLayout";
+    private static final String TAG = "WrappingSliding";
 
     /**
      * Default size of the overhang for a pane in the open state.
@@ -167,20 +168,20 @@ public class WrappingSlidingPaneLayout extends ViewGroup {
          * @param panel The child view that was moved
          * @param slideOffset The new offset of this sliding pane within its range, from 0-1
          */
-        public void onPanelSlide(View panel, float slideOffset);
+        void onPanelSlide(View panel, float slideOffset);
         /**
          * Called when a sliding pane becomes slid completely open. The pane may or may not
          * be interactive at this point depending on how much of the pane is visible.
          * @param panel The child view that was slid to an open position, revealing other panes
          */
-        public void onPanelOpened(View panel);
+        void onPanelOpened(View panel);
 
         /**
          * Called when a sliding pane becomes slid completely closed. The pane is now guaranteed
          * to be interactive. It may now obscure other views in the layout.
          * @param panel The child view that was slid to a closed position
          */
-        public void onPanelClosed(View panel);
+        void onPanelClosed(View panel);
     }
 
     /**

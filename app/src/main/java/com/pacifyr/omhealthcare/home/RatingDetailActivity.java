@@ -2,18 +2,18 @@ package com.pacifyr.omhealthcare.home;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.ceino.utilitylibrary.CustomFontTextView;
 import com.ceino.utilitylibrary.DeviceFitImageView;
-
 import com.ceino.utilitylibrary.model.pacifyr.MRatingDetail;
 import com.ceino.utilitylibrary.model.pacifyr.MRatingStat;
 import com.ceino.utilitylibrary.utils.PrefManager;
@@ -23,7 +23,6 @@ import com.pacifyr.omhealthcare.adapter.SortWeekAdapter;
 import com.pacifyr.omhealthcare.event.AlertTypeEvent;
 import com.pacifyr.omhealthcare.event.NotifyEvent;
 import com.pacifyr.omhealthcare.event.WeekSetEvent;
-
 import com.pacifyr.omhealthcare.network.GsonUtils;
 import com.pacifyr.omhealthcare.utility.PacifyrAppCompactActivity;
 import com.squareup.otto.Subscribe;
@@ -353,17 +352,17 @@ public class RatingDetailActivity extends PacifyrAppCompactActivity {
 
     private void initisalizeView() {
         try {
-            mySessionsTopLlay = (LinearLayout) findViewById(R.id.my_sessions_top_llay);
-            thisWkCtxv = (CustomFontTextView) findViewById(R.id.this_wk_ctxv);
-            thisMntCtxv = (CustomFontTextView) findViewById(R.id.this_mnt_ctxv);
-            thisYearCtxv = (CustomFontTextView) findViewById(R.id.this_year_ctxv);
-            listWeeksRcv = (RecyclerView) findViewById(R.id.list_weeks_rcv);
-            upperRlay = (RelativeLayout) findViewById(R.id.upper_rlay);
-            sessionNoCtxv = (CustomFontTextView) findViewById(R.id.session_no_ctxv);
-            noDataCtxv = (CustomFontTextView) findViewById(R.id.no_data_ctxv);
-            weekRatingRcv = (RecyclerView) findViewById(R.id.week_rating_rcv);
-            monthRatingRcv = (RecyclerView) findViewById(R.id.month_rating_rcv);
-            yearRatingRcv = (RecyclerView) findViewById(R.id.year_rating_rcv);
+            mySessionsTopLlay = findViewById(R.id.my_sessions_top_llay);
+            thisWkCtxv = findViewById(R.id.this_wk_ctxv);
+            thisMntCtxv = findViewById(R.id.this_mnt_ctxv);
+            thisYearCtxv = findViewById(R.id.this_year_ctxv);
+            listWeeksRcv = findViewById(R.id.list_weeks_rcv);
+            upperRlay = findViewById(R.id.upper_rlay);
+            sessionNoCtxv = findViewById(R.id.session_no_ctxv);
+            noDataCtxv = findViewById(R.id.no_data_ctxv);
+            weekRatingRcv = findViewById(R.id.week_rating_rcv);
+            monthRatingRcv = findViewById(R.id.month_rating_rcv);
+            yearRatingRcv = findViewById(R.id.year_rating_rcv);
         }
         catch (Exception ex)
         {
@@ -384,15 +383,15 @@ public class RatingDetailActivity extends PacifyrAppCompactActivity {
 
     public void onSetActionBar() {
         try {
-            actionBarTopLlay = (LinearLayout) findViewById(R.id.action_bar_top_llay);
-            bottomPanel = (RelativeLayout) findViewById(R.id.bottom_panel);
-            leftLlay = (LinearLayout) findViewById(R.id.left_llay);
-            backImv = (DeviceFitImageView) findViewById(R.id.back_imv);
-            leftTxv = (CustomFontTextView) findViewById(R.id.left_txv);
-            titleTxv = (CustomFontTextView) findViewById(R.id.title_txv);
-            rightLlay = (LinearLayout) findViewById(R.id.right_llay);
-            rightTxv = (CustomFontTextView) findViewById(R.id.right_txv);
-            rightImv = (DeviceFitImageView) findViewById(R.id.right_imv);
+            actionBarTopLlay = findViewById(R.id.action_bar_top_llay);
+            bottomPanel = findViewById(R.id.bottom_panel);
+            leftLlay = findViewById(R.id.left_llay);
+            backImv = findViewById(R.id.back_imv);
+            leftTxv = findViewById(R.id.left_txv);
+            titleTxv = findViewById(R.id.title_txv);
+            rightLlay = findViewById(R.id.right_llay);
+            rightTxv = findViewById(R.id.right_txv);
+            rightImv = findViewById(R.id.right_imv);
 
             rightImv.setVisibility(View.INVISIBLE);
             rightTxv.setVisibility(View.INVISIBLE);

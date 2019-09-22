@@ -3,12 +3,13 @@ package com.pacifyr.omhealthcare.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Handler;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.ceino.utilitylibrary.CustomFontTextView;
 import com.ceino.utilitylibrary.model.pacifyr.MUser;
@@ -16,7 +17,6 @@ import com.ceino.utilitylibrary.model.pacifyr.ModelPacifyrDashboard;
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.event.ChatEvent;
-import com.pacifyr.omhealthcare.home.ConnectToPacifyrActivity;
 import com.pacifyr.omhealthcare.home.CustomerDetailActivity;
 import com.pacifyr.omhealthcare.home.CustomerListActivity;
 import com.pacifyr.omhealthcare.model.MCustomerList;
@@ -148,6 +148,17 @@ public class CustomerListAdapter extends  RecyclerView.Adapter<CustomerListAdapt
         return lists.size();
     }
 
+    public Boolean isValid(Object object) {
+        return object != null;
+
+    }
+
+    public Boolean isValidhtml(String text) {
+        if (isValid(text)) return text.contains("http") || text.contains("https");
+        return false;
+
+    }
+
     public class ViewHolder  extends RecyclerView.ViewHolder{
         private CircleImageView customerCimv;
         private CustomFontTextView customerNameCtxv;
@@ -159,28 +170,16 @@ public class CustomerListAdapter extends  RecyclerView.Adapter<CustomerListAdapt
 
         public ViewHolder(View view) {
             super(view);
-            customerCimv = (CircleImageView) view.findViewById(R.id.customer_cimv);
-            chat_imv = (ImageView) view.findViewById(R.id.chat_imv);
-            topLlay = (LinearLayout) view.findViewById(R.id.top_llay);
-            customerNameCtxv = (CustomFontTextView) view.findViewById(R.id.customer_name_ctxv);
-            customerWalletCtxv = (CustomFontTextView) view.findViewById(R.id.customer_wallet_ctxv);
+            customerCimv = view.findViewById(R.id.customer_cimv);
+            chat_imv = view.findViewById(R.id.chat_imv);
+            topLlay = view.findViewById(R.id.top_llay);
+            customerNameCtxv = view.findViewById(R.id.customer_name_ctxv);
+            customerWalletCtxv = view.findViewById(R.id.customer_wallet_ctxv);
             //customerRating = (RatingBar) view.findViewById(R.id.customer_rating);
             //RatingBar ratingBar = (RatingBar) findViewById(R.id.ratingBar);
             //LayerDrawable stars = (LayerDrawable) customerRating.getProgressDrawable();
             //stars.getDrawable(2).setColorFilter(0xE2CE12, PorterDuff.Mode.SRC_ATOP);
         }
-    }
-
-    public Boolean isValid(Object object) {
-        if (object != null)
-            return true;
-        return false;
-
-    }
-    public Boolean isValidhtml(String text) {
-        if(isValid(text)) if(text.contains("http")||text.contains("https")) return true;
-        return false;
-
     }
 
     public KProgressHUD hud_progress = null;

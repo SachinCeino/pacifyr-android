@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:background="@drawable/white_round_square"
     android:layout_height="wrap_content">
 
 <!--android:background="@color/grey_hex_e6"-->
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         android:id="@+id/card_pacifyr"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -103,7 +101,7 @@
                             android:layout_marginTop="3dp"
                             android:orientation="horizontal">
 
-                            <android.support.v7.widget.AppCompatRatingBar
+                            <androidx.appcompat.widget.AppCompatRatingBar
                                 android:id="@+id/myRatingBar"
                                 style="?android:attr/ratingBarStyleSmall"
                                 android:layout_width="wrap_content"
@@ -183,7 +181,7 @@
 
         </LinearLayout>
 
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 
     <RelativeLayout
         android:layout_width="match_parent"

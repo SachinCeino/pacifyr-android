@@ -1,15 +1,16 @@
 package com.pacifyr.omhealthcare.home.account;
 
 import android.os.Bundle;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
+
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
@@ -89,27 +90,27 @@ public class PacifyrAccountFragment extends BaseFragment {
         try {
 
             prefM = PrefManager.getInstance(getContext());
-            profileLlay = (LinearLayout) view.findViewById(R.id.profile_llay);
-            profileCimv = (CircleImageView) view.findViewById(R.id.profile_cimv);
-            profileNameCtxv = (CustomFontTextView) view.findViewById(R.id.profile_name_ctxv);
-            mailCard = (CardView) view.findViewById(R.id.mail_card);
-            mailLlay = (LinearLayout) view.findViewById(R.id.mail_llay);
-            mailDtxv = (CustomFontTextView) view.findViewById(R.id.mail_dtxv);
-            pnumberLlay = (LinearLayout) view.findViewById(R.id.pnumber_llay);
-            pnumberDtxv = (CustomFontTextView) view.findViewById(R.id.pnumber_dtxv);
-            aboutmeCard = (CardView) view.findViewById(R.id.aboutme_card);
-            aboutmeCtxv = (CustomFontTextView) view.findViewById(R.id.aboutme_ctxv);
-            snapshotCtxv = (CustomFontTextView) view.findViewById(R.id.snapshot_ctxv);
-            websiteCtxv = (CustomFontTextView) view.findViewById(R.id.website_ctxv);
-            educationCard = (CardView) view.findViewById(R.id.education_card);
+            profileLlay = view.findViewById(R.id.profile_llay);
+            profileCimv = view.findViewById(R.id.profile_cimv);
+            profileNameCtxv = view.findViewById(R.id.profile_name_ctxv);
+            mailCard = view.findViewById(R.id.mail_card);
+            mailLlay = view.findViewById(R.id.mail_llay);
+            mailDtxv = view.findViewById(R.id.mail_dtxv);
+            pnumberLlay = view.findViewById(R.id.pnumber_llay);
+            pnumberDtxv = view.findViewById(R.id.pnumber_dtxv);
+            aboutmeCard = view.findViewById(R.id.aboutme_card);
+            aboutmeCtxv = view.findViewById(R.id.aboutme_ctxv);
+            snapshotCtxv = view.findViewById(R.id.snapshot_ctxv);
+            websiteCtxv = view.findViewById(R.id.website_ctxv);
+            educationCard = view.findViewById(R.id.education_card);
 
-            educationRecyclerView = (RecyclerView) view.findViewById(R.id.education_rcv);
+            educationRecyclerView = view.findViewById(R.id.education_rcv);
 
-            priceCtxv = (CustomFontTextView) view.findViewById(R.id.price_ctxv);
-            reviewCtxv = (CustomFontTextView) view.findViewById(R.id.review_ctxv);
-            isonlineCtxv = (CustomFontTextView) view.findViewById(R.id.isonline_ctxv);
-            onlineOfflineImv = (ImageView) view.findViewById(R.id.online_offline_imv);
-            profileRating = (RatingBar) view.findViewById(R.id.profile_rating);
+            priceCtxv = view.findViewById(R.id.price_ctxv);
+            reviewCtxv = view.findViewById(R.id.review_ctxv);
+            isonlineCtxv = view.findViewById(R.id.isonline_ctxv);
+            onlineOfflineImv = view.findViewById(R.id.online_offline_imv);
+            profileRating = view.findViewById(R.id.profile_rating);
 
             onSetValues(view);
 
@@ -124,8 +125,8 @@ public class PacifyrAccountFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         View view = getView();
-        onlineOfflineImv = (ImageView) view.findViewById(R.id.online_offline_imv);
-        isonlineCtxv = (CustomFontTextView) view.findViewById(R.id.isonline_ctxv);
+        onlineOfflineImv = view.findViewById(R.id.online_offline_imv);
+        isonlineCtxv = view.findViewById(R.id.isonline_ctxv);
         if(prefM.getIsOnline().equals("true")) {
             defSetText(isonlineCtxv, "ONLINE");
             onlineOfflineImv.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.online));
@@ -203,7 +204,7 @@ public class PacifyrAccountFragment extends BaseFragment {
                 ArrayList<ModelUserProfile.Certification> certificateList = user.getCertificationList();
                 if (isValid(certificateList)) {
                     //certificate adapter
-                    certificateRecyclerView = (RecyclerView) view.findViewById(R.id.certification_rcv);
+                    certificateRecyclerView = view.findViewById(R.id.certification_rcv);
                     certificateLayoutManager = new LinearLayoutManager(getActivity());
                     certificateRecyclerView.setLayoutManager(certificateLayoutManager);
                     certificateAdapter = new CertificationProfileAdapter(certificateList, getActivity());

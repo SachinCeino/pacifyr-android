@@ -7,7 +7,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.util.Patterns;
 import android.view.LayoutInflater;
@@ -17,6 +16,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import androidx.fragment.app.Fragment;
 
 import com.androidquery.AQuery;
 import com.ceino.utilitylibrary.CustomEditText;
@@ -179,7 +180,7 @@ public class BaseAppCompactActivity extends CoreBaseActivity {
     }
     public void setStatus(String status, int color) {
         View view = LayoutInflater.from(this).inflate(R.layout.status_dialog, null, false);
-        CustomFontTextView status_dtxv = (CustomFontTextView) view.findViewById(R.id.status_dtxv);
+        CustomFontTextView status_dtxv = view.findViewById(R.id.status_dtxv);
         status_dtxv.setText("" + status);
         hideStatus();
         hud_status = KProgressHUD.create(this).setStyle(KProgressHUD.Style.SPIN_INDETERMINATE).setCustomView(view).setWindowColor(this.getResources().getColor(color)).setCancellable(false).setAnimationSpeed(2).setDimAmount(0.5f);
@@ -188,7 +189,7 @@ public class BaseAppCompactActivity extends CoreBaseActivity {
 
     public void setStatus(String status, int textcolor,int color) {
         View view = LayoutInflater.from(this).inflate(R.layout.status_dialog, null, false);
-        CustomFontTextView status_dtxv = (CustomFontTextView) view.findViewById(R.id.status_dtxv);
+        CustomFontTextView status_dtxv = view.findViewById(R.id.status_dtxv);
         status_dtxv.setText("" + status);
         status_dtxv.setTextColor(textcolor);
         hideStatus();
@@ -198,7 +199,7 @@ public class BaseAppCompactActivity extends CoreBaseActivity {
 
     public void setStatus(String status) {
         View view = LayoutInflater.from(this).inflate(R.layout.status_dialog, null, false);
-        CustomFontTextView status_dtxv = (CustomFontTextView) view.findViewById(R.id.status_dtxv);
+        CustomFontTextView status_dtxv = view.findViewById(R.id.status_dtxv);
         status_dtxv.setText("" + status);
         hideStatus();
         hud_status = KProgressHUD.create(this).setStyle(KProgressHUD.Style.SPIN_INDETERMINATE).setCustomView(view).setWindowColor(this.getResources().getColor(R.color.md_green_400)).setCancellable(false).setAnimationSpeed(2).setDimAmount(0.5f);
@@ -207,10 +208,10 @@ public class BaseAppCompactActivity extends CoreBaseActivity {
 
     public void setAlertStatusInBlue(String title,String desc,View.OnClickListener oklistner) {
         View view = LayoutInflater.from(this).inflate(R.layout.alert_yes_no, null, false);
-        CustomFontTextView title_dtxv = (CustomFontTextView) view.findViewById(R.id.title_dtxv);
-        CustomFontTextView desc_dtxv = (CustomFontTextView) view.findViewById(R.id.desc_dtxv);
-       CustomFontTextView dismis_dtxv = (CustomFontTextView) view.findViewById(R.id.dismis_dtxv);
-        CustomFontTextView ok_dtxv = (CustomFontTextView) view.findViewById(R.id.ok_dtxv);
+        CustomFontTextView title_dtxv = view.findViewById(R.id.title_dtxv);
+        CustomFontTextView desc_dtxv = view.findViewById(R.id.desc_dtxv);
+        CustomFontTextView dismis_dtxv = view.findViewById(R.id.dismis_dtxv);
+        CustomFontTextView ok_dtxv = view.findViewById(R.id.ok_dtxv);
         defSetText(title_dtxv,title);
         defSetText(desc_dtxv,desc);
         dismis_dtxv.setText(" No ");
@@ -232,9 +233,9 @@ public class BaseAppCompactActivity extends CoreBaseActivity {
     public void setAlertOKStatusInBlue(String title,String desc,String ok) {
         //View.OnClickListener oklistner
         View view = LayoutInflater.from(this).inflate(R.layout.alert_ok, null, false);
-        CustomFontTextView title_dtxv = (CustomFontTextView) view.findViewById(R.id.title_dtxv);
-        CustomFontTextView desc_dtxv = (CustomFontTextView) view.findViewById(R.id.desc_dtxv);
-        CustomFontTextView ok_dtxv = (CustomFontTextView) view.findViewById(R.id.ok_dtxv);
+        CustomFontTextView title_dtxv = view.findViewById(R.id.title_dtxv);
+        CustomFontTextView desc_dtxv = view.findViewById(R.id.desc_dtxv);
+        CustomFontTextView ok_dtxv = view.findViewById(R.id.ok_dtxv);
 
         if(isValid(title))
             defSetText(title_dtxv,title);
@@ -260,9 +261,9 @@ public class BaseAppCompactActivity extends CoreBaseActivity {
     public void setAlertOKStatusInBlue(String title, String desc, String ok, View.OnClickListener clickListener) {
         //View.OnClickListener oklistner
         View view = LayoutInflater.from(this).inflate(R.layout.alert_ok, null, false);
-        CustomFontTextView title_dtxv = (CustomFontTextView) view.findViewById(R.id.title_dtxv);
-        CustomFontTextView desc_dtxv = (CustomFontTextView) view.findViewById(R.id.desc_dtxv);
-        CustomFontTextView ok_dtxv = (CustomFontTextView) view.findViewById(R.id.ok_dtxv);
+        CustomFontTextView title_dtxv = view.findViewById(R.id.title_dtxv);
+        CustomFontTextView desc_dtxv = view.findViewById(R.id.desc_dtxv);
+        CustomFontTextView ok_dtxv = view.findViewById(R.id.ok_dtxv);
 
         if (isValid(title))
             defSetText(title_dtxv, title);
@@ -280,9 +281,9 @@ public class BaseAppCompactActivity extends CoreBaseActivity {
     public void setAlertOKStatusInRed(String title, String desc, String ok, View.OnClickListener clickListener) {
         //View.OnClickListener oklistner
         View view = LayoutInflater.from(this).inflate(R.layout.alert_ok_red, null, false);
-        CustomFontTextView title_dtxv = (CustomFontTextView) view.findViewById(R.id.title_dtxv);
-        CustomFontTextView desc_dtxv = (CustomFontTextView) view.findViewById(R.id.desc_dtxv);
-        CustomFontTextView ok_dtxv = (CustomFontTextView) view.findViewById(R.id.ok_dtxv);
+        CustomFontTextView title_dtxv = view.findViewById(R.id.title_dtxv);
+        CustomFontTextView desc_dtxv = view.findViewById(R.id.desc_dtxv);
+        CustomFontTextView ok_dtxv = view.findViewById(R.id.ok_dtxv);
 
         if (isValid(title))
             defSetText(title_dtxv, title);
@@ -299,9 +300,9 @@ public class BaseAppCompactActivity extends CoreBaseActivity {
     public void setAlertOKStatusInBlue(String title,String desc,String ok,boolean autohide) {
         //View.OnClickListener oklistner
         View view = LayoutInflater.from(this).inflate(R.layout.alert_ok, null, false);
-        CustomFontTextView title_dtxv = (CustomFontTextView) view.findViewById(R.id.title_dtxv);
-        CustomFontTextView desc_dtxv = (CustomFontTextView) view.findViewById(R.id.desc_dtxv);
-        CustomFontTextView ok_dtxv = (CustomFontTextView) view.findViewById(R.id.ok_dtxv);
+        CustomFontTextView title_dtxv = view.findViewById(R.id.title_dtxv);
+        CustomFontTextView desc_dtxv = view.findViewById(R.id.desc_dtxv);
+        CustomFontTextView ok_dtxv = view.findViewById(R.id.ok_dtxv);
 
         if(isValid(title))
             defSetText(title_dtxv,title);
@@ -328,9 +329,9 @@ public class BaseAppCompactActivity extends CoreBaseActivity {
     public void setAlertOKStatusInBlueStatus2(String title,String desc,String ok) {
         //View.OnClickListener oklistner
         View view = LayoutInflater.from(this).inflate(R.layout.alert_ok, null, false);
-        CustomFontTextView title_dtxv = (CustomFontTextView) view.findViewById(R.id.title_dtxv);
-        CustomFontTextView desc_dtxv = (CustomFontTextView) view.findViewById(R.id.desc_dtxv);
-        CustomFontTextView ok_dtxv = (CustomFontTextView) view.findViewById(R.id.ok_dtxv);
+        CustomFontTextView title_dtxv = view.findViewById(R.id.title_dtxv);
+        CustomFontTextView desc_dtxv = view.findViewById(R.id.desc_dtxv);
+        CustomFontTextView ok_dtxv = view.findViewById(R.id.ok_dtxv);
 
         if(isValid(title))
             defSetText(title_dtxv,title);
@@ -356,9 +357,9 @@ public class BaseAppCompactActivity extends CoreBaseActivity {
     public void setAlertOKStatusInBlueStatus2(String title,String desc,String ok,boolean autohide) {
         //View.OnClickListener oklistner
         View view = LayoutInflater.from(this).inflate(R.layout.alert_ok, null, false);
-        CustomFontTextView title_dtxv = (CustomFontTextView) view.findViewById(R.id.title_dtxv);
-        CustomFontTextView desc_dtxv = (CustomFontTextView) view.findViewById(R.id.desc_dtxv);
-        CustomFontTextView ok_dtxv = (CustomFontTextView) view.findViewById(R.id.ok_dtxv);
+        CustomFontTextView title_dtxv = view.findViewById(R.id.title_dtxv);
+        CustomFontTextView desc_dtxv = view.findViewById(R.id.desc_dtxv);
+        CustomFontTextView ok_dtxv = view.findViewById(R.id.ok_dtxv);
 
         if(isValid(title))
             defSetText(title_dtxv,title);
@@ -386,9 +387,9 @@ public class BaseAppCompactActivity extends CoreBaseActivity {
     public void setAlertOKStatusInBlueStatus2(String title,String desc,String ok,boolean autohide,View.OnClickListener clickListener) {
         //View.OnClickListener oklistner
         View view = LayoutInflater.from(this).inflate(R.layout.alert_ok, null, false);
-        CustomFontTextView title_dtxv = (CustomFontTextView) view.findViewById(R.id.title_dtxv);
-        CustomFontTextView desc_dtxv = (CustomFontTextView) view.findViewById(R.id.desc_dtxv);
-        CustomFontTextView ok_dtxv = (CustomFontTextView) view.findViewById(R.id.ok_dtxv);
+        CustomFontTextView title_dtxv = view.findViewById(R.id.title_dtxv);
+        CustomFontTextView desc_dtxv = view.findViewById(R.id.desc_dtxv);
+        CustomFontTextView ok_dtxv = view.findViewById(R.id.ok_dtxv);
 
         if(isValid(title))
             defSetText(title_dtxv,title);
@@ -409,10 +410,10 @@ public class BaseAppCompactActivity extends CoreBaseActivity {
 
     public void setAlertStatusInBlue2(String title,String desc,String ok,String dismiss,View.OnClickListener oklistner) {
         View view = LayoutInflater.from(this).inflate(R.layout.alert_yes_no, null, false);
-        CustomFontTextView title_dtxv = (CustomFontTextView) view.findViewById(R.id.title_dtxv);
-        CustomFontTextView desc_dtxv = (CustomFontTextView) view.findViewById(R.id.desc_dtxv);
-        CustomFontTextView dismis_dtxv = (CustomFontTextView) view.findViewById(R.id.dismis_dtxv);
-        CustomFontTextView ok_dtxv = (CustomFontTextView) view.findViewById(R.id.ok_dtxv);
+        CustomFontTextView title_dtxv = view.findViewById(R.id.title_dtxv);
+        CustomFontTextView desc_dtxv = view.findViewById(R.id.desc_dtxv);
+        CustomFontTextView dismis_dtxv = view.findViewById(R.id.dismis_dtxv);
+        CustomFontTextView ok_dtxv = view.findViewById(R.id.ok_dtxv);
         if(isValid(title))
             defSetText(title_dtxv,title);
         else
@@ -537,119 +538,100 @@ public class BaseAppCompactActivity extends CoreBaseActivity {
 
     public Boolean isValid(String text) {
         if (text != null)
-            if (!text.trim().equalsIgnoreCase(""))
-                return true;
+            return !text.trim().equalsIgnoreCase("");
         return false;
 
     }
 
     public Boolean isValid(String text,int size) {
         if (isValid(text))
-            if (text.length()>=size)
-                return true;
+            return text.length() >= size;
         return false;
 
     }
 
     public Boolean isValid(List list) {
         if (list != null)
-            if (list.size() > 0)
-                return true;
+            return list.size() > 0;
         return false;
 
     }
 
     public Boolean isValid(List list,int pos) {
         if (isValid(list))
-            if (list.size() >= pos)
-                return true;
+            return list.size() >= pos;
         return false;
 
     }
 
     public Boolean isListSize(List list,int size) {
         if (isValid(list))
-            if (list.size() == size)
-                return true;
+            return list.size() == size;
         return false;
 
     }
 
     public Boolean isValidPos(List list,int pos) {
         if (isValid(list))
-            if (list.size() >= pos)
-                return true;
+            return list.size() >= pos;
         return false;
     }
 
     public Boolean isValid(String[] list,int size) {
 
         if (isValid(list))
-            if (list.length >= size)
-                return true;
+            return list.length >= size;
         return false;
 
     }
 
     public Boolean isValidNotNull(List list) {
-        if (list != null)
-            // if(list.size()>0)
-            return true;
-        return false;
+        // if(list.size()>0)
+        return list != null;
 
     }
 
     public Boolean isValid(Object object) {
-        if (object != null)
-            return true;
-        return false;
+        return object != null;
 
     }
     public Boolean isErrorStatus(String object) {
-        if(isValid(object)) if(object.trim().equalsIgnoreCase("error")) return true;
+        if (isValid(object)) return object.trim().equalsIgnoreCase("error");
         return false;
 
     }
 
     public Boolean isValidDecimalLong(long object) {
-        if (object >0)
-            return true;
-        return false;
+        return object > 0;
 
     }
 
     public Boolean isValidDecimal(int object) {
-        if (object >0)
-            return true;
-        return false;
+        return object > 0;
 
     }
 
     public Boolean isValidLessSize(int object,int size) {
-        if ((object+1) <size)
-            return true;
-        return false;
+        return (object + 1) < size;
 
     }
 
     public Boolean isValidSize(List list) {
-        if(list != null) if(list.size() > 0) return true;
+        if (list != null) return list.size() > 0;
         return false;
 
     }
 
     public Boolean isValidMiddleSize(List list,int pos) {
         if (isValid(list))
-            if ((list.size()-1) > pos && pos>0)
-                return true;
+            return (list.size() - 1) > pos && pos > 0;
         return false;
 
     }
 
     public Boolean isLastItem(List list,int pos) {
         if (isValid(list))
-            if ((list.size()-1) == pos)
-                return true;
+            return (list.size() - 1) == pos;
         return false;
 
     }
@@ -716,9 +698,7 @@ public class BaseAppCompactActivity extends CoreBaseActivity {
     }
 
     public Boolean isValid(Date date) {
-        if (date != null)
-            return true;
-        return false;
+        return date != null;
 
     }
 
@@ -744,31 +724,22 @@ public class BaseAppCompactActivity extends CoreBaseActivity {
 
     public Boolean isNOtMatches(String pwd, String pwd2) {
 
-        if (!pwd2.equals(pwd))
-            return true;
+        return !pwd2.equals(pwd);
 
-
-        return false;
 
     }
 
     public Boolean isMatches(String pwd, String pwd2) {
 
-        if (pwd2.equals(pwd))
-            return true;
+        return pwd2.equals(pwd);
 
-
-        return false;
 
     }
 
     public Boolean isSame(String pwd, String pwd2) {
 
-        if (pwd2.equals(pwd))
-            return true;
+        return pwd2.equals(pwd);
 
-
-        return false;
 
     }
 
@@ -833,10 +804,7 @@ public class BaseAppCompactActivity extends CoreBaseActivity {
     }
     // validating password with retype password
     public boolean isValidPassword(String pass) {
-        if (pass != null && pass.length() > 3) {
-            return true;
-        }
-        return false;
+        return pass != null && pass.length() > 3;
     }
 
     public String defString(EditText text, String def) {
@@ -1150,11 +1118,11 @@ public class BaseAppCompactActivity extends CoreBaseActivity {
         try {
             View view = LayoutInflater.from(this).inflate(R.layout.alert_startcall, null, false);
 
-            DeviceFitImageView closeDimv = (DeviceFitImageView) view.findViewById(R.id.close_dimv);
-            CircleImageView imageDialogIcon = (CircleImageView) view.findViewById(R.id.image_dialog_icon);
-            CustomFontTextView textDialogName = (CustomFontTextView) view.findViewById(R.id.text_dialog_name);
-            CustomFontTextView textDialogLastMessage = (CustomFontTextView) view.findViewById(R.id.text_dialog_message);
-            RelativeLayout saveRlay = (RelativeLayout) view.findViewById(R.id.save_rlay);
+            DeviceFitImageView closeDimv = view.findViewById(R.id.close_dimv);
+            CircleImageView imageDialogIcon = view.findViewById(R.id.image_dialog_icon);
+            CustomFontTextView textDialogName = view.findViewById(R.id.text_dialog_name);
+            CustomFontTextView textDialogLastMessage = view.findViewById(R.id.text_dialog_message);
+            RelativeLayout saveRlay = view.findViewById(R.id.save_rlay);
 
             defSetText(textDialogName, title);
             defSetText(textDialogLastMessage, desc + " per hour");
@@ -1184,11 +1152,11 @@ public class BaseAppCompactActivity extends CoreBaseActivity {
     public  void setAlertStartCall(MUser pacifyer_obj, View.OnClickListener oklistner) {
         View view = LayoutInflater.from(this).inflate(R.layout.alert_startcall, null, false);
 
-        DeviceFitImageView closeDimv = (DeviceFitImageView) view.findViewById(R.id.close_dimv);
-        CircleImageView imageDialogIcon = (CircleImageView) view.findViewById(R.id.image_dialog_icon);
-        CustomFontTextView textDialogName = (CustomFontTextView) view.findViewById(R.id.text_dialog_name);
-        CustomFontTextView textDialogLastMessage = (CustomFontTextView) view.findViewById(R.id.text_dialog_message);
-        RelativeLayout saveRlay = (RelativeLayout) view.findViewById(R.id.save_rlay);
+        DeviceFitImageView closeDimv = view.findViewById(R.id.close_dimv);
+        CircleImageView imageDialogIcon = view.findViewById(R.id.image_dialog_icon);
+        CustomFontTextView textDialogName = view.findViewById(R.id.text_dialog_name);
+        CustomFontTextView textDialogLastMessage = view.findViewById(R.id.text_dialog_message);
+        RelativeLayout saveRlay = view.findViewById(R.id.save_rlay);
 
         defSetText(textDialogName,pacifyer_obj.getFirstName()+""+pacifyer_obj.getLastName());
         defSetText(textDialogLastMessage, pacifyer_obj.getPriceWithSign()+" per hour");

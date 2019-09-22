@@ -297,7 +297,7 @@
         style="@style/WrapContent"
         android:background="@color/background_fragment_conversation">
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/grid_opponents"
             style="@style/WrapContent"
             android:layout_height="0dp"
@@ -310,7 +310,7 @@
 
             tools:listitem="@layout/list_item_opponent_from_call">
             <!--  android:visibility="gone"-->
-        </android.support.v7.widget.RecyclerView>
+        </androidx.recyclerview.widget.RecyclerView>
         <!--    android:layout_above="@+id/element_set_video_buttons"-->
     </RelativeLayout>
 

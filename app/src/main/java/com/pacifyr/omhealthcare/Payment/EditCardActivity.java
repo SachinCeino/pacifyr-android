@@ -2,9 +2,8 @@ package com.pacifyr.omhealthcare.Payment;
 
 import android.content.Intent;
 import android.graphics.Typeface;
-import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -56,9 +55,9 @@ public class EditCardActivity extends PacifyrAppCompactActivity {
         String exp = b.getString("expiry");
         String number = b.getString("number");
 
-        cardCedt = (CustomEditText) findViewById(R.id.card_cedt);
-        expDateCedt = (CustomEditText) findViewById(R.id.exp_date_cedt);
-        cvvCedt = (CustomEditText) findViewById(R.id.cvv_cedt);
+        cardCedt = findViewById(R.id.card_cedt);
+        expDateCedt = findViewById(R.id.exp_date_cedt);
+        cvvCedt = findViewById(R.id.cvv_cedt);
         cardCedt.setText("****"+number);
         expDateCedt.setText(exp);
 
@@ -76,15 +75,15 @@ public class EditCardActivity extends PacifyrAppCompactActivity {
     private DeviceFitImageView rightImv;
 
     public void onSetActionBar() {
-        actionBarTopLlay = (LinearLayout) findViewById(R.id.action_bar_top_llay);
-        bottomPanel = (RelativeLayout) findViewById(R.id.bottom_panel);
-        leftLlay = (LinearLayout) findViewById(R.id.left_llay);
-        backImv = (DeviceFitImageView) findViewById(R.id.back_imv);
-        leftTxv = (CustomFontTextView) findViewById(R.id.left_txv);
-        titleTxv = (CustomFontTextView) findViewById(R.id.title_txv);
-        rightLlay = (LinearLayout) findViewById(R.id.right_llay);
-        rightTxv = (CustomFontTextView) findViewById(R.id.right_txv);
-        rightImv = (DeviceFitImageView) findViewById(R.id.right_imv);
+        actionBarTopLlay = findViewById(R.id.action_bar_top_llay);
+        bottomPanel = findViewById(R.id.bottom_panel);
+        leftLlay = findViewById(R.id.left_llay);
+        backImv = findViewById(R.id.back_imv);
+        leftTxv = findViewById(R.id.left_txv);
+        titleTxv = findViewById(R.id.title_txv);
+        rightLlay = findViewById(R.id.right_llay);
+        rightTxv = findViewById(R.id.right_txv);
+        rightImv = findViewById(R.id.right_imv);
         rightImv.setVisibility(View.INVISIBLE);
        /* rightTxv.setVisibility(View.INVISIBLE);
         rightLlay.setVisibility(View.INVISIBLE);*/

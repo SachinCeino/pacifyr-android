@@ -1,14 +1,14 @@
 package com.pacifyr.omhealthcare.emotionupdate;
 
 import android.app.Fragment;
-import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
@@ -37,11 +37,11 @@ public class ListEmotionFragmnet extends Fragment {
         //View view = inflater.inflate(R.layout.fragent_list_emotion,container);
         View view = inflater.inflate(R.layout.fragent_list_emotion, container, false);
         prefM = PrefManager.getInstance(getActivity());
-        negativeRcv = (RecyclerView) view.findViewById(R.id.negative_emotions_rcv);
-        positiveRcv = (RecyclerView) view.findViewById(R.id.positive_emotions_rcv);
+        negativeRcv = view.findViewById(R.id.negative_emotions_rcv);
+        positiveRcv = view.findViewById(R.id.positive_emotions_rcv);
 
         setNegativeAdapter();
-        setPositiveAdapter();;
+        setPositiveAdapter();
 
         return view;
     }

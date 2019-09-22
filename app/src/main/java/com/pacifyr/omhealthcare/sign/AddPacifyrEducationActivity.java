@@ -4,8 +4,6 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -14,6 +12,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.aigestudio.wheelpicker.WheelPicker;
 import com.aigestudio.wheelpicker.widgets.WheelYearPicker;
@@ -24,7 +25,6 @@ import com.kaopiz.kprogresshud.KProgressHUD;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.adapter.ListEducationAdapter;
 import com.pacifyr.omhealthcare.base.PacifyerActivity;
-import com.pacifyr.omhealthcare.model.ModelPacifyrEducation;
 
 import java.util.ArrayList;
 
@@ -50,10 +50,10 @@ public class AddPacifyrEducationActivity extends PacifyerActivity {
             else
                 educationList = new ArrayList<Education>();
 
-            mRecyclerView = (RecyclerView) findViewById(R.id.education_list_rcv);
+            mRecyclerView = findViewById(R.id.education_list_rcv);
             mLayoutManager = new LinearLayoutManager(this);
             mRecyclerView.setLayoutManager(mLayoutManager);
-            add_education_btn = (CustomFontTextView) findViewById(R.id.add_education_btn);
+            add_education_btn = findViewById(R.id.add_education_btn);
             add_education_btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -89,13 +89,13 @@ public class AddPacifyrEducationActivity extends PacifyerActivity {
             //View.OnClickListener oklistner
             View view = LayoutInflater.from(this).inflate(R.layout.dialog_add_pacifyr_education, null, false);
 
-            ImageView closeDimv = (ImageView) view.findViewById(R.id.close_dimv);
-            final EditText collageEdt = (EditText) view.findViewById(R.id.collage_edt);
-            final EditText locationEdt = (EditText) view.findViewById(R.id.location_edt);
-            final CustomFontTextView fromCtxv = (CustomFontTextView) view.findViewById(R.id.from_ctxv);
-            final CustomFontTextView toDateCtxv = (CustomFontTextView) view.findViewById(R.id.to_ctxv);
-            RelativeLayout saveRlay = (RelativeLayout) view.findViewById(R.id.save_rlay);
-            CustomFontTextView saveCtxv = (CustomFontTextView) view.findViewById(R.id.save_ctxv);
+            ImageView closeDimv = view.findViewById(R.id.close_dimv);
+            final EditText collageEdt = view.findViewById(R.id.collage_edt);
+            final EditText locationEdt = view.findViewById(R.id.location_edt);
+            final CustomFontTextView fromCtxv = view.findViewById(R.id.from_ctxv);
+            final CustomFontTextView toDateCtxv = view.findViewById(R.id.to_ctxv);
+            RelativeLayout saveRlay = view.findViewById(R.id.save_rlay);
+            CustomFontTextView saveCtxv = view.findViewById(R.id.save_ctxv);
 
 
             closeDimv.setOnClickListener(new View.OnClickListener() {
@@ -160,7 +160,7 @@ public class AddPacifyrEducationActivity extends PacifyerActivity {
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             dialog.setCancelable(false);
             dialog.setContentView(R.layout.dialog_show_year_picker);
-            WheelYearPicker wheelYearPicker = (WheelYearPicker) dialog.findViewById(R.id.wheel_date_picker_year);
+            WheelYearPicker wheelYearPicker = dialog.findViewById(R.id.wheel_date_picker_year);
             wheelYearPicker.setSelectedItemTextColor(Color.parseColor("#3F51B5"));
             wheelYearPicker.setCurved(true);
             wheelYearPicker.setOnItemSelectedListener(new WheelPicker.OnItemSelectedListener() {
@@ -170,10 +170,10 @@ public class AddPacifyrEducationActivity extends PacifyerActivity {
                 }
             });
 
-            TextView selectTxv = (TextView) dialog.findViewById(R.id.select_year_txv);
+            TextView selectTxv = dialog.findViewById(R.id.select_year_txv);
             selectTxv.setText("Please select " + string + " year");
 
-            TextView cancelTxv = (TextView) dialog.findViewById(R.id.cancel_ctxv);
+            TextView cancelTxv = dialog.findViewById(R.id.cancel_ctxv);
             cancelTxv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -182,7 +182,7 @@ public class AddPacifyrEducationActivity extends PacifyerActivity {
             });
             dialog.show();
 
-            TextView saveTxv = (TextView) dialog.findViewById(R.id.save_ctxv);
+            TextView saveTxv = dialog.findViewById(R.id.save_ctxv);
             saveTxv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -209,14 +209,14 @@ public class AddPacifyrEducationActivity extends PacifyerActivity {
     private DeviceFitImageView rightImv;
 
     private void onSetActionBar() {
-        actionBarTopLlay = (LinearLayout) findViewById(R.id.action_bar_top_llay);
-        bottomPanel = (RelativeLayout) findViewById(R.id.bottom_panel);
-        leftLlay = (LinearLayout) findViewById(R.id.left_llay);
-        backImv = (DeviceFitImageView) findViewById(R.id.back_imv);
-        leftTxv = (CustomFontTextView) findViewById(R.id.left_txv);
-        rightLlay = (LinearLayout) findViewById(R.id.right_llay);
-        rightTxv = (CustomFontTextView) findViewById(R.id.right_txv);
-        rightImv = (DeviceFitImageView) findViewById(R.id.right_imv);
+        actionBarTopLlay = findViewById(R.id.action_bar_top_llay);
+        bottomPanel = findViewById(R.id.bottom_panel);
+        leftLlay = findViewById(R.id.left_llay);
+        backImv = findViewById(R.id.back_imv);
+        leftTxv = findViewById(R.id.left_txv);
+        rightLlay = findViewById(R.id.right_llay);
+        rightTxv = findViewById(R.id.right_txv);
+        rightImv = findViewById(R.id.right_imv);
 
         leftLlay.setOnClickListener(new View.OnClickListener() {
             @Override

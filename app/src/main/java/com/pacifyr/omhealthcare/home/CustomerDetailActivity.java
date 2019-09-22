@@ -5,15 +5,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
@@ -109,20 +109,20 @@ public class CustomerDetailActivity extends PacifyrAppCompactActivity {
             //&toDate=%@
             onSetActionBar();
 
-            topLlay = (LinearLayout) findViewById(R.id.top_llay);
-            profileCimv = (CircleImageView) findViewById(R.id.profile_cimv);
-            emotionCimv = (CircleImageView) findViewById(R.id.emotion_cimv);
-            bioCardView = (CardView) findViewById(R.id.bio_card_view);
-            bioCtxv = (CustomFontTextView) findViewById(R.id.bio_ctxv);
-            pastSessionCtxv = (CustomFontTextView) findViewById(R.id.past_session_ctxv);
-            pacifyrListRcv = (RecyclerView) findViewById(R.id.pacifyr_list_rcv);
+            topLlay = findViewById(R.id.top_llay);
+            profileCimv = findViewById(R.id.profile_cimv);
+            emotionCimv = findViewById(R.id.emotion_cimv);
+            bioCardView = findViewById(R.id.bio_card_view);
+            bioCtxv = findViewById(R.id.bio_ctxv);
+            pastSessionCtxv = findViewById(R.id.past_session_ctxv);
+            pacifyrListRcv = findViewById(R.id.pacifyr_list_rcv);
 
-            emotionNameCtxv = (CustomFontTextView) findViewById(R.id.emotion_name_ctxv);
+            emotionNameCtxv = findViewById(R.id.emotion_name_ctxv);
 
-            emptyDtxv = (CustomFontTextView) findViewById(R.id.empty_dtxv);
-            emptyFlay = (FlexLayout) findViewById(R.id.empty_flay);
+            emptyDtxv = findViewById(R.id.empty_dtxv);
+            emptyFlay = findViewById(R.id.empty_flay);
             emptyFlay.setVisibility(View.VISIBLE);
-            swipeLay = (SwipeRefreshLayout)findViewById(R.id.swipe_lay);
+            swipeLay = findViewById(R.id.swipe_lay);
             swipeLay.setVisibility(View.VISIBLE);
 
             layoutManager = new LinearLayoutManager(CustomerDetailActivity.this, LinearLayoutManager.VERTICAL, false);
@@ -403,15 +403,15 @@ public class CustomerDetailActivity extends PacifyrAppCompactActivity {
 
     public void onSetActionBar() {
         try {
-            actionBarTopLlay = (LinearLayout) findViewById(R.id.action_bar_top_llay);
-            bottomPanel = (RelativeLayout) findViewById(R.id.bottom_panel);
-            leftLlay = (LinearLayout) findViewById(R.id.left_llay);
-            backImv = (DeviceFitImageView) findViewById(R.id.back_imv);
-            leftTxv = (CustomFontTextView) findViewById(R.id.left_txv);
-            titleTxv = (CustomFontTextView) findViewById(R.id.title_txv);
-            rightLlay = (LinearLayout) findViewById(R.id.right_llay);
-            rightTxv = (CustomFontTextView) findViewById(R.id.right_txv);
-            rightImv = (DeviceFitImageView) findViewById(R.id.right_imv);
+            actionBarTopLlay = findViewById(R.id.action_bar_top_llay);
+            bottomPanel = findViewById(R.id.bottom_panel);
+            leftLlay = findViewById(R.id.left_llay);
+            backImv = findViewById(R.id.back_imv);
+            leftTxv = findViewById(R.id.left_txv);
+            titleTxv = findViewById(R.id.title_txv);
+            rightLlay = findViewById(R.id.right_llay);
+            rightTxv = findViewById(R.id.right_txv);
+            rightImv = findViewById(R.id.right_imv);
             rightImv.setVisibility(View.INVISIBLE);
             rightTxv.setVisibility(View.INVISIBLE);
             rightLlay.setVisibility(View.INVISIBLE);

@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/white_round_square">
-    <android.support.constraint.ConstraintLayout
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -50,7 +51,7 @@
         app:layout_constraintStart_toStartOf="@+id/img_prof"
         app:layout_constraintTop_toTopOf="@+id/indicator_dimv" />
 
-    <android.support.constraint.Guideline
+        <androidx.constraintlayout.widget.Guideline
         android:id="@+id/margin_left_guideline"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -59,7 +60,7 @@
         app:layout_constraintGuide_end="326dp"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <android.support.constraint.Guideline
+        <androidx.constraintlayout.widget.Guideline
         android:id="@+id/right_guideline"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -98,7 +99,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_name" />
 
 
-    <android.support.v7.widget.AppCompatRatingBar
+        <androidx.appcompat.widget.AppCompatRatingBar
         android:id="@+id/myRatingBar"
         style="?android:attr/ratingBarStyleSmall"
         android:layout_width="0dp"
@@ -330,5 +331,5 @@
 
     </RelativeLayout>
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </RelativeLayout>

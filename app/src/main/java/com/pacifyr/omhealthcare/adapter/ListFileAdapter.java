@@ -2,12 +2,13 @@ package com.pacifyr.omhealthcare.adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.ceino.utilitylibrary.CustomFontTextView;
 import com.pacifyr.omhealthcare.R;
@@ -41,7 +42,7 @@ public class ListFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         ViewHolder viewHolder = (ViewHolder) holder;
 
         if(fileList.get(position).getFileType().equals("image")) {
-            Bitmap bitmap = (Bitmap) fileList.get(position).getBitmap();
+            Bitmap bitmap = fileList.get(position).getBitmap();
             viewHolder.fileImv.setImageBitmap(bitmap);
         }else{
             viewHolder.fileImv.setImageDrawable(mContext.getDrawable(R.drawable.ic_pdf));
@@ -71,10 +72,10 @@ public class ListFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         public ViewHolder(View itemView) {
             super(itemView);
-            fileLlay = (RelativeLayout) itemView.findViewById(R.id.file_llay);
-            closeImv = (ImageView) itemView.findViewById(R.id.close_imv);
-            fileImv = (ImageView) itemView.findViewById(R.id.file_imv);
-            fileNameCtxv = (CustomFontTextView) itemView.findViewById(R.id.file_name_ctxv);
+            fileLlay = itemView.findViewById(R.id.file_llay);
+            closeImv = itemView.findViewById(R.id.close_imv);
+            fileImv = itemView.findViewById(R.id.file_imv);
+            fileNameCtxv = itemView.findViewById(R.id.file_name_ctxv);
         }
     }
 }

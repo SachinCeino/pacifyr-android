@@ -25,12 +25,10 @@
             tools:layout="@layout/drawer_home_screen" />-->
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         xmlns:swipedeck="http://schemas.android.com/apk/res-auto"
-        xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:background="#F8F8F8">
 
         <include layout="@layout/actionbar_grey"
@@ -76,14 +74,14 @@
                       android:text="Search for a Pacifyr"/>-->
 
 
-                <android.support.v7.widget.RecyclerView
+                <androidx.recyclerview.widget.RecyclerView
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
                     android:orientation="horizontal"
                     android:id="@+id/special_recycle"
                     android:layout_below="@+id/tv_search">
 
-                </android.support.v7.widget.RecyclerView>
+                </androidx.recyclerview.widget.RecyclerView>
 
             </RelativeLayout>
 

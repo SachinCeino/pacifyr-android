@@ -3,9 +3,10 @@ package com.pacifyr.omhealthcare.quickblox.activities;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.annotation.StringRes;
 import android.view.KeyEvent;
 import android.view.View;
+
+import androidx.annotation.StringRes;
 
 import com.pacifyr.omhealthcare.quickblox.App;
 import com.pacifyr.omhealthcare.quickblox.util.QBResRequestExecutor;
@@ -14,8 +15,9 @@ import com.quickblox.sample.core.gcm.GooglePlayServicesHelper;
 import com.quickblox.sample.core.ui.activity.CoreBaseActivity;
 import com.quickblox.sample.core.utils.ErrorUtils;
 import com.quickblox.sample.core.utils.SharedPrefsHelper;
-/*import com.quickblox.sample.groupchatwebrtc.AppChatNotUSe;*/
 import com.quickblox.sample.groupchatwebrtc.R;
+
+/*import com.quickblox.sample.groupchatwebrtc.AppChatNotUSe;*/
 /*import com.quickblox.sample.groupchatwebrtc.util.QBResRequestExecutor;
 import com.quickblox.sample.groupchatwebrtc.utils.Consts;*/
 

@@ -1,11 +1,12 @@
 package com.pacifyr.omhealthcare.home.account;
 
 import android.os.Bundle;
-import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+
+import androidx.cardview.widget.CardView;
 
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
@@ -80,16 +81,16 @@ public class AccountFragment extends BaseFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         try {
-            profileLlay = (LinearLayout) view.findViewById(R.id.profile_llay);
-            profileCimv = (CircleImageView) view.findViewById(R.id.profile_cimv);
-            profileNameCtxv = (CustomFontTextView) view.findViewById(R.id.profile_name_ctxv);
-            mailCard = (CardView) view.findViewById(R.id.mail_card);
-            mailLlay = (LinearLayout) view.findViewById(R.id.mail_llay);
-            mailDtxv = (CustomFontTextView) view.findViewById(R.id.mail_dtxv);
-            pnumberLlay = (LinearLayout) view.findViewById(R.id.pnumber_llay);
-            pnumberDtxv = (CustomFontTextView) view.findViewById(R.id.pnumber_dtxv);
-            aboutmeCard = (CardView) view.findViewById(R.id.aboutme_card);
-            aboutmeCtxv = (CustomFontTextView) view.findViewById(R.id.aboutme_ctxv);
+            profileLlay = view.findViewById(R.id.profile_llay);
+            profileCimv = view.findViewById(R.id.profile_cimv);
+            profileNameCtxv = view.findViewById(R.id.profile_name_ctxv);
+            mailCard = view.findViewById(R.id.mail_card);
+            mailLlay = view.findViewById(R.id.mail_llay);
+            mailDtxv = view.findViewById(R.id.mail_dtxv);
+            pnumberLlay = view.findViewById(R.id.pnumber_llay);
+            pnumberDtxv = view.findViewById(R.id.pnumber_dtxv);
+            aboutmeCard = view.findViewById(R.id.aboutme_card);
+            aboutmeCtxv = view.findViewById(R.id.aboutme_ctxv);
             onSetValues(view);
         }catch (Exception e)
         {

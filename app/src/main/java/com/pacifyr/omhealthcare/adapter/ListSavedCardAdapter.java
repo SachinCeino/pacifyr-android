@@ -2,20 +2,21 @@ package com.pacifyr.omhealthcare.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.Toast;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.ceino.utilitylibrary.CustomFontTextView;
-//import com.pacifyr.pacifyrapp.Payment.EditCardActivity;
 import com.pacifyr.omhealthcare.Payment.EditCardActivity;
 import com.pacifyr.omhealthcare.R;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+//import com.pacifyr.pacifyrapp.Payment.EditCardActivity;
 
 /**
  * Created by ceino on 8/12/17.
@@ -95,9 +96,9 @@ public class ListSavedCardAdapter extends RecyclerView.Adapter<ListSavedCardAdap
 
         public ViewHolder(View itemView) {
             super(itemView);
-            typeCtxv = (CustomFontTextView) itemView.findViewById(R.id.card_type_ctxv);
-            codeCtxv = (CustomFontTextView) itemView.findViewById(R.id.card_code_ctxv);
-            listLlay = (LinearLayout) itemView.findViewById(R.id.card_list_llay);
+            typeCtxv = itemView.findViewById(R.id.card_type_ctxv);
+            codeCtxv = itemView.findViewById(R.id.card_code_ctxv);
+            listLlay = itemView.findViewById(R.id.card_list_llay);
 
         }
     }

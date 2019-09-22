@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -26,15 +26,16 @@
             <include layout="@layout/actionbar_three_text_image"/>
 
         </RelativeLayout>
-        <RelativeLayout android:layout_below="@+id/action_bar"
-            android:orientation="vertical" android:layout_width="match_parent"
-            android:background="@color/white"
-            xmlns:rb="http://schemas.android.com/apk/res-auto"
-            android:layout_height="match_parent"
-            android:layout_above="@+id/submit_ctxv"
-            xmlns:circleview="http://schemas.android.com/apk/res-auto">
 
-                <android.support.v4.widget.NestedScrollView
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_above="@+id/submit_ctxv"
+            android:layout_below="@+id/action_bar"
+            android:background="@color/white"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <androidx.core.widget.NestedScrollView
                     android:layout_width="match_parent"
                     android:fillViewport="true"
                     android:layout_height="match_parent">
@@ -467,7 +468,7 @@
                                 app:fontName="@string/avenir_black"
                                 android:textSize="14sp"/>
 
-                            <android.support.v7.widget.RecyclerView
+                            <androidx.recyclerview.widget.RecyclerView
                                 android:layout_width="match_parent"
                                 android:layout_marginTop="5dp"
                                 android:layout_below="@+id/after_feel_selection_ctxv"
@@ -493,7 +494,7 @@
                                 app:fontName="@string/avenir_black"
                                 android:textSize="14sp" />
 
-                            <android.support.v7.widget.RecyclerView
+                            <androidx.recyclerview.widget.RecyclerView
                                 android:layout_width="match_parent"
                                 android:layout_marginTop="5dp"
                                 android:layout_below="@+id/experica_ctxv"
@@ -514,7 +515,7 @@
 
                         </RelativeLayout>
                     </LinearLayout>
-                </android.support.v4.widget.NestedScrollView>
+            </androidx.core.widget.NestedScrollView>
 
 
         </RelativeLayout>
@@ -536,4 +537,4 @@
             android:textColor="@color/white"
             android:textSize="20sp" />
     </RelativeLayout>
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

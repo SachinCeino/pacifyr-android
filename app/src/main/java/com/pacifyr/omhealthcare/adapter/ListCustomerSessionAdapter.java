@@ -1,14 +1,14 @@
 package com.pacifyr.omhealthcare.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.ceino.utilitylibrary.CustomFontTextView;
 import com.ceino.utilitylibrary.model.pacifyr.MEmotion;
@@ -270,16 +270,13 @@ public class ListCustomerSessionAdapter extends RecyclerView.Adapter<RecyclerVie
         return pos;
     }
     public Boolean isValid(Object object) {
-        if (object != null)
-            return true;
-        return false;
+        return object != null;
 
     }
     public Boolean isValid(List list)
     {
         if(list!=null)
-            if(list.size()>0)
-                return  true;
+            return list.size() > 0;
         return  false;
 
     }
@@ -287,13 +284,12 @@ public class ListCustomerSessionAdapter extends RecyclerView.Adapter<RecyclerVie
     public Boolean isValid(List list, int position)
     {
         if(isValid(list))
-            if(list.size()>=position)
-                return  true;
+            return list.size() >= position;
         return  false;
 
     }
     public Boolean isValidhtml(String text) {
-        if(isValid(text)) if(text.contains("http")||text.contains("https")) return true;
+        if (isValid(text)) return text.contains("http") || text.contains("https");
         return false;
 
     }
@@ -318,23 +314,23 @@ public class ListCustomerSessionAdapter extends RecyclerView.Adapter<RecyclerVie
         private ImageView callTypeImg;
         public ViewHolder(View view) {
             super(view);
-            topLlay = (LinearLayout) view.findViewById(R.id.top_llay);
-      feel_rlay = (RelativeLayout) view.findViewById(R.id.feel_rlay);
-            userCimv = (CircleImageView) view.findViewById(R.id.user_cimv);
-            nameUserCtxv = (CustomFontTextView) view.findViewById(R.id.name_user_ctxv);
-            durationCtxv = (CustomFontTextView) view.findViewById(R.id.duration_ctxv);
-            dateCtxv = (CustomFontTextView) view.findViewById(R.id.date_ctxv);
-            feltCtxv = (CustomFontTextView) view.findViewById(R.id.felt_ctxv);
-            beforeCallCtxv = (CustomFontTextView) view.findViewById(R.id.before_call_ctxv);
-            beforeEmotionImg = (ImageView) view.findViewById(R.id.before_emotion_img);
-            beforeFeelCtxv = (CustomFontTextView) view.findViewById(R.id.before_feel_ctxv);
-            afterCallCtxv = (CustomFontTextView) view.findViewById(R.id.after_call_ctxv);
-            afterEmotionImg = (ImageView) view.findViewById(R.id.after_emotion_img);
-            afterFeelCtxv = (CustomFontTextView) view.findViewById(R.id.after_feel_ctxv);
-            yourOpenionCtxv = (CustomFontTextView) view.findViewById(R.id.your_openion_ctxv);
-            openinonImg = (ImageView) view.findViewById(R.id.openinon_img);
-            callTypeImg = (ImageView) view.findViewById(R.id.call_type_img);
-            openinonEmotionCtxv = (CustomFontTextView) view.findViewById(R.id.openinon_emotion_ctxv);
+            topLlay = view.findViewById(R.id.top_llay);
+            feel_rlay = view.findViewById(R.id.feel_rlay);
+            userCimv = view.findViewById(R.id.user_cimv);
+            nameUserCtxv = view.findViewById(R.id.name_user_ctxv);
+            durationCtxv = view.findViewById(R.id.duration_ctxv);
+            dateCtxv = view.findViewById(R.id.date_ctxv);
+            feltCtxv = view.findViewById(R.id.felt_ctxv);
+            beforeCallCtxv = view.findViewById(R.id.before_call_ctxv);
+            beforeEmotionImg = view.findViewById(R.id.before_emotion_img);
+            beforeFeelCtxv = view.findViewById(R.id.before_feel_ctxv);
+            afterCallCtxv = view.findViewById(R.id.after_call_ctxv);
+            afterEmotionImg = view.findViewById(R.id.after_emotion_img);
+            afterFeelCtxv = view.findViewById(R.id.after_feel_ctxv);
+            yourOpenionCtxv = view.findViewById(R.id.your_openion_ctxv);
+            openinonImg = view.findViewById(R.id.openinon_img);
+            callTypeImg = view.findViewById(R.id.call_type_img);
+            openinonEmotionCtxv = view.findViewById(R.id.openinon_emotion_ctxv);
         }
     }
 
@@ -349,13 +345,13 @@ public class ListCustomerSessionAdapter extends RecyclerView.Adapter<RecyclerVie
 
         public MissedViewHolder(View view) {
             super(view);
-            topLlay = (LinearLayout) view.findViewById(R.id.top_llay);
-            userCimv = (CircleImageView) view.findViewById(R.id.user_cimv);
-            nameUserCtxv = (CustomFontTextView) view.findViewById(R.id.name_user_ctxv);
-            callTypeImg = (ImageView) view.findViewById(R.id.call_type_img);
-            missedCtxv = (CustomFontTextView) view.findViewById(R.id.missed_ctxv);
-            dateCtxv = (CustomFontTextView) view.findViewById(R.id.date_ctxv);
-            messageImv = (ImageView) view.findViewById(R.id.message_imv);
+            topLlay = view.findViewById(R.id.top_llay);
+            userCimv = view.findViewById(R.id.user_cimv);
+            nameUserCtxv = view.findViewById(R.id.name_user_ctxv);
+            callTypeImg = view.findViewById(R.id.call_type_img);
+            missedCtxv = view.findViewById(R.id.missed_ctxv);
+            dateCtxv = view.findViewById(R.id.date_ctxv);
+            messageImv = view.findViewById(R.id.message_imv);
         }
     }
 }

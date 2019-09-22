@@ -34,8 +34,7 @@
     <!--  <uses-feature android:name="android.hardware.cameraImage" />
       <uses-feature android:name="android.hardware.cameraImage.autofocus" />
   -->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
 
     <uses-feature
         android:glEsVersion="0x00020000"
@@ -141,9 +140,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Dark" />
 
-        <service
-            android:name=".network.NetworkService"
-            android:exported="false" />
 
         <activity
             android:name=".home.PacifyrDashboardActivity"
@@ -270,6 +266,7 @@
         <activity
             android:name=".quickblox.chat.ui.activity.DialogsActivity"
             android:screenOrientation="portrait"
+            android:parentActivityName=".home.DashboardActivity"
             android:theme="@style/CustomNoActionBarTheme2" />
         <activity
             android:name=".quickblox.chat.ui.activity.ChatActivity"
@@ -379,7 +376,7 @@
             android:screenOrientation="portrait" />
 
         <provider
-            android:name="android.support.v4.content.FileProvider"
+            android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.android.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
@@ -398,13 +395,6 @@
         <service android:name=".utils.MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
-        <service
-            android:name=".utils.MyFirebaaseInstanceIdService"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
 
