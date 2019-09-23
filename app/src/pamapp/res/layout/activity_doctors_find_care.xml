@@ -17,7 +17,7 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/footer">
 
-        <android.support.v4.widget.NestedScrollView
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -140,14 +140,14 @@
                     android:background="@drawable/black_border_white_back"
                     android:layout_marginBottom="15dp">
 
-                    <android.support.v7.widget.RecyclerView
+                    <androidx.recyclerview.widget.RecyclerView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:id="@+id/specialitiesRCV"
                         android:scrollbars="vertical"
                         android:nestedScrollingEnabled="true"
                         android:scrollbarStyle="insideOverlay"
-                        android:scrollbarSize="2dp"></android.support.v7.widget.RecyclerView>
+                        android:scrollbarSize="2dp"></androidx.recyclerview.widget.RecyclerView>
                 </LinearLayout>
 
                 <LinearLayout
@@ -233,7 +233,7 @@
 
             </LinearLayout>
 
-        </android.support.v4.widget.NestedScrollView>
+        </androidx.core.widget.NestedScrollView>
     </RelativeLayout>
 
     <RelativeLayout
