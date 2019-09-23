@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:rsb="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    android:clickable="true"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/submit">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/root"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#ffffff"
+                android:orientation="vertical"
+                android:padding="15dp">
+
+
+                <com.pacifyr.omhealthcare.views.PamTextViewBold
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sort by"
+                    android:textColor="@color/blue_fb"
+                    android:textSize="@dimen/text_view_find_care_sub"
+                    android:textStyle="bold" />
+
+                <com.pacifyr.omhealthcare.views.PamTextViewMedium
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Select one"
+                    android:padding="8dp"
+                    android:gravity="center_vertical"
+                    android:id="@+id/ETV_showSpecialities"
+                    android:background="@drawable/black_border_white_back_search"
+                    android:layout_marginBottom="15dp"
+                    android:drawableEnd="@drawable/svg_down_arrow"
+                    android:drawableRight="@drawable/svg_down_arrow" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/grey_dark"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"></View>
+
+                <com.pacifyr.omhealthcare.views.PamTextViewBold
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Location"
+                    android:textSize="@dimen/text_view_find_care_sub"
+                    android:textStyle="bold"
+                    android:textColor="@color/blue_fb" />
+
+                <com.pacifyr.omhealthcare.views.PamEditTextMedium
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Current Location"
+                    android:padding="8dp"
+                    android:background="@drawable/black_border_white_back"
+                    android:layout_marginBottom="15dp" />
+
+                <com.pacifyr.omhealthcare.views.PamTextViewBold
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Distance"
+                    android:textSize="@dimen/text_view_find_care_sub"
+                    android:textStyle="bold"
+                    android:textColor="@color/blue_fb" />
+
+                <com.yahoo.mobile.client.android.util.rangeseekbar.RangeSeekBar
+                    android:id="@+id/distanceSeekBar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    rsb:absoluteMaxValue="100"
+                    rsb:absoluteMinValue="0"
+                    rsb:singleThumb="false"
+                    android:layout_marginLeft="5dp" />
+
+                <com.pacifyr.omhealthcare.views.PamTextViewBold
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Office visit free range"
+                    android:textSize="@dimen/text_view_find_care_sub"
+                    android:textStyle="bold"
+                    android:layout_marginTop="15dp"
+                    android:textColor="@color/blue_fb" />
+
+                <com.yahoo.mobile.client.android.util.rangeseekbar.RangeSeekBar
+                    android:id="@+id/freerangeSeekbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    rsb:absoluteMaxValue="100"
+                    rsb:absoluteMinValue="0"
+                    rsb:singleThumb="false"
+                    android:layout_marginLeft="5dp" />
+
+                <com.pacifyr.omhealthcare.views.PamTextViewBold
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Gender"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/blue_fb"
+                    android:textSize="@dimen/text_view_find_care_sub"
+                    android:textStyle="bold" />
+                <com.pacifyr.omhealthcare.views.PamTextViewMedium
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Select one"
+                    android:padding="8dp"
+                    android:gravity="center_vertical"
+                    android:id="@+id/txtv_services"
+                    android:background="@drawable/black_border_white_back_search"
+                    android:layout_marginBottom="15dp"
+                    android:drawableEnd="@drawable/svg_down_arrow"
+                    android:drawableRight="@drawable/svg_down_arrow" />
+
+                <com.pacifyr.omhealthcare.views.PamTextViewBold
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Service"
+                    android:textColor="@color/blue_fb"
+                    android:textSize="@dimen/text_view_find_care_sub"
+                    android:textStyle="bold" />
+
+                <com.pacifyr.omhealthcare.views.PamTextViewMedium
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Select one"
+                    android:padding="8dp"
+                    android:gravity="center_vertical"
+                    android:id="@+id/txtv_gender"
+                    android:background="@drawable/black_border_white_back_search"
+                    android:layout_marginBottom="15dp"
+                    android:drawableEnd="@drawable/svg_down_arrow"
+                    android:drawableRight="@drawable/svg_down_arrow" />
+
+                <com.pacifyr.omhealthcare.views.PamTextViewBold
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="I need it to:"
+                    android:textColor="@color/blue_fb"
+                    android:textSize="@dimen/text_view_find_care_sub"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical">
+
+                    <CheckBox
+                        android:id="@+id/ctxtv_acctet_walking"
+                        android:layout_width="wrap_content"
+                        android:layout_below="@+id/year_edt"
+                        android:layout_marginTop="5dp"
+                        android:textSize="@dimen/sp10"
+                        android:gravity="center_vertical"
+                        android:layout_height="wrap_content" />
+
+                    <com.pacifyr.omhealthcare.views.PamTextViewBold
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Accept walk-ins"
+                        android:layout_marginTop="3dp"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/grey_dark"
+                        android:textSize="@dimen/text_view_find_care_sub"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical">
+
+                    <CheckBox
+                        android:id="@+id/ctxtv_openNow"
+                        android:layout_width="wrap_content"
+                        android:layout_below="@+id/year_edt"
+                        android:layout_marginTop="5dp"
+                        android:textSize="@dimen/sp10"
+                        android:gravity="center_vertical"
+                        android:layout_height="wrap_content" />
+
+                    <com.pacifyr.omhealthcare.views.PamTextViewBold
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Be open now"
+                        android:layout_marginTop="3dp"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/grey_dark"
+                        android:textSize="@dimen/text_view_find_care_sub"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/submit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="15dp"
+        android:background="@drawable/blue_border_lightblue"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <com.pacifyr.omhealthcare.views.PamTextViewBold
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="apply"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_view_find_care_main"
+            android:textStyle="bold" />
+    </LinearLayout>
+</RelativeLayout>

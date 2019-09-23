@@ -1,5 +1,6 @@
 package com.pacifyr.omhealthcare.home;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
@@ -13,6 +14,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -40,12 +44,14 @@ import com.pacifyr.omhealthcare.adapter.PacifyrResultListViewAdapter;
 import com.pacifyr.omhealthcare.base.PacifyerActivity;
 import com.pacifyr.omhealthcare.event.AlertTypeEvent;
 import com.pacifyr.omhealthcare.event.NotifyEvent;
+import com.pacifyr.omhealthcare.fragment.DoctorsFilterFragment;
 import com.pacifyr.omhealthcare.network.GsonUtils;
 import com.pacifyr.omhealthcare.utility.PacifyrAppCompactActivity;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,6 +71,7 @@ public class DoctorsSearchResultActivity extends PacifyrAppCompactActivity imple
     private LinearLayout listViewTypeLayout, mapViewTypeLayout;
     private RecyclerView.LayoutManager layoutManager;
     private ArrayList<MUser> list;
+    private  TextView txtv_filter;
 
 
     private GoogleMap mMap;
@@ -81,8 +88,10 @@ public class DoctorsSearchResultActivity extends PacifyrAppCompactActivity imple
         mRadioButtonA = (RadioButton) findViewById(R.id.rbMapView);
         listViewTypeLayout = findViewById(R.id.listViewTypeLayout);
         mapViewTypeLayout = findViewById(R.id.mapViewTypeLayout);
+        txtv_filter=findViewById(R.id.txtv_filter);
         fillColour_ForRadioButton(mRadioButtonB);
         fillNoColor_ForRadioButton(mRadioButtonA);
+
 
         mSegmentedGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -120,7 +129,36 @@ public class DoctorsSearchResultActivity extends PacifyrAppCompactActivity imple
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+
+        txtv_filter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment mDoctorsFilterFragment = new DoctorsFilterFragment();
+                ShowFilterFragment(mDoctorsFilterFragment);
+            }
+        });
+
     }
+
+
+    public void changeTitle(String title) {
+
+        if (isValid(titleTxv) && isValid(title)) {
+            titleTxv.setVisibility(View.VISIBLE);
+            defSetText(titleTxv, title);
+        }
+
+    }
+
+    public void ShowFilterFragment(Fragment fragment) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.add(R.id.filter_fragment_container, fragment);
+        fragmentTransaction.addToBackStack(fragment.getClass().getName());
+        fragmentTransaction.commit();
+    }
+
 
 
     /**
@@ -321,11 +359,42 @@ public class DoctorsSearchResultActivity extends PacifyrAppCompactActivity imple
         leftLlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                Fragment f = getSupportFragmentManager().findFragmentById(R.id.filter_fragment_container);
+                if (isValid(f))
+                {
+                    if (f instanceof DoctorsFilterFragment)
+
+                        getSupportFragmentManager().popBackStackImmediate();
+                    else {
+                        onBackPressed();
+                    }
+                }
+                else {
+                    finish();
+                }
+
             }
         });
 
     }
 
+    @Override
+    // Detect when the back button is pressed
+    public void onBackPressed() {
 
+        Fragment f = getSupportFragmentManager().findFragmentById(R.id.filter_fragment_container);
+        if (isValid(f))
+        {
+            if (f instanceof DoctorsFilterFragment)
+
+                getSupportFragmentManager().popBackStackImmediate();
+            else {
+                onBackPressed();
+            }
+        }
+        else {
+            finish();
+        }
+
+    }
 }

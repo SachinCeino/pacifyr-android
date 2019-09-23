@@ -167,7 +167,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity {
         mesessionsDimv = findViewById(R.id.mesessions_dimv);
         mysessionsCtxv = findViewById(R.id.mysessions_ctxv);
         paymentLlay = findViewById(R.id.payment_llay);
-        browsePacifyr = findViewById(R.id.browse_llay);
+
         tutotial_llay = findViewById(R.id.tutotial_llay);
         supportLlay = findViewById(R.id.support_llay);
         policyDocumentLlay = findViewById(R.id.policy_document_llay);
@@ -273,15 +273,6 @@ public class DashboardActivity extends PacifyrAppCompactActivity {
                 showFragment(new WelcomeTourFragment());
                 defSetText(titleTxv, "TUTORIAL");
 
-            }
-        });
-        browsePacifyr.setVisibility(View.VISIBLE);
-        browsePacifyr.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                hideRightLayActionbar();
-                Intent i = new Intent(context, ListPacifyrScreenActivity.class);
-                startActivity(i);
             }
         });
 
