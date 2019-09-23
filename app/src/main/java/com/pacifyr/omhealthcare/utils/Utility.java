@@ -384,7 +384,7 @@ public class Utility {
         if (timeOnly) {
             outFormat = new SimpleDateFormat("hh:mm a");
         } else {
-            outFormat = new SimpleDateFormat("MMM dd,yyyy");
+            outFormat = new SimpleDateFormat("MM-dd-yyyy");
         }
         outFormat.setTimeZone(TimeZone.getDefault());
         Date date = null;

@@ -808,7 +808,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
             text_date.setText(date);
             text_start_date.setText(time);
             text_duration.setText(billingSummary.getSession().getDuration());
-            text_amount_charged.setText(sign + " : " + billingSummary.getSessionCost() + "");
+            text_amount_charged.setText(sign + billingSummary.getSessionCost() + "");
         } catch (Exception e) {
             e.printStackTrace();
         }
