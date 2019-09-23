@@ -3182,7 +3182,9 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
                                    if (object.getIsChecksumValid()&&object.getTransactionStatus().equals("success"))
                                        ShowTransactionSuccesResultToUSer(object);
                                     else
-                                       showIOSDialogOK(object.getTransactionResponse() + "", "Payment Verification is not Success !", "OK");
+                                       showIOSDialogOK("Error", "Payment setup failed. Please try" +
+                                                       " again.",
+                                               "OK");
                            }
 
                         }
@@ -3246,7 +3248,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
                     sign = getApplicationContext().getResources().getString(R.string.dollar);
                 }
 
-                text_amount_charged.setText(sign + " : " + txnAmount);
+                text_amount_charged.setText(sign + " " + txnAmount);
             } catch (Exception e) {
                 e.printStackTrace();
             }
