@@ -426,7 +426,7 @@ public class LogInCodeVerifyActivity extends PacifyerActivity {
         backImv.setVisibility(View.VISIBLE);
         titleTxv.setVisibility(View.VISIBLE);
         leftLlay.setVisibility(View.VISIBLE);
-        defSetText(titleTxv,getResources().getString(R.string.sign_up));
+        defSetText(titleTxv, getResources().getString(R.string.sign_in));
         Typeface type = Typeface.createFromAsset(getAssets(),"fonts/ActionBarCommonFont.otf");
         titleTxv.setTypeface(type);
         leftLlay.setOnClickListener(new View.OnClickListener() {
