@@ -132,6 +132,7 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="video_call">PACIFYR VIDEOCALL</string>
     <string name="pref_wellness_experts">Preferred Wellness Experts</string>
     <string name="This_Week">This Week</string>
+    <string name="no_wellness_experts_category">No Pacifyr available for the selected category.</string>
 
     <string name="note_add_tilte">Add Notes</string>
 </resources>

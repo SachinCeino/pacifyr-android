@@ -122,7 +122,7 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="sign_up">Sign up</string>
     <string name="registration_failed">Registration Failed</string>
     <string name="failed_register_message">\"Register Failed - Your mobile number is already registered. Please log in using the new verification code.\"</string>
-    <string name="select_specialisation">Select a specilaization</string>
+    <string name="select_specialisation">Select a specialization</string>
     <string name="no_wellness_experts_category">No Wellness Experts for the selected category.</string>
     <string name="please_try_again">Please try again</string>
     <string name="success">success</string>
