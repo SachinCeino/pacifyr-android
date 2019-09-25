@@ -284,7 +284,7 @@ public class MySessionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             at("MM-dd-yyyy'  'hh:mm a");
             String formattedDate = sdf2.format(parsedTime);*/
 
-            holder.dateCtxv.setText( results.getStartFormatDate(time));
+            holder.dateCtxv.setText(Utility.getStartFormatDate(time, context));
 
 
             holder.topLlay.setOnClickListener(new View.OnClickListener() {
@@ -322,7 +322,7 @@ public class MySessionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             Date parsedTime = sdf.parse(time);
             SimpleDateFormat sdf2 = new SimpleDateFormat("MM-dd-yyyy'  'hh:mm a");
             String formattedDate = sdf2.format(parsedTime);*/
-            missedViewHolder.dateCtxv.setText(results.getStartFormatDate(time));
+            missedViewHolder.dateCtxv.setText(Utility.getStartFormatDate(time, context));
 
             String  imgUrl = results.getPacifyr().getImageUrl();
             if(isValid(imgUrl)){
@@ -378,7 +378,7 @@ public class MySessionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             Date parsedTime = sdf.parse(time);
             SimpleDateFormat sdf2 = new SimpleDateFormat("MM-dd-yyyy'  'hh:mm a");
             String formattedDate = sdf2.format(parsedTime);*/
-            serviceNotProvided.dateCtxv.setText(results.getStartFormatDate(time));
+            serviceNotProvided.dateCtxv.setText(Utility.getStartFormatDate(time, context));
 
             String imgUrl = results.getPacifyr().getImageUrl();
             if (isValid(imgUrl)) {

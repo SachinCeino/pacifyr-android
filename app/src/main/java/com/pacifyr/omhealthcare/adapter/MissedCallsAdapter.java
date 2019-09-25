@@ -18,6 +18,7 @@ import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.event.ChatEvent;
 import com.pacifyr.omhealthcare.home.DashboardActivity;
 import com.pacifyr.omhealthcare.utils.LogUtils;
+import com.pacifyr.omhealthcare.utils.Utility;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -125,7 +126,7 @@ public class MissedCallsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             missedViewHolder.nameUserCtxv.setText(results.getUser().getFirstName());
             String time= results.getEndTime();
 
-            missedViewHolder.dateCtxv.setText(results.getStartFormatDate(time));
+            missedViewHolder.dateCtxv.setText(Utility.getStartFormatDate(time, context));
 
             String  imgUrl = results.getUser().getImageUrl();
             if(isValid(imgUrl)){

@@ -780,7 +780,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
         if (billSummary != null && billSummary.isShowing()) {
             billSummary.dismiss();
         }
-        String date = Utility.getDate(billingSummary.getSession().getCreatedAt(), false);
+        String date = Utility.getStartFormatDate(billingSummary.getSession().getCreatedAt(), getApplicationContext());
         String time = Utility.getDate(billingSummary.getSession().getCreatedAt(), true);
         View view = LayoutInflater.from(PacifyerActivity.this).inflate(R.layout.layout_bill_summary, null);
         TextView ok = view.findViewById(R.id.button_ok);
@@ -805,7 +805,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
         text_amount_charged.setTypeface(FontCache.get(getString(R.string.CenturyGothic), PacifyerActivity.this));
         try {
             text_provider.setText(billingSummary.getSession().getPacifyr().getFirstName());
-            text_date.setText(date);
+            text_date.setText(date.substring(0, date.indexOf(' ')));
             text_start_date.setText(time);
             text_duration.setText(billingSummary.getSession().getDuration());
             text_amount_charged.setText(sign + billingSummary.getSessionCost() + "");

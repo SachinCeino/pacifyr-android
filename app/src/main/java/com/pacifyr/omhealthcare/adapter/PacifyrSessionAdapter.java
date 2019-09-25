@@ -223,7 +223,7 @@ public class PacifyrSessionAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             // Adjust locale and zone appropriately
 
             String t =results.getStartTime();
-            String time = results.getStartFormatDate(t);
+            String time = Utility.getStartFormatDate(t, context);
             holder.dateCtxv.setText(time);
 
 
@@ -274,7 +274,7 @@ public class PacifyrSessionAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             missedViewHolder.nameUserCtxv.setText(results.getUser().getFirstName());
 
             String  t = results.getStartTime();
-            String time= results.getStartFormatDate(t);
+            String time = Utility.getStartFormatDate(t, context);
             missedViewHolder.dateCtxv.setText(time);
 
             /*SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.mmm'Z'");

@@ -251,27 +251,6 @@ public class MSessionDetailRoot
     }
 
 
-    public String getStartFormatDate (String iiiiii) {
-        // Date daty=null;
-        Date formattedDate = null;
-        String dateat = "";
-        try {
-            // SimpleDateFormat sdf=new SimpleDateFormat();
-            SimpleDateFormat targetFormat = new SimpleDateFormat("MM-dd-yyyy'  'hh:mm a", Locale.ENGLISH);
-
-            SimpleDateFormat recivedFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
-
-            recivedFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-
-            formattedDate = recivedFormat.parse(iiiiii);
-
-            dateat = targetFormat.format(formattedDate);
-            //daty=targetFormat.parse(dateat);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return dateat;
-    }
 
 
     public String getFormatTime(String timeInput) {

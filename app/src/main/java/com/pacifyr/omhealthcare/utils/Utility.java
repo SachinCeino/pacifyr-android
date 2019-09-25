@@ -537,4 +537,38 @@ public class Utility {
     }
 
 
+    /**
+     * if country is India then dd-MM-yyyy
+     * else
+     * ** MM-dd-yyyy
+     **/
+    public static String getStartFormatDate(String iiiiii, Context mContext) {
+        // Date daty=null;
+        Date formattedDate = null;
+        PrefManager prefM = PrefManager.getInstance(mContext);
+        String dateat = "";
+        try {
+            SimpleDateFormat targetFormat;// = new SimpleDateFormat("MM-dd-yyyy'  'hh:mm a", Locale.ENGLISH);
+            String country = prefM.getCountry();
+            if (country.equals("India")) {
+                targetFormat = new SimpleDateFormat("dd-MM-yyyy'  'hh:mm a", Locale.ENGLISH);
+            } else {
+                targetFormat = new SimpleDateFormat("MM-dd-yyyy'  'hh:mm a", Locale.ENGLISH);
+            }
+            // SimpleDateFormat sdf=new SimpleDateFormat();
+
+
+            SimpleDateFormat recivedFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+            recivedFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+
+            formattedDate = recivedFormat.parse(iiiiii);
+
+            dateat = targetFormat.format(formattedDate);
+            //daty=targetFormat.parse(dateat);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return dateat;
+    }
+
 }
