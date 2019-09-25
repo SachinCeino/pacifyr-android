@@ -46,6 +46,7 @@
                 android:id="@+id/pacifyr_SearchView"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:inputType="textCapSentences|textMultiLine"
                 android:background="#f1f1f1"
                 android:queryHint="@string/query_hint_search_pacifyr"
                 />
