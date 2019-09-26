@@ -35,6 +35,7 @@
             android:textSize="15sp"
             android:textColor="@color/white"
             android:layout_marginTop="10dp"
+            android:inputType="textCapSentences|textMultiLine"
             android:textAlignment="center"
             android:id="@+id/profile_name_cedt"
             android:text="Name"/>
@@ -181,7 +182,7 @@
                         android:hint=""
                         android:maxLines="5"
                         android:gravity="start"
-
+                        android:inputType="textCapSentences|textMultiLine"
                         android:layout_centerHorizontal="true"
                         android:id="@+id/aboutme_cedt"
                         android:textColor="@color/education_desc"

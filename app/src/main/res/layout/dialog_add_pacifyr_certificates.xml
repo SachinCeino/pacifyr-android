@@ -54,7 +54,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/title_edt"
                 android:padding="10dp"
-                android:inputType="textCapWords"
+                android:inputType="textCapSentences|textMultiLine"
                 android:textCursorDrawable="@color/grey_hex_4c"
                 android:background="@null"
                 android:hint="@string/title"/>

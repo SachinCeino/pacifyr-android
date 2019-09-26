@@ -364,7 +364,7 @@
                 android:id="@+id/comments_cedt"
                 android:layout_marginTop="20dp"
                 android:layout_width="match_parent"
-                android:inputType="text"
+                android:inputType="textCapSentences|textMultiLine"
                 android:textSize="@dimen/sp17"
                 android:hint="@string/comments"
                 android:textColorHint="@color/medium_grey_pacifyr"
