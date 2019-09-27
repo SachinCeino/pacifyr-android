@@ -11,7 +11,7 @@ import android.os.SystemClock;
 import androidx.annotation.DimenRes;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
-import android.support.v4.content.LocalBroadcastManager;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;

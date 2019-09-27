@@ -151,10 +151,10 @@
                     android:layout_below="@+id/past_session_ctxv">
 
                 </androidx.recyclerview.widget.RecyclerView>
-               <!-- <android.support.v7.widget.RecyclerView
-                    android:id="@+id/rcv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>-->
+                <!-- <androidx.recyclerview.widget.RecyclerView
+                     android:id="@+id/rcv"
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"></androidx.recyclerview.widget.RecyclerView>-->
 
             </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
             <include layout="@layout/empty" android:visibility="visible"/>

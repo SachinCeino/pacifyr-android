@@ -308,7 +308,8 @@
                        android:layout_marginTop="25dp"
                        android:layout_marginBottom="5dp"
                        >
-                       <android.support.v7.widget.RecyclerView
+
+                       <androidx.recyclerview.widget.RecyclerView
                            android:layout_width="match_parent"
                            android:layout_height="wrap_content"
                            android:layout_gravity="center_horizontal"
@@ -385,14 +386,14 @@
                 app:fontName="@string/lato_regular"
                 android:text="@string/turn_your_job"/>
 
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/rcv_thirdScreen_instruct"
                 android:layout_marginTop="25dp"
                 android:layout_marginLeft="25dp"
                 android:layout_marginRight="25dp"
-                android:layout_marginBottom="5dp"></android.support.v7.widget.RecyclerView>
+                android:layout_marginBottom="5dp"></androidx.recyclerview.widget.RecyclerView>
 
         </LinearLayout>
 
@@ -458,7 +459,7 @@
                 android:alpha="0.7"
                 android:text="@string/have_the_best_first_day"/>
 
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/rcv_thirdScreen_second_instruct"
@@ -467,7 +468,7 @@
                 android:layout_marginRight="25dp"
                 android:layout_marginBottom="5dp">
 
-            </android.support.v7.widget.RecyclerView>
+            </androidx.recyclerview.widget.RecyclerView>
 
         </LinearLayout>
 
@@ -515,12 +516,12 @@
             android:layout_margin="5dp"
             android:gravity="center_horizontal">
 
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/image_rcv">
 
-            </android.support.v7.widget.RecyclerView>
+            </androidx.recyclerview.widget.RecyclerView>
 
                <com.daprlabs.cardstack.SwipeDeck
                    android:id="@+id/swipe_deck"

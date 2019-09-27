@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.pacifyr.omhealthcare">
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
@@ -49,6 +50,7 @@
         android:launchMode="singleInstance"
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
+        android:hardwareAccelerated="true"
         android:theme="@style/CustomNoActionBarTheme2">
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
@@ -370,6 +372,13 @@
         <activity
             android:name=".events.activity.EventActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".events.activity.CaptureActivityPortrait"
+            android:screenOrientation="portrait"
+            android:stateNotNeeded="true"
+            android:theme="@style/zxing_CaptureTheme"
+            android:windowSoftInputMode="stateAlwaysHidden"></activity>
+
         <!--//offers-->
         <activity
             android:name=".events.activity.OffersActivity"

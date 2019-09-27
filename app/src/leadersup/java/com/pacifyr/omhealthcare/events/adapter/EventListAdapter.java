@@ -9,7 +9,7 @@ import androidx.transition.ChangeImageTransform;
 import androidx.transition.ChangeTransform;
 import androidx.transition.Fade;
 import androidx.transition.TransitionSet;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;

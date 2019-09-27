@@ -58,6 +58,7 @@ import com.pacifyr.omhealthcare.Fragment.schedule.ScheduleData;
 import com.pacifyr.omhealthcare.Fragment.schedule.Slot;
 import com.pacifyr.omhealthcare.events.model.ModelEvent;
 import com.pacifyr.omhealthcare.events.model.ModelOffer;
+import com.pacifyr.omhealthcare.events.model.QRSuccess;
 import com.pacifyr.omhealthcare.model.MCustomerList;
 import com.pacifyr.omhealthcare.model.ModelResources;
 import com.pacifyr.omhealthcare.model.ModelSpecialityByCategory;
@@ -886,5 +887,19 @@ public class GsonUtils<T> {
         return model;
     }
 
+    //QRCode suucees then call API result
+
+    public QRSuccess gsonToModelQRCodeResult(JSONObject json) {
+
+        QRSuccess data = null;
+        try {
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            String jsonString = json.toString();
+            data = gson.fromJson(jsonString, QRSuccess.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return data;
+    }
 }
 

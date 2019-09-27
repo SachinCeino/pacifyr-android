@@ -7,7 +7,7 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
-import android.support.v4.content.LocalBroadcastManager;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;

@@ -2,14 +2,19 @@ package com.pacifyr.omhealthcare.events.fragment;
 
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.location.Location;
 import android.os.Bundle;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -23,8 +28,13 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 import com.pacifyr.omhealthcare.R;
+import com.pacifyr.omhealthcare.event.ChatEvent;
 import com.pacifyr.omhealthcare.event.NotifyEvent;
+import com.pacifyr.omhealthcare.events.activity.CaptureActivityPortrait;
 import com.pacifyr.omhealthcare.events.activity.EventActivity;
 import com.pacifyr.omhealthcare.events.adapter.CurrentOpeningAdapter;
 import com.pacifyr.omhealthcare.events.model.ModelEvent;
@@ -33,10 +43,14 @@ import com.pacifyr.omhealthcare.quickblox.chat.utils.Consts;
 import com.pacifyr.omhealthcare.utility.BaseFragment;
 import com.squareup.otto.Subscribe;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.ThreadMode;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 import static com.pacifyr.omhealthcare.network.NetworkService.GLOBAL_IMAGE_URL;
 import static com.pacifyr.omhealthcare.network.NetworkService.GLOBAL_URL;
@@ -58,6 +72,8 @@ public class AttendingEmployerFragment extends BaseFragment {
     private RecyclerView.LayoutManager mLayoutManager;
     private ModelEvent.Employer object;
     private LinearLayout layout_checkIn;
+    //qr code scanner object
+    private IntentIntegrator qrScan;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -71,6 +87,7 @@ public class AttendingEmployerFragment extends BaseFragment {
         txtv_company_phone = view.findViewById(R.id.txtv_company_phone);
         rcv_attendList = view.findViewById(R.id.rcv_attendList);
         layout_checkIn = view.findViewById(R.id.layout_checkIn);
+
 
         Bundle bundle = getArguments();
         if (isValid(bundle) && isValid(bundle.getSerializable("object")))
@@ -112,6 +129,21 @@ public class AttendingEmployerFragment extends BaseFragment {
             getWebData(object.getId());
         }
 
+        qrScan = new IntentIntegrator(getActivity());
+        layout_checkIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //initiating the qr code scan
+
+                qrScan.setPrompt("Scan a barcode");
+                qrScan.setCameraId(0);  // Use a specific camera of the device
+                qrScan.setOrientationLocked(true);
+                qrScan.setBeepEnabled(true);
+                qrScan.setCaptureActivity(CaptureActivityPortrait.class);
+                qrScan.initiateScan();
+                qrScan.initiateScan();
+            }
+        });
 
         return view;
     }
@@ -160,12 +192,6 @@ public class AttendingEmployerFragment extends BaseFragment {
 
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-
-    }
-
 
     public void getWebData(String emplyerId) {
 
@@ -188,7 +214,7 @@ public class AttendingEmployerFragment extends BaseFragment {
                             List<ModelEvent.Position> listEvent = data.getPositions();
                             if (isValid(listEvent))
                                 setAdpater(listEvent);
-                            setUpCheckinView(data);
+                            //setUpCheckinView(data);
                         }
                     } else {
                         if (isValid(status.getMessage())) {
@@ -213,9 +239,7 @@ public class AttendingEmployerFragment extends BaseFragment {
 
             aq.ajax(GLOBAL_URL + "employer/" + emplyerId, JSONObject.class, cb);
 
-        } catch (Exception ex)
-
-        {
+        } catch (Exception ex) {
             hideProgress();
 
             ex.printStackTrace();
@@ -291,5 +315,19 @@ public class AttendingEmployerFragment extends BaseFragment {
 
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+    }
+
 
 }
+
+
