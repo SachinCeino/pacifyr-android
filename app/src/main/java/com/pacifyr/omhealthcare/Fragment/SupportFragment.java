@@ -89,7 +89,7 @@ public class SupportFragment extends BaseFragment {
                     public void callback(String url, JSONObject json, AjaxStatus status) {
                         try {
                             String js = json.toString();
-                            setStatus("Your message is send Successfully", R.color.md_green_400);
+                            setStatus("Your message is sent successfully", R.color.md_green_400);
                             messageEdit.setText("");
                             hideProgress();
                             showStatus();
