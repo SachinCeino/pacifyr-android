@@ -1,6 +1,7 @@
 package com.pacifyr.omhealthcare.home;
 
 import android.app.Activity;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -41,12 +42,14 @@ import com.pacifyr.omhealthcare.home.account.AccountFragment;
 import com.pacifyr.omhealthcare.model.interfaces.CallChatEventListner;
 import com.pacifyr.omhealthcare.network.GsonUtils;
 import com.pacifyr.omhealthcare.quickblox.chat.ui.activity.DialogsActivity;
+import com.pacifyr.omhealthcare.quickblox.services.CallService;
 import com.pacifyr.omhealthcare.sign.CrisisActivity;
 import com.pacifyr.omhealthcare.utility.PacifyrAppCompactActivity;
 import com.pacifyr.omhealthcare.utils.AmazonSNSTokenHandler;
 import com.pacifyr.omhealthcare.utils.LogUtils;
 import com.pacifyr.omhealthcare.utils.PagerEnabledSlidingPaneLayout;
 import com.pacifyr.omhealthcare.utils.ToastHandler;
+import com.quickblox.sample.core.utils.SharedPrefsHelper;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
 
@@ -139,8 +142,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         LogUtils.LOGD("install", "DashboardActivity");
         configPushNotifications();
@@ -218,8 +220,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
         mSlidingPaneLayout.setParallaxDistance(480);
 
 
-        mSlidingPaneLayout.setPanelSlideListener(new PagerEnabledSlidingPaneLayout.PanelSlideListener()
-        {
+        mSlidingPaneLayout.setPanelSlideListener(new PagerEnabledSlidingPaneLayout.PanelSlideListener() {
             @Override
             public void onPanelSlide(View panel, float slideOffset) {
 
@@ -301,7 +302,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
             public void onClick(View v) {
                 hideRightLayActionbar();
                 DialogsActivity.start(context);
-              /*showFragment(new PacifyrMessageFragment());*/
+                /*showFragment(new PacifyrMessageFragment());*/
                 //defSetText(titleTxv,"");
             }
         });
@@ -311,7 +312,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
             public void onClick(View v) {
                 hideRightLayActionbar();
                 PolicyDocumentActivity.start(context);
-              /*  showFragment(new PacifyrMessageFragment());*/
+                /*  showFragment(new PacifyrMessageFragment());*/
             }
         });
 
@@ -363,6 +364,10 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
                         hideStatus();
                             /*PrefManager prefM= PrefManager.getInstance(getActivity());
                             prefM.clearSharedAll();*/
+                        NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                        if (mNotificationManager != null) {
+                            mNotificationManager.cancelAll();
+                        }
                         deleteInstallationWeb();
                            /* LoginManager mLoginManager = LoginManager.getInstance();
                             if(isValid(mLoginManager))
@@ -377,9 +382,16 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
         });
 
         new AmazonSNSTokenHandler(context).register();
-
+        loginToQuickblox();
     }
 
+
+    private void loginToQuickblox() {
+        SharedPrefsHelper sharedPrefsHelper = SharedPrefsHelper.getInstance();
+        if (sharedPrefsHelper.hasQbUser()) {
+            CallService.start(DashboardActivity.this, sharedPrefsHelper.getQbUser());
+        }
+    }
 
 
 

@@ -340,7 +340,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                 //feel_err_text.setVisibility(View.VISIBLE);
             }
             getUnratedSessions();
-            loginToQuickblox();
+//            loginToQuickblox();
             setChatCountInfo();
 
         }

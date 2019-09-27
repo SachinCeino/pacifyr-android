@@ -64,7 +64,7 @@ public class MaskedImageView extends ImageView {
                 Canvas.ALL_SAVE_FLAG);
         maskDrawable.setBounds(boundsRect);
         maskDrawable.draw(canvas);
-        canvas.saveLayer(boundsRectF, maskedPaint, 0);
+        canvas.saveLayer(boundsRectF, maskedPaint, Canvas.ALL_SAVE_FLAG);
 
         super.onDraw(canvas);
 
