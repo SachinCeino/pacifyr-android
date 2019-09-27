@@ -195,6 +195,7 @@
             android:layout_height="60dp"
             android:layout_below="@+id/top"
             android:gravity="center"
+            android:id="@+id/requestBook"
             android:foregroundGravity="center">
 
             <com.pacifyr.omhealthcare.views.PamTextViewMedium

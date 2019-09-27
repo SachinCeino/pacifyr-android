@@ -41,6 +41,7 @@ import com.pacifyr.omhealthcare.event.CallEvent;
 import com.pacifyr.omhealthcare.event.ChatEvent;
 import com.pacifyr.omhealthcare.home.ConnectToPacifyrActivity;
 import com.pacifyr.omhealthcare.home.DoctorsMoreInformationActivity;
+import com.pacifyr.omhealthcare.home.DoctorsSearchResultActivity;
 import com.pacifyr.omhealthcare.home.PaymentActivity;
 import com.pacifyr.omhealthcare.home.ProfileScreenActivity;
 import com.pacifyr.omhealthcare.network.NetworkService;
@@ -73,7 +74,7 @@ import static com.pacifyr.omhealthcare.network.NetworkService.GLOBAL_IMAGE_URL;
 public class PacifyrResultListViewAdapter extends RecyclerView.Adapter<PacifyrResultListViewAdapter.MyViewHolder> {
 
     public List<MUser> searchResults;
-    private Context context;
+    private Activity context;
 
     public String imgURL;
     public String namePacifyr;
@@ -111,7 +112,7 @@ public class PacifyrResultListViewAdapter extends RecyclerView.Adapter<PacifyrRe
     private LinearLayout chatLlay;
     private RelativeLayout schedule_rlay;
 
-    public PacifyrResultListViewAdapter(ArrayList<MUser> resultsList, Context context) {
+    public PacifyrResultListViewAdapter(ArrayList<MUser> resultsList, Activity context) {
         searchResults = resultsList;
         this.context = context;
     }
@@ -170,6 +171,13 @@ public class PacifyrResultListViewAdapter extends RecyclerView.Adapter<PacifyrRe
                     }
                 });
 
+                holder.requestBook.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ((DoctorsSearchResultActivity) context).showScheduleDialogueFragment(pacifyer);
+                    }
+                });
+
             }
         } catch (Exception e) {
             Log.w("EEEEXXX", e.toString());
@@ -197,6 +205,7 @@ public class PacifyrResultListViewAdapter extends RecyclerView.Adapter<PacifyrRe
         public TextView pacifyr_timing;
         public TextView pacifyr_Price;
         public TextView more_info;
+        public LinearLayout requestBook;
 
 
         public MyViewHolder(View view) {
@@ -211,6 +220,7 @@ public class PacifyrResultListViewAdapter extends RecyclerView.Adapter<PacifyrRe
             pacifyr_Price = view.findViewById(R.id.pacifyr_Price);
             pacifyr_addresss = view.findViewById(R.id.pacifyr_addresss);
             more_info = view.findViewById(R.id.more_info);
+            requestBook = view.findViewById(R.id.requestBook);
 
 
         }

@@ -27,6 +27,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.pacifyr.omhealthcare.Fragment.schedule.ScheduleBottomSheetFragment;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.adapter.PacifyrResultListViewAdapter;
 import com.pacifyr.omhealthcare.event.AlertTypeEvent;
@@ -107,7 +108,8 @@ public class DoctorsMoreInformationActivity extends PacifyrAppCompactActivity im
         requestBook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(DoctorsMoreInformationActivity.this, "Booked", Toast.LENGTH_SHORT).show();
+                showScheduleDialogueFragment(pacifyerObject);
+
             }
         });
     }
@@ -301,6 +303,18 @@ public class DoctorsMoreInformationActivity extends PacifyrAppCompactActivity im
         mMap = googleMap;
         if (isValid(pacifyerObject)) {
             setUpMarkerOnMap(pacifyerObject);
+        }
+
+    }
+
+    public void showScheduleDialogueFragment(MUser pacifyer_obj) {
+        if (isValid(pacifyer_obj)) {
+
+            ScheduleBottomSheetFragment bottomSheetFragment = new ScheduleBottomSheetFragment();
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("OBJECT", pacifyer_obj);
+            bottomSheetFragment.setArguments(bundle);
+            bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
         }
 
     }

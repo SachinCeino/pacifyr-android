@@ -38,6 +38,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.pacifyr.omhealthcare.Fragment.schedule.ScheduleBottomSheetFragment;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.adapter.DoctorsSpecialityAdapter;
 import com.pacifyr.omhealthcare.adapter.PacifyrResultListViewAdapter;
@@ -275,7 +276,7 @@ public class DoctorsSearchResultActivity extends PacifyrAppCompactActivity imple
             list = pSearchPacifyrWOptionsResponse.getResultsList();
             if (isValid(list)) {
                 total_results.setText(list.size() + " result");
-                mPacifyrResultListViewAdapter = new PacifyrResultListViewAdapter(list, getApplicationContext());
+                mPacifyrResultListViewAdapter = new PacifyrResultListViewAdapter(list, DoctorsSearchResultActivity.this);
                 RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
                 rcv_SearchResult.setLayoutManager(layoutManager);
                 rcv_SearchResult.setAdapter(mPacifyrResultListViewAdapter);
@@ -308,7 +309,7 @@ public class DoctorsSearchResultActivity extends PacifyrAppCompactActivity imple
             list = pSearchPacifyrWOptionsResponse.getResultsList();
             if (isValid(list)) {
                 total_results.setText(list.size() + " result");
-                mPacifyrResultListViewAdapter = new PacifyrResultListViewAdapter(list, getApplicationContext());
+                mPacifyrResultListViewAdapter = new PacifyrResultListViewAdapter(list, DoctorsSearchResultActivity.this);
                 layoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
                 rcv_SearchResult.setLayoutManager(layoutManager);
                 rcv_SearchResult.setAdapter(mPacifyrResultListViewAdapter);
@@ -394,6 +395,19 @@ public class DoctorsSearchResultActivity extends PacifyrAppCompactActivity imple
         }
         else {
             finish();
+        }
+
+    }
+
+
+    public void showScheduleDialogueFragment(MUser pacifyer_obj) {
+        if (isValid(pacifyer_obj)) {
+
+            ScheduleBottomSheetFragment bottomSheetFragment = new ScheduleBottomSheetFragment();
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("OBJECT", pacifyer_obj);
+            bottomSheetFragment.setArguments(bundle);
+            bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
         }
 
     }
