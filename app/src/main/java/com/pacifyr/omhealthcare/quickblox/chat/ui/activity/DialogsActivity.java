@@ -1,5 +1,6 @@
 package com.pacifyr.omhealthcare.quickblox.chat.ui.activity;
 
+import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -116,6 +117,10 @@ public class DialogsActivity extends PacifyerActivity implements DialogsManager.
             loadDialogsFromQb(true, true);
         } else {
             loadDialogsFromQb(false, true);
+        }
+        NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        if (mNotificationManager != null) {
+            mNotificationManager.cancelAll();
         }
     }
 

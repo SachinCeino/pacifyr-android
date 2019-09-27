@@ -31,8 +31,11 @@ import com.quickblox.videochat.webrtc.QBRTCConfig;
 import org.jivesoftware.smackx.ping.PingFailedListener;
 
 /**
- * QuickBlox team
+ *
+ *
+ * @deprecated use {@link Call_Service()} instead.
  */
+@Deprecated
 public class CallService extends Service {
     // private static final String TAG = CallService.class.getSimpleName();
     private static final String TAG = "CallService";
@@ -48,8 +51,10 @@ public class CallService extends Service {
     public CallService(Context applicationContext) {
     }
 
+    // we are not using this service anymore. Use Call_Service instead
     public static void start(Context context, QBUser qbUser, PendingIntent pendingIntent) {
-        Intent intent = new Intent(context, CallService.class);
+        Intent intent = new Intent(context, Call_Service.class);// Call_Service is another service
+        // beware.
         intent.putExtra(Consts.EXTRA_COMMAND_TO_SERVICE, Consts.COMMAND_LOGIN);
         intent.putExtra(Consts.EXTRA_QB_USER, qbUser);
         intent.putExtra(Consts.EXTRA_PENDING_INTENT, pendingIntent);
