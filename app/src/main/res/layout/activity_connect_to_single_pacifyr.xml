@@ -124,7 +124,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
-                app:fontName="@string/avanti_std_bold"
+                app:fontName="@string/raleway_bold"
                 android:textColor="@color/colorPrimary"
                 android:id="@+id/user_name_ctxv"
                 android:text="Hello"/>
