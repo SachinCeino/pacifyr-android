@@ -934,7 +934,8 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
         }
         else
         {
-            usersIds.add((int)pacifyer.getQbid());
+//            usersIds.add((int)pacifyer.getQbid());
+            usersIds.add(97101630);
         }
 
 
