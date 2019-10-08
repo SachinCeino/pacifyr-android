@@ -8,14 +8,17 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.multidex.MultiDex;
 
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.androidquery.AQuery;
@@ -30,9 +33,11 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.pacifyr.omhealthcare.Fragment.ResourcesFragment;
 import com.pacifyr.omhealthcare.Fragment.SupportFragment;
+import com.pacifyr.omhealthcare.base.PacifyerActivity;
 import com.pacifyr.omhealthcare.events.activity.CaptureActivityPortrait;
 import com.pacifyr.omhealthcare.events.activity.EventActivity;
 import com.pacifyr.omhealthcare.events.activity.OffersActivity;
+import com.pacifyr.omhealthcare.events.model.QRSuccess;
 import com.pacifyr.omhealthcare.fragment.UserDashboardFragment;
 import com.pacifyr.omhealthcare.Fragment.WelcomeTourFragment;
 import com.pacifyr.omhealthcare.Payment.PaymentFragment;
@@ -47,6 +52,7 @@ import com.pacifyr.omhealthcare.home.account.AccountEditActivity;
 import com.pacifyr.omhealthcare.home.account.AccountFragment;
 import com.pacifyr.omhealthcare.model.interfaces.CallChatEventListner;
 import com.pacifyr.omhealthcare.network.GsonUtils;
+import com.pacifyr.omhealthcare.network.NetworkService;
 import com.pacifyr.omhealthcare.quickblox.chat.ui.activity.DialogsActivity;
 import com.pacifyr.omhealthcare.sign.CrisisActivity;
 import com.pacifyr.omhealthcare.utility.PacifyrAppCompactActivity;
@@ -758,6 +764,73 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
         }
     }
 
+    /**
+     * event attending scan popup
+     **/
+
+    private void callAPIWithCodeFromQRScanner(Object code) {
+
+        try {
+            PrefManager prefM = PrefManager.getInstance(getApplicationContext());
+            String userToken = prefM.getAccessToken();
+            String userid = prefM.getUserID();
+            setLoading();
+            showProgress();
+            String url = NetworkService.GLOBAL_URL + "events/checkinUsingCode";
+            AjaxCallback cb = new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject json, AjaxStatus status) {
+                    try {
+                        hideProgress();
+                        QRSuccess data = GsonUtils.getInstance().gsonToModelQRCodeResult(json);
+                        if (isValid(data))
+                            showPopup(data.getMessage() + "");
+
+                    } catch (Exception e) {
+                        errorStatus();
+                    }
+                }
+            };
+            AQuery aq = new AQuery(getApplicationContext());
+            cb.header("Content-Type", "application/json");
+            cb.header("AccessToken", userToken);
+
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("userId", prefM.getUserID());
+            jsonObject.put("code", String.valueOf(code));
+            aq.post(url, jsonObject, JSONObject.class, cb);
+        } catch (Exception ex) {
+            errorStatus();
+        }
+
+    }
+
+    private void showPopup(String data) {
+
+        LayoutInflater inflater = getLayoutInflater();
+        View alertLayout = inflater.inflate(R.layout.popup_qr_code_success_, null);
+        final TextView message = alertLayout.findViewById(R.id.message);
+        final TextView done = alertLayout.findViewById(R.id.done);
+        /*final EditText etEmail = alertLayout.findViewById(R.id.et_email);
+        final CheckBox cbToggle = alertLayout.findViewById(R.id.cb_show_pass);
+*/
+
+        message.setText(data);
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        // this is set the view from XML inside AlertDialog
+        alert.setView(alertLayout);
+        // disallow cancel of AlertDialog on click of back button and outside touch
+        AlertDialog dialog = alert.create();
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        dialog.show();
+
+        done.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+    }
 }
 
 

@@ -67,7 +67,6 @@ import com.pacifyr.omhealthcare.adapter.EmotionSpecialityAdapter;
 import com.pacifyr.omhealthcare.event.BusProvider;
 import com.pacifyr.omhealthcare.event.CallEvent;
 import com.pacifyr.omhealthcare.event.NotifyEvent;
-import com.pacifyr.omhealthcare.events.model.QRSuccess;
 import com.pacifyr.omhealthcare.home.PaymentActivity;
 import com.pacifyr.omhealthcare.home.SessionSummaryActivity;
 import com.pacifyr.omhealthcare.model.BillingSummary;
@@ -3289,73 +3288,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
     }
 
 
-    /**
-     * event attending scan popup
-     **/
 
-    public void callAPIWithCodeFromQRScanner(Object code) {
-
-        try {
-            PrefManager prefM = PrefManager.getInstance(getApplicationContext());
-            String userToken = prefM.getAccessToken();
-            String userid = prefM.getUserID();
-            setLoading();
-            showProgress();
-            String url = NetworkService.GLOBAL_URL + "events/checkinUsingCode";
-            AjaxCallback cb = new AjaxCallback<JSONObject>() {
-                @Override
-                public void callback(String url, JSONObject json, AjaxStatus status) {
-                    try {
-                        hideProgress();
-                        QRSuccess data = GsonUtils.getInstance().gsonToModelQRCodeResult(json);
-                        if (isValid(data))
-                            showPopup(data.getMessage() + "");
-
-                    } catch (Exception e) {
-                        errorStatus();
-                    }
-                }
-            };
-            AQuery aq = new AQuery(getApplicationContext());
-            cb.header("Content-Type", "application/json");
-            cb.header("AccessToken", userToken);
-
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("userId", prefM.getUserID());
-            jsonObject.put("code", String.valueOf(code));
-            aq.post(url, jsonObject, JSONObject.class, cb);
-        } catch (Exception ex) {
-            errorStatus();
-        }
-
-    }
-
-    private void showPopup(String data) {
-
-        LayoutInflater inflater = getLayoutInflater();
-        View alertLayout = inflater.inflate(R.layout.popup_qr_code_success_, null);
-        final TextView message = alertLayout.findViewById(R.id.message);
-        final TextView done = alertLayout.findViewById(R.id.done);
-        /*final EditText etEmail = alertLayout.findViewById(R.id.et_email);
-        final CheckBox cbToggle = alertLayout.findViewById(R.id.cb_show_pass);
-*/
-
-        message.setText(data);
-        AlertDialog.Builder alert = new AlertDialog.Builder(PacifyerActivity.this);
-        // this is set the view from XML inside AlertDialog
-        alert.setView(alertLayout);
-        // disallow cancel of AlertDialog on click of back button and outside touch
-        AlertDialog dialog = alert.create();
-        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-        dialog.show();
-
-        done.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-    }
 }
 
 
