@@ -126,6 +126,7 @@ public class AttendingEmployerFragment extends BaseFragment {
                     .override(Consts.PREFERRED_IMAGE_SIZE_FULL, Consts.PREFERRED_IMAGE_SIZE_FULL)
                     .into(img_company_logo);
 
+
             getWebData(object.getId());
         }
 
@@ -246,6 +247,7 @@ public class AttendingEmployerFragment extends BaseFragment {
         }
     }
 
+/*
     private void setUpCheckinView(ModelEvent data) {
         if (data.getCheckinUserIds() != null) {
             if (data.getCheckinUserIds().size() == 0) {
@@ -281,8 +283,10 @@ public class AttendingEmployerFragment extends BaseFragment {
             layout_checkIn.setAlpha((float) 0.4);
         }
     }
+*/
 
 
+/*
     private float getDistanceFromLocation(String latitude, String longitude) {
 
         double currentLatitude = ((EventActivity) getActivity()).getmLatitude();
@@ -305,6 +309,7 @@ public class AttendingEmployerFragment extends BaseFragment {
 
 
     }
+*/
 
     private void setAdpater(List<ModelEvent.Position> list) {
         mCurrentOpeningAdapter = new CurrentOpeningAdapter(getActivity(), list);

@@ -160,9 +160,8 @@ public class SwipeDeckConnectPacifyrAdapter extends BaseAdapter {
                 v = inflater.inflate(R.layout.swipe_card_cons, parent, false);
                 chatPriceCtxv = v.findViewById(R.id.chat_price_ctxv);
                 //chatLlay = (LinearLayout) v.findViewById(R.id.chat_llay);
-
                 schedule_rlay= v.findViewById(R.id.schedule_rlay);
-
+                schedule_rlay.setVisibility(View.VISIBLE);
                 imgURL = GLOBAL_IMAGE_URL + searchResults.get(position).getImage();
                 namePacifyr = searchResults.get(position).getFirstName() + " " + searchResults.get(position).getLastName();
                 pos = position;
@@ -208,6 +207,9 @@ public class SwipeDeckConnectPacifyrAdapter extends BaseAdapter {
                 prefM = PrefManager.getInstance(context);
 
                 String customerRole = prefM.getCustomerRole();
+                if (context.getPackageName().equals("com.pacifyr.leadersup")) {
+                    ((TextView) v.findViewById(R.id.price_dollar)).setVisibility(View.INVISIBLE);
+                }
                 if (customerRole.equals("employee")) {
                     if (!searchResults.get(position).isSessionChargeable()) {
                         ((TextView) v.findViewById(R.id.price_dollar)).setText("Employer Designated Pacifyr");
@@ -486,7 +488,6 @@ public class SwipeDeckConnectPacifyrAdapter extends BaseAdapter {
         }else{
             //chatLlay
             chatPriceCtxv.setVisibility(View.VISIBLE);
-
             if(searchResults.get(position).getChatSubscription()==null) {
                 chatPriceCtxv.setText("Chat for " + Utility.getPriceSign(context) + priceForChat + " a day");
                 //chatLlay

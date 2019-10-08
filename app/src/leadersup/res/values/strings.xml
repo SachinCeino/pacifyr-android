@@ -137,10 +137,10 @@ Yor call is routed to the nearest crisis center.</string>
     /** URLS **/
     <string name="CHANNEL_ID">leadersup_general_notifications</string>
     <string name="APP_SOURCE">leadersup</string>
-    <string name="URL_PRIVACY_POLICY">https://omhealthcare.com/privacyPolicy</string>
-    <string name="URL_TERMS">https://omhealthcare.com/termsOfUse</string>
-    <string name="URL_DISPUTE_POLICY">https://omhealthcare.com/copyrightDisputePolicy</string>
-    <string name="AWS_PROJECT">OMDev</string>
+    <string name="URL_PRIVACY_POLICY">https://leadersup.org/</string>
+    <string name="URL_TERMS">https://leadersup.org/aboutus/</string>
+    <string name="URL_DISPUTE_POLICY">https://leadersup.org/impact/</string>
+    <string name="AWS_PROJECT">LeadersUp</string>
 
 
     <string name="raleway_bold">Raleway-Bold.ttf</string>
@@ -239,7 +239,7 @@ Yor call is routed to the nearest crisis center.</string>
 
     /**Third screen instructions **/
     <string name="third_screen_instructions_one">Complete job application</string>
-    <string name="go_to_e_learning_url">https://leadersup.org/</string>
+    <string name="go_to_e_learning_url">https://classroom.google.com/</string>
     <string name="go_to_career_e_learning">  Go to career\ne-learning</string>
     <string name="description">DESCRIPTION</string>
     <string name="schedule">SCHEDULE</string>
@@ -254,5 +254,5 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="offers">OFFERS</string>
     <string name="scan_qrcode">Scan QRCode</string>
     <string name="no_wellness_experts_category">No Career Coaches for the selected category.</string>
-
+    <string name="checkin">CHECK-IN</string>
 </resources>

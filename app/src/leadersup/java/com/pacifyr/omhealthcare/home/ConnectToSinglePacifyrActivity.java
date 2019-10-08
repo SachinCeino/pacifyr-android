@@ -34,7 +34,6 @@ import com.ceino.utilitylibrary.model.pacifyr.MUser;
 import com.ceino.utilitylibrary.model.pacifyr.ModelUserProfile;
 import com.ceino.utilitylibrary.network.UtilityNetworkService;
 import com.ceino.utilitylibrary.utils.PrefManager;
-import com.pacifyr.omhealthcare.Fragment.schedule.ScheduleBottomSheetFragment;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.adapter.EmotionSpecialityAdapter;
 import com.pacifyr.omhealthcare.adapter.NegativeEmotionsAdapter;
@@ -44,6 +43,7 @@ import com.pacifyr.omhealthcare.event.AlertTypeEvent;
 import com.pacifyr.omhealthcare.event.CallEvent;
 import com.pacifyr.omhealthcare.event.NotifyEvent;
 import com.pacifyr.omhealthcare.fragment.UserDashboardFragment;
+import com.pacifyr.omhealthcare.fragment.schedule.ScheduleBottomSheetFragment;
 import com.pacifyr.omhealthcare.model.ModelSpecialityByEmotion;
 import com.pacifyr.omhealthcare.network.GsonUtils;
 import com.pacifyr.omhealthcare.network.NetworkService;
@@ -217,6 +217,8 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
         pac_des_ctxv = findViewById(R.id.pac_des_ctxv);
         pac_rate_ctxv = findViewById(R.id.pac_rate_ctxv);
         schedule_rlay= findViewById(R.id.schedule_rlay);
+        if (getApplicationContext().getPackageName().equals("com.pacifyr.leadersup"))
+            pac_rate_ctxv.setVisibility(View.GONE);
 
         status_indicator_dimv = findViewById(R.id.status_indicator_dimv);
         status_indicator_ctxv = findViewById(R.id.status_indicator_ctxv);
@@ -681,7 +683,7 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
                 }
 
                 chatSubsCall(pacifyer_obj);
-                schedule_rlay.setVisibility(View.GONE);
+                schedule_rlay.setVisibility(View.VISIBLE);
                 schedule_rlay.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -1109,6 +1111,8 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
             bundle.putSerializable("OBJECT",pacifyer_obj);
             bottomSheetFragment.setArguments(bundle);
             bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
+
+
         }
 
     }

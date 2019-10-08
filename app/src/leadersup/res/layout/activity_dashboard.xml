@@ -362,8 +362,42 @@
             </LinearLayout>
 
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/grey" />
 
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/check_in_laoyut"
+                android:padding="10dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+                <!--    android:paddingRight="10dp"-->
+
+                <com.ceino.utilitylibrary.DeviceFitImageView
+                    android:id="@+id/check_in_dimv"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:scaleType="centerInside"
+                    app:width_percentage="10"
+                    android:layout_marginLeft="5dp"
+                    android:src="@drawable/svg_checkin_dashboard"
+                    android:layout_centerInParent="true" />
+
+                <com.ceino.utilitylibrary.CustomFontTextView
+                    android:id="@+id/check_in_ctxv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="10dp"
+                    android:text="@string/checkin"
+                    android:textColor="@color/grey_dark"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
 
 
             <LinearLayout

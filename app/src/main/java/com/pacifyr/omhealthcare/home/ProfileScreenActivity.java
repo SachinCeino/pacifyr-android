@@ -34,6 +34,7 @@ import com.pacifyr.omhealthcare.adapter.EducationProfileAdapter;
 import com.pacifyr.omhealthcare.adapter.SpecilaListProfileAdapter;
 import com.pacifyr.omhealthcare.event.AlertTypeEvent;
 import com.pacifyr.omhealthcare.event.NotifyEvent;
+import com.pacifyr.omhealthcare.fragment.schedule.ScheduleBottomSheetFragment;
 import com.pacifyr.omhealthcare.network.GsonUtils;
 import com.pacifyr.omhealthcare.network.NetworkService;
 import com.pacifyr.omhealthcare.quickblox.activities.PermissionsActivity;
@@ -134,6 +135,8 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
     private int priceForChat;
     private PrefManager prefM;
     private Context context;
+    private ImageView schedule_rlay;
+    private LinearLayout linearLayout_chat_price_description_layout;
 
     public static void start(Context context,String id,boolean flag ) {
         Intent intent = new Intent(context, ProfileScreenActivity.class);
@@ -158,6 +161,10 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_screen);
+        linearLayout_chat_price_description_layout = findViewById(R.id.chat_price_layout);
+        if (getApplicationContext().getPackageName().equals("com.pacifyr.leadersup"))
+            linearLayout_chat_price_description_layout.setVisibility(View.GONE);
+
         initFields();
         //checker = new PermissionsChecker(ProfileScreenActivity.this);
       //  permissionCheck();
@@ -366,8 +373,7 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
                         isChatSubscriptionRequired = mpacifyerDetial.isChatSubscriptionRequired();
                         priceForChat = Integer.parseInt(mpacifyerDetial.getPriceForChat());
 
-                        if(!isChatSubscriptionRequired)
-                        {
+                        if(!isChatSubscriptionRequired) {
                             startChat(mpacifyerDetial);
                             //showIOSDialogOK("","Please purchase unlimited chat per day","OK");
 
@@ -395,6 +401,16 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
 
                     }
                 });
+
+                schedule_rlay = findViewById(R.id.schedule_rlay);
+                schedule_rlay.setVisibility(View.VISIBLE);
+                schedule_rlay.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        showScheduleDialogueFragment(mpacifyerDetial);
+
+                    }
+                });
             }
             catch (Exception e)
             {
@@ -403,6 +419,17 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
 
 
 
+        }
+    }
+
+    private void showScheduleDialogueFragment(MUser mpacifyerDetial) {
+
+        if (isValid(mpacifyerDetial)) {
+            ScheduleBottomSheetFragment bottomSheetFragment = new ScheduleBottomSheetFragment();
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("OBJECT", mpacifyerDetial);
+            bottomSheetFragment.setArguments(bundle);
+            bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
         }
     }
 

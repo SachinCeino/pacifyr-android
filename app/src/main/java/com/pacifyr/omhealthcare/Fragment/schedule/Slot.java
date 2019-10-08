@@ -69,7 +69,15 @@ public class Slot implements Serializable{
     }
 
     private  boolean hideSlote;
+    public boolean clicked;
 
+    public boolean isClicked() {
+        return clicked;
+    }
+
+    public void setClicked(boolean clicked) {
+        this.clicked = clicked;
+    }
 
     public boolean isHideSlote() {
         return hideSlote;

@@ -209,6 +209,9 @@ public class SwipeDeckBrowsePacifyerAdapter extends BaseAdapter {
             prefM = PrefManager.getInstance(context);
 
             String customerRole = prefM.getCustomerRole();
+            if (context.getPackageName().equals("com.pacifyr.leadersup")) {
+                ((TextView) v.findViewById(R.id.price_dollar)).setVisibility(View.INVISIBLE);
+            }
             if(customerRole.equals("employee")) {
                 if (!searchResults.get(position).isSessionChargeable()){
                     ((TextView) v.findViewById(R.id.price_dollar)).setText("Employer Designated Pacifyr");
@@ -274,7 +277,7 @@ public class SwipeDeckBrowsePacifyerAdapter extends BaseAdapter {
 
 
                 schedule_rlay=v.findViewById(R.id.schedule_rlay);
-
+                schedule_rlay.setVisibility(View.VISIBLE);
                 schedule_rlay.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -523,6 +526,7 @@ public class SwipeDeckBrowsePacifyerAdapter extends BaseAdapter {
         } else {
             //chatLlay
             chat_price_ctxv.setVisibility(View.VISIBLE);
+
 
             if (searchResults.get(position).getChatSubscription() == null) {
                 chat_price_ctxv.setText("Chat for " + Utility.getPriceSign(context) + priceForChat + " a day");

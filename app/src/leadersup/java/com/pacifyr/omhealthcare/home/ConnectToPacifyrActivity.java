@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -32,7 +34,7 @@ import com.ceino.utilitylibrary.model.pacifyr.MUser;
 import com.ceino.utilitylibrary.model.pacifyr.RespSearchPacifyrWOption;
 import com.ceino.utilitylibrary.utils.PrefManager;
 import com.daprlabs.cardstack.SwipeDeck;
-import com.pacifyr.omhealthcare.Fragment.schedule.ScheduleBottomSheetFragment;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.adapter.CategoryListAdapter;
 import com.pacifyr.omhealthcare.adapter.EmotionSpecialityAdapter;
@@ -45,6 +47,7 @@ import com.pacifyr.omhealthcare.event.CallEvent;
 import com.pacifyr.omhealthcare.event.ChatEvent;
 import com.pacifyr.omhealthcare.event.NotifyEvent;
 import com.pacifyr.omhealthcare.fragment.UserDashboardFragment;
+import com.pacifyr.omhealthcare.fragment.schedule.ScheduleBottomSheetFragment;
 import com.pacifyr.omhealthcare.model.ModelSpecialityByCategory;
 import com.pacifyr.omhealthcare.model.ModelSpecialityByEmotion;
 import com.pacifyr.omhealthcare.model.interfaces.CallChatEventListner;
@@ -60,6 +63,7 @@ import com.squareup.otto.Subscribe;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -1092,6 +1096,29 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
             bundle.putSerializable("OBJECT",pacifyer_obj);
             bottomSheetFragment.setArguments(bundle);
             bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
+
+            try {
+                Field behaviorField = bottomSheetFragment.getClass().getDeclaredField("behavior");
+                behaviorField.setAccessible(true);
+                final BottomSheetBehavior behavior = (BottomSheetBehavior) behaviorField.get(bottomSheetFragment);
+                behavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+
+                    @Override
+                    public void onStateChanged(@NonNull View bottomSheet, int newState) {
+                        if (newState == BottomSheetBehavior.STATE_DRAGGING) {
+                            behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                        }
+                    }
+
+                    @Override
+                    public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+                    }
+                });
+            } catch (NoSuchFieldException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
         }
 
     }

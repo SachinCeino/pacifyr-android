@@ -16,6 +16,7 @@ import androidx.multidex.MultiDex;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
@@ -25,8 +26,11 @@ import com.ceino.utilitylibrary.DeviceFitImageView;
 import com.ceino.utilitylibrary.model.pacifyr.MUser;
 import com.ceino.utilitylibrary.utils.PrefManager;
 import com.github.javiersantos.appupdater.AppUpdater;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 import com.pacifyr.omhealthcare.Fragment.ResourcesFragment;
 import com.pacifyr.omhealthcare.Fragment.SupportFragment;
+import com.pacifyr.omhealthcare.events.activity.CaptureActivityPortrait;
 import com.pacifyr.omhealthcare.events.activity.EventActivity;
 import com.pacifyr.omhealthcare.events.activity.OffersActivity;
 import com.pacifyr.omhealthcare.fragment.UserDashboardFragment;
@@ -53,6 +57,7 @@ import com.pacifyr.omhealthcare.utils.ToastHandler;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -103,11 +108,14 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
     private DeviceFitImageView resourcesDimv;
 
     private LinearLayout event_llay, offer_llay;
+    private LinearLayout linear_layout_check_in_laoyut;
 
 
     private LinearLayout messagesLlay;
     private LinearLayout button_close;
 
+    //qr code scanner object
+    private IntentIntegrator qrScan;
 
     // private PermissionsChecker checker;
     public static void start(Context context
@@ -198,6 +206,8 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
 
         messagesLlay = findViewById(R.id.message_llay);
         button_close=findViewById(R.id.button_close);
+
+        linear_layout_check_in_laoyut = findViewById(R.id.check_in_laoyut);
 
         //NetworkService.startActionCutomerDashboard(this);
         showFragment();
@@ -408,6 +418,23 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
             }
         });
 
+        linear_layout_check_in_laoyut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                qrScan = new IntentIntegrator(DashboardActivity.this);
+
+
+                qrScan.setPrompt("Scan a barcode");
+                qrScan.setCameraId(0);  // Use a specific camera of the device
+                qrScan.setOrientationLocked(true);
+                qrScan.setBeepEnabled(true);
+                qrScan.setCaptureActivity(CaptureActivityPortrait.class);
+                qrScan.initiateScan();
+                qrScan.initiateScan();
+
+            }
+        });
         new AmazonSNSTokenHandler(context).register();
 
     }
@@ -705,6 +732,29 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
         }catch (Exception e){
             hideProgress();
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if (result != null) {
+            if (result.getContents() == null) {
+
+                Toast.makeText(getApplicationContext(), "Result Not Found", Toast.LENGTH_LONG).show();
+            } else {
+                try {
+                    JSONObject obj = new JSONObject(result.getContents());
+                    if (isValid(obj))
+                        if (obj.has("code"))
+                            callAPIWithCodeFromQRScanner(obj.get("code"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Toast.makeText(getApplicationContext(), result.getContents(), Toast.LENGTH_LONG).show();
+                }
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
         }
     }
 
