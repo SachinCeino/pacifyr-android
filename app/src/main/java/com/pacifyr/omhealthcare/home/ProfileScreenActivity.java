@@ -28,13 +28,13 @@ import com.ceino.utilitylibrary.utils.PrefManager;
 import com.gdacciaro.iOSDialog.iOSDialog;
 import com.gdacciaro.iOSDialog.iOSDialogClickListener;
 import com.google.android.material.snackbar.Snackbar;
-import com.pacifyr.omhealthcare.Fragment.schedule.ScheduleBottomSheetFragment;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.adapter.CertificationProfileAdapter;
 import com.pacifyr.omhealthcare.adapter.EducationProfileAdapter;
 import com.pacifyr.omhealthcare.adapter.SpecilaListProfileAdapter;
 import com.pacifyr.omhealthcare.event.AlertTypeEvent;
 import com.pacifyr.omhealthcare.event.NotifyEvent;
+import com.pacifyr.omhealthcare.fragment.schedule.ScheduleBottomSheetFragment;
 import com.pacifyr.omhealthcare.network.GsonUtils;
 import com.pacifyr.omhealthcare.network.NetworkService;
 import com.pacifyr.omhealthcare.quickblox.activities.PermissionsActivity;
@@ -403,12 +403,17 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
                 });
 
                 schedule_rlay = findViewById(R.id.schedule_rlay);
-                schedule_rlay.setVisibility(View.VISIBLE);
+                if (getApplicationContext().getPackageName().equals("com.pacifyr.leadersup") ||
+                        getApplicationContext().getPackageName().equals("com.pacifyr.pam")) {
+                    schedule_rlay.setVisibility(View.VISIBLE);
+                } else {
+                    schedule_rlay.setVisibility(View.GONE);
+                }
+
                 schedule_rlay.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         showScheduleDialogueFragment(mpacifyerDetial);
-
                     }
                 });
             }
@@ -922,7 +927,7 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
         Typeface type = Typeface.createFromAsset(getAssets(), "fonts/ActionBarCommonFont.otf");
         titleTxv.setTypeface(type);
         //titleTxv.setText("Add Credit Card");
-        titleTxv.setTextColor(getResources().getColor(R.color.white));
+        titleTxv.setTextColor(getResources().getColor(R.color._color_action_bar_text_color));
         //backImv.setBackgroundResource(R.drawable.leftmen);
         leftLlay.setOnClickListener(new View.OnClickListener() {
             @Override

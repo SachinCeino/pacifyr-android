@@ -35,6 +35,7 @@ import com.ceino.utilitylibrary.model.pacifyr.RespSearchPacifyrWOption;
 import com.ceino.utilitylibrary.utils.PrefManager;
 import com.daprlabs.cardstack.SwipeDeck;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.adapter.CategoryListAdapter;
 import com.pacifyr.omhealthcare.adapter.EmotionSpecialityAdapter;
@@ -1097,28 +1098,6 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
             bottomSheetFragment.setArguments(bundle);
             bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
 
-            try {
-                Field behaviorField = bottomSheetFragment.getClass().getDeclaredField("behavior");
-                behaviorField.setAccessible(true);
-                final BottomSheetBehavior behavior = (BottomSheetBehavior) behaviorField.get(bottomSheetFragment);
-                behavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
-
-                    @Override
-                    public void onStateChanged(@NonNull View bottomSheet, int newState) {
-                        if (newState == BottomSheetBehavior.STATE_DRAGGING) {
-                            behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-                        }
-                    }
-
-                    @Override
-                    public void onSlide(@NonNull View bottomSheet, float slideOffset) {
-                    }
-                });
-            } catch (NoSuchFieldException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            }
         }
 
     }

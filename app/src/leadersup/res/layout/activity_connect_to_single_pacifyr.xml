@@ -661,7 +661,7 @@
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/chat_llay"
-                android:visibility="visible"
+                android:visibility="gone"
                 android:layout_marginTop="7dp"
                 android:layout_marginBottom="15dp"
                 android:background="@drawable/blue_round_square"

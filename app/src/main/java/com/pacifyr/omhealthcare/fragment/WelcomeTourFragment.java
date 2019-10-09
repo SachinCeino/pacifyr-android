@@ -1,4 +1,4 @@
-package com.pacifyr.omhealthcare.Fragment;
+package com.pacifyr.omhealthcare.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,7 +14,6 @@ import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.adapter.CustomPagerAdapter;
 import com.pacifyr.omhealthcare.event.ActionbarEvent;
 import com.pacifyr.omhealthcare.event.NotifyEvent;
-import com.pacifyr.omhealthcare.fragment.UserDashboardFragment;
 import com.pacifyr.omhealthcare.utility.BaseFragment;
 
 public class WelcomeTourFragment extends BaseFragment {

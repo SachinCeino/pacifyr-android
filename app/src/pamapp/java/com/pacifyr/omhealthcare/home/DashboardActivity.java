@@ -25,11 +25,11 @@ import com.ceino.utilitylibrary.DeviceFitImageView;
 import com.ceino.utilitylibrary.model.pacifyr.MUser;
 import com.ceino.utilitylibrary.utils.PrefManager;
 import com.github.javiersantos.appupdater.AppUpdater;
-import com.pacifyr.omhealthcare.Fragment.MySessionFragment;
-import com.pacifyr.omhealthcare.Fragment.ResourcesFragment;
-import com.pacifyr.omhealthcare.Fragment.SupportFragment;
+import com.pacifyr.omhealthcare.fragment.MySessionFragment;
+import com.pacifyr.omhealthcare.fragment.ResourcesFragment;
+import com.pacifyr.omhealthcare.fragment.SupportFragment;
 
-import com.pacifyr.omhealthcare.Fragment.WelcomeTourFragment;
+import com.pacifyr.omhealthcare.fragment.WelcomeTourFragment;
 import com.pacifyr.omhealthcare.Payment.PaymentFragment;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.event.ActionbarEvent;

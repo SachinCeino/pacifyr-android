@@ -1,4 +1,4 @@
-package com.pacifyr.omhealthcare.Fragment;
+package com.pacifyr.omhealthcare.fragment;
 
 import android.animation.ValueAnimator;
 import android.content.Context;

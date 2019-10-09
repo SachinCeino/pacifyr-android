@@ -31,15 +31,15 @@ import com.ceino.utilitylibrary.utils.PrefManager;
 import com.github.javiersantos.appupdater.AppUpdater;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
-import com.pacifyr.omhealthcare.Fragment.ResourcesFragment;
-import com.pacifyr.omhealthcare.Fragment.SupportFragment;
+import com.pacifyr.omhealthcare.fragment.ResourcesFragment;
+import com.pacifyr.omhealthcare.fragment.SupportFragment;
 import com.pacifyr.omhealthcare.base.PacifyerActivity;
 import com.pacifyr.omhealthcare.events.activity.CaptureActivityPortrait;
 import com.pacifyr.omhealthcare.events.activity.EventActivity;
 import com.pacifyr.omhealthcare.events.activity.OffersActivity;
 import com.pacifyr.omhealthcare.events.model.QRSuccess;
 import com.pacifyr.omhealthcare.fragment.UserDashboardFragment;
-import com.pacifyr.omhealthcare.Fragment.WelcomeTourFragment;
+import com.pacifyr.omhealthcare.fragment.WelcomeTourFragment;
 import com.pacifyr.omhealthcare.Payment.PaymentFragment;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.activity.TermsOfUseActivity;
@@ -747,7 +747,6 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
         if (result != null) {
             if (result.getContents() == null) {
 
-                Toast.makeText(getApplicationContext(), "Result Not Found", Toast.LENGTH_LONG).show();
             } else {
                 try {
                     JSONObject obj = new JSONObject(result.getContents());

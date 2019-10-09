@@ -1,4 +1,4 @@
-package com.pacifyr.omhealthcare.Fragment.schedule;
+package com.pacifyr.omhealthcare.fragment.schedule;
 
 import android.content.Context;
 import android.util.Log;

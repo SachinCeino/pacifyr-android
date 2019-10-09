@@ -1,4 +1,4 @@
-package com.pacifyr.omhealthcare.Fragment;
+package com.pacifyr.omhealthcare.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -20,7 +20,6 @@ import com.ceino.utilitylibrary.utils.PrefManager;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.event.ActionbarEvent;
 import com.pacifyr.omhealthcare.event.NotifyEvent;
-import com.pacifyr.omhealthcare.fragment.UserDashboardFragment;
 import com.pacifyr.omhealthcare.utility.BaseFragment;
 
 import org.greenrobot.eventbus.Subscribe;

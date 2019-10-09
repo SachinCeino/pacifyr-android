@@ -176,7 +176,7 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
             android:id="@+id/call_llay"
             android:orientation="horizontal">
 
@@ -212,9 +212,8 @@
                 android:layout_height="wrap_content"
                 android:tint="@color/white"
                 android:id="@+id/schedule_rlay"
-                android:layout_marginLeft="15dp"
-                android:padding="3dp"
-                android:visibility="gone"
+                android:layout_marginLeft="25dp"
+                android:layout_gravity="top"
                 card_view:srcCompat="@drawable/ic_schedule" />
 
         </LinearLayout>

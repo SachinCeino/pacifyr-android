@@ -349,7 +349,6 @@ public class EventActivity extends PacifyerActivity implements LocationListener 
         if (result != null) {
             if (result.getContents() == null) {
 
-                Toast.makeText(getApplicationContext(), "Result Not Found", Toast.LENGTH_LONG).show();
             } else {
                 try {
                     JSONObject obj = new JSONObject(result.getContents());

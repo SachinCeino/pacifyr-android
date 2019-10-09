@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.ceino.utilitylibrary.CustomFontTextView;
 import com.ceino.utilitylibrary.utils.PrefManager;
-import com.pacifyr.omhealthcare.Fragment.schedule.Slot;
+import com.pacifyr.omhealthcare.fragment.schedule.Slot;
 import com.pacifyr.omhealthcare.R;
 
 import java.text.ParseException;

@@ -23,7 +23,7 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.ceino.utilitylibrary.network.UtilityNetworkService.GLOBAL_IMAGE_URL;
-import static com.pacifyr.omhealthcare.Fragment.LastSssionFragment.selEmotion;
+import static com.pacifyr.omhealthcare.fragment.LastSssionFragment.selEmotion;
 
 
 public class EmotionsListAdapter extends RecyclerView.Adapter<EmotionsListAdapter.MyViewHolder>{

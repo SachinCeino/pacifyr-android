@@ -35,9 +35,9 @@ import com.ceino.utilitylibrary.utils.PrefManager;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
-import com.pacifyr.omhealthcare.Fragment.schedule.ScheduleData;
-import com.pacifyr.omhealthcare.Fragment.schedule.Slot;
-import com.pacifyr.omhealthcare.Fragment.schedule.WeekScheduleListAdapter;
+import com.pacifyr.omhealthcare.fragment.schedule.ScheduleData;
+import com.pacifyr.omhealthcare.fragment.schedule.Slot;
+import com.pacifyr.omhealthcare.fragment.schedule.WeekScheduleListAdapter;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.base.PacifyerActivity;
 import com.pacifyr.omhealthcare.network.GsonUtils;
@@ -137,6 +137,7 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
     private RelativeLayout appointmentDoneLayout;
     private TextView confirmationMessageText;
     BottomSheetBehavior mBottomSheetBehavior;
+    LinearLayout l1;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -163,6 +164,7 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
         nextClick.setVisibility(View.VISIBLE);
         txtv_next = view.findViewById(R.id.txtv_next);
         txtv_next.setText("Cancel");
+        txtv_next.setVisibility(View.GONE);
         firstLayout = view.findViewById(R.id.firstLayout);
         confirmLayout = view.findViewById(R.id.confirmLayout);
         pacifyr_avatar = view.findViewById(R.id.pacifyr_avatar);
@@ -170,6 +172,7 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
         appointment_date_and_time = view.findViewById(R.id.appointment_date_and_time);
         appointmentDoneLayout = view.findViewById(R.id.appointmentDoneLayout);
         confirmationMessageText = view.findViewById(R.id.confirmationMessageText);
+        l1 = view.findViewById(R.id.l1);
 
 
         tv_week_display = view.findViewById(R.id.tv_week_display);
@@ -236,12 +239,14 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
                 if (txtv_next.getText().equals("Cancel")) {
                     dismiss();
                 } else if (txtv_next.getText().equals("Next")) {
+                    rcv_week_schedule_.setVisibility(View.GONE);
                     if (isValid(SlotForNextClick)) {
                         callAppoinmentConfirmationScreen(SlotForNextClick);
                         //callSlotBookApi(SlotForNextClick);
                     }
                 } else if (txtv_next.getText().equals("Confirm")) {
                     if (isValid(SlotForNextClick)) {
+
                         callSlotBookApi(SlotForNextClick);
                     }
 
@@ -685,6 +690,9 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
                             if (isValid(mSlotesData)) {
                                 checkIsItCurrentDate(mObject.getDate());
                                 setTimeSlotesAdapter(mSlotesData);
+                                if (!txtv_next.getText().equals("Done"))
+                                    txtv_next.setVisibility(View.GONE);
+                                l1.setVisibility(View.VISIBLE);
                             } else {
                                 noDataAvailable.setVisibility(View.VISIBLE);
                                 rcv_week_schedule_.setVisibility(View.VISIBLE);
@@ -785,6 +793,8 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
 
                         } else {
                             txtv_next.setText("Next");
+                            txtv_next.setVisibility(View.VISIBLE);
+                            l1.setVisibility(View.INVISIBLE);
                             mScheduleTimeSlotesAdapter.notifyDataSetChanged();
                         }
 

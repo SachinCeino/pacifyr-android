@@ -30,7 +30,7 @@ import com.ceino.utilitylibrary.model.pacifyr.MUser;
 import com.ceino.utilitylibrary.model.pacifyr.RespSearchPacifyrWOption;
 import com.ceino.utilitylibrary.utils.PrefManager;
 import com.daprlabs.cardstack.SwipeDeck;
-import com.pacifyr.omhealthcare.Fragment.schedule.ScheduleBottomSheetFragment;
+import com.pacifyr.omhealthcare.fragment.schedule.ScheduleBottomSheetFragment;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.adapter.CategoryListAdapter;
 import com.pacifyr.omhealthcare.adapter.EmotionSpecialityAdapter;

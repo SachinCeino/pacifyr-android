@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/grey_hex_f8"
-    tools:context="com.pacifyr.omhealthcare.Fragment.MySessionFragment">
+    tools:context="com.pacifyr.omhealthcare.fragment.MySessionFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"

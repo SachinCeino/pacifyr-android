@@ -1,4 +1,4 @@
-package com.pacifyr.omhealthcare.Fragment.schedule;
+package com.pacifyr.omhealthcare.fragment.schedule;
 
 import android.os.Bundle;
 import android.os.Handler;

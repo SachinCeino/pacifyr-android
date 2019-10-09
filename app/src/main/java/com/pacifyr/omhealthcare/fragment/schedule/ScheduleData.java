@@ -1,4 +1,4 @@
-package com.pacifyr.omhealthcare.Fragment.schedule;
+package com.pacifyr.omhealthcare.fragment.schedule;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

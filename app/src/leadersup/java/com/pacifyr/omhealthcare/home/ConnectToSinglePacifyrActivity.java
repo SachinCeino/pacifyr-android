@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.androidquery.AQuery;
@@ -194,6 +195,7 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
         buttonRlay = findViewById(R.id.top_rlay);
         chatLlay = findViewById(R.id.chat_llay);
         chatPriceCtxv = findViewById(R.id.chat_price_ctxv);
+        chatPriceCtxv.setVisibility(View.GONE);
         moreButton = findViewById(R.id.more_button);
         userNameCtxv = findViewById(R.id.user_name_ctxv);
         sadDimv = findViewById(R.id.sad_dimv);
@@ -611,7 +613,11 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
 
                     }
                 });
-                chat_rlay.setVisibility(View.VISIBLE);
+                if (getApplicationContext().getPackageName().equals("com.pacifyr.leadersup")) {
+                    chat_rlay.setVisibility(View.GONE);
+                } else {
+                    chat_rlay.setVisibility(View.VISIBLE);
+                }
 
              /*   if(pacifyer_obj.isChatEnabled())
                     chat_rlay.setVisibility(View.VISIBLE);*/
@@ -749,7 +755,11 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
 
             LinearLayout chatLlay = findViewById(R.id.chat_llay);
             CustomFontTextView chat_price_ctxv = findViewById(R.id.chat_price_ctxv);
-
+            if (getApplicationContext().getPackageName().equals("com.pacifyr.leadersup")) {
+                chatLlay.setVisibility(View.GONE);
+            } else {
+                chatLlay.setVisibility(View.GONE);
+            }
             chatLlay.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -766,7 +776,12 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
             } else if (priceForChat == 0) {
                 chatLlay.setVisibility(View.GONE);
             } else {
-                chatLlay.setVisibility(View.VISIBLE);
+                if (getApplicationContext().getPackageName().equals("com.pacifyr.leadersup")) {
+                    chatLlay.setVisibility(View.GONE);
+                } else {
+                    chatLlay.setVisibility(View.VISIBLE);
+                }
+
 
                 if (user.getChatSubscription() == null) {
                     chat_price_ctxv.setText("Chat for " + Utility.getPriceSign(ConnectToSinglePacifyrActivity.this) + priceForChat + " a day");

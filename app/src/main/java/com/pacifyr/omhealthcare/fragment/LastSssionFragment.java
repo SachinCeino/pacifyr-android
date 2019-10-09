@@ -1,4 +1,4 @@
-package com.pacifyr.omhealthcare.Fragment;
+package com.pacifyr.omhealthcare.fragment;
 
 import android.content.Context;
 import android.net.Uri;
@@ -33,7 +33,6 @@ import com.pacifyr.omhealthcare.adapter.CommentsAdapter;
 import com.pacifyr.omhealthcare.adapter.EmotionsListAdapter;
 import com.pacifyr.omhealthcare.event.ActionbarEvent;
 import com.pacifyr.omhealthcare.event.NotifyEvent;
-import com.pacifyr.omhealthcare.fragment.UserDashboardFragment;
 import com.pacifyr.omhealthcare.network.NetworkService;
 import com.pacifyr.omhealthcare.utility.BaseFragment;
 import com.pacifyr.omhealthcare.utils.WrappingSlidingPaneLayout;

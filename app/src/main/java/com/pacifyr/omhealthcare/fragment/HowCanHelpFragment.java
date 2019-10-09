@@ -1,4 +1,4 @@
-package com.pacifyr.omhealthcare.Fragment;
+package com.pacifyr.omhealthcare.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -10,11 +10,14 @@ import androidx.fragment.app.Fragment;
 
 import com.pacifyr.omhealthcare.R;
 
-public class TellMeMoreFragment extends Fragment {
 
-    public TellMeMoreFragment() {
+public class HowCanHelpFragment extends Fragment {
+
+
+    public HowCanHelpFragment() {
         // Required empty public constructor
     }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -26,9 +29,8 @@ public class TellMeMoreFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_tell_me_more, container, false);
+        return inflater.inflate(R.layout.fragment_how_can_help, container, false);
     }
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -39,4 +41,5 @@ public class TellMeMoreFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
     }
+
 }

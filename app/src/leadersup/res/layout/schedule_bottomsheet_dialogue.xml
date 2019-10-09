@@ -158,7 +158,7 @@
                 android:layout_height="wrap_content"
                 android:visibility="gone"
                 android:background="@android:color/transparent"
-                android:gravity="center"
+                android:gravity="top"
                 android:id="@+id/confirmLayout">
 
                 <LinearLayout
@@ -232,22 +232,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/appointmentDoneLayout"
-                android:visibility="gone"
+                android:layout_marginTop="60dp"
                 android:background="@android:color/transparent"
-                android:gravity="center">
+                android:gravity="top"
+                android:visibility="gone">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
                     android:background="@color/white"
-                    android:gravity="center">
+                    android:gravity="top">
 
                     <ImageView
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
+                        android:layout_width="90dp"
+                        android:layout_height="90dp"
                         android:layout_gravity="center"
-                        android:layout_margin="15dp"
+                        android:layout_margin="10dp"
                         app:srcCompat="@drawable/ic_schedule_green"
 
                         />
@@ -255,13 +256,13 @@
                     <com.pacifyr.omhealthcare.events.views.EventTextViewBold
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="wercywroyebfoyrecyfnroifyroiybeboinyrfynrfnrfiyre"
+                        android:text=""
                         android:layout_gravity="center"
                         android:gravity="center"
-                        android:padding="15dp"
+                        android:padding="10dp"
                         android:textStyle="bold"
                         android:id="@+id/confirmationMessageText"
-                        android:textSize="20sp"
+                        android:textSize="16sp"
                         android:textColor="@color/black" />
 
 
@@ -273,20 +274,16 @@
         </RelativeLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_alignParentBottom="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
             android:gravity="center"
+            android:visibility="gone"
             android:id="@+id/nextClick"
             android:background="@color/white"
-            android:visibility="gone"
             android:padding="10dp"
             android:orientation="vertical">
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/grey"></View>
 
             <TextView
                 android:layout_width="match_parent"
@@ -296,7 +293,9 @@
                 android:textColor="@color/colorPrimary"
                 android:textStyle="bold"
                 android:textSize="20sp"
-                android:gravity="center" />
+                android:gravity="right"
+                android:padding="10dp" />
+
         </LinearLayout>
     </RelativeLayout>
 

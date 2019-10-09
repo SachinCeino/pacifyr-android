@@ -1,4 +1,4 @@
-package com.pacifyr.omhealthcare.Fragment;
+package com.pacifyr.omhealthcare.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -11,13 +11,11 @@ import androidx.fragment.app.Fragment;
 import com.pacifyr.omhealthcare.R;
 
 
-public class HowCanHelpFragment extends Fragment {
+public class PacifyrMessageFragment extends Fragment {
 
-
-    public HowCanHelpFragment() {
+    public PacifyrMessageFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -29,8 +27,10 @@ public class HowCanHelpFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_how_can_help, container, false);
+        return inflater.inflate(R.layout.fragment_pacifyr_message, container, false);
     }
+
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -40,6 +40,7 @@ public class HowCanHelpFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
+
     }
 
 }
