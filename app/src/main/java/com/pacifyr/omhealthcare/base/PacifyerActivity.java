@@ -32,7 +32,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.StringRes;
-import androidx.appcompat.app.AlertDialog;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.aigestudio.wheelpicker.WheelPicker;
@@ -935,8 +934,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
         }
         else
         {
-//            usersIds.add((int)pacifyer.getQbid());
-            usersIds.add(97101630);
+            usersIds.add((int) pacifyer.getQbid());
         }
 
 
