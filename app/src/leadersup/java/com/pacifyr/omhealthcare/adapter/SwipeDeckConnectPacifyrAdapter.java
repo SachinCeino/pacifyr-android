@@ -207,9 +207,8 @@ public class SwipeDeckConnectPacifyrAdapter extends BaseAdapter {
                 prefM = PrefManager.getInstance(context);
 
                 String customerRole = prefM.getCustomerRole();
-                if (context.getPackageName().equals("com.pacifyr.leadersup")) {
-                    ((TextView) v.findViewById(R.id.price_dollar)).setVisibility(View.INVISIBLE);
-                }
+                ((TextView) v.findViewById(R.id.price_dollar)).setVisibility(View.INVISIBLE);
+
                 if (customerRole.equals("employee")) {
                     if (!searchResults.get(position).isSessionChargeable()) {
                         ((TextView) v.findViewById(R.id.price_dollar)).setText("Employer Designated Pacifyr");

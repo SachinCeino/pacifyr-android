@@ -219,9 +219,7 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
         pac_des_ctxv = findViewById(R.id.pac_des_ctxv);
         pac_rate_ctxv = findViewById(R.id.pac_rate_ctxv);
         schedule_rlay= findViewById(R.id.schedule_rlay);
-        if (getApplicationContext().getPackageName().equals("com.pacifyr.leadersup"))
-            pac_rate_ctxv.setVisibility(View.GONE);
-
+        pac_rate_ctxv.setVisibility(View.GONE);
         status_indicator_dimv = findViewById(R.id.status_indicator_dimv);
         status_indicator_ctxv = findViewById(R.id.status_indicator_ctxv);
         listPacifyrRlay.setVisibility(View.GONE);
@@ -502,6 +500,9 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
                 defSetText(pac_des_ctxv,pacifyer_obj.getDescription());
                 prefM = PrefManager.getInstance(ConnectToSinglePacifyrActivity.this);
                 String customerRole = prefM.getCustomerRole();
+
+                pac_rate_ctxv.setVisibility(View.GONE);
+
                 if(customerRole.equals("employee")) {
                     if (pacifyer_obj.isSessionChargeable()){
                         defSetText(pac_rate_ctxv,pacifyer_obj.getPriceWithSign()+" per hour");
@@ -613,11 +614,7 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
 
                     }
                 });
-                if (getApplicationContext().getPackageName().equals("com.pacifyr.leadersup")) {
-                    chat_rlay.setVisibility(View.GONE);
-                } else {
-                    chat_rlay.setVisibility(View.VISIBLE);
-                }
+
 
              /*   if(pacifyer_obj.isChatEnabled())
                     chat_rlay.setVisibility(View.VISIBLE);*/
@@ -755,11 +752,8 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
 
             LinearLayout chatLlay = findViewById(R.id.chat_llay);
             CustomFontTextView chat_price_ctxv = findViewById(R.id.chat_price_ctxv);
-            if (getApplicationContext().getPackageName().equals("com.pacifyr.leadersup")) {
-                chatLlay.setVisibility(View.GONE);
-            } else {
-                chatLlay.setVisibility(View.GONE);
-            }
+
+            chatLlay.setVisibility(View.GONE);
             chatLlay.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -776,13 +770,7 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
             } else if (priceForChat == 0) {
                 chatLlay.setVisibility(View.GONE);
             } else {
-                if (getApplicationContext().getPackageName().equals("com.pacifyr.leadersup")) {
-                    chatLlay.setVisibility(View.GONE);
-                } else {
-                    chatLlay.setVisibility(View.VISIBLE);
-                }
-
-
+                chatLlay.setVisibility(View.GONE);
                 if (user.getChatSubscription() == null) {
                     chat_price_ctxv.setText("Chat for " + Utility.getPriceSign(ConnectToSinglePacifyrActivity.this) + priceForChat + " a day");
                     chatLlay.setClickable(true);

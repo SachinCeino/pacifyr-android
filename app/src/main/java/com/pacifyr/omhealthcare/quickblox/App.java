@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.StrictMode;
 
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.multidex.MultiDex;
 
 import com.ceino.utilitylibrary.network.UtilityNetworkService;
@@ -37,6 +38,7 @@ public class App extends CoreApp {
     public void onCreate() {
         super.onCreate();
         MultiDex.install(getBaseContext());
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
         UtilityNetworkService.init(this);

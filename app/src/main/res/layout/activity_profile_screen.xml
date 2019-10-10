@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/prof_top_rlay"
     xmlns:card_view="http://schemas.android.com/apk/res-auto">
 
@@ -214,7 +215,7 @@
                 android:id="@+id/schedule_rlay"
                 android:layout_marginLeft="25dp"
                 android:layout_gravity="top"
-                card_view:srcCompat="@drawable/ic_schedule" />
+                app:srcCompat="@drawable/ic_schedule" />
 
         </LinearLayout>
 

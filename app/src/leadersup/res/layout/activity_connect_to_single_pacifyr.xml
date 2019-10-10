@@ -743,7 +743,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:visibility="gone"
                 android:padding="10dp"
                 android:id="@+id/chat_rlay"
                 android:background="@drawable/blue_cirlce">

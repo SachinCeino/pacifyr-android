@@ -746,16 +746,19 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if (result != null) {
             if (result.getContents() == null) {
-
             } else {
                 try {
                     JSONObject obj = new JSONObject(result.getContents());
                     if (isValid(obj))
-                        if (obj.has("code"))
-                            callAPIWithCodeFromQRScanner(obj.get("code"));
+                        if (obj.has("code")) {
+                            String code = obj.get("code").toString();
+                            callAPIWithCodeFromQRScanner(code);
+                        }
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    Toast.makeText(getApplicationContext(), result.getContents(), Toast.LENGTH_LONG).show();
+                    if (isValid(result.getContents()))
+                        callAPIWithCodeFromQRScanner(result.getContents());
+                    //  Toast.makeText(getApplicationContext(), result.getContents(), Toast.LENGTH_LONG).show();
                 }
             }
         } else {
@@ -767,7 +770,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
      * event attending scan popup
      **/
 
-    private void callAPIWithCodeFromQRScanner(Object code) {
+    private void callAPIWithCodeFromQRScanner(String code) {
 
         try {
             PrefManager prefM = PrefManager.getInstance(getApplicationContext());
@@ -796,7 +799,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
 
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("userId", prefM.getUserID());
-            jsonObject.put("code", String.valueOf(code));
+            jsonObject.put("code", code);
             aq.post(url, jsonObject, JSONObject.class, cb);
         } catch (Exception ex) {
             errorStatus();

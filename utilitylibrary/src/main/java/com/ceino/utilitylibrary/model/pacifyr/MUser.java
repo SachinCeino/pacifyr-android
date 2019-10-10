@@ -1,5 +1,7 @@
 package com.ceino.utilitylibrary.model.pacifyr;
 
+import android.util.Log;
+
 import com.ceino.utilitylibrary.network.UtilityNetworkService;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -603,9 +605,10 @@ public class MUser implements Serializable{
         public String getPriceWithSign ()
         {
             if (country.equals("India"))
-                return "₹" + price;
+                return "₹" + String.format("%.2f", Double.parseDouble(price));
             else
-                return "$" + price;
+                return "$" + String.format("%.2f", Double.parseDouble(price));
+
         }
 
         public void setPrice (String price)
