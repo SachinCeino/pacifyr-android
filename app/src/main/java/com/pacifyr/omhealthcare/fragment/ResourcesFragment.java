@@ -66,7 +66,12 @@ public class ResourcesFragment extends BaseFragment {
                 showProgress();
                 prefM = PrefManager.getInstance(getContext());
                 String token = prefM.getAccessToken();
-                String url = GLOBAL_URL + "resources";
+            String url = "";
+            if (getActivity().getPackageName().equals("com.pacifyr.leadersup")) {
+                url = GLOBAL_URL + "resources/leadersup";
+            } else {
+                url = GLOBAL_URL + "resources";
+            }
                 AjaxCallback cb = new AjaxCallback<JSONObject>() {
                     @Override
                     public void callback(String url, JSONObject json, AjaxStatus status) {

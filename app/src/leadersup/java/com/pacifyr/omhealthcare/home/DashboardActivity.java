@@ -365,7 +365,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
                 defSetText(titleTxv, getResources().getString(R.string.crisis_info));*/
             }
         });
-
+        resourcesLlay.setVisibility(View.VISIBLE);
         resourcesLlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
