@@ -28,6 +28,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.pacifyr.omhealthcare.fragment.schedule.ScheduleBottomSheetFragment;
@@ -39,6 +40,8 @@ import com.pacifyr.omhealthcare.fragment.DoctorsFilterFragment;
 import com.pacifyr.omhealthcare.network.GsonUtils;
 import com.pacifyr.omhealthcare.utility.PacifyrAppCompactActivity;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -100,6 +103,7 @@ public class DoctorsSearchResultActivity extends PacifyrAppCompactActivity imple
                         fillNoColor_ForRadioButton(mRadioButtonB);
                         mapViewTypeLayout.setVisibility(View.VISIBLE);
                         setPacifyrsMapView();
+
                         break;
 
                 }
@@ -122,6 +126,9 @@ public class DoctorsSearchResultActivity extends PacifyrAppCompactActivity imple
             @Override
             public void onClick(View v) {
                 Fragment mDoctorsFilterFragment = new DoctorsFilterFragment();
+                Bundle mBundle = new Bundle();
+                mBundle.putString("Speciality", Speciality);
+                mDoctorsFilterFragment.setArguments(mBundle);
                 ShowFilterFragment(mDoctorsFilterFragment);
             }
         });
@@ -279,7 +286,11 @@ public class DoctorsSearchResultActivity extends PacifyrAppCompactActivity imple
         if (isValid(mMap)) {
             for (int i = 0; i < list.size(); i++) {
                 LatLng mPacifyrPoint = new LatLng(list.get(i).getLatitude(), list.get(i).getLongitude());
-                mMap.addMarker(new MarkerOptions().position(mPacifyrPoint).title(list.get(i).getFirstName() + "")).showInfoWindow();
+                mMap.addMarker(new MarkerOptions()
+                        .position(mPacifyrPoint)
+                        .title(list.get(i).getFirstName() + ""))
+                        .setIcon(BitmapDescriptorFactory
+                                .fromResource(R.drawable.icon_google_map_marker));
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(mPacifyrPoint));
 
             }
@@ -395,6 +406,29 @@ public class DoctorsSearchResultActivity extends PacifyrAppCompactActivity imple
             bottomSheetFragment.setArguments(bundle);
             bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
         }
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @org.greenrobot.eventbus.Subscribe(threadMode = ThreadMode.MAIN)
+    public void messageEventFromService(RespSearchPacifyrWOption mFilteredData) {
+        if (isValid(mFilteredData)) {
+            pSearchPacifyrWOptionsResponse = mFilteredData;
+            setPacifyrsListView();
+            setPacifyrsMapView();
+        }
+
 
     }
 }

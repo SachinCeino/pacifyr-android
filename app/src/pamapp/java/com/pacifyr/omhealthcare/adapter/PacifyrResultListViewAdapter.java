@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 
+import com.pacifyr.omhealthcare.home.ConnectToSinglePacifyrActivity;;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -112,6 +113,7 @@ public class PacifyrResultListViewAdapter extends RecyclerView.Adapter<PacifyrRe
     private LinearLayout chatLlay;
     private RelativeLayout schedule_rlay;
 
+
     public PacifyrResultListViewAdapter(ArrayList<MUser> resultsList, Activity context) {
         searchResults = resultsList;
         this.context = context;
@@ -178,6 +180,14 @@ public class PacifyrResultListViewAdapter extends RecyclerView.Adapter<PacifyrRe
                     }
                 });
 
+                holder.mTextView_connect_pacifyr.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        ConnectToSinglePacifyrActivity.start(context, pacifyer);
+                    }
+                });
+
             }
         } catch (Exception e) {
             Log.w("EEEEXXX", e.toString());
@@ -206,6 +216,7 @@ public class PacifyrResultListViewAdapter extends RecyclerView.Adapter<PacifyrRe
         public TextView pacifyr_Price;
         public TextView more_info;
         public LinearLayout requestBook;
+        public TextView mTextView_connect_pacifyr;
 
 
         public MyViewHolder(View view) {
@@ -221,6 +232,7 @@ public class PacifyrResultListViewAdapter extends RecyclerView.Adapter<PacifyrRe
             pacifyr_addresss = view.findViewById(R.id.pacifyr_addresss);
             more_info = view.findViewById(R.id.more_info);
             requestBook = view.findViewById(R.id.requestBook);
+            mTextView_connect_pacifyr = view.findViewById(R.id.connect_pacifyr);
 
 
         }

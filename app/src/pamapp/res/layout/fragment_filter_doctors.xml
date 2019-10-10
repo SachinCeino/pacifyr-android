@@ -3,14 +3,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:rsb="http://schemas.android.com/apk/res-auto"
-    android:background="@color/white"
+    xmlns:app="http://schemas.android.com/tools"
     android:clickable="true"
-    android:orientation="vertical">
+    android:background="#F5F5F5"
+    android:orientation="vertical"
+    app:ignore="NamespaceTypo">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/submit">
+        android:layout_above="@+id/LinearLayout_Submit">
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -76,14 +78,46 @@
                     android:textStyle="bold"
                     android:textColor="@color/blue_fb" />
 
-                <com.yahoo.mobile.client.android.util.rangeseekbar.RangeSeekBar
-                    android:id="@+id/distanceSeekBar"
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    rsb:absoluteMaxValue="100"
-                    rsb:absoluteMinValue="0"
-                    rsb:singleThumb="false"
-                    android:layout_marginLeft="5dp" />
+                    android:orientation="vertical">
+
+                    <com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar
+                        android:id="@+id/distanceSeekBar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        app:min_value="0"
+                        app:max_value="100"
+                        rsb:bar_color="#3F51B5"
+                        rsb:bar_highlight_color="#3F51B5"
+                        rsb:right_thumb_color="#2196F3"
+                        rsb:right_thumb_color_pressed="#2196F3"
+                        rsb:left_thumb_color_pressed="#2196F3"
+                        rsb:left_thumb_color="#2196F3"
+                        app:data_type="_integer" />
+
+                    <TextView
+                        android:layout_below="@+id/distanceSeekBar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentBottom="true"
+                        android:padding="5dp"
+                        android:id="@+id/textView_distance_min" />
+
+                    <TextView
+                        android:layout_below="@+id/distanceSeekBar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentBottom="true"
+                        android:padding="5dp"
+                        android:id="@+id/textView_distance_max" />
+                </RelativeLayout>
 
                 <com.pacifyr.omhealthcare.views.PamTextViewBold
                     android:layout_width="wrap_content"
@@ -94,14 +128,47 @@
                     android:layout_marginTop="15dp"
                     android:textColor="@color/blue_fb" />
 
-                <com.yahoo.mobile.client.android.util.rangeseekbar.RangeSeekBar
-                    android:id="@+id/freerangeSeekbar"
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    rsb:absoluteMaxValue="100"
-                    rsb:absoluteMinValue="0"
-                    rsb:singleThumb="false"
-                    android:layout_marginLeft="5dp" />
+                    android:layout_height="wrap_content">
+
+                    <com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar
+                        android:id="@+id/freerangeSeekbar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        app:min_value="0"
+                        app:max_value="100"
+                        rsb:bar_color="#3F51B5"
+                        rsb:bar_highlight_color="#3F51B5"
+                        rsb:right_thumb_color="#2196F3"
+                        rsb:right_thumb_color_pressed="#2196F3"
+                        rsb:left_thumb_color_pressed="#2196F3"
+                        rsb:left_thumb_color="#2196F3"
+                        app:data_type="_integer" />
+
+
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:padding="5dp"
+                        android:layout_below="@+id/freerangeSeekbar"
+                        android:layout_alignParentBottom="true"
+                        android:id="@+id/textView_fee_min" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
+                        android:padding="5dp"
+                        android:layout_below="@+id/freerangeSeekbar"
+                        android:layout_alignParentBottom="true"
+                        android:id="@+id/textView_fee_max" />
+                </RelativeLayout>
 
                 <com.pacifyr.omhealthcare.views.PamTextViewBold
                     android:layout_width="wrap_content"
@@ -214,7 +281,7 @@
     </RelativeLayout>
 
     <LinearLayout
-        android:id="@+id/submit"
+        android:id="@+id/LinearLayout_Submit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

@@ -17,7 +17,9 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.pacifyr.omhealthcare.fragment.schedule.ScheduleBottomSheetFragment;
 import com.pacifyr.omhealthcare.R;
@@ -198,8 +200,13 @@ public class DoctorsMoreInformationActivity extends PacifyrAppCompactActivity im
         if (isValid(mMap)) {
 
             LatLng mPacifyrPoint = new LatLng(pacifyrItem.getLatitude(), pacifyrItem.getLongitude());
-            mMap.addMarker(new MarkerOptions().position(mPacifyrPoint).title(pacifyrItem.getFirstName() + "")).showInfoWindow();
+            mMap.addMarker(new MarkerOptions()
+                    .position(mPacifyrPoint)
+                    .title(pacifyrItem.getFirstName() + ""))
+                    .setIcon(BitmapDescriptorFactory
+                            .fromResource(R.drawable.icon_google_map_marker));
             mMap.moveCamera(CameraUpdateFactory.newLatLng(mPacifyrPoint));
+
         }
 
 
