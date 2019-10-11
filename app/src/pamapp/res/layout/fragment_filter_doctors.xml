@@ -52,7 +52,9 @@
                     android:layout_height="1dp"
                     android:background="@color/grey_dark"
                     android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"></View>
+                    android:layout_marginBottom="10dp">
+
+                </View>
 
                 <com.pacifyr.omhealthcare.views.PamTextViewBold
                     android:layout_width="wrap_content"

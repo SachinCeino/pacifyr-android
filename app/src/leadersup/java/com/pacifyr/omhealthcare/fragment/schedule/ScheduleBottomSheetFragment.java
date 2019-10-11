@@ -45,6 +45,7 @@ import com.pacifyr.omhealthcare.network.NetworkService;
 import com.pacifyr.omhealthcare.quickblox.chat.utils.Consts;
 import com.pacifyr.omhealthcare.utils.Utility;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -251,6 +252,7 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
                     }
 
                 } else if (txtv_next.getText().equals("Done")) {
+                    EventBus.getDefault().post("NEWSCHEDULE");
                     dismiss();
                 }
             }
@@ -727,7 +729,7 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
             ex.printStackTrace();
         }
 
-
+        ((PacifyerActivity) getActivity()).hideProgress();
     }
 
     private void setTimeSlotesAdapter(List<Slot> mSlotesData) {
@@ -1063,7 +1065,6 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
                                             }, 2000);
                                         }
 
-                                        ((PacifyerActivity) getActivity()).showStatus();
                                     } else {
                                         ((PacifyerActivity) getActivity()).setStatus("Something went wrong !", R.color.md_red_A700);
                                         ((PacifyerActivity) getActivity()).showStatus();

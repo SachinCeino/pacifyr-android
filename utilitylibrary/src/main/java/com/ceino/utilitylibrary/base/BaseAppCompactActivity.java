@@ -183,7 +183,7 @@ public class BaseAppCompactActivity extends CoreBaseActivity {
         CustomFontTextView status_dtxv = view.findViewById(R.id.status_dtxv);
         status_dtxv.setText("" + status);
         hideStatus();
-        hud_status = KProgressHUD.create(this).setStyle(KProgressHUD.Style.SPIN_INDETERMINATE).setCustomView(view).setWindowColor(this.getResources().getColor(color)).setCancellable(false).setAnimationSpeed(2).setDimAmount(0.5f);
+        hud_status = KProgressHUD.create(this).setStyle(KProgressHUD.Style.SPIN_INDETERMINATE).setCustomView(view).setWindowColor(this.getResources().getColor(color)).setCancellable(true).setAnimationSpeed(2).setDimAmount(0.5f);
 
     }
 

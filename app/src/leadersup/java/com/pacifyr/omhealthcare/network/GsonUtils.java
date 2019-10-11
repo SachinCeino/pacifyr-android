@@ -54,6 +54,7 @@ import com.ceino.utilitylibrary.model.pacifyr.RespStartSessionWithPacifyr;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import com.pacifyr.omhealthcare.fragment.schedule.AppointmentModel;
 import com.pacifyr.omhealthcare.fragment.schedule.ScheduleData;
 import com.pacifyr.omhealthcare.fragment.schedule.Slot;
 import com.pacifyr.omhealthcare.events.model.ModelEvent;
@@ -901,5 +902,19 @@ public class GsonUtils<T> {
         }
         return data;
     }
+
+    public AppointmentModel gsonToAppointmentModel(JSONObject json) {
+
+        AppointmentModel model = null;
+        try {
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            String jsonString = json.toString();
+            model = gson.fromJson(jsonString, AppointmentModel.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return model;
+    }
+
 }
 

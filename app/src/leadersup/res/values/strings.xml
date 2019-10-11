@@ -255,4 +255,5 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="scan_qrcode">Scan QRCode</string>
     <string name="no_wellness_experts_category">No Career Coaches for the selected category.</string>
     <string name="checkin">CHECK-IN</string>
+    <string name="appointments">APPOINTMENTS</string>
 </resources>

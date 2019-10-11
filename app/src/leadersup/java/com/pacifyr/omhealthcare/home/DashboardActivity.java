@@ -31,6 +31,7 @@ import com.ceino.utilitylibrary.utils.PrefManager;
 import com.github.javiersantos.appupdater.AppUpdater;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+import com.pacifyr.omhealthcare.fragment.AppointmentsFragment;
 import com.pacifyr.omhealthcare.fragment.ResourcesFragment;
 import com.pacifyr.omhealthcare.fragment.SupportFragment;
 import com.pacifyr.omhealthcare.base.PacifyerActivity;
@@ -115,6 +116,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
 
     private LinearLayout event_llay, offer_llay;
     private LinearLayout linear_layout_check_in_laoyut;
+    private LinearLayout mLinearLayoutAppointments;
 
 
     private LinearLayout messagesLlay;
@@ -214,6 +216,8 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
         button_close=findViewById(R.id.button_close);
 
         linear_layout_check_in_laoyut = findViewById(R.id.check_in_laoyut);
+        mLinearLayoutAppointments = findViewById(R.id.mLinearLayoutAppointments);
+
 
         //NetworkService.startActionCutomerDashboard(this);
         showFragment();
@@ -439,6 +443,17 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
                 qrScan.initiateScan();
                 qrScan.initiateScan();
 
+            }
+        });
+
+
+        mLinearLayoutAppointments.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                hideRightLayActionbar();
+                showFragment(new AppointmentsFragment());
+                defSetText(titleTxv, getResources().getString(R.string.appointments));
             }
         });
         new AmazonSNSTokenHandler(context).register();
