@@ -89,7 +89,7 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<RecyclerView.V
                     }
 
                     if (isValid(mObject.getStartTimeGMT())) {
-                        String mDisplayDateAndTime = Utility.getDateFormatOne(mObject.getStartTimeGMT());
+                        String mDisplayDateAndTime = Utility.getDateAndTimeForAppointmentList(mObject.getStartTimeGMT());
                         viewHolder.mTextView_ScheduleTime.setText(mDisplayDateAndTime);
                     }
 

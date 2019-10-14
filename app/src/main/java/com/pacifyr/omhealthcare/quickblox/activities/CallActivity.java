@@ -1287,7 +1287,7 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
         try{
             if(event.isFinishCall) {
                 callTimerEvent=event;
-                finish();
+
             }
         }catch (Exception e)
         {
