@@ -27,7 +27,7 @@ import com.bumptech.glide.request.target.Target;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.events.activity.OffersActivity;
 import com.pacifyr.omhealthcare.events.fragment.OffersDetailFragment;
-import com.pacifyr.omhealthcare.events.model.ModelOffer;
+import com.pacifyr.omhealthcare.model.ModelOffer;
 import com.pacifyr.omhealthcare.quickblox.chat.utils.Consts;
 import com.pacifyr.omhealthcare.utils.Utility;
 

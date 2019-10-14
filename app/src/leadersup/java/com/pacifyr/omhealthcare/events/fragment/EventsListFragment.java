@@ -18,7 +18,7 @@ import com.androidquery.callback.AjaxStatus;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.event.NotifyEvent;
 import com.pacifyr.omhealthcare.events.adapter.EventListAdapter;
-import com.pacifyr.omhealthcare.events.model.ModelEvent;
+import com.pacifyr.omhealthcare.model.ModelEvent;
 import com.pacifyr.omhealthcare.network.GsonUtils;
 import com.pacifyr.omhealthcare.utility.BaseFragment;
 

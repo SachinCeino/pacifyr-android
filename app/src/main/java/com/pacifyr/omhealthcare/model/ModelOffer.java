@@ -1,4 +1,4 @@
-package com.pacifyr.omhealthcare.events.model;
+package com.pacifyr.omhealthcare.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

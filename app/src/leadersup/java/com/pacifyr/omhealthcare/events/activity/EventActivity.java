@@ -43,8 +43,8 @@ import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.base.PacifyerActivity;
 import com.pacifyr.omhealthcare.events.fragment.AttendingEmployerFragment;
 import com.pacifyr.omhealthcare.events.fragment.EventsListFragment;
-import com.pacifyr.omhealthcare.events.model.ModelEvent;
-import com.pacifyr.omhealthcare.events.model.QRSuccess;
+import com.pacifyr.omhealthcare.model.ModelEvent;
+import com.pacifyr.omhealthcare.model.QRSuccess;
 import com.pacifyr.omhealthcare.network.GsonUtils;
 import com.pacifyr.omhealthcare.network.NetworkService;
 

@@ -16,7 +16,7 @@ import com.ceino.utilitylibrary.activity.WebActivity;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.event.NotifyEvent;
 import com.pacifyr.omhealthcare.events.activity.EventActivity;
-import com.pacifyr.omhealthcare.events.model.ModelEvent;
+import com.pacifyr.omhealthcare.model.ModelEvent;
 import com.pacifyr.omhealthcare.utility.BaseFragment;
 import com.squareup.otto.Subscribe;
 

@@ -558,7 +558,7 @@ public class Utility {
             // SimpleDateFormat sdf=new SimpleDateFormat();
 
 
-            SimpleDateFormat recivedFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+            SimpleDateFormat recivedFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
             recivedFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
 
             formattedDate = recivedFormat.parse(iiiiii);
@@ -569,6 +569,32 @@ public class Utility {
             e.printStackTrace();
         }
         return dateat;
+    }
+
+
+    public static String getDateAndTimeForAppointmentList(String input) {
+
+        String outPutString = "";
+        //example Aug 7,10 30:am
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        format.setTimeZone(TimeZone.getTimeZone("GMT"));
+        SimpleDateFormat outFormat = null;
+        SimpleDateFormat timeFormat = null;
+        outFormat = new SimpleDateFormat("MMM dd");
+        timeFormat = new SimpleDateFormat("hh:mm a");
+        outFormat.setTimeZone(TimeZone.getDefault());
+        timeFormat.setTimeZone(TimeZone.getDefault());
+        Date date = null;
+        try {
+            date = format.parse(input);
+            outPutString = outFormat.format(date);
+            outPutString = outPutString + "," + timeFormat.format(date);
+
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return outPutString;
     }
 
 }

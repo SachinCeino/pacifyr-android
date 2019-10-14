@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.events.activity.EventActivity;
 import com.pacifyr.omhealthcare.events.fragment.OpeningDetailFragment;
-import com.pacifyr.omhealthcare.events.model.ModelEvent;
+import com.pacifyr.omhealthcare.model.ModelEvent;
 
 import java.util.List;
 

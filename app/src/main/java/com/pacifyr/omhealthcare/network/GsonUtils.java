@@ -54,12 +54,16 @@ import com.ceino.utilitylibrary.model.pacifyr.RespStartSessionWithPacifyr;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import com.pacifyr.omhealthcare.fragment.schedule.AppointmentModel;
 import com.pacifyr.omhealthcare.fragment.schedule.ScheduleData;
 import com.pacifyr.omhealthcare.fragment.schedule.Slot;
 import com.pacifyr.omhealthcare.model.MCustomerList;
+import com.pacifyr.omhealthcare.model.ModelEvent;
+import com.pacifyr.omhealthcare.model.ModelOffer;
 import com.pacifyr.omhealthcare.model.ModelResources;
 import com.pacifyr.omhealthcare.model.ModelSpecialityByCategory;
 import com.pacifyr.omhealthcare.model.ModelSpecialityByEmotion;
+import com.pacifyr.omhealthcare.model.QRSuccess;
 import com.pacifyr.omhealthcare.model.UserDetailsModel;
 import com.pacifyr.omhealthcare.paytmpayment.TransactionResponce;
 import com.pacifyr.omhealthcare.utils.LogUtils;
@@ -75,7 +79,7 @@ public class GsonUtils<T> {
     static GsonUtils gson;
 
     public static GsonUtils getInstance() {
-        if (gson == null)
+        if(gson==null)
             gson = new GsonUtils();
         return gson;
     }
@@ -85,10 +89,10 @@ public class GsonUtils<T> {
         PostRegisterModel posts = null;
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String jsonString = json.toString();
+            String jsonString =  json.toString();
             posts = gson.fromJson(jsonString, PostRegisterModel.class);
 
-        } catch (Exception e) {
+        } catch (Exception e){
             e.printStackTrace();
         }
         return posts;
@@ -99,10 +103,10 @@ public class GsonUtils<T> {
         LoginModel loginModel = null;
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String jsonString = json.toString();
+            String jsonString =  json.toString();
             loginModel = gson.fromJson(jsonString, LoginModel.class);
 
-        } catch (Exception e) {
+        } catch (Exception e){
             e.printStackTrace();
         }
         return loginModel;
@@ -113,9 +117,9 @@ public class GsonUtils<T> {
         PRegistrationModel users = null;
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String jsonString = json.toString();
+            String jsonString =  json.toString();
             users = gson.fromJson(jsonString, PRegistrationModel.class);
-        } catch (Exception e) {
+        } catch (Exception e){
             e.printStackTrace();
         }
         return users;
@@ -126,9 +130,9 @@ public class GsonUtils<T> {
         ModelSpecialityByCategory model = null;
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String jsonString = json.toString();
+            String jsonString =  json.toString();
             model = gson.fromJson(jsonString, ModelSpecialityByCategory.class);
-        } catch (Exception e) {
+        } catch (Exception e){
             e.printStackTrace();
         }
         return model;
@@ -139,9 +143,9 @@ public class GsonUtils<T> {
         ModelPhoneLogin users = null;
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String jsonString = json.toString();
+            String jsonString =  json.toString();
             users = gson.fromJson(jsonString, ModelPhoneLogin.class);
-        } catch (Exception e) {
+        } catch (Exception e){
             e.printStackTrace();
         }
         return users;
@@ -152,48 +156,45 @@ public class GsonUtils<T> {
         ModelSpecialist users = null;
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String jsonString = json.toString();
+            String jsonString =  json.toString();
             users = gson.fromJson(jsonString, ModelSpecialist.class);
-        } catch (Exception e) {
+        } catch (Exception e){
             e.printStackTrace();
         }
         return users;
     }
-
     public MSessionDetailRoot gsonToMSessionDetailRoot(JSONObject json) {
 
         MSessionDetailRoot search = null;
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String jsonString = json.toString();
+            String jsonString =  json.toString();
             search = gson.fromJson(jsonString, MSessionDetailRoot.class);
-        } catch (Exception e) {
+        } catch (Exception e){
             e.printStackTrace();
         }
         return search;
     }
-
     public ModelSessonsOfCustomer gsonToModelSessonsOfCustomer(JSONObject json) {
 
         ModelSessonsOfCustomer model = null;
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String jsonString = json.toString();
+            String jsonString =  json.toString();
             model = gson.fromJson(jsonString, ModelSessonsOfCustomer.class);
-        } catch (Exception e) {
+        } catch (Exception e){
             e.printStackTrace();
         }
         return model;
     }
-
     public ModelStatistics gsonToModelStatistics(JSONObject json) {
 
         ModelStatistics model = null;
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String jsonString = json.toString();
+            String jsonString =  json.toString();
             model = gson.fromJson(jsonString, ModelStatistics.class);
-        } catch (Exception e) {
+        } catch (Exception e){
             e.printStackTrace();
         }
         return model;
@@ -204,36 +205,34 @@ public class GsonUtils<T> {
         MRatingStat model = null;
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String jsonString = json.toString();
+            String jsonString =  json.toString();
             model = gson.fromJson(jsonString, MRatingStat.class);
-        } catch (Exception e) {
+        } catch (Exception e){
             e.printStackTrace();
         }
         return model;
     }
-
     public MConnectSessionRoot gsonToMConnectSessionRoot(JSONObject json) {
 
         MConnectSessionRoot search = null;
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String jsonString = json.toString();
+            String jsonString =  json.toString();
             search = gson.fromJson(jsonString, MConnectSessionRoot.class);
-        } catch (Exception e) {
-            LogUtils.LOGD("session", "gsonToMConnectSessionRoot exce " + e.getMessage());
+        } catch (Exception e){
+            LogUtils.LOGD("session","gsonToMConnectSessionRoot exce "+e.getMessage());
             e.printStackTrace();
         }
         return search;
     }
-
     public ModelSearchPacifyr gsonToModelSearchPacifyr(JSONObject json) {
 
         ModelSearchPacifyr search = null;
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String jsonString = json.toString();
+            String jsonString =  json.toString();
             search = gson.fromJson(jsonString, ModelSearchPacifyr.class);
-        } catch (Exception e) {
+        } catch (Exception e){
             e.printStackTrace();
         }
         return search;
@@ -245,48 +244,45 @@ public class GsonUtils<T> {
         RespSearchPacifyrWOption search = null;
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String jsonString = json.toString();
+            String jsonString =  json.toString();
             search = gson.fromJson(jsonString, RespSearchPacifyrWOption.class);
-        } catch (Exception e) {
+        } catch (Exception e){
             e.printStackTrace();
         }
         return search;
     }
-
     public MSessionRoot gsonToMSessionRoot(JSONObject json) {
 
         MSessionRoot search = null;
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String jsonString = json.toString();
+            String jsonString =  json.toString();
             search = gson.fromJson(jsonString, MSessionRoot.class);
-        } catch (Exception e) {
+        } catch (Exception e){
             e.printStackTrace();
         }
         return search;
     }
-
     public ModelSessonsOfCustomer gsonToModelSessonsOfUser(JSONObject json) {
 
         ModelSessonsOfCustomer model = null;
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String jsonString = json.toString();
+            String jsonString =  json.toString();
             model = gson.fromJson(jsonString, ModelSessonsOfCustomer.class);
-        } catch (Exception e) {
+        } catch (Exception e){
             e.printStackTrace();
         }
         return model;
     }
-
     public ModelCustomerDashboard gsonToModelCustomerDashboard(JSONObject json) {
 
         ModelCustomerDashboard model = null;
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String jsonString = json.toString();
+            String jsonString =  json.toString();
             model = gson.fromJson(jsonString, ModelCustomerDashboard.class);
-        } catch (Exception e) {
+        } catch (Exception e){
             e.printStackTrace();
         }
         return model;
@@ -297,9 +293,9 @@ public class GsonUtils<T> {
         ModelCustomerDashboard2 model = null;
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String jsonString = json.toString();
+            String jsonString =  json.toString();
             model = gson.fromJson(jsonString, ModelCustomerDashboard2.class);
-        } catch (Exception e) {
+        } catch (Exception e){
             e.printStackTrace();
         }
         return model;
@@ -310,11 +306,12 @@ public class GsonUtils<T> {
         ModelUserProfile model = null;
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String jsonString = json.toString();
+            String jsonString =  json.toString();
             model = gson.fromJson(jsonString, ModelUserProfile.class);
-        } catch (Exception e) {
+        }
+        catch (Exception e){
             e.printStackTrace();
-            String st = e.getMessage();
+            String st=e.getMessage();
         }
         return model;
     }
@@ -325,11 +322,12 @@ public class GsonUtils<T> {
         UserDetailsModel model = null;
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String jsonString = json.toString();
+            String jsonString =  json.toString();
             model = gson.fromJson(jsonString, UserDetailsModel.class);
-        } catch (Exception e) {
+        }
+        catch (Exception e){
             e.printStackTrace();
-            String st = e.getMessage();
+            String st=e.getMessage();
         }
         return model;
     }
@@ -339,11 +337,12 @@ public class GsonUtils<T> {
         MUser model = null;
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String jsonString = json.toString();
+            String jsonString =  json.toString();
             model = gson.fromJson(jsonString, MUser.class);
-        } catch (Exception e) {
+        }
+        catch (Exception e){
             e.printStackTrace();
-            String st = e.getMessage();
+            String st=e.getMessage();
         }
         return model;
     }
@@ -353,9 +352,9 @@ public class GsonUtils<T> {
         MAdminDashboardByWeek model = null;
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String jsonString = json.toString();
+            String jsonString =  json.toString();
             model = gson.fromJson(jsonString, MAdminDashboardByWeek.class);
-        } catch (Exception e) {
+        } catch (Exception e){
             e.printStackTrace();
         }
         return model;
@@ -366,9 +365,9 @@ public class GsonUtils<T> {
         MAdminDashboardMonth model = null;
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String jsonString = json.toString();
+            String jsonString =  json.toString();
             model = gson.fromJson(jsonString, MAdminDashboardMonth.class);
-        } catch (Exception e) {
+        } catch (Exception e){
             e.printStackTrace();
         }
         return model;
@@ -379,9 +378,9 @@ public class GsonUtils<T> {
         MAdminDashboardYear model = null;
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String jsonString = json.toString();
+            String jsonString =  json.toString();
             model = gson.fromJson(jsonString, MAdminDashboardYear.class);
-        } catch (Exception e) {
+        } catch (Exception e){
             e.printStackTrace();
         }
         return model;
@@ -392,9 +391,9 @@ public class GsonUtils<T> {
         MAllSessionsWithDateRange model = null;
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String jsonString = json.toString();
+            String jsonString =  json.toString();
             model = gson.fromJson(jsonString, MAllSessionsWithDateRange.class);
-        } catch (Exception e) {
+        } catch (Exception e){
             e.printStackTrace();
         }
         return model;
@@ -406,9 +405,9 @@ public class GsonUtils<T> {
         MEarningsRoot model = null;
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String jsonString = json.toString();
+            String jsonString =  json.toString();
             model = gson.fromJson(jsonString, MEarningsRoot.class);
-        } catch (Exception e) {
+        } catch (Exception e){
             e.printStackTrace();
         }
         return model;
@@ -419,9 +418,9 @@ public class GsonUtils<T> {
         MGetAllPacifyrSessions model = null;
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String jsonString = json.toString();
+            String jsonString =  json.toString();
             model = gson.fromJson(jsonString, MGetAllPacifyrSessions.class);
-        } catch (Exception e) {
+        } catch (Exception e){
             e.printStackTrace();
         }
         return model;
@@ -433,9 +432,9 @@ public class GsonUtils<T> {
         MGetSavedCards model = null;
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String jsonString = json.toString();
+            String jsonString =  json.toString();
             model = gson.fromJson(jsonString, MGetSavedCards.class);
-        } catch (Exception e) {
+        } catch (Exception e){
             e.printStackTrace();
         }
         return model;
@@ -446,9 +445,9 @@ public class GsonUtils<T> {
         MGetSessionDetails model = null;
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String jsonString = json.toString();
+            String jsonString =  json.toString();
             model = gson.fromJson(jsonString, MGetSessionDetails.class);
-        } catch (Exception e) {
+        } catch (Exception e){
             e.printStackTrace();
         }
         return model;
@@ -459,9 +458,9 @@ public class GsonUtils<T> {
         MGetSessionRating model = null;
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String jsonString = json.toString();
+            String jsonString =  json.toString();
             model = gson.fromJson(jsonString, MGetSessionRating.class);
-        } catch (Exception e) {
+        } catch (Exception e){
             e.printStackTrace();
         }
         return model;
@@ -472,9 +471,9 @@ public class GsonUtils<T> {
         MListAllEmotions model = null;
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String jsonString = json.toString();
+            String jsonString =  json.toString();
             model = gson.fromJson(jsonString, MListAllEmotions.class);
-        } catch (Exception e) {
+        } catch (Exception e){
             e.printStackTrace();
         }
         return model;
@@ -485,9 +484,9 @@ public class GsonUtils<T> {
         MListEmployees model = null;
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String jsonString = json.toString();
+            String jsonString =  json.toString();
             model = gson.fromJson(jsonString, MListEmployees.class);
-        } catch (Exception e) {
+        } catch (Exception e){
             e.printStackTrace();
         }
         return model;
@@ -498,9 +497,9 @@ public class GsonUtils<T> {
         MListNegativeEmotions model = null;
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String jsonString = json.toString();
+            String jsonString =  json.toString();
             model = gson.fromJson(jsonString, MListNegativeEmotions.class);
-        } catch (Exception e) {
+        } catch (Exception e){
             e.printStackTrace();
         }
         return model;
@@ -511,9 +510,9 @@ public class GsonUtils<T> {
         ModelSpecialityByEmotion model = null;
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String jsonString = json.toString();
+            String jsonString =  json.toString();
             model = gson.fromJson(jsonString, ModelSpecialityByEmotion.class);
-        } catch (Exception e) {
+        } catch (Exception e){
             e.printStackTrace();
         }
         return model;
@@ -524,9 +523,9 @@ public class GsonUtils<T> {
         ModelSpecialityByEmotion model = null;
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String jsonString = json.toString();
+            String jsonString =  json.toString();
             model = gson.fromJson(jsonString, ModelSpecialityByEmotion.class);
-        } catch (Exception e) {
+        } catch (Exception e){
             e.printStackTrace();
         }
         return model;
@@ -537,9 +536,9 @@ public class GsonUtils<T> {
         MListPositiveEmotions model = null;
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String jsonString = json.toString();
+            String jsonString =  json.toString();
             model = gson.fromJson(jsonString, MListPositiveEmotions.class);
-        } catch (Exception e) {
+        } catch (Exception e){
             e.printStackTrace();
         }
         return model;
@@ -550,9 +549,9 @@ public class GsonUtils<T> {
         ModelPacifyrDashboard model = null;
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String jsonString = json.toString();
+            String jsonString =  json.toString();
             model = gson.fromJson(jsonString, ModelPacifyrDashboard.class);
-        } catch (Exception e) {
+        } catch (Exception e){
             e.printStackTrace();
         }
         return model;
@@ -563,9 +562,9 @@ public class GsonUtils<T> {
         PostEditProfileRequest model = null;
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String jsonString = json.toString();
+            String jsonString =  json.toString();
             model = gson.fromJson(jsonString, PostEditProfileRequest.class);
-        } catch (Exception e) {
+        } catch (Exception e){
             e.printStackTrace();
         }
         return model;
@@ -576,9 +575,9 @@ public class GsonUtils<T> {
         RespPostEditProfile model = null;
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String jsonString = json.toString();
+            String jsonString =  json.toString();
             model = gson.fromJson(jsonString, RespPostEditProfile.class);
-        } catch (Exception e) {
+        } catch (Exception e){
             e.printStackTrace();
         }
         return model;
@@ -589,9 +588,9 @@ public class GsonUtils<T> {
         PostRateCustomerSession model = null;
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String jsonString = json.toString();
+            String jsonString =  json.toString();
             model = gson.fromJson(jsonString, PostRateCustomerSession.class);
-        } catch (Exception e) {
+        } catch (Exception e){
             e.printStackTrace();
         }
         return model;
@@ -602,9 +601,9 @@ public class GsonUtils<T> {
         PostRatePacifyr model = null;
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String jsonString = json.toString();
+            String jsonString =  json.toString();
             model = gson.fromJson(jsonString, PostRatePacifyr.class);
-        } catch (Exception e) {
+        } catch (Exception e){
             e.printStackTrace();
         }
         return model;
@@ -615,9 +614,9 @@ public class GsonUtils<T> {
         PostRatePacifyrSession model = null;
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String jsonString = json.toString();
+            String jsonString =  json.toString();
             model = gson.fromJson(jsonString, PostRatePacifyrSession.class);
-        } catch (Exception e) {
+        } catch (Exception e){
             e.printStackTrace();
         }
         return model;
@@ -628,9 +627,9 @@ public class GsonUtils<T> {
         PostResponse model = null;
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String jsonString = json.toString();
+            String jsonString =  json.toString();
             model = gson.fromJson(jsonString, PostResponse.class);
-        } catch (Exception e) {
+        } catch (Exception e){
             e.printStackTrace();
         }
         return model;
@@ -641,9 +640,9 @@ public class GsonUtils<T> {
         RespSetSessionAsConnected model = null;
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String jsonString = json.toString();
+            String jsonString =  json.toString();
             model = gson.fromJson(jsonString, RespSetSessionAsConnected.class);
-        } catch (Exception e) {
+        } catch (Exception e){
             e.printStackTrace();
         }
         return model;
@@ -654,9 +653,9 @@ public class GsonUtils<T> {
         PostStopSessionWithPacifyr model = null;
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String jsonString = json.toString();
+            String jsonString =  json.toString();
             model = gson.fromJson(jsonString, PostStopSessionWithPacifyr.class);
-        } catch (Exception e) {
+        } catch (Exception e){
             e.printStackTrace();
         }
         return model;
@@ -667,9 +666,9 @@ public class GsonUtils<T> {
         PRegistrationModel model = null;
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String jsonString = json.toString();
+            String jsonString =  json.toString();
             model = gson.fromJson(jsonString, PRegistrationModel.class);
-        } catch (Exception e) {
+        } catch (Exception e){
             e.printStackTrace();
         }
         return model;
@@ -681,9 +680,9 @@ public class GsonUtils<T> {
         PSearchPacifyrWOptionRequest model = null;
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String jsonString = json.toString();
+            String jsonString =  json.toString();
             model = gson.fromJson(jsonString, PSearchPacifyrWOptionRequest.class);
-        } catch (Exception e) {
+        } catch (Exception e){
             e.printStackTrace();
         }
         return model;
@@ -695,9 +694,9 @@ public class GsonUtils<T> {
         RespSearchPacifyrWOption model = null;
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String jsonString = json.toString();
+            String jsonString =  json.toString();
             model = gson.fromJson(jsonString, RespSearchPacifyrWOption.class);
-        } catch (Exception e) {
+        } catch (Exception e){
             e.printStackTrace();
         }
         return model;
@@ -708,35 +707,33 @@ public class GsonUtils<T> {
         PStartSessionWithPacifyr model = null;
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String jsonString = json.toString();
+            String jsonString =  json.toString();
             model = gson.fromJson(jsonString, PStartSessionWithPacifyr.class);
-        } catch (Exception e) {
+        } catch (Exception e){
             e.printStackTrace();
         }
         return model;
     }
-
     public MCustomerList gsonToMCustomerList(JSONObject json) {
 
         MCustomerList model = null;
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String jsonString = json.toString();
+            String jsonString =  json.toString();
             model = gson.fromJson(jsonString, MCustomerList.class);
-        } catch (Exception e) {
+        } catch (Exception e){
             e.printStackTrace();
         }
         return model;
     }
-
     public RespStartSessionWithPacifyr gsonToPStartSessionWithPacifyrResponse(JSONObject json) {
 
         RespStartSessionWithPacifyr model = null;
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String jsonString = json.toString();
+            String jsonString =  json.toString();
             model = gson.fromJson(jsonString, RespStartSessionWithPacifyr.class);
-        } catch (Exception e) {
+        } catch (Exception e){
             e.printStackTrace();
         }
         return model;
@@ -748,9 +745,9 @@ public class GsonUtils<T> {
         MRatingDetail model = null;
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String jsonString = json.toString();
+            String jsonString =  json.toString();
             model = gson.fromJson(jsonString, MRatingDetail.class);
-        } catch (Exception e) {
+        } catch (Exception e){
             e.printStackTrace();
         }
         return model;
@@ -761,9 +758,9 @@ public class GsonUtils<T> {
         MPastSessions model = null;
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String jsonString = json.toString();
+            String jsonString =  json.toString();
             model = gson.fromJson(jsonString, MPastSessions.class);
-        } catch (Exception e) {
+        } catch (Exception e){
             e.printStackTrace();
         }
         return model;
@@ -774,9 +771,9 @@ public class GsonUtils<T> {
         MReviews model = null;
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String jsonString = json.toString();
+            String jsonString =  json.toString();
             model = gson.fromJson(jsonString, MReviews.class);
-        } catch (Exception e) {
+        } catch (Exception e){
             e.printStackTrace();
         }
         return model;
@@ -787,9 +784,9 @@ public class GsonUtils<T> {
         ModelFacebook model = null;
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String jsonString = json.toString();
+            String jsonString =  json.toString();
             model = gson.fromJson(jsonString, ModelFacebook.class);
-        } catch (Exception e) {
+        } catch (Exception e){
             e.printStackTrace();
         }
         return model;
@@ -800,9 +797,9 @@ public class GsonUtils<T> {
         Mbonus model = null;
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String jsonString = json.toString();
+            String jsonString =  json.toString();
             model = gson.fromJson(jsonString, Mbonus.class);
-        } catch (Exception e) {
+        } catch (Exception e){
             e.printStackTrace();
         }
         return model;
@@ -814,9 +811,9 @@ public class GsonUtils<T> {
         ModelResources model = null;
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String jsonString = json.toString();
+            String jsonString =  json.toString();
             model = gson.fromJson(jsonString, ModelResources.class);
-        } catch (Exception e) {
+        } catch (Exception e){
             e.printStackTrace();
         }
         return model;
@@ -826,11 +823,10 @@ public class GsonUtils<T> {
 
         List<ScheduleData> model = null;
         try {
-            Type listType = new TypeToken<List<ScheduleData>>() {
-            }.getType();
+            Type listType = new TypeToken<List<ScheduleData>>(){}.getType();
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            model = gson.fromJson(jsonArray.toString(), listType);
-        } catch (Exception e) {
+            model= gson.fromJson(jsonArray.toString(), listType);
+        } catch (Exception e){
             e.printStackTrace();
         }
         return model;
@@ -840,11 +836,10 @@ public class GsonUtils<T> {
 
         List<Slot> model = null;
         try {
-            Type listType = new TypeToken<List<Slot>>() {
-            }.getType();
+            Type listType = new TypeToken<List<Slot>>(){}.getType();
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            model = gson.fromJson(jsonArray.toString(), listType);
-        } catch (Exception e) {
+            model= gson.fromJson(jsonArray.toString(), listType);
+        } catch (Exception e){
             e.printStackTrace();
         }
         return model;
@@ -856,8 +851,65 @@ public class GsonUtils<T> {
         TransactionResponce model = null;
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String jsonString = json.toString();
+            String jsonString =  json.toString();
             model = gson.fromJson(jsonString, TransactionResponce.class);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return model;
+    }
+
+
+    //event
+    public ModelEvent gsonToModelEvent(JSONObject json) {
+
+        ModelEvent model = null;
+        try {
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            String jsonString = json.toString();
+            model = gson.fromJson(jsonString, ModelEvent.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return model;
+    }
+
+    //offer
+    public ModelOffer gsonToModelOffer(JSONObject json) {
+
+        ModelOffer model = null;
+        try {
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            String jsonString = json.toString();
+            model = gson.fromJson(jsonString, ModelOffer.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return model;
+    }
+
+    //QRCode suucees then call API result
+
+    public QRSuccess gsonToModelQRCodeResult(JSONObject json) {
+
+        QRSuccess data = null;
+        try {
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            String jsonString = json.toString();
+            data = gson.fromJson(jsonString, QRSuccess.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return data;
+    }
+
+    public AppointmentModel gsonToAppointmentModel(JSONObject json) {
+
+        AppointmentModel model = null;
+        try {
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            String jsonString = json.toString();
+            model = gson.fromJson(jsonString, AppointmentModel.class);
         } catch (Exception e) {
             e.printStackTrace();
         }

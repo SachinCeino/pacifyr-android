@@ -20,7 +20,7 @@ import com.bumptech.glide.request.target.Target;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.events.activity.EventActivity;
 import com.pacifyr.omhealthcare.events.fragment.AttendingEmployerFragment;
-import com.pacifyr.omhealthcare.events.model.ModelEvent;
+import com.pacifyr.omhealthcare.model.ModelEvent;
 import com.pacifyr.omhealthcare.quickblox.chat.utils.Consts;
 import com.quickblox.sample.core.utils.ResourceUtils;
 

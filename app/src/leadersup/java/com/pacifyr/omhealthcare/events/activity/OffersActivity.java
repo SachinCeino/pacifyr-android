@@ -32,8 +32,7 @@ import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.base.PacifyerActivity;
 import com.pacifyr.omhealthcare.events.fragment.EventsListFragment;
 import com.pacifyr.omhealthcare.events.fragment.OfferssListFragment;
-import com.pacifyr.omhealthcare.events.model.ModelEvent;
-import com.pacifyr.omhealthcare.events.model.ModelOffer;
+import com.pacifyr.omhealthcare.model.ModelOffer;
 import com.pacifyr.omhealthcare.network.GsonUtils;
 
 import org.json.JSONObject;
