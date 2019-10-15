@@ -577,6 +577,7 @@ public class MySessionFragment extends BaseFragment {
                 toDWeek=event.getToDWeek();
                 listTemp.clear();
                 list.clear();
+                skip = 0;
                 callThisWeekSession(event.getUrl());
                 getStatistics(event.getStatUrl());
             }
@@ -585,6 +586,7 @@ public class MySessionFragment extends BaseFragment {
                 toDMonth=event.getToDWeek();
                 listTemp.clear();
                 list.clear();
+                skip = 0;
                 callThisMonthSession(event.getUrl());
                 getStatistics(event.getStatUrl());
             }
@@ -593,6 +595,7 @@ public class MySessionFragment extends BaseFragment {
                 toDYear=event.getToDWeek();
                 listTemp.clear();
                 list.clear();
+                skip = 0;
                 callThisYearSession(event.getUrl());
                 getStatistics(event.getStatUrl());
             }
