@@ -605,9 +605,9 @@ public class MUser implements Serializable{
         public String getPriceWithSign ()
         {
             if (country.equals("India"))
-                return "₹" + String.format("%.2f", Double.parseDouble(price));
+                return "₹ " + String.format("%.2f", Double.parseDouble(price));
             else
-                return "$" + String.format("%.2f", Double.parseDouble(price));
+                return "$ " + String.format("%.2f", Double.parseDouble(price));
 
         }
 
