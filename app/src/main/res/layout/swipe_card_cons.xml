@@ -78,9 +78,9 @@
         android:layout_marginTop="8dp"
         android:text="Samsad CV"
         android:textColor="@color/blue_text_dark"
-        android:textSize="17sp"
+        android:textSize="20sp"
         android:textStyle="bold"
-        app:fontName="@string/avanti_std_bold"
+        app:fontName="@string/raleway_semi_bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/right_guideline"
         app:layout_constraintTop_toTopOf="parent" />
