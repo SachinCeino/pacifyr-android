@@ -181,7 +181,7 @@ public class MySessionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
             MUser pac = results.getPacifyr();
             String name = pac.getFirstName();
-            String time = results.getEndTime();
+            String time = results.getStartTime();
             holder.nameUserCtxv.setText(results.getPacifyr().getFirstName());
             String imgUrl=results.getPacifyr().getImageUrl();
             if(isValid(imgUrl)){
