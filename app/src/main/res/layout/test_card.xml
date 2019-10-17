@@ -189,12 +189,13 @@
         android:padding="10dp"
         android:layout_below="@+id/card_pacifyr">
 
-        <com.ceino.utilitylibrary.CustomFontTextView
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:maxLines="4"
-            android:textSize="13sp"
+            android:maxLines="3"
+            android:textSize="16sp"
             android:padding="2dp"
+            android:fontFamily="@string/raleway_semi_bold"
             android:id="@+id/description_ctxv"
             android:textColor="@color/grey_dark_text"/>
 

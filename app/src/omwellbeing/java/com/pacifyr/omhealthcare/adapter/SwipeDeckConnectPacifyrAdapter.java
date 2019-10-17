@@ -176,7 +176,7 @@ public class SwipeDeckConnectPacifyrAdapter extends BaseAdapter {
                 //userID=searchResults.get(position).getId();
                 boolean isOnline = searchResults.get(position).getOnline();
                 ImageView indicatorDimv = v.findViewById(R.id.indicator_dimv);
-                CustomFontTextView descriptionCtxv = v.findViewById(R.id.description_ctxv);
+                TextView descriptionCtxv = v.findViewById(R.id.description_ctxv);
                 CustomFontTextView indicatorCtxv = v.findViewById(R.id.indicator_ctxv);
                 indicatorCtxv.setTextSize(7f);
                 if (isOnline) {
