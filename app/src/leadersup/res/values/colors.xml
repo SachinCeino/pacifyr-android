@@ -57,9 +57,9 @@
     <color name="_color_enter_phone_ctxv">#777776</color>
     <color name="_color_or_text">#777776</color>
     <color name="_color_e_con_code">#777776</color>
-    <color name = "_color_back_arrow_tint">#454A4A</color>
-    <color name = "_color_action_bar_text_color">#454A4A</color>
-    <color name = "_color_action_bar_background_color">#e1e2e2</color>
+    <color name="_color_back_arrow_tint">#FFFFFF</color>
+    <color name="_color_action_bar_text_color">#FFFFFF</color>
+    <color name="_color_action_bar_background_color">#146047</color>
     <color name="blue_button_primary">#36b0ff</color>
     <color name="color_blue_accent">#F9BC1F</color>
     <color name = "round_button_fill_color">#146047</color>
