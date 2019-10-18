@@ -57,6 +57,7 @@ import com.google.gson.reflect.TypeToken;
 import com.pacifyr.omhealthcare.fragment.schedule.AppointmentModel;
 import com.pacifyr.omhealthcare.fragment.schedule.ScheduleData;
 import com.pacifyr.omhealthcare.fragment.schedule.Slot;
+import com.pacifyr.omhealthcare.model.InterviewModel;
 import com.pacifyr.omhealthcare.model.MCustomerList;
 import com.pacifyr.omhealthcare.model.ModelEvent;
 import com.pacifyr.omhealthcare.model.ModelOffer;
@@ -887,6 +888,21 @@ public class GsonUtils<T> {
         }
         return model;
     }
+
+    //InterviewList
+    public InterviewModel gsonToInterViewModel(JSONObject json) {
+
+        InterviewModel model = null;
+        try {
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            String jsonString = json.toString();
+            model = gson.fromJson(jsonString, InterviewModel.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return model;
+    }
+
 
     //QRCode suucees then call API result
 

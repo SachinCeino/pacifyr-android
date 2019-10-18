@@ -34,10 +34,9 @@ import com.google.zxing.integration.android.IntentResult;
 import com.pacifyr.omhealthcare.fragment.AppointmentsFragment;
 import com.pacifyr.omhealthcare.fragment.ResourcesFragment;
 import com.pacifyr.omhealthcare.fragment.SupportFragment;
-import com.pacifyr.omhealthcare.base.PacifyerActivity;
 import com.pacifyr.omhealthcare.events.activity.CaptureActivityPortrait;
 import com.pacifyr.omhealthcare.events.activity.EventActivity;
-import com.pacifyr.omhealthcare.events.activity.OffersActivity;
+import com.pacifyr.omhealthcare.events.activity.MyInterviewsActvity;
 import com.pacifyr.omhealthcare.fragment.UserDashboardFragment;
 import com.pacifyr.omhealthcare.fragment.WelcomeTourFragment;
 import com.pacifyr.omhealthcare.Payment.PaymentFragment;
@@ -424,7 +423,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
             @Override
             public void onClick(View v) {
 
-                OffersActivity.start(getApplicationContext());
+                MyInterviewsActvity.start(getApplicationContext());
             }
         });
 
@@ -801,7 +800,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
                         hideProgress();
                         QRSuccess data = GsonUtils.getInstance().gsonToModelQRCodeResult(json);
                         if (isValid(data))
-                            showPopup(data.getMessage() + "");
+                            showPopup(data);
 
                     } catch (Exception e) {
                         errorStatus();
@@ -822,7 +821,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
 
     }
 
-    private void showPopup(String data) {
+    private void showPopup(QRSuccess data) {
 
         LayoutInflater inflater = getLayoutInflater();
         View alertLayout = inflater.inflate(R.layout.popup_qr_code_success_, null);
@@ -832,7 +831,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
         final CheckBox cbToggle = alertLayout.findViewById(R.id.cb_show_pass);
 */
 
-        message.setText(data);
+        message.setText(data.getMessage() + "");
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         // this is set the view from XML inside AlertDialog
         alert.setView(alertLayout);
@@ -844,7 +843,12 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
         done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog.dismiss();
+                if (isValid(data.getEventId())) {
+                    Toast.makeText(DashboardActivity.this, "goto 5 steps activity", Toast.LENGTH_SHORT).show();
+                    dialog.dismiss();
+                } else {
+                    dialog.dismiss();
+                }
             }
         });
     }

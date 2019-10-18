@@ -354,10 +354,11 @@ public class EventActivity extends PacifyerActivity implements LocationListener 
                     JSONObject obj = new JSONObject(result.getContents());
                     if (isValid(obj))
                         if (obj.has("code"))
-                            callAPIWithCodeFromQRScanner(obj.get("code"));
+                            callAPIWithCodeFromQRScanner(obj.get("code").toString());
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    Toast.makeText(getApplicationContext(), result.getContents(), Toast.LENGTH_LONG).show();
+                    callAPIWithCodeFromQRScanner(result.getContents());
+                    //  Toast.makeText(getApplicationContext(), result.getContents(), Toast.LENGTH_LONG).show();
                 }
             }
         } else {
@@ -370,7 +371,7 @@ public class EventActivity extends PacifyerActivity implements LocationListener 
      * event attending scan popup
      **/
 
-    private void callAPIWithCodeFromQRScanner(Object code) {
+    private void callAPIWithCodeFromQRScanner(String code) {
 
         try {
             PrefManager prefM = PrefManager.getInstance(getApplicationContext());
@@ -386,7 +387,7 @@ public class EventActivity extends PacifyerActivity implements LocationListener 
                         hideProgress();
                         QRSuccess data = GsonUtils.getInstance().gsonToModelQRCodeResult(json);
                         if (isValid(data))
-                            showPopup(data.getMessage() + "");
+                            showPopup(data);
 
                     } catch (Exception e) {
                         errorStatus();
@@ -407,7 +408,7 @@ public class EventActivity extends PacifyerActivity implements LocationListener 
 
     }
 
-    private void showPopup(String data) {
+    private void showPopup(QRSuccess data) {
 
         LayoutInflater inflater = getLayoutInflater();
         View alertLayout = inflater.inflate(R.layout.popup_qr_code_success_, null);
@@ -417,7 +418,7 @@ public class EventActivity extends PacifyerActivity implements LocationListener 
         final CheckBox cbToggle = alertLayout.findViewById(R.id.cb_show_pass);
 */
 
-        message.setText(data);
+        message.setText(data.getMessage() + "");
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         // this is set the view from XML inside AlertDialog
         alert.setView(alertLayout);
@@ -429,7 +430,13 @@ public class EventActivity extends PacifyerActivity implements LocationListener 
         done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog.dismiss();
+                if (isValid(data.getEventId())) {
+                    Toast.makeText(EventActivity.this, "goto 5 steps activity", Toast.LENGTH_SHORT).show();
+                    dialog.dismiss();
+                } else {
+                    dialog.dismiss();
+                }
+
             }
         });
     }

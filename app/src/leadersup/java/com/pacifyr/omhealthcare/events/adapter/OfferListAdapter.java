@@ -7,12 +7,10 @@ import androidx.annotation.RequiresApi;
 import androidx.transition.ChangeBounds;
 import androidx.transition.ChangeImageTransform;
 import androidx.transition.ChangeTransform;
-import androidx.transition.Fade;
 import androidx.transition.TransitionSet;
 import androidx.fragment.app.Fragment;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
-import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,10 +23,9 @@ import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.pacifyr.omhealthcare.R;
-import com.pacifyr.omhealthcare.events.activity.OffersActivity;
+import com.pacifyr.omhealthcare.events.activity.MyInterviewsActvity;
 import com.pacifyr.omhealthcare.events.fragment.OffersDetailFragment;
 import com.pacifyr.omhealthcare.model.ModelOffer;
-import com.pacifyr.omhealthcare.quickblox.chat.utils.Consts;
 import com.pacifyr.omhealthcare.utils.Utility;
 
 import java.io.Serializable;
@@ -126,7 +123,7 @@ public class OfferListAdapter extends RecyclerView.Adapter<OfferListAdapter.MyVi
 
                     Fragment mOffersDetailFragment = new OffersDetailFragment();
                     mOffersDetailFragment.setArguments(bundle);
-                    ((OffersActivity) context).ShowOffersFragments(mOffersDetailFragment);
+                    ((MyInterviewsActvity) context).ShowOffersFragments(mOffersDetailFragment);
 
                 }
             });

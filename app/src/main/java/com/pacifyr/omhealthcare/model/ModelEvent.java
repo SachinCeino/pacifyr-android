@@ -41,6 +41,55 @@ public class ModelEvent implements Serializable {
     @Expose
     private String location;
 
+    @SerializedName("date")
+    @Expose
+    private List<String> date = null;
+
+    @SerializedName("title")
+    @Expose
+    private String title;
+
+    @SerializedName("image")
+    @Expose
+    private String image;
+
+    @SerializedName("description")
+    @Expose
+    private String description;
+
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public List<String> getDate() {
+        return date;
+    }
+
+    public void setDate(List<String> date) {
+        this.date = date;
+    }
+
     public List<Position> getPositions() {
         return positions;
     }

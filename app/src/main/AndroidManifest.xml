@@ -381,7 +381,7 @@
 
         <!--//offers-->
         <activity
-            android:name=".events.activity.OffersActivity"
+            android:name=".events.activity.MyInterviewsActvity"
             android:screenOrientation="portrait" />
 
         <provider

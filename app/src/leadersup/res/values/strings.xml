@@ -250,8 +250,9 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="website">WEBSITE</string>
     <string name="empty_event">No events available now!</string>
     <string name="empty_offers">No offers available now!</string>
+    <string name="empty_interviews">No interviews available now!</string>
     <string name="my_last_emotion">Events</string>
-    <string name="offers">OFFERS</string>
+    <string name="offers">MY INTERVIEWS</string>
     <string name="scan_qrcode">Scan QRCode</string>
     <string name="no_wellness_experts_category">No Career Coaches for the selected category.</string>
     <string name="checkin">CHECK-IN</string>

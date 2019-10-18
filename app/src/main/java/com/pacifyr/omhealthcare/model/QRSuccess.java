@@ -15,6 +15,10 @@ public class QRSuccess implements Serializable {
     @Expose
     private String status;
 
+    @SerializedName("eventId")
+    @Expose
+    private String eventId;
+
     public String getMessage() {
         return message;
     }
@@ -31,4 +35,11 @@ public class QRSuccess implements Serializable {
         this.status = status;
     }
 
+    public String getEventId() {
+        return eventId;
+    }
+
+    public void setEventId(String eventId) {
+        this.eventId = eventId;
+    }
 }

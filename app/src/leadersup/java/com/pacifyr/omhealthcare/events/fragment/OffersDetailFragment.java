@@ -2,10 +2,9 @@ package com.pacifyr.omhealthcare.events.fragment;
 
 
 import android.content.Context;
-import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
+
 import androidx.annotation.RequiresApi;
 
 import android.view.LayoutInflater;
@@ -24,27 +23,19 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
-import com.ceino.utilitylibrary.utils.PrefManager;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.event.NotifyEvent;
-import com.pacifyr.omhealthcare.events.activity.EventActivity;
-import com.pacifyr.omhealthcare.events.activity.OffersActivity;
-import com.pacifyr.omhealthcare.events.adapter.AttendingCompanyListAdapter;
+import com.pacifyr.omhealthcare.events.activity.MyInterviewsActvity;
 import com.pacifyr.omhealthcare.model.ModelEvent;
 import com.pacifyr.omhealthcare.model.ModelOffer;
 import com.pacifyr.omhealthcare.network.GsonUtils;
-import com.pacifyr.omhealthcare.network.NetworkService;
-import com.pacifyr.omhealthcare.quickblox.chat.utils.Consts;
 import com.pacifyr.omhealthcare.utility.BaseFragment;
-import com.pacifyr.omhealthcare.utils.Utility;
 import com.squareup.otto.Subscribe;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.List;
 
-import static com.facebook.FacebookSdk.getApplicationContext;
 import static com.pacifyr.omhealthcare.network.NetworkService.GLOBAL_IMAGE_URL;
 import static com.pacifyr.omhealthcare.network.NetworkService.GLOBAL_URL;
 
@@ -159,13 +150,13 @@ public class OffersDetailFragment extends BaseFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        ((OffersActivity) getActivity()).changeTitle("OFFER DETAILS");
+        ((MyInterviewsActvity) getActivity()).changeTitle("OFFER DETAILS");
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        ((OffersActivity) getActivity()).changeTitle("OFFERS");
+        ((MyInterviewsActvity) getActivity()).changeTitle(getResources().getString(R.string.offers));
     }
 
     @Override

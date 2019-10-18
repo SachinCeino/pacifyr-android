@@ -1,25 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    android:orientation="vertical">
+    android:background="@color/white">
 
-    <include
-        layout="@layout/actionbar_three_text_image"
-        android:id="@+id/include"
-        android:layout_height="50dp"
-        android:layout_width="match_parent"></include>
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="5dp"
+        android:id="@+id/_rcv_InterViewsList">
 
-    <FrameLayout
-        android:id="@+id/offer_fragment_container"
-        android:layout_width="fill_parent"
-        android:layout_below="@+id/include"
-        android:layout_height="fill_parent">
-
-    </FrameLayout>
+    </androidx.recyclerview.widget.RecyclerView>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -33,7 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="@string/empty_offers"
+            android:text="@string/empty_interviews"
             android:textSize="@dimen/event_title_size"
             android:textColor="@color/grey_hex_9a" />
     </RelativeLayout>
