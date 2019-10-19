@@ -16,6 +16,7 @@ import com.ceino.utilitylibrary.model.pacifyr.MUser;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.activity.TermsOfUseActivity;
 import com.pacifyr.omhealthcare.fragment.schedule.AppointmentModel;
+import com.pacifyr.omhealthcare.home.ProfileScreenActivity;
 import com.pacifyr.omhealthcare.model.ModelResources;
 import com.pacifyr.omhealthcare.model.Pacifyr;
 import com.pacifyr.omhealthcare.network.NetworkService;
@@ -94,6 +95,12 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<RecyclerView.V
                     }
 
 
+                    holder.itemView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            ProfileScreenActivity.start(mContext, mPacifyr.getId(), true);
+                        }
+                    });
                 }
 
             }
