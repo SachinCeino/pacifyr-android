@@ -146,13 +146,13 @@ public class OpeningDetailFragment extends BaseFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        ((EventActivity) getActivity()).changeTitle("Position");
+        ((EventActivity) getActivity()).changeTitle("POSITIONS");
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        ((EventActivity) getActivity()).changeTitle("Attending Employer");
+        ((EventActivity) getActivity()).changeTitle("ATTENDING EMPLOYER");
     }
 
     @Override

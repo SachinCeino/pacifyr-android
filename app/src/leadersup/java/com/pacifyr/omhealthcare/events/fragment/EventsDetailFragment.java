@@ -269,13 +269,13 @@ public class EventsDetailFragment extends BaseFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        ((EventActivity) getActivity()).changeTitle("Event Details");
+        ((EventActivity) getActivity()).changeTitle("EVENT DETAILS");
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        ((EventActivity) getActivity()).changeTitle("Events");
+        ((EventActivity) getActivity()).changeTitle("EVENTS");
     }
 
     @Override

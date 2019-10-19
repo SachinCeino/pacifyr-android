@@ -172,8 +172,8 @@ public class InterViewListListFragment extends BaseFragment {
             cb.header("Content-Type", "application/json");
 
             cb.header("AccessToken", token);
-
-            aq.ajax(GLOBAL_URL + "events/checkins/byUser/" + getPrefManager().getUserID(), JSONObject.class, cb);
+            aq.ajax(GLOBAL_URL + "interview/list/byUser?userId=" + getPrefManager().getUserID() + "&skip=0&limit=25", JSONObject.class, cb);
+            //aq.ajax(GLOBAL_URL + "events/checkins/byUser/" + getPrefManager().getUserID(), JSONObject.class, cb);
 
         } catch (Exception ex) {
             hideProgress();
