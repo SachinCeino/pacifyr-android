@@ -13,7 +13,6 @@
         android:layout_width="@dimen/toggle_button_params"
         android:layout_height="@dimen/toggle_button_params"
         android:layout_gravity="center_vertical"
-
         android:background="@drawable/call_speaker_toggle_background"
         android:checked="true"
         android:visibility="visible"

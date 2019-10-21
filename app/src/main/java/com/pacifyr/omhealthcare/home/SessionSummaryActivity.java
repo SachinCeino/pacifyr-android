@@ -749,10 +749,10 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
             // before_feel_llay.setVisibility(View.GONE);
             // after_feel_ctxv.setVisibility(View.GONE)
             if (afterFeelSelectionLlay.isShown()) {
-                if (!isValid(emotionsListAdapter, "choose an After Emotion  ")) return;
-                if (!isValid(emotionsListAdapter.getSelectedIndex() >= 0, "choose an After Emotion   "))
+                if (!isValid(emotionsListAdapter, "Choose an After Emotion  ")) return;
+                if (!isValid(emotionsListAdapter.getSelectedIndex() >= 0, "Choose an After Emotion   "))
                     return;
-                if (!isValid(emotionsListAdapter.getSelected(), "choose an After Emotion   "))
+                if (!isValid(emotionsListAdapter.getSelected(), "Choose an After Emotion   "))
                     return;
             }
 

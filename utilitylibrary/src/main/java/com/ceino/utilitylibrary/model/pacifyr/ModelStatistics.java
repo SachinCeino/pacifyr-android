@@ -62,7 +62,8 @@ public class ModelStatistics
 
     public String getSpendings ()
     {
-        return spendings;
+        Double f = Double.parseDouble(spendings);
+        return String.format("%.2f", f);
     }
 
     public void setSpendings (String spendings)
