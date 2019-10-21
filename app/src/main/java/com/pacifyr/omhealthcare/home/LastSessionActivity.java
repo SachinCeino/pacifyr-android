@@ -909,10 +909,10 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
             if (!isValid(getUserID(), "User Session Failed, Please Re-Login"))
                 return;
             if (afterFeelSelectionCtxv.isShown()) {
-                if (!isValid(emotionsListAdapter, "choose an After Emotion  ")) return;
-                if (!isValid(emotionsListAdapter.getSelectedIndex() >= 0, "choose an After Emotion   "))
+                if (!isValid(emotionsListAdapter, "Choose an After Emotion  ")) return;
+                if (!isValid(emotionsListAdapter.getSelectedIndex() >= 0, "Choose an After Emotion   "))
                     return;
-                if (!isValid(emotionsListAdapter.getSelected(), "choose an After Emotion   "))
+                if (!isValid(emotionsListAdapter.getSelected(), "Choose an After Emotion   "))
                     return;
             }
             MSessionRating mSessionRating = getMSessionRating();
