@@ -391,7 +391,7 @@ public class Utility {
         try {
             date = format.parse(input);
             System.out.println("Date ->" + date);
-            return outFormat.format(date);
+            return outFormat.format(date).toLowerCase();
 
         } catch (ParseException e) {
             e.printStackTrace();
@@ -568,7 +568,7 @@ public class Utility {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return dateat;
+        return dateat.toLowerCase();
     }
 
 
@@ -594,7 +594,7 @@ public class Utility {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        return outPutString;
+        return outPutString.toLowerCase();
     }
 
 }
