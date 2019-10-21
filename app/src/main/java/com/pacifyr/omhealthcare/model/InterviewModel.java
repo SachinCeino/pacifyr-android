@@ -32,7 +32,7 @@ public class InterviewModel implements Serializable {
     }
 
 
-    public class Result {
+    public class Result implements Serializable {
 
         @SerializedName("eventId")
         @Expose

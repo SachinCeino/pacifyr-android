@@ -51,6 +51,7 @@
     //new colour codes common
 
     <color name="_color_get_ready_feel_better">#F9BC1F</color>
+    <color name="_color_get_ready_feel_better_dark">#88F9BC1F</color>
     <color name="_color_connect_to_wellness">#F9BC1F</color>
     <color name="_color_thirty_free">#F9BC1F</color>
     <color name="_color_no_credit_card">#ffffff</color>

@@ -10,16 +10,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.ceino.utilitylibrary.CustomFontTextView;
-import com.ceino.utilitylibrary.DeviceFitImageView;
 import com.ceino.utilitylibrary.model.pacifyr.MUser;
 import com.ceino.utilitylibrary.model.pacifyr.ModelCustomerDashboard2;
 import com.ceino.utilitylibrary.utils.PrefManager;
@@ -30,12 +32,11 @@ import com.pacifyr.omhealthcare.activity.TermsOfUseActivity;
 import com.pacifyr.omhealthcare.event.NotifyEvent;
 import com.pacifyr.omhealthcare.events.activity.CaptureActivityPortrait;
 import com.pacifyr.omhealthcare.events.activity.EventActivity;
+import com.pacifyr.omhealthcare.events.fragment.EventsListDialog;
 import com.pacifyr.omhealthcare.home.ConnectToPacifyrActivity;
-import com.pacifyr.omhealthcare.home.ConnectToSinglePacifyrActivity;
-import com.pacifyr.omhealthcare.home.DashboardActivity;
 import com.pacifyr.omhealthcare.home.LastSessionActivity;
-import com.pacifyr.omhealthcare.home.MySessionsActivity;
 import com.pacifyr.omhealthcare.home.SessionSummaryActivity;
+import com.pacifyr.omhealthcare.model.InterviewModel;
 import com.pacifyr.omhealthcare.model.Session;
 import com.pacifyr.omhealthcare.network.GsonUtils;
 import com.pacifyr.omhealthcare.network.NetworkService;
@@ -51,24 +52,22 @@ import com.quickblox.core.QBEntityCallback;
 import com.quickblox.core.exception.QBResponseException;
 import com.quickblox.sample.core.utils.SharedPrefsHelper;
 import com.squareup.otto.Subscribe;
-import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-import de.hdodenhof.circleimageview.CircleImageView;
 import me.leolin.shortcutbadger.ShortcutBadger;
 
 import static com.ceino.utilitylibrary.network.UtilityNetworkService.GLOBAL_IMAGE_URL;
 import static com.ceino.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
-import static com.pacifyr.omhealthcare.R.id.last_session_rlay;
 import static com.pacifyr.omhealthcare.base.PacifyerActivity.call_emotion;
 import static com.pacifyr.omhealthcare.network.NetworkService.lastSession;
 import static com.pacifyr.omhealthcare.network.NetworkService.modelCustomerDashboard2;
@@ -210,10 +209,44 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                 _QrScanner.setBeepEnabled(true);
                 _QrScanner.setCaptureActivity(CaptureActivityPortrait.class);
                 _QrScanner.initiateScan();
-               
+
             }
         });
         return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        getPendingEventChekins();
+    }
+
+    private void getPendingEventChekins() {
+        new NetworkService().getIncompleteEventCheckins(new AjaxCallback<JSONObject>() {
+            @Override
+            public void callback(String url, JSONObject json, AjaxStatus status) {
+                if (json != null) {
+                    InterviewModel response = new Gson().fromJson(json.toString(),
+                            InterviewModel.class);
+                    if (response != null) {
+                        Bundle args = new Bundle();
+                        args.putSerializable("data", (Serializable) response.getResults());
+                        EventsListDialog eventsListFragment = new EventsListDialog();
+                        eventsListFragment.setArguments(args);
+                        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+                        Fragment prev =
+                                getActivity().getSupportFragmentManager().findFragmentByTag(
+                                        "dialog");
+                        if (prev != null) {
+                            ft.remove(prev);
+                        }
+                        ft.addToBackStack(null);
+                        eventsListFragment.show(ft, "dialog");
+
+                    }
+                }
+            }
+        });
     }
 
     @Override
@@ -349,7 +382,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
             String emotionTitle = null;
 
             if (isValid(modelCustomerDashboard2)) {
-                final MUser pfc[] = modelCustomerDashboard2.getPreferredPacifyrs();
+                final MUser[] pfc = modelCustomerDashboard2.getPreferredPacifyrs();
                 ModelCustomerDashboard2.ThisWeekStatistics lastWeek = modelCustomerDashboard2.getThisWeekStatistics();
                 lastSession = modelCustomerDashboard2.getLastSession();
                 if(isValid(modelCustomerDashboard2.getUser().getEmotion())) {
@@ -427,7 +460,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                         if(_unReadCount>0)
                         {
                             _UnRead_Chat_CoutLayout.setVisibility(View.VISIBLE);
-                            _UnRead_Chat_CoutLayout.setText(Integer.toString(_unReadCount)+" unread messages");
+                            _UnRead_Chat_CoutLayout.setText(_unReadCount + " unread messages");
                             _Badge_Count+=_unReadCount;
                             _PrefManager.saveBadgeValue(_Badge_Count);
                             ShortcutBadger.applyCount(getActivity(), _PrefManager.getBadgeValue());

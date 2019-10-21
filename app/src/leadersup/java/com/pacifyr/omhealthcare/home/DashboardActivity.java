@@ -7,19 +7,17 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.multidex.MultiDex;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
@@ -31,14 +29,6 @@ import com.ceino.utilitylibrary.utils.PrefManager;
 import com.github.javiersantos.appupdater.AppUpdater;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
-import com.pacifyr.omhealthcare.fragment.AppointmentsFragment;
-import com.pacifyr.omhealthcare.fragment.ResourcesFragment;
-import com.pacifyr.omhealthcare.fragment.SupportFragment;
-import com.pacifyr.omhealthcare.events.activity.CaptureActivityPortrait;
-import com.pacifyr.omhealthcare.events.activity.EventActivity;
-import com.pacifyr.omhealthcare.events.activity.MyInterviewsActvity;
-import com.pacifyr.omhealthcare.fragment.UserDashboardFragment;
-import com.pacifyr.omhealthcare.fragment.WelcomeTourFragment;
 import com.pacifyr.omhealthcare.Payment.PaymentFragment;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.activity.TermsOfUseActivity;
@@ -47,6 +37,14 @@ import com.pacifyr.omhealthcare.event.AlertTypeEvent;
 import com.pacifyr.omhealthcare.event.CallEvent;
 import com.pacifyr.omhealthcare.event.ChatEvent;
 import com.pacifyr.omhealthcare.event.NotifyEvent;
+import com.pacifyr.omhealthcare.events.activity.CaptureActivityPortrait;
+import com.pacifyr.omhealthcare.events.activity.EventActivity;
+import com.pacifyr.omhealthcare.events.activity.MyInterviewsActvity;
+import com.pacifyr.omhealthcare.fragment.AppointmentsFragment;
+import com.pacifyr.omhealthcare.fragment.ResourcesFragment;
+import com.pacifyr.omhealthcare.fragment.SupportFragment;
+import com.pacifyr.omhealthcare.fragment.UserDashboardFragment;
+import com.pacifyr.omhealthcare.fragment.WelcomeTourFragment;
 import com.pacifyr.omhealthcare.home.account.AccountEditActivity;
 import com.pacifyr.omhealthcare.home.account.AccountFragment;
 import com.pacifyr.omhealthcare.model.QRSuccess;
@@ -844,7 +842,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
             @Override
             public void onClick(View v) {
                 if (isValid(data.getEventId())) {
-                    Toast.makeText(DashboardActivity.this, "goto 5 steps activity", Toast.LENGTH_SHORT).show();
+
                     dialog.dismiss();
                 } else {
                     dialog.dismiss();

@@ -11,25 +11,20 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-
-import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.appcompat.app.AlertDialog;
-
-import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
-import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
@@ -41,14 +36,13 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.base.PacifyerActivity;
-import com.pacifyr.omhealthcare.events.fragment.AttendingEmployerFragment;
 import com.pacifyr.omhealthcare.events.fragment.EventsListFragment;
+import com.pacifyr.omhealthcare.home.CheckinActivity;
 import com.pacifyr.omhealthcare.model.ModelEvent;
 import com.pacifyr.omhealthcare.model.QRSuccess;
 import com.pacifyr.omhealthcare.network.GsonUtils;
 import com.pacifyr.omhealthcare.network.NetworkService;
 
-import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -56,7 +50,6 @@ import java.io.Serializable;
 import java.util.List;
 
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
-import static com.facebook.FacebookSdk.getApplicationContext;
 import static com.pacifyr.omhealthcare.network.NetworkService.GLOBAL_URL;
 
 public class EventActivity extends PacifyerActivity implements LocationListener {
@@ -181,15 +174,15 @@ public class EventActivity extends PacifyerActivity implements LocationListener 
     private DeviceFitImageView rightImv;
 
     public void onSetActionBar() {
-        actionBarTopLlay = (LinearLayout) findViewById(R.id.action_bar_top_llay);
-        bottomPanel = (RelativeLayout) findViewById(R.id.bottom_panel);
-        leftLlay = (LinearLayout) findViewById(R.id.left_llay);
-        backImv = (DeviceFitImageView) findViewById(R.id.back_imv);
-        leftTxv = (CustomFontTextView) findViewById(R.id.left_txv);
-        titleTxv = (CustomFontTextView) findViewById(R.id.title_txv);
-        rightLlay = (LinearLayout) findViewById(R.id.right_llay);
-        rightTxv = (CustomFontTextView) findViewById(R.id.right_txv);
-        rightImv = (DeviceFitImageView) findViewById(R.id.right_imv);
+        actionBarTopLlay = findViewById(R.id.action_bar_top_llay);
+        bottomPanel = findViewById(R.id.bottom_panel);
+        leftLlay = findViewById(R.id.left_llay);
+        backImv = findViewById(R.id.back_imv);
+        leftTxv = findViewById(R.id.left_txv);
+        titleTxv = findViewById(R.id.title_txv);
+        rightLlay = findViewById(R.id.right_llay);
+        rightTxv = findViewById(R.id.right_txv);
+        rightImv = findViewById(R.id.right_imv);
         rightImv.setVisibility(View.INVISIBLE);
         rightTxv.setVisibility(View.INVISIBLE);
         rightLlay.setVisibility(View.INVISIBLE);
@@ -431,7 +424,7 @@ public class EventActivity extends PacifyerActivity implements LocationListener 
             @Override
             public void onClick(View v) {
                 if (isValid(data.getEventId())) {
-                    Toast.makeText(EventActivity.this, "goto 5 steps activity", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(EventActivity.this, CheckinActivity.class));
                     dialog.dismiss();
                 } else {
                     dialog.dismiss();

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     package="com.pacifyr.omhealthcare">
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
@@ -279,6 +278,11 @@
         <activity
             android:name=".quickblox.chat.ui.activity.ChatInfoActivity"
             android:label="@string/chat_info"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".home.CheckinActivity"
+            android:label="@string/activity_checkin"
             android:screenOrientation="portrait" />
 
         <service

@@ -57,6 +57,10 @@ public class ModelEvent implements Serializable {
     @Expose
     private String description;
 
+    @SerializedName("id")
+    @Expose
+    private String id;
+
 
     public String getDescription() {
         return description;
@@ -162,6 +166,14 @@ public class ModelEvent implements Serializable {
         this.location = location;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public class Result implements Serializable {
 
         @SerializedName("date")
@@ -207,6 +219,10 @@ public class ModelEvent implements Serializable {
         @SerializedName("updatedAt")
         @Expose
         private String updatedAt;
+
+        @SerializedName("event")
+        @Expose
+        private Event event;
 
         public List<String> getDate() {
             return date;
@@ -322,6 +338,13 @@ public class ModelEvent implements Serializable {
         }
 
 
+        public Event getEvent() {
+            return event;
+        }
+
+        public void setEvent(Event event) {
+            this.event = event;
+        }
     }
 
 

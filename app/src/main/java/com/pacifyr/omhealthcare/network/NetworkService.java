@@ -1197,4 +1197,73 @@ public class NetworkService  extends IntentService {
             LogUtils.LOGD("base", "PA userDetailWeb  exception : " + ex.getMessage());
         }
     }
+
+    public void getIncompleteEventCheckins(AjaxCallback<JSONObject> ajaxCallback) {
+
+        try {
+            PrefManager prefM = PrefManager.getInstance(this);
+            String token = prefM.getAccessToken();
+            String userId = prefM.getUserID();
+            String url = GLOBAL_URL + "events/checkins/pending/" + userId;
+            AQuery aq = new AQuery(this);
+            //cb.header("Content-Type", "application/json");
+            ajaxCallback.header("AccessToken", token);
+            aq.ajax(url, JSONObject.class, ajaxCallback);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            LogUtils.LOGD("base", "PA userDetailWeb  exception : " + ex.getMessage());
+        }
+    }
+
+    public void getIncompleteCheckinSteps(String eventId, AjaxCallback<JSONObject> ajaxCallback) {
+
+        try {
+            PrefManager prefM = PrefManager.getInstance(this);
+            String token = prefM.getAccessToken();
+            String userId = prefM.getUserID();
+            String url = GLOBAL_URL + "events/" + eventId + "/checkins/byUser/" + userId;
+            AQuery aq = new AQuery(this);
+            //cb.header("Content-Type", "application/json");
+            ajaxCallback.header("AccessToken", token);
+            aq.ajax(url, JSONObject.class, ajaxCallback);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            LogUtils.LOGD("base", "PA userDetailWeb  exception : " + ex.getMessage());
+        }
+    }
+
+    /*
+    Code	                Step Type
+
+    TFAWS RESUME ZONE	    resumeZoneCompleted
+    TFAWS ELEV INTRO ZONE	elevatedIntroZoneCompleted
+    TFAWS FRESH SESH	    freshSeshCompleted
+    TFAWS MOCK INTERVIEW	mockInterviewCompleted
+    TFAWS DRESS FOR SUCCESS	dressForSuccessCompleted
+
+    */
+    public void markStepComplete(String eventId, String code, String stepType,
+                                 AjaxCallback<JSONObject> ajaxCallback) {
+
+        try {
+            PrefManager prefM = PrefManager.getInstance(this);
+            String token = prefM.getAccessToken();
+            String userId = prefM.getUserID();
+            String url = GLOBAL_URL + "events/stepComplete";
+            AQuery aq = new AQuery(this);
+            //cb.header("Content-Type", "application/json");
+            ajaxCallback.header("AccessToken", token);
+            JSONObject params = new JSONObject();
+            params.put("userId", userId);
+            params.put("code", code);
+            params.put("eventId", eventId);
+            params.put("type", stepType);
+            aq.post(url, params, JSONObject.class, ajaxCallback);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            LogUtils.LOGD("base", "PA userDetailWeb  exception : " + ex.getMessage());
+        }
+    }
+
+
 }
