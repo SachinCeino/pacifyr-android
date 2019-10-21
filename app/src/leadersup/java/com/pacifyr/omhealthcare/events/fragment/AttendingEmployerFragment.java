@@ -2,23 +2,18 @@ package com.pacifyr.omhealthcare.events.fragment;
 
 
 import android.content.Context;
-import android.content.Intent;
-import android.content.pm.ActivityInfo;
-import android.location.Location;
 import android.os.Bundle;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
@@ -28,11 +23,8 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
-
 import com.google.zxing.integration.android.IntentIntegrator;
-import com.google.zxing.integration.android.IntentResult;
 import com.pacifyr.omhealthcare.R;
-import com.pacifyr.omhealthcare.event.ChatEvent;
 import com.pacifyr.omhealthcare.event.NotifyEvent;
 import com.pacifyr.omhealthcare.events.activity.CaptureActivityPortrait;
 import com.pacifyr.omhealthcare.events.activity.EventActivity;
@@ -43,14 +35,9 @@ import com.pacifyr.omhealthcare.quickblox.chat.utils.Consts;
 import com.pacifyr.omhealthcare.utility.BaseFragment;
 import com.squareup.otto.Subscribe;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.ThreadMode;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.List;
-
 
 import static com.pacifyr.omhealthcare.network.NetworkService.GLOBAL_IMAGE_URL;
 import static com.pacifyr.omhealthcare.network.NetworkService.GLOBAL_URL;
@@ -171,13 +158,15 @@ public class AttendingEmployerFragment extends BaseFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        ((EventActivity) getActivity()).changeTitle("ATTENDING EMPLOYER");
+        if (getActivity() instanceof EventActivity)
+            ((EventActivity) getActivity()).changeTitle("ATTENDING EMPLOYER");
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        ((EventActivity) getActivity()).changeTitle("EVENT DETAILS");
+        if (getActivity() instanceof EventActivity)
+            ((EventActivity) getActivity()).changeTitle("EVENT DETAILS");
     }
 
     @Override

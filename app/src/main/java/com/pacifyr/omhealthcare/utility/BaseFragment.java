@@ -1320,5 +1320,27 @@ public abstract class BaseFragment extends Fragment {
 
     }
 
+    public void getEventDetails(String eventID, AjaxCallback cb) {
+
+
+        String token = getPrefManager().getAccessToken();
+
+
+        try {
+            AQuery aq = new AQuery(getActivity());
+
+            cb.header("Content-Type", "application/json");
+
+            cb.header("AccessToken", token);
+
+            aq.ajax(NetworkService.GLOBAL_URL + "events/" + eventID, JSONObject.class, cb);
+
+        } catch (Exception ex) {
+            hideProgress();
+
+            ex.printStackTrace();
+        }
+        //setAdpater(list);
+    }
 
 }

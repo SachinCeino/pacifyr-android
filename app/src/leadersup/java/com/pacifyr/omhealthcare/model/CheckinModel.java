@@ -1,5 +1,10 @@
 package com.pacifyr.omhealthcare.model;
 
+import android.content.Context;
+import android.graphics.drawable.Drawable;
+
+import com.pacifyr.omhealthcare.R;
+
 /**
  * Created by Sachin Thampan on 18/10/19.
  */
@@ -14,6 +19,39 @@ public class CheckinModel {
     private final String eventId;
     boolean expanded = false;
     String title;
+
+    public Drawable getImage(Context context) {
+        if (this.type == RESUME_ZONE) {
+            return context.getResources().getDrawable(R.drawable.image_resume);
+        } else if (this.type == MOCK_INTERVIEW) {
+            return context.getResources().getDrawable(R.drawable.image_mock);
+        } else if (this.type == ELEVATED_ZONE) {
+            return null;
+        } else if (this.type == FRESH_SESH) {
+            return null;
+        } else if (this.type == DRESS_FOR_SUCCESS) {
+            return context.getResources().getDrawable(R.drawable.image_dress_success);
+        }
+        return null;
+    }
+
+
+    public String getDescription(Context context) {
+        if (this.type == RESUME_ZONE) {
+            return context.getResources().getString(R.string.desc_resume_zone);
+        } else if (this.type == MOCK_INTERVIEW) {
+            return context.getResources().getString(R.string.desc_mock_interview);
+        } else if (this.type == ELEVATED_ZONE) {
+            return context.getResources().getString(R.string.desc_elevated);
+        } else if (this.type == FRESH_SESH) {
+            return context.getResources().getString(R.string.desc_fresh_sesh);
+        } else if (this.type == DRESS_FOR_SUCCESS) {
+            return context.getResources().getString(R.string.desc_dress_success);
+        }
+        return "";
+    }
+
+
     boolean complete = false;
 
     public CheckinModel(String id, boolean expanded, String title, String type, boolean complete) {

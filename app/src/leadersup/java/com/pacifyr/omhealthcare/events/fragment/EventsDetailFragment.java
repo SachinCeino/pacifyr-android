@@ -6,11 +6,6 @@ import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import androidx.annotation.RequiresApi;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +14,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.RequiresApi;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
@@ -48,7 +48,6 @@ import java.util.List;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 import static com.pacifyr.omhealthcare.network.NetworkService.GLOBAL_IMAGE_URL;
-import static com.pacifyr.omhealthcare.network.NetworkService.GLOBAL_URL;
 
 
 public class EventsDetailFragment extends BaseFragment {
@@ -302,9 +301,6 @@ public class EventsDetailFragment extends BaseFragment {
 
         setLoading();
         showProgress();
-
-        String token = getPrefManager().getAccessToken();
-
         AjaxCallback cb = new AjaxCallback<JSONObject>() {
             @Override
             public void callback(String url, JSONObject json, AjaxStatus status) {
@@ -335,21 +331,7 @@ public class EventsDetailFragment extends BaseFragment {
                 }
             }
         };
-        try {
-            AQuery aq = new AQuery(getActivity());
-
-            cb.header("Content-Type", "application/json");
-
-            cb.header("AccessToken", token);
-
-            aq.ajax(GLOBAL_URL + "events/" + eventID, JSONObject.class, cb);
-
-        } catch (Exception ex) {
-            hideProgress();
-
-            ex.printStackTrace();
-        }
-        //setAdpater(list);
+        getEventDetails(eventID, cb);
     }
 
     private void setUpUIForAttendAndChecking(ModelEvent data) {

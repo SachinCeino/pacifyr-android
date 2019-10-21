@@ -65,6 +65,8 @@
     <color name = "round_button_fill_color">#FF7E57</color>
     <color name = "round_button_border_color">#FF7E57</color>
     <color name="connect_wellness_expert_color">#FFFFFF</color>
+    <color name="checkin_button_pressed">#040488</color>
+    <color name="checkin_button">#040444</color>
 
 
 </resources>

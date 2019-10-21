@@ -82,7 +82,7 @@ public class CheckinActivity extends PacifyrAppCompactActivity {
                                     CheckInFragment checkInFragment = new CheckInFragment();
                                     checkInFragment.setArguments(args);
                                     getSupportFragmentManager().beginTransaction().replace(R.id.container_checkin,
-                                            checkInFragment).commit();
+                                            checkInFragment).addToBackStack(CheckInFragment.class.getSimpleName()).commit();
 
                                 }
                             } else {
@@ -168,5 +168,13 @@ public class CheckinActivity extends PacifyrAppCompactActivity {
                     });
         }
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
+            finish();
+        }
     }
 }
