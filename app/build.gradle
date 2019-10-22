@@ -44,16 +44,15 @@ android {
 
             // minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), "proguard-rules.pro"
-            /*applicationVariants.all { variant ->
-                renameAPK(variant, defaultConfig, 'Prod')
-            }*/
 
-            //Other parameters
-            /* debuggable false
-            jniDebuggable false
-            renderscriptDebuggable false
-            pseudoLocalesEnabled false
-            zipAlignEnabled true*/
+            applicationVariants.all { variant ->
+                variant.outputs.all {
+                    def date = new Date()
+                    def formattedDate = date.format('MMM_dd_HHmmss')
+                    def flavor = variant.productFlavors[0].name
+                    outputFileName = "${flavor}_${variant.buildType.name}_${variant.versionName}_${formattedDate}_.apk"
+                }
+            }
         }
         /*lintOptions {
             // set to true to turn off analysis progress reporting by lint
