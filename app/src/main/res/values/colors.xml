@@ -67,6 +67,8 @@
     <color name="connect_wellness_expert_color">#FFFFFF</color>
     <color name="checkin_button_pressed">#040488</color>
     <color name="checkin_button">#040444</color>
+    <color name="lime_green">#b6d532</color>
+    <color name="event_svg_checkin_color">#76A634</color>
 
 
 </resources>
