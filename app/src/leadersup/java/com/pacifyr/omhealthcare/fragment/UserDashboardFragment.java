@@ -228,7 +228,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                 if (json != null) {
                     InterviewModel response = new Gson().fromJson(json.toString(),
                             InterviewModel.class);
-                    if (response != null) {
+                    if (response != null && response.getResults() != null && response.getResults().size() > 0) {
                         Bundle args = new Bundle();
                         args.putSerializable("data", (Serializable) response.getResults());
                         EventsListDialog eventsListFragment = new EventsListDialog();

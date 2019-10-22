@@ -424,7 +424,10 @@ public class EventActivity extends PacifyerActivity implements LocationListener 
             @Override
             public void onClick(View v) {
                 if (isValid(data.getEventId())) {
-                    startActivity(new Intent(EventActivity.this, CheckinActivity.class));
+                    Intent intent = new Intent(EventActivity.this,
+                            CheckinActivity.class);
+                    intent.putExtra("eventId", data.getEventId());
+                    startActivity(intent);
                     dialog.dismiss();
                 } else {
                     dialog.dismiss();

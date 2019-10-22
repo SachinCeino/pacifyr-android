@@ -797,8 +797,16 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
                     try {
                         hideProgress();
                         QRSuccess data = GsonUtils.getInstance().gsonToModelQRCodeResult(json);
-                        if (isValid(data))
-                            showPopup(data);
+                        if (isValid(data)) {
+                            if (isValid(data.getEventId())) {
+                                Intent intent = new Intent(DashboardActivity.this,
+                                        CheckinActivity.class);
+                                intent.putExtra("eventId", data.getEventId());
+                                startActivity(intent);
+                            } else {
+                                showPopup(data);
+                            }
+                        }
 
                     } catch (Exception e) {
                         errorStatus();

@@ -84,6 +84,16 @@ public class CheckinActivity extends PacifyrAppCompactActivity {
                                     getSupportFragmentManager().beginTransaction().replace(R.id.container_checkin,
                                             checkInFragment).addToBackStack(CheckInFragment.class.getSimpleName()).commit();
 
+                                } else {
+                                    setStatus("No data found", R.color.text_color_black, R.color.white);
+                                    showStatus();
+                                    new Handler().postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            hideStatus();
+                                            finish();
+                                        }
+                                    }, 3000);
                                 }
                             } else {
                                 setStatus("No data found", R.color.text_color_black, R.color.white);
