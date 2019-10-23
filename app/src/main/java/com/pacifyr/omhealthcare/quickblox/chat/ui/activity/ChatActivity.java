@@ -1,10 +1,15 @@
 package com.pacifyr.omhealthcare.quickblox.chat.ui.activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
@@ -23,6 +28,11 @@ import com.ceino.utilitylibrary.DeviceFitImageView;
 import com.ceino.utilitylibrary.model.pacifyr.MUser;
 import com.ceino.utilitylibrary.utils.PrefManager;
 import com.google.android.material.snackbar.Snackbar;
+import com.kbeanie.multipicker.api.CameraImagePicker;
+import com.kbeanie.multipicker.api.ImagePicker;
+import com.kbeanie.multipicker.api.Picker;
+import com.kbeanie.multipicker.api.callbacks.ImagePickerCallback;
+import com.kbeanie.multipicker.api.entity.ChosenImage;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.event.AlertTypeEvent;
 import com.pacifyr.omhealthcare.event.NotifyEvent;
@@ -38,6 +48,7 @@ import com.pacifyr.omhealthcare.quickblox.chat.utils.qb.QbDialogUtils;
 import com.pacifyr.omhealthcare.quickblox.chat.utils.qb.VerboseQbChatConnectionListener;
 import com.pacifyr.omhealthcare.utility.PacifyrAppCompactActivity;
 import com.pacifyr.omhealthcare.utils.LogUtils;
+import com.pacifyr.omhealthcare.utils.Utility;
 import com.quickblox.chat.QBChatService;
 import com.quickblox.chat.model.QBAttachment;
 import com.quickblox.chat.model.QBChatDialog;
@@ -47,8 +58,6 @@ import com.quickblox.core.QBEntityCallback;
 import com.quickblox.core.exception.QBResponseException;
 import com.quickblox.sample.core.ui.dialog.ProgressDialogFragment;
 import com.quickblox.sample.core.utils.Toaster;
-import com.quickblox.sample.core.utils.imagepick.ImagePickHelper;
-import com.quickblox.sample.core.utils.imagepick.OnImagePickedListener;
 import com.quickblox.users.model.QBUser;
 import com.squareup.picasso.Picasso;
 
@@ -68,7 +77,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import static com.pacifyr.omhealthcare.network.NetworkService.GLOBAL_IMAGE_URL;
 
 //com.pacifyr.pacifyrapp.quickblox.chat.ui.activity.BaseActivity
-public class ChatActivity extends PacifyrAppCompactActivity implements OnImagePickedListener {
+public class ChatActivity extends PacifyrAppCompactActivity implements ImagePickerCallback {
     private static final String TAG = ChatActivity.class.getSimpleName();
     private static final int REQUEST_CODE_ATTACHMENT = 721;
     private static final int REQUEST_CODE_SELECT_PEOPLE = 752;
@@ -95,6 +104,10 @@ public class ChatActivity extends PacifyrAppCompactActivity implements OnImagePi
     public static MUser mPacifyr;
     private String myUserId;
     private ArrayList<String> opponentIds;
+    private AlertDialog choosePicker;
+    private CameraImagePicker imagePicker;
+    private ImagePicker galImagePicker;
+    private String outputPath;
 
     public static void startForResult(Activity activity, int code, QBChatDialog dialogId,MUser mPaci) {
         mPacifyr=null;
@@ -104,26 +117,44 @@ public class ChatActivity extends PacifyrAppCompactActivity implements OnImagePi
         activity.startActivityForResult(intent, code);
     }
     public static void start(Context activity, QBChatDialog dialogId,MUser mPaci) {
-        mPacifyr=null;
-        mPacifyr=mPaci;
-        Intent intent = new Intent(activity, ChatActivity.class);
-        intent.putExtra(ChatActivity.EXTRA_DIALOG_ID, dialogId);
-        activity.startActivity(intent);
+        if (Utility.checkPermission(activity, "write")) {
+            mPacifyr = null;
+            mPacifyr = mPaci;
+            Intent intent = new Intent(activity, ChatActivity.class);
+            intent.putExtra(ChatActivity.EXTRA_DIALOG_ID, dialogId);
+            activity.startActivity(intent);
+        }
     }
     public static void startForResult(Activity activity, int code, QBChatDialog dialogId) {
-        mPacifyr=null;
+        if (Utility.checkPermission(activity, "write")) {
 
-        Intent intent = new Intent(activity, ChatActivity.class);
-        intent.putExtra(ChatActivity.EXTRA_DIALOG_ID, dialogId);
-        activity.startActivityForResult(intent, code);
+            mPacifyr = null;
+
+            Intent intent = new Intent(activity, ChatActivity.class);
+            intent.putExtra(ChatActivity.EXTRA_DIALOG_ID, dialogId);
+            activity.startActivityForResult(intent, code);
+        }
     }
     public static void start(Context activity, QBChatDialog dialogId) {
-        mPacifyr=null;
+        if (Utility.checkPermission(activity, "write")) {
 
-        Intent intent = new Intent(activity, ChatActivity.class);
-        intent.putExtra(ChatActivity.EXTRA_DIALOG_ID, dialogId);
-        activity.startActivity(intent);
+            mPacifyr = null;
+
+            Intent intent = new Intent(activity, ChatActivity.class);
+            intent.putExtra(ChatActivity.EXTRA_DIALOG_ID, dialogId);
+            activity.startActivity(intent);
+        }
     }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        // You have to save path in case your activity is killed.
+        // In such a scenario, you will need to re-initialize the CameraImagePicker
+        outState.putString("picker_path", outputPath);
+        super.onSaveInstanceState(outState);
+    }
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -163,6 +194,9 @@ public class ChatActivity extends PacifyrAppCompactActivity implements OnImagePi
         super.onRestoreInstanceState(savedInstanceState);
         if (qbChatDialog == null) {
             qbChatDialog = QbDialogHolder.getInstance().getChatDialogById(savedInstanceState.getString(EXTRA_DIALOG_ID));
+        }
+        if (savedInstanceState.containsKey("picker_path")) {
+            outputPath = savedInstanceState.getString("picker_path");
         }
     }
 
@@ -271,11 +305,26 @@ public class ChatActivity extends PacifyrAppCompactActivity implements OnImagePi
                         SelectUsersActivity.EXTRA_QB_USERS);
 
                 updateDialog(selectedUsers);
+            } else if (requestCode == Picker.PICK_IMAGE_DEVICE) {
+                if (galImagePicker == null) {
+                    galImagePicker = new ImagePicker(ChatActivity.this);
+                    galImagePicker.shouldGenerateThumbnails(true);
+                    galImagePicker.setImagePickerCallback(ChatActivity.this);
+                }
+                galImagePicker.submit(data);
+            } else if (requestCode == Picker.PICK_IMAGE_CAMERA) {
+                if (imagePicker == null) {
+                    imagePicker = new CameraImagePicker(ChatActivity.this);
+                    imagePicker.shouldGenerateThumbnails(true);
+                    imagePicker.reinitialize(outputPath);
+                    imagePicker.setImagePickerCallback(ChatActivity.this);
+                }
+                imagePicker.submit(data);
             }
         }
     }
 
-    @Override
+/*    @Override
     public void onImagePicked(int requestCode, File file) {
         switch (requestCode) {
             case REQUEST_CODE_ATTACHMENT:
@@ -292,7 +341,7 @@ public class ChatActivity extends PacifyrAppCompactActivity implements OnImagePi
     @Override
     public void onImagePickClosed(int requestCode) {
         // ignore
-    }
+    }*/
 
     @Override
     protected View getSnackbarAnchorView() {
@@ -319,7 +368,36 @@ public class ChatActivity extends PacifyrAppCompactActivity implements OnImagePi
     }
 
     public void onAttachmentsClick(View view) {
-        new ImagePickHelper().pickAnImage(this, REQUEST_CODE_ATTACHMENT);
+//        new ImagePickHelper().pickAnImage(this, REQUEST_CODE_ATTACHMENT);
+        shoImagePickerAlert(view);
+    }
+
+    private void shoImagePickerAlert(View view) {
+        String[] items = new String[]{"Camera", "Gallery"};
+        AlertDialog.Builder builder = new AlertDialog.Builder(ChatActivity.this);
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (which == 0) {
+                    imagePicker = new CameraImagePicker(ChatActivity.this);
+                    imagePicker.shouldGenerateThumbnails(true);
+                    imagePicker.setImagePickerCallback(ChatActivity.this);
+                    outputPath = imagePicker.pickImage();
+                } else if (which == 1) {
+                    galImagePicker = new ImagePicker(ChatActivity.this);
+                    galImagePicker.shouldGenerateThumbnails(true);
+                    galImagePicker.setImagePickerCallback(ChatActivity.this);
+                    galImagePicker.pickImage();
+                }
+            }
+        });
+        builder.setTitle("Choose");
+        if (choosePicker != null && choosePicker.isShowing()) {
+            choosePicker.dismiss();
+        }
+        choosePicker = builder.create();
+        choosePicker.show();
+
     }
 
     public void showMessage(QBChatMessage message) {
@@ -363,6 +441,15 @@ public class ChatActivity extends PacifyrAppCompactActivity implements OnImagePi
                 });
         AttachmentPreviewAdapterView previewAdapterView = _findViewById(R.id.adapter_view_attachment_preview);
         previewAdapterView.setAdapter(attachmentPreviewAdapter);
+    }
+
+    public String getImagePath(Uri uri) {
+        String[] projection = {MediaStore.Images.Media.DATA};
+        Cursor cursor = managedQuery(uri, projection, null, null, null);
+        startManagingCursor(cursor);
+        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        cursor.moveToFirst();
+        return cursor.getString(column_index);
     }
 
     private void sendChatMessage(String text, QBAttachment attachment) {
@@ -717,6 +804,86 @@ public class ChatActivity extends PacifyrAppCompactActivity implements OnImagePi
                 }
             }
         };
+    }
+
+    @Override
+    public void onImagesChosen(List<ChosenImage> list) {
+        /*Glide.with(ChatActivity.this).load(Uri.parse(list.get(0).getQueryUri()))
+                .asBitmap().into(new Target<Bitmap>() {
+            @Override
+            public void onLoadStarted(Drawable placeholder) {
+
+            }
+
+            @Override
+            public void onLoadFailed(Exception e, Drawable errorDrawable) {
+                Log.d(TAG, "Exception " + e.getMessage());
+            }
+
+            @Override
+            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                Log.d(TAG, "Resdy ");
+                if (resource != null){
+                    byte[] bytes = Utility.bitmapToByteArray(resource);
+                    File tempFile = Utility.getTempFile(ChatActivity.this, "temp_image.tmp");
+                    boolean status = Utility.writeBytesToFile(bytes, tempFile);
+                    if (status){
+                        if (tempFile != null) {
+                            attachmentPreviewAdapter.add(tempFile);
+                        }
+                        else{
+                            showIOSDialogOK("Error", "Cannot use this file", "OK");
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onLoadCleared(Drawable placeholder) {
+
+            }
+
+            @Override
+            public void getSize(SizeReadyCallback cb) {
+
+            }
+
+            @Override
+            public void setRequest(Request request) {
+
+            }
+
+            @Override
+            public Request getRequest() {
+                return null;
+            }
+
+            @Override
+            public void onStart() {
+
+            }
+
+            @Override
+            public void onStop() {
+
+            }
+
+            @Override
+            public void onDestroy() {
+
+            }
+        });*/
+        File file = new File(list.get(0).getThumbnailPath());
+        if (file != null) {
+            attachmentPreviewAdapter.add(file);
+        } else {
+            showIOSDialogOK("Error", "Cannot use this file", "OK");
+        }
+    }
+
+    @Override
+    public void onError(String s) {
+        showIOSDialogOK("Error", s, "OK");
     }
 
     public class ChatMessageListener extends QbChatDialogMessageListenerImp {

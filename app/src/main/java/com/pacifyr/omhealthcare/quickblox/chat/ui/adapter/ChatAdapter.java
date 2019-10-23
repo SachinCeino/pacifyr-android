@@ -29,7 +29,6 @@ import com.quickblox.chat.model.QBAttachment;
 import com.quickblox.chat.model.QBChatDialog;
 import com.quickblox.chat.model.QBChatMessage;
 import com.quickblox.core.helper.CollectionsUtil;
-
 import com.quickblox.sample.core.ui.adapter.BaseListAdapter;
 import com.quickblox.sample.core.utils.ResourceUtils;
 import com.quickblox.users.model.QBUser;
@@ -66,13 +65,13 @@ public class ChatAdapter extends BaseListAdapter<QBChatMessage> implements Stick
             holder = new ViewHolder();
             convertView = inflater.inflate(R.layout.quickblox_list_item_chat_message, parent, false);
 
-            holder.messageBodyTextView = (TextView) convertView.findViewById(R.id.text_image_message);
-            holder.messageAuthorTextView = (TextView) convertView.findViewById(R.id.text_message_author);
-            holder.messageContainerLayout = (LinearLayout) convertView.findViewById(R.id.layout_chat_message_container);
-            holder.messageBodyContainerLayout = (RelativeLayout) convertView.findViewById(R.id.layout_message_content_container);
-            holder.messageInfoTextView = (TextView) convertView.findViewById(R.id.text_message_info);
-            holder.attachmentImageView = (MaskedImageView) convertView.findViewById(R.id.image_message_attachment);
-            holder.attachmentProgressBar = (ProgressBar) convertView.findViewById(R.id.progress_message_attachment);
+            holder.messageBodyTextView = convertView.findViewById(R.id.text_image_message);
+            holder.messageAuthorTextView = convertView.findViewById(R.id.text_message_author);
+            holder.messageContainerLayout = convertView.findViewById(R.id.layout_chat_message_container);
+            holder.messageBodyContainerLayout = convertView.findViewById(R.id.layout_message_content_container);
+            holder.messageInfoTextView = convertView.findViewById(R.id.text_message_info);
+            holder.attachmentImageView = convertView.findViewById(R.id.image_message_attachment);
+            holder.attachmentProgressBar = convertView.findViewById(R.id.progress_message_attachment);
 
             convertView.setTag(holder);
         } else {
@@ -152,7 +151,7 @@ public class ChatAdapter extends BaseListAdapter<QBChatMessage> implements Stick
         if (convertView == null) {
             holder = new HeaderViewHolder();
             convertView = inflater.inflate(R.layout.view_chat_message_header, parent, false);
-            holder.dateTextView = (TextView) convertView.findViewById(R.id.header_date_textview);
+            holder.dateTextView = convertView.findViewById(R.id.header_date_textview);
             convertView.setTag(holder);
         } else {
             holder = (HeaderViewHolder) convertView.getTag();
@@ -183,37 +182,38 @@ public class ChatAdapter extends BaseListAdapter<QBChatMessage> implements Stick
             Collection<QBAttachment> attachments = chatMessage.getAttachments();
             QBAttachment attachment = attachments.iterator().next();
 
-            holder.messageBodyTextView.setVisibility(View.GONE);
-            holder.attachmentImageView.setVisibility(View.VISIBLE);
-            holder.attachmentProgressBar.setVisibility(View.VISIBLE);
-            LogUtils.LOGD("jp", "ChatAdapter Image chat  setMessageBody url  "+attachment.getUrl());
-            Glide.with(context)
-                    .load(attachment.getUrl())
-                    .listener(new RequestListener<String, GlideDrawable>() {
-                        @Override
-                        public boolean onException(Exception e, String model,
-                                                   Target<GlideDrawable> target, boolean isFirstResource) {
-                            e.printStackTrace();
-                            LogUtils.LOGD("jp", "ChatAdapter IMmage chat  onException "+e.getMessage());
-                            holder.attachmentImageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-                            holder.attachmentProgressBar.setVisibility(View.GONE);
-                            return false;
-                        }
+            if (attachment.getUrl() != null) {
+                holder.messageBodyTextView.setVisibility(View.GONE);
+                holder.attachmentImageView.setVisibility(View.VISIBLE);
+                holder.attachmentProgressBar.setVisibility(View.VISIBLE);
+                LogUtils.LOGD("jp", "ChatAdapter Image chat  setMessageBody url  " + attachment.getUrl());
+                Glide.with(context)
+                        .load(attachment.getUrl())
+                        .listener(new RequestListener<String, GlideDrawable>() {
+                            @Override
+                            public boolean onException(Exception e, String model,
+                                                       Target<GlideDrawable> target, boolean isFirstResource) {
+                                LogUtils.LOGD("jp", "ChatAdapter IMmage chat  onException " + e.getMessage());
+                                holder.attachmentImageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+                                holder.attachmentProgressBar.setVisibility(View.GONE);
+                                return false;
+                            }
 
-                        @Override
-                        public boolean onResourceReady(GlideDrawable resource, String model,
-                                                       Target<GlideDrawable> target,
-                                                       boolean isFromMemoryCache, boolean isFirstResource) {
-                            LogUtils.LOGD("jp", "ChatAdapter IMmage chat  onResourceReady ");
-                            holder.attachmentImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                            holder.attachmentProgressBar.setVisibility(View.GONE);
-                            return false;
-                        }
-                    })
-                    .override(Consts.PREFERRED_IMAGE_SIZE_PREVIEW, Consts.PREFERRED_IMAGE_SIZE_PREVIEW)
-                    .dontTransform()
-                    .error(R.drawable.ic_error)
-                    .into(holder.attachmentImageView);
+                            @Override
+                            public boolean onResourceReady(GlideDrawable resource, String model,
+                                                           Target<GlideDrawable> target,
+                                                           boolean isFromMemoryCache, boolean isFirstResource) {
+                                LogUtils.LOGD("jp", "ChatAdapter IMmage chat  onResourceReady ");
+                                holder.attachmentImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                                holder.attachmentProgressBar.setVisibility(View.GONE);
+                                return false;
+                            }
+                        })
+                        .override(Consts.PREFERRED_IMAGE_SIZE_PREVIEW, Consts.PREFERRED_IMAGE_SIZE_PREVIEW)
+                        .dontTransform()
+                        .error(R.drawable.ic_error)
+                        .into(holder.attachmentImageView);
+            }
         } else {
             holder.messageBodyTextView.setText(chatMessage.getBody());
             holder.messageBodyTextView.setVisibility(View.VISIBLE);

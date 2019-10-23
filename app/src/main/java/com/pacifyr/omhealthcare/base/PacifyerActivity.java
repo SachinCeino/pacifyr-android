@@ -912,6 +912,10 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
 
     public void startChat(final MUser pacifyer)
     {
+        if (!Utility.checkPermission(PacifyerActivity.this, "write")) {
+            Log.d(TAG, "Write storage permission required!");
+            return;
+        }
         // setLoading("Creating Chat");
         setLoading();
         showProgress();

@@ -7,6 +7,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.os.Build;
 import android.telephony.TelephonyManager;
 import android.text.format.DateFormat;
@@ -21,6 +22,12 @@ import androidx.core.content.ContextCompat;
 import com.ceino.utilitylibrary.utils.PrefManager;
 import com.pacifyr.omhealthcare.R;
 
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -136,7 +143,8 @@ public class Utility {
                         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(context);
                         alertBuilder.setCancelable(true);
                         alertBuilder.setTitle("Permission necessary");
-                        alertBuilder.setMessage("External storage permission is necessary");
+                        alertBuilder.setMessage("External storage permission is required to " +
+                                "proceed");
                         alertBuilder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
                             public void onClick(DialogInterface dialog, int which) {
@@ -356,6 +364,46 @@ public class Utility {
     public static Boolean isValid(Object object) {
         return object != null;
 
+    }
+
+    public static File getTempFile(Context context, String fileName) {
+        File file = null;
+        try {
+            file = File.createTempFile(fileName, null, context.getCacheDir());
+        } catch (IOException e) {
+            // Error while creating file
+            e.printStackTrace();
+        }
+        return file;
+    }
+
+    public static byte[] bitmapToByteArray(Bitmap bitmap) {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        byte[] byteArray = stream.toByteArray();
+        bitmap.recycle();
+
+        return byteArray;
+    }
+
+    public static boolean writeBytesToFile(byte[] data, File file) {
+        if (file != null && file.exists()) {
+            BufferedOutputStream bos = null;
+            try {
+                bos = new BufferedOutputStream(new FileOutputStream(file));
+                bos.write(data);
+                bos.flush();
+                bos.close();
+
+                return true;
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+        return false;
     }
 
     public static String getUserCountry(Context context) {
