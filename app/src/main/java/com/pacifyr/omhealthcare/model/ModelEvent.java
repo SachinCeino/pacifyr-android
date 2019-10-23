@@ -367,7 +367,7 @@ public class ModelEvent implements Serializable {
         private String name;
         @SerializedName("positions")
         @Expose
-        private Object positions;
+        private List<Position> positions;
         @SerializedName("id")
         @Expose
         private String id;
@@ -421,11 +421,11 @@ public class ModelEvent implements Serializable {
             this.name = name;
         }
 
-        public Object getPositions() {
+        public List<Position> getPositions() {
             return positions;
         }
 
-        public void setPositions(Object positions) {
+        public void setPositions(List<Position> positions) {
             this.positions = positions;
         }
 

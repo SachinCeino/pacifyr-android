@@ -3,43 +3,34 @@ package com.pacifyr.omhealthcare.events.adapter;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.transition.ChangeBounds;
 import androidx.transition.ChangeImageTransform;
 import androidx.transition.ChangeTransform;
 import androidx.transition.Fade;
 import androidx.transition.TransitionSet;
-import androidx.fragment.app.Fragment;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
-import com.ceino.utilitylibrary.CustomFontTextView;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.events.activity.EventActivity;
 import com.pacifyr.omhealthcare.events.fragment.EventsDetailFragment;
-import com.pacifyr.omhealthcare.model.MComments;
 import com.pacifyr.omhealthcare.model.ModelEvent;
-import com.pacifyr.omhealthcare.model.interfaces.CommentClick;
 import com.pacifyr.omhealthcare.quickblox.chat.utils.Consts;
 import com.pacifyr.omhealthcare.utils.Utility;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 import static com.pacifyr.omhealthcare.network.NetworkService.GLOBAL_IMAGE_URL;
@@ -171,29 +162,25 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.MyVi
 
     public Boolean isValid(List list) {
         if (list != null)
-            if (list.size() > 0)
-                return true;
+            return list.size() > 0;
         return false;
 
     }
 
     public Boolean isValid(List list, int position) {
         if (isValid(list))
-            if (list.size() >= position)
-                return true;
+            return list.size() >= position;
         return false;
 
     }
 
     public Boolean isValid(Object object) {
-        if (object != null)
-            return true;
-        return false;
+        return object != null;
 
     }
 
     public Boolean isValid(String text) {
-        if (text != null) if (!text.trim().equalsIgnoreCase("")) return true;
+        if (text != null) return !text.trim().equalsIgnoreCase("");
         return false;
 
     }

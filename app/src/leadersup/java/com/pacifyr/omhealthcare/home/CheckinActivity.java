@@ -183,8 +183,6 @@ public class CheckinActivity extends PacifyrAppCompactActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
-            finish();
-        }
+        finish();
     }
 }

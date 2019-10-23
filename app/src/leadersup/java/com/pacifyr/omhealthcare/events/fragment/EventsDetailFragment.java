@@ -86,7 +86,7 @@ public class EventsDetailFragment extends BaseFragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_detail_events, container, false);
         event_detail_image = view.findViewById(R.id.event_detail_image);
-        txtv_event_title = view.findViewById(R.id.txtv_event_title);
+        txtv_event_title = view.findViewById(R.id.txtv_employername);
         txtv_event_time = view.findViewById(R.id.txtv_event_time);
         txtv_event_address = view.findViewById(R.id.txtv_event_address);
         txtv_event_description = view.findViewById(R.id.txtv_event_description);

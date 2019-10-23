@@ -164,7 +164,7 @@ public class EventListDialogAdapter extends RecyclerView.Adapter<EventListDialog
             super(view);
             txtv_event_description = view.findViewById(R.id.txtv_event_description);
             txtv_event_address = view.findViewById(R.id.txtv_event_address);
-            txtv_event_title = view.findViewById(R.id.txtv_event_title);
+            txtv_event_title = view.findViewById(R.id.txtv_employername);
             txtv_event_date = view.findViewById(R.id.txtv_event_date);
             event_image = view.findViewById(R.id.event_image);
         }

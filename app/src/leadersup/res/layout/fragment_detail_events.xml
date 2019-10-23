@@ -53,7 +53,7 @@
                         <com.pacifyr.omhealthcare.events.views.EventTextViewBold
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:id="@+id/txtv_event_title"
+                            android:id="@+id/txtv_employername"
                             android:textColor="@color/black"
                             android:textSize="20sp"
                             android:textStyle="bold"

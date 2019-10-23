@@ -1,5 +1,6 @@
 package com.pacifyr.omhealthcare.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,8 +10,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -21,15 +20,12 @@ import com.androidquery.callback.AjaxStatus;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.adapter.CheckinAdapter;
 import com.pacifyr.omhealthcare.event.NotifyEvent;
-import com.pacifyr.omhealthcare.events.fragment.AttendingEmployerFragment;
-import com.pacifyr.omhealthcare.events.fragment.EmployersListDialog;
+import com.pacifyr.omhealthcare.home.EmployerList;
 import com.pacifyr.omhealthcare.model.CheckinModel;
 import com.pacifyr.omhealthcare.model.InterviewModel;
 import com.pacifyr.omhealthcare.model.ModelEvent;
-import com.pacifyr.omhealthcare.model.OpenEmployerEvent;
 import com.pacifyr.omhealthcare.network.GsonUtils;
 import com.pacifyr.omhealthcare.utility.BaseFragment;
-import com.squareup.otto.Subscribe;
 
 import org.json.JSONObject;
 
@@ -134,21 +130,12 @@ public class CheckInFragment extends BaseFragment {
 
                         ModelEvent data = GsonUtils.getInstance().gsonToModelEvent(json);
                         if (isValid(data)) {
+
                             List<ModelEvent.Employer> listEvent = data.getEmployers();
                             if (isValid(listEvent)) {
-                                Bundle args = new Bundle();
-                                args.putSerializable("data", (Serializable) listEvent);
-                                EmployersListDialog eventsListFragment = new EmployersListDialog();
-                                eventsListFragment.setArguments(args);
-                                FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-                                Fragment prev =
-                                        getActivity().getSupportFragmentManager().findFragmentByTag(
-                                                "dialog");
-                                if (prev != null) {
-                                    ft.remove(prev);
-                                }
-                                ft.addToBackStack(null);
-                                eventsListFragment.show(ft, "dialog");
+                                Intent intent = new Intent(getActivity(), EmployerList.class);
+                                intent.putExtra("data", (Serializable) listEvent);
+                                startActivity(intent);
                             }
 
                         }
@@ -170,15 +157,4 @@ public class CheckInFragment extends BaseFragment {
     }
 
 
-    @Subscribe
-    public void onOpenEmployerEvent(OpenEmployerEvent openEmployerEvent) {
-        if (openEmployerEvent != null && openEmployerEvent.getEmployer() != null) {
-            Bundle args = new Bundle();
-            args.putSerializable("object", openEmployerEvent.getEmployer());
-            AttendingEmployerFragment attendingEmployerFragment = new AttendingEmployerFragment();
-            attendingEmployerFragment.setArguments(args);
-            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container_checkin,
-                    attendingEmployerFragment).addToBackStack(CheckInFragment.class.getSimpleName()).commit();
-        }
-    }
 }
