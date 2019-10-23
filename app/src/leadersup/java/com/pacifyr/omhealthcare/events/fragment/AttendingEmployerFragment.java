@@ -46,6 +46,8 @@ import static com.pacifyr.omhealthcare.network.NetworkService.GLOBAL_URL;
 public class AttendingEmployerFragment extends BaseFragment {
 
 
+    public static final int EMPLOYER_SCAN = 555;
+
     public AttendingEmployerFragment() {
 
     }
@@ -96,7 +98,6 @@ public class AttendingEmployerFragment extends BaseFragment {
                         @Override
                         public boolean onException(Exception e, String model,
                                                    Target<GlideDrawable> target, boolean isFirstResource) {
-                            e.printStackTrace();
                             return false;
                         }
 
@@ -122,13 +123,14 @@ public class AttendingEmployerFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 //initiating the qr code scan
-
+                if (getActivity() instanceof EventActivity) {
+                    ((EventActivity) getActivity()).setQRScanType(EMPLOYER_SCAN);
+                }
                 qrScan.setPrompt("Scan a barcode");
                 qrScan.setCameraId(0);  // Use a specific camera of the device
                 qrScan.setOrientationLocked(true);
                 qrScan.setBeepEnabled(true);
                 qrScan.setCaptureActivity(CaptureActivityPortrait.class);
-                qrScan.initiateScan();
                 qrScan.initiateScan();
             }
         });
