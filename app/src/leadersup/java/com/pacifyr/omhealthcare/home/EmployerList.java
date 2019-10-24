@@ -58,6 +58,15 @@ public class EmployerList extends PacifyrAppCompactActivity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
+            finish();
+        } else {
+            super.onBackPressed();
+        }
+
+    }
 
     @Override
     public void onSetValues() throws Exception {
