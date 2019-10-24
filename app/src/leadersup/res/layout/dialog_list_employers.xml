@@ -5,11 +5,6 @@
     android:background="@color/white"
     android:orientation="vertical">
 
-    <include
-        android:id="@+id/include"
-        layout="@layout/actionbar_three_text_image"
-        android:layout_width="match_parent"
-        android:layout_height="52dp"></include>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcv_employersList"

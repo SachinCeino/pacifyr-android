@@ -2,6 +2,7 @@ package com.pacifyr.omhealthcare.events.fragment;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
@@ -9,7 +10,6 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -29,10 +29,14 @@ import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.ceino.utilitylibrary.utils.PrefManager;
+import com.google.zxing.integration.android.IntentIntegrator;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.event.NotifyEvent;
+import com.pacifyr.omhealthcare.events.activity.CaptureActivityPortrait;
 import com.pacifyr.omhealthcare.events.activity.EventActivity;
 import com.pacifyr.omhealthcare.events.adapter.AttendingCompanyListAdapter;
+import com.pacifyr.omhealthcare.events.views.EventTextViewBold;
+import com.pacifyr.omhealthcare.home.CheckinActivity;
 import com.pacifyr.omhealthcare.model.ModelEvent;
 import com.pacifyr.omhealthcare.network.GsonUtils;
 import com.pacifyr.omhealthcare.network.NetworkService;
@@ -53,6 +57,10 @@ import static com.pacifyr.omhealthcare.network.NetworkService.GLOBAL_IMAGE_URL;
 public class EventsDetailFragment extends BaseFragment {
 
 
+    public static final int EVENT_SCAN = 556;
+    private EventTextViewBold view_checkin;
+    private IntentIntegrator qrScan;
+
     public EventsDetailFragment() {
 
     }
@@ -66,7 +74,7 @@ public class EventsDetailFragment extends BaseFragment {
     private RecyclerView.LayoutManager mLayoutManager;
     private String actualDate;
     private LinearLayout layout_checkIn;
-    private CheckBox attending_toggle;
+//    private CheckBox attending_toggle;
 
 
 
@@ -78,14 +86,15 @@ public class EventsDetailFragment extends BaseFragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_detail_events, container, false);
         event_detail_image = view.findViewById(R.id.event_detail_image);
-        txtv_event_title = view.findViewById(R.id.txtv_event_title);
+        txtv_event_title = view.findViewById(R.id.txtv_employername);
         txtv_event_time = view.findViewById(R.id.txtv_event_time);
         txtv_event_address = view.findViewById(R.id.txtv_event_address);
         txtv_event_description = view.findViewById(R.id.txtv_event_description);
         txtv_event_schedule = view.findViewById(R.id.txtv_event_schedule);
         rcv_attending_company = view.findViewById(R.id.rcv_attending_company);
+        view_checkin = view.findViewById(R.id.button_checkin);
 
-        attending_toggle = view.findViewById(R.id.attending_toggle);
+//        attending_toggle = view.findViewById(R.id.attending_toggle);
 
 
         if (isValid(getArguments()))
@@ -113,7 +122,6 @@ public class EventsDetailFragment extends BaseFragment {
                         @Override
                         public boolean onException(Exception e, String model,
                                                    Target<GlideDrawable> target, boolean isFirstResource) {
-                            e.printStackTrace();
                             return false;
                         }
 
@@ -135,12 +143,6 @@ public class EventsDetailFragment extends BaseFragment {
                     getWebData(mModelEvent.getId());
 
 
-            attending_toggle.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    setUpAttending(mModelEvent.getId());
-                }
-            });
 
         }
 
@@ -178,7 +180,7 @@ public class EventsDetailFragment extends BaseFragment {
 
                             if (isValid(statusMessage) && statusMessage.equals("success"))
                             {
-                                attending_toggle.setChecked(true);
+//                                attending_toggle.setChecked(true);
                                 if (json.has("message"))
                                 {String mesg="";
                                     try {
@@ -332,26 +334,43 @@ public class EventsDetailFragment extends BaseFragment {
             }
         };
         getEventDetails(eventID, cb);
+        qrScan = new IntentIntegrator(getActivity());
     }
 
     private void setUpUIForAttendAndChecking(ModelEvent data) {
 
-        if (data.getAttendingUserIds()!=null && data.getAttendingUserIds().size()==0)
-        {
-            attending_toggle.setChecked(false);
-        }
-       else if (isValid(data.getAttendingUserIds())) {
-            if (data.getAttendingUserIds().contains(getPrefManager().getUserID())) {
-                attending_toggle.setChecked(true);
+
+        if (isValid(data.getCheckinUserIds())) {
+            if (data.getCheckinUserIds().contains(getUserID())) {
+                view_checkin.setText("Get ready for interviews");
+                view_checkin.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+                view_checkin.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getActivity(), CheckinActivity.class);
+                        intent.putExtra("eventId", data.getId());
+                        getActivity().startActivity(intent);
+                    }
+                });
             } else {
-                attending_toggle.setChecked(false);
+                view_checkin.setText("Check in");
+                view_checkin.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (getActivity() instanceof EventActivity) {
+                            ((EventActivity) getActivity()).setQRScanType(EVENT_SCAN);
+                        }
+                        qrScan.setPrompt("Scan a barcode");
+                        qrScan.setCameraId(0);  // Use a specific camera of the device
+                        qrScan.setOrientationLocked(true);
+                        qrScan.setBeepEnabled(true);
+                        qrScan.setCaptureActivity(CaptureActivityPortrait.class);
+                        qrScan.initiateScan();
+
+                    }
+                });
             }
         }
-        else {
-            attending_toggle.setChecked(true);
-        }
-
-
 
     }
 

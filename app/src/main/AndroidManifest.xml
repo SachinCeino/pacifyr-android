@@ -148,6 +148,10 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
+            android:name=".home.EmployerList"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
             android:name=".home.DashboardActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"

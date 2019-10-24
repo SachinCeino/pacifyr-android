@@ -36,6 +36,8 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.base.PacifyerActivity;
+import com.pacifyr.omhealthcare.events.fragment.AttendingEmployerFragment;
+import com.pacifyr.omhealthcare.events.fragment.EventsDetailFragment;
 import com.pacifyr.omhealthcare.events.fragment.EventsListFragment;
 import com.pacifyr.omhealthcare.home.CheckinActivity;
 import com.pacifyr.omhealthcare.model.ModelEvent;
@@ -67,6 +69,7 @@ public class EventActivity extends PacifyerActivity implements LocationListener 
     private final int REQUEST_LOCATION = 200;
 
     public double mLatitude,mLongitude;
+    private int QRScanType = -1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -346,11 +349,26 @@ public class EventActivity extends PacifyerActivity implements LocationListener 
                 try {
                     JSONObject obj = new JSONObject(result.getContents());
                     if (isValid(obj))
-                        if (obj.has("code"))
-                            callAPIWithCodeFromQRScanner(obj.get("code").toString());
+                        if (obj.has("code")) {
+                            if (getQRScanType() != -1 && getQRScanType() == AttendingEmployerFragment.EMPLOYER_SCAN) {
+                                callAPIWithCodeFromQRScanner(obj.get("code").toString());
+                            } else if (getQRScanType() != -1 && getQRScanType() == EventsDetailFragment.EVENT_SCAN) {
+                                callAPIWithCodeFromQRScanner(obj.get("code").toString());
+                            } else {
+                                Toast.makeText(EventActivity.this, "No actions available",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        }
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    callAPIWithCodeFromQRScanner(result.getContents());
+                    if (getQRScanType() != -1 && getQRScanType() == AttendingEmployerFragment.EMPLOYER_SCAN) {
+                        callAPIWithCodeFromQRScanner(result.getContents());
+                    } else if (getQRScanType() != -1 && getQRScanType() == EventsDetailFragment.EVENT_SCAN) {
+                        callAPIWithCodeFromQRScanner(result.getContents());
+                    } else {
+                        Toast.makeText(EventActivity.this, "No actions available",
+                                Toast.LENGTH_SHORT).show();
+                    }
                     //  Toast.makeText(getApplicationContext(), result.getContents(), Toast.LENGTH_LONG).show();
                 }
             }
@@ -361,7 +379,7 @@ public class EventActivity extends PacifyerActivity implements LocationListener 
 
 
     /**
-     * event attending scan popup
+     * Employer Check in
      **/
 
     private void callAPIWithCodeFromQRScanner(String code) {
@@ -435,5 +453,13 @@ public class EventActivity extends PacifyerActivity implements LocationListener 
 
             }
         });
+    }
+
+    public int getQRScanType() {
+        return QRScanType;
+    }
+
+    public void setQRScanType(int QRScanType) {
+        this.QRScanType = QRScanType;
     }
 }

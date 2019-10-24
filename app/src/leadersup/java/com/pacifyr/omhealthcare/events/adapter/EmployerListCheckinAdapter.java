@@ -2,13 +2,16 @@ package com.pacifyr.omhealthcare.events.adapter;
 
 import android.content.Context;
 import android.os.Build;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.transition.ChangeBounds;
 import androidx.transition.ChangeImageTransform;
@@ -21,9 +24,9 @@ import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.pacifyr.omhealthcare.R;
-import com.pacifyr.omhealthcare.event.BusProvider;
+import com.pacifyr.omhealthcare.events.fragment.AttendingEmployerFragment;
+import com.pacifyr.omhealthcare.fragment.CheckInFragment;
 import com.pacifyr.omhealthcare.model.ModelEvent;
-import com.pacifyr.omhealthcare.model.OpenEmployerEvent;
 import com.pacifyr.omhealthcare.quickblox.chat.utils.Consts;
 
 import java.util.List;
@@ -34,13 +37,13 @@ import static com.pacifyr.omhealthcare.network.NetworkService.GLOBAL_IMAGE_URL;
  * Created by ceino on 14/12/17.
  */
 
-public class EmployerListDialogAdapter extends RecyclerView.Adapter<EmployerListDialogAdapter.MyViewHolder> {
+public class EmployerListCheckinAdapter extends RecyclerView.Adapter<EmployerListCheckinAdapter.MyViewHolder> {
 
     List<ModelEvent.Employer> list;
     Context context;
 
 
-    public EmployerListDialogAdapter(Context context, List<ModelEvent.Employer> list) {
+    public EmployerListCheckinAdapter(Context context, List<ModelEvent.Employer> list) {
 
         this.list = list;
         this.context = context;
@@ -49,7 +52,7 @@ public class EmployerListDialogAdapter extends RecyclerView.Adapter<EmployerList
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.adapter_item_event, parent, false);
+                .inflate(R.layout.employer_list_item, parent, false);
 
         return new MyViewHolder(itemView);
     }
@@ -71,10 +74,8 @@ public class EmployerListDialogAdapter extends RecyclerView.Adapter<EmployerList
              * then convert the milliseconds to date
              * then format the date how we are displaying.
              * **/
-            holder.txtv_event_date.setText(object.getPhone() != null ? object.getPhone() : "");
-            holder.txtv_event_title.setText(object.getName());
-            holder.txtv_event_address.setText(object.getEmail());
-            holder.txtv_event_description.setText("");
+            holder.txtv_employer.setText(object.getName());
+            inflateJobsView(holder.view_jobs, object.getPositions());
             Glide.with(context)
                     .load(GLOBAL_IMAGE_URL + object.getImage())
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -82,7 +83,6 @@ public class EmployerListDialogAdapter extends RecyclerView.Adapter<EmployerList
                         @Override
                         public boolean onException(Exception e, String model,
                                                    Target<GlideDrawable> target, boolean isFirstResource) {
-                            e.printStackTrace();
                             return false;
                         }
 
@@ -103,7 +103,13 @@ public class EmployerListDialogAdapter extends RecyclerView.Adapter<EmployerList
                 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
                 @Override
                 public void onClick(View v) {
-                    BusProvider.getInstance().post(new OpenEmployerEvent(object));
+
+                    Bundle args = new Bundle();
+                    args.putSerializable("object", object);
+                    AttendingEmployerFragment attendingEmployerFragment = new AttendingEmployerFragment();
+                    attendingEmployerFragment.setArguments(args);
+                    ((AppCompatActivity) context).getSupportFragmentManager().beginTransaction().replace(R.id.employers_container,
+                            attendingEmployerFragment).addToBackStack(CheckInFragment.class.getSimpleName()).commit();
 
                 }
             });
@@ -111,6 +117,18 @@ public class EmployerListDialogAdapter extends RecyclerView.Adapter<EmployerList
             return;
         }
 
+    }
+
+    private void inflateJobsView(LinearLayout view_jobs, List<ModelEvent.Position> positions) {
+        if (positions != null) {
+            view_jobs.removeAllViewsInLayout();
+            for (int i = 0; i < positions.size(); i++) {
+                View jobView = LayoutInflater.from(context).inflate(R.layout.view_job_item, null);
+                TextView jobText = jobView.findViewById(R.id.text_job);
+                jobText.setText(positions.get(i).getTitle() + " (" + positions.get(i).getNumberOfPositions() + ")");
+                view_jobs.addView(jobView);
+            }
+        }
     }
 
 
@@ -145,15 +163,14 @@ public class EmployerListDialogAdapter extends RecyclerView.Adapter<EmployerList
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView txtv_event_date, txtv_event_title, txtv_event_address, txtv_event_description;
+        private final LinearLayout view_jobs;
+        public TextView txtv_employer;
         public ImageView event_image;
 
         public MyViewHolder(View view) {
             super(view);
-            txtv_event_description = view.findViewById(R.id.txtv_event_description);
-            txtv_event_address = view.findViewById(R.id.txtv_event_address);
-            txtv_event_title = view.findViewById(R.id.txtv_event_title);
-            txtv_event_date = view.findViewById(R.id.txtv_event_date);
+            txtv_employer = view.findViewById(R.id.txtv_employername);
+            view_jobs = view.findViewById(R.id.layout_jobs_container);
             event_image = view.findViewById(R.id.event_image);
         }
     }

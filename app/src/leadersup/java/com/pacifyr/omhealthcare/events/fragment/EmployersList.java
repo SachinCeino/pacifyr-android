@@ -6,43 +6,39 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
-import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.pacifyr.omhealthcare.R;
-import com.pacifyr.omhealthcare.event.BusProvider;
 import com.pacifyr.omhealthcare.event.NotifyEvent;
-import com.pacifyr.omhealthcare.events.adapter.EmployerListDialogAdapter;
+import com.pacifyr.omhealthcare.events.adapter.EmployerListCheckinAdapter;
 import com.pacifyr.omhealthcare.home.CheckinActivity;
+import com.pacifyr.omhealthcare.home.EmployerList;
 import com.pacifyr.omhealthcare.model.CheckinEvent;
 import com.pacifyr.omhealthcare.model.ModelEvent;
-import com.pacifyr.omhealthcare.model.OpenEmployerEvent;
+import com.pacifyr.omhealthcare.utility.BaseFragment;
 import com.squareup.otto.Subscribe;
 
 import java.util.List;
 
 
-public class EmployersListDialog extends DialogFragment {
+public class EmployersList extends BaseFragment {
 
 
-    private TextView title;
     private RecyclerView rcv_eventList;
     private RecyclerView.LayoutManager mLayoutManager;
-    private EmployerListDialogAdapter mEventListAdapter;
+    private EmployerListCheckinAdapter mEventListAdapter;
     private List<ModelEvent.Employer> listEmployer;
 
-    public EmployersListDialog() {
+    public EmployersList() {
 
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        BusProvider.getInstance().register(this);
     }
 
     @Override
@@ -52,10 +48,12 @@ public class EmployersListDialog extends DialogFragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.dialog_list_employers, container, false);
 
-        title = view.findViewById(R.id.title_txv);
         rcv_eventList = view.findViewById(R.id.rcv_employersList);
 
-        title.setText("Employers List");
+        if (getActivity() instanceof EmployerList) {
+            ((EmployerList) getActivity()).setTitle("Employers List");
+        }
+
         Bundle bundle = getArguments();
         if (bundle != null && bundle.getSerializable("data") != null) {
             listEmployer = (List<ModelEvent.Employer>) bundle.getSerializable("data");
@@ -80,6 +78,11 @@ public class EmployersListDialog extends DialogFragment {
 
     }
 
+    @Override
+    public void onSetValues(View view) throws Exception {
+
+    }
+
 
     @Override
     public void onDestroy() {
@@ -97,13 +100,16 @@ public class EmployersListDialog extends DialogFragment {
     @Override
     public void onStop() {
         super.onStop();
-        BusProvider.getInstance().unregister(this);
     }
 
     @Subscribe
     public void onCheckinEvent(CheckinEvent checkinEvent) {
         if (checkinEvent.getEventId() != null) {
-            getDialog().dismiss();
+            try {
+                getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             Intent intent = new Intent(getActivity(), CheckinActivity.class);
             intent.putExtra("eventId", checkinEvent.getEventId());
             getActivity().startActivity(intent);
@@ -113,18 +119,14 @@ public class EmployersListDialog extends DialogFragment {
 
     private void setAdpater(List<ModelEvent.Employer> list) {
 
-        mEventListAdapter = new EmployerListDialogAdapter(getActivity(), list);
-        mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL
+        mEventListAdapter = new EmployerListCheckinAdapter(getActivity(), list);
+        mLayoutManager = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL
                 , false);
         rcv_eventList.setLayoutManager(mLayoutManager);
         rcv_eventList.setAdapter(mEventListAdapter);
         rcv_eventList.setItemAnimator(new DefaultItemAnimator());
     }
 
-    @Subscribe
-    public void onOpenEmployerEvent(OpenEmployerEvent openEmployerEvent) {
-        dismiss();
-    }
 
 
 }

@@ -72,4 +72,5 @@
     <color name="view_color">#cfcece</color>
     <color name="event_svg_checkin_color">@color/colorPrimary</color>
     <color name="bullet_color">#454A4A</color>
+    <color name="text_color">#044044</color>
 </resources>
