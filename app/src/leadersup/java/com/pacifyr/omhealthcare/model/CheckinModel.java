@@ -51,6 +51,13 @@ public class CheckinModel {
         return "";
     }
 
+    public String getDescription2(Context context) {
+        if (this.type == RESUME_ZONE) {
+            return context.getResources().getString(R.string.desc_resume_zone_2);
+        }
+        return "";
+    }
+
 
     boolean complete = false;
 

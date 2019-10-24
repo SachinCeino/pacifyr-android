@@ -185,22 +185,17 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="pref_wellness_experts">Preferred Wellness Experts</string>
     <string name="tick">✔</string>
     <string name="activity_checkin">Checkin</string>
-    <string name="desc_resume_zone">In order to interview with an employer you must have reviewed
-        your resume with a <b>LeadersUp Career Coach.</b> <br></br> <br></br> Please proceed to
-        the <b>Resume Section</b> to have your resume reviewed. Has your resume been reviewed by
-        a <b>LeadersUp Career Coach</b>?
+    <string name="desc_resume_zone">Let\'s make sure your resume is ready for our employers.
+        Proceed to the Tech Station to have your resume reviewed by a LeadersUp Career Coach.
     </string>
-    <string name="desc_mock_interview">In order to interview with an employer you must first mock
-        interview with a <b>LeadersUp Career Coach.</b> <br></br> <br></br> Please proceed to the
-        <b>Mock Interview Station.</b> Have you mock interviewed with a <b>LeaderUp Career
-            Coach</b>?
+    <string name="desc_resume_zone_2">Proceed to the Help Desk to have your resume printed.
+    </string>
+    <string name="desc_mock_interview">We want to make sure you\'re ready to interview. Proceed
+        to Mock Interview Zone
     </string>
 
-    <string name="desc_dress_success">Your clothing is your interviewers first impression of you,
-        so its important to make sure what you are wearing is on point. Our style expert can help.
-        <br></br> <br></br> Please proceed to the <b>Dress for success station.</b>
-        <br></br> <br></br>
-        Have you completed the dress for success step?
+    <string name="desc_dress_success">We want to make sure you\'re interview fresh. Proceed to
+        Dress for Success Zone.
     </string>
 
     <string name="desc_elevated">Have you completed the elevated zone step?</string>

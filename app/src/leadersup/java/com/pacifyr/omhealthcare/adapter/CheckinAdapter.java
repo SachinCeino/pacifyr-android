@@ -53,15 +53,15 @@ public class CheckinAdapter extends RecyclerView.Adapter<CheckinAdapter.CheckinH
         }
         if (checkinModel.isComplete()) {
             hideView(holder.button_complete);
-            hideView(holder.button_cancel);
             hideView(holder.text_item_desc);
+            hideView(holder.text_item_desc_2);
             hideView(holder.image_action);
             holder.slNo.setImageDrawable(context.getResources().getDrawable(R.drawable.icon_completed));
         } else {
             if (expandedItem == position) {
                 showView(holder.button_complete);
-                showView(holder.button_cancel);
                 showView(holder.text_item_desc);
+                showView(holder.text_item_desc_2);
                 showView(holder.image_action);
             }
         }
@@ -70,8 +70,8 @@ public class CheckinAdapter extends RecyclerView.Adapter<CheckinAdapter.CheckinH
 
         } else {
             hideView(holder.button_complete);
-            hideView(holder.button_cancel);
             hideView(holder.text_item_desc);
+            hideView(holder.text_item_desc_2);
             hideView(holder.image_action);
             holder.itemView.setBackgroundColor(context.getResources().getColor(R.color.transparent_black_1));
         }
@@ -79,7 +79,14 @@ public class CheckinAdapter extends RecyclerView.Adapter<CheckinAdapter.CheckinH
 
         holder.text_item.setText(checkinModel.getTitle());
         holder.text_item_desc.setText(Html.fromHtml(checkinModel.getDescription(context)));
-        holder.image_action.setImageDrawable(checkinModel.getImage(context));
+        if (checkinModel.getDescription2(context) != null) {
+            holder.text_item_desc_2.setText(checkinModel.getDescription2(context));
+        }
+        if (checkinModel.getImage(context) != null) {
+            holder.image_action.setImageDrawable(checkinModel.getImage(context));
+        } else {
+            hideView(holder.image_action);
+        }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,14 +105,6 @@ public class CheckinAdapter extends RecyclerView.Adapter<CheckinAdapter.CheckinH
             }
         });
 
-        holder.button_cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                items.get(position).setExpanded(false);
-                expandedItem = -1;
-                notifyDataSetChanged();
-            }
-        });
     }
 
     private void hideView(View view) {
@@ -175,16 +174,16 @@ public class CheckinAdapter extends RecyclerView.Adapter<CheckinAdapter.CheckinH
         public final TextView text_item;
         private final Button button_complete;
         private final TextView text_item_desc;
-        private final Button button_cancel;
         private final ImageView image_action;
+        private final TextView text_item_desc_2;
 
         public CheckinHolder(@NonNull View itemView) {
             super(itemView);
             slNo = itemView.findViewById(R.id.text_slno);
             text_item = itemView.findViewById(R.id.text_item);
             text_item_desc = itemView.findViewById(R.id.text_item_description);
+            text_item_desc_2 = itemView.findViewById(R.id.text_item_description_2);
             button_complete = itemView.findViewById(R.id.button_complete);
-            button_cancel = itemView.findViewById(R.id.button_cancel);
             image_action = itemView.findViewById(R.id.image_action);
         }
     }

@@ -147,7 +147,7 @@ public class CheckinActivity extends PacifyrAppCompactActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-        if (result != null && markEvent != null) {
+        if (result != null && markEvent != null) { // 5 step check in
             new NetworkService().markStepComplete(markEvent.getEventId(), result.getContents(),
                     markEvent.getType(), new AjaxCallback<JSONObject>() {
                         @Override

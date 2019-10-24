@@ -1,11 +1,14 @@
 package com.pacifyr.omhealthcare.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.event.AlertTypeEvent;
 import com.pacifyr.omhealthcare.event.NotifyEvent;
@@ -66,6 +69,15 @@ public class EmployerList extends PacifyrAppCompactActivity {
             super.onBackPressed();
         }
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+
+        if (result != null) { //Employer check in
+            mcallAPIWithCodeFromQRScanner(result.getContents());
+        }
     }
 
     @Override
