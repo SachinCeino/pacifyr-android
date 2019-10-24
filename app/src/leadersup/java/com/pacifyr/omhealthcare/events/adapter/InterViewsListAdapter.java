@@ -80,44 +80,56 @@ public class InterViewsListAdapter extends RecyclerView.Adapter<InterViewsListAd
             final String Display_date = Utility.getDateFormatOneWithYear(serverDate);
 
             if (isValid(Display_date))
-                holder.offer_date.setText("Interview date :" + Display_date);
+                holder.offer_date.setText(Display_date);
 
-            if (isValid(object.getEvent())) {
-                if (isValid(object.getEvent().getDescription()))
-                    holder.offer_title.setText(object.getEvent().getDescription());
-            }
 
-            if (isValid(object.getEvent().getTitle())) {
-                if (isValid(object.getEvent().getTitle()))
-                    holder.company_title.setText(object.getEvent().getTitle());
+            if (isValid(object.getInterviewStatus())) {
+                holder.interview_status.setText(object.getInterviewStatus().toString());
             }
 
 
-            if (isValid(object.getEvent().getImage())) {
-                Glide.with(context)
-                        .load(GLOBAL_IMAGE_URL + object.getEvent().getImage())
-                        .diskCacheStrategy(DiskCacheStrategy.ALL)
-                        .listener(new RequestListener<String, GlideDrawable>() {
-                            @Override
-                            public boolean onException(Exception e, String model,
-                                                       Target<GlideDrawable> target, boolean isFirstResource) {
-                                e.printStackTrace();
-                                return false;
-                            }
+            if (isValid(object.getEmployerPosition())) {
+                if (isValid(object.getEmployerPosition().getTitle())) {
+                    holder.opening_title.setText(object.getEmployerPosition().getTitle());
+                }
 
-                            @Override
-                            public boolean onResourceReady(GlideDrawable resource, String model,
-                                                           Target<GlideDrawable> target, boolean isFromMemoryCache,
-                                                           boolean isFirstResource) {
-                                // progressBar.setVisibility(View.GONE);
-                                return false;
-                            }
-                        })
-                        .error(R.drawable.ic_error_white)
-                        .dontTransform()
-                        .into(holder.company_logo);
+                if (isValid(object.getEmployerPosition().getLocation())) {
+                    holder.txtv_event_address.setText(object.getEmployerPosition().getLocation());
+                }
             }
 
+
+            if (isValid(object.getEmployer())) {
+                if (isValid(object.getEmployer().getImage())) {
+                    Glide.with(context)
+                            .load(GLOBAL_IMAGE_URL + object.getEmployer().getImage())
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .listener(new RequestListener<String, GlideDrawable>() {
+                                @Override
+                                public boolean onException(Exception e, String model,
+                                                           Target<GlideDrawable> target, boolean isFirstResource) {
+                                    e.printStackTrace();
+                                    return false;
+                                }
+
+                                @Override
+                                public boolean onResourceReady(GlideDrawable resource, String model,
+                                                               Target<GlideDrawable> target, boolean isFromMemoryCache,
+                                                               boolean isFirstResource) {
+                                    // progressBar.setVisibility(View.GONE);
+                                    return false;
+                                }
+                            })
+                            .error(R.drawable.ic_error_white)
+                            .dontTransform()
+                            .into(holder.company_logo);
+                }
+
+                if (isValid(object.getEmployer().getName())) {
+                    if (isValid(object.getEmployer().getName()))
+                        holder.employer_title.setText(object.getEmployer().getName());
+                }
+            }
 
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -176,15 +188,17 @@ public class InterViewsListAdapter extends RecyclerView.Adapter<InterViewsListAd
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView company_title, offer_title, offer_date;
+        public TextView opening_title, employer_title, offer_date, interview_status, txtv_event_address;
         public ImageView company_logo;
 
         public MyViewHolder(View view) {
             super(view);
-            company_title = view.findViewById(R.id.company_title);
-            offer_title = view.findViewById(R.id.offer_title);
+            opening_title = view.findViewById(R.id.opening_title);
+            employer_title = view.findViewById(R.id.employer_title);
             offer_date = view.findViewById(R.id.offer_date);
             company_logo = view.findViewById(R.id.company_logo);
+            interview_status = view.findViewById(R.id.interview_status);
+            txtv_event_address = view.findViewById(R.id.txtv_event_address);
         }
     }
 

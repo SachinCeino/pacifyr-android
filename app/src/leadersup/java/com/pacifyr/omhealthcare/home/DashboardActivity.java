@@ -41,6 +41,7 @@ import com.pacifyr.omhealthcare.events.activity.CaptureActivityPortrait;
 import com.pacifyr.omhealthcare.events.activity.EventActivity;
 import com.pacifyr.omhealthcare.events.activity.MyInterviewsActvity;
 import com.pacifyr.omhealthcare.fragment.AppointmentsFragment;
+import com.pacifyr.omhealthcare.fragment.MySessionFragment;
 import com.pacifyr.omhealthcare.fragment.ResourcesFragment;
 import com.pacifyr.omhealthcare.fragment.SupportFragment;
 import com.pacifyr.omhealthcare.fragment.UserDashboardFragment;
@@ -84,7 +85,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
     private LinearLayout dashboardLlay;
     private DeviceFitImageView dashboardDimv;
     private CustomFontTextView dashboardCtxv;
-    private LinearLayout goToELearning;
+    private LinearLayout mysessions_llay;
     private DeviceFitImageView mesessionsDimv;
     private CustomFontTextView mysessionsCtxv;
     private LinearLayout paymentLlay;
@@ -180,7 +181,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
         dashboardDimv = findViewById(R.id.dashboard_dimv);
         profile_cimv = findViewById(R.id.profile_cimv);
         dashboardCtxv = findViewById(R.id.dashboard_ctxv);
-        goToELearning = findViewById(R.id.mysessions_llay);
+        mysessions_llay = findViewById(R.id.mysessions_llay);
         mesessionsDimv = findViewById(R.id.mesessions_dimv);
         mysessionsCtxv = findViewById(R.id.mysessions_ctxv);
         paymentLlay = findViewById(R.id.payment_llay);
@@ -337,13 +338,15 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
             }
         });
 
-        goToELearning.setOnClickListener(new View.OnClickListener() {
+        mysessions_llay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i=new Intent(getApplicationContext(),TermsOfUseActivity.class);
+               /* Intent i=new Intent(getApplicationContext(),TermsOfUseActivity.class);
                 i.putExtra("spurl", getResources().getString(R.string.go_to_e_learning_url));
                 i.putExtra("title", "E-LEARNING");
-                startActivity(i);
+                startActivity(i);*/
+                showFragment(new MySessionFragment());
+                defSetText(titleTxv, getResources().getString(R.string.mysessions));
             }
         });
 

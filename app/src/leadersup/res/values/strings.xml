@@ -215,7 +215,7 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="This_Week">My E-learning</string>
     <string name="Connect_to_Wellness_Experts">connect with a career coach</string>
     <string name="connect_to_wellness_experts">CONNECT WITH A \nCAREER COACH</string>
-    <string name="my_session">GOTO E-LEARNING</string>
+    <string name="my_session">MY COMPLETED SESSIONS</string>
 
     <string name="before_we_get_started">Before we get started,let our Career Coaches know how you\'re feeling today?</string>
     <string name="select_an_emotion">Select an emotion first?</string>
@@ -248,9 +248,9 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="bennefits">BENNEFITS</string>
     <string name="qualification">QUALIFICATION</string>
     <string name="website">WEBSITE</string>
-    <string name="empty_event">No events available now!</string>
-    <string name="empty_offers">No offers available now!</string>
-    <string name="empty_interviews">No interviews available now!</string>
+    <string name="empty_event">You have no events yet.</string>
+    <string name="empty_offers">You have no offers yet.</string>
+    <string name="empty_interviews">You have no interviews yet.</string>
     <string name="my_last_emotion">Events</string>
     <string name="offers">MY INTERVIEWS</string>
     <string name="scan_qrcode">Scan QRCode</string>

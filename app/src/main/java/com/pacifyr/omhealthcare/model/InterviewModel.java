@@ -39,7 +39,7 @@ public class InterviewModel implements Serializable {
         private String eventId;
         @SerializedName("interviewStatus")
         @Expose
-        private Object interviewStatus;
+        private String interviewStatus;
         @SerializedName("dressedForInterview")
         @Expose
         private Boolean dressedForInterview;
@@ -75,7 +75,7 @@ public class InterviewModel implements Serializable {
         private Boolean mockInterviewCompleted;
         @SerializedName("employer")
         @Expose
-        private Object employer;
+        private ModelEvent.Employer employer;
         @SerializedName("id")
         @Expose
         private String id;
@@ -91,6 +91,17 @@ public class InterviewModel implements Serializable {
         @SerializedName("updatedAt")
         @Expose
         private String updatedAt;
+        @SerializedName("employerPosition")
+        @Expose
+        private EmployerPosition employerPosition;
+
+        public EmployerPosition getEmployerPosition() {
+            return employerPosition;
+        }
+
+        public void setEmployerPosition(EmployerPosition employerPosition) {
+            this.employerPosition = employerPosition;
+        }
 
         public String getEventId() {
             return eventId;
@@ -100,11 +111,11 @@ public class InterviewModel implements Serializable {
             this.eventId = eventId;
         }
 
-        public Object getInterviewStatus() {
+        public String getInterviewStatus() {
             return interviewStatus;
         }
 
-        public void setInterviewStatus(Object interviewStatus) {
+        public void setInterviewStatus(String interviewStatus) {
             this.interviewStatus = interviewStatus;
         }
 
@@ -196,11 +207,11 @@ public class InterviewModel implements Serializable {
             this.mockInterviewCompleted = mockInterviewCompleted;
         }
 
-        public Object getEmployer() {
+        public ModelEvent.Employer getEmployer() {
             return employer;
         }
 
-        public void setEmployer(Object employer) {
+        public void setEmployer(ModelEvent.Employer employer) {
             this.employer = employer;
         }
 
@@ -245,4 +256,143 @@ public class InterviewModel implements Serializable {
         }
 
     }
+
+
+    public class EmployerPosition implements Serializable {
+
+        @SerializedName("benefits")
+        @Expose
+        private List<String> benefits = null;
+        @SerializedName("qualifications")
+        @Expose
+        private List<String> qualifications = null;
+        @SerializedName("createdAt")
+        @Expose
+        private String createdAt;
+        @SerializedName("website")
+        @Expose
+        private String website;
+        @SerializedName("employerId")
+        @Expose
+        private String employerId;
+        @SerializedName("description")
+        @Expose
+        private String description;
+        @SerializedName("location")
+        @Expose
+        private String location;
+        @SerializedName("id")
+        @Expose
+        private String id;
+        @SerializedName("numberOfPositions")
+        @Expose
+        private String numberOfPositions;
+        @SerializedName("title")
+        @Expose
+        private String title;
+        @SerializedName("salary")
+        @Expose
+        private String salary;
+        @SerializedName("updatedAt")
+        @Expose
+        private String updatedAt;
+
+        public List<String> getBenefits() {
+            return benefits;
+        }
+
+        public void setBenefits(List<String> benefits) {
+            this.benefits = benefits;
+        }
+
+        public List<String> getQualifications() {
+            return qualifications;
+        }
+
+        public void setQualifications(List<String> qualifications) {
+            this.qualifications = qualifications;
+        }
+
+        public String getCreatedAt() {
+            return createdAt;
+        }
+
+        public void setCreatedAt(String createdAt) {
+            this.createdAt = createdAt;
+        }
+
+        public String getWebsite() {
+            return website;
+        }
+
+        public void setWebsite(String website) {
+            this.website = website;
+        }
+
+        public String getEmployerId() {
+            return employerId;
+        }
+
+        public void setEmployerId(String employerId) {
+            this.employerId = employerId;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+
+        public void setDescription(String description) {
+            this.description = description;
+        }
+
+        public String getLocation() {
+            return location;
+        }
+
+        public void setLocation(String location) {
+            this.location = location;
+        }
+
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        public String getNumberOfPositions() {
+            return numberOfPositions;
+        }
+
+        public void setNumberOfPositions(String numberOfPositions) {
+            this.numberOfPositions = numberOfPositions;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        public void setTitle(String title) {
+            this.title = title;
+        }
+
+        public String getSalary() {
+            return salary;
+        }
+
+        public void setSalary(String salary) {
+            this.salary = salary;
+        }
+
+        public String getUpdatedAt() {
+            return updatedAt;
+        }
+
+        public void setUpdatedAt(String updatedAt) {
+            this.updatedAt = updatedAt;
+        }
+
+    }
+
 }
