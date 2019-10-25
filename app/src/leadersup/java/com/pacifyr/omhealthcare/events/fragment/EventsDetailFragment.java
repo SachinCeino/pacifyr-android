@@ -138,9 +138,6 @@ public class EventsDetailFragment extends BaseFragment {
                     .override(Consts.PREFERRED_IMAGE_SIZE_FULL, Consts.PREFERRED_IMAGE_SIZE_FULL)
                     .into(event_detail_image);
 
-            if (isValid(mModelEvent))
-                if (isValid(mModelEvent.getId()))
-                    getWebData(mModelEvent.getId());
 
 
 
@@ -289,6 +286,9 @@ public class EventsDetailFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
+        if (isValid(mModelEvent))
+            if (isValid(mModelEvent.getId()))
+                getWebData(mModelEvent.getId());
 
     }
 
