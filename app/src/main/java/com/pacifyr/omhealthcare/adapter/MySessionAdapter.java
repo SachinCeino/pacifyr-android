@@ -50,6 +50,7 @@ public class MySessionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     String userid,token;
     private boolean firstItemEditable = true;
+    private int firstValidSessionPos = -1;
 
 
     public MySessionAdapter(Context context, ArrayList<MSessionDetailRoot> list,String userid,String token) {
@@ -175,6 +176,8 @@ public class MySessionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private void setViewholder(MyViewHolder holder, final MSessionDetailRoot results, int position) {
 
         try {
+            if (firstValidSessionPos == -1)
+                firstValidSessionPos = position;
             String sessionType=results.getSessionType();
             MSessionRating[] rating = results.getSessionRatings();
             MSessionRating customerRatings = null;
@@ -291,7 +294,7 @@ public class MySessionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 @Override
                 public void onClick(View v) {
                     boolean editable = true;
-                    if (position > 0 || !firstItemEditable) {
+                    if (position > firstValidSessionPos || !firstItemEditable) {
                         editable = false;
                     }
                     try {

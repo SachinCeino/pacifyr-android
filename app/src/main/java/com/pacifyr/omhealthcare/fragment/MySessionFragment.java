@@ -149,7 +149,7 @@ public class MySessionFragment extends BaseFragment {
         final String fromDateWeek = formatter.print(startofWeek);
         final String fromDateMonth = formatter.print(startofMonth);
         final String fromDateYear = formatter.print(startofYear);
-        final String toDate = formatter.print(now1);
+        final String toDate = formatter.print(now);
 
         fromDWeek=fromDateWeek;
         toDWeek=toDate;
