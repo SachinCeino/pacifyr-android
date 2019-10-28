@@ -214,6 +214,19 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
         }
     };
 
+    private BroadcastReceiver generalNotificationReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent != null && intent.hasExtra("title") && intent.hasExtra("body")) {
+                String title = intent.getExtras().getString("title");
+                String body = intent.getExtras().getString("body");
+                if (title != null && title != "" && showNotification) {
+                    showIOSDialogOK(title, body, "Ok");
+                }
+            }
+        }
+    };
+
     public void showNotificationPopups(boolean val) {
         this.showNotification = val;
     }
@@ -274,6 +287,8 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
         super.onStart();
         Log.d(TAG, "Register receiver");
         LocalBroadcastManager.getInstance(this).registerReceiver(notificationReceiver, new IntentFilter(NotificationUtils.NOTIFY_INTENT));
+        LocalBroadcastManager.getInstance(this).registerReceiver(generalNotificationReceiver,
+                new IntentFilter(NotificationUtils.NOTIFY_INTENT_GENERAL));
         LocalBroadcastManager.getInstance(this).registerReceiver(eventReceiver, new IntentFilter(CallEvent.CALL_EVENT));
         LocalBroadcastManager.getInstance(this).registerReceiver(waringToAddPayTmPaymentReceiver, new IntentFilter(NotificationUtils.PAYTM_PAYMENT_EVENT));
     }
@@ -283,6 +298,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
         super.onStop();
         Log.d(TAG, "UnRegister receiver");
         LocalBroadcastManager.getInstance(this).unregisterReceiver(eventReceiver);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(generalNotificationReceiver);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(notificationReceiver);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(waringToAddPayTmPaymentReceiver);
     }

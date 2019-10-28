@@ -27,6 +27,7 @@ public class NotificationUtils {
 
     public static final String NOTIFY_INTENT = "notify_intent";
     public static final String PAYTM_PAYMENT_EVENT="paytm_payment_intent";
+    public static final String NOTIFY_INTENT_GENERAL = "notify_event_general";
     private String TAG = NotificationUtils.class.getSimpleName();
 
     private Context mContext;

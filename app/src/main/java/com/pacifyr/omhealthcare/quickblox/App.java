@@ -11,7 +11,7 @@ import com.ceino.utilitylibrary.network.UtilityNetworkService;
 import com.pacifyr.omhealthcare.quickblox.chat.models.SampleConfigs;
 import com.pacifyr.omhealthcare.quickblox.chat.utils.Consts;
 import com.pacifyr.omhealthcare.quickblox.chat.utils.configs.ConfigUtils;
-import com.pacifyr.omhealthcare.quickblox.services.CallService;
+import com.pacifyr.omhealthcare.quickblox.services.Call_Service;
 import com.pacifyr.omhealthcare.quickblox.util.QBResRequestExecutor;
 import com.quickblox.auth.session.QBSettings;
 import com.quickblox.sample.core.CoreApp;
@@ -49,7 +49,7 @@ public class App extends CoreApp {
         QBSettings.getInstance().init(this, APP_ID, AUTH_KEY, AUTH_SECRET);
         QBSettings.getInstance().setAccountKey(ACCOUNT_KEY);
         try {
-            Intent intent = new Intent(this, CallService.class);
+            Intent intent = new Intent(this, Call_Service.class);
             startService(intent);
         } catch (Exception e) {
             e.printStackTrace();

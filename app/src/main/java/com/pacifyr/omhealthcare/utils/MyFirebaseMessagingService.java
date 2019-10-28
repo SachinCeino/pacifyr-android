@@ -103,6 +103,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         // Not getting messages here? See why this may be: https://goo.gl/39bRNJ
         Log.d(TAG, "From: " + remoteMessage.getFrom());
 
+        String data = remoteMessage.getData().toString();
         // Check if message contains a data payload.
         if (remoteMessage.getData().size() > 0) {
             Log.d(TAG, "Message data payload: " + remoteMessage.getData());
@@ -118,10 +119,25 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
 
         // Check if message contains a notification payload.
-        if (remoteMessage.getNotification() != null) {
-            Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
-        }
 
+
+        if (remoteMessage.getNotification() != null) {
+            String title = "";
+            String body = "";
+            if (remoteMessage.getNotification().getTitle() != null) {
+                title = remoteMessage.getNotification().getTitle();
+            }
+
+            if (remoteMessage.getNotification().getBody() != null) {
+                body = remoteMessage.getNotification().getBody();
+            }
+            if (!title.isEmpty() && !body.isEmpty()) {
+                Intent intent = new Intent(NotificationUtils.NOTIFY_INTENT_GENERAL);
+                intent.putExtra("title", title);
+                intent.putExtra("body", body);
+                LocalBroadcastManager.getInstance(MyFirebaseMessagingService.this).sendBroadcast(intent);
+            }
+        }
         // Also if you intend on generating your own notifications as a result of a received FCM
         // message, here is where that should be initiated. See sendCardAddedNotification method below.
     }
