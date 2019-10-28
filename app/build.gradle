@@ -109,8 +109,8 @@ android {
         leadersup {
             dimension "Pacifyr"
             applicationId "com.pacifyr.leadersup"
-            versionName "1.1"
-            versionCode 4
+            versionName "1.1.1"
+            versionCode 5
         }
         pamapp {
             dimension "Pacifyr"
