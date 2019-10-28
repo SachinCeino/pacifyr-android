@@ -5,25 +5,19 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.events.activity.EventActivity;
 import com.pacifyr.omhealthcare.events.fragment.AttendingEmployerFragment;
 import com.pacifyr.omhealthcare.model.ModelEvent;
-import com.pacifyr.omhealthcare.quickblox.chat.utils.Consts;
 
 import java.util.List;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.pacifyr.omhealthcare.network.NetworkService.GLOBAL_IMAGE_URL;
 
@@ -80,27 +74,10 @@ public class AttendingCompanyListAdapter extends RecyclerView.Adapter<AttendingC
         {
             Glide.with(context)
                     .load(GLOBAL_IMAGE_URL + object.getImage())
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .listener(new RequestListener<String, GlideDrawable>() {
-                        @Override
-                        public boolean onException(Exception e, String model,
-                                                   Target<GlideDrawable> target, boolean isFirstResource) {
-                            return false;
-                        }
-
-                        @Override
-                        public boolean onResourceReady(GlideDrawable resource, String model,
-                                                       Target<GlideDrawable> target, boolean isFromMemoryCache,
-                                                       boolean isFirstResource) {
-                            // progressBar.setVisibility(View.GONE);
-                            return false;
-                        }
-                    })
-                    .error(R.drawable.ic_launcher)
-                    .dontTransform()
-                    .override(Consts.PREFERRED_IMAGE_SIZE_FULL, Consts.PREFERRED_IMAGE_SIZE_FULL)
                     .into(holder.img_company_logo);
 
+        } else {
+            holder.img_company_logo.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_menu_gallery));
         }
 
 
@@ -138,7 +115,7 @@ public class AttendingCompanyListAdapter extends RecyclerView.Adapter<AttendingC
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView txtv_title;
-        public CircleImageView img_company_logo;
+        public ImageView img_company_logo;
 
 
         public MyViewHolder(View view) {

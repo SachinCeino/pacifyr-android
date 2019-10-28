@@ -8,11 +8,13 @@
     android:gravity="center_vertical">
 
 
-    <de.hdodenhof.circleimageview.CircleImageView
+    <ImageView
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:id="@+id/img_company_logo"
-        android:src="@drawable/ic_error_white"
+        android:layout_marginLeft="5dp"
+        android:background="@drawable/circle_image_bg"
+        android:src="@drawable/ic_launcher"
         android:padding="5dp" />
     <com.pacifyr.omhealthcare.events.views.EventTextViewMedium
         android:layout_width="wrap_content"
@@ -20,7 +22,7 @@
         android:id="@+id/txtv_title"
         android:lines="1"
         android:textColor="@color/colorPrimary"
-        android:textSize="@dimen/event_sub_title_size_in_detail"
+        android:textSize="@dimen/sp14"
         android:padding="3dp" />
 
 </LinearLayout>
