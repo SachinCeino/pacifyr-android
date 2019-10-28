@@ -549,13 +549,24 @@ public class Utility {
         return millis;
     }
 
-    public static long getCurrentDateinMilliSeconds() {
+    public static long converToMilliSecondsFormatb(String date) {
         long millis = 0;
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(new Date());
-        millis = calendar.get(Calendar.DATE);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        Date dt = null;
+        try {
+
+            Date ddd = sdf.parse(date);
+            millis = ddd.getTime();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
         return millis;
+    }
+
+    public static long getCurrentDateinMilliSeconds() {
+
+        return System.currentTimeMillis();
     }
 
     public static String convertMillisecondsTodate(Long dateInMillis) {
