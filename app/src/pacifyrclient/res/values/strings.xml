@@ -25,7 +25,7 @@
     <string name="cost_for_one_hour">Cost for one hour</string>
     <string name="price">Price</string>
 
-    <string name="sms_text_login">Pacifyr will send you an SMS message to confirm your phone number</string>
+    <string name="sms_text_login">will send you an SMS message to confirm your phone number</string>
     <string name="call_emergency">If this is an emergency call, please hang up and dial 911 or rush to the nearest hospital.</string>
     <string name="card_number">Card Number</string>
 

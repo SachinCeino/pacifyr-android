@@ -1,5 +1,6 @@
 package com.pacifyr.omhealthcare.sign;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -101,8 +102,10 @@ public class SignUpActivity extends PacifyerActivity {
     private String jsonString;
     Context context;
     private String qbID;
+    private CustomFontTextView sms_text_login;
     //private CustomFontTextView enter_phone_ctxv;
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -112,6 +115,7 @@ public class SignUpActivity extends PacifyerActivity {
             setContentView(R.layout.activity_sign_up);
             context = SignUpActivity.this;
             prefM = PrefManager.getInstance(context);
+            sms_text_login = findViewById(R.id.sms_text_login);
 
             /*hideKeyboard();*/
             InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
@@ -155,12 +159,11 @@ public class SignUpActivity extends PacifyerActivity {
                 sp.setSelection(0);
             }else if (countryCode.equals("CA")){
                 sp.setSelection(1);
-            }
-            else if (countryCode.equals("AE")){
+            } else if (countryCode.equals("AE")){
                 sp.setSelection(3);
             }
 
-           /* enter_phone_ctxv = (CustomFontTextView) findViewById(R.id.enter_phone_ctxv);*/
+            /* enter_phone_ctxv = (CustomFontTextView) findViewById(R.id.enter_phone_ctxv);*/
 
             /*ItemData it= (ItemData) sp.getSelectedItem();*/
             logoRlay = (RelativeLayout) findViewById(R.id.logo_rlay);
@@ -189,71 +192,71 @@ public class SignUpActivity extends PacifyerActivity {
             enter_phone_ctxv.setTypeface(type);*/
 
             loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-              @Override
+                @Override
                 public void onSuccess(LoginResult loginResult) {
                     //Toast.makeText(SignUpActivity.this,loginResult.getAccessToken().getUserId().toString(),Toast.LENGTH_LONG).show();
                     // AppChatNotUSe code
-                  // Facebook Email address
-                  GraphRequest request = GraphRequest.newMeRequest(
-                          loginResult.getAccessToken(),
-                          new GraphRequest.GraphJSONObjectCallback() {
-                              @Override
-                              public void onCompleted(
-                                      JSONObject object,
-                                      GraphResponse response) {
-                                  Log.v("LoginActivity Response ", response.toString());
+                    // Facebook Email address
+                    GraphRequest request = GraphRequest.newMeRequest(
+                            loginResult.getAccessToken(),
+                            new GraphRequest.GraphJSONObjectCallback() {
+                                @Override
+                                public void onCompleted(
+                                        JSONObject object,
+                                        GraphResponse response) {
+                                    Log.v("LoginActivity Response ", response.toString());
 
-                                  try {
-                                      String profilePicUrl = null;
-                                      JSONObject data = response.getJSONObject();
-                                      facebookModel = GsonUtils.getInstance().gsonToModelFacebook(data);
-                                      if (data.has("picture")) {
-                                          profilePicUrl = data.getJSONObject("picture").getJSONObject("data").getString("url");
-                                      }
-                                      FName = object.getString("name");
-                                      FFname=object.getString("first_name");
-                                      FLname=object.getString("last_name");
-                                      if(isValid(facebookModel.getEmail())) {
-                                          FEmail = facebookModel.getEmail();
-                                      }else{
-                                          setAlertOKStatusInBlue("Access Error","Please enable email id accessible on your facebook Privacy Settings.","OK");
-                                          fbLogout();
-                                          return;
-                                      }
+                                    try {
+                                        String profilePicUrl = null;
+                                        JSONObject data = response.getJSONObject();
+                                        facebookModel = GsonUtils.getInstance().gsonToModelFacebook(data);
+                                        if (data.has("picture")) {
+                                            profilePicUrl = data.getJSONObject("picture").getJSONObject("data").getString("url");
+                                        }
+                                        FName = object.getString("name");
+                                        FFname=object.getString("first_name");
+                                        FLname=object.getString("last_name");
+                                        if(isValid(facebookModel.getEmail())) {
+                                            FEmail = facebookModel.getEmail();
+                                        }else{
+                                            setAlertOKStatusInBlue("Access Error","Please enable email id accessible on your facebook Privacy Settings.","OK");
+                                            fbLogout();
+                                            return;
+                                        }
 
-                                      Log.v("Email = ", " " + FEmail);
-                                      //Toast.makeText(SignUpActivity.this, "FEmail " + FEmail, Toast.LENGTH_LONG).show();
+                                        Log.v("Email = ", " " + FEmail);
+                                        //Toast.makeText(SignUpActivity.this, "FEmail " + FEmail, Toast.LENGTH_LONG).show();
 
-                                      PostRegisterModel postRegisterModel = new PostRegisterModel();
+                                        PostRegisterModel postRegisterModel = new PostRegisterModel();
 
-                                      postRegisterModel.setFirstName(FFname);
-                                      postRegisterModel.setEmail(FEmail);
-                                      //postRegisterModel.setPassword(edt_password.getText().toString());
-                                      postRegisterModel.setLastName(FLname);
-                                      postRegisterModel.setLoginType("facebook");
-                                      //registerWeb(postRegisterModel);
-                                      Intent i =new Intent(SignUpActivity.this,RegisterActivity.class);
-                                      i.putExtra("from","facebook");
-                                      i.putExtra("firstName",FFname);
-                                      i.putExtra("email",FEmail);
-                                      i.putExtra("lastName",FLname);
-                                      i.putExtra("imageUrl",profilePicUrl);
-                                      startActivity(i);
-                                      finish();
+                                        postRegisterModel.setFirstName(FFname);
+                                        postRegisterModel.setEmail(FEmail);
+                                        //postRegisterModel.setPassword(edt_password.getText().toString());
+                                        postRegisterModel.setLastName(FLname);
+                                        postRegisterModel.setLoginType("facebook");
+                                        //registerWeb(postRegisterModel);
+                                        Intent i =new Intent(SignUpActivity.this,RegisterActivity.class);
+                                        i.putExtra("from","facebook");
+                                        i.putExtra("firstName",FFname);
+                                        i.putExtra("email",FEmail);
+                                        i.putExtra("lastName",FLname);
+                                        i.putExtra("imageUrl",profilePicUrl);
+                                        startActivity(i);
+                                        finish();
 
 
-                                  } catch (JSONException e) {
-                                      e.printStackTrace();
-                                      prefM.clear();
-                                      LoginManager mLoginManager = LoginManager.getInstance();
-                                      mLoginManager.logOut();
-                                  }
-                              }
-                          });
-                  Bundle parameters = new Bundle();
-                  parameters.putString("fields", "id,name,email,gender,birthday,first_name,last_name,cover,picture.type(large)");
-                  request.setParameters(parameters);
-                  request.executeAsync();
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                        prefM.clear();
+                                        LoginManager mLoginManager = LoginManager.getInstance();
+                                        mLoginManager.logOut();
+                                    }
+                                }
+                            });
+                    Bundle parameters = new Bundle();
+                    parameters.putString("fields", "id,name,email,gender,birthday,first_name,last_name,cover,picture.type(large)");
+                    request.setParameters(parameters);
+                    request.executeAsync();
                 }
 
                 @Override
@@ -269,18 +272,20 @@ public class SignUpActivity extends PacifyerActivity {
 
                 }
             });
-           signup_rlay =(RelativeLayout) findViewById(R.id.request_rlay);
+            signup_rlay =(RelativeLayout) findViewById(R.id.request_rlay);
             signup_rlay.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                  //  validRegister();
+                    //  validRegister();
 
                     phoneVerifyWeb();
 
                 }
             });
-        }catch (Exception e)
-        {    e.printStackTrace();
+
+
+            sms_text_login.setText(getResources().getString(R.string.app_name) + " " + getResources().getString(R.string.sms_text_login));
+        }catch (Exception e) {    e.printStackTrace();
             //LogUtils.LOGD("sign","lA onCreate exception "+e.getMessage());
         }
     }

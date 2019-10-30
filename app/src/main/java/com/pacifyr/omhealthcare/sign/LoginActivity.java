@@ -96,7 +96,7 @@ public class LoginActivity extends PacifyerActivity {
     private String jsonStrng;
     private String qbID;
     private Context context;
-
+    private CustomFontTextView sms_text_login;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -109,6 +109,7 @@ public class LoginActivity extends PacifyerActivity {
             onSetActionBar();
             context = LoginActivity.this;
             prefM = PrefManager.getInstance(context);
+            sms_text_login = findViewById(R.id.sms_text_login);
 
             spinner = findViewById(R.id.spinner);
             phoneCedit = findViewById(R.id.phone_cedit);
@@ -225,6 +226,9 @@ public class LoginActivity extends PacifyerActivity {
 
                 }
             });
+
+            sms_text_login.setText(getResources().getString(R.string.app_name) + " " + getResources().getString(R.string.sms_text_login));
+
 
         }
         catch (Exception e)

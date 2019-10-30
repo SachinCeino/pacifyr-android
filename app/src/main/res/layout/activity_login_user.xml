@@ -159,7 +159,7 @@
                 android:layout_margin="5dp"
                 android:layout_marginTop="30dp"
                 android:gravity="center"
-                android:text="@string/sms_text_login"
+                android:id="@+id/sms_text_login"
                 android:textColor="@color/grey_dark_text"
                 android:textSize="@dimen/sp12" />
 
