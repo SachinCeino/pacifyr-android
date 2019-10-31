@@ -1,5 +1,6 @@
 package com.pacifyr.omhealthcare.fragment;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
@@ -7,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -125,6 +127,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
         }
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -149,48 +152,34 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
             }
         });
 
-
-        _ImageView_LastSession.setOnClickListener(new View.OnClickListener() {
+        _ImageView_LastSession.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View v) {
-
-                try {
-                    if (isValid(lastSession)&&isValid(lastSession.getId()))
-                    {
-                        String sessionID = lastSession.getId();
-                        LastSessionActivity.start(getActivity(),sessionID);
-                    }
-                    else {
-                        ConnectToPacifyrActivity.start(getActivity());
-                    }
-
-                }
-                catch (Exception ex)
-                {
-                    ex.printStackTrace();
-                }
-
+            public boolean onTouch(View v, MotionEvent event) {
+                return ImageViewInsideclickCheck(v, event);
             }
         });
 
-
-        _ImageView_Events.setOnClickListener(new View.OnClickListener() {
+        _ImageView_Events.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View v) {
-                EventActivity.start(getActivity());
+            public boolean onTouch(View v, MotionEvent event) {
+                return ImageViewInsideclickCheck(v, event);
             }
         });
 
-        __ImageView_BrandUp.setOnClickListener(new View.OnClickListener() {
+        __ImageView_BrandUp.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View v) {
-
-                Intent i=new Intent(getActivity(),TermsOfUseActivity.class);
-                i.putExtra("spurl", getResources().getString(R.string.go_to_e_learning_url));
-                i.putExtra("title", "E-LEARNING");
-                startActivity(i);
+            public boolean onTouch(View v, MotionEvent event) {
+                return ImageViewInsideclickCheck(v, event);
             }
         });
+
+        _ImageView_CheckIn.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return ImageViewInsideclickCheck(v, event);
+            }
+        });
+
         _RelativeLayout_Connect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -198,21 +187,67 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
             }
         });
 
-        _ImageView_CheckIn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                _QrScanner = new IntentIntegrator(getActivity());
-                _QrScanner.setPrompt("Scan a barcode");
-                _QrScanner.setCameraId(0);  // Use a specific camera of the device
-                _QrScanner.setOrientationLocked(true);
-                _QrScanner.setBeepEnabled(true);
-                _QrScanner.setCaptureActivity(CaptureActivityPortrait.class);
-                _QrScanner.initiateScan();
-
-            }
-        });
         return view;
+    }
+
+    private boolean ImageViewInsideclickCheck(View v, MotionEvent event) {
+
+        /**
+         * https://stackoverflow.com/questions/28090386/create-imageview-that-is-round-so-click-will-work-on-round-area-only-android
+         * **/
+
+        float centerX, centerY, touchX, touchY, radius;
+        centerX = v.getWidth() / 2;
+        centerY = v.getHeight() / 2;
+        touchX = event.getX();
+        touchY = event.getY();
+        radius = centerX;
+
+        if (Math.pow(touchX - centerX, 2)
+                + Math.pow(touchY - centerY, 2) < Math.pow(radius, 2)) {
+            switch (v.getId()) {
+                case R.id._ImageView_Events:
+                    EventActivity.start(getActivity());
+                    break;
+
+                case R.id._ImageView_BrandUp:
+                    Intent i = new Intent(getActivity(), TermsOfUseActivity.class);
+                    i.putExtra("spurl", getResources().getString(R.string.go_to_e_learning_url));
+                    i.putExtra("title", "E-LEARNING");
+                    startActivity(i);
+                    break;
+
+                case R.id._ImageView_CheckIn:
+                    _QrScanner = new IntentIntegrator(getActivity());
+                    _QrScanner.setPrompt("Scan a barcode");
+                    _QrScanner.setCameraId(0);  // Use a specific camera of the device
+                    _QrScanner.setOrientationLocked(true);
+                    _QrScanner.setBeepEnabled(true);
+                    _QrScanner.setCaptureActivity(CaptureActivityPortrait.class);
+                    _QrScanner.initiateScan();
+                    break;
+
+                case R.id._ImageView_LastSession:
+                    try {
+                        if (isValid(lastSession) && isValid(lastSession.getId())) {
+                            String sessionID = lastSession.getId();
+                            LastSessionActivity.start(getActivity(), sessionID);
+                        } else {
+                            ConnectToPacifyrActivity.start(getActivity());
+                        }
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                    break;
+            }
+
+            return false;
+        } else {
+            System.out.println("Outside Circle");
+            return true;
+        }
+
+
     }
 
     @Override

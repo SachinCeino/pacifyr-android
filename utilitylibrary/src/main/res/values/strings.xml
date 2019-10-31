@@ -57,14 +57,14 @@
     <string name="login_fb">continue with facebook</string>
     <string name="log_out">LogOut</string>
     <string name="prompt_name">Name</string>
-    <string name="year_of_birth">Year of Birth</string>
+    <string name="year_of_birth">Year of birth</string>
     <string name="prompt_email">Email</string>
-    <string name="prompt_collage">Enter your collage/university</string>
-    <string name="prompt_amont">Enter Amount</string>
+    <string name="prompt_collage">Enter your collage/University</string>
+    <string name="prompt_amont">Enter amount</string>
     <string name="title_activity_login">Sign in</string>
     <string name="prompt_password">Password</string>
     <string name="prompt_phone">Phone number</string>
-    <string name="signup_fb">Sign up via Facebook</string>
+    <string name="signup_fb">Sign up via facebook</string>
     <string name="e_phonenumber">Enter your phone number </string>
     <string name="e_con_code">Enter confirmation code</string>
     <string name="phone">Phone number</string>
@@ -75,7 +75,7 @@
     <string name="submit">Submit</string>
     <string name="send">Send</string>
     <string name="save">Save</string>
-    <string name="read_understand">I have read, understand, and agree to be bound by the</string>
+    <string name="read_understand">I have read, Understand, And agree to be bound by the</string>
     <string name="agree_terms_alert">You need to agree to Terms of use before signing up</string>
     <string name="term_of_use">OMHealthCare Terms of Use</string>
     <string name="terms_of_use">Terms of Use</string>

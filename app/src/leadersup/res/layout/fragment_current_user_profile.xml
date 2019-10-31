@@ -159,7 +159,7 @@
                         android:textStyle="bold"
                         android:textSize="15sp"
                         android:textColor="@color/grey_dark_text"
-                        android:text="ABOUT ME"/>
+                        android:text="About me" />
 
 
                     <com.ceino.utilitylibrary.CustomFontTextView
@@ -307,7 +307,7 @@
                         android:textStyle="bold"
                         android:textSize="15sp"
                         android:textColor="@color/grey_dark_text"
-                        android:text="REGIONE"/>
+                        android:text="Region" />
 
 
                     <com.ceino.utilitylibrary.CustomFontTextView
@@ -354,7 +354,7 @@
                             android:textStyle="bold"
                             android:textSize="15sp"
                             android:textColor="@color/grey_dark_text"
-                            android:text="RACE or ETHNICITY"/>
+                            android:text="Race or ethnicity" />
 
 
                         <com.ceino.utilitylibrary.CustomFontTextView
@@ -392,7 +392,7 @@
                             android:textStyle="bold"
                             android:textSize="15sp"
                             android:textColor="@color/grey_dark_text"
-                            android:text="EDUCATION STATUS"/>
+                            android:text="Education status" />
 
 
                         <com.ceino.utilitylibrary.CustomFontTextView
@@ -430,7 +430,7 @@
                             android:textStyle="bold"
                             android:textSize="15sp"
                             android:textColor="@color/grey_dark_text"
-                            android:text="SERVICES WHICH YOU REFFERED"/>
+                            android:text="Services which you referred" />
 
 
                         <com.ceino.utilitylibrary.CustomFontTextView
@@ -468,7 +468,7 @@
                             android:textStyle="bold"
                             android:textSize="15sp"
                             android:textColor="@color/grey_dark_text"
-                            android:text="ORGANIZATION"/>
+                            android:text="Organization" />
 
 
                         <com.ceino.utilitylibrary.CustomFontTextView
@@ -506,7 +506,7 @@
                             android:textStyle="bold"
                             android:textSize="15sp"
                             android:textColor="@color/grey_dark_text"
-                            android:text="SCHOOL NAME"/>
+                            android:text="School name" />
 
 
                         <com.ceino.utilitylibrary.CustomFontTextView

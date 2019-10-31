@@ -23,13 +23,15 @@ import java.util.List;
 public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHolder>{
 
     private List<ModelSpinnerData> dataSet;
-    Context mContext;
+    private Context mContext;
+
 
     public ServiceAdapter(List<ModelSpinnerData> data, Context context) {
         this.dataSet = data;
         this.mContext=context;
 
     }
+
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -47,18 +49,34 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHold
         if (dataModel!=null)
         {
             holder.txtName.setText(dataModel.getReferredService());
+            if (dataModel.isSelected())
+                holder.mChekbox.setChecked(true);
+            else
+                holder.mChekbox.setChecked(false);
+
+
+
             holder.mChekbox.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
-                    boolean checked = ((CheckBox) v).isChecked();
-                    // Check which checkbox was clicked
-                    if (checked){
-                       dataModel.setSelected(true);
-                    }
-                    else{
-                        // Do your coding
-                        dataModel.setSelected(false);
+                    if (position == dataSet.size() - 1) {
+                        for (int i = 0; i < dataSet.size() - 1; i++) {
+                            dataSet.get(i).setSelected(false);
+                            notifyItemChanged(i);
+                        }
+                        dataSet.get(dataSet.size() - 1).setSelected(true);
+                        notifyItemChanged(dataSet.size() - 1);
+                    } else {
+                        dataSet.get(dataSet.size() - 1).setSelected(false);
+                        notifyItemChanged(dataSet.size() - 1);
+                        boolean checked = ((CheckBox) v).isChecked();
+                        // Check which checkbox was clicked
+                        if (checked)
+                            dataModel.setSelected(true);
+                        else
+                            dataModel.setSelected(false);
+
                     }
                 }
             });

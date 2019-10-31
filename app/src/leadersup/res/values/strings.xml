@@ -17,7 +17,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
-    <string name="lest_us_know">Let us know if you have any questions or feedbacks</string>
+    <string name="lest_us_know">Let us know if you have any questions or feedback</string>
     <string name="question_or_issue">Type your question or feedback</string>
 
     <string name="add">Add</string>
@@ -183,21 +183,21 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="avanti_std__xlt_obl">ITCAvantGardeStd-XLtObl.otf</string>
 
 
-    <string name="zipcode">Zip Code</string>
-    <string name="Would_you_like_reffered_services">Would you like to be reffered to any of these services?*"</string>
-    <string name="select_organization">if you were reffered,select your organization from the list below.</string>
-    <string name="type_school_name">if you selected Chicago Public Schools,type your school\'s name:</string>
+    <string name="zipcode">Zip code</string>
+    <string name="Would_you_like_reffered_services">Would you like to be referred to any of these services?*"</string>
+    <string name="select_organization">if you were referred, Select your organization from the list below.</string>
+    <string name="type_school_name">if you selected Chicago public schools, Type your school\'s name:</string>
 
-    <string name="select_region">Select Your Region*</string>
+    <string name="select_region">Select Your region*</string>
     <string name="gender">Gender*</string>
-    <string name="race_or_ethinicity">race/ethnicity*</string>
-    <string name="education_status">Education Status*</string>
-    <string name="submit">submit</string>
+    <string name="race_or_ethinicity">Race/Ethnicity*</string>
+    <string name="education_status">Education status*</string>
+    <string name="submit">Submit</string>
     <string name="birth_year">Year of birth*</string>
     <string name="phone_number">Phone number**</string>
-    <string name="receiving_sms_text">By submitting your registration for a LeadersUp training, you understand and agree to receive email and SMS text communications from or on behalf of LeadersUp.*</string>
+    <string name="receiving_sms_text">By submitting your registration for a Future@Work training, You understand and agree to receive email and SMS text communications from or on behalf of Future@Work.*</string>
     <string name="visa_content">Want to get paid take quick surveys?.Join our list and we will send you surveys with opportunities for Visa e-gift cards and other prizes.*</string>
-    <string name="organization_not_listed">If your reffering organization was not listed ,please type in the name of the organization below.</string>
+    <string name="organization_not_listed">If your referring organization was not listed, Please type in the name of the organization below.</string>
 
 
     <string name="lato_black">Lato-Black.ttf</string>
@@ -217,12 +217,12 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="connect_to_wellness_experts">CONNECT WITH A \nCAREER COACH</string>
     <string name="my_session">MY COMPLETED SESSIONS</string>
 
-    <string name="before_we_get_started">Before we get started,let our Career Coaches know how you\'re feeling today?</string>
+    <string name="before_we_get_started">Before we get started, Let our Career coaches know how you\'re feeling today?</string>
     <string name="select_an_emotion">Select an emotion first?</string>
     <string name="why_do_we_ask">Why do we ask?</string>
-    <string name="congrats_on_your_interview">To give us a better idea on how we can help you today, tell us what you would like to talk about?</string>
-    <string name="to_give_as_a_better">To give as a better idea on how we can help you today,tell us why you feel this was today? </string>
-    <string name="why_do_we_ask_answer_text">If this is an emergency call,please hangup and\n dial 911 or rush to the nearest hospital.</string>
+    <string name="congrats_on_your_interview">To give us a better idea on how we can help you today, Tell us what you would like to talk about?</string>
+    <string name="to_give_as_a_better">To give as a better idea on how we can help you today, Tell us why you feel this was today? </string>
+    <string name="why_do_we_ask_answer_text">If this is an emergency call, Please hangup and\n dial 911 or rush to the nearest hospital.</string>
 
 
     /**second screen instructions  **/
@@ -257,4 +257,5 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="no_wellness_experts_category">No Career Coaches for the selected category.</string>
     <string name="checkin">CHECK-IN</string>
     <string name="appointments">APPOINTMENTS</string>
+
 </resources>
