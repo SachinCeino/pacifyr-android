@@ -3118,7 +3118,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
         Service.startPaymentTransaction(this, true, true, new PaytmPaymentTransactionCallback() {
             /*Call Backs*/
             public void someUIErrorOccurred(String inErrorMessage) {
-                Log.w("PAYTMLOG","someUIErrorOccurred-----"+inErrorMessage);
+                ShowTransactionFaileToUSer(inErrorMessage);
             }
 
             public void onTransactionResponse(Bundle inResponse) {
@@ -3135,27 +3135,25 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
             }
 
             public void networkNotAvailable() {
+                ShowTransactionFaileToUSer("Paytm server networkNotAvailable");
                 Log.w("PAYTMLOG","networkNotAvailable-----");
             }
 
             public void clientAuthenticationFailed(String inErrorMessage) {
-                Toast.makeText(getApplicationContext(), "" + inErrorMessage, Toast.LENGTH_SHORT).show();
+                ShowTransactionFaileToUSer(inErrorMessage);
 
             }
 
             public void onErrorLoadingWebPage(int iniErrorCode, String inErrorMessage, String inFailingUrl) {
-                Toast.makeText(getApplicationContext(), "" + inErrorMessage, Toast.LENGTH_SHORT).show();
-
+                ShowTransactionFaileToUSer(inErrorMessage);
             }
 
             public void onBackPressedCancelTransaction() {
-                Toast.makeText(getApplicationContext(), "Transaction cancel", Toast.LENGTH_SHORT).show();
-
+                ShowTransactionFaileToUSer("Transaction canceled");
             }
 
             public void onTransactionCancel(String inErrorMessage, Bundle inResponse) {
-                Toast.makeText(getApplicationContext(), "" + inErrorMessage, Toast.LENGTH_SHORT).show();
-
+                ShowTransactionFaileToUSer(inErrorMessage);
             }
         });
     }
@@ -3202,9 +3200,8 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
                                    if (object.getIsChecksumValid()&&object.getTransactionStatus().equals("success"))
                                        ShowTransactionSuccesResultToUSer(object);
                                     else
-                                       showIOSDialogOK("Error", "Payment setup failed. Please try" +
-                                                       " again.",
-                                               "OK");
+                                       ShowTransactionFaileToUSer("Payment setup failed.");
+
                            }
 
                         }
@@ -3283,7 +3280,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
                    if (isValid(CallActivity.mSessionDetailRoot)&&
                            isValid(CallActivity.mSessionDetailRoot.getPacifyr())&&
                            isValid(CallActivity.mSessionDetailRoot.getPacifyr().getId()))
-                       new NetworkService().sendCardAddedNotification(CallActivity.mSessionDetailRoot.getPacifyr().getId(), "cardSetup", new AjaxCallback<JSONObject>() {
+                       new NetworkService().sendCardAddedNotificationAfterPaytmSuccess(CallActivity.mSessionDetailRoot.getPacifyr().getId(), "cardSetup", new AjaxCallback<JSONObject>() {
                         @Override
                         public void callback(String url, JSONObject json, AjaxStatus status) {
                             if (json != null) {
@@ -3306,6 +3303,28 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
     }
 
 
+    private void ShowTransactionFaileToUSer(String message) {
+
+        iOSDialogClickListener listener = new iOSDialogClickListener() {
+            @Override
+            public void onClick(iOSDialog dialog) {
+
+
+                new NetworkService().sendPaymentFailedDueToSomeReasons(CallActivity.mSessionDetailRoot.getPacifyr().getId(), "paymentFailure", message, new AjaxCallback<JSONObject>() {
+                    @Override
+                    public void callback(String url, JSONObject json, AjaxStatus status) {
+
+                        if (json != null) {
+                            Log.w("PAYTMLOG", "sendCardAddedNotificationFail messages" + json.toString());
+                        }
+                    }
+                });
+                dialog.dismiss();
+            }
+        };
+        showIOSDialogOK("Error", message, "OK", listener);
+
+    }
 
 }
 

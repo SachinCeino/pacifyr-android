@@ -1084,6 +1084,48 @@ public class NetworkService  extends IntentService {
         }
     }
 
+    public void sendCardAddedNotificationAfterPaytmSuccess(String toUserId, String type, AjaxCallback cb) {
+        try {
+            PrefManager prefM = PrefManager.getInstance(this);
+            String token = prefM.getAccessToken();
+            String userID = prefM.getUserID();
+            String url = GLOBAL_URL + "notification/";
+            AQuery aq = new AQuery(this);
+            cb.header("Content-Type", "application/json");
+            cb.header("AccessToken", token);
+            JSONObject params = new JSONObject();
+            params.putOpt("toUserId", toUserId);
+            params.putOpt("fromUserId", userID);
+            params.putOpt("type", type);
+            aq.post(url, params, JSONObject.class, cb);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public void sendPaymentFailedDueToSomeReasons(String toUserId, String type, String message, AjaxCallback cb) {
+        try {
+            PrefManager prefM = PrefManager.getInstance(this);
+            String token = prefM.getAccessToken();
+            String userID = prefM.getUserID();
+            String url = GLOBAL_URL + "notification/";
+            AQuery aq = new AQuery(this);
+            cb.header("Content-Type", "application/json");
+            cb.header("AccessToken", token);
+            JSONObject params = new JSONObject();
+            params.putOpt("toUserId", toUserId);
+            params.putOpt("fromUserId", userID);
+            params.putOpt("type", type);
+            params.putOpt("status", message);
+            aq.post(url, params, JSONObject.class, cb);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void sendChatNotification(String toUserId, String type, String text, AjaxCallback cb) {
         try {
             PrefManager prefM = PrefManager.getInstance(this);
@@ -1116,7 +1158,6 @@ public class NetworkService  extends IntentService {
             JSONObject params = new JSONObject();
             params.putOpt("code", code);
             aq.post(url, params, JSONObject.class, cb);
-
         } catch (Exception e) {
             e.printStackTrace();
         }
