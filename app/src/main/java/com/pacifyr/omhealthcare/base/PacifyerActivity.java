@@ -250,24 +250,37 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
                             @Override
                             public void onClick(iOSDialog dialog) {
                                 dialog.dismiss();
+
+                                new NetworkService().sendPaymentFailedDueToSomeReasons(CallActivity.mSessionDetailRoot.getPacifyr().getId(), "paymentFailure", "Transaction canceled", new AjaxCallback<JSONObject>() {
+                                    @Override
+                                    public void callback(String url, JSONObject json, AjaxStatus status) {
+
+                                        if (json != null) {
+                                            Log.w("PAYTMLOG", "sendCardAddedNotificationFail messages" + json.toString());
+                                        }
+                                    }
+                                });
+                                dialog.dismiss();
+                            }
+                        }, new iOSDialogClickListener() {
+                            @Override
+                            public void onClick(iOSDialog dialog) {
+
+                                dialog.dismiss();
                                 //Toast.makeText(PacifyerActivity.this,"Clicked!",Toast.LENGTH_LONG).show();
-                                if (isValid(id))
-                                {
+                                if (isValid(id)) {
 
                                     if (isValid(CallActivity.mSessionDetailRoot) && isValid(CallActivity.mSessionDetailRoot.getPacifyr()) &&
                                             isValid(CallActivity.mSessionDetailRoot.getPacifyr().getPrice())) {
                                         generateCheckSum(id, Integer.parseInt(CallActivity.mSessionDetailRoot.getPacifyr().getPrice()));
                                     }
 
-                                }
-                                else
-                                {
+                                } else {
                                     Toast.makeText(getApplicationContext(), "Session id not valid !", Toast.LENGTH_SHORT).show();
                                 }
 
-
                             }
-                        }, "Cancel");
+                        });
 
                     }
                 }
@@ -409,6 +422,17 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
                 .build().show();
     }
 
+
+    public void showIOSDialogOKCancel(String title, String subTitle, String okLabel, iOSDialogClickListener CancelListener, iOSDialogClickListener listener) {
+        new iOSDialogBuilder(this)
+                .setTitle(title)
+                .setSubtitle(subTitle)
+                .setBoldPositiveLabel(false)
+                .setCancelable(true)
+                .setPositiveListener(okLabel, listener)
+                .setNegativeListener("Cancel", CancelListener)
+                .build().show();
+    }
 
     void showProgressDialog(@StringRes int messageId) {
         if (progressDialog == null) {
