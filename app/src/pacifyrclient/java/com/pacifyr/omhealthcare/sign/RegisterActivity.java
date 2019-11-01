@@ -18,10 +18,8 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.text.Html;
 import android.text.InputFilter;
-import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
-import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.method.MovementMethod;
 import android.text.style.ClickableSpan;
@@ -71,9 +69,8 @@ import com.pacifyr.omhealthcare.quickblox.App;
 import com.pacifyr.omhealthcare.quickblox.chat.utils.qb.callback.QbEntityCallbackImpl;
 import com.pacifyr.omhealthcare.quickblox.util.QBResRequestExecutor;
 import com.pacifyr.omhealthcare.quickblox.utils.QBEntityCallbackImpl;
-import com.pacifyr.omhealthcare.sign.DiscountCodeActivity;
-import com.pacifyr.omhealthcare.sign.SignActivity;
 import com.pacifyr.omhealthcare.utils.Constants;
+import com.pacifyr.omhealthcare.utils.FirebaseLogging;
 import com.pacifyr.omhealthcare.utils.LogUtils;
 import com.pacifyr.omhealthcare.utils.Utility;
 import com.quickblox.auth.QBAuth;
@@ -862,7 +859,7 @@ public class RegisterActivity extends PacifyerActivity {
                             jsonString = json2.toString();
                             if (isValid(regModel,getResources().getString(R.string.please_try_again))) {
 
-                                String stat=regModel.getStatus().toString();
+                                String stat = regModel.getStatus();
                                 if(isValid(stat,getResources().getString(R.string.please_try_again))) {
 
                                     if(stat.equals(getResources().getString(R.string.success))) {
@@ -874,6 +871,15 @@ public class RegisterActivity extends PacifyerActivity {
                                         label=roleModel.getLabel();
                                         quickbloxNewLogin();
 
+                                        Bundle args =
+                                                FirebaseLogging.getConstantArgsLoggedOut(RegisterActivity.this);
+                                        if (userModel != null) {
+                                            args.putString(FirebaseLogging.EC,
+                                                    userModel.getId() + "-" + userModel.getFirstName());
+                                        }
+                                        FirebaseLogging.sendLog(RegisterActivity.this,
+                                                FirebaseLogging.EVENT_SIGNUP_SUCCESS, args);
+
                                     }
                                     else{
                                         hideProgress();
@@ -882,6 +888,13 @@ public class RegisterActivity extends PacifyerActivity {
                                         hideStatus();
                                         fbLogout();
                                         startActivity(new Intent(context,SignActivity.class));
+
+                                        Bundle args =
+                                                FirebaseLogging.getConstantArgsLoggedOut(RegisterActivity.this);
+                                        if (regModel != null && regModel.getMessage() != null)
+                                            args.putString(FirebaseLogging.EC, regModel.getMessage());
+                                        FirebaseLogging.sendLog(RegisterActivity.this,
+                                                FirebaseLogging.EVENT_SIGNUP_FAIL, args);
                                     }
                                 }
 
@@ -891,6 +904,11 @@ public class RegisterActivity extends PacifyerActivity {
                                 prefM.clear();
                                 setAlertOKStatusInWhite(getResources().getString(R.string.registration_failed), getResources().getString(R.string.failed_register_message),"Ok");
                                 startActivity(new Intent(context,SignActivity.class));
+                                Bundle args =
+                                        FirebaseLogging.getConstantArgsLoggedOut(RegisterActivity.this);
+                                args.putString(FirebaseLogging.EC, "Number already registered");
+                                FirebaseLogging.sendLog(RegisterActivity.this,
+                                        FirebaseLogging.EVENT_SIGNUP_FAIL, args);
                             }
                         }
                     } catch (Exception e2) {
@@ -899,6 +917,11 @@ public class RegisterActivity extends PacifyerActivity {
                         prefM.clear();
                         startActivity(new Intent(context,SignActivity.class));
                         ToastHandler.newInstance(RegisterActivity.this).mustShowToast(getResources().getString(R.string.please_try_again));
+                        Bundle args =
+                                FirebaseLogging.getConstantArgsLoggedOut(RegisterActivity.this);
+                        args.putString(FirebaseLogging.EC, e2.getMessage());
+                        FirebaseLogging.sendLog(RegisterActivity.this,
+                                FirebaseLogging.EVENT_SIGNUP_FAIL, args);
                     }
                 }
             };
@@ -1226,6 +1249,15 @@ public class RegisterActivity extends PacifyerActivity {
                             mLoginManager.logOut();
                             prefM.clear();
                             startActivity(new Intent(context,SignActivity.class));
+
+                            Bundle args =
+                                    FirebaseLogging.getConstantArgsLoggedOut(RegisterActivity.this);
+                            if (responseException != null && responseException.getMessage() != null) {
+                                args.putString(FirebaseLogging.EC,
+                                        "QuickBlox login fail : " + responseException.getMessage());
+                            }
+                            FirebaseLogging.sendLog(RegisterActivity.this,
+                                    FirebaseLogging.EVENT_SIGNUP_FAIL, args);
                         }
                     });
 

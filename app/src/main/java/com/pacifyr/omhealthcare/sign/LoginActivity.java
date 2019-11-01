@@ -49,6 +49,7 @@ import com.pacifyr.omhealthcare.model.ItemData;
 import com.pacifyr.omhealthcare.network.GsonUtils;
 import com.pacifyr.omhealthcare.network.NetworkService;
 import com.pacifyr.omhealthcare.quickblox.chat.utils.qb.callback.QbEntityCallbackImpl;
+import com.pacifyr.omhealthcare.utils.FirebaseLogging;
 import com.quickblox.auth.QBAuth;
 import com.quickblox.auth.session.QBSession;
 import com.quickblox.auth.session.QBSettings;
@@ -440,6 +441,14 @@ public class LoginActivity extends PacifyerActivity {
                                             finish();
                                         }
                                     }, 3000);
+                                    Bundle args =
+                                            FirebaseLogging.getConstantArgsLoggedOut(LoginActivity.this);
+                                    args.putString(FirebaseLogging.EC, "Tried to login from " +
+                                            "Councelor account" +
+                                            " " +
+                                            "Account");
+                                    FirebaseLogging.sendLog(LoginActivity.this,
+                                            FirebaseLogging.EVENT_LOGIN_FAIL, args);
                                 } else if (main_label.equals("customer")) {
                                     saveToPrefM();
 
@@ -467,6 +476,15 @@ public class LoginActivity extends PacifyerActivity {
                                     } else if (label.equalsIgnoreCase("paidMember")) {
                                         saveCustomerData(LoginActivity.this, "paidMember");
                                     }
+
+                                    Bundle args =
+                                            FirebaseLogging.getConstantArgsLoggedIn(LoginActivity.this);
+
+                                    if (postRegisterModel != null)
+                                        args.putString(FirebaseLogging.EVENT_LOGIN_TYPE,
+                                                postRegisterModel.getLoginType());
+                                    FirebaseLogging.sendLog(LoginActivity.this,
+                                            FirebaseLogging.EVENT_LOGIN_SUCCESS, args);
                                 }
 
                             } catch (Exception ex) {
@@ -506,6 +524,11 @@ public class LoginActivity extends PacifyerActivity {
                                         finish();
                                     }
                                 }, 3000);
+                                Bundle args =
+                                        FirebaseLogging.getConstantArgsLoggedOut(LoginActivity.this);
+                                args.putString(FirebaseLogging.EC, responseException.getMessage());
+                                FirebaseLogging.sendLog(LoginActivity.this,
+                                        FirebaseLogging.EVENT_LOGIN_FAIL, args);
                             }
                         }
                     });

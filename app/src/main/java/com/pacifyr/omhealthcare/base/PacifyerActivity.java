@@ -90,6 +90,7 @@ import com.pacifyr.omhealthcare.quickblox.utils.WebRtcSessionManager;
 import com.pacifyr.omhealthcare.receiver.NotificationUtils;
 import com.pacifyr.omhealthcare.sign.SignActivity;
 import com.pacifyr.omhealthcare.utils.Constants;
+import com.pacifyr.omhealthcare.utils.FirebaseLogging;
 import com.pacifyr.omhealthcare.utils.FontCache;
 import com.pacifyr.omhealthcare.utils.LogUtils;
 import com.pacifyr.omhealthcare.utils.Utility;
@@ -251,6 +252,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
                             public void onClick(iOSDialog dialog) {
                                 dialog.dismiss();
 
+
                                 new NetworkService().sendPaymentFailedDueToSomeReasons(CallActivity.mSessionDetailRoot.getPacifyr().getId(), "paymentFailure", "Transaction canceled", new AjaxCallback<JSONObject>() {
                                     @Override
                                     public void callback(String url, JSONObject json, AjaxStatus status) {
@@ -260,6 +262,13 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
                                         }
                                     }
                                 });
+
+                                Bundle args =
+                                        FirebaseLogging.getConstantArgsLoggedIn(PacifyerActivity.this);
+                                args.putString(FirebaseLogging.EC, "Payment setup cancelled");
+                                FirebaseLogging.sendLog(PacifyerActivity.this,
+                                        FirebaseLogging.EVENT_CLIENT_PAYMENT_FAILED,
+                                        args);
                                 dialog.dismiss();
                             }
                         }, new iOSDialogClickListener() {
@@ -3315,6 +3324,12 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
                    else
                        Toast.makeText(PacifyerActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
 
+                    Bundle args =
+                            FirebaseLogging.getConstantArgsLoggedIn(PacifyerActivity.this);
+                    FirebaseLogging.sendLog(PacifyerActivity.this,
+                            FirebaseLogging.EVENT_CLIENT_PAYMENT_DONE,
+                            args);
+
                 }
             });
             android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(PacifyerActivity.this);
@@ -3343,6 +3358,12 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
                         }
                     }
                 });
+                Bundle args =
+                        FirebaseLogging.getConstantArgsLoggedIn(PacifyerActivity.this);
+                args.putString(FirebaseLogging.EC, message + "");
+                FirebaseLogging.sendLog(PacifyerActivity.this,
+                        FirebaseLogging.EVENT_CLIENT_PAYMENT_FAILED,
+                        args);
                 dialog.dismiss();
             }
         };

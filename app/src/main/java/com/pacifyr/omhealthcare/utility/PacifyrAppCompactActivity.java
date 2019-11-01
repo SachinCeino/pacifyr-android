@@ -43,6 +43,7 @@ import com.pacifyr.omhealthcare.quickblox.activities.CallActivity;
 import com.pacifyr.omhealthcare.quickblox.db.DbHelper;
 import com.pacifyr.omhealthcare.sign.SignActivity;
 import com.pacifyr.omhealthcare.utils.AmazonSNSTokenHandler;
+import com.pacifyr.omhealthcare.utils.FirebaseLogging;
 import com.pacifyr.omhealthcare.utils.LogUtils;
 import com.quickblox.auth.QBAuth;
 import com.quickblox.auth.session.BaseService;
@@ -995,6 +996,15 @@ public abstract class PacifyrAppCompactActivity  extends PacifyerActivity {
                             PacifyerActivity.call_session_detail_root= CallActivity.mSessionDetailRoot;
                             postEventOnMainThread(new CallDetailEvent());
                         } catch (Exception e){
+                            Bundle args =
+                                    FirebaseLogging.getConstantArgsLoggedIn(PacifyrAppCompactActivity.this);
+                            if (status != null) {
+                                args.putString(FirebaseLogging.EC,
+                                        "webGetSessionDetail=null,err=" + e.getMessage());
+                            }
+                            FirebaseLogging.sendLog(PacifyrAppCompactActivity.this,
+                                    FirebaseLogging.EVENT_INCOMING_CALL_FAIL,
+                                    args);
                             finish();
                             LogUtils.LOGD("session", " PACA webGetSessionDetail callback exce" + e.getMessage());
                         }

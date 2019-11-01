@@ -47,6 +47,7 @@ import com.pacifyr.omhealthcare.quickblox.chat.utils.qb.QbDialogHolder;
 import com.pacifyr.omhealthcare.quickblox.chat.utils.qb.QbDialogUtils;
 import com.pacifyr.omhealthcare.quickblox.chat.utils.qb.VerboseQbChatConnectionListener;
 import com.pacifyr.omhealthcare.utility.PacifyrAppCompactActivity;
+import com.pacifyr.omhealthcare.utils.FirebaseLogging;
 import com.pacifyr.omhealthcare.utils.LogUtils;
 import com.pacifyr.omhealthcare.utils.Utility;
 import com.quickblox.chat.QBChatService;
@@ -747,6 +748,11 @@ public class ChatActivity extends PacifyrAppCompactActivity implements ImagePick
                     messagesListView.setSelection(messages.size());
                 }
                 progressBar.setVisibility(View.GONE);
+
+                Bundle params =
+                        FirebaseLogging.getConstantArgsLoggedIn(ChatActivity.this);
+                FirebaseLogging.sendLog(ChatActivity.this,
+                        FirebaseLogging.EVENT_CHAT_HISTORY_LOADED, params);
             }
 
             @Override
@@ -754,6 +760,11 @@ public class ChatActivity extends PacifyrAppCompactActivity implements ImagePick
                 progressBar.setVisibility(View.GONE);
                 skipPagination -= ChatHelper.CHAT_HISTORY_ITEMS_PER_PAGE;
                 snackbar = returnshowErrorSnackbar(R.string.connection_error, e, null);
+
+                Bundle params =
+                        FirebaseLogging.getConstantArgsLoggedIn(ChatActivity.this);
+                FirebaseLogging.sendLog(ChatActivity.this,
+                        FirebaseLogging.EVENT_CHAT_HISTORY_LOAD_FAILED, params);
             }
         });
         skipPagination += ChatHelper.CHAT_HISTORY_ITEMS_PER_PAGE;

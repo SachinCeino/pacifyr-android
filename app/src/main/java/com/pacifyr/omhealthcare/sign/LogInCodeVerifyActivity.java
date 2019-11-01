@@ -30,6 +30,7 @@ import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.base.PacifyerActivity;
+import com.pacifyr.omhealthcare.utils.FirebaseLogging;
 
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
@@ -105,6 +106,12 @@ public class LogInCodeVerifyActivity extends PacifyerActivity {
 
                 otp_phone_tv.setText(phoneText+" "+phoneVerifyTXT);
 
+                Bundle args =
+                        FirebaseLogging.getConstantArgsLoggedOut(LogInCodeVerifyActivity.this);
+                args.putString(FirebaseLogging.EC, phonenumber + "");
+                FirebaseLogging.sendLog(LogInCodeVerifyActivity.this,
+                        FirebaseLogging.EVENT_LOGIN_OTP_SENT, args);
+
             }
             else{
                 Toast.makeText(this,"invalid no: "+phonenumber,Toast.LENGTH_LONG).show();
@@ -115,6 +122,12 @@ public class LogInCodeVerifyActivity extends PacifyerActivity {
                     Toast.makeText(LogInCodeVerifyActivity.this,"SMS Sent",Toast.LENGTH_LONG).show();
                     startPhoneNumberVerification(phonenumber);
                     showProgress();
+
+                    Bundle args =
+                            FirebaseLogging.getConstantArgsLoggedOut(LogInCodeVerifyActivity.this);
+                    args.putString(FirebaseLogging.EC, phonenumber + "");
+                    FirebaseLogging.sendLog(LogInCodeVerifyActivity.this,
+                            FirebaseLogging.EVENT_LOGIN_OTP_RESENT, args);
 
                 }
             });
@@ -337,6 +350,7 @@ public class LogInCodeVerifyActivity extends PacifyerActivity {
 
                             FirebaseUser user = task.getResult().getUser();
 
+
                             if(bundle.getString("from").equals("signup")) {
                                 Intent intent = new Intent(LogInCodeVerifyActivity.this, RegisterActivity.class);
                                 startActivity(intent);
@@ -348,6 +362,11 @@ public class LogInCodeVerifyActivity extends PacifyerActivity {
                                 intent.putExtra("phone",phonenumber);
                                 startActivity(intent);
                             }
+                            Bundle args =
+                                    FirebaseLogging.getConstantArgsLoggedOut(LogInCodeVerifyActivity.this);
+                            args.putString(FirebaseLogging.EC, phonenumber + "");
+                            FirebaseLogging.sendLog(LogInCodeVerifyActivity.this,
+                                    FirebaseLogging.EVENT_LOGIN_OTP_VERIFIED, args);
                             // [START_EXCLUDE]
                          //   updateUI(STATE_SIGNIN_SUCCESS, user);
                             // [END_EXCLUDE]
@@ -366,6 +385,12 @@ public class LogInCodeVerifyActivity extends PacifyerActivity {
                                 });
 //                                Toast.makeText(LogInCodeVerifyActivity.this,"Invalid code.",Toast.LENGTH_LONG).show();
                                 // [END_EXCLUDE]
+                                Bundle args =
+                                        FirebaseLogging.getConstantArgsLoggedOut(LogInCodeVerifyActivity.this);
+                                args.putString(FirebaseLogging.EC,
+                                        "Invalid OTP entered by " + phonenumber);
+                                FirebaseLogging.sendLog(LogInCodeVerifyActivity.this,
+                                        FirebaseLogging.EVENT_LOGIN_OTP_VERIFICATION_FAIL, args);
                             }
                             // [START_EXCLUDE silent]
                             // Update UI

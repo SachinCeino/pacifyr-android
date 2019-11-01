@@ -57,6 +57,7 @@ import com.pacifyr.omhealthcare.network.GsonUtils;
 import com.pacifyr.omhealthcare.network.NetworkService;
 import com.pacifyr.omhealthcare.quickblox.activities.CallActivity;
 import com.pacifyr.omhealthcare.quickblox.adapters.OpponentsFromCallAdapter;
+import com.pacifyr.omhealthcare.utils.FirebaseLogging;
 import com.pacifyr.omhealthcare.utils.LogUtils;
 import com.quickblox.sample.core.utils.Toaster;
 import com.quickblox.users.model.QBUser;
@@ -454,6 +455,15 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
         super.onCreate(savedInstanceState);
         Log.i(TAG, "onCreate");
         setHasOptionsMenu(true);
+
+        Bundle args =
+                FirebaseLogging.getConstantArgsLoggedIn(getActivity());
+        if (getCallPacifyr() != null) {
+            args.putString(FirebaseLogging.EC, getCallPacifyr().getId());
+        }
+        FirebaseLogging.sendLog(getActivity(),
+                FirebaseLogging.EVENT_VIDEOCALL_STARTED,
+                args);
     }
 
 

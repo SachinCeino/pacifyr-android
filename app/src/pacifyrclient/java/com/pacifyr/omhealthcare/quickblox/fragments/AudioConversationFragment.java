@@ -45,6 +45,7 @@ import com.pacifyr.omhealthcare.network.GsonUtils;
 import com.pacifyr.omhealthcare.network.NetworkService;
 import com.pacifyr.omhealthcare.quickblox.activities.CallActivity;
 import com.pacifyr.omhealthcare.quickblox.utils.CollectionsUtils;
+import com.pacifyr.omhealthcare.utils.FirebaseLogging;
 import com.pacifyr.omhealthcare.utils.LogUtils;
 import com.quickblox.users.model.QBUser;
 import com.squareup.otto.Subscribe;
@@ -275,6 +276,14 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
             }
         });
 
+        Bundle args =
+                FirebaseLogging.getConstantArgsLoggedIn(getActivity());
+        if (getCallPacifyr() != null) {
+            args.putString(FirebaseLogging.EC, getCallPacifyr().getId());
+        }
+        FirebaseLogging.sendLog(getActivity(),
+                FirebaseLogging.EVENT_AUDIOCALL_STARTED,
+                args);
 
 
     }

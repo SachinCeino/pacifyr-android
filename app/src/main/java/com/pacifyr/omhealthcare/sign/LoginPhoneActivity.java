@@ -30,6 +30,7 @@ import com.pacifyr.omhealthcare.home.DashboardActivity;
 import com.pacifyr.omhealthcare.network.GsonUtils;
 import com.pacifyr.omhealthcare.network.NetworkService;
 import com.pacifyr.omhealthcare.utils.AmazonSNSTokenHandler;
+import com.pacifyr.omhealthcare.utils.FirebaseLogging;
 import com.quickblox.auth.QBAuth;
 import com.quickblox.auth.session.QBSession;
 import com.quickblox.auth.session.QBSettings;
@@ -130,13 +131,19 @@ public class LoginPhoneActivity extends PacifyerActivity {
                                     finish();
                                 }
                             });
+                            Bundle args =
+                                    FirebaseLogging.getConstantArgsLoggedOut(LoginPhoneActivity.this);
+                            args.putString(FirebaseLogging.EC,
+                                    phoneNo + " tried Login. Status code:" + status.getCode());
+                            FirebaseLogging.sendLog(LoginPhoneActivity.this,
+                                    FirebaseLogging.EVENT_LOGIN_FAIL, args);
                             return;
                         }
                         modelPhoneLogin = GsonUtils.getInstance().gsonToModelPhoneLogin(json);
                         userModel = modelPhoneLogin.getUser();
                         prefM.saveCompanyID(userModel.getCompanyId());
                         jsonStrng = json.toString();
-                        String logstat = modelPhoneLogin.getStatus().toString();
+                        String logstat = modelPhoneLogin.getStatus();
 
 
                         ModelUserProfile mCurrentUser = GsonUtils.getInstance().gsonToModelUserProfile(json.getJSONObject("user"));

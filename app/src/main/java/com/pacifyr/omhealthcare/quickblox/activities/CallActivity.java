@@ -55,6 +55,7 @@ import com.pacifyr.omhealthcare.quickblox.utils.UsersUtils;
 import com.pacifyr.omhealthcare.quickblox.utils.WebRtcSessionManager;
 import com.pacifyr.omhealthcare.receiver.PacifyrReceiver;
 import com.pacifyr.omhealthcare.utility.PacifyrAppCompactActivity;
+import com.pacifyr.omhealthcare.utils.FirebaseLogging;
 import com.pacifyr.omhealthcare.utils.LogUtils;
 import com.pacifyr.omhealthcare.utils.ToastHandler;
 import com.quickblox.chat.QBChatService;
@@ -643,6 +644,15 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
 
 
     public void hangUpCurrentSessionMe() {
+        Bundle args =
+                FirebaseLogging.getConstantArgsLoggedIn(CallActivity.this);
+        if (getCallPacifyr() != null) {
+            args.putString(FirebaseLogging.EC, getCallPacifyr().getId());
+        }
+        FirebaseLogging.sendLog(CallActivity.this,
+                isVideoCall ? FirebaseLogging.EVENT_VIDEOCALL_STOPPED :
+                        FirebaseLogging.EVENT_AUDIOCALL_STOPPED,
+                args);
         LogUtils.LOGD("call","hangUpCurrentSession");
         ringtonePlayer.stop();
         if (getCurrentSession() != null) {
