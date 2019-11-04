@@ -253,7 +253,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
                                 dialog.dismiss();
 
 
-                                new NetworkService().sendPaymentFailedDueToSomeReasons(CallActivity.mSessionDetailRoot.getPacifyr().getId(), "paymentFailure", "Transaction canceled", new AjaxCallback<JSONObject>() {
+                                new NetworkService().sendPaymentFailedDueToSomeReasons(CallActivity.mSessionDetailRoot.getPacifyr().getId(), "paymentFailure", "Transaction cancelled", new AjaxCallback<JSONObject>() {
                                     @Override
                                     public void callback(String url, JSONObject json, AjaxStatus status) {
 
@@ -3182,7 +3182,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
             }
 
             public void onBackPressedCancelTransaction() {
-                ShowTransactionFaileToUSer("Transaction canceled");
+                ShowTransactionFaileToUSer("Transaction cancelled");
             }
 
             public void onTransactionCancel(String inErrorMessage, Bundle inResponse) {
