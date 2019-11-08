@@ -355,7 +355,10 @@ public class ModelUserProfile
 
     public String getName ()
     {
-        return firstName+ " "+lastName;
+        if (lastName.equals(""))
+            return firstName.trim();
+        else
+            return firstName.trim() + " " + lastName.trim();
     }
 
     public String getRoleId ()
