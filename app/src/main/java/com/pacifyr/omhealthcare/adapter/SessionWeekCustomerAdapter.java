@@ -138,6 +138,7 @@ public class SessionWeekCustomerAdapter extends RecyclerView.Adapter<SessionWeek
                 }
                 WeekSetSessionEvent weekEvent = new WeekSetSessionEvent(ratingUrl, statUrl, dateType, fromDWeek, toDWeek);
                 weekEvent.setEditable(position == modelList.size() - 1);
+                weekEvent.setPosition(position);
                 postEventOnMainThread(weekEvent);
                 notifyDataSetChanged();
             }

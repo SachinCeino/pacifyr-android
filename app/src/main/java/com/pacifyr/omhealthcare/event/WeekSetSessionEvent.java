@@ -17,6 +17,15 @@ public class WeekSetSessionEvent {
     private String toDWeek;
     private boolean editable;
 
+    private int position;
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
+    }
 
     public WeekSetSessionEvent(String url) {
         setUrl(url);

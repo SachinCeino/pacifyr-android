@@ -72,6 +72,7 @@ public class MySessionFragment extends BaseFragment {
     int tab=0;//0:Week,1:Month,2:Year
     NestedScrollView nestedscrollView;
     private boolean firstItemEditable = true;
+    private int weekSelectedPosition;
 
 
     //public static ArrayList<ModelListEmotion.Results> emotionList;
@@ -395,7 +396,6 @@ public class MySessionFragment extends BaseFragment {
                     hideProgress();
                     list.clear();
                     skip=skip+10;
-                    hideProgress();
                     ModelSessonsOfCustomer model= GsonUtils.getInstance().gsonToModelSessonsOfCustomer(json);
                     list=model.getResultsList();
                     if(isValid(list)) {
@@ -441,7 +441,8 @@ public class MySessionFragment extends BaseFragment {
                     = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
             recyclerView.setLayoutManager(verticalLayoutmanager);
             recyclerView.setAdapter(adapter);
-
+            if (isValid(weekSelectedPosition))
+                dateListRcv.scrollToPosition(weekSelectedPosition);
         }
         catch (Exception e){
             e.printStackTrace();
@@ -461,7 +462,6 @@ public class MySessionFragment extends BaseFragment {
                     hideProgress();
                     list.clear();
                     skip=skip+10;
-                    hideProgress();
                     ModelSessonsOfCustomer model= GsonUtils.getInstance().gsonToModelSessonsOfCustomer(json);
                     list=model.getResultsList();
                     if(isValid(list)) {
@@ -500,6 +500,7 @@ public class MySessionFragment extends BaseFragment {
             Log.i("weeeeek1","w:  "+url);
             weekSessionsRcv.setVisibility(View.GONE);
             noDataCtxv.setVisibility(View.GONE);
+            hideProgress();
             setLoading();
             showProgress();
             AjaxCallback cb = new AjaxCallback<JSONObject>() {
@@ -509,7 +510,6 @@ public class MySessionFragment extends BaseFragment {
                     Log.i("weeeeek12","w:  "+json);
                     list.clear();
                     skip=skip+10;
-                    hideProgress();
                     ModelSessonsOfCustomer model= GsonUtils.getInstance().gsonToModelSessonsOfCustomer(json);
                     list=model.getResultsList();
                     Log.i("weeeeek123","w:  "+list);
@@ -578,8 +578,10 @@ public class MySessionFragment extends BaseFragment {
                 listTemp.clear();
                 list.clear();
                 skip = 0;
+                weekSelectedPosition = event.getPosition();
                 callThisWeekSession(event.getUrl());
                 getStatistics(event.getStatUrl());
+
             }
             else if(event.getWeekType().equals("month")){
                 fromDMonth=event.getFromDWeek();
@@ -589,6 +591,7 @@ public class MySessionFragment extends BaseFragment {
                 skip = 0;
                 callThisMonthSession(event.getUrl());
                 getStatistics(event.getStatUrl());
+
             }
             else if(event.getWeekType().equals("year")){
                 fromDYear=event.getFromDWeek();
