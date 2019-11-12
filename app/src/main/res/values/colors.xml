@@ -41,6 +41,7 @@
     <color name="blue_text_dark">#064589</color>
 
 
+
     <color name="actionbar_grey">#D4D9DE</color>
     <!--<color name="actionbar_grey">#F0F3F5</color>-->
 
@@ -70,6 +71,8 @@
     <color name="lime_green">#b6d532</color>
     <color name="event_svg_checkin_color">#76A634</color>
     <color name="text_color_2">#798586</color>
+    <color name="education_title">#000000</color>
+    <color name="education_desc">#525454</color>
 
 
 </resources>

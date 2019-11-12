@@ -2,12 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <com.ceino.utilitylibrary.CustomFontTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="11sp"
+        android:textSize="13sp"
         android:id="@+id/cert_title_ctxv"
         android:textColor="@color/education_desc"
         android:text=""/>
@@ -15,9 +15,10 @@
     <com.ceino.utilitylibrary.CustomFontTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="11sp"
+        android:textSize="10sp"
         android:id="@+id/cert_dur_ctxv"
         android:layout_centerHorizontal="true"
         android:textColor="@color/education_desc"
+        android:layout_marginLeft="3dp"
         android:text=""/>
 </LinearLayout>
