@@ -6,6 +6,7 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -61,7 +62,9 @@ public class SplachScreen extends BaseAppCompactActivity {
 
         mSensorService = new CallService(SplachScreen.this);
         mServiceIntent = new Intent(SplachScreen.this, mSensorService.getClass());
-        Picasso.with(this).load(R.drawable.splash).placeholder(R.drawable.placeholder_image).into(image_splash);
+        /**place holder issue fix **/
+        ColorDrawable mColorDrawable = new ColorDrawable(getResources().getColor(R.color.black));
+        Picasso.with(this).load(R.drawable.splash).placeholder(mColorDrawable).into(image_splash);
         if (!isMyServiceRunning(mSensorService.getClass())) {
             startService(mServiceIntent);
         }
