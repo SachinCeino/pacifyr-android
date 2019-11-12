@@ -16,6 +16,7 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -84,7 +85,7 @@ public class AccountEditActivity extends PacifyrAppCompactActivity {
     private LinearLayout pnumberLlay;
     private CustomEditText pnumberCedt;
     private CardView aboutmeCard;
-    private CustomEditText aboutmeCedt;
+    private EditText aboutmeCedt;
     Bitmap edit_image;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
