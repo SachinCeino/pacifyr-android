@@ -901,7 +901,12 @@ public class RegisterActivity extends PacifyerActivity {
                             else{
                                 hideProgress();
                                 prefM.clear();
-                                setAlertOKStatusInWhite(getResources().getString(R.string.registration_failed), getResources().getString(R.string.failed_register_message),"Ok");
+                                setAlertOKStatusInRed(getResources().getString(R.string.registration_failed), getResources().getString(R.string.failed_register_message), "OK", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        hideStatus();
+                                    }
+                                });
                                 startActivity(new Intent(context,SignActivity.class));
                             }
                         }

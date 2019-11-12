@@ -1388,7 +1388,7 @@ public class RegisterActivity extends PacifyerActivity {
                         if (json == null || status.equals(getResources().getString(R.string.error))) {
                             hideProgress();
                             String message = json.get(getResources().getString(R.string.message_string)).getAsString();
-                            setAlertOKStatusInWhite(getResources().getString(R.string.registration_failed), message,"Ok");
+                            setAlertOKStatusInRed(getResources().getString(R.string.registration_failed), message,"Ok");
                             ToastHandler.newInstance(RegisterActivity.this).mustShowToast("Please try again !");
                         } else {
                             final JSONObject json2 = new JSONObject(json.toString());
@@ -1426,7 +1426,7 @@ public class RegisterActivity extends PacifyerActivity {
                             else{
                                 hideProgress();
                                 prefM.clear();
-                                setAlertOKStatusInWhite(getResources().getString(R.string.registration_failed), getResources().getString(R.string.failed_register_message),"Ok");
+                                setAlertOKStatusInRed(getResources().getString(R.string.registration_failed), getResources().getString(R.string.failed_register_message),"Ok");
                                 startActivity(new Intent(context,SignActivity.class));
                             }
                         }

@@ -126,8 +126,15 @@ public class RegisterVerifyActivity extends PacifyerActivity {
                                         if (stat.equals("success")) {
 
                                             //Toast.makeText(RegisterVerifyActivity.this, "Mobile number already registered", Toast.LENGTH_LONG).show();
-                                            setAlertOKStatusInWhite(getResources().getString(R.string.registration_failed), getResources().getString(R.string.failed_register_message),"Ok");
-
+                                            setAlertOKStatusInRed(getResources().getString(R.string.registration_failed), getResources().getString(R.string.failed_register_message), "OK", new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View v) {
+                                                    hideStatus();
+                                                    Intent mIntent = new Intent(RegisterVerifyActivity.this, SignActivity.class);
+                                                    mIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                                    startActivity(mIntent);
+                                                }
+                                            });
 
                                         } else if (stat.equals("error")) {
 
