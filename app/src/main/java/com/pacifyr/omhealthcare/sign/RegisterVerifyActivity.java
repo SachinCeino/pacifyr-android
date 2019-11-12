@@ -391,7 +391,7 @@ public class RegisterVerifyActivity extends PacifyerActivity {
         backImv.setVisibility(View.VISIBLE);
         titleTxv.setVisibility(View.VISIBLE);
         leftLlay.setVisibility(View.VISIBLE);
-        defSetText(titleTxv,getResources().getString(R.string.sign_up));
+        defSetText(titleTxv, getResources().getString(R.string.register));
         Typeface type = Typeface.createFromAsset(getAssets(),getResources().getString(R.string.avantica_bold_header));
         titleTxv.setTypeface(type);
         leftLlay.setOnClickListener(new View.OnClickListener() {
