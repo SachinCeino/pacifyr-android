@@ -23,7 +23,7 @@ import com.androidplot.util.PixelUtils;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.ceino.utilitylibrary.CustomFontTextView;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.ceino.utilitylibrary.model.pacifyr.MEarningsRoot;
 import com.ceino.utilitylibrary.model.pacifyr.Mbonus;
 import com.ceino.utilitylibrary.utils.PrefManager;
@@ -87,9 +87,9 @@ public class EarningsFragment extends BaseFragment{
     int i;
 
 
-
-    CustomFontTextView wkly_total_ctxv; RecyclerView list_weeks_rcv;
-    CustomFontTextView text_dialog_hourstowork,text_dialog_bonusmessage,text_dialog_hourstobonus;
+    MainTextView wkly_total_ctxv;
+    RecyclerView list_weeks_rcv;
+    MainTextView text_dialog_hourstowork, text_dialog_bonusmessage, text_dialog_hourstobonus;
 
     public EarningsFragment() {
         // Required empty public constructor

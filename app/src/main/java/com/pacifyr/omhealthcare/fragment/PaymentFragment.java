@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.ceino.utilitylibrary.CustomFontTextView;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.ceino.utilitylibrary.utils.PrefManager;
 import com.pacifyr.omhealthcare.Payment.AddCreditCardActivity;
 import com.pacifyr.omhealthcare.R;
@@ -30,8 +30,8 @@ import static com.pacifyr.omhealthcare.network.NetworkService.GLOBAL_URL;
 public class PaymentFragment extends BaseFragment {
 
 
-    private CustomFontTextView paymentMethodCtxv;
-    private CustomFontTextView credictCardCtxv;
+    private MainTextView paymentMethodCtxv;
+    private MainTextView credictCardCtxv;
     private PrefManager prefM;
     private String userToken,userid;
 

@@ -40,7 +40,7 @@ import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.ceino.utilitylibrary.CustomEditText;
-import com.ceino.utilitylibrary.CustomFontTextView;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.ceino.utilitylibrary.DeviceFitImageView;
 import com.ceino.utilitylibrary.ToastHandler;
 import com.ceino.utilitylibrary.base.BaseAppCompactActivity;
@@ -91,7 +91,6 @@ import com.pacifyr.omhealthcare.receiver.NotificationUtils;
 import com.pacifyr.omhealthcare.sign.SignActivity;
 import com.pacifyr.omhealthcare.utils.Constants;
 import com.pacifyr.omhealthcare.utils.FirebaseLogging;
-import com.pacifyr.omhealthcare.utils.FontCache;
 import com.pacifyr.omhealthcare.utils.LogUtils;
 import com.pacifyr.omhealthcare.utils.Utility;
 import com.paytm.pgsdk.PaytmOrder;
@@ -637,9 +636,9 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
         try {
             //View.OnClickListener oklistner
             View view = LayoutInflater.from(this).inflate(R.layout.alert_white_ok, null, false);
-            CustomFontTextView title_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.title_dtxv);
-            CustomFontTextView desc_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.desc_dtxv);
-            CustomFontTextView ok_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.ok_dtxv);
+            MainTextView title_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.title_dtxv);
+            MainTextView desc_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.desc_dtxv);
+            MainTextView ok_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.ok_dtxv);
 
             if (isValid(title))
                 defSetText(title_dtxv, title);
@@ -838,11 +837,6 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
         TextView text_start_date = view.findViewById(R.id.text_start_date);
         TextView text_duration = view.findViewById(R.id.text_duration);
         TextView text_amount_charged = view.findViewById(R.id.text_amount_charged);
-        ok.setTypeface(FontCache.get(getString(R.string.CenturyGothic), PacifyerActivity.this));
-        text_provider.setTypeface(FontCache.get(getString(R.string.CenturyGothic), PacifyerActivity.this));
-        text_date.setTypeface(FontCache.get(getString(R.string.CenturyGothic), PacifyerActivity.this));
-        text_start_date.setTypeface(FontCache.get(getString(R.string.CenturyGothic), PacifyerActivity.this));
-        text_duration.setTypeface(FontCache.get(getString(R.string.CenturyGothic), PacifyerActivity.this));
         PrefManager prefM = PrefManager.getInstance(getApplicationContext());
         String country = prefM.getCountry();
         String sign = "$";
@@ -851,7 +845,6 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
         } else {
             sign = getApplicationContext().getResources().getString(R.string.dollar);
         }
-        text_amount_charged.setTypeface(FontCache.get(getString(R.string.CenturyGothic), PacifyerActivity.this));
         try {
             text_provider.setText(billingSummary.getSession().getPacifyr().getFirstName());
             text_date.setText(date.substring(0, date.indexOf(' ')));
@@ -1779,9 +1772,9 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
     public void setAlertSessionStop(String title,String desc,String ok) {
         //View.OnClickListener oklistner
         View view = LayoutInflater.from(this).inflate(com.ceino.utilitylibrary.R.layout.alert_ok, null, false);
-        CustomFontTextView title_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.title_dtxv);
-        CustomFontTextView desc_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.desc_dtxv);
-        CustomFontTextView ok_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.ok_dtxv);
+        MainTextView title_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.title_dtxv);
+        MainTextView desc_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.desc_dtxv);
+        MainTextView ok_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.ok_dtxv);
 
         if(isValid(title))
             defSetText(title_dtxv,title);
@@ -1810,9 +1803,9 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
     public void setAlertOKStatusInBlue(String title, String desc, String ok, View.OnClickListener listener) {
         //View.OnClickListener oklistner
         View view = LayoutInflater.from(this).inflate(com.ceino.utilitylibrary.R.layout.alert_ok, null, false);
-        CustomFontTextView title_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.title_dtxv);
-        CustomFontTextView desc_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.desc_dtxv);
-        CustomFontTextView ok_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.ok_dtxv);
+        MainTextView title_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.title_dtxv);
+        MainTextView desc_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.desc_dtxv);
+        MainTextView ok_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.ok_dtxv);
 
         if(isValid(title))
             defSetText(title_dtxv,title);
@@ -2511,7 +2504,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
             final CustomEditText cardCvvEdt = view.findViewById(R.id.card_cvv_edt);
             final DeviceFitImageView close_dimv = view.findViewById(R.id.close_dimv);
             RelativeLayout saveRlay = view.findViewById(R.id.save_rlay);
-            CustomFontTextView saveCtxv = view.findViewById(R.id.save_ctxv);
+            MainTextView saveCtxv = view.findViewById(R.id.save_ctxv);
             hideStatus();
             hideStatus2();
             hud_status2 = KProgressHUD.create(this).setStyle(KProgressHUD.Style.SPIN_INDETERMINATE).setCustomView(view).setWindowColor(this.getResources().getColor(com.ceino.utilitylibrary.R.color.transparent)).setCancellable(false).setAnimationSpeed(2).setDimAmount(0.5f);
@@ -2760,7 +2753,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
         }
     }
 
-    public void showYearPicker(final CustomFontTextView textView) {
+    public void showYearPicker(final MainTextView textView) {
         final Integer[] vals = {null};
         //View.OnClickListener oklistner
         View view = LayoutInflater.from(this).inflate(R.layout.dialog_show_year_picker, null, false);
@@ -3281,11 +3274,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
             TextView transactionId = view.findViewById(R.id.transactionId);
             TextView text_date = view.findViewById(R.id.text_date);
             TextView text_amount_charged = view.findViewById(R.id.text_amount_charged);
-            ok.setTypeface(FontCache.get(getString(R.string.CenturyGothic), PacifyerActivity.this));
-            transactionId.setTypeface(FontCache.get(getString(R.string.CenturyGothic), PacifyerActivity.this));
-            text_date.setTypeface(FontCache.get(getString(R.string.CenturyGothic), PacifyerActivity.this));
-            text_amount_charged.setTypeface(FontCache.get(getString(R.string.CenturyGothic), PacifyerActivity.this));
-            try {
+        try {
                 transactionId.setText(object.getTransactionId());
                 text_date.setText(transaction_date);
 

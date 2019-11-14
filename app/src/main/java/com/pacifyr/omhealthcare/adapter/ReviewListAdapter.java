@@ -9,7 +9,7 @@ import android.widget.RatingBar;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.ceino.utilitylibrary.CustomFontTextView;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.ceino.utilitylibrary.model.pacifyr.MReviews;
 import com.ceino.utilitylibrary.model.pacifyr.MUser;
 import com.pacifyr.omhealthcare.R;
@@ -106,9 +106,9 @@ public class ReviewListAdapter extends RecyclerView.Adapter<ReviewListAdapter.My
 
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        private CustomFontTextView timeCtxv;
+        private MainTextView timeCtxv;
         private RatingBar ratingBar;
-        private CustomFontTextView qualityCtxv;
+        private MainTextView qualityCtxv;
 
         public MyViewHolder(View view) {
             super(view);

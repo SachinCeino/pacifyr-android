@@ -16,8 +16,7 @@
         android:padding="20dp">
 
 
-
-    <com.ceino.utilitylibrary.CustomFontTextView
+        <com.pacifyr.omhealthcare.customview.MainTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="left"
@@ -28,7 +27,7 @@
         android:text="PAYMENT METHOD"/>
 
 
-    <com.ceino.utilitylibrary.CustomFontTextView
+        <com.pacifyr.omhealthcare.customview.MainTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="left"

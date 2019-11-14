@@ -22,7 +22,7 @@ import android.widget.Toast;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.ceino.utilitylibrary.CustomFontTextView;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.ceino.utilitylibrary.DeviceFitImageView;
 import com.ceino.utilitylibrary.model.pacifyr.ChatSubscription;
 import com.ceino.utilitylibrary.model.pacifyr.MListNegativeEmotions;
@@ -82,7 +82,7 @@ public class ConnectToSinglePacifyrActivity extends PacifyrAppCompactActivity {
 
     RecyclerView emotionRcv;
     RecyclerView emotionDetailRcv;
-    private CustomFontTextView userNameCtxv;
+    private MainTextView userNameCtxv;
 
     Button button1, button2, button3, button4;
     Button moreButton;
@@ -95,15 +95,15 @@ public class ConnectToSinglePacifyrActivity extends PacifyrAppCompactActivity {
 
     private LinearLayout chatLlay;
     public static MPacifyr modelPacifyr;
-    private CustomFontTextView chatPriceCtxv;
+    private MainTextView chatPriceCtxv;
     private Context mContext;
 
-    private CustomFontTextView txt_emergency_usa;
+    private MainTextView txt_emergency_usa;
 
     private ConnectToSinglePacifyrActivity activity;
 
     CircleImageView pacifyer_cimv;
-    public CustomFontTextView pac_name_ctxv, pac_des_ctxv, pac_rate_ctxv, status_indicator_ctxv;
+    public MainTextView pac_name_ctxv, pac_des_ctxv, pac_rate_ctxv, status_indicator_ctxv;
     //static  RespSearchPacifyrWOption.Results pacifyer_obj=null;
     static MUser pacifyer_obj = null;
     RelativeLayout videocall_rlay, audiocall_rlay, chat_rlay, schedule_rlay;
@@ -687,7 +687,7 @@ public class ConnectToSinglePacifyrActivity extends PacifyrAppCompactActivity {
             int priceForChat = priceforChat;
 
             LinearLayout chatLlay = findViewById(R.id.chat_llay);
-            CustomFontTextView chat_price_ctxv = findViewById(R.id.chat_price_ctxv);
+            MainTextView chat_price_ctxv = findViewById(R.id.chat_price_ctxv);
 
             chatLlay.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -982,10 +982,10 @@ public class ConnectToSinglePacifyrActivity extends PacifyrAppCompactActivity {
     private RelativeLayout bottomPanel;
     private LinearLayout leftLlay;
     private ImageView backImv;
-    private CustomFontTextView leftTxv;
-    private CustomFontTextView titleTxv;
+    private MainTextView leftTxv;
+    private MainTextView titleTxv;
     private LinearLayout rightLlay;
-    private CustomFontTextView rightTxv;
+    private MainTextView rightTxv;
     private DeviceFitImageView rightImv;
 
     public void onSetActionBar() {

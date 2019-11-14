@@ -25,7 +25,6 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:fontFamily="@string/CenturyGothic"
                 android:text="Provider"
                 android:layout_gravity="center_horizontal" />
 
@@ -34,7 +33,6 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:fontFamily="@string/CenturyGothic"
                 android:text=""
                 android:layout_gravity="center_horizontal"
                 android:textStyle="bold" />
@@ -54,7 +52,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:fontFamily="@string/CenturyGothic"
                 android:text="Date"
                 android:layout_gravity="center_horizontal" />
 
@@ -63,7 +60,6 @@
                 android:layout_height="wrap_content"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:fontFamily="@string/CenturyGothic"
                 android:text=""
                 android:layout_gravity="center_horizontal"
                 android:textStyle="bold" />
@@ -85,7 +81,6 @@
                 android:layout_weight="1"
                 android:ems="10"
                 android:layout_gravity="center_horizontal"
-                android:fontFamily="@string/CenturyGothic"
                 android:text="Session Start Time" />
 
             <TextView
@@ -93,7 +88,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:fontFamily="@string/CenturyGothic"
                 android:text=""
                 android:layout_gravity="center_horizontal"
                 android:textStyle="bold" />
@@ -115,14 +109,12 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:fontFamily="@string/CenturyGothic"
                 android:text="Duration" />
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:fontFamily="@string/CenturyGothic"
                 android:text=""
                 android:textStyle="bold"
                 android:id="@+id/text_duration"
@@ -143,14 +135,12 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:fontFamily="@string/CenturyGothic"
                 android:text="Amount Charged" />
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:fontFamily="@string/CenturyGothic"
                 android:text=""
                 android:textStyle="bold"
                 android:id="@+id/text_amount_charged"

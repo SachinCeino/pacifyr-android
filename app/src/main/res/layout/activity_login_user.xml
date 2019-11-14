@@ -51,14 +51,14 @@
             app:layout_constraintTop_toBottomOf="@+id/logo_blue"
             app:layout_marginTopPercent="10%">
 
-            <com.ceino.utilitylibrary.CustomFontTextView
+            <com.pacifyr.omhealthcare.customview.MainTextView
                 android:id="@+id/enter_phone_ctxv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/e_phonenumber"
-                android:textColor="@color/grey_dark_text"
-                android:textSize="17sp"
-                app:fontName="@string/raleway_bold" />
+                android:textColor="@color/black"
+                android:focusedByDefault="false"
+                android:textSize="17sp" />
 
 
             <LinearLayout
@@ -128,13 +128,12 @@
                 android:background="@drawable/blue_round_square"
                 android:padding="10dp">
 
-                <com.ceino.utilitylibrary.CustomFontTextView
+                <com.pacifyr.omhealthcare.customview.MainTextView
                     android:id="@+id/request_ctxv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
-                    app:fontName="@string/avanti_std_bk"
                     android:text="@string/send_confirmcode"
                     android:textColor="@color/white"
                     android:textSize="16sp" />
@@ -151,7 +150,7 @@
                 android:layout_marginRight="10dp"
                 android:visibility="gone" />
 
-            <com.ceino.utilitylibrary.CustomFontTextView
+            <com.pacifyr.omhealthcare.customview.MainTextView
 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -160,7 +159,7 @@
                 android:layout_marginTop="30dp"
                 android:gravity="center"
                 android:id="@+id/sms_text_login"
-                android:textColor="@color/grey_dark_text"
+                android:textColor="@color/black"
                 android:textSize="@dimen/sp12" />
 
         </LinearLayout>
@@ -193,7 +192,7 @@
                     android:layout_height="1dp"
                     android:background="@color/signup_view" />
 
-                <com.ceino.utilitylibrary.CustomFontTextView
+                <com.pacifyr.omhealthcare.customview.MainTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="15dp"
@@ -217,14 +216,13 @@
                 android:background="@drawable/fb_signup_btn"
                 android:padding="10dp">
 
-                <com.ceino.utilitylibrary.CustomFontTextView
+                <com.pacifyr.omhealthcare.customview.MainTextView
                     android:id="@+id/fb_tcv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
                     android:gravity="center"
-                    app:fontName="@string/avanti_std_bk"
                     android:text="@string/login_fb"
                     android:textColor="@color/white"
                     android:textSize="16sp" />

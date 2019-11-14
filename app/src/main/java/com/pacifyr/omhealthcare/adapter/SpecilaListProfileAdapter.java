@@ -9,7 +9,7 @@ import android.widget.ImageView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.ceino.utilitylibrary.CustomFontTextView;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.pacifyr.omhealthcare.R;
 
 import java.util.ArrayList;
@@ -51,7 +51,7 @@ import java.util.ArrayList;
         public static class SpecialViewHolder extends RecyclerView.ViewHolder{
 
             protected ImageView image;
-            protected CustomFontTextView text;
+            protected MainTextView text;
 
             public SpecialViewHolder(View itemView) {
                 super(itemView);

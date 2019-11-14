@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.ceino.utilitylibrary.CustomFontTextView;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.ceino.utilitylibrary.model.pacifyr.post.PostRegisterModel;
 import com.ceino.utilitylibrary.utils.PrefManager;
 import com.google.gson.Gson;
@@ -61,8 +61,7 @@ public class EmotionSpecialityAdapter extends RecyclerView.Adapter<EmotionSpecia
     private boolean showAllFlag;
 
 
-
-    CustomFontTextView noPacifyrCtxv;
+    MainTextView noPacifyrCtxv;
 
     private String category;
 
@@ -459,7 +458,7 @@ public class EmotionSpecialityAdapter extends RecyclerView.Adapter<EmotionSpecia
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public CustomFontTextView commentCtx;
+        public MainTextView commentCtx;
         public LinearLayout commentLlay;
 
         public MyViewHolder(View view) {

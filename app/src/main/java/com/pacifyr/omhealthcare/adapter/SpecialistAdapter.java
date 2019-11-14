@@ -14,7 +14,7 @@ import android.widget.TextView;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.ceino.utilitylibrary.CustomFontTextView;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.ceino.utilitylibrary.model.pacifyr.ModelSpecialist;
 import com.pacifyr.omhealthcare.R;
 import com.squareup.picasso.Picasso;
@@ -69,7 +69,7 @@ public class SpecialistAdapter extends RecyclerView.Adapter<SpecialistAdapter.My
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView title, year, genre;
         public CircleImageView circleImageView;
-        public CustomFontTextView pac_name;
+        public MainTextView pac_name;
 
         public MyViewHolder(View view) {
             super(view);

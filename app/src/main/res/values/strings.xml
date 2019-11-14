@@ -143,45 +143,6 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="URL_DISPUTE_POLICY">https://omhealthcare.com/copyrightDisputePolicy</string>
     <string name="AWS_PROJECT">OMDev</string>
 
-
-    <string name="raleway_bold">Raleway-Bold.ttf</string>
-    <string name="raleway_light">Raleway-Light.ttf</string>
-    <string name="raleway_medium">Raleway-Medium.ttf</string>
-    <string name="raleway_semi_bold">Raleway-SemiBold.ttf</string>
-    <string name="raleway_thin">Raleway-Thin.ttf</string>
-
-
-    <string name="avenir_black">GOTHICB.ttf</string>
-    <string name="avenir_book">GOTHICB.ttf</string>
-    <string name="avenir_medium">CenturyGothic.ttf</string>
-    <string name="CenturyGothic">CenturyGothic.ttf</string>
-
-
-    <string name="avanti_std_bk">ITCAvantGardeStd-Bk.otf</string>
-    <string name="avanti_std__bk_cn">ITCAvantGardeStd-BkCn.otf</string>
-    <string name="avanti_std__bk_cn_obl">ITCAvantGardeStd-BkCnObl.otf</string>
-    <string name="avanti_std__bk_obl">ITCAvantGardeStd-BkObl.otf</string>
-
-    <string name="avanti_std_bold">ActionBarCommonFont.otf</string>
-    <string name="avanti_std__bold_cn">ActionBarCommonFontCn.otf</string>
-    <string name="avanti_std__bold_cn_obl">ActionBarCommonFontCnObl.otf</string>
-    <string name="avanti_std__bold_obl">ActionBarCommonFontObl.otf</string>
-
-    <string name="avanti_demi">ITCAvantGardeStd-Demi.otf</string>
-    <string name="avanti_std_demi_cn">ITCAvantGardeStd-DemiCn.otf</string>
-    <string name="avanti_std__demi_cn_obl">ITCAvantGardeStd-DemiCnObl.otf</string>
-    <string name="avanti_std__demi_obl">ITCAvantGardeStd-DemiObl.otf</string>
-
-
-    <string name="avanti_std_md">ITCAvantGardeStd-Md.otf</string>
-    <string name="avanti_std__md_cn">ITCAvantGardeStd-MdCn.otf</string>
-    <string name="avanti_std__md_cn_obl">ITCAvantGardeStd-MdCnObl.otf</string>
-    <string name="avanti_std__md_obl">ITCAvantGardeStd-MdObl.otf</string>
-
-    <string name="avanti_std_xlt">ITCAvantGardeStd-.XLtotf</string>
-    <string name="avanti_std__xlt_cn">ITCAvantGardeStd-XLtCn.otf</string>
-    <string name="avanti_std__xlt_cn_obl">ITCAvantGardeStd-XLtCnObl.otf</string>
-    <string name="avanti_std__xlt_obl">ITCAvantGardeStd-XLtObl.otf</string>
     <string name="pref_wellness_experts">Preferred Wellness Experts</string>
     <string name="tick">✔</string>
     <string name="activity_checkin">Checkin</string>
@@ -203,4 +164,7 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="congrats_for_interview">You are now ready to interview. Go to the hiring
         pavilion to interview with employers. Good luck!
     </string>
+
+    <string name="main_font_bold">Avenir-Medium.ttf</string>
+    <string name="main_font_medium">Avenir-Medium.ttf</string>
 </resources>

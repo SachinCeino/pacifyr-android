@@ -12,7 +12,7 @@ import android.widget.RelativeLayout;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.ceino.utilitylibrary.CustomFontTextView;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.ceino.utilitylibrary.utils.PrefManager;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.activity.TermsOfUseActivity;
@@ -24,8 +24,8 @@ import com.squareup.otto.Subscribe;
 public class CrisisFragment extends BaseFragment {
 
 
-    private CustomFontTextView paymentMethodCtxv;
-    private CustomFontTextView credictCardCtxv;
+    private MainTextView paymentMethodCtxv;
+    private MainTextView credictCardCtxv;
     private PrefManager prefM;
     private String userToken,userid;
 
@@ -70,33 +70,33 @@ public class CrisisFragment extends BaseFragment {
 
 
     private RelativeLayout suicideRlay;
-    private CustomFontTextView suicideHeaderCtxv;
+    private MainTextView suicideHeaderCtxv;
     private LinearLayout suicideUrlLlay;
-    private CustomFontTextView suicideUrlCtxv;
+    private MainTextView suicideUrlCtxv;
     private RelativeLayout suicideTalkLlay;
     private ImageView suicideTalkImv;
-    private CustomFontTextView suicideTalkCtxv;
-    private CustomFontTextView suicideTtyCtxv;
+    private MainTextView suicideTalkCtxv;
+    private MainTextView suicideTtyCtxv;
     private LinearLayout suicideDescriptionLlay;
-    private CustomFontTextView suicideDescriptionCtxv;
+    private MainTextView suicideDescriptionCtxv;
     private RelativeLayout samhsaRlay;
-    private CustomFontTextView samhsaHeaderCtxv;
+    private MainTextView samhsaHeaderCtxv;
     private RelativeLayout samhsaTalkLlay;
     private ImageView samhsaTalkImv;
-    private CustomFontTextView samhsaTalkCtxv;
-    private CustomFontTextView samhsaTtyCtxv;
+    private MainTextView samhsaTalkCtxv;
+    private MainTextView samhsaTtyCtxv;
     private LinearLayout samhsaDescriptionLlay;
-    private CustomFontTextView samhsaDescriptionCtxv;
+    private MainTextView samhsaDescriptionCtxv;
     private RelativeLayout veteransRlay;
-    private CustomFontTextView veteransHeaderCtxv;
+    private MainTextView veteransHeaderCtxv;
     private LinearLayout veteransUrlLlay;
-    private CustomFontTextView veteransUrlCtxv;
+    private MainTextView veteransUrlCtxv;
     private RelativeLayout veteransTalkLlay;
     private ImageView veteransTalkImv;
-    private CustomFontTextView veteransTalkCtxv;
-    private CustomFontTextView vetaransTtyCtxv;
+    private MainTextView veteransTalkCtxv;
+    private MainTextView vetaransTtyCtxv;
     private LinearLayout veteransDescriptionLlay;
-    private CustomFontTextView veteransDescriptionCtxv;
+    private MainTextView veteransDescriptionCtxv;
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {

@@ -14,7 +14,7 @@ import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-import com.ceino.utilitylibrary.CustomFontTextView;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.ceino.utilitylibrary.DeviceFitImageView;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.base.PacifyerActivity;
@@ -205,10 +205,10 @@ public class TermsOfUseActivity extends PacifyerActivity {
     private RelativeLayout bottomPanel;
     private LinearLayout leftLlay;
     private DeviceFitImageView backImv;
-    private CustomFontTextView leftTxv;
-    private CustomFontTextView titleTxv;
+    private MainTextView leftTxv;
+    private MainTextView titleTxv;
     private LinearLayout rightLlay;
-    private CustomFontTextView rightTxv;
+    private MainTextView rightTxv;
     private DeviceFitImageView rightImv;
 
     public void onSetActionBar() {

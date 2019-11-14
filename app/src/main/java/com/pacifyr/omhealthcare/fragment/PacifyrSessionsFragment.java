@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.ceino.utilitylibrary.CustomFontTextView;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.ceino.utilitylibrary.model.pacifyr.MSessionDetailRoot;
 import com.ceino.utilitylibrary.model.pacifyr.ModelSessonsOfCustomer;
 import com.ceino.utilitylibrary.model.pacifyr.ModelStatistics;
@@ -50,25 +50,25 @@ public class PacifyrSessionsFragment extends BaseFragment {
     private  int skip,limit;
 
     private LinearLayout tabRlay;
-    private CustomFontTextView thisWkCtxv;
-    private CustomFontTextView thisMntCtxv;
-    private CustomFontTextView thisYearCtxv;
+    private MainTextView thisWkCtxv;
+    private MainTextView thisMntCtxv;
+    private MainTextView thisYearCtxv;
     private LinearLayout mySessionsTopLlay;
     private RelativeLayout upperRlay;
-    private CustomFontTextView sessionNoCtxv;
-    private CustomFontTextView hoursNoCtxv;
-    private CustomFontTextView minutesNoCtxv;
-    private CustomFontTextView earningsNoCtxv;
+    private MainTextView sessionNoCtxv;
+    private MainTextView hoursNoCtxv;
+    private MainTextView minutesNoCtxv;
+    private MainTextView earningsNoCtxv;
     private RelativeLayout missedRlay;
-    private CustomFontTextView missedCallCtxv;
-    private CustomFontTextView declinedCallCtxv;
-    private CustomFontTextView noDataCtxv;
+    private MainTextView missedCallCtxv;
+    private MainTextView declinedCallCtxv;
+    private MainTextView noDataCtxv;
     private RecyclerView mySessionsRcv;
     private RecyclerView monthSessionsRcv;
     private RecyclerView yearSessionsRcv;
     private RecyclerView unreadSessionsRcv;
-    private CustomFontTextView missedCtxv;
-    private CustomFontTextView declinedCtxv;
+    private MainTextView missedCtxv;
+    private MainTextView declinedCtxv;
     private RecyclerView dateTypeRcv;
     int time=0;//0;week,1:Month,2:Year
 

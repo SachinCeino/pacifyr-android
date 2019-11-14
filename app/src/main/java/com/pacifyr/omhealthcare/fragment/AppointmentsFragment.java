@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -16,17 +15,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.ceino.utilitylibrary.CustomFontTextView;
-import com.ceino.utilitylibrary.model.pacifyr.MUser;
 import com.ceino.utilitylibrary.utils.PrefManager;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.adapter.AppointmentsListAdapter;
-import com.pacifyr.omhealthcare.adapter.ResourcesListAdapter;
 import com.pacifyr.omhealthcare.base.PacifyerActivity;
 import com.pacifyr.omhealthcare.event.NotifyEvent;
 import com.pacifyr.omhealthcare.fragment.schedule.AppointmentModel;
 import com.pacifyr.omhealthcare.fragment.schedule.ScheduleBottomSheetFragment;
-import com.pacifyr.omhealthcare.model.ModelResources;
 import com.pacifyr.omhealthcare.network.GsonUtils;
 import com.pacifyr.omhealthcare.network.NetworkService;
 import com.pacifyr.omhealthcare.utility.BaseFragment;
@@ -37,7 +32,6 @@ import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONObject;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.ceino.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;

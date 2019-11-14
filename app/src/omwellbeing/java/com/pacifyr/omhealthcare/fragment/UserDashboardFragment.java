@@ -15,7 +15,7 @@ import android.widget.RelativeLayout;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.ceino.utilitylibrary.CustomFontTextView;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.ceino.utilitylibrary.DeviceFitImageView;
 import com.ceino.utilitylibrary.model.pacifyr.MUser;
 import com.ceino.utilitylibrary.model.pacifyr.ModelCustomerDashboard2;
@@ -72,11 +72,11 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
     //private DeviceFitImageView feelImage;
     private RelativeLayout lastSessionRlay;
     private CircleImageView lastSessionDimv;
-    private CustomFontTextView lastSsnPacfyrCtxv,no_pacifyr_ctxv,no_lastsession_ctxv;
+    private MainTextView lastSsnPacfyrCtxv,no_pacifyr_ctxv,no_lastsession_ctxv;
     private LinearLayout last_session_top_llay;
     private DeviceFitImageView videoCamImg;
-    private CustomFontTextView lastSessionMinuteTxv;
-    private CustomFontTextView daysTxv;
+    private MainTextView lastSessionMinuteTxv;
+    private MainTextView daysTxv;
     private RelativeLayout cirPrefPacifyr;
     private LinearLayout llayTop, llay_bottom;
     private CircleImageView pacifyr1Dimv;
@@ -86,19 +86,19 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
     private CircleImageView pacifyr3Dimv;
     //private DeviceFitImageView searchDimv;
     private RelativeLayout thisWeekRlay;
-    private CustomFontTextView sessionsTxv;
-    private CustomFontTextView hoursTxv;
-    private CustomFontTextView paidTxv;
+    private MainTextView sessionsTxv;
+    private MainTextView hoursTxv;
+    private MainTextView paidTxv;
     private DeviceFitImageView feelImageDimv;
-    private CustomFontTextView feelTitleCtxv;
+    private MainTextView feelTitleCtxv;
     private PrefManager prefM;
     private MUser prefpac;
-    private CustomFontTextView minutesCtxv;
+    private MainTextView minutesCtxv;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private CustomFontTextView feel_err_text;
+    private MainTextView feel_err_text;
     public String EmotionTitle="";
 
-    private CustomFontTextView unreadChatCtxv;
+    private MainTextView unreadChatCtxv;
     public Integer unreadCount =0;
 
     private boolean isClickedOnChat=false;
@@ -205,7 +205,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
 
                    /* getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.activity_main_content_fragment, new MySessionFragment()).commit();
                     //showFragment(new PacifyrSessionsFragment());
-                    CustomFontTextView titleTxv = (CustomFontTextView) getActivity().findViewById(R.id.title_txv);
+                    MainTextView titleTxv = (MainTextView) getActivity().findViewById(R.id.title_txv);
                     defSetText(titleTxv, "My Sessions");
                     //Toast.makeText(getContext(),"sessions rating",Toast.LENGTH_LONG).show();*/
                 }
@@ -615,9 +615,9 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
 
 
         // set the custom dialog components - text, image and button
-        CustomFontTextView text = (CustomFontTextView) dialog.findViewById(R.id.name_in_dialog_ctxv);
-        CustomFontTextView sel_speciality_ctxv = (CustomFontTextView) dialog.findViewById(R.id.sel_speciality_ctxv);
-        CustomFontTextView no_review_ctxv = (CustomFontTextView) dialog.findViewById(R.id.no_review_ctxv);
+        MainTextView text = (MainTextView) dialog.findViewById(R.id.name_in_dialog_ctxv);
+        MainTextView sel_speciality_ctxv = (MainTextView) dialog.findViewById(R.id.sel_speciality_ctxv);
+        MainTextView no_review_ctxv = (MainTextView) dialog.findViewById(R.id.no_review_ctxv);
         RatingBar dialog_rating=(RatingBar) dialog.findViewById(R.id.dialog_rating);
 
         no_review_ctxv.setText(prefpac.getNumberOfReviews()+getResources().getString(R.string.reviews));

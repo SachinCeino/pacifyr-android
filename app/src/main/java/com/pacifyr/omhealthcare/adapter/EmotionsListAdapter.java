@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.ceino.utilitylibrary.CustomFontTextView;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.ceino.utilitylibrary.DeviceFitImageView;
 import com.ceino.utilitylibrary.model.pacifyr.MEmotion;
 import com.pacifyr.omhealthcare.R;
@@ -263,7 +263,7 @@ public class EmotionsListAdapter extends RecyclerView.Adapter<EmotionsListAdapte
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public DeviceFitImageView emotionIMG;
-        public CustomFontTextView emotion_title;
+        public MainTextView emotion_title;
         public CircleImageView img_blue_bg;
 
         public MyViewHolder(View view) {

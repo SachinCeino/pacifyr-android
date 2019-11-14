@@ -20,7 +20,7 @@
         android:orientation="vertical"
         android:padding="25dp">
 
-        <com.ceino.utilitylibrary.CustomFontTextView
+        <com.pacifyr.omhealthcare.customview.MainTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/card_number"
@@ -94,23 +94,23 @@
 
         </LinearLayout>
 
-       <!-- <com.ceino.utilitylibrary.CustomFontTextView
-            android:id="@+id/country_txv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="25sp"
-            android:textColor="@color/black"
-            android:layout_marginTop="25dp"
-            android:text="Country" />
+        <!-- <com.pacifyr.omhealthcare.customview.MainTextView
+             android:id="@+id/country_txv"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:textSize="25sp"
+             android:textColor="@color/black"
+             android:layout_marginTop="25dp"
+             android:text="Country" />
 
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:id="@+id/country_edt"
-            android:layout_marginTop="15dp"
-            android:hint="USA"/>-->
+         <EditText
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_gravity="center"
+             android:id="@+id/country_edt"
+             android:layout_marginTop="15dp"
+             android:hint="USA"/>-->
 
 
 
@@ -123,7 +123,7 @@
             android:layout_height="43dp"
             android:background="@drawable/blue_round_square">
 
-            <com.ceino.utilitylibrary.CustomFontTextView
+            <com.pacifyr.omhealthcare.customview.MainTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/save"

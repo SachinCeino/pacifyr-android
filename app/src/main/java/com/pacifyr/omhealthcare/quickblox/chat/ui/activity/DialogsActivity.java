@@ -22,7 +22,7 @@ import android.widget.Toast;
 import androidx.appcompat.view.ActionMode;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
-import com.ceino.utilitylibrary.CustomFontTextView;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.ceino.utilitylibrary.DeviceFitImageView;
 import com.ceino.utilitylibrary.utils.PrefManager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -84,7 +84,7 @@ public class DialogsActivity extends PacifyerActivity implements DialogsManager.
     private QBIncomingMessagesManager incomingMessagesManager;
     private DialogsManager dialogsManager;
     private QBUser currentUser;
-    private CustomFontTextView noMessagesCtxv;
+    private MainTextView noMessagesCtxv;
 
     public static void start(Context context) {
         Intent intent = new Intent(context, DialogsActivity.class);
@@ -556,10 +556,10 @@ public class DialogsActivity extends PacifyerActivity implements DialogsManager.
     private RelativeLayout bottomPanel;
     private LinearLayout leftLlay;
     private DeviceFitImageView backImv;
-    private CustomFontTextView leftTxv;
-    private CustomFontTextView titleTxv;
+    private MainTextView leftTxv;
+    private MainTextView titleTxv;
     private LinearLayout rightLlay;
-    private CustomFontTextView rightTxv;
+    private MainTextView rightTxv;
     private DeviceFitImageView rightImv;
 
     public void onSetActionBar() {

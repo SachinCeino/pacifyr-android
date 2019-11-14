@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.ceino.utilitylibrary.CustomFontTextView;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.ceino.utilitylibrary.DeviceFitImageView;
 import com.ceino.utilitylibrary.model.pacifyr.MSessionDetailRoot;
 import com.ceino.utilitylibrary.model.pacifyr.ModelSessonsOfCustomer;
@@ -35,8 +35,8 @@ import static com.ceino.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
 public class MissedandDeclinedActivity extends PacifyrAppCompactActivity {
 
     private RelativeLayout buttonRlay;
-    private CustomFontTextView missedCtxv;
-    private CustomFontTextView declinedCtxv;
+    private MainTextView missedCtxv;
+    private MainTextView declinedCtxv;
     private RecyclerView missedRcv;
     private RecyclerView declinedRcv;
     private LinearLayoutManager layoutManager;
@@ -214,10 +214,10 @@ public class MissedandDeclinedActivity extends PacifyrAppCompactActivity {
     private RelativeLayout bottomPanel;
     private LinearLayout leftLlay;
     private DeviceFitImageView backImv;
-    private CustomFontTextView leftTxv;
-    private CustomFontTextView titleTxv;
+    private MainTextView leftTxv;
+    private MainTextView titleTxv;
     private LinearLayout rightLlay;
-    private CustomFontTextView rightTxv;
+    private MainTextView rightTxv;
     private DeviceFitImageView rightImv;
 
     public void onSetActionBar() {

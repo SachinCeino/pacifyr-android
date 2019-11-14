@@ -18,7 +18,7 @@
         android:id="@+id/profile_llay">
 
 
-        <com.ceino.utilitylibrary.CustomFontTextView
+        <com.pacifyr.omhealthcare.customview.MainTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
@@ -28,7 +28,7 @@
             android:text="" />
 
 
-        <com.ceino.utilitylibrary.CustomFontTextView
+        <com.pacifyr.omhealthcare.customview.MainTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="12dp"
@@ -55,7 +55,7 @@
                 android:rating="0"
                 android:isIndicator="true"/>
 
-            <com.ceino.utilitylibrary.CustomFontTextView
+            <com.pacifyr.omhealthcare.customview.MainTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="10dp"
@@ -88,7 +88,7 @@
                 android:id="@+id/online_offline_imv"
                 android:src="@drawable/offline"/>
 
-            <com.ceino.utilitylibrary.CustomFontTextView
+            <com.pacifyr.omhealthcare.customview.MainTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="10dp"
@@ -100,7 +100,7 @@
 
         </LinearLayout>
 
-        <com.ceino.utilitylibrary.CustomFontTextView
+        <com.pacifyr.omhealthcare.customview.MainTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="10dp"
@@ -162,7 +162,8 @@
                             android:layout_marginRight="10dp"
                             android:scaleType="centerInside"
                             android:src="@drawable/parent_mail_black"/>
-                        <com.ceino.utilitylibrary.CustomFontTextView
+
+                        <com.pacifyr.omhealthcare.customview.MainTextView
                             android:id="@+id/mail_dtxv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -194,7 +195,7 @@
                             android:scaleType="fitCenter"
                             android:src="@drawable/ic_call_grey"/>
 
-                        <com.ceino.utilitylibrary.CustomFontTextView
+                        <com.pacifyr.omhealthcare.customview.MainTextView
                             android:id="@+id/pnumber_dtxv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -231,7 +232,7 @@
                     android:padding="10dp"
                     android:orientation="vertical">
 
-                    <com.ceino.utilitylibrary.CustomFontTextView
+                    <com.pacifyr.omhealthcare.customview.MainTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textStyle="bold"
@@ -240,7 +241,7 @@
                         android:text="SNAP SHOT"/>
 
 
-                    <com.ceino.utilitylibrary.CustomFontTextView
+                    <com.pacifyr.omhealthcare.customview.MainTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textStyle="bold"
@@ -272,7 +273,7 @@
                     android:orientation="vertical"
                     android:padding="10dp">
 
-                    <com.ceino.utilitylibrary.CustomFontTextView
+                    <com.pacifyr.omhealthcare.customview.MainTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textStyle="bold"
@@ -281,7 +282,7 @@
                         android:text="SNAP SHOT"/>
 
 
-                    <com.ceino.utilitylibrary.CustomFontTextView
+                    <com.pacifyr.omhealthcare.customview.MainTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textStyle="bold"
@@ -310,7 +311,7 @@
                     android:padding="10dp"
                     android:orientation="vertical">
 
-                    <com.ceino.utilitylibrary.CustomFontTextView
+                    <com.pacifyr.omhealthcare.customview.MainTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textStyle="bold"
@@ -319,7 +320,7 @@
                         android:text="BLOG OR WEBSITE"/>
 
 
-                    <com.ceino.utilitylibrary.CustomFontTextView
+                    <com.pacifyr.omhealthcare.customview.MainTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textStyle="bold"
@@ -349,7 +350,7 @@
                     android:padding="10dp"
                     android:orientation="vertical">
 
-                    <com.ceino.utilitylibrary.CustomFontTextView
+                    <com.pacifyr.omhealthcare.customview.MainTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textStyle="bold"
@@ -363,7 +364,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
 
-                    <com.ceino.utilitylibrary.CustomFontTextView
+                    <com.pacifyr.omhealthcare.customview.MainTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/special_list_ctxv"
@@ -391,7 +392,7 @@
                     android:padding="10dp"
                     android:orientation="vertical">
 
-                    <com.ceino.utilitylibrary.CustomFontTextView
+                    <com.pacifyr.omhealthcare.customview.MainTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textStyle="bold"
@@ -423,7 +424,7 @@
                     android:padding="10dp"
                     android:orientation="vertical">
 
-                    <com.ceino.utilitylibrary.CustomFontTextView
+                    <com.pacifyr.omhealthcare.customview.MainTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="13sp"

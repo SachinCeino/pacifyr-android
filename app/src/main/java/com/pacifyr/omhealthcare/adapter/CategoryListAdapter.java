@@ -14,7 +14,7 @@ import android.widget.TextView;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.ceino.utilitylibrary.CustomFontTextView;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.home.ConnectToPacifyrActivity;
 import com.pacifyr.omhealthcare.model.ModelSpecialityByCategory;
@@ -141,7 +141,7 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView title, year, genre;
         public CircleImageView circleImageView;
-        public CustomFontTextView pac_name;
+        public MainTextView pac_name;
 
         public MyViewHolder(View view) {
             super(view);

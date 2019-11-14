@@ -27,18 +27,18 @@ android:layout_height="?android:attr/listPreferredItemHeight"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <com.ceino.utilitylibrary.CustomFontTextView
+        <com.pacifyr.omhealthcare.customview.MainTextView
             android:id="@+id/text_dialog_name"
             style="@style/DialogNameStyle"
             tools:text="Room name" />
 
-        <com.ceino.utilitylibrary.CustomFontTextView
+        <com.pacifyr.omhealthcare.customview.MainTextView
             android:id="@+id/text_dialog_last_message"
             style="@style/DialogLastMessageStyle"
             tools:text="Long last message to see how margin on the right side works" />
     </LinearLayout>
 
-    <com.ceino.utilitylibrary.CustomFontTextView
+    <com.pacifyr.omhealthcare.customview.MainTextView
         android:id="@+id/text_dialog_unread_count"
         style="@style/DialogUnreadCounterStyle"
         android:visibility="visible"

@@ -23,7 +23,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.ceino.utilitylibrary.CustomFontTextView;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.ceino.utilitylibrary.model.pacifyr.MUser;
 import com.ceino.utilitylibrary.model.pacifyr.ModelCustomerDashboard2;
 import com.ceino.utilitylibrary.utils.PrefManager;
@@ -92,7 +92,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
     private ImageView _ImageView_LastSession;
     private ImageView __ImageView_BrandUp;
 
-    private CustomFontTextView _UnRead_Chat_CoutLayout;
+    private MainTextView _UnRead_Chat_CoutLayout;
     public Integer _unReadCount =0;
     private RelativeLayout _RelativeLayout_Connect;
     private PrefManager _PrefManager;

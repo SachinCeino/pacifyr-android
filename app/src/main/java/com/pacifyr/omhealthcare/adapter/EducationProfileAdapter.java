@@ -4,11 +4,10 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.ceino.utilitylibrary.CustomFontTextView;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.ceino.utilitylibrary.model.pacifyr.ModelUserProfile;
 import com.pacifyr.omhealthcare.R;
 
@@ -48,7 +47,7 @@ public class EducationProfileAdapter extends RecyclerView.Adapter<EducationProfi
 
     public static class EducationViewHolder extends RecyclerView.ViewHolder{
 
-        protected CustomFontTextView title,location,edu_duration_ctxv;
+        protected MainTextView title, location, edu_duration_ctxv;
 
         public EducationViewHolder(View itemView) {
             super(itemView);

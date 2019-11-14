@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.ceino.utilitylibrary.CustomFontTextView;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.ceino.utilitylibrary.model.pacifyr.MUser;
 import com.ceino.utilitylibrary.utils.PrefManager;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -50,7 +50,7 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
 
     private LinearLayout ll_next_week,ll_prev_week;
     private String[] data;
-    private CustomFontTextView tv_week_display;
+    private MainTextView tv_week_display;
     private Calendar calendar;
     private RecyclerView rcv_week_schedule_,rcv_slote_schedule_;
     public PrefManager prefM;

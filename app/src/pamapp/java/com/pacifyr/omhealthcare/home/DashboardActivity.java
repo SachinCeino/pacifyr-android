@@ -20,7 +20,7 @@ import android.widget.RelativeLayout;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.ceino.utilitylibrary.CustomFontTextView;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.ceino.utilitylibrary.DeviceFitImageView;
 import com.ceino.utilitylibrary.model.pacifyr.MUser;
 import com.ceino.utilitylibrary.utils.PrefManager;
@@ -69,14 +69,14 @@ public class DashboardActivity extends PacifyrAppCompactActivity {
     private PagerEnabledSlidingPaneLayout slidingPane;
     private LinearLayout leftPane;
     private LinearLayout detailLlay;
-    private CustomFontTextView detailNameCtxv;
-    private CustomFontTextView detailMailCtxv;
+    private MainTextView detailNameCtxv;
+    private MainTextView detailMailCtxv;
     private LinearLayout dashboardLlay;
     private DeviceFitImageView dashboardDimv;
-    private CustomFontTextView dashboardCtxv;
+    private MainTextView dashboardCtxv;
     private LinearLayout mysessionsLlay;
     private DeviceFitImageView mesessionsDimv;
-    private CustomFontTextView mysessionsCtxv;
+    private MainTextView mysessionsCtxv;
     private LinearLayout paymentLlay;
 
     private LinearLayout connectToPacifyr;
@@ -84,20 +84,20 @@ public class DashboardActivity extends PacifyrAppCompactActivity {
 
     private LinearLayout supportLlay;
     //private DeviceFitImageView earningsDimv;
-    //private CustomFontTextView earningsCtxv;
+    //private MainTextView earningsCtxv;
     private LinearLayout logoutLlay;
     private LinearLayout tutotial_llay;
     private RelativeLayout account_rlay;
     private DeviceFitImageView logoutDimv;
-    private CustomFontTextView logoutCtxv;
+    private MainTextView logoutCtxv;
     private CircleImageView profile_cimv;
 
     private LinearLayout policyDocumentLlay;
     private LinearLayout crisisLlay;
-    private CustomFontTextView crisisCtxv;
+    private MainTextView crisisCtxv;
     private DeviceFitImageView crisisDimv;
     private View crisisView;
-    private CustomFontTextView resourcesCtxv;
+    private MainTextView resourcesCtxv;
     private LinearLayout resourcesLlay;
     private DeviceFitImageView resourcesDimv;
 
@@ -442,7 +442,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity {
     @Subscribe
     public void onActionbarEvent(ActionbarEvent event) {
         try {
-            defSetText(titleTxv, "My Dash board");
+            defSetText(titleTxv, "MY DASHBOARD");
         } catch (Exception e) {
             LogUtils.LOGD("session", "DA onActionbarEvent exce " + e.getMessage());
         }
@@ -452,10 +452,10 @@ public class DashboardActivity extends PacifyrAppCompactActivity {
     private RelativeLayout bottomPanel;
     private LinearLayout leftLlay;
     private DeviceFitImageView backImv;
-    private CustomFontTextView leftTxv;
-    private CustomFontTextView titleTxv;
+    private MainTextView leftTxv;
+    private MainTextView titleTxv;
     private LinearLayout rightLlay;
-    private CustomFontTextView rightTxv;
+    private MainTextView rightTxv;
     private DeviceFitImageView rightImv;
 
     public void onSetActionBar() {

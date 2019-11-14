@@ -9,7 +9,7 @@ import android.widget.RatingBar;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.ceino.utilitylibrary.CustomFontTextView;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.ceino.utilitylibrary.model.pacifyr.MEmotion;
 import com.ceino.utilitylibrary.model.pacifyr.MRatingDetail;
 import com.ceino.utilitylibrary.model.pacifyr.MSessionDetailRoot;
@@ -140,7 +140,7 @@ public class ListRatingDetailAdapter  extends RecyclerView.Adapter<ListRatingDet
     protected class ViewHolder extends RecyclerView.ViewHolder {
         private View view1;
         private RatingBar raingBar;
-        private CustomFontTextView dateCtxv;
+        private MainTextView dateCtxv;
         private ImageView typeIcoImv;
 
         public ViewHolder(View itemView) {

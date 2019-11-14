@@ -20,7 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-import com.ceino.utilitylibrary.CustomFontTextView;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.ceino.utilitylibrary.DeviceFitImageView;
 import com.ceino.utilitylibrary.model.pacifyr.MEmotion;
 import com.ceino.utilitylibrary.model.pacifyr.MUser;
@@ -67,13 +67,13 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
     private RelativeLayout emotion_rlay;
     private LinearLayout info_overlay_llay;
     private RelativeLayout userRlay;
-    private CustomFontTextView callCtxv;
+    private MainTextView callCtxv;
     private CircleImageView userDimv;
-    private CustomFontTextView usernameCtxv;
+    private MainTextView usernameCtxv;
     private DeviceFitImageView moreDimv;
     private RelativeLayout more_rlay;
-    private CustomFontTextView reason_ctxv, emotion_ctxv;
-    private CustomFontTextView billingStatus;
+    private MainTextView reason_ctxv, emotion_ctxv;
+    private MainTextView billingStatus;
 
     private Switch billingSwitch;
     private TextView text_remaining_minutes;

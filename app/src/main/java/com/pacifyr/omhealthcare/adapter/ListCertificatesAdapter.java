@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.ceino.utilitylibrary.CustomFontTextView;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.model.ModelPacifyrCertificates;
 
@@ -48,7 +48,7 @@ public class ListCertificatesAdapter extends RecyclerView.Adapter<ListCertificat
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        protected CustomFontTextView title, duration;
+        protected MainTextView title, duration;
 
         public ViewHolder(View itemView) {
             super(itemView);

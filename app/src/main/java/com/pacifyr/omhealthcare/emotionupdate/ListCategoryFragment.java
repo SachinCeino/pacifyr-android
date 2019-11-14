@@ -10,7 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.ceino.utilitylibrary.CustomFontTextView;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.pacifyr.omhealthcare.R;
 
 import static com.pacifyr.omhealthcare.emotionupdate.SelectEmotionActivity.speciality;
@@ -18,8 +18,8 @@ import static com.pacifyr.omhealthcare.emotionupdate.SelectEmotionActivity.speci
 public class ListCategoryFragment extends Fragment {
 
     private RecyclerView detailRcv;
-    private CustomFontTextView moreCtxv;
-    private CustomFontTextView whyCtxv;
+    private MainTextView moreCtxv;
+    private MainTextView whyCtxv;
 
     @Nullable
     @Override

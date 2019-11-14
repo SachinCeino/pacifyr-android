@@ -16,7 +16,7 @@
         android:orientation="vertical"
         android:padding="20dp">
 
-        <com.ceino.utilitylibrary.CustomFontTextView
+        <com.pacifyr.omhealthcare.customview.MainTextView
             android:id="@+id/nagative_ctxv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -34,7 +34,7 @@
             android:layout_marginTop="23dp"
             android:visibility="visible"></androidx.recyclerview.widget.RecyclerView>
 
-        <com.ceino.utilitylibrary.CustomFontTextView
+        <com.pacifyr.omhealthcare.customview.MainTextView
             android:id="@+id/positive_ctxv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

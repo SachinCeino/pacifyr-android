@@ -10,7 +10,7 @@ import android.widget.RelativeLayout;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.ceino.utilitylibrary.CustomFontTextView;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.model.ModelPacifyrDocuments;
 
@@ -68,7 +68,7 @@ public class ListFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         private RelativeLayout fileLlay;
         private ImageView closeImv;
         private ImageView fileImv;
-        private CustomFontTextView fileNameCtxv;
+        private MainTextView fileNameCtxv;
 
         public ViewHolder(View itemView) {
             super(itemView);

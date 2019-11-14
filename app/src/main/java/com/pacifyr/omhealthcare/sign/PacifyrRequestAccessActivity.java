@@ -36,7 +36,7 @@ import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.ceino.utilitylibrary.CustomEditText;
-import com.ceino.utilitylibrary.CustomFontTextView;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.ceino.utilitylibrary.DeviceFitImageView;
 import com.ceino.utilitylibrary.model.pacifyr.Education;
 import com.ceino.utilitylibrary.model.pacifyr.ModelSpecialist;
@@ -108,27 +108,27 @@ public class PacifyrRequestAccessActivity extends PacifyerActivity implements Re
     private Spinner spinner;
     private CustomEditText nameCedt;
     private CustomEditText phoneCedit;
-    private CustomFontTextView birthYearTxv;
+    private MainTextView birthYearTxv;
     private CustomEditText snapshotTxv;
-    private CustomFontTextView textView2;
+    private MainTextView textView2;
     private CustomEditText costCtxv;
     private RelativeLayout educationRlay;
     private CustomEditText educationCedt;
-    private CustomFontTextView addEducationCtxv;
+    private MainTextView addEducationCtxv;
     private RecyclerView educationRcv;
     private RelativeLayout certificatesRlay;
     private CustomEditText certificatesCedt;
-    private CustomFontTextView addCertificatesCedit;
+    private MainTextView addCertificatesCedit;
     private RecyclerView certificatesRcv;
     //private RelativeLayout specialityRlay;
-    private CustomFontTextView specialitiesCtxv;
+    private MainTextView specialitiesCtxv;
     //private ImageView specialityImv;
-    private CustomFontTextView uploadDocsCtxv;
+    private MainTextView uploadDocsCtxv;
     //private ImageView uploadRightImv;
     private TextView uploadInstructionTxv;
     private RelativeLayout requestRlay;
     private CheckBox termsofUseCbox;
-    private CustomFontTextView requestCtxv;
+    private MainTextView requestCtxv;
     private View specialityView;
 
     private RecyclerView.Adapter mAdapter;
@@ -822,9 +822,9 @@ public class PacifyrRequestAccessActivity extends PacifyerActivity implements Re
     private RelativeLayout bottomPanel;
     private LinearLayout leftLlay;
     private DeviceFitImageView backImv;
-    private CustomFontTextView leftTxv;
+    private MainTextView leftTxv;
     private LinearLayout rightLlay;
-    private CustomFontTextView rightTxv;
+    private MainTextView rightTxv;
     private DeviceFitImageView rightImv;
 
 

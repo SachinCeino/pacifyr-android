@@ -19,7 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.ceino.utilitylibrary.CustomFontTextView;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.ceino.utilitylibrary.DeviceFitImageView;
 import com.ceino.utilitylibrary.model.pacifyr.MUser;
 import com.ceino.utilitylibrary.model.pacifyr.RespSearchPacifyrWOption;
@@ -72,12 +72,12 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
     String accessToken;
 
     private LinearLayout showallLlay;
-    private CustomFontTextView showallCtxv;
+    private MainTextView showallCtxv;
 
     private CharSequence mTitle;
     private boolean showAllFlag;
     private String customerRole;
-    private CustomFontTextView noPacifyrCtxv;
+    private MainTextView noPacifyrCtxv;
     CallEvent event_call = null;
 
     private Timer trackTimer_check_online;
@@ -533,10 +533,10 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
     private RelativeLayout bottomPanel;
     private LinearLayout leftLlay;
     private DeviceFitImageView backImv;
-    private CustomFontTextView leftTxv;
-    private CustomFontTextView titleTxv;
+    private MainTextView leftTxv;
+    private MainTextView titleTxv;
     private LinearLayout rightLlay;
-    private CustomFontTextView rightTxv;
+    private MainTextView rightTxv;
     private DeviceFitImageView rightImv;
 
     public void onSetActionBar() {

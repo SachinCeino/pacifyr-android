@@ -24,7 +24,7 @@ import com.androidplot.util.PixelUtils;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.ceino.utilitylibrary.CustomFontTextView;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.ceino.utilitylibrary.DeviceFitImageView;
 import com.ceino.utilitylibrary.model.pacifyr.MEarningsRoot;
 import com.ceino.utilitylibrary.model.pacifyr.Mbonus;
@@ -89,8 +89,9 @@ public class EarningsActivity extends PacifyrAppCompactActivity {
 
     int i;
 
-    CustomFontTextView wkly_total_ctxv; RecyclerView list_weeks_rcv;
-    CustomFontTextView text_dialog_hourstowork,text_dialog_bonusmessage,text_dialog_hourstobonus;
+    MainTextView wkly_total_ctxv;
+    RecyclerView list_weeks_rcv;
+    MainTextView text_dialog_hourstowork, text_dialog_bonusmessage, text_dialog_hourstobonus;
 
     public EarningsActivity() {
         // Required empty public constructor
@@ -720,10 +721,10 @@ public class EarningsActivity extends PacifyrAppCompactActivity {
     private RelativeLayout bottomPanel;
     private LinearLayout leftLlay;
     private DeviceFitImageView backImv;
-    private CustomFontTextView leftTxv;
-    private CustomFontTextView titleTxv;
+    private MainTextView leftTxv;
+    private MainTextView titleTxv;
     private LinearLayout rightLlay;
-    private CustomFontTextView rightTxv;
+    private MainTextView rightTxv;
     private DeviceFitImageView rightImv;
 
     public void onSetActionBar() {

@@ -12,11 +12,10 @@
         android:layout_height="wrap_content"
         android:id="@+id/top_llay">
 
-        <com.ceino.utilitylibrary.CustomFontTextView
+        <com.pacifyr.omhealthcare.customview.MainTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="JAN 12"
-            android:fontFamily="@string/raleway_bold"
             android:id="@+id/title_ctxv"
             android:textStyle="bold"
             android:textColor="@color/black"

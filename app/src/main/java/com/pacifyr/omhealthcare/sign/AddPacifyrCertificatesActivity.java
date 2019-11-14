@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.aigestudio.wheelpicker.WheelPicker;
 import com.aigestudio.wheelpicker.widgets.WheelYearPicker;
-import com.ceino.utilitylibrary.CustomFontTextView;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.ceino.utilitylibrary.DeviceFitImageView;
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.pacifyr.omhealthcare.R;
@@ -33,7 +33,7 @@ public class AddPacifyrCertificatesActivity extends PacifyerActivity {
     ModelPacifyrCertificates certificates;
     ArrayList<ModelPacifyrCertificates> certificatesList;
 
-    private CustomFontTextView addEducationBtn;
+    private MainTextView addEducationBtn;
     private RecyclerView certificateListRcv;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -88,7 +88,7 @@ public class AddPacifyrCertificatesActivity extends PacifyerActivity {
         }
     }
 
-    public void showCertificatesDialog(/*final CustomFontTextView textView*/) {
+    public void showCertificatesDialog(/*final MainTextView textView*/) {
         try {
             final Integer[] vals = {null};
             final String[] title = {null};
@@ -98,9 +98,9 @@ public class AddPacifyrCertificatesActivity extends PacifyerActivity {
 
             ImageView closeDimv = view.findViewById(R.id.close_dimv);
             final EditText titleEdt = view.findViewById(R.id.title_edt);
-            final CustomFontTextView dateCtxv = view.findViewById(R.id.date_ctxv);
+            final MainTextView dateCtxv = view.findViewById(R.id.date_ctxv);
             RelativeLayout saveRlay = view.findViewById(R.id.save_rlay);
-            CustomFontTextView saveCtxv = view.findViewById(R.id.save_ctxv);
+            MainTextView saveCtxv = view.findViewById(R.id.save_ctxv);
             closeDimv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -139,7 +139,7 @@ public class AddPacifyrCertificatesActivity extends PacifyerActivity {
         }
     }
 
-    public void showDialog(final CustomFontTextView textView, String string){
+    public void showDialog(final MainTextView textView, String string) {
         try {
             final Integer[] vals = {null};
             final Dialog dialog = new Dialog(AddPacifyrCertificatesActivity.this);
@@ -186,11 +186,11 @@ public class AddPacifyrCertificatesActivity extends PacifyerActivity {
     private RelativeLayout bottomPanel;
     private LinearLayout leftLlay;
     private DeviceFitImageView backImv;
-    private CustomFontTextView leftTxv;
+    private MainTextView leftTxv;
     private LinearLayout rightLlay;
-    private CustomFontTextView rightTxv;
+    private MainTextView rightTxv;
     private DeviceFitImageView rightImv;
-    private CustomFontTextView headerCtxv;
+    private MainTextView headerCtxv;
 
     private void onSetActionBar() {
         try {

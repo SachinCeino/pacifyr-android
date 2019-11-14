@@ -11,7 +11,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
-import com.ceino.utilitylibrary.CustomFontTextView;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.pacifyr.omhealthcare.R;
@@ -99,7 +99,7 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHold
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        CustomFontTextView txtName;
+        MainTextView txtName;
         CheckBox mChekbox;
         public ViewHolder(View itemView) {
             super(itemView);

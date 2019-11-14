@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.ceino.utilitylibrary.CustomFontTextView;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.ceino.utilitylibrary.model.pacifyr.MSessionDetailRoot;
 import com.ceino.utilitylibrary.model.pacifyr.ModelSessonsOfCustomer;
 import com.ceino.utilitylibrary.model.pacifyr.ModelStatistics;
@@ -49,21 +49,21 @@ public class MySessionFragment extends BaseFragment {
 
     private LinearLayout mySessionsTopLlay;
     private RelativeLayout upperRlay;
-    private CustomFontTextView sessionNoCtxv;
-    private CustomFontTextView hoursNoCtxv;
-    private CustomFontTextView earningsNoCtxv;
-    private CustomFontTextView thisWkCtxv;
-    private CustomFontTextView thisMntCtxv;
-    private CustomFontTextView thisYearCtxv;
+    private MainTextView sessionNoCtxv;
+    private MainTextView hoursNoCtxv;
+    private MainTextView earningsNoCtxv;
+    private MainTextView thisWkCtxv;
+    private MainTextView thisMntCtxv;
+    private MainTextView thisYearCtxv;
     private RecyclerView weekSessionsRcv;
     private RecyclerView monthSessionsRcv;
     private RecyclerView yearSessionsRcv;
     private PrefManager prefM;
     private String token,userid;
-    private CustomFontTextView minutesNoCtxv;
+    private MainTextView minutesNoCtxv;
     private  int skip,limit;
     private RecyclerView dateListRcv;
-    private CustomFontTextView noDataCtxv;
+    private MainTextView noDataCtxv;
     String fromDWeek,fromDMonth,fromDYear;
     String toDWeek,toDMonth,toDYear;
 

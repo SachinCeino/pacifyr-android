@@ -26,7 +26,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.ceino.utilitylibrary.CustomFontTextView;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.ceino.utilitylibrary.model.pacifyr.ChatSubscription;
 import com.ceino.utilitylibrary.model.pacifyr.Education;
 import com.ceino.utilitylibrary.model.pacifyr.MUser;
@@ -109,7 +109,7 @@ public class PacifyrResultListViewAdapter extends RecyclerView.Adapter<PacifyrRe
     private boolean isChatSubscriptionRequired;
     private int priceForChat;
 
-    CustomFontTextView chatPriceCtxv;
+    MainTextView chatPriceCtxv;
     private LinearLayout chatLlay;
     private RelativeLayout schedule_rlay;
 
@@ -280,8 +280,8 @@ public class PacifyrResultListViewAdapter extends RecyclerView.Adapter<PacifyrRe
                 //userID=searchResults.get(position).getId();
                 boolean isOnline = searchResults.get(position).getOnline();
                 ImageView indicatorDimv = v.findViewById(R.id.indicator_dimv);
-                CustomFontTextView descriptionCtxv = v.findViewById(R.id.description_ctxv);
-                CustomFontTextView indicatorCtxv = v.findViewById(R.id.indicator_ctxv);
+                MainTextView descriptionCtxv = v.findViewById(R.id.description_ctxv);
+                MainTextView indicatorCtxv = v.findViewById(R.id.indicator_ctxv);
                 indicatorCtxv.setTextSize(7f);
                 if (isOnline) {
                     indicatorDimv.setImageDrawable(context.getResources().getDrawable(R.drawable.online));
@@ -333,7 +333,7 @@ public class PacifyrResultListViewAdapter extends RecyclerView.Adapter<PacifyrRe
 
                 chatSubsFun(position);
 
-                //CustomFontTextView connectCtxv=(CustomFontTextView)v.findViewById(R.id.connect_pacifyr_ctxv);
+                //MainTextView connectCtxv=(MainTextView)v.findViewById(R.id.connect_pacifyr_ctxv);
                 //connectCtxv.setText("Connect to "+searchResults.get(position).getFirstName());
 
                 ((TextView) v.findViewById(R.id.tv_name)).setText(namePacifyr);

@@ -19,7 +19,7 @@ import androidx.annotation.NonNull;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.ceino.utilitylibrary.CustomFontTextView;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.ceino.utilitylibrary.DeviceFitImageView;
 import com.goodiebag.pinview.Pinview;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -52,12 +52,12 @@ public class RegisterVerifyActivity extends PacifyerActivity {
     private RelativeLayout logoRlay;
     private ImageView logoBlue;
     private LinearLayout hintLlay;
-    private CustomFontTextView otpsendText;
+    private MainTextView otpsendText;
     private LinearLayout createAcccountLlay;
     //private CustomEditText otpRecieveEditText;
     private RelativeLayout createAccountRlay;
-    private CustomFontTextView createAccountCtxv;
-    private CustomFontTextView resendCtxv;
+    private MainTextView createAccountCtxv;
+    private MainTextView resendCtxv;
 
     public String phoneText;
 
@@ -375,10 +375,10 @@ public class RegisterVerifyActivity extends PacifyerActivity {
     private RelativeLayout bottomPanel;
     private LinearLayout leftLlay;
     private DeviceFitImageView backImv;
-    private CustomFontTextView leftTxv;
-    private CustomFontTextView titleTxv;
+    private MainTextView leftTxv;
+    private MainTextView titleTxv;
     private LinearLayout rightLlay;
-    private CustomFontTextView rightTxv;
+    private MainTextView rightTxv;
     private DeviceFitImageView rightImv;
 
     public void onSetActionBar() {
@@ -412,10 +412,10 @@ public class RegisterVerifyActivity extends PacifyerActivity {
 
     public void setAlertStatusInWhite(String title,String desc,String ok,String dismiss,View.OnClickListener oklistner) {
         View view = LayoutInflater.from(this).inflate(R.layout.alert_white_yes_no, null, false);
-        CustomFontTextView title_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.title_dtxv);
-        CustomFontTextView desc_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.desc_dtxv);
-        CustomFontTextView dismis_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.dismis_dtxv);
-        CustomFontTextView ok_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.ok_dtxv);
+        MainTextView title_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.title_dtxv);
+        MainTextView desc_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.desc_dtxv);
+        MainTextView dismis_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.dismis_dtxv);
+        MainTextView ok_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.ok_dtxv);
         if(isValid(title))
             defSetText(title_dtxv,title);
         else
@@ -446,9 +446,9 @@ public class RegisterVerifyActivity extends PacifyerActivity {
     public void setAlertOKStatusInWhite(String title,String desc,String ok) {
         //View.OnClickListener oklistner
         View view = LayoutInflater.from(this).inflate(R.layout.alert_white_ok, null, false);
-        CustomFontTextView title_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.title_dtxv);
-        CustomFontTextView desc_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.desc_dtxv);
-        CustomFontTextView ok_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.ok_dtxv);
+        MainTextView title_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.title_dtxv);
+        MainTextView desc_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.desc_dtxv);
+        MainTextView ok_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.ok_dtxv);
 
         if(isValid(title))
             defSetText(title_dtxv,title);

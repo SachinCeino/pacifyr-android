@@ -8,7 +8,7 @@
     android:padding="2dp">
 
 
-    <com.ceino.utilitylibrary.CustomFontTextView
+    <com.pacifyr.omhealthcare.customview.MainTextView
         android:id="@+id/title_dtxv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -20,7 +20,7 @@
         android:textColor="@color/grey_dark_text"
         android:textSize="@dimen/sp18" />
 
-    <com.ceino.utilitylibrary.CustomFontTextView
+    <com.pacifyr.omhealthcare.customview.MainTextView
         android:id="@+id/desc_dtxv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -39,7 +39,7 @@
         android:layout_height="1dp"
         android:background="@color/transparent_black_2" />
 
-    <com.ceino.utilitylibrary.CustomFontTextView
+    <com.pacifyr.omhealthcare.customview.MainTextView
         android:id="@+id/ok_dtxv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

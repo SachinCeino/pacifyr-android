@@ -23,7 +23,7 @@ import android.widget.RelativeLayout;
 
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.ceino.utilitylibrary.CustomFontTextView;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.ceino.utilitylibrary.DeviceFitImageView;
 import com.ceino.utilitylibrary.model.pacifyr.MUser;
 import com.ceino.utilitylibrary.utils.PrefManager;
@@ -929,10 +929,10 @@ public class ChatActivity extends PacifyrAppCompactActivity implements ImagePick
     private RelativeLayout bottomPanel;
     private LinearLayout leftLlay;
     private CircleImageView userCimv;
-    private CustomFontTextView leftTxv;
-    private CustomFontTextView titleTxv;
+    private MainTextView leftTxv;
+    private MainTextView titleTxv;
     private LinearLayout rightLlay;
-    private CustomFontTextView rightTxv;
+    private MainTextView rightTxv;
     private DeviceFitImageView rightImv;
 
 

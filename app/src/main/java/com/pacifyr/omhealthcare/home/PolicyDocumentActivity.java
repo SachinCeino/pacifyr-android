@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-import com.ceino.utilitylibrary.CustomFontTextView;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.ceino.utilitylibrary.DeviceFitImageView;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.activity.TermsOfUseActivity;
@@ -28,9 +28,9 @@ import static com.ceino.utilitylibrary.network.UtilityNetworkService.termOfUseUr
 public class PolicyDocumentActivity extends PacifyrAppCompactActivity {
 
     private LinearLayout topLlay;
-    private CustomFontTextView termsCtxv;
-    private CustomFontTextView privacyCtxv;
-    private CustomFontTextView copyrightCtxv;
+    private MainTextView termsCtxv;
+    private MainTextView privacyCtxv;
+    private MainTextView copyrightCtxv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,9 +38,9 @@ public class PolicyDocumentActivity extends PacifyrAppCompactActivity {
         setContentView(R.layout.activity_policy_document);
         onSetActionBar();
         topLlay = (LinearLayout) findViewById(R.id.top_llay);
-        termsCtxv = (CustomFontTextView) findViewById(R.id.terms_ctxv);
-        privacyCtxv = (CustomFontTextView) findViewById(R.id.privacy_ctxv);
-        copyrightCtxv = (CustomFontTextView) findViewById(R.id.copyright_ctxv);
+        termsCtxv = (MainTextView) findViewById(R.id.terms_ctxv);
+        privacyCtxv = (MainTextView) findViewById(R.id.privacy_ctxv);
+        copyrightCtxv = (MainTextView) findViewById(R.id.copyright_ctxv);
 
 
         termsCtxv.setOnClickListener(new View.OnClickListener() {
@@ -105,10 +105,10 @@ public class PolicyDocumentActivity extends PacifyrAppCompactActivity {
     private RelativeLayout bottomPanel;
     private LinearLayout leftLlay;
     private DeviceFitImageView backImv;
-    private CustomFontTextView leftTxv;
-    private CustomFontTextView titleTxv;
+    private MainTextView leftTxv;
+    private MainTextView titleTxv;
     private LinearLayout rightLlay;
-    private CustomFontTextView rightTxv;
+    private MainTextView rightTxv;
     private DeviceFitImageView rightImv;
 
     public void onSetActionBar() {
@@ -117,10 +117,10 @@ public class PolicyDocumentActivity extends PacifyrAppCompactActivity {
             bottomPanel = (RelativeLayout) findViewById(R.id.bottom_panel);
             leftLlay = (LinearLayout) findViewById(R.id.left_llay);
             backImv = (DeviceFitImageView) findViewById(R.id.back_imv);
-            leftTxv = (CustomFontTextView) findViewById(R.id.left_txv);
-            titleTxv = (CustomFontTextView) findViewById(R.id.title_txv);
+            leftTxv = (MainTextView) findViewById(R.id.left_txv);
+            titleTxv = (MainTextView) findViewById(R.id.title_txv);
             rightLlay = (LinearLayout) findViewById(R.id.right_llay);
-            rightTxv = (CustomFontTextView) findViewById(R.id.right_txv);
+            rightTxv = (MainTextView) findViewById(R.id.right_txv);
             rightImv = (DeviceFitImageView) findViewById(R.id.right_imv);
 
             rightImv.setVisibility(View.INVISIBLE);

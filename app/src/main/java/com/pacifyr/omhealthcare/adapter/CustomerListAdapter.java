@@ -11,7 +11,7 @@ import android.widget.LinearLayout;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.ceino.utilitylibrary.CustomFontTextView;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.ceino.utilitylibrary.model.pacifyr.MUser;
 import com.ceino.utilitylibrary.model.pacifyr.ModelPacifyrDashboard;
 import com.kaopiz.kprogresshud.KProgressHUD;
@@ -161,8 +161,8 @@ public class CustomerListAdapter extends  RecyclerView.Adapter<CustomerListAdapt
 
     public class ViewHolder  extends RecyclerView.ViewHolder{
         private CircleImageView customerCimv;
-        private CustomFontTextView customerNameCtxv;
-        private CustomFontTextView customerWalletCtxv;
+        private MainTextView customerNameCtxv;
+        private MainTextView customerWalletCtxv;
         private LinearLayout topLlay;
         private ImageView chat_imv;
 

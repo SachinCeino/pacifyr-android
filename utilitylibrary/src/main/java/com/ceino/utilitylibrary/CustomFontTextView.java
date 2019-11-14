@@ -22,6 +22,7 @@ import android.widget.TextView;
  */
 public class CustomFontTextView extends TextView {
 
+
     private static int DEFAULT_PERCENTAGEWIDTH = 0;
     private int mPercentageWidth = DEFAULT_PERCENTAGEWIDTH;
     private static int DEFAULT_PERCENTAGEHEIGHT = 0;
@@ -197,11 +198,7 @@ public class CustomFontTextView extends TextView {
         _spacingAdd = add;
     }
 
-    /**
-     * Set the lower text size limit and invalidate the view
-     *
-     * @param minTextSize
-     */
+
     public void setMinTextSize(final float minTextSize) {
         _minTextSize = minTextSize;
         reAdjust();
@@ -233,14 +230,7 @@ public class CustomFontTextView extends TextView {
         super.setTextSize(TypedValue.COMPLEX_UNIT_PX, efficientTextSizeSearch(startSize, (int) _maxTextSize, _sizeTester, _availableSpaceRect));
     }
 
-    /**
-     * Enables or disables size caching, enabling it will improve performance
-     * where you are animating a value inside TextView. This stores the font
-     * size against getText().length() Be careful though while enabling it as 0
-     * takes more space than 1 on some fonts and so on.
-     *
-     * @param enable enable font size caching
-     */
+
     public void setEnableSizeCache(final boolean enable) {
         _enableSizeCache = enable;
         _textCachedSizes.clear();
@@ -293,13 +283,6 @@ public class CustomFontTextView extends TextView {
     }
 
     private interface SizeTester {
-        /**
-         * @param suggestedSize  Size of text to be tested
-         * @param availableSpace available space in which text must fit
-         * @return an integer < 0 if after applying {@code suggestedSize} to
-         * text, it takes less space than {@code availableSpace}, > 0
-         * otherwise
-         */
         public int onTestSize(int suggestedSize, RectF availableSpace);
     }
 

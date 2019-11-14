@@ -7,13 +7,13 @@ import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
-import com.ceino.utilitylibrary.CustomFontTextView;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.adapter.CustomPagerAdapter;
 
 public class WelcomeTourActivity extends AppCompatActivity {
 
-    CustomFontTextView skipCtxv;
+    MainTextView skipCtxv;
 
 
     @Override

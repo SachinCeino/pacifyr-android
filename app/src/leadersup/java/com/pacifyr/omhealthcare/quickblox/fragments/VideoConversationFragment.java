@@ -34,7 +34,7 @@ import android.widget.ToggleButton;
 
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.ceino.utilitylibrary.CustomFontTextView;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.ceino.utilitylibrary.DeviceFitImageView;
 import com.ceino.utilitylibrary.model.pacifyr.MEmotion;
 import com.ceino.utilitylibrary.model.pacifyr.MUser;
@@ -133,17 +133,17 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
     private boolean allCallbacksInit;
     private boolean isCurrentCameraFront;
     private boolean isLocalVideoFullScreen;
-    private  CustomFontTextView reason_ctxv,emotion_ctxv;
+    private  MainTextView reason_ctxv,emotion_ctxv;
     private RelativeLayout emotion_rlay;
     private LinearLayout info_overlay_llay;
 
-    // private  CustomFontTextView participants_ctxv;
+    // private  MainTextView participants_ctxv;
 
 
     private RelativeLayout userRlay;
-    private CustomFontTextView callCtxv;
+    private MainTextView callCtxv;
     private CircleImageView userDimv;
-    private CustomFontTextView usernameCtxv;
+    private MainTextView usernameCtxv;
     private DeviceFitImageView moreDimv;
     private RelativeLayout more_rlay;
     private TextView billingStatus;
@@ -517,7 +517,7 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
         text_remaining_minutes.setVisibility(View.GONE);
 
         onUserInfoViews(view);
- //  participants_ctxv = (CustomFontTextView) view.findViewById(R.id.participants_ctxv);
+ //  participants_ctxv = (MainTextView) view.findViewById(R.id.participants_ctxv);
         emotion_dimv.setVisibility(View.GONE);
         //emotion_rlay.setVisibility(View.GONE);
      //   participants_ctxv.setVisibility(View.GONE);

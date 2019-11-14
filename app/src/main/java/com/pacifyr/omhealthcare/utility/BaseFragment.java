@@ -24,7 +24,7 @@ import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.ceino.utilitylibrary.CustomEditText;
-import com.ceino.utilitylibrary.CustomFontTextView;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.ceino.utilitylibrary.DeviceFitImageView;
 import com.ceino.utilitylibrary.model.pacifyr.MEmotion;
 import com.ceino.utilitylibrary.model.pacifyr.MUser;
@@ -358,7 +358,7 @@ public abstract class BaseFragment extends Fragment {
     }
     public void setStatus(String status, int color) {
         View view = LayoutInflater.from(getActivity()).inflate(com.ceino.utilitylibrary.R.layout.status_dialog, null, false);
-        CustomFontTextView status_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.status_dtxv);
+        MainTextView status_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.status_dtxv);
         status_dtxv.setText("" + status);
         hideStatus();
         hud_status = KProgressHUD.create(getActivity()).setStyle(KProgressHUD.Style.SPIN_INDETERMINATE).setCustomView(view).setWindowColor(getActivity().getResources().getColor(color)).setCancellable(false).setAnimationSpeed(2).setDimAmount(0.5f);
@@ -497,13 +497,13 @@ public abstract class BaseFragment extends Fragment {
 
     /*public void setLogoutAlertStatus() {
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.alert_yes_no, null, false);
-        CustomFontTextView desc_dtxv = (CustomFontTextView) view.findViewById(R.id.desc_dtxv);
-        CustomFontTextView title_dtxv = (CustomFontTextView) view.findViewById(R.id.title_dtxv);
+        MainTextView desc_dtxv = (MainTextView) view.findViewById(R.id.desc_dtxv);
+        MainTextView title_dtxv = (MainTextView) view.findViewById(R.id.title_dtxv);
         desc_dtxv.setText("Do you want to log out ?");
         title_dtxv.setVisibility(View.GONE);
-        CustomFontTextView dismis_dtxv = (CustomFontTextView) view.findViewById(R.id.dismis_dtxv);
+        MainTextView dismis_dtxv = (MainTextView) view.findViewById(R.id.dismis_dtxv);
         dismis_dtxv.setText(" No ");
-        CustomFontTextView ok_dtxv = (CustomFontTextView) view.findViewById(R.id.ok_dtxv);
+        MainTextView ok_dtxv = (MainTextView) view.findViewById(R.id.ok_dtxv);
         ok_dtxv.setText(" Yes ");
         hud_status = KProgressHUD.create(getActivity()).setStyle(KProgressHUD.Style.SPIN_INDETERMINATE).setCustomView(view).setWindowColor(getActivity().getResources().getColor(R.color.transparent)).setCancellable(false).setAnimationSpeed(2).setDimAmount(0.5f);
         showStatus();
@@ -561,12 +561,12 @@ public abstract class BaseFragment extends Fragment {
 
             RelativeLayout bg_rlay = (RelativeLayout) view.findViewById(R.id.bg_rlay);
             LinearLayout  topLlay = (LinearLayout) view.findViewById(R.id.top_llay);
-            CustomFontTextView settingsCtxv = (CustomFontTextView) view.findViewById(R.id.settings_ctxv);
-            CustomFontTextView editgradesCtxv = (CustomFontTextView) view.findViewById(R.id.editgrades_ctxv);
-            CustomFontTextView chooseschoolCtxv = (CustomFontTextView) view.findViewById(R.id.chooseschool_ctxv);
-           // CustomFontTextView help_ctxv = (CustomFontTextView) view.findViewById(R.id.help_ctxv);
-            CustomFontTextView contactusDtxv = (CustomFontTextView) view.findViewById(R.id.contactus_dtxv);
-            CustomFontTextView logoutCtxv = (CustomFontTextView) view.findViewById(R.id.logout_ctxv);
+            MainTextView settingsCtxv = (MainTextView) view.findViewById(R.id.settings_ctxv);
+            MainTextView editgradesCtxv = (MainTextView) view.findViewById(R.id.editgrades_ctxv);
+            MainTextView chooseschoolCtxv = (MainTextView) view.findViewById(R.id.chooseschool_ctxv);
+           // MainTextView help_ctxv = (MainTextView) view.findViewById(R.id.help_ctxv);
+            MainTextView contactusDtxv = (MainTextView) view.findViewById(R.id.contactus_dtxv);
+            MainTextView logoutCtxv = (MainTextView) view.findViewById(R.id.logout_ctxv);
 
             bg_rlay.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -1013,10 +1013,10 @@ public abstract class BaseFragment extends Fragment {
             return;
         }
         View view = LayoutInflater.from(getActivity()).inflate(com.ceino.utilitylibrary.R.layout.alert_yes_no, null, false);
-        CustomFontTextView title_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.title_dtxv);
-        CustomFontTextView desc_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.desc_dtxv);
-        CustomFontTextView dismis_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.dismis_dtxv);
-        CustomFontTextView ok_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.ok_dtxv);
+        MainTextView title_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.title_dtxv);
+        MainTextView desc_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.desc_dtxv);
+        MainTextView dismis_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.dismis_dtxv);
+        MainTextView ok_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.ok_dtxv);
         if(isValid(title))
             defSetText(title_dtxv,title);
         else
@@ -1080,7 +1080,7 @@ public abstract class BaseFragment extends Fragment {
             final CustomEditText cardCvvEdt = view.findViewById(R.id.card_cvv_edt);
             final DeviceFitImageView close_dimv = view.findViewById(R.id.close_dimv);
             RelativeLayout saveRlay = view.findViewById(R.id.save_rlay);
-            CustomFontTextView saveCtxv = view.findViewById(R.id.save_ctxv);
+            MainTextView saveCtxv = view.findViewById(R.id.save_ctxv);
             hideStatus();
             hideStatus2();
             hud_status2 = KProgressHUD.create(getActivity()).setStyle(KProgressHUD.Style.SPIN_INDETERMINATE).setCustomView(view).setWindowColor(this.getResources().getColor(com.ceino.utilitylibrary.R.color.transparent)).setCancellable(false).setAnimationSpeed(2).setDimAmount(0.5f);
@@ -1302,9 +1302,9 @@ public abstract class BaseFragment extends Fragment {
 
             //View.OnClickListener oklistner
             View view = LayoutInflater.from(getActivity() ).inflate(R.layout.alert_ok_card_incomming_pacifyr_call, null, false);
-            CustomFontTextView title_dtxv = view.findViewById(R.id.title_dtxv);
-            CustomFontTextView desc_dtxv = view.findViewById(R.id.desc_dtxv);
-            CustomFontTextView ok_dtxv = view.findViewById(R.id.ok_dtxv);
+        MainTextView title_dtxv = view.findViewById(R.id.title_dtxv);
+        MainTextView desc_dtxv = view.findViewById(R.id.desc_dtxv);
+        MainTextView ok_dtxv = view.findViewById(R.id.ok_dtxv);
 
             if(isValid(title))
                 defSetText(title_dtxv,title);

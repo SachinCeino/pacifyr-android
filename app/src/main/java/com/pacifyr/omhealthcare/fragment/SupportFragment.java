@@ -15,7 +15,7 @@ import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.ceino.utilitylibrary.CustomEditText;
-import com.ceino.utilitylibrary.CustomFontTextView;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.ceino.utilitylibrary.utils.PrefManager;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.event.ActionbarEvent;
@@ -31,7 +31,7 @@ import static com.ceino.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
 public class SupportFragment extends BaseFragment {
 
     private RelativeLayout sendRlay;
-    private CustomFontTextView sendMsgCtxv;
+    private MainTextView sendMsgCtxv;
     private CustomEditText messageEdit;
 
     private String messageText;
@@ -69,7 +69,6 @@ public class SupportFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 messageText=messageEdit.getText().toString();
-
                 sendFeedbackMessage();
             }
         });
@@ -82,7 +81,6 @@ public class SupportFragment extends BaseFragment {
                 String token = prefM.getAccessToken();
                 String userid = prefM.getUserID();
                 String url = GLOBAL_URL + "report";
-
                 AjaxCallback cb = new AjaxCallback<JSONObject>() {
                     @Override
                     public void callback(String url, JSONObject json, AjaxStatus status) {
@@ -98,17 +96,17 @@ public class SupportFragment extends BaseFragment {
                                 public void run() {
                                     hideStatus();
                                     if(isCustomer()){
-                                        FragmentManager fm = getActivity().getSupportFragmentManager();
+                                        FragmentManager fm = getChildFragmentManager();
                                         FragmentTransaction ft = fm.beginTransaction();
                                         UserDashboardFragment fragment = new UserDashboardFragment();
-                                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.activity_main_content_fragment, fragment).commit();
+                                        getChildFragmentManager().beginTransaction().replace(R.id.activity_main_content_fragment, fragment).commit();
 
                                     }
                                     else {
-                                        FragmentManager fm = getActivity().getSupportFragmentManager();
+                                        FragmentManager fm = getChildFragmentManager();
                                         FragmentTransaction ft = fm.beginTransaction();
                                         PacifyrDashboardFragment fragment = new PacifyrDashboardFragment();
-                                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.pacifyr_content_fragment, fragment).commit();
+                                        getChildFragmentManager().beginTransaction().replace(R.id.pacifyr_content_fragment, fragment).commit();
                                     }
                                     postEventOnMainThread(new ActionbarEvent("MY DASHBOARD"));
                                 }

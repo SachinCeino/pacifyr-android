@@ -40,7 +40,7 @@ import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.ceino.utilitylibrary.CustomEditText;
-import com.ceino.utilitylibrary.CustomFontTextView;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.ceino.utilitylibrary.DeviceFitImageView;
 import com.ceino.utilitylibrary.ToastHandler;
 import com.ceino.utilitylibrary.model.pacifyr.MRoleModel;
@@ -157,10 +157,10 @@ public class RegisterActivity extends PacifyerActivity {
     private CustomEditText emailEdt;
     private LinearLayout nextLlay;
     private RelativeLayout nextRlay;
-    private CustomFontTextView nextCtxv;
+    private MainTextView nextCtxv;
     private CustomEditText phoneEdit;
     private CustomEditText yearEdit;
-    private  CustomFontTextView termsCtxv;
+    private MainTextView termsCtxv;
 
     WheelYearPicker wheelYearPicker;
 
@@ -404,7 +404,7 @@ public class RegisterActivity extends PacifyerActivity {
                 SpannableString.SPAN_INCLUSIVE_EXCLUSIVE);
         return link;
     }
-    private void makeLinksFocusable(CustomFontTextView tv) {
+    private void makeLinksFocusable(MainTextView tv) {
         MovementMethod m = tv.getMovementMethod();
         if ((m == null) || !(m instanceof LinkMovementMethod)) {
             if (tv.getLinksClickable()) {
@@ -620,10 +620,10 @@ public class RegisterActivity extends PacifyerActivity {
     private RelativeLayout bottomPanel;
     private LinearLayout leftLlay;
     private DeviceFitImageView backImv;
-    private CustomFontTextView leftTxv;
-    private CustomFontTextView titleTxv;
+    private MainTextView leftTxv;
+    private MainTextView titleTxv;
     private LinearLayout rightLlay;
-    private CustomFontTextView rightTxv;
+    private MainTextView rightTxv;
     private DeviceFitImageView rightImv;
 
     public void onSetActionBar() {
@@ -771,9 +771,9 @@ public class RegisterActivity extends PacifyerActivity {
         try {
             //View.OnClickListener oklistner
             View view = LayoutInflater.from(this).inflate(R.layout.alert_white_ok, null, false);
-            CustomFontTextView title_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.title_dtxv);
-            CustomFontTextView desc_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.desc_dtxv);
-            CustomFontTextView ok_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.ok_dtxv);
+            MainTextView title_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.title_dtxv);
+            MainTextView desc_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.desc_dtxv);
+            MainTextView ok_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.ok_dtxv);
 
             if (isValid(title))
                 defSetText(title_dtxv, title);

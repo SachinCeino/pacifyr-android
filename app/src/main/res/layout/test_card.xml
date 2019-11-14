@@ -48,7 +48,7 @@
                         android:id="@+id/indicator_dimv"
                         android:src="@drawable/offline"/>
 
-                    <com.ceino.utilitylibrary.CustomFontTextView
+                    <com.pacifyr.omhealthcare.customview.MainTextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:id="@+id/indicator_ctxv"
@@ -76,17 +76,16 @@
                     android:orientation="vertical"
                     android:padding="10dp">
 
-                    <com.ceino.utilitylibrary.CustomFontTextView
+                    <com.pacifyr.omhealthcare.customview.MainTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/tv_name"
                         android:textSize="20sp"
                         android:textStyle="bold"
-                        app:fontName="@string/raleway_semi_bold"
                         android:textColor="@color/blue_text_dark"
                         android:text=""/>
 
-                    <com.ceino.utilitylibrary.CustomFontTextView
+                    <com.pacifyr.omhealthcare.customview.MainTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textColor="@color/grey_dark"
@@ -113,7 +112,7 @@
                             android:progressTint="@color/blue_text_dark"
                             android:isIndicator="true"/>
 
-                        <com.ceino.utilitylibrary.CustomFontTextView
+                        <com.pacifyr.omhealthcare.customview.MainTextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="88 Reviews"
@@ -127,7 +126,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
 
-                        <!--<com.ceino.utilitylibrary.CustomFontTextView
+                        <!--<com.pacifyr.omhealthcare.customview.MainTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="  "
@@ -136,7 +135,7 @@
                             android:textColor="@color/white"
                             android:textSize="13sp"/>-->
 
-                        <com.ceino.utilitylibrary.CustomFontTextView
+                        <com.pacifyr.omhealthcare.customview.MainTextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text=""
@@ -146,7 +145,7 @@
                             android:textStyle="bold"
                             android:textSize="10sp"/>
 
-                        <!--<com.ceino.utilitylibrary.CustomFontTextView
+                        <!--<com.pacifyr.omhealthcare.customview.MainTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="  per hour"
@@ -163,7 +162,7 @@
                         android:id="@+id/chat_llay"
                         android:padding="5dp">
 
-                        <com.ceino.utilitylibrary.CustomFontTextView
+                        <com.pacifyr.omhealthcare.customview.MainTextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text=""
@@ -195,11 +194,10 @@
             android:maxLines="3"
             android:textSize="16sp"
             android:padding="2dp"
-            android:fontFamily="@string/raleway_semi_bold"
             android:id="@+id/description_ctxv"
             android:textColor="@color/grey_dark_text"/>
 
-        <com.ceino.utilitylibrary.CustomFontTextView
+        <com.pacifyr.omhealthcare.customview.MainTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/connect_to_wellness_experts"

@@ -9,7 +9,7 @@ import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.ceino.utilitylibrary.CustomFontTextView;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.ceino.utilitylibrary.utils.PrefManager;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.model.ModelSpecialityByEmotion;
@@ -88,7 +88,7 @@ public class EmotionCategoryAdapter extends RecyclerView.Adapter<EmotionCategory
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public CustomFontTextView commentCtx;
+        public MainTextView commentCtx;
         public LinearLayout commentLlay;
 
         public MyViewHolder(View view) {

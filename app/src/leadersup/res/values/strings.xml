@@ -120,6 +120,8 @@ Yor call is routed to the nearest crisis center.</string>
 
     <string name="payout_url">https://pacifyr.com/stripe_dev.html</string>
     <string name="sign_up">sign up</string>
+    <string name="registration_failed">Registration Failed</string>
+    <string name="failed_register_message">\"Register Failed - Your mobile number is already registered. Please log in using the new verification code.\"</string>
     <string name="select_specialisation">Select a specialization</string>
     <string name="please_try_again">Please try again</string>
     <string name="success">success</string>
@@ -139,46 +141,6 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="URL_TERMS">https://leadersup.org/aboutus/</string>
     <string name="URL_DISPUTE_POLICY">https://leadersup.org/impact/</string>
     <string name="AWS_PROJECT">LeadersUp</string>
-
-
-    <string name="raleway_bold">Raleway-Bold.ttf</string>
-    <string name="raleway_light">Raleway-Light.ttf</string>
-    <string name="raleway_medium">Raleway-Medium.ttf</string>
-    <string name="raleway_semi_bold">Raleway-SemiBold.ttf</string>
-    <string name="raleway_thin">Raleway-Thin.ttf</string>
-
-
-    <string name="avenir_black">GOTHICB.ttf</string>
-    <string name="avenir_book">GOTHICB.ttf</string>
-    <string name="avenir_medium">CenturyGothic.ttf</string>
-    <string name="CenturyGothic">CenturyGothic.ttf</string>
-
-
-    <string name="avanti_std_bk">ITCAvantGardeStd-Bk.otf</string>
-    <string name="avanti_std__bk_cn">ITCAvantGardeStd-BkCn.otf</string>
-    <string name="avanti_std__bk_cn_obl">ITCAvantGardeStd-BkCnObl.otf</string>
-    <string name="avanti_std__bk_obl">ITCAvantGardeStd-BkObl.otf</string>
-
-    <string name="avanti_std_bold">ActionBarCommonFont.otf</string>
-    <string name="avanti_std__bold_cn">ActionBarCommonFontCn.otf</string>
-    <string name="avanti_std__bold_cn_obl">ActionBarCommonFontCnObl.otf</string>
-    <string name="avanti_std__bold_obl">ActionBarCommonFontObl.otf</string>
-
-    <string name="avanti_demi">ITCAvantGardeStd-Demi.otf</string>
-    <string name="avanti_std_demi_cn">ITCAvantGardeStd-DemiCn.otf</string>
-    <string name="avanti_std__demi_cn_obl">ITCAvantGardeStd-DemiCnObl.otf</string>
-    <string name="avanti_std__demi_obl">ITCAvantGardeStd-DemiObl.otf</string>
-
-
-    <string name="avanti_std_md">ITCAvantGardeStd-Md.otf</string>
-    <string name="avanti_std__md_cn">ITCAvantGardeStd-MdCn.otf</string>
-    <string name="avanti_std__md_cn_obl">ITCAvantGardeStd-MdCnObl.otf</string>
-    <string name="avanti_std__md_obl">ITCAvantGardeStd-MdObl.otf</string>
-
-    <string name="avanti_std_xlt">ITCAvantGardeStd-.XLtotf</string>
-    <string name="avanti_std__xlt_cn">ITCAvantGardeStd-XLtCn.otf</string>
-    <string name="avanti_std__xlt_cn_obl">ITCAvantGardeStd-XLtCnObl.otf</string>
-    <string name="avanti_std__xlt_obl">ITCAvantGardeStd-XLtObl.otf</string>
 
 
     <string name="zipcode">Zip code</string>
@@ -255,5 +217,9 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="no_wellness_experts_category">No Career Coaches for the selected category.</string>
     <string name="checkin">CHECK-IN</string>
     <string name="appointments">APPOINTMENTS</string>
+
+
+    <string name="main_font_bold">Lato Medium.ttf</string>
+    <string name="main_font_medium">Lato Medium.ttf</string>
 
 </resources>

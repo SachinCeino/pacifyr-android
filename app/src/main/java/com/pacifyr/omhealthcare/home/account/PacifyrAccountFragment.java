@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.ceino.utilitylibrary.CustomFontTextView;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.ceino.utilitylibrary.model.pacifyr.ModelUserProfile;
 import com.ceino.utilitylibrary.utils.PrefManager;
 import com.pacifyr.omhealthcare.R;
@@ -44,22 +44,22 @@ public class PacifyrAccountFragment extends BaseFragment {
 
     private LinearLayout profileLlay;
     private CircleImageView profileCimv;
-    private CustomFontTextView profileNameCtxv;
+    private MainTextView profileNameCtxv;
     private CardView mailCard;
     private LinearLayout mailLlay;
-    private CustomFontTextView mailDtxv;
+    private MainTextView mailDtxv;
     private LinearLayout pnumberLlay;
-    private CustomFontTextView pnumberDtxv;
+    private MainTextView pnumberDtxv;
     private CardView aboutmeCard;
-    private CustomFontTextView aboutmeCtxv;
-    private CustomFontTextView priceCtxv;
-    private CustomFontTextView reviewCtxv;
-    private CustomFontTextView isonlineCtxv;
+    private MainTextView aboutmeCtxv;
+    private MainTextView priceCtxv;
+    private MainTextView reviewCtxv;
+    private MainTextView isonlineCtxv;
     private ImageView onlineOfflineImv;
     private RatingBar profileRating;
     private PrefManager prefM;
-    private CustomFontTextView snapshotCtxv;
-    private CustomFontTextView websiteCtxv;
+    private MainTextView snapshotCtxv;
+    private MainTextView websiteCtxv;
 
     private CardView educationCard;
 

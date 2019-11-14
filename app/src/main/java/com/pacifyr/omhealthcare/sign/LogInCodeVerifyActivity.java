@@ -15,7 +15,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
-import com.ceino.utilitylibrary.CustomFontTextView;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.ceino.utilitylibrary.DeviceFitImageView;
 import com.goodiebag.pinview.Pinview;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -47,7 +47,7 @@ public class LogInCodeVerifyActivity extends PacifyerActivity {
     private LinearLayout hintLlay;
     private LinearLayout createLlay;
     private RelativeLayout createaccountRlay;
-    private CustomFontTextView cAccountCtxv,resend_ctxv,otp_phone_tv;
+    private MainTextView cAccountCtxv, resend_ctxv, otp_phone_tv;
     public String phoneText;
     public static String phonenumber;
     public static String phoneVerifyTXT;
@@ -428,10 +428,10 @@ public class LogInCodeVerifyActivity extends PacifyerActivity {
     private RelativeLayout bottomPanel;
     private LinearLayout leftLlay;
     private DeviceFitImageView backImv;
-    private CustomFontTextView leftTxv;
-    private CustomFontTextView titleTxv;
+    private MainTextView leftTxv;
+    private MainTextView titleTxv;
     private LinearLayout rightLlay;
-    private CustomFontTextView rightTxv;
+    private MainTextView rightTxv;
     private DeviceFitImageView rightImv;
 
     public void onSetActionBar() {

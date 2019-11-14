@@ -31,12 +31,11 @@
                 android:padding="10dp"
                 android:id="@+id/suicide_rlay">
 
-                <com.ceino.utilitylibrary.CustomFontTextView
+                <com.pacifyr.omhealthcare.customview.MainTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
                     android:textSize="20sp"
-                    android:fontFamily="@string/avanti_std_bold"
                     android:textStyle="bold"
                     android:id="@+id/suicide_header_ctxv"
                     android:textColor="@color/grey_dark_text"
@@ -55,7 +54,7 @@
                         android:layout_height="wrap_content"
                         android:src="@drawable/ic_link"/>
 
-                    <com.ceino.utilitylibrary.CustomFontTextView
+                    <com.pacifyr.omhealthcare.customview.MainTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="left"
@@ -84,7 +83,7 @@
                         android:id="@+id/suicide_talk_imv"
                         android:src="@drawable/ic_phone_crisis"/>
 
-                    <com.ceino.utilitylibrary.CustomFontTextView
+                    <com.pacifyr.omhealthcare.customview.MainTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="left"
@@ -97,7 +96,7 @@
                         android:text="@string/suicide_talk"/>
 
 
-                    <com.ceino.utilitylibrary.CustomFontTextView
+                    <com.pacifyr.omhealthcare.customview.MainTextView
                         android:id="@+id/suicide_tty_ctxv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -126,7 +125,7 @@
                         android:layout_height="wrap_content"
                         android:src="@drawable/crisis_info"/>
 
-                    <com.ceino.utilitylibrary.CustomFontTextView
+                    <com.pacifyr.omhealthcare.customview.MainTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="left"
@@ -156,14 +155,13 @@
                 android:layout_below="@+id/suicide_view"
                 android:id="@+id/samhsa_rlay">
 
-                <com.ceino.utilitylibrary.CustomFontTextView
+                <com.pacifyr.omhealthcare.customview.MainTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     android:id="@+id/samhsa_header_ctxv"
-                    android:fontFamily="@string/avanti_std_bold"
                     android:textColor="@color/grey_dark_text"
                     android:text="@string/samhsa_header"/>
 
@@ -183,7 +181,7 @@
                         android:id="@+id/samhsa_talk_imv"
                         android:src="@drawable/ic_phone_crisis"/>
 
-                    <com.ceino.utilitylibrary.CustomFontTextView
+                    <com.pacifyr.omhealthcare.customview.MainTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="left"
@@ -196,7 +194,7 @@
                         android:text="@string/samhsa_talk"/>
 
 
-                    <com.ceino.utilitylibrary.CustomFontTextView
+                    <com.pacifyr.omhealthcare.customview.MainTextView
                         android:id="@+id/samhsa_tty_ctxv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -225,7 +223,7 @@
                         android:layout_height="wrap_content"
                         android:src="@drawable/crisis_info"/>
 
-                    <com.ceino.utilitylibrary.CustomFontTextView
+                    <com.pacifyr.omhealthcare.customview.MainTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="left"
@@ -255,13 +253,12 @@
                 android:layout_below="@+id/samhsa_rlay"
                 android:id="@+id/veterans_rlay">
 
-                <com.ceino.utilitylibrary.CustomFontTextView
+                <com.pacifyr.omhealthcare.customview.MainTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
                     android:textSize="20sp"
                     android:textStyle="bold"
-                    android:fontFamily="@string/avanti_std_bold"
                     android:id="@+id/veterans_header_ctxv"
                     android:textColor="@color/grey_dark_text"
                     android:text="@string/veterans_header"/>
@@ -279,7 +276,7 @@
                         android:layout_height="wrap_content"
                         android:src="@drawable/ic_link"/>
 
-                    <com.ceino.utilitylibrary.CustomFontTextView
+                    <com.pacifyr.omhealthcare.customview.MainTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="left"
@@ -308,7 +305,7 @@
                         android:id="@+id/veterans_talk_imv"
                         android:src="@drawable/ic_phone_crisis"/>
 
-                    <com.ceino.utilitylibrary.CustomFontTextView
+                    <com.pacifyr.omhealthcare.customview.MainTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="left"
@@ -321,7 +318,7 @@
                         android:text="@string/veterans_talk"/>
 
 
-                    <com.ceino.utilitylibrary.CustomFontTextView
+                    <com.pacifyr.omhealthcare.customview.MainTextView
                         android:id="@+id/vetarans_tty_ctxv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -350,7 +347,7 @@
                         android:layout_height="wrap_content"
                         android:src="@drawable/crisis_info"/>
 
-                    <com.ceino.utilitylibrary.CustomFontTextView
+                    <com.pacifyr.omhealthcare.customview.MainTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="left"

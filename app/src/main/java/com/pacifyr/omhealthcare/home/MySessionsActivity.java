@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.ceino.utilitylibrary.CustomFontTextView;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.ceino.utilitylibrary.DeviceFitImageView;
 import com.ceino.utilitylibrary.model.pacifyr.MSessionDetailRoot;
 import com.ceino.utilitylibrary.model.pacifyr.ModelSessonsOfCustomer;
@@ -46,15 +46,15 @@ public class MySessionsActivity extends PacifyrAppCompactActivity {
 
     private LinearLayout mySessionsTopLlay;
     private RelativeLayout upperRlay;
-    private CustomFontTextView sessionNoCtxv;
-    private CustomFontTextView hoursNoCtxv;
-    private CustomFontTextView minutesNoCtxv;
-    private CustomFontTextView earningsNoCtxv;
-    private CustomFontTextView thisWkCtxv;
-    private CustomFontTextView thisMntCtxv;
-    private CustomFontTextView thisYearCtxv;
+    private MainTextView sessionNoCtxv;
+    private MainTextView hoursNoCtxv;
+    private MainTextView minutesNoCtxv;
+    private MainTextView earningsNoCtxv;
+    private MainTextView thisWkCtxv;
+    private MainTextView thisMntCtxv;
+    private MainTextView thisYearCtxv;
     private RecyclerView dateListRcv;
-    private CustomFontTextView noDataCtxv;
+    private MainTextView noDataCtxv;
     private RecyclerView weekSessionsRcv;
     private RecyclerView monthSessionsRcv;
     private RecyclerView yearSessionsRcv;
@@ -383,10 +383,10 @@ public class MySessionsActivity extends PacifyrAppCompactActivity {
     private RelativeLayout bottomPanel;
     private LinearLayout leftLlay;
     private DeviceFitImageView backImv;
-    private CustomFontTextView leftTxv;
-    private CustomFontTextView titleTxv;
+    private MainTextView leftTxv;
+    private MainTextView titleTxv;
     private LinearLayout rightLlay;
-    private CustomFontTextView rightTxv;
+    private MainTextView rightTxv;
     private DeviceFitImageView rightImv;
 
 

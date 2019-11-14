@@ -16,7 +16,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.multidex.MultiDex;
 
-import com.ceino.utilitylibrary.CustomFontTextView;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.ceino.utilitylibrary.DeviceFitImageView;
 import com.ceino.utilitylibrary.utils.PrefManager;
 import com.facebook.login.LoginManager;
@@ -56,20 +56,20 @@ public class PacifyrDashboardActivity extends PacifyrAppCompactActivity {
     private LinearLayout leftPane;
     private LinearLayout detailLlay;
     private RelativeLayout account_rlay;
-    private CustomFontTextView detailNameCtxv;
-    private CustomFontTextView detailMailCtxv;
+    private MainTextView detailNameCtxv;
+    private MainTextView detailMailCtxv;
     private LinearLayout dashboardLlay;
     private DeviceFitImageView dashboardDimv;
-    private CustomFontTextView dashboardCtxv;
+    private MainTextView dashboardCtxv;
     private LinearLayout mysessionsLlay;
     private DeviceFitImageView mesessionsDimv;
-    private CustomFontTextView mysessionsCtxv;
+    private MainTextView mysessionsCtxv;
     private LinearLayout earningsLlay;
     private DeviceFitImageView earningsDimv;
-    private CustomFontTextView earningsCtxv;
+    private MainTextView earningsCtxv;
     private LinearLayout logoutLlay;
     private DeviceFitImageView logoutDimv;
-    private CustomFontTextView logoutCtxv;
+    private MainTextView logoutCtxv;
     private LinearLayout supportLlay;
     private LinearLayout messagesLlay;
     private CircleImageView profile_cimv;
@@ -175,7 +175,7 @@ public class PacifyrDashboardActivity extends PacifyrAppCompactActivity {
                 public void onClick(View v) {
                     hideRightLayActionbar();
                     showFragment(new PacifyrDashboardFragment());
-                    defSetText(titleTxv, "My Dash board");
+                    defSetText(titleTxv, "MY DASHBOARD");
                 }
             });
             profile_cimv.setOnClickListener(new View.OnClickListener() {
@@ -305,10 +305,10 @@ public class PacifyrDashboardActivity extends PacifyrAppCompactActivity {
     private RelativeLayout bottomPanel;
     private LinearLayout leftLlay;
     private DeviceFitImageView backImv;
-    private CustomFontTextView leftTxv;
-    public CustomFontTextView titleTxv;
+    private MainTextView leftTxv;
+    public MainTextView titleTxv;
     private LinearLayout rightLlay;
-    private CustomFontTextView rightTxv;
+    private MainTextView rightTxv;
     private DeviceFitImageView rightImv;
 
     public void onSetActionBar() {
@@ -437,7 +437,7 @@ public class PacifyrDashboardActivity extends PacifyrAppCompactActivity {
     @Subscribe
     public void onActionbarEvent(ActionbarEvent event) {
         try {
-            defSetText(titleTxv, "My Dash board");
+            defSetText(titleTxv, "MY DASHBOARD");
         }catch (Exception e)
         {
             LogUtils.LOGD("session","DA onActionbarEvent exce " + e.getMessage());

@@ -37,7 +37,7 @@
         app:layout_constraintTop_toBottomOf="@+id/img_prof" />
 
 
-    <com.ceino.utilitylibrary.CustomFontTextView
+        <com.pacifyr.omhealthcare.customview.MainTextView
         android:id="@+id/indicator_ctxv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -69,7 +69,7 @@
        />
 
 
-    <com.ceino.utilitylibrary.CustomFontTextView
+        <com.pacifyr.omhealthcare.customview.MainTextView
         android:id="@+id/tv_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -80,12 +80,11 @@
         android:textColor="@color/blue_text_dark"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:fontName="@string/raleway_semi_bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/right_guideline"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.ceino.utilitylibrary.CustomFontTextView
+        <com.pacifyr.omhealthcare.customview.MainTextView
         android:id="@+id/specialities_ctxv"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -111,7 +110,7 @@
         app:layout_constraintStart_toStartOf="@+id/specialities_ctxv"
         app:layout_constraintTop_toBottomOf="@+id/specialities_ctxv" />
 
-    <com.ceino.utilitylibrary.CustomFontTextView
+        <com.pacifyr.omhealthcare.customview.MainTextView
         android:id="@+id/item_review_tv"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -126,7 +125,7 @@
         app:layout_constraintTop_toTopOf="@+id/myRatingBar" />
 
 
-    <com.ceino.utilitylibrary.CustomFontTextView
+        <com.pacifyr.omhealthcare.customview.MainTextView
         android:id="@+id/price_dollar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -141,7 +140,7 @@
         app:layout_constraintTop_toBottomOf="@+id/myRatingBar" />
 
 
-    <com.ceino.utilitylibrary.CustomFontTextView
+        <com.pacifyr.omhealthcare.customview.MainTextView
         android:id="@+id/chat_price_ctxv"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -189,7 +188,6 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="7dp"
             android:maxLines="3"
-            android:fontFamily="@string/raleway_semi_bold"
         android:textAlignment="center"
         android:textColor="@color/grey_dark"
         android:textSize="16sp"

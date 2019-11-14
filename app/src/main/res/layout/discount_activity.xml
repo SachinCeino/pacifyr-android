@@ -20,7 +20,7 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <com.ceino.utilitylibrary.CustomFontTextView
+        <com.pacifyr.omhealthcare.customview.MainTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/have_discount_code"
@@ -43,7 +43,7 @@
             android:background="@drawable/blue_round_square"
             android:padding="10dp">
 
-            <com.ceino.utilitylibrary.CustomFontTextView
+            <com.pacifyr.omhealthcare.customview.MainTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
@@ -55,7 +55,7 @@
 
         </RelativeLayout>
 
-        <com.ceino.utilitylibrary.CustomFontTextView
+        <com.pacifyr.omhealthcare.customview.MainTextView
             android:id="@+id/text_skip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

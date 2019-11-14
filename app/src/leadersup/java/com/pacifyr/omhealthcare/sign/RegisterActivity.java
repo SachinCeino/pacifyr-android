@@ -48,7 +48,7 @@ import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.ceino.utilitylibrary.CustomEditText;
-import com.ceino.utilitylibrary.CustomFontTextView;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.ceino.utilitylibrary.DeviceFitImageView;
 import com.ceino.utilitylibrary.ToastHandler;
 import com.ceino.utilitylibrary.model.pacifyr.MRoleModel;
@@ -171,10 +171,10 @@ public class RegisterActivity extends PacifyerActivity {
     private CustomEditText emailEdt;
     private LinearLayout nextLlay;
     private RelativeLayout nextRlay;
-    private CustomFontTextView nextCtxv;
+    private MainTextView nextCtxv;
     private CustomEditText phoneEdit;
     private CustomEditText yearEdit;
-    private  CustomFontTextView termsCtxv;
+    private  MainTextView termsCtxv;
 
     WheelYearPicker wheelYearPicker;
 
@@ -205,7 +205,7 @@ public class RegisterActivity extends PacifyerActivity {
     private String jsonString;
 
     private Context context;
-    CustomFontTextView CustomEditText_region,CustomEditText_gender,CustomEditText_race,CustomEditText_education,CustomEditText_organization;
+    MainTextView CustomEditText_region,CustomEditText_gender,CustomEditText_race,CustomEditText_education,CustomEditText_organization;
     RecyclerView listView_like_services;
     List<ModelSpinnerData> EducationList=new ArrayList<>();
     List<ModelSpinnerData> OrganisationList=new ArrayList<>();
@@ -711,7 +711,7 @@ public class RegisterActivity extends PacifyerActivity {
                 SpannableString.SPAN_INCLUSIVE_EXCLUSIVE);
         return link;
     }
-    private void makeLinksFocusable(CustomFontTextView tv) {
+    private void makeLinksFocusable(MainTextView tv) {
         MovementMethod m = tv.getMovementMethod();
         if ((m == null) || !(m instanceof LinkMovementMethod)) {
             if (tv.getLinksClickable()) {
@@ -743,7 +743,7 @@ public class RegisterActivity extends PacifyerActivity {
         }
     }
 
-    private void getRegionListItems(CustomFontTextView customEditText_region) {
+    private void getRegionListItems(MainTextView customEditText_region) {
 
         String title="Select Region";
         if (isValid(RegionsList))
@@ -762,7 +762,7 @@ public class RegisterActivity extends PacifyerActivity {
 
     }
 
-    private void getRaceListItems(CustomFontTextView customEditText_race) {
+    private void getRaceListItems(MainTextView customEditText_race) {
 
         String title="Select race/ethnicity";
         if (isValid(RaceList))
@@ -780,7 +780,7 @@ public class RegisterActivity extends PacifyerActivity {
 
     }
 
-    private void getOrganizationListItems(CustomFontTextView customEditText_organization) {
+    private void getOrganizationListItems(MainTextView customEditText_organization) {
 
         String title="Select organisation";
         if (isValid(OrganisationList))
@@ -799,7 +799,7 @@ public class RegisterActivity extends PacifyerActivity {
 
     }
 
-    private void getEducationListItems(CustomFontTextView customEditText_education) {
+    private void getEducationListItems(MainTextView customEditText_education) {
         String title="Select education status";
 
 
@@ -817,7 +817,7 @@ public class RegisterActivity extends PacifyerActivity {
         }
 
     }
-    private void getGenderListItems(CustomFontTextView customEditText_gender) {
+    private void getGenderListItems(MainTextView customEditText_gender) {
 
         String title="Select your gender";
         ArrayList<String> genderList=new ArrayList();
@@ -841,7 +841,7 @@ public class RegisterActivity extends PacifyerActivity {
     }
 
 
-    private void showListPopup(String title,ArrayList<String> list,CustomFontTextView customEditText_view) {
+    private void showListPopup(String title,ArrayList<String> list,MainTextView customEditText_view) {
 
         // setup the alert builder
         String[] dataList=null;
@@ -1097,10 +1097,10 @@ public class RegisterActivity extends PacifyerActivity {
     private RelativeLayout bottomPanel;
     private LinearLayout leftLlay;
     private DeviceFitImageView backImv;
-    private CustomFontTextView leftTxv;
-    private CustomFontTextView titleTxv;
+    private MainTextView leftTxv;
+    private MainTextView titleTxv;
     private LinearLayout rightLlay;
-    private CustomFontTextView rightTxv;
+    private MainTextView rightTxv;
     private DeviceFitImageView rightImv;
 
     public void onSetActionBar() {
@@ -1310,9 +1310,9 @@ public class RegisterActivity extends PacifyerActivity {
         try {
             //View.OnClickListener oklistner
             View view = LayoutInflater.from(this).inflate(R.layout.alert_white_ok, null, false);
-            CustomFontTextView title_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.title_dtxv);
-            CustomFontTextView desc_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.desc_dtxv);
-            CustomFontTextView ok_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.ok_dtxv);
+            MainTextView title_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.title_dtxv);
+            MainTextView desc_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.desc_dtxv);
+            MainTextView ok_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.ok_dtxv);
 
             if (isValid(title))
                 defSetText(title_dtxv, title);
@@ -1388,7 +1388,12 @@ public class RegisterActivity extends PacifyerActivity {
                         if (json == null || status.equals(getResources().getString(R.string.error))) {
                             hideProgress();
                             String message = json.get(getResources().getString(R.string.message_string)).getAsString();
-                            setAlertOKStatusInRed(getResources().getString(R.string.registration_failed), message,"Ok");
+                            setAlertOKStatusInRed(getResources().getString(R.string.registration_failed), message, "Ok", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    hideStatus();
+                                }
+                            });
                             ToastHandler.newInstance(RegisterActivity.this).mustShowToast("Please try again !");
                         } else {
                             final JSONObject json2 = new JSONObject(json.toString());
@@ -1426,7 +1431,13 @@ public class RegisterActivity extends PacifyerActivity {
                             else{
                                 hideProgress();
                                 prefM.clear();
-                                setAlertOKStatusInRed(getResources().getString(R.string.registration_failed), getResources().getString(R.string.failed_register_message),"Ok");
+                                setAlertOKStatusInRed(getResources().getString(R.string.registration_failed), getResources().getString(R.string.failed_register_message), "Ok", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        hideProgress();
+
+                                    }
+                                });
                                 startActivity(new Intent(context,SignActivity.class));
                             }
                         }

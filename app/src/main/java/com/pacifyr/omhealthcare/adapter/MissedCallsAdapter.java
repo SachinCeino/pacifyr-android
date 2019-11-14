@@ -10,7 +10,7 @@ import android.widget.LinearLayout;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.ceino.utilitylibrary.CustomFontTextView;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.ceino.utilitylibrary.model.pacifyr.MSessionDetailRoot;
 import com.ceino.utilitylibrary.utils.PrefManager;
 import com.kaopiz.kprogresshud.KProgressHUD;
@@ -226,20 +226,20 @@ public class MissedCallsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        private CustomFontTextView nameUserCtxv;
-        private CustomFontTextView priceCtxv;
-        private CustomFontTextView dateCtxv;
-        private CustomFontTextView feltCtxv;
-        private CustomFontTextView beforeCallCtxv;
+        private MainTextView nameUserCtxv;
+        private MainTextView priceCtxv;
+        private MainTextView dateCtxv;
+        private MainTextView feltCtxv;
+        private MainTextView beforeCallCtxv;
         private ImageView beforeEmotionImg;
-        private CustomFontTextView beforeFeelCtxv;
-        private CustomFontTextView afterCallCtxv;
+        private MainTextView beforeFeelCtxv;
+        private MainTextView afterCallCtxv;
         private ImageView afterEmotionImg;
-        private CustomFontTextView afterFeelCtxv;
+        private MainTextView afterFeelCtxv;
         private LinearLayout topLlay;
         private CircleImageView userCimv;
         private ImageView calltype_imv;
-        private CustomFontTextView callTimeCtxv;
+        private MainTextView callTimeCtxv;
 
         public MyViewHolder(View view) {
             super(view);
@@ -266,10 +266,10 @@ public class MissedCallsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     public class MissedViewHolder extends RecyclerView.ViewHolder {
         private LinearLayout topLlay;
         private CircleImageView userCimv;
-        private CustomFontTextView nameUserCtxv;
+        private MainTextView nameUserCtxv;
         private ImageView callTypeImg;
-        private CustomFontTextView missedCtxv;
-        private CustomFontTextView dateCtxv;
+        private MainTextView missedCtxv;
+        private MainTextView dateCtxv;
 
         public MissedViewHolder(View view) {
             super(view);

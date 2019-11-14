@@ -4,10 +4,8 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.ceino.utilitylibrary.CustomFontTextView;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.ceino.utilitylibrary.utils.PrefManager;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.quickblox.chat.utils.qb.QbDialogUtils;
@@ -43,10 +41,10 @@ public class DialogsAdapter extends BaseSelectableListAdapter<QBChatDialog> {
 
             holder = new ViewHolder();
             holder.rootLayout = (ViewGroup) convertView.findViewById(R.id.root);
-            holder.nameTextView = (CustomFontTextView) convertView.findViewById(R.id.text_dialog_name);
-            holder.lastMessageTextView = (CustomFontTextView) convertView.findViewById(R.id.text_dialog_last_message);
+            holder.nameTextView = (MainTextView) convertView.findViewById(R.id.text_dialog_name);
+            holder.lastMessageTextView = (MainTextView) convertView.findViewById(R.id.text_dialog_last_message);
             holder.dialogImageView = (CircleImageView) convertView.findViewById(R.id.image_dialog_icon);
-            holder.unreadCounterTextView = (CustomFontTextView) convertView.findViewById(R.id.text_dialog_unread_count);
+            holder.unreadCounterTextView = (MainTextView) convertView.findViewById(R.id.text_dialog_unread_count);
 
             convertView.setTag(holder);
         } else {
@@ -163,9 +161,9 @@ public class DialogsAdapter extends BaseSelectableListAdapter<QBChatDialog> {
     private static class ViewHolder {
         ViewGroup rootLayout;
         CircleImageView dialogImageView;
-        CustomFontTextView nameTextView;
-        CustomFontTextView lastMessageTextView;
-        CustomFontTextView unreadCounterTextView;
+        MainTextView nameTextView;
+        MainTextView lastMessageTextView;
+        MainTextView unreadCounterTextView;
     }
 
 

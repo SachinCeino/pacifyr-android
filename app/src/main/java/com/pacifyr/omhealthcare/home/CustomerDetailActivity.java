@@ -18,7 +18,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.ceino.utilitylibrary.CustomFontTextView;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.ceino.utilitylibrary.DeviceFitImageView;
 import com.ceino.utilitylibrary.FlexLayout;
 import com.ceino.utilitylibrary.model.pacifyr.MEmotion;
@@ -54,11 +54,11 @@ public class CustomerDetailActivity extends PacifyrAppCompactActivity {
     private CircleImageView profileCimv;
     private CircleImageView emotionCimv;
     private CardView bioCardView;
-    private CustomFontTextView bioCtxv;
-    private CustomFontTextView pastSessionCtxv;
+    private MainTextView bioCtxv;
+    private MainTextView pastSessionCtxv;
     private RecyclerView pacifyrListRcv;
 
-    private CustomFontTextView emotionNameCtxv;
+    private MainTextView emotionNameCtxv;
 
     private  PrefManager prefM;
     private  String userid,token;
@@ -77,7 +77,7 @@ public class CustomerDetailActivity extends PacifyrAppCompactActivity {
 
     private FlexLayout emptyFlay;
     private DeviceFitImageView im;
-    private CustomFontTextView welcomeDtxv,emptyDtxv;
+    private MainTextView welcomeDtxv, emptyDtxv;
     boolean isBackendError=false;
     ArrayList<MPastSessions.Results> pastsessions_list=new ArrayList<MPastSessions.Results>();
 
@@ -395,10 +395,10 @@ public class CustomerDetailActivity extends PacifyrAppCompactActivity {
     private RelativeLayout bottomPanel;
     private LinearLayout leftLlay;
     private DeviceFitImageView backImv;
-    private CustomFontTextView leftTxv;
-    private CustomFontTextView titleTxv;
+    private MainTextView leftTxv;
+    private MainTextView titleTxv;
     private LinearLayout rightLlay;
-    private CustomFontTextView rightTxv;
+    private MainTextView rightTxv;
     private DeviceFitImageView rightImv;
 
     public void onSetActionBar() {

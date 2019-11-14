@@ -9,7 +9,7 @@ import android.widget.RelativeLayout;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.ceino.utilitylibrary.CustomFontTextView;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.pacifyr.omhealthcare.R;
 
 import java.util.List;
@@ -53,7 +53,7 @@ public class SortDateAdapter extends RecyclerView.Adapter<SortDateAdapter.MyView
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public CustomFontTextView titleCtxv;
+        public MainTextView titleCtxv;
         public LinearLayout topLlay;
         public RelativeLayout topRlay;
 

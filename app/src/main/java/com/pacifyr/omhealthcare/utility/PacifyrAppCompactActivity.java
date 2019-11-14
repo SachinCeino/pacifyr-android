@@ -21,7 +21,7 @@ import androidx.annotation.Nullable;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.ceino.utilitylibrary.CustomFontTextView;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.ceino.utilitylibrary.ToastHandler;
 import com.ceino.utilitylibrary.model.pacifyr.MEmotion;
 import com.ceino.utilitylibrary.model.pacifyr.MUser;
@@ -672,9 +672,9 @@ public abstract class PacifyrAppCompactActivity  extends PacifyerActivity {
                 }
                 else {
                     View view = LayoutInflater.from(this).inflate(com.ceino.utilitylibrary.R.layout.alert_ok, null, false);
-                    CustomFontTextView title_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.title_dtxv);
-                    CustomFontTextView desc_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.desc_dtxv);
-                    CustomFontTextView ok_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.ok_dtxv);
+                    MainTextView title_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.title_dtxv);
+                    MainTextView desc_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.desc_dtxv);
+                    MainTextView ok_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.ok_dtxv);
                     type = capitalizeString(type);
                     defSetText(title_dtxv, type + "!");
                     defSetText(desc_dtxv, alert.getDesc());
@@ -701,11 +701,11 @@ public abstract class PacifyrAppCompactActivity  extends PacifyerActivity {
         //View.OnClickListener oklistner
         LogUtils.LOGD("receiver", "topapp setAlertJoin " + alert.getType());
         View view = LayoutInflater.from(this).inflate(R.layout.alert_two_options, null, false);
-        CustomFontTextView title_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.title_dtxv);
-        CustomFontTextView desc_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.desc_dtxv);
-        CustomFontTextView ok_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.ok_dtxv);
+        MainTextView title_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.title_dtxv);
+        MainTextView desc_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.desc_dtxv);
+        MainTextView ok_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.ok_dtxv);
 
-        CustomFontTextView dismissDtxv = view.findViewById(R.id.dismiss_dtxv);
+        MainTextView dismissDtxv = view.findViewById(R.id.dismiss_dtxv);
         String type = alert.getType();
        /* String collection = alert.getCollection();
         if (isValid(collection)) {
@@ -752,11 +752,11 @@ public abstract class PacifyrAppCompactActivity  extends PacifyerActivity {
         //View.OnClickListener oklistner
         LogUtils.LOGD("receiver", "topapp setAlertStart " + alert.getType());
         View view = LayoutInflater.from(this).inflate(R.layout.alert_two_options, null, false);
-        CustomFontTextView title_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.title_dtxv);
-        CustomFontTextView desc_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.desc_dtxv);
-        CustomFontTextView ok_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.ok_dtxv);
+        MainTextView title_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.title_dtxv);
+        MainTextView desc_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.desc_dtxv);
+        MainTextView ok_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.ok_dtxv);
 
-        CustomFontTextView dismissDtxv = view.findViewById(R.id.dismiss_dtxv);
+        MainTextView dismissDtxv = view.findViewById(R.id.dismiss_dtxv);
         String type = alert.getType();
        /* String collection = alert.getCollection();
         if (isValid(collection)) {

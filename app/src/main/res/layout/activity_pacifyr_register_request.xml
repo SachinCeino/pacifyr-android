@@ -138,7 +138,7 @@
                 app:layout_constraintStart_toStartOf="@+id/phone_cedit"
                 app:layout_constraintTop_toBottomOf="@+id/phone_cedit" />
 
-            <com.ceino.utilitylibrary.CustomFontTextView
+            <com.pacifyr.omhealthcare.customview.MainTextView
                 android:id="@+id/birth_year_txv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -184,7 +184,7 @@
                 app:layout_constraintStart_toStartOf="@+id/snapshot_txv"
                 app:layout_constraintTop_toBottomOf="@+id/snapshot_txv" />
 
-            <com.ceino.utilitylibrary.CustomFontTextView
+            <com.pacifyr.omhealthcare.customview.MainTextView
                 android:id="@+id/textView2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -238,7 +238,7 @@
                     android:text="@string/educations"
                     android:textColor="@color/grey_hex_4e" />
 
-                <com.ceino.utilitylibrary.CustomFontTextView
+                <com.pacifyr.omhealthcare.customview.MainTextView
                     android:id="@+id/add_education_ctxv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -292,7 +292,7 @@
                     android:textColor="@color/grey_hex_4e"
                     app:layout_constraintHorizontal_bias="0.0" />
 
-                <com.ceino.utilitylibrary.CustomFontTextView
+                <com.pacifyr.omhealthcare.customview.MainTextView
                     android:id="@+id/add_certificates_cedit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -327,7 +327,7 @@
 
             </RelativeLayout>
 
-            <com.ceino.utilitylibrary.CustomFontTextView
+            <com.pacifyr.omhealthcare.customview.MainTextView
                 android:id="@+id/specialities_ctxv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -350,7 +350,7 @@
                 app:layout_constraintStart_toStartOf="@+id/specialities_ctxv"
                 app:layout_constraintTop_toBottomOf="@+id/specialities_ctxv" />
 
-            <com.ceino.utilitylibrary.CustomFontTextView
+            <com.pacifyr.omhealthcare.customview.MainTextView
                 android:id="@+id/upload_docs_ctxv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -423,7 +423,7 @@
                 app:layout_constraintStart_toStartOf="@+id/terms_of_use_cbox"
                 app:layout_constraintTop_toBottomOf="@+id/terms_of_use_cbox">
 
-                <com.ceino.utilitylibrary.CustomFontTextView
+                <com.pacifyr.omhealthcare.customview.MainTextView
                     android:id="@+id/request_ctxv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

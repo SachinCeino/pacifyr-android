@@ -25,7 +25,7 @@ import android.widget.Toast;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.ceino.utilitylibrary.CustomFontTextView;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.ceino.utilitylibrary.DeviceFitImageView;
 import com.ceino.utilitylibrary.model.pacifyr.MEmotion;
 import com.ceino.utilitylibrary.model.pacifyr.MListNegativeEmotions;
@@ -88,15 +88,15 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
     public RelativeLayout third_Screen_layout;
     public RelativeLayout listPacifyrRlay;
     public RelativeLayout third_Screen_second_layout;
-    private CustomFontTextView noPacifyrCtxv;
-    private CustomFontTextView txt_emergency_usa;
+    private MainTextView noPacifyrCtxv;
+    private MainTextView txt_emergency_usa;
 
     private LinearLayout showallLlay;
-    private CustomFontTextView showallCtxv;
+    private MainTextView showallCtxv;
 
     RecyclerView emotionRcv;
     RecyclerView emotionDetailRcv;
-    private CustomFontTextView userNameCtxv;
+    private MainTextView userNameCtxv;
 
     Button button1,button2,button3,button4;
     Button moreButton;
@@ -736,10 +736,10 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
     private RelativeLayout bottomPanel;
     private LinearLayout leftLlay;
     private ImageView backImv;
-    private CustomFontTextView leftTxv;
-    private CustomFontTextView titleTxv;
+    private MainTextView leftTxv;
+    private MainTextView titleTxv;
     private LinearLayout rightLlay;
-    private CustomFontTextView rightTxv;
+    private MainTextView rightTxv;
     private DeviceFitImageView rightImv;
 
     public void onSetActionBar() {
@@ -1252,7 +1252,7 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
         }
 
         public class MyViewHolderr extends RecyclerView.ViewHolder {
-            public CustomFontTextView tv_instruction;
+            public MainTextView tv_instruction;
 
 
             public MyViewHolderr(View view) {
@@ -1330,7 +1330,7 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
         }
 
         public class MyViewHolderr extends RecyclerView.ViewHolder {
-            public CustomFontTextView tv_instruction;
+            public MainTextView tv_instruction;
 
 
             public MyViewHolderr(View view) {
@@ -1403,7 +1403,7 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
         }
 
         public class MyViewHolderr extends RecyclerView.ViewHolder {
-            public CustomFontTextView tv_instruction;
+            public MainTextView tv_instruction;
 
 
             public MyViewHolderr(View view) {

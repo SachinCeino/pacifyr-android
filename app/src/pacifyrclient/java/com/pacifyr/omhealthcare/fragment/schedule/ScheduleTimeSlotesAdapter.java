@@ -8,7 +8,7 @@ import android.widget.ImageView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.ceino.utilitylibrary.CustomFontTextView;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.ceino.utilitylibrary.utils.PrefManager;
 import com.pacifyr.omhealthcare.R;
 
@@ -157,7 +157,7 @@ public class ScheduleTimeSlotesAdapter extends RecyclerView.Adapter<ScheduleTime
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public CustomFontTextView schedule_timelotes;
+        public MainTextView schedule_timelotes;
         private ImageView img_cancel_slot;
 
 

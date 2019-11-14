@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.ceino.utilitylibrary.CustomFontTextView;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.ceino.utilitylibrary.DeviceFitImageView;
 import com.ceino.utilitylibrary.model.pacifyr.ChatSubscription;
 import com.ceino.utilitylibrary.model.pacifyr.MUser;
@@ -68,19 +68,19 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
 
 
     private LinearLayout profileLlay;
-    private CustomFontTextView profileNameCtxv;
-    private CustomFontTextView connect_pacifyr_ctxv;
+    private MainTextView profileNameCtxv;
+    private MainTextView connect_pacifyr_ctxv;
     private AppCompatRatingBar profileRating;
-    private CustomFontTextView ratingCtxv;
+    private MainTextView ratingCtxv;
     private CircleImageView profileCimv;
-    private CustomFontTextView isonlineCtxv;
-    private CustomFontTextView dollarSignCtxv;
-    private CustomFontTextView priceCtxv;
-    private CustomFontTextView perHourCtxv;
+    private MainTextView isonlineCtxv;
+    private MainTextView dollarSignCtxv;
+    private MainTextView priceCtxv;
+    private MainTextView perHourCtxv;
     private CardView snapshotCard;
-    private CustomFontTextView snapshotCtxv;
+    private MainTextView snapshotCtxv;
     private CardView blogCard;
-    private CustomFontTextView websiteCtxv;
+    private MainTextView websiteCtxv;
     private CardView specialityCard;
     private RecyclerView specialRcv;
     private CardView educationCard;
@@ -121,7 +121,7 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
     private QBChatService chatService;
 
     private LinearLayout chatLlay;
-    private CustomFontTextView chatPriceCtxv;
+    private MainTextView chatPriceCtxv;
 
   //  private PermissionsChecker checker;
     private QBUser currentUser;
@@ -614,7 +614,7 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
 
                 String[] spec=pacifyerDetial.getSpecialities();
 
-                CustomFontTextView spCtxv = findViewById(R.id.special_list_ctxv);
+                MainTextView spCtxv = findViewById(R.id.special_list_ctxv);
                 spCtxv.setText(TextUtils.join(", ",spec));
                 //Speciality adapter
                /* SpecialRecyclerView = (RecyclerView) findViewById(R.id.special_rcv);
@@ -652,7 +652,7 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
             priceForChat = Integer.parseInt(mpacifyerDetial.getPriceForChat());
 
             LinearLayout chatLlay = findViewById(R.id.chat_llay);
-            CustomFontTextView chat_price_ctxv = findViewById(R.id.chat_price_ctxv);
+            MainTextView chat_price_ctxv = findViewById(R.id.chat_price_ctxv);
 
             chatLlay.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -858,7 +858,7 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
         profileLlay = findViewById(R.id.profile_llay);
         call_llay = findViewById(R.id.call_llay);
         profileNameCtxv = findViewById(R.id.profile_name_ctxv);
-//        pacifyrRoleCtxv = (CustomFontTextView) findViewById(R.id.pacifyr_role_ctxv);
+//        pacifyrRoleCtxv = (MainTextView) findViewById(R.id.pacifyr_role_ctxv);
         profileRating = findViewById(R.id.profile_rating);
         ratingCtxv = findViewById(R.id.rating_ctxv);
         profileCimv = findViewById(R.id.profile_cimv);
@@ -900,10 +900,10 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
     private RelativeLayout bottomPanel;
     private LinearLayout leftLlay;
     private DeviceFitImageView backImv;
-    private CustomFontTextView leftTxv;
-    private CustomFontTextView titleTxv;
+    private MainTextView leftTxv;
+    private MainTextView titleTxv;
     private LinearLayout rightLlay;
-    private CustomFontTextView rightTxv;
+    private MainTextView rightTxv;
     private DeviceFitImageView rightImv;
 
     public void onSetActionBar() {

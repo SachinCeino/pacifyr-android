@@ -9,7 +9,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
-import com.ceino.utilitylibrary.CustomFontTextView;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.adapter.CustomPagerAdapter;
 import com.pacifyr.omhealthcare.event.ActionbarEvent;
@@ -25,7 +25,7 @@ public class WelcomeTourFragment extends BaseFragment {
     }
 
     private ViewPager viewpager;
-    private CustomFontTextView skipCtxv;
+    private MainTextView skipCtxv;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -40,7 +40,7 @@ public class WelcomeTourFragment extends BaseFragment {
         viewpager = view.findViewById(R.id.viewpager);
         skipCtxv = view.findViewById(R.id.skip_ctxv);
 
-        //skipCtxv=(CustomFontTextView) findViewById(R.id.skip_ctxv);
+        //skipCtxv=(MainTextView) findViewById(R.id.skip_ctxv);
         //ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
         skipCtxv.setVisibility(View.INVISIBLE);
         viewpager.setAdapter(new CustomPagerAdapter(getContext()));

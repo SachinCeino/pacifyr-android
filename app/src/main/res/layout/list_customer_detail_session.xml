@@ -34,7 +34,7 @@
             android:layout_marginLeft="5dp"
             android:orientation="vertical">
 
-            <com.ceino.utilitylibrary.CustomFontTextView
+            <com.pacifyr.omhealthcare.customview.MainTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=""
@@ -52,7 +52,7 @@
                     android:layout_height="20dp"
                     android:src="@drawable/ic_video_cam_blue"/>
 
-                <com.ceino.utilitylibrary.CustomFontTextView
+                <com.pacifyr.omhealthcare.customview.MainTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="01:01"
@@ -63,7 +63,7 @@
             </LinearLayout>
 
 
-            <com.ceino.utilitylibrary.CustomFontTextView
+            <com.pacifyr.omhealthcare.customview.MainTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="10sp"
@@ -82,7 +82,7 @@
             android:visibility="gone"
             android:gravity="center">
 
-            <com.ceino.utilitylibrary.CustomFontTextView
+            <com.pacifyr.omhealthcare.customview.MainTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="How customer felt"
@@ -100,7 +100,7 @@
                 android:layout_below="@+id/felt_ctxv"
                 android:orientation="vertical">
 
-                <com.ceino.utilitylibrary.CustomFontTextView
+                <com.pacifyr.omhealthcare.customview.MainTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="6sp"
@@ -113,7 +113,7 @@
                     android:layout_height="20dp"
                     android:id="@+id/before_emotion_img"/>
 
-                <com.ceino.utilitylibrary.CustomFontTextView
+                <com.pacifyr.omhealthcare.customview.MainTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="10sp"
@@ -132,7 +132,7 @@
                 android:layout_marginLeft="50dp"
                 android:orientation="vertical">
 
-                <com.ceino.utilitylibrary.CustomFontTextView
+                <com.pacifyr.omhealthcare.customview.MainTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="6sp"
@@ -145,7 +145,7 @@
                     android:layout_height="20dp"
                     android:id="@+id/after_emotion_img"/>
 
-                <com.ceino.utilitylibrary.CustomFontTextView
+                <com.pacifyr.omhealthcare.customview.MainTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="10sp"
@@ -164,7 +164,7 @@
                 android:layout_below="@+id/felt_ctxv"
                 android:orientation="vertical">
 
-                <com.ceino.utilitylibrary.CustomFontTextView
+                <com.pacifyr.omhealthcare.customview.MainTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="7sp"
@@ -177,7 +177,7 @@
                     android:layout_height="20dp"
                     android:id="@+id/openinon_img"/>
 
-                <com.ceino.utilitylibrary.CustomFontTextView
+                <com.pacifyr.omhealthcare.customview.MainTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="10sp"

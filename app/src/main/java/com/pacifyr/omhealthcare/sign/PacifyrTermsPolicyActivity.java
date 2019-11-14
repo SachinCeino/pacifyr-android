@@ -8,7 +8,7 @@ import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.ceino.utilitylibrary.CustomFontTextView;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.ceino.utilitylibrary.utils.PrefManager;
 import com.google.gson.JsonObject;
 import com.koushikdutta.ion.Ion;
@@ -30,16 +30,16 @@ public class PacifyrTermsPolicyActivity extends PacifyrAppCompactActivity {
 
     private LinearLayout topLlay;
     private CircleImageView profileImageCimv;
-    private CustomFontTextView profileNameCtxv;
-    private CustomFontTextView pleaseCtxv;
-    private CustomFontTextView submitCtxv;
+    private MainTextView profileNameCtxv;
+    private MainTextView pleaseCtxv;
+    private MainTextView submitCtxv;
     private boolean termsFlag;
     private boolean privacyFlag;
     private boolean agreementFlag;
-    private CustomFontTextView termsCtxv;
+    private MainTextView termsCtxv;
     private String  webViewUrl;
-    private CustomFontTextView privacyCtxv;
-    private CustomFontTextView agreementCtxv;
+    private MainTextView privacyCtxv;
+    private MainTextView agreementCtxv;
 
 
     @Override
@@ -51,12 +51,12 @@ public class PacifyrTermsPolicyActivity extends PacifyrAppCompactActivity {
 
             topLlay = (LinearLayout) findViewById(R.id.top_llay);
             profileImageCimv = (CircleImageView) findViewById(R.id.profile_image_cimv);
-            profileNameCtxv = (CustomFontTextView) findViewById(R.id.profile_name_ctxv);
-            pleaseCtxv = (CustomFontTextView) findViewById(R.id.please_ctxv);
-            submitCtxv = (CustomFontTextView) findViewById(R.id.submit_ctxv);
-            termsCtxv = (CustomFontTextView) findViewById(R.id.terms_ctxv);
-            privacyCtxv = (CustomFontTextView) findViewById(R.id.privacy_ctxv);
-            agreementCtxv = (CustomFontTextView) findViewById(R.id.agreement_ctxv);
+            profileNameCtxv = (MainTextView) findViewById(R.id.profile_name_ctxv);
+            pleaseCtxv = (MainTextView) findViewById(R.id.please_ctxv);
+            submitCtxv = (MainTextView) findViewById(R.id.submit_ctxv);
+            termsCtxv = (MainTextView) findViewById(R.id.terms_ctxv);
+            privacyCtxv = (MainTextView) findViewById(R.id.privacy_ctxv);
+            agreementCtxv = (MainTextView) findViewById(R.id.agreement_ctxv);
             submitCtxv.setClickable(false);
 
             setProfileValues();

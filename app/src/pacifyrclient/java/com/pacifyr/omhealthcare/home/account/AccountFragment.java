@@ -10,7 +10,7 @@ import androidx.cardview.widget.CardView;
 
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.ceino.utilitylibrary.CustomFontTextView;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.event.NotifyEvent;
 import com.pacifyr.omhealthcare.network.GsonUtils;
@@ -33,14 +33,14 @@ public class AccountFragment extends BaseFragment {
 
     private LinearLayout profileLlay;
     private CircleImageView profileCimv;
-    private CustomFontTextView profileNameCtxv;
+    private MainTextView profileNameCtxv;
     private CardView mailCard;
     private LinearLayout mailLlay;
-    private CustomFontTextView mailDtxv;
+    private MainTextView mailDtxv;
     private LinearLayout pnumberLlay;
-    private CustomFontTextView pnumberDtxv;
+    private MainTextView pnumberDtxv;
     private CardView aboutmeCard;
-    private CustomFontTextView aboutmeCtxv;
+    private MainTextView aboutmeCtxv;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

@@ -50,7 +50,7 @@
             android:orientation="vertical"
             android:layout_above="@+id/constraintLayout">
 
-            <com.ceino.utilitylibrary.CustomFontTextView
+            <com.pacifyr.omhealthcare.customview.MainTextView
                 android:id="@+id/getready_ctxv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -61,33 +61,30 @@
                 android:textColor="@color/_color_get_ready_feel_better"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                app:fontName="@string/avanti_demi"
                 tools:layout_editor_absoluteY="200dp" />
 
-            <com.ceino.utilitylibrary.CustomFontTextView
+            <com.pacifyr.omhealthcare.customview.MainTextView
                 android:id="@+id/wellness_ctxv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="16dp"
                 android:textAlignment="center"
-                app:fontName="@string/avanti_std_bk"
                 android:text="@string/connect_to_wellness"
                 android:textColor="@color/_color_connect_to_wellness"
                 android:textSize="14sp" />
 
 
-            <com.ceino.utilitylibrary.CustomFontTextView
+            <com.pacifyr.omhealthcare.customview.MainTextView
                 android:id="@+id/free_ctxv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/thirty_free"
                 android:textAlignment="center"
                 android:textColor="@color/_color_thirty_free"
-                android:textSize="14sp"
-                app:fontName="@string/avanti_std_bk" />
+                android:textSize="14sp" />
 
-            <com.ceino.utilitylibrary.CustomFontTextView
+            <com.pacifyr.omhealthcare.customview.MainTextView
                 android:id="@+id/no_credit_ctxv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -96,19 +93,18 @@
                 android:textColor="@color/_color_no_credit_card"
                 android:textSize="14sp"
                 android:visibility="gone"
-                app:fontName="@string/avanti_std_bk"
+
                 app:layout_constraintEnd_toEndOf="@+id/free_ctxv"
                 app:layout_constraintStart_toStartOf="@+id/free_ctxv"
                 app:layout_constraintTop_toBottomOf="@+id/free_ctxv" />
 
-            <com.ceino.utilitylibrary.CustomFontTextView
+            <com.pacifyr.omhealthcare.customview.MainTextView
                 android:id="@+id/emergency_ctxv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:textAlignment="center"
                 android:visibility="visible"
-                app:fontName="@string/avanti_std_bk"
                 android:text="@string/if_emergency2"
                 android:textColor="@color/_color_connect_to_wellness"
                 android:textSize="14sp" />
@@ -116,7 +112,7 @@
 
         </LinearLayout>
 
-        <!-- <com.ceino.utilitylibrary.CustomFontTextView
+        <!-- <com.pacifyr.omhealthcare.customview.MainTextView
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:orientation="vertical"
@@ -128,7 +124,7 @@
         android:text="@string/get_ready"
         android:layout_above="@+id/llay2"/>
 
-    <com.ceino.utilitylibrary.CustomFontTextView
+    <com.pacifyr.omhealthcare.customview.MainTextView
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:text="@string/text_or_video"
@@ -141,7 +137,7 @@
         android:id="@+id/llay2"
         android:layout_above="@+id/llay3"/>
 
-    <com.ceino.utilitylibrary.CustomFontTextView
+    <com.pacifyr.omhealthcare.customview.MainTextView
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:text="@string/free_service"
@@ -154,7 +150,7 @@
         android:orientation="vertical"
         android:layout_above="@+id/llay4"/>
 
-    <com.ceino.utilitylibrary.CustomFontTextView
+    <com.pacifyr.omhealthcare.customview.MainTextView
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:text="@string/call_emergency"
@@ -177,7 +173,7 @@
             android:padding="10dp">
 
 
-            <com.ceino.utilitylibrary.CustomFontTextView
+            <com.pacifyr.omhealthcare.customview.MainTextView
                 android:id="@+id/tv_login"
                 android:layout_width="160dp"
                 android:layout_height="40dp"
@@ -190,7 +186,7 @@
                 android:textSize="18sp" />
 
 
-            <com.ceino.utilitylibrary.CustomFontTextView
+            <com.pacifyr.omhealthcare.customview.MainTextView
                 android:id="@+id/tv_signup"
                 android:layout_width="160dp"
                 android:layout_height="40dp"

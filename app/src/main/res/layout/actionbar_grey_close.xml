@@ -32,7 +32,7 @@
                 android:visibility="visible"
                 android:layout_alignParentLeft="true" />
 
-            <com.ceino.utilitylibrary.CustomFontTextView
+            <com.pacifyr.omhealthcare.customview.MainTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/back_imv"
@@ -44,7 +44,8 @@
                 android:layout_centerVertical="true"
                 android:textColor="@color/_color_action_bar_text_color" />
         </LinearLayout>
-        <com.ceino.utilitylibrary.CustomFontTextView
+
+        <com.pacifyr.omhealthcare.customview.MainTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -64,7 +65,8 @@
             android:paddingRight="5dp"
             android:layout_centerHorizontal="true"
             android:layout_height="wrap_content">
-            <com.ceino.utilitylibrary.CustomFontTextView
+
+            <com.pacifyr.omhealthcare.customview.MainTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toLeftOf="@+id/right_imv"

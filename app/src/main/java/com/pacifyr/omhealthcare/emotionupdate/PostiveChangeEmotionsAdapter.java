@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.ceino.utilitylibrary.CustomFontTextView;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.ceino.utilitylibrary.DeviceFitImageView;
 import com.ceino.utilitylibrary.model.pacifyr.MEmotion;
 import com.ceino.utilitylibrary.utils.PrefManager;
@@ -147,7 +147,7 @@ public class PostiveChangeEmotionsAdapter extends RecyclerView.Adapter<PostiveCh
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder {
         public DeviceFitImageView imageView;
-        public CustomFontTextView emotion_ctxv;
+        public MainTextView emotion_ctxv;
 
         public ViewHolder(View itemView) {
             super(itemView);

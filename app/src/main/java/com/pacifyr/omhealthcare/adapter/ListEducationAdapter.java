@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.ceino.utilitylibrary.CustomFontTextView;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.ceino.utilitylibrary.model.pacifyr.Education;
 import com.pacifyr.omhealthcare.R;
 
@@ -53,7 +53,7 @@ public class ListEducationAdapter  extends RecyclerView.Adapter<ListEducationAda
 
     public static class EducationViewHolder extends RecyclerView.ViewHolder {
 
-        protected CustomFontTextView title, duration;
+        protected MainTextView title, duration;
 
         public EducationViewHolder(View itemView) {
             super(itemView);

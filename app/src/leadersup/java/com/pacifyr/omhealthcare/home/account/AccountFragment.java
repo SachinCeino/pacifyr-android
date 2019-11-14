@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.ceino.utilitylibrary.CustomFontTextView;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.event.NotifyEvent;
 import com.pacifyr.omhealthcare.network.GsonUtils;
@@ -33,14 +33,14 @@ public class AccountFragment extends BaseFragment {
 
     private LinearLayout profileLlay;
     private CircleImageView profileCimv;
-    private CustomFontTextView profileNameCtxv;
+    private MainTextView profileNameCtxv;
     private CardView mailCard;
     private LinearLayout mailLlay;
-    private CustomFontTextView mailDtxv;
+    private MainTextView mailDtxv;
     private LinearLayout pnumberLlay;
-    private CustomFontTextView pnumberDtxv,tv_ethnicity,tv_regione,tv_edustatus,tv_services,tv_organization,tv_schoolname;
+    private MainTextView pnumberDtxv,tv_ethnicity,tv_regione,tv_edustatus,tv_services,tv_organization,tv_schoolname;
     private CardView aboutmeCard;
-    private CustomFontTextView aboutmeCtxv;
+    private MainTextView aboutmeCtxv;
 
 
     @Override
@@ -84,14 +84,14 @@ public class AccountFragment extends BaseFragment {
         try {
             profileLlay = (LinearLayout) view.findViewById(R.id.profile_llay);
             profileCimv = (CircleImageView) view.findViewById(R.id.profile_cimv);
-            profileNameCtxv = (CustomFontTextView) view.findViewById(R.id.profile_name_ctxv);
+            profileNameCtxv = (MainTextView) view.findViewById(R.id.profile_name_ctxv);
             mailCard = (CardView) view.findViewById(R.id.mail_card);
             mailLlay = (LinearLayout) view.findViewById(R.id.mail_llay);
-            mailDtxv = (CustomFontTextView) view.findViewById(R.id.mail_dtxv);
+            mailDtxv = (MainTextView) view.findViewById(R.id.mail_dtxv);
             pnumberLlay = (LinearLayout) view.findViewById(R.id.pnumber_llay);
-            pnumberDtxv = (CustomFontTextView) view.findViewById(R.id.pnumber_dtxv);
+            pnumberDtxv = (MainTextView) view.findViewById(R.id.pnumber_dtxv);
             aboutmeCard = (CardView) view.findViewById(R.id.aboutme_card);
-            aboutmeCtxv = (CustomFontTextView) view.findViewById(R.id.aboutme_ctxv);
+            aboutmeCtxv = (MainTextView) view.findViewById(R.id.aboutme_ctxv);
             tv_ethnicity=view.findViewById(R.id.tv_ethnicity);
             tv_edustatus=view.findViewById(R.id.tv_edustatus);
             tv_services=view.findViewById(R.id.tv_services);

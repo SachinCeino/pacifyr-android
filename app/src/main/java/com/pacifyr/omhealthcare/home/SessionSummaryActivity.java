@@ -23,7 +23,7 @@ import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.ceino.utilitylibrary.CustomEditText;
-import com.ceino.utilitylibrary.CustomFontTextView;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.ceino.utilitylibrary.DeviceFitImageView;
 import com.ceino.utilitylibrary.ToastHandler;
 import com.ceino.utilitylibrary.model.pacifyr.MEmotion;
@@ -92,16 +92,16 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
 
     private int effectiveness = 0;
 
-    private CustomFontTextView before_emotion_ctxv;
+    private MainTextView before_emotion_ctxv;
 
 
     ArrayList<MEmotion> emotions;
     private CircleImageView pacifyrImgCimv;
-    private CustomFontTextView pacifyrNameCtxv, callback_ctxv;
+    private MainTextView pacifyrNameCtxv, callback_ctxv;
     private ImageView beforeFeelDimv;
-    private CustomFontTextView durationCtxv;
-    private CustomFontTextView pacifyrRateCtxv, before_feel_ctxv;
-    private CustomFontTextView sessionCostCtxv;
+    private MainTextView durationCtxv;
+    private MainTextView pacifyrRateCtxv, before_feel_ctxv;
+    private MainTextView sessionCostCtxv;
     private int oldRating = 0;
 
     public MSessionDetailRoot mSessionDetailRoot;
@@ -115,9 +115,9 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
     CircleImageView img_blue_bg;
 
 
-    private CustomFontTextView afterFeelSelectionCtxv;
+    private MainTextView afterFeelSelectionCtxv;
     private LinearLayout pacifyrEaringsLlay, customer_fees_llay;
-    private CustomFontTextView earingstCtxv, comapnyfeesCtxv;
+    private MainTextView earingstCtxv, comapnyfeesCtxv;
 
     //public LinearLayout rating_llay,before_feel_llay;
     //  private LinearLayout afterFeelSelectionLlay;
@@ -216,7 +216,7 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
         callTypeDimv = findViewById(R.id.call_type_dimv);
         pacifyrImgCimv = findViewById(R.id.last_session_cimv);
         before_feel_ctxv = findViewById(R.id.before_feel_ctxv);
-          /*  after_feel_ctxv = (CustomFontTextView) findViewById(R.id.after_feel_ctxv);
+          /*  after_feel_ctxv = (MainTextView) findViewById(R.id.after_feel_ctxv);
             after_feel_llay = (LinearLayout) findViewById(R.id.after_feel_llay);*/
 
           /*    rating_llay = (LinearLayout) findViewById(R.id.rating_llay);
@@ -895,12 +895,12 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
     private RelativeLayout bottomPanel;
     private LinearLayout leftLlay;
     private DeviceFitImageView backImv;
-    private CustomFontTextView leftTxv;
-    private CustomFontTextView titleTxv;
+    private MainTextView leftTxv;
+    private MainTextView titleTxv;
     private LinearLayout rightLlay;
-    private CustomFontTextView rightTxv;
+    private MainTextView rightTxv;
     private DeviceFitImageView rightImv;
-    CustomFontTextView submit_ctxv;
+    MainTextView submit_ctxv;
 
     public void onSetActionBar() {
         try {

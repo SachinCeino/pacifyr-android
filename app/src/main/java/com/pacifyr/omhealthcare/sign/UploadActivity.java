@@ -27,7 +27,7 @@ import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.ceino.utilitylibrary.CustomFontTextView;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.ceino.utilitylibrary.DeviceFitImageView;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.adapter.FileChooserAdapter;
@@ -435,10 +435,10 @@ public class UploadActivity extends PacifyerActivity implements AddFileClickList
     private RelativeLayout bottomPanel;
     private LinearLayout leftLlay;
     private DeviceFitImageView backImv;
-    private CustomFontTextView leftTxv;
+    private MainTextView leftTxv;
     private LinearLayout rightLlay;
-    private CustomFontTextView headerCtxv;
-    private CustomFontTextView rightTxv;
+    private MainTextView headerCtxv;
+    private MainTextView rightTxv;
     private DeviceFitImageView rightImv;
 
     private void onSetActionBar() {

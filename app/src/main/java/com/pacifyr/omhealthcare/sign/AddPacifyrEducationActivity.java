@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.aigestudio.wheelpicker.WheelPicker;
 import com.aigestudio.wheelpicker.widgets.WheelYearPicker;
-import com.ceino.utilitylibrary.CustomFontTextView;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.ceino.utilitylibrary.DeviceFitImageView;
 import com.ceino.utilitylibrary.model.pacifyr.Education;
 import com.kaopiz.kprogresshud.KProgressHUD;
@@ -33,7 +33,7 @@ public class AddPacifyrEducationActivity extends PacifyerActivity {
     Education education;
     ArrayList<Education> educationList;
 
-    CustomFontTextView  add_education_btn;
+    MainTextView add_education_btn;
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -82,8 +82,7 @@ public class AddPacifyrEducationActivity extends PacifyerActivity {
     }
 
 
-
-    public void showEducationPickerDialog(/*final CustomFontTextView textView*/) {
+    public void showEducationPickerDialog(/*final MainTextView textView*/) {
         try {
             final Integer[] vals = {null};
             //View.OnClickListener oklistner
@@ -92,10 +91,10 @@ public class AddPacifyrEducationActivity extends PacifyerActivity {
             ImageView closeDimv = view.findViewById(R.id.close_dimv);
             final EditText collageEdt = view.findViewById(R.id.collage_edt);
             final EditText locationEdt = view.findViewById(R.id.location_edt);
-            final CustomFontTextView fromCtxv = view.findViewById(R.id.from_ctxv);
-            final CustomFontTextView toDateCtxv = view.findViewById(R.id.to_ctxv);
+            final MainTextView fromCtxv = view.findViewById(R.id.from_ctxv);
+            final MainTextView toDateCtxv = view.findViewById(R.id.to_ctxv);
             RelativeLayout saveRlay = view.findViewById(R.id.save_rlay);
-            CustomFontTextView saveCtxv = view.findViewById(R.id.save_ctxv);
+            MainTextView saveCtxv = view.findViewById(R.id.save_ctxv);
 
 
             closeDimv.setOnClickListener(new View.OnClickListener() {
@@ -153,7 +152,8 @@ public class AddPacifyrEducationActivity extends PacifyerActivity {
         }
 
     }
-    public void showDatePickerDialog(final CustomFontTextView textView, String string){
+
+    public void showDatePickerDialog(final MainTextView textView, String string) {
         try {
             final Integer[] vals = {null};
             final Dialog dialog = new Dialog(AddPacifyrEducationActivity.this);
@@ -203,9 +203,9 @@ public class AddPacifyrEducationActivity extends PacifyerActivity {
     private RelativeLayout bottomPanel;
     private LinearLayout leftLlay;
     private DeviceFitImageView backImv;
-    private CustomFontTextView leftTxv;
+    private MainTextView leftTxv;
     private LinearLayout rightLlay;
-    private CustomFontTextView rightTxv;
+    private MainTextView rightTxv;
     private DeviceFitImageView rightImv;
 
     private void onSetActionBar() {

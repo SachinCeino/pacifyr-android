@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.ceino.utilitylibrary.CustomFontTextView;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.ceino.utilitylibrary.DeviceFitImageView;
 import com.ceino.utilitylibrary.model.pacifyr.MRatingDetail;
 import com.ceino.utilitylibrary.model.pacifyr.MRatingStat;
@@ -40,13 +40,13 @@ import static com.ceino.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
 public class RatingDetailActivity extends PacifyrAppCompactActivity {
 
     private LinearLayout mySessionsTopLlay;
-    private CustomFontTextView thisWkCtxv;
-    private CustomFontTextView thisMntCtxv;
-    private CustomFontTextView thisYearCtxv;
+    private MainTextView thisWkCtxv;
+    private MainTextView thisMntCtxv;
+    private MainTextView thisYearCtxv;
     private RecyclerView listWeeksRcv;
     private RelativeLayout upperRlay;
-    private CustomFontTextView sessionNoCtxv;
-    private CustomFontTextView noDataCtxv;
+    private MainTextView sessionNoCtxv;
+    private MainTextView noDataCtxv;
     private RecyclerView weekRatingRcv;
     private RecyclerView monthRatingRcv;
     private RecyclerView yearRatingRcv;
@@ -375,10 +375,10 @@ public class RatingDetailActivity extends PacifyrAppCompactActivity {
     private RelativeLayout bottomPanel;
     private LinearLayout leftLlay;
     private DeviceFitImageView backImv;
-    private CustomFontTextView leftTxv;
-    private CustomFontTextView titleTxv;
+    private MainTextView leftTxv;
+    private MainTextView titleTxv;
     private LinearLayout rightLlay;
-    private CustomFontTextView rightTxv;
+    private MainTextView rightTxv;
     private DeviceFitImageView rightImv;
 
     public void onSetActionBar() {

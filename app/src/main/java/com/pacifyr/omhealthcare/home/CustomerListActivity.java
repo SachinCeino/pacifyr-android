@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.ceino.utilitylibrary.CustomFontTextView;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.ceino.utilitylibrary.DeviceFitImageView;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.adapter.CustomerListAdapter;
@@ -45,7 +45,7 @@ public class CustomerListActivity extends PacifyrAppCompactActivity {
     private RecyclerView.Adapter CustomerListAdapter;
     private RecyclerView.LayoutManager layoutManager;
     private SwipeRefreshLayout swipeLay;
-    private CustomFontTextView emptyDtxv;
+    private MainTextView emptyDtxv;
     //private FlexLayout emptyFlay;
 
 
@@ -255,10 +255,10 @@ public class CustomerListActivity extends PacifyrAppCompactActivity {
     private RelativeLayout bottomPanel;
     private LinearLayout leftLlay;
     private DeviceFitImageView backImv;
-    private CustomFontTextView leftTxv;
-    private CustomFontTextView titleTxv;
+    private MainTextView leftTxv;
+    private MainTextView titleTxv;
     private LinearLayout rightLlay;
-    private CustomFontTextView rightTxv;
+    private MainTextView rightTxv;
     private DeviceFitImageView rightImv;
 
     private void onSetActionBar() {

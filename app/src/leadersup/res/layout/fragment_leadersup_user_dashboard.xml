@@ -32,7 +32,7 @@
                     android:layout_below="@+id/online_switch_llay"
                     android:padding="5dp">
 
-                    <com.ceino.utilitylibrary.CustomFontTextView
+                    <com.pacifyr.omhealthcare.customview.MainTextView
                         android:id="@+id/unread_chat_ctxv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -44,7 +44,7 @@
                         android:textSize="14sp"
                         android:visibility="gone" />
 
-                    <com.ceino.utilitylibrary.CustomFontTextView
+                    <com.pacifyr.omhealthcare.customview.MainTextView
                         android:id="@+id/missed_call_ctxv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -157,11 +157,12 @@
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="30dp">
 
-                <com.ceino.utilitylibrary.CustomFontTextView
+                <com.pacifyr.omhealthcare.customview.MainTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/round_square_for_round_cuttons"
                     android:padding="10dp"
+                    android:textStyle="bold"
                     android:text="@string/Connect_to_Wellness_Experts"
                     android:textColor="@color/connect_wellness_expert_color"
                     android:textSize="14sp" />

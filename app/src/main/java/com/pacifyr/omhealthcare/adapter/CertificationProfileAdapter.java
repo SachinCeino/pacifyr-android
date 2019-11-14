@@ -4,11 +4,10 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.ceino.utilitylibrary.CustomFontTextView;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.ceino.utilitylibrary.model.pacifyr.ModelUserProfile;
 import com.pacifyr.omhealthcare.R;
 
@@ -46,7 +45,7 @@ import java.util.ArrayList;
 
     public static class CertificationViewHolder extends RecyclerView.ViewHolder {
 
-        protected CustomFontTextView title, duration;
+        protected MainTextView title, duration;
 
         public CertificationViewHolder(View itemView) {
             super(itemView);

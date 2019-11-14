@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-import com.ceino.utilitylibrary.CustomFontTextView;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.ceino.utilitylibrary.DeviceFitImageView;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.activity.TermsOfUseActivity;
@@ -15,16 +15,16 @@ import com.pacifyr.omhealthcare.base.PacifyerActivity;
 
 public class CrisisActivity extends PacifyerActivity {
 
-    private CustomFontTextView suicideUrlCtxv;
-    private CustomFontTextView veteransUrlCtxv;
+    private MainTextView suicideUrlCtxv;
+    private MainTextView veteransUrlCtxv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crisis);
         onSetActionBar();
-        suicideUrlCtxv = (CustomFontTextView) findViewById(R.id.suicide_url_ctxv);
-        veteransUrlCtxv = (CustomFontTextView) findViewById(R.id.veterans_url_ctxv);
+        suicideUrlCtxv = (MainTextView) findViewById(R.id.suicide_url_ctxv);
+        veteransUrlCtxv = (MainTextView) findViewById(R.id.veterans_url_ctxv);
 
         suicideUrlCtxv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,10 +56,10 @@ public class CrisisActivity extends PacifyerActivity {
     private RelativeLayout bottomPanel;
     private LinearLayout leftLlay;
     private DeviceFitImageView backImv;
-    private CustomFontTextView leftTxv;
-    private CustomFontTextView titleTxv;
+    private MainTextView leftTxv;
+    private MainTextView titleTxv;
     private LinearLayout rightLlay;
-    private CustomFontTextView rightTxv;
+    private MainTextView rightTxv;
     private DeviceFitImageView rightImv;
 
     public void onSetActionBar() {
@@ -67,10 +67,10 @@ public class CrisisActivity extends PacifyerActivity {
         bottomPanel = (RelativeLayout) findViewById(R.id.bottom_panel);
         leftLlay = (LinearLayout) findViewById(R.id.left_llay);
         backImv = (DeviceFitImageView) findViewById(R.id.back_imv);
-        leftTxv = (CustomFontTextView) findViewById(R.id.left_txv);
-        titleTxv = (CustomFontTextView) findViewById(R.id.title_txv);
+        leftTxv = (MainTextView) findViewById(R.id.left_txv);
+        titleTxv = (MainTextView) findViewById(R.id.title_txv);
         rightLlay = (LinearLayout) findViewById(R.id.right_llay);
-        rightTxv = (CustomFontTextView) findViewById(R.id.right_txv);
+        rightTxv = (MainTextView) findViewById(R.id.right_txv);
         rightImv = (DeviceFitImageView) findViewById(R.id.right_imv);
         rightImv.setVisibility(View.INVISIBLE);
         rightTxv.setVisibility(View.INVISIBLE);

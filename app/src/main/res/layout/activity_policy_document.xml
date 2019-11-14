@@ -19,7 +19,7 @@
         android:layout_below="@+id/include"
         android:orientation="vertical">
 
-        <com.ceino.utilitylibrary.CustomFontTextView
+        <com.pacifyr.omhealthcare.customview.MainTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp"
@@ -35,7 +35,7 @@
             android:background="@color/grey_hex_c5"/>
 
 
-        <com.ceino.utilitylibrary.CustomFontTextView
+        <com.pacifyr.omhealthcare.customview.MainTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp"
@@ -50,7 +50,7 @@
             android:layout_height="1dp"
             android:background="@color/grey_hex_c5"/>
 
-        <com.ceino.utilitylibrary.CustomFontTextView
+        <com.pacifyr.omhealthcare.customview.MainTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp"

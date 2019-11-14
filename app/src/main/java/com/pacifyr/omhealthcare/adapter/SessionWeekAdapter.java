@@ -11,7 +11,7 @@ import android.widget.RelativeLayout;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.ceino.utilitylibrary.CustomFontTextView;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.ceino.utilitylibrary.model.pacifyr.ModelRatingDateDetail;
 import com.ceino.utilitylibrary.utils.PrefManager;
 import com.pacifyr.omhealthcare.R;
@@ -388,7 +388,7 @@ public class SessionWeekAdapter extends RecyclerView.Adapter<SessionWeekAdapter.
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public CustomFontTextView titleCtxv;
+        public MainTextView titleCtxv;
         public LinearLayout topLlay;
         public RelativeLayout topRlay;
 

@@ -1150,13 +1150,13 @@ public class BaseAppCompactActivity extends CoreBaseActivity {
 
 
     public  void setAlertStartCall(MUser pacifyer_obj, View.OnClickListener oklistner) {
-        View view = LayoutInflater.from(this).inflate(R.layout.alert_startcall, null, false);
+        View view = LayoutInflater.from(this).inflate(com.ceino.utilitylibrary.R.layout.alert_startcall, null, false);
 
-        DeviceFitImageView closeDimv = view.findViewById(R.id.close_dimv);
-        CircleImageView imageDialogIcon = view.findViewById(R.id.image_dialog_icon);
-        CustomFontTextView textDialogName = view.findViewById(R.id.text_dialog_name);
-        CustomFontTextView textDialogLastMessage = view.findViewById(R.id.text_dialog_message);
-        RelativeLayout saveRlay = view.findViewById(R.id.save_rlay);
+        DeviceFitImageView closeDimv = view.findViewById(com.ceino.utilitylibrary.R.id.close_dimv);
+        CircleImageView imageDialogIcon = view.findViewById(com.ceino.utilitylibrary.R.id.image_dialog_icon);
+        CustomFontTextView textDialogName = view.findViewById(com.ceino.utilitylibrary.R.id.text_dialog_name);
+        CustomFontTextView textDialogLastMessage = view.findViewById(com.ceino.utilitylibrary.R.id.text_dialog_message);
+        RelativeLayout saveRlay = view.findViewById(com.ceino.utilitylibrary.R.id.save_rlay);
 
         defSetText(textDialogName,pacifyer_obj.getFirstName()+""+pacifyer_obj.getLastName());
         defSetText(textDialogLastMessage, pacifyer_obj.getPriceWithSign()+" per hour");

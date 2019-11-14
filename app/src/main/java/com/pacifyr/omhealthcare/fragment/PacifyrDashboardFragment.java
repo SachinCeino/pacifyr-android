@@ -18,7 +18,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.ceino.utilitylibrary.CustomFontTextView;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.ceino.utilitylibrary.DeviceFitImageView;
 import com.ceino.utilitylibrary.model.pacifyr.MUser;
 import com.ceino.utilitylibrary.model.pacifyr.ModelStatistics;
@@ -78,22 +78,22 @@ public class PacifyrDashboardFragment extends BaseFragment implements SwipeRefre
 
     //private RelativeLayout currentRatingRlay;
     private DeviceFitImageView starDimv;
-    private CustomFontTextView ratingCtxv;
-    private CustomFontTextView ratingSessionCtxv;
-    private CustomFontTextView ratingStarsCtxv;
+    private MainTextView ratingCtxv;
+    private MainTextView ratingSessionCtxv;
+    private MainTextView ratingStarsCtxv;
     private RelativeLayout lastSessionRlay;
     private CircleImageView lastSessionDimv;
-    private CustomFontTextView lastSsnPacfyrCtxv,no_pacifyr_ctxv;
+    private MainTextView lastSsnPacfyrCtxv, no_pacifyr_ctxv;
     //no_lastsession_ctxv;
     private LinearLayout sessionLlay;
     private DeviceFitImageView videoCamImg;
-    private CustomFontTextView lastSessionMinuteTxv;
-    private CustomFontTextView daysTxv;
+    private MainTextView lastSessionMinuteTxv;
+    private MainTextView daysTxv;
     private RelativeLayout cirPrefPacifyr;
-    private CustomFontTextView sessionsTxv;
-    private CustomFontTextView earningHoursCtxv;
+    private MainTextView sessionsTxv;
+    private MainTextView earningHoursCtxv;
     private LinearLayout week3Llay;
-    private CustomFontTextView earnedCtxv;
+    private MainTextView earnedCtxv;
     private RelativeLayout customersRlay;
     private LinearLayout llayTop;
     private CircleImageView customer1Dimav;
@@ -101,13 +101,13 @@ public class PacifyrDashboardFragment extends BaseFragment implements SwipeRefre
     private LinearLayout llayBottom;
     private CircleImageView customer3Dimav;
     private DeviceFitImageView searchDimv;
-    private CustomFontTextView thisWeekCtxv;
-    private CustomFontTextView earingSessionsCtxv;
+    private MainTextView thisWeekCtxv;
+    private MainTextView earingSessionsCtxv;
    // private Switch onlineSwitch;
 
     private DeviceFitImageView onlineSwitch;
-    private CustomFontTextView dateCtxv;
-    private CustomFontTextView earningMinutesCtxv;
+    private MainTextView dateCtxv;
+    private MainTextView earningMinutesCtxv;
     private LinearLayout ratingInnerLlay;
     private DeviceFitImageView search_dimv;
 
@@ -115,12 +115,12 @@ public class PacifyrDashboardFragment extends BaseFragment implements SwipeRefre
     private LinearLayout ratingSessionLlay;
     private LinearLayout star5Llay;
     //private LinearLayout last_session_top_llay;
-    private CustomFontTextView zeroReviewCtxv;
+    private MainTextView zeroReviewCtxv;
     private LinearLayout last_session_top_llay;
-    private CustomFontTextView no_lastsession_ctxv;
+    private MainTextView no_lastsession_ctxv;
 
-    private CustomFontTextView unreadChatCtxv;
-    private CustomFontTextView missedCallCtxv;
+    private MainTextView unreadChatCtxv;
+    private MainTextView missedCallCtxv;
 
     private SwipeRefreshLayout swipeLayout;
 
@@ -128,7 +128,7 @@ public class PacifyrDashboardFragment extends BaseFragment implements SwipeRefre
 
     PrefManager prefM;
     int itrator;
-    private CustomFontTextView lastSessionCostCtxv;
+    private MainTextView lastSessionCostCtxv;
 
     public Integer unreadCount =0;
 
@@ -268,7 +268,7 @@ public class PacifyrDashboardFragment extends BaseFragment implements SwipeRefre
                          //startActivity(new Intent(getActivity(), MissedandDeclinedActivity.class));
                          /*getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.pacifyr_content_fragment, new PacifyrSessionsFragment()).commit();
                          //showFragment(new PacifyrSessionsFragment());
-                         CustomFontTextView titleTxv = (CustomFontTextView) getActivity().findViewById(R.id.title_txv);
+                         MainTextView titleTxv = (MainTextView) getActivity().findViewById(R.id.title_txv);
                          Log.i("emooooooojiie","e:");
                          defSetText(titleTxv, "My Sessions");*/
                          //Toast.makeText(getContext(),"sessions rating",Toast.LENGTH_LONG).show();
@@ -414,7 +414,7 @@ public class PacifyrDashboardFragment extends BaseFragment implements SwipeRefre
                      try {
                          getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.pacifyr_content_fragment, new PacifyrSessionsFragment()).commit();
                          //showFragment(new PacifyrSessionsFragment());
-                         CustomFontTextView titleTxv = getActivity().findViewById(R.id.title_txv);
+                         MainTextView titleTxv = getActivity().findViewById(R.id.title_txv);
                          Log.i("emooooooojiif","e:");
                          defSetText(titleTxv, "My Sessions");
                          //Toast.makeText(getContext(),"sessions rating",Toast.LENGTH_LONG).show();

@@ -13,7 +13,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 
 import com.ceino.utilitylibrary.CustomEditText;
-import com.ceino.utilitylibrary.CustomFontTextView;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.ceino.utilitylibrary.base.BaseAppCompactActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -42,7 +42,7 @@ public class CodeVerifyActivity extends BaseAppCompactActivity {
     private LinearLayout hintLlay;
     private LinearLayout createLlay;
     private RelativeLayout createaccountRlay;
-    private CustomFontTextView cAccountCtxv,resend_ctxv,otp_phone_tv;
+    private MainTextView cAccountCtxv, resend_ctxv, otp_phone_tv;
     public String phoneText;
     public static String phonenumber;
     private CustomEditText otp_cedt;

@@ -10,7 +10,7 @@ import android.widget.RelativeLayout;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.ceino.utilitylibrary.CustomFontTextView;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.model.ModelPacifyrDocuments;
 import com.pacifyr.omhealthcare.model.interfaces.AddFileClickListner;
@@ -105,7 +105,7 @@ public class FileChooserAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         private RelativeLayout fileLlay;
         private ImageView closeImv;
         private ImageView fileImv;
-        private CustomFontTextView fileNameCtxv;
+        private MainTextView fileNameCtxv;
 
         public FileChoserHolder(View itemView) {
             super(itemView);

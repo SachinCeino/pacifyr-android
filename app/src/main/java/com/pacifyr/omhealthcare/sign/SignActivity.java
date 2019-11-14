@@ -3,31 +3,25 @@ package com.pacifyr.omhealthcare.sign;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.TextPaint;
-import android.text.method.LinkMovementMethod;
-import android.text.style.ClickableSpan;
 import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.ceino.utilitylibrary.CustomFontTextView;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.ceino.utilitylibrary.utils.PrefManager;
 import com.pacifyr.omhealthcare.R;
-import com.pacifyr.omhealthcare.activity.SplachScreen;
 import com.pacifyr.omhealthcare.base.PacifyerActivity;
 
 import org.json.JSONObject;
 
 public class SignActivity extends PacifyerActivity {
 
-    CustomFontTextView pacifyrRequestTxv;
+    MainTextView pacifyrRequestTxv;
     RelativeLayout relative_bg;
 
-    CustomFontTextView emergencyCtxv;
+    MainTextView emergencyCtxv;
 
 
     @Override
@@ -38,7 +32,7 @@ public class SignActivity extends PacifyerActivity {
 
         relative_bg = (RelativeLayout) findViewById(R.id.relative_bg);
         relative_bg.setBackground(getResources().getDrawable(R.drawable.loginbg));
-        emergencyCtxv = (CustomFontTextView) findViewById(R.id.emergency_ctxv);
+        emergencyCtxv = (MainTextView) findViewById(R.id.emergency_ctxv);
 
         String crisisString = getResources().getString(R.string.if_emergency2);
         //If in emergency call 911 or rush to an emergency room. Crisis Info

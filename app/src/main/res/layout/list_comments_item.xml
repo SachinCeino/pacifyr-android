@@ -13,7 +13,7 @@
     android:layout_margin="4dp"
     android:orientation="vertical">
 
-    <com.ceino.utilitylibrary.CustomFontTextView
+    <com.pacifyr.omhealthcare.customview.MainTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"

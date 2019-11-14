@@ -184,18 +184,18 @@
                 android:textSize="@dimen/sp10"
                 android:layout_height="wrap_content" />
 
-          <!--  <com.ceino.utilitylibrary.CustomFontTextView
-                android:layout_width="wrap_content"
-                android:id="@+id/read_ctxv"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/checkBox"
-                android:layout_marginTop="10dp"
-                android:textColor="@color/black"
-                android:layout_below="@+id/year_edt"
-                android:textSize="12dp"
-                android:text="@string/read_understand"/>-->
+            <!--  <com.pacifyr.omhealthcare.customview.MainTextView
+                  android:layout_width="wrap_content"
+                  android:id="@+id/read_ctxv"
+                  android:layout_height="wrap_content"
+                  android:layout_toRightOf="@id/checkBox"
+                  android:layout_marginTop="10dp"
+                  android:textColor="@color/black"
+                  android:layout_below="@+id/year_edt"
+                  android:textSize="12dp"
+                  android:text="@string/read_understand"/>-->
 
-            <com.ceino.utilitylibrary.CustomFontTextView
+            <com.pacifyr.omhealthcare.customview.MainTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/checkBox"
@@ -238,7 +238,7 @@
                 android:background="@drawable/blue_round_square"
                 android:padding="10dp">
 
-                <com.ceino.utilitylibrary.CustomFontTextView
+                <com.pacifyr.omhealthcare.customview.MainTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/sign_up"

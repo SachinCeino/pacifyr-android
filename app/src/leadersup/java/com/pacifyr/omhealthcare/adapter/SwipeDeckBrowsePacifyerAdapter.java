@@ -17,7 +17,7 @@ import android.widget.TextView;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.ceino.utilitylibrary.CustomFontTextView;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.ceino.utilitylibrary.model.pacifyr.ChatSubscription;
 import com.ceino.utilitylibrary.model.pacifyr.Education;
 import com.ceino.utilitylibrary.model.pacifyr.MUser;
@@ -81,7 +81,7 @@ public class SwipeDeckBrowsePacifyerAdapter extends BaseAdapter {
     private ArrayList<ModelUserProfile.Education> educationsList= new ArrayList<>();
     private boolean isChatSubscriptionRequired;
     private int priceForChat;
-    private CustomFontTextView chat_price_ctxv;
+    private MainTextView chat_price_ctxv;
     private int type = 0;
     private List<MUser> tempPAcifyrSearchList;
 
@@ -171,7 +171,7 @@ public class SwipeDeckBrowsePacifyerAdapter extends BaseAdapter {
             boolean isOnline=searchResults.get(position).getOnline();
             ImageView indicatorDimv = v.findViewById(R.id.indicator_dimv);
             TextView descriptionCtxv = v.findViewById(R.id.description_ctxv);
-            CustomFontTextView indicatorCtxv = v.findViewById(R.id.indicator_ctxv);
+            MainTextView indicatorCtxv = v.findViewById(R.id.indicator_ctxv);
 
 
            /* RelativeLayout chat_rlay = (RelativeLayout) v.findViewById(R.id.chat_rlay);
@@ -447,7 +447,7 @@ public class SwipeDeckBrowsePacifyerAdapter extends BaseAdapter {
 
             } else {
                 chat_price_ctxv.setVisibility(View.GONE);
-                CustomFontTextView connectCtxv = v.findViewById(R.id.connect_pacifyr_ctxv);
+                MainTextView connectCtxv = v.findViewById(R.id.connect_pacifyr_ctxv);
                 connectCtxv.setText("Connect to " + searchResults.get(position).getFirstName());
                 connectCtxv.setOnClickListener(new View.OnClickListener() {
                     @Override

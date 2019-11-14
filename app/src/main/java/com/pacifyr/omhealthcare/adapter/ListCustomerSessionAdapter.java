@@ -10,7 +10,7 @@ import android.widget.RelativeLayout;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.ceino.utilitylibrary.CustomFontTextView;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.ceino.utilitylibrary.model.pacifyr.MEmotion;
 import com.ceino.utilitylibrary.model.pacifyr.MPastSessions;
 import com.ceino.utilitylibrary.model.pacifyr.MSessionRating;
@@ -297,19 +297,19 @@ public class ListCustomerSessionAdapter extends RecyclerView.Adapter<RecyclerVie
     protected class ViewHolder extends RecyclerView.ViewHolder {
         private LinearLayout topLlay;
         private CircleImageView userCimv;
-        private CustomFontTextView nameUserCtxv;
-        private CustomFontTextView durationCtxv;
-        private CustomFontTextView dateCtxv;
-        private CustomFontTextView feltCtxv;
-        private CustomFontTextView beforeCallCtxv;
+        private MainTextView nameUserCtxv;
+        private MainTextView durationCtxv;
+        private MainTextView dateCtxv;
+        private MainTextView feltCtxv;
+        private MainTextView beforeCallCtxv;
         private ImageView beforeEmotionImg;
-        private CustomFontTextView beforeFeelCtxv;
-        private CustomFontTextView afterCallCtxv;
+        private MainTextView beforeFeelCtxv;
+        private MainTextView afterCallCtxv;
         private ImageView afterEmotionImg;
-        private CustomFontTextView afterFeelCtxv;
-        private CustomFontTextView yourOpenionCtxv;
+        private MainTextView afterFeelCtxv;
+        private MainTextView yourOpenionCtxv;
         private ImageView openinonImg;
-        private CustomFontTextView openinonEmotionCtxv;
+        private MainTextView openinonEmotionCtxv;
         private  RelativeLayout  feel_rlay;
         private ImageView callTypeImg;
         public ViewHolder(View view) {
@@ -337,10 +337,10 @@ public class ListCustomerSessionAdapter extends RecyclerView.Adapter<RecyclerVie
     public class MissedViewHolder extends RecyclerView.ViewHolder {
         private LinearLayout topLlay;
         private CircleImageView userCimv;
-        private CustomFontTextView nameUserCtxv;
+        private MainTextView nameUserCtxv;
         private ImageView callTypeImg;
-        private CustomFontTextView missedCtxv;
-        private CustomFontTextView dateCtxv;
+        private MainTextView missedCtxv;
+        private MainTextView dateCtxv;
         private ImageView messageImv;
 
         public MissedViewHolder(View view) {

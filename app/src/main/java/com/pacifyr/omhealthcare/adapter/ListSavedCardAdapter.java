@@ -9,7 +9,7 @@ import android.widget.LinearLayout;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.ceino.utilitylibrary.CustomFontTextView;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.pacifyr.omhealthcare.Payment.EditCardActivity;
 import com.pacifyr.omhealthcare.R;
 
@@ -91,7 +91,7 @@ public class ListSavedCardAdapter extends RecyclerView.Adapter<ListSavedCardAdap
 
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public CustomFontTextView typeCtxv,codeCtxv;
+        public MainTextView typeCtxv, codeCtxv;
         public LinearLayout listLlay;
 
         public ViewHolder(View itemView) {

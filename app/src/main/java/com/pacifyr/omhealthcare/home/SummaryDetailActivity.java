@@ -17,7 +17,7 @@ import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.ceino.utilitylibrary.CustomEditText;
-import com.ceino.utilitylibrary.CustomFontTextView;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.ceino.utilitylibrary.DeviceFitImageView;
 import com.ceino.utilitylibrary.ToastHandler;
 import com.ceino.utilitylibrary.model.pacifyr.MEmotion;
@@ -80,12 +80,12 @@ public class SummaryDetailActivity   extends PacifyrAppCompactActivity {
 
     ArrayList<MEmotion> emotions;
     private CircleImageView pacifyrImgCimv;
-    private CustomFontTextView pacifyrNameCtxv,callback_ctxv;
+    private MainTextView pacifyrNameCtxv, callback_ctxv;
     private ImageView beforeFeelDimv;
-    private CustomFontTextView durationCtxv;
-    private CustomFontTextView pacifyrRateCtxv,before_feel_ctxv,after_feel_ctxv;
-    private CustomFontTextView sessionCostCtxv;
-    private CustomFontTextView before_emotion_ctxv,after_emotion_ctxv;
+    private MainTextView durationCtxv;
+    private MainTextView pacifyrRateCtxv, before_feel_ctxv, after_feel_ctxv;
+    private MainTextView sessionCostCtxv;
+    private MainTextView before_emotion_ctxv, after_emotion_ctxv;
     private int oldRating;
 
     public MSessionDetailRoot mSessionDetailRoot;
@@ -105,11 +105,10 @@ public class SummaryDetailActivity   extends PacifyrAppCompactActivity {
     public static String ratingId=null;
 
 
-
-    private CustomFontTextView afterFeelSelectionCtxv;
+    private MainTextView afterFeelSelectionCtxv;
     private ImageView afterFeelDimv;
     private LinearLayout pacifyrEaringsLlay,customer_fees_llay;
-    private CustomFontTextView earingstCtxv,comapnyfeesCtxv;
+    private MainTextView earingstCtxv, comapnyfeesCtxv;
 
     public static Boolean isValidStatic(Object object) {
         return object != null;
@@ -841,12 +840,12 @@ public class SummaryDetailActivity   extends PacifyrAppCompactActivity {
     private RelativeLayout bottomPanel;
     private LinearLayout leftLlay;
     private DeviceFitImageView backImv;
-    private CustomFontTextView leftTxv;
-    private CustomFontTextView titleTxv;
+    private MainTextView leftTxv;
+    private MainTextView titleTxv;
     private LinearLayout rightLlay;
-    private CustomFontTextView rightTxv;
+    private MainTextView rightTxv;
     private DeviceFitImageView rightImv;
-    CustomFontTextView submit_ctxv;
+    MainTextView submit_ctxv;
 
     public void onSetActionBar() {
         actionBarTopLlay = findViewById(R.id.action_bar_top_llay);

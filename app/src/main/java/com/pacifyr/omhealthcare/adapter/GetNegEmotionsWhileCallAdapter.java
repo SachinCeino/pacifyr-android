@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.ceino.utilitylibrary.CustomFontTextView;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.ceino.utilitylibrary.DeviceFitImageView;
 import com.ceino.utilitylibrary.model.pacifyr.MEmotion;
 import com.ceino.utilitylibrary.model.pacifyr.post.PostRegisterModel;
@@ -196,7 +196,7 @@ public class GetNegEmotionsWhileCallAdapter extends RecyclerView.Adapter<GetNegE
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder {
         public DeviceFitImageView imageView;
-        public CustomFontTextView emotion_ctxv;
+        public MainTextView emotion_ctxv;
 
         public ViewHolder(View itemView) {
             super(itemView);

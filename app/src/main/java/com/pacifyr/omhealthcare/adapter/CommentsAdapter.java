@@ -8,7 +8,7 @@ import android.widget.LinearLayout;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.ceino.utilitylibrary.CustomFontTextView;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.model.MComments;
 import com.pacifyr.omhealthcare.model.interfaces.CommentClick;
@@ -193,7 +193,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.MyView
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public CustomFontTextView commentCtx;
+        public MainTextView commentCtx;
         public LinearLayout commentLlay;
 
         public MyViewHolder(View view) {

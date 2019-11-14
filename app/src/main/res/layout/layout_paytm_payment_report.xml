@@ -27,7 +27,6 @@
                 android:padding="5dp"
                 android:textSize="15sp"
                 android:textColor="@color/black"
-                android:fontFamily="@string/CenturyGothic"
                 android:text="transactionID" />
             <TextView
                 android:id="@+id/transactionId"
@@ -36,7 +35,6 @@
                 android:layout_weight="1"
                 android:layout_gravity="center"
                 android:gravity="left"
-                android:fontFamily="@string/CenturyGothic"
                 android:text=""
                 android:padding="5dp"
                 android:textStyle="bold" />
@@ -58,7 +56,6 @@
                 android:padding="5dp"
                 android:textSize="15sp"
                 android:textColor="@color/black"
-                android:fontFamily="@string/CenturyGothic"
                 android:text="Date" />
             <TextView
                 android:id="@+id/text_date"
@@ -67,7 +64,6 @@
                 android:layout_weight="1"
                 android:layout_gravity="center"
                 android:gravity="left"
-                android:fontFamily="@string/CenturyGothic"
                 android:text=""
                 android:padding="5dp"
                 android:textStyle="bold" />
@@ -90,7 +86,6 @@
                 android:padding="5dp"
                 android:textSize="15sp"
                 android:textColor="@color/black"
-                android:fontFamily="@string/CenturyGothic"
                 android:text="Amount Charged" />
             <TextView
                 android:id="@+id/text_amount_charged"
@@ -99,7 +94,6 @@
                 android:layout_weight="1"
                 android:layout_gravity="center"
                 android:gravity="left"
-                android:fontFamily="@string/CenturyGothic"
                 android:text=""
                 android:padding="5dp"
                 android:textStyle="bold" />
