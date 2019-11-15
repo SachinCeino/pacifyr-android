@@ -2,9 +2,11 @@ package com.pacifyr.omhealthcare.quickblox.activities;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.PictureInPictureParams;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.media.projection.MediaProjectionManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -13,6 +15,7 @@ import android.os.Looper;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.util.Rational;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -32,6 +35,7 @@ import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.event.AlertTypeEvent;
 import com.pacifyr.omhealthcare.event.CallTimerEvent;
 import com.pacifyr.omhealthcare.event.NotifyEvent;
+import com.pacifyr.omhealthcare.event.PicInPic;
 import com.pacifyr.omhealthcare.home.PacifyrDashboardActivity;
 import com.pacifyr.omhealthcare.home.SessionSummaryActivity;
 import com.pacifyr.omhealthcare.quickblox.App;
@@ -642,6 +646,37 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
 
     }
 
+    @Override
+    protected void onUserLeaveHint() {
+        if (isCallActive()) {
+            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                PictureInPictureParams.Builder pictureParams = new PictureInPictureParams.Builder();
+                Rational rational = new Rational(getCurrentFragment().getView().getWidth(),
+                        getCurrentFragment().getView().getHeight());
+                pictureParams.setAspectRatio(rational);
+                enterPictureInPictureMode(pictureParams.build());
+            }
+        }
+    }
+
+    @Override
+    public void onPictureInPictureModeChanged(boolean isInPictureInPictureMode, Configuration newConfig) {
+        if (getCurrentFragment() instanceof VideoConversationFragment) {
+            ((VideoConversationFragment) getCurrentFragment()).onPictureInPicture(new PicInPic(isInPictureInPictureMode));
+        } else if (getCurrentFragment() instanceof AudioConversationFragment) {
+            ((AudioConversationFragment) getCurrentFragment()).onPictureInPicture(new PicInPic(isInPictureInPictureMode));
+        }
+        setShowDialogs(!isInPictureInPictureMode);
+        if (!isInPictureInPictureMode) {
+            getApplication().startActivity(new Intent(this, getClass())
+                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
+        }
+    }
+
+    private boolean isCallActive() {
+        return getCurrentFragment() != null && getCurrentFragment() instanceof AudioConversationFragment
+                || getCurrentFragment() != null && getCurrentFragment() instanceof VideoConversationFragment;
+    }
 
     public void hangUpCurrentSessionMe() {
         Bundle args =

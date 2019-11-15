@@ -36,7 +36,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.ceino.utilitylibrary.DeviceFitImageView;
 import com.ceino.utilitylibrary.model.pacifyr.MEmotion;
 import com.ceino.utilitylibrary.model.pacifyr.MUser;
@@ -47,9 +46,11 @@ import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.activity.ActivityChngEmotionFromCall;
 import com.pacifyr.omhealthcare.adapter.EmotionSpecialityAdapter;
 import com.pacifyr.omhealthcare.base.PacifyerActivity;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.pacifyr.omhealthcare.event.CallChangeEmotion;
 import com.pacifyr.omhealthcare.event.CallEvent;
 import com.pacifyr.omhealthcare.event.NotifyEvent;
+import com.pacifyr.omhealthcare.event.PicInPic;
 import com.pacifyr.omhealthcare.home.CustomerDetailActivity;
 import com.pacifyr.omhealthcare.home.ProfileScreenActivity;
 import com.pacifyr.omhealthcare.interfaces.EmpMinutesListener;
@@ -1603,6 +1604,66 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void onPictureInPicture(PicInPic picInPic) {
+        if (picInPic.isEnabled()) {
+            hideToolBarAndButtons();
+        } else {
+            showToolBarAndButtons();
+        }
+    }
+
+    private void hideToolBarAndButtons() {
+        actionBar.hide();
+
+        localVideoView.setVisibility(View.VISIBLE);
+        info_overlay_llay.setVisibility(View.GONE);
+        actionVideoButtonsLayout.setVisibility(View.GONE);
+        emotion_rlay.setVisibility(View.GONE);
+        userRlay.setVisibility(View.GONE);
+        billingStatus.setVisibility(View.INVISIBLE);
+        localVideoView.setVisibility(View.INVISIBLE);
+        if (!isPeerToPeerCall) {
+            shiftBottomListOpponents();
+        }
+    }
+
+    private void showToolBarAndButtons() {
+        // actionBar.show();
+        actionBar.hide();
+        localVideoView.setVisibility(View.VISIBLE);
+        info_overlay_llay.setVisibility(View.VISIBLE);
+        actionVideoButtonsLayout.setVisibility(View.VISIBLE);
+        emotion_rlay.setVisibility(View.VISIBLE);
+        userRlay.setVisibility(View.VISIBLE);
+        localVideoView.setVisibility(View.VISIBLE);
+        if (getActivity() instanceof PacifyerActivity) {
+            if (((PacifyerActivity) getActivity()).hasBillingStarted()) {
+                billingStatus.setVisibility(View.VISIBLE);
+            } else {
+                billingStatus.setVisibility(View.INVISIBLE);
+            }
+        }
+        if (!isPeerToPeerCall) {
+            shiftMarginListOpponents();
+        }
+    }
+
+    private void shiftBottomListOpponents() {
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) recyclerView.getLayoutParams();
+        params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+        params.setMargins(0, 0, 0, 0);
+
+        recyclerView.setLayoutParams(params);
+    }
+
+    private void shiftMarginListOpponents() {
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) recyclerView.getLayoutParams();
+        params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, 0);
+        params.setMargins(0, 0, 0, (int) getResources().getDimension(R.dimen.margin_common));
+
+        recyclerView.setLayoutParams(params);
     }
 }
 

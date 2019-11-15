@@ -14,13 +14,16 @@ import androidx.core.app.NotificationCompat;
 
 import com.ceino.utilitylibrary.utils.PrefManager;
 import com.pacifyr.omhealthcare.R;
+import com.pacifyr.omhealthcare.quickblox.chat.utils.chat.ChatHelper;
 import com.pacifyr.omhealthcare.quickblox.utils.Consts;
 import com.pacifyr.omhealthcare.utils.Constants;
 import com.quickblox.auth.QBAuth;
 import com.quickblox.auth.session.QBSession;
+import com.quickblox.auth.session.QBSettings;
 import com.quickblox.chat.QBChatService;
 import com.quickblox.chat.QBSignaling;
 import com.quickblox.chat.listeners.QBVideoChatSignalingManagerListener;
+import com.quickblox.core.LogLevel;
 import com.quickblox.core.QBEntityCallback;
 import com.quickblox.core.exception.QBResponseException;
 import com.quickblox.sample.core.utils.SharedPrefsHelper;
@@ -39,6 +42,7 @@ import java.util.Map;
  */
 public class Call_Service extends Service implements QBRTCClientSessionCallbacks,
         QBRTCClientVideoTracksCallbacks {
+    private static String TAG = Call_Service.class.getSimpleName();
     public static QBRTCSession incommingSession;
     private static int FOREGROUND_NOTIFICATION_ID = 111;
     private QBUser currentUser;
@@ -46,6 +50,7 @@ public class Call_Service extends Service implements QBRTCClientSessionCallbacks
     private PrefManager prefManager;
 
     public static void logout(Context context) {
+        Log.d(TAG, "logout");
         if (QBChatService.getInstance() != null) {
             try {
                 QBChatService.getInstance().logout();
@@ -59,6 +64,9 @@ public class Call_Service extends Service implements QBRTCClientSessionCallbacks
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        QBSettings.getInstance().setLogLevel(LogLevel.DEBUG);
+        QBChatService.setDebugEnabled(true);
+        QBChatService.setConfigurationBuilder(ChatHelper.buildChatConfigs());
         SharedPrefsHelper sharedPrefsHelper = SharedPrefsHelper.getInstance();
         if (sharedPrefsHelper.hasQbUser()) {
             Log.d("HHH", "App have logined user");
@@ -95,6 +103,7 @@ public class Call_Service extends Service implements QBRTCClientSessionCallbacks
 
             @Override
             public void onError(QBResponseException e) {
+                Log.e(TAG, "createSession exception " + e != null ? e.getMessage() : "null");
                 e.printStackTrace();
             }
         });
@@ -138,15 +147,18 @@ public class Call_Service extends Service implements QBRTCClientSessionCallbacks
     }*/
 
     private void loginToChat() {
+        Log.d(TAG, "loginToChat()");
         chatService = QBChatService.getInstance();
         if (chatService.isLoggedIn()) {
             addQbSignalling();
+            Log.d(TAG, "Already logged In");
             return;
         }
         chatService.login(currentUser, new QBEntityCallback<QBUser>() {
 
             @Override
             public void onSuccess(QBUser qbUser, Bundle bundle) {
+                Log.d(TAG, "Successfully logged In");
                 /*QbChatLogin qbChatLogin = new QbChatLogin();
                 qbChatLogin.setLoggedIn(true);
                 BusProvider.getInstance().post(qbChatLogin);*/
@@ -174,6 +186,7 @@ public class Call_Service extends Service implements QBRTCClientSessionCallbacks
 
             @Override
             public void onError(QBResponseException e) {
+                Log.e(TAG, "Chat login error ->" + e != null ? e.getMessage() : "");
                 e.printStackTrace();
                 try {
                     if (e.getHttpStatusCode() == -1) {
@@ -192,6 +205,7 @@ public class Call_Service extends Service implements QBRTCClientSessionCallbacks
     @Override
     public void onDestroy() {
         super.onDestroy();
+        Log.d(TAG, "onDestroy()");
         try {
             if (chatService != null) {
                 chatService.logout();

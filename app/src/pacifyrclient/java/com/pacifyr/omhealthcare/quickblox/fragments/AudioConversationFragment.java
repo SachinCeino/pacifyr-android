@@ -23,7 +23,6 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.ceino.utilitylibrary.DeviceFitImageView;
 import com.ceino.utilitylibrary.model.pacifyr.MEmotion;
 import com.ceino.utilitylibrary.model.pacifyr.MUser;
@@ -34,10 +33,12 @@ import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.activity.ActivityChngEmotionFromCall;
 import com.pacifyr.omhealthcare.adapter.EmotionSpecialityAdapter;
 import com.pacifyr.omhealthcare.base.PacifyerActivity;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.pacifyr.omhealthcare.event.CallChangeEmotion;
 import com.pacifyr.omhealthcare.event.CallDetailEvent;
 import com.pacifyr.omhealthcare.event.CallEvent;
 import com.pacifyr.omhealthcare.event.NotifyEvent;
+import com.pacifyr.omhealthcare.event.PicInPic;
 import com.pacifyr.omhealthcare.home.CustomerDetailActivity;
 import com.pacifyr.omhealthcare.home.ProfileScreenActivity;
 import com.pacifyr.omhealthcare.interfaces.EmpMinutesListener;
@@ -151,6 +152,7 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
             text_remaining_minutes.setVisibility(View.VISIBLE);
         }
     };
+    private View call_layout;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -200,6 +202,7 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
         super.initViews(view);
         if(isValid( actionBar))
             actionBar.hide();
+        call_layout = view.findViewById(R.id.call_layout);
         timerChronometer = view.findViewById(R.id.chronometer_timer_audio_call);
         emotion_dimv = view.findViewById(R.id.emotion_dimv);
         emotion_rlay = view.findViewById(R.id.emotion_rlay);
@@ -786,6 +789,46 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
         } catch (Exception e) {
 
         }
+    }
+
+
+    public void onPictureInPicture(PicInPic picInPic) {
+        if (picInPic.isEnabled()) {
+            hideToolBarAndButtons();
+        } else {
+            showToolBarAndButtons();
+        }
+    }
+
+    private void hideToolBarAndButtons() {
+        actionBar.hide();
+
+        info_overlay_llay.setVisibility(View.GONE);
+        emotion_rlay.setVisibility(View.GONE);
+        userRlay.setVisibility(View.GONE);
+        billingStatus.setVisibility(View.GONE);
+        call_layout.setVisibility(View.INVISIBLE);
+        Log.d(TAG, "hideToolBarAndButtons");
+
+    }
+
+    private void showToolBarAndButtons() {
+        // actionBar.show();
+        actionBar.hide();
+        info_overlay_llay.setVisibility(View.VISIBLE);
+        emotion_rlay.setVisibility(View.VISIBLE);
+        userRlay.setVisibility(View.VISIBLE);
+        call_layout.setVisibility(View.VISIBLE);
+        if (getActivity() instanceof PacifyerActivity) {
+            if (((PacifyerActivity) getActivity()).hasBillingStarted()) {
+                billingStatus.setVisibility(View.VISIBLE);
+            } else {
+                billingStatus.setVisibility(View.INVISIBLE);
+            }
+        }
+
+        Log.d(TAG, "showToolBarAndButtons");
+
     }
 
 }

@@ -40,7 +40,6 @@ import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.ceino.utilitylibrary.CustomEditText;
-import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.ceino.utilitylibrary.DeviceFitImageView;
 import com.ceino.utilitylibrary.ToastHandler;
 import com.ceino.utilitylibrary.base.BaseAppCompactActivity;
@@ -63,6 +62,7 @@ import com.koushikdutta.ion.Ion;
 import com.pacifyr.omhealthcare.Payment.AlertAddCrediCardActivty;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.adapter.EmotionSpecialityAdapter;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.pacifyr.omhealthcare.event.BusProvider;
 import com.pacifyr.omhealthcare.event.CallEvent;
 import com.pacifyr.omhealthcare.event.NotifyEvent;
@@ -226,6 +226,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
             }
         }
     };
+    private boolean showDialogs = true;
 
     public void showNotificationPopups(boolean val) {
         this.showNotification = val;
@@ -403,6 +404,9 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
 
     public void showIOSDialogOK(String title, String subTitle, String okLabel, iOSDialogClickListener listener)
     {
+        if (!isShowDialogs()) {
+            return;
+        }
         new iOSDialogBuilder(this)
                 .setTitle(title)
                 .setSubtitle(subTitle)
@@ -413,6 +417,9 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
     }
 
     public void showIOSDialogOKCancel(String title, String subTitle, String okLabel, iOSDialogClickListener listener, String negativeLabel) {
+        if (!isShowDialogs()) {
+            return;
+        }
         new iOSDialogBuilder(this)
                 .setTitle(title)
                 .setSubtitle(subTitle)
@@ -432,6 +439,9 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
 
 
     public void showIOSDialogOKCancel(String title, String subTitle, String okLabel, iOSDialogClickListener CancelListener, iOSDialogClickListener listener) {
+        if (!isShowDialogs()) {
+            return;
+        }
         new iOSDialogBuilder(this)
                 .setTitle(title)
                 .setSubtitle(subTitle)
@@ -634,6 +644,9 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
 
     public void setAlertOKStatusInWhite(String title,String desc,String ok) {
         try {
+            if (!isShowDialogs()) {
+                return;
+            }
             //View.OnClickListener oklistner
             View view = LayoutInflater.from(this).inflate(R.layout.alert_white_ok, null, false);
             MainTextView title_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.title_dtxv);
@@ -3265,6 +3278,9 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
     private void ShowTransactionSuccesResultToUSer(TransactionResponce object) {
 
 
+        if (!isShowDialogs()) {
+            return;
+        }
             if (PaymentPopup != null && PaymentPopup.isShowing()) {
                 PaymentPopup.dismiss();
             }
@@ -3333,6 +3349,9 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
 
     private void ShowTransactionFaileToUSer(String message) {
 
+        if (!isShowDialogs()) {
+            return;
+        }
         iOSDialogClickListener listener = new iOSDialogClickListener() {
             @Override
             public void onClick(iOSDialog dialog) {
@@ -3358,6 +3377,14 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
         };
         showIOSDialogOK("Error", message, "OK", listener);
 
+    }
+
+    public boolean isShowDialogs() {
+        return this.showDialogs;
+    }
+
+    public void setShowDialogs(boolean showDialogs) {
+        this.showDialogs = showDialogs;
     }
 
 }

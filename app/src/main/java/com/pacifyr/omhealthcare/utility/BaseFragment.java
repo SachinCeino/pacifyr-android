@@ -24,7 +24,6 @@ import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.ceino.utilitylibrary.CustomEditText;
-import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.ceino.utilitylibrary.DeviceFitImageView;
 import com.ceino.utilitylibrary.model.pacifyr.MEmotion;
 import com.ceino.utilitylibrary.model.pacifyr.MUser;
@@ -32,6 +31,8 @@ import com.ceino.utilitylibrary.model.pacifyr.ModelUserProfile;
 import com.ceino.utilitylibrary.utils.PrefManager;
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.pacifyr.omhealthcare.R;
+import com.pacifyr.omhealthcare.base.PacifyerActivity;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.pacifyr.omhealthcare.event.BusProvider;
 import com.pacifyr.omhealthcare.event.NotifyEvent;
 import com.pacifyr.omhealthcare.network.NetworkService;
@@ -343,6 +344,11 @@ public abstract class BaseFragment extends Fragment {
         }
     }
     public void showStatus() {
+        if (getActivity() instanceof PacifyerActivity) {
+            if (!((PacifyerActivity) getActivity()).isShowDialogs()) {
+                return;
+            }
+        }
         if(hud_status != null) if(!hud_status.isShowing()) hud_status.show();
     }
 
@@ -354,6 +360,11 @@ public abstract class BaseFragment extends Fragment {
     }
 
     public void showProgress() {
+        if (getActivity() instanceof PacifyerActivity) {
+            if (!((PacifyerActivity) getActivity()).isShowDialogs()) {
+                return;
+            }
+        }
         if(isValid(hud_progress)) if(!hud_progress.isShowing()) hud_progress.show();
     }
     public void setStatus(String status, int color) {
