@@ -66,6 +66,9 @@ import static com.pacifyr.omhealthcare.R.id.last_session_rlay;
 import static com.pacifyr.omhealthcare.base.PacifyerActivity.call_emotion;
 import static com.pacifyr.omhealthcare.network.NetworkService.lastSession;
 import static com.pacifyr.omhealthcare.network.NetworkService.modelCustomerDashboard2;
+import static com.quickblox.sample.core.utils.ConnectivityUtils.isNetworkConnected;
+import static com.quickblox.sample.core.utils.ConnectivityUtils.isNetworkConnected;
+import static com.quickblox.sample.core.utils.ConnectivityUtils.isNetworkConnected;
 
 public class UserDashboardFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
 
@@ -274,41 +277,55 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
 
         try {
 
-            setLoading();
-            showProgress();
-            handleActionCustomerDashboard();
-            if (isValid(call_emotion)) {
-                // feel_err_text.setVisibility(View.GONE);
-                String emotionImg = GLOBAL_IMAGE_URL + call_emotion.getImage();
-                String emotionTitle = call_emotion.getTitle();
-                EmotionTitle = emotionTitle;
-                if (isValidhtml(emotionImg)) {
-                    Picasso.with(getActivity()).load(emotionImg).into(feelImageDimv);
-                    float brightness = (float) 100;
-                    float[] colorMatrix = {
-                            0.33f, 0.33f, 0.33f, 0, brightness, //red
-                            0.33f, 0.33f, 0.33f, 0, brightness, //green
-                            0.33f, 0.33f, 0.33f, 0, brightness, //blue
-                            0, 0, 0, 1, 0    //alpha
-                    };
-                    ColorMatrix matrix = new ColorMatrix();
-                    matrix.setSaturation(0);
-                    ColorMatrixColorFilter filter = new ColorMatrixColorFilter(colorMatrix);
-                    feelImageDimv.setColorFilter(filter);
-                    feelTitleCtxv.setText(emotionTitle);
-                    if (isValid(feel_err_text)) {
-                        feel_err_text.setVisibility(View.GONE);
+           if(isNetworkConnected())
 
-                    }
+           {
+               setLoading();
+               showProgress();
+               handleActionCustomerDashboard();
+               if (isValid(call_emotion)) {
+                   // feel_err_text.setVisibility(View.GONE);
+                   String emotionImg = GLOBAL_IMAGE_URL + call_emotion.getImage();
+                   String emotionTitle = call_emotion.getTitle();
+                   EmotionTitle = emotionTitle;
+                   if (isValidhtml(emotionImg)) {
+                       Picasso.with(getActivity()).load(emotionImg).into(feelImageDimv);
+                       float brightness = (float) 100;
+                       float[] colorMatrix = {
+                               0.33f, 0.33f, 0.33f, 0, brightness, //red
+                               0.33f, 0.33f, 0.33f, 0, brightness, //green
+                               0.33f, 0.33f, 0.33f, 0, brightness, //blue
+                               0, 0, 0, 1, 0    //alpha
+                       };
+                       ColorMatrix matrix = new ColorMatrix();
+                       matrix.setSaturation(0);
+                       ColorMatrixColorFilter filter = new ColorMatrixColorFilter(colorMatrix);
+                       feelImageDimv.setColorFilter(filter);
+                       feelTitleCtxv.setText(emotionTitle);
+                       if (isValid(feel_err_text)) {
+                           feel_err_text.setVisibility(View.GONE);
 
-                }
-            } else {
-                //feel_err_text.setVisibility(View.VISIBLE);
-            }
-            getUnratedSessions();
-            loginToQuickblox();
-            setChatCountInfo();
+                       }
 
+                   }
+               } else {
+                   //feel_err_text.setVisibility(View.VISIBLE);
+               }
+               getUnratedSessions();
+               loginToQuickblox();
+               setChatCountInfo();
+           }
+           else
+           {
+               setAlertStatusInWhite("No Internet connection!", "Please turn on internet connection to continue.", "Exit", "Ok", new View.OnClickListener() {
+                   @Override
+                   public void onClick(View v) {
+                       hideProgress();
+                       hideStatus2();
+                       getActivity().finish();
+                   }
+               });
+           }
         } catch (Exception e) {
             e.printStackTrace();
             Log.d("ON RESUME;", e.getMessage());

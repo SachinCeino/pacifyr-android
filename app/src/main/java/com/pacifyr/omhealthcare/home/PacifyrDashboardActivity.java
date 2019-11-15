@@ -45,6 +45,7 @@ import com.squareup.picasso.Picasso;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.pacifyr.omhealthcare.network.NetworkService.webListEmotions;
+import static com.quickblox.sample.core.utils.ConnectivityUtils.isNetworkConnected;
 
 public class PacifyrDashboardActivity extends PacifyrAppCompactActivity {
 

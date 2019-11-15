@@ -1343,4 +1343,35 @@ public abstract class BaseFragment extends Fragment {
         //setAdpater(list);
     }
 
+    public void setAlertStatusInWhite(String title, String desc, String ok, String dismiss, View.OnClickListener oklistner) {
+        View view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.alert_white_yes_no, null, false);
+        MainTextView title_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.title_dtxv);
+        MainTextView desc_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.desc_dtxv);
+        MainTextView dismis_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.dismis_dtxv);
+        MainTextView ok_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.ok_dtxv);
+        if (isValid(title))
+            defSetText(title_dtxv, title);
+        else
+            title_dtxv.setVisibility(View.GONE);
+        defSetText(desc_dtxv, desc);
+
+        defSetText(dismis_dtxv, dismiss, "No");
+        defSetText(ok_dtxv, ok, "Yes");
+
+        hideStatus();
+        hideStatus2();
+        hud_status2 = KProgressHUD.create(getActivity()).setStyle(KProgressHUD.Style.SPIN_INDETERMINATE).setCustomView(view).setWindowColor(this.getResources().getColor(com.ceino.utilitylibrary.R.color.transparent)).setCancellable(false).setAnimationSpeed(2).setDimAmount(0.5f);
+        showStatus2();
+        ok_dtxv.setOnClickListener(oklistner);
+        dismis_dtxv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hideProgress();
+                hideStatus2();
+
+            }
+        });
+    }
+
+
 }
