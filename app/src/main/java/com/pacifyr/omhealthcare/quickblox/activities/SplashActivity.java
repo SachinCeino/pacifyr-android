@@ -6,9 +6,9 @@ import com.pacifyr.omhealthcare.quickblox.services.CallService;
 import com.quickblox.sample.core.ui.activity.CoreSplashActivity;
 import com.quickblox.sample.core.utils.SharedPrefsHelper;
 import com.quickblox.sample.groupchatwebrtc.R;
-
 import com.quickblox.users.model.QBUser;
 
+@Deprecated
 public class SplashActivity extends CoreSplashActivity {
 
     private SharedPrefsHelper sharedPrefsHelper;

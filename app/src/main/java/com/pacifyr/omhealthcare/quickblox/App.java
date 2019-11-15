@@ -3,6 +3,7 @@ package com.pacifyr.omhealthcare.quickblox;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.StrictMode;
+import android.util.Log;
 
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.multidex.MultiDex;
@@ -26,6 +27,7 @@ import static com.ceino.utilitylibrary.network.UtilityNetworkService.AUTH_KEY;
 import static com.ceino.utilitylibrary.network.UtilityNetworkService.AUTH_SECRET;
 
 public class App extends CoreApp {
+    private static String TAG = App.class.getSimpleName();
     private static App instance;
     private QBResRequestExecutor qbResRequestExecutor;
 
@@ -52,6 +54,7 @@ public class App extends CoreApp {
             Intent intent = new Intent(this, Call_Service.class);
             startService(intent);
         } catch (Exception e) {
+            Log.e(TAG, "Exception " + Call_Service.class.getSimpleName() + " cannot be started");
             e.printStackTrace();
         }
         /**/

@@ -78,11 +78,11 @@ public class ChatHelper {
         qbChatService.setUseStreamManagement(true);
     }
 
-    private static QBChatService.ConfigurationBuilder buildChatConfigs() {
+    public static QBChatService.ConfigurationBuilder buildChatConfigs() {
         QBChatService.ConfigurationBuilder configurationBuilder = new QBChatService.ConfigurationBuilder();
 //        SampleConfigs sampleConfigs = App.getSampleConfigs();
 
-        int port = 5233;
+//        int port = 5233;
         int socketTimeout = 300;
         boolean useTls = true;
         boolean keepAlive = true;
@@ -91,9 +91,9 @@ public class ChatHelper {
         boolean reconnectionAllowed = true;
         boolean allowListenNetwork = true;
 
-        if (port != 0) {
+       /* if (port != 0) {
             configurationBuilder.setPort(port);
-        }
+        }*/
 
         configurationBuilder.setSocketTimeout(socketTimeout);
         configurationBuilder.setUseTls(useTls);
