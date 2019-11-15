@@ -173,7 +173,7 @@ public class SessionWeekCustomerAdapter extends RecyclerView.Adapter<SessionWeek
             String displayFrom = displayFormatter.print(startofCurrentYear);
             String displayTo = displayFormatter.print(currentDate);
 
-            String yearStat = GLOBAL_URL + "dashboard/pacifyr/" + userid + "/sessionStatistics?fromDate=" + fromDate + "&toDate=" + toDate;
+            String yearStat = GLOBAL_URL + "dashboard/customer/" + userid + "/sessionStatistics?fromDate=" + fromDate + "&toDate=" + toDate;
             String thisYearUrl = GLOBAL_URL + "session/customer/all?userId=" + userid + "&fromDate=" + fromDate + "&toDate=" + toDate;
 
             modelRatingDateDetail.setFromDate(fromDate);
@@ -197,7 +197,7 @@ public class SessionWeekCustomerAdapter extends RecyclerView.Adapter<SessionWeek
 
                 String thisWeekUrl2 = GLOBAL_URL + "session/customer/all?userId=" + userid + "&fromDate="
                         + fromDateMonth + "&toDate=" + toDate2;
-                String  weekStatUrl2 = GLOBAL_URL+"dashboard/pacifyr/"+userid+
+                String weekStatUrl2 = GLOBAL_URL + "dashboard/customer/" + userid +
                         "/sessionStatistics?fromDate="+fromDateMonth+"&toDate="+toDate2;
 
                 displayFrom = displayFormatter.print(startofSecndYear);

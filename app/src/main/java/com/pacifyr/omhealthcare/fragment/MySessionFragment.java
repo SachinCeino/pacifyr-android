@@ -194,7 +194,6 @@ public class MySessionFragment extends BaseFragment {
                     final String thisYearUrl=GLOBAL_URL+"session/customer/all?userId="+userid+"&skip="+skip+"&limit="+limit+"&fromDate="+fromDYear+"&toDate="+toDYear;
                     final String yearStatUrl = GLOBAL_URL+"dashboard/customer/"+userid+"/sessionStatistics?fromDate="+fromDYear+"&toDate="+toDYear;
 
-                    getStatistics(yearStatUrl);
                     callThisYearSession(thisYearUrl);
                     dateListRcv.scrollToPosition(dateListRcv.getAdapter().getItemCount() - 1);
                     thisYearCtxv.setBackground(getResources().getDrawable(R.drawable.blue_line_bottom));
@@ -215,7 +214,6 @@ public class MySessionFragment extends BaseFragment {
                     final String thisMonthUrl=GLOBAL_URL+"session/customer/all?userId="+userid+"&skip="+skip+"&limit="+limit+"&fromDate="+fromDMonth+"&toDate="+toDMonth;
                     final String monthStatUrl = GLOBAL_URL+"dashboard/customer/"+userid+"/sessionStatistics?fromDate="+fromDMonth+"&toDate="+toDMonth;
 
-                    getStatistics(monthStatUrl);
                     callThisMonthSession(thisMonthUrl);
 
                     dateListRcv.scrollToPosition(dateListRcv.getAdapter().getItemCount() - 1);
@@ -237,7 +235,6 @@ public class MySessionFragment extends BaseFragment {
                     final String thisWeekUrl=GLOBAL_URL+"session/customer/all?userId="+userid+"&skip="+skip+"&limit="+limit+"&fromDate="+fromDWeek+"&toDate="+toDWeek;
                     final String weekStatUrl = GLOBAL_URL+"dashboard/customer/"+userid+"/sessionStatistics?fromDate="+fromDWeek+"&toDate="+toDWeek;
 
-                    getStatistics(weekStatUrl);
                     callThisWeekSession(thisWeekUrl);
 
                     dateListRcv.scrollToPosition(dateListRcv.getAdapter().getItemCount() - 1);
