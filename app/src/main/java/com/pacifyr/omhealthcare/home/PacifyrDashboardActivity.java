@@ -329,7 +329,7 @@ public class PacifyrDashboardActivity extends PacifyrAppCompactActivity {
         backImv.setVisibility(View.VISIBLE);
         titleTxv.setVisibility(View.VISIBLE);
         leftLlay.setVisibility(View.VISIBLE);
-        defSetText(titleTxv, "My Dash board");
+        defSetText(titleTxv, "MY DASHBOARD");
         backImv.setImageDrawable(getResources().getDrawable(R.drawable.leftmen));
         hideRightLayActionbar();
         //backImv.setBackgroundResource(R.drawable.leftmen);

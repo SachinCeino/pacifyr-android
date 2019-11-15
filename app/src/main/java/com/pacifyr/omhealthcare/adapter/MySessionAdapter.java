@@ -188,8 +188,25 @@ public class MySessionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             holder.nameUserCtxv.setText(results.getPacifyr().getFirstName());
             String imgUrl=results.getPacifyr().getImageUrl();
             if(isValid(imgUrl)){
-                Picasso.with(context).load(imgUrl).placeholder(context.getResources().getDrawable(R.drawable.placeholder_user)).error(context.getResources().getDrawable(R.drawable.placeholder_user)).into(holder.userCimv);
-                //Picasso.with(context).load(imgUrl).into(holder.userCimv);
+                Glide.with(context)
+                        .load(imgUrl)
+                        .listener(new RequestListener<String, GlideDrawable>() {
+                            @Override
+                            public boolean onException(Exception e, String model,
+                                                       Target<GlideDrawable> target, boolean isFirstResource) {
+                                e.printStackTrace();
+                                return false;
+                            }
+
+                            @Override
+                            public boolean onResourceReady(GlideDrawable resource, String model,
+                                                           Target<GlideDrawable> target,
+                                                           boolean isFromMemoryCache, boolean isFirstResource) {
+                                return false;
+                            }
+                        })
+                        .dontTransform()
+                        .into(holder.userCimv);
             }
             String callType = results.getSessionType();
             if(callType.equals("audio")) {

@@ -77,7 +77,7 @@
             android:id="@+id/side_school_dtxv"
             android:padding="4dp"
             android:layout_width="wrap_content"
-            android:text="My Dash board"
+            android:text="MY DASHBOARD"
             android:layout_centerVertical="true"
             android:textColor="@color/white"
             android:layout_height="wrap_content" />
