@@ -3405,6 +3405,27 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
         this.showDialogs = showDialogs;
     }
 
+    public MEmotion getEmotion(String emotionid) {
+        MEmotion mEmotion = null;
+        try {
+            LogUtils.LOGD("session", "SSA getEmotion  emotionid" + emotionid);
+            if (isValid(NetworkService.modelAllEmotions)) {
+                ArrayList<MEmotion> arrayList = NetworkService.modelAllEmotions.getResultsList();
+                for (MEmotion item : arrayList) {
+                    if (item.getId().equalsIgnoreCase(emotionid)) {
+                        mEmotion = item;
+                        break;
+                    }
+                }
+            } else {
+                NetworkService.webListEmotions(PacifyerActivity.this);
+            }
+        } catch (Exception e) {
+            LogUtils.LOGD("session", "SSA e getmessage " + e.getMessage());
+        }
+        return mEmotion;
+    }
+
 }
 
 

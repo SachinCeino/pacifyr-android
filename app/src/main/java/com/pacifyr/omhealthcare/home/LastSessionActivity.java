@@ -25,7 +25,6 @@ import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.ceino.utilitylibrary.CustomEditText;
-import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.ceino.utilitylibrary.DeviceFitImageView;
 import com.ceino.utilitylibrary.ToastHandler;
 import com.ceino.utilitylibrary.model.pacifyr.MEmotion;
@@ -37,6 +36,7 @@ import com.jesusm.holocircleseekbar.lib.HoloCircleSeekBar;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.adapter.CommentsAdapter;
 import com.pacifyr.omhealthcare.adapter.EmotionsListAdapter;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.pacifyr.omhealthcare.event.AlertTypeEvent;
 import com.pacifyr.omhealthcare.event.NotifyEvent;
 import com.pacifyr.omhealthcare.model.MComments;
@@ -733,11 +733,13 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
 
                         LogUtils.LOGD("session", "LSA exist_cmt_list sizee " + exist_cmt_list.size());
                         commentsAdapter = new CommentsAdapter(LastSessionActivity.this, exist_cmt_list, click);
+                        commentsAdapter.setEditable(editable);
                         commentsRcv.setAdapter(commentsAdapter);
                     } else {
 
 
                         commentsAdapter = new CommentsAdapter(LastSessionActivity.this, click);
+                        commentsAdapter.setEditable(editable);
                         commentsRcv.setAdapter(commentsAdapter);
 
                     }
@@ -746,6 +748,7 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
 
 
                     commentsAdapter = new CommentsAdapter(LastSessionActivity.this, click);
+                    commentsAdapter.setEditable(editable);
                     commentsRcv.setAdapter(commentsAdapter);
 
                 }
