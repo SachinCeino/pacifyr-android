@@ -237,67 +237,85 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             // Get extra data included in the Intent
-            String type = intent.getStringExtra("type");
-            String id = intent.getStringExtra("id");
-            String message = intent.getStringExtra("message");
-            Log.d("receiver", "Got message: " + type);
-
-                if (type != null && type.equals("payment") &&
-                        id != null && !id.isEmpty()) {
-                    if (getCountryChecks().contains(getPrefManager().getCountry()))
-                    {
-
-                        showIOSDialogOKCancel("", message, "Set up Payment", new iOSDialogClickListener() {
+            if (!showDialogs) {
+                getApplication().startActivity(new Intent(PacifyerActivity.this, CallActivity.class)
+                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        runOnUiThread(new Runnable() {
                             @Override
-                            public void onClick(iOSDialog dialog) {
-                                dialog.dismiss();
-
-
-                                new NetworkService().sendPaymentFailedDueToSomeReasons(CallActivity.mSessionDetailRoot.getPacifyr().getId(), "paymentFailure", "Transaction cancelled", new AjaxCallback<JSONObject>() {
-                                    @Override
-                                    public void callback(String url, JSONObject json, AjaxStatus status) {
-
-                                        if (json != null) {
-                                            Log.w("PAYTMLOG", "sendCardAddedNotificationFail messages" + json.toString());
-                                        }
-                                    }
-                                });
-
-                                Bundle args =
-                                        FirebaseLogging.getConstantArgsLoggedIn(PacifyerActivity.this);
-                                args.putString(FirebaseLogging.EC, "Payment setup cancelled");
-                                FirebaseLogging.sendLog(PacifyerActivity.this,
-                                        FirebaseLogging.EVENT_CLIENT_PAYMENT_FAILED,
-                                        args);
-                                dialog.dismiss();
-                            }
-                        }, new iOSDialogClickListener() {
-                            @Override
-                            public void onClick(iOSDialog dialog) {
-
-                                dialog.dismiss();
-                                //Toast.makeText(PacifyerActivity.this,"Clicked!",Toast.LENGTH_LONG).show();
-                                if (isValid(id)) {
-
-                                    if (isValid(CallActivity.mSessionDetailRoot) && isValid(CallActivity.mSessionDetailRoot.getPacifyr()) &&
-                                            isValid(CallActivity.mSessionDetailRoot.getPacifyr().getPrice())) {
-                                        generateCheckSum(id, Integer.parseInt(CallActivity.mSessionDetailRoot.getPacifyr().getPrice()));
-                                    }
-
-                                } else {
-                                    Toast.makeText(getApplicationContext(), "Session id not valid !", Toast.LENGTH_SHORT).show();
-                                }
-
+                            public void run() {
+                                doPaymentSetup(intent);
                             }
                         });
-
                     }
-                }
+                }, 2000);
+                return;
+            }
+            doPaymentSetup(intent);
 
 
         }
     };
 
+    private void doPaymentSetup(Intent intent) {
+        String type = intent.getStringExtra("type");
+        String id = intent.getStringExtra("id");
+        String message = intent.getStringExtra("message");
+        Log.d("receiver", "Got message: " + type);
+
+        if (type != null && type.equals("payment") &&
+                id != null && !id.isEmpty()) {
+            if (getCountryChecks().contains(getPrefManager().getCountry())) {
+
+                showIOSDialogOKCancel("", message, "Set up Payment", new iOSDialogClickListener() {
+                    @Override
+                    public void onClick(iOSDialog dialog) {
+                        dialog.dismiss();
+
+
+                        new NetworkService().sendPaymentFailedDueToSomeReasons(CallActivity.mSessionDetailRoot.getPacifyr().getId(), "paymentFailure", "Transaction cancelled", new AjaxCallback<JSONObject>() {
+                            @Override
+                            public void callback(String url, JSONObject json, AjaxStatus status) {
+
+                                if (json != null) {
+                                    Log.w("PAYTMLOG", "sendCardAddedNotificationFail messages" + json.toString());
+                                }
+                            }
+                        });
+
+                        Bundle args =
+                                FirebaseLogging.getConstantArgsLoggedIn(PacifyerActivity.this);
+                        args.putString(FirebaseLogging.EC, "Payment setup cancelled");
+                        FirebaseLogging.sendLog(PacifyerActivity.this,
+                                FirebaseLogging.EVENT_CLIENT_PAYMENT_FAILED,
+                                args);
+                        dialog.dismiss();
+                    }
+                }, new iOSDialogClickListener() {
+                    @Override
+                    public void onClick(iOSDialog dialog) {
+
+                        dialog.dismiss();
+                        //Toast.makeText(PacifyerActivity.this,"Clicked!",Toast.LENGTH_LONG).show();
+                        if (isValid(id)) {
+
+                            if (isValid(CallActivity.mSessionDetailRoot) && isValid(CallActivity.mSessionDetailRoot.getPacifyr()) &&
+                                    isValid(CallActivity.mSessionDetailRoot.getPacifyr().getPrice())) {
+                                generateCheckSum(id, Integer.parseInt(CallActivity.mSessionDetailRoot.getPacifyr().getPrice()));
+                            }
+
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Session id not valid !", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                });
+
+            }
+        }
+    }
 
 
     public static Timer trackTimer;
@@ -3385,6 +3403,27 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
 
     public void setShowDialogs(boolean showDialogs) {
         this.showDialogs = showDialogs;
+    }
+
+    public MEmotion getEmotion(String emotionid) {
+        MEmotion mEmotion = null;
+        try {
+            LogUtils.LOGD("session", "SSA getEmotion  emotionid" + emotionid);
+            if (isValid(NetworkService.modelAllEmotions)) {
+                ArrayList<MEmotion> arrayList = NetworkService.modelAllEmotions.getResultsList();
+                for (MEmotion item : arrayList) {
+                    if (item.getId().equalsIgnoreCase(emotionid)) {
+                        mEmotion = item;
+                        break;
+                    }
+                }
+            } else {
+                NetworkService.webListEmotions(PacifyerActivity.this);
+            }
+        } catch (Exception e) {
+            LogUtils.LOGD("session", "SSA e getmessage " + e.getMessage());
+        }
+        return mEmotion;
     }
 
 }

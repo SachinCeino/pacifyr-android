@@ -23,7 +23,6 @@ import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.ceino.utilitylibrary.CustomEditText;
-import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.ceino.utilitylibrary.DeviceFitImageView;
 import com.ceino.utilitylibrary.ToastHandler;
 import com.ceino.utilitylibrary.model.pacifyr.MEmotion;
@@ -36,6 +35,7 @@ import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.adapter.CommentsAdapter;
 import com.pacifyr.omhealthcare.adapter.EmotionsListAdapter;
 import com.pacifyr.omhealthcare.base.PacifyerActivity;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.pacifyr.omhealthcare.event.AlertTypeEvent;
 import com.pacifyr.omhealthcare.event.NotifyEvent;
 import com.pacifyr.omhealthcare.model.MComments;
@@ -565,7 +565,26 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
                     MEmotion emotion = getEmotion();
                     LogUtils.LOGD("session", "SSA  onSetValues getEmotion() emotion " + emotion);
 
-                    setBeforeEmotionViews(emotion);
+                    getUserProfile(getUserID(), new AjaxCallback<JSONObject>() {
+                        @Override
+                        public void callback(String url, JSONObject json, AjaxStatus status) {
+                            hideProgress();
+                            try {
+                                if (json != null) {
+                                    NetworkService.mCurrentUser = GsonUtils.getInstance().gsonToModelUserProfile(json);
+                                    //ProfileScreenActivity.pacifyerDetial = GsonUtils.getInstance().gsonToModelUserProfile(json);
+                                    if (NetworkService.mCurrentUser != null && NetworkService.mCurrentUser.getEmotion() != null) {
+                                        setBeforeEmotionViews(NetworkService.mCurrentUser.getEmotion());
+                                    }
+                                }
+
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+
+
                    /* if(isValid(emotion))
                     {
                         before_feel_llay.setVisibility(View.VISIBLE);
