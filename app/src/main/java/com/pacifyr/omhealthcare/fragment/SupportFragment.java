@@ -95,19 +95,6 @@ public class SupportFragment extends BaseFragment {
                                 @Override
                                 public void run() {
                                     hideStatus();
-                                    if(isCustomer()){
-                                        FragmentManager fm = getChildFragmentManager();
-                                        FragmentTransaction ft = fm.beginTransaction();
-                                        UserDashboardFragment fragment = new UserDashboardFragment();
-                                        getChildFragmentManager().beginTransaction().replace(R.id.activity_main_content_fragment, fragment).commit();
-
-                                    }
-                                    else {
-                                        FragmentManager fm = getChildFragmentManager();
-                                        FragmentTransaction ft = fm.beginTransaction();
-                                        PacifyrDashboardFragment fragment = new PacifyrDashboardFragment();
-                                        getChildFragmentManager().beginTransaction().replace(R.id.pacifyr_content_fragment, fragment).commit();
-                                    }
                                     postEventOnMainThread(new ActionbarEvent("MY DASHBOARD"));
                                 }
                             }, 2000);
@@ -134,9 +121,7 @@ public class SupportFragment extends BaseFragment {
                     ex.printStackTrace();
                 }
             } else {
-                setStatus("Please enter a your message", R.color.md_amber_800);
-                showStatus();
-                hideStatus();
+                showIOSDialogOK("Alert", "Please enter your message", "Ok");
             }
         }
         catch(Exception exx)

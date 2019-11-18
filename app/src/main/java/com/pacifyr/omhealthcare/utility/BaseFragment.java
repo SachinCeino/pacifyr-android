@@ -24,11 +24,15 @@ import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.ceino.utilitylibrary.CustomEditText;
+import com.ceino.utilitylibrary.CustomFontTextView;
 import com.ceino.utilitylibrary.DeviceFitImageView;
 import com.ceino.utilitylibrary.model.pacifyr.MEmotion;
 import com.ceino.utilitylibrary.model.pacifyr.MUser;
 import com.ceino.utilitylibrary.model.pacifyr.ModelUserProfile;
 import com.ceino.utilitylibrary.utils.PrefManager;
+import com.gdacciaro.iOSDialog.iOSDialog;
+import com.gdacciaro.iOSDialog.iOSDialogBuilder;
+import com.gdacciaro.iOSDialog.iOSDialogClickListener;
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.base.PacifyerActivity;
@@ -368,8 +372,8 @@ public abstract class BaseFragment extends Fragment {
         if(isValid(hud_progress)) if(!hud_progress.isShowing()) hud_progress.show();
     }
     public void setStatus(String status, int color) {
-        View view = LayoutInflater.from(getActivity()).inflate(com.ceino.utilitylibrary.R.layout.status_dialog, null, false);
-        MainTextView status_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.status_dtxv);
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.status_dialog, null, false);
+        CustomFontTextView status_dtxv = view.findViewById(R.id.status_dtxv);
         status_dtxv.setText("" + status);
         hideStatus();
         hud_status = KProgressHUD.create(getActivity()).setStyle(KProgressHUD.Style.SPIN_INDETERMINATE).setCustomView(view).setWindowColor(getActivity().getResources().getColor(color)).setCancellable(false).setAnimationSpeed(2).setDimAmount(0.5f);
@@ -1024,10 +1028,10 @@ public abstract class BaseFragment extends Fragment {
             return;
         }
         View view = LayoutInflater.from(getActivity()).inflate(com.ceino.utilitylibrary.R.layout.alert_yes_no, null, false);
-        MainTextView title_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.title_dtxv);
-        MainTextView desc_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.desc_dtxv);
-        MainTextView dismis_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.dismis_dtxv);
-        MainTextView ok_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.ok_dtxv);
+        CustomFontTextView title_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.title_dtxv);
+        CustomFontTextView desc_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.desc_dtxv);
+        CustomFontTextView dismis_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.dismis_dtxv);
+        CustomFontTextView ok_dtxv = view.findViewById(com.ceino.utilitylibrary.R.id.ok_dtxv);
         if(isValid(title))
             defSetText(title_dtxv,title);
         else
@@ -1384,5 +1388,18 @@ public abstract class BaseFragment extends Fragment {
         });
     }
 
-
+    public void showIOSDialogOK(String title, String subTitle, String okLabel) {
+        new iOSDialogBuilder(getActivity())
+                .setTitle(title)
+                .setSubtitle(subTitle)
+                .setBoldPositiveLabel(false)
+                .setCancelable(true)
+                .setPositiveListener(okLabel, new iOSDialogClickListener() {
+                    @Override
+                    public void onClick(iOSDialog dialog) {
+                        dialog.dismiss();
+                    }
+                })
+                .build().show();
+    }
 }
