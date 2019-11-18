@@ -72,15 +72,16 @@
             <com.pacifyr.omhealthcare.customview.MainTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="8sp"
+                android:textSize="12sp"
                 android:text=""
-                android:textColor="@color/grey_hex_7c"
+                android:textColor="@color/grey_dark"
                 android:id="@+id/date_ctxv"/>
 
             <com.pacifyr.omhealthcare.customview.MainTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=""
+                android:layout_marginTop="3dp"
                 android:textColor="@color/colorPrimary"
                 android:id="@+id/price_ctxv"/>
 
