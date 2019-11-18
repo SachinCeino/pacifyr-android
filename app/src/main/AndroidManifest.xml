@@ -250,6 +250,7 @@
             android:resizeableActivity="true"
             android:screenOrientation="portrait"
             android:showOnLockScreen="true"
+            android:excludeFromRecents="true"
             android:supportsPictureInPicture="true"
             android:theme="@style/BaseAppTheme" />
         <activity
