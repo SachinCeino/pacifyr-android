@@ -72,7 +72,6 @@ public class MySessionFragment extends BaseFragment {
     int tab=0;//0:Week,1:Month,2:Year
     NestedScrollView nestedscrollView;
     private boolean firstItemEditable = true;
-    private int weekSelectedPosition;
 
 
     //public static ArrayList<ModelListEmotion.Results> emotionList;
@@ -195,7 +194,6 @@ public class MySessionFragment extends BaseFragment {
                     final String yearStatUrl = GLOBAL_URL+"dashboard/customer/"+userid+"/sessionStatistics?fromDate="+fromDYear+"&toDate="+toDYear;
 
                     callThisYearSession(thisYearUrl);
-                    dateListRcv.scrollToPosition(dateListRcv.getAdapter().getItemCount() - 1);
                     thisYearCtxv.setBackground(getResources().getDrawable(R.drawable.blue_line_bottom));
                     thisMntCtxv.setBackground(getResources().getDrawable(R.color.grey_hex_f8));
                     thisWkCtxv.setBackground(getResources().getDrawable(R.color.grey_hex_f8));
@@ -215,8 +213,6 @@ public class MySessionFragment extends BaseFragment {
                     final String monthStatUrl = GLOBAL_URL+"dashboard/customer/"+userid+"/sessionStatistics?fromDate="+fromDMonth+"&toDate="+toDMonth;
 
                     callThisMonthSession(thisMonthUrl);
-
-                    dateListRcv.scrollToPosition(dateListRcv.getAdapter().getItemCount() - 1);
                     thisWkCtxv.setBackground(getResources().getDrawable(R.color.grey_hex_f8));
                     thisYearCtxv.setBackground(getResources().getDrawable(R.color.grey_hex_f8));
                     thisMntCtxv.setBackground(getResources().getDrawable(R.drawable.blue_line_bottom));
@@ -236,8 +232,6 @@ public class MySessionFragment extends BaseFragment {
                     final String weekStatUrl = GLOBAL_URL+"dashboard/customer/"+userid+"/sessionStatistics?fromDate="+fromDWeek+"&toDate="+toDWeek;
 
                     callThisWeekSession(thisWeekUrl);
-
-                    dateListRcv.scrollToPosition(dateListRcv.getAdapter().getItemCount() - 1);
                     thisWkCtxv.setBackground(getResources().getDrawable(R.drawable.blue_line_bottom));
                     thisMntCtxv.setBackground(getResources().getDrawable(R.color.grey_hex_f8));
                     thisYearCtxv.setBackground(getResources().getDrawable(R.color.grey_hex_f8));
@@ -438,8 +432,6 @@ public class MySessionFragment extends BaseFragment {
                     = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
             recyclerView.setLayoutManager(verticalLayoutmanager);
             recyclerView.setAdapter(adapter);
-            if (isValid(weekSelectedPosition))
-                dateListRcv.scrollToPosition(weekSelectedPosition);
         }
         catch (Exception e){
             e.printStackTrace();
@@ -575,7 +567,6 @@ public class MySessionFragment extends BaseFragment {
                 listTemp.clear();
                 list.clear();
                 skip = 0;
-                weekSelectedPosition = event.getPosition();
                 callThisWeekSession(event.getUrl());
                 getStatistics(event.getStatUrl());
 
