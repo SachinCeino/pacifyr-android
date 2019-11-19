@@ -23,7 +23,6 @@ import android.widget.RelativeLayout;
 
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.ceino.utilitylibrary.DeviceFitImageView;
 import com.ceino.utilitylibrary.model.pacifyr.MUser;
 import com.ceino.utilitylibrary.utils.PrefManager;
@@ -34,6 +33,7 @@ import com.kbeanie.multipicker.api.Picker;
 import com.kbeanie.multipicker.api.callbacks.ImagePickerCallback;
 import com.kbeanie.multipicker.api.entity.ChosenImage;
 import com.pacifyr.omhealthcare.R;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.pacifyr.omhealthcare.event.AlertTypeEvent;
 import com.pacifyr.omhealthcare.event.NotifyEvent;
 import com.pacifyr.omhealthcare.network.NetworkService;
@@ -581,10 +581,12 @@ public class ChatActivity extends PacifyrAppCompactActivity implements ImagePick
     }
 
     private void loadDialogUsers() {
+        Log.d(TAG, "loadDialogUsers");
         ChatHelper.getInstance().getUsersFromDialog(qbChatDialog, new QBEntityCallback<ArrayList<QBUser>>() {
             @Override
             public void onSuccess(ArrayList<QBUser> users, Bundle bundle) {
-                Log.w("QQQQ",String.valueOf(users));
+                Log.d(TAG, "loadDialogUsers success -> " + users != null ? users.toString() :
+                        "null");
                 setChatNameToActionBar();
                 opponentIds = getOpponents(users);
                 loadChatHistory();
@@ -592,6 +594,7 @@ public class ChatActivity extends PacifyrAppCompactActivity implements ImagePick
 
             @Override
             public void onError(QBResponseException e) {
+                Log.d(TAG, "loadDialogUsers err -> ");
                 showErrorSnackbar(R.string.chat_load_users_error, e,
                         new View.OnClickListener() {
                             @Override

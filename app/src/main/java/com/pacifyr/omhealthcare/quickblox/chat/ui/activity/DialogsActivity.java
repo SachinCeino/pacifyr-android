@@ -22,22 +22,19 @@ import android.widget.Toast;
 import androidx.appcompat.view.ActionMode;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
-import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.ceino.utilitylibrary.DeviceFitImageView;
-import com.ceino.utilitylibrary.utils.PrefManager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout;
 import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.base.PacifyerActivity;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.pacifyr.omhealthcare.quickblox.chat.managers.DialogsManager;
 import com.pacifyr.omhealthcare.quickblox.chat.ui.adapter.DialogsAdapter;
 import com.pacifyr.omhealthcare.quickblox.chat.utils.chat.ChatHelper;
 import com.pacifyr.omhealthcare.quickblox.chat.utils.qb.QbChatDialogMessageListenerImp;
 import com.pacifyr.omhealthcare.quickblox.chat.utils.qb.QbDialogHolder;
 import com.pacifyr.omhealthcare.quickblox.chat.utils.qb.callback.QbEntityCallbackImpl;
-import com.quickblox.auth.QBAuth;
-import com.quickblox.auth.session.QBSession;
 import com.quickblox.chat.QBChatService;
 import com.quickblox.chat.QBIncomingMessagesManager;
 import com.quickblox.chat.QBSystemMessagesManager;
@@ -113,11 +110,12 @@ public class DialogsActivity extends PacifyerActivity implements DialogsManager.
        // setActionBarTitle(getString(R.string.dialogs_logged_in_as, currentUser.getFullName()));
 
         registerQbChatListeners();
-        if (QbDialogHolder.getInstance().getDialogs().size() > 0) {
+        /*if (QbDialogHolder.getInstance().getDialogs().size() > 0) {
             loadDialogsFromQb(true, true);
         } else {
-            loadDialogsFromQb(false, true);
-        }
+
+        }*/
+        loadDialogsFromQb(false, true);
         NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         if (mNotificationManager != null) {
             mNotificationManager.cancelAll();
@@ -363,11 +361,10 @@ public class DialogsActivity extends PacifyerActivity implements DialogsManager.
             progressBar.setVisibility(View.VISIBLE);
         }
 
-        /*if (ChatHelper.getInstance().isLogged()){
+        if (ChatHelper.getInstance().isLogged()) {
             getChatDialogs(clearDialogHolder);
-            return;
-        }*/
-        SharedPrefsHelper sharedPrefsHelper = SharedPrefsHelper.getInstance();
+        }
+       /* SharedPrefsHelper sharedPrefsHelper = SharedPrefsHelper.getInstance();
         if (sharedPrefsHelper.hasQbUser()) {
             QBUser qbUser = sharedPrefsHelper.getQbUser();
             if (qbUser.getPassword() == null) {
@@ -405,7 +402,7 @@ public class DialogsActivity extends PacifyerActivity implements DialogsManager.
                     Log.d(TAG, "CallService QBAuth.createSession() error  " + e.getMessage());
                 }
             });
-        }
+        }*/
 
     }
 

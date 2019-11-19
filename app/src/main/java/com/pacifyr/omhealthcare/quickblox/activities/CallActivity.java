@@ -668,8 +668,7 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
         }
         setShowDialogs(!isInPictureInPictureMode);
         if (!isInPictureInPictureMode) {
-            getApplication().startActivity(new Intent(this, getClass())
-                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
+            maximizePicInPicView();
         }
     }
 
