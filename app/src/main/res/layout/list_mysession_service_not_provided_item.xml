@@ -71,7 +71,7 @@
                 android:layout_marginTop="10dp"
                 android:text="01-03-2018 10.27 am"
                 android:textColor="@color/grey_dark"
-                android:textSize="8sp" />
+                android:textSize="12sp" />
 
 
         </LinearLayout>

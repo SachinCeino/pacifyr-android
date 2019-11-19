@@ -43,7 +43,7 @@
     <color name="tabtext_unselected">#798489</color>
     <color name="tabtext_unselected_black">#000000</color>
     <color name="divider_line_color">#d5d7d8</color>
-    <color name="grey_dark">#777776</color>
+    <color name="grey_dark">#383737</color>
     <color name="grey_fit">#969696</color>
     <color name="grey_light">#eeeeee</color>
     <color name="grey_light_blue">@color/md_indigo_50</color>
