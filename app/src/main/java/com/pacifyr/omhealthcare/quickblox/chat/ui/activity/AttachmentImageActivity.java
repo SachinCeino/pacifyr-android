@@ -9,11 +9,9 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
-import com.pacifyr.omhealthcare.quickblox.chat.utils.Consts;
 import com.quickblox.sample.chat.R;
 
 
@@ -60,12 +58,10 @@ public class AttachmentImageActivity extends BaseActivity {
         progressBar.setVisibility(View.VISIBLE);
         Glide.with(this)
                 .load(url)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .listener(new RequestListener<String, GlideDrawable>() {
                     @Override
                     public boolean onException(Exception e, String model,
                                                Target<GlideDrawable> target, boolean isFirstResource) {
-                        e.printStackTrace();
                         progressBar.setVisibility(View.GONE);
                         return false;
                     }
@@ -79,8 +75,6 @@ public class AttachmentImageActivity extends BaseActivity {
                     }
                 })
                 .error(R.drawable.ic_error_white)
-                .dontTransform()
-                .override(Consts.PREFERRED_IMAGE_SIZE_FULL, Consts.PREFERRED_IMAGE_SIZE_FULL)
                 .into(imageView);
     }
 
