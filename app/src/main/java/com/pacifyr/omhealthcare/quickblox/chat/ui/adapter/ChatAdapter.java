@@ -101,13 +101,22 @@ public class ChatAdapter extends BaseListAdapter<QBChatMessage> implements Stick
                 }
             }
         });
-        holder.messageContainerLayout.setOnLongClickListener(new View.OnLongClickListener() {
+        holder.attachmentImageView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 if (hasAttachments(chatMessage)) {
                     toggleItemInfo(holder, position);
                     return true;
-                } else if (!holder.messageBodyTextView.getText().equals("")) {
+                } else {
+                    return false;
+                }
+            }
+        });
+
+        holder.messageBodyTextView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                if (!holder.messageBodyTextView.getText().equals("")) {
                     toggleItemInfo(holder, position);
                     return true;
                 } else {
