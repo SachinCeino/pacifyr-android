@@ -107,9 +107,12 @@ public class ChatAdapter extends BaseListAdapter<QBChatMessage> implements Stick
                 if (hasAttachments(chatMessage)) {
                     toggleItemInfo(holder, position);
                     return true;
+                } else if (!holder.messageBodyTextView.getText().equals("")) {
+                    toggleItemInfo(holder, position);
+                    return true;
+                } else {
+                    return false;
                 }
-
-                return false;
             }
         });
         holder.messageInfoTextView.setVisibility(View.GONE);
