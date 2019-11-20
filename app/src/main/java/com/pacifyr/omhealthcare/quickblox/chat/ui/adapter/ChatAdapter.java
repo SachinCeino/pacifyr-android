@@ -19,7 +19,6 @@ import com.bumptech.glide.request.target.Target;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.quickblox.chat.ui.activity.AttachmentImageActivity;
 import com.pacifyr.omhealthcare.quickblox.chat.ui.widget.MaskedImageView;
-import com.pacifyr.omhealthcare.quickblox.chat.utils.Consts;
 import com.pacifyr.omhealthcare.quickblox.chat.utils.TimeUtils;
 import com.pacifyr.omhealthcare.quickblox.chat.utils.chat.ChatHelper;
 import com.pacifyr.omhealthcare.quickblox.chat.utils.qb.PaginationHistoryListener;
@@ -221,8 +220,6 @@ public class ChatAdapter extends BaseListAdapter<QBChatMessage> implements Stick
                                 return false;
                             }
                         })
-                        .override(Consts.PREFERRED_IMAGE_SIZE_PREVIEW, Consts.PREFERRED_IMAGE_SIZE_PREVIEW)
-                        .dontTransform()
                         .error(R.drawable.ic_error)
                         .into(holder.attachmentImageView);
             }

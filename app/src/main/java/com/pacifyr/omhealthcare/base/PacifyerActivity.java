@@ -257,8 +257,20 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
                     }
                 }, 2000);
                 return;
+            } else {
+                bringCallActivityToFront();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                doPaymentSetup(intent);
+                            }
+                        });
+                    }
+                }, 2000);
             }
-            doPaymentSetup(intent);
 
 
         }
@@ -599,8 +611,20 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
     }
 
     public void maximizePicInPicView() {
+        Log.d(TAG, "maximizePicInPicView");
         getApplication().startActivity(new Intent(this, CallActivity.class)
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
+    }
+
+    public void bringCallActivityToFront() {
+        if (!CallActivity.isForeground) {
+            Log.d(TAG, "bringCallActivityToFront");
+            Intent intent = new Intent(this, CallActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            getApplication().startActivity(intent);
+        } else {
+            Log.d(TAG, "bringCallActivityToFront - not in foreground");
+        }
     }
     public String getUserFirstName() {
         return getSharedString(PrefManager.UserFirstName, "");
@@ -3300,6 +3324,7 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
     private void ShowTransactionSuccesResultToUSer(TransactionResponce object) {
 
 
+
         if (PaymentPopup != null && PaymentPopup.isShowing()) {
             PaymentPopup.dismiss();
         }
@@ -3377,66 +3402,78 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
             return;
         } else {
 
-            View view = LayoutInflater.from(PacifyerActivity.this).inflate(R.layout.layout_paytm_payment_report, null);
-            TextView ok = view.findViewById(R.id.button_ok);
-            TextView transactionId = view.findViewById(R.id.transactionId);
-            TextView text_date = view.findViewById(R.id.text_date);
-            TextView text_amount_charged = view.findViewById(R.id.text_amount_charged);
-            try {
-                transactionId.setText(object.getTransactionId());
-                text_date.setText(transaction_date);
-
-                PrefManager prefM = PrefManager.getInstance(getApplicationContext());
-                String country = prefM.getCountry();
-                String sign = "$";
-                if (country.equals("India")) {
-                    sign = getApplicationContext().getResources().getString(R.string.rupee);
-                } else {
-                    sign = getApplicationContext().getResources().getString(R.string.dollar);
-                }
-
-                text_amount_charged.setText(sign + " " + txnAmount);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            ok.setOnClickListener(new View.OnClickListener() {
+            bringCallActivityToFront();
+            new Handler().postDelayed(new Runnable() {
                 @Override
-                public void onClick(View v) {
-                    if (PaymentPopup != null) {
-                        PaymentPopup.dismiss();
-                    }
-                    /** send Notification to the Provider that user Done the Payment Success fully and able to start Session now.
-                     * type "cardSetup**/
-                    if (isValid(CallActivity.mSessionDetailRoot) &&
-                            isValid(CallActivity.mSessionDetailRoot.getPacifyr()) &&
-                            isValid(CallActivity.mSessionDetailRoot.getPacifyr().getId()))
-                        new NetworkService().sendCardAddedNotificationAfterPaytmSuccess(CallActivity.mSessionDetailRoot.getPacifyr().getId(), "cardSetup", new AjaxCallback<JSONObject>() {
-                            @Override
-                            public void callback(String url, JSONObject json, AjaxStatus status) {
-                                if (json != null) {
-                                    Log.w("PAYTMLOG", "sendCardAddedNotification responce" + json.toString());
+                public void run() {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            View view = LayoutInflater.from(PacifyerActivity.this).inflate(R.layout.layout_paytm_payment_report, null);
+                            TextView ok = view.findViewById(R.id.button_ok);
+                            TextView transactionId = view.findViewById(R.id.transactionId);
+                            TextView text_date = view.findViewById(R.id.text_date);
+                            TextView text_amount_charged = view.findViewById(R.id.text_amount_charged);
+                            try {
+                                transactionId.setText(object.getTransactionId());
+                                text_date.setText(transaction_date);
+
+                                PrefManager prefM = PrefManager.getInstance(getApplicationContext());
+                                String country = prefM.getCountry();
+                                String sign = "$";
+                                if (country.equals("India")) {
+                                    sign = getApplicationContext().getResources().getString(R.string.rupee);
+                                } else {
+                                    sign = getApplicationContext().getResources().getString(R.string.dollar);
                                 }
+
+                                text_amount_charged.setText(sign + " " + txnAmount);
+                            } catch (Exception e) {
+                                e.printStackTrace();
                             }
-                        });
-                    else
-                        Toast.makeText(PacifyerActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
+                            ok.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    if (PaymentPopup != null) {
+                                        PaymentPopup.dismiss();
+                                    }
+                                    /** send Notification to the Provider that user Done the Payment Success fully and able to start Session now.
+                                     * type "cardSetup**/
+                                    if (isValid(CallActivity.mSessionDetailRoot) &&
+                                            isValid(CallActivity.mSessionDetailRoot.getPacifyr()) &&
+                                            isValid(CallActivity.mSessionDetailRoot.getPacifyr().getId()))
+                                        new NetworkService().sendCardAddedNotificationAfterPaytmSuccess(CallActivity.mSessionDetailRoot.getPacifyr().getId(), "cardSetup", new AjaxCallback<JSONObject>() {
+                                            @Override
+                                            public void callback(String url, JSONObject json, AjaxStatus status) {
+                                                if (json != null) {
+                                                    Log.w("PAYTMLOG", "sendCardAddedNotification responce" + json.toString());
+                                                }
+                                            }
+                                        });
+                                    else
+                                        Toast.makeText(PacifyerActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
 
-                    Bundle args =
-                            FirebaseLogging.getConstantArgsLoggedIn(PacifyerActivity.this);
-                    FirebaseLogging.sendLog(PacifyerActivity.this,
-                            FirebaseLogging.EVENT_CLIENT_PAYMENT_DONE,
-                            args);
+                                    Bundle args =
+                                            FirebaseLogging.getConstantArgsLoggedIn(PacifyerActivity.this);
+                                    FirebaseLogging.sendLog(PacifyerActivity.this,
+                                            FirebaseLogging.EVENT_CLIENT_PAYMENT_DONE,
+                                            args);
 
+                                }
+                            });
+                            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(PacifyerActivity.this);
+                            builder.setTitle("Payment " + object.getTransactionStatus());
+                            builder.setView(view);
+                            builder.setCancelable(false);
+                            PaymentPopup = builder.create();
+                            PaymentPopup.show();
+                        }
+                    });
                 }
-            });
-            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(PacifyerActivity.this);
-            builder.setTitle("Payment "+object.getTransactionStatus());
-            builder.setView(view);
-            builder.setCancelable(false);
-            PaymentPopup = builder.create();
-            PaymentPopup.show();
+            }, 2000);
 
         }
+
 
 
     }
@@ -3482,30 +3519,42 @@ public abstract  class PacifyerActivity extends BaseAppCompactActivity {
             }, 2000);
             return;
         } else {
-            iOSDialogClickListener listener = new iOSDialogClickListener() {
+            bringCallActivityToFront(); // for android 8.0 below
+
+            new Handler().postDelayed(new Runnable() {
                 @Override
-                public void onClick(iOSDialog dialog) {
-
-
-                    new NetworkService().sendPaymentFailedDueToSomeReasons(CallActivity.mSessionDetailRoot.getPacifyr().getId(), "paymentFailure", message, new AjaxCallback<JSONObject>() {
+                public void run() {
+                    runOnUiThread(new Runnable() {
                         @Override
-                        public void callback(String url, JSONObject json, AjaxStatus status) {
+                        public void run() {
+                            iOSDialogClickListener listener = new iOSDialogClickListener() {
+                                @Override
+                                public void onClick(iOSDialog dialog) {
 
-                            if (json != null) {
-                                Log.w("PAYTMLOG", "sendCardAddedNotificationFail messages" + json.toString());
-                            }
+
+                                    new NetworkService().sendPaymentFailedDueToSomeReasons(CallActivity.mSessionDetailRoot.getPacifyr().getId(), "paymentFailure", message, new AjaxCallback<JSONObject>() {
+                                        @Override
+                                        public void callback(String url, JSONObject json, AjaxStatus status) {
+
+                                            if (json != null) {
+                                                Log.w("PAYTMLOG", "sendCardAddedNotificationFail messages" + json.toString());
+                                            }
+                                        }
+                                    });
+                                    Bundle args =
+                                            FirebaseLogging.getConstantArgsLoggedIn(PacifyerActivity.this);
+                                    args.putString(FirebaseLogging.EC, message + "");
+                                    FirebaseLogging.sendLog(PacifyerActivity.this,
+                                            FirebaseLogging.EVENT_CLIENT_PAYMENT_FAILED,
+                                            args);
+                                    dialog.dismiss();
+                                }
+                            };
+                            showIOSDialogOK("Error", message, "OK", listener);
                         }
                     });
-                    Bundle args =
-                            FirebaseLogging.getConstantArgsLoggedIn(PacifyerActivity.this);
-                    args.putString(FirebaseLogging.EC, message + "");
-                    FirebaseLogging.sendLog(PacifyerActivity.this,
-                            FirebaseLogging.EVENT_CLIENT_PAYMENT_FAILED,
-                            args);
-                    dialog.dismiss();
                 }
-            };
-            showIOSDialogOK("Error", message, "OK", listener);
+            }, 2000);
         }
 
 

@@ -21,18 +21,19 @@ import androidx.annotation.Nullable;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.ceino.utilitylibrary.ToastHandler;
 import com.ceino.utilitylibrary.model.pacifyr.MEmotion;
 import com.ceino.utilitylibrary.model.pacifyr.MUser;
 import com.ceino.utilitylibrary.network.UtilityNetworkService;
 import com.ceino.utilitylibrary.utils.PrefManager;
 import com.facebook.login.LoginManager;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.JsonObject;
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.koushikdutta.ion.Ion;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.base.PacifyerActivity;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.pacifyr.omhealthcare.event.AlertTypeEvent;
 import com.pacifyr.omhealthcare.event.BusProvider;
 import com.pacifyr.omhealthcare.event.CallDetailEvent;
@@ -88,7 +89,10 @@ import org.apache.http.impl.client.DefaultHttpClient;*/
  */
 
 public abstract class PacifyrAppCompactActivity  extends PacifyerActivity {
+    private static final String TAG = PacifyrAppCompactActivity.class.getSimpleName();
     PowerManager.WakeLock wakeLock;
+    private Snackbar mSnackbar;
+
     public void setScreenLockOff()
     {
         try{
@@ -1166,5 +1170,32 @@ public abstract class PacifyrAppCompactActivity  extends PacifyerActivity {
         }
 
     }
+
+    public void showSnackbarPopup() {
+        Log.d(TAG, "showSnackbarPopup");
+        mSnackbar = Snackbar.make(findViewById(android.R.id.content), "Tap open to return to call.",
+                Snackbar.LENGTH_INDEFINITE);
+
+        mSnackbar.setAction("Open", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Call your action method here
+                mSnackbar.dismiss();
+                Intent intent = new Intent(PacifyrAppCompactActivity.this, CallActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                startActivity(intent);
+            }
+        });
+        mSnackbar.show();
+    }
+
+
+    public void dismissSnackbarPopup() {
+        Log.d(TAG, "dismissSnackbarPopup");
+        if (isValid(mSnackbar) && mSnackbar.isShown()) {
+            mSnackbar.dismiss();
+        }
+    }
+
 
 }

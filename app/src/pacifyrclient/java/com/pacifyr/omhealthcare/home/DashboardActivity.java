@@ -20,25 +20,26 @@ import androidx.multidex.MultiDex;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.ceino.utilitylibrary.DeviceFitImageView;
 import com.ceino.utilitylibrary.model.pacifyr.MUser;
 import com.ceino.utilitylibrary.utils.PrefManager;
 import com.github.javiersantos.appupdater.AppUpdater;
-import com.pacifyr.omhealthcare.fragment.MySessionFragment;
-import com.pacifyr.omhealthcare.fragment.ResourcesFragment;
-import com.pacifyr.omhealthcare.fragment.SupportFragment;
-import com.pacifyr.omhealthcare.fragment.WelcomeTourFragment;
 import com.pacifyr.omhealthcare.Payment.PaymentFragment;
 import com.pacifyr.omhealthcare.R;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.pacifyr.omhealthcare.event.ActionbarEvent;
 import com.pacifyr.omhealthcare.event.AlertTypeEvent;
 import com.pacifyr.omhealthcare.event.CallEvent;
 import com.pacifyr.omhealthcare.event.ChatEvent;
 import com.pacifyr.omhealthcare.event.NotifyEvent;
+import com.pacifyr.omhealthcare.fragment.MySessionFragment;
+import com.pacifyr.omhealthcare.fragment.ResourcesFragment;
+import com.pacifyr.omhealthcare.fragment.SupportFragment;
 import com.pacifyr.omhealthcare.fragment.UserDashboardFragment;
+import com.pacifyr.omhealthcare.fragment.WelcomeTourFragment;
 import com.pacifyr.omhealthcare.home.account.AccountEditActivity;
 import com.pacifyr.omhealthcare.home.account.AccountFragment;
+import com.pacifyr.omhealthcare.model.CallStatus;
 import com.pacifyr.omhealthcare.model.interfaces.CallChatEventListner;
 import com.pacifyr.omhealthcare.network.GsonUtils;
 import com.pacifyr.omhealthcare.quickblox.chat.ui.activity.DialogsActivity;
@@ -58,6 +59,7 @@ import org.json.JSONObject;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.ceino.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
+import static com.pacifyr.omhealthcare.quickblox.activities.CallActivity.isCallActive;
 import static com.pacifyr.omhealthcare.utils.Constants.getCountryChecks;
 
 
@@ -129,6 +131,26 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
 
 
     AppUpdater appUpdater;
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (isValid(isCallActive) && isCallActive) {
+            showSnackbarPopup();
+        } else {
+            dismissSnackbarPopup();
+        }
+    }
+
+    @Subscribe
+    public void onCallStatusChanged(CallStatus callStatus) {
+        if (callStatus.isActive()) {
+            showSnackbarPopup();
+        } else {
+            dismissSnackbarPopup();
+        }
+    }
 
     @Override
     protected void onDestroy() {

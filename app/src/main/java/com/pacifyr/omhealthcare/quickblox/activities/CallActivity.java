@@ -33,11 +33,13 @@ import com.ceino.utilitylibrary.model.pacifyr.MUser;
 import com.ceino.utilitylibrary.network.UtilityNetworkService;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.event.AlertTypeEvent;
+import com.pacifyr.omhealthcare.event.BusProvider;
 import com.pacifyr.omhealthcare.event.CallTimerEvent;
 import com.pacifyr.omhealthcare.event.NotifyEvent;
 import com.pacifyr.omhealthcare.event.PicInPic;
 import com.pacifyr.omhealthcare.home.PacifyrDashboardActivity;
 import com.pacifyr.omhealthcare.home.SessionSummaryActivity;
+import com.pacifyr.omhealthcare.model.CallStatus;
 import com.pacifyr.omhealthcare.quickblox.App;
 import com.pacifyr.omhealthcare.quickblox.db.QbUsersDbManager;
 import com.pacifyr.omhealthcare.quickblox.fragments.AudioConversationFragment;
@@ -176,83 +178,7 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
     }
 
 
-    /*    public static void start(Activity activity,
-                                 boolean isIncomingCall) {
-            try {
-                mSessionDetailRoot = null;
-                isConnected = false;
-                isMissed = false;
-                isDeclined = false;
-                isOpponenetConnected = false;
-                isOppenentHangUP = false;
-                Intent intent = new Intent(activity, CallActivity.class);
-                intent.putExtra(Consts.EXTRA_IS_INCOMING_CALL, isIncomingCall);
-
-                activity.startActivity(intent);
-                //activity.finish();
-            }catch (Exception e)
-            {
-
-            }
-        }*/
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        try {
-            if (isValid(PacifyrReceiver.notificationManager)) {
-                PacifyrReceiver.notificationManager.cancel(PacifyrReceiver.notificationIdInt);
-                PacifyrReceiver.notificationManager=null;
-            }
-            setScreenLockOff();
-        }catch (Exception e)
-        {
-
-        }
-
-        isConnected=false;isMissed=false;isDeclined=false;
-        isOpponenetConnected=false;
-
-
-        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN |
-                        WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
-                        WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
-                        WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN |
-                        WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
-                        WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
-                        WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
-
-        parseIntentExtras();
-        Log.d("app_recgec","call"+sessionManager);
-        sessionManager = WebRtcSessionManager.getInstance(this);
-
-        if (!currentSessionExist()) {
-//            we have already currentSession == null, so it's no reason to do further initialization
-            finish();
-            Log.d(TAG, "finish CallActivity");
-            return;
-        }
-        if(isValid(sessionid))
-            webGetSessionDetail(sessionid);
-
-        initFields();
-        initCurrentSession(currentSession);
-
-        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
-        sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        initQBRTCClient();
-        initAudioManager();
-        initWiFiManagerListener();
-
-        //  ringtonePlayer = new RingtonePlayer(this, R.raw.beep);
-        ringtonePlayer = new RingtonePlayer(this, R.raw.pacifyr_3);
-        connectionView = (LinearLayout) View.inflate(this, R.layout.connection_popup, null);
-        checker = new PermissionsChecker(CallActivity.this);
-
-        startSuitableFragment(isInCommingCall);
-    }
+    public static boolean isCallActive = false;
 
 
     private void startScreenSharing(final Intent data){
@@ -601,50 +527,8 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
         }
         return id;
     }
-    /* @Override
-     protected void onResume() {
-         super.onResume();
 
-         ((AppChatNotUSe) AppChatNotUSe.getInstance()).setCurrentActivity(this);
-     }*/
-    public void hangUpCurrentSession() {
-        ringtonePlayer.stop();
-        LogUtils.LOGD("call","hangUpCurrentSession");
-        ringtonePlayer.stop();
-        if (getCurrentSession() != null) {
-            getCurrentSession().hangUp(new HashMap<String, String>());
-        }
-        //jpppppppppppppp
-        try {
-            //stopSessionWeb(getOpponentID(), sessionid);
-            //  stopSessionWeb(sessionid);
-            LogUtils.LOGD("call","hangUpCurrentSession sessionid"+sessionid);
-            if(!isOpponenetConnected)
-            {
-                missedSessionWeb(sessionid);
-            }
-            finish();
-
-           /* if (isInCommingCall) {
-                stopSessionWeb(getOpponentID(), sessionid);
-            }
-            else
-            {
-                stopSessionWeb(getOpponentID(),sessionid);
-            }*/
-            // declineSessionWeb(sessionid);
-            //
-            // LogUtils.LOGD("call","hangUpCurrentSession sessionid"+call_session_root.getSession().getId());
-
-            //  stopSessionWeb(pacifyerDetial,call_session_root.getSession().getId());
-        }
-        catch (Exception e)
-        {
-            LogUtils.LOGD("call","hangUpCurrentSession Exception e "+ e.getMessage());
-        }
-        //jpppppppppppppppppp
-
-    }
+    public static boolean isForeground = false;
 
     @Override
     protected void onUserLeaveHint() {
@@ -677,6 +561,157 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
                 || getCurrentFragment() != null && getCurrentFragment() instanceof VideoConversationFragment;
     }
 
+    /*    public static void start(Activity activity,
+                                 boolean isIncomingCall) {
+            try {
+                mSessionDetailRoot = null;
+                isConnected = false;
+                isMissed = false;
+                isDeclined = false;
+                isOpponenetConnected = false;
+                isOppenentHangUP = false;
+                Intent intent = new Intent(activity, CallActivity.class);
+                intent.putExtra(Consts.EXTRA_IS_INCOMING_CALL, isIncomingCall);
+
+                activity.startActivity(intent);
+                //activity.finish();
+            }catch (Exception e)
+            {
+
+            }
+        }*/
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        try {
+            if (isValid(PacifyrReceiver.notificationManager)) {
+                PacifyrReceiver.notificationManager.cancel(PacifyrReceiver.notificationIdInt);
+                PacifyrReceiver.notificationManager = null;
+            }
+            setScreenLockOff();
+        } catch (Exception e) {
+
+        }
+
+        isConnected = false;
+        isMissed = false;
+        isDeclined = false;
+        isOpponenetConnected = false;
+
+
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN |
+                        WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
+                        WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
+                        WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN |
+                        WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
+                        WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
+                        WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
+
+        parseIntentExtras();
+        Log.d("app_recgec", "call" + sessionManager);
+        sessionManager = WebRtcSessionManager.getInstance(this);
+
+        if (!currentSessionExist()) {
+//            we have already currentSession == null, so it's no reason to do further initialization
+            finish();
+            Log.d(TAG, "finish CallActivity");
+            isCallActive = false;
+            BusProvider.getInstance().post(new CallStatus(isCallActive));
+            return;
+        }
+        if (isValid(sessionid))
+            webGetSessionDetail(sessionid);
+
+        initFields();
+        initCurrentSession(currentSession);
+
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+        sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        initQBRTCClient();
+        initAudioManager();
+        initWiFiManagerListener();
+
+        //  ringtonePlayer = new RingtonePlayer(this, R.raw.beep);
+        ringtonePlayer = new RingtonePlayer(this, R.raw.pacifyr_3);
+        connectionView = (LinearLayout) View.inflate(this, R.layout.connection_popup, null);
+        checker = new PermissionsChecker(CallActivity.this);
+
+        startSuitableFragment(isInCommingCall);
+        isCallActive = true;
+        BusProvider.getInstance().post(new CallStatus(isCallActive));
+    }
+
+    /* @Override
+     protected void onResume() {
+         super.onResume();
+
+         ((AppChatNotUSe) AppChatNotUSe.getInstance()).setCurrentActivity(this);
+     }*/
+    public void hangUpCurrentSession() {
+        ringtonePlayer.stop();
+        LogUtils.LOGD("call","hangUpCurrentSession");
+        ringtonePlayer.stop();
+        if (getCurrentSession() != null) {
+            getCurrentSession().hangUp(new HashMap<String, String>());
+        }
+        //jpppppppppppppp
+        try {
+            //stopSessionWeb(getOpponentID(), sessionid);
+            //  stopSessionWeb(sessionid);
+            LogUtils.LOGD("call","hangUpCurrentSession sessionid"+sessionid);
+            if(!isOpponenetConnected)
+            {
+                missedSessionWeb(sessionid);
+            }
+            finish();
+
+            isCallActive = false;
+            BusProvider.getInstance().post(new CallStatus(isCallActive));
+           /* if (isInCommingCall) {
+                stopSessionWeb(getOpponentID(), sessionid);
+            }
+            else
+            {
+                stopSessionWeb(getOpponentID(),sessionid);
+            }*/
+            // declineSessionWeb(sessionid);
+            //
+            // LogUtils.LOGD("call","hangUpCurrentSession sessionid"+call_session_root.getSession().getId());
+
+            //  stopSessionWeb(pacifyerDetial,call_session_root.getSession().getId());
+        }
+        catch (Exception e)
+        {
+            LogUtils.LOGD("call","hangUpCurrentSession Exception e "+ e.getMessage());
+        }
+        //jpppppppppppppppppp
+
+    }
+
+    private void setAudioEnabled(boolean isAudioEnabled) {
+        if (currentSession != null && currentSession.getMediaStreamManager() != null) {
+            currentSession.getMediaStreamManager().getLocalAudioTrack().setEnabled(isAudioEnabled);
+        }
+    }
+
+    private void setVideoEnabled(boolean isVideoEnabled) {
+        if (currentSession != null && currentSession.getMediaStreamManager() != null) {
+            currentSession.getMediaStreamManager().getLocalVideoTrack().setEnabled(isVideoEnabled);
+        }
+    }
+
+    private void startIncomeCallTimer(long time) {
+        showIncomingCallWindowTaskHandler.postAtTime(showIncomingCallWindowTask, SystemClock.uptimeMillis() + time);
+    }
+
+    private void stopIncomeCallTimer() {
+        Log.d(TAG, "stopIncomeCallTimer");
+        showIncomingCallWindowTaskHandler.removeCallbacks(showIncomingCallWindowTask);
+    }
+
     public void hangUpCurrentSessionMe() {
         Bundle args =
                 FirebaseLogging.getConstantArgsLoggedIn(CallActivity.this);
@@ -707,9 +742,12 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
         {
             LogUtils.LOGD("call","CA hangUpCurrentSessionMe Exception e "+ e.getMessage());
         }
+        isCallActive = false;
+        BusProvider.getInstance().post(new CallStatus(isCallActive));
         //jpppppppppppppppppp
 
     }
+
     public void hangUpCurrentSessionOther() {
        // ToastHandler.newInstance(CallActivity.this).mustShowToast("Pacifyr is buzy");
         LogUtils.LOGD("call","hangUpCurrentSession");
@@ -728,6 +766,9 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
                 showToast("Thank you for the call. You are not billed as Service was not provided");
             }
             finish();
+
+            isCallActive = false;
+            BusProvider.getInstance().post(new CallStatus(isCallActive));
         }
         catch (Exception e)
         {
@@ -736,39 +777,19 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
         //jpppppppppppppppppp
     }
 
-    private void setAudioEnabled(boolean isAudioEnabled) {
-        if (currentSession != null && currentSession.getMediaStreamManager() != null) {
-            currentSession.getMediaStreamManager().getLocalAudioTrack().setEnabled(isAudioEnabled);
-        }
-    }
-
-    private void setVideoEnabled(boolean isVideoEnabled) {
-        if (currentSession != null && currentSession.getMediaStreamManager() != null) {
-            currentSession.getMediaStreamManager().getLocalVideoTrack().setEnabled(isVideoEnabled);
-        }
-    }
-
-    private void startIncomeCallTimer(long time) {
-        showIncomingCallWindowTaskHandler.postAtTime(showIncomingCallWindowTask, SystemClock.uptimeMillis() + time);
-    }
-
-    private void stopIncomeCallTimer() {
-        Log.d(TAG, "stopIncomeCallTimer");
-        showIncomingCallWindowTaskHandler.removeCallbacks(showIncomingCallWindowTask);
-    }
-
-
     @Override
     protected void onResume() {
         super.onResume();
        networkConnectionChecker.registerListener(this);
         App.getInstance().setCurrentActivity(this);
+        isForeground = true;
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         networkConnectionChecker.unregisterListener(this);
+        isForeground = false;
     }
 
     @Override
@@ -916,6 +937,8 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
             Intent returnIntent = new Intent();
             setResult(Consts.CALL_ACTIVITY_CLOSE_WIFI_DISABLED, returnIntent);
             finish();
+            isCallActive = false;
+            BusProvider.getInstance().post(new CallStatus(isCallActive));
         }
     }
 
@@ -984,6 +1007,8 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
 //                    stopSessionWeb(sessionid);
                     getPrefManager().saveSessionId(null);
                     finish();
+                    isCallActive = false;
+                    BusProvider.getInstance().post(new CallStatus(isCallActive));
                 }
                 else if(!isMissed && !isDeclined && isOpponenetConnected&&isOppenentHangUP&&!isInCommingCall)
                 {
@@ -1018,6 +1043,8 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
                 LogUtils.LOGD("call", "onDestroy exception" + e.getMessage());
             }
             finish();
+            isCallActive = false;
+            BusProvider.getInstance().post(new CallStatus(isCallActive));
             //  onDestroy();
         }
     }
@@ -1125,6 +1152,8 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
     public void onAcceptCurrentSession() {
         if (currentSession != null) {
             addConversationFragment(true);
+            isCallActive = true;
+            BusProvider.getInstance().post(new CallStatus(isCallActive));
             //  connectedSessionWeb(sessionid);
             // connectedSessionDetailWeb(sessionid);
         } else {
