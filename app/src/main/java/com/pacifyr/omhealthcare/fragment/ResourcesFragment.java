@@ -18,6 +18,7 @@ import com.ceino.utilitylibrary.utils.PrefManager;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.adapter.ResourcesListAdapter;
 import com.pacifyr.omhealthcare.event.NotifyEvent;
+import com.pacifyr.omhealthcare.home.DashboardActivity;
 import com.pacifyr.omhealthcare.model.ModelResources;
 import com.pacifyr.omhealthcare.network.GsonUtils;
 import com.pacifyr.omhealthcare.utility.BaseFragment;
@@ -44,6 +45,12 @@ public class ResourcesFragment extends BaseFragment {
         // Required empty public constructor
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((DashboardActivity) getActivity()).changeActionBarTitleForFragments(getResources().getString(R.string.nav_resources_title));
+
+    }
 
     public static ResourcesFragment newInstance(String param1, String param2) {
         ResourcesFragment fragment = new ResourcesFragment();

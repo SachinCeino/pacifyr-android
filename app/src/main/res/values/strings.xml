@@ -167,4 +167,15 @@ Yor call is routed to the nearest crisis center.</string>
 
     <string name="main_font_bold">Avenir-Medium.ttf</string>
     <string name="main_font_medium">Avenir-Medium.ttf</string>
+
+
+    //navigation drawer menu titles
+    <string name="nav_support_title">SUPPORT</string>
+    <string name="nav_mydashbord_title">MY DASHBOARD</string>
+    <string name="nav_profile_title">PROFILE</string>
+    <string name="nav_my_session_title">MY SESSIONS</string>
+    <string name="nav_welcome_title">TUTORIAL</string>
+    <string name="nav_payment_title">PAYMENT</string>
+    <string name="nav_resources_title">RESOURCES</string>
+
 </resources>

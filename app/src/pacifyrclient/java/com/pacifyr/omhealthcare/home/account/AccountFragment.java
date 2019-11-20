@@ -13,6 +13,7 @@ import com.androidquery.callback.AjaxStatus;
 import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.event.NotifyEvent;
+import com.pacifyr.omhealthcare.home.DashboardActivity;
 import com.pacifyr.omhealthcare.network.GsonUtils;
 import com.pacifyr.omhealthcare.network.NetworkService;
 import com.pacifyr.omhealthcare.utility.BaseFragment;
@@ -53,6 +54,7 @@ public class AccountFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
+        ((DashboardActivity) getActivity()).changeActionBarTitleForFragments(getResources().getString(R.string.nav_profile_title));
         userDetailWeb(getUserID(), new AjaxCallback<JSONObject>() {
             @Override
             public void callback(String url, JSONObject json, AjaxStatus status) {

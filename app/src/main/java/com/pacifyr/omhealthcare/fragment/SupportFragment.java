@@ -20,6 +20,7 @@ import com.ceino.utilitylibrary.utils.PrefManager;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.event.ActionbarEvent;
 import com.pacifyr.omhealthcare.event.NotifyEvent;
+import com.pacifyr.omhealthcare.home.DashboardActivity;
 import com.pacifyr.omhealthcare.utility.BaseFragment;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -46,7 +47,12 @@ public class SupportFragment extends BaseFragment {
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((DashboardActivity) getActivity()).changeActionBarTitleForFragments(getResources().getString(R.string.nav_support_title));
 
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -95,7 +101,7 @@ public class SupportFragment extends BaseFragment {
                                 @Override
                                 public void run() {
                                     hideStatus();
-                                    postEventOnMainThread(new ActionbarEvent("MY DASHBOARD"));
+                                    // postEventOnMainThread(new ActionbarEvent("MY DASHBOARD"));
                                 }
                             }, 2000);
 

@@ -26,6 +26,7 @@ import com.pacifyr.omhealthcare.adapter.MySessionAdapter;
 import com.pacifyr.omhealthcare.adapter.SessionWeekCustomerAdapter;
 import com.pacifyr.omhealthcare.event.NotifyEvent;
 import com.pacifyr.omhealthcare.event.WeekSetSessionEvent;
+import com.pacifyr.omhealthcare.home.DashboardActivity;
 import com.pacifyr.omhealthcare.network.GsonUtils;
 import com.pacifyr.omhealthcare.network.NetworkService;
 import com.pacifyr.omhealthcare.quickblox.util.NestedScroll;
@@ -78,6 +79,12 @@ public class MySessionFragment extends BaseFragment {
 
     public MySessionFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((DashboardActivity) getActivity()).changeActionBarTitleForFragments(getResources().getString(R.string.nav_my_session_title));
     }
 
     @Override

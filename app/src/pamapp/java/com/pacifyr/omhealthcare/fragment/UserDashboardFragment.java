@@ -27,6 +27,7 @@ import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.event.NotifyEvent;
 import com.pacifyr.omhealthcare.home.ConnectToPacifyrActivity;
 import com.pacifyr.omhealthcare.home.ConnectToSinglePacifyrActivity;
+import com.pacifyr.omhealthcare.home.DashboardActivity;
 import com.pacifyr.omhealthcare.home.LastSessionActivity;
 import com.pacifyr.omhealthcare.home.MySessionsActivity;
 import com.pacifyr.omhealthcare.home.SessionSummaryActivity;
@@ -274,6 +275,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
     @Override
     public void onResume() {
         super.onResume();
+        ((DashboardActivity)getActivity()).changeActionBarTitleForFragments(getResources().getString(R.string.nav_mydashbord_title));
 
         try {
 

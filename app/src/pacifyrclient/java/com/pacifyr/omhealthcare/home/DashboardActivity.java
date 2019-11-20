@@ -242,7 +242,6 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
             public void onClick(View v) {
                 hideRightLayActionbar();
                 showFragment(new UserDashboardFragment());
-                defSetText(titleTxv,getResources().getString(R.string.mydashboard));
             }
         });
         detailLlay.setOnClickListener(new View.OnClickListener() {
@@ -250,7 +249,6 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
             public void onClick(View v) {
                 showRightLayActionbar();
                 showFragment(new AccountFragment());
-                defSetText(titleTxv, "PROFILE");
             }
         });
         connectToPacifyr.setOnClickListener(new View.OnClickListener() {
@@ -269,7 +267,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
             public void onClick(View v) {
                 hideRightLayActionbar();
                 showFragment(new WelcomeTourFragment());
-                defSetText(titleTxv, "TUTORIAL");
+
             }
         });
         browsePacifyr.setOnClickListener(new View.OnClickListener() {
@@ -292,7 +290,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
             public void onClick(View v) {
                 hideRightLayActionbar();
                 showFragment(new PaymentFragment());
-                defSetText(titleTxv, "PAYMENT");
+
             }
         });
 
@@ -321,7 +319,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
             public void onClick(View v) {
                 hideRightLayActionbar();
                 showFragment(new MySessionFragment());
-                defSetText(titleTxv,getResources().getString(R.string.mysessions));
+
             }
         });
 
@@ -330,7 +328,6 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
             public void onClick(View v) {
                 hideRightLayActionbar();
                 showFragment(new SupportFragment());
-                defSetText(titleTxv,getResources().getString(R.string.contact_us));
             }
         });
 
@@ -350,7 +347,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
             public void onClick(View v) {
                 hideRightLayActionbar();
                 showFragment(new ResourcesFragment());
-                defSetText(titleTxv, getResources().getString(R.string.resources));
+
             }
         });
 
@@ -687,6 +684,16 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
             e.printStackTrace();
         }
     }
+
+
+    /**
+     * set Action bar title for fragments whic are loading from Navigation Drawer menu
+     **/
+
+    public void changeActionBarTitleForFragments(String mActionBarTitle) {
+        defSetText(titleTxv, mActionBarTitle);
+    }
+
 
 }
 

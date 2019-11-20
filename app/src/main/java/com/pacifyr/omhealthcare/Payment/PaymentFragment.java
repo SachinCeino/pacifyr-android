@@ -19,6 +19,7 @@ import com.ceino.utilitylibrary.utils.PrefManager;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.adapter.ListSavedCardAdapter;
 import com.pacifyr.omhealthcare.event.NotifyEvent;
+import com.pacifyr.omhealthcare.home.DashboardActivity;
 import com.pacifyr.omhealthcare.utility.BaseFragment;
 import com.squareup.otto.Subscribe;
 
@@ -41,6 +42,11 @@ public class PaymentFragment extends BaseFragment {
         // Required empty public constructor
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((DashboardActivity) getActivity()).changeActionBarTitleForFragments(getResources().getString(R.string.nav_payment_title));
+    }
 
     public static PaymentFragment newInstance(String param1, String param2) {
         PaymentFragment fragment = new PaymentFragment();

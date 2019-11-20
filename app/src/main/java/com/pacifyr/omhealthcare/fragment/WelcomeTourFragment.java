@@ -14,6 +14,7 @@ import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.adapter.CustomPagerAdapter;
 import com.pacifyr.omhealthcare.event.ActionbarEvent;
 import com.pacifyr.omhealthcare.event.NotifyEvent;
+import com.pacifyr.omhealthcare.home.DashboardActivity;
 import com.pacifyr.omhealthcare.utility.BaseFragment;
 
 public class WelcomeTourFragment extends BaseFragment {
@@ -31,6 +32,12 @@ public class WelcomeTourFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.activity_welcome_tour, null);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((DashboardActivity) getActivity()).changeActionBarTitleForFragments(getResources().getString(R.string.nav_welcome_title));
     }
 
     @Override
@@ -57,7 +64,7 @@ public class WelcomeTourFragment extends BaseFragment {
                     FragmentTransaction ft = fm.beginTransaction();
                     UserDashboardFragment fragment = new UserDashboardFragment();
                     getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.activity_main_content_fragment, fragment).commit();
-                postEventOnMainThread(new ActionbarEvent("MY DASHBOARD"));
+                // postEventOnMainThread(new ActionbarEvent("MY DASHBOARD"));
                 /*}
                 else {
                     FragmentManager fm = getActivity().getSupportFragmentManager();
