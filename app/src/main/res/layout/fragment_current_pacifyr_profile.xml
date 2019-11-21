@@ -58,7 +58,7 @@
             <com.pacifyr.omhealthcare.customview.MainTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="10dp"
+                android:textSize="12dp"
                 android:layout_marginLeft="10dp"
                 android:textColor="@color/white"
                 android:textAlignment="center"
@@ -91,7 +91,7 @@
             <com.pacifyr.omhealthcare.customview.MainTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="10dp"
+                android:textSize="12dp"
                 android:layout_marginLeft="5dp"
                 android:textColor="@color/white"
                 android:textAlignment="center"
@@ -103,7 +103,7 @@
         <com.pacifyr.omhealthcare.customview.MainTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="10dp"
+            android:textSize="12dp"
             android:layout_marginTop="5dp"
             android:layout_marginLeft="5dp"
             android:textColor="@color/white"
@@ -286,7 +286,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textStyle="bold"
-                        android:textSize="11sp"
+                        android:textSize="12sp"
                         android:layout_marginBottom="10dp"
                         android:id="@+id/snapshot_ctxv"
                         android:textColor="@color/education_desc"/>
@@ -324,7 +324,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textStyle="bold"
-                        android:textSize="11sp"
+                        android:textSize="12sp"
                         android:layout_centerHorizontal="true"
                         android:id="@+id/website_ctxv"
                         android:textColor="@color/education_desc"
@@ -369,7 +369,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/special_list_ctxv"
                         android:textColor="@color/education_desc"
-                        android:textSize="@dimen/sp11"/>
+                        android:textSize="@dimen/sp12" />
 
                 </LinearLayout>
 

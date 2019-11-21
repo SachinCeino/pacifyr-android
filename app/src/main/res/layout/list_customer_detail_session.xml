@@ -66,7 +66,7 @@
             <com.pacifyr.omhealthcare.customview.MainTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="10sp"
+                android:textSize="12sp"
                 android:layout_marginTop="2dp"
                 android:text="01-09-2018 03:05 pm"
                 android:textColor="@color/grey_hex_7c"
@@ -86,7 +86,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="How customer felt"
-                android:textSize="10sp"
+                android:textSize="12sp"
                 android:layout_marginLeft="10dp"
                 android:textColor="@color/black"
                 android:id="@+id/felt_ctxv"/>
@@ -103,7 +103,7 @@
                 <com.pacifyr.omhealthcare.customview.MainTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="6sp"
+                    android:textSize="12sp"
                     android:text="Before"
                     android:textColor="@color/grey_hex_7c"
                     android:id="@+id/before_call_ctxv"/>
@@ -116,7 +116,7 @@
                 <com.pacifyr.omhealthcare.customview.MainTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="10sp"
+                    android:textSize="12sp"
                     android:text=""
                     android:textColor="@color/blue_pacifyr"
                     android:id="@+id/before_feel_ctxv"/>
@@ -135,7 +135,7 @@
                 <com.pacifyr.omhealthcare.customview.MainTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="6sp"
+                    android:textSize="12sp"
                     android:text="After"
                     android:textColor="@color/grey_hex_7c"
                     android:id="@+id/after_call_ctxv"/>
@@ -148,7 +148,7 @@
                 <com.pacifyr.omhealthcare.customview.MainTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="10sp"
+                    android:textSize="12sp"
                     android:text=""
                     android:textColor="@color/blue_pacifyr"
                     android:id="@+id/after_feel_ctxv"/>
@@ -167,7 +167,7 @@
                 <com.pacifyr.omhealthcare.customview.MainTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="7sp"
+                    android:textSize="12sp"
                     android:text="Your opinion"
                     android:textColor="@color/grey_hex_7c"
                     android:id="@+id/your_openion_ctxv"/>
@@ -180,7 +180,7 @@
                 <com.pacifyr.omhealthcare.customview.MainTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="10sp"
+                    android:textSize="12sp"
                     android:text=""
                     android:textColor="@color/blue_pacifyr"
                     android:id="@+id/openinon_emotion_ctxv"/>

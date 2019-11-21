@@ -159,7 +159,7 @@
                             android:layout_height="wrap_content"
                             android:layout_width="wrap_content"
                             android:layout_gravity="center"
-                            android:textSize="11sp"
+                            android:textSize="12sp"
                             android:text="Account not configured to receive bouns"
                             />
 
@@ -205,7 +205,7 @@
                         <TextView
                             android:layout_height="wrap_content"
                             android:layout_width="wrap_content"
-                            android:textSize="@dimen/sp10"
+                            android:textSize="@dimen/sp12"
                             android:layout_gravity="center"
                             android:text="hours to work" />
                     </LinearLayout>
@@ -230,7 +230,7 @@
                             android:layout_height="wrap_content"
                             android:layout_width="wrap_content"
                             android:layout_gravity="center"
-                            android:textSize="@dimen/sp10"
+                            android:textSize="@dimen/sp12"
                             android:text="hours to bonus" />
                     </LinearLayout>
 

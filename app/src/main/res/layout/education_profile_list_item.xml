@@ -14,7 +14,7 @@
     <com.pacifyr.omhealthcare.customview.MainTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="10sp"
+        android:textSize="12sp"
         android:id="@+id/edu_desc_ctxv"
         android:layout_centerHorizontal="true"
         android:textColor="@color/education_desc"
@@ -25,7 +25,7 @@
     <com.pacifyr.omhealthcare.customview.MainTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="10sp"
+        android:textSize="12sp"
         android:id="@+id/edu_duration_ctxv"
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="3dp"

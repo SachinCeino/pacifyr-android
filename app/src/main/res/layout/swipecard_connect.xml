@@ -52,7 +52,7 @@
                             android:layout_height="wrap_content"
                             android:id="@+id/indicator_ctxv"
                             android:textStyle="bold"
-                            android:textSize="10sp"
+                            android:textSize="12sp"
                             android:layout_marginLeft="7dp"
                             android:textColor="@color/grey_dark"
                             android:text="@string/offline"/>
@@ -89,7 +89,7 @@
                             android:textColor="@color/grey_dark"
                             android:id="@+id/specialities_ctxv"
                             android:maxLines="3"
-                            android:textSize="7sp"
+                        android:textSize="12sp"
                             android:text=""/>
 
                         <LinearLayout
@@ -116,7 +116,7 @@
                                 android:id="@+id/item_review_tv"
                                 android:layout_marginLeft="5dp"
                                 android:textColor="@color/blue_text_dark"
-                                android:textSize="8sp"/>
+                                android:textSize="12sp" />
 
                         </LinearLayout>
                     <LinearLayout
@@ -143,7 +143,7 @@
                             android:id="@+id/price_dollar"
                             android:textColor="@color/colorPrimary"
                             android:textStyle="bold"
-                            android:textSize="10sp"/>
+                            android:textSize="12sp" />
 
                         <!-- <com.pacifyr.omhealthcare.customview.MainTextView
                              android:layout_width="wrap_content"
@@ -170,7 +170,7 @@
                             android:id="@+id/chat_price_ctxv"
                             android:textColor="@color/blue_text_dark"
                             android:textAlignment="center"
-                            android:textSize="10sp"/>
+                            android:textSize="12sp" />
 
                     </LinearLayout>
 

@@ -108,7 +108,7 @@
             <com.pacifyr.omhealthcare.customview.MainTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="10sp"
+                android:textSize="12sp"
                 android:text="Before"
                 android:textColor="@color/grey_dark"
                 android:id="@+id/before_call_ctxv"/>
@@ -149,7 +149,7 @@
             <com.pacifyr.omhealthcare.customview.MainTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="10sp"
+                android:textSize="12sp"
                 android:text="After"
                 android:textColor="@color/grey_dark"
                 android:id="@+id/after_call_ctxv"/>

@@ -14,7 +14,7 @@
         android:layout_width="wrap_content"
         android:maxWidth="90dp"
         android:layout_height="wrap_content"
-        android:textSize="10sp"
+        android:textSize="12sp"
         android:textAlignment="center"
         android:id="@+id/pac_name"
         android:maxLines="2"

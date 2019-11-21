@@ -181,7 +181,7 @@
                 android:layout_width="wrap_content"
                 android:layout_below="@+id/year_edt"
                 android:layout_marginTop="10dp"
-                android:textSize="@dimen/sp10"
+                android:textSize="@dimen/sp12"
                 android:layout_height="wrap_content" />
 
             <!--  <com.pacifyr.omhealthcare.customview.MainTextView
@@ -201,7 +201,7 @@
                 android:layout_toRightOf="@id/checkBox"
                 android:id="@+id/terms_of_use"
                 android:layout_below="@+id/year_edt"
-                android:textSize="10dp"
+                android:textSize="12dp"
                 android:textCursorDrawable="@color/om_blue"
                 android:layout_marginTop="20dp"
                 android:text="@string/register_terms_text"/>

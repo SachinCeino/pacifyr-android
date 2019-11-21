@@ -187,7 +187,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textStyle="bold"
-                            android:textSize="10sp"
+                            android:textSize="12sp"
                             android:textColor="@color/text_inside_circle_light"
                             android:text="@string/sessions"/>
 
@@ -215,7 +215,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textStyle="bold"
-                            android:textSize="10sp"
+                            android:textSize="12sp"
                             android:textColor="@color/text_inside_circle_light"
                             android:text="@string/starts"/>
                     </LinearLayout>
@@ -424,7 +424,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textStyle="bold"
-                        android:textSize="10sp"
+                        android:textSize="12sp"
                         android:textColor="@color/text_inside_circle_light"
                         android:text="@string/hours"/>
 
@@ -452,7 +452,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textStyle="bold"
-                        android:textSize="10sp"
+                        android:textSize="12sp"
                         android:textColor="@color/text_inside_circle_light"
                         android:text="@string/minutes"/>
                 </LinearLayout>
@@ -483,7 +483,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textStyle="bold"
-                            android:textSize="10sp"
+                            android:textSize="12sp"
                             android:textColor="@color/text_inside_circle_light"
                             android:text="@string/sessions"/>
 
@@ -509,7 +509,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textStyle="bold"
-                            android:textSize="10sp"
+                            android:textSize="12sp"
                             android:textColor="@color/text_inside_circle_light"
                             android:text="@string/earned"/>
 <!-- android:text="@string/earned"-->
