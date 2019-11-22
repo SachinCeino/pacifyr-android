@@ -41,6 +41,7 @@
                 android:text=""
                 android:textSize="17sp"
                 android:textStyle="bold"
+                android:minEms="10"
                 android:textColor="@color/blue_text_dark"
                 android:id="@+id/name_user_ctxv"/>
             <LinearLayout
