@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -485,9 +486,12 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
                     public void onClick(View view) {
 
                         if(!pacifyer_obj.isReadyToCall()) {
-                            Snackbar offlineSnackbar = Snackbar.make(topRlay, pacifyer_obj.getName() + " is currently offline. You can either chat with " + pacifyer_obj.getName() + " or try again later", Snackbar.LENGTH_LONG);
+
+                            Snackbar offlineSnackbar = Snackbar.make(topRlay, pacifyer_obj.getName() + " is currently offline. You can either chat with " + pacifyer_obj.getName() + " or try again later.", Snackbar.LENGTH_LONG);
+                            View snackbarView = offlineSnackbar.getView();
+                            TextView snackTextView = (TextView) snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
+                            snackTextView.setMaxLines(4);
                             offlineSnackbar.show();
-                            //ToastHandler.newInstance(ConnectToSinglePacifyrActivity.this).mustShowToast(pacifyer_obj.getName() + " is currently offline. You can either chat with " + pacifyer_obj.getName() + " or try agein later");
                             return;
                         }
 
@@ -536,9 +540,11 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
                     public void onClick(View view) {
 
                         if(!pacifyer_obj.isReadyToCall()) {
-                            Snackbar offlineSnackbar = Snackbar.make(topRlay, pacifyer_obj.getName() + " is currently offline. You can either chat with " + pacifyer_obj.getName() + " or try again later", Snackbar.LENGTH_LONG);
+                            Snackbar offlineSnackbar = Snackbar.make(topRlay, pacifyer_obj.getName() + " is currently offline. You can either chat with " + pacifyer_obj.getName() + " or try again later.", Snackbar.LENGTH_LONG);
+                            View snackbarView = offlineSnackbar.getView();
+                            TextView snackTextView = (TextView) snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
+                            snackTextView.setMaxLines(4);
                             offlineSnackbar.show();
-                            //ToastHandler.newInstance(ConnectToSinglePacifyrActivity.this).mustShowToast(pacifyer_obj.getName() + " is currently offline. You can either chat with " + pacifyer_obj.getName() + " or try agein later");
                             return;
                         }
 

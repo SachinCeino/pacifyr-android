@@ -486,7 +486,7 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
                     public void onClick(View view) {
 
                         if(!pacifyer_obj.isReadyToCall()) {
-                            Snackbar offlineSnackbar = Snackbar.make(topRlay, pacifyer_obj.getName() + " is currently offline. You can either chat with " + pacifyer_obj.getName() + " or try again later", Snackbar.LENGTH_LONG);
+                            Snackbar offlineSnackbar = Snackbar.make(topRlay, pacifyer_obj.getName() + " is currently offline. You can either chat with " + pacifyer_obj.getName() + " or try again later.", Snackbar.LENGTH_LONG);
                             offlineSnackbar.show();
                             //ToastHandler.newInstance(ConnectToSinglePacifyrActivity.this).mustShowToast(pacifyer_obj.getName() + " is currently offline. You can either chat with " + pacifyer_obj.getName() + " or try agein later");
                             return;
@@ -537,7 +537,7 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
                     public void onClick(View view) {
 
                         if(!pacifyer_obj.isReadyToCall()) {
-                            Snackbar offlineSnackbar = Snackbar.make(topRlay, pacifyer_obj.getName() + " is currently offline. You can either chat with " + pacifyer_obj.getName() + " or try again later", Snackbar.LENGTH_LONG);
+                            Snackbar offlineSnackbar = Snackbar.make(topRlay, pacifyer_obj.getName() + " is currently offline. You can either chat with " + pacifyer_obj.getName() + " or try again later.", Snackbar.LENGTH_LONG);
                             offlineSnackbar.show();
                             //ToastHandler.newInstance(ConnectToSinglePacifyrActivity.this).mustShowToast(pacifyer_obj.getName() + " is currently offline. You can either chat with " + pacifyer_obj.getName() + " or try agein later");
                             return;

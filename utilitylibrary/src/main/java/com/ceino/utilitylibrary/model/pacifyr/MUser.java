@@ -414,7 +414,7 @@ public class MUser implements Serializable{
         }
     public String getName ()
     {
-        return firstName+" "+lastName;
+        return firstName.trim() + " " + lastName.trim();
     }
         public void setFirstName (String firstName)
         {

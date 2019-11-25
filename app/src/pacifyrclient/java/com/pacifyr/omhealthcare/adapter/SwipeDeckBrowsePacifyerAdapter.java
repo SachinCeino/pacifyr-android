@@ -306,10 +306,11 @@ public class SwipeDeckBrowsePacifyerAdapter extends BaseAdapter {
                             }, 1000);
 
                         } else {
-                            Snackbar offlineSnackbar = Snackbar.make(v, pacifyer.getName() + " is currently offline. You can either chat with " + pacifyer.getName() + " or try again later", Snackbar.LENGTH_LONG);
+                            Snackbar offlineSnackbar = Snackbar.make(v, pacifyer.getName() + " is currently offline. You can either chat with " + pacifyer.getName() + " or try again later.", Snackbar.LENGTH_LONG);
+                            View snackbarView = offlineSnackbar.getView();
+                            TextView snackTextView = (TextView) snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
+                            snackTextView.setMaxLines(4);
                             offlineSnackbar.show();
-                            //ToastHandler.newInstance(context).mustShowToast(pacifyer.getName() + " is currently offline. You can either chat with " + pacifyer.getName() + " or try agein later");
-                            //ToastHandler.newInstance(context).mustShowToast("Please contact later. Pacifyer not available now");
                         }
 
 
@@ -347,10 +348,11 @@ public class SwipeDeckBrowsePacifyerAdapter extends BaseAdapter {
                             }, 1000);
 
                         } else {
-                            Snackbar offlineSnackbar = Snackbar.make(v, pacifyer.getName() + " is currently offline. You can either chat with " + pacifyer.getName() + " or try again later", Snackbar.LENGTH_SHORT);
+                            Snackbar offlineSnackbar = Snackbar.make(v, pacifyer.getName() + " is currently offline. You can either chat with " + pacifyer.getName() + " or try again later.", Snackbar.LENGTH_LONG);
+                            View snackbarView = offlineSnackbar.getView();
+                            TextView snackTextView = (TextView) snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
+                            snackTextView.setMaxLines(4);
                             offlineSnackbar.show();
-                            //ToastHandler.newInstance(context).mustShowToast(pacifyer.getName() + " is currently offline. You can either chat with " + pacifyer.getName() + " or try agein later");
-                            //ToastHandler.newInstance(context).mustShowToast("Please contact later. Pacifyer not available now");
                         }
 
                         //  Toast.makeText(context,"Video call",Toast.LENGTH_SHORT).show();
@@ -454,9 +456,11 @@ public class SwipeDeckBrowsePacifyerAdapter extends BaseAdapter {
                         if (pacifyer.isReadyToCall())
                             ConnectToSinglePacifyrActivity.start(context, searchResults.get(position));
                         else {
-                            Snackbar offlineSnackbar = Snackbar.make(v, pacifyer.getName() + " is currently offline. You can either chat with " + pacifyer.getName() + " or try again later", Snackbar.LENGTH_SHORT);
+                            Snackbar offlineSnackbar = Snackbar.make(v, pacifyer.getName() + " is currently offline. You can either chat with " + pacifyer.getName() + " or try again later.", Snackbar.LENGTH_LONG);
+                            View snackbarView = offlineSnackbar.getView();
+                            TextView snackTextView = (TextView) snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
+                            snackTextView.setMaxLines(4);
                             offlineSnackbar.show();
-                            //ToastHandler.newInstance(context).mustShowToast(pacifyer.getName()+" is currently offline. You can either chat with "+pacifyer.getName()+" or try agein later");
                         }
 
 

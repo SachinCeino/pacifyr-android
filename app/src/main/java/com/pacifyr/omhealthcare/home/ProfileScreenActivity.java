@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.appcompat.widget.AppCompatRatingBar;
 import androidx.cardview.widget.CardView;
@@ -226,7 +227,10 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
 
                         if(!mpacifyerDetial.isReadyToCall()) {
 
-                            offlineSnackbar = Snackbar.make(topRlay, mpacifyerDetial.getName() + " is currently offline. You can either chat with " + mpacifyerDetial.getName() + " or try again later", Snackbar.LENGTH_LONG);
+                            offlineSnackbar = Snackbar.make(topRlay, mpacifyerDetial.getName() + " is currently offline. You can either chat with " + mpacifyerDetial.getName() + " or try again later.", Snackbar.LENGTH_LONG);
+                            View snackbarView = offlineSnackbar.getView();
+                            TextView snackTextView = (TextView) snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
+                            snackTextView.setMaxLines(4);
                             offlineSnackbar.show();
                             //ToastHandler.newInstance(ProfileScreenActivity.this).mustShowToast(mpacifyerDetial.getName() + " is currently offline. You can either chat with " + mpacifyerDetial.getName() + " or try agein later");
                             return;
@@ -297,9 +301,12 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
                             return;
 
                         if(!mpacifyerDetial.isReadyToCall()) {
-                            offlineSnackbar = Snackbar.make(topRlay, mpacifyerDetial.getName() + " is currently offline. You can either chat with " + mpacifyerDetial.getName() + " or try again later", Snackbar.LENGTH_LONG);
+
+                            offlineSnackbar = Snackbar.make(topRlay, mpacifyerDetial.getName() + " is currently offline. You can either chat with " + mpacifyerDetial.getName() + " or try again later.", Snackbar.LENGTH_LONG);
+                            View snackbarView = offlineSnackbar.getView();
+                            TextView snackTextView = (TextView) snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
+                            snackTextView.setMaxLines(4);
                             offlineSnackbar.show();
-                            //ToastHandler.newInstance(ProfileScreenActivity.this).mustShowToast(mpacifyerDetial.getName() + " is currently offline. You can either chat with " + mpacifyerDetial.getName() + " or try agein later");
                             return;
                         }
 
