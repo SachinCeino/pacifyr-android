@@ -82,7 +82,7 @@ public class SupportFragment extends BaseFragment {
     private void sendFeedbackMessage() {
         try {
             if (isValid(messageText)) {
-
+                sendRlay.setClickable(false);
                 PrefManager prefM = PrefManager.getInstance(getContext());
                 String token = prefM.getAccessToken();
                 String userid = prefM.getUserID();
@@ -91,6 +91,7 @@ public class SupportFragment extends BaseFragment {
                     @Override
                     public void callback(String url, JSONObject json, AjaxStatus status) {
                         try {
+                            sendRlay.setClickable(true);
                             String js = json.toString();
                             setStatus("Your message is sent successfully", R.color.md_green_400);
                             messageEdit.setText("");
@@ -106,6 +107,7 @@ public class SupportFragment extends BaseFragment {
                             }, 2000);
 
                         } catch (Exception e) {
+                            sendRlay.setClickable(true);
                             hideProgress();
                             e.printStackTrace();//RespSearchPacifyrWOption
                         }
@@ -125,6 +127,7 @@ public class SupportFragment extends BaseFragment {
 //aq.ajax(url,JSONObject.class, cb);
                 } catch (Exception ex) {
                     ex.printStackTrace();
+                    sendRlay.setClickable(true);
                 }
             } else {
                 showIOSDialogOK("Alert", "Please enter your message", "Ok");
@@ -132,6 +135,7 @@ public class SupportFragment extends BaseFragment {
         }
         catch(Exception exx)
         {
+            sendRlay.setClickable(true);
             exx.printStackTrace();
         }
     }
