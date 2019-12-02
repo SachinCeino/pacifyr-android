@@ -367,7 +367,9 @@
         layout="@layout/view_outgoing_screen"
         android:visibility="gone" />
 
-    <include layout="@layout/view_audio_action_buttons_conversation_fragment" />
+    <include
+        android:id="@+id/call_layout"
+        layout="@layout/view_audio_action_buttons_conversation_fragment" />
 
     <com.pacifyr.omhealthcare.customview.MainTextView
         android:id="@+id/billing_status"
