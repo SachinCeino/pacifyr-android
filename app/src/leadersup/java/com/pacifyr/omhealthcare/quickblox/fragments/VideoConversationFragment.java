@@ -8,13 +8,6 @@ import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.SystemClock;
-import androidx.annotation.DimenRes;
-import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.SparseArray;
@@ -32,9 +25,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import androidx.annotation.DimenRes;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.ceino.utilitylibrary.DeviceFitImageView;
 import com.ceino.utilitylibrary.model.pacifyr.MEmotion;
 import com.ceino.utilitylibrary.model.pacifyr.MUser;
@@ -43,11 +43,12 @@ import com.gdacciaro.iOSDialog.iOSDialog;
 import com.gdacciaro.iOSDialog.iOSDialogClickListener;
 import com.pacifyr.omhealthcare.R;
 import com.pacifyr.omhealthcare.activity.ActivityChngEmotionFromCall;
-import com.pacifyr.omhealthcare.adapter.EmotionSpecialityAdapter;
 import com.pacifyr.omhealthcare.base.PacifyerActivity;
+import com.pacifyr.omhealthcare.customview.MainTextView;
 import com.pacifyr.omhealthcare.event.CallChangeEmotion;
 import com.pacifyr.omhealthcare.event.CallEvent;
 import com.pacifyr.omhealthcare.event.NotifyEvent;
+import com.pacifyr.omhealthcare.event.PicInPic;
 import com.pacifyr.omhealthcare.fragment.UserDashboardFragment;
 import com.pacifyr.omhealthcare.home.CustomerDetailActivity;
 import com.pacifyr.omhealthcare.home.ProfileScreenActivity;
@@ -1613,6 +1614,45 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void onPictureInPicture(PicInPic picInPic) {
+        if (picInPic.isEnabled()) {
+            hideToolBarAndButtons();
+        } else {
+            showToolBarAndButtons();
+        }
+    }
+
+    private void hideToolBarAndButtons() {
+        actionBar.hide();
+
+        info_overlay_llay.setVisibility(View.GONE);
+        emotion_rlay.setVisibility(View.GONE);
+        userRlay.setVisibility(View.GONE);
+        billingStatus.setVisibility(View.GONE);
+        actionVideoButtonsLayout.setVisibility(View.INVISIBLE);
+        Log.d(TAG, "hideToolBarAndButtons");
+
+    }
+
+    private void showToolBarAndButtons() {
+        // actionBar.show();
+        actionBar.hide();
+        info_overlay_llay.setVisibility(View.VISIBLE);
+        emotion_rlay.setVisibility(View.VISIBLE);
+        userRlay.setVisibility(View.VISIBLE);
+        actionVideoButtonsLayout.setVisibility(View.VISIBLE);
+        if (getActivity() instanceof PacifyerActivity) {
+            if (((PacifyerActivity) getActivity()).hasBillingStarted()) {
+                billingStatus.setVisibility(View.VISIBLE);
+            } else {
+                billingStatus.setVisibility(View.INVISIBLE);
+            }
+        }
+
+        Log.d(TAG, "showToolBarAndButtons");
+
     }
 }
 
