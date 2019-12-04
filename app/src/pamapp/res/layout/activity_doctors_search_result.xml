@@ -79,7 +79,7 @@
 
             </LinearLayout>
 
-            <com.pacifyr.omhealthcare.views.PamTextViewBold
+            <com.pacifyr.client.views.PamTextViewBold
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
@@ -125,7 +125,7 @@
                     </LinearLayout>
 
 
-                    <com.pacifyr.omhealthcare.views.PamTextViewMedium
+                    <com.pacifyr.client.views.PamTextViewMedium
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text=""

@@ -78,7 +78,7 @@
                         app:layout_marginTopPercent="5%"
                         app:layout_widthPercent="50%">
 
-                        <com.ceino.utilitylibrary.DeviceFitImageView
+                        <com.pacifyrapp.utilitylibrary.DeviceFitImageView
                             android:id="@+id/feel_image_dimv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -329,7 +329,7 @@
                                 android:orientation="horizontal"
                                 android:visibility="visible">
 
-                                <com.ceino.utilitylibrary.DeviceFitImageView
+                                <com.pacifyrapp.utilitylibrary.DeviceFitImageView
                                     android:id="@+id/video_cam_img"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"

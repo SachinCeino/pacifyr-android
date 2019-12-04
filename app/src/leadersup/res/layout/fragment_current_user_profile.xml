@@ -77,7 +77,7 @@
                         android:layout_toRightOf="@+id/avatar_dimv"
                         android:background="@color/white"
                         android:orientation="horizontal">
-                        <com.ceino.utilitylibrary.DeviceFitImageView
+                        <com.pacifyrapp.utilitylibrary.DeviceFitImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             app:height_percentage="8"
@@ -109,7 +109,7 @@
                         android:layout_toRightOf="@+id/avatar_dimv"
                         android:background="@color/white"
                         android:orientation="horizontal">
-                        <com.ceino.utilitylibrary.DeviceFitImageView
+                        <com.pacifyrapp.utilitylibrary.DeviceFitImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             app:height_percentage="8"

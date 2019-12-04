@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/top_llay">
 
-        <com.pacifyr.omhealthcare.customview.MainTextView
+        <com.pacifyr.client.customview.MainTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="JAN 12"

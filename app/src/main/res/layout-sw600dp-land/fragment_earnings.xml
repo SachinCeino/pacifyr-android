@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.pacifyr.omhealthcare.fragment.EarningsFragment">
+    tools:context="com.pacifyr.client.fragment.EarningsFragment">
 
 
     <ScrollView
@@ -140,7 +140,7 @@
                 android:orientation="horizontal"
                 android:padding="0dp">
 
-                <com.pacifyr.omhealthcare.customview.MainTextView
+                <com.pacifyr.client.customview.MainTextView
                     android:id="@+id/totol_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -151,7 +151,7 @@
                     android:textSize="15sp"/>
 
 
-                <com.pacifyr.omhealthcare.customview.MainTextView
+                <com.pacifyr.client.customview.MainTextView
                     android:id="@+id/wkly_total_ctxv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -188,7 +188,7 @@
                     android:paddingLeft="5dp"
                     android:paddingRight="5dp">
 
-                    <com.pacifyr.omhealthcare.customview.MainTextView
+                    <com.pacifyr.client.customview.MainTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="BONUS"
@@ -197,7 +197,7 @@
                         android:textStyle="bold" />
 
 
-                    <com.pacifyr.omhealthcare.customview.MainTextView
+                    <com.pacifyr.client.customview.MainTextView
                         android:id="@+id/text_dialog_bonusmessage"
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
@@ -236,7 +236,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <com.pacifyr.omhealthcare.customview.MainTextView
+                    <com.pacifyr.client.customview.MainTextView
                         android:id="@+id/text_dialog_hourstowork"
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
@@ -245,7 +245,7 @@
                         android:textColor="@color/text_color_black"
                         android:text="0" />
 
-                    <com.pacifyr.omhealthcare.customview.MainTextView
+                    <com.pacifyr.client.customview.MainTextView
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
                         android:textSize="@dimen/sp10"
@@ -260,7 +260,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <com.pacifyr.omhealthcare.customview.MainTextView
+                    <com.pacifyr.client.customview.MainTextView
                         android:id="@+id/text_dialog_hourstobonus"
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
@@ -269,7 +269,7 @@
                         android:textColor="@color/text_color_black"
                         android:text="0"  />
 
-                    <com.pacifyr.omhealthcare.customview.MainTextView
+                    <com.pacifyr.client.customview.MainTextView
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
                         android:layout_gravity="center"

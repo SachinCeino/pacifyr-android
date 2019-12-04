@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.pacifyr.omhealthcare.home.AndroidDashoardActivity"
+    tools:context="com.pacifyr.client.home.AndroidDashoardActivity"
     tools:showIn="@layout/app_bar_android_dashoard">
 
 </androidx.constraintlayout.widget.ConstraintLayout>

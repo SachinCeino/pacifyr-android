@@ -5,7 +5,7 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.pacifyr.omhealthcare.home.ListPacifyrScreenActivity">
+    tools:context="com.pacifyr.client.home.ListPacifyrScreenActivity">
 
     <!-- As the main content view, the view below consumes the entire
          space available using match_parent in both dimensions. -->
@@ -58,7 +58,7 @@
                 android:id="@+id/rlay_search"
                 android:layout_below="@id/include">
 
-                <com.pacifyr.omhealthcare.customview.MainTextView
+                <com.pacifyr.client.customview.MainTextView
                     android:id="@+id/tv_search"
                     android:text="@string/select_specialisation"
                     android:textColor="@color/cardview_dark_background"
@@ -103,7 +103,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/showall_cbox"/>
 
-                <com.pacifyr.omhealthcare.customview.MainTextView
+                <com.pacifyr.client.customview.MainTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/showall_ctxv"
@@ -125,7 +125,7 @@
                 swipedeck:render_above="true"
                 swipedeck:rotation_degrees="15" />
 
-            <com.pacifyr.omhealthcare.customview.MainTextView
+            <com.pacifyr.client.customview.MainTextView
                 android:layout_width="match_parent"
                 android:gravity="center"
                 android:id="@+id/no_pacifyr_ctxv"

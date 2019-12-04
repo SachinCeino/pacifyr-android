@@ -6,20 +6,20 @@
     android:id="@+id/card_list_llay"
     android:layout_height="wrap_content">
 
-    <com.pacifyr.omhealthcare.customview.MainTextView
+    <com.pacifyr.client.customview.MainTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""
         android:id="@+id/card_type_ctxv"/>
 
 
-    <com.pacifyr.omhealthcare.customview.MainTextView
+    <com.pacifyr.client.customview.MainTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""
         android:id="@+id/type_ctxv"/>
 
-    <com.pacifyr.omhealthcare.customview.MainTextView
+    <com.pacifyr.client.customview.MainTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/card_code_ctxv"

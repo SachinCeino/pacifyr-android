@@ -91,7 +91,7 @@
                 android:orientation="horizontal">
                 <!--    android:paddingRight="10dp"-->
 
-                <com.ceino.utilitylibrary.DeviceFitImageView
+                <com.pacifyrapp.utilitylibrary.DeviceFitImageView
                     android:id="@+id/dashboard_dimv"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
@@ -126,7 +126,7 @@
                 android:orientation="horizontal">
                 <!--    android:paddingRight="10dp"-->
 
-                <com.ceino.utilitylibrary.DeviceFitImageView
+                <com.pacifyrapp.utilitylibrary.DeviceFitImageView
                     android:id="@+id/message_dimv"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
@@ -161,7 +161,7 @@
                 android:orientation="horizontal">
                 <!--    android:paddingRight="10dp"-->
 
-                <com.ceino.utilitylibrary.DeviceFitImageView
+                <com.pacifyrapp.utilitylibrary.DeviceFitImageView
                     android:id="@+id/browse_dimv"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
@@ -195,7 +195,7 @@
                 android:orientation="horizontal">
                 <!--    android:paddingRight="10dp"-->
 
-                <com.ceino.utilitylibrary.DeviceFitImageView
+                <com.pacifyrapp.utilitylibrary.DeviceFitImageView
                     android:id="@+id/payment_dimv"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
@@ -237,7 +237,7 @@
                 android:orientation="horizontal">
                 <!--    android:paddingRight="10dp"-->
 
-                <com.ceino.utilitylibrary.DeviceFitImageView
+                <com.pacifyrapp.utilitylibrary.DeviceFitImageView
                     android:id="@+id/connect_pacifyr_dimv"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
@@ -270,7 +270,7 @@
                 android:orientation="horizontal">
                 <!--    android:paddingRight="10dp"-->
 
-                <com.ceino.utilitylibrary.DeviceFitImageView
+                <com.pacifyrapp.utilitylibrary.DeviceFitImageView
                     android:id="@+id/support_dimv"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
@@ -308,7 +308,7 @@
                 android:orientation="horizontal">
                 <!--    android:paddingRight="10dp"-->
 
-                <com.ceino.utilitylibrary.DeviceFitImageView
+                <com.pacifyrapp.utilitylibrary.DeviceFitImageView
                     android:id="@+id/crisis_dimv"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
@@ -344,7 +344,7 @@
                 android:orientation="horizontal">
                 <!--    android:paddingRight="10dp"-->
 
-                <com.ceino.utilitylibrary.DeviceFitImageView
+                <com.pacifyrapp.utilitylibrary.DeviceFitImageView
                     android:id="@+id/mDeviceFitImageViewAppointments"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
@@ -379,7 +379,7 @@
                 android:orientation="horizontal">
                 <!--    android:paddingRight="10dp"-->
 
-                <com.ceino.utilitylibrary.DeviceFitImageView
+                <com.pacifyrapp.utilitylibrary.DeviceFitImageView
                     android:id="@+id/mesessions_dimv"
                     android:layout_width="25dp"
                     android:scaleType="centerInside"
@@ -415,7 +415,7 @@
                 android:orientation="horizontal">
                 <!--    android:paddingRight="10dp"-->
 
-                <com.ceino.utilitylibrary.DeviceFitImageView
+                <com.pacifyrapp.utilitylibrary.DeviceFitImageView
                     android:id="@+id/check_in_dimv"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
@@ -447,7 +447,7 @@
                 android:orientation="horizontal">
                 <!--    android:paddingRight="10dp"-->
 
-                <com.ceino.utilitylibrary.DeviceFitImageView
+                <com.pacifyrapp.utilitylibrary.DeviceFitImageView
                     android:id="@+id/tutotial_dimv"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
@@ -482,7 +482,7 @@
                 android:orientation="horizontal">
                 <!--    android:paddingRight="10dp"-->
 
-                <com.ceino.utilitylibrary.DeviceFitImageView
+                <com.pacifyrapp.utilitylibrary.DeviceFitImageView
                     android:id="@+id/policy_document_dimv"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
@@ -521,7 +521,7 @@
                 android:orientation="horizontal">
                 <!--    android:paddingRight="10dp"-->
 
-                <com.ceino.utilitylibrary.DeviceFitImageView
+                <com.pacifyrapp.utilitylibrary.DeviceFitImageView
                     android:id="@+id/resourses_dimv"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
@@ -561,7 +561,7 @@
                 android:orientation="horizontal">
                 <!--    android:paddingRight="10dp"-->
 
-                <com.ceino.utilitylibrary.DeviceFitImageView
+                <com.pacifyrapp.utilitylibrary.DeviceFitImageView
                     android:id="@+id/event_dimv"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
@@ -596,7 +596,7 @@
                 android:orientation="horizontal">
                 <!--    android:paddingRight="10dp"-->
 
-                <com.ceino.utilitylibrary.DeviceFitImageView
+                <com.pacifyrapp.utilitylibrary.DeviceFitImageView
                     android:id="@+id/offer_dimv"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
@@ -631,7 +631,7 @@
                 android:orientation="horizontal">
                 <!--    android:paddingRight="10dp"-->
 
-                <com.ceino.utilitylibrary.DeviceFitImageView
+                <com.pacifyrapp.utilitylibrary.DeviceFitImageView
                     android:id="@+id/logout_dimv"
                     android:layout_width="25dp"
                     android:layout_height="25dp"

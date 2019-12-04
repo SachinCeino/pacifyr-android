@@ -156,7 +156,7 @@
                     android:gravity="center"
                     android:layout_height="wrap_content">
 
-                    <com.ceino.utilitylibrary.DeviceFitImageView
+                    <com.pacifyrapp.utilitylibrary.DeviceFitImageView
                         android:layout_width="45dp"
                         android:layout_height="45dp"
                         android:id="@+id/sad_dimv"
@@ -184,7 +184,7 @@
                     android:gravity="center"
                     android:layout_marginRight="10dp"
                     android:layout_height="wrap_content">
-                    <com.ceino.utilitylibrary.DeviceFitImageView
+                    <com.pacifyrapp.utilitylibrary.DeviceFitImageView
                         android:layout_width="45dp"
                         android:layout_height="45dp"
                         android:id="@+id/happy_dimv"

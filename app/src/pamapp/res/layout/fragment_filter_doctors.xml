@@ -27,7 +27,7 @@
                 android:padding="15dp">
 
 
-                <com.pacifyr.omhealthcare.views.PamTextViewBold
+                <com.pacifyr.client.views.PamTextViewBold
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Sort by"
@@ -35,7 +35,7 @@
                     android:textSize="@dimen/text_view_find_care_sub"
                     android:textStyle="bold" />
 
-                <com.pacifyr.omhealthcare.views.PamTextViewMedium
+                <com.pacifyr.client.views.PamTextViewMedium
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Select one"
@@ -56,7 +56,7 @@
 
                 </View>
 
-                <com.pacifyr.omhealthcare.views.PamTextViewBold
+                <com.pacifyr.client.views.PamTextViewBold
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Location"
@@ -64,7 +64,7 @@
                     android:textStyle="bold"
                     android:textColor="@color/blue_fb" />
 
-                <com.pacifyr.omhealthcare.views.PamEditTextMedium
+                <com.pacifyr.client.views.PamEditTextMedium
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Current Location"
@@ -72,7 +72,7 @@
                     android:background="@drawable/black_border_white_back"
                     android:layout_marginBottom="15dp" />
 
-                <com.pacifyr.omhealthcare.views.PamTextViewBold
+                <com.pacifyr.client.views.PamTextViewBold
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Distance"
@@ -121,7 +121,7 @@
                         android:id="@+id/textView_distance_max" />
                 </RelativeLayout>
 
-                <com.pacifyr.omhealthcare.views.PamTextViewBold
+                <com.pacifyr.client.views.PamTextViewBold
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Office visit free range"
@@ -172,7 +172,7 @@
                         android:id="@+id/textView_fee_max" />
                 </RelativeLayout>
 
-                <com.pacifyr.omhealthcare.views.PamTextViewBold
+                <com.pacifyr.client.views.PamTextViewBold
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Gender"
@@ -180,7 +180,7 @@
                     android:textColor="@color/blue_fb"
                     android:textSize="@dimen/text_view_find_care_sub"
                     android:textStyle="bold" />
-                <com.pacifyr.omhealthcare.views.PamTextViewMedium
+                <com.pacifyr.client.views.PamTextViewMedium
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Select one"
@@ -192,7 +192,7 @@
                     android:drawableEnd="@drawable/svg_down_arrow"
                     android:drawableRight="@drawable/svg_down_arrow" />
 
-                <com.pacifyr.omhealthcare.views.PamTextViewBold
+                <com.pacifyr.client.views.PamTextViewBold
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Service"
@@ -200,7 +200,7 @@
                     android:textSize="@dimen/text_view_find_care_sub"
                     android:textStyle="bold" />
 
-                <com.pacifyr.omhealthcare.views.PamTextViewMedium
+                <com.pacifyr.client.views.PamTextViewMedium
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Select one"
@@ -212,7 +212,7 @@
                     android:drawableEnd="@drawable/svg_down_arrow"
                     android:drawableRight="@drawable/svg_down_arrow" />
 
-                <com.pacifyr.omhealthcare.views.PamTextViewBold
+                <com.pacifyr.client.views.PamTextViewBold
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="I need it to:"
@@ -236,7 +236,7 @@
                         android:gravity="center_vertical"
                         android:layout_height="wrap_content" />
 
-                    <com.pacifyr.omhealthcare.views.PamTextViewBold
+                    <com.pacifyr.client.views.PamTextViewBold
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Accept walk-ins"
@@ -264,7 +264,7 @@
                         android:gravity="center_vertical"
                         android:layout_height="wrap_content" />
 
-                    <com.pacifyr.omhealthcare.views.PamTextViewBold
+                    <com.pacifyr.client.views.PamTextViewBold
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Be open now"
@@ -292,7 +292,7 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <com.pacifyr.omhealthcare.views.PamTextViewBold
+        <com.pacifyr.client.views.PamTextViewBold
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"

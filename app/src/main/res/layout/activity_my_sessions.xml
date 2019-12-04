@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.pacifyr.omhealthcare.home.MySessionsActivity">
+    tools:context="com.pacifyr.client.home.MySessionsActivity">
 
     <include layout="@layout/actionbar_grey"
         android:id="@+id/include"
@@ -26,7 +26,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="55dp">
 
-                <com.pacifyr.omhealthcare.customview.MainTextView
+                <com.pacifyr.client.customview.MainTextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:id="@+id/this_wk_ctxv"
@@ -39,7 +39,7 @@
                     android:layout_alignParentLeft="true"
                     android:text="Weekly"/>
 
-                <com.pacifyr.omhealthcare.customview.MainTextView
+                <com.pacifyr.client.customview.MainTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/this_mnt_ctxv"
@@ -51,7 +51,7 @@
                     android:layout_centerHorizontal="true"
                     android:text="Monthly"/>
 
-                <com.pacifyr.omhealthcare.customview.MainTextView
+                <com.pacifyr.client.customview.MainTextView
                     android:layout_width="wrap_content"
                     android:gravity="center"
                     android:textStyle="bold"
@@ -124,7 +124,7 @@
                     android:padding="10dp"
                     android:orientation="vertical">
 
-                    <com.pacifyr.omhealthcare.customview.MainTextView
+                    <com.pacifyr.client.customview.MainTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="25sp"
@@ -133,7 +133,7 @@
                         android:textStyle="bold"
                         android:text="00"/>
 
-                    <com.pacifyr.omhealthcare.customview.MainTextView
+                    <com.pacifyr.client.customview.MainTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="17sp"
@@ -159,7 +159,7 @@
                         android:gravity="center"
                         android:orientation="vertical">
 
-                        <com.pacifyr.omhealthcare.customview.MainTextView
+                        <com.pacifyr.client.customview.MainTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="25sp"
@@ -168,7 +168,7 @@
                             android:textStyle="bold"
                             android:text="00"/>
 
-                        <com.pacifyr.omhealthcare.customview.MainTextView
+                        <com.pacifyr.client.customview.MainTextView
                             android:layout_width="wrap_content"
                             android:textColor="@color/grey_dark_text"
                             android:layout_height="wrap_content"
@@ -185,7 +185,7 @@
                         android:gravity="center"
                         android:orientation="vertical">
 
-                        <com.pacifyr.omhealthcare.customview.MainTextView
+                        <com.pacifyr.client.customview.MainTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="25sp"
@@ -194,7 +194,7 @@
                             android:textStyle="bold"
                             android:text="00"/>
 
-                        <com.pacifyr.omhealthcare.customview.MainTextView
+                        <com.pacifyr.client.customview.MainTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="17sp"
@@ -215,7 +215,7 @@
                     android:layout_marginRight="15dp"
                     android:orientation="vertical">
 
-                    <com.pacifyr.omhealthcare.customview.MainTextView
+                    <com.pacifyr.client.customview.MainTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="24sp"
@@ -224,7 +224,7 @@
                         android:id="@+id/earnings_no_ctxv"
                         android:text="00"/>
 
-                    <com.pacifyr.omhealthcare.customview.MainTextView
+                    <com.pacifyr.client.customview.MainTextView
                         android:layout_width="wrap_content"
                         android:layout_marginTop="1dp"
                         android:layout_height="wrap_content"
@@ -252,7 +252,7 @@
 
         </LinearLayout>
 
-        <com.pacifyr.omhealthcare.customview.MainTextView
+        <com.pacifyr.client.customview.MainTextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/no_data_ctxv"

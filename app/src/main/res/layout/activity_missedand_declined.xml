@@ -22,7 +22,7 @@
         android:layout_marginTop="30dp">
 
 
-        <com.pacifyr.omhealthcare.customview.MainTextView
+        <com.pacifyr.client.customview.MainTextView
             android:layout_width="76dp"
             android:layout_height="30dp"
             android:padding="3dp"
@@ -34,7 +34,7 @@
             android:id="@+id/missed_ctxv"
             android:text="@string/missed"/>
 
-        <com.pacifyr.omhealthcare.customview.MainTextView
+        <com.pacifyr.client.customview.MainTextView
             android:layout_width="75dp"
             android:layout_height="30dp"
             android:padding="3dp"

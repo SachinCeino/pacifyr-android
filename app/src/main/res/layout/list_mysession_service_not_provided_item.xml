@@ -33,7 +33,7 @@
             android:orientation="vertical"
             android:padding="5dp">
 
-            <com.pacifyr.omhealthcare.customview.MainTextView
+            <com.pacifyr.client.customview.MainTextView
                 android:id="@+id/name_user_ctxv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -54,7 +54,7 @@
                     android:layout_height="20dp"
                     android:src="@drawable/ic_video_cam_blue" />
 
-                <com.pacifyr.omhealthcare.customview.MainTextView
+                <com.pacifyr.client.customview.MainTextView
                     android:id="@+id/missed_ctxv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -65,7 +65,7 @@
             </LinearLayout>
 
 
-            <com.pacifyr.omhealthcare.customview.MainTextView
+            <com.pacifyr.client.customview.MainTextView
                 android:id="@+id/date_ctxv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

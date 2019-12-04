@@ -12,7 +12,7 @@
         android:id="@+id/top_llay"
         android:orientation="vertical">
 
-        <com.pacifyr.omhealthcare.customview.MainTextView
+        <com.pacifyr.client.customview.MainTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/grey_dark_text"
@@ -33,7 +33,7 @@
                 android:progressTint="@color/blue_text_dark"
                 style="?android:attr/ratingBarStyleIndicator"/>
 
-            <com.pacifyr.omhealthcare.customview.MainTextView
+            <com.pacifyr.client.customview.MainTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"

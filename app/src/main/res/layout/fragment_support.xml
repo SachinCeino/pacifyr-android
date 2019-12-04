@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.pacifyr.omhealthcare.customview.MainTextView
+    <com.pacifyr.client.customview.MainTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -16,7 +16,7 @@
         android:textColor="@color/grey_dark_text"
         android:text="@string/lest_us_know" />
 
-    <com.ceino.utilitylibrary.CustomEditText
+    <com.pacifyrapp.utilitylibrary.CustomEditText
         android:id="@+id/message_edt"
         android:layout_width="match_parent"
         android:layout_height="250dp"
@@ -37,7 +37,7 @@
         android:layout_height="43dp"
         android:background="@drawable/blue_round_square">
 
-        <com.pacifyr.omhealthcare.customview.MainTextView
+        <com.pacifyr.client.customview.MainTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/send"

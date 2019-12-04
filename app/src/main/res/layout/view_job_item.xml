@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:padding="4dp">
 
-    <com.pacifyr.omhealthcare.events.views.EventTextViewMedium
+    <com.pacifyr.client.events.views.EventTextViewMedium
         android:id="@+id/text_job"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

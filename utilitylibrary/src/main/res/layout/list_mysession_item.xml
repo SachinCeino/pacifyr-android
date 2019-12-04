@@ -35,7 +35,7 @@
             android:layout_marginLeft="7dp"
             android:orientation="vertical">
 
-            <com.ceino.utilitylibrary.CustomFontTextView
+            <com.pacifyrapp.utilitylibrary.CustomFontTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=""
@@ -57,7 +57,7 @@
                     android:src="@drawable/ic_videocam"/>
 
 
-                <com.ceino.utilitylibrary.CustomFontTextView
+                <com.pacifyrapp.utilitylibrary.CustomFontTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text=""
@@ -66,7 +66,7 @@
                     android:id="@+id/call_time_ctxv"/>
 
             </LinearLayout>
-            <com.ceino.utilitylibrary.CustomFontTextView
+            <com.pacifyrapp.utilitylibrary.CustomFontTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="8sp"
@@ -74,7 +74,7 @@
                 android:textColor="@color/grey_hex_7c"
                 android:id="@+id/date_ctxv"/>
 
-            <com.ceino.utilitylibrary.CustomFontTextView
+            <com.pacifyrapp.utilitylibrary.CustomFontTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=""
@@ -92,7 +92,7 @@
             android:layout_marginLeft="10dp"
             android:orientation="vertical">
 
-            <com.ceino.utilitylibrary.CustomFontTextView
+            <com.pacifyrapp.utilitylibrary.CustomFontTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="How you felt"
@@ -101,7 +101,7 @@
                 android:textColor="@color/grey_dark"
                 android:id="@+id/felt_ctxv"/>
 
-            <com.ceino.utilitylibrary.CustomFontTextView
+            <com.pacifyrapp.utilitylibrary.CustomFontTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="10sp"
@@ -116,7 +116,7 @@
                 android:layout_marginLeft="7dp"
                 android:id="@+id/before_emotion_img"/>
 
-            <com.ceino.utilitylibrary.CustomFontTextView
+            <com.pacifyrapp.utilitylibrary.CustomFontTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="13sp"
@@ -134,7 +134,7 @@
             android:layout_marginLeft="3dp"
             android:orientation="vertical">
 
-            <com.ceino.utilitylibrary.CustomFontTextView
+            <com.pacifyrapp.utilitylibrary.CustomFontTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=""
@@ -142,7 +142,7 @@
                 android:textStyle="bold"
                 android:textColor="@color/grey_dark"/>
 
-            <com.ceino.utilitylibrary.CustomFontTextView
+            <com.pacifyrapp.utilitylibrary.CustomFontTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="10sp"
@@ -157,7 +157,7 @@
                 android:layout_marginLeft="7dp"
                 android:id="@+id/after_emotion_img"/>
 
-            <com.ceino.utilitylibrary.CustomFontTextView
+            <com.pacifyrapp.utilitylibrary.CustomFontTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="13sp"

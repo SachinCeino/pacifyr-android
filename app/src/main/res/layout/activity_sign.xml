@@ -50,7 +50,7 @@
             android:orientation="vertical"
             android:layout_above="@+id/constraintLayout">
 
-            <com.pacifyr.omhealthcare.customview.MainTextView
+            <com.pacifyr.client.customview.MainTextView
                 android:id="@+id/getready_ctxv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -63,7 +63,7 @@
                 android:textStyle="bold"
                 tools:layout_editor_absoluteY="200dp" />
 
-            <com.pacifyr.omhealthcare.customview.MainTextView
+            <com.pacifyr.client.customview.MainTextView
                 android:id="@+id/wellness_ctxv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -75,7 +75,7 @@
                 android:textSize="14sp" />
 
 
-            <com.pacifyr.omhealthcare.customview.MainTextView
+            <com.pacifyr.client.customview.MainTextView
                 android:id="@+id/free_ctxv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -84,7 +84,7 @@
                 android:textColor="@color/_color_thirty_free"
                 android:textSize="14sp" />
 
-            <com.pacifyr.omhealthcare.customview.MainTextView
+            <com.pacifyr.client.customview.MainTextView
                 android:id="@+id/no_credit_ctxv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -98,7 +98,7 @@
                 app:layout_constraintStart_toStartOf="@+id/free_ctxv"
                 app:layout_constraintTop_toBottomOf="@+id/free_ctxv" />
 
-            <com.pacifyr.omhealthcare.customview.MainTextView
+            <com.pacifyr.client.customview.MainTextView
                 android:id="@+id/emergency_ctxv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -173,7 +173,7 @@
             android:padding="10dp">
 
 
-            <com.pacifyr.omhealthcare.customview.MainTextView
+            <com.pacifyr.client.customview.MainTextView
                 android:id="@+id/tv_login"
                 android:layout_width="160dp"
                 android:layout_height="40dp"
@@ -186,7 +186,7 @@
                 android:textSize="18sp" />
 
 
-            <com.pacifyr.omhealthcare.customview.MainTextView
+            <com.pacifyr.client.customview.MainTextView
                 android:id="@+id/tv_signup"
                 android:layout_width="160dp"
                 android:layout_height="40dp"

@@ -13,7 +13,7 @@
             android:orientation="vertical"
             android:padding="10dp">
 
-            <com.pacifyr.omhealthcare.customview.MainTextView
+            <com.pacifyr.client.customview.MainTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
@@ -31,7 +31,7 @@
                 android:layout_marginTop="13dp"
                 android:visibility="visible"></androidx.recyclerview.widget.RecyclerView>
 
-            <com.pacifyr.omhealthcare.customview.MainTextView
+            <com.pacifyr.client.customview.MainTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"

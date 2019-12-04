@@ -66,7 +66,7 @@
                 app:layout_constraintEnd_toEndOf="@+id/name_txv"/>
 
 
-            <com.pacifyr.omhealthcare.customview.MainTextView
+            <com.pacifyr.client.customview.MainTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/sp18"
@@ -89,7 +89,7 @@
             android:gravity="center"
             android:layout_height="wrap_content">
 
-            <com.pacifyr.omhealthcare.customview.MainTextView
+            <com.pacifyr.client.customview.MainTextView
                 android:id="@+id/save_ctxv"
                 android:layout_width="80dp"
                 android:gravity="center"

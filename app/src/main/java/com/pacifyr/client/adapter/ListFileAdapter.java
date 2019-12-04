@@ -1,0 +1,81 @@
+package com.pacifyr.client.adapter;
+
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.pacifyr.client.customview.MainTextView;
+import com.pacifyr.client.R;
+import com.pacifyr.client.model.ModelPacifyrDocuments;
+
+import java.util.ArrayList;
+
+/**
+ * Created by ceino on 18/5/18.
+ */
+
+public class ListFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
+
+    ArrayList<ModelPacifyrDocuments> fileList;
+    Context mContext;
+
+    public ListFileAdapter(ArrayList<ModelPacifyrDocuments> fileList, Context context) {
+        this.fileList=fileList;
+        this.mContext=context;
+    }
+
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_file_choser_item, parent, false);
+        ViewHolder viewHolder = new ViewHolder(v);
+        return viewHolder;
+    }
+
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+        ViewHolder viewHolder = (ViewHolder) holder;
+
+        if(fileList.get(position).getFileType().equals("image")) {
+            Bitmap bitmap = fileList.get(position).getBitmap();
+            viewHolder.fileImv.setImageBitmap(bitmap);
+        }else{
+            viewHolder.fileImv.setImageDrawable(mContext.getDrawable(R.drawable.ic_pdf));
+        }
+
+        viewHolder.closeImv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fileList.remove(position);
+                notifyDataSetChanged();
+            }
+        });
+
+    }
+
+    @Override
+    public int getItemCount() {
+        return fileList.size();
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+
+        private RelativeLayout fileLlay;
+        private ImageView closeImv;
+        private ImageView fileImv;
+        private MainTextView fileNameCtxv;
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+            fileLlay = itemView.findViewById(R.id.file_llay);
+            closeImv = itemView.findViewById(R.id.close_imv);
+            fileImv = itemView.findViewById(R.id.file_imv);
+            fileNameCtxv = itemView.findViewById(R.id.file_name_ctxv);
+        }
+    }
+}

@@ -21,7 +21,7 @@
         android:layout_below="@+id/include"
         android:id="@+id/top_rlay">
 
-        <com.pacifyr.omhealthcare.customview.MainTextView
+        <com.pacifyr.client.customview.MainTextView
             android:id="@+id/text_feel_ctxv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -119,7 +119,7 @@
             android:layout_marginTop="20dp"
             android:gravity="center_horizontal">
 
-            <com.pacifyr.omhealthcare.customview.MainTextView
+            <com.pacifyr.client.customview.MainTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
@@ -127,7 +127,7 @@
                 android:id="@+id/user_name_ctxv"
                 android:text="Hello"/>
 
-            <com.pacifyr.omhealthcare.customview.MainTextView
+            <com.pacifyr.client.customview.MainTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="15sp"
@@ -150,7 +150,7 @@
                     android:layout_marginRight="0dp"
                     android:orientation="vertical">
 
-                    <com.ceino.utilitylibrary.DeviceFitImageView
+                    <com.pacifyrapp.utilitylibrary.DeviceFitImageView
                         android:id="@+id/sad_dimv"
                         android:layout_width="45dp"
                         android:layout_height="45dp"
@@ -158,7 +158,7 @@
                         android:src="@drawable/sad"
                         android:tint="@color/grey_dark" />
 
-                    <com.pacifyr.omhealthcare.customview.MainTextView
+                    <com.pacifyr.client.customview.MainTextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_below="@+id/sad_dimv"
@@ -178,7 +178,7 @@
                     android:layout_toRightOf="@id/sad_llay"
                     android:orientation="vertical">
 
-                    <com.ceino.utilitylibrary.DeviceFitImageView
+                    <com.pacifyrapp.utilitylibrary.DeviceFitImageView
                         android:id="@+id/happy_dimv"
                         android:layout_width="45dp"
                         android:layout_height="45dp"
@@ -187,7 +187,7 @@
                         android:tint="@color/grey_dark" />
 
 
-                    <com.pacifyr.omhealthcare.customview.MainTextView
+                    <com.pacifyr.client.customview.MainTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
@@ -200,7 +200,7 @@
 
         </LinearLayout>
 
-        <com.pacifyr.omhealthcare.customview.MainTextView
+        <com.pacifyr.client.customview.MainTextView
             android:visibility="gone"
             android:id="@+id/txt_emergency_usa"
             android:layout_width="match_parent"
@@ -231,7 +231,7 @@
             android:padding="20dp"
             android:gravity="center_horizontal">
 
-            <com.pacifyr.omhealthcare.customview.MainTextView
+            <com.pacifyr.client.customview.MainTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
@@ -282,7 +282,7 @@
             android:padding="20dp"
             android:gravity="center_horizontal">
 
-            <com.pacifyr.omhealthcare.customview.MainTextView
+            <com.pacifyr.client.customview.MainTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
@@ -343,7 +343,7 @@
                android:id="@+id/pacifyer_cimv"
                 android:layout_height="70dp" />
 
-            <com.pacifyr.omhealthcare.customview.MainTextView
+            <com.pacifyr.client.customview.MainTextView
                 android:layout_width="match_parent"
                 android:id="@+id/pac_name_ctxv"
                 android:layout_marginTop="5dp"
@@ -367,7 +367,7 @@
                     android:id="@+id/status_indicator_dimv"
                     android:src="@drawable/offline"/>
 
-                <com.pacifyr.omhealthcare.customview.MainTextView
+                <com.pacifyr.client.customview.MainTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/status_indicator_ctxv"
@@ -379,7 +379,7 @@
 
             </LinearLayout>
 
-            <com.pacifyr.omhealthcare.customview.MainTextView
+            <com.pacifyr.client.customview.MainTextView
                 android:layout_width="match_parent"
                 android:id="@+id/pac_des_ctxv"
                 android:textSize="@dimen/sp14"
@@ -389,7 +389,7 @@
                 android:gravity="center_horizontal"
                 android:layout_height="wrap_content" />
 
-            <com.pacifyr.omhealthcare.customview.MainTextView
+            <com.pacifyr.client.customview.MainTextView
                 android:layout_width="match_parent"
                 android:id="@+id/pac_rate_ctxv"
                 android:textSize="@dimen/sp18"
@@ -411,7 +411,7 @@
                 android:background="@drawable/blue_round_square"
                 android:padding="5dp">
 
-                <com.pacifyr.omhealthcare.customview.MainTextView
+                <com.pacifyr.client.customview.MainTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="chat detail"
@@ -448,7 +448,7 @@
                     android:padding="10dp"
                     android:id="@+id/videocall_rlay"
                     android:background="@drawable/primary_cirlce">
-                <com.ceino.utilitylibrary.DeviceFitImageView
+                <com.pacifyrapp.utilitylibrary.DeviceFitImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:height_percentage="9"
@@ -470,7 +470,7 @@
                 android:id="@+id/audiocall_rlay"
                 android:background="@drawable/primary_cirlce">
 
-                <com.ceino.utilitylibrary.DeviceFitImageView
+                <com.pacifyrapp.utilitylibrary.DeviceFitImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:height_percentage="9"
@@ -491,7 +491,7 @@
                 android:id="@+id/chat_rlay"
                 android:background="@drawable/primary_cirlce">
 
-                <com.ceino.utilitylibrary.DeviceFitImageView
+                <com.pacifyrapp.utilitylibrary.DeviceFitImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:height_percentage="9"
@@ -515,7 +515,7 @@
                 android:id="@+id/schedule_rlay"
                 android:background="@drawable/blue_cirlce">
 
-                <com.ceino.utilitylibrary.DeviceFitImageView
+                <com.pacifyrapp.utilitylibrary.DeviceFitImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/img_schedule"

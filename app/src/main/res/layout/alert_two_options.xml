@@ -9,7 +9,7 @@
     android:padding="2dp">
 
 
-    <com.pacifyr.omhealthcare.customview.MainTextView
+    <com.pacifyr.client.customview.MainTextView
         android:id="@+id/title_dtxv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -21,7 +21,7 @@
         android:textSize="@dimen/sp18"
         />
 
-    <com.pacifyr.omhealthcare.customview.MainTextView
+    <com.pacifyr.client.customview.MainTextView
         android:id="@+id/desc_dtxv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -50,7 +50,7 @@
         android:background="@color/color_scheme"
   >
 
-        <com.pacifyr.omhealthcare.customview.MainTextView
+        <com.pacifyr.client.customview.MainTextView
             android:id="@+id/ok_dtxv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -73,7 +73,7 @@
 
             />
 
-        <com.pacifyr.omhealthcare.customview.MainTextView
+        <com.pacifyr.client.customview.MainTextView
             android:id="@+id/dismiss_dtxv"
             android:layout_toRightOf="@+id/view"
             android:layout_width="wrap_content"

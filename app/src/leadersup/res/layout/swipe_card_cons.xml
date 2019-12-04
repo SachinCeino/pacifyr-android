@@ -212,7 +212,7 @@
             android:gravity="center"
             android:padding="10dp">
 
-            <com.ceino.utilitylibrary.DeviceFitImageView
+            <com.pacifyrapp.utilitylibrary.DeviceFitImageView
                 android:id="@+id/start_video_cimv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -242,7 +242,7 @@
             android:gravity="center"
             android:padding="10dp">
 
-            <com.ceino.utilitylibrary.DeviceFitImageView
+            <com.pacifyrapp.utilitylibrary.DeviceFitImageView
                 android:id="@+id/start_audio_cimv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -276,7 +276,7 @@
             android:padding="10dp"
             android:visibility="visible">
 
-            <com.ceino.utilitylibrary.DeviceFitImageView
+            <com.pacifyrapp.utilitylibrary.DeviceFitImageView
                 android:id="@+id/start_chat_cimv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -300,7 +300,7 @@
             android:id="@+id/schedule_rlay"
             android:background="@drawable/blue_cirlce">
 
-            <com.ceino.utilitylibrary.DeviceFitImageView
+            <com.pacifyrapp.utilitylibrary.DeviceFitImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/img_schedule"

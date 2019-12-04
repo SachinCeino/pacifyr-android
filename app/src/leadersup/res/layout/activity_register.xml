@@ -88,7 +88,7 @@
                 android:id="@+id/label_name"
                 android:layout_marginTop="15dp"
                 android:padding="5dp"/>
-            <com.ceino.utilitylibrary.CustomEditText
+            <com.pacifyrapp.utilitylibrary.CustomEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/name_edt"
@@ -115,7 +115,7 @@
                 android:layout_below="@+id/name_edt"
                 android:padding="5dp"/>
 
-            <com.ceino.utilitylibrary.CustomEditText
+            <com.pacifyrapp.utilitylibrary.CustomEditText
                 android:id="@+id/email_edt"
                 android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
@@ -144,7 +144,7 @@
                 android:padding="5dp"
                 />
 
-            <com.ceino.utilitylibrary.CustomEditText
+            <com.pacifyrapp.utilitylibrary.CustomEditText
                 android:id="@+id/phone_edt"
                 android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
@@ -182,7 +182,7 @@
                     android:layout_alignLeft="@+id/textView"/>
 
 
-                <com.ceino.utilitylibrary.CustomEditText
+                <com.pacifyrapp.utilitylibrary.CustomEditText
                     android:id="@+id/phone_cedit"
                     android:layout_width="match_parent"
                     android:inputType="phone"
@@ -225,7 +225,7 @@
                     android:layout_marginTop="15dp"
                     android:padding="5dp"/>
 
-                <com.ceino.utilitylibrary.CustomEditText
+                <com.pacifyrapp.utilitylibrary.CustomEditText
                     android:id="@+id/year_edt"
                     android:layout_width="match_parent"
                     android:gravity="left"
@@ -246,7 +246,7 @@
                     android:textSize="@dimen/sp16"
                     android:layout_marginTop="15dp"
                     android:padding="5dp"/>
-                <com.ceino.utilitylibrary.CustomEditText
+                <com.pacifyrapp.utilitylibrary.CustomEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:minHeight="30dp"
@@ -419,7 +419,7 @@
                     android:layout_marginTop="10dp"
                     android:textSize="@dimen/sp16"
                     android:padding="5dp"/>
-                <com.ceino.utilitylibrary.CustomEditText
+                <com.pacifyrapp.utilitylibrary.CustomEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:minHeight="30dp"
@@ -441,7 +441,7 @@
                     android:layout_marginTop="10dp"
                     android:textSize="@dimen/sp16"
                     android:padding="5dp"/>
-                <com.ceino.utilitylibrary.CustomEditText
+                <com.pacifyrapp.utilitylibrary.CustomEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:minHeight="30dp"

@@ -64,7 +64,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <com.pacifyr.omhealthcare.customview.MainTextView
+            <com.pacifyr.client.customview.MainTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
@@ -73,7 +73,7 @@
                 android:textColor="@color/_color_e_con_code"
                 android:text="@string/e_con_code"/>
 
-            <com.pacifyr.omhealthcare.customview.MainTextView
+            <com.pacifyr.client.customview.MainTextView
 
                 android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
@@ -98,7 +98,7 @@
             android:layout_height="wrap_content">
 
 
-            <com.ceino.utilitylibrary.CustomEditText
+            <com.pacifyrapp.utilitylibrary.CustomEditText
                 android:layout_width="match_parent"
                 android:textColor="@color/black"
                 android:textSize="@dimen/sp17"
@@ -131,7 +131,7 @@
                 android:background="@drawable/blue_round_square"
                 android:padding="10dp">
 
-                <com.pacifyr.omhealthcare.customview.MainTextView
+                <com.pacifyr.client.customview.MainTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/login"
@@ -144,7 +144,7 @@
 
             </RelativeLayout>
 
-            <com.pacifyr.omhealthcare.customview.MainTextView
+            <com.pacifyr.client.customview.MainTextView
                 android:layout_width="wrap_content"
                 android:textSize="@dimen/sp13"
                 android:layout_alignParentBottom="true"

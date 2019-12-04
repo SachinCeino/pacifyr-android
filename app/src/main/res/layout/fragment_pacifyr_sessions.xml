@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/grey_hex_f8"
-    tools:context="com.pacifyr.omhealthcare.fragment.MySessionFragment">
+    tools:context="com.pacifyr.client.fragment.MySessionFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:weightSum="3">
 
-            <com.pacifyr.omhealthcare.customview.MainTextView
+            <com.pacifyr.client.customview.MainTextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -31,7 +31,7 @@
                 android:gravity="center"
                 android:layout_gravity="left|center_vertical" />
 
-            <com.pacifyr.omhealthcare.customview.MainTextView
+            <com.pacifyr.client.customview.MainTextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="Monthly"
@@ -45,7 +45,7 @@
                 android:gravity="center"
                 android:layout_weight="1" />
 
-            <com.pacifyr.omhealthcare.customview.MainTextView
+            <com.pacifyr.client.customview.MainTextView
                 android:text="Yearly"
                 android:layout_width="0dp"
                 android:gravity="center"
@@ -91,7 +91,7 @@
                     android:padding="10dp"
                     android:orientation="vertical">
 
-                    <com.pacifyr.omhealthcare.customview.MainTextView
+                    <com.pacifyr.client.customview.MainTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="25sp"
@@ -100,7 +100,7 @@
                         android:textStyle="bold"
                         android:text="00"/>
 
-                    <com.pacifyr.omhealthcare.customview.MainTextView
+                    <com.pacifyr.client.customview.MainTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="17sp"
@@ -126,7 +126,7 @@
                         android:gravity="center"
                         android:orientation="vertical">
 
-                        <com.pacifyr.omhealthcare.customview.MainTextView
+                        <com.pacifyr.client.customview.MainTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="25sp"
@@ -135,7 +135,7 @@
                             android:textStyle="bold"
                             android:text="00"/>
 
-                        <com.pacifyr.omhealthcare.customview.MainTextView
+                        <com.pacifyr.client.customview.MainTextView
                             android:layout_width="wrap_content"
                             android:textColor="@color/black"
                             android:layout_height="wrap_content"
@@ -152,7 +152,7 @@
                         android:gravity="center"
                         android:orientation="vertical">
 
-                        <com.pacifyr.omhealthcare.customview.MainTextView
+                        <com.pacifyr.client.customview.MainTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="25sp"
@@ -161,7 +161,7 @@
                             android:textStyle="bold"
                             android:text="00"/>
 
-                        <com.pacifyr.omhealthcare.customview.MainTextView
+                        <com.pacifyr.client.customview.MainTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="17sp"
@@ -181,7 +181,7 @@
                     android:padding="10dp"
                     android:orientation="vertical">
 
-                    <com.pacifyr.omhealthcare.customview.MainTextView
+                    <com.pacifyr.client.customview.MainTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="25sp"
@@ -190,7 +190,7 @@
                         android:id="@+id/earnings_no_ctxv"
                         android:text="00"/>
 
-                    <com.pacifyr.omhealthcare.customview.MainTextView
+                    <com.pacifyr.client.customview.MainTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="18sp"
@@ -229,7 +229,7 @@
                     android:layout_height="wrap_content"
                     android:src="@drawable/redmissedsmall"/>
 
-                <com.pacifyr.omhealthcare.customview.MainTextView
+                <com.pacifyr.client.customview.MainTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
@@ -253,7 +253,7 @@
                     android:layout_height="wrap_content"
                     android:src="@drawable/redcallsmall"/>
 
-                <com.pacifyr.omhealthcare.customview.MainTextView
+                <com.pacifyr.client.customview.MainTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
@@ -266,7 +266,7 @@
 
         </RelativeLayout>
 
-        <com.pacifyr.omhealthcare.customview.MainTextView
+        <com.pacifyr.client.customview.MainTextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/no_data_ctxv"

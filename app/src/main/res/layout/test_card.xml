@@ -48,7 +48,7 @@
                         android:id="@+id/indicator_dimv"
                         android:src="@drawable/offline"/>
 
-                    <com.pacifyr.omhealthcare.customview.MainTextView
+                    <com.pacifyr.client.customview.MainTextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:id="@+id/indicator_ctxv"
@@ -76,7 +76,7 @@
                     android:orientation="vertical"
                     android:padding="10dp">
 
-                    <com.pacifyr.omhealthcare.customview.MainTextView
+                    <com.pacifyr.client.customview.MainTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/tv_name"
@@ -85,7 +85,7 @@
                         android:textColor="@color/blue_text_dark"
                         android:text=""/>
 
-                    <com.pacifyr.omhealthcare.customview.MainTextView
+                    <com.pacifyr.client.customview.MainTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textColor="@color/grey_dark"
@@ -112,7 +112,7 @@
                             android:progressTint="@color/blue_text_dark"
                             android:isIndicator="true"/>
 
-                        <com.pacifyr.omhealthcare.customview.MainTextView
+                        <com.pacifyr.client.customview.MainTextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="88 Reviews"
@@ -135,7 +135,7 @@
                             android:textColor="@color/white"
                             android:textSize="13sp"/>-->
 
-                        <com.pacifyr.omhealthcare.customview.MainTextView
+                        <com.pacifyr.client.customview.MainTextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text=""
@@ -162,7 +162,7 @@
                         android:id="@+id/chat_llay"
                         android:padding="5dp">
 
-                        <com.pacifyr.omhealthcare.customview.MainTextView
+                        <com.pacifyr.client.customview.MainTextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text=""
@@ -197,7 +197,7 @@
             android:id="@+id/description_ctxv"
             android:textColor="@color/grey_dark_text"/>
 
-        <com.pacifyr.omhealthcare.customview.MainTextView
+        <com.pacifyr.client.customview.MainTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/connect_to_wellness_experts"

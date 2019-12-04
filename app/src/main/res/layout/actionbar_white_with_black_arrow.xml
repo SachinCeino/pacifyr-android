@@ -22,7 +22,7 @@
             android:layout_centerHorizontal="true"
             android:layout_height="wrap_content">
 
-            <com.ceino.utilitylibrary.DeviceFitImageView
+            <com.pacifyrapp.utilitylibrary.DeviceFitImageView
                 android:layout_width="wrap_content"
                 android:id="@+id/back_imv"
                 android:layout_height="wrap_content"
@@ -36,7 +36,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_alignParentStart="true" />
 
-            <com.pacifyr.omhealthcare.customview.MainTextView
+            <com.pacifyr.client.customview.MainTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/back_imv"
@@ -75,7 +75,7 @@
             android:layout_centerHorizontal="true"
             android:layout_height="wrap_content">
 
-            <com.pacifyr.omhealthcare.customview.MainTextView
+            <com.pacifyr.client.customview.MainTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toLeftOf="@+id/right_imv"
@@ -86,7 +86,7 @@
                 android:textColor="@color/white"
                 android:layout_centerVertical="true" />
 
-            <com.ceino.utilitylibrary.DeviceFitImageView
+            <com.pacifyrapp.utilitylibrary.DeviceFitImageView
                 android:layout_width="wrap_content"
                 android:id="@+id/right_imv"
                 android:layout_height="wrap_content"

@@ -46,7 +46,7 @@
             app:layout_constraintTop_toBottomOf="@+id/logo_blue"
             app:layout_marginTopPercent="10%">
 
-            <com.pacifyr.omhealthcare.customview.MainTextView
+            <com.pacifyr.client.customview.MainTextView
                 android:id="@+id/enter_phone_ctxv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -74,7 +74,7 @@
                     android:layout_below="@+id/textView" />
 
 
-                <com.ceino.utilitylibrary.CustomEditText
+                <com.pacifyrapp.utilitylibrary.CustomEditText
                     android:id="@+id/phone_cedit"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
@@ -119,7 +119,7 @@
                 android:background="@drawable/blue_round_square"
                 android:padding="10dp">
 
-                <com.pacifyr.omhealthcare.customview.MainTextView
+                <com.pacifyr.client.customview.MainTextView
                     android:id="@+id/request_ctxv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -141,7 +141,7 @@
                 android:layout_marginRight="10dp"
                 android:visibility="gone" />
 
-            <com.pacifyr.omhealthcare.customview.MainTextView
+            <com.pacifyr.client.customview.MainTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
@@ -180,7 +180,7 @@
                     android:layout_height="1dp"
                     android:background="@color/signup_view" />
 
-                <com.pacifyr.omhealthcare.customview.MainTextView
+                <com.pacifyr.client.customview.MainTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="15dp"
@@ -204,7 +204,7 @@
                 android:background="@drawable/fb_signup_btn"
                 android:padding="10dp">
 
-                <com.pacifyr.omhealthcare.customview.MainTextView
+                <com.pacifyr.client.customview.MainTextView
                     android:id="@+id/fb_tcv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

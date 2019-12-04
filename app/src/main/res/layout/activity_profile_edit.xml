@@ -29,7 +29,7 @@
             android:id="@+id/profile_cimv"
             android:src="@drawable/placeholder_user"/>
 
-        <com.ceino.utilitylibrary.CustomEditText
+        <com.pacifyrapp.utilitylibrary.CustomEditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="15sp"
@@ -85,7 +85,7 @@
                         android:background="@color/white"
                         android:orientation="horizontal">
 
-                        <com.ceino.utilitylibrary.DeviceFitImageView
+                        <com.pacifyrapp.utilitylibrary.DeviceFitImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="10dp"
@@ -94,7 +94,7 @@
                             app:height_percentage="8"
                             app:parameter="fixed_ratio"
                             app:width_percentage="8" />
-                        <com.ceino.utilitylibrary.CustomEditText
+                        <com.pacifyrapp.utilitylibrary.CustomEditText
                             android:id="@+id/mail_cedt"
 
                             android:layout_height="wrap_content"
@@ -119,7 +119,7 @@
                         android:layout_toRightOf="@+id/avatar_dimv"
                         android:background="@color/white"
                         android:orientation="horizontal">
-                        <com.ceino.utilitylibrary.DeviceFitImageView
+                        <com.pacifyrapp.utilitylibrary.DeviceFitImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             app:height_percentage="8"
@@ -129,7 +129,7 @@
                             android:scaleType="fitCenter"
                             android:src="@drawable/ic_call_grey"/>
 
-                        <com.ceino.utilitylibrary.CustomEditText
+                        <com.pacifyrapp.utilitylibrary.CustomEditText
                             android:id="@+id/pnumber_cedt"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -165,7 +165,7 @@
                     android:padding="10dp"
                     android:orientation="vertical">
 
-                    <com.pacifyr.omhealthcare.customview.MainTextView
+                    <com.pacifyr.client.customview.MainTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textStyle="bold"

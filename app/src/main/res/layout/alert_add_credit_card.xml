@@ -19,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.pacifyr.omhealthcare.customview.MainTextView
+        <com.pacifyr.client.customview.MainTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -28,7 +28,7 @@
         android:textColor="@color/black"
         android:textStyle="bold"
         android:textSize="25sp"/>
-    <com.ceino.utilitylibrary.DeviceFitImageView
+    <com.pacifyrapp.utilitylibrary.DeviceFitImageView
         android:id="@+id/close_dimv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -38,7 +38,7 @@
         app:height_percentage="4"
         app:parameter="aspect_height" />
     </RelativeLayout>
-    <com.ceino.utilitylibrary.CustomEditText
+    <com.pacifyrapp.utilitylibrary.CustomEditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -54,7 +54,7 @@
         android:orientation="horizontal">
 
 
-        <com.ceino.utilitylibrary.CustomEditText
+        <com.pacifyrapp.utilitylibrary.CustomEditText
             android:layout_width="40dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
@@ -64,7 +64,7 @@
             android:maxLength="2"
             android:hint="MM"/>
 
-        <com.ceino.utilitylibrary.CustomEditText
+        <com.pacifyrapp.utilitylibrary.CustomEditText
             android:layout_width="40dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
@@ -74,7 +74,7 @@
             android:maxLength="2"
             android:hint="YY"/>
 
-        <com.ceino.utilitylibrary.CustomEditText
+        <com.pacifyrapp.utilitylibrary.CustomEditText
             android:layout_width="51dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
@@ -100,7 +100,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/blue_border_lightblue">
 
-        <com.pacifyr.omhealthcare.customview.MainTextView
+        <com.pacifyr.client.customview.MainTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/save"

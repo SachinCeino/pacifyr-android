@@ -44,7 +44,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_image_upload" />
 
-            <com.ceino.utilitylibrary.CustomEditText
+            <com.pacifyrapp.utilitylibrary.CustomEditText
                 android:id="@+id/name_txv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -71,7 +71,7 @@
                 app:layout_constraintStart_toStartOf="@+id/name_txv"
                 app:layout_constraintTop_toBottomOf="@+id/name_txv" />
 
-            <com.ceino.utilitylibrary.CustomEditText
+            <com.pacifyrapp.utilitylibrary.CustomEditText
                 android:id="@+id/email_txv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -110,7 +110,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/email_txv" />
 
 
-            <com.ceino.utilitylibrary.CustomEditText
+            <com.pacifyrapp.utilitylibrary.CustomEditText
                 android:id="@+id/phone_cedit"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -138,7 +138,7 @@
                 app:layout_constraintStart_toStartOf="@+id/phone_cedit"
                 app:layout_constraintTop_toBottomOf="@+id/phone_cedit" />
 
-            <com.pacifyr.omhealthcare.customview.MainTextView
+            <com.pacifyr.client.customview.MainTextView
                 android:id="@+id/birth_year_txv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -160,7 +160,7 @@
                 app:layout_constraintStart_toStartOf="@+id/birth_year_txv"
                 app:layout_constraintTop_toBottomOf="@+id/birth_year_txv" />
 
-            <com.ceino.utilitylibrary.CustomEditText
+            <com.pacifyrapp.utilitylibrary.CustomEditText
                 android:id="@+id/snapshot_txv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -184,7 +184,7 @@
                 app:layout_constraintStart_toStartOf="@+id/snapshot_txv"
                 app:layout_constraintTop_toBottomOf="@+id/snapshot_txv" />
 
-            <com.pacifyr.omhealthcare.customview.MainTextView
+            <com.pacifyr.client.customview.MainTextView
                 android:id="@+id/textView2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -195,7 +195,7 @@
                 app:layout_constraintStart_toStartOf="@+id/snapshot_txv"
                 app:layout_constraintTop_toBottomOf="@+id/snapshot_txv" />
 
-            <com.ceino.utilitylibrary.CustomEditText
+            <com.pacifyrapp.utilitylibrary.CustomEditText
                 android:id="@+id/cost_ctxv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -229,7 +229,7 @@
                 app:layout_constraintStart_toStartOf="@+id/cost_ctxv"
                 app:layout_constraintTop_toBottomOf="@+id/cost_ctxv">
 
-                <com.ceino.utilitylibrary.CustomEditText
+                <com.pacifyrapp.utilitylibrary.CustomEditText
                     android:id="@+id/education_cedt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -238,7 +238,7 @@
                     android:text="@string/educations"
                     android:textColor="@color/grey_hex_4e" />
 
-                <com.pacifyr.omhealthcare.customview.MainTextView
+                <com.pacifyr.client.customview.MainTextView
                     android:id="@+id/add_education_ctxv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -280,7 +280,7 @@
                 app:layout_constraintStart_toStartOf="@+id/education_rlay"
                 app:layout_constraintTop_toBottomOf="@+id/education_rlay">
 
-                <com.ceino.utilitylibrary.CustomEditText
+                <com.pacifyrapp.utilitylibrary.CustomEditText
                     android:id="@+id/certificates_cedt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -292,7 +292,7 @@
                     android:textColor="@color/grey_hex_4e"
                     app:layout_constraintHorizontal_bias="0.0" />
 
-                <com.pacifyr.omhealthcare.customview.MainTextView
+                <com.pacifyr.client.customview.MainTextView
                     android:id="@+id/add_certificates_cedit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -327,7 +327,7 @@
 
             </RelativeLayout>
 
-            <com.pacifyr.omhealthcare.customview.MainTextView
+            <com.pacifyr.client.customview.MainTextView
                 android:id="@+id/specialities_ctxv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -350,7 +350,7 @@
                 app:layout_constraintStart_toStartOf="@+id/specialities_ctxv"
                 app:layout_constraintTop_toBottomOf="@+id/specialities_ctxv" />
 
-            <com.pacifyr.omhealthcare.customview.MainTextView
+            <com.pacifyr.client.customview.MainTextView
                 android:id="@+id/upload_docs_ctxv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -423,7 +423,7 @@
                 app:layout_constraintStart_toStartOf="@+id/terms_of_use_cbox"
                 app:layout_constraintTop_toBottomOf="@+id/terms_of_use_cbox">
 
-                <com.pacifyr.omhealthcare.customview.MainTextView
+                <com.pacifyr.client.customview.MainTextView
                     android:id="@+id/request_ctxv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

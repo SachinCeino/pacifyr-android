@@ -62,7 +62,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <com.pacifyr.omhealthcare.customview.MainTextView
+                <com.pacifyr.client.customview.MainTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="17sp"
@@ -92,7 +92,7 @@
                         android:layout_alignLeft="@+id/textView"/>
 
 
-                    <com.ceino.utilitylibrary.CustomEditText
+                    <com.pacifyrapp.utilitylibrary.CustomEditText
                         android:id="@+id/phone_cedit"
                         android:layout_width="match_parent"
                         android:inputType="phone"
@@ -135,7 +135,7 @@
                     android:background="@drawable/blue_round_square"
                     android:padding="10dp">
 
-                    <com.pacifyr.omhealthcare.customview.MainTextView
+                    <com.pacifyr.client.customview.MainTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/send_confirmcode"
@@ -157,7 +157,7 @@
                     android:layout_marginRight="10dp"
                     android:visibility="gone" />
 
-                <com.pacifyr.omhealthcare.customview.MainTextView
+                <com.pacifyr.client.customview.MainTextView
 
                     android:layout_marginTop="30dp"
                     android:layout_width="wrap_content"
@@ -196,7 +196,7 @@
                         android:layout_height="1dp"
                         android:background="@color/signup_view"/>
 
-                    <com.pacifyr.omhealthcare.customview.MainTextView
+                    <com.pacifyr.client.customview.MainTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="or"
@@ -220,7 +220,7 @@
                     android:background="@drawable/fb_signup_btn"
                     android:padding="10dp">
 
-                    <com.pacifyr.omhealthcare.customview.MainTextView
+                    <com.pacifyr.client.customview.MainTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/login_fb"

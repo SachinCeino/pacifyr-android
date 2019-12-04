@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:background="@color/white"
     android:layout_height="match_parent"
-    tools:context="com.pacifyr.omhealthcare.Payment.EditCardActivity">
+    tools:context="com.pacifyr.client.Payment.EditCardActivity">
 
     <include layout="@layout/actionbar_grey"
         android:id="@+id/include"
@@ -21,13 +21,13 @@
         android:layout_below="@+id/include"
         android:padding="25dp">
 
-        <com.pacifyr.omhealthcare.customview.MainTextView
+        <com.pacifyr.client.customview.MainTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/black"
             android:text="Card Number"/>
 
-        <com.ceino.utilitylibrary.CustomEditText
+        <com.pacifyrapp.utilitylibrary.CustomEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/card_cedt"
@@ -40,14 +40,14 @@
             android:textColor="@color/medium_grey_pacifyr"/>
 
 
-        <com.pacifyr.omhealthcare.customview.MainTextView
+        <com.pacifyr.client.customview.MainTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:textColor="@color/black"
             android:text="Exp. Date"/>
 
-        <com.ceino.utilitylibrary.CustomEditText
+        <com.pacifyrapp.utilitylibrary.CustomEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/exp_date_cedt"
@@ -59,14 +59,14 @@
             android:textColor="@color/medium_grey_pacifyr"/>
 
 
-        <com.pacifyr.omhealthcare.customview.MainTextView
+        <com.pacifyr.client.customview.MainTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:textColor="@color/black"
             android:text="CVV"/>
 
-        <com.ceino.utilitylibrary.CustomEditText
+        <com.pacifyrapp.utilitylibrary.CustomEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/cvv_cedt"

@@ -29,7 +29,7 @@
                 android:id="@+id/root"
                 android:padding="15dp">
 
-                <com.pacifyr.omhealthcare.views.PamTextViewBold
+                <com.pacifyr.client.views.PamTextViewBold
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/text_view_find_care_main"
@@ -40,7 +40,7 @@
                     android:lineSpacingExtra="10sp"
                     android:text="@string/where_are_you" />
 
-                <com.pacifyr.omhealthcare.views.PamEditTextMedium
+                <com.pacifyr.client.views.PamEditTextMedium
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/current_location"
@@ -48,7 +48,7 @@
                     android:background="@drawable/black_border_white_back"
                     android:layout_marginBottom="15dp" />
 
-                <com.pacifyr.omhealthcare.views.PamTextViewBold
+                <com.pacifyr.client.views.PamTextViewBold
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/text_view_find_care_main"
@@ -59,7 +59,7 @@
                     android:lineSpacingExtra="10sp"
                     android:text="@string/find_a_doctor" />
 
-                <com.pacifyr.omhealthcare.views.PamTextViewBold
+                <com.pacifyr.client.views.PamTextViewBold
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="type"
@@ -117,7 +117,7 @@
 
                 </LinearLayout>
 
-                <com.pacifyr.omhealthcare.views.PamTextViewMedium
+                <com.pacifyr.client.views.PamTextViewMedium
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Select Speciality"
@@ -157,7 +157,7 @@
                     android:visibility="gone"
                     android:orientation="vertical">
 
-                    <com.pacifyr.omhealthcare.views.PamTextViewBold
+                    <com.pacifyr.client.views.PamTextViewBold
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Facility"
@@ -165,7 +165,7 @@
                         android:textStyle="bold"
                         android:textColor="@color/blue_fb" />
 
-                    <com.pacifyr.omhealthcare.views.PamEditTextMedium
+                    <com.pacifyr.client.views.PamEditTextMedium
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="eg.valley clininc"
@@ -174,7 +174,7 @@
                         android:background="@drawable/black_border_white_back"
                         android:layout_marginBottom="15dp" />
 
-                    <com.pacifyr.omhealthcare.views.PamTextViewBold
+                    <com.pacifyr.client.views.PamTextViewBold
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Facility Type"
@@ -182,7 +182,7 @@
                         android:textStyle="bold"
                         android:textColor="@color/blue_fb" />
 
-                    <com.pacifyr.omhealthcare.views.PamTextViewMedium
+                    <com.pacifyr.client.views.PamTextViewMedium
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Not available now"
@@ -194,7 +194,7 @@
                         android:drawableRight="@drawable/svg_down_arrow" />
                 </LinearLayout>
 
-                <com.pacifyr.omhealthcare.views.PamTextViewBold
+                <com.pacifyr.client.views.PamTextViewBold
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="name"
@@ -202,7 +202,7 @@
                     android:textStyle="bold"
                     android:textColor="@color/blue_fb" />
 
-                <com.pacifyr.omhealthcare.views.PamEditTextMedium
+                <com.pacifyr.client.views.PamEditTextMedium
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="eg.Smith"
@@ -220,7 +220,7 @@
                     android:gravity="center"
                     android:background="@drawable/blue_border_lightblue">
 
-                    <com.pacifyr.omhealthcare.views.PamTextViewMedium
+                    <com.pacifyr.client.views.PamTextViewMedium
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:text="search"
@@ -266,7 +266,7 @@
                     android:layout_gravity="center"
                     app:srcCompat="@drawable/svg_footer_find_care" />
 
-                <com.pacifyr.omhealthcare.views.PamTextViewMedium
+                <com.pacifyr.client.views.PamTextViewMedium
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -294,7 +294,7 @@
                     android:layout_gravity="center"
                     app:srcCompat="@drawable/svg_footer_my_doctors" />
 
-                <com.pacifyr.omhealthcare.views.PamTextViewMedium
+                <com.pacifyr.client.views.PamTextViewMedium
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -330,7 +330,7 @@
                     android:layout_gravity="center"
                     app:srcCompat="@drawable/svg_footer_spending" />
 
-                <com.pacifyr.omhealthcare.views.PamTextViewMedium
+                <com.pacifyr.client.views.PamTextViewMedium
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -358,7 +358,7 @@
                     android:layout_gravity="center"
                     app:srcCompat="@drawable/svg_footer_appts" />
 
-                <com.pacifyr.omhealthcare.views.PamTextViewMedium
+                <com.pacifyr.client.views.PamTextViewMedium
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
