@@ -15,13 +15,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
+import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MEmotion;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.pacifyr.client.R;
-import com.pacifyr.client.base.PacifyerActivity;
 import com.pacifyr.client.model.ModelSpecialityByEmotion;
 import com.pacifyr.client.network.GsonUtils;
 import com.squareup.picasso.Picasso;
@@ -44,14 +44,14 @@ public class PostiveEmotionsAdapter extends RecyclerView.Adapter<PostiveEmotions
     private boolean isMultiSelectionEnabled = false;
 
     public PostiveEmotionsAdapter(Context context, ArrayList<MEmotion> mListPositiveEmotions) {
-        PacifyerActivity.call_emotion=null;
+        PacifyrActivity.call_emotion=null;
         this.mInflater = LayoutInflater.from(context);
         this.list = mListPositiveEmotions;
         this.context =context;
     }
 
     public PostiveEmotionsAdapter( Context context, ArrayList<MEmotion> mListPositiveEmotions,boolean isMultiSelectionEnabled) {
-        PacifyerActivity.call_emotion=null;
+        PacifyrActivity.call_emotion=null;
         this.mInflater = LayoutInflater.from(context);
         this.list = mListPositiveEmotions;
         this.context =context;
@@ -60,7 +60,7 @@ public class PostiveEmotionsAdapter extends RecyclerView.Adapter<PostiveEmotions
     }
 
     public PostiveEmotionsAdapter(Context context,Activity activity, ArrayList<MEmotion> mListPositiveEmotions) {
-        PacifyerActivity.call_emotion=null;
+        PacifyrActivity.call_emotion=null;
         this.mInflater = LayoutInflater.from(context);
         this.list = mListPositiveEmotions;
         this.context =context;
@@ -113,7 +113,7 @@ public class PostiveEmotionsAdapter extends RecyclerView.Adapter<PostiveEmotions
                     }
                 }
 
-                PacifyerActivity.call_emotion=list.get(position);
+                PacifyrActivity.call_emotion=list.get(position);
 
                 notifyDataSetChanged();
                 //holder.imageView.clearColorFilter();

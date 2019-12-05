@@ -29,7 +29,7 @@ import org.json.JSONObject;
 import static com.pacifyr.client.network.NetworkService.GLOBAL_URL;
 
 
-public class ActivityChngEmotionFromCall extends PacifyrAppCompactActivity {
+public class ActivityChangeEmotionFromCall extends PacifyrAppCompactActivity {
 
     private RecyclerView mPositiveRcv;
     private RecyclerView mNegativeRcv;
@@ -105,7 +105,7 @@ public class ActivityChngEmotionFromCall extends PacifyrAppCompactActivity {
                     modelListNegEmotions = GsonUtils.getInstance().gsonToMListNegativeEmotions(json);
                     mNegativeRcv.setLayoutManager(new GridLayoutManager(getApplicationContext(), 6));
                     if (modelListNegEmotions != null && modelListNegEmotions.getResultsList() != null && modelListNegEmotions.getResultsList().size() > 0) {
-                        mNegativeRcv.setAdapter(new GetNegEmotionsWhileCallAdapter(ActivityChngEmotionFromCall.this, modelListNegEmotions.getResultsList()));
+                        mNegativeRcv.setAdapter(new GetNegEmotionsWhileCallAdapter(ActivityChangeEmotionFromCall.this, modelListNegEmotions.getResultsList()));
 
                         ((GetNegEmotionsWhileCallAdapter)mNegativeRcv.getAdapter()).setSelected(current_emotion);
                     }
@@ -136,7 +136,7 @@ public class ActivityChngEmotionFromCall extends PacifyrAppCompactActivity {
                     if (modelListPosEmotions != null && modelListPosEmotions.getResultsList() != null && modelListPosEmotions.getResultsList().size() > 0)
 
                     {
-                        mPositiveRcv.setAdapter(new GetPosEmotionWhileCallAdapter(ActivityChngEmotionFromCall.this, modelListPosEmotions.getResultsList()));
+                        mPositiveRcv.setAdapter(new GetPosEmotionWhileCallAdapter(ActivityChangeEmotionFromCall.this, modelListPosEmotions.getResultsList()));
                         ((GetPosEmotionWhileCallAdapter)mPositiveRcv.getAdapter()).setSelected(current_emotion);
                     }
 
@@ -186,7 +186,7 @@ public class ActivityChngEmotionFromCall extends PacifyrAppCompactActivity {
             rightLlay.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //Toast.makeText(ActivityChngEmotionFromCall.this, "Done", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(ActivityChangeEmotionFromCall.this, "Done", Toast.LENGTH_SHORT).show();
                 }
             });
 

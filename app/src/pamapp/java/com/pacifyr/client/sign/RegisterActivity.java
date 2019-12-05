@@ -60,7 +60,7 @@ import com.koushikdutta.ion.Ion;
 import com.pacifyr.client.R;
 import com.pacifyr.client.activity.TermsOfUseActivity;
 import com.pacifyr.client.adapter.CountrySpinnerAdapter;
-import com.pacifyr.client.base.PacifyerActivity;
+import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.home.PacifyrDashboardActivity;
 import com.pacifyr.client.home.WelcomeTourActivity;
 import com.pacifyr.client.model.ItemData;
@@ -103,13 +103,13 @@ import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL
 import static com.pacifyr.client.network.NetworkService.countryData;
 import static com.pacifyr.client.sign.RegisterVerifyActivity.phoneRegister;
 
-//import static com.ceino.utilitylibrary.network.UtilityNetworkService.termOfUseUrl;
+//import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.termOfUseUrl;
 
 /**
  * Created by ceino on 11/7/17.
  */
 
-public class RegisterActivity extends PacifyerActivity {
+public class RegisterActivity extends PacifyrActivity {
 
 
     /*

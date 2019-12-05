@@ -230,7 +230,7 @@ public class EditCardActivity extends PacifyrAppCompactActivity {
                     String my=json.toString();
                     if(message.equals("Card added")){
                         hideProgress();
-                        setStatus("Succesfully added your card", R.color.md_green_400);
+                        setStatus("Successfully added your card", R.color.md_green_400);
                         showStatus();
                         final Handler handler = new Handler();
                         handler.postDelayed(new Runnable() {

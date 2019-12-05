@@ -135,60 +135,6 @@ public class SupportFragment extends BaseFragment {
             exx.printStackTrace();
         }
     }
-  /*  private void sendFeedbackMessage() {
-        if(isValid(messageText)) {
-
-            PrefManager prefM = PrefManager.getInstance(getContext());
-            String token = prefM.getAccessToken();
-            String userid = prefM.getUserID();
-
-            String url = GLOBAL_URL + "report";
-
-            AjaxCallback cb = new AjaxCallback<JSONObject>() {
-                @Override
-                public void callback(String url, JSONObject json, AjaxStatus status) {
-                    try {
-                        String js = json.toString();
-                        setStatus("Your message send Succesfully", R.color.md_green_400);
-                        showStatus();
-                        messageEdit.setText("");
-
-                        hideStatus();
-
-
-                        FragmentManager fm=getActivity().getSupportFragmentManager();
-                        FragmentTransaction ft=fm.beginTransaction();
-                        UserDashboardFragment fragment=new UserDashboardFragment();
-                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.activity_main_content_fragment,fragment).commit();
-
-                    } catch (Exception e) {
-                        e.printStackTrace();//RespSearchPacifyrWOption
-                    }
-                }
-            };
-            try {
-                AQuery aq = new AQuery(getContext());
-                cb.header("Content-Type", "application/json");
-                cb.header("AccessToken", token);
-                JSONObject jsonObject = new JSONObject();
-                jsonObject.putOpt("userId", userid);
-                jsonObject.putOpt("text", messageText);
-                //jsonObject.putOpt("price_start", 500);
-                //jsonObject.putOpt("price_end", 2000);
-
-                aq.post(url, jsonObject, JSONObject.class, cb);
-                //aq.ajax(url,JSONObject.class, cb);
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-        }
-        else{
-            setStatus("Please enter a your message", R.color.md_amber_800);
-            showStatus();
-            hideStatus();
-        }
-    }
-*/
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);

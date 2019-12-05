@@ -15,7 +15,7 @@ import com.gdacciaro.iOSDialog.iOSDialog;
 import com.gdacciaro.iOSDialog.iOSDialogClickListener;
 import com.google.gson.Gson;
 import com.pacifyr.client.R;
-import com.pacifyr.client.base.PacifyerActivity;
+import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.event.BusProvider;
 import com.pacifyr.client.home.WelcomeTourActivity;
 import com.pacifyr.client.model.ApiResponse;
@@ -24,7 +24,7 @@ import com.pacifyr.client.network.NetworkService;
 
 import org.json.JSONObject;
 
-public class DiscountCodeActivity extends PacifyerActivity {
+public class DiscountCodeActivity extends PacifyrActivity {
     private static final String TAG = DiscountCodeActivity.class.getSimpleName();
     private RelativeLayout button_validate;
     private EditText edit_discount;
@@ -93,7 +93,7 @@ public class DiscountCodeActivity extends PacifyerActivity {
                                                         showIOSDialogOK("Success", apiResponse.getMessage(), "ok", new iOSDialogClickListener() {
                                                             @Override
                                                             public void onClick(iOSDialog dialog) {
-                                                                //Toast.makeText(PacifyerActivity.this,"Clicked!",Toast.LENGTH_LONG).show();
+                                                                //Toast.makeText(PacifyrActivity.this,"Clicked!",Toast.LENGTH_LONG).show();
                                                                 dialog.dismiss();
                                                                 Intent i = new Intent(DiscountCodeActivity.this, WelcomeTourActivity.class);
                                                                 startActivity(i);

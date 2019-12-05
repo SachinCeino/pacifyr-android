@@ -32,7 +32,7 @@ import com.google.gson.JsonObject;
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.koushikdutta.ion.Ion;
 import com.pacifyr.client.R;
-import com.pacifyr.client.base.PacifyerActivity;
+import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.AlertTypeEvent;
 import com.pacifyr.client.event.BusProvider;
@@ -88,7 +88,7 @@ import org.apache.http.impl.client.DefaultHttpClient;*/
  * Created by ceino on 12/6/17.
  */
 
-public abstract class PacifyrAppCompactActivity  extends PacifyerActivity {
+public abstract class PacifyrAppCompactActivity  extends PacifyrActivity {
     private static final String TAG = PacifyrAppCompactActivity.class.getSimpleName();
     PowerManager.WakeLock wakeLock;
     private Snackbar mSnackbar;
@@ -253,7 +253,7 @@ public abstract class PacifyrAppCompactActivity  extends PacifyerActivity {
             if (isCustomer()) {
                 // id= WebRtcSessionManager.userCallInfo.OpponentUserid;
                 // id=pacifyerDetial.getEmotion();
-                id=PacifyerActivity.call_emotion;
+                id= PacifyrActivity.call_emotion;
                 LogUtils.LOGD("session","PACA  getEmotion obj call_emotion " +id);
                 // id=call_session_detail_root.getSession().getUser().getEmotion();
             }
@@ -960,8 +960,8 @@ public abstract class PacifyrAppCompactActivity  extends PacifyerActivity {
         try {
             //LogUtils.LOGD("receiver","topapp onAlertTypeEvent "+event);
             if (isValid(event)) {
-                if (!isValid(PacifyerActivity.sessionid)
-                PacifyerActivity.sessionid=event.getId();
+                if (!isValid(PacifyrActivity.sessionid)
+                PacifyrActivity.sessionid=event.getId();
                // setAlertOKStatusInBlue(event);
             }
         }catch (Exception e)
@@ -997,7 +997,7 @@ public abstract class PacifyrAppCompactActivity  extends PacifyerActivity {
                         try {
                             CallActivity.mSessionDetailRoot= GsonUtils.getInstance().gsonToMSessionDetailRoot(json);
 
-                            PacifyerActivity.call_session_detail_root= CallActivity.mSessionDetailRoot;
+                            PacifyrActivity.call_session_detail_root= CallActivity.mSessionDetailRoot;
                             postEventOnMainThread(new CallDetailEvent());
                         } catch (Exception e){
                             Bundle args =

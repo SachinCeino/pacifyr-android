@@ -758,11 +758,11 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
                         long diffDays = diff / (24 * 60 * 60 * 1000);
 
                         if (diffDays > 0) {
-                            chat_price_ctxv.setText("Unlimited chat remainng for " + diffDays + " days");
+                            chat_price_ctxv.setText("Unlimited chat remaining for " + diffDays + " days");
                         } else if (diffHours > 1) {
-                            chat_price_ctxv.setText("Unlimited chat remainng for " + diffHours + " hours and " + diffMinutes + " minutes");
+                            chat_price_ctxv.setText("Unlimited chat remaining for " + diffHours + " hours and " + diffMinutes + " minutes");
                         } else if (diffMinutes > 0) {
-                            chat_price_ctxv.setText("Unlimited chat remainng for " + diffMinutes + " minutes");
+                            chat_price_ctxv.setText("Unlimited chat remaining for " + diffMinutes + " minutes");
                         }
                         chatLlay.setClickable(false);
 

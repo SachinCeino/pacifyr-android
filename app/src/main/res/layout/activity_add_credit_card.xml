@@ -94,7 +94,7 @@
 
         </LinearLayout>
 
-        <!-- <com.pacifyr.omhealthcare.customview.MainTextView
+        <!-- <com.pacifyr.client.customview.MainTextView
              android:id="@+id/country_txv"
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"

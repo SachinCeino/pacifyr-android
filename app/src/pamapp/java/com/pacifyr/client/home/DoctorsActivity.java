@@ -27,7 +27,7 @@ import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelSpecialist;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.pacifyr.client.R;
 import com.pacifyr.client.adapter.DoctorsSpecialityAdapter;
-import com.pacifyr.client.base.PacifyerActivity;
+import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.event.AlertTypeEvent;
 import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.network.GsonUtils;

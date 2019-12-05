@@ -85,7 +85,7 @@
                 android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true"
                 android:layout_alignParentEnd="true" />
-       <!--     <com.ceino.utilitylibrary.CustomFontTextView
+       <!--     <com.pacifyrapp.utilitylibrary.CustomFontTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 

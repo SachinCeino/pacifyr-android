@@ -431,7 +431,7 @@
                             android:layout_marginTop="10dp"
                             android:orientation="vertical">
 
-                            <com.pacifyr.omhealthcare.customview.MainTextView
+                            <com.pacifyr.client.customview.MainTextView
                                 android:id="@+id/after_feel_ctxv"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"

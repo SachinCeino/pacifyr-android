@@ -636,11 +636,11 @@ public class PacifyrResultListViewAdapter extends RecyclerView.Adapter<PacifyrRe
                     long diffDays = diff / (24 * 60 * 60 * 1000);
 
                     if (diffDays > 0) {
-                        chatPriceCtxv.setText("Unlimited chat remainng for " + diffDays + " days");
+                        chatPriceCtxv.setText("Unlimited chat remaining for " + diffDays + " days");
                     } else if (diffHours > 1) {
-                        chatPriceCtxv.setText("Unlimited chat remainng for " + diffHours + " hours and " + diffMinutes + " minutes");
+                        chatPriceCtxv.setText("Unlimited chat remaining for " + diffHours + " hours and " + diffMinutes + " minutes");
                     } else if (diffMinutes > 0) {
-                        chatPriceCtxv.setText("Unlimited chat remainng for " + diffMinutes + " minutes");
+                        chatPriceCtxv.setText("Unlimited chat remaining for " + diffMinutes + " minutes");
                     }
                     //chatLlay
                     chatPriceCtxv.setClickable(false);
@@ -664,7 +664,7 @@ public class PacifyrResultListViewAdapter extends RecyclerView.Adapter<PacifyrRe
                 .setPositiveListener(okLabel, new iOSDialogClickListener() {
                     @Override
                     public void onClick(iOSDialog dialog) {
-                        //Toast.makeText(PacifyerActivity.this,"Clicked!",Toast.LENGTH_LONG).show();
+                        //Toast.makeText(PacifyrActivity.this,"Clicked!",Toast.LENGTH_LONG).show();
                         dialog.dismiss();
 
                     }

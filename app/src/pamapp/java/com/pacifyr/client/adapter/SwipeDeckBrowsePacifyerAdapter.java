@@ -28,7 +28,7 @@ import com.gdacciaro.iOSDialog.iOSDialogBuilder;
 import com.gdacciaro.iOSDialog.iOSDialogClickListener;
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.pacifyr.client.R;
-import com.pacifyr.client.base.PacifyerActivity;
+import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.event.CallEvent;
 import com.pacifyr.client.event.ChatEvent;
 import com.pacifyr.client.home.ConnectToSinglePacifyrActivity;
@@ -91,7 +91,7 @@ public class SwipeDeckBrowsePacifyerAdapter extends BaseAdapter {
         searchResults = resultsList;
         tempPAcifyrSearchList = new ArrayList<MUser>();
         this.context = context;
-        if (PacifyerActivity.call_emotion != null && EmotionSpecialityAdapter.reason_forcall != null && emoSelected) {
+        if (PacifyrActivity.call_emotion != null && EmotionSpecialityAdapter.reason_forcall != null && emoSelected) {
             type = 1;
         }
         if (isValid(tempPAcifyrSearchList) && isValid(searchResults))
@@ -286,7 +286,7 @@ public class SwipeDeckBrowsePacifyerAdapter extends BaseAdapter {
                         // Toast.makeText(context,"Video call",Toast.LENGTH_SHORT).show();
                         if (pacifyer.isReadyToCall()) {
                             showProgress();
-                            if (PacifyerActivity.call_emotion != null && EmotionSpecialityAdapter.reason_forcall != null) {
+                            if (PacifyrActivity.call_emotion != null && EmotionSpecialityAdapter.reason_forcall != null) {
                                 ((ListPacifyrScreenActivity) (context)).callchatEventListner.onCallEventClick((new CallEvent(searchResults.get(position), true)));
                             } else {
                                 ConnectToSinglePacifyrActivity.start(context, searchResults.get(position));
@@ -327,7 +327,7 @@ public class SwipeDeckBrowsePacifyerAdapter extends BaseAdapter {
                         if (pacifyer.isReadyToCall()) {
                             showProgress();
 
-                            if (PacifyerActivity.call_emotion != null && EmotionSpecialityAdapter.reason_forcall != null) {
+                            if (PacifyrActivity.call_emotion != null && EmotionSpecialityAdapter.reason_forcall != null) {
                                 ((ListPacifyrScreenActivity) (context)).callchatEventListner.onCallEventClick((new CallEvent(searchResults.get(position), false)));
                             } else {
                                 ConnectToSinglePacifyrActivity.start(context, searchResults.get(position));
@@ -543,11 +543,11 @@ public class SwipeDeckBrowsePacifyerAdapter extends BaseAdapter {
                     long diffDays = diff / (24 * 60 * 60 * 1000);
 
                     if (diffDays > 0) {
-                        chat_price_ctxv.setText("Unlimited chat remainng for " + diffDays + " days");
+                        chat_price_ctxv.setText("Unlimited chat remaining for " + diffDays + " days");
                     } else if (diffHours > 1) {
-                        chat_price_ctxv.setText("Unlimited chat remainng for " + diffHours + " hours and " + diffMinutes + " minutes");
+                        chat_price_ctxv.setText("Unlimited chat remaining for " + diffHours + " hours and " + diffMinutes + " minutes");
                     } else if (diffMinutes > 0) {
-                        chat_price_ctxv.setText("Unlimited chat remainng for " + diffMinutes + " minutes");
+                        chat_price_ctxv.setText("Unlimited chat remaining for " + diffMinutes + " minutes");
                     }
                     //chatLlay
                     chat_price_ctxv.setClickable(false);
@@ -781,7 +781,7 @@ public class SwipeDeckBrowsePacifyerAdapter extends BaseAdapter {
                 .setPositiveListener(okLabel, new iOSDialogClickListener() {
                     @Override
                     public void onClick(iOSDialog dialog) {
-                        //Toast.makeText(PacifyerActivity.this,"Clicked!",Toast.LENGTH_LONG).show();
+                        //Toast.makeText(PacifyrActivity.this,"Clicked!",Toast.LENGTH_LONG).show();
                         dialog.dismiss();
 
                     }

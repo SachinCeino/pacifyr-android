@@ -25,7 +25,7 @@ import com.gdacciaro.iOSDialog.iOSDialogClickListener;
 import com.google.gson.JsonObject;
 import com.koushikdutta.ion.Ion;
 import com.pacifyr.client.R;
-import com.pacifyr.client.base.PacifyerActivity;
+import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.home.DashboardActivity;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
@@ -50,7 +50,7 @@ import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.AUTH_S
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
 import static com.pacifyr.client.network.NetworkService.editProfileObject;
 
-public class LoginPhoneActivity extends PacifyerActivity {
+public class LoginPhoneActivity extends PacifyrActivity {
 
     public Bundle bundle;
     public String phoneNo;

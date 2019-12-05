@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
+import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.LoginModel;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MAdminDashboardByWeek;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MAdminDashboardMonth;
@@ -50,7 +51,6 @@ import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.google.gson.JsonObject;
 import com.koushikdutta.ion.Ion;
 import com.pacifyr.client.R;
-import com.pacifyr.client.base.PacifyerActivity;
 import com.pacifyr.client.event.BusProvider;
 import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.model.ItemData;
@@ -841,8 +841,8 @@ public class NetworkService  extends IntentService {
             //jsonObject.putOpt("price_end", 2000);
 
             List <String> list = new ArrayList<String>();
-            if(isValid(PacifyerActivity.call_emotion)){
-                list.add(PacifyerActivity.call_emotion.getTitle());
+            if(isValid(PacifyrActivity.call_emotion)){
+                list.add(PacifyrActivity.call_emotion.getTitle());
             }else{
                 list.add("Depression");
             }

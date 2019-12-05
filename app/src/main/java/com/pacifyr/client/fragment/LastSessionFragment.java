@@ -54,7 +54,7 @@ import static com.pacifyr.client.network.NetworkService.modelAllEmotions;
 import static com.pacifyr.client.network.NetworkService.modelCustomerDashboard2;
 import static com.pacifyr.client.network.NetworkService.webListEmotions;
 
-public class LastSssionFragment extends BaseFragment {
+public class LastSessionFragment extends BaseFragment {
 
     boolean showingFirst = true;
     HoloCircleSeekBar holoCircleSeekBar;
@@ -93,12 +93,12 @@ public class LastSssionFragment extends BaseFragment {
     public MSessionRating editSessionObject;
     private CustomEditText commentCedt;
 
-    public LastSssionFragment() {
+    public LastSessionFragment() {
         // Required empty public constructor
     }
 
-    public static LastSssionFragment newInstance(String param1, String param2) {
-        LastSssionFragment fragment = new LastSssionFragment();
+    public static LastSessionFragment newInstance(String param1, String param2) {
+        LastSessionFragment fragment = new LastSessionFragment();
         Bundle args = new Bundle();
         return fragment;
     }

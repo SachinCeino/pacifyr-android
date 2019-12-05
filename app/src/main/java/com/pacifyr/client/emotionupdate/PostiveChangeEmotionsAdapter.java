@@ -14,13 +14,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
+import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MEmotion;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.pacifyr.client.R;
-import com.pacifyr.client.base.PacifyerActivity;
 import com.pacifyr.client.event.BusProvider;
 import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.model.ModelSpecialityByEmotion;
@@ -42,14 +42,14 @@ public class PostiveChangeEmotionsAdapter extends RecyclerView.Adapter<PostiveCh
     public  Context context;
 
     public PostiveChangeEmotionsAdapter(Context context, ArrayList<MEmotion> mListPositiveEmotions) {
-        PacifyerActivity.call_emotion=null;
+        PacifyrActivity.call_emotion=null;
         this.mInflater = LayoutInflater.from(context);
         this.list = mListPositiveEmotions;
         this.context =context;
     }
 
     public PostiveChangeEmotionsAdapter(Context context, ArrayList<MEmotion> mListPositiveEmotions, boolean isMultiSelectionEnabled) {
-        PacifyerActivity.call_emotion=null;
+        PacifyrActivity.call_emotion=null;
         this.mInflater = LayoutInflater.from(context);
         this.list = mListPositiveEmotions;
         this.context =context;
@@ -101,7 +101,7 @@ public class PostiveChangeEmotionsAdapter extends RecyclerView.Adapter<PostiveCh
                     }
                 }
 
-                //PacifyerActivity.call_emotion=list.get(position);
+                //PacifyrActivity.call_emotion=list.get(position);
 
                 notifyDataSetChanged();
 

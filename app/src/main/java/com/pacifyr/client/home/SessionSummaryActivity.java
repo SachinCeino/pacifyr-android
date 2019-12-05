@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
+import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyrapp.utilitylibrary.CustomEditText;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.pacifyrapp.utilitylibrary.ToastHandler;
@@ -34,7 +35,6 @@ import com.jesusm.holocircleseekbar.lib.HoloCircleSeekBar;
 import com.pacifyr.client.R;
 import com.pacifyr.client.adapter.CommentsAdapter;
 import com.pacifyr.client.adapter.EmotionsListAdapter;
-import com.pacifyr.client.base.PacifyerActivity;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.AlertTypeEvent;
 import com.pacifyr.client.event.NotifyEvent;
@@ -306,7 +306,7 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
     protected void onDestroy() {
         super.onDestroy();
         sessionid = null;
-        PacifyerActivity.call_emotion = null;
+        PacifyrActivity.call_emotion = null;
     }
 
     @Override
@@ -413,7 +413,7 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
                 pacifyrRateCtxv.setVisibility(View.GONE);
                 customer_fees_llay.setVisibility(View.GONE);
                 callback_ctxv.setVisibility(View.GONE);
-                before_feel_ctxv.setText("How was the  customer  feeling before call?");
+                before_feel_ctxv.setText("How was the customer feeling before call?");
               /*  after_feel_ctxv.setText("How was the  customer feeling after the call ?");
                 after_feel_llay.setVisibility(View.VISIBLE);*/
                 afterFeelSelectionCtxv.setText("How was the customer feeling after the call in your opinion?");
@@ -491,7 +491,7 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
                 if (isCustomer) {
                     before_feel_ctxv.setText("How were you feeling before the call?");
                 } else {
-                    before_feel_ctxv.setText("How was the  customer  feeling before call?");
+                    before_feel_ctxv.setText("How was the customer feeling before call?");
                 }
                 String beforeImgUrl = GLOBAL_IMAGE_URL + mEmotion.getImage();
                 if (isValid(beforeImgUrl))
@@ -792,7 +792,7 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                PacifyerActivity.sessionid = null;
+                                PacifyrActivity.sessionid = null;
                                 hideProgress();
                             }
                         }, 1000);
@@ -889,7 +889,7 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
         try {
             if (isCustomer()) {
                 // id= WebRtcSessionManager.userCallInfo.OpponentUserid;
-                emotionid = PacifyerActivity.call_emotion.getId();
+                emotionid = PacifyrActivity.call_emotion.getId();
             } else {
                 emotionid = call_session_detail_root.getUser().getEmotionId();
                 mEmotion = call_session_detail_root.getUser().getEmotion();

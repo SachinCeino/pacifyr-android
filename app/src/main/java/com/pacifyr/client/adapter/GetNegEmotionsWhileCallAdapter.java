@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MEmotion;
@@ -23,7 +24,6 @@ import com.google.gson.JsonObject;
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.koushikdutta.ion.Ion;
 import com.pacifyr.client.R;
-import com.pacifyr.client.base.PacifyerActivity;
 import com.pacifyr.client.event.BusProvider;
 import com.pacifyr.client.event.CallChangeEmotion;
 import com.squareup.picasso.Picasso;
@@ -84,7 +84,7 @@ public class GetNegEmotionsWhileCallAdapter extends RecyclerView.Adapter<GetNegE
             public void onClick(View v) {
                 if (isValid(list.get(position))) {
                     MEmotion m = list.get(position);
-                    PacifyerActivity.call_emotion = list.get(position);
+                    PacifyrActivity.call_emotion = list.get(position);
                     updateUserEmotion(m);
                     holder.imageView.clearColorFilter();
                     for (int i = 0; i < list.size(); i++) {

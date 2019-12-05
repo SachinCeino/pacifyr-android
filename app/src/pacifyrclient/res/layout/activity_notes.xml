@@ -38,7 +38,7 @@
             android:background="@color/white"
             android:orientation="vertical">
 
-            <com.ceino.utilitylibrary.CustomEditText
+            <com.pacifyrapp.utilitylibrary.CustomEditText
                 android:id="@+id/etv_notes"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

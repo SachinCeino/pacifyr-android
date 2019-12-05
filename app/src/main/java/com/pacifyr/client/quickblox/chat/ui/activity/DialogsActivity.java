@@ -27,7 +27,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout;
 import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
 import com.pacifyr.client.R;
-import com.pacifyr.client.base.PacifyerActivity;
+import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.quickblox.chat.managers.DialogsManager;
 import com.pacifyr.client.quickblox.chat.ui.adapter.DialogsAdapter;
@@ -58,7 +58,7 @@ import java.util.Collection;
 
 
 //com.pacifyr.pacifyrapp.quickblox.chat.ui.activity.BaseActivity
-public class DialogsActivity extends PacifyerActivity implements DialogsManager.ManagingDialogsCallbacks {
+public class DialogsActivity extends PacifyrActivity implements DialogsManager.ManagingDialogsCallbacks {
     private static final String TAG = DialogsActivity.class.getSimpleName();
     private static final int REQUEST_SELECT_PEOPLE = 174;
     public static final int REQUEST_DIALOG_ID_FOR_UPDATE = 165;

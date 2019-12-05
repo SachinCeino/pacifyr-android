@@ -35,6 +35,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
+import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyrapp.utilitylibrary.CustomEditText;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
@@ -50,7 +51,6 @@ import com.pacifyr.client.adapter.ListCertificatesAdapter;
 import com.pacifyr.client.adapter.ListEducationAdapter;
 import com.pacifyr.client.adapter.ListFileAdapter;
 import com.pacifyr.client.adapter.RequestSpecialistAdapter;
-import com.pacifyr.client.base.PacifyerActivity;
 import com.pacifyr.client.model.ItemData;
 import com.pacifyr.client.model.ModelPacifyrCertificates;
 import com.pacifyr.client.model.ModelPacifyrDocuments;
@@ -84,7 +84,7 @@ import retrofit2.Response;
 
 import static com.pacifyr.client.network.NetworkService.GLOBAL_URL;
 
-public class PacifyrRequestAccessActivity extends PacifyerActivity implements RequestSpecialistAdapter.EmotionClickkListenerRequest{
+public class PacifyrRequestAccessActivity extends PacifyrActivity implements RequestSpecialistAdapter.EmotionClickkListenerRequest{
 
     public static ItemData countryData;
 

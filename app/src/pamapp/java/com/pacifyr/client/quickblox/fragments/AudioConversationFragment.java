@@ -27,9 +27,9 @@ import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.gdacciaro.iOSDialog.iOSDialog;
 import com.gdacciaro.iOSDialog.iOSDialogClickListener;
 import com.pacifyr.client.R;
-import com.pacifyr.client.activity.ActivityChngEmotionFromCall;
+import com.pacifyr.client.activity.ActivityChangeEmotionFromCall;
 import com.pacifyr.client.adapter.EmotionSpecialityAdapter;
-import com.pacifyr.client.base.PacifyerActivity;
+import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.CallChangeEmotion;
 import com.pacifyr.client.event.CallEvent;
@@ -87,7 +87,7 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
             Log.d("receiver", "Got message: " + type);
             if (type != null && type.equals("billing")) {
                 billingStatus.setVisibility(View.VISIBLE);
-                ((PacifyerActivity) getActivity()).setBillingStarted(true);
+                ((PacifyrActivity) getActivity()).setBillingStarted(true);
                 if (isEmployee()) {
                     setEmpMinutesListener(empMinutesListener);
                     checkEmpAvailableMinutes();
@@ -105,12 +105,12 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
     private EmpMinutesListener empMinutesListener = new EmpMinutesListener() {
         @Override
         public void onMinutesLeft(long minutes) {
-            if (getActivity() != null && getActivity() instanceof PacifyerActivity) {
-                ((PacifyerActivity) getActivity()).showIOSDialogOKCancel("Warning", "Your monthly free sessions is expiring soon. Please enter your Credit Card to continue service.", "Add Card", new iOSDialogClickListener() {
+            if (getActivity() != null && getActivity() instanceof PacifyrActivity) {
+                ((PacifyrActivity) getActivity()).showIOSDialogOKCancel("Warning", "Your monthly free sessions is expiring soon. Please enter your Credit Card to continue service.", "Add Card", new iOSDialogClickListener() {
                     @Override
                     public void onClick(iOSDialog dialog) {
                         dialog.dismiss();
-                        //Toast.makeText(PacifyerActivity.this,"Clicked!",Toast.LENGTH_LONG).show();
+                        //Toast.makeText(PacifyrActivity.this,"Clicked!",Toast.LENGTH_LONG).show();
                         setAlertAddCardInBlue2();
 
                     }
@@ -248,7 +248,7 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
         emotion_rlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), ActivityChngEmotionFromCall.class);
+                Intent intent = new Intent(getActivity(), ActivityChangeEmotionFromCall.class);
                 if (isValid(change_Emotion_name)) {
                     intent.putExtra("emotion", change_Emotion_name);
                 }
@@ -396,8 +396,8 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
             MEmotion emotion = null;
 
             if (isCustomer()) {
-                emotion = PacifyerActivity.call_emotion;
-                image = PacifyerActivity.call_emotion.getImage();
+                emotion = PacifyrActivity.call_emotion;
+                image = PacifyrActivity.call_emotion.getImage();
                 call_particpants_list = new ArrayList<MUser>();
                 call_particpants_list.add(convertModel(NetworkService.mCurrentUser));
                 call_particpants_list.add(CallActivity.mPacifyr);
@@ -712,8 +712,8 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
         emotion_rlay.setVisibility(View.VISIBLE);
         userRlay.setVisibility(View.VISIBLE);
         call_layout.setVisibility(View.VISIBLE);
-        if (getActivity() instanceof PacifyerActivity) {
-            if (((PacifyerActivity) getActivity()).hasBillingStarted()) {
+        if (getActivity() instanceof PacifyrActivity) {
+            if (((PacifyrActivity) getActivity()).hasBillingStarted()) {
                 billingStatus.setVisibility(View.VISIBLE);
             } else {
                 billingStatus.setVisibility(View.INVISIBLE);

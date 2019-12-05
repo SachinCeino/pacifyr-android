@@ -46,7 +46,7 @@
 
             android:layout_height="wrap_content">
             &lt;!&ndash;            android:background="@color/black_transparent_50"&ndash;&gt;
-        <com.ceino.utilitylibrary.DeviceFitImageView
+        <com.pacifyrapp.utilitylibrary.DeviceFitImageView
             android:layout_width="wrap_content"
             android:id="@+id/emotion_dimv"
             xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -58,7 +58,7 @@
             app:aspect_ratio="1"
             android:src="@drawable/placeholder_user"
             android:layout_height="wrap_content" />
-        <com.pacifyr.omhealthcare.customview.MainTextView
+        <com.pacifyr.client.customview.MainTextView
             android:layout_width="wrap_content"
             android:id="@+id/reason_ctxv"
             xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -110,7 +110,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <com.pacifyr.omhealthcare.customview.MainTextView
+                    <com.pacifyr.client.customview.MainTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
@@ -121,7 +121,7 @@
                         android:textStyle="bold"
                         android:visibility="visible" />
 
-                    <com.pacifyr.omhealthcare.customview.MainTextView
+                    <com.pacifyr.client.customview.MainTextView
                         android:id="@+id/emotion_ctxv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -144,7 +144,7 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
-                        <com.pacifyr.omhealthcare.customview.MainTextView
+                        <com.pacifyr.client.customview.MainTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerHorizontal="true"
@@ -154,7 +154,7 @@
                             android:textStyle="bold"
                             android:visibility="visible" />
 
-                        <com.pacifyr.omhealthcare.customview.MainTextView
+                        <com.pacifyr.client.customview.MainTextView
                             android:id="@+id/reason_ctxv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -226,7 +226,7 @@
             android:layout_alignParentLeft="true"
             android:layout_height="wrap_content">
 
-            <com.pacifyr.omhealthcare.customview.MainTextView
+            <com.pacifyr.client.customview.MainTextView
                 android:layout_width="wrap_content"
                 android:id="@+id/call_ctxv"
                 android:visibility="visible"
@@ -242,7 +242,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_below="@+id/call_ctxv"
                 android:layout_height="wrap_content">
-                <!--        <com.ceino.utilitylibrary.DeviceFitImageView
+                <!--        <com.pacifyrapp.utilitylibrary.DeviceFitImageView
                             android:layout_width="wrap_content"
                             android:id="@+id/user_dimv"
                             app:width_percentage="12"
@@ -268,7 +268,7 @@
                         android:src="@drawable/placeholder_image"
                         android:layout_height="45dp" />
 
-                <com.pacifyr.omhealthcare.customview.MainTextView
+                <com.pacifyr.client.customview.MainTextView
                         android:layout_width="wrap_content"
                         android:id="@+id/username_ctxv"
                         android:layout_toRightOf="@+id/user_dimv"
@@ -292,7 +292,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
 
-                    <!--<com.ceino.utilitylibrary.DeviceFitImageView
+                    <!--<com.pacifyrapp.utilitylibrary.DeviceFitImageView
                         android:layout_width="wrap_content"
                         android:id="@+id/more_dimv"
                         app:width_percentage="8"
@@ -315,7 +315,7 @@
                         android:src="@drawable/ic_more_menu"
                         android:id="@+id/more_dimv"/>
 
-                    <com.pacifyr.omhealthcare.customview.MainTextView
+                    <com.pacifyr.client.customview.MainTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/white"
@@ -324,7 +324,7 @@
                         android:text="Past sessions"/>
 
                 </RelativeLayout>
-            <!--    <com.ceino.utilitylibrary.DeviceFitImageView
+            <!--    <com.pacifyrapp.utilitylibrary.DeviceFitImageView
                     android:layout_width="wrap_content"
                     android:id="@+id/more_dimv"
                     android:layout_alignParentRight="true"
@@ -366,7 +366,7 @@
         android:id="@+id/call_layout"
         layout="@layout/view_audio_action_buttons_conversation_fragment" />
 
-    <com.pacifyr.omhealthcare.customview.MainTextView
+    <com.pacifyr.client.customview.MainTextView
         android:id="@+id/billing_status"
         android:layout_width="250dp"
         android:layout_height="wrap_content"

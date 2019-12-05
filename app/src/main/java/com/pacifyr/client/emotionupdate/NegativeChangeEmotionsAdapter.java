@@ -22,7 +22,7 @@ import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.pacifyr.client.R;
-import com.pacifyr.client.base.PacifyerActivity;
+import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.event.BusProvider;
 import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.model.ModelSpecialityByEmotion;
@@ -45,7 +45,7 @@ public class NegativeChangeEmotionsAdapter extends RecyclerView.Adapter<Negative
 
 
     public NegativeChangeEmotionsAdapter(Context context, ArrayList<MEmotion> mListPositiveEmotions) {
-        PacifyerActivity.call_emotion=null;
+        PacifyrActivity.call_emotion=null;
         this.mInflater = LayoutInflater.from(context);
         this.list = mListPositiveEmotions;
         this.context = context;
@@ -96,7 +96,7 @@ public class NegativeChangeEmotionsAdapter extends RecyclerView.Adapter<Negative
                     }
                 }
 
-                //PacifyerActivity.call_emotion=list.get(position);
+                //PacifyrActivity.call_emotion=list.get(position);
 
                 notifyDataSetChanged();
                 String url = GLOBAL_URL + "specialities/getCategories/byEmotion?emotionId="+emotionID;

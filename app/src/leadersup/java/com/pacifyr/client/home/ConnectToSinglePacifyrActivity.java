@@ -34,7 +34,7 @@ import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.pacifyr.client.R;
 import com.pacifyr.client.adapter.EmotionSpecialityAdapter;
-import com.pacifyr.client.base.PacifyerActivity;
+import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.event.AlertTypeEvent;
 import com.pacifyr.client.event.CallEvent;
 import com.pacifyr.client.event.NotifyEvent;
@@ -330,8 +330,8 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
                 button1.setBackgroundResource(R.drawable.circle_button);
                 button2.setBackgroundResource(R.drawable.circle_click_btn);
                  //callFragmant();
-                PacifyerActivity.call_emotion=new MEmotion();
-                PacifyerActivity.call_emotion.setId("5971c472734d1d6202a81958");
+                PacifyrActivity.call_emotion=new MEmotion();
+                PacifyrActivity.call_emotion.setId("5971c472734d1d6202a81958");
                 changeToSecondScreen();
 
             }
@@ -347,8 +347,8 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
                 button1.setBackgroundResource(R.drawable.circle_button);
                 button2.setBackgroundResource(R.drawable.circle_click_btn);
                 //callFragmant();
-                PacifyerActivity.call_emotion=new MEmotion();
-                PacifyerActivity.call_emotion.setId("5971c472734d1d6202a81958");
+                PacifyrActivity.call_emotion=new MEmotion();
+                PacifyrActivity.call_emotion.setId("5971c472734d1d6202a81958");
                 changeToSecondScreen();
 
             }
@@ -788,11 +788,11 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
                         long diffDays = diff / (24 * 60 * 60 * 1000);
 
                         if (diffDays > 0) {
-                            chat_price_ctxv.setText("Unlimited chat remainng for " + diffDays + " days");
+                            chat_price_ctxv.setText("Unlimited chat remaining for " + diffDays + " days");
                         } else if (diffHours > 1) {
-                            chat_price_ctxv.setText("Unlimited chat remainng for " + diffHours + " hours and " + diffMinutes + " minutes");
+                            chat_price_ctxv.setText("Unlimited chat remaining for " + diffHours + " hours and " + diffMinutes + " minutes");
                         } else if (diffMinutes > 0) {
-                            chat_price_ctxv.setText("Unlimited chat remainng for " + diffMinutes + " minutes");
+                            chat_price_ctxv.setText("Unlimited chat remaining for " + diffMinutes + " minutes");
                         }
                         chatLlay.setClickable(false);
 

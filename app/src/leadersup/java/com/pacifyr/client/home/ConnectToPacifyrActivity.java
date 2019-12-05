@@ -35,7 +35,7 @@ import com.pacifyr.client.R;
 import com.pacifyr.client.adapter.CategoryListAdapter;
 import com.pacifyr.client.adapter.EmotionSpecialityAdapter;
 import com.pacifyr.client.adapter.SwipeDeckConnectPacifyrAdapter;
-import com.pacifyr.client.base.PacifyerActivity;
+import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.event.AlertTypeEvent;
 import com.pacifyr.client.event.CallEvent;
 import com.pacifyr.client.event.ChatEvent;
@@ -310,8 +310,8 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
                 button1.setBackgroundResource(R.drawable.circle_button);
                 button2.setBackgroundResource(R.drawable.circle_click_btn);
                 //callFragmant();
-                PacifyerActivity.call_emotion=new MEmotion();
-                PacifyerActivity.call_emotion.setId("5971c472734d1d6202a81958");
+                PacifyrActivity.call_emotion=new MEmotion();
+                PacifyrActivity.call_emotion.setId("5971c472734d1d6202a81958");
                 changeToSecondScreen();
 
             }
@@ -326,8 +326,8 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
                 button1.setBackgroundResource(R.drawable.circle_button);
                 button2.setBackgroundResource(R.drawable.circle_click_btn);
                 //callFragmant();
-                PacifyerActivity.call_emotion=new MEmotion();
-                PacifyerActivity.call_emotion.setId("5971c472734d1d6202a81958");
+                PacifyrActivity.call_emotion=new MEmotion();
+                PacifyrActivity.call_emotion.setId("5971c472734d1d6202a81958");
                 changeToSecondScreen();
 
             }
@@ -366,8 +366,8 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
         morePacifyrsRlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(isValid(PacifyerActivity.call_emotion)){
-                    //ToastHandler.newInstance(ConnectToPacifyrActivity.this).showToast(PacifyerActivity.call_emotion.getTitle());
+                if(isValid(PacifyrActivity.call_emotion)){
+                    //ToastHandler.newInstance(ConnectToPacifyrActivity.this).showToast(PacifyrActivity.call_emotion.getTitle());
                 }
                 ListPacifyrScreenActivity.start(ConnectToPacifyrActivity.this, ConnectToPacifyrActivity.customerEmotion,showAllFlag);
             }

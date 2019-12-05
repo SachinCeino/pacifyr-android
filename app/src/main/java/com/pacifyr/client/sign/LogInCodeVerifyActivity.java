@@ -29,7 +29,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.pacifyr.client.R;
-import com.pacifyr.client.base.PacifyerActivity;
+import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.utils.FirebaseLogging;
 
 import java.util.Random;
@@ -39,7 +39,7 @@ import java.util.concurrent.TimeUnit;
  * Created by ceino on 11/7/17.
  */
 
-public class LogInCodeVerifyActivity extends PacifyerActivity {
+public class LogInCodeVerifyActivity extends PacifyrActivity {
 
     private ImageView imgBack;
     private RelativeLayout logoRlay;

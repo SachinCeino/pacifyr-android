@@ -5,9 +5,9 @@ import android.content.Context;
 import android.os.Handler;
 import android.util.Log;
 
+import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyrapp.utilitylibrary.ToastHandler;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.UserCallInfo;
-import com.pacifyr.client.base.PacifyerActivity;
 import com.pacifyr.client.home.SessionSummaryActivity;
 import com.pacifyr.client.quickblox.App;
 import com.pacifyr.client.quickblox.activities.CallActivity;
@@ -71,7 +71,7 @@ public class WebRtcSessionManager extends QBRTCClientSessionCallbacksImpl {
                 {
 
                     try {
-                        PacifyerActivity.sessionid=userCallInfo.sessionId;
+                        PacifyrActivity.sessionid=userCallInfo.sessionId;
                         setCurrentSession(session);
                         Activity activity = null;
                         activity = ((App) App.getInstance()).getCurrentActivity();
@@ -94,11 +94,11 @@ public class WebRtcSessionManager extends QBRTCClientSessionCallbacksImpl {
                     if(PacifyrReceiver.temp_sessionid!=null)
                     {
                         LogUtils.LOGD("app_rec", "WM onReceiveNewSession Call ");
-                        PacifyerActivity.sessionid = PacifyrReceiver.temp_sessionid;
+                        PacifyrActivity.sessionid = PacifyrReceiver.temp_sessionid;
                         WebRtcSessionManager.currentSession = WebRtcSessionManager.tempSession;
                         WebRtcSessionManager.tempSession = null;
                         PacifyrReceiver.temp_sessionid=null;
-                        userCallInfo.sessionId=        PacifyerActivity.sessionid;
+                        userCallInfo.sessionId=        PacifyrActivity.sessionid;
                         ToastHandler.newInstance(context).showToast("WM call data recevied from backend ");
                         CallActivity.start(context, true);
                     }
@@ -123,7 +123,7 @@ public class WebRtcSessionManager extends QBRTCClientSessionCallbacksImpl {
 
                             if( userCallInfo.sessionId!=null)
                             {
-                                PacifyerActivity.sessionid=userCallInfo.sessionId;
+                                PacifyrActivity.sessionid=userCallInfo.sessionId;
                                 setCurrentSession(session);
                                 try {
                                     Activity activity = null;
@@ -140,9 +140,9 @@ public class WebRtcSessionManager extends QBRTCClientSessionCallbacksImpl {
                             }
                             else
                             {
-                               if(PacifyerActivity.sessionid!=null)
+                               if(PacifyrActivity.sessionid!=null)
                                {
-                                   userCallInfo.sessionId=PacifyerActivity.sessionid;
+                                   userCallInfo.sessionId=PacifyrActivity.sessionid;
                                    CallActivity.start(context, true);
                                }
 
@@ -156,7 +156,7 @@ public class WebRtcSessionManager extends QBRTCClientSessionCallbacksImpl {
 
             } catch (Exception e) {
                 ToastHandler.newInstance( App.getInstance()).showToast("Exception in Call");
-                PacifyerActivity.sessionid=null;
+                PacifyrActivity.sessionid=null;
                 userSessionInfo=null;
                 e.printStackTrace();
             }

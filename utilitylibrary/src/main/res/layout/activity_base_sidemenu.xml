@@ -111,7 +111,7 @@ android:visibility="gone"
                             android:src="@drawable/placeholder_user"
                             app:civ_border_color="@color/white"
                             app:civ_border_width="2dp"/>
-                        <com.ceino.utilitylibrary.CustomFontTextView
+                        <com.pacifyrapp.utilitylibrary.CustomFontTextView
                             android:id="@+id/parent_name_ctxv"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -139,12 +139,12 @@ android:visibility="gone"
     android:layout_width="wrap_content"
     app:layout_widthPercent="30%"
     android:layout_height="wrap_content">
-    <com.ceino.utilitylibrary.DeviceFitImageView
+    <com.pacifyrapp.utilitylibrary.DeviceFitImageView
         android:id="@+id/side_invite_dimv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         />
-    <com.ceino.utilitylibrary.CustomFontTextView
+    <com.pacifyrapp.utilitylibrary.CustomFontTextView
         android:layout_below="@+id/side_invite_dimv"
         android:id="@+id/side_invite_dtxv"
         android:layout_width="wrap_content"
@@ -155,12 +155,12 @@ android:visibility="gone"
                     android:layout_width="wrap_content"
                     app:layout_widthPercent="30%"
                     android:layout_height="wrap_content">
-                    <com.ceino.utilitylibrary.DeviceFitImageView
+                    <com.pacifyrapp.utilitylibrary.DeviceFitImageView
                         android:id="@+id/side_account_dimv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         />
-                    <com.ceino.utilitylibrary.CustomFontTextView
+                    <com.pacifyrapp.utilitylibrary.CustomFontTextView
                         android:layout_below="@+id/side_account_dimv"
                         android:id="@+id/side_account_dtxv"
                         android:layout_width="wrap_content"
@@ -171,12 +171,12 @@ android:visibility="gone"
                     android:layout_width="wrap_content"
                     app:layout_widthPercent="30%"
                     android:layout_height="wrap_content">
-                    <com.ceino.utilitylibrary.DeviceFitImageView
+                    <com.pacifyrapp.utilitylibrary.DeviceFitImageView
                         android:id="@+id/side_support_dimv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         />
-                    <com.ceino.utilitylibrary.CustomFontTextView
+                    <com.pacifyrapp.utilitylibrary.CustomFontTextView
                         android:layout_below="@+id/side_support_dimv"
                         android:id="@+id/side_support_dtxv"
                         android:layout_width="wrap_content"
@@ -188,13 +188,13 @@ android:visibility="gone"
                     android:layout_width="match_parent"
 android:padding="10dp"
                     android:layout_height="wrap_content">
-                    <com.ceino.utilitylibrary.DeviceFitImageView
+                    <com.pacifyrapp.utilitylibrary.DeviceFitImageView
                         android:src="@drawable/dashboardic"
                         android:id="@+id/side_school_dimv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         />
-                    <com.ceino.utilitylibrary.CustomFontTextView
+                    <com.pacifyrapp.utilitylibrary.CustomFontTextView
                         android:layout_toRightOf="@+id/side_school_dimv"
                         android:id="@+id/side_school_dtxv"
                         android:layout_width="wrap_content"
@@ -207,12 +207,12 @@ android:padding="10dp"
                     android:layout_width="match_parent"
                     android:padding="10dp"
                     android:layout_height="wrap_content">
-                    <com.ceino.utilitylibrary.DeviceFitImageView
+                    <com.pacifyrapp.utilitylibrary.DeviceFitImageView
                         android:id="@+id/side_class_dimv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         />
-                    <com.ceino.utilitylibrary.CustomFontTextView
+                    <com.pacifyrapp.utilitylibrary.CustomFontTextView
                         android:layout_toRightOf="@+id/side_class_dimv"
                         android:id="@+id/side_class_dtxv"
                         android:text="School"

@@ -18,17 +18,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.aigestudio.wheelpicker.WheelPicker;
 import com.aigestudio.wheelpicker.widgets.WheelYearPicker;
+import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.pacifyr.client.R;
 import com.pacifyr.client.adapter.ListCertificatesAdapter;
-import com.pacifyr.client.base.PacifyerActivity;
 import com.pacifyr.client.model.ModelPacifyrCertificates;
 
 import java.util.ArrayList;
 
-public class AddPacifyrCertificatesActivity extends PacifyerActivity {
+public class AddPacifyrCertificatesActivity extends PacifyrActivity {
 
     ModelPacifyrCertificates certificates;
     ArrayList<ModelPacifyrCertificates> certificatesList;

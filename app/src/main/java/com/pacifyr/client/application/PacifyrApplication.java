@@ -9,7 +9,7 @@ import androidx.multidex.MultiDexApplication;
  * Created by ceino on 21/6/17.
  */
 
-public class PacifyerApplication extends MultiDexApplication {
+public class PacifyrApplication extends MultiDexApplication {
 
     @Override
     protected void attachBaseContext(Context base) {

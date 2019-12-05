@@ -17,12 +17,12 @@ import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import com.pacifyr.client.activity.SplashScreen;
+import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.pacifyr.client.R;
-import com.pacifyr.client.activity.SplachScreen;
-import com.pacifyr.client.base.PacifyerActivity;
 import com.pacifyr.client.event.CallEvent;
 import com.pacifyr.client.quickblox.activities.CallActivity;
 import com.pacifyr.client.quickblox.chat.ui.activity.DialogsActivity;
@@ -177,7 +177,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                         if (message != null && !message.equalsIgnoreCase("") && !message.equalsIgnoreCase("null")) {
 
 
-                            SplachScreen.trigger = "fromNotification";
+                            SplashScreen.trigger = "fromNotification";
 
 
                             if (isAppIsInBackground(context)) {
@@ -188,7 +188,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                                         LogUtils.LOGD("app_reca", " app live  notification session " + WebRtcSessionManager.tempSession);
 
                                         if (WebRtcSessionManager.tempSession != null) {
-                                            PacifyerActivity.sessionid = _id;
+                                            PacifyrActivity.sessionid = _id;
                                             WebRtcSessionManager.currentSession = WebRtcSessionManager.tempSession;
                                             WebRtcSessionManager.tempSession = null;
                                             CallActivity.start(context, true);
@@ -224,7 +224,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                                         if (WebRtcSessionManager.tempSession != null) {
                                             LogUtils.LOGD("app_recb", " app live  notification session " + WebRtcSessionManager.tempSession);
                                             LogUtils.LOGD("app_recb", " app live notification Call ");
-                                            PacifyerActivity.sessionid = _id;
+                                            PacifyrActivity.sessionid = _id;
                                             WebRtcSessionManager.currentSession = WebRtcSessionManager.tempSession;
                                             WebRtcSessionManager.tempSession = null;
                                             ToastHandler.newInstance(context).showToast("call data recevied from backend 1");
@@ -265,7 +265,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                                         if (WebRtcSessionManager.tempSession != null) {
 
                                             LogUtils.LOGD("app_rec", " app live notification Call ");
-                                            PacifyerActivity.sessionid = _id;
+                                            PacifyrActivity.sessionid = _id;
                                             WebRtcSessionManager.currentSession = WebRtcSessionManager.tempSession;
                                             WebRtcSessionManager.tempSession = null;
                                             ToastHandler.newInstance(context).showToast("call data recevied from backend 1");
@@ -290,7 +290,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                                     isCall = true;
                                     if (WebRtcSessionManager.tempSession != null) {
                                         LogUtils.LOGD("app_recd", " app live notification Call ");
-                                        PacifyerActivity.sessionid = _id;
+                                        PacifyrActivity.sessionid = _id;
                                         WebRtcSessionManager.currentSession = WebRtcSessionManager.tempSession;
                                         WebRtcSessionManager.tempSession = null;
                                         ToastHandler.newInstance(context).showToast("call data recevied from backend 2 ");
@@ -359,7 +359,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     stackBuilder.getPendingIntent(0, PendingIntent.FLAG_CANCEL_CURRENT);
         } else {
 
-            cIntent = new Intent(context, SplachScreen.class);
+            cIntent = new Intent(context, SplashScreen.class);
             Bundle b = new Bundle();
             // b.putString("type", type);
             b.putString("id", qsid);

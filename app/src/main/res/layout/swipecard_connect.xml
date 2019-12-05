@@ -125,7 +125,7 @@
                         android:layout_gravity="left"
                         android:gravity="left">
 
-                        <!--<com.pacifyr.omhealthcare.customview.MainTextView
+                        <!--<com.pacifyr.client.customview.MainTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="  "
@@ -145,7 +145,7 @@
                             android:textStyle="bold"
                             android:textSize="12sp" />
 
-                        <!-- <com.pacifyr.omhealthcare.customview.MainTextView
+                        <!-- <com.pacifyr.client.customview.MainTextView
                              android:layout_width="wrap_content"
                              android:layout_height="wrap_content"
                              android:text="  per hour"
@@ -305,7 +305,7 @@
                 android:background="@color/blue_pacifyr"/>-->
 
         </LinearLayout>
-        <!-- <com.pacifyr.omhealthcare.customview.MainTextView
+        <!-- <com.pacifyr.client.customview.MainTextView
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
              android:text="@string/connect_pacifyr"

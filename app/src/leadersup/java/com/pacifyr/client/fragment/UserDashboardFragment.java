@@ -71,7 +71,7 @@ import me.leolin.shortcutbadger.ShortcutBadger;
 
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_IMAGE_URL;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
-import static com.pacifyr.client.base.PacifyerActivity.call_emotion;
+import static com.pacifyr.client.base.PacifyrActivity.call_emotion;
 import static com.pacifyr.client.network.NetworkService.lastSession;
 import static com.pacifyr.client.network.NetworkService.modelCustomerDashboard2;
 import static com.quickblox.sample.core.utils.ConnectivityUtils.isNetworkConnected;

@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
+import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyrapp.utilitylibrary.CustomEditText;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
@@ -43,7 +44,6 @@ import com.google.gson.JsonObject;
 import com.koushikdutta.ion.Ion;
 import com.pacifyr.client.R;
 import com.pacifyr.client.adapter.CountrySpinnerAdapter;
-import com.pacifyr.client.base.PacifyerActivity;
 import com.pacifyr.client.home.DashboardActivity;
 import com.pacifyr.client.model.ItemData;
 import com.pacifyr.client.network.GsonUtils;
@@ -72,7 +72,7 @@ import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.AUTH_S
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
 import static com.pacifyr.client.network.NetworkService.countryData;
 
-public class LoginActivity extends PacifyerActivity {
+public class LoginActivity extends PacifyrActivity {
 
     private EditText edt_password,edt_email;
 
@@ -461,7 +461,7 @@ public class LoginActivity extends PacifyerActivity {
                                     NetworkService.startActionEditProfile(LoginActivity.this);
                                     Boolean flag = userModel.isTermsAccepted();
                                     hideProgress();
-                                    setStatus("Login Succesfull", R.color.md_green_400);
+                                    setStatus("Login Successful", R.color.md_green_400);
                                     showStatus();
 
                                     if (label.equalsIgnoreCase("employee")) {

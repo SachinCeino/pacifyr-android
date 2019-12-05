@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
+import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.post.PostRegisterModel;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
@@ -22,7 +23,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.koushikdutta.ion.Ion;
 import com.pacifyr.client.R;
-import com.pacifyr.client.base.PacifyerActivity;
 import com.pacifyr.client.home.ConnectToPacifyrActivity;
 import com.pacifyr.client.model.ModelSpecialityByCategory;
 import com.pacifyr.client.model.ModelSpecialityByEmotion;
@@ -343,7 +343,7 @@ public class EmotionSpecialityAdapter extends RecyclerView.Adapter<EmotionSpecia
         //call_emotion
 
             try {
-                PostRegisterModel postRegisterModel=new PostRegisterModel(PacifyerActivity.call_emotion.getId(), EmotionSpecialityAdapter.reason_forcall);
+                PostRegisterModel postRegisterModel=new PostRegisterModel(PacifyrActivity.call_emotion.getId(), EmotionSpecialityAdapter.reason_forcall);
                 Gson gson = new Gson();
                 String json = gson.toJson(postRegisterModel);
                 String url = GLOBAL_URL + "user/editprofile/" + userID;

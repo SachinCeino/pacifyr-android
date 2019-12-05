@@ -34,7 +34,7 @@ import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.pacifyr.client.R;
-import com.pacifyr.client.base.PacifyerActivity;
+import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.event.NotifyEvent;
 import com.squareup.otto.Subscribe;
 
@@ -45,7 +45,7 @@ import java.util.concurrent.TimeUnit;
 
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
 
-public class RegisterVerifyActivity extends PacifyerActivity {
+public class RegisterVerifyActivity extends PacifyrActivity {
 
     public static String TAG = RegisterVerifyActivity.class.getSimpleName();
     private ImageView imgBack;

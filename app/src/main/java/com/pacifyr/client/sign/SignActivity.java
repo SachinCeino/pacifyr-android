@@ -9,14 +9,14 @@ import android.widget.RelativeLayout;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
+import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.pacifyr.client.R;
-import com.pacifyr.client.base.PacifyerActivity;
 
 import org.json.JSONObject;
 
-public class SignActivity extends PacifyerActivity {
+public class SignActivity extends PacifyrActivity {
 
     MainTextView pacifyrRequestTxv;
     RelativeLayout relative_bg;

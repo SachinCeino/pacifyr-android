@@ -17,9 +17,9 @@ import android.widget.RelativeLayout;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.pacifyr.client.R;
-import com.pacifyr.client.base.PacifyerActivity;
+import com.pacifyr.client.base.PacifyrActivity;
 
-public class TermsOfUseActivity extends PacifyerActivity {
+public class TermsOfUseActivity extends PacifyrActivity {
 
     private WebView webView;
     private String titleText;

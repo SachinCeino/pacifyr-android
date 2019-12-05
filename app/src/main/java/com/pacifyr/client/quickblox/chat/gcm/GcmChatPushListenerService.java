@@ -8,7 +8,7 @@ public class GcmChatPushListenerService extends CoreGcmPushListenerService {
     @Override
     protected void showNotification(String message) {
 
-        /*NotificationUtils.showNotification(this, SplachScreen.class,
+        /*NotificationUtils.showNotification(this, SplashScreen.class,
                 ResourceUtils.getString(R.string.notification_title), message,
                 R.mipmap.ic_launcher, NOTIFICATION_ID);*/
        /* Intent intent = new Intent(this, CallService.class);

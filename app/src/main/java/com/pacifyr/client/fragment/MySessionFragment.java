@@ -44,7 +44,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
-import static com.pacifyr.client.base.PacifyerActivity.sessionid;
+import static com.pacifyr.client.base.PacifyrActivity.sessionid;
 
 public class MySessionFragment extends BaseFragment {
 

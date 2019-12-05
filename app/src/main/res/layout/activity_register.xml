@@ -184,7 +184,7 @@
                 android:textSize="@dimen/sp12"
                 android:layout_height="wrap_content" />
 
-            <!--  <com.pacifyr.omhealthcare.customview.MainTextView
+            <!--  <com.pacifyr.client.customview.MainTextView
                   android:layout_width="wrap_content"
                   android:id="@+id/read_ctxv"
                   android:layout_height="wrap_content"

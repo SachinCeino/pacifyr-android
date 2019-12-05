@@ -35,7 +35,7 @@ import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.pacifyr.client.R;
-import com.pacifyr.client.base.PacifyerActivity;
+import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.events.fragment.AttendingEmployerFragment;
 import com.pacifyr.client.events.fragment.EventsDetailFragment;
 import com.pacifyr.client.events.fragment.EventsListFragment;
@@ -54,7 +54,7 @@ import java.util.List;
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 import static com.pacifyr.client.network.NetworkService.GLOBAL_URL;
 
-public class EventActivity extends PacifyerActivity implements LocationListener {
+public class EventActivity extends PacifyrActivity implements LocationListener {
 
     public static void start(Context context) {
         Intent intent = new Intent(context, EventActivity.class);

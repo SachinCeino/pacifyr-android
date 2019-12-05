@@ -63,7 +63,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_below="@+id/call_ctxv"
                 android:layout_height="wrap_content">
-                <!--        <com.ceino.utilitylibrary.DeviceFitImageView
+                <!--        <com.pacifyrapp.utilitylibrary.DeviceFitImageView
                             android:layout_width="wrap_content"
                             android:id="@+id/user_dimv"
                             app:width_percentage="12"
@@ -116,7 +116,7 @@
                      android:layout_width="wrap_content"
                      android:layout_height="wrap_content">
 
-                 <com.ceino.utilitylibrary.DeviceFitImageView
+                 <com.pacifyrapp.utilitylibrary.DeviceFitImageView
                      android:layout_width="wrap_content"
                      android:id="@+id/more_dimv"
                      app:width_percentage="10"
@@ -273,7 +273,7 @@
         android:textStyle="normal|italic" />-->
 
 
-    <!--  <com.pacifyr.omhealthcare.customview.MainTextView
+    <!--  <com.pacifyr.client.customview.MainTextView
           android:layout_width="200dp"
           android:id="@+id/participants_ctxv"
           app:width_percentage="20"

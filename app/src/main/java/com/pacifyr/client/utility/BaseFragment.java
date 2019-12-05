@@ -23,6 +23,7 @@ import androidx.fragment.app.Fragment;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
+import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyrapp.utilitylibrary.CustomEditText;
 import com.pacifyrapp.utilitylibrary.CustomFontTextView;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
@@ -35,7 +36,6 @@ import com.gdacciaro.iOSDialog.iOSDialogBuilder;
 import com.gdacciaro.iOSDialog.iOSDialogClickListener;
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.pacifyr.client.R;
-import com.pacifyr.client.base.PacifyerActivity;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.BusProvider;
 import com.pacifyr.client.event.NotifyEvent;
@@ -348,8 +348,8 @@ public abstract class BaseFragment extends Fragment {
         }
     }
     public void showStatus() {
-        if (getActivity() instanceof PacifyerActivity) {
-            if (!((PacifyerActivity) getActivity()).isShowDialogs()) {
+        if (getActivity() instanceof PacifyrActivity) {
+            if (!((PacifyrActivity) getActivity()).isShowDialogs()) {
                 return;
             }
         }
@@ -364,8 +364,8 @@ public abstract class BaseFragment extends Fragment {
     }
 
     public void showProgress() {
-        if (getActivity() instanceof PacifyerActivity) {
-            if (!((PacifyerActivity) getActivity()).isShowDialogs()) {
+        if (getActivity() instanceof PacifyrActivity) {
+            if (!((PacifyrActivity) getActivity()).isShowDialogs()) {
                 return;
             }
         }
@@ -907,7 +907,7 @@ public abstract class BaseFragment extends Fragment {
     public void customerconnectedSessionWeb( String sessionid) {
         try {
             ToastHandler.newInstance(getApplicationContext()).showToast("connectedSessionWeb");
-        //    PacifyerActivity.call_session_detail_root=null;
+        //    PacifyrActivity.call_session_detail_root=null;
             LogUtils.LOGD("call", "connectedSessionWeb getAccessToken() "+getAccessToken());
             if (!isValid(sessionid,"error Session id "+sessionid))
                 return;
@@ -925,7 +925,7 @@ public abstract class BaseFragment extends Fragment {
                         if (json != null) try {
 
                             LogUtils.LOGD("call", "connectedSessionWeb json  " + json);
-                         //   PacifyerActivity.call_session_detail_root= GsonUtils.getInstance().gsonToMConnectSessionRoot(json);
+                         //   PacifyrActivity.call_session_detail_root= GsonUtils.getInstance().gsonToMConnectSessionRoot(json);
                             LogUtils.LOGD("call", "connectedSessionWeb json  " + json);
                         } catch (Exception e){
                             ToastHandler.newInstance(getApplicationContext()).showToast("Please Try again");
@@ -943,7 +943,7 @@ public abstract class BaseFragment extends Fragment {
             input.putOpt("id", sessionid);
             aq.post(GLOBAL_URL + "session/connected", input, JSONObject.class, cb);
         } catch (Exception e){
-          //  PacifyerActivity. call_session_detail_root=null;
+          //  PacifyrActivity. call_session_detail_root=null;
             LogUtils.LOGD("call", "connectedSessionWeb end exception : " + e.getMessage());
         }
     }
@@ -1240,7 +1240,7 @@ public abstract class BaseFragment extends Fragment {
 
                             saveCardExist(true);
                             hideStatus2();
-                            setStatus("Succesfully added your card", R.color.md_green_400);
+                            setStatus("Successfully added your card", R.color.md_green_400);
                             showStatus();
                             final Handler handler = new Handler();
                             handler.postDelayed(new Runnable() {

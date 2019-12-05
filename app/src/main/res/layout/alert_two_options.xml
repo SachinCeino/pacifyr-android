@@ -94,7 +94,7 @@
          android:layout_below="@+id/desc_dtxv"
          android:background="@color/color_scheme"
          android:orientation="horizontal">
-     <com.pacifyr.omhealthcare.customview.MainTextView
+     <com.pacifyr.client.customview.MainTextView
          android:id="@+id/ok_dtxv"
          android:layout_width="wrap_content"
          android:layout_height="40dp"
@@ -115,7 +115,7 @@
              android:background="@color/md_grey_400"
 
              />
-         <com.pacifyr.omhealthcare.customview.MainTextView
+         <com.pacifyr.client.customview.MainTextView
              android:id="@+id/dismiss_dtxv"
              android:layout_width="wrap_content"
              android:layout_height="40dp"

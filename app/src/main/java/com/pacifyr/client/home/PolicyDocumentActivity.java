@@ -20,9 +20,9 @@ import com.pacifyr.client.utils.Constants;
 import org.greenrobot.eventbus.Subscribe;
 
 /*
-import static com.ceino.utilitylibrary.network.UtilityNetworkService.copyrightUrl;
-import static com.ceino.utilitylibrary.network.UtilityNetworkService.privacypolicyUrl;
-import static com.ceino.utilitylibrary.network.UtilityNetworkService.termOfUseUrl;
+import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.copyrightUrl;
+import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.privacypolicyUrl;
+import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.termOfUseUrl;
 */
 
 public class PolicyDocumentActivity extends PacifyrAppCompactActivity {

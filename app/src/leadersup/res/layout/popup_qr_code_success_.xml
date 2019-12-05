@@ -33,7 +33,7 @@
                     android:src="@drawable/svg_attending_qr_success" />
             </LinearLayout>
 
-            <com.pacifyr.omhealthcare.events.views.EventTextViewBold
+            <com.pacifyr.client.events.views.EventTextViewBold
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="25sp"
@@ -49,7 +49,7 @@
 
         </LinearLayout>
 
-        <com.pacifyr.omhealthcare.events.views.EventTextViewBold
+        <com.pacifyr.client.events.views.EventTextViewBold
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/l1"

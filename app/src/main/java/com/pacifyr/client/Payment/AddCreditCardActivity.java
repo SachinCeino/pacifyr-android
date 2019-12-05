@@ -163,7 +163,7 @@ public class AddCreditCardActivity extends PacifyrAppCompactActivity {
                     String my=json.toString();
                     if(message.equals("Card added")){
 
-                        setStatus("Succesfully added your card", R.color.md_green_400);
+                        setStatus("Successfully added your card", R.color.md_green_400);
                         showStatus();
                         final Handler handler = new Handler();
                         handler.postDelayed(new Runnable() {

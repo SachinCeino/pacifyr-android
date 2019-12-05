@@ -59,7 +59,7 @@
     <string name="prompt_name">Name</string>
     <string name="year_of_birth">Year of birth</string>
     <string name="prompt_email">Email</string>
-    <string name="prompt_collage">Enter your collage/University</string>
+    <string name="prompt_collage">Enter your college/University</string>
     <string name="prompt_amont">Enter amount</string>
     <string name="title_activity_login">Sign in</string>
     <string name="prompt_password">Password</string>

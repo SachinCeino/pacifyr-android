@@ -17,12 +17,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
+import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.pacifyr.client.R;
-import com.pacifyr.client.base.PacifyerActivity;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 
@@ -187,8 +187,8 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
 
     private void getWeakScheduleList() {
 
-        ((PacifyerActivity)getActivity()).setLoading();
-        ((PacifyerActivity)getActivity()).showProgress();
+        ((PacifyrActivity)getActivity()).setLoading();
+        ((PacifyrActivity)getActivity()).showProgress();
 
         String token=prefM.getAccessToken();
 
@@ -202,11 +202,11 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
 
                     if (isValid(json))
                     {
-                        ((PacifyerActivity)getActivity()).hideProgress();
+                        ((PacifyrActivity)getActivity()).hideProgress();
                         Log.w("@@@@",String.valueOf(json));
                         WeekScheduleData= GsonUtils.getInstance().gsonToModelScheduleData(json);
                         if(isValid(WeekScheduleData)) {
-                            ((PacifyerActivity)getActivity()).hideProgress();
+                            ((PacifyrActivity)getActivity()).hideProgress();
 
                             noDataAvailable.setVisibility(View.GONE);
                             rcv_week_schedule_.setVisibility(View.VISIBLE);
@@ -216,7 +216,7 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
                         }
                         else
                         {
-                            ((PacifyerActivity)getActivity()).hideProgress();
+                            ((PacifyrActivity)getActivity()).hideProgress();
                             noDataAvailable.setVisibility(View.VISIBLE);
                             rcv_week_schedule_.setVisibility(View.GONE);
                             rcv_slote_schedule_.setVisibility(View.GONE);
@@ -225,7 +225,7 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
                     }
                     else
                     {
-                        ((PacifyerActivity)getActivity()).hideProgress();
+                        ((PacifyrActivity)getActivity()).hideProgress();
                         if(isValid(status.getMessage()))
                         {
                             Toast.makeText(getActivity(), status.getMessage(), Toast.LENGTH_SHORT).show();
@@ -234,7 +234,7 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
 
                 } catch (Exception e) {
 
-                    ((PacifyerActivity)getActivity()).hideProgress();
+                    ((PacifyrActivity)getActivity()).hideProgress();
 
                     e.printStackTrace();
                 }
@@ -253,7 +253,7 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
         catch (Exception ex)
 
         {
-            ((PacifyerActivity)getActivity()).hideProgress();
+            ((PacifyrActivity)getActivity()).hideProgress();
 
             ex.printStackTrace();
         }
@@ -570,8 +570,8 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
 
     private void webGetTimSlotes(ScheduleData mObject) {
 
-        ((PacifyerActivity)getActivity()).setLoading();
-        ((PacifyerActivity)getActivity()).showProgress();
+        ((PacifyrActivity)getActivity()).setLoading();
+        ((PacifyrActivity)getActivity()).showProgress();
         PrefManager prefM= PrefManager.getInstance(getActivity());
         String token=prefM.getAccessToken();
         String id="";
@@ -584,7 +584,7 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
             @Override
             public void callback(String url, JSONArray json, AjaxStatus status) {
                 try {
-                    ((PacifyerActivity)getActivity()).hideProgress();
+                    ((PacifyrActivity)getActivity()).hideProgress();
                     if (isValid(json))
                     {
                         mSlotesData=GsonUtils.getInstance().gsonToModelSlotesModel(json);
@@ -629,7 +629,7 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
                     }
 
                 } catch (Exception e) {
-                    ((PacifyerActivity)getActivity()).hideProgress();
+                    ((PacifyrActivity)getActivity()).hideProgress();
                     e.printStackTrace();
                 }
             }
@@ -644,7 +644,7 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
         catch (Exception ex)
 
         {
-            ((PacifyerActivity)getActivity()).hideProgress();
+            ((PacifyrActivity)getActivity()).hideProgress();
             ex.printStackTrace();
         }
 
@@ -736,10 +736,10 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
 
     private void showBookedSlotCancel(Slot singleSlote) {
 
-        ((PacifyerActivity)getActivity()).setAlertStatusInBlue("Cancel the slot", "Do you want to cancel the slot ?", new View.OnClickListener() {
+        ((PacifyrActivity)getActivity()).setAlertStatusInBlue("Cancel the slot", "Do you want to cancel the slot ?", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((PacifyerActivity)getActivity()).hideStatus();
+                ((PacifyrActivity)getActivity()).hideStatus();
 
                 callCAncelBookedSlotApi(singleSlote);
             }
@@ -788,13 +788,13 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
                     String url = NetworkService.GLOBAL_URL + "schedule/slots/book/cancel/" + singleSlote.getId();
                     PrefManager prefM = PrefManager.getInstance(getActivity());
                     String token = prefM.getAccessToken();
-                    ((PacifyerActivity)getActivity()).setLoading();
-                    ((PacifyerActivity)getActivity()).showProgress();
+                    ((PacifyrActivity)getActivity()).setLoading();
+                    ((PacifyrActivity)getActivity()).showProgress();
                     AjaxCallback cb = new AjaxCallback<JSONObject>() {
                         @Override
                         public void callback(String url, JSONObject json, AjaxStatus stat) {
                             try {
-                                ((PacifyerActivity)getActivity()).hideProgress();
+                                ((PacifyrActivity)getActivity()).hideProgress();
 
                                 if (isValid(json)) {
                                     String jsonS = json.toString();
@@ -816,26 +816,26 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
 
                                             if (status.equals("success"))
                                             {
-                                                ((PacifyerActivity)getActivity()).setStatus(messsage, R.color.md_green_400);
-                                                ((PacifyerActivity)getActivity()).showStatus();
+                                                ((PacifyrActivity)getActivity()).setStatus(messsage, R.color.md_green_400);
+                                                ((PacifyrActivity)getActivity()).showStatus();
                                                 new Handler().postDelayed(new Runnable() {
                                                     @Override
                                                     public void run() {
 
-                                                        ((PacifyerActivity)getActivity()).hideStatus();
+                                                        ((PacifyrActivity)getActivity()).hideStatus();
 
                                                     }
                                                 }, 2000);
                                             }
                                             else
                                             {
-                                                ((PacifyerActivity)getActivity()).setStatus(messsage, R.color.md_red_A700);
-                                                ((PacifyerActivity)getActivity()).showStatus();
+                                                ((PacifyrActivity)getActivity()).setStatus(messsage, R.color.md_red_A700);
+                                                ((PacifyrActivity)getActivity()).showStatus();
                                                 new Handler().postDelayed(new Runnable() {
                                                     @Override
                                                     public void run() {
 
-                                                        ((PacifyerActivity)getActivity()).hideStatus();
+                                                        ((PacifyrActivity)getActivity()).hideStatus();
 
                                                     }
                                                 },2000);
@@ -843,28 +843,28 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
                                         }
                                         else
                                         {
-                                            ((PacifyerActivity)getActivity()).setStatus("Something went wrong", R.color.md_red_A700);
-                                            ((PacifyerActivity)getActivity()).showStatus();
+                                            ((PacifyrActivity)getActivity()).setStatus("Something went wrong", R.color.md_red_A700);
+                                            ((PacifyrActivity)getActivity()).showStatus();
                                             new Handler().postDelayed(new Runnable() {
                                                 @Override
                                                 public void run() {
 
-                                                    ((PacifyerActivity)getActivity()).hideStatus();
+                                                    ((PacifyrActivity)getActivity()).hideStatus();
 
                                                 }
                                             },2000);
                                         }
 
-                                        ((PacifyerActivity)getActivity()).showStatus();
+                                        ((PacifyrActivity)getActivity()).showStatus();
                                     }
                                     else {
-                                        ((PacifyerActivity)getActivity()).setStatus("Something went wrong !", R.color.md_red_A700);
-                                        ((PacifyerActivity)getActivity()).showStatus();
+                                        ((PacifyrActivity)getActivity()).setStatus("Something went wrong !", R.color.md_red_A700);
+                                        ((PacifyrActivity)getActivity()).showStatus();
                                         new Handler().postDelayed(new Runnable() {
                                             @Override
                                             public void run() {
 
-                                                ((PacifyerActivity)getActivity()).hideStatus();
+                                                ((PacifyrActivity)getActivity()).hideStatus();
 
                                             }
                                         },2000);
@@ -878,7 +878,7 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
 
                             } catch (Exception e) {
                                 e.printStackTrace();
-                                ((PacifyerActivity)getActivity()).hideProgress();
+                                ((PacifyrActivity)getActivity()).hideProgress();
                             }
                         }
                     };
@@ -904,10 +904,10 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
     /** popu for confirmtion api for slote boking api **/
     private void showSlotBookedConfirmationPopup(Slot singleSlote) {
 
-        ((PacifyerActivity)getActivity()).setAlertStatusInBlue("Book the slot", "Do you want to book the slot ?", new View.OnClickListener() {
+        ((PacifyrActivity)getActivity()).setAlertStatusInBlue("Book the slot", "Do you want to book the slot ?", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((PacifyerActivity)getActivity()).hideStatus();
+                ((PacifyrActivity)getActivity()).hideStatus();
 
                 callSlotBookApi(singleSlote);
             }
@@ -926,13 +926,13 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
                     String url = NetworkService.GLOBAL_URL + "schedule/slots/book/" + singleSlote.getId();
                     PrefManager prefM = PrefManager.getInstance(getActivity());
                     String token = prefM.getAccessToken();
-                    ((PacifyerActivity)getActivity()).setLoading();
-                    ((PacifyerActivity)getActivity()).showProgress();
+                    ((PacifyrActivity)getActivity()).setLoading();
+                    ((PacifyrActivity)getActivity()).showProgress();
                     AjaxCallback cb = new AjaxCallback<JSONObject>() {
                         @Override
                         public void callback(String url, JSONObject json, AjaxStatus stat) {
                             try {
-                                ((PacifyerActivity)getActivity()).hideProgress();
+                                ((PacifyrActivity)getActivity()).hideProgress();
 
                                 if (isValid(json)) {
                                     String jsonS = json.toString();
@@ -954,26 +954,26 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
 
                                             if (status.equals("success"))
                                             {
-                                                ((PacifyerActivity)getActivity()).setStatus(messsage, R.color.md_green_400);
-                                                ((PacifyerActivity)getActivity()).showStatus();
+                                                ((PacifyrActivity)getActivity()).setStatus(messsage, R.color.md_green_400);
+                                                ((PacifyrActivity)getActivity()).showStatus();
                                                 new Handler().postDelayed(new Runnable() {
                                                     @Override
                                                     public void run() {
 
-                                                        ((PacifyerActivity)getActivity()).hideStatus();
+                                                        ((PacifyrActivity)getActivity()).hideStatus();
 
                                                     }
                                                 }, 2000);
                                             }
                                             else
                                             {
-                                                ((PacifyerActivity)getActivity()).setStatus(messsage, R.color.md_red_A700);
-                                                ((PacifyerActivity)getActivity()).showStatus();
+                                                ((PacifyrActivity)getActivity()).setStatus(messsage, R.color.md_red_A700);
+                                                ((PacifyrActivity)getActivity()).showStatus();
                                                 new Handler().postDelayed(new Runnable() {
                                                     @Override
                                                     public void run() {
 
-                                                        ((PacifyerActivity)getActivity()).hideStatus();
+                                                        ((PacifyrActivity)getActivity()).hideStatus();
 
                                                     }
                                                 },2000);
@@ -981,28 +981,28 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
                                         }
                                         else
                                         {
-                                            ((PacifyerActivity)getActivity()).setStatus("Something went wrong", R.color.md_red_A700);
-                                            ((PacifyerActivity)getActivity()).showStatus();
+                                            ((PacifyrActivity)getActivity()).setStatus("Something went wrong", R.color.md_red_A700);
+                                            ((PacifyrActivity)getActivity()).showStatus();
                                             new Handler().postDelayed(new Runnable() {
                                                 @Override
                                                 public void run() {
 
-                                                    ((PacifyerActivity)getActivity()).hideStatus();
+                                                    ((PacifyrActivity)getActivity()).hideStatus();
 
                                                 }
                                             },2000);
                                         }
 
-                                        ((PacifyerActivity)getActivity()).showStatus();
+                                        ((PacifyrActivity)getActivity()).showStatus();
                                     }
                                     else {
-                                        ((PacifyerActivity)getActivity()).setStatus("Something went wrong !", R.color.md_red_A700);
-                                        ((PacifyerActivity)getActivity()).showStatus();
+                                        ((PacifyrActivity)getActivity()).setStatus("Something went wrong !", R.color.md_red_A700);
+                                        ((PacifyrActivity)getActivity()).showStatus();
                                         new Handler().postDelayed(new Runnable() {
                                             @Override
                                             public void run() {
 
-                                                ((PacifyerActivity)getActivity()).hideStatus();
+                                                ((PacifyrActivity)getActivity()).hideStatus();
 
                                             }
                                         },2000);
@@ -1015,7 +1015,7 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
                                 }
                             } catch (Exception e) {
                                 e.printStackTrace();
-                                ((PacifyerActivity)getActivity()).hideProgress();
+                                ((PacifyrActivity)getActivity()).hideProgress();
                             }
                         }
                     };

@@ -37,7 +37,7 @@ import static com.pacifyr.client.network.NetworkService.GLOBAL_URL;
  * Created by Mani-Ceino on 1/17/2018.
  */
 
-public class AlertAddCrediCardActivty extends PacifyrAppCompactActivity {
+public class AlertAddCreditCardActivity extends PacifyrAppCompactActivity {
 
 	RelativeLayout saveRlay;
 	private EditText cardNumber;
@@ -50,7 +50,7 @@ public class AlertAddCrediCardActivty extends PacifyrAppCompactActivity {
 
 
 	public static void start(Context context) {
-		Intent intent = new Intent(context, AlertAddCrediCardActivty.class);
+		Intent intent = new Intent(context, AlertAddCreditCardActivity.class);
 
 		context.startActivity(intent);
 	}
@@ -71,7 +71,7 @@ public class AlertAddCrediCardActivty extends PacifyrAppCompactActivity {
 					performCardSave();
 				}
 				else{
-					Toast.makeText(AlertAddCrediCardActivty.this, "Invalid Card", Toast.LENGTH_LONG).show();
+					Toast.makeText(AlertAddCreditCardActivity.this, "Invalid Card", Toast.LENGTH_LONG).show();
 
 				}
 			}
@@ -89,27 +89,27 @@ public class AlertAddCrediCardActivty extends PacifyrAppCompactActivity {
 		boolean ret=true;
 		if(!isValid(cardNo))
 		{
-			//Toast.makeText(AlertAddCrediCardActivty.this, cardNo, Toast.LENGTH_LONG).show();
+			//Toast.makeText(AlertAddCreditCardActivity.this, cardNo, Toast.LENGTH_LONG).show();
 			cardNumber.setError("Please enter valid card number");
 			ret = false;
 		}
 		if(!isValid(month))
 		{
-			//Toast.makeText(AlertAddCrediCardActivty.this, month, Toast.LENGTH_LONG).show();
+			//Toast.makeText(AlertAddCreditCardActivity.this, month, Toast.LENGTH_LONG).show();
 			cardMonhEdt.setError("Please enter valid month");
 			ret = false;
 
 		}
 		if(!isValid(year))
 		{
-			//Toast.makeText(AlertAddCrediCardActivty.this, year, Toast.LENGTH_LONG).show();
+			//Toast.makeText(AlertAddCreditCardActivity.this, year, Toast.LENGTH_LONG).show();
 			cardYearEdt.setError("Please enter valid year");
 			ret = false;
 
 		}
 		if(!isValid(cvv))
 		{
-			//Toast.makeText(AlertAddCrediCardActivty.this, cvv, Toast.LENGTH_LONG).show();
+			//Toast.makeText(AlertAddCreditCardActivity.this, cvv, Toast.LENGTH_LONG).show();
 			cardCvvEdt.setError("Please enter valid cvv");
 			ret = false;
 
@@ -129,12 +129,12 @@ public class AlertAddCrediCardActivty extends PacifyrAppCompactActivity {
 		Card card = new Card(cardNo,Integer.parseInt(month), Integer.parseInt(year), cvv);
 		// Remember to validate the card object before you use it to save time.
 		if (!card.validateCard()) {
-			Toast.makeText(AlertAddCrediCardActivty.this, "Invalid Card", Toast.LENGTH_LONG).show();
+			Toast.makeText(AlertAddCreditCardActivity.this, "Invalid Card", Toast.LENGTH_LONG).show();
 			hideProgress();
 		}
 		else {
 			showProgress();
-			Stripe stripe = new Stripe(AlertAddCrediCardActivty.this,STRIPE_PUBLISH_KEY);
+			Stripe stripe = new Stripe(AlertAddCreditCardActivity.this,STRIPE_PUBLISH_KEY);
 			stripe.createToken(
 					card,
 					new TokenCallback() {
@@ -142,14 +142,14 @@ public class AlertAddCrediCardActivty extends PacifyrAppCompactActivity {
 							// Send token to your server
 							String type = token.getType();
 							genaratedToken=token;
-//							Toast.makeText(AlertAddCrediCardActivty.this, token.getId(), Toast.LENGTH_LONG).show();
+//							Toast.makeText(AlertAddCreditCardActivity.this, token.getId(), Toast.LENGTH_LONG).show();
 							hideProgress();
 							saveCardDetails();
 						}
 
 						public void onError(Exception error) {
 							// Show localized error message
-							Toast.makeText(AlertAddCrediCardActivty.this,
+							Toast.makeText(AlertAddCreditCardActivity.this,
 									error.getMessage(),
 									Toast.LENGTH_LONG
 							).show();
@@ -161,7 +161,7 @@ public class AlertAddCrediCardActivty extends PacifyrAppCompactActivity {
 	}
 
 	private void saveCardDetails() {
-		prefM= PrefManager.getInstance(AlertAddCrediCardActivty.this);
+		prefM= PrefManager.getInstance(AlertAddCreditCardActivity.this);
 		userToken=prefM.getAccessToken();
 		userid=prefM.getUserID();
 
@@ -174,7 +174,7 @@ public class AlertAddCrediCardActivty extends PacifyrAppCompactActivity {
 					String my=json.toString();
 					if(message.equals("Card added")){
 
-						setStatus("Succesfully added your card", R.color.md_green_400);
+						setStatus("Successfully added your card", R.color.md_green_400);
 						showStatus();
 						final Handler handler = new Handler();
 						handler.postDelayed(new Runnable() {
@@ -182,7 +182,7 @@ public class AlertAddCrediCardActivty extends PacifyrAppCompactActivity {
 							public void run() {
 								hideStatus();
 								finish();
-								/*Intent i= new Intent(AlertAddCrediCardActivty.this,DashboardActivity.class);
+								/*Intent i= new Intent(AlertAddCreditCardActivity.this,DashboardActivity.class);
 								startActivity(i);*/
 							}
 						}, 2000);
@@ -203,7 +203,7 @@ public class AlertAddCrediCardActivty extends PacifyrAppCompactActivity {
 				}
 			}
 		};
-		AQuery aq = new AQuery(AlertAddCrediCardActivty.this);
+		AQuery aq = new AQuery(AlertAddCreditCardActivity.this);
 		cb.header("Content-Type", "application/json");
 		cb.header("AccessToken",userToken);
 		try {

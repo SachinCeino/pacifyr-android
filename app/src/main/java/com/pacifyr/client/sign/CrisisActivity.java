@@ -11,9 +11,9 @@ import com.pacifyr.client.customview.MainTextView;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.pacifyr.client.R;
 import com.pacifyr.client.activity.TermsOfUseActivity;
-import com.pacifyr.client.base.PacifyerActivity;
+import com.pacifyr.client.base.PacifyrActivity;
 
-public class CrisisActivity extends PacifyerActivity {
+public class CrisisActivity extends PacifyrActivity {
 
     private MainTextView suicideUrlCtxv;
     private MainTextView veteransUrlCtxv;

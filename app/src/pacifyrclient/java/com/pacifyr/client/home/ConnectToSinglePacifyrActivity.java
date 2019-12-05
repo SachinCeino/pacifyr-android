@@ -684,7 +684,9 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
                 public void callback(String url, JSONObject json, AjaxStatus status) {
                     try {
                         MUser user = GsonUtils.getInstance().gsonToMUser(json);
-                        String price = json.getString("priceForChat");
+                        String price="0";
+                        if (json.has("priceForChat"))
+                            price  = json.getString("priceForChat");
                         String js=status.getMessage();
                         String jk=status.getError();
                         callSubs(Integer.parseInt(price),user);
@@ -763,11 +765,11 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
                         long diffDays = diff / (24 * 60 * 60 * 1000);
 
                         if (diffDays > 0) {
-                            chat_price_ctxv.setText("Unlimited chat remainng for " + diffDays + " days");
+                            chat_price_ctxv.setText("Unlimited chat remaining for " + diffDays + " days");
                         } else if (diffHours > 1) {
-                            chat_price_ctxv.setText("Unlimited chat remainng for " + diffHours + " hours and " + diffMinutes + " minutes");
+                            chat_price_ctxv.setText("Unlimited chat remaining for " + diffHours + " hours and " + diffMinutes + " minutes");
                         } else if (diffMinutes > 0) {
-                            chat_price_ctxv.setText("Unlimited chat remainng for " + diffMinutes + " minutes");
+                            chat_price_ctxv.setText("Unlimited chat remaining for " + diffMinutes + " minutes");
                         }
                         chatLlay.setClickable(false);
 

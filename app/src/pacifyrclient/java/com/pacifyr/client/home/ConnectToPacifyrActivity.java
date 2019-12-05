@@ -37,7 +37,7 @@ import com.pacifyr.client.adapter.EmotionSpecialityAdapter;
 import com.pacifyr.client.adapter.NegativeEmotionsAdapter;
 import com.pacifyr.client.adapter.PostiveEmotionsAdapter;
 import com.pacifyr.client.adapter.SwipeDeckConnectPacifyrAdapter;
-import com.pacifyr.client.base.PacifyerActivity;
+import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.event.AlertTypeEvent;
 import com.pacifyr.client.event.CallEvent;
 import com.pacifyr.client.event.ChatEvent;
@@ -351,8 +351,8 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
         morePacifyrsRlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(isValid(PacifyerActivity.call_emotion)){
-                    //ToastHandler.newInstance(ConnectToPacifyrActivity.this).showToast(PacifyerActivity.call_emotion.getTitle());
+                if(isValid(PacifyrActivity.call_emotion)){
+                    //ToastHandler.newInstance(ConnectToPacifyrActivity.this).showToast(PacifyrActivity.call_emotion.getTitle());
                 }
                 ListPacifyrScreenActivity.start(ConnectToPacifyrActivity.this, ConnectToPacifyrActivity.customerEmotion,showAllFlag);
             }

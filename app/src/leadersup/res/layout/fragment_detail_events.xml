@@ -50,7 +50,7 @@
                         android:layout_below="@+id/frame1"
                         android:layout_marginTop="5dp">
 
-                        <com.pacifyr.omhealthcare.events.views.EventTextViewBold
+                        <com.pacifyr.client.events.views.EventTextViewBold
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:id="@+id/txtv_employername"
@@ -59,7 +59,7 @@
                             android:textStyle="bold"
                             android:layout_marginBottom="3dp" />
 
-                        <com.pacifyr.omhealthcare.events.views.EventTextViewMedium
+                        <com.pacifyr.client.events.views.EventTextViewMedium
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:id="@+id/txtv_event_time"
@@ -71,7 +71,7 @@
                             android:drawablePadding="3dp"
                             android:layout_marginBottom="3dp" />
 
-                        <com.pacifyr.omhealthcare.events.views.EventTextViewMedium
+                        <com.pacifyr.client.events.views.EventTextViewMedium
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:id="@+id/txtv_event_address"
@@ -106,7 +106,7 @@
                         android:layout_height="match_parent"
                         android:orientation="vertical">
 
-                        <com.pacifyr.omhealthcare.events.views.EventTextViewBold
+                        <com.pacifyr.client.events.views.EventTextViewBold
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="3dp"
@@ -144,7 +144,7 @@
                         android:layout_height="match_parent"
                         android:orientation="vertical">
 
-                        <com.pacifyr.omhealthcare.events.views.EventTextViewBold
+                        <com.pacifyr.client.events.views.EventTextViewBold
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="@color/black"
@@ -154,7 +154,7 @@
                             android:textAllCaps="true"
                             android:layout_marginBottom="3dp" />
 
-                        <com.pacifyr.omhealthcare.events.views.EventTextViewMedium
+                        <com.pacifyr.client.events.views.EventTextViewMedium
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:id="@+id/txtv_event_description"
@@ -189,7 +189,7 @@
                         android:layout_height="match_parent"
                         android:orientation="vertical">
 
-                        <com.pacifyr.omhealthcare.events.views.EventTextViewBold
+                        <com.pacifyr.client.events.views.EventTextViewBold
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="@color/black"
@@ -199,7 +199,7 @@
                             android:textAllCaps="true"
                             android:layout_marginBottom="3dp" />
 
-                        <com.pacifyr.omhealthcare.events.views.EventTextViewMedium
+                        <com.pacifyr.client.events.views.EventTextViewMedium
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:id="@+id/txtv_event_schedule"
@@ -243,7 +243,7 @@
         android:gravity="center"
         android:padding="15dp">
 
-        <com.pacifyr.omhealthcare.events.views.EventTextViewBold
+        <com.pacifyr.client.events.views.EventTextViewBold
             android:id="@+id/button_checkin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -62,7 +62,7 @@
                                     app:srcCompat="@drawable/svg_left_schedule_arrow" />
                             </LinearLayout>
 
-                            <com.pacifyr.omhealthcare.customview.MainTextView
+                            <com.pacifyr.client.customview.MainTextView
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1.5"
@@ -93,7 +93,7 @@
                             </LinearLayout>
                         </LinearLayout>
 
-                        <!-- <com.pacifyr.omhealthcare.customview.MainTextView
+                        <!-- <com.pacifyr.client.customview.MainTextView
                              android:layout_width="match_parent"
                              android:layout_height="match_parent"
                              android:gravity="center"
@@ -138,7 +138,7 @@
                             android:layout_centerInParent="true"
                             android:id="@+id/noDataAvailable">
 
-                            <com.pacifyr.omhealthcare.events.views.EventTextViewBold
+                            <com.pacifyr.client.events.views.EventTextViewBold
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:gravity="center"
@@ -167,7 +167,7 @@
                     android:background="@color/white"
                     android:orientation="vertical">
 
-                    <com.pacifyr.omhealthcare.events.views.EventTextViewBold
+                    <com.pacifyr.client.events.views.EventTextViewBold
                         android:layout_width="match_parent"
                         android:layout_height="80dp"
                         android:text="APPOINTMENT DETAILS"
@@ -189,7 +189,7 @@
                         android:layout_margin="15dp"
                         android:id="@+id/pacifyr_avatar" />
 
-                    <com.pacifyr.omhealthcare.events.views.EventTextViewBold
+                    <com.pacifyr.client.events.views.EventTextViewBold
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text=""
@@ -200,7 +200,7 @@
                         android:textSize="18sp"
                         android:textColor="@color/black" />
 
-                    <com.pacifyr.omhealthcare.events.views.EventTextViewMedium
+                    <com.pacifyr.client.events.views.EventTextViewMedium
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text=""
@@ -252,7 +252,7 @@
 
                         />
 
-                    <com.pacifyr.omhealthcare.events.views.EventTextViewBold
+                    <com.pacifyr.client.events.views.EventTextViewBold
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text=""

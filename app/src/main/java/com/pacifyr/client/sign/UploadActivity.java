@@ -27,11 +27,11 @@ import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.pacifyr.client.R;
 import com.pacifyr.client.adapter.FileChooserAdapter;
-import com.pacifyr.client.base.PacifyerActivity;
 import com.pacifyr.client.model.ModelPacifyrDocuments;
 import com.pacifyr.client.model.interfaces.AddFileClickListner;
 import com.pacifyr.client.utils.LogUtils;
@@ -46,7 +46,7 @@ import java.util.Date;
 
 import static com.pacifyr.client.sign.PacifyrRequestAccessActivity.documentFileList;
 
-public class UploadActivity extends PacifyerActivity implements AddFileClickListner {
+public class UploadActivity extends PacifyrActivity implements AddFileClickListner {
 
     private Context context;
     private Bitmap imageBitmap;

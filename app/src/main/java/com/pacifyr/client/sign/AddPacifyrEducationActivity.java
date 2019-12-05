@@ -24,11 +24,11 @@ import com.pacifyrapp.utilitylibrary.model.pacifyr.Education;
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.pacifyr.client.R;
 import com.pacifyr.client.adapter.ListEducationAdapter;
-import com.pacifyr.client.base.PacifyerActivity;
+import com.pacifyr.client.base.PacifyrActivity;
 
 import java.util.ArrayList;
 
-public class AddPacifyrEducationActivity extends PacifyerActivity {
+public class AddPacifyrEducationActivity extends PacifyrActivity {
 
     Education education;
     ArrayList<Education> educationList;
@@ -126,7 +126,7 @@ public class AddPacifyrEducationActivity extends PacifyerActivity {
             saveRlay.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(isValid(collageEdt,"Please Enter Collage/University"))
+                    if(isValid(collageEdt,"Please Enter College/University"))
                         if(isValid(locationEdt,"Please enter location"))
                             if(isValid(fromCtxv,"Please select from year"))
                                 if(isValid(toDateCtxv,"Please select to year"))

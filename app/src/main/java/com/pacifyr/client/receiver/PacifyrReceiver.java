@@ -15,10 +15,10 @@ import androidx.core.app.NotificationCompat;
 import androidx.legacy.content.WakefulBroadcastReceiver;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import com.pacifyr.client.activity.SplashScreen;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.pacifyr.client.R;
-import com.pacifyr.client.activity.SplachScreen;
-import com.pacifyr.client.base.PacifyerActivity;
+import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.event.BusProvider;
 import com.pacifyr.client.event.CallEvent;
 import com.pacifyr.client.quickblox.activities.CallActivity;
@@ -112,7 +112,7 @@ public class PacifyrReceiver extends WakefulBroadcastReceiver {
                         if (message != null && !message.equalsIgnoreCase("") && !message.equalsIgnoreCase("null")) {
 
 
-                            SplachScreen.trigger = "fromNotification";
+                            SplashScreen.trigger = "fromNotification";
 
 
                             if (isAppIsInBackground(context)) {
@@ -123,7 +123,7 @@ public class PacifyrReceiver extends WakefulBroadcastReceiver {
                                         LogUtils.LOGD("app_reca", " app live  notification session " + WebRtcSessionManager.tempSession);
 
                                         if (WebRtcSessionManager.tempSession != null) {
-                                            PacifyerActivity.sessionid = _id;
+                                            PacifyrActivity.sessionid = _id;
                                             WebRtcSessionManager.currentSession = WebRtcSessionManager.tempSession;
                                             WebRtcSessionManager.tempSession = null;
                                             CallActivity.start(context, true);
@@ -163,7 +163,7 @@ public class PacifyrReceiver extends WakefulBroadcastReceiver {
                                         if (WebRtcSessionManager.tempSession != null) {
                                             LogUtils.LOGD("app_recb", " app live  notification session " + WebRtcSessionManager.tempSession);
                                             LogUtils.LOGD("app_recb", " app live notification Call ");
-                                            PacifyerActivity.sessionid = _id;
+                                            PacifyrActivity.sessionid = _id;
                                             WebRtcSessionManager.currentSession = WebRtcSessionManager.tempSession;
                                             WebRtcSessionManager.tempSession = null;
                                             ToastHandler.newInstance(context).showToast("call data recevied from backend 1");
@@ -192,7 +192,7 @@ public class PacifyrReceiver extends WakefulBroadcastReceiver {
                                         if (WebRtcSessionManager.tempSession != null) {
 
                                             LogUtils.LOGD("app_rec", " app live notification Call ");
-                                            PacifyerActivity.sessionid = _id;
+                                            PacifyrActivity.sessionid = _id;
                                             WebRtcSessionManager.currentSession = WebRtcSessionManager.tempSession;
                                             WebRtcSessionManager.tempSession = null;
                                             ToastHandler.newInstance(context).showToast("call data recevied from backend 1");
@@ -219,7 +219,7 @@ public class PacifyrReceiver extends WakefulBroadcastReceiver {
                                     isCall = true;
                                     if (WebRtcSessionManager.tempSession != null) {
                                         LogUtils.LOGD("app_recd", " app live notification Call ");
-                                        PacifyerActivity.sessionid = _id;
+                                        PacifyrActivity.sessionid = _id;
                                         WebRtcSessionManager.currentSession = WebRtcSessionManager.tempSession;
                                         WebRtcSessionManager.tempSession = null;
                                         ToastHandler.newInstance(context).showToast("call data recevied from backend 2 ");
@@ -256,7 +256,7 @@ public class PacifyrReceiver extends WakefulBroadcastReceiver {
 
     }
     private void showNotification(Context context, String qsid,  String message, String actualType) {
-        Intent cIntent = new Intent(context, SplachScreen.class);
+        Intent cIntent = new Intent(context, SplashScreen.class);
         Bundle b = new Bundle();
         // b.putString("type", type);
         b.putString("id", qsid);
@@ -350,7 +350,7 @@ public class PacifyrReceiver extends WakefulBroadcastReceiver {
                                         public void run() {
                                             try {
                                                 hideKeyboard();
-                                                com.ceino.utilitylibrary.ToastHandler.newInstance(context).showToast("Logged into qb");
+                                                com.pacifyrapp.utilitylibrary.ToastHandler.newInstance(context).showToast("Logged into qb");
 
                                             } catch (Exception e) {
                                                 e.printStackTrace();

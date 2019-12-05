@@ -19,12 +19,12 @@ import com.pacifyr.client.customview.MainTextView;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.google.android.material.tabs.TabLayout;
 import com.pacifyr.client.R;
-import com.pacifyr.client.base.PacifyerActivity;
+import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.events.adapter.MyInterViewsViewPagerAdapter;
 
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
-public class MyInterviewsActvity extends PacifyerActivity {
+public class MyInterviewsActvity extends PacifyrActivity {
 
     public static void start(Context context) {
         Intent intent = new Intent(context, MyInterviewsActvity.class);

@@ -21,7 +21,7 @@ import com.androidquery.callback.AjaxStatus;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.pacifyr.client.R;
-import com.pacifyr.client.base.PacifyerActivity;
+import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.event.CallTimerEvent;
 import com.pacifyr.client.interfaces.EmpMinutesListener;
 import com.pacifyr.client.network.NetworkService;
@@ -424,7 +424,7 @@ public abstract class BaseConversationFragment extends BaseToolBarFragment imple
                                 setAlertAddCardInBlue2();
                                 //  ToastHandler.newInstance(getActivity()).mustShowToast("Works Under progress");
 
-                                // AlertAddCrediCardActivty.start(getActivity());
+                                // AlertAddCreditCardActivity.start(getActivity());
                             }
                         });
                     }
@@ -460,13 +460,13 @@ public abstract class BaseConversationFragment extends BaseToolBarFragment imple
     public void onCallStarted() {
         Log.d(TAG, "onCallStarted ");
         CallActivity.isOpponenetConnected = true;
-        // ((PacifyerActivity)getActivity()) .connectedSessionWeb(PacifyerActivity.sessionid);
+        // ((PacifyrActivity)getActivity()) .connectedSessionWeb(PacifyrActivity.sessionid);
         if (isCustomer())
-            customerconnectedSessionWeb(PacifyerActivity.sessionid);
+            customerconnectedSessionWeb(PacifyrActivity.sessionid);
         onCallStatus("Connected");
         hideOutgoingScreen();
         startTimer();
-        getPrefManager().saveSessionId(PacifyerActivity.sessionid);
+        getPrefManager().saveSessionId(PacifyrActivity.sessionid);
         actionButtonsEnabled(true);
     }
 

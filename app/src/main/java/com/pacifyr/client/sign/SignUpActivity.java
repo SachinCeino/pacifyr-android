@@ -18,6 +18,7 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyrapp.utilitylibrary.CustomEditText;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
@@ -44,7 +45,6 @@ import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.pacifyr.client.R;
 import com.pacifyr.client.adapter.CountrySpinnerAdapter;
-import com.pacifyr.client.base.PacifyerActivity;
 import com.pacifyr.client.home.DashboardActivity;
 import com.pacifyr.client.home.PacifyrDashboardActivity;
 import com.pacifyr.client.model.ItemData;
@@ -62,7 +62,7 @@ import java.util.Arrays;
 
 import static com.pacifyr.client.network.NetworkService.countryData;
 
-public class SignUpActivity extends PacifyerActivity {
+public class SignUpActivity extends PacifyrActivity {
 
     public static final String MY_PREFS_NAME = "AppPrefFile";
     public static final String mypreference = "mypref";

@@ -260,8 +260,8 @@ public class SummaryDetailActivity   extends PacifyrAppCompactActivity {
                 pacifyrRateCtxv.setVisibility(View.GONE);
                 customer_fees_llay.setVisibility(View.GONE);
                 callback_ctxv.setVisibility(View.GONE);
-                before_feel_ctxv.setText("How was the  customer  feeling before call?");
-                after_feel_ctxv.setText("How was the  customer feeling after the call ?");
+                before_feel_ctxv.setText("How was the customer feeling before call?");
+                after_feel_ctxv.setText("How was the customer feeling after the call?");
                 after_feel_llay.setVisibility(View.VISIBLE);
                 afterFeelSelectionCtxv.setText("How was the customer feeling after the call in your opinion?");
             }
@@ -327,7 +327,7 @@ public class SummaryDetailActivity   extends PacifyrAppCompactActivity {
                     after_feel_llay.setVisibility(View.GONE);
                 }
                 else {
-                    after_feel_ctxv.setText("How was the  customer feeling after the call ?");
+                    after_feel_ctxv.setText("How was the customer feeling after the call?");
                     after_feel_llay.setVisibility(View.VISIBLE);
                     afterFeelSelectionCtxv.setText("How was the customer feeling after the call in your opinion?");
                     String afterImgUrl = GLOBAL_IMAGE_URL + mEmotion.getImage();
@@ -356,7 +356,7 @@ public class SummaryDetailActivity   extends PacifyrAppCompactActivity {
                     before_feel_ctxv.setText("How were you feeling before the call?");
                 }
                 else {
-                    before_feel_ctxv.setText("How was the  customer  feeling before call?");
+                    before_feel_ctxv.setText("How was the customer feeling before call?");
                 }
                 String beforeImgUrl = GLOBAL_IMAGE_URL + mEmotion.getImage();
                 if(isValid(beforeImgUrl)) Picasso.with(SummaryDetailActivity.this).load(beforeImgUrl).placeholder(R.drawable.sad).into(beforeFeelDimv);

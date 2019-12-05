@@ -61,7 +61,7 @@
                             </LinearLayout>
                         </androidx.cardview.widget.CardView>
 
-                        <com.pacifyr.omhealthcare.events.views.EventTextViewBold
+                        <com.pacifyr.client.events.views.EventTextViewBold
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:id="@+id/company_title"
@@ -81,7 +81,7 @@
                         android:weightSum="2"
                         android:orientation="horizontal">
 
-                        <com.pacifyr.omhealthcare.events.views.EventTextViewMedium
+                        <com.pacifyr.client.events.views.EventTextViewMedium
                             android:layout_width="0dp"
                             android:layout_weight="0.5"
                             android:text="Job position"
@@ -93,7 +93,7 @@
                             android:padding="3dp"
                             android:layout_marginBottom="3dp" />
 
-                        <com.pacifyr.omhealthcare.events.views.EventTextViewMedium
+                        <com.pacifyr.client.events.views.EventTextViewMedium
                             android:layout_width="0dp"
                             android:layout_weight="1.5"
                             android:id="@+id/job_title"
@@ -113,7 +113,7 @@
                         android:weightSum="2"
                         android:orientation="horizontal">
 
-                        <com.pacifyr.omhealthcare.events.views.EventTextViewMedium
+                        <com.pacifyr.client.events.views.EventTextViewMedium
                             android:layout_width="0dp"
                             android:layout_weight="0.5"
                             android:text="Start date"
@@ -125,7 +125,7 @@
                             android:padding="3dp"
                             android:layout_marginBottom="3dp" />
 
-                        <com.pacifyr.omhealthcare.events.views.EventTextViewMedium
+                        <com.pacifyr.client.events.views.EventTextViewMedium
                             android:layout_width="0dp"
                             android:layout_weight="1.5"
                             android:id="@+id/offer_date"
@@ -162,7 +162,7 @@
                         android:layout_height="match_parent"
                         android:orientation="vertical">
 
-                        <com.pacifyr.omhealthcare.events.views.EventTextViewBold
+                        <com.pacifyr.client.events.views.EventTextViewBold
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="@color/black"

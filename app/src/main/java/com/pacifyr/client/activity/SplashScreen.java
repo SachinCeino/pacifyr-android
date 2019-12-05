@@ -34,9 +34,9 @@ import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
 
-public class SplachScreen extends BaseAppCompactActivity {
+public class SplashScreen extends BaseAppCompactActivity {
 
-    private static final String TAG = SplachScreen.class.getSimpleName();
+    private static final String TAG = SplashScreen.class.getSimpleName();
     private ProgressBar progressquest2;
     public static String trigger = "Start";
     private static int SPLASH_TIME_OUT = 1000;
@@ -55,13 +55,13 @@ public class SplachScreen extends BaseAppCompactActivity {
         //  overridePendingTransition(0, 0);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
-        NetworkService.webListEmotions(SplachScreen.this);
+        NetworkService.webListEmotions(SplashScreen.this);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_splash_screen);
         image_splash = findViewById(R.id.image_splash);
 
-        mSensorService = new CallService(SplachScreen.this);
-        mServiceIntent = new Intent(SplachScreen.this, mSensorService.getClass());
+        mSensorService = new CallService(SplashScreen.this);
+        mServiceIntent = new Intent(SplashScreen.this, mSensorService.getClass());
         /**place holder issue fix **/
         ColorDrawable mColorDrawable = new ColorDrawable(getResources().getColor(R.color.black));
         Picasso.with(this).load(R.drawable.splash).placeholder(mColorDrawable).into(image_splash);
@@ -74,9 +74,9 @@ public class SplachScreen extends BaseAppCompactActivity {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    if(isValid(PrefManager.getInstance(SplachScreen.this))) {
-                        if(isValid(PrefManager.getInstance(SplachScreen.this).getJsonKey())) {
-                            String jsonString =PrefManager.getInstance(SplachScreen.this).getJsonKey();
+                    if(isValid(PrefManager.getInstance(SplashScreen.this))) {
+                        if(isValid(PrefManager.getInstance(SplashScreen.this).getJsonKey())) {
+                            String jsonString =PrefManager.getInstance(SplashScreen.this).getJsonKey();
                             try {
 
                                 JSONObject obj = new JSONObject(jsonString);
@@ -98,48 +98,48 @@ public class SplachScreen extends BaseAppCompactActivity {
 
                             if(label.equals("pacifyr")) {
 
-                                NetworkService.startActionListCustomer(SplachScreen.this,0,10);
+                                NetworkService.startActionListCustomer(SplashScreen.this,0,10);
                                 try {
                                     Boolean flag =userObject.getBoolean("termsAccepted");
                                     if (flag) {
 
-                                        Intent intent = new Intent(SplachScreen.this, PacifyrDashboardActivity.class);
+                                        Intent intent = new Intent(SplashScreen.this, PacifyrDashboardActivity.class);
                                         startActivity(intent);
                                         finish();
-                                        Intent i = new Intent(SplachScreen.this, CallService.class);
+                                        Intent i = new Intent(SplashScreen.this, CallService.class);
                                         startService(i);
                                     }else{
-                                        Intent i = new Intent(SplachScreen.this, PacifyrTermsPolicyActivity.class);
+                                        Intent i = new Intent(SplashScreen.this, PacifyrTermsPolicyActivity.class);
                                         startActivity(i);
                                         finish();
-                                        Intent intent = new Intent(SplachScreen.this, CallService.class);
+                                        Intent intent = new Intent(SplashScreen.this, CallService.class);
                                         startService(intent);
                                     }
                                 } catch (Exception e) {
                                     e.printStackTrace();
-                                    Toast.makeText(SplachScreen.this,"Network error, Please try again",Toast.LENGTH_LONG).show();
+                                    Toast.makeText(SplashScreen.this,"Network error, Please try again",Toast.LENGTH_LONG).show();
                                 }
                             } else if(label.equals("customer")) {
-                                DashboardActivity.start(SplachScreen.this);
+                                DashboardActivity.start(SplashScreen.this);
 
-                                 /*Intent intent = new Intent(SplachScreen.this, ConnectToPacifyrActivity.class);
+                                 /*Intent intent = new Intent(SplashScreen.this, ConnectToPacifyrActivity.class);
                                 intent.putExtra("display","Pacifyr");
                                 startActivity(intent);
                                 finish();*/
 
 
-                                /*Intent intent = new Intent(SplachScreen.this, DashboardActivity.class);
+                                /*Intent intent = new Intent(SplashScreen.this, DashboardActivity.class);
                                 startActivity(intent);
                                 finish();*/
                             }
                         } else {
-                            Intent intent = new Intent(SplachScreen.this, SignActivity.class);
+                            Intent intent = new Intent(SplashScreen.this, SignActivity.class);
                             startActivity(intent);
                             finish();
 
                         }
                     } else {
-                        Intent intent = new Intent(SplachScreen.this, SignActivity.class);
+                        Intent intent = new Intent(SplashScreen.this, SignActivity.class);
                         startActivity(intent);
                         finish();
                     }
@@ -148,7 +148,7 @@ public class SplachScreen extends BaseAppCompactActivity {
 
 
         }catch (Exception e) {
-            Intent intent = new Intent(SplachScreen.this, SignActivity.class);
+            Intent intent = new Intent(SplashScreen.this, SignActivity.class);
             startActivity(intent);
             finish();
         }

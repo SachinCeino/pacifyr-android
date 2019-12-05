@@ -39,7 +39,7 @@ import static org.hamcrest.Matchers.is;
 public class LoginTest {
 
     @Rule
-    public ActivityTestRule<SplachScreen> mActivityTestRule = new ActivityTestRule<>(SplachScreen.class);
+    public ActivityTestRule<SplashScreen> mActivityTestRule = new ActivityTestRule<>(SplashScreen.class);
 
     @Rule
     public GrantPermissionRule mGrantPermissionRule =

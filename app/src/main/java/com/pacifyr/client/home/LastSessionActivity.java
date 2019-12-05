@@ -414,8 +414,8 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
                 pacifyrRateCtxv.setVisibility(View.GONE);
                 customer_fees_llay.setVisibility(View.GONE);
                 callback_ctxv.setVisibility(View.GONE);
-                before_feel_ctxv.setText("How was the  customer  feeling before call?");
-                after_feel_ctxv.setText("How was the  customer feeling after the call ?");
+                before_feel_ctxv.setText("How was the customer feeling before call?");
+                after_feel_ctxv.setText("How was the customer feeling after the call ?");
                 after_feel_llay.setVisibility(View.VISIBLE);
                 afterFeelSelectionCtxv.setText("How was the customer feeling after the call in your opinion?");
             }
@@ -500,7 +500,7 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
                     after_feel_ctxv.setText("");
                     after_feel_llay.setVisibility(View.GONE);
                 } else {
-                    after_feel_ctxv.setText("How was the  customer feeling after the call ?");
+                    after_feel_ctxv.setText("How was the customer feeling after the call ?");
                     after_feel_llay.setVisibility(View.VISIBLE);
                     afterFeelSelectionCtxv.setText("How was the customer feeling after the call in your opinion?");
                     String afterImgUrl = GLOBAL_IMAGE_URL + mEmotion.getImage();

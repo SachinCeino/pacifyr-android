@@ -15,10 +15,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
+import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.pacifyr.client.R;
 import com.pacifyr.client.adapter.AppointmentsListAdapter;
-import com.pacifyr.client.base.PacifyerActivity;
 import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.fragment.schedule.AppointmentModel;
 import com.pacifyr.client.fragment.schedule.ScheduleBottomSheetFragment;
@@ -214,13 +214,13 @@ public class AppointmentsFragment extends BaseFragment {
                     String url = NetworkService.GLOBAL_URL + "schedule/slots/book/cancel/" + mObject.getTimeSlotId();
                     PrefManager prefM = PrefManager.getInstance(getActivity());
                     String token = prefM.getAccessToken();
-                    ((PacifyerActivity) getActivity()).setLoading();
-                    ((PacifyerActivity) getActivity()).showProgress();
+                    ((PacifyrActivity) getActivity()).setLoading();
+                    ((PacifyrActivity) getActivity()).showProgress();
                     AjaxCallback cb = new AjaxCallback<JSONObject>() {
                         @Override
                         public void callback(String url, JSONObject json, AjaxStatus stat) {
                             try {
-                                ((PacifyerActivity) getActivity()).hideProgress();
+                                ((PacifyrActivity) getActivity()).hideProgress();
 
                                 if (isValid(json)) {
                                     String jsonS = json.toString();
@@ -242,11 +242,11 @@ public class AppointmentsFragment extends BaseFragment {
                                                 mAppointmentModel.getResults().remove(position);
                                                 mAppointmentsListAdapter.notifyItemRemoved(position);
                                                 if (isReschedule()) {
-                                                    ((PacifyerActivity) getActivity()).setStatus("Rescheduled successfully", R.color.md_green_400);
-                                                    ((PacifyerActivity) getActivity()).showStatus();
+                                                    ((PacifyrActivity) getActivity()).setStatus("Rescheduled successfully", R.color.md_green_400);
+                                                    ((PacifyrActivity) getActivity()).showStatus();
                                                 } else {
-                                                    ((PacifyerActivity) getActivity()).setStatus(messsage, R.color.md_green_400);
-                                                    ((PacifyerActivity) getActivity()).showStatus();
+                                                    ((PacifyrActivity) getActivity()).setStatus(messsage, R.color.md_green_400);
+                                                    ((PacifyrActivity) getActivity()).showStatus();
                                                 }
 
 
@@ -254,32 +254,32 @@ public class AppointmentsFragment extends BaseFragment {
                                                     @Override
                                                     public void run() {
 
-                                                        ((PacifyerActivity) getActivity()).hideStatus();
+                                                        ((PacifyrActivity) getActivity()).hideStatus();
 
                                                     }
                                                 }, 2000);
                                             } else {
 
-                                                ((PacifyerActivity) getActivity()).setStatus(messsage, R.color.md_red_A700);
-                                                ((PacifyerActivity) getActivity()).showStatus();
+                                                ((PacifyrActivity) getActivity()).setStatus(messsage, R.color.md_red_A700);
+                                                ((PacifyrActivity) getActivity()).showStatus();
 
                                                 new Handler().postDelayed(new Runnable() {
                                                     @Override
                                                     public void run() {
 
-                                                        ((PacifyerActivity) getActivity()).hideStatus();
+                                                        ((PacifyrActivity) getActivity()).hideStatus();
 
                                                     }
                                                 }, 2000);
                                             }
                                         } else {
-                                            ((PacifyerActivity) getActivity()).setStatus("Something went wrong", R.color.md_red_A700);
-                                            ((PacifyerActivity) getActivity()).showStatus();
+                                            ((PacifyrActivity) getActivity()).setStatus("Something went wrong", R.color.md_red_A700);
+                                            ((PacifyrActivity) getActivity()).showStatus();
                                             new Handler().postDelayed(new Runnable() {
                                                 @Override
                                                 public void run() {
 
-                                                    ((PacifyerActivity) getActivity()).hideStatus();
+                                                    ((PacifyrActivity) getActivity()).hideStatus();
 
                                                 }
                                             }, 2000);
@@ -287,13 +287,13 @@ public class AppointmentsFragment extends BaseFragment {
 
                                         getAppointmentsList();
                                     } else {
-                                        ((PacifyerActivity) getActivity()).setStatus("Something went wrong !", R.color.md_red_A700);
-                                        ((PacifyerActivity) getActivity()).showStatus();
+                                        ((PacifyrActivity) getActivity()).setStatus("Something went wrong !", R.color.md_red_A700);
+                                        ((PacifyrActivity) getActivity()).showStatus();
                                         new Handler().postDelayed(new Runnable() {
                                             @Override
                                             public void run() {
 
-                                                ((PacifyerActivity) getActivity()).hideStatus();
+                                                ((PacifyrActivity) getActivity()).hideStatus();
 
                                             }
                                         }, 2000);
@@ -304,7 +304,7 @@ public class AppointmentsFragment extends BaseFragment {
 
                             } catch (Exception e) {
                                 e.printStackTrace();
-                                ((PacifyerActivity) getActivity()).hideProgress();
+                                ((PacifyrActivity) getActivity()).hideProgress();
                             }
                         }
                     };

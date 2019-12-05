@@ -164,7 +164,7 @@
                     android:visibility="visible"
                     android:orientation="horizontal">
 
-                    <!-- <com.ceino.utilitylibrary.DeviceFitImageView
+                    <!-- <com.pacifyrapp.utilitylibrary.DeviceFitImageView
                          android:layout_width="wrap_content"
                          android:layout_height="wrap_content"
                          app:parameter="aspect_width"
@@ -185,7 +185,7 @@
                         android:id="@+id/pacifyr2_dimv"/>
 
 
-                    <!-- <com.ceino.utilitylibrary.DeviceFitImageView
+                    <!-- <com.pacifyrapp.utilitylibrary.DeviceFitImageView
                          android:layout_width="wrap_content"
                          android:layout_height="wrap_content"
                          app:parameter="aspect_width"
@@ -213,7 +213,7 @@
                         android:layout_height="40dp"
                         android:id="@+id/pacifyr3_dimv"/>
 
-                    <!-- <com.ceino.utilitylibrary.DeviceFitImageView
+                    <!-- <com.pacifyrapp.utilitylibrary.DeviceFitImageView
                          android:layout_width="wrap_content"
                          android:layout_height="wrap_content"
                          app:parameter="aspect_width"

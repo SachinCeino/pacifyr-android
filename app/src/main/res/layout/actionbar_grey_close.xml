@@ -86,7 +86,7 @@
                 android:layout_marginRight="4dp"
                 android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true"/>
-            <!-- <com.ceino.utilitylibrary.DeviceFitImageView
+            <!-- <com.pacifyrapp.utilitylibrary.DeviceFitImageView
                  android:layout_width="wrap_content"
                  android:id="@+id/right2_dimv"
                  android:layout_height="wrap_content"

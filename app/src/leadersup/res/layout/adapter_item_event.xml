@@ -47,7 +47,7 @@
             android:gravity="left"
             android:layout_marginLeft="5dp">
 
-            <com.pacifyr.omhealthcare.events.views.EventTextViewMedium
+            <com.pacifyr.client.events.views.EventTextViewMedium
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/txtv_event_date"
@@ -55,7 +55,7 @@
                 android:textSize="@dimen/event_title_size"
                 android:layout_marginBottom="2dp" />
 
-            <com.pacifyr.omhealthcare.events.views.EventTextViewBold
+            <com.pacifyr.client.events.views.EventTextViewBold
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/txtv_event_title"
@@ -64,7 +64,7 @@
                 android:textStyle="bold"
                 android:layout_marginBottom="3dp" />
 
-            <com.pacifyr.omhealthcare.events.views.EventTextViewMedium
+            <com.pacifyr.client.events.views.EventTextViewMedium
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/txtv_event_description"
@@ -89,7 +89,7 @@
                     android:padding="2dp"
                     app:srcCompat="@drawable/svg_event_location" />
 
-                <com.pacifyr.omhealthcare.events.views.EventTextViewMedium
+                <com.pacifyr.client.events.views.EventTextViewMedium
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/txtv_event_address"
