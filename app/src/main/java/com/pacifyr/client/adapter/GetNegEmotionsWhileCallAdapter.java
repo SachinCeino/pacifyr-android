@@ -2,6 +2,7 @@ package com.pacifyr.client.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.os.Handler;
@@ -15,6 +16,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
+import com.pacifyr.client.home.DashboardActivity;
+import com.pacifyr.client.home.PacifyrDashboardActivity;
+import com.pacifyr.client.quickblox.activities.CallActivity;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MEmotion;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.post.PostRegisterModel;
@@ -128,6 +132,7 @@ public class GetNegEmotionsWhileCallAdapter extends RecyclerView.Adapter<GetNegE
                                 String phone = jsonObject.getString("phoneNumber");
                                 if (isValid(phone)) {
                                     postEventOnMainThread(new CallChangeEmotion(emotion));
+                                    CallActivity.start(context, true);
                                     ((Activity) context).finish();
                                 } else {
                                     Toast.makeText(context, "Error :" + e.getMessage(), Toast.LENGTH_LONG).show();

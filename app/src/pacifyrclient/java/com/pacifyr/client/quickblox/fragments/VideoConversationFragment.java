@@ -563,6 +563,7 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
                 {
                     intent.putExtra("emotion",change_Emotion_name);
                 }
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
             }
         });

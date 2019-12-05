@@ -120,7 +120,8 @@
             android:name="com.pacifyr.client.activity.ActivityChangeEmotionFromCall"
             android:screenOrientation="portrait"
             android:theme="@style/CustomNoActionBarTheme2"
-            android:windowSoftInputMode="stateAlwaysHidden" />
+            android:windowSoftInputMode="stateAlwaysHidden"
+            />
         <service
             android:name="com.pacifyr.client.network.NetworkService"
             android:exported="false" />
@@ -225,7 +226,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name="com.pacifyr.client.home.ConnectToPacifyrActivity"
-            android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/CustomNoActionBarTheme2" />
         <activity
@@ -241,7 +241,6 @@
         <!-- <activity android:name=".videocall.StartVideoActivity" /> -->
         <activity
             android:name="com.pacifyr.client.home.ConnectToSinglePacifyrActivity"
-            android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/CustomNoActionBarTheme2" />
         <activity
