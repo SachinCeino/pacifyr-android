@@ -64,6 +64,7 @@ import java.util.TimerTask;
 
 import static com.pacifyr.client.network.NetworkService.GLOBAL_URL;
 import static com.pacifyr.client.network.NetworkService.pSearchPacifyrWOptionsResponse;
+import static com.pacifyr.client.quickblox.activities.CallActivity.isCallActive;
 
 public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implements CategoryListAdapter.EmotionClickkListener {
 
@@ -1052,7 +1053,11 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
             trackTimer_check_online.scheduleAtFixedRate(trackTimerTask_check_online, 0, 10000);
 
 
-
+        if (isValid(isCallActive) && isCallActive) {
+            showSnackbarPopup();
+        } else {
+            dismissSnackbarPopup();
+        }
 
 
     }

@@ -3482,7 +3482,10 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
     private void ShowTransactionFaileToUSer(String message) {
 
         if (!isShowDialogs()) {
-            maximizePicInPicView();
+            if (Build.VERSION.SDK_INT != Build.VERSION_CODES.M) {
+                maximizePicInPicView();
+            }
+
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -3519,7 +3522,10 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
             }, 2000);
             return;
         } else {
-            bringCallActivityToFront(); // for android 8.0 below
+            if (Build.VERSION.SDK_INT != Build.VERSION_CODES.M) {
+                bringCallActivityToFront();
+            }
+
 
             new Handler().postDelayed(new Runnable() {
                 @Override

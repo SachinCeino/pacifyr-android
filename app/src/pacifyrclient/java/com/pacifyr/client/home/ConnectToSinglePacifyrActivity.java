@@ -62,6 +62,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.pacifyr.client.network.NetworkService.GLOBAL_URL;
 import static com.pacifyr.client.network.NetworkService.modelCustomerDashboard2;
+import static com.pacifyr.client.quickblox.activities.CallActivity.isCallActive;
 
 //import com.pacifyr.pacifyrapp.Fragment.SelecetFeelingFragment;
 
@@ -409,6 +410,11 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
             Log.w("QQQQ",String.valueOf(e));
         }
 
+        if (isValid(isCallActive) && isCallActive) {
+            showSnackbarPopup();
+        } else {
+            dismissSnackbarPopup();
+        }
     }
 
 
