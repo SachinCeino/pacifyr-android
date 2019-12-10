@@ -5,9 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,20 +16,21 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-import com.pacifyr.client.customview.MainTextView;
-import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.MEmotion;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
-import com.pacifyrapp.utilitylibrary.utils.PrefManager;
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
 import com.gdacciaro.iOSDialog.iOSDialog;
 import com.gdacciaro.iOSDialog.iOSDialogClickListener;
 import com.pacifyr.client.R;
 import com.pacifyr.client.activity.ActivityChangeEmotionFromCall;
 import com.pacifyr.client.adapter.EmotionSpecialityAdapter;
 import com.pacifyr.client.base.PacifyrActivity;
+import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.CallChangeEmotion;
 import com.pacifyr.client.event.CallEvent;
 import com.pacifyr.client.event.NotifyEvent;
+import com.pacifyr.client.event.PicInPic;
 import com.pacifyr.client.home.CustomerDetailActivity;
 import com.pacifyr.client.home.ProfileScreenActivity;
 import com.pacifyr.client.interfaces.EmpMinutesListener;
@@ -40,6 +38,10 @@ import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.quickblox.activities.CallActivity;
 import com.pacifyr.client.quickblox.utils.CollectionsUtils;
 import com.pacifyr.client.utils.LogUtils;
+import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.MEmotion;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
+import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.quickblox.users.model.QBUser;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
@@ -140,6 +142,7 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
             text_remaining_minutes.setVisibility(View.VISIBLE);
         }
     };
+    private View cal_layout;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -196,6 +199,7 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
         connectionStatusLocal = view.findViewById(R.id.connectionStatusLocal);
         emotion_ctxv = view.findViewById(R.id.emotion_ctxv);
         billingStatus = view.findViewById(R.id.billing_status);
+        cal_layout = view.findViewById(R.id.call_action_butons);
         text_remaining_minutes = view.findViewById(R.id.text_remaining_minutes);
 //        billingSwitch = (Switch) view.findViewById(R.id.billing_switch);
         emotion_dimv.setVisibility(View.INVISIBLE);
@@ -694,6 +698,45 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void onPictureInPicture(PicInPic picInPic) {
+        if (picInPic.isEnabled()) {
+            hideToolBarAndButtons();
+        } else {
+            showToolBarAndButtons();
+        }
+    }
+
+    private void hideToolBarAndButtons() {
+        actionBar.hide();
+
+        info_overlay_llay.setVisibility(View.GONE);
+        emotion_rlay.setVisibility(View.GONE);
+        userRlay.setVisibility(View.GONE);
+        billingStatus.setVisibility(View.GONE);
+        cal_layout.setVisibility(View.INVISIBLE);
+        Log.d(TAG, "hideToolBarAndButtons");
+
+    }
+
+    private void showToolBarAndButtons() {
+        // actionBar.show();
+        actionBar.hide();
+        info_overlay_llay.setVisibility(View.VISIBLE);
+        emotion_rlay.setVisibility(View.VISIBLE);
+        userRlay.setVisibility(View.VISIBLE);
+        cal_layout.setVisibility(View.VISIBLE);
+        if (getActivity() instanceof PacifyrActivity) {
+            if (((PacifyrActivity) getActivity()).hasBillingStarted()) {
+                billingStatus.setVisibility(View.VISIBLE);
+            } else {
+                billingStatus.setVisibility(View.INVISIBLE);
+            }
+        }
+
+        Log.d(TAG, "showToolBarAndButtons");
+
     }
 
 

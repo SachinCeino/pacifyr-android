@@ -4,7 +4,6 @@ import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.os.Bundle;
 import android.os.Handler;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,19 +11,18 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.pacifyr.client.customview.MainTextView;
-import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelCustomerDashboard2;
-import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.google.gson.Gson;
 import com.pacifyr.client.R;
+import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.home.ConnectToPacifyrActivity;
 import com.pacifyr.client.home.ConnectToSinglePacifyrActivity;
+import com.pacifyr.client.home.DashboardActivity;
 import com.pacifyr.client.home.LastSessionActivity;
 import com.pacifyr.client.home.MySessionsActivity;
 import com.pacifyr.client.home.SessionSummaryActivity;
@@ -37,6 +35,10 @@ import com.pacifyr.client.quickblox.services.CallService;
 import com.pacifyr.client.utility.BaseFragment;
 import com.pacifyr.client.utility.EventMessage;
 import com.pacifyr.client.utils.Utility;
+import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelCustomerDashboard2;
+import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.quickblox.chat.QBRestChatService;
 import com.quickblox.chat.model.QBChatDialog;
 import com.quickblox.core.QBEntityCallback;
@@ -58,12 +60,12 @@ import java.util.Set;
 import de.hdodenhof.circleimageview.CircleImageView;
 import me.leolin.shortcutbadger.ShortcutBadger;
 
-import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_IMAGE_URL;
-import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
 import static com.pacifyr.client.R.id.last_session_rlay;
 import static com.pacifyr.client.base.PacifyrActivity.call_emotion;
 import static com.pacifyr.client.network.NetworkService.lastSession;
 import static com.pacifyr.client.network.NetworkService.modelCustomerDashboard2;
+import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_IMAGE_URL;
+import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
 import static com.quickblox.sample.core.utils.ConnectivityUtils.isNetworkConnected;
 public class UserDashboardFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
 
@@ -437,7 +439,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
             }
 
             if (isValid(modelCustomerDashboard2)) {
-                final MUser pfc[] = modelCustomerDashboard2.getPreferredPacifyrs();
+                final MUser[] pfc = modelCustomerDashboard2.getPreferredPacifyrs();
                 ModelCustomerDashboard2.ThisWeekStatistics lastWeek = modelCustomerDashboard2.getThisWeekStatistics();
                 lastSession = modelCustomerDashboard2.getLastSession();
                 if(isValid(modelCustomerDashboard2.getUser().getEmotion())){
@@ -714,7 +716,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                         if(unreadCount>0)
                         {
                             unreadChatCtxv.setVisibility(View.VISIBLE);
-                            unreadChatCtxv.setText(Integer.toString(unreadCount)+" unread messages");
+                            unreadChatCtxv.setText(unreadCount + " unread messages");
                             badgeCount+=unreadCount;
                             prefM.saveBadgeValue(badgeCount);
                             ShortcutBadger.applyCount(getActivity(), prefM.getBadgeValue());

@@ -97,8 +97,8 @@ android {
             // This property is optional if you are using only one dimension.
             dimension "Pacifyr"
             applicationId "com.ceino.pacifyr.omhealthcare"
-            versionName "1.3.13"
-            versionCode 19
+            versionName "1.4"
+            versionCode 20
         }
         pacifyrclient {
             dimension "Pacifyr"

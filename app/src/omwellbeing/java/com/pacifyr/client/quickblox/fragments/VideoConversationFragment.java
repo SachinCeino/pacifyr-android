@@ -8,13 +8,6 @@ import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.SystemClock;
-import androidx.annotation.DimenRes;
-import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.SparseArray;
@@ -32,20 +25,25 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-import com.pacifyr.client.customview.MainTextView;
-import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.MEmotion;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
-import com.pacifyrapp.utilitylibrary.utils.PrefManager;
+import androidx.annotation.DimenRes;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.gdacciaro.iOSDialog.iOSDialog;
 import com.gdacciaro.iOSDialog.iOSDialogClickListener;
 import com.pacifyr.client.R;
 import com.pacifyr.client.activity.ActivityChangeEmotionFromCall;
 import com.pacifyr.client.adapter.EmotionSpecialityAdapter;
 import com.pacifyr.client.base.PacifyrActivity;
+import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.CallChangeEmotion;
 import com.pacifyr.client.event.CallEvent;
 import com.pacifyr.client.event.NotifyEvent;
+import com.pacifyr.client.event.PicInPic;
 import com.pacifyr.client.home.CustomerDetailActivity;
 import com.pacifyr.client.home.ProfileScreenActivity;
 import com.pacifyr.client.interfaces.EmpMinutesListener;
@@ -53,6 +51,10 @@ import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.quickblox.activities.CallActivity;
 import com.pacifyr.client.quickblox.adapters.OpponentsFromCallAdapter;
 import com.pacifyr.client.utils.LogUtils;
+import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.MEmotion;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
+import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.quickblox.sample.core.utils.Toaster;
 import com.quickblox.users.model.QBUser;
 import com.quickblox.videochat.webrtc.BaseSession;
@@ -206,6 +208,7 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
             text_remaining_minutes.setVisibility(View.VISIBLE);
         }
     };
+    private View call_layout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -474,6 +477,7 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
         reason_ctxv = view.findViewById(R.id.reason_ctxv);
         emotion_ctxv = view.findViewById(R.id.emotion_ctxv);
         billingStatus = view.findViewById(R.id.billing_status);
+        call_layout = view.findViewById(R.id.element_set_video_buttons);
         emotion_rlay = view.findViewById(R.id.emotion_rlay);
 
         text_remaining_minutes.setVisibility(View.GONE);
@@ -1546,6 +1550,45 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void onPictureInPicture(PicInPic picInPic) {
+        if (picInPic.isEnabled()) {
+            hideToolBarAndButtons();
+        } else {
+            showToolBarAndButtons();
+        }
+    }
+
+    private void hideToolBarAndButtons() {
+        actionBar.hide();
+
+        info_overlay_llay.setVisibility(View.GONE);
+        emotion_rlay.setVisibility(View.GONE);
+        userRlay.setVisibility(View.GONE);
+        billingStatus.setVisibility(View.GONE);
+        call_layout.setVisibility(View.INVISIBLE);
+        Log.d(TAG, "hideToolBarAndButtons");
+
+    }
+
+    private void showToolBarAndButtons() {
+        // actionBar.show();
+        actionBar.hide();
+        info_overlay_llay.setVisibility(View.VISIBLE);
+        emotion_rlay.setVisibility(View.VISIBLE);
+        userRlay.setVisibility(View.VISIBLE);
+        call_layout.setVisibility(View.VISIBLE);
+        if (getActivity() instanceof PacifyrActivity) {
+            if (((PacifyrActivity) getActivity()).hasBillingStarted()) {
+                billingStatus.setVisibility(View.VISIBLE);
+            } else {
+                billingStatus.setVisibility(View.INVISIBLE);
+            }
+        }
+
+        Log.d(TAG, "showToolBarAndButtons");
+
     }
 }
 
