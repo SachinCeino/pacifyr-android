@@ -620,7 +620,7 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
         if (!CallActivity.isForeground) {
             Log.d(TAG, "bringCallActivityToFront");
             Intent intent = new Intent(this, CallActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_NEW_TASK);
             getApplication().startActivity(intent);
         } else {
             Log.d(TAG, "bringCallActivityToFront - not in foreground");

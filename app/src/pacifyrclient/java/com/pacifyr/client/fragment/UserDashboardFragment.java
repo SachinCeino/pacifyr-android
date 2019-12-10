@@ -236,10 +236,15 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
         pacifyr1Dimv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("preffffff11","p: "+prefpac);
-                prefpac = modelCustomerDashboard2.getPreferredPacifyrs()[0];
-                Log.i("preffffff12","p: "+prefpac);
-                ConnectToSinglePacifyrActivity.start(getActivity(), prefpac);
+               // Log.i("preffffff11","p: "+prefpac);
+                if (isValid(modelCustomerDashboard2)&&isValid(modelCustomerDashboard2.getPreferredPacifyrs()[0]))
+                {
+                    prefpac = modelCustomerDashboard2.getPreferredPacifyrs()[0];
+                    if (isValid(prefpac))
+                        ConnectToSinglePacifyrActivity.start(getActivity(), prefpac);
+                }
+
+
 
                 // showTheRoundDialog(0, prefpac);
             }
@@ -247,33 +252,38 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
         pacifyr2Dimv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("preffffff21","p: "+prefpac);
-                prefpac = modelCustomerDashboard2.getPreferredPacifyrs()[1];
-                Log.i("preffffff22","p: "+prefpac);
-                ConnectToSinglePacifyrActivity.start(getActivity(), prefpac);
+                if (isValid(modelCustomerDashboard2)&&isValid(modelCustomerDashboard2.getPreferredPacifyrs()[1]))
+                {
+                    prefpac = modelCustomerDashboard2.getPreferredPacifyrs()[1];
+                    if (isValid(prefpac))
+                        ConnectToSinglePacifyrActivity.start(getActivity(), prefpac);
+                }
 
-                //showTheRoundDialog( 1,prefpac);
             }
         });
         pacifyr3Dimv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                prefpac = modelCustomerDashboard2.getPreferredPacifyrs()[2];
-                Log.i("preffffff3","p: "+prefpac);
-                ConnectToSinglePacifyrActivity.start(getActivity(), prefpac);
+                if (isValid(modelCustomerDashboard2)&&isValid(modelCustomerDashboard2.getPreferredPacifyrs()[2]))
+                {
+                    prefpac = modelCustomerDashboard2.getPreferredPacifyrs()[2];
+                    if (isValid(prefpac))
+                        ConnectToSinglePacifyrActivity.start(getActivity(), prefpac);
+                }
 
-                // showTheRoundDialog(2, prefpac);
             }
         });
 
         pacifyr4Dimv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                prefpac = modelCustomerDashboard2.getPreferredPacifyrs()[3];
-                Log.i("preffffff4","p: "+prefpac);
-                ConnectToSinglePacifyrActivity.start(getActivity(), prefpac);
+                if (isValid(modelCustomerDashboard2)&&isValid(modelCustomerDashboard2.getPreferredPacifyrs()[3]))
+                {
+                    prefpac = modelCustomerDashboard2.getPreferredPacifyrs()[3];
+                    if (isValid(prefpac))
+                        ConnectToSinglePacifyrActivity.start(getActivity(), prefpac);
+                }
 
-                // showTheRoundDialog(2, prefpac);
             }
         });
 
