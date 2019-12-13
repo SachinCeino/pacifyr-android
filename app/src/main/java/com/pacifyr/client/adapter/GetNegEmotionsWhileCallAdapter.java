@@ -132,7 +132,8 @@ public class GetNegEmotionsWhileCallAdapter extends RecyclerView.Adapter<GetNegE
                                 String phone = jsonObject.getString("phoneNumber");
                                 if (isValid(phone)) {
                                     postEventOnMainThread(new CallChangeEmotion(emotion));
-                                    CallActivity.start(context, true);
+                                    Intent i=new Intent(context,CallActivity.class);
+                                    ((Activity) context).startActivity(i);
                                     ((Activity) context).finish();
                                 } else {
                                     Toast.makeText(context, "Error :" + e.getMessage(), Toast.LENGTH_LONG).show();
