@@ -141,6 +141,7 @@ public class PrefManager {
     }
     public String getAccessToken()
     {
+        Log.w("@@@ACC",getSharedString(ACCESSTOKEN,""));
         return getSharedString(ACCESSTOKEN,"");
 
     }

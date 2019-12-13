@@ -1,5 +1,6 @@
 package com.pacifyr.client.utility;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.NotificationManager;
 import android.content.Context;
@@ -93,6 +94,7 @@ public abstract class PacifyrAppCompactActivity  extends PacifyrActivity {
     PowerManager.WakeLock wakeLock;
     private Snackbar mSnackbar;
 
+    @SuppressLint("InvalidWakeLockTag")
     public void setScreenLockOff()
     {
         try{

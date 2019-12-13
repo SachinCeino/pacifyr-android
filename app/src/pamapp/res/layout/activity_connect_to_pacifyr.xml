@@ -1,0 +1,417 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    xmlns:swipedeck="http://schemas.android.com/apk/res-auto">
+
+    <include layout="@layout/actionbar_grey_close"
+        android:id="@+id/include"
+        android:layout_height="50dp"
+        android:layout_width="match_parent">
+    </include>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_below="@+id/include"
+        android:elevation="10dp"
+        android:layout_marginTop="10dp"
+        android:id="@+id/top_rlay">
+
+        <com.pacifyr.client.customview.MainTextView
+            android:id="@+id/text_feel_ctxv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:text="@string/get_ready_feel_better"
+            android:textColor="@color/grey_dark"
+            android:textSize="20sp"
+            android:layout_marginBottom="10dp"
+            android:textStyle="bold" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_marginTop="20dp"
+            android:id="@+id/view_line"
+            android:layout_below="@+id/text_feel_ctxv"
+            android:layout_height="4dp"
+            android:background="@color/grey_dark"/>
+
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_below="@+id/view_line"
+            android:layout_marginTop="-20dp"
+            android:id="@+id/button1"
+            android:text="1"
+            android:clickable="false"
+            android:textColor="@color/white"
+            android:layout_marginLeft="50dp"
+            android:background="@drawable/circle_click_btn"/>
+
+
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_below="@+id/view_line"
+            android:layout_marginTop="-20dp"
+            android:id="@+id/button2"
+            android:text="2"
+            android:textColor="@color/white"
+            android:clickable="false"
+            android:layout_marginLeft="130dp"
+            android:background="@drawable/circle_button"/>
+
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_below="@+id/view_line"
+            android:layout_marginTop="-20dp"
+            android:id="@+id/button3"
+            android:text="3"
+            android:textColor="@color/white"
+            android:clickable="false"
+            android:layout_marginLeft="210dp"
+            android:background="@drawable/circle_button"/>
+
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_below="@+id/view_line"
+            android:layout_marginTop="-20dp"
+            android:id="@+id/button4"
+            android:text="4"
+            android:textColor="@color/white"
+            android:clickable="false"
+            android:layout_marginLeft="290dp"
+            android:background="@drawable/circle_button"/>
+
+    </RelativeLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:layout_below="@+id/top_rlay"
+        android:id="@+id/container_fragment_main">
+
+    </FrameLayout>
+/** First ScreenLayout**/
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible"
+        android:layout_marginTop="-17dp"
+        android:elevation="0dp"
+        android:layout_below="@+id/top_rlay"
+        android:id="@+id/FirstScreenLayout"
+        android:background="@color/white">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="20dp"
+            android:background="#2A000000"
+            android:gravity="center_horizontal">
+
+            <com.pacifyr.client.customview.MainTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+
+                android:textColor="@color/colorPrimary"
+                android:id="@+id/user_name_ctxv"
+                android:padding="5dp"
+
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/before_we_get_started"/>
+
+            <com.pacifyr.client.customview.MainTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="19sp"
+                android:layout_margin="5dp"
+                android:textStyle="bold"
+                android:textColor="@color/grey_hex_83"
+                android:text="@string/why_do_we_ask"/>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/RecyclerView_conditions">
+
+                </androidx.recyclerview.widget.RecyclerView>
+            </RelativeLayout>
+
+            <com.pacifyr.client.customview.MainTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_marginTop="35dp"
+                android:textColor="@color/black"
+                android:visibility="gone"
+                android:text="why_do_we_ask"/>
+
+            <com.pacifyr.client.customview.MainTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/grey_dark"
+                android:visibility="gone"
+                android:text="why_do_we_ask_answer_text"/>
+
+        </LinearLayout>
+
+        <com.pacifyr.client.customview.MainTextView
+            android:visibility="gone"
+            android:id="@+id/txt_emergency_usa"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="20dp"
+            android:textColor="@color/black"
+            android:layout_marginBottom="30dp"
+            android:layout_alignParentBottom="true"
+            android:text="@string/call_emergency"/>
+
+    </RelativeLayout>
+
+/** secondLayout**/
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:layout_marginTop="-17dp"
+        android:layout_below="@+id/top_rlay"
+        android:id="@+id/second_screen_layout"
+        android:background="@color/white">
+
+       <ScrollView
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content">
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="match_parent"
+               android:orientation="vertical"
+               android:padding="20dp"
+               android:gravity="center_horizontal">
+
+               <LinearLayout
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+
+                   android:orientation="vertical">
+
+                   <LinearLayout
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:orientation="vertical"
+                       >
+
+                       <androidx.core.widget.NestedScrollView
+                           android:layout_width="match_parent"
+                           android:layout_height="wrap_content">
+                           <androidx.recyclerview.widget.RecyclerView
+                               android:layout_width="match_parent"
+                               android:layout_height="wrap_content"
+                               android:layout_gravity="center_horizontal"
+                               android:nestedScrollingEnabled="false"
+                               android:id="@+id/rcv_secondScreen_Expandable"/>
+                       </androidx.core.widget.NestedScrollView>
+                   </LinearLayout>
+
+               </LinearLayout>
+
+
+
+
+           </LinearLayout>
+       </ScrollView>
+
+    </RelativeLayout>
+
+/** Third Screen Layout**/
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:layout_marginTop="-17dp"
+        android:layout_below="@+id/top_rlay"
+        android:id="@+id/third_Screen_layout"
+        android:background="@color/white">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp"
+            android:layout_above="@+id/submit"
+            android:gravity="center_horizontal">
+
+            <com.pacifyr.client.customview.MainTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:id="@+id/third_sub_title"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textColor="@color/colorPrimary"
+                android:text=""/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/rcv_thirdScreen_instruct"
+                android:layout_marginTop="25dp"
+                android:layout_marginBottom="5dp"
+                ></androidx.recyclerview.widget.RecyclerView>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/submit"
+            android:orientation="vertical"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="15dp"
+            android:gravity="center"
+            android:background="@drawable/blue_border_lightblue">
+
+            <com.pacifyr.client.views.PamTextViewMedium
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Done"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_view_find_care_main"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:layout_marginTop="5dp"
+        android:layout_below="@+id/top_rlay"
+        android:id="@+id/select_list_pacifyr_rlay"
+        android:background="@color/white">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="2dp"
+            android:visibility="gone"
+            android:id="@+id/showall_llay"
+            android:gravity="right"
+            android:layout_marginRight="30dp"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/showall_cbox"/>
+
+            <com.pacifyr.client.customview.MainTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/showall_ctxv"
+                android:layout_marginLeft="5dp"
+                android:textColor="@color/colorPrimary"
+                android:text="@string/show_all"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_below="@+id/showall_llay"
+            android:layout_margin="5dp"
+            android:gravity="center_horizontal">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/image_rcv">
+
+            </androidx.recyclerview.widget.RecyclerView>
+
+               <com.daprlabs.cardstack.SwipeDeck
+                   android:id="@+id/swipe_deck"
+                   android:layout_width="match_parent"
+                   android:layout_height="350dp"
+                   android:padding="5dp"
+                   android:visibility="gone"
+                   swipedeck:card_spacing="5dp"
+                   swipedeck:max_visible="3"
+                   swipedeck:render_above="true"
+                   swipedeck:rotation_degrees="15" />
+
+            <com.pacifyr.client.customview.MainTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/no_pacifyr_ctxv"
+                android:visibility="gone"
+                android:layout_marginTop="50dp"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/sp16"
+                android:gravity="center"
+                android:text="@string/no_pacifyr"/>
+
+
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/more_pacifyrs_rlay"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone"
+        android:layout_marginBottom="25dp">
+
+        <com.pacifyr.client.customview.MainTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/round_square_for_round_cuttons"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="@string/more_wellness_experts"
+            android:textColor="@color/white"
+            android:textSize="15sp" />
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

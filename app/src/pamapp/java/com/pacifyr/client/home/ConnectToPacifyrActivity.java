@@ -5,44 +5,49 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+
+import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.pacifyr.client.customview.MainTextView;
+import com.pacifyr.client.model.ModelPamTemplates;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.MListNegativeEmotions;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.MListPositiveEmotions;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.MEmotion;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.RespSearchPacifyrWOption;
+import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.daprlabs.cardstack.SwipeDeck;
-import com.pacifyr.client.fragment.schedule.ScheduleBottomSheetFragment;
 import com.pacifyr.client.R;
 import com.pacifyr.client.adapter.CategoryListAdapter;
 import com.pacifyr.client.adapter.EmotionSpecialityAdapter;
-import com.pacifyr.client.adapter.NegativeEmotionsAdapter;
-import com.pacifyr.client.adapter.PostiveEmotionsAdapter;
 import com.pacifyr.client.adapter.SwipeDeckConnectPacifyrAdapter;
 import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.event.AlertTypeEvent;
 import com.pacifyr.client.event.CallEvent;
 import com.pacifyr.client.event.ChatEvent;
 import com.pacifyr.client.event.NotifyEvent;
+import com.pacifyr.client.fragment.UserDashboardFragment;
+import com.pacifyr.client.fragment.schedule.ScheduleBottomSheetFragment;
 import com.pacifyr.client.model.ModelSpecialityByCategory;
-import com.pacifyr.client.model.ModelSpecialityByEmotion;
 import com.pacifyr.client.model.interfaces.CallChatEventListner;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
@@ -52,11 +57,13 @@ import com.pacifyr.client.utility.PacifyrAppCompactActivity;
 import com.pacifyr.client.utils.LogUtils;
 import com.pacifyr.client.utils.Utility;
 import com.squareup.otto.Subscribe;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -74,9 +81,9 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
     private boolean isClick = false;
     private String type;
 
-    public RelativeLayout selectFeelingRlay;
-    public RelativeLayout selectEmotionRlay;
-    public RelativeLayout selectEmotionDetailRlay;
+    public RelativeLayout FirstScreenLayout;
+    public RelativeLayout second_screen_layout;
+    public RelativeLayout third_Screen_layout;
     public RelativeLayout listPacifyrRlay;
     private MainTextView noPacifyrCtxv;
     private MainTextView txt_emergency_usa;
@@ -108,6 +115,11 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
     private boolean showAllFlag;
     private CategoryListAdapter categoryListAdapter;
     private boolean selfSelectCategory = false;
+    private RecyclerView rcv_secondScreen_Expandable, rcv_thirdScreen_instruct, rcv_thirdScreen_second_instruct;
+    private SecondScreenInstructionAdapter mInstructionSecondAdapter;
+    private ThirdScreenInstructionAdapter mInstructionAdapter;
+    //private ThirdScreenInstructionSubAdapter mInstructionBAdapter;
+
 
     public static void start(Context context) {
         EmotionSpecialityAdapter.reason_forcall = null;
@@ -146,7 +158,13 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
     private Timer trackTimer_check_online;
     private TimerTask trackTimerTask_check_online;
     private int card_position = 0;
-
+    private TextView text_feel_ctxv;
+    private List<ModelPamTemplates> mModelPamTemplates;
+    private RecyclerView RecyclerView_conditions;
+    private FirstScreenConditionAdapter mFirstScreenConditionAdapter;
+    private SecondScreenInstructionAdapter.SecondScreenNestedAdapter mSecondScreenNestedAdapter;
+    private TextView third_sub_title;
+    private LinearLayout submit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -174,16 +192,15 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
         button2 = findViewById(R.id.button2);
         button3 = findViewById(R.id.button3);
         button4 = findViewById(R.id.button4);
-        moreButton = findViewById(R.id.more_button);
+        // moreButton = findViewById(R.id.more_button);
         userNameCtxv = findViewById(R.id.user_name_ctxv);
-        sadDimv = findViewById(R.id.sad_dimv);
-        happyDimv = findViewById(R.id.happy_dimv);
-        selectFeelingRlay = findViewById(R.id.select_feeling_rlay);
-        selectEmotionRlay = findViewById(R.id.select_emotion_rlay);
+        // happyDimv = findViewById(R.id.happy_dimv);
+        FirstScreenLayout = findViewById(R.id.FirstScreenLayout);
+        second_screen_layout = findViewById(R.id.second_screen_layout);
         listPacifyrRlay = findViewById(R.id.select_list_pacifyr_rlay);
-        selectEmotionDetailRlay = findViewById(R.id.select_emotion_detail_rlay);
-        emotionRcv = findViewById(R.id.emotion_rcv);
-        emotionDetailRcv = findViewById(R.id.emotion_detail_rcv);
+        third_Screen_layout = findViewById(R.id.third_Screen_layout);
+        // emotionRcv = findViewById(R.id.emotion_rcv);
+        // emotionDetailRcv = findViewById(R.id.emotion_detail_rcv);
         morePacifyrsRlay = findViewById(R.id.more_pacifyrs_rlay);
         swipeDeck = findViewById(R.id.swipe_deck);
         emotionDimv = findViewById(R.id.emotion_dimv);
@@ -192,23 +209,32 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
         topRlay = findViewById(R.id.top_rlay);
         morePacifyrsRlay.setVisibility(View.GONE);
 
-        topRlay.bringToFront();
 
+        topRlay.bringToFront();
+        text_feel_ctxv = findViewById(R.id.text_feel_ctxv);
+        text_feel_ctxv.setText(getResources().getString(R.string.get_ready_feel_better));
         txt_emergency_usa = findViewById(R.id.txt_emergency_usa);
+        submit = findViewById(R.id.submit);
         Utility gps = new Utility();
         String country = Utility.getUserCountry(ConnectToPacifyrActivity.this);
         if (isValid(country)) {
             country = prefM.getCountry();
             if (country.equalsIgnoreCase("us")) {
-                txt_emergency_usa.setVisibility(View.VISIBLE);
+                //txt_emergency_usa.setVisibility(View.VISIBLE);
             }
         }
 
         //specialityRcv = (RecyclerView) findViewById(R.id.speciality_rcv);
         defSetText(userNameCtxv, "Hello " + getUserName());
-        selectFeelingRlay.setVisibility(View.VISIBLE);
+        FirstScreenLayout.setVisibility(View.VISIBLE);
 
         listPacifyrRlay.setVisibility(View.GONE);
+        rcv_thirdScreen_instruct = findViewById(R.id.rcv_thirdScreen_instruct);
+        rcv_secondScreen_Expandable = findViewById(R.id.rcv_secondScreen_Expandable);
+        third_sub_title=findViewById(R.id.third_sub_title);
+        RecyclerView_conditions = findViewById(R.id.RecyclerView_conditions);
+        // makeThirdScreenInstructionList();
+        makeFirstScreenInstructionList();
 
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -217,48 +243,67 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
                 button2.setBackgroundResource(R.drawable.circle_button);
                 button3.setBackgroundResource(R.drawable.circle_button);
                 button4.setBackgroundResource(R.drawable.circle_button);
-                selectFeelingRlay.setVisibility(View.VISIBLE);
-                selectEmotionRlay.setVisibility(View.GONE);
-                selectEmotionDetailRlay.setVisibility(View.GONE);
+                FirstScreenLayout.setVisibility(View.VISIBLE);
+                second_screen_layout.setVisibility(View.GONE);
+                third_Screen_layout.setVisibility(View.GONE);
                 listPacifyrRlay.setVisibility(View.GONE);
                 morePacifyrsRlay.setVisibility(View.GONE);
+
+                if (isValid(mModelPamTemplates.get(0).getTitle()))
+                    text_feel_ctxv.setText(mModelPamTemplates.get(0).getTitle());
+                else
+                if (isValid(mModelPamTemplates.get(0).getQuestion()))
+                    text_feel_ctxv.setText(mModelPamTemplates.get(0).getQuestion());
             }
         });
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (selectEmotionRlay.getVisibility() == View.VISIBLE || selectEmotionDetailRlay.getVisibility() == View.VISIBLE || listPacifyrRlay.getVisibility() == View.VISIBLE) {
+                if (second_screen_layout.getVisibility() == View.VISIBLE || third_Screen_layout.getVisibility() == View.VISIBLE || listPacifyrRlay.getVisibility() == View.VISIBLE) {
                     button2.setBackgroundResource(R.drawable.circle_click_btn);
                     button1.setBackgroundResource(R.drawable.circle_button);
                     button3.setBackgroundResource(R.drawable.circle_button);
                     button4.setBackgroundResource(R.drawable.circle_button);
-                    selectFeelingRlay.setVisibility(View.GONE);
-                    selectEmotionRlay.setVisibility(View.VISIBLE);
-                    selectEmotionDetailRlay.setVisibility(View.GONE);
+                    FirstScreenLayout.setVisibility(View.GONE);
+                    second_screen_layout.setVisibility(View.VISIBLE);
+
+                    third_Screen_layout.setVisibility(View.GONE);
                     listPacifyrRlay.setVisibility(View.GONE);
                     morePacifyrsRlay.setVisibility(View.GONE);
                 } else {
                     Toast.makeText(v.getContext(), "Please select option", Toast.LENGTH_SHORT).show();
                 }
 
+                if (isValid(mModelPamTemplates.get(1).getTitle()))
+                    text_feel_ctxv.setText(mModelPamTemplates.get(1).getTitle());
+                else
+                if (isValid(mModelPamTemplates.get(1).getQuestion()))
+                    text_feel_ctxv.setText(mModelPamTemplates.get(1).getQuestion());
+
             }
         });
         button3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (selectEmotionDetailRlay.getVisibility() == View.VISIBLE || listPacifyrRlay.getVisibility() == View.VISIBLE) {
+                if (third_Screen_layout.getVisibility() == View.VISIBLE || listPacifyrRlay.getVisibility() == View.VISIBLE) {
                     button3.setBackgroundResource(R.drawable.circle_click_btn);
                     button2.setBackgroundResource(R.drawable.circle_button);
                     button1.setBackgroundResource(R.drawable.circle_button);
                     button4.setBackgroundResource(R.drawable.circle_button);
-                    selectFeelingRlay.setVisibility(View.GONE);
-                    selectEmotionRlay.setVisibility(View.GONE);
-                    selectEmotionDetailRlay.setVisibility(View.VISIBLE);
+                    FirstScreenLayout.setVisibility(View.GONE);
+                    second_screen_layout.setVisibility(View.GONE);
+                    third_Screen_layout.setVisibility(View.VISIBLE);
                     listPacifyrRlay.setVisibility(View.GONE);
                     morePacifyrsRlay.setVisibility(View.GONE);
+                    text_feel_ctxv.setText(getResources().getString(R.string.we_are_almost_ready));
                 } else {
-                    Toast.makeText(v.getContext(), "No emotion selected", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(v.getContext(), "Please select option", Toast.LENGTH_SHORT).show();
                 }
+                if (isValid(mModelPamTemplates.get(2).getTitle()))
+                    text_feel_ctxv.setText(mModelPamTemplates.get(2).getTitle());
+                else
+                if (isValid(mModelPamTemplates.get(2).getQuestion()))
+                    text_feel_ctxv.setText(mModelPamTemplates.get(2).getQuestion());
 
             }
         });
@@ -270,62 +315,83 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
                     button2.setBackgroundResource(R.drawable.circle_button);
                     button3.setBackgroundResource(R.drawable.circle_button);
                     button1.setBackgroundResource(R.drawable.circle_button);
-                    selectFeelingRlay.setVisibility(View.GONE);
-                    selectEmotionRlay.setVisibility(View.GONE);
-                    selectEmotionDetailRlay.setVisibility(View.GONE);
+                    FirstScreenLayout.setVisibility(View.GONE);
+                    second_screen_layout.setVisibility(View.GONE);
+                    third_Screen_layout.setVisibility(View.GONE);
                     listPacifyrRlay.setVisibility(View.VISIBLE);
+                    text_feel_ctxv.setText(getResources().getString(R.string.you_are_all_set));
                 } else {
-                    Toast.makeText(v.getContext(), "Select any option", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(v.getContext(), "Please select option", Toast.LENGTH_SHORT).show();
                 }
 
             }
         });
 
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-        sadDimv.setOnClickListener(new View.OnClickListener() {
+                button4.setBackgroundResource(R.drawable.circle_click_btn);
+                button2.setBackgroundResource(R.drawable.circle_button);
+                button3.setBackgroundResource(R.drawable.circle_button);
+                button1.setBackgroundResource(R.drawable.circle_button);
+                FirstScreenLayout.setVisibility(View.GONE);
+                second_screen_layout.setVisibility(View.GONE);
+                third_Screen_layout.setVisibility(View.GONE);
+                listPacifyrRlay.setVisibility(View.VISIBLE);
+                text_feel_ctxv.setText(getResources().getString(R.string.you_are_all_set));
+            }
+        });
+
+
+        /*sadDimv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 happyDimv.clearColorFilter();
-                sadDimv.setColorFilter(getResources().getColor(R.color.colorPrimary), android.graphics.PorterDuff.Mode.MULTIPLY);
-                type = "negative";
+                sadDimv.setColorFilter(getResources().getColor( R.color.colorPrimary), android.graphics.PorterDuff.Mode.MULTIPLY);
+                type="negative";
                 button1.setBackgroundResource(R.drawable.circle_button);
                 button2.setBackgroundResource(R.drawable.circle_click_btn);
                 //callFragmant();
+                PacifyrActivity.call_emotion=new MEmotion();
+                PacifyrActivity.call_emotion.setId("5971c472734d1d6202a81958");
                 changeToSecondScreen();
 
             }
-        });
+        });*/
 
-        happyDimv.setOnClickListener(new View.OnClickListener() {
+      /*  happyDimv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sadDimv.clearColorFilter();
-                happyDimv.setColorFilter(getResources().getColor(R.color.colorPrimary), android.graphics.PorterDuff.Mode.MULTIPLY);
-                type = "positive";
+              //  sadDimv.clearColorFilter();
+                happyDimv.setColorFilter(getResources().getColor( R.color.colorPrimary), android.graphics.PorterDuff.Mode.MULTIPLY);
+                type="positive";
                 button1.setBackgroundResource(R.drawable.circle_button);
                 button2.setBackgroundResource(R.drawable.circle_click_btn);
                 //callFragmant();
+                PacifyrActivity.call_emotion=new MEmotion();
+                PacifyrActivity.call_emotion.setId("5971c472734d1d6202a81958");
                 changeToSecondScreen();
 
             }
-        });
+        });*/
 
-        moreButton.setOnClickListener(new View.OnClickListener() {
+      /*  moreButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 setLoading();
                 showProgress();
                 moreButton.setVisibility(View.GONE);
-                String url = GLOBAL_URL + "specialities/getCategories";
+                String url = GLOBAL_URL+"specialities/getCategories";
                 AjaxCallback cb = new AjaxCallback<JSONObject>() {
                     @Override
                     public void callback(String url, JSONObject json, AjaxStatus status) {
                         try {
                             hideProgress();
-                            ModelSpecialityByEmotion modelSpeciltyByEmotion = GsonUtils.getInstance().gsonToModelSpeciltyByEmotion(json);
+                            ModelSpecialityByEmotion modelSpeciltyByEmotion= GsonUtils.getInstance().gsonToModelSpeciltyByEmotion(json);
                             RecyclerView detailRcv = activity.findViewById(R.id.emotion_detail_rcv);
                             detailRcv.setLayoutManager(new LinearLayoutManager(ConnectToPacifyrActivity.this, LinearLayoutManager.VERTICAL, false));
-                            EmotionSpecialityAdapter adapter = new EmotionSpecialityAdapter(ConnectToPacifyrActivity.this, activity, modelSpeciltyByEmotion.getResultsList());
+                            EmotionSpecialityAdapter adapter=new EmotionSpecialityAdapter(ConnectToPacifyrActivity.this,activity,modelSpeciltyByEmotion.getResultsList());
                             detailRcv.setAdapter(adapter);
                         } catch (Exception e) {
                             hideProgress();
@@ -335,11 +401,11 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
                 };
                 AQuery aq = new AQuery(ConnectToPacifyrActivity.this);
                 cb.header("Content-Type", "application/json");
-                cb.header("AccessToken", token);
-                aq.ajax(url, JSONObject.class, cb);
+                cb.header("AccessToken",token);
+                aq.ajax(url,JSONObject.class, cb);
             }
         });
-
+*/
         morePacifyrsRlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -354,17 +420,18 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
 
         if (customerRole.equals("customer")) {
             employeeFlag = false;
-            //showallLlay.setVisibility(View.GONE);
+            showallLlay.setVisibility(View.GONE);
         } else if (customerRole.equals("employee") || customerRole.equals("unpaidEmployee")) {
             employeeFlag = true;
             showallLlay.setVisibility(View.VISIBLE);
         } else if (customerRole.equals("paidMember")) {
             employeeFlag = false;
-            //showallLlay.setVisibility(View.GONE);
+            showallLlay.setVisibility(View.GONE);
         } else if (customerRole.equals("unpaidEmployee")) {
             employeeFlag = true;
         }
 
+        showCategories();
         getShowallCbox().setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -412,12 +479,62 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
 
     }
 
+    private void makeFirstScreenInstructionList() {
+
+        try {
+            PrefManager prefM = PrefManager.getInstance(ConnectToPacifyrActivity.this);
+            String token = prefM.getAccessToken();
+            String url = UtilityNetworkService.GLOBAL_URL + "template";
+            setLoading();
+            showProgress();
+            AjaxCallback cb = new AjaxCallback<JSONArray>() {
+                @Override
+                public void callback(String url, JSONArray json, AjaxStatus status) {
+                    try {
+                        hideProgress();
+                        mModelPamTemplates = GsonUtils.getInstance().gsonToModelPamTemplates(json);
+                        if (isValid(mModelPamTemplates))
+                            if (isValid(mModelPamTemplates.get(0).getQuestion())) {
+                                if (isValid(mModelPamTemplates.get(0).getTitle()))
+                                    text_feel_ctxv.setText(mModelPamTemplates.get(0).getTitle());
+                                else
+                                if (isValid(mModelPamTemplates.get(0).getQuestion()))
+                                    text_feel_ctxv.setText(mModelPamTemplates.get(0).getQuestion());
+                                if (isValid(mModelPamTemplates.get(0).getOptions())) {
+                                    /** FirstScreen Conditions **/
+
+                                    mFirstScreenConditionAdapter = new FirstScreenConditionAdapter(getApplicationContext(), mModelPamTemplates.get(0).getOptions());
+                                    GridLayoutManager manager = new GridLayoutManager(getApplicationContext(), 3, GridLayoutManager.VERTICAL, false);
+                                    RecyclerView_conditions.setLayoutManager(manager);
+                                    RecyclerView_conditions.setAdapter(mFirstScreenConditionAdapter);
+                                    RecyclerView_conditions.setItemAnimator(new DefaultItemAnimator());
+                                }
+                            }
+
+                    } catch (Exception e) {
+                        hideProgress();
+                        e.printStackTrace();
+                    }
+                }
+            };
+            AQuery aq = new AQuery(ConnectToPacifyrActivity.this);
+            cb.header("Content-Type", "application/json");
+            cb.header("AccessToken", token);
+            aq.ajax(url, JSONArray.class, cb);
+        } catch (Exception e) {
+            hideProgress();
+            e.printStackTrace();
+        }
+
+    }
+
+
     @Override
     protected void onRestart() {
         super.onRestart();
-      /*  selectFeelingRlay.setVisibility(View.VISIBLE);
-        selectEmotionRlay.setVisibility(View.GONE);
-        selectEmotionDetailRlay.setVisibility(View.GONE);
+        /*FirstScreenLayout.setVisibility(View.VISIBLE);
+        second_screen_layout.setVisibility(View.GONE);
+        third_Screen_layout.setVisibility(View.GONE);
         listPacifyrRlay.setVisibility(View.GONE);
         button4.setBackgroundResource(R.drawable.circle_button);
         button3.setBackgroundResource(R.drawable.circle_button);
@@ -437,22 +554,24 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
 
     public void changeToSecondScreen() {
 
-        selectEmotionRlay.setVisibility(View.VISIBLE);
-        selectFeelingRlay.setVisibility(View.GONE);
-        setLoading();
-        showProgress();
+
+        second_screen_layout.setVisibility(View.VISIBLE);
+        FirstScreenLayout.setVisibility(View.GONE);
+        text_feel_ctxv.setText(getResources().getString(R.string.do_you_have_any_symptoms));
+        //setLoading();
+        //showProgress();
 
         if (type.equals("positive")) {
 
-            String url = GLOBAL_URL + "emotions/positive";
+           /* String url = GLOBAL_URL+"emotions/positive";
             AjaxCallback cb = new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, JSONObject json, AjaxStatus status) {
                     try {
                         hideProgress();
-                        MListPositiveEmotions modelListPosEmotions = GsonUtils.getInstance().gsonToMListPositiveEmotions(json);
+                        MListPositiveEmotions modelListPosEmotions= GsonUtils.getInstance().gsonToMListPositiveEmotions(json);
                         emotionRcv.setLayoutManager(new GridLayoutManager(ConnectToPacifyrActivity.this, 4));
-                        PostiveEmotionsAdapter adapter = new PostiveEmotionsAdapter(ConnectToPacifyrActivity.this, activity, modelListPosEmotions.getResultsList());
+                        PostiveEmotionsAdapter adapter = new PostiveEmotionsAdapter(ConnectToPacifyrActivity.this,activity,modelListPosEmotions.getResultsList());
                         emotionRcv.setAdapter(adapter);
 
                     } catch (Exception e) {
@@ -464,20 +583,20 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
             AQuery aq = new AQuery(ConnectToPacifyrActivity.this);
             cb.header("Content-Type", "application/json");
             //cb.header("AccessToken",token);
-            cb.header("AccessToken", token);
-            aq.ajax(url, JSONObject.class, cb);
+            cb.header("AccessToken",token);
+            aq.ajax(url,JSONObject.class, cb);*/
 
         } else if (type.equals("negative")) {
 
-            String url = GLOBAL_URL + "emotions/negative";
+           /* String url = GLOBAL_URL+"emotions/negative";
             AjaxCallback cb = new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, JSONObject json, AjaxStatus status) {
                     try {
                         hideProgress();
-                        MListNegativeEmotions modelListNegEmotions = GsonUtils.getInstance().gsonToMListNegativeEmotions(json);
+                        MListNegativeEmotions modelListNegEmotions= GsonUtils.getInstance().gsonToMListNegativeEmotions(json);
                         emotionRcv.setLayoutManager(new GridLayoutManager(ConnectToPacifyrActivity.this, 4));
-                        NegativeEmotionsAdapter adapter = new NegativeEmotionsAdapter(ConnectToPacifyrActivity.this, activity, modelListNegEmotions.getResultsList());
+                        NegativeEmotionsAdapter adapter = new NegativeEmotionsAdapter(ConnectToPacifyrActivity.this,activity,modelListNegEmotions.getResultsList());
                         emotionRcv.setAdapter(adapter);
                     } catch (Exception e) {
                         hideProgress();
@@ -487,8 +606,8 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
             };
             AQuery aq = new AQuery(ConnectToPacifyrActivity.this);
             cb.header("Content-Type", "application/json");
-            cb.header("AccessToken", token);
-            aq.ajax(url, JSONObject.class, cb);
+            cb.header("AccessToken",token);
+            aq.ajax(url,JSONObject.class, cb);*/
 
         }
 
@@ -731,6 +850,9 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
                 DashboardActivity.start(ConnectToPacifyrActivity.this);
             }
         });
+        PacifyrActivity.call_emotion=new MEmotion();
+        PacifyrActivity.call_emotion.setId("5971c472734d1d6202a81958");
+        webSearchPacifyrWOptions(customerEmotion);
     }
 
     @Override
@@ -787,7 +909,7 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
                         //searchResults=modelSearchPacifyr.getResultsList();
                         pSearchPacifyrWOptionsResponse.toString();
                         setAdapterSearchOption();
-                        morePacifyrsRlay.setVisibility(View.VISIBLE);
+                        morePacifyrsRlay.setVisibility(View.GONE);
                         try {
                             if (adapter != null && adapter.getCount() == 0 && !selfSelectCategory) {
                                 selfSelectCategory = true;
@@ -907,7 +1029,7 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
             cb.header("AccessToken", token);
             jsonObject = new JSONObject();
 
-            url = GLOBAL_URL + getRoleSearchMap().get(prefM.getCustomerRole());
+            url = GLOBAL_URL + "search/pacifyrs";
             companyID = prefM.getCompanyId();
             jsonObject.putOpt("companyId", companyID);
             jsonObject.putOpt("includeChargeablePacifyrs", showAllFlag);
@@ -935,10 +1057,10 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
 
     }
 
-    public void showCategories(String category) {
+    public void showCategories() {
         try {
-            String url = GLOBAL_URL + "specialities/byCategory?category=" + category;
-
+            String url = GLOBAL_URL + "specialities/byAppSource?appSource=leadersup";
+            // String url = GLOBAL_URL + "specialities/getCategories/byEmotion?emotionId="+emotionID;
             AjaxCallback cb = new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, JSONObject json, AjaxStatus status) {
@@ -984,12 +1106,6 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
     }
 
     @Override
-    protected void onStart() {
-
-        super.onStart();
-    }
-
-    @Override
     protected void onDestroy() {
         super.onDestroy();
 
@@ -1008,9 +1124,6 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
         if (morePacifyrsRlay != null) {
             morePacifyrsRlay.setVisibility(View.GONE);
         }
-        if (isValid(morePacifyrsRlay) &&
-                listPacifyrRlay.getVisibility() == View.VISIBLE)
-            morePacifyrsRlay.setVisibility(View.VISIBLE);
 
         trackTimer_check_online = new Timer();
 
@@ -1041,9 +1154,439 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
             bundle.putSerializable("OBJECT", pacifyer_obj);
             bottomSheetFragment.setArguments(bundle);
             bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
+
         }
 
     }
 
+
+
+
+    private class SecondScreenInstructionAdapter extends RecyclerView.Adapter<SecondScreenInstructionAdapter.MyViewHolderr> {
+
+        List<ModelPamTemplates.Option> list;
+        Context context;
+
+
+        public SecondScreenInstructionAdapter(Context context, List<ModelPamTemplates.Option> list) {
+            this.list = list;
+            this.context = context;
+        }
+
+
+        @Override
+        public MyViewHolderr onCreateViewHolder(ViewGroup parent, int viewType) {
+            View itemView = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.adapter_item_instruction_second_screen, parent, false);
+
+            return new MyViewHolderr(itemView);
+        }
+
+        @Override
+        public void onBindViewHolder(final MyViewHolderr holder, final int position) {
+
+            holder.tv_instruction.setText(list.get(position).getOption());
+
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    if (holder.RCV_nestedRecyclerView.getVisibility()==View.VISIBLE)
+                    {
+                        holder.RCV_nestedRecyclerView.setVisibility(View.GONE);
+                    }
+                    else
+                    {
+
+                        if (isValid(list.get(position).getDescription()))
+                        {
+                            String description=list.get(position).getDescription();
+                            List<String> descriptionList = new ArrayList<String>(Arrays.asList(description.split(",")));
+                            if (isValid(descriptionList))
+                                setUpNestedGridView(holder,descriptionList);
+                        }
+                    }
+
+
+                }
+            });
+
+        }
+
+        private void setUpNestedGridView(MyViewHolderr holder, List<String> descriptionList) {
+            mSecondScreenNestedAdapter = new SecondScreenNestedAdapter(getApplicationContext(), descriptionList);
+            GridLayoutManager manager = new GridLayoutManager(getApplicationContext(), 3, GridLayoutManager.VERTICAL, false);
+            holder.RCV_nestedRecyclerView.setLayoutManager(manager);
+            holder.RCV_nestedRecyclerView.setAdapter(mSecondScreenNestedAdapter);
+            holder.RCV_nestedRecyclerView.setItemAnimator(new DefaultItemAnimator());
+            holder.RCV_nestedRecyclerView.setVisibility(View.VISIBLE);
+            mSecondScreenNestedAdapter.notifyDataSetChanged();
+            if (isValid(mModelPamTemplates.get(2).getTitle()))
+                text_feel_ctxv.setText(mModelPamTemplates.get(2).getTitle());
+
+            if (isValid(mModelPamTemplates.get(2).getQuestion()))
+                third_sub_title.setText(mModelPamTemplates.get(2).getQuestion());
+        }
+
+
+        @Override
+        public int getItemCount() {
+            return list.size();
+        }
+
+        public class MyViewHolderr extends RecyclerView.ViewHolder {
+            public MainTextView tv_instruction;
+            private RecyclerView RCV_nestedRecyclerView;
+
+
+            public MyViewHolderr(View view) {
+                super(view);
+                tv_instruction = view.findViewById(R.id.tv_instruction);
+                RCV_nestedRecyclerView =view.findViewById(R.id.RCV_nestedRecyclerView);
+            }
+        }
+
+
+        private class SecondScreenNestedAdapter extends RecyclerView.Adapter<SecondScreenNestedAdapter.MyViewHolderrr>{
+
+            List<String> descriptionList;
+            Context context;
+
+
+            public SecondScreenNestedAdapter(Context context, List<String> descriptionList) {
+                this.context=context;
+                this.descriptionList=descriptionList;
+            }
+
+
+            @Override
+            public MyViewHolderrr onCreateViewHolder(ViewGroup parent, int viewType) {
+                View itemView = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.adapter_item_instruction, parent, false);
+
+                return new MyViewHolderrr(itemView);
+            }
+
+            @Override
+            public void onBindViewHolder(final MyViewHolderrr holder, final int position) {
+
+                holder.tv_instruction.setText(descriptionList.get(position));
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                       /*button1.setBackgroundResource(R.drawable.circle_button);
+                        button2.setBackgroundResource(R.drawable.circle_button);
+                        button3.setBackgroundResource(R.drawable.circle_button);
+                        button4.setBackgroundResource(R.drawable.circle_click_btn);
+
+
+                        button1.setClickable(true);
+                        button2.setClickable(true);
+                        button3.setClickable(true);
+                        button4.setClickable(true);
+
+                        FirstScreenLayout.setVisibility(View.GONE);
+                        second_screen_layout.setVisibility(View.GONE);
+                        third_Screen_layout.setVisibility(View.GONE);
+                        third_Screen_second_layout.setVisibility(View.GONE);
+                        listPacifyrRlay.setVisibility(View.VISIBLE);
+                        morePacifyrsRlay.setVisibility(View.GONE);*/
+
+                        button1.setBackgroundResource(R.drawable.circle_button);
+                        button2.setBackgroundResource(R.drawable.circle_button);
+                        button3.setBackgroundResource(R.drawable.circle_click_btn);
+                        button4.setBackgroundResource(R.drawable.circle_button);
+                        button2.setClickable(true);
+
+                        button1.setClickable(true);
+                        button3.setClickable(true);
+                        button4.setClickable(true);
+
+                        FirstScreenLayout.setVisibility(View.GONE);
+                        second_screen_layout.setVisibility(View.GONE);
+                        third_Screen_layout.setVisibility(View.VISIBLE);
+                        listPacifyrRlay.setVisibility(View.GONE);
+                        morePacifyrsRlay.setVisibility(View.GONE);
+
+                        setUpThirdScreen();
+                    }
+                });
+
+            }
+
+
+            @Override
+            public int getItemCount() {
+                return descriptionList.size();
+            }
+
+            public class MyViewHolderrr extends RecyclerView.ViewHolder {
+                public MainTextView tv_instruction;
+
+
+                public MyViewHolderrr(View view) {
+                    super(view);
+                    tv_instruction=view.findViewById(R.id.tv_instruction);
+                }
+            }
+        }
+
+    }
+
+    private void setUpThirdScreen() {
+        if (isValid(mModelPamTemplates)
+                &&isValid(mModelPamTemplates.get(2))&&isValid(mModelPamTemplates.get(2).getOptions()))
+        {
+            mInstructionAdapter = new ThirdScreenInstructionAdapter(getApplicationContext(),mModelPamTemplates.get(2).getOptions());
+            RecyclerView.LayoutManager mLayout = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
+            rcv_thirdScreen_instruct.setLayoutManager(mLayout);
+            rcv_thirdScreen_instruct.setAdapter(mInstructionAdapter);
+            rcv_thirdScreen_instruct.setItemAnimator(new DefaultItemAnimator());
+        }
+
+    }
+
+
+    private class ThirdScreenInstructionAdapter extends RecyclerView.Adapter<ThirdScreenInstructionAdapter.MyViewHolderr>{
+
+        private List<ModelPamTemplates.Option> options;
+        Context context;
+
+
+        public ThirdScreenInstructionAdapter(Context context, List<ModelPamTemplates.Option> options) {
+            this.options=options;
+            this.context=context;
+        }
+
+
+        @Override
+        public MyViewHolderr onCreateViewHolder(ViewGroup parent, int viewType) {
+            View itemView = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.adapter_item_screen_third, parent, false);
+
+            return new MyViewHolderr(itemView);
+        }
+
+        @Override
+        public void onBindViewHolder(final MyViewHolderr holder, final int position) {
+
+            holder.tv_instruction.setText(options.get(position).getOption());
+            String[] separated = options.get(position).getOption().split("\\?");
+            if (isValid(separated)&&separated.length==2)
+                holder.tv_answer_template.setHint(separated[1]);
+
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    button1.setBackgroundResource(R.drawable.circle_button);
+                    button2.setBackgroundResource(R.drawable.circle_button);
+                    button3.setBackgroundResource(R.drawable.circle_button);
+                    button4.setBackgroundResource(R.drawable.circle_click_btn);
+
+
+                    button1.setClickable(true);
+                    button2.setClickable(true);
+                    button3.setClickable(true);
+                    button4.setClickable(true);
+
+                    FirstScreenLayout.setVisibility(View.GONE);
+                    second_screen_layout.setVisibility(View.GONE);
+                    third_Screen_layout.setVisibility(View.GONE);
+                    listPacifyrRlay.setVisibility(View.VISIBLE);
+                    morePacifyrsRlay.setVisibility(View.GONE);
+                }
+            });
+
+        }
+
+
+        @Override
+        public int getItemCount() {
+            return options.size();
+        }
+
+        public class MyViewHolderr extends RecyclerView.ViewHolder {
+            public MainTextView tv_instruction;
+            private EditText tv_answer_template;
+
+
+            public MyViewHolderr(View view) {
+                super(view);
+                tv_instruction=view.findViewById(R.id.tv_instruction);
+                tv_answer_template=view.findViewById(R.id.tv_answer_template);
+            }
+        }
+    }
+
+
+
+
+/*
+    private class ThirdScreenInstructionSubAdapter extends RecyclerView.Adapter<ThirdScreenInstructionSubAdapter.MyViewHolderr>{
+
+        List<String> list;
+        Context context;
+
+
+        public ThirdScreenInstructionSubAdapter(Context context) {
+            list=new ArrayList<String>();
+            list.add("I need work clothes");
+            list.add("I need transportation support");
+            list.add("Gain more workplace skills");
+            list.add("I want to build my career");
+            this.context=context;
+        }
+
+
+        @Override
+        public MyViewHolderr onCreateViewHolder(ViewGroup parent, int viewType) {
+            View itemView = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.adapter_item_instruction, parent, false);
+
+            return new MyViewHolderr(itemView);
+        }
+
+        @Override
+        public void onBindViewHolder(final MyViewHolderr holder, final int position) {
+
+            holder.tv_instruction.setText(list.get(position));
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    button1.setBackgroundResource(R.drawable.circle_button);
+                    button2.setBackgroundResource(R.drawable.circle_button);
+                    button3.setBackgroundResource(R.drawable.circle_button);
+                    button4.setBackgroundResource(R.drawable.circle_click_btn);
+
+
+                    button1.setClickable(true);
+                    button2.setClickable(true);
+                    button3.setClickable(true);
+                    button4.setClickable(true);
+
+                    FirstScreenLayout.setVisibility(View.GONE);
+                    second_screen_layout.setVisibility(View.GONE);
+                    third_Screen_layout.setVisibility(View.GONE);
+                    third_Screen_second_layout.setVisibility(View.GONE);
+                    listPacifyrRlay.setVisibility(View.VISIBLE);
+                    morePacifyrsRlay.setVisibility(View.GONE);
+                }
+            });
+
+        }
+
+
+        @Override
+        public int getItemCount() {
+            return list.size();
+        }
+
+        public class MyViewHolderr extends RecyclerView.ViewHolder {
+            public MainTextView tv_instruction;
+
+
+            public MyViewHolderr(View view) {
+                super(view);
+                tv_instruction=view.findViewById(R.id.tv_instruction);
+            }
+        }
+    }
+*/
+
+
+
+
+    private class FirstScreenConditionAdapter extends RecyclerView.Adapter<FirstScreenConditionAdapter.MyViewHolderr>{
+
+        List<ModelPamTemplates.Option> options;
+        Context context;
+
+
+        public FirstScreenConditionAdapter(Context context, List<ModelPamTemplates.Option> options) {
+            this.options=options;
+            this.context=context;
+        }
+
+
+        @Override
+        public MyViewHolderr onCreateViewHolder(ViewGroup parent, int viewType) {
+            View itemView = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.adapter_item_instruction, parent, false);
+
+            return new MyViewHolderr(itemView);
+        }
+
+        @Override
+        public void onBindViewHolder(final MyViewHolderr holder, final int position) {
+
+            holder.tv_instruction.setText(options.get(position).getOption());
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    button1.setBackgroundResource(R.drawable.circle_button);
+                    button2.setBackgroundResource(R.drawable.circle_click_btn);
+                    button3.setBackgroundResource(R.drawable.circle_button);
+                    button4.setBackgroundResource(R.drawable.circle_button);
+
+
+                    button1.setClickable(true);
+                    button2.setClickable(true);
+                    button3.setClickable(true);
+                    button4.setClickable(true);
+
+                    FirstScreenLayout.setVisibility(View.GONE);
+                    second_screen_layout.setVisibility(View.VISIBLE);
+                    third_Screen_layout.setVisibility(View.GONE);
+                    listPacifyrRlay.setVisibility(View.GONE);
+                    morePacifyrsRlay.setVisibility(View.GONE);
+
+                    setUpSecondScreenUI();
+                }
+            });
+
+        }
+
+
+        @Override
+        public int getItemCount() {
+            return options.size();
+        }
+
+        public class MyViewHolderr extends RecyclerView.ViewHolder {
+            public MainTextView tv_instruction;
+
+
+            public MyViewHolderr(View view) {
+                super(view);
+                tv_instruction=view.findViewById(R.id.tv_instruction);
+            }
+        }
+    }
+
+
+
+
+    private void setUpSecondScreenUI() {
+        if(isValid(mModelPamTemplates) && isValid(mModelPamTemplates.get(1)))
+        {
+            if (isValid(mModelPamTemplates.get(1).getTitle()))
+                text_feel_ctxv.setText(mModelPamTemplates.get(1).getTitle());
+            else
+            if (isValid(mModelPamTemplates.get(1).getQuestion()))
+                text_feel_ctxv.setText(mModelPamTemplates.get(1).getQuestion());
+
+            if (isValid(mModelPamTemplates.get(1).getOptions()))
+            {
+                mInstructionSecondAdapter =new SecondScreenInstructionAdapter(getApplicationContext(),mModelPamTemplates.get(1).getOptions());
+                RecyclerView.LayoutManager mLayoutsecond=new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.VERTICAL,false);
+                rcv_secondScreen_Expandable.setLayoutManager(mLayoutsecond);
+                rcv_secondScreen_Expandable.setAdapter(mInstructionSecondAdapter);
+                rcv_secondScreen_Expandable.setItemAnimator(new DefaultItemAnimator());
+            }
+        }
+
+
+
+    }
 
 }

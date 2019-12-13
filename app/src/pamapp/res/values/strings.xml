@@ -29,7 +29,7 @@
     <string name="card_number">card number</string>
 
     <!--new adding-->
-    <string name="get_ready_feel_better">Get ready to feel better!</string>
+    <string name="get_ready_feel_better">What is the reason for your visit?</string>
     <string name="feel_better">Feel better with Pacifyr</string>
     <string name="connect_to_wellness">Connect to wellness/health expert through Video, Audio or Chat.</string>
     <string name="thirty_free">Free Introductory call time</string>
@@ -132,6 +132,7 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="have_discount_code">Have a discount code?</string>
     <string name="skip_this_step">Skip this step</string>
     <string name="query_hint_search_pacifyr">search for a pacifyr</string>
+    <string name="how_you_feel_now">Choose from top conditions</string>
 
     /** URLS **/
     <string name="CHANNEL_ID">pam_general_notifications</string>
@@ -166,4 +167,10 @@ Yor call is routed to the nearest crisis center.</string>
 
     <string name="main_font_bold">Helvetica_.ttf</string>
     <string name="main_font_medium">Helvetica_.ttf</string>
+    <string name="before_we_get_started">Hello</string>
+    <string name="why_do_we_ask">choose from top conditions</string>
+    <string name="do_you_have_any_symptoms">Do you have any of these symptoms?</string>
+    <string name="we_are_almost_ready">We are almost ready for your visit!</string>
+    <string name="you_are_all_set">You are all set!</string>
+
 </resources>

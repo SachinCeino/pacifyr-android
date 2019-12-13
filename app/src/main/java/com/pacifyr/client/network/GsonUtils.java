@@ -4,6 +4,7 @@ package com.pacifyr.client.network;
  * Created by ceino on 27/6/17.
  */
 
+import com.pacifyr.client.model.ModelPamTemplates;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.LoginModel;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MAdminDashboardByWeek;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MAdminDashboardMonth;
@@ -931,6 +932,23 @@ public class GsonUtils<T> {
         }
         return model;
     }
+
+
+    public List<ModelPamTemplates> gsonToModelPamTemplates(JSONArray jsonArray) {
+
+        List<ModelPamTemplates> model = null;
+        try {
+            Type listType = new TypeToken<List<ModelPamTemplates>>(){}.getType();
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            model= gson.fromJson(jsonArray.toString(), listType);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return model;
+
+    }
+
+
 
 }
 
