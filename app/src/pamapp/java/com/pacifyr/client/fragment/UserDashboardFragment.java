@@ -17,7 +17,9 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
+import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
+import com.pacifyr.client.home.ListPacifyrScreenActivity;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelCustomerDashboard2;
@@ -75,7 +77,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
     private RelativeLayout feelRlay, this_week_rlay, connect_btn_rlay;
     //private DeviceFitImageView feelImage;
     private RelativeLayout lastSessionRlay;
-    private CircleImageView lastSessionDimv;
+   // private CircleImageView lastSessionDimv;
     private MainTextView lastSsnPacfyrCtxv, no_pacifyr_ctxv, no_lastsession_ctxv;
     private LinearLayout last_session_top_llay;
     private DeviceFitImageView videoCamImg;
@@ -168,7 +170,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
             @Override
             public void onClick(View v) {
 
-                try {
+                /*try {
                     if (isValid(lastSession) && isValid(lastSession.getId())) {
                         String sessionID = lastSession.getId();
                         LastSessionActivity.start(getActivity(), sessionID);
@@ -178,7 +180,15 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
 
                 } catch (Exception ex) {
                     ex.printStackTrace();
+                }*/
+
+                /** goto browse pacifyr**/
+                if (isValid(ConnectToPacifyrActivity.customerEmotion)) {
+                    ListPacifyrScreenActivity.start(getActivity(), ConnectToPacifyrActivity.customerEmotion, true);
                 }
+
+
+
 
             }
         });
@@ -475,29 +485,29 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
 
 
                 if (isValid(lastSession)) {
-                    last_session_top_llay.setVisibility(View.VISIBLE);
+                   // last_session_top_llay.setVisibility(View.VISIBLE);
                     no_lastsession_ctxv.setVisibility(View.GONE);
                     /*lastSessionDimv.setVisibility(View.VISIBLE);
                     lastSessionRlay.setVisibility(View.VISIBLE);*/
 
 
-                    lastSsnPacfyrCtxv.setText(lastSession.getPacifyr().getFirstName() + " " + lastSession.getPacifyr().getLastName());
-                    Picasso.with(getContext()).load(lastSession.getPacifyr().getImageUrl()).into(lastSessionDimv);
+                  //  lastSsnPacfyrCtxv.setText(lastSession.getPacifyr().getFirstName() + " " + lastSession.getPacifyr().getLastName());
+                   // Picasso.with(getContext()).load(lastSession.getPacifyr().getImageUrl()).into(lastSessionDimv);
                     String duration = lastSession.getDuration();
-                    lastSessionMinuteTxv.setText(duration);
+                   // lastSessionMinuteTxv.setText(duration);
                     String type = lastSession.getSessionType();
-                    if (type.equals("audio")) {
+                   /* if (type.equals("audio")) {
                         videoCamImg.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.connectaudio1));
                     } else if (type.equals("video")) {
                         videoCamImg.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_video_cam_blue));
-                    }
-                    lastSessionMinuteTxv.setVisibility(View.VISIBLE);
-                    videoCamImg.setVisibility(View.VISIBLE);
-                    daysTxv.setVisibility(View.VISIBLE);
-                    defSetText(daysTxv, lastSession.getDaysSincePosted());
+                    }*/
+                  //  lastSessionMinuteTxv.setVisibility(View.VISIBLE);
+                   // videoCamImg.setVisibility(View.VISIBLE);
+                  /*  daysTxv.setVisibility(View.VISIBLE);
+                    defSetText(daysTxv, lastSession.getDaysSincePosted());*/
 
                 } else {
-                    last_session_top_llay.setVisibility(View.GONE);
+                   // last_session_top_llay.setVisibility(View.GONE);
                     no_lastsession_ctxv.setVisibility(View.VISIBLE);
                 /*    lastSessionDimv.setVisibility(View.INVISIBLE);
                     lastSessionRlay.setVisibility(View.INVISIBLE);
@@ -641,15 +651,15 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
         connect_btn_rlay = view.findViewById(R.id.connect_btn_rlay);
         //feelImage = (DeviceFitImageView) view.findViewById(R.id.feel_image_dimv);
         lastSessionRlay = view.findViewById(last_session_rlay);
-        lastSessionDimv = view.findViewById(R.id.last_session_dimv);
+       // lastSessionDimv = view.findViewById(R.id.last_session_dimv);
         swipeRefreshLayout = view.findViewById(R.id.user_swipe_layout);
-        last_session_top_llay = view.findViewById(R.id.last_session_top_llay);
+       // last_session_top_llay = view.findViewById(R.id.last_session_top_llay);
         no_pacifyr_ctxv = view.findViewById(R.id.no_pacifyr_ctxv);
         no_lastsession_ctxv = view.findViewById(R.id.no_lastsession_ctxv);
-        lastSsnPacfyrCtxv = view.findViewById(R.id.lastSsn_pacfyr_ctxv);
-        videoCamImg = view.findViewById(R.id.video_cam_img);
-        lastSessionMinuteTxv = view.findViewById(R.id.last_session_minute_txv);
-        daysTxv = view.findViewById(R.id.days_txv);
+       // lastSsnPacfyrCtxv = view.findViewById(R.id.lastSsn_pacfyr_ctxv);
+        //videoCamImg = view.findViewById(R.id.video_cam_img);
+       // lastSessionMinuteTxv = view.findViewById(R.id.last_session_minute_txv);
+       // daysTxv = view.findViewById(R.id.days_txv);
         cirPrefPacifyr = view.findViewById(R.id.cir_pref_pacifyr);
         llayTop = view.findViewById(R.id.llay_top);
 

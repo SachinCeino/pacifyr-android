@@ -3,9 +3,11 @@ package com.pacifyr.client.home;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.os.Bundle;
 import com.google.android.material.snackbar.Snackbar;
 
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -1392,10 +1394,18 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
         public void onBindViewHolder(final MyViewHolderr holder, final int position) {
 
             holder.tv_instruction.setText(list.get(position).getOption());
+            if (holder.RCV_nestedRecyclerView.getVisibility()==View.VISIBLE)
+                holder.tv_instruction.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.svg_down_arrow,0);
+            else
+                holder.tv_instruction.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.svg_up_arrow,0);
 
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
+            holder.tv_instruction.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    if (holder.RCV_nestedRecyclerView.getVisibility()==View.VISIBLE)
+                        holder.tv_instruction.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.svg_down_arrow,0);
+                    else
+                        holder.tv_instruction.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.svg_up_arrow,0);
 
                     if (holder.RCV_nestedRecyclerView.getVisibility()==View.VISIBLE)
                     {
@@ -1421,7 +1431,7 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
 
         private void setUpNestedGridView(MyViewHolderr holder, List<String> descriptionList) {
             mSecondScreenNestedAdapter = new SecondScreenNestedAdapter(getApplicationContext(), descriptionList);
-            GridLayoutManager manager = new GridLayoutManager(getApplicationContext(), 3, GridLayoutManager.VERTICAL, false);
+            RecyclerView.LayoutManager manager=new LinearLayoutManager(context);
             holder.RCV_nestedRecyclerView.setLayoutManager(manager);
             holder.RCV_nestedRecyclerView.setAdapter(mSecondScreenNestedAdapter);
             holder.RCV_nestedRecyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -1468,7 +1478,7 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
             @Override
             public MyViewHolderrr onCreateViewHolder(ViewGroup parent, int viewType) {
                 View itemView = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.adapter_item_instruction, parent, false);
+                        .inflate(R.layout.adapter_item_nested_list, parent, false);
 
                 return new MyViewHolderrr(itemView);
             }

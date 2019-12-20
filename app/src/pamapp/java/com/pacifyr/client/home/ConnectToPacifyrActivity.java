@@ -1187,9 +1187,19 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
 
             holder.tv_instruction.setText(list.get(position).getOption());
 
+            if (holder.RCV_nestedRecyclerView.getVisibility()==View.VISIBLE)
+                holder.tv_instruction.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.svg_down_arrow,0);
+            else
+                holder.tv_instruction.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.svg_up_arrow,0);
+
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
+                    if (holder.RCV_nestedRecyclerView.getVisibility()==View.VISIBLE)
+                        holder.tv_instruction.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.svg_down_arrow,0);
+                    else
+                        holder.tv_instruction.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.svg_up_arrow,0);
 
                     if (holder.RCV_nestedRecyclerView.getVisibility()==View.VISIBLE)
                     {
@@ -1215,12 +1225,13 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
 
         private void setUpNestedGridView(MyViewHolderr holder, List<String> descriptionList) {
             mSecondScreenNestedAdapter = new SecondScreenNestedAdapter(getApplicationContext(), descriptionList);
-            GridLayoutManager manager = new GridLayoutManager(getApplicationContext(), 3, GridLayoutManager.VERTICAL, false);
+            RecyclerView.LayoutManager manager=new LinearLayoutManager(context);
             holder.RCV_nestedRecyclerView.setLayoutManager(manager);
             holder.RCV_nestedRecyclerView.setAdapter(mSecondScreenNestedAdapter);
             holder.RCV_nestedRecyclerView.setItemAnimator(new DefaultItemAnimator());
             holder.RCV_nestedRecyclerView.setVisibility(View.VISIBLE);
             mSecondScreenNestedAdapter.notifyDataSetChanged();
+
             if (isValid(mModelPamTemplates.get(2).getTitle()))
                 text_feel_ctxv.setText(mModelPamTemplates.get(2).getTitle());
 
@@ -1262,7 +1273,7 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
             @Override
             public MyViewHolderrr onCreateViewHolder(ViewGroup parent, int viewType) {
                 View itemView = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.adapter_item_instruction, parent, false);
+                        .inflate(R.layout.adapter_item_nested_list, parent, false);
 
                 return new MyViewHolderrr(itemView);
             }
@@ -1271,7 +1282,7 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
             public void onBindViewHolder(final MyViewHolderrr holder, final int position) {
 
                 holder.tv_instruction.setText(descriptionList.get(position));
-                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                holder.tv_instruction.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                        /*button1.setBackgroundResource(R.drawable.circle_button);

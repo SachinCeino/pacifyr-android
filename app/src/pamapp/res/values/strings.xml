@@ -106,7 +106,7 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="video_call">PAM VIDEOCALL</string>
     <string name="no_prefered_pacifyr">You have no preferred Wellness Experts.</string>
     <string name="reviews">Reviews</string>
-    <string name="no_sessions_yet">No sessions yet, Connect to Wellness Experts.</string>
+    <string name="no_sessions_yet">No appointments yet. Click here to find a doctor.</string>
 
 
     <string name="mydashboard">MY DASHBOARD</string>
@@ -141,7 +141,7 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="URL_TERMS">https://omhealthcare.com/termsOfUse</string>
     <string name="URL_DISPUTE_POLICY">https://omhealthcare.com/copyrightDisputePolicy</string>
     <string name="AWS_PROJECT">PAMDev</string>
-    <string name="pref_wellness_experts">Preferred Wellness Experts</string>
+    <string name="pref_wellness_experts">My Doctors</string>
 
 
     /**FindCare **/
@@ -172,5 +172,9 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="do_you_have_any_symptoms">Do you have any of these symptoms?</string>
     <string name="we_are_almost_ready">We are almost ready for your visit!</string>
     <string name="you_are_all_set">You are all set!</string>
-
+    <string name="my_last_session">My Appointments</string>
+    <string name="my_last_emotion">Video Visits</string>
+    <string name="This_Week">My Activity</string>
+    <string name="Connect_to_Wellness_Experts">FIND A DOC</string>
+    <string name="click_for_video_session">FIND A DOC</string>
 </resources>
