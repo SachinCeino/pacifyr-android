@@ -480,7 +480,7 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
                 .setTitle(title)
                 .setSubtitle(subTitle)
                 .setBoldPositiveLabel(false)
-                .setCancelable(true)
+                .setCancelable(false)
                 .setPositiveListener(okLabel, listener)
                 .setNegativeListener("Cancel", CancelListener)
                 .build().show();
