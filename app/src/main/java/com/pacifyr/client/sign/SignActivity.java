@@ -1,8 +1,13 @@
 package com.pacifyr.client.sign;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 
@@ -16,6 +21,8 @@ import com.pacifyr.client.R;
 
 import org.json.JSONObject;
 
+import java.util.Locale;
+
 public class SignActivity extends PacifyrActivity {
 
     MainTextView pacifyrRequestTxv;
@@ -28,12 +35,12 @@ public class SignActivity extends PacifyrActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign);
-        getCountryData();
+
 
         relative_bg = (RelativeLayout) findViewById(R.id.relative_bg);
         relative_bg.setBackground(getResources().getDrawable(R.drawable.loginbg));
         emergencyCtxv = (MainTextView) findViewById(R.id.emergency_ctxv);
-
+        getCountryData();
         String crisisString = getResources().getString(R.string.if_emergency2);
         //If in emergency call 911 or rush to an emergency room. Crisis Info
         emergencyCtxv.setText(Html.fromHtml("<u><font color=" + getResources().getColor(R.color.om_blue) + ">" + crisisString + "</font></u>"));
@@ -68,7 +75,17 @@ public class SignActivity extends PacifyrActivity {
 
         final PrefManager prefM = PrefManager.getInstance(SignActivity.this);
 
-        String url = "http://ip-api.com/json";
+        TelephonyManager tm = (TelephonyManager)this.getSystemService(Context.TELEPHONY_SERVICE);
+        String countryCodeValue = tm.getNetworkCountryIso().toUpperCase();
+
+        if (isValid(countryCodeValue.toUpperCase()))
+            prefM.saveCountryCode(countryCodeValue.toUpperCase());
+        Log.w("@@@@",prefM.getCountryCode());
+        if (!prefM.getCountryCode().equals("US")){
+            emergencyCtxv.setVisibility(View.GONE);
+        }
+
+        /*String url = "http://ip-api.com/json";
         AjaxCallback cb = new AjaxCallback<JSONObject>() {
             @Override
             public void callback(String url, JSONObject json, AjaxStatus status) {
@@ -92,6 +109,6 @@ public class SignActivity extends PacifyrActivity {
         catch (Exception ex)
         {
             ex.printStackTrace();
-        }
+        }*/
     }
 }
