@@ -1,5 +1,6 @@
 package com.pacifyr.client.activity;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -195,7 +196,12 @@ public class TermsOfUseActivity extends PacifyrActivity {
                     handler.cancel();
                 }
             });
-            alertDialog.show();
+           /* if(!((Activity) getApplicationContext()).isFinishing())
+            {
+                //show dialog
+                alertDialog.show();
+            }*/
+
         }
     }
 
