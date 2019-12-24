@@ -103,7 +103,7 @@ public class ActivityChangeEmotionFromCall extends PacifyrAppCompactActivity {
                 try {
                     hideProgress();
                     modelListNegEmotions = GsonUtils.getInstance().gsonToMListNegativeEmotions(json);
-                    mNegativeRcv.setLayoutManager(new GridLayoutManager(getApplicationContext(), 6));
+                    mNegativeRcv.setLayoutManager(new GridLayoutManager(getApplicationContext(), 5));
                     if (modelListNegEmotions != null && modelListNegEmotions.getResultsList() != null && modelListNegEmotions.getResultsList().size() > 0) {
                         mNegativeRcv.setAdapter(new GetNegEmotionsWhileCallAdapter(ActivityChangeEmotionFromCall.this, modelListNegEmotions.getResultsList()));
 
@@ -132,7 +132,7 @@ public class ActivityChangeEmotionFromCall extends PacifyrAppCompactActivity {
                 hideProgress();
                 try {
                     modelListPosEmotions = GsonUtils.getInstance().gsonToMListPositiveEmotions(json);
-                    mPositiveRcv.setLayoutManager(new GridLayoutManager(getApplicationContext(), 6));
+                    mPositiveRcv.setLayoutManager(new GridLayoutManager(getApplicationContext(), 5));
                     if (modelListPosEmotions != null && modelListPosEmotions.getResultsList() != null && modelListPosEmotions.getResultsList().size() > 0)
 
                     {
