@@ -1,5 +1,6 @@
 package com.pacifyrapp.utilitylibrary.base;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -1114,7 +1115,8 @@ public class BaseAppCompactActivity extends CoreBaseActivity {
     }
 
 
-    public void setAlertStartCall(String title,String desc,String userimage,View.OnClickListener oklistner) {
+    @SuppressLint("DefaultLocale")
+    public void setAlertStartCall(String title, String desc, String userimage, View.OnClickListener oklistner) {
         try {
             View view = LayoutInflater.from(this).inflate(R.layout.alert_startcall, null, false);
 
@@ -1125,6 +1127,7 @@ public class BaseAppCompactActivity extends CoreBaseActivity {
             RelativeLayout saveRlay = view.findViewById(R.id.save_rlay);
 
             defSetText(textDialogName, title);
+            String country=getPrefManager().getCountry();
             defSetText(textDialogLastMessage, desc + " per hour");
 
             if (isValid(userimage))

@@ -1,5 +1,7 @@
 package com.pacifyrapp.utilitylibrary.model.pacifyr;
 
+import android.annotation.SuppressLint;
+
 import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -600,6 +602,7 @@ public class MUser implements Serializable{
             return price;
         }
 
+        @SuppressLint("DefaultLocale")
         public String getPriceWithSign ()
         {
             if (country.equals("India"))
@@ -729,8 +732,15 @@ public class MUser implements Serializable{
         this.stripeAccountId = stripeAccountId;
     }
 
+    @SuppressLint("DefaultLocale")
     public String getPriceIninute() {
         double priceINHours = Double.parseDouble(price);
-        return String.valueOf(priceINHours/60);
+        if (country.equals("India"))
+
+            return "₹ " + String.format("%.2f", priceINHours/60);
+        else
+            return "$ " + String.format("%.2f", priceINHours/60);
+
+
     }
 }
