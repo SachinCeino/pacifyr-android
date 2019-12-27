@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.net.http.SslError;
 import android.os.Bundle;
@@ -14,11 +15,14 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.pacifyr.client.R;
 import com.pacifyr.client.base.PacifyrActivity;
+
+import java.net.URISyntaxException;
 
 public class TermsOfUseActivity extends PacifyrActivity {
 
@@ -34,9 +38,9 @@ public class TermsOfUseActivity extends PacifyrActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pacifyr_webview);
         Bundle bundle = getIntent().getExtras();
-        if( bundle!= null){
+        if (bundle != null) {
             spurl = bundle.getString("spurl");
-            if(isValid(bundle.getString("title"))){
+            if (isValid(bundle.getString("title"))) {
                 titleText = bundle.getString("title");
             }
         }
@@ -55,7 +59,7 @@ public class TermsOfUseActivity extends PacifyrActivity {
     @Override
     // Detect when the back button is pressed
     public void onBackPressed() {
-        if(webView.canGoBack()) {
+        if (webView.canGoBack()) {
             webView.goBack();
         } else {
             // Let the system handle the back button
@@ -71,140 +75,25 @@ public class TermsOfUseActivity extends PacifyrActivity {
 
 
     private void startWebView(String url) {
-
-        //Create new webview Client to show progress dialog
-        //When opening a url or click on link
-
-        webView.setWebViewClient(new WebViewClient() {
-            ProgressDialog progressDialog;
-
-            //If you will not use this method url links are opeen in new brower not in webview
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                view.loadUrl(url);
-                return true;
-            }
-
-            //Show loader on url load
-            public void onLoadResource (WebView view, String url) {
-
-                if (progressDialog == null) {
-                    // in standard case YourActivity.this
-                    progressDialog = new ProgressDialog(TermsOfUseActivity.this);
-                    progressDialog.setMessage("Loading...");
-                    progressDialog.show();
-                }
-            }
-
-            @Override
-            public void onReceivedSslError(WebView view, final SslErrorHandler handler, SslError
-                    error) {
-                final AlertDialog.Builder builder = new AlertDialog.Builder
-                        (TermsOfUseActivity.this);
-                builder.setMessage("Webview ssl error");
-                builder.setPositiveButton("continue", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        handler.proceed();
-                    }
-                });
-                builder.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        handler.cancel();
-                    }
-                });
-                final AlertDialog dialog = builder.create();
-                dialog.show();
-            }
-            public void onPageFinished(WebView view, String url) {
-
-
-                try{
-                    if (progressDialog.isShowing()) {
-                        progressDialog.dismiss();
-
-                    }
-                }catch(Exception exception){
-                    exception.printStackTrace();
-                }
-            }
-
-        });
-
-        // Javascript inabled on webview
-        webView.getSettings().setJavaScriptEnabled(true);
-        webView.getSettings().setLoadWithOverviewMode(true);
-        webView.getSettings().setUseWideViewPort(true);
-
-        // Other webview options
-        /*
-        webView.getSettings().setLoadWithOverviewMode(true);
-        webView.getSettings().setUseWideViewPort(true);
-        webView.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
-        webView.setScrollbarFadingEnabled(false);
-        webView.getSettings().setBuiltInZoomControls(true);
-        */
-
-        /*
-         String summary = "<html><body>You scored <b>192</b> points.</body></html>";
-         webview.loadData(summary, "text/html", null);
-         */
-
-        //Load url in webview
-        webView.setWebViewClient(new SSLTolerentWebViewClient());
         webView.loadUrl(url);
 
+        webView.setWebViewClient(new WebViewClient() {
 
-    }
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                view.loadUrl(url);
 
-    private class SSLTolerentWebViewClient extends WebViewClient {
-        public void onReceivedSslError(WebView view, final SslErrorHandler handler, SslError error) {
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(TermsOfUseActivity.this);
-            AlertDialog alertDialog = builder.create();
-            String message = "SSL Certificate error.";
-            switch (error.getPrimaryError()) {
-                case SslError.SSL_UNTRUSTED:
-                    message = "The certificate authority is not trusted.";
-                    break;
-                case SslError.SSL_EXPIRED:
-                    message = "The certificate has expired.";
-                    break;
-                case SslError.SSL_IDMISMATCH:
-                    message = "The certificate Hostname mismatch.";
-                    break;
-                case SslError.SSL_NOTYETVALID:
-                    message = "The certificate is not yet valid.";
-                    break;
+                if (url.startsWith("http") || url.startsWith("https")) {
+                    return true;
+                } else {
+                    webView.stopLoading();
+                    webView.goBack();
+                    Toast.makeText(TermsOfUseActivity.this, "Unknown Link, unable to handle", Toast.LENGTH_SHORT).show();
+                }
+                return false;
             }
-
-            message += " Do you want to continue anyway?";
-            alertDialog.setTitle("SSL Certificate Error");
-            alertDialog.setMessage(message);
-            alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    // Ignore SSL certificate errors
-                    handler.proceed();
-                }
-            });
-
-            alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-
-                    handler.cancel();
-                }
-            });
-           /* if(!((Activity) getApplicationContext()).isFinishing())
-            {
-                //show dialog
-                alertDialog.show();
-            }*/
-
-        }
+        });
     }
-
 
     ///ACTION BAR FEATURES
     private LinearLayout actionBarTopLlay;
