@@ -17,12 +17,11 @@ import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
-import com.pacifyr.client.activity.SplashScreen;
-import com.pacifyr.client.base.PacifyrActivity;
-import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.pacifyr.client.R;
+import com.pacifyr.client.activity.SplashScreen;
+import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.event.CallEvent;
 import com.pacifyr.client.quickblox.activities.CallActivity;
 import com.pacifyr.client.quickblox.chat.ui.activity.DialogsActivity;
@@ -30,6 +29,7 @@ import com.pacifyr.client.quickblox.services.CallService;
 import com.pacifyr.client.quickblox.utils.WebRtcSessionManager;
 import com.pacifyr.client.receiver.NotificationUtils;
 import com.pacifyr.client.receiver.PacifyrReceiver;
+import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 
 import me.leolin.shortcutbadger.ShortcutBadger;
 
@@ -385,7 +385,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Notification notification = builder.build();
         NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         //notification.flags = Notification.DEFAULT_LIGHTS | Notification.FLAG_AUTO_CANCEL;
-        notification.flags |= Notification.FLAG_AUTO_CANCEL;
         final int mNotificationId = (int) System.currentTimeMillis();
         mNotificationManager.notify(mNotificationId, notification);
 

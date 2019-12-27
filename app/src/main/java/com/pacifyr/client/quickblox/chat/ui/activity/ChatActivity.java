@@ -23,9 +23,6 @@ import android.widget.RelativeLayout;
 
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
-import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.google.android.material.snackbar.Snackbar;
 import com.kbeanie.multipicker.api.CameraImagePicker;
 import com.kbeanie.multipicker.api.ImagePicker;
@@ -50,6 +47,9 @@ import com.pacifyr.client.utility.PacifyrAppCompactActivity;
 import com.pacifyr.client.utils.FirebaseLogging;
 import com.pacifyr.client.utils.LogUtils;
 import com.pacifyr.client.utils.Utility;
+import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
+import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.quickblox.chat.QBChatService;
 import com.quickblox.chat.model.QBAttachment;
 import com.quickblox.chat.model.QBChatDialog;
@@ -109,6 +109,7 @@ public class ChatActivity extends PacifyrAppCompactActivity implements ImagePick
     private CameraImagePicker imagePicker;
     private ImagePicker galImagePicker;
     private String outputPath;
+    private View sendButton;
 
     public static void startForResult(Activity activity, int code, QBChatDialog dialogId,MUser mPaci) {
         mPacifyr=null;
@@ -350,6 +351,7 @@ public class ChatActivity extends PacifyrAppCompactActivity implements ImagePick
     }
 
     public void onSendChatClick(View view) {
+        sendButton = view;
         int totalAttachmentsCount = attachmentPreviewAdapter.getCount();
         Collection<QBAttachment> uploadedAttachments = attachmentPreviewAdapter.getUploadedAttachments();
         if (!uploadedAttachments.isEmpty()) {
@@ -470,39 +472,61 @@ public class ChatActivity extends PacifyrAppCompactActivity implements ImagePick
         }
 
         try {
-            qbChatDialog.sendMessage(chatMessage);
-
-            if (QBDialogType.PRIVATE.equals(qbChatDialog.getType())) {
-                showMessage(chatMessage);
+            if (sendButton != null) {
+                sendButton.setEnabled(false);
             }
+            qbChatDialog.sendMessage(chatMessage, new QBEntityCallback<Void>() {
+                @Override
+                public void onSuccess(Void aVoid, Bundle bundle) {
+                    if (sendButton != null) {
+                        sendButton.setEnabled(true);
+                    }
+                    if (QBDialogType.PRIVATE.equals(qbChatDialog.getType())) {
+                        showMessage(chatMessage);
+                    }
 
-            if (opponentIds != null && opponentIds.size() > 0 && opponentIds.size() < 20) {
-                for (int i = 0; i < opponentIds.size(); i++) {
-                    AjaxCallback cb = new AjaxCallback<JSONObject>() {
-                        @Override
-                        public void callback(String url, JSONObject json, AjaxStatus status) {
-                            if (json != null) {
-                                Log.d(TAG, "sendChatNotification Response " + json.toString());
-                            } else {
-                                Log.d(TAG, "sendChatNotification Response null");
+                    if (opponentIds != null && opponentIds.size() > 0 && opponentIds.size() < 20) {
+                        for (int i = 0; i < opponentIds.size(); i++) {
+                            AjaxCallback cb = new AjaxCallback<JSONObject>() {
+                                @Override
+                                public void callback(String url, JSONObject json, AjaxStatus status) {
+                                    if (json != null) {
+                                        Log.d(TAG, "sendChatNotification Response " + json.toString());
+                                    } else {
+                                        Log.d(TAG, "sendChatNotification Response null");
+                                    }
+                                }
+                            };
+                            if (attachment != null) {
+                                new NetworkService().sendChatNotification(opponentIds.get(i), "chat", attachment.getType(), cb);
+                            } else if (text != null) {
+                                new NetworkService().sendChatNotification(opponentIds.get(i), "chat", text, cb);
                             }
                         }
-                    };
+                    }
                     if (attachment != null) {
-                        new NetworkService().sendChatNotification(opponentIds.get(i), "chat", attachment.getType(), cb);
-                    } else if (text != null) {
-                        new NetworkService().sendChatNotification(opponentIds.get(i), "chat", text, cb);
+                        attachmentPreviewAdapter.remove(attachment);
+                    } else {
+                        messageEditText.setText("");
                     }
                 }
+
+                @Override
+                public void onError(QBResponseException e) {
+                    if (sendButton != null) {
+                        sendButton.setEnabled(true);
+                    }
+                    Toaster.shortToast("Message not sent " + e.getMessage());
+                }
+            });
+
+
+        } catch (Exception e) {
+            if (sendButton != null) {
+                sendButton.setEnabled(true);
             }
-            if (attachment != null) {
-                attachmentPreviewAdapter.remove(attachment);
-            } else {
-                messageEditText.setText("");
-            }
-        } catch (SmackException.NotConnectedException e) {
             Log.w(TAG, e);
-            Toaster.shortToast("Can't send a message, You are not connected to chat");
+            Toaster.shortToast("Message not sent " + e.getMessage());
         }
     }
 
