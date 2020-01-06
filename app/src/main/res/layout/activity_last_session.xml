@@ -544,6 +544,7 @@
                                 android:visibility="gone"
                                 android:focusedByDefault="false"
                                 android:defaultFocusHighlightEnabled="false"
+                                android:textColorHighlight="@color/text_Color_High_light"
                                 android:textSize="@dimen/sp17"
                                 android:hint="@string/comments"
                                 android:textColorHint="@color/medium_grey_pacifyr"

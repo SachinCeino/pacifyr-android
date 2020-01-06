@@ -36,6 +36,7 @@
             android:textColor="@color/white"
             android:layout_marginTop="10dp"
             android:inputType="textCapSentences|textMultiLine"
+            android:textColorHighlight="@color/text_Color_High_light"
             android:textAlignment="center"
             android:id="@+id/profile_name_cedt"
             android:text="Name"/>
@@ -96,7 +97,7 @@
                             app:width_percentage="8" />
                         <com.pacifyrapp.utilitylibrary.CustomEditText
                             android:id="@+id/mail_cedt"
-
+                            android:textColorHighlight="@color/text_Color_High_light"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:gravity="start"
@@ -136,6 +137,7 @@
                             android:layout_gravity="center_vertical"
                             android:gravity="center_vertical"
                             android:text="+91 "
+                            android:textColorHighlight="@color/text_Color_High_light"
                             android:hint="Phone "
                             android:textColor="@color/black"
                             android:textSize="@dimen/sp16"
@@ -180,6 +182,7 @@
                         android:textStyle="bold"
                         android:textSize="12sp"
                         android:hint=""
+                        android:textColorHighlight="@color/text_Color_High_light"
                         android:gravity="start"
                         android:inputType="textCapSentences|textMultiLine"
                         android:layout_centerHorizontal="true"

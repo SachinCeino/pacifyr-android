@@ -75,6 +75,7 @@
             android:background="@drawable/rounded_white"
             android:layout_margin="4dp"
             android:padding="5sp"
+            android:textColorHighlight="@color/text_Color_High_light"
             android:hint="@string/chat_edit_text_hint"
             android:inputType="textShortMessage|textCapSentences"
             android:maxLength="1024" />

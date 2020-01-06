@@ -506,6 +506,7 @@
                                 android:textSize="@dimen/sp17"
                                 android:backgroundTint="@android:color/transparent"
                                 android:hint="@string/comments"
+                                android:textColorHighlight="@color/text_Color_High_light"
                                 android:textColorHint="@color/hint_dark"
                                 android:layout_height="wrap_content" />
 
