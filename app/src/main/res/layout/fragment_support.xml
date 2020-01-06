@@ -47,7 +47,7 @@
             android:layout_centerHorizontal="true"
             android:id="@+id/send_msg_ctxv"
             android:textSize="20sp"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"/>
 
     </RelativeLayout>
 

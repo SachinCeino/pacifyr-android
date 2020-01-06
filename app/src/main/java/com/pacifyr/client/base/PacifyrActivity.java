@@ -150,13 +150,11 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
     private boolean showRating = false;
 
     String responce_message;
-    String payment_mode;
-    String currency_type;
-    String bank_name;
-    String gateway_name;
-    String orderId ;
-    String transaction_date ;
+    String transaction_date;
     String txnAmount;
+
+    public static int errorCount=0;
+
 
     private BroadcastReceiver eventReceiver = new BroadcastReceiver() {
         @Override
@@ -296,7 +294,7 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
                             public void callback(String url, JSONObject json, AjaxStatus status) {
 
                                 if (json != null) {
-                                    Log.w("PAYTMLOG", "sendCardAddedNotificationFail messages" + json.toString());
+                                    Log.w("@@@", "sendCardAddedNotificationFail messages" + json.toString());
                                 }
                             }
                         });
@@ -319,7 +317,10 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
 
                             if (isValid(CallActivity.mSessionDetailRoot) && isValid(CallActivity.mSessionDetailRoot.getPacifyr()) &&
                                     isValid(CallActivity.mSessionDetailRoot.getPacifyr().getPrice())) {
-                                generateCheckSum(id, Integer.parseInt(CallActivity.mSessionDetailRoot.getPacifyr().getPrice()));
+                                String tempSessionId=id;
+                                if (errorCount!=0)
+                                    tempSessionId=tempSessionId+"_"+errorCount;
+                                generateCheckSum(tempSessionId, Integer.parseInt(CallActivity.mSessionDetailRoot.getPacifyr().getPrice()));
                             }
 
                         } else {
@@ -3200,6 +3201,7 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
         Service.startPaymentTransaction(this, true, true, new PaytmPaymentTransactionCallback() {
             /*Call Backs*/
             public void someUIErrorOccurred(String inErrorMessage) {
+                Log.w("@@@","someUIErrorOccurred"+inErrorMessage);
                 ShowTransactionFaileToUSer(inErrorMessage);
             }
 
@@ -3217,24 +3219,28 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
             }
 
             public void networkNotAvailable() {
+                Log.w("@@@","networkNotAvailable");
                 ShowTransactionFaileToUSer("Paytm server networkNotAvailable");
-                Log.w("PAYTMLOG","networkNotAvailable-----");
             }
 
             public void clientAuthenticationFailed(String inErrorMessage) {
+                Log.w("@@@","clientAuthenticationFailed"+inErrorMessage);
                 ShowTransactionFaileToUSer(inErrorMessage);
 
             }
 
             public void onErrorLoadingWebPage(int iniErrorCode, String inErrorMessage, String inFailingUrl) {
+                Log.w("@@@","onErrorLoadingWebPage"+inErrorMessage);
                 ShowTransactionFaileToUSer(inErrorMessage);
             }
 
             public void onBackPressedCancelTransaction() {
+                Log.w("@@@","onBackPressedCancel");
                 ShowTransactionFaileToUSer("Transaction cancelled");
             }
 
             public void onTransactionCancel(String inErrorMessage, Bundle inResponse) {
+                Log.w("@@@","onTransactionCancel"+inErrorMessage);
                 ShowTransactionFaileToUSer(inErrorMessage);
             }
         });
@@ -3251,14 +3257,14 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
         String transaction_id = inResponse.getString("TXNID");
         //String checksum_hash = inResponse.getString("CHECKSUMHASH");
 
-        payment_mode = inResponse.getString("PAYMENTMODE");
-        currency_type = inResponse.getString("CURRENCY");
-        bank_name = inResponse.getString("BANKNAME");
-        gateway_name = inResponse.getString("GATEWAYNAME");
-        responce_message = inResponse.getString("RESPMSG");
-        orderId = inResponse.getString("ORDERID");
-        transaction_date = inResponse.getString("TXNDATE");
-        txnAmount = inResponse.getString("TXNAMOUNT");
+        String payment_mode = inResponse.getString("PAYMENTMODE");
+        String currency_type = inResponse.getString("CURRENCY");
+        String bank_name = inResponse.getString("BANKNAME");
+        String gateway_name = inResponse.getString("GATEWAYNAME");
+        String responce_message = inResponse.getString("RESPMSG");
+        String orderId = inResponse.getString("ORDERID");
+         transaction_date = inResponse.getString("TXNDATE");
+         txnAmount = inResponse.getString("TXNAMOUNT");
 
 
 
@@ -3271,6 +3277,7 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
                 public void callback(String url, JSONObject json, AjaxStatus status) {
                     try {
                         String jsonS = json.toString();
+                        Log.w("@@@jsonS",String.valueOf(jsonS));
                         //generateCheckSum-----{"status":"success","paytmChecksum":"DK4aCSQEuEMr9OXcbskeXqHrFvDM9RCJhfJaG\/dGTeOIrGBm1BbthHxYckTC07z79Q\/2x9\/O21++coAskab5EdI7lKqoOgCP4KcSf6zOuJI="}
 
                         if (isValid(json))
@@ -3280,10 +3287,12 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
                                 if (isValid(object.getIsChecksumValid()))
                                     if (object.getIsChecksumValid() && object.getTransactionStatus().equals("success")) {
                                         // Transaction Succeeded
+                                        Log.w("@@@","Payment setup failed.ShowTransactionSuccesResultToUSer");
                                         ShowTransactionSuccesResultToUSer(object);
                                     } else { // Transaction Failed
 
-                                        ShowTransactionFaileToUSer("Payment setup failed.");
+                                        ShowTransactionFaileToUSer(responce_message);
+                                        Log.w("@@@","Payment setup failed.ShowTransactionFaileToUSer");
 
                                     }
 
@@ -3324,7 +3333,7 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
     private void ShowTransactionSuccesResultToUSer(TransactionResponce object) {
 
 
-
+        errorCount=0;
         if (PaymentPopup != null && PaymentPopup.isShowing()) {
             PaymentPopup.dismiss();
         }
@@ -3480,7 +3489,7 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
 
 
     private void ShowTransactionFaileToUSer(String message) {
-
+        errorCount++;
         if (!isShowDialogs()) {
             if (Build.VERSION.SDK_INT != Build.VERSION_CODES.M) {
                 maximizePicInPicView();

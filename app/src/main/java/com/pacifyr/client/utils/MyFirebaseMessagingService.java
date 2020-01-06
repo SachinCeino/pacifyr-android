@@ -247,6 +247,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                                 }
 
                                 else if (actual_type.equalsIgnoreCase("payment")) {
+                                    Log.w("@@@","PAYTM_PAYMENT_EVENT");
                                     Intent intent = new Intent(NotificationUtils.PAYTM_PAYMENT_EVENT);
                                     intent.putExtra("type", actual_type);
                                     intent.putExtra("message", message);
