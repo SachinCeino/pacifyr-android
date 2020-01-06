@@ -223,6 +223,16 @@ public class LoginActivity extends PacifyrActivity {
                 @Override
                 public void onClick(View v) {
                     //  validRegister();
+                    countryData = (ItemData) spinner.getSelectedItem();
+                    if (isValid(countryData.getCode())
+                        &&countryData.getCode().equals("+91"))
+                    {
+                        if (phoneCedit.getText().length()<10)
+                        {
+                            phoneCedit.setError("less than 10 digits in India");
+                            return;
+                        }
+                    }
                     phoneVerifyWeb();
 
                 }
