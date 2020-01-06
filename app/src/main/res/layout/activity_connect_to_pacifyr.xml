@@ -29,7 +29,7 @@
             android:layout_centerHorizontal="true"
             android:gravity="center"
             android:text="Get ready to feel better!"
-            android:textColor="@color/grey_dark"
+            android:textColor="@color/grey_hex_a2"
             android:textSize="18sp"
             android:layout_marginBottom="10dp"
             android:textStyle="bold" />
@@ -116,6 +116,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:padding="20dp"
+            android:layout_marginTop="20dp"
             android:gravity="center_horizontal">
 
             <com.pacifyr.client.customview.MainTextView
@@ -234,7 +235,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
-                android:textColor="@color/grey_hex_83"
+                android:textColor="@color/grey_dark"
                 android:text="Tell me more"/>
 
             <LinearLayout
@@ -278,10 +279,11 @@
             <com.pacifyr.client.customview.MainTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="14sp"
+                android:textSize="20sp"
                 android:id="@+id/why_feeling_ctxv"
-                android:textColor="@color/grey_hex_8f"
-                android:text="Why are you feeling"/>
+                android:textColor="@color/grey_dark"
+                android:text="Why are you feeling"
+                android:layout_marginBottom="20dp"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="wrap_content"

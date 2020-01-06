@@ -29,7 +29,7 @@
             android:layout_centerHorizontal="true"
             android:gravity="center"
             android:text="Get ready to feel better!"
-            android:textColor="#898989"
+            android:textColor="@color/grey_hex_a2"
             android:layout_marginBottom="7dp"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -243,7 +243,7 @@
                 android:orientation="vertical">
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:id="@+id/emotion_rcv"/>
