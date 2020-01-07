@@ -136,11 +136,11 @@ public class SwipeDeckBrowsePacifyerAdapter extends BaseAdapter {
         if (v == null) {
             LayoutInflater inflater = LayoutInflater.from(context);
             // normally use a viewholder
-            if (type == 1) {
+          /*  if (type == 1) {*/
                 v = inflater.inflate(R.layout.swipe_card_cons, parent, false);
-            } else {
+            /*} else {
                 v = inflater.inflate(R.layout.test_card, parent, false);
-            }
+            }*/
         }
         if (isValid(searchResults)) {
             imgURL = GLOBAL_IMAGE_URL + searchResults.get(position).getImage();
@@ -261,7 +261,7 @@ public class SwipeDeckBrowsePacifyerAdapter extends BaseAdapter {
 
                 }
             });*/
-            if (type == 1) {
+
                 RelativeLayout audiocall_rlay = v.findViewById(R.id.audiocall_rlay);
                 RelativeLayout videocall_rlay = v.findViewById(R.id.videocall_rlay);
                 RelativeLayout chat_rlay = v.findViewById(R.id.chat_rlay);
@@ -286,11 +286,12 @@ public class SwipeDeckBrowsePacifyerAdapter extends BaseAdapter {
                         // Toast.makeText(context,"Video call",Toast.LENGTH_SHORT).show();
                         if (pacifyer.isReadyToCall()) {
                             showProgress();
-                            if (PacifyrActivity.call_emotion != null && EmotionSpecialityAdapter.reason_forcall != null) {
+                            ((ListPacifyrScreenActivity) (context)).callchatEventListner.onCallEventClick((new CallEvent(searchResults.get(position), true)));
+                            /*if (PacifyrActivity.call_emotion != null && EmotionSpecialityAdapter.reason_forcall != null) {
                                 ((ListPacifyrScreenActivity) (context)).callchatEventListner.onCallEventClick((new CallEvent(searchResults.get(position), true)));
                             } else {
                                 ConnectToSinglePacifyrActivity.start(context, searchResults.get(position));
-                            }
+                            }*/
                             // ConnectToPacifyrActivity.callchatEventListner.onCallEventClick(new CallEvent(searchResults.get(position), true));
                             //  postEventOnMainThread(new CallEvent(searchResults.get(position), true));
                             new Handler().postDelayed(new Runnable() {
@@ -326,12 +327,12 @@ public class SwipeDeckBrowsePacifyerAdapter extends BaseAdapter {
 
                         if (pacifyer.isReadyToCall()) {
                             showProgress();
-
-                            if (PacifyrActivity.call_emotion != null && EmotionSpecialityAdapter.reason_forcall != null) {
+                            ((ListPacifyrScreenActivity) (context)).callchatEventListner.onCallEventClick((new CallEvent(searchResults.get(position), false)));
+                           /* if (PacifyrActivity.call_emotion != null && EmotionSpecialityAdapter.reason_forcall != null) {
                                 ((ListPacifyrScreenActivity) (context)).callchatEventListner.onCallEventClick((new CallEvent(searchResults.get(position), false)));
                             } else {
                                 ConnectToSinglePacifyrActivity.start(context, searchResults.get(position));
-                            }
+                            }*/
                             //    ConnectToPacifyrActivity.callchatEventListner.onCallEventClick((new CallEvent(searchResults.get(position), false)));
                             // postEventOnMainThread(new CallEvent(searchResults.get(position), false));
                             new Handler().postDelayed(new Runnable() {
@@ -438,8 +439,7 @@ public class SwipeDeckBrowsePacifyerAdapter extends BaseAdapter {
                     }
                 });
 
-            } else {
-                chat_price_ctxv.setVisibility(View.GONE);
+                  /*          chat_price_ctxv.setVisibility(View.GONE);
                 MainTextView connectCtxv = v.findViewById(R.id.connect_pacifyr_ctxv);
                 connectCtxv.setText("Connect to " + searchResults.get(position).getFirstName());
                 connectCtxv.setOnClickListener(new View.OnClickListener() {
@@ -456,35 +456,7 @@ public class SwipeDeckBrowsePacifyerAdapter extends BaseAdapter {
 
 
                     }
-                });
-
-            }
-
-
-            /*img_prof.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent i = new Intent(context, ProfileActivity.class);
-                    i.putExtra("imageURL", imgURL);
-                    i.putExtra("name", namePacifyr);
-                    i.putExtra("position", pos);
-                    i.putExtra("rating", rating);
-                    i.putExtra("review", review);
-                    i.putExtra("website", website);
-                    i.putExtra("education", education);
-                    i.putExtra("specialities", specialiteis);
-                    context.startActivity(i);
-                }
-            });*/
-           /* img_video2.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    VideoChatActivity.  opponent=results;
-                    showQuickblox();
-                }
-            });*/
-            //v.findViewById(R.id.image_test).setBackgroundResource(R.drawable.imageadd);
-
+                });*/
 
         }
 

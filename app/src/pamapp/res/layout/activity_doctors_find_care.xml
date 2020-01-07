@@ -108,7 +108,7 @@
                             android:background="@drawable/segment_background_radiobutton_empty_left_button"
                             android:button="@null"
                             android:gravity="center"
-                            android:text="specialists"
+                            android:text="Other"
                             android:textColor="@color/colorPrimary"
                             android:textStyle="bold"
                             android:textSize="19sp" />

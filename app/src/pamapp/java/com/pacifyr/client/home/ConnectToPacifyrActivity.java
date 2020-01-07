@@ -191,7 +191,7 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
         button1 = findViewById(R.id.button1);
         button2 = findViewById(R.id.button2);
         button3 = findViewById(R.id.button3);
-        button4 = findViewById(R.id.button4);
+        //button4 = findViewById(R.id.button4);
         // moreButton = findViewById(R.id.more_button);
         userNameCtxv = findViewById(R.id.user_name_ctxv);
         // happyDimv = findViewById(R.id.happy_dimv);
@@ -242,7 +242,7 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
                 button1.setBackgroundResource(R.drawable.circle_click_btn);
                 button2.setBackgroundResource(R.drawable.circle_button);
                 button3.setBackgroundResource(R.drawable.circle_button);
-                button4.setBackgroundResource(R.drawable.circle_button);
+               // button4.setBackgroundResource(R.drawable.circle_button);
                 FirstScreenLayout.setVisibility(View.VISIBLE);
                 second_screen_layout.setVisibility(View.GONE);
                 third_Screen_layout.setVisibility(View.GONE);
@@ -263,7 +263,7 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
                     button2.setBackgroundResource(R.drawable.circle_click_btn);
                     button1.setBackgroundResource(R.drawable.circle_button);
                     button3.setBackgroundResource(R.drawable.circle_button);
-                    button4.setBackgroundResource(R.drawable.circle_button);
+                   // button4.setBackgroundResource(R.drawable.circle_button);
                     FirstScreenLayout.setVisibility(View.GONE);
                     second_screen_layout.setVisibility(View.VISIBLE);
 
@@ -289,7 +289,7 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
                     button3.setBackgroundResource(R.drawable.circle_click_btn);
                     button2.setBackgroundResource(R.drawable.circle_button);
                     button1.setBackgroundResource(R.drawable.circle_button);
-                    button4.setBackgroundResource(R.drawable.circle_button);
+                   // button4.setBackgroundResource(R.drawable.circle_button);
                     FirstScreenLayout.setVisibility(View.GONE);
                     second_screen_layout.setVisibility(View.GONE);
                     third_Screen_layout.setVisibility(View.VISIBLE);
@@ -307,7 +307,7 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
 
             }
         });
-        button4.setOnClickListener(new View.OnClickListener() {
+       /* button4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (listPacifyrRlay.getVisibility() == View.VISIBLE) {
@@ -325,13 +325,15 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
                 }
 
             }
-        });
+        });*/
 
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent i=new Intent(ConnectToPacifyrActivity.this, ListPacifyrScreenActivity.class);
+                startActivity(i);
 
-                button4.setBackgroundResource(R.drawable.circle_click_btn);
+              /* // button4.setBackgroundResource(R.drawable.circle_click_btn);
                 button2.setBackgroundResource(R.drawable.circle_button);
                 button3.setBackgroundResource(R.drawable.circle_button);
                 button1.setBackgroundResource(R.drawable.circle_button);
@@ -339,7 +341,7 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
                 second_screen_layout.setVisibility(View.GONE);
                 third_Screen_layout.setVisibility(View.GONE);
                 listPacifyrRlay.setVisibility(View.VISIBLE);
-                text_feel_ctxv.setText(getResources().getString(R.string.you_are_all_set));
+                text_feel_ctxv.setText(getResources().getString(R.string.you_are_all_set));*/
             }
         });
 
@@ -1306,12 +1308,12 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
                         button1.setBackgroundResource(R.drawable.circle_button);
                         button2.setBackgroundResource(R.drawable.circle_button);
                         button3.setBackgroundResource(R.drawable.circle_click_btn);
-                        button4.setBackgroundResource(R.drawable.circle_button);
+                       // button4.setBackgroundResource(R.drawable.circle_button);
                         button2.setClickable(true);
 
                         button1.setClickable(true);
                         button3.setClickable(true);
-                        button4.setClickable(true);
+                        //button4.setClickable(true);
 
                         FirstScreenLayout.setVisibility(View.GONE);
                         second_screen_layout.setVisibility(View.GONE);
@@ -1389,22 +1391,24 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    button1.setBackgroundResource(R.drawable.circle_button);
+
+
+                    /*button1.setBackgroundResource(R.drawable.circle_button);
                     button2.setBackgroundResource(R.drawable.circle_button);
                     button3.setBackgroundResource(R.drawable.circle_button);
-                    button4.setBackgroundResource(R.drawable.circle_click_btn);
+                   // button4.setBackgroundResource(R.drawable.circle_click_btn);
 
 
                     button1.setClickable(true);
                     button2.setClickable(true);
                     button3.setClickable(true);
-                    button4.setClickable(true);
+                    //button4.setClickable(true);
 
                     FirstScreenLayout.setVisibility(View.GONE);
                     second_screen_layout.setVisibility(View.GONE);
                     third_Screen_layout.setVisibility(View.GONE);
-                    listPacifyrRlay.setVisibility(View.VISIBLE);
-                    morePacifyrsRlay.setVisibility(View.GONE);
+                    listPacifyrRlay.setVisibility(View.GONE);
+                    morePacifyrsRlay.setVisibility(View.GONE);*/
                 }
             });
 
@@ -1537,13 +1541,13 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
                     button1.setBackgroundResource(R.drawable.circle_button);
                     button2.setBackgroundResource(R.drawable.circle_click_btn);
                     button3.setBackgroundResource(R.drawable.circle_button);
-                    button4.setBackgroundResource(R.drawable.circle_button);
+                    //button4.setBackgroundResource(R.drawable.circle_button);
 
 
                     button1.setClickable(true);
                     button2.setClickable(true);
                     button3.setClickable(true);
-                    button4.setClickable(true);
+                    //button4.setClickable(true);
 
                     FirstScreenLayout.setVisibility(View.GONE);
                     second_screen_layout.setVisibility(View.VISIBLE);

@@ -195,15 +195,15 @@
             android:layout_below="@+id/top"
             android:orientation="horizontal"
             android:weightSum="2"
+            android:gravity="center"
             android:layout_margin="10dp"
             android:layout_marginBottom="10dp">
 
             <LinearLayout
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_weight="1"
-
+                android:visibility="gone"
                 >
 
                 <com.pacifyr.client.views.PamTextViewMedium
@@ -224,16 +224,18 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:layout_gravity="center"
+                android:gravity="center"
                 android:layout_weight="1"
                 android:id="@+id/requestBook">
 
                 <com.pacifyr.client.views.PamTextViewMedium
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Schedule Call"
+                    android:text="Schedule Appointment"
                     android:gravity="center"
                     android:layout_gravity="center"
                     android:textColor="@color/white"
