@@ -5,15 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
-
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -24,29 +20,27 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.pacifyr.client.customview.MainTextView;
-import com.pacifyr.client.model.ModelPamTemplates;
-import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.MEmotion;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.RespSearchPacifyrWOption;
-import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
-import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.daprlabs.cardstack.SwipeDeck;
 import com.pacifyr.client.R;
 import com.pacifyr.client.adapter.CategoryListAdapter;
 import com.pacifyr.client.adapter.EmotionSpecialityAdapter;
 import com.pacifyr.client.adapter.SwipeDeckConnectPacifyrAdapter;
 import com.pacifyr.client.base.PacifyrActivity;
+import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.AlertTypeEvent;
 import com.pacifyr.client.event.CallEvent;
 import com.pacifyr.client.event.ChatEvent;
 import com.pacifyr.client.event.NotifyEvent;
-import com.pacifyr.client.fragment.UserDashboardFragment;
 import com.pacifyr.client.fragment.schedule.ScheduleBottomSheetFragment;
+import com.pacifyr.client.model.ModelPamTemplates;
 import com.pacifyr.client.model.ModelSpecialityByCategory;
 import com.pacifyr.client.model.interfaces.CallChatEventListner;
 import com.pacifyr.client.network.GsonUtils;
@@ -56,8 +50,13 @@ import com.pacifyr.client.quickblox.utils.Consts;
 import com.pacifyr.client.utility.PacifyrAppCompactActivity;
 import com.pacifyr.client.utils.LogUtils;
 import com.pacifyr.client.utils.Utility;
+import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.MEmotion;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.RespSearchPacifyrWOption;
+import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
+import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.squareup.otto.Subscribe;
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -1351,7 +1350,8 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
                 &&isValid(mModelPamTemplates.get(2))&&isValid(mModelPamTemplates.get(2).getOptions()))
         {
             mInstructionAdapter = new ThirdScreenInstructionAdapter(getApplicationContext(),mModelPamTemplates.get(2).getOptions());
-            RecyclerView.LayoutManager mLayout = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
+            RecyclerView.LayoutManager mLayout = new LinearLayoutManager(getApplicationContext(),
+                    RecyclerView.VERTICAL, false);
             rcv_thirdScreen_instruct.setLayoutManager(mLayout);
             rcv_thirdScreen_instruct.setAdapter(mInstructionAdapter);
             rcv_thirdScreen_instruct.setItemAnimator(new DefaultItemAnimator());
@@ -1388,6 +1388,11 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
             if (isValid(separated)&&separated.length==2)
                 holder.tv_answer_template.setHint(separated[1]);
 
+            if (position < (options.size() - 2)) {
+                holder.tv_answer_template.setImeOptions(EditorInfo.IME_ACTION_NEXT);
+            } else if (position == options.size() - 1) {
+                holder.tv_answer_template.setImeOptions(EditorInfo.IME_ACTION_DONE);
+            }
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
