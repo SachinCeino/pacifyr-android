@@ -119,7 +119,7 @@
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/sp16"
                         android:textStyle="bold"
-                        android:visibility="visible" />
+                        android:visibility="gone" />
 
                     <com.pacifyr.client.customview.MainTextView
                         android:id="@+id/emotion_ctxv"
@@ -130,7 +130,7 @@
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/sp16"
                         android:textStyle="bold"
-                        android:visibility="visible" />
+                        android:visibility="gone" />
 
                 </LinearLayout>
 
