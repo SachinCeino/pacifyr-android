@@ -216,7 +216,7 @@
                     android:id="@+id/submit"
                     android:orientation="vertical"
                     android:layout_alignParentBottom="true"
-                    android:layout_margin="15dp"
+                    android:layout_margin="5dp"
                     android:gravity="center"
                     android:background="@drawable/blue_border_lightblue">
 
