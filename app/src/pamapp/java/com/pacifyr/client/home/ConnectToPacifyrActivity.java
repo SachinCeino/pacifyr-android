@@ -333,50 +333,12 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
                 Intent i=new Intent(ConnectToPacifyrActivity.this, ListPacifyrScreenActivity.class);
                 startActivity(i);
 
-              /* // button4.setBackgroundResource(R.drawable.circle_click_btn);
-                button2.setBackgroundResource(R.drawable.circle_button);
-                button3.setBackgroundResource(R.drawable.circle_button);
-                button1.setBackgroundResource(R.drawable.circle_button);
-                FirstScreenLayout.setVisibility(View.GONE);
-                second_screen_layout.setVisibility(View.GONE);
-                third_Screen_layout.setVisibility(View.GONE);
-                listPacifyrRlay.setVisibility(View.VISIBLE);
-                text_feel_ctxv.setText(getResources().getString(R.string.you_are_all_set));*/
             }
         });
 
 
-        /*sadDimv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                happyDimv.clearColorFilter();
-                sadDimv.setColorFilter(getResources().getColor( R.color.colorPrimary), android.graphics.PorterDuff.Mode.MULTIPLY);
-                type="negative";
-                button1.setBackgroundResource(R.drawable.circle_button);
-                button2.setBackgroundResource(R.drawable.circle_click_btn);
-                //callFragmant();
-                PacifyrActivity.call_emotion=new MEmotion();
-                PacifyrActivity.call_emotion.setId("5971c472734d1d6202a81958");
-                changeToSecondScreen();
 
-            }
-        });*/
 
-      /*  happyDimv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-              //  sadDimv.clearColorFilter();
-                happyDimv.setColorFilter(getResources().getColor( R.color.colorPrimary), android.graphics.PorterDuff.Mode.MULTIPLY);
-                type="positive";
-                button1.setBackgroundResource(R.drawable.circle_button);
-                button2.setBackgroundResource(R.drawable.circle_click_btn);
-                //callFragmant();
-                PacifyrActivity.call_emotion=new MEmotion();
-                PacifyrActivity.call_emotion.setId("5971c472734d1d6202a81958");
-                changeToSecondScreen();
-
-            }
-        });*/
 
       /*  moreButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -433,7 +395,6 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
             employeeFlag = true;
         }
 
-        showCategories();
         getShowallCbox().setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -1057,47 +1018,6 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {
 
-    }
-
-    public void showCategories() {
-        try {
-            String url = GLOBAL_URL + "specialities/byAppSource?appSource=leadersup";
-            // String url = GLOBAL_URL + "specialities/getCategories/byEmotion?emotionId="+emotionID;
-            AjaxCallback cb = new AjaxCallback<JSONObject>() {
-                @Override
-                public void callback(String url, JSONObject json, AjaxStatus status) {
-                    try {
-                        hideProgress();
-                        ModelSpecialityByCategory model = GsonUtils.getInstance().gsonToModelSpecialityByCategory(json);
-                        categoryListAdapter = new CategoryListAdapter(model.getResults(), ConnectToPacifyrActivity.this);
-                        imgRcv.setLayoutManager(new LinearLayoutManager(ConnectToPacifyrActivity.this, LinearLayoutManager.HORIZONTAL, false));
-                        imgRcv.setAdapter(categoryListAdapter);
-                        categoryListAdapter.addListener(ConnectToPacifyrActivity.this);
-                        categoryListAdapter.setSelected(0);
-
-                    /* String imgURL = GLOBAL_IMAGE_URL + res[i].getImage();
-                    String title = res[i].getTitle();
-                    if (isValidhtml(imgURL))
-                        Picasso.with(context).load(imgURL).placeholder(R.drawable.placeholder_user).into(emotionDimv);*/
-
-
-                        //emotionDimv  = (ImageView) activity.findViewById(R.id.emotion_dimv);
-
-                        //modelAllEmployees= GsonUtils.getInstance().gsonToMListEmployees(json);
-                        //postEventOnMainThread(new NotifyEvent(true, false));
-                        //EventBus.getDefault().post(new EventMessage(getString(R.string.list_all_employees)));
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            };
-            AQuery aq = new AQuery(ConnectToPacifyrActivity.this);
-            cb.header("Content-Type", "application/json");
-            cb.header("AccessToken", token);
-            aq.ajax(url, JSONObject.class, cb);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     @Override

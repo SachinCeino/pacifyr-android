@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -47,6 +48,7 @@ public class AppointmentsFragment extends BaseFragment {
     private boolean isReschedule;
     private int reSchedulePosition;
     private AppointmentModel.Result mObject;
+    private TextView emptyLayout;
 
     public int getReSchedulePosition() {
         return reSchedulePosition;
@@ -91,10 +93,22 @@ public class AppointmentsFragment extends BaseFragment {
                     try {
                         hideProgress();
                         hideStatus();
-                        mAppointmentModel = GsonUtils.getInstance().gsonToAppointmentModel(json);
-                        if (isValid(mAppointmentModel.getResults())) {
-                            setAppointmentListAdapter(mAppointmentModel.getResults());
+                        if (isValid(json))
+                        {
+                            mAppointmentModel = GsonUtils.getInstance().gsonToAppointmentModel(json);
+                            if (isValid(mAppointmentModel.getResults())) {
+                                setAppointmentListAdapter(mAppointmentModel.getResults());
+                            }
+
+                            emptyLayout.setVisibility(View.GONE);
+                            mRecyclerViewAppointments.setVisibility(View.VISIBLE);
                         }
+                        else
+                        {
+                            emptyLayout.setVisibility(View.VISIBLE);
+                            mRecyclerViewAppointments.setVisibility(View.GONE);
+                        }
+
 
                     } catch (Exception e) {
                         hideProgress();
@@ -174,7 +188,7 @@ public class AppointmentsFragment extends BaseFragment {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_appointments, container, false);
         mRecyclerViewAppointments = root.findViewById(R.id.mRecyclerViewAppointments);
-
+        emptyLayout=root.findViewById(R.id.emptyLayout);
         getAppointmentsList();
         return root;
     }

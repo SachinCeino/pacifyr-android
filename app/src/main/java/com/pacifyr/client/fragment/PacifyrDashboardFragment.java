@@ -213,7 +213,7 @@ public class PacifyrDashboardFragment extends BaseFragment implements SwipeRefre
              daysTxv = view.findViewById(R.id.days_txv);
              earingSessionsCtxv = view.findViewById(R.id.sessions_ctxv);
              cirPrefPacifyr = view.findViewById(R.id.cir_pref_pacifyr);
-             sessionsTxv = view.findViewById(R.id.sessions_txv);
+            // sessionsTxv = view.findViewById(R.id.sessions_txv);
              earningHoursCtxv = view.findViewById(R.id.earning_hours_ctxv);
              earningMinutesCtxv = view.findViewById(R.id.earning_minutes_ctxv);
              week3Llay = view.findViewById(R.id.week3_llay);

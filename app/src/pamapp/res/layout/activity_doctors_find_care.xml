@@ -168,7 +168,7 @@
                     <com.pacifyr.client.views.PamEditTextMedium
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="eg.valley clininc"
+                        android:hint="eg.valley clinic"
                         android:padding="12dp"
                         android:focusedByDefault="false"
                         android:background="@drawable/black_border_white_back"

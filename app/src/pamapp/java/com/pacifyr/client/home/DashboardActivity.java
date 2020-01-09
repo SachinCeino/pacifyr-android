@@ -21,6 +21,7 @@ import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.pacifyr.client.customview.MainTextView;
+import com.pacifyr.client.fragment.AppointmentsFragment;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
@@ -82,7 +83,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity {
     private LinearLayout connectToPacifyr;
     private LinearLayout browsePacifyr;
 
-    private LinearLayout supportLlay;
+    private LinearLayout help_llay;
     //private DeviceFitImageView earningsDimv;
     //private MainTextView earningsCtxv;
     private LinearLayout logoutLlay;
@@ -105,7 +106,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity {
     private LinearLayout messagesLlay;
     private LinearLayout findCare_layout;
 
-
+    private LinearLayout mLinearLayoutAppointments;
     // private PermissionsChecker checker;
     public static void start(Context context
     ) {
@@ -152,7 +153,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity {
         /**the library will work in background for checking new update available or not**/
         appUpdater = new AppUpdater(this);
         appUpdater.start();
-
+        mLinearLayoutAppointments = findViewById(R.id.mLinearLayoutAppointments);
         connectToPacifyr = findViewById(R.id.connect_pacifyr_llay);
         leftPane = findViewById(R.id.left_pane);
         account_rlay = findViewById(R.id.account_rlay);
@@ -169,7 +170,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity {
         paymentLlay = findViewById(R.id.payment_llay);
 
         tutotial_llay = findViewById(R.id.tutotial_llay);
-        supportLlay = findViewById(R.id.support_llay);
+        help_llay = findViewById(R.id.help_llay);
         policyDocumentLlay = findViewById(R.id.policy_document_llay);
 
         logoutLlay = findViewById(R.id.logout_llay);
@@ -270,6 +271,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity {
             @Override
             public void onClick(View v) {
                 hideRightLayActionbar();
+                defSetText(titleTxv,getResources().getString(R.string.tutorial));
                 showFragment(new WelcomeTourFragment());
 
 
@@ -313,11 +315,10 @@ public class DashboardActivity extends PacifyrAppCompactActivity {
             }
         });
 
-        supportLlay.setOnClickListener(new View.OnClickListener() {
+        help_llay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                hideRightLayActionbar();
-                showFragment(new SupportFragment());
+                HelpActvity.start(getApplicationContext());
 
             }
         });
@@ -373,6 +374,17 @@ public class DashboardActivity extends PacifyrAppCompactActivity {
                 startActivity(intent);
             }
         });
+
+        mLinearLayoutAppointments.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                hideRightLayActionbar();
+                showFragment(new AppointmentsFragment());
+                defSetText(titleTxv, getResources().getString(R.string.appointments));
+            }
+        });
+
         new AmazonSNSTokenHandler(context).register();
 
     }

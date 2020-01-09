@@ -160,7 +160,7 @@ public class DoctorsFilterFragment extends BaseFragment {
             jsonObject.putOpt("price_end", mPriceEnd);
             jsonObject.putOpt("distance_start", mDistanceStart);
             jsonObject.putOpt("distance_end", mDistanceEnd);
-
+            jsonObject.putOpt("visitType", "office");
 
             /** Specialities Array post***/
 

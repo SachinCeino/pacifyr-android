@@ -42,9 +42,11 @@ import com.pacifyr.client.utility.PacifyrAppCompactActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.ThreadMode;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static com.pacifyr.client.network.NetworkService.GLOBAL_URL;
 
@@ -237,9 +239,9 @@ public class DoctorsSearchResultActivity extends PacifyrAppCompactActivity imple
                 @Override
                 public void callback(String url, JSONObject json, AjaxStatus status) {
                     try {
+                        String js = json.toString();
                         pSearchPacifyrWOptionsResponse = GsonUtils.getInstance().gsonToRespSearchPacifyrWOption(json);
                         pSearchPacifyrWOptionsResponse.toString();
-                        String js = json.toString();
                         hideProgress();
                         setPacifyrsListView();
                     } catch (Exception e) {
@@ -251,11 +253,19 @@ public class DoctorsSearchResultActivity extends PacifyrAppCompactActivity imple
             AQuery aq = new AQuery(DoctorsSearchResultActivity.this);
             cb.header("Content-Type", "application/json");
             cb.header("AccessToken", getPrefManager().getAccessToken());
-
             JSONObject jsonObject = new JSONObject();
             jsonObject.putOpt("initiatorId", getPrefManager().getUserID());
-            jsonObject.putOpt("latitude", "11.25416");
-            jsonObject.putOpt("longitude", "75.83717");
+            jsonObject.putOpt("latitude", "11.2541819");
+            jsonObject.putOpt("longitude", "75.8370298");
+            jsonObject.putOpt("visitType", "office");
+            List<String> list = new ArrayList<String>();
+            list.add(Speciality);
+            //list.add("b");
+            JSONArray array = new JSONArray();
+            for (int i = 0; i < list.size(); i++) {
+                array.put(list.get(i));
+            }
+            jsonObject.putOpt("specialities", array);
             aq.post(url, jsonObject, JSONObject.class, cb);
         } catch (Exception ex) {
             ex.printStackTrace();

@@ -11,7 +11,24 @@ public class ModelCustomerDashboard2
 
     private MLastSession lastSession;
 
+    private Integer videoVisits;
+    private Integer officeVisits;
 
+    public Integer getVideoVisits() {
+        return videoVisits;
+    }
+
+    public void setVideoVisits(Integer videoVisits) {
+        this.videoVisits = videoVisits;
+    }
+
+    public Integer getOfficeVisits() {
+        return officeVisits;
+    }
+
+    public void setOfficeVisits(Integer officeVisits) {
+        this.officeVisits = officeVisits;
+    }
 
     private User user;
 
@@ -75,7 +92,7 @@ public class ModelCustomerDashboard2
     @Override
     public String toString()
     {
-        return "ClassPojo [thisMonthStatistics = "+thisMonthStatistics+", lastSession = "+lastSession+", preferredPacifyrs = "+preferredPacifyrs+", user = "+user+", thisWeekStatistics = "+thisWeekStatistics+"]";
+        return "ClassPojo [thisMonthStatistics = "+thisMonthStatistics+", lastSession = "+lastSession+", preferredPacifyrs = "+preferredPacifyrs+", user = "+user+", thisWeekStatistics = "+thisWeekStatistics+", videoVisits = "+videoVisits+", officeVisits = "+officeVisits+"]";
     }
 
 

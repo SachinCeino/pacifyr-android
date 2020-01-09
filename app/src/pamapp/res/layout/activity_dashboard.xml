@@ -119,9 +119,46 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:id="@+id/mLinearLayoutAppointments"
+                        android:padding="10dp"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+                        <!--    android:paddingRight="10dp"-->
+
+                        <com.pacifyrapp.utilitylibrary.DeviceFitImageView
+                            android:id="@+id/mDeviceFitImageViewAppointments"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:scaleType="centerInside"
+                            app:width_percentage="10"
+                            android:src="@drawable/tutorial"
+                            android:layout_centerInParent="true" />
+
+                        <com.pacifyr.client.customview.MainTextView
+                            android:id="@+id/mTextViewAppointments"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:layout_marginLeft="10dp"
+                            android:text="@string/appointments"
+                            android:textColor="@color/grey_dark"
+                            android:textSize="15sp" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/grey" />
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:id="@+id/mysessions_llay"
                         android:padding="10dp"
                         android:gravity="center"
+                        android:visibility="gone"
                         android:orientation="horizontal">
                         <!--    android:paddingRight="10dp"-->
 
@@ -150,6 +187,7 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
+                        android:visibility="gone"
                         android:background="@color/grey" />
 
                     <LinearLayout
@@ -157,6 +195,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/payment_llay"
                         android:padding="10dp"
+                        android:visibility="gone"
                         android:gravity="center"
                         android:orientation="horizontal">
                         <!--    android:paddingRight="10dp"-->
@@ -186,42 +225,7 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="@color/grey" />
-
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/message_llay"
-                        android:padding="10dp"
-                        android:gravity="center"
                         android:visibility="gone"
-                        android:orientation="horizontal">
-                        <!--    android:paddingRight="10dp"-->
-
-                        <com.pacifyrapp.utilitylibrary.DeviceFitImageView
-                            android:id="@+id/message_dimv"
-                            android:layout_width="25dp"
-                            android:layout_height="25dp"
-                            android:scaleType="centerInside"
-                            app:width_percentage="10"
-                            android:src="@drawable/message3"
-                            android:layout_centerInParent="true" />
-
-                        <com.pacifyr.client.customview.MainTextView
-                            android:id="@+id/message_ctxv"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_centerInParent="true"
-                            android:layout_marginLeft="10dp"
-                            android:text="@string/messages"
-                            android:textColor="@color/grey_dark"
-                            android:textSize="15sp" />
-                    </LinearLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
                         android:background="@color/grey" />
 
 
@@ -259,11 +263,46 @@
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:background="@color/grey" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/message_llay"
+                        android:padding="10dp"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+                        <!--    android:paddingRight="10dp"-->
+
+                        <com.pacifyrapp.utilitylibrary.DeviceFitImageView
+                            android:id="@+id/message_dimv"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:scaleType="centerInside"
+                            app:width_percentage="10"
+                            android:src="@drawable/message3"
+                            android:layout_centerInParent="true" />
+
+                        <com.pacifyr.client.customview.MainTextView
+                            android:id="@+id/message_ctxv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:layout_marginLeft="10dp"
+                            android:text="@string/messages"
+                            android:textColor="@color/grey_dark"
+                            android:textSize="15sp" />
+                    </LinearLayout>
+
+
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/grey" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/support_llay"
+                        android:id="@+id/help_llay"
                         android:padding="10dp"
                         android:gravity="center"
                         android:orientation="horizontal">
@@ -275,7 +314,7 @@
                             android:layout_height="25dp"
                             android:scaleType="centerInside"
                             app:width_percentage="10"
-                            android:src="@drawable/support3"
+                            android:src="@drawable/png_help_"
                             android:layout_centerInParent="true" />
 
                         <com.pacifyr.client.customview.MainTextView
@@ -284,7 +323,7 @@
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true"
                             android:layout_marginLeft="10dp"
-                            android:text="@string/SUPPORT"
+                            android:text="HELP"
                             android:textColor="@color/grey_dark"
                             android:textSize="15sp" />
 
@@ -304,6 +343,7 @@
                         android:id="@+id/crisis_llay"
                         android:padding="10dp"
                         android:gravity="center"
+                        android:visibility="gone"
                         android:orientation="horizontal">
                         <!--    android:paddingRight="10dp"-->
 
@@ -332,6 +372,7 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
+                        android:visibility="gone"
                         android:background="@color/grey" />
 
 
@@ -340,6 +381,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/tutotial_llay"
                         android:padding="10dp"
+                        android:visibility="gone"
                         android:gravity="center"
                         android:orientation="horizontal">
                         <!--    android:paddingRight="10dp"-->
@@ -364,43 +406,6 @@
                             android:textSize="15sp" />
 
                     </LinearLayout>
-
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@color/grey" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/policy_document_llay"
-                        android:padding="10dp"
-                        android:gravity="center"
-                        android:orientation="horizontal">
-                        <!--    android:paddingRight="10dp"-->
-
-                        <com.pacifyrapp.utilitylibrary.DeviceFitImageView
-                            android:id="@+id/policy_document_dimv"
-                            android:layout_width="25dp"
-                            android:layout_height="25dp"
-                            android:scaleType="centerInside"
-                            app:width_percentage="10"
-                            android:src="@drawable/ic_policy"
-                            android:layout_centerInParent="true" />
-
-                        <com.pacifyr.client.customview.MainTextView
-                            android:id="@+id/policy_document_ctxv"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_centerInParent="true"
-                            android:layout_marginLeft="10dp"
-                            android:text="@string/Policy_Documents"
-                            android:textColor="@color/grey_dark"
-                            android:textSize="15sp" />
-
-                    </LinearLayout>
-
 
                     <View
                         android:layout_width="match_parent"
@@ -436,6 +441,44 @@
                             android:textSize="15sp" />
 
                     </LinearLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:visibility="gone"
+                        android:background="@color/grey" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/policy_document_llay"
+                        android:padding="10dp"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+                        <!--    android:paddingRight="10dp"-->
+
+                        <com.pacifyrapp.utilitylibrary.DeviceFitImageView
+                            android:id="@+id/policy_document_dimv"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:scaleType="centerInside"
+                            app:width_percentage="10"
+                            android:src="@drawable/ic_policy"
+                            android:layout_centerInParent="true" />
+
+                        <com.pacifyr.client.customview.MainTextView
+                            android:id="@+id/policy_document_ctxv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:layout_marginLeft="10dp"
+                            android:text="@string/Policy_Documents"
+                            android:textColor="@color/grey_dark"
+                            android:textSize="15sp" />
+
+                    </LinearLayout>
+
+
+
 
                     <View
                         android:layout_width="match_parent"
@@ -447,6 +490,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/connect_pacifyr_llay"
                         android:padding="10dp"
+                        android:visibility="gone"
                         android:gravity="center"
                         android:orientation="horizontal">
                         <!--    android:paddingRight="10dp"-->
@@ -476,6 +520,7 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
+                        android:visibility="gone"
                         android:background="@color/grey" />
 
 

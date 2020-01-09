@@ -7,13 +7,29 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:gravity="center">
+    <com.pacifyr.client.customview.MainTextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="No Appointments Available!"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:id="@+id/emptyLayout"
+        android:textSize="20sp"
+        android:visibility="gone"
+        ></com.pacifyr.client.customview.MainTextView>
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/mRecyclerViewAppointments">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/mRecyclerViewAppointments">
+    </androidx.recyclerview.widget.RecyclerView>
+</RelativeLayout>
 
-        </androidx.recyclerview.widget.RecyclerView>
 
     </ScrollView>
 

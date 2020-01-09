@@ -75,12 +75,9 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
 
     private static final String TAG = UserDashboardFragment.class.getSimpleName();
     private RelativeLayout feelRlay, this_week_rlay, connect_btn_rlay;
-    //private DeviceFitImageView feelImage;
     private RelativeLayout lastSessionRlay;
-   // private CircleImageView lastSessionDimv;
-    private MainTextView lastSsnPacfyrCtxv, no_pacifyr_ctxv, no_lastsession_ctxv;
+    private MainTextView lastSsnPacfyrCtxv, no_pacifyr_ctxv;
     private LinearLayout last_session_top_llay;
-    private DeviceFitImageView videoCamImg;
     private MainTextView lastSessionMinuteTxv;
     private MainTextView daysTxv;
     private RelativeLayout cirPrefPacifyr;
@@ -92,14 +89,12 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
     private CircleImageView pacifyr3Dimv;
     //private DeviceFitImageView searchDimv;
     private RelativeLayout thisWeekRlay;
-    private MainTextView sessionsTxv;
-    private MainTextView hoursTxv;
-    private MainTextView paidTxv;
-    private DeviceFitImageView feelImageDimv;
+    private MainTextView office_visit_count;
+    private MainTextView video_visit_count;
+    private MainTextView message_Count;
     private MainTextView feelTitleCtxv;
     private PrefManager prefM;
     private MUser prefpac;
-    private MainTextView minutesCtxv;
     private SwipeRefreshLayout swipeRefreshLayout;
     private MainTextView feel_err_text;
     public String EmotionTitle = "";
@@ -110,6 +105,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
     private boolean isClickedOnChat = false;
     private int badgeCount = 0;
 
+    public static boolean isVideoVist=false;
     public UserDashboardFragment() {
         // Required empty public constructor
     }
@@ -170,17 +166,6 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
             @Override
             public void onClick(View v) {
 
-                /*try {
-                    if (isValid(lastSession) && isValid(lastSession.getId())) {
-                        String sessionID = lastSession.getId();
-                        LastSessionActivity.start(getActivity(), sessionID);
-                    } else {
-                        ConnectToPacifyrActivity.start(getActivity());
-                    }
-
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }*/
 
                 /** goto browse pacifyr**/
                 if (isValid(ConnectToPacifyrActivity.customerEmotion)) {
@@ -195,14 +180,8 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
         feelRlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*Intent i= new Intent(getContext(),FeelSelectActivity.class);
-                startActivity(i);*/
-
+                isVideoVist=true;
                 ConnectToPacifyrActivity.start(getActivity());
-             /*    Intent intent= new Intent(getContext(),ConnectToPacifyrActivity.class);
-                intent.putExtra("display","Pacifyr");
-                startActivity(intent);*/
-
             }
         });
 
@@ -235,10 +214,12 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
         pacifyr1Dimv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("preffffff11", "p: " + prefpac);
-                prefpac = modelCustomerDashboard2.getPreferredPacifyrs()[0];
-                Log.i("preffffff12", "p: " + prefpac);
-                ConnectToSinglePacifyrActivity.start(getActivity(), prefpac);
+
+                if (isValid(modelCustomerDashboard2)&&isValid(modelCustomerDashboard2.getPreferredPacifyrs()[0]))
+                {
+                    prefpac = modelCustomerDashboard2.getPreferredPacifyrs()[0];
+                    ConnectToSinglePacifyrActivity.start(getActivity(), prefpac);
+                }
 
                 // showTheRoundDialog(0, prefpac);
             }
@@ -246,33 +227,34 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
         pacifyr2Dimv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("preffffff21", "p: " + prefpac);
-                prefpac = modelCustomerDashboard2.getPreferredPacifyrs()[1];
-                Log.i("preffffff22", "p: " + prefpac);
-                ConnectToSinglePacifyrActivity.start(getActivity(), prefpac);
 
-                //showTheRoundDialog( 1,prefpac);
+                if (isValid(modelCustomerDashboard2)&&isValid(modelCustomerDashboard2.getPreferredPacifyrs()[1]))
+                {
+                    prefpac = modelCustomerDashboard2.getPreferredPacifyrs()[1];
+                    ConnectToSinglePacifyrActivity.start(getActivity(), prefpac);
+                }
             }
         });
         pacifyr3Dimv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                prefpac = modelCustomerDashboard2.getPreferredPacifyrs()[2];
-                Log.i("preffffff3", "p: " + prefpac);
-                ConnectToSinglePacifyrActivity.start(getActivity(), prefpac);
 
-                // showTheRoundDialog(2, prefpac);
+                if (isValid(modelCustomerDashboard2)&&isValid(modelCustomerDashboard2.getPreferredPacifyrs()[2]))
+                {
+                    prefpac = modelCustomerDashboard2.getPreferredPacifyrs()[2];
+                    ConnectToSinglePacifyrActivity.start(getActivity(), prefpac);
+                }
             }
         });
 
         pacifyr4Dimv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                prefpac = modelCustomerDashboard2.getPreferredPacifyrs()[3];
-                Log.i("preffffff4", "p: " + prefpac);
-                ConnectToSinglePacifyrActivity.start(getActivity(), prefpac);
-
-                // showTheRoundDialog(2, prefpac);
+                if (isValid(modelCustomerDashboard2)&&isValid(modelCustomerDashboard2.getPreferredPacifyrs()[3]))
+                {
+                    prefpac = modelCustomerDashboard2.getPreferredPacifyrs()[3];
+                    ConnectToSinglePacifyrActivity.start(getActivity(), prefpac);
+                }
             }
         });
 
@@ -294,32 +276,9 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                showProgress();
                handleActionCustomerDashboard();
                if (isValid(call_emotion)) {
-                   // feel_err_text.setVisibility(View.GONE);
                    String emotionImg = GLOBAL_IMAGE_URL + call_emotion.getImage();
                    String emotionTitle = call_emotion.getTitle();
                    EmotionTitle = emotionTitle;
-                   if (isValidhtml(emotionImg)) {
-                       Picasso.with(getActivity()).load(emotionImg).into(feelImageDimv);
-                       float brightness = (float) 100;
-                       float[] colorMatrix = {
-                               0.33f, 0.33f, 0.33f, 0, brightness, //red
-                               0.33f, 0.33f, 0.33f, 0, brightness, //green
-                               0.33f, 0.33f, 0.33f, 0, brightness, //blue
-                               0, 0, 0, 1, 0    //alpha
-                       };
-                       ColorMatrix matrix = new ColorMatrix();
-                       matrix.setSaturation(0);
-                       ColorMatrixColorFilter filter = new ColorMatrixColorFilter(colorMatrix);
-                       feelImageDimv.setColorFilter(filter);
-                       feelTitleCtxv.setText(emotionTitle);
-                       if (isValid(feel_err_text)) {
-                           feel_err_text.setVisibility(View.GONE);
-
-                       }
-
-                   }
-               } else {
-                   //feel_err_text.setVisibility(View.VISIBLE);
                }
                getUnratedSessions();
                loginToQuickblox();
@@ -427,17 +386,10 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
             String emotionImg = null;
             String emotionTitle = null;
 
-            if (isValid(feelTitleCtxv)) {
-                if (EmotionTitle.equals("")) {
-                    if (isValid(feel_err_text)) {
-                        feel_err_text.setVisibility(View.VISIBLE);
-                        defSetText(feel_err_text, "Please select an emotion");
-                    }
-                }
-
-            }
-
             if (isValid(modelCustomerDashboard2)) {
+                office_visit_count.setText(modelCustomerDashboard2.getOfficeVisits()+"");
+                video_visit_count.setText(modelCustomerDashboard2.getVideoVisits()+"");
+
                 final MUser pfc[] = modelCustomerDashboard2.getPreferredPacifyrs();
                 ModelCustomerDashboard2.ThisWeekStatistics lastWeek = modelCustomerDashboard2.getThisWeekStatistics();
                 lastSession = modelCustomerDashboard2.getLastSession();
@@ -445,83 +397,25 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                     emotionImg = GLOBAL_IMAGE_URL + modelCustomerDashboard2.getUser().getEmotion().getImage();
                     emotionTitle = modelCustomerDashboard2.getUser().getEmotion().getTitle();
                     EmotionTitle = emotionTitle;
-
-                    if (isValidhtml(emotionImg)) {
-                        // feel_err_text.setVisibility(View.GONE);
-                        Picasso.with(getActivity()).load(emotionImg).into(feelImageDimv);
-
-                        float brightness = (float) 100;
-
-                        float[] colorMatrix = {
-                                0.33f, 0.33f, 0.33f, 0, brightness, //red
-                                0.33f, 0.33f, 0.33f, 0, brightness, //green
-                                0.33f, 0.33f, 0.33f, 0, brightness, //blue
-                                0, 0, 0, 1, 0    //alpha
-                        };
-
-                        ColorMatrix matrix = new ColorMatrix();
-                        matrix.setSaturation(0);
-                        ColorMatrixColorFilter filter = new ColorMatrixColorFilter(colorMatrix);
-                        feelImageDimv.setColorFilter(filter);
-
-                        feelTitleCtxv.setText(emotionTitle);
-                        if (isValid(feel_err_text)) {
-                            feel_err_text.setVisibility(View.GONE);
-
-                        }
-                    } else {
-                        //  feel_err_text.setVisibility(View.VISIBLE);
-                    }
                 }
 
-                /*for(int i=0;i<lastSession.getSessionRatings().length;i++)
-                {
-                    if(lastSession.getSessionRatings()[i].getType().equals("customer"))
-                    {
-                        emotionImg = lastSession.get;
-                        emotionTitle;
-                    }
-                }*/
 
-
+                
                 if (isValid(lastSession)) {
                    // last_session_top_llay.setVisibility(View.VISIBLE);
-                    no_lastsession_ctxv.setVisibility(View.GONE);
-                    /*lastSessionDimv.setVisibility(View.VISIBLE);
-                    lastSessionRlay.setVisibility(View.VISIBLE);*/
 
 
-                  //  lastSsnPacfyrCtxv.setText(lastSession.getPacifyr().getFirstName() + " " + lastSession.getPacifyr().getLastName());
-                   // Picasso.with(getContext()).load(lastSession.getPacifyr().getImageUrl()).into(lastSessionDimv);
-                    String duration = lastSession.getDuration();
+
+                   String duration = lastSession.getDuration();
                    // lastSessionMinuteTxv.setText(duration);
                     String type = lastSession.getSessionType();
-                   /* if (type.equals("audio")) {
-                        videoCamImg.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.connectaudio1));
-                    } else if (type.equals("video")) {
-                        videoCamImg.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_video_cam_blue));
-                    }*/
-                  //  lastSessionMinuteTxv.setVisibility(View.VISIBLE);
-                   // videoCamImg.setVisibility(View.VISIBLE);
-                  /*  daysTxv.setVisibility(View.VISIBLE);
-                    defSetText(daysTxv, lastSession.getDaysSincePosted());*/
 
                 } else {
-                   // last_session_top_llay.setVisibility(View.GONE);
-                    no_lastsession_ctxv.setVisibility(View.VISIBLE);
-                /*    lastSessionDimv.setVisibility(View.INVISIBLE);
-                    lastSessionRlay.setVisibility(View.INVISIBLE);
-                    daysTxv.setVisibility(View.INVISIBLE);
-                    lastSsnPacfyrCtxv.setVisibility(View.VISIBLE);*/
-                    defSetText(no_lastsession_ctxv, getResources().getString(R.string.no_sessions_yet));
 
                 }
 
                 if (isValid(lastWeek)) {
                     String[] split = lastWeek.getDuration().split(":");
-                    sessionsTxv.setText(lastWeek.getTotalSessions());
-                    hoursTxv.setText(split[0]);
-                    minutesCtxv.setText(" " + split[1]);
                     PrefManager prefM = PrefManager.getInstance(getContext());
                     String country = prefM.getCountry();
                     String sign = "$";
@@ -530,7 +424,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                     } else {
                         sign = getContext().getResources().getString(R.string.dollar);
                     }
-                    paidTxv.setText(sign + lastWeek.getSpendings());
+                   // message_Count.setText(sign + lastWeek.getSpendings());
                 } else {
 
                 }
@@ -647,19 +541,11 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
 
     public void intializeViews(View view) {
         feelRlay = view.findViewById(R.id.feel_rlay);
-        feel_err_text = view.findViewById(R.id.text_feel_error);
         connect_btn_rlay = view.findViewById(R.id.connect_btn_rlay);
-        //feelImage = (DeviceFitImageView) view.findViewById(R.id.feel_image_dimv);
         lastSessionRlay = view.findViewById(last_session_rlay);
-       // lastSessionDimv = view.findViewById(R.id.last_session_dimv);
         swipeRefreshLayout = view.findViewById(R.id.user_swipe_layout);
        // last_session_top_llay = view.findViewById(R.id.last_session_top_llay);
         no_pacifyr_ctxv = view.findViewById(R.id.no_pacifyr_ctxv);
-        no_lastsession_ctxv = view.findViewById(R.id.no_lastsession_ctxv);
-       // lastSsnPacfyrCtxv = view.findViewById(R.id.lastSsn_pacfyr_ctxv);
-        //videoCamImg = view.findViewById(R.id.video_cam_img);
-       // lastSessionMinuteTxv = view.findViewById(R.id.last_session_minute_txv);
-       // daysTxv = view.findViewById(R.id.days_txv);
         cirPrefPacifyr = view.findViewById(R.id.cir_pref_pacifyr);
         llayTop = view.findViewById(R.id.llay_top);
 
@@ -670,14 +556,13 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
         pacifyr3Dimv = view.findViewById(R.id.pacifyr3_dimv);
         pacifyr4Dimv = view.findViewById(R.id.pacifyr4_dimv);
         thisWeekRlay = view.findViewById(R.id.this_week_rlay);
-        sessionsTxv = view.findViewById(R.id.sessions_txv);
-        hoursTxv = view.findViewById(R.id.hours_txv);
-        minutesCtxv = view.findViewById(R.id.min_ctxv);
-        paidTxv = view.findViewById(R.id.paid_amt_ctxv);
-        this_week_rlay = view.findViewById(R.id.this_week_rlay);
 
-        feelImageDimv = view.findViewById(R.id.feel_image_dimv);
-        feelTitleCtxv = view.findViewById(R.id.feel_title_ctxv);
+        office_visit_count = view.findViewById(R.id.office_visit_count);
+        video_visit_count = view.findViewById(R.id.video_visit_count);
+
+
+        message_Count = view.findViewById(R.id.message_Count);
+        this_week_rlay = view.findViewById(R.id.this_week_rlay);
         unreadChatCtxv = view.findViewById(R.id.unread_chat_ctxv);
         defSetText(no_pacifyr_ctxv, "");
         setChatCountInfo();
