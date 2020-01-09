@@ -41,7 +41,6 @@ import com.pacifyr.client.event.ChatEvent;
 import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.fragment.schedule.ScheduleBottomSheetFragment;
 import com.pacifyr.client.model.ModelPamTemplates;
-import com.pacifyr.client.model.ModelSpecialityByCategory;
 import com.pacifyr.client.model.interfaces.CallChatEventListner;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
@@ -1304,9 +1303,9 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
         public void onBindViewHolder(final MyViewHolderr holder, final int position) {
 
             holder.tv_instruction.setText(options.get(position).getOption());
-            String[] separated = options.get(position).getOption().split("\\?");
+           /* String[] separated = options.get(position).getOption().split("\\?");
             if (isValid(separated)&&separated.length==2)
-                holder.tv_answer_template.setHint(separated[1]);
+                holder.tv_answer_template.setHint(separated[1]);*/
 
             if (position < (options.size() - 2)) {
                 holder.tv_answer_template.setImeOptions(EditorInfo.IME_ACTION_NEXT);

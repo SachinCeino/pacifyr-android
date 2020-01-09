@@ -16,23 +16,22 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.pacifyr.client.base.PacifyrActivity;
-import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.pacifyr.client.R;
 import com.pacifyr.client.adapter.AppointmentsListAdapter;
+import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.fragment.schedule.AppointmentModel;
 import com.pacifyr.client.fragment.schedule.ScheduleBottomSheetFragment;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.utility.BaseFragment;
+import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.squareup.otto.Subscribe;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONObject;
 
-import java.io.Serializable;
 import java.util.List;
 
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
@@ -111,6 +110,8 @@ public class AppointmentsFragment extends BaseFragment {
 
 
                     } catch (Exception e) {
+                        emptyLayout.setVisibility(View.VISIBLE);
+                        mRecyclerViewAppointments.setVisibility(View.GONE);
                         hideProgress();
                         e.printStackTrace();
                     }
@@ -164,7 +165,7 @@ public class AppointmentsFragment extends BaseFragment {
         if (isValid(mObject.getPacifyr())) {
             ScheduleBottomSheetFragment bottomSheetFragment = new ScheduleBottomSheetFragment();
             Bundle bundle = new Bundle();
-            bundle.putSerializable("OBJECT", (Serializable) mObject.getPacifyr());
+            bundle.putSerializable("OBJECT", mObject.getPacifyr());
             bottomSheetFragment.setArguments(bundle);
             bottomSheetFragment.show(getChildFragmentManager(), bottomSheetFragment.getTag());
         }
