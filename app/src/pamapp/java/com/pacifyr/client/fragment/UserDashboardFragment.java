@@ -1,5 +1,6 @@
 package com.pacifyr.client.fragment;
 
+import android.content.Intent;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
+import com.pacifyr.client.home.DoctorsActivity;
 import com.pacifyr.client.home.ListPacifyrScreenActivity;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
@@ -75,7 +77,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
 
     private static final String TAG = UserDashboardFragment.class.getSimpleName();
     private RelativeLayout feelRlay, this_week_rlay, connect_btn_rlay;
-    private RelativeLayout lastSessionRlay;
+    private RelativeLayout layout_FindCare;
     private MainTextView lastSsnPacfyrCtxv, no_pacifyr_ctxv;
     private LinearLayout last_session_top_llay;
     private MainTextView lastSessionMinuteTxv;
@@ -162,19 +164,11 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
         });
 
 
-        lastSessionRlay.setOnClickListener(new View.OnClickListener() {
+        layout_FindCare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
-                /** goto browse pacifyr**/
-                if (isValid(ConnectToPacifyrActivity.customerEmotion)) {
-                    ListPacifyrScreenActivity.start(getActivity(), ConnectToPacifyrActivity.customerEmotion, true);
-                }
-
-
-
-
+                Intent intent = new Intent(getActivity(), DoctorsActivity.class);
+                startActivity(intent);
             }
         });
         feelRlay.setOnClickListener(new View.OnClickListener() {
@@ -257,6 +251,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                 }
             }
         });
+
 
         //NetworkService.webListEmotions(getActivity());
         return view;
@@ -542,7 +537,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
     public void intializeViews(View view) {
         feelRlay = view.findViewById(R.id.feel_rlay);
         connect_btn_rlay = view.findViewById(R.id.connect_btn_rlay);
-        lastSessionRlay = view.findViewById(last_session_rlay);
+        layout_FindCare = view.findViewById(layout_FindCare);
         swipeRefreshLayout = view.findViewById(R.id.user_swipe_layout);
        // last_session_top_llay = view.findViewById(R.id.last_session_top_llay);
         no_pacifyr_ctxv = view.findViewById(R.id.no_pacifyr_ctxv);

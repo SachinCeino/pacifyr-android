@@ -233,7 +233,7 @@
                 android:textSize="13sp"
                 android:textAlignment="center"
                 android:gravity="center"
-                android:layout_toRightOf="@+id/last_session_rlay"
+                android:layout_toRightOf="@+id/layout_FindCare"
                 android:padding="5dp"
                 android:layout_marginLeft="10dp"
                 android:layout_below="@id/cir_pref_pacifyr"
@@ -252,7 +252,7 @@
                 android:layout_marginRight="5dp"
                 android:layout_below="@+id/feel_rlay"
                 app:layout_widthPercent="50%"
-                android:id="@+id/last_session_rlay"
+                android:id="@+id/layout_FindCare"
                 android:background="@drawable/solid_circle">
 
                 <LinearLayout
@@ -288,7 +288,7 @@
                 android:textSize="13sp"
                 android:padding="5dp"
                 android:layout_marginLeft="50dp"
-                android:layout_below="@id/last_session_rlay"
+                android:layout_below="@id/layout_FindCare"
                 android:textColor="@color/text_dashboard"
                 android:text="@string/my_last_session"/>
 
@@ -301,7 +301,7 @@
                 app:layout_heightPercent="30%"
                 app:layout_widthPercent="50%"
                 android:gravity="center"
-                android:layout_toRightOf="@+id/last_session_rlay"
+                android:layout_toRightOf="@+id/layout_FindCare"
                 android:layout_below="@id/feel_rlay"
                 android:layout_marginTop="50dp"
                 android:id="@+id/this_week_rlay"
