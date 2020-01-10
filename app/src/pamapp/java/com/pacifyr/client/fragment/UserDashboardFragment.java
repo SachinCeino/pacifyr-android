@@ -537,7 +537,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
     public void intializeViews(View view) {
         feelRlay = view.findViewById(R.id.feel_rlay);
         connect_btn_rlay = view.findViewById(R.id.connect_btn_rlay);
-        layout_FindCare = view.findViewById(layout_FindCare);
+        layout_FindCare = view.findViewById(R.id.layout_FindCare);
         swipeRefreshLayout = view.findViewById(R.id.user_swipe_layout);
        // last_session_top_llay = view.findViewById(R.id.last_session_top_llay);
         no_pacifyr_ctxv = view.findViewById(R.id.no_pacifyr_ctxv);

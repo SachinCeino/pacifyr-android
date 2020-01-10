@@ -1239,6 +1239,7 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
                         listPacifyrRlay.setVisibility(View.GONE);
                         morePacifyrsRlay.setVisibility(View.GONE);
 
+                        EmotionSpecialityAdapter.reason_forcall=descriptionList.get(position);
                         setUpThirdScreen();
                     }
                 });

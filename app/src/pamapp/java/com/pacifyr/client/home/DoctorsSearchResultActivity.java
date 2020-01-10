@@ -258,7 +258,6 @@ public class DoctorsSearchResultActivity extends PacifyrAppCompactActivity imple
             jsonObject.putOpt("latitude", "11.2541819");
             jsonObject.putOpt("longitude", "75.8370298");
             jsonObject.putOpt("visitType", "office");
-            jsonObject.putOpt("searchQuery", "");
             List<String> list = new ArrayList<String>();
             list.add(Speciality);
             //list.add("b");
