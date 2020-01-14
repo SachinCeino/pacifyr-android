@@ -1,8 +1,6 @@
 package com.pacifyr.client.fragment;
 
 import android.content.Intent;
-import android.graphics.ColorMatrix;
-import android.graphics.ColorMatrixColorFilter;
 import android.os.Bundle;
 import android.os.Handler;
 
@@ -18,11 +16,9 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.home.DoctorsActivity;
 import com.pacifyr.client.home.ListPacifyrScreenActivity;
-import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelCustomerDashboard2;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
@@ -32,7 +28,6 @@ import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.home.ConnectToPacifyrActivity;
 import com.pacifyr.client.home.ConnectToSinglePacifyrActivity;
 import com.pacifyr.client.home.DashboardActivity;
-import com.pacifyr.client.home.LastSessionActivity;
 import com.pacifyr.client.home.MySessionsActivity;
 import com.pacifyr.client.home.SessionSummaryActivity;
 import com.pacifyr.client.model.Session;
@@ -67,7 +62,6 @@ import me.leolin.shortcutbadger.ShortcutBadger;
 
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_IMAGE_URL;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
-import static com.pacifyr.client.R.id.last_session_rlay;
 import static com.pacifyr.client.base.PacifyrActivity.call_emotion;
 import static com.pacifyr.client.network.NetworkService.lastSession;
 import static com.pacifyr.client.network.NetworkService.modelCustomerDashboard2;

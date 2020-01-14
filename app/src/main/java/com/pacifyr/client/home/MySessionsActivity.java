@@ -15,6 +15,10 @@ import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.pacifyr.client.customview.MainTextView;
+import com.pacifyr.client.event.CallEvent;
+import com.pacifyr.client.event.ChatEvent;
+import com.pacifyr.client.model.interfaces.CallChatEventListner;
+import com.pacifyr.client.utils.LogUtils;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MSessionDetailRoot;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelSessonsOfCustomer;
@@ -449,4 +453,43 @@ public class MySessionsActivity extends PacifyrAppCompactActivity {
         }
 
     }
+
+
+    @Subscribe
+    public void onChatEvent(ChatEvent event) {
+        try {
+            LogUtils.LOGD("session", "CPA onCallEvent called ");
+            if (!isValid(event.mpacifyer, "Network Error"))
+                return;
+            startChat(event.mpacifyer);
+
+
+        } catch (Exception e) {
+            LogUtils.LOGD("session", "CPA ChatEvent exce " + e.getMessage());
+        }
+
+    }
+
+    public CallChatEventListner callchatEventListner = new CallChatEventListner() {
+        @Override
+        public void onCallEventClick(CallEvent event) {
+
+            //onCallEvent(event);
+        }
+
+        @Override
+        public void onChatEventClick(ChatEvent event) {
+            onChatEvent(event);
+        }
+
+        @Override
+        public void onException(Exception e) {
+
+        }
+
+        @Override
+        public void onError(String e) {
+
+        }
+    };
 }

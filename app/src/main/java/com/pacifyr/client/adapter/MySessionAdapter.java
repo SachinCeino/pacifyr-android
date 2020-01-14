@@ -16,6 +16,7 @@ import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.pacifyr.client.customview.MainTextView;
+import com.pacifyr.client.home.MySessionsActivity;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MEmotion;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MSessionDetailRoot;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MSessionRating;
@@ -365,6 +366,9 @@ public class MySessionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 public void onClick(View v) {
                     showProgress();
                     try {
+                        if (context instanceof MySessionsActivity)
+                            ((MySessionsActivity) (context)).callchatEventListner.onChatEventClick((new ChatEvent(results.getPacifyr(), false)));
+                        if (context instanceof DashboardActivity)
                         ((DashboardActivity) (context)).callchatEventListner.onChatEventClick((new ChatEvent(results.getPacifyr(), false)));
                     } catch (Exception e) {
                         e.printStackTrace();

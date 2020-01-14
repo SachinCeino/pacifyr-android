@@ -187,6 +187,13 @@ public class DoctorsActivity extends PacifyrAppCompactActivity implements Doctor
                     modelSpecialist = GsonUtils.getInstance().gsonToModelSpecialist(json);
                     modelResults = modelSpecialist.getResults();
                     modelSpecialist.toString();
+
+                    if (isValid(modelSpecialist)&&isValid(modelSpecialist.getResultsList())
+                    &&isValid(modelSpecialist.getResultsList().get(0))&& isValid(modelSpecialist.getResultsList().get(0).getTitle()))
+                    {
+
+                        ETV_showSpecialities.setText(modelSpecialist.getResultsList().get(0).getTitle() + "");
+                    }
                     setUpAdapter();
                 } catch (Exception e) {
                     e.printStackTrace();

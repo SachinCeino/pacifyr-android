@@ -898,6 +898,7 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
             jsonObject.putOpt("includeChargeablePacifyrs", showAllFlag);
             jsonObject.putOpt("initiatorId", userid);
             jsonObject.putOpt("country", prefM.getCountry());
+            jsonObject.putOpt("visitType", "video");
             List<String> list = new ArrayList<String>();
             list.add(emotion);
             //list.add("b");
@@ -996,6 +997,7 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
             jsonObject.putOpt("includeChargeablePacifyrs", showAllFlag);
             jsonObject.putOpt("initiatorId", userid);
             jsonObject.putOpt("country", prefM.getCountry());
+            jsonObject.putOpt("visitType", "video");
             List<String> list = new ArrayList<String>();
             list.add(emotion);
             //list.add("b");

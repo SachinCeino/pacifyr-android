@@ -31,7 +31,6 @@ import com.pacifyr.client.R;
 import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.event.CallEvent;
 import com.pacifyr.client.event.ChatEvent;
-import com.pacifyr.client.home.ConnectToSinglePacifyrActivity;
 import com.pacifyr.client.home.ListPacifyrScreenActivity;
 import com.pacifyr.client.home.PaymentActivity;
 import com.pacifyr.client.home.ProfileScreenActivity;

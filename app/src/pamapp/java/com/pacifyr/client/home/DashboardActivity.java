@@ -28,7 +28,6 @@ import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.github.javiersantos.appupdater.AppUpdater;
 import com.pacifyr.client.fragment.MySessionFragment;
 import com.pacifyr.client.fragment.ResourcesFragment;
-import com.pacifyr.client.fragment.SupportFragment;
 
 import com.pacifyr.client.fragment.WelcomeTourFragment;
 import com.pacifyr.client.Payment.PaymentFragment;
