@@ -269,7 +269,7 @@ public class SwipeDeckBrowsePacifyerAdapter extends BaseAdapter {
 
 
                 schedule_rlay = v.findViewById(R.id.schedule_rlay);
-
+                schedule_rlay.setVisibility(View.VISIBLE);
                 schedule_rlay.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

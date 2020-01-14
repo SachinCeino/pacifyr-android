@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -38,6 +39,8 @@ import com.pacifyr.client.utility.PacifyrAppCompactActivity;
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONObject;
 
+import java.util.Arrays;
+
 import static com.pacifyr.client.network.NetworkService.GLOBAL_URL;
 
 public class DoctorsActivity extends PacifyrAppCompactActivity implements DoctorsSpecialityAdapter.SpecialityItemClick {
@@ -52,6 +55,8 @@ public class DoctorsActivity extends PacifyrAppCompactActivity implements Doctor
     private DoctorsSpecialityAdapter mDoctorsSpecialityAdapter;
     private LinearLayout primaryLayout;
     private LinearLayout submit;
+    private EditText etv_CurrentLocation;
+    private boolean isPrimary=true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,10 +67,11 @@ public class DoctorsActivity extends PacifyrAppCompactActivity implements Doctor
         ETV_showSpecialities = findViewById(R.id.ETV_showSpecialities);
         primaryLayout = findViewById(R.id.primaryLayout);
         submit = findViewById(R.id.submit);
+        etv_CurrentLocation=findViewById(R.id.etv_CurrentLocation);
 
 
         onSetActionBar();
-        handleActionSpecilaist();
+
 
         mSegmentedGroup = (RadioGroup) findViewById(R.id.segmentedgroup);
         mRadioButtonB = (RadioButton) findViewById(R.id.rb1);
@@ -83,6 +89,8 @@ public class DoctorsActivity extends PacifyrAppCompactActivity implements Doctor
                         fillColour_ForRadioButton(mRadioButtonB);
                         fillNoColor_ForRadioButton(mRadioButtonA);
                         primaryLayout.setVisibility(View.VISIBLE);
+                        isPrimary=true;
+                        handleActionSpecilaist();
                         break;
 
 
@@ -91,6 +99,8 @@ public class DoctorsActivity extends PacifyrAppCompactActivity implements Doctor
                         fillColour_ForRadioButton(mRadioButtonA);
                         fillNoColor_ForRadioButton(mRadioButtonB);
                         primaryLayout.setVisibility(View.GONE);
+                        isPrimary=false;
+                        handleActionSpecilaist();
                         break;
 
                 }
@@ -125,6 +135,15 @@ public class DoctorsActivity extends PacifyrAppCompactActivity implements Doctor
         });
 
 
+
+        etv_CurrentLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+            }
+        });
+
     }
 
     @Override
@@ -153,8 +172,13 @@ public class DoctorsActivity extends PacifyrAppCompactActivity implements Doctor
         PrefManager prefM = PrefManager.getInstance(getApplicationContext());
         String token = prefM.getAccessToken();
         showProgress();
+        String catogoryType="";
+            if (isPrimary)
+                catogoryType="primaryCare";
+            else
+                catogoryType="other";
+        String url = GLOBAL_URL + "specialities/byCategory?category="+catogoryType;
 
-        String url = GLOBAL_URL + "specialities/byCategory?category=all";
         AjaxCallback cb = new AjaxCallback<JSONObject>() {
             @Override
             public void callback(String url, JSONObject json, AjaxStatus status) {

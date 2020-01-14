@@ -314,6 +314,7 @@ public class SwipeDeckConnectPacifyrAdapter extends BaseAdapter {
                     }
                 });
 
+                schedule_rlay.setVisibility(View.VISIBLE);
                 schedule_rlay.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
