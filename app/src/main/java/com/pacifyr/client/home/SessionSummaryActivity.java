@@ -289,6 +289,15 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
                 showKeyboard();
             }
         });
+
+
+
+
+        if (getPackageName().equalsIgnoreCase("com.pacifyr.pam"))
+        {
+            afterFeelSelectionLlay.setVisibility(View.GONE);
+            before_feel_llay.setVisibility(View.GONE);
+        }
     }
 
 
@@ -574,6 +583,7 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
                                     NetworkService.mCurrentUser = GsonUtils.getInstance().gsonToModelUserProfile(json);
                                     //ProfileScreenActivity.pacifyerDetial = GsonUtils.getInstance().gsonToModelUserProfile(json);
                                     if (NetworkService.mCurrentUser != null && NetworkService.mCurrentUser.getEmotion() != null) {
+                                        if (!getPackageName().equalsIgnoreCase("com.pacifyr.pam"))
                                         setBeforeEmotionViews(NetworkService.mCurrentUser.getEmotion());
                                     }
                                 }
@@ -734,14 +744,24 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
 
         if (isValid(comments))
             mSessionRating.setComments(comments);
-        if (isValid(emotionsListAdapter))
-            if (isValid(emotionsListAdapter.getSelected()))
-                mSessionRating.setAfterSessionEmotionId(emotionsListAdapter.getSelected().getId() + "");
 
-        //     if(before_feel_llay.isShown())
-        if (isValid(before_emotion))
-            mSessionRating.setBeforeSessionEmotionId(before_emotion.getId() + "");
-        // qscreate.setDeviceType("android");
+
+        if (getPackageName().equalsIgnoreCase("com.pacifyr.pam"))
+        {
+            mSessionRating.setBeforeSessionEmotionId("");
+            mSessionRating.setAfterSessionEmotionId("");
+        }
+        else
+        {
+            if (isValid(emotionsListAdapter))
+                if (isValid(emotionsListAdapter.getSelected()))
+                    mSessionRating.setAfterSessionEmotionId(emotionsListAdapter.getSelected().getId() + "");
+
+            //     if(before_feel_llay.isShown())
+            if (isValid(before_emotion))
+                mSessionRating.setBeforeSessionEmotionId(before_emotion.getId() + "");
+            // qscreate.setDeviceType("android");
+        }
         return mSessionRating;
 
     }
@@ -970,6 +990,8 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
                     saveSession(sessionid);
                 }
             });
+
+
             //backImv.setBackgroundResource(R.drawable.leftmen);
 
       /*  leftLlay.setOnClickListener(new View.OnClickListener() {

@@ -289,6 +289,13 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
                 showKeyboard();
             }
         });
+
+        if (getPackageName().equalsIgnoreCase("com.pacifyr.pam"))
+        {
+            after_feel_llay.setVisibility(View.GONE);
+            before_feel_llay.setVisibility(View.GONE);
+        }
+
     }
 
 
@@ -889,14 +896,22 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
 
         if (isValid(comments))
             mSessionRating.setComments(comments);
-        //  if(after_feel_ctxv.isShown())
-        if (isValid(emotionsListAdapter))
-            if (isValid(emotionsListAdapter.getSelected()))
-                mSessionRating.setAfterSessionEmotionId(emotionsListAdapter.getSelected().getId() + "");
-        //if(before_feel_llay.isShown())
-        if (isValid(before_emotion))
-            mSessionRating.setBeforeSessionEmotionId(before_emotion.getId() + "");
-        // qscreate.setDeviceType("android");
+        if (getPackageName().equalsIgnoreCase("com.pacifyr.pam"))
+        {
+            mSessionRating.setBeforeSessionEmotionId("");
+            mSessionRating.setAfterSessionEmotionId("");
+        }
+        else
+        {
+            if (isValid(emotionsListAdapter))
+                if (isValid(emotionsListAdapter.getSelected()))
+                    mSessionRating.setAfterSessionEmotionId(emotionsListAdapter.getSelected().getId() + "");
+
+            //     if(before_feel_llay.isShown())
+            if (isValid(before_emotion))
+                mSessionRating.setBeforeSessionEmotionId(before_emotion.getId() + "");
+            // qscreate.setDeviceType("android");
+        }
         return mSessionRating;
 
     }
@@ -1031,8 +1046,9 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
 
                         //     if (!before_feel_llay.isShown()) {
                         before_emotion = getEmotion(emotions);
-
-                        setBeforeEmotionViews(before_emotion);
+                        if (!getPackageName().equalsIgnoreCase("com.pacifyr.pam")) {
+                            setBeforeEmotionViews(before_emotion);
+                        }
                    /* if(isValid(before_emotion)) {
                         before_feel_llay.setVisibility(View.VISIBLE);
                         // call_session_detail_root.getSession().getUser().getEmotion().getImage()
@@ -1044,7 +1060,10 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
 
                         if (isPacifyer()) {
                             after_emotion = getAfterEmotion(emotions);
-                            setAfterEmotionViews(after_emotion);
+                            if (!getPackageName().equalsIgnoreCase("com.pacifyr.pam")) {
+                                setAfterEmotionViews(after_emotion);
+                            }
+
                     /*    if(isValid(after_emotion)) {
                             after_feel_llay.setVisibility(View.VISIBLE);
                             String afterImgUrl = GLOBAL_IMAGE_URL + after_emotion.getImage();
