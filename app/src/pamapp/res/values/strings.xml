@@ -120,8 +120,8 @@ Yor call is routed to the nearest crisis center.</string>
 
     <string name="payout_url">https://pacifyr.com/stripe_dev.html</string>
     <string name="sign_up">Sign in</string>
-    <string name="select_specialisation">Select a specialization</string>
-    <string name="no_wellness_experts_category">No Wellness Experts for the selected category.</string>
+    <string name="select_specialisation">Select a Provider</string>
+    <string name="no_wellness_experts_category">No Provider for the selected category.</string>
     <string name="please_try_again">Please try again</string>
     <string name="success">success</string>
     <string name="contact_us">SUPPORT</string>

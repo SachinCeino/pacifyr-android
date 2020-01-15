@@ -226,7 +226,7 @@ public class AppointmentsFragment extends BaseFragment {
                 jsonObject.put("userId", mPrefManager.getUserID());
 
                 try {
-                    String url = NetworkService.GLOBAL_URL + "schedule/slots/book/cancel/" + mObject.getTimeSlotId();
+                    String url = NetworkService.GLOBAL_URL + "schedule/slots/book/cancel/" + mObject.getId();
                     PrefManager prefM = PrefManager.getInstance(getActivity());
                     String token = prefM.getAccessToken();
                     ((PacifyrActivity) getActivity()).setLoading();
@@ -255,7 +255,6 @@ public class AppointmentsFragment extends BaseFragment {
 
                                             if (status.equals("success")) {
                                                 mAppointmentModel.getResults().remove(position);
-                                                mAppointmentsListAdapter.notifyItemRemoved(position);
                                                 if (isReschedule()) {
                                                     ((PacifyrActivity) getActivity()).setStatus("Rescheduled successfully", R.color.md_green_400);
                                                     ((PacifyrActivity) getActivity()).showStatus();

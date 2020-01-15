@@ -18,7 +18,7 @@ import java.util.Date;
 import java.util.List;
 
 
-public class ScheduleTimeSlotesAdapter extends RecyclerView.Adapter<ScheduleTimeSlotesAdapter.MyViewHolder>{
+public class ScheduleTimeSlotesAdapter extends RecyclerView.Adapter<ScheduleTimeSlotesAdapter.MyViewHolder> {
 
     private List<Slot> mSlotesData;
     private Context context;
@@ -41,13 +41,12 @@ public class ScheduleTimeSlotesAdapter extends RecyclerView.Adapter<ScheduleTime
     }
 
 
-
-    public ScheduleTimeSlotesAdapter(Context context, List<Slot> mSlotesData, boolean isDateIsPassed,SloteBookedListener mListener) {
+    public ScheduleTimeSlotesAdapter(Context context, List<Slot> mSlotesData, boolean isDateIsPassed, SloteBookedListener mListener) {
         this.mSlotesData = mSlotesData;
-       // this.Available=Available;
-        this.context=context;
-        this.isDateIsPassed=isDateIsPassed;
-        this.mListener= mListener;
+        // this.Available=Available;
+        this.context = context;
+        this.isDateIsPassed = isDateIsPassed;
+        this.mListener = mListener;
     }
 
     @Override
@@ -64,7 +63,7 @@ public class ScheduleTimeSlotesAdapter extends RecyclerView.Adapter<ScheduleTime
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
 
         pref = PrefManager.getInstance(context);
-        Slot object=mSlotesData.get(position);
+        Slot object = mSlotesData.get(position);
         if (isValid(object)) {
 
             if (isValid(object.getStartTime()) && isValid(object.getEndTime())) {
@@ -75,12 +74,13 @@ public class ScheduleTimeSlotesAdapter extends RecyclerView.Adapter<ScheduleTime
 
             }
 
+
             if (object.getBooked()) {
                 if (isValid(object.getBookedUserId()) && isValid(pref.getUserID())) {
                     if (object.getBookedUserId().equals(pref.getUserID())) {
                         holder.itemView.setBackgroundResource(R.drawable.blue_background_white_border);
                         if (!object.isHideSlote()) {
-                            holder.img_cancel_slot.setVisibility(View.VISIBLE);
+                            holder.img_cancel_slot.setVisibility(View.GONE);
                         }
 
                     } else {
@@ -93,10 +93,11 @@ public class ScheduleTimeSlotesAdapter extends RecyclerView.Adapter<ScheduleTime
                 }
 
 
-            } else if (object.isHideSlote())
-            {
+            } else if (object.isHideSlote()) {
                 holder.itemView.setBackgroundResource(R.drawable.grey_border_grey_solid_rectangle_sharp);
                 holder.img_cancel_slot.setVisibility(View.GONE);
+            } else if (object.isClicked()) {
+                holder.itemView.setBackgroundResource(R.drawable.blue_background_white_border);
             } else {
 
                 holder.itemView.setBackgroundResource(R.drawable.black_border_white_back);
@@ -110,6 +111,10 @@ public class ScheduleTimeSlotesAdapter extends RecyclerView.Adapter<ScheduleTime
                 public void onClick(View v) {
                     if (!object.isHideSlote()) {
                         mListener.onSloteBooked(position);
+                        for (int i = 0; i < mSlotesData.size(); i++) {
+                            mSlotesData.get(i).clicked = false;
+                        }
+                        object.clicked = true;
 
                     }
 
@@ -128,7 +133,7 @@ public class ScheduleTimeSlotesAdapter extends RecyclerView.Adapter<ScheduleTime
         SimpleDateFormat sdfs = new SimpleDateFormat("hh:mm a");
         Date dt = null;
         try {
-            dt = sdf.parse(time+":00");
+            dt = sdf.parse(time + ":00");
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -136,16 +141,14 @@ public class ScheduleTimeSlotesAdapter extends RecyclerView.Adapter<ScheduleTime
         return sdfs.format(dt);
     }
 
-    public Boolean isValid(List list, int position)
-    {
-        if(isValid(list))
+    public Boolean isValid(List list, int position) {
+        if (isValid(list))
             return list.size() >= position;
-        return  false;
+        return false;
 
     }
 
-    public Boolean isValid(Object object)
-    {
+    public Boolean isValid(Object object) {
         return object != null;
 
     }
@@ -169,17 +172,10 @@ public class ScheduleTimeSlotesAdapter extends RecyclerView.Adapter<ScheduleTime
 
         }
     }
+
     @Override
     public int getItemCount() {
         return mSlotesData.size();
     }
 
-    public void setselected(int position ,boolean flag)
-    {
-        if (isValid(mSlotesData))
-        {
-            mSlotesData.get(position).setAvailable(flag);
-            notifyDataSetChanged();
-        }
-    }
 }

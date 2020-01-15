@@ -1014,11 +1014,15 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
                                                 appointmentDoneLayout.setVisibility(View.VISIBLE);
                                                 confirmLayout.setVisibility(View.GONE);
                                                 txtv_next.setText("Done");
-                                                confirmationMessageText.setText("Your appointment is scheduled with "
+                                               /* confirmationMessageText.setText("Your appointment is scheduled with "
                                                         + pacifyer_obj.getFirstName() + ""
                                                         + pacifyer_obj.getLastName() + "" + "on "
                                                         + Utility.getDateFormatOne(TempScheduleData.getDate()) + ","
-                                                        + Utility.convertTime(singleSlote.getStartTime()));
+                                                        + Utility.convertTime(singleSlote.getStartTime()));*/
+                                                confirmationMessageText.setText("Your request for an appointment with "+pacifyer_obj.getFirstName() + ""
+                                                        + pacifyer_obj.getLastName()+" " +
+                                                        "has been submitted and you will be notified once the time slot if confirmed.");
+
 
                                                 /*((PacifyrActivity)getActivity()).setStatus(messsage, R.color.md_green_400);
                                                 ((PacifyrActivity)getActivity()).showStatus();

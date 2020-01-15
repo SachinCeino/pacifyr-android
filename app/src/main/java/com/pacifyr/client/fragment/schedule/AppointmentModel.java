@@ -65,6 +65,42 @@ public class AppointmentModel implements Serializable {
         @Expose
         private String updatedAt;
 
+        @SerializedName("rejected")
+        @Expose
+        private Boolean rejected;
+
+        @SerializedName("rejectReason")
+        @Expose
+        private Object rejectReason;
+
+        @SerializedName("cancelled")
+        @Expose
+        private Boolean cancelled;
+
+        public Boolean getRejected() {
+            return rejected;
+        }
+
+        public void setRejected(Boolean rejected) {
+            this.rejected = rejected;
+        }
+
+        public Object getRejectReason() {
+            return rejectReason;
+        }
+
+        public void setRejectReason(Object rejectReason) {
+            this.rejectReason = rejectReason;
+        }
+
+        public Boolean getCancelled() {
+            return cancelled;
+        }
+
+        public void setCancelled(Boolean cancelled) {
+            this.cancelled = cancelled;
+        }
+
         public String getTimeSlotId() {
             return timeSlotId;
         }

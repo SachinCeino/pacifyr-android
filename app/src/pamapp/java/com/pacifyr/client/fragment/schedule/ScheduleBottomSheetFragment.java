@@ -6,10 +6,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,15 +20,24 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.pacifyr.client.R;
 import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
+import com.pacifyr.client.quickblox.chat.utils.Consts;
+import com.pacifyr.client.utils.Utility;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -39,24 +51,29 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
+import static android.view.View.GONE;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
+import static com.pacifyr.client.network.NetworkService.GLOBAL_IMAGE_URL;
 
 public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
     MUser pacifyer_obj;
+
     public ScheduleBottomSheetFragment() {
 
     }
 
 
-    private LinearLayout ll_next_week,ll_prev_week;
+    private LinearLayout ll_next_week, ll_prev_week;
     private String[] data;
     private MainTextView tv_week_display;
     private Calendar calendar;
-    private RecyclerView rcv_week_schedule_,rcv_slote_schedule_;
+    private RecyclerView rcv_week_schedule_, rcv_slote_schedule_;
     public PrefManager prefM;
-    private int weekNumber=0;
-    private List<ScheduleData> WeekScheduleData=new ArrayList<ScheduleData>();
-    private  List<Slot> mSlotesData=new ArrayList<Slot>();
+    private int weekNumber = 0;
+    private List<ScheduleData> WeekScheduleData = new ArrayList<ScheduleData>();
+    private List<Slot> mSlotesData = new ArrayList<Slot>();
 
 
     private GridLayoutManager mLayoutManager;
@@ -64,12 +81,12 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
 
     private WeekScheduleListAdapter mWeekScheduleListAdapter;
     private ScheduleTimeSlotesAdapter mScheduleTimeSlotesAdapter;
-    private boolean isDateIsPassed=false;
+    private boolean isDateIsPassed = false;
 
-    private ScheduleData TempScheduleData=new ScheduleData();
+    private ScheduleData TempScheduleData = new ScheduleData();
     private RelativeLayout noDataAvailable;
 
-    boolean after,before,today,passedTime;
+    boolean after, before, today, passedTime;
 
     public boolean isAfter() {
         return after;
@@ -102,6 +119,20 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
     public void setPassedTime(boolean passedTime) {
         this.passedTime = passedTime;
     }
+
+    private LinearLayout nextClick;
+    private TextView txtv_next;
+    private Slot SlotForNextClick = null;
+    private RelativeLayout firstLayout;
+    private RelativeLayout confirmLayout;
+    private CircleImageView pacifyr_avatar;
+    private TextView pacifyr_name, appointment_date_and_time;
+    private RelativeLayout appointmentDoneLayout;
+    private TextView confirmationMessageText;
+    BottomSheetBehavior mBottomSheetBehavior;
+    LinearLayout l1;
+    private EditText message_comments;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -111,23 +142,38 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view=inflater.inflate(R.layout.schedule_bottomsheet_dialogue, container, false);
+
+        View view = inflater.inflate(R.layout.schedule_bottomsheet_dialogue, container, false);
 
         prefM = PrefManager.getInstance(getActivity());
-        data= getCurrentWeek();
-        ll_next_week=view.findViewById(R.id.ll_next_week);
+        data = getCurrentWeek();
+        ll_next_week = view.findViewById(R.id.ll_next_week);
 
-        ll_prev_week=view.findViewById(R.id.ll_prev_week);
+        ll_prev_week = view.findViewById(R.id.ll_prev_week);
 
-        rcv_week_schedule_=view.findViewById(R.id.rcv_week_schedule_);
-        rcv_slote_schedule_=view.findViewById(R.id.rcv_slote_schedule_);
-        noDataAvailable=view.findViewById(R.id.noDataAvailable);
+        rcv_week_schedule_ = view.findViewById(R.id.rcv_week_schedule_);
+        rcv_slote_schedule_ = view.findViewById(R.id.rcv_slote_schedule_);
+        noDataAvailable = view.findViewById(R.id.noDataAvailable);
+        nextClick = view.findViewById(R.id.nextClick);
+        nextClick.setVisibility(View.VISIBLE);
+        txtv_next = view.findViewById(R.id.txtv_next);
+        txtv_next.setText("Cancel");
+        txtv_next.setVisibility(GONE);
+        firstLayout = view.findViewById(R.id.firstLayout);
+        confirmLayout = view.findViewById(R.id.confirmLayout);
+        pacifyr_avatar = view.findViewById(R.id.pacifyr_avatar);
+        pacifyr_name = view.findViewById(R.id.pacifyr_name);
+        appointment_date_and_time = view.findViewById(R.id.appointment_date_and_time);
+        appointmentDoneLayout = view.findViewById(R.id.appointmentDoneLayout);
+        confirmationMessageText = view.findViewById(R.id.confirmationMessageText);
+        message_comments=view.findViewById(R.id.message_comments);
+        l1 = view.findViewById(R.id.l1);
+        message_comments.setVisibility(GONE);
 
-        tv_week_display=view.findViewById(R.id.tv_week_display);
-                if (getArguments()!=null)
-                {
-                    pacifyer_obj= (MUser) getArguments().getSerializable("OBJECT");
-                }
+        tv_week_display = view.findViewById(R.id.tv_week_display);
+        if (getArguments() != null) {
+            pacifyer_obj = (MUser) getArguments().getSerializable("OBJECT");
+        }
 
 
         if (isValid(data)) {
@@ -145,9 +191,9 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
 
                 weekNumber--;
                 if (isValid(data))
-                    data=getPreviousWeek();
+                    data = getPreviousWeek();
 
-                String disaplay_date= getDisplayDateValue(data);
+                String disaplay_date = getDisplayDateValue(data);
 
                 if (isValid(disaplay_date))
                     tv_week_display.setText(disaplay_date);
@@ -156,7 +202,7 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
                  * the the current date is passed**/
 
 
-               getWeakScheduleList();
+                getWeakScheduleList();
 
             }
         });
@@ -166,11 +212,11 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
             @Override
             public void onClick(View v) {
 
-            weekNumber++;
+                weekNumber++;
                 if (isValid(data))
-                    data=getNextWeek();
+                    data = getNextWeek();
 
-                String disaplay_date= getDisplayDateValue(data);
+                String disaplay_date = getDisplayDateValue(data);
 
                 if (isValid(disaplay_date))
                     tv_week_display.setText(disaplay_date);
@@ -181,18 +227,82 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
         getWeakScheduleList();
 
 
+        nextClick.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (txtv_next.getText().equals("Cancel")) {
+                    dismiss();
+                } else if (txtv_next.getText().equals("Next")) {
+                    rcv_week_schedule_.setVisibility(GONE);
+                    if (isValid(SlotForNextClick)) {
+                        callAppoinmentConfirmationScreen(SlotForNextClick);
+                        //callSlotBookApi(SlotForNextClick);
+                    }
+                } else if (txtv_next.getText().equals("Confirm")) {
+                    if (isValid(SlotForNextClick)) {
+
+                        callSlotBookApi(SlotForNextClick);
+                    }
+
+                } else if (txtv_next.getText().equals("Done")) {
+                    EventBus.getDefault().post("NEWSCHEDULE");
+                    dismiss();
+                }
+            }
+        });
+
 
         return view;
     }
 
+
+    private void callAppoinmentConfirmationScreen(Slot slotForNextClick) {
+        firstLayout.setVisibility(GONE);
+        confirmLayout.setVisibility(View.VISIBLE);
+        appointmentDoneLayout.setVisibility(GONE);
+        ll_prev_week.setVisibility(GONE);
+        Glide.with(getActivity())
+                .load(GLOBAL_IMAGE_URL + pacifyer_obj.getImage())
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .listener(new RequestListener<String, GlideDrawable>() {
+                    @Override
+                    public boolean onException(Exception e, String model,
+                                               Target<GlideDrawable> target, boolean isFirstResource) {
+                        e.printStackTrace();
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(GlideDrawable resource, String model,
+                                                   Target<GlideDrawable> target, boolean isFromMemoryCache,
+                                                   boolean isFirstResource) {
+                        // progressBar.setVisibility(View.GONE);
+                        return false;
+                    }
+                })
+                .error(R.drawable.ic_error_white)
+                .dontTransform()
+                .override(Consts.PREFERRED_IMAGE_SIZE_FULL, Consts.PREFERRED_IMAGE_SIZE_FULL)
+                .into(pacifyr_avatar);
+
+        pacifyr_name.setText(pacifyer_obj.getFirstName() + "" + pacifyer_obj.getLastName() + "");
+
+        appointment_date_and_time.setText(Utility.getDateFormatOne(TempScheduleData.getDate() + "") + "," + Utility.convertTime(slotForNextClick.getStartTime()));
+
+        txtv_next.setText("Confirm");
+
+
+    }
+
     private void getWeakScheduleList() {
 
-        ((PacifyrActivity)getActivity()).setLoading();
-        ((PacifyrActivity)getActivity()).showProgress();
+        ((PacifyrActivity) getActivity()).setLoading();
+        ((PacifyrActivity) getActivity()).showProgress();
 
-        String token=prefM.getAccessToken();
+        String token = prefM.getAccessToken();
 
-        String userid=prefM.getUserID();
+        String userid = prefM.getUserID();
 
         AjaxCallback cb = new AjaxCallback<JSONArray>() {
             @Override
@@ -200,41 +310,35 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
                 try {
 
 
-                    if (isValid(json))
-                    {
-                        ((PacifyrActivity)getActivity()).hideProgress();
-                        Log.w("@@@@",String.valueOf(json));
-                        WeekScheduleData= GsonUtils.getInstance().gsonToModelScheduleData(json);
-                        if(isValid(WeekScheduleData)) {
-                            ((PacifyrActivity)getActivity()).hideProgress();
+                    if (isValid(json)) {
+                        ((PacifyrActivity) getActivity()).hideProgress();
+                        Log.w("@@@@", String.valueOf(json));
+                        WeekScheduleData = GsonUtils.getInstance().gsonToModelScheduleData(json);
+                        if (isValid(WeekScheduleData)) {
+                            ((PacifyrActivity) getActivity()).hideProgress();
 
-                            noDataAvailable.setVisibility(View.GONE);
+                            noDataAvailable.setVisibility(GONE);
                             rcv_week_schedule_.setVisibility(View.VISIBLE);
                             rcv_slote_schedule_.setVisibility(View.VISIBLE);
 
                             setWeekScheduleAdapter(WeekScheduleData);
-                        }
-                        else
-                        {
-                            ((PacifyrActivity)getActivity()).hideProgress();
+                        } else {
+                            ((PacifyrActivity) getActivity()).hideProgress();
                             noDataAvailable.setVisibility(View.VISIBLE);
-                            rcv_week_schedule_.setVisibility(View.GONE);
-                            rcv_slote_schedule_.setVisibility(View.GONE);
+                            rcv_week_schedule_.setVisibility(GONE);
+                            rcv_slote_schedule_.setVisibility(GONE);
                         }
 
-                    }
-                    else
-                    {
-                        ((PacifyrActivity)getActivity()).hideProgress();
-                        if(isValid(status.getMessage()))
-                        {
+                    } else {
+                        ((PacifyrActivity) getActivity()).hideProgress();
+                        if (isValid(status.getMessage())) {
                             Toast.makeText(getActivity(), status.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }
 
                 } catch (Exception e) {
 
-                    ((PacifyrActivity)getActivity()).hideProgress();
+                    ((PacifyrActivity) getActivity()).hideProgress();
 
                     e.printStackTrace();
                 }
@@ -249,34 +353,26 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
 
             aq.ajax(GLOBAL_URL + "schedule/byWeek?pacifyrId=" + pacifyer_obj.getId() + "&weekNumber=" + weekNumber, JSONArray.class, cb);
 
-        }
-        catch (Exception ex)
-
-        {
-            ((PacifyrActivity)getActivity()).hideProgress();
+        } catch (Exception ex) {
+            ((PacifyrActivity) getActivity()).hideProgress();
 
             ex.printStackTrace();
         }
 
     }
 
-    public void getTheDateIsPassedOrNot(List<ScheduleData> dates)
-    {
+    public void getTheDateIsPassedOrNot(List<ScheduleData> dates) {
 
         SimpleDateFormat input = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
         SimpleDateFormat output = new SimpleDateFormat("dd/MM/yyyy");
 
-        ArrayList<String> serverDates=new ArrayList<>();
-        for (int i=0;i<dates.size();i++)
-        {
+        ArrayList<String> serverDates = new ArrayList<>();
+        for (int i = 0; i < dates.size(); i++) {
 
             Date d = null;
-            try
-            {
+            try {
                 d = input.parse(dates.get(i).getDate());
-            }
-            catch (ParseException e)
-            {
+            } catch (ParseException e) {
                 e.printStackTrace();
             }
             String formatted = output.format(d);
@@ -286,8 +382,7 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
 
         }
 
-        if (isValid(serverDates))
-        {
+        if (isValid(serverDates)) {
             String dd = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
             isDateIsPassed = !serverDates.contains(dd);
         }
@@ -301,17 +396,15 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
         setBefore(false);
         setAfter(false);
 
-        mWeekScheduleListAdapter=new WeekScheduleListAdapter(weekScheduleData,getActivity(),isDateIsPassed, new WeekScheduleListAdapter.ListAdapterListener() {
+        mWeekScheduleListAdapter = new WeekScheduleListAdapter(weekScheduleData, getActivity(), isDateIsPassed, new WeekScheduleListAdapter.ListAdapterListener() {
             @Override
             public void onDateClick(int position) {
 
-                if (isValid(weekScheduleData.get(position)))
-                {
-                    ScheduleData singleItem=weekScheduleData.get(position);
-                    TempScheduleData=singleItem;
-                    if (isValid(singleItem))
-                    {
-                        webGetTimSlotes(singleItem)  ;
+                if (isValid(weekScheduleData.get(position))) {
+                    ScheduleData singleItem = weekScheduleData.get(position);
+                    TempScheduleData = singleItem;
+                    if (isValid(singleItem)) {
+                        webGetTimSlotes(singleItem);
                     }
                 }
 
@@ -319,7 +412,7 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
             }
         });
 
-        mLayoutManager=new GridLayoutManager(getActivity(),7, GridLayoutManager.VERTICAL,false);
+        mLayoutManager = new GridLayoutManager(getActivity(), 7, GridLayoutManager.VERTICAL, false);
 
         rcv_week_schedule_.setLayoutManager(mLayoutManager);
 
@@ -327,7 +420,6 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
 
         rcv_week_schedule_.setItemAnimator(new DefaultItemAnimator());
     }
-
 
 
     private void checkIsItCurrentDate(String date_value) {
@@ -340,12 +432,9 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
         SimpleDateFormat output = new SimpleDateFormat("dd/MM/yyyy");
 
         Date d = null;
-        try
-        {
+        try {
             d = input.parse(date_value);
-        }
-        catch (ParseException e)
-        {
+        } catch (ParseException e) {
             e.printStackTrace();
         }
         String formatted = output.format(d);
@@ -356,34 +445,30 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
         String todayString = formatter.format(todayDate);
 
 
-        if (todayString.equals(formatted))
-        {
+        if (todayString.equals(formatted)) {
             setToday(true);
 
-            Log.w("WWWWW","today");
+            Log.w("WWWWW", "today");
         }
 
-        Date enteredDate=null;
-        try
-        {
+        Date enteredDate = null;
+        try {
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
             enteredDate = sdf.parse(formatted);
-        }catch (Exception ex)
-        {
+        } catch (Exception ex) {
             // enteredDate will be null if date="287686";
         }
         Date currentDate = new Date();
-        if(enteredDate.after(currentDate)){
+        if (enteredDate.after(currentDate)) {
             setBefore(false);
 
-        }else {
+        } else {
             setBefore(true);
 
         }
 
 
     }
-
 
 
     public Boolean isValid(String text) {
@@ -398,18 +483,20 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
 
     }
 
-    public Boolean isValid(List list,int pos) {
+    public Boolean isValid(List list, int pos) {
         if (isValid(list))
             return list.size() >= pos;
         return false;
 
     }
-    public Boolean isValidPos(List list,int pos) {
+
+    public Boolean isValidPos(List list, int pos) {
         if (isValid(list))
             return list.size() >= pos;
         return false;
 
     }
+
     public Boolean isValidNotNull(List list) {
         // if(list.size()>0)
         return list != null;
@@ -444,6 +531,7 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
         return getNextWeek();
 
     }
+
     public String[] getNextWeek() {
 
         DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
@@ -453,7 +541,7 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
         for (int i = 0; i < 7; i++) {
 
             days[i] = format.format(this.calendar.getTime());
-            this.calendar.add(Calendar.DATE,1);
+            this.calendar.add(Calendar.DATE, 1);
         }
 
         return days;
@@ -467,20 +555,19 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
     }
 
 
-
     private String getDisplayDateValue(String[] data) {
 
-        String displaydate="";
+        String displaydate = "";
 
-        String first_date=data[0];
+        String first_date = data[0];
 
-        String second_date=data[6];
+        String second_date = data[6];
 
         /**split date first **/
 
-        SimpleDateFormat format1=new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat format1 = new SimpleDateFormat("dd/MM/yyyy");
 
-        Date dt1= null;
+        Date dt1 = null;
 
         try {
             dt1 = format1.parse(first_date);
@@ -488,13 +575,13 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
             e.printStackTrace();
         }
 
-        DateFormat format2=new SimpleDateFormat("dd");
+        DateFormat format2 = new SimpleDateFormat("dd");
 
-        String first_dd=format2.format(dt1);
+        String first_dd = format2.format(dt1);
 
         /**split date second **/
 
-        Date dt2= null;
+        Date dt2 = null;
 
         try {
             dt2 = format1.parse(second_date);
@@ -502,14 +589,14 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
             e.printStackTrace();
         }
 
-        DateFormat format3=new SimpleDateFormat("dd");
+        DateFormat format3 = new SimpleDateFormat("dd");
 
-        String second_dd=format3.format(dt2);
+        String second_dd = format3.format(dt2);
 
 
         /**split month from first**/
 
-        Date dt3= null;
+        Date dt3 = null;
 
         try {
             dt3 = format1.parse(first_date);
@@ -517,27 +604,26 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
             e.printStackTrace();
         }
 
-        DateFormat format4=new SimpleDateFormat("MMM");
+        DateFormat format4 = new SimpleDateFormat("MMM");
 
-        String month=format4.format(dt3);
+        String month = format4.format(dt3);
 
 
         /**split month from second**/
 
-        Date dt4= null;
+        Date dt4 = null;
         try {
             dt4 = format1.parse(second_date);
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
-        DateFormat format5=new SimpleDateFormat("MMM");
+        DateFormat format5 = new SimpleDateFormat("MMM");
 
-        String month2=format5.format(dt4);
+        String month2 = format5.format(dt4);
 
 
-
-        displaydate=first_dd+"-"+month+"--"+second_dd+"-"+month2;
+        displaydate = first_dd + "-" + month + "--" + second_dd + "-" + month2;
 
         return displaydate;
 
@@ -567,69 +653,62 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
     }
 
 
-
     private void webGetTimSlotes(ScheduleData mObject) {
 
-        ((PacifyrActivity)getActivity()).setLoading();
-        ((PacifyrActivity)getActivity()).showProgress();
-        PrefManager prefM= PrefManager.getInstance(getActivity());
-        String token=prefM.getAccessToken();
-        String id="";
-        if (isValid(mObject.getId()))
-        {
-            id=mObject.getId();
-        }else {return;}
+        ((PacifyrActivity) getActivity()).setLoading();
+        ((PacifyrActivity) getActivity()).showProgress();
+        PrefManager prefM = PrefManager.getInstance(getActivity());
+        String token = prefM.getAccessToken();
+        String id = "";
+        if (isValid(mObject.getId())) {
+            id = mObject.getId();
+        } else {
+            return;
+        }
 
         AjaxCallback cb = new AjaxCallback<JSONArray>() {
             @Override
             public void callback(String url, JSONArray json, AjaxStatus status) {
                 try {
-                    ((PacifyrActivity)getActivity()).hideProgress();
-                    if (isValid(json))
-                    {
-                        mSlotesData=GsonUtils.getInstance().gsonToModelSlotesModel(json);
-                      List<Slot>  availableSlotArray=new ArrayList<Slot>();
+                    ((PacifyrActivity) getActivity()).hideProgress();
+                    if (isValid(json)) {
+                        mSlotesData = GsonUtils.getInstance().gsonToModelSlotesModel(json);
+                        List<Slot> availableSlotArray = new ArrayList<Slot>();
 
-                        if (isValid(mSlotesData))
-                        {
-                            for (Slot item:mSlotesData)
-                            {
-                                if (item.getAvailable()==true)
-                                {
+                        if (isValid(mSlotesData)) {
+                            for (Slot item : mSlotesData) {
+                                if (item.getAvailable() == true) {
                                     availableSlotArray.add(item);
                                 }
                             }
                             mSlotesData.clear();
                             mSlotesData.addAll(availableSlotArray);
                             availableSlotArray.clear();
-                            if (isValid(mSlotesData))
-                            {
+                            if (isValid(mSlotesData)) {
                                 checkIsItCurrentDate(mObject.getDate());
                                 setTimeSlotesAdapter(mSlotesData);
-                            }
-                           else  {
+                                if (!txtv_next.getText().equals("Done"))
+                                    txtv_next.setVisibility(GONE);
+                                l1.setVisibility(View.VISIBLE);
+                            } else {
                                 noDataAvailable.setVisibility(View.VISIBLE);
                                 rcv_week_schedule_.setVisibility(View.VISIBLE);
-                                rcv_slote_schedule_.setVisibility(View.GONE);
+                                rcv_slote_schedule_.setVisibility(GONE);
                             }
 
 
-                        }
-                        else {
+                        } else {
                             Toast.makeText(getActivity(), "No slot's Available!", Toast.LENGTH_SHORT).show();
                         }
 
-                    }
-                    else
-                    {
-                        if(isValid(status.getMessage()))
-                        {
+                    } else {
+                        if (isValid(status.getMessage())) {
                             Toast.makeText(getActivity(), status.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }
 
                 } catch (Exception e) {
-                    ((PacifyrActivity)getActivity()).hideProgress();
+                    ((PacifyrActivity) getActivity()).hideProgress();
                     e.printStackTrace();
                 }
             }
@@ -638,48 +717,37 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
             AQuery aq = new AQuery(getActivity());
             cb.header("Content-Type", "application/json");
             cb.header("AccessToken", token);
-            aq.ajax(GLOBAL_URL + "schedule/slots/"+id, JSONArray.class, cb);
+            aq.ajax(GLOBAL_URL + "schedule/slots/" + id, JSONArray.class, cb);
 
-        }
-        catch (Exception ex)
-
-        {
-            ((PacifyrActivity)getActivity()).hideProgress();
+        } catch (Exception ex) {
+            ((PacifyrActivity) getActivity()).hideProgress();
             ex.printStackTrace();
         }
 
-
+        ((PacifyrActivity) getActivity()).hideProgress();
     }
 
     private void setTimeSlotesAdapter(List<Slot> mSlotesData) {
 
 
-        if (!isToday())
-        {
-            if (isBefore())
-            {
-                for (Slot slot:mSlotesData)
-                {
+        if (!isToday()) {
+            if (isBefore()) {
+                for (Slot slot : mSlotesData) {
                     slot.setHideSlote(true);
 
                 }
 
-            }
-            else
-            {
-                for (Slot slot:mSlotesData)
-                {
+            } else {
+                for (Slot slot : mSlotesData) {
                     slot.setHideSlote(false);
 
                 }
             }
 
-        }
-        else {
+        } else {
 
 
-            for (int i=0;i<mSlotesData.size();i++)
-            {
+            for (int i = 0; i < mSlotesData.size(); i++) {
                 long currentMill = getMilliSecondsTime(getCurrentTime());
                 long servermilli = getMilliSecondsTime(mSlotesData.get(i).getStartTime());
 
@@ -695,31 +763,36 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
             }
 
 
-
         }
 
 
-        noDataAvailable.setVisibility(View.GONE);
+        noDataAvailable.setVisibility(GONE);
         rcv_week_schedule_.setVisibility(View.VISIBLE);
         rcv_slote_schedule_.setVisibility(View.VISIBLE);
-        mScheduleTimeSlotesAdapter=new ScheduleTimeSlotesAdapter(getActivity(), mSlotesData, isDateIsPassed, new ScheduleTimeSlotesAdapter.SloteBookedListener() {
+        mScheduleTimeSlotesAdapter = new ScheduleTimeSlotesAdapter(getActivity(), mSlotesData, isDateIsPassed, new ScheduleTimeSlotesAdapter.SloteBookedListener() {
             @Override
             public void onSloteBooked(int position) {
+                SlotForNextClick = null;
+                if (isValid(mSlotesData) && isValid(mSlotesData.get(position))) {
+                    Slot singleSlote = mSlotesData.get(position);
 
-                if (isValid(mSlotesData)&& isValid(mSlotesData.get(position)))
-                {
-                    Slot singleSlote=mSlotesData.get(position);
                     if (isValid(singleSlote)) {
-                        if (singleSlote.getBooked()==false)
-                            showSlotBookedConfirmationPopup(singleSlote);
+                        SlotForNextClick = singleSlote;
+                        //showSlotBookedConfirmationPopup(singleSlote);
                         if (singleSlote.getBooked()) {
+                            SlotForNextClick = null;
                             if (isValid(singleSlote.getBookedUserId()) && isValid(prefM.getUserID())) {
                                 if (singleSlote.getBookedUserId().equals(prefM.getUserID())) {
-                                    showBookedSlotCancel(singleSlote);
+                                  //  showBookedSlotCancel(singleSlote);
                                 }
 
                             }
 
+                        } else {
+                            txtv_next.setText("Next");
+                            txtv_next.setVisibility(View.VISIBLE);
+                            l1.setVisibility(View.INVISIBLE);
+                            mScheduleTimeSlotesAdapter.notifyDataSetChanged();
                         }
 
                     }
@@ -727,7 +800,7 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
 
             }
         });
-        mGridLayoutManager=new GridLayoutManager(getActivity(),2, GridLayoutManager.VERTICAL,false);
+        mGridLayoutManager = new GridLayoutManager(getActivity(), 2, GridLayoutManager.VERTICAL, false);
         rcv_slote_schedule_.setLayoutManager(mGridLayoutManager);
         rcv_slote_schedule_.setItemAnimator(new DefaultItemAnimator());
         rcv_slote_schedule_.setAdapter(mScheduleTimeSlotesAdapter);
@@ -736,10 +809,10 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
 
     private void showBookedSlotCancel(Slot singleSlote) {
 
-        ((PacifyrActivity)getActivity()).setAlertStatusInBlue("Cancel the slot", "Do you want to cancel the slot ?", new View.OnClickListener() {
+        ((PacifyrActivity) getActivity()).setAlertStatusInBlue("Cancel the slot", "Do you want to cancel the slot ?", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((PacifyrActivity)getActivity()).hideStatus();
+                ((PacifyrActivity) getActivity()).hideStatus();
 
                 callCAncelBookedSlotApi(singleSlote);
             }
@@ -781,20 +854,20 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
 
         if (isValid(singleSlote)) {
             try {
-                JSONObject jsonObject=new JSONObject();
-                jsonObject.put("userId",prefM.getUserID());
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("userId", prefM.getUserID());
 
                 try {
                     String url = NetworkService.GLOBAL_URL + "schedule/slots/book/cancel/" + singleSlote.getId();
                     PrefManager prefM = PrefManager.getInstance(getActivity());
                     String token = prefM.getAccessToken();
-                    ((PacifyrActivity)getActivity()).setLoading();
-                    ((PacifyrActivity)getActivity()).showProgress();
+                    ((PacifyrActivity) getActivity()).setLoading();
+                    ((PacifyrActivity) getActivity()).showProgress();
                     AjaxCallback cb = new AjaxCallback<JSONObject>() {
                         @Override
                         public void callback(String url, JSONObject json, AjaxStatus stat) {
                             try {
-                                ((PacifyrActivity)getActivity()).hideProgress();
+                                ((PacifyrActivity) getActivity()).hideProgress();
 
                                 if (isValid(json)) {
                                     String jsonS = json.toString();
@@ -802,83 +875,74 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
                                     String messsage = null;
                                     Log.w("QQQQ", jsonS);
 
-                                    if (json.has("status"))
-                                    {
+                                    if (json.has("status")) {
 
-                                        status=json.getString("status");
-                                        messsage=status;
+                                        status = json.getString("status");
+                                        messsage = status;
                                         if (json.has("message"))
-                                        messsage=json.getString("message");
+                                            messsage = json.getString("message");
 
-                                        if (isValid(status))
-                                        {
+                                        if (isValid(status)) {
 
 
-                                            if (status.equals("success"))
-                                            {
-                                                ((PacifyrActivity)getActivity()).setStatus(messsage, R.color.md_green_400);
-                                                ((PacifyrActivity)getActivity()).showStatus();
+                                            if (status.equals("success")) {
+                                                ((PacifyrActivity) getActivity()).setStatus(messsage, R.color.md_green_400);
+                                                ((PacifyrActivity) getActivity()).showStatus();
                                                 new Handler().postDelayed(new Runnable() {
                                                     @Override
                                                     public void run() {
 
-                                                        ((PacifyrActivity)getActivity()).hideStatus();
+                                                        ((PacifyrActivity) getActivity()).hideStatus();
+
+                                                    }
+                                                }, 2000);
+                                            } else {
+                                                ((PacifyrActivity) getActivity()).setStatus(messsage, R.color.md_red_A700);
+                                                ((PacifyrActivity) getActivity()).showStatus();
+                                                new Handler().postDelayed(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+
+                                                        ((PacifyrActivity) getActivity()).hideStatus();
 
                                                     }
                                                 }, 2000);
                                             }
-                                            else
-                                            {
-                                                ((PacifyrActivity)getActivity()).setStatus(messsage, R.color.md_red_A700);
-                                                ((PacifyrActivity)getActivity()).showStatus();
-                                                new Handler().postDelayed(new Runnable() {
-                                                    @Override
-                                                    public void run() {
-
-                                                        ((PacifyrActivity)getActivity()).hideStatus();
-
-                                                    }
-                                                },2000);
-                                            }
-                                        }
-                                        else
-                                        {
-                                            ((PacifyrActivity)getActivity()).setStatus("Something went wrong", R.color.md_red_A700);
-                                            ((PacifyrActivity)getActivity()).showStatus();
+                                        } else {
+                                            ((PacifyrActivity) getActivity()).setStatus("Something went wrong", R.color.md_red_A700);
+                                            ((PacifyrActivity) getActivity()).showStatus();
                                             new Handler().postDelayed(new Runnable() {
                                                 @Override
                                                 public void run() {
 
-                                                    ((PacifyrActivity)getActivity()).hideStatus();
+                                                    ((PacifyrActivity) getActivity()).hideStatus();
 
                                                 }
-                                            },2000);
+                                            }, 2000);
                                         }
 
-                                        ((PacifyrActivity)getActivity()).showStatus();
-                                    }
-                                    else {
-                                        ((PacifyrActivity)getActivity()).setStatus("Something went wrong !", R.color.md_red_A700);
-                                        ((PacifyrActivity)getActivity()).showStatus();
+                                        ((PacifyrActivity) getActivity()).showStatus();
+                                    } else {
+                                        ((PacifyrActivity) getActivity()).setStatus("Something went wrong !", R.color.md_red_A700);
+                                        ((PacifyrActivity) getActivity()).showStatus();
                                         new Handler().postDelayed(new Runnable() {
                                             @Override
                                             public void run() {
 
-                                                ((PacifyrActivity)getActivity()).hideStatus();
+                                                ((PacifyrActivity) getActivity()).hideStatus();
 
                                             }
-                                        },2000);
+                                        }, 2000);
                                     }
 
-                                    if (isValid(TempScheduleData))
-                                    {
+                                    if (isValid(TempScheduleData)) {
                                         webGetTimSlotes(TempScheduleData);
                                     }
                                 }
 
                             } catch (Exception e) {
                                 e.printStackTrace();
-                                ((PacifyrActivity)getActivity()).hideProgress();
+                                ((PacifyrActivity) getActivity()).hideProgress();
                             }
                         }
                     };
@@ -901,8 +965,10 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
     }
 
 
-    /** popu for confirmtion api for slote boking api **/
-    private void showSlotBookedConfirmationPopup(Slot singleSlote) {
+    /**
+     * popu for confirmtion api for slote boking api
+     **/
+ /*   private void showSlotBookedConfirmationPopup(Slot singleSlote) {
 
         ((PacifyrActivity)getActivity()).setAlertStatusInBlue("Book the slot", "Do you want to book the slot ?", new View.OnClickListener() {
             @Override
@@ -912,27 +978,26 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
                 callSlotBookApi(singleSlote);
             }
         });
-    }
-
+    }*/
     private void callSlotBookApi(Slot singleSlote) {
 
 
         if (isValid(singleSlote)) {
             try {
-                JSONObject jsonObject=new JSONObject();
-                jsonObject.put("userId",prefM.getUserID());
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("userId", prefM.getUserID());
 
                 try {
                     String url = NetworkService.GLOBAL_URL + "schedule/slots/book/" + singleSlote.getId();
                     PrefManager prefM = PrefManager.getInstance(getActivity());
                     String token = prefM.getAccessToken();
-                    ((PacifyrActivity)getActivity()).setLoading();
-                    ((PacifyrActivity)getActivity()).showProgress();
+                    ((PacifyrActivity) getActivity()).setLoading();
+                    ((PacifyrActivity) getActivity()).showProgress();
                     AjaxCallback cb = new AjaxCallback<JSONObject>() {
                         @Override
                         public void callback(String url, JSONObject json, AjaxStatus stat) {
                             try {
-                                ((PacifyrActivity)getActivity()).hideProgress();
+                                ((PacifyrActivity) getActivity()).hideProgress();
 
                                 if (isValid(json)) {
                                     String jsonS = json.toString();
@@ -940,82 +1005,85 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
                                     String messsage;
                                     Log.w("QQQQ", jsonS);
 
-                                    if (json.has("status"))
-                                    {
+                                    if (json.has("status")) {
 
-                                        status=json.getString("status");
+                                        status = json.getString("status");
 
-                                        messsage=status;
+                                        messsage = status;
                                         if (json.has("message"))
-                                            messsage=json.getString("message");
-                                        if (isValid(status))
-                                        {
+                                            messsage = json.getString("message");
+                                        if (isValid(status)) {
 
 
-                                            if (status.equals("success"))
-                                            {
-                                                ((PacifyrActivity)getActivity()).setStatus(messsage, R.color.md_green_400);
+                                            if (status.equals("success")) {
+                                                appointmentDoneLayout.setVisibility(View.VISIBLE);
+                                                confirmLayout.setVisibility(GONE);
+                                                txtv_next.setText("Done");
+                                                confirmationMessageText.setText("Your request for an appointment with "+pacifyer_obj.getFirstName() + ""
+                                                        + pacifyer_obj.getLastName()+" " +
+                                                        "has been submitted and you will be notified once the time slot if confirmed.");
+
+                                                /*confirmationMessageText.setText("Your appointment is scheduled with "
+                                                        + pacifyer_obj.getFirstName() + ""
+                                                        + pacifyer_obj.getLastName() + "" + "on "
+                                                        + Utility.getDateFormatOne(TempScheduleData.getDate()) + ","
+                                                        + Utility.convertTime(singleSlote.getStartTime()));*/
+
+                                                /*((PacifyrActivity)getActivity()).setStatus(messsage, R.color.md_green_400);
                                                 ((PacifyrActivity)getActivity()).showStatus();
                                                 new Handler().postDelayed(new Runnable() {
                                                     @Override
                                                     public void run() {
 
                                                         ((PacifyrActivity)getActivity()).hideStatus();
+
+                                                    }
+                                                }, 2000);*/
+                                            } else {
+                                                ((PacifyrActivity) getActivity()).setStatus(messsage, R.color.md_red_A700);
+                                                ((PacifyrActivity) getActivity()).showStatus();
+                                                new Handler().postDelayed(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+
+                                                        ((PacifyrActivity) getActivity()).hideStatus();
 
                                                     }
                                                 }, 2000);
                                             }
-                                            else
-                                            {
-                                                ((PacifyrActivity)getActivity()).setStatus(messsage, R.color.md_red_A700);
-                                                ((PacifyrActivity)getActivity()).showStatus();
-                                                new Handler().postDelayed(new Runnable() {
-                                                    @Override
-                                                    public void run() {
-
-                                                        ((PacifyrActivity)getActivity()).hideStatus();
-
-                                                    }
-                                                },2000);
-                                            }
-                                        }
-                                        else
-                                        {
-                                            ((PacifyrActivity)getActivity()).setStatus("Something went wrong", R.color.md_red_A700);
-                                            ((PacifyrActivity)getActivity()).showStatus();
+                                        } else {
+                                            ((PacifyrActivity) getActivity()).setStatus("Something went wrong", R.color.md_red_A700);
+                                            ((PacifyrActivity) getActivity()).showStatus();
                                             new Handler().postDelayed(new Runnable() {
                                                 @Override
                                                 public void run() {
 
-                                                    ((PacifyrActivity)getActivity()).hideStatus();
+                                                    ((PacifyrActivity) getActivity()).hideStatus();
 
                                                 }
-                                            },2000);
+                                            }, 2000);
                                         }
 
-                                        ((PacifyrActivity)getActivity()).showStatus();
-                                    }
-                                    else {
-                                        ((PacifyrActivity)getActivity()).setStatus("Something went wrong !", R.color.md_red_A700);
-                                        ((PacifyrActivity)getActivity()).showStatus();
+                                    } else {
+                                        ((PacifyrActivity) getActivity()).setStatus("Something went wrong !", R.color.md_red_A700);
+                                        ((PacifyrActivity) getActivity()).showStatus();
                                         new Handler().postDelayed(new Runnable() {
                                             @Override
                                             public void run() {
 
-                                                ((PacifyrActivity)getActivity()).hideStatus();
+                                                ((PacifyrActivity) getActivity()).hideStatus();
 
                                             }
-                                        },2000);
+                                        }, 2000);
                                     }
 
-                                    if (isValid(TempScheduleData))
-                                    {
+                                    if (isValid(TempScheduleData)) {
                                         webGetTimSlotes(TempScheduleData);
                                     }
                                 }
                             } catch (Exception e) {
                                 e.printStackTrace();
-                                ((PacifyrActivity)getActivity()).hideProgress();
+                                ((PacifyrActivity) getActivity()).hideProgress();
                             }
                         }
                     };
@@ -1035,5 +1103,21 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
 
         }
 
+    }
+
+    private class MyBottomSheetCallback extends BottomSheetBehavior.BottomSheetCallback {
+        @Override
+        public void onStateChanged(@NonNull View view, int newState) {
+            if (newState == BottomSheetBehavior.STATE_EXPANDED) {
+                if (mBottomSheetBehavior instanceof LockableBottomSheetBehavior) {
+                    ((LockableBottomSheetBehavior) mBottomSheetBehavior).setLocked(true);
+                }
+            }
         }
+
+        @Override
+        public void onSlide(@NonNull View view, float v) {
+
+        }
+    }
 }

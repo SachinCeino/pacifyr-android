@@ -237,7 +237,7 @@ public class SwipeDeckBrowsePacifyerAdapter extends BaseAdapter {
             img_prof.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ProfileScreenActivity.start(context, searchResults.get(position).getId(), false);
+                    ProfileScreenActivity.start(context, searchResults.get(position).getId(), true);
                    /* Intent i = new Intent(context, ProfileScreenActivity.class);
                     i.putExtra("userid", searchResults.get(position).getId());
                     context.startActivity(i);*/

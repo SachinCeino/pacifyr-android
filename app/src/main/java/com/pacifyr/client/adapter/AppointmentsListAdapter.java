@@ -121,15 +121,31 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<AppointmentsLi
                 }
             });
 
-            holder.mButton_Cancel.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (!scheduleIsPassed(mObject.getStartTimeGMT())) {
-                        mScheduleCancelListner.onScheduleCancel(mObject, position);
-                    }
+            if (isValid(mObject.getCancelled())&& mObject.getCancelled())
+            {
+                holder.mButton_Cancel.setText("Cancelled");
+            }
+            else if (isValid(mObject.getRejected())&&mObject.getRejected())
+            {
+                holder.mButton_Cancel.setText("Rejected");
+            }
+            if (isValid(mObject.getCancelled())&& mObject.getCancelled()
+            || isValid(mObject.getRejected())&&mObject.getRejected())
+            {
+                //do do nothing disable click
+            }
+            else
+            {
+                holder.mButton_Cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (!scheduleIsPassed(mObject.getStartTimeGMT())) {
+                            mScheduleCancelListner.onScheduleCancel(mObject, position);
+                        }
 
-                }
-            });
+                    }
+                });
+            }
 
         }
 
