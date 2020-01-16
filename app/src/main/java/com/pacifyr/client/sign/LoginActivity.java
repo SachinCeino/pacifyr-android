@@ -18,16 +18,6 @@ import android.widget.Toast;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.pacifyr.client.base.PacifyrActivity;
-import com.pacifyrapp.utilitylibrary.CustomEditText;
-import com.pacifyr.client.customview.MainTextView;
-import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.LoginModel;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.MRoleModel;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelFacebook;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.post.PostRegisterModel;
-import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -44,12 +34,23 @@ import com.google.gson.JsonObject;
 import com.koushikdutta.ion.Ion;
 import com.pacifyr.client.R;
 import com.pacifyr.client.adapter.CountrySpinnerAdapter;
+import com.pacifyr.client.base.PacifyrActivity;
+import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.home.DashboardActivity;
 import com.pacifyr.client.model.ItemData;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.quickblox.chat.utils.qb.callback.QbEntityCallbackImpl;
 import com.pacifyr.client.utils.FirebaseLogging;
+import com.pacifyrapp.utilitylibrary.CustomEditText;
+import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.LoginModel;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.MRoleModel;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelFacebook;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.post.PostRegisterModel;
+import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
+import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.quickblox.auth.QBAuth;
 import com.quickblox.auth.session.QBSession;
 import com.quickblox.auth.session.QBSettings;
@@ -65,12 +66,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
+import static com.pacifyr.client.network.NetworkService.countryData;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.ACCOUNT_KEY;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.APP_ID;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.AUTH_KEY;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.AUTH_SECRET;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
-import static com.pacifyr.client.network.NetworkService.countryData;
 
 public class LoginActivity extends PacifyrActivity {
 
@@ -124,6 +125,9 @@ public class LoginActivity extends PacifyrActivity {
                     loginButton.performClick();
                 }
             });
+            if (getPackageName().equalsIgnoreCase(UtilityNetworkService.PACKAGE_PAM)) {
+                findViewById(R.id.linearLayout).setVisibility(View.GONE);
+            }
 
             loginButton = findViewById(R.id.login_button);
             loginButton.setReadPermissions("user_friends", "email");

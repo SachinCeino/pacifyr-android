@@ -18,18 +18,6 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.pacifyr.client.base.PacifyrActivity;
-import com.pacifyrapp.utilitylibrary.CustomEditText;
-import com.pacifyr.client.customview.MainTextView;
-import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
-import com.pacifyrapp.utilitylibrary.ToastHandler;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.MRoleModel;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelFacebook;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelPhoneLogin;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.post.PRegistrationModel;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.post.PostRegisterModel;
-import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -45,12 +33,25 @@ import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.pacifyr.client.R;
 import com.pacifyr.client.adapter.CountrySpinnerAdapter;
+import com.pacifyr.client.base.PacifyrActivity;
+import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.home.DashboardActivity;
 import com.pacifyr.client.home.PacifyrDashboardActivity;
 import com.pacifyr.client.model.ItemData;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.utils.LogUtils;
+import com.pacifyrapp.utilitylibrary.CustomEditText;
+import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
+import com.pacifyrapp.utilitylibrary.ToastHandler;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.MRoleModel;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelFacebook;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelPhoneLogin;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.post.PRegistrationModel;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.post.PostRegisterModel;
+import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
+import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.quickblox.core.exception.QBResponseException;
 import com.quickblox.users.model.QBUser;
 
@@ -146,7 +147,7 @@ public class SignUpActivity extends PacifyrActivity {
             list.add(new ItemData("+91","India",R.drawable.ic_india));
             list.add(new ItemData("+971","UAE", R.drawable.flag_uae2));
             /*list.add(new ItemData("+971","Kuwait", R.drawable.kuwait2));*/
-            sp=(Spinner)findViewById(R.id.spinner);
+            sp = findViewById(R.id.spinner);
             CountrySpinnerAdapter adapter=new CountrySpinnerAdapter(this,
                     R.layout.spinner_item,R.id.txt,list);
             sp.setAdapter(adapter);
@@ -166,16 +167,19 @@ public class SignUpActivity extends PacifyrActivity {
             /* enter_phone_ctxv = (MainTextView) findViewById(R.id.enter_phone_ctxv);*/
 
             /*ItemData it= (ItemData) sp.getSelectedItem();*/
-            logoRlay = (RelativeLayout) findViewById(R.id.logo_rlay);
-            phoneCedit = (CustomEditText) findViewById(R.id.phone_cedit);
-            loginButton = (LoginButton) findViewById(R.id.login_button);
-            facebookRlay = (RelativeLayout) findViewById(R.id.facebook_rlay);
+            logoRlay = findViewById(R.id.logo_rlay);
+            phoneCedit = findViewById(R.id.phone_cedit);
+            loginButton = findViewById(R.id.login_button);
+            facebookRlay = findViewById(R.id.facebook_rlay);
             facebookRlay.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     loginButton.performClick();
                 }
             });
+            if (getPackageName().equalsIgnoreCase(UtilityNetworkService.PACKAGE_PAM)) {
+                findViewById(R.id.linearLayout).setVisibility(View.GONE);
+            }
             //fbTcv = (TextView) findViewById(R.id.fb_tcv);
 
             loginButton.setReadPermissions("user_friends", "email");
@@ -272,7 +276,7 @@ public class SignUpActivity extends PacifyrActivity {
 
                 }
             });
-            signup_rlay =(RelativeLayout) findViewById(R.id.request_rlay);
+            signup_rlay = findViewById(R.id.request_rlay);
             signup_rlay.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -307,15 +311,15 @@ public class SignUpActivity extends PacifyrActivity {
 
     public void onSetActionBar() {
         try {
-            actionBarTopLlay = (LinearLayout) findViewById(R.id.action_bar_top_llay);
-            bottomPanel = (RelativeLayout) findViewById(R.id.bottom_panel);
-            leftLlay = (LinearLayout) findViewById(R.id.left_llay);
-            backImv = (DeviceFitImageView) findViewById(R.id.back_imv);
-            leftTxv = (MainTextView) findViewById(R.id.left_txv);
-            titleTxv = (MainTextView) findViewById(R.id.title_txv);
-            rightLlay = (LinearLayout) findViewById(R.id.right_llay);
-            rightTxv = (MainTextView) findViewById(R.id.right_txv);
-            rightImv = (DeviceFitImageView) findViewById(R.id.right_imv);
+            actionBarTopLlay = findViewById(R.id.action_bar_top_llay);
+            bottomPanel = findViewById(R.id.bottom_panel);
+            leftLlay = findViewById(R.id.left_llay);
+            backImv = findViewById(R.id.back_imv);
+            leftTxv = findViewById(R.id.left_txv);
+            titleTxv = findViewById(R.id.title_txv);
+            rightLlay = findViewById(R.id.right_llay);
+            rightTxv = findViewById(R.id.right_txv);
+            rightImv = findViewById(R.id.right_imv);
             rightImv.setVisibility(View.INVISIBLE);
             rightTxv.setVisibility(View.INVISIBLE);
             rightLlay.setVisibility(View.INVISIBLE);
@@ -440,7 +444,7 @@ public class SignUpActivity extends PacifyrActivity {
                             //ToastHandler.newInstance(SignUpActivity.this).mustShowToast(sucesss.toString());
                             if (isValid(registrationModel,"Please try again ")) {
                                 showProgress();
-                                String stat=registrationModel.getStatus().toString();
+                                String stat = registrationModel.getStatus();
                                 if(isValid(userModel,"Please try again ")) {
                                     if(stat.equals("success")) {
                                         //setStatus("Register Added", R.color.md_green_400);
