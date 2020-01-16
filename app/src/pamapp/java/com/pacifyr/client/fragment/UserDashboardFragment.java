@@ -443,36 +443,120 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                                 pacifyr3Dimv.setVisibility(View.GONE);
                                 pacifyr2Dimv.setVisibility(View.GONE);
                                 pacifyr4Dimv.setVisibility(View.GONE);
-                                if (isValid(pfc[0])&&isValid(pfc[0].getImageUrl()))
-                                Picasso.with(getContext()).load(pfc[0].getImageUrl()).into(pacifyr1Dimv);
+
+                                if (isValid(pfc[0]))
+                                {
+                                    if (isValid(pfc[0].getImageUrl()))
+                                        Picasso.with(getContext()).load(pfc[0].getImageUrl()).into(pacifyr1Dimv);
+                                    else
+                                    {
+                                        Picasso.with(getContext()).load(R.drawable.placeholder_user).into(pacifyr1Dimv);
+                                    }
+                                }
+
                                 break;
                             case 2:
                                 pacifyr4Dimv.setVisibility(View.GONE);
                                 pacifyr3Dimv.setVisibility(View.GONE);
-                                if (isValid(pfc[0])&&isValid(pfc[0].getImageUrl()))
-                                Picasso.with(getActivity()).load(pfc[0].getImageUrl()).into(pacifyr1Dimv);
-                                if (isValid(pfc[1])&&isValid(pfc[1].getImageUrl()))
-                                Picasso.with(getActivity()).load(pfc[1].getImageUrl()).into(pacifyr2Dimv);
+
+                                if (isValid(pfc[0]))
+                                {
+                                    if (isValid(pfc[0].getImageUrl()))
+                                        Picasso.with(getContext()).load(pfc[0].getImageUrl()).into(pacifyr1Dimv);
+                                    else
+                                    {
+                                        Picasso.with(getContext()).load(R.drawable.placeholder_user).into(pacifyr1Dimv);
+                                    }
+                                }
+
+                                if (isValid(pfc[1]))
+                                {
+                                    if (isValid(pfc[1].getImageUrl()))
+                                        Picasso.with(getContext()).load(pfc[1].getImageUrl()).into(pacifyr2Dimv);
+                                    else
+                                    {
+                                        Picasso.with(getContext()).load(R.drawable.placeholder_user).into(pacifyr2Dimv);
+                                    }
+                                }
+
                                 break;
                             case 3:
                                 pacifyr4Dimv.setVisibility(View.GONE);
-                                if (isValid(pfc[0])&&isValid(pfc[0].getImageUrl()))
-                                Picasso.with(getContext()).load(pfc[0].getImageUrl()).into(pacifyr1Dimv);
-                                if (isValid(pfc[1])&&isValid(pfc[1].getImageUrl()))
-                                Picasso.with(getContext()).load(pfc[1].getImageUrl()).into(pacifyr2Dimv);
-                                if (isValid(pfc[2])&&isValid(pfc[2].getImageUrl()))
-                                Picasso.with(getContext()).load(pfc[2].getImageUrl()).into(pacifyr3Dimv);
+
+                                if (isValid(pfc[0]))
+                                {
+                                    if (isValid(pfc[0].getImageUrl()))
+                                        Picasso.with(getContext()).load(pfc[0].getImageUrl()).into(pacifyr1Dimv);
+                                    else
+                                    {
+                                        Picasso.with(getContext()).load(R.drawable.placeholder_user).into(pacifyr1Dimv);
+                                    }
+                                }
+                                if (isValid(pfc[1]))
+                                {
+                                    if (isValid(pfc[1].getImageUrl()))
+                                        Picasso.with(getContext()).load(pfc[1].getImageUrl()).into(pacifyr2Dimv);
+                                    else
+                                    {
+                                        Picasso.with(getContext()).load(R.drawable.placeholder_user).into(pacifyr2Dimv);
+                                    }
+                                }
+
+                                if (isValid(pfc[2]))
+                                {
+                                    if (isValid(pfc[2].getImageUrl()))
+                                        Picasso.with(getContext()).load(pfc[2].getImageUrl()).into(pacifyr3Dimv);
+                                    else
+                                    {
+                                        Picasso.with(getContext()).load(R.drawable.placeholder_user).into(pacifyr3Dimv);
+                                    }
+                                }
+
                                 break;
                             default:
 
-                                if (isValid(pfc[0])&&isValid(pfc[0].getImageUrl()))
-                                Picasso.with(getContext()).load(pfc[0].getImageUrl()).into(pacifyr1Dimv);
-                                if (isValid(pfc[1])&&isValid(pfc[1].getImageUrl()))
-                                Picasso.with(getContext()).load(pfc[1].getImageUrl()).into(pacifyr2Dimv);
-                                if (isValid(pfc[2])&&isValid(pfc[2].getImageUrl()))
-                                Picasso.with(getContext()).load(pfc[2].getImageUrl()).into(pacifyr3Dimv);
-                                if (isValid(pfc[3])&&isValid(pfc[3].getImageUrl()))
-                                Picasso.with(getContext()).load(pfc[3].getImageUrl()).into(pacifyr4Dimv);
+                                if (isValid(pfc[0]))
+                                {
+                                    if (isValid(pfc[0].getImageUrl()))
+                                        Picasso.with(getContext()).load(pfc[0].getImageUrl()).into(pacifyr1Dimv);
+                                    else
+                                    {
+                                        Picasso.with(getContext()).load(R.drawable.placeholder_user).into(pacifyr1Dimv);
+                                    }
+                                }
+
+
+                                if (isValid(pfc[1]))
+                                {
+                                    if (isValid(pfc[1].getImageUrl()))
+                                        Picasso.with(getContext()).load(pfc[1].getImageUrl()).into(pacifyr2Dimv);
+                                    else
+                                    {
+                                        Picasso.with(getContext()).load(R.drawable.placeholder_user).into(pacifyr2Dimv);
+                                    }
+                                }
+
+                                if (isValid(pfc[2]))
+                                {
+                                    if (isValid(pfc[2].getImageUrl()))
+                                        Picasso.with(getContext()).load(pfc[2].getImageUrl()).into(pacifyr3Dimv);
+                                    else
+                                    {
+                                        Picasso.with(getContext()).load(R.drawable.placeholder_user).into(pacifyr3Dimv);
+                                    }
+                                }
+
+
+                                if (isValid(pfc[3]))
+                                {
+                                    if (isValid(pfc[3].getImageUrl()))
+                                    Picasso.with(getContext()).load(pfc[3].getImageUrl()).into(pacifyr4Dimv);
+                                    else
+                                    {
+                                        Picasso.with(getContext()).load(R.drawable.placeholder_user).into(pacifyr4Dimv);
+                                    }
+                                }
+
                                 break;
                         }
 

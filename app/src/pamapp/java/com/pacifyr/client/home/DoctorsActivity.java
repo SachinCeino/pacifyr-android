@@ -88,7 +88,7 @@ public class DoctorsActivity extends PacifyrAppCompactActivity implements Doctor
 
                         fillColour_ForRadioButton(mRadioButtonB);
                         fillNoColor_ForRadioButton(mRadioButtonA);
-                        primaryLayout.setVisibility(View.VISIBLE);
+                        primaryLayout.setVisibility(View.GONE);
                         isPrimary=true;
                         handleActionSpecilaist();
                         break;
