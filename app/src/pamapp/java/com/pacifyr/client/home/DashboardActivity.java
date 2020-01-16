@@ -203,14 +203,14 @@ public class DashboardActivity extends PacifyrAppCompactActivity {
         String json = prefM.getJsonKey();
         String country = prefM.getCountry();
 
-        if (country.equals("US")) {
+      /*  if (country.equals("US")) {
             crisisLlay.setVisibility(View.VISIBLE);
             crisisView.setVisibility(View.VISIBLE);
         } else {
             crisisLlay.setVisibility(View.GONE);
             crisisView.setVisibility(View.GONE);
 
-        }
+        }*/
         if (country.equals("India"))
             paymentLlay.setVisibility(View.GONE);
 

@@ -334,6 +334,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:id="@+id/crisis_view"
+                        android:visibility="gone"
                         android:background="@color/grey" />
 
 
@@ -444,7 +445,6 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:visibility="gone"
                         android:background="@color/grey" />
 
                     <LinearLayout
