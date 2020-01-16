@@ -39,17 +39,6 @@ import com.aigestudio.wheelpicker.widgets.WheelYearPicker;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.pacifyrapp.utilitylibrary.CustomEditText;
-import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
-import com.pacifyrapp.utilitylibrary.ToastHandler;
-import com.pacifyrapp.utilitylibrary.base.BaseAppCompactActivity;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.MEmotion;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.MSessionDetailRoot;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.MSessionRoot;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelUserProfile;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.post.PostRegisterModel;
-import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.facebook.login.LoginManager;
 import com.gdacciaro.iOSDialog.iOSDialog;
 import com.gdacciaro.iOSDialog.iOSDialogBuilder;
@@ -93,6 +82,17 @@ import com.pacifyr.client.utils.Constants;
 import com.pacifyr.client.utils.FirebaseLogging;
 import com.pacifyr.client.utils.LogUtils;
 import com.pacifyr.client.utils.Utility;
+import com.pacifyrapp.utilitylibrary.CustomEditText;
+import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
+import com.pacifyrapp.utilitylibrary.ToastHandler;
+import com.pacifyrapp.utilitylibrary.base.BaseAppCompactActivity;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.MEmotion;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.MSessionDetailRoot;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.MSessionRoot;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelUserProfile;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.post.PostRegisterModel;
+import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.paytm.pgsdk.PaytmOrder;
 import com.paytm.pgsdk.PaytmPGService;
 import com.paytm.pgsdk.PaytmPaymentTransactionCallback;
@@ -129,9 +129,9 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import static com.pacifyr.client.utils.Constants.getCountryChecks;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.STRIPE_PUBLISH_KEY;
-import static com.pacifyr.client.utils.Constants.getCountryChecks;
 
 /**
  * Created by Mani-Ceino on 12/4/2017.
@@ -1038,6 +1038,12 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
         }
         else
         {
+            if (pacifyer.getQbid() <= 0) {
+                hideProgress();
+                Toast.makeText(PacifyrActivity.this, "Sorry, cannot chat with this Pacifyr. " +
+                        "Reason : Invalid qbId", Toast.LENGTH_LONG).show();
+                return;
+            }
             usersIds.add((int) pacifyer.getQbid());
         }
 
@@ -3277,7 +3283,7 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
                 public void callback(String url, JSONObject json, AjaxStatus status) {
                     try {
                         String jsonS = json.toString();
-                        Log.w("@@@jsonS",String.valueOf(jsonS));
+                        Log.w("@@@jsonS", jsonS);
                         //generateCheckSum-----{"status":"success","paytmChecksum":"DK4aCSQEuEMr9OXcbskeXqHrFvDM9RCJhfJaG\/dGTeOIrGBm1BbthHxYckTC07z79Q\/2x9\/O21++coAskab5EdI7lKqoOgCP4KcSf6zOuJI="}
 
                         if (isValid(json))
