@@ -420,15 +420,14 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
 
                 if (isValid(pfc)) {
 
-                    Log.i("preffffffa1", "p: " + pfc);
+
                     if (isValid(pfc.length)) {
-                        Log.i("preffffffb1", "p: " + pfc.length);
                         llayTop.setVisibility(View.VISIBLE);
                         llay_bottom.setVisibility(View.VISIBLE);
                         no_pacifyr_ctxv.setVisibility(View.GONE);
                         switch (pfc.length) {
                             case 0:
-                                Log.i("preffffffc1", "p: " + pfc);
+
                                 pacifyr3Dimv.setVisibility(View.GONE);
                                 pacifyr2Dimv.setVisibility(View.GONE);
                                 pacifyr1Dimv.setVisibility(View.GONE);
@@ -440,33 +439,39 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                                 break;
 
                             case 1:
-                                Log.i("preffffffc2", "p: " + pfc);
+
                                 pacifyr3Dimv.setVisibility(View.GONE);
                                 pacifyr2Dimv.setVisibility(View.GONE);
                                 pacifyr4Dimv.setVisibility(View.GONE);
+                                if (isValid(pfc[0])&&isValid(pfc[0].getImageUrl()))
                                 Picasso.with(getContext()).load(pfc[0].getImageUrl()).into(pacifyr1Dimv);
                                 break;
                             case 2:
-                                Log.i("preffffffc5", "p: " + pfc);
                                 pacifyr4Dimv.setVisibility(View.GONE);
                                 pacifyr3Dimv.setVisibility(View.GONE);
-                                Log.i("preffffffc51", "p: " + pfc[0].getImageUrl());
-                                Log.i("preffffffc52", "p: " + pfc[1].getImageUrl());
+                                if (isValid(pfc[0])&&isValid(pfc[0].getImageUrl()))
                                 Picasso.with(getActivity()).load(pfc[0].getImageUrl()).into(pacifyr1Dimv);
+                                if (isValid(pfc[1])&&isValid(pfc[1].getImageUrl()))
                                 Picasso.with(getActivity()).load(pfc[1].getImageUrl()).into(pacifyr2Dimv);
                                 break;
                             case 3:
-                                Log.i("preffffffc3", "p: " + pfc);
                                 pacifyr4Dimv.setVisibility(View.GONE);
+                                if (isValid(pfc[0])&&isValid(pfc[0].getImageUrl()))
                                 Picasso.with(getContext()).load(pfc[0].getImageUrl()).into(pacifyr1Dimv);
+                                if (isValid(pfc[1])&&isValid(pfc[1].getImageUrl()))
                                 Picasso.with(getContext()).load(pfc[1].getImageUrl()).into(pacifyr2Dimv);
+                                if (isValid(pfc[2])&&isValid(pfc[2].getImageUrl()))
                                 Picasso.with(getContext()).load(pfc[2].getImageUrl()).into(pacifyr3Dimv);
                                 break;
                             default:
-                                Log.i("preffffffc4", "p: " + pfc);
+
+                                if (isValid(pfc[0])&&isValid(pfc[0].getImageUrl()))
                                 Picasso.with(getContext()).load(pfc[0].getImageUrl()).into(pacifyr1Dimv);
+                                if (isValid(pfc[1])&&isValid(pfc[1].getImageUrl()))
                                 Picasso.with(getContext()).load(pfc[1].getImageUrl()).into(pacifyr2Dimv);
+                                if (isValid(pfc[2])&&isValid(pfc[2].getImageUrl()))
                                 Picasso.with(getContext()).load(pfc[2].getImageUrl()).into(pacifyr3Dimv);
+                                if (isValid(pfc[3])&&isValid(pfc[3].getImageUrl()))
                                 Picasso.with(getContext()).load(pfc[3].getImageUrl()).into(pacifyr4Dimv);
                                 break;
                         }
