@@ -54,6 +54,7 @@ import java.util.concurrent.TimeUnit;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static android.view.View.GONE;
+import static com.pacifyr.client.utils.Utility.timeZoneOffset;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
 import static com.pacifyr.client.network.NetworkService.GLOBAL_IMAGE_URL;
 
@@ -986,9 +987,14 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
             try {
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put("userId", prefM.getUserID());
+                jsonObject.put("timeZoneOffset",Utility.timeZoneOffset());
+                JSONArray jsonArray = new JSONArray();
+                jsonArray.put(singleSlote.getId());
+                jsonObject.put("timeSlotId",jsonArray);
+
 
                 try {
-                    String url = NetworkService.GLOBAL_URL + "schedule/slots/book/" + singleSlote.getId();
+                    String url = NetworkService.GLOBAL_URL + "schedule/slots/book";
                     PrefManager prefM = PrefManager.getInstance(getActivity());
                     String token = prefM.getAccessToken();
                     ((PacifyrActivity) getActivity()).setLoading();
@@ -1094,11 +1100,12 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
                     aq.post(url, jsonObject, JSONObject.class, cb);
                 } catch (Exception e) {
                     e.printStackTrace();
+                    Log.w("@@@",String.valueOf(e));
                 }
 
 
             } catch (Exception e) {
-
+                Log.w("@@@",String.valueOf(e));
             }
 
         }

@@ -77,9 +77,9 @@ public class DoctorsActivity extends PacifyrAppCompactActivity implements Doctor
         mRadioButtonB = (RadioButton) findViewById(R.id.rb1);
         mRadioButtonA = (RadioButton) findViewById(R.id.rb3);
 
-        fillColour_ForRadioButton(mRadioButtonA);
-        fillNoColor_ForRadioButton(mRadioButtonB);
-
+        fillColour_ForRadioButton(mRadioButtonB);
+        fillNoColor_ForRadioButton(mRadioButtonA);
+        handleActionSpecilaist();
         mSegmentedGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {

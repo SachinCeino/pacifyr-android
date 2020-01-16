@@ -31,6 +31,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -654,5 +655,10 @@ public class Utility {
         }
         return outPutString.toLowerCase();
     }
-
+    public static String timeZoneOffset()
+    {
+        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT"), Locale.getDefault());
+        String   timeZone = new SimpleDateFormat("Z").format(calendar.getTime());
+        return timeZone.substring(0, 3) + ":"+ timeZone.substring(3, 5);
+    }
 }

@@ -981,9 +981,12 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
             try {
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put("userId", prefM.getUserID());
-
+                jsonObject.put("timeZoneOffset",Utility.timeZoneOffset());
+                JSONArray jsonArray = new JSONArray();
+                jsonArray.put(singleSlote.getId());
+                jsonObject.put("timeSlotId",jsonArray);
                 try {
-                    String url = NetworkService.GLOBAL_URL + "schedule/slots/book/" + singleSlote.getId();
+                    String url = NetworkService.GLOBAL_URL + "schedule/slots/book";
                     PrefManager prefM = PrefManager.getInstance(getActivity());
                     String token = prefM.getAccessToken();
                     ((PacifyrActivity) getActivity()).setLoading();

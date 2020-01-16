@@ -87,7 +87,6 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<AppointmentsLi
                         holder.mTextView_ScheduleTime.setText(mDisplayDateAndTime);
                     }
 
-
                     holder.itemView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -124,10 +123,20 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<AppointmentsLi
             if (isValid(mObject.getCancelled())&& mObject.getCancelled())
             {
                 holder.mButton_Cancel.setText("Cancelled");
+                holder.mButton_Reschedule.setVisibility(View.GONE);
+                holder.itemView.setClickable(false);
             }
             else if (isValid(mObject.getRejected())&&mObject.getRejected())
             {
                 holder.mButton_Cancel.setText("Rejected");
+                holder.mButton_Reschedule.setVisibility(View.GONE);
+                holder.itemView.setClickable(false);
+            }
+            else
+            {
+                holder.mButton_Reschedule.setVisibility(View.VISIBLE);
+                holder.mButton_Cancel.setText("Cancel");
+                holder.itemView.setClickable(true);
             }
             if (isValid(mObject.getCancelled())&& mObject.getCancelled()
             || isValid(mObject.getRejected())&&mObject.getRejected())
