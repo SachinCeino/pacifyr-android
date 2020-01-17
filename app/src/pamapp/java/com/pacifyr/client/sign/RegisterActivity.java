@@ -222,26 +222,14 @@ public class RegisterActivity extends PacifyrActivity {
 
             ArrayList<ItemData> list = new ArrayList<>();
             list.add(new ItemData("+1", "US", R.drawable.flag_usa));
-            list.add(new ItemData("+1", "Canada", R.drawable.canada2));
-            list.add(new ItemData("+91", "India", R.drawable.ic_india));
-            list.add(new ItemData("+971", "UAE", R.drawable.flag_uae2));
-
             CountrySpinnerAdapter adapter = new CountrySpinnerAdapter(this,
                     R.layout.spinner_item, R.id.txt, list);
             spinner.setAdapter(adapter);
 
             String countryCode = prefM.getCountryCode();
-
-            if (countryCode.equals("IN")) {
-                spinner.setSelection(2);
-            } else if (countryCode.equals("US")) {
+            if (countryCode.equals("US")) {
                 spinner.setSelection(0);
-            } else if (countryCode.equals("CA")) {
-                spinner.setSelection(1);
-            } else if (countryCode.equals("AE")) {
-                spinner.setSelection(3);
             }
-
             // loopView=(LoopView) findViewById(R.id.loop_view);
 
             Bundle b = getIntent().getExtras();

@@ -142,9 +142,11 @@ public class SignUpActivity extends PacifyrActivity {
 
             ArrayList<ItemData> list=new ArrayList<>();
             list.add(new ItemData("+1","US",R.drawable.flag_usa));
-            list.add(new ItemData("+1","Canada",R.drawable.canada2));
-            list.add(new ItemData("+91","India",R.drawable.ic_india));
-            list.add(new ItemData("+971","UAE", R.drawable.flag_uae2));
+            if (!getPackageName().equalsIgnoreCase("com.pacifyr.pam")) {
+                list.add(new ItemData("+1", "Canada", R.drawable.canada2));
+                list.add(new ItemData("+91", "India", R.drawable.ic_india));
+                list.add(new ItemData("+971", "UAE", R.drawable.flag_uae2));
+            }
             /*list.add(new ItemData("+971","Kuwait", R.drawable.kuwait2));*/
             sp=(Spinner)findViewById(R.id.spinner);
             CountrySpinnerAdapter adapter=new CountrySpinnerAdapter(this,
@@ -152,15 +154,22 @@ public class SignUpActivity extends PacifyrActivity {
             sp.setAdapter(adapter);
 
             String countryCode = prefM.getCountryCode();
-
-            if(countryCode.equals("IN")){
-                sp.setSelection(2);
-            }else if (countryCode.equals("US")){
-                sp.setSelection(0);
-            }else if (countryCode.equals("CA")){
-                sp.setSelection(1);
-            } else if (countryCode.equals("AE")){
-                sp.setSelection(3);
+            if (!getPackageName().equalsIgnoreCase("com.pacifyr.pam")) {
+                if (countryCode.equals("IN")) {
+                    sp.setSelection(2);
+                } else if (countryCode.equals("US")) {
+                    sp.setSelection(0);
+                } else if (countryCode.equals("CA")) {
+                    sp.setSelection(1);
+                } else if (countryCode.equals("AE")) {
+                    sp.setSelection(3);
+                }
+            }
+            else
+            {
+                if (countryCode.equals("US")){
+                    sp.setSelection(0);
+                }
             }
 
             /* enter_phone_ctxv = (MainTextView) findViewById(R.id.enter_phone_ctxv);*/
