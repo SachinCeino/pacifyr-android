@@ -397,6 +397,7 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
         setBefore(false);
         setAfter(false);
 
+
         mWeekScheduleListAdapter = new WeekScheduleListAdapter(weekScheduleData, getActivity(), isDateIsPassed, new WeekScheduleListAdapter.ListAdapterListener() {
             @Override
             public void onDateClick(int position) {
@@ -412,6 +413,9 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
 
             }
         });
+
+        /** select current date as default selection**/
+        mWeekScheduleListAdapter.setDefaultFirstWeekSelection();
 
         mLayoutManager = new GridLayoutManager(getActivity(), 7, GridLayoutManager.VERTICAL, false);
 

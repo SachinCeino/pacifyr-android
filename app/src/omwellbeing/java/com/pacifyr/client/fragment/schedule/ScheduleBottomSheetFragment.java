@@ -318,6 +318,8 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
 
             }
         });
+        /** select current date as default selection**/
+        mWeekScheduleListAdapter.setDefaultFirstWeekSelection();
 
         mLayoutManager=new GridLayoutManager(getActivity(),7, GridLayoutManager.VERTICAL,false);
 

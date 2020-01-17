@@ -1,6 +1,8 @@
 package com.pacifyr.client.fragment;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -60,6 +62,7 @@ public class DoctorsFilterFragment extends BaseFragment {
     private String mPriceEnd, mPriceStart, mDistanceStart, mDistanceEnd;
     private String mSpeciality;
     private RespSearchPacifyrWOption mSearchPacifyrWOptionsResponse;
+    private TextView txtv_gender;
 
 
 
@@ -77,6 +80,7 @@ public class DoctorsFilterFragment extends BaseFragment {
         textView_fee_min = root.findViewById(R.id.textView_fee_min);
         textView_fee_max = root.findViewById(R.id.textView_fee_max);
         LinearLayout_Submit = root.findViewById(R.id.LinearLayout_Submit);
+        txtv_gender=root.findViewById(R.id.txtv_gender);
 
         /** get Speciality data From Bundle**/
         Bundle mBundle = getArguments();
@@ -119,10 +123,78 @@ public class DoctorsFilterFragment extends BaseFragment {
         });
 
 
+        txtv_gender.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showDialogueWithList(view);
+            }
+        });
 
 
         return root;
     }
+
+    private void showDialogueWithList(View view) {
+
+        switch (view.getId())
+        {
+            case R.id.txtv_gender:
+                getGenderListItems(txtv_gender);
+                break;
+           /* case R.id.CustomEditText_gender:
+                getGenderListItems(CustomEditText_gender);
+                break;
+            case R.id.CustomEditText_organization:
+                getOrganizationListItems(CustomEditText_organization);
+                break;
+            case R.id.CustomEditText_race:
+                getRaceListItems(CustomEditText_race);
+                break;
+            case R.id.CustomEditText_region:
+                getRegionListItems(CustomEditText_region);
+                break;*/
+        }
+    }
+
+
+    private void getGenderListItems(TextView customEditText_gender) {
+
+        String title="Select your gender";
+        ArrayList<String> genderList=new ArrayList();
+        genderList.add("Male");
+        genderList.add("Female");
+        showListPopup(title,genderList,customEditText_gender);
+    }
+
+
+    private void showListPopup(String title,ArrayList<String> list,TextView customEditText_view) {
+
+        // setup the alert builder
+        String[] dataList=null;
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle(title);
+
+        if (isValid(list))
+        {
+            dataList=new String[list.size()];
+            for (int i=0;i<list.size();i++)
+            {
+                dataList[i]=list.get(i);
+            }
+        }
+        String[] finalDataList = dataList;
+        builder.setItems(dataList, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                customEditText_view.setText(finalDataList[which]+"");
+            }
+        });
+
+// create and show the alert dialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
 
     private void SubmitFilterDataAPI() {
 

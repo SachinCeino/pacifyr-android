@@ -18,7 +18,9 @@ import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.home.DoctorsActivity;
+import com.pacifyr.client.home.DoctorsMoreInformationActivity;
 import com.pacifyr.client.home.ListPacifyrScreenActivity;
+import com.pacifyr.client.home.ProfileScreenActivity;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelCustomerDashboard2;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
@@ -206,7 +208,8 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                 if (isValid(modelCustomerDashboard2)&&isValid(modelCustomerDashboard2.getPreferredPacifyrs()[0]))
                 {
                     prefpac = modelCustomerDashboard2.getPreferredPacifyrs()[0];
-                    ConnectToSinglePacifyrActivity.start(getActivity(), prefpac);
+                    if (isValid(prefpac.getId()))
+                        OpenDoctorsInformationActivity(prefpac);
                 }
 
                 // showTheRoundDialog(0, prefpac);
@@ -219,7 +222,8 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                 if (isValid(modelCustomerDashboard2)&&isValid(modelCustomerDashboard2.getPreferredPacifyrs()[1]))
                 {
                     prefpac = modelCustomerDashboard2.getPreferredPacifyrs()[1];
-                    ConnectToSinglePacifyrActivity.start(getActivity(), prefpac);
+                    if (isValid(prefpac.getId()))
+                        OpenDoctorsInformationActivity(prefpac);
                 }
             }
         });
@@ -230,7 +234,8 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                 if (isValid(modelCustomerDashboard2)&&isValid(modelCustomerDashboard2.getPreferredPacifyrs()[2]))
                 {
                     prefpac = modelCustomerDashboard2.getPreferredPacifyrs()[2];
-                    ConnectToSinglePacifyrActivity.start(getActivity(), prefpac);
+                    if (isValid(prefpac.getId()))
+                        OpenDoctorsInformationActivity(prefpac);
                 }
             }
         });
@@ -241,7 +246,8 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                 if (isValid(modelCustomerDashboard2)&&isValid(modelCustomerDashboard2.getPreferredPacifyrs()[3]))
                 {
                     prefpac = modelCustomerDashboard2.getPreferredPacifyrs()[3];
-                    ConnectToSinglePacifyrActivity.start(getActivity(), prefpac);
+                    if (isValid(prefpac.getId()))
+                    OpenDoctorsInformationActivity(prefpac);
                 }
             }
         });
@@ -249,6 +255,14 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
 
         //NetworkService.webListEmotions(getActivity());
         return view;
+    }
+
+    private void OpenDoctorsInformationActivity(MUser pacifyer) {
+        Intent intent = new Intent(getActivity(), DoctorsMoreInformationActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("Object", pacifyer);
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
     @Override
