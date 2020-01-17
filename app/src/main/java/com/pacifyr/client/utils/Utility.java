@@ -19,8 +19,8 @@ import android.widget.TextView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.pacifyr.client.R;
+import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
@@ -654,6 +654,21 @@ public class Utility {
             e.printStackTrace();
         }
         return outPutString.toLowerCase();
+    }
+
+    public static long getLocalTimeFromUtc(String input) {
+
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        format.setTimeZone(TimeZone.getTimeZone("GMT"));
+        Date date = null;
+        try {
+            date = format.parse(input);
+            return date.getTime();
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
     public static String timeZoneOffset()
     {
