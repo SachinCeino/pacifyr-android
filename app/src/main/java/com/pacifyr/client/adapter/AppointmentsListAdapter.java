@@ -10,12 +10,12 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 import com.pacifyr.client.R;
 import com.pacifyr.client.fragment.schedule.AppointmentModel;
 import com.pacifyr.client.home.ProfileScreenActivity;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.utils.Utility;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -220,12 +220,9 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<AppointmentsLi
 
     public boolean scheduleIsPassed(String date) {
         long mcurrentMilliSeconds = Utility.getCurrentDateinMilliSeconds();
-        long mServerMilliSeconds = Utility.converToMilliSecondsFormatb(date);
+        long mServerMilliSeconds = Utility.getLocalTimeFromUtc(date);
 
-        if (mcurrentMilliSeconds >= mServerMilliSeconds)
-            return true;
-        else
-            return false;
+        return mcurrentMilliSeconds >= mServerMilliSeconds;
 
     }
 
