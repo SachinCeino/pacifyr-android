@@ -46,6 +46,14 @@ public class AWSManager {
                 //Dev
                 return "leadersupdev";
             }
+        } else if (PACKAGE_NAME.equals(UtilityNetworkService.PACKAGE_PAM)) {
+            if (UtilityNetworkService.isProd) {
+                //Prod
+                return "PAMClientAndroid";
+            } else {
+                //Dev
+                return "PAMClientTestAndroid";
+            }
         } else {
             return "";
         }
