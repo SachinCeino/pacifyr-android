@@ -57,18 +57,23 @@ public class WeekScheduleListAdapter extends RecyclerView.Adapter<WeekScheduleLi
             this.isDateIsPassed=isDateIsPassed;
             this.mListener = mListener;
 
-            setDefaultFirstWeekSelection();
+
         }
 
-    private void setDefaultFirstWeekSelection() {
+    public void setDefaultFirstWeekSelection() {
+        SimpleDateFormat sdf = new SimpleDateFormat("EEEE");
+        Date d = new Date();
+        String dayOfTheWeek = sdf.format(d);
 
-        if(isValid(weekScheduleData)&&isValid(weekScheduleData.size()))
+        for (int i=0;i<7;i++)
         {
-            if (isValid(weekScheduleData.get(0)))
+            if (weekScheduleData.get(i).getDay().equalsIgnoreCase(dayOfTheWeek))
             {
-                weekScheduleData.get(0).setSetselected(true);
+                weekScheduleData.get(i).setSetselected(true);
+                mListener.onDateClick(i);
             }
         }
+
     }
 
     @Override
@@ -128,6 +133,7 @@ public class WeekScheduleListAdapter extends RecyclerView.Adapter<WeekScheduleLi
                 {
                     mListener.onDateClick(position);
                 }
+
 
             }
 
