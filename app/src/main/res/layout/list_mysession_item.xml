@@ -93,6 +93,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="left"
+            android:id="@+id/before_Layout"
             android:layout_marginLeft="10dp"
             android:orientation="vertical">
 
@@ -135,6 +136,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="left"
+            android:id="@+id/after_Layout"
             android:layout_marginLeft="3dp"
             android:orientation="vertical">
 

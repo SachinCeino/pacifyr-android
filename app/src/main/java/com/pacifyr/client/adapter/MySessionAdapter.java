@@ -188,6 +188,12 @@ public class MySessionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             String time = results.getStartTime();
             holder.nameUserCtxv.setText(results.getPacifyr().getFirstName());
             String imgUrl=results.getPacifyr().getImageUrl();
+
+            if (context.getPackageName().equalsIgnoreCase("com.pacifyr.pam"))
+            {
+                holder.after_Layout.setVisibility(View.GONE);
+                holder.before_Layout.setVisibility(View.GONE);
+            }
             if(isValid(imgUrl)){
                 Glide.with(context)
                         .load(imgUrl)
@@ -519,6 +525,8 @@ public class MySessionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         private CircleImageView userCimv;
         private ImageView calltype_imv;
         private MainTextView callTimeCtxv;
+        private LinearLayout after_Layout;
+        private LinearLayout before_Layout;
 
         public MyViewHolder(View view) {
             super(view);
@@ -536,6 +544,9 @@ public class MySessionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             afterEmotionImg = view.findViewById(R.id.after_emotion_img);
             afterFeelCtxv = view.findViewById(R.id.after_feel_ctxv);
             calltype_imv = view.findViewById(R.id.calltype_imv);
+            before_Layout = view.findViewById(R.id.before_Layout);
+            after_Layout = view.findViewById(R.id.after_Layout);
+
 
         }
     }
