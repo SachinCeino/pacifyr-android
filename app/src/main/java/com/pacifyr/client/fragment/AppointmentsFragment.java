@@ -22,6 +22,7 @@ import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.fragment.schedule.AppointmentModel;
 import com.pacifyr.client.fragment.schedule.ScheduleBottomSheetFragment;
+import com.pacifyr.client.fragment.schedule.Slot;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.utility.BaseFragment;
@@ -137,7 +138,8 @@ public class AppointmentsFragment extends BaseFragment {
                     mObject = object;
                     setReschedule(false);
                     if (isValid(mObject)) {
-                        callCAncelBookedSlotApi(mObject, position);
+
+                        showBookedSlotCancel(mObject, position);
                     }
                 }
             }, new AppointmentsListAdapter.ReSchedulelListner() {
@@ -158,6 +160,20 @@ public class AppointmentsFragment extends BaseFragment {
             hideProgress();
             e.printStackTrace();
         }
+    }
+
+
+    private void showBookedSlotCancel(AppointmentModel.Result mObject, int position) {
+
+        ((PacifyrActivity) getActivity()).setAlertStatusInBlue("Cancel Appointment", "Do you want to cancel the Appointment ?", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((PacifyrActivity) getActivity()).hideStatus();
+
+                callCAncelBookedSlotApi(mObject,position);
+            }
+        });
+
     }
 
     private void ShowReScheduleUI(AppointmentModel.Result mObject) {
