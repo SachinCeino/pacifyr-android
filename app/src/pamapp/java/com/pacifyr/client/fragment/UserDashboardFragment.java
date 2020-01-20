@@ -422,12 +422,12 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                     PrefManager prefM = PrefManager.getInstance(getContext());
                     String country = prefM.getCountry();
                     String sign = "$";
-                    if (country.equals("India")) {
+                  /*  if (country.equals("India")) {
                         sign = getContext().getResources().getString(R.string.rupee);
                     } else {
                         sign = getContext().getResources().getString(R.string.dollar);
-                    }
-                   // message_Count.setText(sign + lastWeek.getSpendings());
+                    }*/
+                   message_Count.setText(lastWeek.getSpendings());
                 } else {
 
                 }

@@ -86,16 +86,21 @@ public class MySessionsActivity extends PacifyrAppCompactActivity {
             skip=0;
             limit=10;
 
-            LocalDate now = new LocalDate();
-            LocalDate startofWeek=now.withDayOfWeek(DateTimeConstants.MONDAY);
+            LocalDate now1 = new LocalDate();
+            LocalDate backNow = now1.minusDays(7);
+            LocalDate startofWeek = backNow.withDayOfWeek(DateTimeConstants.SUNDAY);
+            LocalDate now = now1.withDayOfWeek(DateTimeConstants.SATURDAY);
             LocalDate startofMonth = now.withDayOfMonth(DateTimeConstants.JANUARY);
             LocalDate startofYear = now.withDayOfYear(DateTimeConstants.JANUARY);
 
             DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
-            String fromDateWeek = formatter.print(startofWeek);
-            String fromDateMonth = formatter.print(startofMonth);
-            String fromDateYear = formatter.print(startofYear);
-            String toDate = formatter.print(now);
+            final String fromDateWeek = formatter.print(startofWeek);
+            final String fromDateMonth = formatter.print(startofMonth);
+            final String fromDateYear = formatter.print(startofYear);
+            final String toDate = formatter.print(now);
+
+
+
 
             final String thisWeekUrl=GLOBAL_URL+"session/customer/all?userId="+userid+"&skip="+skip+"&limit="+limit+"&fromDate="+fromDateWeek+"&toDate="+toDate;
             final String thisMonthUrl=GLOBAL_URL+"session/customer/all?userId="+userid+"&skip="+skip+"&limit="+limit+"&fromDate="+fromDateMonth+"&toDate="+toDate;
