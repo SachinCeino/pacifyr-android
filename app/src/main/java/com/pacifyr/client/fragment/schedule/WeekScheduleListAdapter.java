@@ -10,10 +10,13 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.pacifyr.client.R;
+import com.pacifyr.client.utils.Utility;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -61,18 +64,17 @@ public class WeekScheduleListAdapter extends RecyclerView.Adapter<WeekScheduleLi
         }
 
     public void setDefaultFirstWeekSelection() {
-        SimpleDateFormat sdf = new SimpleDateFormat("EEEE");
-        Date d = new Date();
-        String dayOfTheWeek = sdf.format(d);
 
-        for (int i=0;i<7;i++)
+        long mServerMilliSeconds = 0;
+        ArrayList<Long> dates=new ArrayList<Long>();
+        for (int i=0;i<weekScheduleData.size();i++)
         {
-            if (weekScheduleData.get(i).getDay().equalsIgnoreCase(dayOfTheWeek))
-            {
-                weekScheduleData.get(i).setSetselected(true);
-                mListener.onDateClick(i);
-            }
+            mServerMilliSeconds = Utility.getLocalTimeFromUtc(weekScheduleData.get(i).getDate());
+            dates.add(mServerMilliSeconds);
         }
+        int minIndex = dates.indexOf(Collections.min(dates));
+        weekScheduleData.get(minIndex).setSetselected(true);
+        mListener.onDateClick(minIndex);
 
     }
 
