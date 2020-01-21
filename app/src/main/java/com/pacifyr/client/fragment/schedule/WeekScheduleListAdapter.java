@@ -74,9 +74,17 @@ public class WeekScheduleListAdapter extends RecyclerView.Adapter<WeekScheduleLi
             mServerMilliSeconds = Utility.getLocalTimeFromUtc(weekScheduleData.get(i).getDate());
             dates.add(mServerMilliSeconds);
         }
-        int minIndex = dates.indexOf(Collections.min(dates));
-        weekScheduleData.get(minIndex).setSetselected(true);
-        mListener.onDateClick(minIndex);
+        int index=0;
+        long distance = Math.abs(dates.get(0) - mcurrentMilliSeconds);
+        for(int c = 1; c < dates.size(); c++){
+            long cdistance = Math.abs(dates.get(c) - mcurrentMilliSeconds);
+            if(cdistance < distance){
+                index = c;
+                distance = cdistance;
+            }
+        }
+        weekScheduleData.get(index).setSetselected(true);
+        mListener.onDateClick(index);
 
     }
 
