@@ -16,6 +16,8 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
+import com.pacifyr.client.Payment.AlertAddCreditCardActivity;
+import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.home.DoctorsActivity;
 import com.pacifyr.client.home.DoctorsMoreInformationActivity;
@@ -205,11 +207,28 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
             @Override
             public void onClick(View v) {
 
+
                 if (isValid(modelCustomerDashboard2)&&isValid(modelCustomerDashboard2.getPreferredPacifyrs()[0]))
                 {
                     prefpac = modelCustomerDashboard2.getPreferredPacifyrs()[0];
                     if (isValid(prefpac.getId()))
-                        OpenDoctorsInformationActivity(prefpac);
+                        setAlertStatusInBlue2("Message", "Is this a follow-up call for an existing case?", "No", "Yes", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                hideProgress();
+                                hideStatus2();
+                                OpenDoctorsInformationActivity(prefpac);
+                            }
+                        },new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                hideProgress();
+                                hideStatus2();
+                                ConnectToSinglePacifyrActivity.start(getActivity(), prefpac);
+                            }
+                        });
+
+
                 }
 
                 // showTheRoundDialog(0, prefpac);
@@ -223,7 +242,23 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                 {
                     prefpac = modelCustomerDashboard2.getPreferredPacifyrs()[1];
                     if (isValid(prefpac.getId()))
-                        OpenDoctorsInformationActivity(prefpac);
+                        setAlertStatusInBlue2("Message", "Is this a follow-up call for an existing case?", "No", "Yes", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                hideProgress();
+                                hideStatus2();
+                                OpenDoctorsInformationActivity(prefpac);
+                            }
+                        },new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                hideProgress();
+                                hideStatus2();
+                                ConnectToSinglePacifyrActivity.start(getActivity(), prefpac);
+                            }
+                        });
+
+
                 }
             }
         });
@@ -235,7 +270,23 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                 {
                     prefpac = modelCustomerDashboard2.getPreferredPacifyrs()[2];
                     if (isValid(prefpac.getId()))
-                        OpenDoctorsInformationActivity(prefpac);
+                        setAlertStatusInBlue2("Message", "Is this a follow-up call for an existing case?", "No", "Yes", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                hideProgress();
+                                hideStatus2();
+                                OpenDoctorsInformationActivity(prefpac);
+                            }
+                        },new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                hideProgress();
+                                hideStatus2();
+                                ConnectToSinglePacifyrActivity.start(getActivity(), prefpac);
+                            }
+                        });
+
+
                 }
             }
         });
@@ -247,7 +298,23 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                 {
                     prefpac = modelCustomerDashboard2.getPreferredPacifyrs()[3];
                     if (isValid(prefpac.getId()))
-                    OpenDoctorsInformationActivity(prefpac);
+                        setAlertStatusInBlue2("Message", "Is this a follow-up call for an existing case?", "No", "Yes", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                hideProgress();
+                                hideStatus2();
+                                OpenDoctorsInformationActivity(prefpac);
+                            }
+                        },new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                hideProgress();
+                                hideStatus2();
+                                ConnectToSinglePacifyrActivity.start(getActivity(), prefpac);
+                            }
+                        });
+
+
                 }
             }
         });

@@ -1522,6 +1522,7 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
                         second_screen_layout.setVisibility(View.GONE);
                         third_Screen_layout.setVisibility(View.VISIBLE);
                         listPacifyrRlay.setVisibility(View.GONE);
+                        EmotionSpecialityAdapter.reason_forcall=descriptionList.get(position);
                         setUpThirdScreen();
                     }
                 });
