@@ -181,5 +181,6 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="find_helping_pacifyr"></string>
     <string name="specify_emotion"></string>
     <string name="talk_to_wellness_expert"></string>
+    <string name="how_you_rate">How do you rate your provider?</string>
 
 </resources>
