@@ -93,8 +93,6 @@ public class WeekScheduleListAdapter extends RecyclerView.Adapter<WeekScheduleLi
 
             View itemView = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.item_default_shedule_list, parent, false);
-
-
             return new MyViewHolder(itemView);
         }
 

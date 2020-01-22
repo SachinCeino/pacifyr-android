@@ -22,6 +22,11 @@ import android.widget.Toast;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
+import com.google.android.gms.common.api.Status;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
+import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.pacifyr.client.adapter.EmotionSpecialityAdapter;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
@@ -58,6 +63,8 @@ public class DoctorsActivity extends PacifyrAppCompactActivity implements Doctor
     private EditText etv_CurrentLocation;
     private boolean isPrimary=true;
 
+    private String latitude,longitude;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,10 +74,45 @@ public class DoctorsActivity extends PacifyrAppCompactActivity implements Doctor
         ETV_showSpecialities = findViewById(R.id.ETV_showSpecialities);
         primaryLayout = findViewById(R.id.primaryLayout);
         submit = findViewById(R.id.submit);
-        etv_CurrentLocation=findViewById(R.id.etv_CurrentLocation);
+       // etv_CurrentLocation=findViewById(R.id.etv_CurrentLocation);
 
 
         onSetActionBar();
+
+        if (!Places.isInitialized()) {
+            Places.initialize(getApplicationContext(), getString(R.string.google_maps_key));
+        }
+        // Initialize the AutocompleteSupportFragment.
+        AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
+                getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment);
+
+        if (autocompleteFragment != null) {
+            autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME,Place.Field.LAT_LNG));
+        }
+
+        if (autocompleteFragment != null) {
+            autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+                @Override
+                public void onPlaceSelected(Place place) {
+
+                    // TODO: Get info about the selected place.
+                    latitude= String.valueOf(place.getLatLng().latitude);
+                    longitude= String.valueOf(place.getLatLng().longitude);
+                    Log.w( "@@@place", String.valueOf(place.getLatLng().latitude));
+                    Log.w( "@@@place", String.valueOf(place.getLatLng().longitude));
+
+
+
+
+                }
+
+                @Override
+                public void onError(Status status) {
+                    // TODO: Handle the error.
+                    Log.w( "@@@staus",String.valueOf(status));
+                }
+            });
+        }
 
 
         mSegmentedGroup = (RadioGroup) findViewById(R.id.segmentedgroup);
@@ -121,10 +163,15 @@ public class DoctorsActivity extends PacifyrAppCompactActivity implements Doctor
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (!isValid(latitude)||!isValid(longitude))
+                    return;
+
                 String specialityItem = ETV_showSpecialities.getText().toString();
                 if (!specialityItem.equals("")) {
                     Intent intent = new Intent(getApplicationContext(), DoctorsSearchResultActivity.class);
                     intent.putExtra("Speciality", specialityItem);
+                    intent.putExtra("latitude", latitude);
+                    intent.putExtra("longitude", longitude);
                     startActivity(intent);
                 } else {
                     Toast.makeText(getApplicationContext(), "Select one Speciality", Toast.LENGTH_SHORT).show();
@@ -135,14 +182,6 @@ public class DoctorsActivity extends PacifyrAppCompactActivity implements Doctor
         });
 
 
-
-        etv_CurrentLocation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-
-            }
-        });
 
     }
 

@@ -40,14 +40,24 @@
                     android:lineSpacingExtra="10sp"
                     android:text="@string/where_are_you" />
 
-                <com.pacifyr.client.views.PamEditTextMedium
+               <!-- <com.pacifyr.client.views.PamEditTextMedium
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/current_location"
                     android:id="@+id/etv_CurrentLocation"
-                    android:padding="8dp"
-                    android:background="@drawable/black_border_white_back"
-                    android:layout_marginBottom="15dp" />
+                     />-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp"
+                    android:background="@drawable/black_border_white_back">
+                    <fragment
+                        android:id="@+id/autocomplete_fragment"
+                        android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        />
+                </LinearLayout>
 
                 <com.pacifyr.client.views.PamTextViewBold
                     android:layout_width="match_parent"

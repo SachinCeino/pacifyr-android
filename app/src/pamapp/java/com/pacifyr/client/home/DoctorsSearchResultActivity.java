@@ -65,7 +65,7 @@ public class DoctorsSearchResultActivity extends PacifyrAppCompactActivity imple
     private ArrayList<MUser> list;
     private  TextView txtv_filter;
 
-
+    private String latitude,longitude;
     private GoogleMap mMap;
 
     @Override
@@ -114,6 +114,12 @@ public class DoctorsSearchResultActivity extends PacifyrAppCompactActivity imple
 
         if (isValid(getIntent().getExtras().get("Speciality"))) {
             Speciality = getIntent().getExtras().get("Speciality").toString();
+        }
+        if (isValid(getIntent().getExtras().get("latitude"))) {
+            latitude = getIntent().getExtras().get("latitude").toString();
+        }
+        if (isValid(getIntent().getExtras().get("longitude"))) {
+            longitude = getIntent().getExtras().get("longitude").toString();
         }
 
         if (isValid(Speciality))
@@ -255,8 +261,8 @@ public class DoctorsSearchResultActivity extends PacifyrAppCompactActivity imple
             cb.header("AccessToken", getPrefManager().getAccessToken());
             JSONObject jsonObject = new JSONObject();
             jsonObject.putOpt("initiatorId", getPrefManager().getUserID());
-            jsonObject.putOpt("latitude", "11.2541819");
-            jsonObject.putOpt("longitude", "75.8370298");
+            jsonObject.putOpt("latitude", latitude);
+            jsonObject.putOpt("longitude", longitude);
             jsonObject.putOpt("visitType", "office");
             List<String> list = new ArrayList<String>();
             list.add(Speciality);
