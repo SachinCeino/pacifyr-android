@@ -217,7 +217,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                             public void onClick(View view) {
                                 hideProgress();
                                 hideStatus2();
-                                OpenDoctorsInformationActivity(prefpac);
+                                ProfileScreenActivity.start(getActivity(), prefpac.getId(), true);
                             }
                         },new View.OnClickListener() {
                             @Override
@@ -247,7 +247,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                             public void onClick(View view) {
                                 hideProgress();
                                 hideStatus2();
-                                OpenDoctorsInformationActivity(prefpac);
+                                ProfileScreenActivity.start(getActivity(), prefpac.getId(), true);
                             }
                         },new View.OnClickListener() {
                             @Override
@@ -275,7 +275,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                             public void onClick(View view) {
                                 hideProgress();
                                 hideStatus2();
-                                OpenDoctorsInformationActivity(prefpac);
+                                ProfileScreenActivity.start(getActivity(), prefpac.getId(), true);
                             }
                         },new View.OnClickListener() {
                             @Override
@@ -303,7 +303,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                             public void onClick(View view) {
                                 hideProgress();
                                 hideStatus2();
-                                OpenDoctorsInformationActivity(prefpac);
+                                ProfileScreenActivity.start(getActivity(), prefpac.getId(), true);
                             }
                         },new View.OnClickListener() {
                             @Override

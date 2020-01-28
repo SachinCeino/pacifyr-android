@@ -65,7 +65,7 @@ public class UtilityNetworkService extends IntentService {
     public static final String termOfUsersUrl = "https://pacifyr.com/TermsUsers.html";
     public static final String PACKAGE_PAM = "com.pacifyr.pam";
     public static boolean isRelease = false;
-    public static boolean isProd = false;
+    public static boolean isProd = true;
     public static String ACCOUNT_KEY = "";
     public static String ACCOUNT_ID = "";
     public static String TURN_SERVER = "";
@@ -102,8 +102,8 @@ public class UtilityNetworkService extends IntentService {
         CIRTIFICATE_KEY = "development";
         if (context.getPackageName().equalsIgnoreCase(PACKAGE_PAM)) {
             if (isProd) {
-                GLOBAL_URL = "<----- PAM production url here --->";
-                GLOBAL_IMAGE_URL = "https://pacifyrprod.storage.googleapis.com/";
+                GLOBAL_URL = "http://pam.pacifyr.net:8080/pacifyr/v1/";
+                GLOBAL_IMAGE_URL = "https://pam-prod.storage.googleapis.com/";
                 STRIPE_PUBLISH_KEY = "pk_live_GClqoTSF6tHpuUmqQET2nxsg";
                 CIRTIFICATE_KEY = "production";
             } else {

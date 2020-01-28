@@ -380,22 +380,30 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
                         isChatSubscriptionRequired = mpacifyerDetial.isChatSubscriptionRequired();
                         priceForChat = Integer.parseInt(mpacifyerDetial.getPriceForChat());
 
-                        if(!isChatSubscriptionRequired) {
+                        if (getPackageName().equalsIgnoreCase("com.pacifyr.pam"))
+                        {
                             startChat(mpacifyerDetial);
-                            //showIOSDialogOK("","Please purchase unlimited chat per day","OK");
-
-                        }else if(priceForChat==0){
-                            startChat(mpacifyerDetial);
-                        }else {
-                            //chatLlay.setVisibility(View.VISIBLE);
-
-                            if (mpacifyerDetial.getChatSubscription() == null) {
-                                showIOSDialogOK("","Please purchase unlimited chat per day","OK");
-                                //chat_price_ctxv.setText("Chat for " + Utility.getPriceSign(ProfileScreenActivity.this) + priceForChat + " a day");
-                            } else {
+                        }
+                        else
+                        {
+                            if(!isChatSubscriptionRequired) {
                                 startChat(mpacifyerDetial);
+                                //showIOSDialogOK("","Please purchase unlimited chat per day","OK");
+
+                            }else if(priceForChat==0){
+                                startChat(mpacifyerDetial);
+                            }else {
+                                //chatLlay.setVisibility(View.VISIBLE);
+
+                                if (mpacifyerDetial.getChatSubscription() == null) {
+                                    showIOSDialogOK("","Please purchase unlimited chat per day","OK");
+                                    //chat_price_ctxv.setText("Chat for " + Utility.getPriceSign(ProfileScreenActivity.this) + priceForChat + " a day");
+                                } else {
+                                    startChat(mpacifyerDetial);
+                                }
                             }
                         }
+
 
                         /*ChatSubscription subscription = mpacifyerDetial.getChatSubscription();
 
@@ -671,55 +679,62 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
             });
 
 
-            if(!isChatSubscriptionRequired)
-            {
-                chatLlay.setVisibility(View.GONE);
+            if (getPackageName().equals("com.pacifyr.pam"))
+           {
+               linearLayout_chat_price_description_layout.setVisibility(View.GONE);
+           }
+           else
+           {
+               if(!isChatSubscriptionRequired)
+               {
+                   chatLlay.setVisibility(View.GONE);
 
-            }else if(priceForChat==0){
-                chatLlay.setVisibility(View.GONE);
-            }else{
-                chatLlay.setVisibility(View.VISIBLE);
+               }else if(priceForChat==0){
+                   chatLlay.setVisibility(View.GONE);
+               }else{
+                   chatLlay.setVisibility(View.VISIBLE);
 
-                if(mpacifyerDetial.getChatSubscription()==null) {
-                    chat_price_ctxv.setText("Chat for " + Utility.getPriceSign(ProfileScreenActivity.this) + priceForChat + " a day");
-                    chatLlay.setClickable(true);
-                }else{
-                    try {
-                        ChatSubscription subscription = mpacifyerDetial.getChatSubscription();
-                        String expiryDate = subscription.getExpiryDate();
+                   if(mpacifyerDetial.getChatSubscription()==null) {
+                       chat_price_ctxv.setText("Chat for " + Utility.getPriceSign(ProfileScreenActivity.this) + priceForChat + " a day");
+                       chatLlay.setClickable(true);
+                   }else{
+                       try {
+                           ChatSubscription subscription = mpacifyerDetial.getChatSubscription();
+                           String expiryDate = subscription.getExpiryDate();
 
-                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.mmm'Z'");
-                        Date parsedTime = sdf.parse(expiryDate);
+                           SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.mmm'Z'");
+                           Date parsedTime = sdf.parse(expiryDate);
 
-                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.mmm'Z'");
-                        Date date = new Date();
-                        System.out.println(dateFormat.format(date));
+                           SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.mmm'Z'");
+                           Date date = new Date();
+                           System.out.println(dateFormat.format(date));
 
-                        long diff = parsedTime.getTime() - date.getTime();
+                           long diff = parsedTime.getTime() - date.getTime();
 
-                        long diffSeconds = diff / 1000 % 60;
-                        long diffMinutes = diff / (60 * 1000) % 60;
-                        long diffHours = diff / (60 * 60 * 1000) % 24;
-                        long diffDays = diff / (24 * 60 * 60 * 1000);
+                           long diffSeconds = diff / 1000 % 60;
+                           long diffMinutes = diff / (60 * 1000) % 60;
+                           long diffHours = diff / (60 * 60 * 1000) % 24;
+                           long diffDays = diff / (24 * 60 * 60 * 1000);
 
-                        if (diffDays>0)
-                        {
-                            chat_price_ctxv.setText("Unlimited chat remaining for "+diffDays+" days");
-                        }else if(diffHours>1){
-                            chat_price_ctxv.setText("Unlimited chat remaining for "+diffHours+" hours and "+diffMinutes+" minutes");
-                        }else if(diffMinutes>0){
-                            chat_price_ctxv.setText("Unlimited chat remaining for "+diffMinutes+" minutes");
-                        }
-                        chatLlay.setClickable(false);
+                           if (diffDays>0)
+                           {
+                               chat_price_ctxv.setText("Unlimited chat remaining for "+diffDays+" days");
+                           }else if(diffHours>1){
+                               chat_price_ctxv.setText("Unlimited chat remaining for "+diffHours+" hours and "+diffMinutes+" minutes");
+                           }else if(diffMinutes>0){
+                               chat_price_ctxv.setText("Unlimited chat remaining for "+diffMinutes+" minutes");
+                           }
+                           chatLlay.setClickable(false);
 
-                        //chatPriceCtxv.setText("Unlimited chat remainng for ");
-                    }
-                    catch (Exception e)
-                    {
-                        e.printStackTrace();
-                    }
-                }
-            }
+                           //chatPriceCtxv.setText("Unlimited chat remainng for ");
+                       }
+                       catch (Exception e)
+                       {
+                           e.printStackTrace();
+                       }
+                   }
+               }
+           }
         }
         catch (Exception exc)
         {
