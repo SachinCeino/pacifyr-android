@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
+import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.ChatSubscription;
@@ -678,9 +679,12 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
                 }
             });
 
-
             if (getPackageName().equals("com.pacifyr.pam"))
            {
+               if (isValid(mpacifyerDetial.getEmotion()))
+               {
+                   PacifyrActivity.call_emotion=mpacifyerDetial.getEmotion();
+               }
                linearLayout_chat_price_description_layout.setVisibility(View.GONE);
            }
            else

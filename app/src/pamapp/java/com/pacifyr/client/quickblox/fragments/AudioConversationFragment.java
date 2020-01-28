@@ -79,6 +79,7 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
     private Switch billingSwitch;
     private TextView text_remaining_minutes;
     private String change_Emotion_name;
+    private TextView couse_label;
     private BroadcastReceiver eventReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -206,6 +207,7 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
         reason_ctxv.setVisibility(View.INVISIBLE);
         emotion_ctxv.setVisibility(View.INVISIBLE);
         text_remaining_minutes.setVisibility(View.GONE);
+        couse_label=view.findViewById(R.id.couse_label);
 //        callerAvatarImageView = (CircleImageView) view.findViewById(R.id.image_caller_avatar);
         //  firstOpponentNameTextView = (TextView) view.findViewById(R.id.text_caller_name);
         //    firstOpponentNameTextView.setText(opponents.get(0).getFullName());
@@ -383,6 +385,11 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
 
             if (isValid(actionBar))
                 actionBar.hide();
+
+            if (!isValid(reason_ctxv.getText().toString()))
+            {
+                couse_label.setVisibility(View.GONE);
+            }
         } catch (Exception e) {
             reason_ctxv.setVisibility(View.GONE);
             LogUtils.LOGD("exception", " ACF setResaonViews Exception " + e.getMessage());
@@ -427,12 +434,12 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
             setUserRayInfoViews();
             setUserInfoViews();
             if (isValid(image)) {
-                emotion_dimv.setVisibility(View.VISIBLE);
+                emotion_dimv.setVisibility(View.GONE);
                 Picasso.with(getActivity()).load(NetworkService.GLOBAL_IMAGE_URL + image).placeholder(R.drawable.placeholder_image).into(emotion_dimv);
             }
 
             if (isValid(emotion)) {
-                emotion_ctxv.setVisibility(View.VISIBLE);
+                emotion_ctxv.setVisibility(View.GONE);
                 change_Emotion_name = emotion.getId();
                 defSetText(emotion_ctxv, emotion.getTitle());
             }
@@ -671,12 +678,12 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
         try {
             if (isValid(event.getEmotion()))
                 if (isValid(event.getEmotion().getImage())) {
-                    emotion_dimv.setVisibility(View.VISIBLE);
+                    emotion_dimv.setVisibility(View.GONE);
                     Picasso.with(getActivity()).load(NetworkService.GLOBAL_IMAGE_URL + event.getEmotion().getImage()).placeholder(R.drawable.placeholder_image).into(emotion_dimv);
                 }
 
             if (isValid(event.getEmotion().getTitle())) {
-                emotion_ctxv.setVisibility(View.VISIBLE);
+                emotion_ctxv.setVisibility(View.GONE);
                 change_Emotion_name = event.getEmotion().getId();
                 defSetText(emotion_ctxv, event.getEmotion().getTitle());
             }

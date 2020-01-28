@@ -616,12 +616,12 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
             //   setParticipantBar();
             setUserInfoViews();
             if (isValid(image)) {
-                emotion_dimv.setVisibility(View.VISIBLE);
+                emotion_dimv.setVisibility(View.GONE);
                 Picasso.with(getActivity()).load(NetworkService.GLOBAL_IMAGE_URL + image).placeholder(R.drawable.placeholder_image).into(emotion_dimv);
             }
             if (isValid(emotion)) {
                 change_Emotion_name = emotion.getId();
-                emotion_ctxv.setVisibility(View.VISIBLE);
+                emotion_ctxv.setVisibility(View.GONE);
                 defSetText(emotion_ctxv, emotion.getTitle());
             }
 
@@ -1516,12 +1516,12 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
         try {
             if (isValid(event.getEmotion()))
                 if (isValid(event.getEmotion().getImage())) {
-                    emotion_dimv.setVisibility(View.VISIBLE);
+                    emotion_dimv.setVisibility(View.GONE);
                     Picasso.with(getActivity()).load(NetworkService.GLOBAL_IMAGE_URL + event.getEmotion().getImage()).placeholder(R.drawable.placeholder_image).into(emotion_dimv);
                 }
 
             if (isValid(event.getEmotion().getTitle())) {
-                emotion_ctxv.setVisibility(View.VISIBLE);
+                emotion_ctxv.setVisibility(View.GONE);
                 change_Emotion_name = event.getEmotion().getId();
                 defSetText(emotion_ctxv, event.getEmotion().getTitle());
             }

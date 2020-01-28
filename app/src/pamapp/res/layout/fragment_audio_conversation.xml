@@ -153,6 +153,7 @@
                             android:textColor="@color/colorPrimary"
                             android:textSize="@dimen/sp16"
                             android:textStyle="bold"
+                            android:id="@+id/couse_label"
                             android:visibility="visible" />
 
                         <com.pacifyr.client.customview.MainTextView
