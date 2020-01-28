@@ -1,12 +1,24 @@
 package com.pacifyr.client.home;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.Manifest;
+import android.app.Service;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Typeface;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 
 import android.util.Log;
@@ -45,10 +57,12 @@ import org.greenrobot.eventbus.EventBus;
 import org.json.JSONObject;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
 
 import static com.pacifyr.client.network.NetworkService.GLOBAL_URL;
 
-public class DoctorsActivity extends PacifyrAppCompactActivity implements DoctorsSpecialityAdapter.SpecialityItemClick {
+public class DoctorsActivity extends PacifyrAppCompactActivity implements DoctorsSpecialityAdapter.SpecialityItemClick,LocationListener {
 
     private LinearLayout specialitiesLayout;
     private RecyclerView specialitiesRCV;
@@ -63,7 +77,11 @@ public class DoctorsActivity extends PacifyrAppCompactActivity implements Doctor
     private EditText etv_CurrentLocation;
     private boolean isPrimary=true;
 
-    private String latitude,longitude;
+    private LocationManager locationManager;
+    private Location location;
+    private final int REQUEST_LOCATION = 200;
+
+    public double mLatitude,mLongitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,12 +92,14 @@ public class DoctorsActivity extends PacifyrAppCompactActivity implements Doctor
         ETV_showSpecialities = findViewById(R.id.ETV_showSpecialities);
         primaryLayout = findViewById(R.id.primaryLayout);
         submit = findViewById(R.id.submit);
-       // etv_CurrentLocation=findViewById(R.id.etv_CurrentLocation);
+       etv_CurrentLocation=findViewById(R.id.etv_CurrentLocation);
 
 
         onSetActionBar();
+        locationManager = (LocationManager) getSystemService(Service.LOCATION_SERVICE);
+        checkPremissionFineLocation();
 
-        if (!Places.isInitialized()) {
+      /*  if (!Places.isInitialized()) {
             Places.initialize(getApplicationContext(), getString(R.string.google_maps_key));
         }
         // Initialize the AutocompleteSupportFragment.
@@ -113,7 +133,7 @@ public class DoctorsActivity extends PacifyrAppCompactActivity implements Doctor
                 }
             });
         }
-
+*/
 
         mSegmentedGroup = (RadioGroup) findViewById(R.id.segmentedgroup);
         mRadioButtonB = (RadioButton) findViewById(R.id.rb1);
@@ -163,15 +183,17 @@ public class DoctorsActivity extends PacifyrAppCompactActivity implements Doctor
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!isValid(latitude)||!isValid(longitude))
+                if (!isValid(etv_CurrentLocation.getText().toString())) {
+                    Toast.makeText(getApplicationContext(), "Select your location", Toast.LENGTH_SHORT).show();
+                    checkPremissionFineLocation();
                     return;
-
+                }
                 String specialityItem = ETV_showSpecialities.getText().toString();
                 if (!specialityItem.equals("")) {
                     Intent intent = new Intent(getApplicationContext(), DoctorsSearchResultActivity.class);
                     intent.putExtra("Speciality", specialityItem);
-                    intent.putExtra("latitude", latitude);
-                    intent.putExtra("longitude", longitude);
+                    intent.putExtra("latitude", mLatitude);
+                    intent.putExtra("longitude", mLongitude);
                     startActivity(intent);
                 } else {
                     Toast.makeText(getApplicationContext(), "Select one Speciality", Toast.LENGTH_SHORT).show();
@@ -184,6 +206,77 @@ public class DoctorsActivity extends PacifyrAppCompactActivity implements Doctor
 
 
     }
+
+
+    public void checkPremissionFineLocation() {
+        if (ActivityCompat.checkSelfPermission(DoctorsActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) !=
+                PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(
+                        DoctorsActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION
+                ) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(DoctorsActivity.this, new String[]{
+                    Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION
+            }, REQUEST_LOCATION);
+        } else {
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 100, 2, (LocationListener) this);
+            if (locationManager != null)
+                location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        }
+        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            if (location != null) {
+                Log.w("@@@@", "latitude=" + location.getLatitude());
+                Log.w("@@@@", "longitude=" + location.getLongitude());
+
+                mLatitude=location.getLatitude();
+                mLongitude=location.getLongitude();
+                setAddressNameToUI(mLatitude,mLongitude);
+
+            }
+        } else {
+            showGPSDisabledAlertToUser();
+        }
+    }
+
+    private void setAddressNameToUI(double mLatitude, double mLongitude) {
+        try {
+
+            Geocoder geo = new Geocoder(this.getApplicationContext(), Locale.getDefault());
+            List<Address> addresses = geo.getFromLocation(mLatitude, mLongitude, 1);
+            if (addresses.isEmpty()) {
+                etv_CurrentLocation.setText("Waiting for Location");
+            }
+            else {
+                if (addresses.size() > 0) {
+                    Log.w("@@@",addresses.get(0).getFeatureName() + ", " + addresses.get(0).getLocality() +", " + addresses.get(0).getAdminArea() + ", " + addresses.get(0).getCountryName());
+                    etv_CurrentLocation.setText(addresses.get(0).getFeatureName() + ", " + addresses.get(0).getLocality() +", " + addresses.get(0).getAdminArea() + ", " + addresses.get(0).getCountryName());
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            Log.w("@@@",String.valueOf(e));
+        }
+    }
+
+    private void showGPSDisabledAlertToUser() {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(DoctorsActivity.this);
+        alertDialogBuilder.setMessage("GPS is disabled in your device. \n Would you like to enable it?")
+                .setCancelable(false)
+                .setPositiveButton("Enable GPS", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        Intent callGPSSettingIntent = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                        startActivity(callGPSSettingIntent);
+                    }
+                });
+        alertDialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+            }
+        });
+        AlertDialog alert = alertDialogBuilder.create();
+        alert.show();
+    }
+
 
     @Override
     public void onSetValues() throws Exception {
@@ -353,5 +446,59 @@ public class DoctorsActivity extends PacifyrAppCompactActivity implements Doctor
 
     }
 
+
+    @Override
+    public void onLocationChanged(Location location) {
+        Log.w("@@@@1", "latitude=" + location.getLatitude());
+        Log.w("@@@@1", "longitude=" + location.getLongitude());
+
+        mLatitude=location.getLatitude();
+        mLongitude=location.getLongitude();
+        setAddressNameToUI(mLatitude,mLongitude);
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+        Log.w("@@@","onStatusChanged");
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+        Log.w("@@@","onProviderEnabled");
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+        if (provider.equals(LocationManager.GPS_PROVIDER)) {
+            showGPSDisabledAlertToUser();
+        }
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_LOCATION: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+                    Log.w("@@@","permission was granted");
+                    checkPremissionFineLocation();
+                } else {
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                    Log.w("@@@","permission denied");
+                    finish();
+                }
+                return;
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request.
+        }
+    }
 
 }
