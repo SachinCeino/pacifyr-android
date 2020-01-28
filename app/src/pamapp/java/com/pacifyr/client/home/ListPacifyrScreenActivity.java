@@ -491,7 +491,9 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
             boolean isChatSubscriptionRequired = event.mpacifyer.isChatSubscriptionRequired();
             int priceForChat = Integer.parseInt(event.mpacifyer.getPriceForChat());
 
-            if (!isChatSubscriptionRequired) {
+            startChat(event.mpacifyer);
+
+           /* if (!isChatSubscriptionRequired) {
                 startChat(event.mpacifyer);
                 //showIOSDialogOK("","Please purchase unlimited chat per day","OK");
 
@@ -507,7 +509,7 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
                     startChat(event.mpacifyer);
                 }
             }
-            //startChat(event.mpacifyer);
+            //startChat(event.mpacifyer);*/
 
         } catch (Exception e)
         {

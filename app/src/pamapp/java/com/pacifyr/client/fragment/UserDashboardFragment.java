@@ -182,8 +182,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
             public void onClick(View v) {
                 try {
                     MySessionsActivity.start(getActivity());
-
-                   /* getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.activity_main_content_fragment, new MySessionFragment()).commit();
+                    /* getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.activity_main_content_fragment, new MySessionFragment()).commit();
                     //showFragment(new PacifyrSessionsFragment());
                     MainTextView titleTxv = (MainTextView) getActivity().findViewById(R.id.title_txv);
                     defSetText(titleTxv, "My Sessions");
@@ -193,6 +192,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                 }
             }
         });
+
         connect_btn_rlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

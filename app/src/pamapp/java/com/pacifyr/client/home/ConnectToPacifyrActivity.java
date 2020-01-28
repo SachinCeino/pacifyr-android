@@ -741,23 +741,7 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
             boolean isChatSubscriptionRequired = event.mpacifyer.isChatSubscriptionRequired();
             int priceForChat = Integer.parseInt(event.mpacifyer.getPriceForChat());
 
-            if (!isChatSubscriptionRequired) {
-                startChat(event.mpacifyer);
-                //showIOSDialogOK("","Please purchase unlimited chat per day","OK");
-
-            } else if (priceForChat == 0) {
-                startChat(event.mpacifyer);
-            } else {
-                //chatLlay.setVisibility(View.VISIBLE);
-
-                if (event.mpacifyer.getChatSubscription() == null) {
-                    showIOSDialogOK("", "Please purchase unlimited chat per day", "OK");
-                    //chat_price_ctxv.setText("Chat for " + Utility.getPriceSign(ProfileScreenActivity.this) + priceForChat + " a day");
-                } else {
-                    startChat(event.mpacifyer);
-                }
-            }
-            //startChat(event.mpacifyer);
+            startChat(event.mpacifyer);
 
         } catch (Exception e) {
             LogUtils.LOGD("session", "CPA ChatEvent exce " + e.getMessage());

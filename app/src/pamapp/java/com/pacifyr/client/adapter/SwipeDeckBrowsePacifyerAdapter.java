@@ -372,8 +372,20 @@ public class SwipeDeckBrowsePacifyerAdapter extends BaseAdapter {
                             ne.printStackTrace();
                         }
 
+                        showProgress();
+                        ((ListPacifyrScreenActivity) (context)).callchatEventListner.onChatEventClick((new ChatEvent(searchResults.get(position), false)));
+                        //    ConnectToPacifyrActivity.callchatEventListner.onChatEventClick(new ChatEvent(searchResults.get(position), false));
+                        // postEventOnMainThread(new ChatEvent(searchResults.get(position),false));
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                hideProgress();
+                            }
+                        }, 500);
 
-                        if (!isChatSubscriptionRequired) {
+
+
+                      /*  if (!isChatSubscriptionRequired) {
                             showProgress();
                             ((ListPacifyrScreenActivity) (context)).callchatEventListner.onChatEventClick((new ChatEvent(searchResults.get(position), false)));
                             //    ConnectToPacifyrActivity.callchatEventListner.onChatEventClick(new ChatEvent(searchResults.get(position), false));
@@ -415,7 +427,7 @@ public class SwipeDeckBrowsePacifyerAdapter extends BaseAdapter {
                                     }
                                 }, 500);
                             }
-                        }
+                        }*/
 
                     /*showProgress();
                     ( (ConnectToPacifyrActivity) (activity)).callchatEventListner.onChatEventClick((new ChatEvent(searchResults.get(position), false)));

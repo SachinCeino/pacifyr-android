@@ -334,8 +334,18 @@ public class SwipeDeckConnectPacifyrAdapter extends BaseAdapter {
                             ne.printStackTrace();
                         }
 
+                        showProgress();
+                        ((ConnectToPacifyrActivity) (activity)).callchatEventListner.onChatEventClick((new ChatEvent(searchResults.get(position), false)));
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                hideProgress();
+                            }
+                        }, 500);
 
-                        if (!isChatSubscriptionRequired) {
+
+
+                       /* if (!isChatSubscriptionRequired) {
                             showProgress();
                             ((ConnectToPacifyrActivity) (activity)).callchatEventListner.onChatEventClick((new ChatEvent(searchResults.get(position), false)));
                             //    ConnectToPacifyrActivity.callchatEventListner.onChatEventClick(new ChatEvent(searchResults.get(position), false));
@@ -378,7 +388,7 @@ public class SwipeDeckConnectPacifyrAdapter extends BaseAdapter {
                                 }, 500);
                             }
                         }
-
+*/
                     /*showProgress();
                     ( (ConnectToPacifyrActivity) (activity)).callchatEventListner.onChatEventClick((new ChatEvent(searchResults.get(position), false)));
                 //    ConnectToPacifyrActivity.callchatEventListner.onChatEventClick(new ChatEvent(searchResults.get(position), false));
