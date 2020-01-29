@@ -1421,7 +1421,15 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
         try {
             //only for leaders up
             // EmotionSpecialityAdapter.reason_forcall= UserDashboardFragment.LeadersUpReasonFortheCall;
-            PostRegisterModel postRegisterModel = new PostRegisterModel(PacifyrActivity.call_emotion.getId(), EmotionSpecialityAdapter.reason_forcall);
+            PostRegisterModel postRegisterModel=null;
+            if (getPackageName().equals("com.pacifyr.pam"))
+            {
+                postRegisterModel = new PostRegisterModel();
+            }
+            else
+            {
+                postRegisterModel = new PostRegisterModel(PacifyrActivity.call_emotion.getId(), EmotionSpecialityAdapter.reason_forcall);
+            }
             if (!isValidLogout(getUserID(),"Session expired, please re login"))
                 return;
             setLoadingWait();
@@ -1436,9 +1444,17 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
                     hideProgress();
                     hideKeyboard();
                     try {
-
-                        NetworkService.mCurrentUser.setEmotionId(PacifyrActivity.call_emotion.getId());
-                        NetworkService.mCurrentUser.setReasonForTheCall(EmotionSpecialityAdapter.reason_forcall);
+                        if (getPackageName().equals("com.pacifyr.pam")) {
+                            if (isValid(PacifyrActivity.call_emotion))
+                                NetworkService.mCurrentUser.setEmotionId(PacifyrActivity.call_emotion.getId());
+                            if (isValid(EmotionSpecialityAdapter.reason_forcall))
+                                NetworkService.mCurrentUser.setReasonForTheCall(EmotionSpecialityAdapter.reason_forcall);
+                        }
+                       else
+                        {
+                            NetworkService.mCurrentUser.setEmotionId(PacifyrActivity.call_emotion.getId());
+                            NetworkService.mCurrentUser.setReasonForTheCall(EmotionSpecialityAdapter.reason_forcall);
+                        }
                         getPrefManager().savePacifyrID(pacifyerDetial.getId());
                         if (NetworkService.mCurrentUser.getAvailableMinutes() > 0 && isEmployee()) {
                             setAlertOKStatusInBlue("", "You have " + NetworkService.mCurrentUser.getAvailableMinutes() + " free minutes available", "OK", new View.OnClickListener() {
