@@ -106,15 +106,19 @@ public class UtilityNetworkService extends IntentService {
                 GLOBAL_IMAGE_URL = "https://pam-prod.storage.googleapis.com/";
                 STRIPE_PUBLISH_KEY = "pk_live_GClqoTSF6tHpuUmqQET2nxsg";
                 CIRTIFICATE_KEY = "production";
+                APP_ID = "79939";
+                AUTH_KEY = "fVKU-SnfR-PV6FV";
+                AUTH_SECRET = "eFYX-M4yjuCQTcK";
             } else {
                 GLOBAL_URL = "http://pam_test.pacifyr.net:8080/pacifyr/v1/";
                 GLOBAL_IMAGE_URL = "https://pacifyrtest.storage.googleapis.com/";
                 STRIPE_PUBLISH_KEY = "pk_test_FAVrlQ9hMG3RELCIcWUJpdZf";
                 CIRTIFICATE_KEY = "development";
+                APP_ID = "78571";
+                AUTH_KEY = "6ZSW67fV5vcUOc7";
+                AUTH_SECRET = "7mQzMYGczcznz6z";
             }
-            APP_ID = "78571";
-            AUTH_KEY = "6ZSW67fV5vcUOc7";
-            AUTH_SECRET = "7mQzMYGczcznz6z";
+
         } else {
             if (isProd) {
                 GLOBAL_URL = "https://app.pacifyr.net/pacifyr/v1/";
