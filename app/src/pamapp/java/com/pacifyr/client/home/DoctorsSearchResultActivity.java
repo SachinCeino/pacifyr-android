@@ -67,6 +67,9 @@ public class DoctorsSearchResultActivity extends PacifyrAppCompactActivity imple
 
     private String latitude,longitude;
     private GoogleMap mMap;
+    private TextView desclaimertextView,viewMore;
+    private boolean isCheck=true;
+    private RelativeLayout viewLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +83,9 @@ public class DoctorsSearchResultActivity extends PacifyrAppCompactActivity imple
         mRadioButtonA = (RadioButton) findViewById(R.id.rbMapView);
         listViewTypeLayout = findViewById(R.id.listViewTypeLayout);
         mapViewTypeLayout = findViewById(R.id.mapViewTypeLayout);
+        desclaimertextView=findViewById(R.id.desclaimertextView);
+        viewMore=findViewById(R.id.viewMore);
+        viewLayout=findViewById(R.id.viewLayout);
         txtv_filter=findViewById(R.id.txtv_filter);
         fillColour_ForRadioButton(mRadioButtonB);
         fillNoColor_ForRadioButton(mRadioButtonA);
@@ -138,6 +144,22 @@ public class DoctorsSearchResultActivity extends PacifyrAppCompactActivity imple
                 mBundle.putString("Speciality", Speciality);
                 mDoctorsFilterFragment.setArguments(mBundle);
                 ShowFilterFragment(mDoctorsFilterFragment);
+            }
+        });
+        viewMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (isCheck) {
+                    desclaimertextView.setMaxLines(20);
+                    isCheck = false;
+                    viewMore.setText("View less");
+                } else {
+                    desclaimertextView.setMaxLines(3);
+                    isCheck = true;
+                    viewMore.setText("View more");
+                }
+
             }
         });
 
@@ -291,6 +313,8 @@ public class DoctorsSearchResultActivity extends PacifyrAppCompactActivity imple
                 rcv_SearchResult.setAdapter(mPacifyrResultListViewAdapter);
                 rcv_SearchResult.setItemAnimator(new DefaultItemAnimator());
                 setUpMarkerOnMap(list);
+                viewLayout.setVisibility(View.VISIBLE);
+
             } else {
 
             }
