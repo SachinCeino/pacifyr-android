@@ -1118,6 +1118,11 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
     // public static MConnectSessionRoot call_session_detail_root=null;
 
     private void createChatDialog(final MUser pacifyer,final ArrayList<QBUser> selectedUsers) {
+        if (selectedUsers == null || selectedUsers.isEmpty()) {
+            Toast.makeText(PacifyrActivity.this, "Sorry cannot start chat with this user",
+                    Toast.LENGTH_LONG).show();
+            return;
+        }
 
         setLoading("Creating Chat");
         showProgress();
