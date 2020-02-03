@@ -1,6 +1,5 @@
 package com.pacifyr.client.fragment.schedule;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -14,7 +13,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,24 +25,21 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
-import com.google.gson.JsonObject;
-import com.koushikdutta.ion.Ion;
-import com.pacifyr.client.customview.MainTextView;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
-import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
-import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.pacifyr.client.R;
 import com.pacifyr.client.base.PacifyrActivity;
+import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.quickblox.chat.utils.Consts;
 import com.pacifyr.client.utils.Utility;
+import com.pacifyr.client.views.PamTextViewMedium;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
+import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.DateFormat;
@@ -61,12 +56,12 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
-import static com.pacifyr.client.utils.Utility.timeZoneOffset;
-import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
 import static com.pacifyr.client.network.NetworkService.GLOBAL_IMAGE_URL;
+import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
 
 public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
     MUser pacifyer_obj;
+    private PamTextViewMedium text_loading;
 
     public ScheduleBottomSheetFragment() {
 
@@ -160,6 +155,7 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
         ll_prev_week = view.findViewById(R.id.ll_prev_week);
 
         rcv_week_schedule_ = view.findViewById(R.id.rcv_week_schedule_);
+        text_loading = view.findViewById(R.id.text_loading);
         rcv_slote_schedule_ = view.findViewById(R.id.rcv_slote_schedule_);
         noDataAvailable = view.findViewById(R.id.noDataAvailable);
         nextClick = view.findViewById(R.id.nextClick);
@@ -197,6 +193,8 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
             @Override
             public void onClick(View v) {
 
+                rcv_week_schedule_.setAdapter(null);
+                rcv_slote_schedule_.setAdapter(null);
                 weekNumber--;
                 if (isValid(data))
                     data = getPreviousWeek();
@@ -220,6 +218,8 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
             @Override
             public void onClick(View v) {
 
+                rcv_week_schedule_.setAdapter(null);
+                rcv_slote_schedule_.setAdapter(null);
                 weekNumber++;
                 if (isValid(data))
                     data = getNextWeek();
@@ -313,8 +313,8 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
 
     private void getWeakScheduleList() {
 
-        ((PacifyrActivity) getActivity()).setLoading();
-        ((PacifyrActivity) getActivity()).showProgress();
+        text_loading.setVisibility(VISIBLE);
+        rcv_week_schedule_.setAdapter(null);
 
         String token = prefM.getAccessToken();
 
@@ -323,11 +323,11 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
         AjaxCallback cb = new AjaxCallback<JSONArray>() {
             @Override
             public void callback(String url, JSONArray json, AjaxStatus status) {
+                text_loading.setVisibility(GONE);
                 try {
 
 
                     if (isValid(json)) {
-                        ((PacifyrActivity) getActivity()).hideProgress();
                         Log.w("@@@@", String.valueOf(json));
                         WeekScheduleData = GsonUtils.getInstance().gsonToModelScheduleData(json);
                         if (isValid(WeekScheduleData)) {
@@ -370,7 +370,7 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
             aq.ajax(GLOBAL_URL + "schedule/byWeek?pacifyrId=" + pacifyer_obj.getId() + "&weekNumber=" + weekNumber, JSONArray.class, cb);
 
         } catch (Exception ex) {
-            ((PacifyrActivity) getActivity()).hideProgress();
+            text_loading.setVisibility(GONE);
 
             ex.printStackTrace();
         }
@@ -675,8 +675,8 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
 
     private void webGetTimSlotes(ScheduleData mObject) {
 
-        ((PacifyrActivity) getActivity()).setLoading();
-        ((PacifyrActivity) getActivity()).showProgress();
+        text_loading.setVisibility(VISIBLE);
+        rcv_slote_schedule_.setAdapter(null);
         PrefManager prefM = PrefManager.getInstance(getActivity());
         String token = prefM.getAccessToken();
         String id = "";
@@ -689,8 +689,8 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
         AjaxCallback cb = new AjaxCallback<JSONArray>() {
             @Override
             public void callback(String url, JSONArray json, AjaxStatus status) {
+                text_loading.setVisibility(GONE);
                 try {
-                    ((PacifyrActivity) getActivity()).hideProgress();
                     if (isValid(json)) {
                         mSlotesData = GsonUtils.getInstance().gsonToModelSlotesModel(json);
                         List<Slot> availableSlotArray = new ArrayList<Slot>();
@@ -728,7 +728,7 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
                     }
 
                 } catch (Exception e) {
-                    ((PacifyrActivity) getActivity()).hideProgress();
+                    text_loading.setVisibility(GONE);
                     e.printStackTrace();
                 }
             }
@@ -820,7 +820,7 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
 
             }
         });
-        mGridLayoutManager = new GridLayoutManager(getActivity(), 2, GridLayoutManager.VERTICAL, false);
+        mGridLayoutManager = new GridLayoutManager(getActivity(), 2, RecyclerView.VERTICAL, false);
         rcv_slote_schedule_.setLayoutManager(mGridLayoutManager);
         rcv_slote_schedule_.setItemAnimator(new DefaultItemAnimator());
         rcv_slote_schedule_.setAdapter(mScheduleTimeSlotesAdapter);

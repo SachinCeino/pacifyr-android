@@ -112,11 +112,21 @@
 
                         </androidx.recyclerview.widget.RecyclerView>
 
-                        <LinearLayout
+                        <FrameLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@id/rcv_week_schedule_"
                             android:layout_marginTop="10dp">
+
+                            <com.pacifyr.client.views.PamTextViewMedium
+                                android:id="@+id/text_loading"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:text="Loading..."
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="20sp"
+                                android:visibility="gone" />
                             <androidx.core.widget.NestedScrollView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content">
@@ -129,7 +139,7 @@
 
                                 </androidx.recyclerview.widget.RecyclerView>
                             </androidx.core.widget.NestedScrollView>
-                        </LinearLayout>
+                        </FrameLayout>
 
 
                         <RelativeLayout
