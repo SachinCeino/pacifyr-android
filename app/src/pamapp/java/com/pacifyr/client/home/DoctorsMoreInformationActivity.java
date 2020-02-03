@@ -110,6 +110,9 @@ public class DoctorsMoreInformationActivity extends PacifyrAppCompactActivity im
 
         if (isValid(pacifyerObject.getImage()))
             Picasso.with(getApplicationContext()).load(GLOBAL_IMAGE_URL + pacifyerObject.getImage()).placeholder(R.drawable.placeholder_user).into(pacifyr_image);
+        else
+            pacifyr_image.setImageResource(R.drawable.placeholder_user);
+
         if (isValid(pacifyerObject.getPhoneNumber()))
             pacifyr_number.setText(pacifyerObject.getPhoneNumber());
         if (isValid(pacifyerObject.getCountry()))

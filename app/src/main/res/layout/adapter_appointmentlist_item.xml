@@ -81,16 +81,17 @@
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal">
 
-                <Button
+                <com.pacifyr.client.customview.MainTextView
                     android:layout_width="0dp"
                     android:layout_height="35dp"
                     android:layout_weight="1"
                     android:layout_marginRight="5dp"
-                    android:text="Re-Schedule"
-                    android:id="@+id/mButton_Reschedule"
+                    android:text="Reason"
+                    android:id="@+id/mButton_RejestReason"
                     android:textAllCaps="false"
+                    android:visibility="gone"
                     android:textColor="@color/colorPrimary"
-                    android:background="@drawable/blue_border_white_background_round" />
+                     />
 
                 <Button
                     android:layout_width="0dp"

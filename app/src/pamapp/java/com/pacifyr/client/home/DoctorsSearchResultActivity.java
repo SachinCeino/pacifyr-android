@@ -142,6 +142,8 @@ public class DoctorsSearchResultActivity extends PacifyrAppCompactActivity imple
                 Fragment mDoctorsFilterFragment = new DoctorsFilterFragment();
                 Bundle mBundle = new Bundle();
                 mBundle.putString("Speciality", Speciality);
+                mBundle.putString("longitude", longitude);
+                mBundle.putString("latitude", latitude);
                 mDoctorsFilterFragment.setArguments(mBundle);
                 ShowFilterFragment(mDoctorsFilterFragment);
             }

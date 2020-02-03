@@ -82,6 +82,7 @@ public class DoctorsActivity extends PacifyrAppCompactActivity implements Doctor
     private final int REQUEST_LOCATION = 200;
 
     public double mLatitude,mLongitude;
+    public static String currentLocation=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -249,6 +250,7 @@ public class DoctorsActivity extends PacifyrAppCompactActivity implements Doctor
                 if (addresses.size() > 0) {
                     Log.w("@@@",addresses.get(0).getFeatureName() + ", " + addresses.get(0).getLocality() +", " + addresses.get(0).getAdminArea() + ", " + addresses.get(0).getCountryName());
                     etv_CurrentLocation.setText(addresses.get(0).getFeatureName() + ", " + addresses.get(0).getLocality() +", " + addresses.get(0).getAdminArea() + ", " + addresses.get(0).getCountryName());
+                    currentLocation=etv_CurrentLocation.getText().toString();
                 }
             }
         }
@@ -500,5 +502,4 @@ public class DoctorsActivity extends PacifyrAppCompactActivity implements Doctor
             // permissions this app might request.
         }
     }
-
 }

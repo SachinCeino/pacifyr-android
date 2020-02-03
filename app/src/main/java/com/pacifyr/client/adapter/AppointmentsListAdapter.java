@@ -1,6 +1,7 @@
 package com.pacifyr.client.adapter;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.pacifyr.client.R;
@@ -97,44 +99,40 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<AppointmentsLi
                         holder.itemView.setClickable(false);
                         holder.mainLayout.setBackgroundColor(mContext.getResources().getColor(R.color.appointment_no_click));
                         holder.mButton_Cancel.setBackground(null);
-                        holder.mButton_Reschedule.setBackground(null);
 
                     } else {
                         holder.itemView.setClickable(true);
                         holder.mainLayout.setBackgroundColor(mContext.getResources().getColor(R.color.white));
                         holder.mButton_Cancel.setBackground(mContext.getResources().getDrawable(R.drawable.blue_border_white_background_round));
-                        holder.mButton_Reschedule.setBackground(mContext.getResources().getDrawable(R.drawable.blue_border_white_background_round));
                     }
                 }
 
             }
 
-            holder.mButton_Reschedule.setOnClickListener(new View.OnClickListener() {
+            holder.mButton_RejestReason.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (!scheduleIsPassed(mObject.getStartTimeGMT())) {
-                        mReSchedulelListner.onReshecdule(mObject, position);
+
+                    if (isValid(mObject.getRejectReason().toString()))
+                    {
+                        showRejectedReasonPopUp(mObject.getRejectReason());
                     }
-
-
                 }
             });
 
             if (isValid(mObject.getCancelled())&& mObject.getCancelled())
             {
                 holder.mButton_Cancel.setText("Cancelled");
-                holder.mButton_Reschedule.setVisibility(View.GONE);
                 holder.itemView.setClickable(false);
             }
             else if (isValid(mObject.getRejected())&&mObject.getRejected())
             {
                 holder.mButton_Cancel.setText("Rejected");
-                holder.mButton_Reschedule.setVisibility(View.GONE);
+                holder.mButton_RejestReason.setVisibility(View.VISIBLE);
                 holder.itemView.setClickable(false);
             }
             else
             {
-                holder.mButton_Reschedule.setVisibility(View.VISIBLE);
                 holder.mButton_Cancel.setText("Cancel");
                 holder.itemView.setClickable(true);
             }
@@ -156,10 +154,26 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<AppointmentsLi
                 });
             }
 
+
         }
 
 
 
+    }
+
+    private void showRejectedReasonPopUp(Object rejectReason) {
+        AlertDialog.Builder alert = new AlertDialog.Builder(mContext);
+        alert.setTitle("Rejected Reason");
+        alert.setMessage(rejectReason.toString());
+        final TextView input = new TextView (mContext);
+        alert.setView(input);
+
+        alert.setNegativeButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                dialog.cancel();
+            }
+        });
+        alert.show();
     }
 
     @Override
@@ -173,7 +187,7 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<AppointmentsLi
         private TextView mTextView_PacifyrName;
         private TextView mTextView_PacifyrSpecialities;
         private TextView mTextView_ScheduleTime;
-        private Button mButton_Reschedule;
+        private TextView mButton_RejestReason;
         private Button mButton_Cancel;
         private LinearLayout mainLayout;
 
@@ -184,7 +198,7 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<AppointmentsLi
             mTextView_PacifyrName = itemView.findViewById(R.id.mTextView_PacifyrName);
             mTextView_PacifyrSpecialities = itemView.findViewById(R.id.mTextView_PacifyrSpecialities);
             mTextView_ScheduleTime = itemView.findViewById(R.id.mTextView_ScheduleTime);
-            mButton_Reschedule = itemView.findViewById(R.id.mButton_Reschedule);
+            mButton_RejestReason = itemView.findViewById(R.id.mButton_RejestReason);
             mButton_Cancel = itemView.findViewById(R.id.mButton_Cancel);
             mainLayout = itemView.findViewById(R.id.mainLayout);
 

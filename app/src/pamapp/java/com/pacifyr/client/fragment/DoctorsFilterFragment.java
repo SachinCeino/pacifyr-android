@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
+import com.pacifyr.client.home.DoctorsActivity;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.RespSearchPacifyrWOption;
 import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarChangeListener;
 import com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar;
@@ -63,6 +65,8 @@ public class DoctorsFilterFragment extends BaseFragment {
     private String mSpeciality;
     private RespSearchPacifyrWOption mSearchPacifyrWOptionsResponse;
     private TextView txtv_gender;
+    private EditText currentLocation;
+    private String latitude,longitude;
 
 
 
@@ -81,10 +85,19 @@ public class DoctorsFilterFragment extends BaseFragment {
         textView_fee_max = root.findViewById(R.id.textView_fee_max);
         LinearLayout_Submit = root.findViewById(R.id.LinearLayout_Submit);
         txtv_gender=root.findViewById(R.id.txtv_gender);
+        currentLocation=root.findViewById(R.id.currentLocation);
+        currentLocation.setText(DoctorsActivity.currentLocation);
 
         /** get Speciality data From Bundle**/
         Bundle mBundle = getArguments();
         mSpeciality = mBundle.get("Speciality").toString();
+        if (isValid(getActivity().getIntent().getExtras().get("latitude"))) {
+            latitude = getActivity().getIntent().getExtras().get("latitude").toString();
+        }
+        if (isValid(getActivity().getIntent().getExtras().get("longitude"))) {
+            longitude =getActivity(). getIntent().getExtras().get("longitude").toString();
+        }
+
 
         freerangeSeekbar.setOnRangeSeekbarChangeListener(new OnRangeSeekbarChangeListener() {
             @Override
@@ -226,8 +239,8 @@ public class DoctorsFilterFragment extends BaseFragment {
 
             JSONObject jsonObject = new JSONObject();
             jsonObject.putOpt("initiatorId", getPrefManager().getUserID());
-            jsonObject.putOpt("latitude", "11.25416");
-            jsonObject.putOpt("longitude", "75.83717");
+            jsonObject.putOpt("latitude", latitude);
+            jsonObject.putOpt("longitude", longitude);
             jsonObject.putOpt("price_start", mPriceStart);
             jsonObject.putOpt("price_end", mPriceEnd);
             jsonObject.putOpt("distance_start", mDistanceStart);
