@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -15,9 +16,12 @@ import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
@@ -57,16 +61,20 @@ import com.quickblox.core.exception.QBResponseException;
 import com.quickblox.users.model.QBUser;
 import com.squareup.otto.Subscribe;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.TimeZone;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.ACCOUNT_KEY;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.APP_ID;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.AUTH_KEY;
@@ -1199,5 +1207,162 @@ public abstract class PacifyrAppCompactActivity  extends PacifyrActivity {
         }
     }
 
+
+    public void showMandatoryFieldsPopUp() {
+
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(PacifyrAppCompactActivity.this);
+// ...Irrelevant code for customizing the buttons and title
+        LayoutInflater inflater = getLayoutInflater();
+        AlertDialog alertDialog;
+        View dialogView = inflater.inflate(R.layout.alert_appointment_mandatory_fields, null);
+        dialogBuilder.setView(dialogView);
+        TextView txtv_gender = dialogView.findViewById(R.id.txtv_gender);
+        TextView zipCode = dialogView.findViewById(R.id.zipCode);
+        LinearLayout LinearLayout_Submit=dialogView.findViewById(R.id.LinearLayout_Submit);
+        alertDialog = dialogBuilder.create();
+        if (isValid(getPrefManager().getGENDER()))
+            txtv_gender.setVisibility(GONE);
+        else
+            txtv_gender.setVisibility(View.VISIBLE);
+
+        if (isValid(getPrefManager().getZIP()))
+            zipCode.setVisibility(GONE);
+        else
+            zipCode.setVisibility(View.VISIBLE);
+
+        txtv_gender.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                getGenderListItems(txtv_gender);
+            }
+        });
+
+        LinearLayout_Submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                JSONObject editProfileObject=new JSONObject();
+                editProfileObject = new JSONObject();
+                try {
+                    if (txtv_gender.getVisibility()==VISIBLE) {
+                        if (isValid(txtv_gender.getText().toString())) {
+                            editProfileObject.putOpt("gender", txtv_gender.getText().toString());
+                        }
+                        else {
+                            txtv_gender.setError("select gender");
+                            return;
+                        }
+                    }
+
+                    if (zipCode.getVisibility()==VISIBLE) {
+                        if (isValid(zipCode.getText().toString())) {
+                            editProfileObject.putOpt("zipCode", zipCode.getText().toString());
+                        } else {
+                            zipCode.setError("Enter zipCode");
+                            return ;
+                        }
+                    }
+
+
+                }
+                catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                UpdateUserProfile(editProfileObject,alertDialog);
+            }
+        });
+
+
+        alertDialog.show();
+    }
+
+    private void getGenderListItems(TextView customEditText_gender) {
+
+        String title="Select your gender";
+        ArrayList<String> genderList=new ArrayList();
+        genderList.add("Male");
+        genderList.add("Female");
+        showListPopup(title,genderList,customEditText_gender);
+    }
+
+
+    private void showListPopup(String title,ArrayList<String> list,TextView customEditText_view) {
+
+        // setup the alert builder
+        String[] dataList=null;
+        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(PacifyrAppCompactActivity.this);
+        builder.setTitle(title);
+
+        if (isValid(list))
+        {
+            dataList=new String[list.size()];
+            for (int i=0;i<list.size();i++)
+            {
+                dataList[i]=list.get(i);
+            }
+        }
+        String[] finalDataList = dataList;
+        builder.setItems(dataList, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                customEditText_view.setText(finalDataList[which]+"");
+            }
+        });
+
+// create and show the alert dialog
+        android.app.AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+
+    private void UpdateUserProfile(JSONObject editProfileObject, AlertDialog alertDialog) {
+        try {
+            setLoading();
+            showProgress();
+            String  token = getPrefManager().getAccessToken();
+            String  userid = getPrefManager().getUserID();
+            String url = UtilityNetworkService.GLOBAL_URL + "user/editprofile/" + userid;
+            com.koushikdutta.async.future.FutureCallback<JsonObject> futureCallback = new com.koushikdutta.async.future.FutureCallback<JsonObject>() {
+                @Override
+                public void onCompleted(Exception e, JsonObject result) {
+                    try {
+                     hideProgress();
+                     if (isValid(result))
+                     {
+                         if (result.has("zipCode"))
+                         {
+                             String zipCode=result.get("zipCode").toString();
+                             getPrefManager().saveZIP(zipCode);
+                         }
+
+                         if (result.has("gender"))
+                         {
+                             String gender=result.get("gender").toString();
+                             getPrefManager().saveGENDER(gender);
+                         }
+
+                         if (isValid(alertDialog))
+                             alertDialog.cancel();
+                         Log.w("@@@",String.valueOf(result));
+
+                     }
+
+                    } catch (Exception eee) {
+                        hideProgress();
+                        //hideProgress();
+                        Toast.makeText(getApplicationContext(), "Error :" + e.getMessage() + ", ex :" + eee.getMessage(), Toast.LENGTH_LONG).show();
+                        eee.printStackTrace();
+                    }
+                }
+            };
+            String json = editProfileObject.toString();
+            Ion.with(getApplicationContext()).load(url).setHeader("AccessToken", token).setHeader("enctype", "multipart/form-data").setMultipartParameter("data", json).asJsonObject().setCallback(futureCallback);
+        }catch (Exception e)
+        {   e.printStackTrace();
+            hideProgress();}
+
+
+    }
 
 }

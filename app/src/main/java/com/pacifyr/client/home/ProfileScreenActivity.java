@@ -446,12 +446,30 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
     private void showScheduleDialogueFragment(MUser mpacifyerDetial) {
 
         if (isValid(mpacifyerDetial)) {
-            ScheduleBottomSheetFragment bottomSheetFragment = new ScheduleBottomSheetFragment();
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("OBJECT", mpacifyerDetial);
-            bottomSheetFragment.setArguments(bundle);
-            bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
+            if (getPackageName().equalsIgnoreCase("com.pacifyr.pam"))
+            {
+                if (isValid(getPrefManager().getGENDER()) && isValid(getPrefManager().getZIP())) {
+                    ScheduleBottomSheetFragment bottomSheetFragment = new ScheduleBottomSheetFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("OBJECT", mpacifyerDetial);
+                    bottomSheetFragment.setArguments(bundle);
+                    bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
+                }
+                else
+                { showMandatoryFieldsPopUp();
+                }
+            }
+            else
+            {
+                ScheduleBottomSheetFragment bottomSheetFragment = new ScheduleBottomSheetFragment();
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("OBJECT", mpacifyerDetial);
+                bottomSheetFragment.setArguments(bundle);
+                bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
+            }
+
         }
+
     }
 
     @Override

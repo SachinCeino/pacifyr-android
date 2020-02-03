@@ -29,6 +29,7 @@ import com.pacifyr.client.home.DashboardActivity;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.utility.BaseFragment;
+import com.pacifyr.client.utility.PacifyrAppCompactActivity;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.squareup.otto.Subscribe;
 
@@ -182,12 +183,20 @@ public class AppointmentsFragment extends BaseFragment {
     private void ShowReScheduleUI(AppointmentModel.Result mObject) {
 
         if (isValid(mObject.getPacifyr())) {
-            ScheduleBottomSheetFragment bottomSheetFragment = new ScheduleBottomSheetFragment();
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("OBJECT", mObject.getPacifyr());
-            bottomSheetFragment.setArguments(bundle);
-            bottomSheetFragment.show(getChildFragmentManager(), bottomSheetFragment.getTag());
+            if (isValid(getPrefManager().getGENDER()) && isValid(getPrefManager().getZIP())) {
+                ScheduleBottomSheetFragment bottomSheetFragment = new ScheduleBottomSheetFragment();
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("OBJECT", mObject.getPacifyr());
+                bottomSheetFragment.setArguments(bundle);
+                bottomSheetFragment.show(getChildFragmentManager(), bottomSheetFragment.getTag());
+            }
+            else
+            {
+                ((PacifyrAppCompactActivity)getActivity()).showMandatoryFieldsPopUp();
+            }
         }
+
+
 
     }
 

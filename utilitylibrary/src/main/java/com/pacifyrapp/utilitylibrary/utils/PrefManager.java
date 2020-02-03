@@ -63,6 +63,9 @@ public class PrefManager {
     public static final String CARD_EXIST="card_exist";//mybadgeValue
     public static final String BADGE_VALUE="badgeValue";
     public static final String PHONE_NUMBER="phoneNumber";
+    public static final String DOB = "DOB";
+    public static final String ZIP = "ZIP";
+    public static final String GENDER = "GENDER";
 
     Context context;
     SharedPreferences sharedpreferences;
@@ -403,6 +406,42 @@ public class PrefManager {
         putSharedString(EMAIL,emailID);
 
     }
+
+    public void saveDOB(String dob)
+    {
+        putSharedString(DOB,dob);
+
+    }
+
+    public String getDOB() {
+        //this.country = country;
+        return getSharedString(DOB,"");
+    }
+
+
+    public void saveZIP(String zip)
+    {
+        putSharedString(ZIP,zip);
+
+    }
+
+    public String getZIP() {
+        //this.country = country;
+        return getSharedString(ZIP,"");
+    }
+
+
+    public void saveGENDER(String gender)
+    {
+        putSharedString(GENDER,gender);
+
+    }
+
+    public String getGENDER() {
+        //this.country = country;
+        return getSharedString(GENDER,"");
+    }
+
 
     public void saveProfileImageURL(String image)
     {

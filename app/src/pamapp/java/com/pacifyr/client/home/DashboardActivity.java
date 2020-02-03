@@ -649,6 +649,21 @@ public class DashboardActivity extends PacifyrAppCompactActivity {
                     try {
                         hideProgress();
                         MUser user = GsonUtils.getInstance().gsonToMUser(json);
+                        /*if (isValid(user.getDateOfBirth()))
+                        {
+
+                            String[] items = user.getDateOfBirth().split("-");
+                                System.out.println("item = " + items[2]);
+                                if (isValid(items[2]))
+                                    prefM.saveDOB(items[2]);
+
+                        }*/
+
+                        if (isValid(user.getZipCode()))
+                            prefM.saveZIP(user.getZipCode());
+                        if (isValid(user.getGender()))
+                            prefM.saveGENDER(user.getGender());
+
                         detailNameCtxv.setText(user.getName());
                         detailMailCtxv.setText(user.getEmail());
                         String imageUrl = user.getImageUrl();

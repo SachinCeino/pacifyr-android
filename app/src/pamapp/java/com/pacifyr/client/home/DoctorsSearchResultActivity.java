@@ -440,13 +440,16 @@ public class DoctorsSearchResultActivity extends PacifyrAppCompactActivity imple
 
 
     public void showScheduleDialogueFragment(MUser pacifyer_obj) {
-        if (isValid(pacifyer_obj)) {
-
+        if (isValid(getPrefManager().getGENDER()) && isValid(getPrefManager().getZIP())) {
             ScheduleBottomSheetFragment bottomSheetFragment = new ScheduleBottomSheetFragment();
             Bundle bundle = new Bundle();
             bundle.putSerializable("OBJECT", pacifyer_obj);
             bottomSheetFragment.setArguments(bundle);
             bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
+        }
+        else
+        {
+            showMandatoryFieldsPopUp();
         }
 
     }

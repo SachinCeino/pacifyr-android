@@ -1144,17 +1144,19 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
     }
 
     private void showScheduleDialogueFragment(MUser pacifyer_obj) {
-        if (isValid(pacifyer_obj))
-        {
-
-            ScheduleBottomSheetFragment bottomSheetFragment = new ScheduleBottomSheetFragment();
-            Bundle bundle=new Bundle();
-            bundle.putSerializable("OBJECT",pacifyer_obj);
-            bottomSheetFragment.setArguments(bundle);
-            bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
-
-
+        if (isValid(pacifyer_obj)) {
+            if (isValid(getPrefManager().getGENDER()) && isValid(getPrefManager().getZIP())) {
+                ScheduleBottomSheetFragment bottomSheetFragment = new ScheduleBottomSheetFragment();
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("OBJECT", pacifyer_obj);
+                bottomSheetFragment.setArguments(bundle);
+                bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
+            }
+            else
+            { showMandatoryFieldsPopUp();
+            }
         }
+
 
     }
 

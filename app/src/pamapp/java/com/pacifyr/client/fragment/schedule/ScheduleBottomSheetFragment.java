@@ -1,5 +1,6 @@
 package com.pacifyr.client.fragment.schedule;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,8 +27,11 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.google.gson.JsonObject;
+import com.koushikdutta.ion.Ion;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
+import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -39,6 +44,7 @@ import com.pacifyr.client.utils.Utility;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.DateFormat;
@@ -54,6 +60,7 @@ import java.util.concurrent.TimeUnit;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 import static com.pacifyr.client.utils.Utility.timeZoneOffset;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
 import static com.pacifyr.client.network.NetworkService.GLOBAL_IMAGE_URL;
@@ -227,7 +234,6 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
 
         getWeakScheduleList();
 
-
         nextClick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -256,6 +262,15 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
 
         return view;
     }
+
+
+
+
+
+
+
+
+
 
 
     private void callAppoinmentConfirmationScreen(Slot slotForNextClick) {
