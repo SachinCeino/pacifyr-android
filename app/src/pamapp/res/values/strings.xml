@@ -126,7 +126,7 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="success">success</string>
     <string name="contact_us">SUPPORT</string>
     <string name="title_activity_android_dashoard">my dash board</string>
-    <string name="no_messages">There are no messages.</string>
+    <string name="no_messages">You have no messages.</string>
     <string name="register">Register</string>
     <string name="start_session">Session Started</string>
     <string name="have_discount_code">Have a discount code?</string>
