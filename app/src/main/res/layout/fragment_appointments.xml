@@ -5,12 +5,13 @@
     android:orientation="vertical">
 
     <com.pacifyr.client.customview.MainTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="No Appointments Available!"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="You currently have no appointments - click here to schedule one."
         android:layout_centerInParent="true"
         android:textStyle="bold"
         android:id="@+id/emptyLayout"
+        android:gravity="center"
         android:textSize="20sp"
         android:visibility="gone" />
     <androidx.recyclerview.widget.RecyclerView

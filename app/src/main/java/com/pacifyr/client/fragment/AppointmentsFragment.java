@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,6 +25,7 @@ import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.fragment.schedule.AppointmentModel;
 import com.pacifyr.client.fragment.schedule.ScheduleBottomSheetFragment;
 import com.pacifyr.client.fragment.schedule.Slot;
+import com.pacifyr.client.home.DashboardActivity;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.utility.BaseFragment;
@@ -207,6 +210,15 @@ public class AppointmentsFragment extends BaseFragment {
         mRecyclerViewAppointments = root.findViewById(R.id.mRecyclerViewAppointments);
         emptyLayout=root.findViewById(R.id.emptyLayout);
         getAppointmentsList();
+        emptyLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                UserDashboardFragment fragment=new UserDashboardFragment();
+                ((DashboardActivity)getActivity()).showFragment(fragment);
+
+            }
+        });
         return root;
     }
 
