@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">PAM</string>
+    <string name="app_name">PAM Health</string>
     <string name="tutorial">TUTORIAL</string>
 
     <string name="title_activity_home_screen">HomeScreenActivity</string>
