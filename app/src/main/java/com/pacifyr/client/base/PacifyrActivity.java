@@ -1127,28 +1127,35 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
         setLoading("Creating Chat");
         showProgress();
 
+        try {
 
-        ChatHelper.getInstance().createDialogWithSelectedUsers(selectedUsers,
-                new QBEntityCallback<QBChatDialog>() {
-                    @Override
-                    public void onSuccess(QBChatDialog dialog, Bundle args) {
-                        hideProgress();
-                        //  isProcessingResultInProgress = false;
-                        // dialogsManager.sendSystemMessageAboutCreatingDialog(systemMessagesManager, dialog);
-                        //    ChatActivity.startForResult(this, DialogsActivity.REQUEST_DIALOG_ID_FOR_UPDATE, dialog);
-                        ChatActivity.start(PacifyrActivity.this, dialog,pacifyer);
-                        // ProgressDialogFragment.hide(getSupportFragmentManager());
-                    }
+            ChatHelper.getInstance().createDialogWithSelectedUsers(selectedUsers,
+                    new QBEntityCallback<QBChatDialog>() {
+                        @Override
+                        public void onSuccess(QBChatDialog dialog, Bundle args) {
+                            hideProgress();
+                            //  isProcessingResultInProgress = false;
+                            // dialogsManager.sendSystemMessageAboutCreatingDialog(systemMessagesManager, dialog);
+                            //    ChatActivity.startForResult(this, DialogsActivity.REQUEST_DIALOG_ID_FOR_UPDATE, dialog);
+                            ChatActivity.start(PacifyrActivity.this, dialog, pacifyer);
+                            // ProgressDialogFragment.hide(getSupportFragmentManager());
+                        }
 
-                    @Override
-                    public void onError(QBResponseException e) {
-                        hideProgress();
-                        // isProcessingResultInProgress = false;
-                        //ProgressDialogFragment.hide(getSupportFragmentManager());
-                        showErrorSnackbar(com.quickblox.sample.chat.R.string.group_chat_join_error, e, null);
+                        @Override
+                        public void onError(QBResponseException e) {
+                            hideProgress();
+                            // isProcessingResultInProgress = false;
+                            //ProgressDialogFragment.hide(getSupportFragmentManager());
+                            showErrorSnackbar(com.quickblox.sample.chat.R.string.group_chat_join_error, e, null);
+                        }
                     }
-                }
-        );
+            );
+        } catch (Exception e) {
+            hideProgress();
+            e.printStackTrace();
+            Toast.makeText(PacifyrActivity.this, "Sorry, cannot chat with this user",
+                    Toast.LENGTH_LONG).show();
+        }
     }
 
     public static String sessionid = null;
