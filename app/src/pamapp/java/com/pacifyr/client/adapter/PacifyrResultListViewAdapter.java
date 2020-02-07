@@ -74,6 +74,7 @@ import static com.pacifyr.client.network.NetworkService.GLOBAL_IMAGE_URL;
 
 public class PacifyrResultListViewAdapter extends RecyclerView.Adapter<PacifyrResultListViewAdapter.MyViewHolder> {
 
+
     public List<MUser> searchResults;
     private Activity context;
 
@@ -113,10 +114,17 @@ public class PacifyrResultListViewAdapter extends RecyclerView.Adapter<PacifyrRe
     private LinearLayout chatLlay;
     private RelativeLayout schedule_rlay;
 
+    public interface OnFavoriteCliked
+    {
+        void onAddtofavoriteint(int position,MUser pacifyer);
+    }
 
-    public PacifyrResultListViewAdapter(ArrayList<MUser> resultsList, Activity context) {
-        searchResults = resultsList;
+    private  OnFavoriteCliked monFavoriteCliked;
+
+    public PacifyrResultListViewAdapter(ArrayList<MUser> resultsList, Activity context,OnFavoriteCliked monFavoriteCliked) {
+        this.searchResults = resultsList;
         this.context = context;
+        this.monFavoriteCliked=monFavoriteCliked;
     }
 
 
@@ -185,6 +193,20 @@ public class PacifyrResultListViewAdapter extends RecyclerView.Adapter<PacifyrRe
                     public void onClick(View v) {
 
                         ConnectToSinglePacifyrActivity.start(context, pacifyer);
+                    }
+                });
+
+                if (pacifyer.isFavorite())
+                {
+                    holder.favorite.setImageDrawable(context.getResources().getDrawable(R.drawable.svg_favorite_doctor));
+                }
+                else {
+                    holder.favorite.setImageDrawable(context.getResources().getDrawable(R.drawable.svg_unfavorite_doctor));
+                }
+                holder.favorite.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        monFavoriteCliked.onAddtofavoriteint(position,pacifyer);
                     }
                 });
 

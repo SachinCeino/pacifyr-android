@@ -8,6 +8,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -309,7 +310,13 @@ public class DoctorsSearchResultActivity extends PacifyrAppCompactActivity imple
             list = pSearchPacifyrWOptionsResponse.getResultsList();
             if (isValid(list)) {
                 total_results.setText(list.size() + " result");
-                mPacifyrResultListViewAdapter = new PacifyrResultListViewAdapter(list, DoctorsSearchResultActivity.this);
+                mPacifyrResultListViewAdapter = new PacifyrResultListViewAdapter(list,
+                        DoctorsSearchResultActivity.this, new PacifyrResultListViewAdapter.OnFavoriteCliked() {
+                    @Override
+                    public void onAddtofavoriteint(int position,MUser object) {
+                        callAddToFavOrRemoveFavDoctorAPI(position,object);
+                    }
+                });
                 RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
                 rcv_SearchResult.setLayoutManager(layoutManager);
                 rcv_SearchResult.setAdapter(mPacifyrResultListViewAdapter);
@@ -321,6 +328,111 @@ public class DoctorsSearchResultActivity extends PacifyrAppCompactActivity imple
 
             }
         }
+    }
+
+    private void callAddToFavOrRemoveFavDoctorAPI(int updateIndex, MUser object) {
+
+
+        if (object.isFavorite()==false)
+        {
+            /**add to favorite **/
+            try {
+                setLoading("loading...");
+                showProgress();
+                String url = GLOBAL_URL + "favorite";
+
+                AjaxCallback cb = new AjaxCallback<JSONObject>() {
+                    @Override
+                    public void callback(String url, JSONObject json, AjaxStatus status) {
+                        try {
+                            hideProgress();
+                            String js = json.toString();
+                            String message="";
+                            if (isValid(json))
+                            {
+                                if (json.has("message"))
+                                    message=json.getString("message").toString();
+                                if(isValid(message))
+                                    Toast.makeText(DoctorsSearchResultActivity.this, message, Toast.LENGTH_SHORT).show();
+                                object.setFavorite(true);
+                                list.set(updateIndex, object);
+                                mPacifyrResultListViewAdapter.notifyItemChanged(updateIndex);
+                            }
+                            else
+                            {
+                                Toast.makeText(DoctorsSearchResultActivity.this, "something went wrong!", Toast.LENGTH_SHORT).show();
+                            }
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            hideProgress();
+                        }
+                    }
+                };
+
+                AQuery aq = new AQuery(DoctorsSearchResultActivity.this);
+                cb.header("Content-Type", "application/json");
+                cb.header("AccessToken", getPrefManager().getAccessToken());
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.putOpt("userId", getPrefManager().getUserID());
+                jsonObject.putOpt("pacifyrId", object.getId());
+                aq.post(url, jsonObject, JSONObject.class, cb);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                hideProgress();
+            }
+
+        }
+        else
+        {
+            /**remove from favorite **/
+            try {
+                setLoading("loading...");
+                showProgress();
+                String url = GLOBAL_URL + "favorite?userId="+getPrefManager().getUserID()+"&pacifyrId="+object.getId();
+
+                AjaxCallback cb = new AjaxCallback<JSONObject>() {
+                    @Override
+                    public void callback(String url, JSONObject json, AjaxStatus status) {
+                        try {
+                            hideProgress();
+                            String js = json.toString();
+                            String message="";
+                            if (isValid(json))
+                            {
+                                if (json.has("message"))
+                                    message=json.getString("message").toString();
+                                if(isValid(message))
+                                    Toast.makeText(DoctorsSearchResultActivity.this, message, Toast.LENGTH_SHORT).show();
+                                object.setFavorite(false);
+                                list.set(updateIndex, object);
+                                mPacifyrResultListViewAdapter.notifyItemChanged(updateIndex);
+                            }
+                            else
+                            {
+                                Toast.makeText(DoctorsSearchResultActivity.this, "something went wrong!", Toast.LENGTH_SHORT).show();
+                            }
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            hideProgress();
+                        }
+                    }
+                };
+
+                AQuery aq = new AQuery(DoctorsSearchResultActivity.this);
+                cb.header("Content-Type", "application/json");
+                cb.header("AccessToken", getPrefManager().getAccessToken());
+                aq.delete(url, JSONObject.class, cb);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                hideProgress();
+            }
+
+
+        }
+
+
     }
 
     private void setUpMarkerOnMap(ArrayList<MUser> list) {
@@ -348,7 +460,16 @@ public class DoctorsSearchResultActivity extends PacifyrAppCompactActivity imple
             list = pSearchPacifyrWOptionsResponse.getResultsList();
             if (isValid(list)) {
                 total_results.setText(list.size() + " result");
-                mPacifyrResultListViewAdapter = new PacifyrResultListViewAdapter(list, DoctorsSearchResultActivity.this);
+                mPacifyrResultListViewAdapter = new PacifyrResultListViewAdapter(list,
+                        DoctorsSearchResultActivity.this, new PacifyrResultListViewAdapter.OnFavoriteCliked() {
+                    @Override
+                    public void onAddtofavoriteint(int position,MUser object) {
+
+                        callAddToFavOrRemoveFavDoctorAPI(position,object);
+
+                    }
+                });
+
                 layoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
                 rcv_SearchResult.setLayoutManager(layoutManager);
                 rcv_SearchResult.setAdapter(mPacifyrResultListViewAdapter);

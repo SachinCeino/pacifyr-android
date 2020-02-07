@@ -167,7 +167,7 @@
                         android:layout_marginTop="12dp"
                         android:backgroundTint="@color/color_primary"
                         android:foregroundGravity="center"
-                        app:srcCompat="@drawable/favorite_doctor" />
+                        app:srcCompat="@drawable/svg_unfavorite_doctor" />
 
                     <com.pacifyr.client.views.PamTextViewBold
                         android:id="@+id/more_info"

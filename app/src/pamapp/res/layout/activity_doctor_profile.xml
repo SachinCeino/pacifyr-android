@@ -126,7 +126,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
                                     android:id="@+id/favorite_doctor"
-                                    app:srcCompat="@drawable/favorite_doctor" />
+                                    app:srcCompat="@drawable/svg_unfavorite_doctor" />
                             </LinearLayout>
 
                         </LinearLayout>
