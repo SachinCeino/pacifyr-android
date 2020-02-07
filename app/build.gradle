@@ -115,8 +115,8 @@ android {
         pamapp {
             dimension "Pacifyr"
             applicationId "com.pacifyr.pam"
-            versionName "1.0.1"
-            versionCode 1
+            versionName "1.0.2"
+            versionCode 2
         }
     }
 

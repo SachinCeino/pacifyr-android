@@ -22,7 +22,6 @@ import android.widget.Toast;
 import androidx.appcompat.view.ActionMode;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
-import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout;
 import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
@@ -35,6 +34,7 @@ import com.pacifyr.client.quickblox.chat.utils.chat.ChatHelper;
 import com.pacifyr.client.quickblox.chat.utils.qb.QbChatDialogMessageListenerImp;
 import com.pacifyr.client.quickblox.chat.utils.qb.QbDialogHolder;
 import com.pacifyr.client.quickblox.chat.utils.qb.callback.QbEntityCallbackImpl;
+import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.quickblox.chat.QBChatService;
 import com.quickblox.chat.QBIncomingMessagesManager;
 import com.quickblox.chat.QBSystemMessagesManager;
@@ -335,24 +335,30 @@ public class DialogsActivity extends PacifyrActivity implements DialogsManager.M
     }
 
     private void createDialog(final ArrayList<QBUser> selectedUsers) {
-        ChatHelper.getInstance().createDialogWithSelectedUsers(selectedUsers,
-                new QBEntityCallback<QBChatDialog>() {
-                    @Override
-                    public void onSuccess(QBChatDialog dialog, Bundle args) {
-                        isProcessingResultInProgress = false;
-                        dialogsManager.sendSystemMessageAboutCreatingDialog(systemMessagesManager, dialog);
-                        ChatActivity.startForResult(DialogsActivity.this, REQUEST_DIALOG_ID_FOR_UPDATE, dialog);
-                        ProgressDialogFragment.hide(getSupportFragmentManager());
-                    }
+        try {
+            ChatHelper.getInstance().createDialogWithSelectedUsers(selectedUsers,
+                    new QBEntityCallback<QBChatDialog>() {
+                        @Override
+                        public void onSuccess(QBChatDialog dialog, Bundle args) {
+                            isProcessingResultInProgress = false;
+                            dialogsManager.sendSystemMessageAboutCreatingDialog(systemMessagesManager, dialog);
+                            ChatActivity.startForResult(DialogsActivity.this, REQUEST_DIALOG_ID_FOR_UPDATE, dialog);
+                            ProgressDialogFragment.hide(getSupportFragmentManager());
+                        }
 
-                    @Override
-                    public void onError(QBResponseException e) {
-                        isProcessingResultInProgress = false;
-                        ProgressDialogFragment.hide(getSupportFragmentManager());
-                        showErrorSnackbar(R.string.dialogs_creation_error, null, null);
+                        @Override
+                        public void onError(QBResponseException e) {
+                            isProcessingResultInProgress = false;
+                            ProgressDialogFragment.hide(getSupportFragmentManager());
+                            showErrorSnackbar(R.string.dialogs_creation_error, null, null);
+                        }
                     }
-                }
-        );
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(DialogsActivity.this, "Sorry, cannot chat with this user",
+                    Toast.LENGTH_LONG).show();
+        }
     }
 
     private void loadDialogsFromQb(final boolean silentUpdate, final boolean clearDialogHolder) {
