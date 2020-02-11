@@ -25,6 +25,7 @@
         <activity android:name="com.pacifyr.client.home.DoctorsActivity" />
         <activity android:name="com.pacifyr.client.home.DoctorsSearchResultActivity" />
         <activity android:name="com.pacifyr.client.home.DoctorsMoreInformationActivity" />
+        <activity android:name="com.pacifyr.client.home.DoctorsRatingActivity" />
         <activity android:name="com.pacifyr.client.home.HelpActvity" />
     </application>
 

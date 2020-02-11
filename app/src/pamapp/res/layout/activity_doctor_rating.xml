@@ -1,0 +1,698 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:background="@color/white"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/include"
+        layout="@layout/actionbar_grey"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"></include>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/include">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/request_booking">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/top_header">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/l1"
+                        android:padding="20dp"
+                        android:background="@color/color_primary">
+
+                        <com.pacifyr.client.views.PamTextViewMedium
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:text="vineesh"
+                            android:id="@+id/pacifyr_name"
+                            android:textColor="@color/white"
+                            android:textStyle="bold"
+                            android:textSize="20dp" />
+                    </LinearLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:id="@+id/l2"
+                        android:orientation="vertical"
+                        android:layout_below="@+id/l1">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            android:weightSum="3">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="0.5"></LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center"
+                                android:layout_weight="2"
+                                android:gravity="right"
+                                android:orientation="vertical">
+
+                                <com.pacifyr.client.views.PamTextViewMedium
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:gravity="center"
+                                    android:layout_marginTop="10dp"
+                                    android:text=""
+                                    android:id="@+id/pacifyr_address"
+                                    android:textSize="@dimen/text_view_find_care_sub" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                    </RelativeLayout>
+
+                </RelativeLayout>
+
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="110dp"
+                    android:layout_height="120dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:id="@+id/pacifyr_image"
+                    app:civ_border_color="@color/grey"
+                    app:civ_border_width="5dp"
+                    android:layout_marginTop="30dp"
+                    app:civ_circle_background_color="@color/color_primary" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/pacifyr_image"
+                    android:orientation="vertical"
+                    >
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:id="@+id/ratingLayout"
+                        android:layout_marginTop="5dp"
+                        android:layout_gravity="center"
+                        android:gravity="center">
+
+                        <com.pacifyr.client.views.PamTextViewMedium
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:text="@string/providr_social_index"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:textStyle="bold"
+                            android:textColor="@color/color_primary"
+                            android:textSize="20sp" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/Rcvrating"
+                            android:layout_gravity="center"
+                            android:orientation="horizontal"
+                            android:gravity="center">
+
+                        </androidx.recyclerview.widget.RecyclerView>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:orientation="vertical">
+                            <com.pacifyr.client.views.PamTextViewMedium
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:text=""
+                                android:id="@+id/txtv_psiNumber"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:textStyle="bold"
+                                android:textColor="@color/grey_dark_text"
+                                android:textSize="35sp" />
+                            <com.pacifyr.client.views.PamTextViewMedium
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
+                                android:text=""
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:id="@+id/recentMentionCount"
+                                android:textStyle="bold"
+                                android:textColor="@color/grey_dark_text"
+                                android:textSize="18sp" />
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/grey_dark_text">
+
+                        <com.pacifyr.client.views.PamTextViewMedium
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="left"
+                            android:layout_marginTop="10dp"
+                            android:gravity="center_vertical"
+                            android:text="KPI"
+                            android:paddingLeft="15dp"
+                            android:textColor="@color/white"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <com.pacifyr.client.views.PamTextViewMedium
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_gravity="right"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginEnd="2dp"
+                            android:layout_marginRight="2dp"
+                            android:gravity="right"
+                            android:id="@+id/date"
+                            android:paddingLeft="15dp"
+                            android:text="As of 02/05/2018"
+                            android:textColor="@color/white"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+                    </RelativeLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="5dp">
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            >
+
+                            <com.pacifyr.client.views.PamTextViewMedium
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="left"
+                                android:layout_marginTop="10dp"
+                                android:gravity="center_vertical"
+                                android:text="Provider pass success"
+                                android:paddingLeft="14dp"
+                                android:textColor="@color/grey_dark_text"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                            <com.pacifyr.client.views.PamTextViewMedium
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_alignParentRight="true"
+                                android:layout_gravity="right"
+                                android:id="@+id/Provider_pass_succes"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginEnd="2dp"
+                                android:layout_marginRight="2dp"
+                                android:gravity="right"
+                                android:text=""
+                                android:textColor="@color/grey_dark_text"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+                        </RelativeLayout>
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/grey"
+                            android:layout_marginTop="10dp"></View>
+
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            >
+
+                            <com.pacifyr.client.views.PamTextViewMedium
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="left"
+                                android:layout_marginTop="10dp"
+                                android:gravity="center_vertical"
+                                android:text="Thorougness of examination"
+                                android:paddingLeft="14dp"
+                                android:textColor="@color/grey_dark_text"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                            <com.pacifyr.client.views.PamTextViewMedium
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_alignParentRight="true"
+                                android:layout_gravity="right"
+                                android:layout_marginTop="10dp"
+                                android:id="@+id/Thorougness_of_examination"
+                                android:layout_marginEnd="2dp"
+                                android:layout_marginRight="2dp"
+                                android:gravity="right"
+                                android:text=""
+                                android:textColor="@color/grey_dark_text"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+                        </RelativeLayout>
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/grey"
+                            android:layout_marginTop="10dp"></View>
+
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            >
+
+                            <com.pacifyr.client.views.PamTextViewMedium
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="left"
+                                android:layout_marginTop="10dp"
+                                android:gravity="center_vertical"
+                                android:text="Inclusion in decisions"
+                                android:paddingLeft="14dp"
+                                android:textColor="@color/grey_dark_text"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                            <com.pacifyr.client.views.PamTextViewMedium
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_alignParentRight="true"
+                                android:layout_gravity="right"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginEnd="2dp"
+                                android:id="@+id/Inclusion_in_decisions"
+                                android:layout_marginRight="2dp"
+                                android:gravity="right"
+                                android:text=""
+                                android:textColor="@color/grey_dark_text"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+                        </RelativeLayout>
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/grey"
+                            android:layout_marginTop="10dp"></View>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            >
+
+                            <com.pacifyr.client.views.PamTextViewMedium
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="left"
+                                android:layout_marginTop="10dp"
+                                android:gravity="center_vertical"
+                                android:text="Providers Attitude"
+                                android:paddingLeft="14dp"
+                                android:textColor="@color/grey_dark_text"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                            <com.pacifyr.client.views.PamTextViewMedium
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_alignParentRight="true"
+                                android:layout_gravity="right"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginEnd="2dp"
+                                android:id="@+id/Providers_Attitude"
+                                android:layout_marginRight="2dp"
+                                android:gravity="right"
+                                android:text=""
+                                android:textColor="@color/grey_dark_text"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+                        </RelativeLayout>
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/grey"
+                            android:layout_marginTop="10dp"></View>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            >
+
+                            <com.pacifyr.client.views.PamTextViewMedium
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="left"
+                                android:layout_marginTop="10dp"
+                                android:gravity="center_vertical"
+                                android:text="Timely return of results"
+                                android:paddingLeft="14dp"
+                                android:textColor="@color/grey_dark_text"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                            <com.pacifyr.client.views.PamTextViewMedium
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_alignParentRight="true"
+                                android:layout_gravity="right"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginEnd="2dp"
+                                android:id="@+id/Timely_return_results"
+                                android:layout_marginRight="2dp"
+                                android:gravity="right"
+                                android:text=""
+                                android:textColor="@color/grey_dark_text"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+                        </RelativeLayout>
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/grey"
+                            android:layout_marginTop="10dp"></View>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            >
+
+                            <com.pacifyr.client.views.PamTextViewMedium
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="left"
+                                android:layout_marginTop="10dp"
+                                android:gravity="center_vertical"
+                                android:text="Providers reputation"
+                                android:paddingLeft="14dp"
+                                android:textColor="@color/grey_dark_text"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                            <com.pacifyr.client.views.PamTextViewMedium
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_alignParentRight="true"
+                                android:layout_gravity="right"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginEnd="2dp"
+                                android:layout_marginRight="2dp"
+                                android:id="@+id/Providers_reputation"
+                                android:gravity="right"
+                                android:text=""
+                                android:textColor="@color/grey_dark_text"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+                        </RelativeLayout>
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/grey"
+                            android:layout_marginTop="10dp"></View>
+
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            >
+
+                            <com.pacifyr.client.views.PamTextViewMedium
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="left"
+                                android:layout_marginTop="10dp"
+                                android:gravity="center_vertical"
+                                android:text="Ability to answer questions"
+                                android:paddingLeft="14dp"
+                                android:textColor="@color/grey_dark_text"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                            <com.pacifyr.client.views.PamTextViewMedium
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_alignParentRight="true"
+                                android:layout_gravity="right"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginEnd="2dp"
+                                android:layout_marginRight="2dp"
+                                android:gravity="right"
+                                android:text=""
+                                android:id="@+id/Ability_answer_questions"
+                                android:textColor="@color/grey_dark_text"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+                        </RelativeLayout>
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/grey"
+                            android:layout_marginTop="10dp"></View>
+
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            >
+
+                            <com.pacifyr.client.views.PamTextViewMedium
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="left"
+                                android:layout_marginTop="10dp"
+                                android:gravity="center_vertical"
+                                android:text="Provider follow-up"
+                                android:paddingLeft="14dp"
+                                android:textColor="@color/grey_dark_text"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                            <com.pacifyr.client.views.PamTextViewMedium
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_alignParentRight="true"
+                                android:layout_gravity="right"
+                                android:layout_marginTop="10dp"
+                                android:id="@+id/Provider_followup"
+                                android:layout_marginEnd="2dp"
+                                android:layout_marginRight="2dp"
+                                android:gravity="right"
+                                android:text=""
+                                android:textColor="@color/grey_dark_text"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+                        </RelativeLayout>
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/grey"
+                            android:layout_marginTop="10dp"></View>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            >
+
+                            <com.pacifyr.client.views.PamTextViewMedium
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="left"
+                                android:layout_marginTop="10dp"
+                                android:gravity="center_vertical"
+                                android:text="clarity of instructions"
+                                android:paddingLeft="14dp"
+                                android:textColor="@color/grey_dark_text"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                            <com.pacifyr.client.views.PamTextViewMedium
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_alignParentRight="true"
+                                android:layout_gravity="right"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginEnd="2dp"
+                                android:layout_marginRight="2dp"
+                                android:gravity="right"
+                                android:text=""
+                                android:id="@+id/clarity_of_instructions"
+                                android:textColor="@color/grey_dark_text"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+                        </RelativeLayout>
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/grey"
+                            android:layout_marginTop="10dp"></View>
+
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            >
+
+                            <com.pacifyr.client.views.PamTextViewMedium
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="left"
+                                android:layout_marginTop="10dp"
+                                android:gravity="center_vertical"
+                                android:text="Amount of time with patient"
+                                android:paddingLeft="14dp"
+                                android:textColor="@color/grey_dark_text"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                            <com.pacifyr.client.views.PamTextViewMedium
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_alignParentRight="true"
+                                android:layout_gravity="right"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginEnd="2dp"
+                                android:layout_marginRight="2dp"
+                                android:gravity="right"
+                                android:text=""
+                                android:id="@+id/Amount_time_with_patient"
+                                android:textColor="@color/grey_dark_text"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+                        </RelativeLayout>
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/grey"
+                            android:layout_marginTop="10dp"></View>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            >
+
+                            <com.pacifyr.client.views.PamTextViewMedium
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="left"
+                                android:layout_marginTop="10dp"
+                                android:gravity="center_vertical"
+                                android:text="Feedback volume"
+                                android:paddingLeft="14dp"
+                                android:textColor="@color/grey_dark_text"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                            <com.pacifyr.client.views.PamTextViewMedium
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_alignParentRight="true"
+                                android:layout_gravity="right"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginEnd="2dp"
+                                android:layout_marginRight="2dp"
+                                android:gravity="right"
+                                android:text=""
+                                android:textColor="@color/grey_dark_text"
+                                android:textSize="14sp"
+                                android:id="@+id/Feedback_volume"
+                                android:textStyle="bold" />
+                        </RelativeLayout>
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/grey"
+                            android:layout_marginTop="10dp"></View>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            >
+
+                            <com.pacifyr.client.views.PamTextViewMedium
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="left"
+                                android:layout_marginTop="10dp"
+                                android:gravity="center_vertical"
+                                android:text="Feedback latency"
+                                android:paddingLeft="14dp"
+                                android:textColor="@color/grey_dark_text"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                            <com.pacifyr.client.views.PamTextViewMedium
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_alignParentRight="true"
+                                android:layout_gravity="right"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginEnd="2dp"
+                                android:layout_marginRight="2dp"
+                                android:id="@+id/Feedback_latency"
+                                android:gravity="right"
+                                android:text=""
+                                android:textColor="@color/grey_dark_text"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+                        </RelativeLayout>
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/grey"
+                            android:layout_marginTop="10dp"></View>
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+            </RelativeLayout>
+        </androidx.core.widget.NestedScrollView>
+    </RelativeLayout>
+
+</RelativeLayout>

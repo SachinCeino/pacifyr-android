@@ -35,6 +35,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:visibility="gone"
                     app:srcCompat="@drawable/doctor_rating_marker" />
             </RelativeLayout>
         </RelativeLayout>
@@ -62,7 +63,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/doctor_rating_marker" />
+                    />
             </RelativeLayout>
         </RelativeLayout>
 
@@ -89,7 +90,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/doctor_rating_marker" />
+                    />
             </RelativeLayout>
         </RelativeLayout>
 
@@ -116,7 +117,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/doctor_rating_marker" />
+                    />
             </RelativeLayout>
         </RelativeLayout>
 
@@ -143,7 +144,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/doctor_rating_marker" />
+                    />
             </RelativeLayout>
         </RelativeLayout>
 
@@ -170,7 +171,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/doctor_rating_marker" />
+                     />
             </RelativeLayout>
         </RelativeLayout>
 
@@ -197,7 +198,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/doctor_rating_marker" />
+                 />
             </RelativeLayout>
         </RelativeLayout>
 
@@ -224,7 +225,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/doctor_rating_marker" />
+                  />
             </RelativeLayout>
         </RelativeLayout>
 
@@ -251,7 +252,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/doctor_rating_marker" />
+                     />
             </RelativeLayout>
         </RelativeLayout>
 
@@ -278,7 +279,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/doctor_rating_marker" />
+                    />
             </RelativeLayout>
         </RelativeLayout>
     </LinearLayout>

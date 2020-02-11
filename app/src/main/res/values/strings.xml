@@ -177,5 +177,7 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="nav_welcome_title">TUTORIAL</string>
     <string name="nav_payment_title">PAYMENT</string>
     <string name="nav_resources_title">RESOURCES</string>
+    <string name="doctor_rating">DOCOTR RATING</string>
+    <string name="providr_social_index">PROVIDER SOCIAL INDEX</string>
 
 </resources>

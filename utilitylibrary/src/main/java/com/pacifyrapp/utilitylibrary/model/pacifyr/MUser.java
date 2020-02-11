@@ -111,6 +111,105 @@ public class MUser implements Serializable{
 
     private String zipCode;
     private boolean favorite;
+    private String thoroughnessOfExamination;
+    private String inclusionInDecisions;
+    private String providersAttitude;
+    private String abilityToAnswerQuestions;
+    private String providersFollowUp;
+    private String clarityOfInstructions;
+    private String amountOfTimeWithPatient;
+    private String d2Latency;
+    private String d1Volume;
+    private String psi;
+    private int recentMentionCount;
+
+    public int getRecentMentionCount() {
+        return recentMentionCount;
+    }
+
+    public void setRecentMentionCount(int recentMentionCount) {
+        this.recentMentionCount = recentMentionCount;
+    }
+
+    public String getThoroughnessOfExamination() {
+        return thoroughnessOfExamination;
+    }
+
+    public void setThoroughnessOfExamination(String thoroughnessOfExamination) {
+        this.thoroughnessOfExamination = thoroughnessOfExamination;
+    }
+
+    public String getInclusionInDecisions() {
+        return inclusionInDecisions;
+    }
+
+    public void setInclusionInDecisions(String inclusionInDecisions) {
+        this.inclusionInDecisions = inclusionInDecisions;
+    }
+
+    public String getProvidersAttitude() {
+        return providersAttitude;
+    }
+
+    public void setProvidersAttitude(String providersAttitude) {
+        this.providersAttitude = providersAttitude;
+    }
+
+    public String getAbilityToAnswerQuestions() {
+        return abilityToAnswerQuestions;
+    }
+
+    public void setAbilityToAnswerQuestions(String abilityToAnswerQuestions) {
+        this.abilityToAnswerQuestions = abilityToAnswerQuestions;
+    }
+
+    public String getProvidersFollowUp() {
+        return providersFollowUp;
+    }
+
+    public void setProvidersFollowUp(String providersFollowUp) {
+        this.providersFollowUp = providersFollowUp;
+    }
+
+    public String getClarityOfInstructions() {
+        return clarityOfInstructions;
+    }
+
+    public void setClarityOfInstructions(String clarityOfInstructions) {
+        this.clarityOfInstructions = clarityOfInstructions;
+    }
+
+    public String getAmountOfTimeWithPatient() {
+        return amountOfTimeWithPatient;
+    }
+
+    public void setAmountOfTimeWithPatient(String amountOfTimeWithPatient) {
+        this.amountOfTimeWithPatient = amountOfTimeWithPatient;
+    }
+
+    public String getD2Latency() {
+        return d2Latency;
+    }
+
+    public void setD2Latency(String d2Latency) {
+        this.d2Latency = d2Latency;
+    }
+
+    public String getD1Volume() {
+        return d1Volume;
+    }
+
+    public void setD1Volume(String d1Volume) {
+        this.d1Volume = d1Volume;
+    }
+
+    public String getPsi() {
+        return psi;
+    }
+
+    public void setPsi(String psi) {
+        this.psi = psi;
+    }
 
     public boolean isFavorite() {
         return favorite;

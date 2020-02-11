@@ -71,4 +71,20 @@
     <color name="footer_icon_color">#fff</color>
     <color name="footer_text_color">#fff</color>
 
+
+    <string-array name="colors">
+        <item>#F8A386</item>
+        <item>#D8FC744B</item>
+        <item>#F7BD68</item>
+        <item>#D7F1A029</item>
+        <item>#FDF061</item>
+        <item>#E6CE1A</item>
+        <item>#92D34F</item>
+        <item>#79CE23</item>
+        <item>#7CCE80</item>
+        <item>#3EB947</item>
+    </string-array>
+
+
+
 </resources>

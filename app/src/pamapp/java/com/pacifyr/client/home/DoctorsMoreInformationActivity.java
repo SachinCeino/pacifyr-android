@@ -54,6 +54,7 @@ public class DoctorsMoreInformationActivity extends PacifyrAppCompactActivity im
     private TextView pacifyr_language_spoken;
     private TextView pacifyr_price_booking;
     private TextView requestBook;
+    private LinearLayout ratingLayout;
 
 
     @Override
@@ -78,6 +79,7 @@ public class DoctorsMoreInformationActivity extends PacifyrAppCompactActivity im
         pacifyr_language_spoken = findViewById(R.id.pacifyr_language_spoken);
         pacifyr_price_booking = findViewById(R.id.pacifyr_price_booking);
         requestBook = findViewById(R.id.requestBook);
+        ratingLayout = findViewById(R.id.ratingLayout);
 
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
@@ -94,6 +96,19 @@ public class DoctorsMoreInformationActivity extends PacifyrAppCompactActivity im
             @Override
             public void onClick(View v) {
                 showScheduleDialogueFragment(pacifyerObject);
+
+            }
+        });
+
+        ratingLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(getApplicationContext(), DoctorsRatingActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("Object", pacifyerObject);
+                intent.putExtras(bundle);
+                startActivity(intent);
 
             }
         });
