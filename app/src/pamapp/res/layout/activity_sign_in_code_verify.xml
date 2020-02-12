@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/actionbar_grey"
+        android:id="@+id/include"
+        android:layout_height="50dp"
+        android:layout_width="match_parent">
+    </include>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:id="@+id/v1"
+        android:layout_below="@+id/include"
+        android:background="@color/signup_view"/>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/scrollView"
+    android:layout_width="match_parent"
+    android:layout_below="@+id/v1"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+
+    <androidx.percentlayout.widget.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <RelativeLayout
+
+            android:id="@+id/logo_rlay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            app:layout_marginTopPercent="5%">
+
+            <ImageView
+                android:layout_width="150dp"
+                android:src="@drawable/powered_logo"
+                android:layout_height="150dp"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/logo_blue"/>
+
+
+        </RelativeLayout>
+
+
+        <LinearLayout
+            android:id="@+id/hint_llay"
+            android:layout_below="@+id/logo_rlay"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            app:layout_marginTopPercent="10%"
+            android:orientation="vertical"
+            android:gravity="center"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.pacifyr.client.customview.MainTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:gravity="center"
+                android:textColor="@color/_color_e_con_code"
+                android:text="@string/e_con_code"/>
+
+            <com.pacifyr.client.customview.MainTextView
+
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:textSize="@dimen/sp15"
+                android:id="@+id/otp_phone_tv"
+                android:text="@string/otp_hint"
+                android:textColor="@color/light_grey2_pacifyr"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_below="@+id/hint_llay"
+            android:id="@+id/create_llay"
+            android:orientation="vertical"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:gravity="center_horizontal"
+            app:layout_marginBottomPercent="5%"
+            android:layout_height="wrap_content">
+
+
+            <com.pacifyrapp.utilitylibrary.CustomEditText
+                android:layout_width="match_parent"
+                android:textColor="@color/black"
+                android:textSize="@dimen/sp17"
+                android:visibility="gone"
+                android:inputType="number"
+                android:id="@+id/otp_edtit_text"
+                android:layout_height="wrap_content" />
+
+            <com.goodiebag.pinview.Pinview
+                android:id="@+id/pinview"
+                app:pinBackground="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:pinWidth="20dp"
+                app:pinHeight="30dp"
+                app:pinLength="6"
+                app:cursorVisible="false"
+                app:forceKeyboard="false"
+                app:hint="*"
+                app:inputType="number"
+                app:password="false"/>
+
+
+            <RelativeLayout
+                android:layout_gravity="center"
+                android:id="@+id/createaccount_rlay"
+                android:layout_width="300dp"
+                android:layout_marginTop="20dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/pam_blue_round_square"
+                android:padding="10dp">
+
+                <com.pacifyr.client.customview.MainTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/login"
+                    android:layout_centerVertical="true"
+                    android:layout_centerHorizontal="true"
+                    android:id="@+id/c_account_ctxv"
+                    android:textSize="20sp"
+                    android:textColor="@color/white" />
+
+
+            </RelativeLayout>
+
+            <com.pacifyr.client.customview.MainTextView
+                android:layout_width="wrap_content"
+                android:textSize="@dimen/sp13"
+                android:layout_alignParentBottom="true"
+                android:id="@+id/resend_ctxv"
+                android:gravity="center"
+                android:layout_height="wrap_content"
+                android:text="@string/didnt_get_code"
+                android:textColor="@color/blue_text_dark"
+                android:textStyle="bold"
+                android:layout_marginTop="25dp"
+                android:layout_marginBottom="15dp" />
+
+        </LinearLayout>
+
+    </androidx.percentlayout.widget.PercentRelativeLayout>
+</ScrollView>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/login_bottom_background"
+        android:layout_alignParentBottom="true"
+        android:scaleType="centerCrop"
+        android:adjustViewBounds="true"
+        ></ImageView>
+
+</RelativeLayout>

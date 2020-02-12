@@ -38,7 +38,8 @@ public class SignActivity extends PacifyrActivity {
 
 
         relative_bg = (RelativeLayout) findViewById(R.id.relative_bg);
-        relative_bg.setBackground(getResources().getDrawable(R.drawable.loginbg));
+        if (!getPackageName().equalsIgnoreCase("com.pacifyr.pam"))
+            relative_bg.setBackground(getResources().getDrawable(R.drawable.loginbg));
         emergencyCtxv = (MainTextView) findViewById(R.id.emergency_ctxv);
         getCountryData();
         String crisisString = getResources().getString(R.string.if_emergency2);

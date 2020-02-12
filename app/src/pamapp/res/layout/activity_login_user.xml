@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@color/white"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/include"
+        layout="@layout/actionbar_grey"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"></include>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:id="@+id/v1"
+        android:layout_below="@+id/include"
+        android:background="@color/signup_view" />
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="30dp"
+        android:layout_below="@+id/v1"
+        android:layout_marginRight="30dp">
+
+
+        <ImageView
+            android:id="@+id/logo_blue"
+            android:layout_width="200dp"
+            android:layout_height="160dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/powered_logo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <LinearLayout
+            android:id="@+id/email_login_form"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/logo_rlay"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/logo_blue"
+            app:layout_marginTopPercent="10%">
+
+            <com.pacifyr.client.customview.MainTextView
+                android:id="@+id/enter_phone_ctxv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/e_phonenumber"
+                android:textColor="@color/black"
+                android:focusedByDefault="false"
+                android:textSize="17sp" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:padding="5dp">
+
+                <!--<com.hbb20.CountryCodePicker
+                    android:id="@+id/ccp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />-->
+
+                <Spinner
+                    android:id="@+id/spinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/textView"
+                    android:layout_below="@+id/textView" />
+
+
+                <com.pacifyrapp.utilitylibrary.CustomEditText
+                    android:id="@+id/phone_cedit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:hint="@string/phone"
+                    android:inputType="phone"
+                    android:theme="@style/OMEditTheme"
+                    android:maxLength="10"
+                    android:maxLines="1"
+                    android:textColorHint="@color/phone_grey"
+                    android:textSize="@dimen/sp17" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/signup_view" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/laly_top_send"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/email_login_form"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/email_login_form"
+            app:layout_marginBottomPercent="5%"
+            tools:ignore="MissingConstraints">
+
+
+            <RelativeLayout
+
+                android:id="@+id/login_rlay"
+                android:layout_width="300dp"
+                android:layout_height="43dp"
+                android:layout_gravity="center"
+                android:background="@drawable/pam_blue_round_square"
+                android:padding="10dp">
+
+                <com.pacifyr.client.customview.MainTextView
+                    android:id="@+id/request_ctxv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:text="@string/send_confirmcode"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
+
+
+            </RelativeLayout>
+
+            <com.facebook.login.widget.LoginButton
+                android:id="@+id/login_button"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="bottom|center_horizontal"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:visibility="gone" />
+
+            <com.pacifyr.client.customview.MainTextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="5dp"
+                android:layout_marginTop="30dp"
+                android:gravity="center"
+                android:id="@+id/sms_text_login"
+                android:textColor="@color/black"
+                android:textSize="@dimen/sp12" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_below="@+id/laly_top_send"
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/laly_top_send"
+            tools:ignore="MissingConstraints">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="180dp"
+                    android:layout_height="1dp"
+                    android:background="@color/signup_view" />
+
+                <com.pacifyr.client.customview.MainTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="15dp"
+                    android:text="or"
+                    android:textColor="@color/grey_dark"
+                    android:textSize="@dimen/sp16" />
+
+                <View
+                    android:layout_width="180dp"
+                    android:layout_height="1dp"
+                    android:background="@color/signup_view" />
+
+            </LinearLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/facebook_rlay"
+                android:layout_width="match_parent"
+                android:layout_height="43dp"
+                android:layout_gravity="center"
+                android:background="@drawable/pam_blue_round_square"
+                android:padding="10dp">
+
+                <com.pacifyr.client.customview.MainTextView
+                    android:id="@+id/fb_tcv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:gravity="center"
+                    android:text="@string/login_fb"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="22dp"
+                    android:layout_marginRight="7dp"
+                    android:padding="3dp"
+                    android:src="@drawable/facebook" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+<ImageView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:src="@drawable/login_bottom_background"
+    android:layout_alignParentBottom="true"
+    android:scaleType="centerCrop"
+    android:adjustViewBounds="true"
+    ></ImageView>
+</RelativeLayout>
