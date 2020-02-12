@@ -218,6 +218,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="eg.Smith"
+                    android:id="@+id/name"
                     android:padding="8dp"
                     android:background="@drawable/black_border_white_back"
                     android:layout_marginBottom="15dp" />

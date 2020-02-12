@@ -71,6 +71,8 @@ public class DoctorsSearchResultActivity extends PacifyrAppCompactActivity imple
     private TextView desclaimertextView,viewMore;
     private boolean isCheck=true;
     private RelativeLayout viewLayout;
+    private String name;
+    private RelativeLayout emptyLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +92,7 @@ public class DoctorsSearchResultActivity extends PacifyrAppCompactActivity imple
         txtv_filter=findViewById(R.id.txtv_filter);
         fillColour_ForRadioButton(mRadioButtonB);
         fillNoColor_ForRadioButton(mRadioButtonA);
+        emptyLayout =findViewById(R.id.emptyLayout);
 
 
         mSegmentedGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -127,6 +130,9 @@ public class DoctorsSearchResultActivity extends PacifyrAppCompactActivity imple
         }
         if (isValid(getIntent().getExtras().get("longitude"))) {
             longitude = getIntent().getExtras().get("longitude").toString();
+        }
+        if (isValid(getIntent().getExtras().get("name"))) {
+            name = getIntent().getExtras().get("name").toString();
         }
 
         if (isValid(Speciality))
@@ -271,12 +277,28 @@ public class DoctorsSearchResultActivity extends PacifyrAppCompactActivity imple
                 public void callback(String url, JSONObject json, AjaxStatus status) {
                     try {
                         String js = json.toString();
-                        pSearchPacifyrWOptionsResponse = GsonUtils.getInstance().gsonToRespSearchPacifyrWOption(json);
-                        pSearchPacifyrWOptionsResponse.toString();
                         hideProgress();
-                        setPacifyrsListView();
+                        if (isValid(json))
+                        {
+                            pSearchPacifyrWOptionsResponse = GsonUtils.getInstance().gsonToRespSearchPacifyrWOption(json);
+                            if (isValid(pSearchPacifyrWOptionsResponse))
+                            {
+                                pSearchPacifyrWOptionsResponse.toString();
+                                setPacifyrsListView();
+                            }
+                            else {
+                                emptyLayout.setVisibility(View.VISIBLE);
+                            }
+
+                        }
+                        else
+                        {
+                            emptyLayout.setVisibility(View.VISIBLE);
+                        }
+
                     } catch (Exception e) {
                         e.printStackTrace();
+                        hideProgress();
                     }
                 }
             };
@@ -289,6 +311,8 @@ public class DoctorsSearchResultActivity extends PacifyrAppCompactActivity imple
             jsonObject.putOpt("latitude", latitude);
             jsonObject.putOpt("longitude", longitude);
             jsonObject.putOpt("visitType", "office");
+            if (isValid(name))
+            jsonObject.putOpt("searchQuery", name);
             List<String> list = new ArrayList<String>();
             list.add(Speciality);
             //list.add("b");
@@ -597,4 +621,12 @@ public class DoctorsSearchResultActivity extends PacifyrAppCompactActivity imple
 
 
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (isValid(mPacifyrResultListViewAdapter))
+            mPacifyrResultListViewAdapter.notifyDataSetChanged();
+    }
+
 }

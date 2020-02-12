@@ -44,9 +44,12 @@
                             android:layout_gravity="center"
                             android:gravity="center"
                             android:text="vineesh"
+                            android:layout_marginLeft="100dp"
                             android:id="@+id/pacifyr_name"
                             android:textColor="@color/white"
                             android:textStyle="bold"
+                            android:ellipsize="end"
+                            android:maxLines="1"
                             android:textSize="20dp" />
                     </LinearLayout>
 
@@ -96,8 +99,8 @@
 
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:layout_width="110dp"
-                    android:layout_height="120dp"
+                    android:layout_width="100dp"
+                    android:layout_height="110dp"
                     android:layout_marginStart="10dp"
                     android:layout_marginLeft="10dp"
                     android:id="@+id/pacifyr_image"
@@ -116,7 +119,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:id="@+id/ratingLayout"
                         android:layout_marginTop="5dp"
                         android:layout_gravity="center"
                         android:gravity="center">

@@ -83,6 +83,7 @@ public class DoctorsActivity extends PacifyrAppCompactActivity implements Doctor
 
     public double mLatitude,mLongitude;
     public static String currentLocation=null;
+    private EditText name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +95,7 @@ public class DoctorsActivity extends PacifyrAppCompactActivity implements Doctor
         primaryLayout = findViewById(R.id.primaryLayout);
         submit = findViewById(R.id.submit);
        etv_CurrentLocation=findViewById(R.id.etv_CurrentLocation);
+        name = findViewById(R.id.name);
 
 
         onSetActionBar();
@@ -195,6 +197,8 @@ public class DoctorsActivity extends PacifyrAppCompactActivity implements Doctor
                     intent.putExtra("Speciality", specialityItem);
                     intent.putExtra("latitude", mLatitude);
                     intent.putExtra("longitude", mLongitude);
+                    if (isValid(name.getText().toString()))
+                        intent.putExtra("name",name.getText().toString());
                     startActivity(intent);
                 } else {
                     Toast.makeText(getApplicationContext(), "Select one Speciality", Toast.LENGTH_SHORT).show();
