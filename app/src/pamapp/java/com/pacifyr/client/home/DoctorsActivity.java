@@ -255,6 +255,10 @@ public class DoctorsActivity extends PacifyrAppCompactActivity implements Doctor
                     Log.w("@@@",addresses.get(0).getFeatureName() + ", " + addresses.get(0).getLocality() +", " + addresses.get(0).getAdminArea() + ", " + addresses.get(0).getCountryName());
                     etv_CurrentLocation.setText(addresses.get(0).getFeatureName() + ", " + addresses.get(0).getLocality() +", " + addresses.get(0).getAdminArea() + ", " + addresses.get(0).getCountryName());
                     currentLocation=etv_CurrentLocation.getText().toString();
+
+                    if (isValid(currentLocation)&&isValid(mLatitude)&&isValid(mLongitude))
+                    locationManager.removeUpdates(this);
+
                 }
             }
         }
