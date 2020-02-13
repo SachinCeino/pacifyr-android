@@ -281,7 +281,7 @@ public class DoctorsSearchResultActivity extends PacifyrAppCompactActivity imple
                         if (isValid(json))
                         {
                             pSearchPacifyrWOptionsResponse = GsonUtils.getInstance().gsonToRespSearchPacifyrWOption(json);
-                            if (isValid(pSearchPacifyrWOptionsResponse))
+                            if (isValid(pSearchPacifyrWOptionsResponse.getResultsList()))
                             {
                                 pSearchPacifyrWOptionsResponse.toString();
                                 setPacifyrsListView();
