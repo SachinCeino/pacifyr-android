@@ -62,7 +62,7 @@ import java.util.Locale;
 
 import static com.pacifyr.client.network.NetworkService.GLOBAL_URL;
 
-public class DoctorsActivity extends PacifyrAppCompactActivity implements DoctorsSpecialityAdapter.SpecialityItemClick,LocationListener {
+public class DoctorsActivity extends PacifyrAppCompactActivity implements DoctorsSpecialityAdapter.SpecialityItemClick {
 
     private LinearLayout specialitiesLayout;
     private RecyclerView specialitiesRCV;
@@ -81,7 +81,7 @@ public class DoctorsActivity extends PacifyrAppCompactActivity implements Doctor
     private Location location;
     private final int REQUEST_LOCATION = 200;
 
-    public double mLatitude,mLongitude;
+    public String mLatitude,mLongitude;
     public static String currentLocation=null;
     private EditText name;
 
@@ -94,15 +94,13 @@ public class DoctorsActivity extends PacifyrAppCompactActivity implements Doctor
         ETV_showSpecialities = findViewById(R.id.ETV_showSpecialities);
         primaryLayout = findViewById(R.id.primaryLayout);
         submit = findViewById(R.id.submit);
-       etv_CurrentLocation=findViewById(R.id.etv_CurrentLocation);
+      // etv_CurrentLocation=findViewById(R.id.etv_CurrentLocation);
         name = findViewById(R.id.name);
 
 
         onSetActionBar();
-        locationManager = (LocationManager) getSystemService(Service.LOCATION_SERVICE);
-        checkPremissionFineLocation();
 
-      /*  if (!Places.isInitialized()) {
+        if (!Places.isInitialized()) {
             Places.initialize(getApplicationContext(), getString(R.string.google_maps_key));
         }
         // Initialize the AutocompleteSupportFragment.
@@ -119,10 +117,10 @@ public class DoctorsActivity extends PacifyrAppCompactActivity implements Doctor
                 public void onPlaceSelected(Place place) {
 
                     // TODO: Get info about the selected place.
-                    latitude= String.valueOf(place.getLatLng().latitude);
-                    longitude= String.valueOf(place.getLatLng().longitude);
-                    Log.w( "@@@place", String.valueOf(place.getLatLng().latitude));
-                    Log.w( "@@@place", String.valueOf(place.getLatLng().longitude));
+                    mLatitude= String.valueOf(place.getLatLng().latitude);
+                    mLongitude= String.valueOf(place.getLatLng().longitude);
+                   /* Log.w( "@@@place", String.valueOf(place.getLatLng().mLatitude));
+                    Log.w( "@@@place", String.valueOf(place.getLatLng().mLongitude));*/
 
 
 
@@ -136,7 +134,7 @@ public class DoctorsActivity extends PacifyrAppCompactActivity implements Doctor
                 }
             });
         }
-*/
+
 
         mSegmentedGroup = (RadioGroup) findViewById(R.id.segmentedgroup);
         mRadioButtonB = (RadioButton) findViewById(R.id.rb1);
@@ -186,9 +184,9 @@ public class DoctorsActivity extends PacifyrAppCompactActivity implements Doctor
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!isValid(etv_CurrentLocation.getText().toString())) {
+                if (!isValid(mLatitude)||!isValid(mLongitude)) {
                     Toast.makeText(getApplicationContext(), "Select your location", Toast.LENGTH_SHORT).show();
-                    checkPremissionFineLocation();
+                   // checkPremissionFineLocation();
                     return;
                 }
                 String specialityItem = ETV_showSpecialities.getText().toString();
@@ -232,9 +230,9 @@ public class DoctorsActivity extends PacifyrAppCompactActivity implements Doctor
                 Log.w("@@@@", "latitude=" + location.getLatitude());
                 Log.w("@@@@", "longitude=" + location.getLongitude());
 
-                mLatitude=location.getLatitude();
+              /*  mLatitude=location.getLatitude();
                 mLongitude=location.getLongitude();
-                setAddressNameToUI(mLatitude,mLongitude);
+                setAddressNameToUI(mLatitude,mLongitude);*/
 
             }
         } else {
@@ -248,10 +246,10 @@ public class DoctorsActivity extends PacifyrAppCompactActivity implements Doctor
             Geocoder geo = new Geocoder(this.getApplicationContext(), Locale.getDefault());
             List<Address> addresses = geo.getFromLocation(mLatitude, mLongitude, 1);
             if (addresses.isEmpty()) {
-                etv_CurrentLocation.setText("Waiting for Location");
+              //  etv_CurrentLocation.setText("Waiting for Location");
             }
             else {
-                if (addresses.size() > 0) {
+               /* if (addresses.size() > 0) {
                     Log.w("@@@",addresses.get(0).getFeatureName() + ", " + addresses.get(0).getLocality() +", " + addresses.get(0).getAdminArea() + ", " + addresses.get(0).getCountryName());
                     etv_CurrentLocation.setText(addresses.get(0).getFeatureName() + ", " + addresses.get(0).getLocality() +", " + addresses.get(0).getAdminArea() + ", " + addresses.get(0).getCountryName());
                     currentLocation=etv_CurrentLocation.getText().toString();
@@ -259,7 +257,7 @@ public class DoctorsActivity extends PacifyrAppCompactActivity implements Doctor
                     if (isValid(currentLocation)&&isValid(mLatitude)&&isValid(mLongitude))
                     locationManager.removeUpdates(this);
 
-                }
+                }*/
             }
         }
         catch (Exception e)
@@ -457,7 +455,7 @@ public class DoctorsActivity extends PacifyrAppCompactActivity implements Doctor
     }
 
 
-    @Override
+    /*@Override
     public void onLocationChanged(Location location) {
         Log.w("@@@@1", "latitude=" + location.getLatitude());
         Log.w("@@@@1", "longitude=" + location.getLongitude());
@@ -510,4 +508,8 @@ public class DoctorsActivity extends PacifyrAppCompactActivity implements Doctor
             // permissions this app might request.
         }
     }
+
+
+    */
+
 }
