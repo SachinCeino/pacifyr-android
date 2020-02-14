@@ -96,12 +96,11 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<AppointmentsLi
                         }
                     });
                     if (scheduleIsPassed(mObject.getStartTimeGMT())) {
-                        holder.itemView.setClickable(false);
                         holder.mainLayout.setBackgroundColor(mContext.getResources().getColor(R.color.appointment_no_click));
                         holder.mButton_Cancel.setBackground(null);
 
                     } else {
-                        holder.itemView.setClickable(true);
+
                         holder.mainLayout.setBackgroundColor(mContext.getResources().getColor(R.color.white));
                         holder.mButton_Cancel.setBackground(mContext.getResources().getDrawable(R.drawable.blue_border_white_background_round));
                     }
@@ -123,18 +122,25 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<AppointmentsLi
             if (isValid(mObject.getCancelled())&& mObject.getCancelled())
             {
                 holder.mButton_Cancel.setText("Cancelled");
-                holder.itemView.setClickable(false);
+
             }
             else if (isValid(mObject.getRejected())&&mObject.getRejected())
             {
                 holder.mButton_Cancel.setText("Rejected");
                 holder.mButton_RejestReason.setVisibility(View.VISIBLE);
-                holder.itemView.setClickable(false);
+
             }
+            else if (isValid(mObject.getConfirmed())&&mObject.getConfirmed()
+            && isValid(mObject.getCompleted())&&mObject.getCompleted())
+            {
+                holder.mButton_Cancel.setText("Completed");
+                holder.mButton_RejestReason.setVisibility(View.GONE);
+
+            }
+
             else
             {
                 holder.mButton_Cancel.setText("Cancel");
-                holder.itemView.setClickable(true);
             }
             if (isValid(mObject.getCancelled())&& mObject.getCancelled()
             || isValid(mObject.getRejected())&&mObject.getRejected())
@@ -146,7 +152,13 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<AppointmentsLi
                 holder.mButton_Cancel.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (!scheduleIsPassed(mObject.getStartTimeGMT())) {
+                        if (isValid(mObject.getConfirmed())&&mObject.getConfirmed()
+                                && isValid(mObject.getCompleted())&&mObject.getCompleted())
+                        {
+                            if (isValid(mObject.getVisitNote()))
+                            showCompletedPopUp(mObject.getVisitNote());
+                        }
+                        else if (!scheduleIsPassed(mObject.getStartTimeGMT())) {
                             mScheduleCancelListner.onScheduleCancel(mObject, position);
                         }
 
@@ -160,6 +172,22 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<AppointmentsLi
 
 
     }
+
+    private void showCompletedPopUp(Object notes) {
+        AlertDialog.Builder alert = new AlertDialog.Builder(mContext);
+        alert.setTitle("Visit Notes");
+        alert.setMessage(notes.toString());
+        final TextView input = new TextView (mContext);
+        alert.setView(input);
+
+        alert.setNegativeButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                dialog.cancel();
+            }
+        });
+        alert.show();
+    }
+
 
     private void showRejectedReasonPopUp(Object rejectReason) {
         AlertDialog.Builder alert = new AlertDialog.Builder(mContext);

@@ -81,6 +81,81 @@ public class AppointmentModel implements Serializable {
             return rejected;
         }
 
+        @SerializedName("preVisitNote")
+        @Expose
+        private Object preVisitNote;
+
+        @SerializedName("confirmed")
+        @Expose
+        private Boolean confirmed;
+
+        @SerializedName("completed")
+        @Expose
+        private Boolean completed;
+
+
+        @SerializedName("visitNoteInternal")
+        @Expose
+        private Object visitNoteInternal;
+
+        @SerializedName("visitNote")
+        @Expose
+        private Object visitNote;
+
+        @SerializedName("isCompleted")
+        @Expose
+        private Boolean isCompleted;
+
+        public Boolean getisCompleted() {
+            return isCompleted;
+        }
+
+        public void setisCompleted(Boolean isCompleted) {
+            this.isCompleted = isCompleted;
+        }
+
+
+        public Object getVisitNoteInternal() {
+            return visitNoteInternal;
+        }
+
+        public void setVisitNoteInternal(Object visitNoteInternal) {
+            this.visitNoteInternal = visitNoteInternal;
+        }
+
+        public Object getVisitNote() {
+            return visitNote;
+        }
+
+        public void setVisitNote(Object visitNote) {
+            this.visitNote = visitNote;
+        }
+
+        public Boolean getConfirmed() {
+            return confirmed;
+        }
+
+        public void setConfirmed(Boolean confirmed) {
+            this.confirmed = confirmed;
+        }
+
+        public Boolean getCompleted() {
+            return completed;
+        }
+
+        public void setCompleted(Boolean completed) {
+            this.completed = completed;
+        }
+
+        public Object getPreVisitNote() {
+            return preVisitNote;
+        }
+
+        public void setPreVisitNote(Object preVisitNote) {
+            this.preVisitNote = preVisitNote;
+        }
+
+
         public void setRejected(Boolean rejected) {
             this.rejected = rejected;
         }
