@@ -1,15 +1,6 @@
 package com.pacifyr.client.home;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.Manifest;
-import android.app.Service;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -20,7 +11,6 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -31,6 +21,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
@@ -39,21 +36,17 @@ import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
-import com.pacifyr.client.adapter.EmotionSpecialityAdapter;
-import com.pacifyr.client.customview.MainTextView;
-import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelSpecialist;
-import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.pacifyr.client.R;
 import com.pacifyr.client.adapter.DoctorsSpecialityAdapter;
-import com.pacifyr.client.base.PacifyrActivity;
+import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.AlertTypeEvent;
 import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.network.GsonUtils;
-import com.pacifyr.client.utility.EventMessage;
 import com.pacifyr.client.utility.PacifyrAppCompactActivity;
+import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelSpecialist;
+import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 
-import org.greenrobot.eventbus.EventBus;
 import org.json.JSONObject;
 
 import java.util.Arrays;
@@ -64,6 +57,7 @@ import static com.pacifyr.client.network.NetworkService.GLOBAL_URL;
 
 public class DoctorsActivity extends PacifyrAppCompactActivity implements DoctorsSpecialityAdapter.SpecialityItemClick {
 
+    private static final String TAG = DoctorsActivity.class.getSimpleName();
     private LinearLayout specialitiesLayout;
     private RecyclerView specialitiesRCV;
     private RadioGroup mSegmentedGroup;
@@ -119,6 +113,7 @@ public class DoctorsActivity extends PacifyrAppCompactActivity implements Doctor
                     // TODO: Get info about the selected place.
                     mLatitude= String.valueOf(place.getLatLng().latitude);
                     mLongitude= String.valueOf(place.getLatLng().longitude);
+                    Log.d(TAG, "onPlaceSelected -> (" + mLatitude + "," + mLongitude + ")");
                    /* Log.w( "@@@place", String.valueOf(place.getLatLng().mLatitude));
                     Log.w( "@@@place", String.valueOf(place.getLatLng().mLongitude));*/
 
@@ -130,15 +125,15 @@ public class DoctorsActivity extends PacifyrAppCompactActivity implements Doctor
                 @Override
                 public void onError(Status status) {
                     // TODO: Handle the error.
-                    Log.w( "@@@staus",String.valueOf(status));
+                    Log.d(TAG, "onError : " + status.toString());
                 }
             });
         }
 
 
-        mSegmentedGroup = (RadioGroup) findViewById(R.id.segmentedgroup);
-        mRadioButtonB = (RadioButton) findViewById(R.id.rb1);
-        mRadioButtonA = (RadioButton) findViewById(R.id.rb3);
+        mSegmentedGroup = findViewById(R.id.segmentedgroup);
+        mRadioButtonB = findViewById(R.id.rb1);
+        mRadioButtonA = findViewById(R.id.rb3);
 
         fillColour_ForRadioButton(mRadioButtonB);
         fillNoColor_ForRadioButton(mRadioButtonA);
@@ -210,6 +205,10 @@ public class DoctorsActivity extends PacifyrAppCompactActivity implements Doctor
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 
     public void checkPremissionFineLocation() {
         if (ActivityCompat.checkSelfPermission(DoctorsActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) !=
@@ -425,15 +424,15 @@ public class DoctorsActivity extends PacifyrAppCompactActivity implements Doctor
     private DeviceFitImageView rightImv;
 
     public void onSetActionBar() {
-        actionBarTopLlay = (LinearLayout) findViewById(R.id.action_bar_top_llay);
-        bottomPanel = (RelativeLayout) findViewById(R.id.bottom_panel);
-        leftLlay = (LinearLayout) findViewById(R.id.left_llay);
-        backImv = (DeviceFitImageView) findViewById(R.id.back_imv);
-        leftTxv = (MainTextView) findViewById(R.id.left_txv);
-        titleTxv = (MainTextView) findViewById(R.id.title_txv);
-        rightLlay = (LinearLayout) findViewById(R.id.right_llay);
-        rightTxv = (MainTextView) findViewById(R.id.right_txv);
-        rightImv = (DeviceFitImageView) findViewById(R.id.right_imv);
+        actionBarTopLlay = findViewById(R.id.action_bar_top_llay);
+        bottomPanel = findViewById(R.id.bottom_panel);
+        leftLlay = findViewById(R.id.left_llay);
+        backImv = findViewById(R.id.back_imv);
+        leftTxv = findViewById(R.id.left_txv);
+        titleTxv = findViewById(R.id.title_txv);
+        rightLlay = findViewById(R.id.right_llay);
+        rightTxv = findViewById(R.id.right_txv);
+        rightImv = findViewById(R.id.right_imv);
         rightImv.setVisibility(View.INVISIBLE);
         rightTxv.setVisibility(View.INVISIBLE);
         rightLlay.setVisibility(View.INVISIBLE);
