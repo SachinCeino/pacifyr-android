@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
@@ -112,9 +113,11 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<AppointmentsLi
                 @Override
                 public void onClick(View v) {
 
-                    if (isValid(mObject.getRejectReason().toString()))
+                    if (isValid(mObject.getRejectReason()))
                     {
                         showRejectedReasonPopUp(mObject.getRejectReason());
+                    } else {
+                        Toast.makeText(mContext, "Not available", Toast.LENGTH_LONG).show();
                     }
                 }
             });
