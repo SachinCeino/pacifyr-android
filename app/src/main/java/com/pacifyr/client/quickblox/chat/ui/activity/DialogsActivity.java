@@ -582,7 +582,7 @@ public class DialogsActivity extends PacifyrActivity implements DialogsManager.M
         backImv.setVisibility(View.VISIBLE);
         titleTxv.setVisibility(View.VISIBLE);
         leftLlay.setVisibility(View.VISIBLE);
-        defSetText(titleTxv, "MESSAGE LIST");
+        defSetText(titleTxv, "MESSAGES");
         titleTxv.setTextColor(getResources().getColor(R.color._color_action_bar_text_color));
         backImv.setVisibility(View.VISIBLE);
   /*      leftTxv.setVisibility(View.GONE);

@@ -1046,7 +1046,8 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
                                                 txtv_next.setText("Done");
                                                 confirmationMessageText.setText("Your request for an appointment with "+pacifyer_obj.getFirstName() + ""
                                                         + pacifyer_obj.getLastName()+" " +
-                                                        "has been submitted and you will be notified once the time slot if confirmed.");
+                                                        "has been submitted and you will be " +
+                                                        "notified once the time slot is confirmed.");
 
                                                 /*confirmationMessageText.setText("Your appointment is scheduled with "
                                                         + pacifyer_obj.getFirstName() + ""
