@@ -189,6 +189,10 @@
             android:screenOrientation="portrait"
             android:theme="@style/CustomNoActionBarTheme2" />
         <activity
+            android:name="com.pacifyr.client.home.OfficeVisitSummary"
+            android:screenOrientation="portrait"
+            android:theme="@style/CustomNoActionBarTheme2" />
+        <activity
             android:name="com.pacifyr.client.home.SummaryDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/CustomNoActionBarTheme2" />

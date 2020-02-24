@@ -15,20 +15,21 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.kaopiz.kprogresshud.KProgressHUD;
+import com.pacifyr.client.R;
 import com.pacifyr.client.customview.MainTextView;
+import com.pacifyr.client.event.ChatEvent;
+import com.pacifyr.client.home.DashboardActivity;
+import com.pacifyr.client.home.LastSessionActivity;
 import com.pacifyr.client.home.MySessionsActivity;
+import com.pacifyr.client.home.OfficeVisitSummary;
+import com.pacifyr.client.utils.LogUtils;
+import com.pacifyr.client.utils.Utility;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MEmotion;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MSessionDetailRoot;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MSessionRating;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
-import com.kaopiz.kprogresshud.KProgressHUD;
-import com.pacifyr.client.R;
-import com.pacifyr.client.event.ChatEvent;
-import com.pacifyr.client.home.DashboardActivity;
-import com.pacifyr.client.home.LastSessionActivity;
-import com.pacifyr.client.utils.LogUtils;
-import com.pacifyr.client.utils.Utility;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -83,6 +84,10 @@ public class MySessionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             itemView = LayoutInflater.from(parent.getContext()).inflate(
                     R.layout.list_mysession_service_not_provided_item, parent, false);
             rcv = new ServiceNotProvided(itemView);
+        } else if (viewType == 4) {
+            itemView = LayoutInflater.from(parent.getContext()).inflate(
+                    R.layout.list_mysession_office_visit, parent, false);
+            rcv = new OfficeVisit(itemView);
         } else {
             rcv = new MyViewHolder(itemView);
         }
@@ -121,6 +126,9 @@ public class MySessionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             } else if (topholder instanceof ServiceNotProvided) {
                 ServiceNotProvided serviceNotProvided = (ServiceNotProvided) topholder;
                 setViewholder(serviceNotProvided, position);
+            } else if (topholder instanceof OfficeVisit) {
+                OfficeVisit officeVisit = (OfficeVisit) topholder;
+                setViewholder(officeVisit, position);
             }
 
         }
@@ -449,6 +457,34 @@ public class MySessionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }
     }
 
+    private void setViewholder(OfficeVisit officeVisit, int position) {
+        try {
+            final MSessionDetailRoot results = getItem(position);
+            officeVisit.nameUserCtxv.setText(results.getPacifyr().getFirstName());
+            String time = results.getEndTime();
+            officeVisit.dateCtxv.setText(Utility.getStartFormatDate(time, context));
+
+            String imgUrl = results.getPacifyr().getImageUrl();
+            if (isValid(imgUrl)) {
+                Picasso.with(context).load(imgUrl).placeholder(context.getResources().getDrawable(R.drawable.placeholder_user))
+                        .error(context.getResources().getDrawable(R.drawable.placeholder_user))
+                        .into(officeVisit.userCimv);
+            }
+
+            officeVisit.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String sessionID = results.getId();
+                    OfficeVisitSummary.start(context, sessionID, false);
+                }
+            });
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            LogUtils.LOGD(" MSA setViewholder ex:" + ex.getMessage());
+        }
+    }
+
     public Boolean isValid(int object) {
         return object > 0;
 
@@ -462,6 +498,7 @@ public class MySessionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     @Override
     public int getItemViewType(int position) {
         int pos=0;
+        String sessionType = list.get(position).getSessionType();
         if (list.get(position).getMissed().equals("true"))
         {
             pos = 1;
@@ -472,9 +509,13 @@ public class MySessionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         }else if(!isValid(list.get(position).getPacifyr().getName())){
             pos = 2;
+        } else if (isValid(list.get(position)) && isValid(list.get(position).getSessionType())
+                && list.get(position).getSessionType().equalsIgnoreCase(MUser.VISIT_TYPE_OFFICE)) {
+            pos = 4;
         } else if (!list.get(position).isBilledSession()) {
             pos = 3;
         }
+
         return pos;
     }
     public Boolean isValid(List list)
@@ -589,6 +630,26 @@ public class MySessionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             userCimv = view.findViewById(R.id.user_cimv);
             nameUserCtxv = view.findViewById(R.id.name_user_ctxv);
             callTypeImg = view.findViewById(R.id.call_type_img);
+            missedCtxv = view.findViewById(R.id.missed_ctxv);
+            dateCtxv = view.findViewById(R.id.date_ctxv);
+
+        }
+    }
+
+    public class OfficeVisit extends RecyclerView.ViewHolder {
+
+        private LinearLayout topLlay;
+        private CircleImageView userCimv;
+        private MainTextView nameUserCtxv;
+        private ImageView callTypeImg;
+        private MainTextView missedCtxv;
+        private MainTextView dateCtxv;
+
+        public OfficeVisit(View view) {
+            super(view);
+            topLlay = view.findViewById(R.id.top_llay);
+            userCimv = view.findViewById(R.id.user_cimv);
+            nameUserCtxv = view.findViewById(R.id.name_user_ctxv);
             missedCtxv = view.findViewById(R.id.missed_ctxv);
             dateCtxv = view.findViewById(R.id.date_ctxv);
 
