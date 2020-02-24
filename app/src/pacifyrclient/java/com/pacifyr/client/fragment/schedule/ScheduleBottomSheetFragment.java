@@ -19,6 +19,7 @@ import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
+import com.pacifyr.client.utils.Utility;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -923,7 +924,7 @@ mWeekScheduleListAdapter.setDefaultFirstWeekSelection();
             try {
                 JSONObject jsonObject=new JSONObject();
                 jsonObject.put("userId",prefM.getUserID());
-                jsonObject.put("timeZoneOffset",Utility.timeZoneOffset());
+                jsonObject.put("timeZoneOffset", Utility.timeZoneOffset());
                 JSONArray jsonArray = new JSONArray();
                 jsonArray.put(singleSlote.getId());
                 jsonObject.put("timeSlotId",jsonArray);
