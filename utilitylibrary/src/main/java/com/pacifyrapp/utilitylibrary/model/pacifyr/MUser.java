@@ -2,9 +2,9 @@ package com.pacifyrapp.utilitylibrary.model.pacifyr;
 
 import android.annotation.SuppressLint;
 
-import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
 
 import java.io.Serializable;
 
@@ -15,99 +15,102 @@ import java.io.Serializable;
 public class MUser implements Serializable{
 
 
-        private String dateOfBirth;
+    @Expose(serialize = false, deserialize = false)
+    public static final String VISIT_TYPE_OFFICE = "office";
 
-        private String qualifications;
+    private String dateOfBirth;
 
-        private String numberOfMissedCalls;
+    private String qualifications;
 
-        private String[] employedToCompany;
+    private String numberOfMissedCalls;
 
-        private String state;
+    private String[] employedToCompany;
 
-        private long qbid;
+    private String state;
 
-        private String maritalStatus;
+    private long qbid;
 
-        private Education[] education;
+    private String maritalStatus;
 
-        private String loginType;
+    private Education[] education;
 
-        private boolean online;
+    private String loginType;
 
-        private String id;
+    private boolean online;
 
-        private long availableMinutes;
+    private String id;
 
-        private String phoneNumber;
+    private long availableMinutes;
 
-        private ChatSubscription chatSubscription;
+    private String phoneNumber;
+
+    private ChatSubscription chatSubscription;
 
 
-        private String walletBalance;
+    private String walletBalance;
 
-        private String createdAt;
+    private String createdAt;
 
-        private String description;
+    private String description;
 
-        private String gender;
+    private String gender;
 
-        private String firstName;
+    private String firstName;
 
-        private String bonusProfileId;
+    private String bonusProfileId;
 
-        private String roleId;
+    private String roleId;
 
-        private String selectedSpeciality;
+    private String selectedSpeciality;
     private String selectedSpecialityCategory;
 
-        private String lastName;
+    private String lastName;
 
-        private String[] specialities;
+    private String[] specialities;
 
-        private String emotionId;
+    private String emotionId;
 
-        private String stripeAccountId;
+    private String stripeAccountId;
 
-        private String websiteURL;
+    private String websiteURL;
 
-        private String image;
+    private String image;
 
-        private boolean termsAccepted;
+    private boolean termsAccepted;
 
-        private boolean chatSubscriptionRequired;
+    private boolean chatSubscriptionRequired;
 
-        private boolean currentlyAvailable;
+    private boolean currentlyAvailable;
 
-        private boolean chatEnabled=false;
+    private boolean chatEnabled = false;
 
-        private MRoleModel roleModel;
+    private MRoleModel roleModel;
 
-        private boolean sessionChargeable;
+    private boolean sessionChargeable;
 
-        private MEmotion emotion;
+    private MEmotion emotion;
 
-        private String country;
+    private String country;
 
-        private String updatedAt;
+    private String updatedAt;
 
-        private Certification[] certification;
+    private Certification[] certification;
 
-        private String price;
+    private String price;
 
-        private String priceForChat;
+    private String priceForChat;
 
-        private String numberOfReviews;
+    private String numberOfReviews;
 
-        private String pin;
+    private String pin;
 
-        private String email;
+    private String email;
 
-        private String companyId;
+    private String companyId;
 
-        private String rating;
+    private String rating;
 
-        private String reasonForTheCall;
+    private String reasonForTheCall;
 
     private String zipCode;
     private boolean favorite;
@@ -122,6 +125,16 @@ public class MUser implements Serializable{
     private String d1Volume;
     private String psi;
     private int recentMentionCount;
+    private String visitType;
+
+    public String getVisitType() {
+        return visitType;
+    }
+
+    public void setVisitType(String visitType) {
+        this.visitType = visitType;
+    }
+
 
     public int getRecentMentionCount() {
         return recentMentionCount;
@@ -282,7 +295,7 @@ public class MUser implements Serializable{
         this.forwardToPacifyr = forwardToPacifyr;
     }
 
-        public String getReasonForTheCall ()
+    public String getReasonForTheCall()
     {
         return reasonForTheCall;
     }
@@ -361,436 +374,366 @@ public class MUser implements Serializable{
         return dateOfBirth;
     }
 
-        public void setDateOfBirth (String dateOfBirth)
-        {
-            this.dateOfBirth = dateOfBirth;
-        }
+    public void setDateOfBirth(String dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
 
-        public String getQualifications ()
+    public String getQualifications()
     {
         return qualifications;
     }
 
-        public void setQualifications (String qualifications)
-        {
-            this.qualifications = qualifications;
-        }
+    public void setQualifications(String qualifications) {
+        this.qualifications = qualifications;
+    }
 
-        public String[] getEmployedToCompany ()
-        {
-            return employedToCompany;
-        }
+    public String[] getEmployedToCompany() {
+        return employedToCompany;
+    }
 
-        public void setEmployedToCompany (String[] employedToCompany)
-        {
-            this.employedToCompany = employedToCompany;
-        }
+    public void setEmployedToCompany(String[] employedToCompany) {
+        this.employedToCompany = employedToCompany;
+    }
 
-        public String getState ()
+    public String getState()
     {
         return state;
     }
 
-        public void setState (String state)
-        {
-            this.state = state;
-        }
+    public void setState(String state) {
+        this.state = state;
+    }
 
-        public long getQbid ()
-        {
-            return qbid;
-        }
+    public long getQbid() {
+        return qbid;
+    }
 
-        public void setQbid (long qbid)
-        {
-            this.qbid = qbid;
-        }
+    public void setQbid(long qbid) {
+        this.qbid = qbid;
+    }
 
-        public String getMaritalStatus ()
+    public String getMaritalStatus()
     {
         return maritalStatus;
     }
 
-        public void setMaritalStatus (String maritalStatus)
-        {
-            this.maritalStatus = maritalStatus;
-        }
+    public void setMaritalStatus(String maritalStatus) {
+        this.maritalStatus = maritalStatus;
+    }
 
-        public Education[] getEducation ()
-        {
-            return education;
-        }
+    public Education[] getEducation() {
+        return education;
+    }
 
-        public void setEducation (Education[] education)
-        {
-            this.education = education;
-        }
+    public void setEducation(Education[] education) {
+        this.education = education;
+    }
 
-        public String getLoginType ()
-        {
-            return loginType;
-        }
+    public String getLoginType() {
+        return loginType;
+    }
 
-        public void setLoginType (String loginType)
-        {
-            this.loginType = loginType;
-        }
+    public void setLoginType(String loginType) {
+        this.loginType = loginType;
+    }
 
-        public boolean getOnline ()
-        {
-            return online;
-        }
+    public boolean getOnline() {
+        return online;
+    }
 
-        public void setOnline (boolean online)
-        {
-            this.online = online;
-        }
+    public void setOnline(boolean online) {
+        this.online = online;
+    }
 
-        public String getId ()
-        {
-            return id;
-        }
+    public String getId() {
+        return id;
+    }
 
-        public void setId (String id)
-        {
-            this.id = id;
-        }
+    public void setId(String id) {
+        this.id = id;
+    }
 
-        public long getAvailableMinutes ()
-        {
-            return availableMinutes;
-        }
+    public long getAvailableMinutes() {
+        return availableMinutes;
+    }
 
-        public void setAvailableMinutes (long availableMinutes)
-        {
-            this.availableMinutes = availableMinutes;
-        }
+    public void setAvailableMinutes(long availableMinutes) {
+        this.availableMinutes = availableMinutes;
+    }
 
-        public String getPhoneNumber ()
-        {
-            return phoneNumber;
-        }
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
 
-        public void setPhoneNumber (String phoneNumber)
-        {
-            this.phoneNumber = phoneNumber;
-        }
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
 
-        public String[] getSpecialities ()
+    public String[] getSpecialities()
     {
         return specialities;
     }
 
-        public void setSpecialities (String[] specialities)
-        {
-            this.specialities = specialities;
-        }
+    public void setSpecialities(String[] specialities) {
+        this.specialities = specialities;
+    }
 
-        public String getWalletBalance ()
-        {
-            return walletBalance;
-        }
+    public String getWalletBalance() {
+        return walletBalance;
+    }
 
-        public void setWalletBalance (String walletBalance)
-        {
-            this.walletBalance = walletBalance;
-        }
+    public void setWalletBalance(String walletBalance) {
+        this.walletBalance = walletBalance;
+    }
 
-        public String getCreatedAt ()
-        {
-            return createdAt;
-        }
+    public String getCreatedAt() {
+        return createdAt;
+    }
 
-        public void setCreatedAt (String createdAt)
-        {
-            this.createdAt = createdAt;
-        }
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
 
-        public String getDescription ()
+    public String getDescription()
     {
         return description;
     }
 
-        public void setDescription (String description)
-        {
-            this.description = description;
-        }
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-        public String getGender ()
+    public String getGender()
     {
         return gender;
     }
 
-        public void setGender (String gender)
-        {
-            this.gender = gender;
-        }
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
 
-        public String getFirstName ()
-        {
-            return firstName;
-        }
+    public String getFirstName() {
+        return firstName;
+    }
     public String getName ()
     {
         return firstName.trim() + " " + lastName.trim();
     }
-        public void setFirstName (String firstName)
-        {
-            this.firstName = firstName;
-        }
 
-        public String getBonusProfileId ()
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getBonusProfileId()
     {
         return bonusProfileId;
     }
 
-        public void setBonusProfileId (String bonusProfileId)
-        {
-            this.bonusProfileId = bonusProfileId;
-        }
+    public void setBonusProfileId(String bonusProfileId) {
+        this.bonusProfileId = bonusProfileId;
+    }
 
-        public String getRoleId ()
-        {
-            return roleId;
-        }
+    public String getRoleId() {
+        return roleId;
+    }
 
-        public void setRoleId (String roleId)
-        {
-            this.roleId = roleId;
-        }
+    public void setRoleId(String roleId) {
+        this.roleId = roleId;
+    }
 
-        public String getSelectedSpeciality ()
-        {
-            return selectedSpeciality;
-        }
+    public String getSelectedSpeciality() {
+        return selectedSpeciality;
+    }
 
-        public void setSelectedSpeciality (String selectedSpeciality)
-        {
-            this.selectedSpeciality = selectedSpeciality;
-        }
+    public void setSelectedSpeciality(String selectedSpeciality) {
+        this.selectedSpeciality = selectedSpeciality;
+    }
 
-        public String getLastName ()
-        {
-            return lastName;
-        }
+    public String getLastName() {
+        return lastName;
+    }
 
-        public void setLastName (String lastName)
-        {
-            this.lastName = lastName;
-        }
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 
-        public String getEmotionId ()
-        {
-            return emotionId;
-        }
+    public String getEmotionId() {
+        return emotionId;
+    }
 
-        public void setEmotionId (String emotionId)
-        {
-            this.emotionId = emotionId;
-        }
+    public void setEmotionId(String emotionId) {
+        this.emotionId = emotionId;
+    }
 
-        public String getWebsiteURL ()
+    public String getWebsiteURL()
     {
         return websiteURL;
     }
 
-        public void setWebsiteURL (String websiteURL)
-        {
-            this.websiteURL = websiteURL;
-        }
+    public void setWebsiteURL(String websiteURL) {
+        this.websiteURL = websiteURL;
+    }
 
-        public String getImage ()
+    public String getImage()
     {
         return image;
     }
 
-        public String getImageUrl ()
-        {
-            String url="";
-            try {
-                if(image!=null)
-                    if(image.contains("http")||image.contains("https"))
-                        url=image;
-                      else
-                     url= UtilityNetworkService.GLOBAL_IMAGE_URL+image;
-            }catch (Exception e)
-            {
-                url="";
-            }
-            return url;
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getImageUrl() {
+        String url = "";
+        try {
+            if (image != null)
+                if (image.contains("http") || image.contains("https"))
+                    url = image;
+                else
+                    url = UtilityNetworkService.GLOBAL_IMAGE_URL + image;
+        } catch (Exception e) {
+            url = "";
         }
+        return url;
+    }
 
-        public void setImage (String image)
-        {
-            this.image = image;
-        }
+    public boolean isTermsAccepted() {
+        return termsAccepted;
+    }
 
-        public boolean isTermsAccepted ()
-        {
-            return termsAccepted;
-        }
+    public void setTermsAccepted(boolean termsAccepted) {
+        this.termsAccepted = termsAccepted;
+    }
 
-        public void setTermsAccepted (boolean termsAccepted)
-        {
-            this.termsAccepted = termsAccepted;
-        }
+    public boolean getCurrentlyAvailable() {
+        return currentlyAvailable;
+    }
 
-        public boolean getCurrentlyAvailable ()
-        {
-            return currentlyAvailable;
-        }
+    public void setCurrentlyAvailable(boolean currentlyAvailable) {
+        this.currentlyAvailable = currentlyAvailable;
+    }
 
-        public boolean isReadyToCall()
-        {
-            boolean isReady=false;
-            try {
-                if(online)
-                {
-                    if(currentlyAvailable)
-                        isReady=true;
-                }
-
-
-            }catch (Exception e)
-            {
-                isReady=false;
+    public boolean isReadyToCall() {
+        boolean isReady = false;
+        try {
+            if (online) {
+                if (currentlyAvailable)
+                    isReady = true;
             }
 
-            return isReady;
+
+        } catch (Exception e) {
+            isReady = false;
         }
 
+        return isReady;
+    }
 
-        public void setCurrentlyAvailable (boolean currentlyAvailable)
-        {
-            this.currentlyAvailable = currentlyAvailable;
-        }
+    public MRoleModel getRoleModel() {
+        return roleModel;
+    }
 
-        public MRoleModel getRoleModel ()
-        {
-            return roleModel;
-        }
+    public void setRoleModel(MRoleModel roleModel) {
+        this.roleModel = roleModel;
+    }
 
-        public void setRoleModel (MRoleModel roleModel)
-        {
-            this.roleModel = roleModel;
-        }
-
-        public MEmotion getEmotion ()
+    public MEmotion getEmotion()
     {
         return emotion;
     }
 
-        public void setEmotion (MEmotion emotion)
-        {
-            this.emotion = emotion;
-        }
+    public void setEmotion(MEmotion emotion) {
+        this.emotion = emotion;
+    }
 
-        public String getCountry ()
+    public String getCountry()
     {
         return country;
     }
 
-        public void setCountry (String country)
-        {
-            this.country = country;
-        }
+    public void setCountry(String country) {
+        this.country = country;
+    }
 
-        public String getUpdatedAt ()
-        {
-            return updatedAt;
-        }
+    public String getUpdatedAt() {
+        return updatedAt;
+    }
 
-        public void setUpdatedAt (String updatedAt)
-        {
-            this.updatedAt = updatedAt;
-        }
+    public void setUpdatedAt(String updatedAt) {
+        this.updatedAt = updatedAt;
+    }
 
-        public Certification[] getCertification ()
-        {
-            return certification;
-        }
+    public Certification[] getCertification() {
+        return certification;
+    }
 
-        public void setCertification (Certification[] certification)
-        {
-            this.certification = certification;
-        }
+    public void setCertification(Certification[] certification) {
+        this.certification = certification;
+    }
 
-        public String getPrice ()
-        {
-            return price;
-        }
+    public String getPrice() {
+        return price;
+    }
 
-        @SuppressLint("DefaultLocale")
-        public String getPriceWithSign ()
-        {
-            if (country.equals("India"))
-                return "₹ " + String.format("%.2f", Double.parseDouble(price));
-            else
-                return "$ " + String.format("%.2f", Double.parseDouble(price));
+    public void setPrice(String price) {
+        this.price = price;
+    }
 
-        }
+    @SuppressLint("DefaultLocale")
+    public String getPriceWithSign() {
+        if (country.equals("India"))
+            return "₹ " + String.format("%.2f", Double.parseDouble(price));
+        else
+            return "$ " + String.format("%.2f", Double.parseDouble(price));
 
-        public void setPrice (String price)
-        {
-            this.price = price;
-        }
+    }
 
-        public String getNumberOfReviews ()
-        {
-            return numberOfReviews;
-        }
+    public String getNumberOfReviews() {
+        return numberOfReviews;
+    }
 
-        public void setNumberOfReviews (String numberOfReviews)
-        {
-            this.numberOfReviews = numberOfReviews;
-        }
+    public void setNumberOfReviews(String numberOfReviews) {
+        this.numberOfReviews = numberOfReviews;
+    }
 
-        public String getPin ()
+    public String getPin()
     {
         return pin;
     }
 
-        public void setPin (String pin)
-        {
-            this.pin = pin;
-        }
+    public void setPin(String pin) {
+        this.pin = pin;
+    }
 
-        public String getEmail ()
-        {
-            return email;
-        }
+    public String getEmail() {
+        return email;
+    }
 
-        public void setEmail (String email)
-        {
-            this.email = email;
-        }
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-        public String getCompanyId ()
-        {
-            return companyId;
-        }
+    public String getCompanyId() {
+        return companyId;
+    }
 
-        public void setCompanyId (String companyId)
-        {
-            this.companyId = companyId;
-        }
+    public void setCompanyId(String companyId) {
+        this.companyId = companyId;
+    }
 
-        public String getRating ()
-        {
-            return rating;
-        }
+    public String getRating() {
+        return rating;
+    }
 
-        public void setRating (String rating)
-        {
-            this.rating = rating;
-        }
+    public void setRating(String rating) {
+        this.rating = rating;
+    }
 
-        @Override
-        public String toString()
-        {
-            return "";
-            //return "ClassPojo [dateOfBirth = "+dateOfBirth+", qualifications = "+qualifications+", employedToCompany = "+employedToCompany+", state = "+state+", qbid = "+qbid+", maritalStatus = "+maritalStatus+", education = "+education+", loginType = "+loginType+", online = "+online+", id = "+id+", availableMinutes = "+availableMinutes+", phoneNumber = "+phoneNumber+", specialities = "+specialities+", walletBalance = "+walletBalance+", createdAt = "+createdAt+", description = "+description+", gender = "+gender+", firstName = "+firstName+", bonusProfileId = "+bonusProfileId+", roleId = "+roleId+", selectedSpeciality = "+selectedSpeciality+", lastName = "+lastName+", emotionId = "+emotionId+", websiteURL = "+websiteURL+", image = "+image+", termsAccepted = "+termsAccepted+", currentlyAvailable = "+currentlyAvailable+", roleModel = "+roleModel+", emotion = "+emotion+", country = "+country+", updatedAt = "+updatedAt+", certification = "+certification+", price = "+price+", numberOfReviews = "+numberOfReviews+", pin = "+pin+", email = "+email+", companyId = "+companyId+", rating = "+rating+"]";
-        }
+    @Override
+    public String toString() {
+        return "";
+        //return "ClassPojo [dateOfBirth = "+dateOfBirth+", qualifications = "+qualifications+", employedToCompany = "+employedToCompany+", state = "+state+", qbid = "+qbid+", maritalStatus = "+maritalStatus+", education = "+education+", loginType = "+loginType+", online = "+online+", id = "+id+", availableMinutes = "+availableMinutes+", phoneNumber = "+phoneNumber+", specialities = "+specialities+", walletBalance = "+walletBalance+", createdAt = "+createdAt+", description = "+description+", gender = "+gender+", firstName = "+firstName+", bonusProfileId = "+bonusProfileId+", roleId = "+roleId+", selectedSpeciality = "+selectedSpeciality+", lastName = "+lastName+", emotionId = "+emotionId+", websiteURL = "+websiteURL+", image = "+image+", termsAccepted = "+termsAccepted+", currentlyAvailable = "+currentlyAvailable+", roleModel = "+roleModel+", emotion = "+emotion+", country = "+country+", updatedAt = "+updatedAt+", certification = "+certification+", price = "+price+", numberOfReviews = "+numberOfReviews+", pin = "+pin+", email = "+email+", companyId = "+companyId+", rating = "+rating+"]";
+    }
 
 
     public boolean isSessionChargeable() {

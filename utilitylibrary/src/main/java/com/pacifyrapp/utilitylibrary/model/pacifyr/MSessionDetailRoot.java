@@ -64,7 +64,6 @@ public class MSessionDetailRoot
     private boolean billedSession;
 
 
-
     private String aggregationSessionId;
 
     public double getSessionCost ()

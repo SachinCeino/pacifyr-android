@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="8dp">
+
+        <RelativeLayout
+            android:id="@+id/action_bar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_alignParentTop="true"
+            android:layout_gravity="center"
+
+            android:background="?attr/colorPrimary"
+            android:orientation="horizontal"
+            android:theme="@style/AppTheme.PopupOverlay">
+
+            <include layout="@layout/actionbar_three_text_image" />
+
+        </RelativeLayout>
+
+        <RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/submit_ctxv"
+            android:layout_below="@+id/action_bar"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fillViewport="true">
+
+                <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:tools="http://schemas.android.com/tools"
+                    android:id="@+id/activity_last_session"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"
+                    android:orientation="vertical"
+                    android:paddingLeft="20dp"
+                    android:paddingTop="20dp"
+                    android:paddingRight="20dp"
+                    android:paddingBottom="70dp"
+                    tools:context="com.pacifyr.client.home.LastSessionActivity">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/rounded_white"
+                        android:orientation="horizontal"
+                        android:padding="20dp">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <de.hdodenhof.circleimageview.CircleImageView
+                                android:id="@+id/last_session_cimv"
+                                android:layout_width="70dp"
+                                android:layout_height="70dp"
+                                android:src="@drawable/placeholder_user" />
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="left"
+                                android:orientation="horizontal"
+                                android:paddingLeft="10dp">
+
+                                <com.pacifyr.client.customview.MainTextView
+                                    android:id="@+id/pacifyr_name_ctxv"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentLeft="true"
+                                    android:text=""
+                                    android:textColor="@color/blue_text_dark"
+                                    android:textSize="18sp" />
+
+
+                                <ImageButton
+                                    android:id="@+id/img_notes"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_margin="5dp"
+                                    android:background="@android:color/transparent"
+                                    android:visibility="gone"
+                                    app:srcCompat="@drawable/svg_add_note_primary" />
+                            </RelativeLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal"
+                                android:paddingLeft="10dp">
+
+                                <com.pacifyr.client.customview.MainTextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentLeft="true"
+                                    android:text="CALL :"
+                                    android:textColor="@color/grey_dark"
+                                    android:textSize="13sp"
+                                    android:textStyle="bold" />
+
+                                <ImageView
+                                    android:id="@+id/call_type_dimv"
+                                    android:layout_width="10dp"
+                                    android:layout_height="10dp"
+                                    android:layout_marginLeft="5dp"
+                                    android:src="@drawable/icon_audio" />
+
+                                <com.pacifyr.client.customview.MainTextView
+                                    android:id="@+id/duration_ctxv"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_marginLeft="5dp"
+                                    android:text=" 00 : 00 : 00"
+                                    android:textColor="@color/blue_text_dark"
+                                    android:textSize="13sp"
+                                    android:textStyle="bold" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/customer_fees_llay"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:orientation="horizontal"
+                                android:paddingLeft="10dp"
+                                android:visibility="gone">
+
+                                <com.pacifyr.client.customview.MainTextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentLeft="true"
+                                    android:text="TOTAL :"
+                                    android:textColor="@color/grey_dark"
+                                    android:textSize="13sp"
+                                    android:textStyle="bold" />
+
+                                <com.pacifyr.client.customview.MainTextView
+                                    android:id="@+id/session_cost_ctxv"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentRight="true"
+                                    android:text=" "
+                                    android:textColor="@color/colorPrimary"
+                                    android:textSize="13sp"
+                                    android:textStyle="bold" />
+
+                            </LinearLayout>
+
+
+                        </LinearLayout>
+
+                        <!-- circleview:suffixValue="EUR"-->
+
+                    </LinearLayout>
+
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#DFDFDF" />
+
+                    <com.pacifyr.client.customview.MainTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginTop="10dp"
+                        android:text="Notes"
+                        android:textColor="@color/grey"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:id="@+id/notes_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/rounded_white"
+                        android:orientation="vertical"
+                        android:padding="10dp">
+
+                        <com.pacifyr.client.customview.MainTextView
+                            android:id="@+id/text_notes"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:text=""
+                            android:textColor="@color/grey_dark"
+                            android:textSize="14sp" />
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+            </androidx.core.widget.NestedScrollView>
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

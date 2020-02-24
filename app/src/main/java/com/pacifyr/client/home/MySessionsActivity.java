@@ -14,25 +14,25 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
+import com.pacifyr.client.R;
+import com.pacifyr.client.adapter.MySessionAdapter;
+import com.pacifyr.client.adapter.SessionWeekCustomerAdapter;
 import com.pacifyr.client.customview.MainTextView;
+import com.pacifyr.client.event.AlertTypeEvent;
 import com.pacifyr.client.event.CallEvent;
 import com.pacifyr.client.event.ChatEvent;
+import com.pacifyr.client.event.NotifyEvent;
+import com.pacifyr.client.event.WeekSetSessionEvent;
 import com.pacifyr.client.model.interfaces.CallChatEventListner;
+import com.pacifyr.client.network.GsonUtils;
+import com.pacifyr.client.utility.PacifyrAppCompactActivity;
 import com.pacifyr.client.utils.LogUtils;
+import com.pacifyr.client.utils.Utility;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MSessionDetailRoot;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelSessonsOfCustomer;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelStatistics;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
-import com.pacifyr.client.R;
-import com.pacifyr.client.adapter.MySessionAdapter;
-import com.pacifyr.client.adapter.SessionWeekCustomerAdapter;
-import com.pacifyr.client.event.AlertTypeEvent;
-import com.pacifyr.client.event.NotifyEvent;
-import com.pacifyr.client.event.WeekSetSessionEvent;
-import com.pacifyr.client.network.GsonUtils;
-import com.pacifyr.client.utility.PacifyrAppCompactActivity;
-import com.pacifyr.client.utils.Utility;
 import com.squareup.otto.Subscribe;
 
 import org.joda.time.DateTimeConstants;
@@ -323,7 +323,8 @@ public class MySessionsActivity extends PacifyrAppCompactActivity {
                     if(isValid(list)) {
                         MySessionAdapter adapter = new MySessionAdapter(MySessionsActivity.this, list, userid, accessToken);
                         LinearLayoutManager verticalLayoutmanager
-                                = new LinearLayoutManager(MySessionsActivity.this, LinearLayoutManager.VERTICAL, false);
+                                = new LinearLayoutManager(MySessionsActivity.this, RecyclerView.VERTICAL,
+                                false);
                         weekSessionsRcv.setLayoutManager(verticalLayoutmanager);
                         weekSessionsRcv.setVisibility(View.VISIBLE);
                         weekSessionsRcv.setAdapter(adapter);
