@@ -166,7 +166,9 @@ public class PacifyrResultListViewAdapter extends RecyclerView.Adapter<PacifyrRe
                 if (isValidhtml(imgURL))
                     Picasso.with(context).load(imgURL).placeholder(R.drawable.placeholder_user).into(holder.pacifyrImage);
 
-                holder.pacifyr_addresss.setText("555 Hubbard \n Ave-Suite 12 \n Pittsfield MA 1201");
+                if (isValid(pacifyer.getAddress1()))
+                holder.pacifyr_addresss.setText(pacifyer.getAddress1()+"");
+
                 holder.pacifyr_timing.setText("Hours 10am-12am");
 
                 holder.more_info.setOnClickListener(new View.OnClickListener() {
