@@ -2,6 +2,7 @@ package com.pacifyr.client.home;
 
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 
 import android.view.View;
@@ -69,6 +70,7 @@ public class DoctorsMoreInformationActivity extends PacifyrAppCompactActivity im
     private LinearLayout ratingLayout;
     private RecyclerView Rcvrating;
     private ImageView favorite_doctor;
+    private LinearLayout LinearLayout_Call;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,6 +98,7 @@ public class DoctorsMoreInformationActivity extends PacifyrAppCompactActivity im
         psi_txtview = findViewById(R.id.psi_txtview);
         Rcvrating = findViewById(R.id.Rcvrating);
         favorite_doctor =findViewById(R.id.favorite_doctor);
+        LinearLayout_Call = findViewById(R.id.LinearLayout_Call);
 
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
@@ -142,6 +145,25 @@ public class DoctorsMoreInformationActivity extends PacifyrAppCompactActivity im
         });
         if (isValid(pacifyerObject.getPsi()))
         setUpRatingGraphUI(Integer.parseInt(pacifyerObject.getPsi()));
+
+
+        LinearLayout_Call.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isValid(pacifyerObject.getPhoneNumber()))
+                {
+                    callToNumber(pacifyerObject.getPhoneNumber());
+                }
+            }
+        });
+    }
+
+    private void callToNumber(String phoneNumber) {
+
+        String number = "tel:"+phoneNumber ;
+        Intent dial = new Intent (Intent.ACTION_DIAL, Uri.parse(number));
+        startActivity(dial);
+
     }
 
 
