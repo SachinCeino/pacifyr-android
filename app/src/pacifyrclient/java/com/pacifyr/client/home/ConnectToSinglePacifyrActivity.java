@@ -491,9 +491,20 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
                     @Override
                     public void onClick(View view) {
 
+                        boolean isOnline = pacifyer_obj.getOnline();
+                        String reason = "";
+                        if (isOnline) {
+                            if (!pacifyer_obj.getCurrentlyAvailable()) {
+                                reason = " in a session";
+                            }
+                        } else {
+                            reason = " offline";
+                        }
                         if(!pacifyer_obj.isReadyToCall()) {
 
-                            Snackbar offlineSnackbar = Snackbar.make(topRlay, pacifyer_obj.getName() + " is currently offline. You can either chat with " + pacifyer_obj.getName() + " or try again later.", Snackbar.LENGTH_LONG);
+                            Snackbar offlineSnackbar = Snackbar.make(topRlay,
+                                    pacifyer_obj.getName() + " is currently " + reason + ". You can " +
+                                            "either chat with " + pacifyer_obj.getName() + " or try again later.", Snackbar.LENGTH_LONG);
                             View snackbarView = offlineSnackbar.getView();
                             TextView snackTextView = snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
                             snackTextView.setMaxLines(4);
@@ -546,7 +557,19 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
                     public void onClick(View view) {
 
                         if(!pacifyer_obj.isReadyToCall()) {
-                            Snackbar offlineSnackbar = Snackbar.make(topRlay, pacifyer_obj.getName() + " is currently offline. You can either chat with " + pacifyer_obj.getName() + " or try again later.", Snackbar.LENGTH_LONG);
+                            boolean isOnline = pacifyer_obj.getOnline();
+                            String reason = "";
+                            if (isOnline) {
+                                if (!pacifyer_obj.getCurrentlyAvailable()) {
+                                    reason = " in a session";
+                                }
+                            } else {
+                                reason = " offline";
+                            }
+                            Snackbar offlineSnackbar = Snackbar.make(topRlay,
+                                    pacifyer_obj.getName() + " is currently " + reason + ". You " +
+                                            "can " +
+                                            "either chat with " + pacifyer_obj.getName() + " or try again later.", Snackbar.LENGTH_LONG);
                             View snackbarView = offlineSnackbar.getView();
                             TextView snackTextView = snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
                             snackTextView.setMaxLines(4);
