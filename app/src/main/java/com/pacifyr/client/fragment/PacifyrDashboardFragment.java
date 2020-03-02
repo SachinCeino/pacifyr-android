@@ -18,19 +18,14 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.pacifyr.client.customview.MainTextView;
-import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelStatistics;
-import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.google.gson.JsonObject;
 import com.koushikdutta.ion.Ion;
 import com.pacifyr.client.R;
+import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.home.CustomerDetailActivity;
 import com.pacifyr.client.home.CustomerListActivity;
 import com.pacifyr.client.home.EarningsActivity;
-import com.pacifyr.client.home.LastSessionActivity;
 import com.pacifyr.client.home.MissedandDeclinedActivity;
 import com.pacifyr.client.home.RatingDetailActivity;
 import com.pacifyr.client.home.ReviewListingActivity;
@@ -39,8 +34,11 @@ import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.quickblox.chat.ui.activity.DialogsActivity;
 import com.pacifyr.client.quickblox.chat.utils.qb.QbDialogHolder;
 import com.pacifyr.client.utility.BaseFragment;
-import com.pacifyr.client.utils.ToastHandler;
 import com.pacifyr.client.utils.Utility;
+import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelStatistics;
+import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.quickblox.chat.QBRestChatService;
 import com.quickblox.chat.model.QBChatDialog;
 import com.quickblox.core.QBEntityCallback;
@@ -65,11 +63,11 @@ import java.util.TimeZone;
 import de.hdodenhof.circleimageview.CircleImageView;
 import me.leolin.shortcutbadger.ShortcutBadger;
 
-import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
 import static com.facebook.FacebookSdk.getApplicationContext;
 import static com.pacifyr.client.adapter.CustomerListAdapter.custListUser;
 import static com.pacifyr.client.network.NetworkService.lastSession;
 import static com.pacifyr.client.network.NetworkService.modelPacifyrDashboard;
+import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
 
 public class PacifyrDashboardFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
 
@@ -383,10 +381,8 @@ public class PacifyrDashboardFragment extends BaseFragment implements SwipeRefre
              lastSessionRlay.setOnClickListener(new View.OnClickListener() {
                  @Override
                  public void onClick(View v) {
-                     if(isValid(lastSession))
-                         LastSessionActivity.start(getActivity());
-                     else ToastHandler.newInstance(getActivity()).mustShowToast("No sessions yet");
-                   //  LastSessionActivity.start(getActivity());
+
+                     //  LastSessionActivity.start(getActivity());
 
                  }
              });

@@ -21,7 +21,24 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
+import com.google.android.material.snackbar.Snackbar;
+import com.pacifyr.client.R;
+import com.pacifyr.client.adapter.EmotionSpecialityAdapter;
+import com.pacifyr.client.adapter.NegativeEmotionsAdapter;
+import com.pacifyr.client.adapter.PostiveEmotionsAdapter;
 import com.pacifyr.client.customview.MainTextView;
+import com.pacifyr.client.event.AlertTypeEvent;
+import com.pacifyr.client.event.CallEvent;
+import com.pacifyr.client.event.NotifyEvent;
+import com.pacifyr.client.fragment.schedule.ScheduleBottomSheetFragment;
+import com.pacifyr.client.model.ModelSpecialityByEmotion;
+import com.pacifyr.client.network.GsonUtils;
+import com.pacifyr.client.network.NetworkService;
+import com.pacifyr.client.quickblox.activities.PermissionsActivity;
+import com.pacifyr.client.quickblox.utils.Consts;
+import com.pacifyr.client.utility.PacifyrAppCompactActivity;
+import com.pacifyr.client.utils.LogUtils;
+import com.pacifyr.client.utils.Utility;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.ChatSubscription;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MListNegativeEmotions;
@@ -31,23 +48,6 @@ import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelUserProfile;
 import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
-import com.google.android.material.snackbar.Snackbar;
-import com.pacifyr.client.fragment.schedule.ScheduleBottomSheetFragment;
-import com.pacifyr.client.R;
-import com.pacifyr.client.adapter.EmotionSpecialityAdapter;
-import com.pacifyr.client.adapter.NegativeEmotionsAdapter;
-import com.pacifyr.client.adapter.PostiveEmotionsAdapter;
-import com.pacifyr.client.event.AlertTypeEvent;
-import com.pacifyr.client.event.CallEvent;
-import com.pacifyr.client.event.NotifyEvent;
-import com.pacifyr.client.model.ModelSpecialityByEmotion;
-import com.pacifyr.client.network.GsonUtils;
-import com.pacifyr.client.network.NetworkService;
-import com.pacifyr.client.quickblox.activities.PermissionsActivity;
-import com.pacifyr.client.quickblox.utils.Consts;
-import com.pacifyr.client.utility.PacifyrAppCompactActivity;
-import com.pacifyr.client.utils.LogUtils;
-import com.pacifyr.client.utils.Utility;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
 
@@ -430,7 +430,7 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
                 for (int i=0;i<modelCustomerDashboard2.getPreferredPacifyrs().length;i++)
                 {
                     MUser[] m= modelCustomerDashboard2.getPreferredPacifyrs();
-                    if (isValid(m))
+                    if (isValid(m) && isValid(pacifyer_obj))
                     {
                         if (m[i].getId().equals(pacifyer_obj.getId()))
                         {
@@ -495,7 +495,7 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
 
                             Snackbar offlineSnackbar = Snackbar.make(topRlay, pacifyer_obj.getName() + " is currently offline. You can either chat with " + pacifyer_obj.getName() + " or try again later.", Snackbar.LENGTH_LONG);
                             View snackbarView = offlineSnackbar.getView();
-                            TextView snackTextView = (TextView) snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
+                            TextView snackTextView = snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
                             snackTextView.setMaxLines(4);
                             offlineSnackbar.show();
                             return;
@@ -548,7 +548,7 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
                         if(!pacifyer_obj.isReadyToCall()) {
                             Snackbar offlineSnackbar = Snackbar.make(topRlay, pacifyer_obj.getName() + " is currently offline. You can either chat with " + pacifyer_obj.getName() + " or try again later.", Snackbar.LENGTH_LONG);
                             View snackbarView = offlineSnackbar.getView();
-                            TextView snackTextView = (TextView) snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
+                            TextView snackTextView = snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
                             snackTextView.setMaxLines(4);
                             offlineSnackbar.show();
                             return;

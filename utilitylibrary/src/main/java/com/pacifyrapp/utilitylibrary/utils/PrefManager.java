@@ -6,11 +6,11 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.pacifyrapp.utilitylibrary.LogUtilsutility;
 import com.pacifyrapp.utilitylibrary.event.BusProvider;
 import com.pacifyrapp.utilitylibrary.model.MLoginRoot;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import org.json.JSONObject;
 
@@ -66,6 +66,9 @@ public class PrefManager {
     public static final String DOB = "DOB";
     public static final String ZIP = "ZIP";
     public static final String GENDER = "GENDER";
+    public static final String JSON_ALL_EMOTIONS = "ALL_EMOTIONS_JSON";
+    public static final String JSON_POSITIVE_EMOTIONS = "POSITIVE_EMOTIONS_JSON";
+    public static final String JSON_NEGATIVE_EMOTIONS = "NEGATIVE_EMOTIONS_JSON";
 
     Context context;
     SharedPreferences sharedpreferences;
@@ -712,33 +715,26 @@ public class PrefManager {
 
     public Boolean isValid(Object text)
     {
-        if(text!=null)
-
-            return  true;
-        return  false;
+        return text != null;
 
     }
 
     public Boolean isValid(int count)
     {
-        if(count>0)
-            return  true;
-        return  false;
+        return count > 0;
 
     }
     public Boolean isValid(String text)
     {
         if(text!=null)
-            if(!text.trim().equalsIgnoreCase(""))
-                return  true;
+            return !text.trim().equalsIgnoreCase("");
         return  false;
 
     }
     public Boolean isValid(List list)
     {
         if(list!=null)
-            if(list.size()>0)
-                return  true;
+            return list.size() > 0;
         return  false;
 
     }

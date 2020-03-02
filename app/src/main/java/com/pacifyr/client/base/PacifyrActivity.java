@@ -116,6 +116,7 @@ import com.stripe.android.model.Card;
 import com.stripe.android.model.Token;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
@@ -129,6 +130,7 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import static com.pacifyr.client.network.NetworkService.modelAllEmotions;
 import static com.pacifyr.client.utils.Constants.getCountryChecks;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.STRIPE_PUBLISH_KEY;
@@ -186,7 +188,7 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
                 if (billSummary != null && billSummary.isShowing()) {
                     showRating = true;
                 } else {
-                    SessionSummaryActivity.start(PacifyrActivity.this);
+                    SessionSummaryActivity.start(PacifyrActivity.this, id);
                 }
             }
         }
@@ -372,6 +374,58 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
         requestExecutor = App.getInstance().getQbResRequestExecutor();
         sharedPrefsHelper = SharedPrefsHelper.getInstance();
         googlePlayServicesHelper = new GooglePlayServicesHelper();
+
+        loadEmotions();
+    }
+
+    private void loadEmotions() {
+        String emotionJson =
+                PrefManager.getInstance(PacifyrActivity.this).getSharedString(PrefManager.JSON_ALL_EMOTIONS, null);
+
+        String positiveEmotionJson =
+                PrefManager.getInstance(PacifyrActivity.this).getSharedString(PrefManager.JSON_POSITIVE_EMOTIONS,
+                        null);
+        String negativeEmotionJson =
+                PrefManager.getInstance(PacifyrActivity.this).getSharedString(PrefManager.JSON_NEGATIVE_EMOTIONS,
+                        null);
+
+        if (emotionJson == null) {
+            NetworkService.webListEmotions(PacifyrActivity.this);
+        } else if (modelAllEmotions == null) {
+            try {
+                JSONObject emotionJsonObj = new JSONObject(emotionJson);
+                modelAllEmotions = GsonUtils.getInstance().gsonToMListAllEmotionsI(emotionJsonObj);
+
+            } catch (JSONException je) {
+                je.printStackTrace();
+            }
+
+        }
+
+        if (positiveEmotionJson == null) {
+            NetworkService.webListPositiveEmotions(PacifyrActivity.this);
+        } else if (NetworkService.modelListPosEmotions == null) {
+            try {
+                JSONObject posEmotionJsonObj = new JSONObject(positiveEmotionJson);
+                NetworkService.modelListPosEmotions =
+                        GsonUtils.getInstance().gsonToMListPositiveEmotions(posEmotionJsonObj);
+            } catch (JSONException je) {
+                je.printStackTrace();
+            }
+        }
+
+        if (negativeEmotionJson == null) {
+            NetworkService.webListNegativeEmotions(PacifyrActivity.this);
+        } else if (NetworkService.modelListNegEmotions == null) {
+            try {
+                JSONObject neativeEmotionJsonObj = new JSONObject(negativeEmotionJson);
+                NetworkService.modelListNegEmotions =
+                        GsonUtils.getInstance().gsonToMListNegativeEmotions(neativeEmotionJsonObj);
+            } catch (JSONException je) {
+                je.printStackTrace();
+            }
+        }
+
     }
 
     public  void permissionCheck(){
@@ -920,7 +974,7 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
                 }
                 if (showRating) {
                     showRating = false;
-                    SessionSummaryActivity.start(getApplicationContext());
+                    SessionSummaryActivity.start(getApplicationContext(), billingSummary.getSessionId());
                 }
             }
         });
@@ -1461,8 +1515,7 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
                                 NetworkService.mCurrentUser.setEmotionId(PacifyrActivity.call_emotion.getId());
                             if (isValid(EmotionSpecialityAdapter.reason_forcall))
                                 NetworkService.mCurrentUser.setReasonForTheCall(EmotionSpecialityAdapter.reason_forcall);
-                        }
-                       else
+                        } else
                         {
                             NetworkService.mCurrentUser.setEmotionId(PacifyrActivity.call_emotion.getId());
                             NetworkService.mCurrentUser.setReasonForTheCall(EmotionSpecialityAdapter.reason_forcall);
@@ -2011,7 +2064,7 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
             // input.putOpt("pacifyrId", oppenentid);
             input.putOpt("id", sessionid);
             aq.post(GLOBAL_URL + "session/stop", input, JSONObject.class, cb);
-            SessionSummaryActivity.start(PacifyrActivity.this);
+            SessionSummaryActivity.start(PacifyrActivity.this, sessionid);
         } catch (Exception e){
             LogUtils.LOGD("call", "stopSessionWeb end exception : " + e.getMessage());
         }
@@ -3297,8 +3350,8 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
         String gateway_name = inResponse.getString("GATEWAYNAME");
         String responce_message = inResponse.getString("RESPMSG");
         String orderId = inResponse.getString("ORDERID");
-         transaction_date = inResponse.getString("TXNDATE");
-         txnAmount = inResponse.getString("TXNAMOUNT");
+        transaction_date = inResponse.getString("TXNDATE");
+        txnAmount = inResponse.getString("TXNAMOUNT");
 
 
 
