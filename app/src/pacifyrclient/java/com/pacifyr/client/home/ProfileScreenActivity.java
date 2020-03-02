@@ -223,7 +223,7 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
                 startVideoCimv.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(!isValid(mpacifyerDetial,"Please check network connecction"))
+                        if (!isValid(mpacifyerDetial, "Please check network connection"))
                             return;
 
                         if(!mpacifyerDetial.isReadyToCall()) {
