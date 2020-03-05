@@ -19,14 +19,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.pacifyr.client.base.PacifyrActivity;
-import com.pacifyr.client.customview.MainTextView;
-import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.ChatSubscription;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelUserProfile;
-import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
-import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.gdacciaro.iOSDialog.iOSDialog;
 import com.gdacciaro.iOSDialog.iOSDialogClickListener;
 import com.google.android.material.snackbar.Snackbar;
@@ -34,6 +26,8 @@ import com.pacifyr.client.R;
 import com.pacifyr.client.adapter.CertificationProfileAdapter;
 import com.pacifyr.client.adapter.EducationProfileAdapter;
 import com.pacifyr.client.adapter.SpecilaListProfileAdapter;
+import com.pacifyr.client.base.PacifyrActivity;
+import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.AlertTypeEvent;
 import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.fragment.schedule.ScheduleBottomSheetFragment;
@@ -47,6 +41,12 @@ import com.pacifyr.client.utility.EventMessage;
 import com.pacifyr.client.utility.PacifyrAppCompactActivity;
 import com.pacifyr.client.utils.LogUtils;
 import com.pacifyr.client.utils.Utility;
+import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.ChatSubscription;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelUserProfile;
+import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
+import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.quickblox.chat.QBChatService;
 import com.quickblox.users.model.QBUser;
 import com.squareup.otto.Subscribe;
@@ -223,14 +223,24 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
                 startVideoCimv.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(!isValid(mpacifyerDetial,"Please check network connecction"))
+                        if (!isValid(mpacifyerDetial, "Please check network connection"))
                             return;
 
                         if(!mpacifyerDetial.isReadyToCall()) {
 
-                            offlineSnackbar = Snackbar.make(topRlay, mpacifyerDetial.getName() + " is currently offline. You can either chat with " + mpacifyerDetial.getName() + " or try again later.", Snackbar.LENGTH_LONG);
+                            boolean isOnline = mpacifyerDetial.getOnline();
+                            String reason = "";
+                            if (isOnline) {
+                                if (!mpacifyerDetial.getCurrentlyAvailable()) {
+                                    reason = " in a session";
+                                }
+                            } else {
+                                reason = " offline";
+                            }
+                            offlineSnackbar = Snackbar.make(topRlay, mpacifyerDetial.getName() +
+                                    " is currently " + reason + ". You can either chat with " + mpacifyerDetial.getName() + " or try again later.", Snackbar.LENGTH_LONG);
                             View snackbarView = offlineSnackbar.getView();
-                            TextView snackTextView = (TextView) snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
+                            TextView snackTextView = snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
                             snackTextView.setMaxLines(4);
                             offlineSnackbar.show();
                             //ToastHandler.newInstance(ProfileScreenActivity.this).mustShowToast(mpacifyerDetial.getName() + " is currently offline. You can either chat with " + mpacifyerDetial.getName() + " or try agein later");
@@ -305,7 +315,7 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
 
                             offlineSnackbar = Snackbar.make(topRlay, mpacifyerDetial.getName() + " is currently offline. You can either chat with " + mpacifyerDetial.getName() + " or try again later.", Snackbar.LENGTH_LONG);
                             View snackbarView = offlineSnackbar.getView();
-                            TextView snackTextView = (TextView) snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
+                            TextView snackTextView = snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
                             snackTextView.setMaxLines(4);
                             offlineSnackbar.show();
                             return;

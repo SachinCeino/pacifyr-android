@@ -23,7 +23,20 @@ import androidx.fragment.app.Fragment;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
+import com.gdacciaro.iOSDialog.iOSDialog;
+import com.gdacciaro.iOSDialog.iOSDialogBuilder;
+import com.gdacciaro.iOSDialog.iOSDialogClickListener;
+import com.kaopiz.kprogresshud.KProgressHUD;
+import com.pacifyr.client.R;
 import com.pacifyr.client.base.PacifyrActivity;
+import com.pacifyr.client.customview.MainTextView;
+import com.pacifyr.client.event.BusProvider;
+import com.pacifyr.client.event.NotifyEvent;
+import com.pacifyr.client.network.GsonUtils;
+import com.pacifyr.client.network.NetworkService;
+import com.pacifyr.client.quickblox.activities.CallActivity;
+import com.pacifyr.client.utils.LogUtils;
+import com.pacifyr.client.utils.ToastHandler;
 import com.pacifyrapp.utilitylibrary.CustomEditText;
 import com.pacifyrapp.utilitylibrary.CustomFontTextView;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
@@ -31,24 +44,13 @@ import com.pacifyrapp.utilitylibrary.model.pacifyr.MEmotion;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelUserProfile;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
-import com.gdacciaro.iOSDialog.iOSDialog;
-import com.gdacciaro.iOSDialog.iOSDialogBuilder;
-import com.gdacciaro.iOSDialog.iOSDialogClickListener;
-import com.kaopiz.kprogresshud.KProgressHUD;
-import com.pacifyr.client.R;
-import com.pacifyr.client.customview.MainTextView;
-import com.pacifyr.client.event.BusProvider;
-import com.pacifyr.client.event.NotifyEvent;
-import com.pacifyr.client.network.NetworkService;
-import com.pacifyr.client.quickblox.activities.CallActivity;
-import com.pacifyr.client.utils.LogUtils;
-import com.pacifyr.client.utils.ToastHandler;
 import com.squareup.otto.Subscribe;
 import com.stripe.android.Stripe;
 import com.stripe.android.TokenCallback;
 import com.stripe.android.model.Card;
 import com.stripe.android.model.Token;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -57,10 +59,11 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
-import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.STRIPE_PUBLISH_KEY;
 import static com.facebook.FacebookSdk.getApplicationContext;
 import static com.pacifyr.client.network.NetworkService.GLOBAL_IMAGE_URL;
+import static com.pacifyr.client.network.NetworkService.modelAllEmotions;
+import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
+import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.STRIPE_PUBLISH_KEY;
 
 
 /**
@@ -74,13 +77,67 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-      BusProvider.getInstance().register(this);
+        BusProvider.getInstance().register(this);
+
+        loadEmotions();
 
     }
+
+    private void loadEmotions() {
+        if (getActivity() != null) {
+            String emotionJson =
+                    PrefManager.getInstance(getActivity()).getSharedString(PrefManager.JSON_ALL_EMOTIONS, null);
+
+            String positiveEmotionJson =
+                    PrefManager.getInstance(getActivity()).getSharedString(PrefManager.JSON_POSITIVE_EMOTIONS,
+                            null);
+            String negativeEmotionJson =
+                    PrefManager.getInstance(getActivity()).getSharedString(PrefManager.JSON_NEGATIVE_EMOTIONS,
+                            null);
+
+            if (emotionJson == null) {
+                NetworkService.webListEmotions(getActivity());
+            } else if (modelAllEmotions == null) {
+                try {
+                    JSONObject emotionJsonObj = new JSONObject(emotionJson);
+                    modelAllEmotions = GsonUtils.getInstance().gsonToMListAllEmotionsI(emotionJsonObj);
+
+                } catch (JSONException je) {
+                    je.printStackTrace();
+                }
+
+            }
+
+            if (positiveEmotionJson == null) {
+                NetworkService.webListPositiveEmotions(getActivity());
+            } else if (NetworkService.modelListPosEmotions == null) {
+                try {
+                    JSONObject posEmotionJsonObj = new JSONObject(positiveEmotionJson);
+                    NetworkService.modelListPosEmotions =
+                            GsonUtils.getInstance().gsonToMListPositiveEmotions(posEmotionJsonObj);
+                } catch (JSONException je) {
+                    je.printStackTrace();
+                }
+            }
+
+            if (negativeEmotionJson == null) {
+                NetworkService.webListNegativeEmotions(getActivity());
+            } else if (NetworkService.modelListNegEmotions == null) {
+                try {
+                    JSONObject neativeEmotionJsonObj = new JSONObject(negativeEmotionJson);
+                    NetworkService.modelListNegEmotions =
+                            GsonUtils.getInstance().gsonToMListNegativeEmotions(neativeEmotionJsonObj);
+                } catch (JSONException je) {
+                    je.printStackTrace();
+                }
+            }
+        }
+    }
+
     @Subscribe
     public abstract void onNotifyEvent(NotifyEvent event);
 
-   public abstract void onSetValues(View view) throws Exception;
+    public abstract void onSetValues(View view) throws Exception;
 
     @Override
     public void onDestroy() {
@@ -144,12 +201,12 @@ public abstract class BaseFragment extends Fragment {
     }
     public Boolean isValidAlert(Object object, String error) {
         return object != null;
-      //  setAlertInWhiteBox("",error,"OK");
+        //  setAlertInWhiteBox("",error,"OK");
 
     }
     public Boolean isValidAlert(List list, String error) {
         if (list != null) return list.size() > 0;
-       // setAlertInWhiteBox("",error,"OK");
+        // setAlertInWhiteBox("",error,"OK");
         return false;
 
     }
@@ -168,7 +225,7 @@ public abstract class BaseFragment extends Fragment {
       }*/
     public Boolean isValid(EditText text, String error) {
         if (text != null) return isValid(text.getText() + "");
-      //  setAlertInWhiteBox("",error,"OK");
+        //  setAlertInWhiteBox("",error,"OK");
         // text.setError(error + "");
 
         return false;
@@ -184,14 +241,14 @@ public abstract class BaseFragment extends Fragment {
     }
     public Boolean isValidPlusWarning(EditText text, String error) {
         if (text != null) return isValid(text.getText() + "");
-      //  setAlertStatusMessage("Warning!",error,"Ok");
+        //  setAlertStatusMessage("Warning!",error,"Ok");
         return false;
 
     }
 
     public Boolean isValid(String text, String error) {
         if (text != null) return !text.trim().equalsIgnoreCase("");
-       // ToastHandler.newInstance(getActivity()).mustShowToast("" + error);
+        // ToastHandler.newInstance(getActivity()).mustShowToast("" + error);
         return false;
 
     }
@@ -205,7 +262,7 @@ public abstract class BaseFragment extends Fragment {
 
     public Boolean isValid(List list, String error) {
         if (list != null) return list.size() > 0;
-      //  setAlertStatusMessage("Warning", error,"Ok");
+        //  setAlertStatusMessage("Warning", error,"Ok");
         // ToastHandler.newInstance(getActivity()).mustShowToast(""+error);
         return false;
 
@@ -644,7 +701,7 @@ public abstract class BaseFragment extends Fragment {
             userlist=new ArrayList<MUser>();
 
             if(isValid(mUser))
-            userlist.add(mUser);
+                userlist.add(mUser);
 
             if(isValid(mPacifyer))
                 userlist.add(mPacifyer);
@@ -838,7 +895,7 @@ public abstract class BaseFragment extends Fragment {
 //////////////////////////////////////////////
 
     public void clearServices() {
-     //   clearLayerDatas();
+        //   clearLayerDatas();
       /*  NetworkService.mAllUsersRoot = null;
         NetworkService.mAllUsersRootPaged = null;
         NetworkService.mhangoutLive = null;*/
@@ -907,7 +964,7 @@ public abstract class BaseFragment extends Fragment {
     public void customerconnectedSessionWeb( String sessionid) {
         try {
             ToastHandler.newInstance(getApplicationContext()).showToast("connectedSessionWeb");
-        //    PacifyrActivity.call_session_detail_root=null;
+            //    PacifyrActivity.call_session_detail_root=null;
             LogUtils.LOGD("call", "connectedSessionWeb getAccessToken() "+getAccessToken());
             if (!isValid(sessionid,"error Session id "+sessionid))
                 return;
@@ -919,13 +976,13 @@ public abstract class BaseFragment extends Fragment {
                 public void callback(String url, JSONObject json, AjaxStatus status) {
                     CallActivity.isConnected=true;
                     if (json == null) {
-                       ToastHandler.newInstance(getApplicationContext()).showToast("Please Try again");
+                        ToastHandler.newInstance(getApplicationContext()).showToast("Please Try again");
                         LogUtils.LOGD("call", "connectedSessionWeb json null ");
                     } else {
                         if (json != null) try {
 
                             LogUtils.LOGD("call", "connectedSessionWeb json  " + json);
-                         //   PacifyrActivity.call_session_detail_root= GsonUtils.getInstance().gsonToMConnectSessionRoot(json);
+                            //   PacifyrActivity.call_session_detail_root= GsonUtils.getInstance().gsonToMConnectSessionRoot(json);
                             LogUtils.LOGD("call", "connectedSessionWeb json  " + json);
                         } catch (Exception e){
                             ToastHandler.newInstance(getApplicationContext()).showToast("Please Try again");
@@ -943,11 +1000,12 @@ public abstract class BaseFragment extends Fragment {
             input.putOpt("id", sessionid);
             aq.post(GLOBAL_URL + "session/connected", input, JSONObject.class, cb);
         } catch (Exception e){
-          //  PacifyrActivity. call_session_detail_root=null;
+            //  PacifyrActivity. call_session_detail_root=null;
             LogUtils.LOGD("call", "connectedSessionWeb end exception : " + e.getMessage());
         }
     }
-     /**
+
+    /**
      * Shared Preference
      */
 
@@ -1315,23 +1373,23 @@ public abstract class BaseFragment extends Fragment {
             return;
         }
 
-            //View.OnClickListener oklistner
-            View view = LayoutInflater.from(getActivity() ).inflate(R.layout.alert_ok_card_incomming_pacifyr_call, null, false);
+        //View.OnClickListener oklistner
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.alert_ok_card_incomming_pacifyr_call, null, false);
         MainTextView title_dtxv = view.findViewById(R.id.title_dtxv);
         MainTextView desc_dtxv = view.findViewById(R.id.desc_dtxv);
         MainTextView ok_dtxv = view.findViewById(R.id.ok_dtxv);
 
-            if(isValid(title))
-                defSetText(title_dtxv,title);
-            else
-                title_dtxv.setVisibility(View.GONE);
-            defSetText(desc_dtxv,desc);
-            ok_dtxv.setText(ok);
-            hideStatus();
-            hud_status = KProgressHUD.create(getActivity() ).setStyle(KProgressHUD.Style.SPIN_INDETERMINATE).setCustomView(view).setWindowColor(this.getResources().getColor(com.pacifyrapp.utilitylibrary.R.color.transparent)).setCancellable(false).setAnimationSpeed(2).setDimAmount(0.5f);
-            showStatus();
+        if (isValid(title))
+            defSetText(title_dtxv, title);
+        else
+            title_dtxv.setVisibility(View.GONE);
+        defSetText(desc_dtxv, desc);
+        ok_dtxv.setText(ok);
+        hideStatus();
+        hud_status = KProgressHUD.create(getActivity()).setStyle(KProgressHUD.Style.SPIN_INDETERMINATE).setCustomView(view).setWindowColor(this.getResources().getColor(com.pacifyrapp.utilitylibrary.R.color.transparent)).setCancellable(false).setAnimationSpeed(2).setDimAmount(0.5f);
+        showStatus();
 
-            ok_dtxv.setOnClickListener(listener);
+        ok_dtxv.setOnClickListener(listener);
 
     }
 

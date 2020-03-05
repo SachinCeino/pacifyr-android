@@ -6,6 +6,7 @@ import android.content.res.Resources;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
@@ -22,21 +23,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.pacifyr.client.base.PacifyrActivity;
-import com.pacifyrapp.utilitylibrary.CustomEditText;
-import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
-import com.pacifyrapp.utilitylibrary.ToastHandler;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.MEmotion;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.MSessionDetailRoot;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.MSessionRating;
 import com.eralp.circleprogressview.CircleProgressView;
 import com.google.gson.Gson;
 import com.jesusm.holocircleseekbar.lib.HoloCircleSeekBar;
 import com.pacifyr.client.R;
 import com.pacifyr.client.adapter.CommentsAdapter;
 import com.pacifyr.client.adapter.EmotionsListAdapter;
+import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.AlertTypeEvent;
+import com.pacifyr.client.event.EventLoadEmotion;
 import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.model.MComments;
 import com.pacifyr.client.model.interfaces.CommentClick;
@@ -48,6 +44,13 @@ import com.pacifyr.client.utility.PacifyrAppCompactActivity;
 import com.pacifyr.client.utils.LogUtils;
 import com.pacifyr.client.utils.Utility;
 import com.pacifyr.client.utils.WrappingSlidingPaneLayout;
+import com.pacifyrapp.utilitylibrary.CustomEditText;
+import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
+import com.pacifyrapp.utilitylibrary.ToastHandler;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.MEmotion;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.MSessionDetailRoot;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.MSessionRating;
+import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
 import com.willy.ratingbar.BaseRatingBar;
@@ -60,10 +63,10 @@ import java.util.ArrayList;
 import app.minimize.com.seek_bar_compat.SeekBarCompat;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_IMAGE_URL;
 import static com.pacifyr.client.network.NetworkService.GLOBAL_URL;
 import static com.pacifyr.client.network.NetworkService.modelAllEmotions;
 import static com.pacifyr.client.network.NetworkService.modelListPosEmotions;
+import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_IMAGE_URL;
 
 /**
  * Created by Mani-Ceino on 12/14/2017.
@@ -71,6 +74,7 @@ import static com.pacifyr.client.network.NetworkService.modelListPosEmotions;
 
 public class SessionSummaryActivity extends PacifyrAppCompactActivity {
 
+    private static final String TAG = SessionSummaryActivity.class.getSimpleName();
     private static boolean isEditable;
     boolean showingFirst = true;
     //EditableSeekBar esbExample;
@@ -129,8 +133,9 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
 
     private RelativeLayout notes_Layout;
     private CustomEditText etv_notes;
+    private String mSessionId;
 
-    public static void start(Context context, boolean isAudioCall) {
+    /*public static void start(Context context, boolean isAudioCall) {
         Intent intent = new Intent(context, SessionSummaryActivity.class);
         //
         // intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -138,7 +143,7 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
         //  intent.putExtra(Consts.EXTRA_IS_STARTED_FOR_CALL, isRunForCall);
         SessionSummaryActivity.isAudioCall = isAudioCall;
         isEditable = true;
-       /* try {
+       *//* try {
             Activity activity = null;
             activity = ((AppChatNotUSe) AppChatNotUSe.getInstance()).getCurrentActivity();
             if(isValidStatic(activity))
@@ -147,26 +152,26 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
                 }
         } catch (Exception e) {
             e.printStackTrace();
-        }*/
+        }*//*
 //
 
 
         context.startActivity(intent);
-    }
+    }*/
 
     public static Boolean isValidStatic(Object object) {
         return object != null;
 
     }
 
-    public static void start(Context context) {
+    /*public static void start(Context context) {
         Intent intent = new Intent(context, SessionSummaryActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         // intent.putExtra(Consts.EXTRA_IS_STARTED_FOR_CALL, isRunForCall);
         SessionSummaryActivity.isAudioCall = true;
         isEditable = true;
 
-       /* try {
+       *//* try {
             Activity activity = null;
             activity = ((AppChatNotUSe) AppChatNotUSe.getInstance()).getCurrentActivity();
             if(isValidStatic(activity))
@@ -177,11 +182,15 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
                 }
         } catch (Exception e) {
             e.printStackTrace();
-        }*/
+        }*//*
         context.startActivity(intent);
     }
-
+*/
     public static void start(Context context, String sId) {
+        if (!isValidStatic(sId)) {
+            Log.e(TAG, "Invalid session Id. Cannot start session summary activity");
+            return;
+        }
         Intent intent = new Intent(context, SessionSummaryActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         isEditable = false;
@@ -261,13 +270,13 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
         }
         isCustomer = isCustomer();
         if (isValid(getIntent().getExtras().getString("id"))) {
-            String id = getIntent().getExtras().getString("id") + "";
-            if (isValid(id)) {
-                sessionid = id;
+            mSessionId = getIntent().getExtras().getString("id") + "";
+            if (isValid(mSessionId)) {
+                sessionid = mSessionId;
             }
         }
 
-        if (!isValid(sessionid, "Session id null "))
+        if (!isValid(mSessionId, "Session id null "))
             handlerFinish("Network Interrupted");
 
         // webListEmotions(SessionSummaryActivity.this);
@@ -275,8 +284,8 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
         NetworkService.webListPositiveEmotions(this);
         NetworkService.webListNegativeEmotions(this);
         onCreateView();
-        if (isValid(sessionid)) {
-            webGetSessionDetail(sessionid);
+        if (isValid(mSessionId)) {
+            webGetSessionDetail(mSessionId);
             getPrefManager().saveSessionId(null);
         } else
             handlerFinish("Network Interrupted");
@@ -631,13 +640,29 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
         }
     }
 
+    @Override
+    public void onNotifyEvent(NotifyEvent event) {
+
+    }
+
     public int getEmotionList() {
         int i = -1;
         try {
 
+            String emotionJson =
+                    PrefManager.getInstance(SessionSummaryActivity.this).getSharedString(PrefManager.JSON_ALL_EMOTIONS
+                            , null);
+
             if (isValid(modelAllEmotions)) {
                 emotions = modelAllEmotions.getResultsList();
                 i = emotions.size();
+            } else if (emotionJson != null) {
+                JSONObject emJsonObject = new JSONObject(emotionJson);
+                modelAllEmotions = GsonUtils.getInstance().gsonToMListAllEmotionsI(emJsonObject);
+                if (modelAllEmotions != null) {
+                    emotions = modelAllEmotions.getResultsList();
+                    i = emotions.size();
+                }
             }
         } catch (Exception e) {
             i = -1;
@@ -824,6 +849,7 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
 
                         // finish();
                     } catch (Exception e) {
+                        e.printStackTrace();
                         LogUtils.LOGD("session", "SSA savePacifyerSession  callback  exce " + e.getMessage());
                     }
                 }
@@ -844,6 +870,7 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
 
 
         } catch (Exception e) {
+            e.printStackTrace();
             LogUtils.LOGD("session", "SSA savePacifyerSession  exce " + e.getMessage());
         }
 
@@ -981,13 +1008,13 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
             rightLlay.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    saveSession(sessionid);
+                    saveSession(mSessionId);
                 }
             });
             submit_ctxv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    saveSession(sessionid);
+                    saveSession(mSessionId);
                 }
             });
 
@@ -1014,9 +1041,9 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
 
 
     @Subscribe
-    public void onNotifyEvent(NotifyEvent event) {
+    public void onEventLoadEmotion(EventLoadEmotion event) {
         try {
-            if (event.isSuccess) {
+            if (event.isLoaded()) {
                 setAdapter();
             }
         /*    if (isValid(modelAllEmotions)) {

@@ -12,7 +12,17 @@ import android.widget.Toast;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
+import com.google.gson.JsonObject;
+import com.koushikdutta.ion.Ion;
+import com.pacifyr.client.R;
 import com.pacifyr.client.base.PacifyrActivity;
+import com.pacifyr.client.event.BusProvider;
+import com.pacifyr.client.event.EventLoadEmotion;
+import com.pacifyr.client.event.NotifyEvent;
+import com.pacifyr.client.model.ItemData;
+import com.pacifyr.client.model.MCustomerList;
+import com.pacifyr.client.utility.EventMessage;
+import com.pacifyr.client.utils.LogUtils;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.LoginModel;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MAdminDashboardByWeek;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MAdminDashboardMonth;
@@ -48,15 +58,6 @@ import com.pacifyrapp.utilitylibrary.model.pacifyr.post.PostRatePacifyrSession;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.post.PostStopSessionWithPacifyr;
 import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
-import com.google.gson.JsonObject;
-import com.koushikdutta.ion.Ion;
-import com.pacifyr.client.R;
-import com.pacifyr.client.event.BusProvider;
-import com.pacifyr.client.event.NotifyEvent;
-import com.pacifyr.client.model.ItemData;
-import com.pacifyr.client.model.MCustomerList;
-import com.pacifyr.client.utility.EventMessage;
-import com.pacifyr.client.utils.LogUtils;
 import com.quickblox.core.QBEntityCallback;
 import com.quickblox.core.exception.QBResponseException;
 import com.quickblox.core.helper.StringifyArrayList;
@@ -475,8 +476,13 @@ public class NetworkService  extends IntentService {
                 try {
                     modelListPosEmotions= GsonUtils.getInstance().gsonToMListPositiveEmotions(json);
                     //EventBus.getDefault().post(new EventMessage(getString(R.string.list_positive_emotions)));
-                    postEventOnMainThread(new NotifyEvent(true, false));//succes,notpaged
+                    if (json != null && modelListPosEmotions != null && modelListPosEmotions.getResults() != null
+                            && modelListPosEmotions.getResults().length > 0) {
+                        prefM.putSharedString(PrefManager.JSON_POSITIVE_EMOTIONS, json.toString());
+                    }
+                    postEventOnMainThread(new EventLoadEmotion(true));
                 } catch (Exception e) {
+                    postEventOnMainThread(new EventLoadEmotion(false));
                     e.printStackTrace();
                 }
             }
@@ -498,9 +504,13 @@ public class NetworkService  extends IntentService {
             public void callback(String url, JSONObject json, AjaxStatus status) {
                 try {
                     modelListNegEmotions= GsonUtils.getInstance().gsonToMListNegativeEmotions(json);
-                    postEventOnMainThread(new NotifyEvent(true, false));//succes,notpaged
-                    //EventBus.getDefault().post(new EventMessage(getString(R.string.list_negative_emotions)));
+                    if (json != null && modelListNegEmotions != null && modelListNegEmotions.getResults() != null
+                            && modelListNegEmotions.getResults().length > 0) {
+                        prefM.putSharedString(PrefManager.JSON_NEGATIVE_EMOTIONS, json.toString());
+                    }
+                    postEventOnMainThread(new EventLoadEmotion(true));
                 } catch (Exception e) {
+                    postEventOnMainThread(new EventLoadEmotion(false));
                     e.printStackTrace();
                 }
             }
@@ -545,6 +555,10 @@ public class NetworkService  extends IntentService {
                 try {
                     modelAllEmotions= GsonUtils.getInstance().gsonToMListAllEmotionsI(json);
                     postEventOnMainThread(new NotifyEvent(true, false));
+                    if (json != null && modelAllEmotions != null && modelAllEmotions.getResults() != null
+                            && modelAllEmotions.getResults().length > 0) {
+                        prefM.putSharedString(PrefManager.JSON_ALL_EMOTIONS, json.toString());
+                    }
                     //EventBus.getDefault().post(new EventMessage(getString(R.string.list_emotions)));
                 } catch (Exception e) {
                     e.printStackTrace();

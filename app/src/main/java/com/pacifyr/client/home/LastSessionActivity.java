@@ -24,12 +24,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.pacifyrapp.utilitylibrary.CustomEditText;
-import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
-import com.pacifyrapp.utilitylibrary.ToastHandler;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.MEmotion;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.MSessionDetailRoot;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.MSessionRating;
 import com.eralp.circleprogressview.CircleProgressView;
 import com.google.gson.Gson;
 import com.jesusm.holocircleseekbar.lib.HoloCircleSeekBar;
@@ -38,6 +32,7 @@ import com.pacifyr.client.adapter.CommentsAdapter;
 import com.pacifyr.client.adapter.EmotionsListAdapter;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.AlertTypeEvent;
+import com.pacifyr.client.event.EventLoadEmotion;
 import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.model.MComments;
 import com.pacifyr.client.model.interfaces.CommentClick;
@@ -48,6 +43,13 @@ import com.pacifyr.client.utility.PacifyrAppCompactActivity;
 import com.pacifyr.client.utils.LogUtils;
 import com.pacifyr.client.utils.Utility;
 import com.pacifyr.client.utils.WrappingSlidingPaneLayout;
+import com.pacifyrapp.utilitylibrary.CustomEditText;
+import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
+import com.pacifyrapp.utilitylibrary.ToastHandler;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.MEmotion;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.MSessionDetailRoot;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.MSessionRating;
+import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
 import com.willy.ratingbar.BaseRatingBar;
@@ -60,9 +62,9 @@ import java.util.ArrayList;
 import app.minimize.com.seek_bar_compat.SeekBarCompat;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_IMAGE_URL;
 import static com.pacifyr.client.network.NetworkService.GLOBAL_URL;
 import static com.pacifyr.client.network.NetworkService.modelAllEmotions;
+import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_IMAGE_URL;
 
 /**
  * Created by Mani-Ceino on 12/22/2017.
@@ -134,13 +136,14 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
 
     private ImageButton img_notes;
     private boolean editable = true;
+    private String mSessionId;
 
-    public static void start(Context context, boolean isAudioCall) {
+    /*public static void start(Context context, boolean isAudioCall) {
         Intent intent = new Intent(context, LastSessionActivity.class);
         //  intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         //  intent.putExtra(Consts.EXTRA_IS_STARTED_FOR_CALL, isRunForCall);
         LastSessionActivity.isAudioCall = isAudioCall;
-      /*  try {
+      *//*  try {
             Activity activity = null;
             activity = ((AppChatNotUSe) AppChatNotUSe.getInstance()).getCurrentActivity();
             if(isValidStatic(activity))
@@ -149,25 +152,25 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
                 }
         } catch (Exception e) {
             e.printStackTrace();
-        }*/
+        }*//*
 
 
         context.startActivity(intent);
-    }
+    }*/
 
     public static Boolean isValidStatic(Object object) {
         return object != null;
 
     }
 
-    public static void start(Context context) {
+    /*public static void start(Context context) {
         Intent intent = new Intent(context, LastSessionActivity.class);
         //  intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         // intent.putExtra(Consts.EXTRA_IS_STARTED_FOR_CALL, isRunForCall);
         LastSessionActivity.isAudioCall = true;
 
 
-       /* try {
+       *//* try {
             Activity activity = null;
             activity = ((AppChatNotUSe) AppChatNotUSe.getInstance()).getCurrentActivity();
             if(isValidStatic(activity))
@@ -178,11 +181,11 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
                 }
         } catch (Exception e) {
             e.printStackTrace();
-        }*/
+        }*//*
         context.startActivity(intent);
-    }
+    }*/
 
-    public static void start(Context context, String sessionID) {
+    /*public static void start(Context context, String sessionID) {
         Intent intent = new Intent(context, LastSessionActivity.class);
         //  intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         // intent.putExtra(Consts.EXTRA_IS_STARTED_FOR_CALL, isRunForCall);
@@ -190,7 +193,7 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
         LastSessionActivity.isAudioCall = true;
         mysessions = true;
         sessionid = sessionID;
-       /* try {
+       *//* try {
             Activity activity = null;
             activity = ((AppChatNotUSe) AppChatNotUSe.getInstance()).getCurrentActivity();
             if(isValidStatic(activity))
@@ -201,12 +204,16 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
                 }
         } catch (Exception e) {
             e.printStackTrace();
-        }*/
+        }*//*
         context.startActivity(intent);
-    }
+    }*/
 
 
     public static void start(Context context, String sessionID, boolean editable) {
+        if (!isValidStatic(sessionID)) {
+            Log.e(TAG, "Invalid session Id. Cannot start session summary activity");
+            return;
+        }
         Intent intent = new Intent(context, LastSessionActivity.class);
         //  intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         // intent.putExtra(Consts.EXTRA_IS_STARTED_FOR_CALL, isRunForCall);
@@ -247,6 +254,7 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
             sessionid = lastSession.getId();}*/
 
         if (isValid(getIntent().getExtras().getString("id"))) {
+            mSessionId = getIntent().getExtras().getString("id") + "";
             sessionid = getIntent().getExtras().getString("id") + "";
         }
 
@@ -254,15 +262,18 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
             editable = getIntent().getExtras().getBoolean("editable");
         }
         ratingId = null;
-        LogUtils.LOGD("session", " LSa onCreate sessionid " + sessionid);
-        if (!isValid(sessionid, "Please check later")) {
-            LogUtils.LOGD("session", " LSa onCreate sessionid not valid  " + sessionid);
+        LogUtils.LOGD("session", " LSa onCreate sessionid " + mSessionId);
+        if (!isValid(mSessionId, "Please check later")) {
+            LogUtils.LOGD("session", " LSa onCreate sessionid not valid  " + mSessionId);
             //  handlerFinish("Error in last session ");
             handlerFinish("Data not updated in last session ");
 
         }
-        LogUtils.LOGD("session", " LSa onCreate sessionid " + sessionid);
+        LogUtils.LOGD("session", " LSa onCreate sessionid " + mSessionId);
         setContentView(R.layout.activity_last_session);
+
+        NetworkService.webListPositiveEmotions(this);
+        NetworkService.webListNegativeEmotions(this);
 
         if (!isCustomer() && !isPacifyer()) {
             ToastHandler.newInstance(this).mustShowToast("Session Expired : Please login again");
@@ -274,7 +285,7 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
 
         // webListEmotions(LastSessionActivity.this);
         onCreateView();
-        if (isValid(sessionid)) webGetSessionDetail(sessionid);
+        if (isValid(mSessionId)) webGetSessionDetail(mSessionId);
         else {
             handlerFinish("Data not updated in last session ");
             // finish();
@@ -779,13 +790,27 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
         }
     }
 
+    @Override
+    public void onNotifyEvent(NotifyEvent event) {
+
+    }
+
     public int getEmotionList() {
         int i = -1;
         try {
 
+            String emotionJson =
+                    PrefManager.getInstance(LastSessionActivity.this).getSharedString(PrefManager.JSON_ALL_EMOTIONS, null);
             if (isValid(modelAllEmotions)) {
                 emotions = modelAllEmotions.getResultsList();
                 i = emotions.size();
+            } else if (emotionJson != null) {
+                JSONObject emJsonObject = new JSONObject(emotionJson);
+                modelAllEmotions = GsonUtils.getInstance().gsonToMListAllEmotionsI(emJsonObject);
+                if (modelAllEmotions != null) {
+                    emotions = modelAllEmotions.getResultsList();
+                    i = emotions.size();
+                }
             }
         } catch (Exception e) {
             i = -1;
@@ -878,7 +903,7 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
             mSessionRating.setId(ratingId);
 
         mSessionRating.setUserId(getUserID());
-        mSessionRating.setSessionId(sessionid);
+        mSessionRating.setSessionId(mSessionId);
         mSessionRating.setEffectiveness(effectiveness + "");
         if (isCustomer)
             mSessionRating.setRating(rating + "");
@@ -922,7 +947,7 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
 
             if (!isValid(getAccessToken(), "Token Invalid , Please Re-Login"))
                 return;
-            if (!isValid(sessionid, "Session Error , Please Re-Login "))
+            if (!isValid(mSessionId, "Session Error , Please Re-Login "))
                 return;
             if (!isValid(getUserID(), "User Session Failed, Please Re-Login"))
                 return;
@@ -1213,11 +1238,11 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
 
 
     @Subscribe
-    public void onNotifyEvent(NotifyEvent event) {
+    public void onEvent(EventLoadEmotion event) {
         try {
-           /* if(event.isSuccess) {
+            if (event.isLoaded()) {
                 setAdapter();
-            }*/
+            }
 
         } catch (Exception e) {
             LogUtils.LOGD("session", "SSA onNotifyEvent exce " + e.getMessage());

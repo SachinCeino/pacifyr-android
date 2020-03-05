@@ -11,18 +11,17 @@ import android.widget.LinearLayout;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.kaopiz.kprogresshud.KProgressHUD;
+import com.pacifyr.client.R;
 import com.pacifyr.client.customview.MainTextView;
+import com.pacifyr.client.event.ChatEvent;
+import com.pacifyr.client.home.PacifyrDashboardActivity;
+import com.pacifyr.client.utils.Utility;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MEmotion;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MSessionDetailRoot;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MSessionRating;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
-import com.kaopiz.kprogresshud.KProgressHUD;
-import com.pacifyr.client.R;
-import com.pacifyr.client.event.ChatEvent;
-import com.pacifyr.client.home.LastSessionActivity;
-import com.pacifyr.client.home.PacifyrDashboardActivity;
-import com.pacifyr.client.utils.Utility;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -243,7 +242,7 @@ public class PacifyrSessionAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 public void onClick(View v) {
                     try {
                         String sessionID = results.getId();
-                        LastSessionActivity.start(context,sessionID);
+//                        LastSessionActivity.start(context,sessionID);
                     }
                     catch (Exception ex)
                     {
