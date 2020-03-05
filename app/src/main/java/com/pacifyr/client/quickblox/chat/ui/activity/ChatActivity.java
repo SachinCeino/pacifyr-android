@@ -171,16 +171,23 @@ public class ChatActivity extends PacifyrAppCompactActivity implements ImagePick
         qbChatDialog = (QBChatDialog) getIntent().getSerializableExtra(EXTRA_DIALOG_ID);
 
         LogUtils.LOGD("jp",  "deserialized dialog = " + qbChatDialog);
-        qbChatDialog.initForChat(QBChatService.getInstance());
 
-        chatMessageListener = new ChatMessageListener();
+        if (isValid(qbChatDialog))
+        {
+            qbChatDialog.initForChat(QBChatService.getInstance());
 
-        qbChatDialog.addMessageListener(chatMessageListener);
+            chatMessageListener = new ChatMessageListener();
 
-        initChatConnectionListener();
+            qbChatDialog.addMessageListener(chatMessageListener);
 
-        initViews();
-        initChat();
+            initChatConnectionListener();
+
+            initViews();
+            initChat();
+        }
+        else {
+            finish();
+        }
     }
 
     @Override

@@ -563,12 +563,11 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
         leftLlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(showingFirst == true){
-                    mSlidingPaneLayout.openPane();
-                    showingFirst = false;
-                }else{
+                if(mSlidingPaneLayout.isOpen()){
                     mSlidingPaneLayout.closePane();
-                    showingFirst = true;
+
+                }else{
+                    mSlidingPaneLayout.openPane();
                 }
             }
         });
