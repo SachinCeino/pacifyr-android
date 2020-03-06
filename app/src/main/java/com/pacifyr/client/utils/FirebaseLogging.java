@@ -5,9 +5,10 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 
-import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 
 /**
  * Created by Sachin Thampan on 28/10/19.
@@ -35,13 +36,15 @@ public class FirebaseLogging {
     public static final String EVENT_CLIENT_PAYMENT_DONE = "client_done_payment";
     public static final String EVENT_CLIENT_PAYMENT_FAILED = "client_payment_failed";
     public static final String EVENT_COUNCELOR_SESSION_STARTED = "councelor_session_started";
+    private static String TAG = FirebaseLogging.class.getSimpleName();
 
 
     public static Bundle getConstantArgsLoggedIn(Context context) {
         String userId = PrefManager.getInstance(context).getUserID();
         String userName = PrefManager.getInstance(context).getUserName();
         if (userId == null || userId.isEmpty()) {
-            throw new RuntimeException("Not logged in. Cannot get userId");
+            Log.e(TAG, "UserId not found cannot add logs");
+            return null;
         }
         Bundle args = new Bundle();
         args.putString("device", "Android");
@@ -83,6 +86,9 @@ public class FirebaseLogging {
     }
 
     public static void sendLog(Context context, String event, Bundle args) {
+        if (args == null) {
+            return;
+        }
         FirebaseAnalytics analytics = FirebaseAnalytics.getInstance(context);
         analytics.logEvent(event, args);
     }
