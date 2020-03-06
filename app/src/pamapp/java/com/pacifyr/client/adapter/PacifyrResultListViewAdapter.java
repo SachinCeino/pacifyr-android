@@ -160,8 +160,11 @@ public class PacifyrResultListViewAdapter extends RecyclerView.Adapter<PacifyrRe
                 if (isValid(namePacifyr)) {
                     holder.pacifyr_name.setText(namePacifyr);
                 }
-                if (isValid(namePacifyr)) {
+                if (isValid(pacifyer.getPrice())) {
+                    if (!price.equals("0"))
                     holder.pacifyr_Price.setText(pacifyer.getPriceWithSign());
+                    else
+                    holder.pacifyr_Price.setVisibility(View.GONE);
                 }
                 if (isValidhtml(imgURL))
                     Picasso.with(context).load(imgURL).placeholder(R.drawable.placeholder_user).into(holder.pacifyrImage);

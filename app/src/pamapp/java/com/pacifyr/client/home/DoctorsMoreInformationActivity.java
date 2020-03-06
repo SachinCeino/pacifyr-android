@@ -42,6 +42,7 @@ import org.json.JSONObject;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static android.view.View.GONE;
 import static com.pacifyr.client.network.NetworkService.GLOBAL_IMAGE_URL;
 import static com.pacifyr.client.network.NetworkService.GLOBAL_URL;
 
@@ -242,8 +243,14 @@ public class DoctorsMoreInformationActivity extends PacifyrAppCompactActivity im
         else
             pacifyr_webisite.setText("Not Avaialbe");
 
-        if (isValid(pacifyerObject.getPriceWithSign()))
-            pacifyr_prices.setText(pacifyerObject.getPriceWithSign());
+        if (isValid(pacifyerObject.getPrice()))
+        {
+            if (!pacifyerObject.getPrice().equals("0"))
+                pacifyr_prices.setText(pacifyerObject.getPriceWithSign());
+            else
+                pacifyr_prices.setVisibility(GONE);
+        }
+
         if (isValid(pacifyerObject.getEducation())) {
             StringBuffer buffer = new StringBuffer();
 
@@ -306,8 +313,11 @@ public class DoctorsMoreInformationActivity extends PacifyrAppCompactActivity im
             pacifyr_language_spoken.setText("Not Avaialbe");
         }
 
-        if (isValid(pacifyerObject.getPriceWithSign()))
+        if (isValid(pacifyerObject.getPrice()))
+            if (!pacifyerObject.getPrice().equals("0"))
             pacifyr_price_booking.setText(pacifyerObject.getPriceWithSign());
+            else
+                pacifyr_price_booking.setVisibility(GONE);
 
         if (isValid(pacifyerObject.getGender()))
             pacifyr_sex.setText(pacifyerObject.getGender());

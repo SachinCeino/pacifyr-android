@@ -210,17 +210,23 @@ public class SwipeDeckConnectPacifyrAdapter extends BaseAdapter {
                 if (customerRole.equals("employee")) {
                     if (!searchResults.get(position).isSessionChargeable()) {
                         // ((TextView) v.findViewById(R.id.price_dollar)).setText("Employer Designated Pacifyr");
-                        ((TextView) v.findViewById(R.id.price_dollar)).setText("");
+                        ((TextView) v.findViewById(R.id.price_dollar)).setVisibility(View.GONE);
                         /*((TextView) v.findViewById(R.id.perhour_ctxv)).setVisibility(View.GONE);*/
                     } else {
+                        if (!price.equals("0"))
                         ((TextView) v.findViewById(R.id.price_dollar)).setText(Utility.getPriceSign(context) + " " + price + " per hour");
+                        else
+                            ((TextView) v.findViewById(R.id.price_dollar)).setVisibility(View.GONE);
                     }
                 } else if (customerRole.equals("customer") || customerRole.equals("unpaidEmployee")) {
+                    if (!price.equals("0"))
                     ((TextView) v.findViewById(R.id.price_dollar)).setText(Utility.getPriceSign(context) + " " + price + " per hour");
+                    else
+                    ((TextView) v.findViewById(R.id.price_dollar)).setVisibility(View.GONE);
                     /*((TextView) v.findViewById(R.id.perhour_ctxv)).setVisibility(View.VISIBLE);*/
                 } else if (customerRole.equals("paidMember")) {
                     //((TextView) v.findViewById(R.id.price_dollar)).setText("Employer Designated Pacifyr");
-                    ((TextView) v.findViewById(R.id.price_dollar)).setText("");
+                    ((TextView) v.findViewById(R.id.price_dollar)).setVisibility(View.GONE);
                 }
 
                 chatSubsFun(position);
