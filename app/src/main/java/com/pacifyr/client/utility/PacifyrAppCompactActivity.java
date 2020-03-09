@@ -26,6 +26,7 @@ import androidx.appcompat.app.AlertDialog;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
+import com.pacifyr.client.quickblox.chat.utils.chat.ChatHelper;
 import com.pacifyrapp.utilitylibrary.ToastHandler;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MEmotion;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
@@ -56,11 +57,14 @@ import com.quickblox.auth.session.BaseService;
 import com.quickblox.auth.session.QBSession;
 import com.quickblox.auth.session.QBSettings;
 import com.quickblox.chat.QBChatService;
+import com.quickblox.chat.model.QBChatDialog;
 import com.quickblox.core.QBEntityCallback;
 import com.quickblox.core.exception.QBResponseException;
+import com.quickblox.sample.core.utils.SharedPrefsHelper;
 import com.quickblox.users.model.QBUser;
 import com.squareup.otto.Subscribe;
 
+import org.jivesoftware.smackx.muc.DiscussionHistory;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -75,6 +79,7 @@ import java.util.TimeZone;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
+import static com.pacifyr.client.quickblox.chat.ui.activity.ChatActivity.EXTRA_DIALOG_ID;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.ACCOUNT_KEY;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.APP_ID;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.AUTH_KEY;
@@ -1364,5 +1369,6 @@ public abstract class PacifyrAppCompactActivity  extends PacifyrActivity {
 
 
     }
+
 
 }

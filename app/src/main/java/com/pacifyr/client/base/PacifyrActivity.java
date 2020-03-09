@@ -541,7 +541,7 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
                 .build().show();
     }
 
-    void showProgressDialog(@StringRes int messageId) {
+    public void showProgressDialog(@StringRes int messageId) {
         if (progressDialog == null) {
             progressDialog = new ProgressDialog(this);
             progressDialog.setIndeterminate(true);
@@ -564,7 +564,7 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
 
     }
 
-    void hideProgressDialog() {
+    public void hideProgressDialog() {
         if (progressDialog != null) {
             progressDialog.dismiss();
         }

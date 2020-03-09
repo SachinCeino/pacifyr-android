@@ -9,8 +9,11 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.os.SystemClock;
 import android.provider.MediaStore;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,6 +23,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
@@ -42,6 +46,7 @@ import com.pacifyr.client.quickblox.chat.utils.qb.PaginationHistoryListener;
 import com.pacifyr.client.quickblox.chat.utils.qb.QbChatDialogMessageListenerImp;
 import com.pacifyr.client.quickblox.chat.utils.qb.QbDialogHolder;
 import com.pacifyr.client.quickblox.chat.utils.qb.QbDialogUtils;
+import com.pacifyr.client.quickblox.chat.utils.qb.QbUsersHolder;
 import com.pacifyr.client.quickblox.chat.utils.qb.VerboseQbChatConnectionListener;
 import com.pacifyr.client.utility.PacifyrAppCompactActivity;
 import com.pacifyr.client.utils.FirebaseLogging;
@@ -51,6 +56,7 @@ import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.quickblox.chat.QBChatService;
+import com.quickblox.chat.listeners.QBChatDialogTypingListener;
 import com.quickblox.chat.model.QBAttachment;
 import com.quickblox.chat.model.QBChatDialog;
 import com.quickblox.chat.model.QBChatMessage;
@@ -58,7 +64,9 @@ import com.quickblox.chat.model.QBDialogType;
 import com.quickblox.core.QBEntityCallback;
 import com.quickblox.core.exception.QBResponseException;
 import com.quickblox.sample.core.ui.dialog.ProgressDialogFragment;
+import com.quickblox.sample.core.utils.SharedPrefsHelper;
 import com.quickblox.sample.core.utils.Toaster;
+import com.quickblox.users.QBUsers;
 import com.quickblox.users.model.QBUser;
 import com.squareup.picasso.Picasso;
 
@@ -71,7 +79,10 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -110,6 +121,13 @@ public class ChatActivity extends PacifyrAppCompactActivity implements ImagePick
     private ImagePicker galImagePicker;
     private String outputPath;
     private View sendButton;
+
+    private static final long SEND_TYPING_STATUS_DELAY = 3000;
+    public static final long TYPING_STATUS_DELAY = 2000;
+    public static final long TYPING_STATUS_INACTIVITY_DELAY = 10000;
+    private QBUser currentUser;
+    private TextView typingStatus;
+
 
     public static void startForResult(Activity activity, int code, QBChatDialog dialogId,MUser mPaci) {
         mPacifyr=null;
@@ -164,13 +182,17 @@ public class ChatActivity extends PacifyrAppCompactActivity implements ImagePick
 
         showNotificationPopups(false);
         myUserId = PrefManager.getInstance(this).getUserID();
-
+        typingStatus = findViewById(R.id.tv_typing_status);
         LogUtils.LOGD("jp", "ChatActivity onCreate");
         LogUtils.LOGD("jp",  "onCreate ChatActivity on Thread ID = " + Thread.currentThread().getId());
 
         qbChatDialog = (QBChatDialog) getIntent().getSerializableExtra(EXTRA_DIALOG_ID);
 
-        LogUtils.LOGD("jp",  "deserialized dialog = " + qbChatDialog);
+        if (ChatHelper.getCurrentUser() != null) {
+            currentUser = ChatHelper.getCurrentUser();
+        } else {
+            finish();
+        }
 
         if (isValid(qbChatDialog))
         {
@@ -179,6 +201,7 @@ public class ChatActivity extends PacifyrAppCompactActivity implements ImagePick
             chatMessageListener = new ChatMessageListener();
 
             qbChatDialog.addMessageListener(chatMessageListener);
+            qbChatDialog.addIsTypingListener(new TypingStatusListener());
 
             initChatConnectionListener();
 
@@ -359,6 +382,11 @@ public class ChatActivity extends PacifyrAppCompactActivity implements ImagePick
 
     public void onSendChatClick(View view) {
         sendButton = view;
+        try {
+            qbChatDialog.sendStopTypingNotification();
+        } catch (XMPPException | SmackException.NotConnectedException e) {
+            e.printStackTrace();
+        }
         int totalAttachmentsCount = attachmentPreviewAdapter.getCount();
         Collection<QBAttachment> uploadedAttachments = attachmentPreviewAdapter.getUploadedAttachments();
         if (!uploadedAttachments.isEmpty()) {
@@ -428,6 +456,8 @@ public class ChatActivity extends PacifyrAppCompactActivity implements ImagePick
 
         messagesListView = _findViewById(R.id.list_chat_messages);
         messageEditText = _findViewById(R.id.edit_chat_message);
+        messageEditText.addTextChangedListener(new TextInputWatcher());
+
         progressBar = _findViewById(R.id.progress_chat);
         attachmentPreviewContainerLayout = _findViewById(R.id.layout_attachment_preview_container);
 
@@ -452,6 +482,47 @@ public class ChatActivity extends PacifyrAppCompactActivity implements ImagePick
         AttachmentPreviewAdapterView previewAdapterView = _findViewById(R.id.adapter_view_attachment_preview);
         previewAdapterView.setAdapter(attachmentPreviewAdapter);
     }
+
+
+    private class TextInputWatcher implements TextWatcher {
+        private Timer timer = new Timer();
+        private long lastSendTime = 0;
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            if (SystemClock.uptimeMillis() - lastSendTime > SEND_TYPING_STATUS_DELAY) {
+                lastSendTime = SystemClock.uptimeMillis();
+                try {
+                    qbChatDialog.sendIsTypingNotification();
+                } catch (XMPPException | SmackException.NotConnectedException e) {
+                    Log.d(TAG, e.getMessage());
+                }
+            }
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            timer.cancel();
+            timer = new Timer();
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    try {
+                        qbChatDialog.sendStopTypingNotification();
+                    } catch (XMPPException | SmackException.NotConnectedException e) {
+                        Log.d(TAG, e.getMessage());
+                    }
+                }
+            }, TYPING_STATUS_DELAY);
+        }
+    }
+
+
 
     public String getImagePath(Uri uri) {
         String[] projection = {MediaStore.Images.Media.DATA};
@@ -1026,4 +1097,183 @@ public class ChatActivity extends PacifyrAppCompactActivity implements ImagePick
         //super.onBackPressed();
         finish();
     }*/
+
+
+
+
+    private class TypingStatusListener implements QBChatDialogTypingListener {
+        private ArrayList<String> currentTypingUserNames = new ArrayList<>();
+        private HashMap<Integer, Timer> usersTimerMap = new HashMap<>();
+
+        @Override
+        public void processUserIsTyping(final String dialogID, final Integer userID) {
+            Integer currentUserID = currentUser.getId();
+            if (dialogID != null && dialogID.equals(qbChatDialog.getDialogId()) && userID != null && !userID.equals(currentUserID)) {
+                updateTypingInactivityTimer(dialogID, userID);
+                QBUser user = QbUsersHolder.getInstance().getUserById(userID);
+                if (user != null && user.getFullName() != null) {
+                    addUserToTypingList(user);
+                } else {
+                    Log.d(TAG, "Loading unknown typing user with ID: " + userID);
+                    QBUsers.getUser(userID).performAsync(new QBEntityCallback<QBUser>() {
+                        @Override
+                        public void onSuccess(QBUser qbUser, Bundle bundle) {
+                            Log.d(TAG, "User " + qbUser.getId() + " Loaded from Server");
+                            QbUsersHolder.getInstance().putUser(qbUser);
+                            addUserToTypingList(qbUser);
+                        }
+
+                        @Override
+                        public void onError(QBResponseException e) {
+                            Log.d(TAG, "Loading User Error: " + e.getMessage());
+                        }
+                    });
+                }
+            }
+        }
+
+        private void addUserToTypingList(QBUser user) {
+            String userName = TextUtils.isEmpty(user.getFullName())? user.getLogin() : user.getFullName();
+            if (!TextUtils.isEmpty(userName) && !currentTypingUserNames.contains(userName) && usersTimerMap.containsKey(user.getId())) {
+                currentTypingUserNames.add(userName);
+            }
+            typingStatus.setText(makeStringFromNames());
+            typingStatus.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        public void processUserStopTyping(String dialogID, Integer userID) {
+            Integer currentUserID = currentUser.getId();
+            if (dialogID != null && dialogID.equals(qbChatDialog.getDialogId()) && userID != null && !userID.equals(currentUserID)) {
+                stopInactivityTimer(userID);
+                QBUser user = QbUsersHolder.getInstance().getUserById(userID);
+                if (user != null && user.getFullName() != null) {
+                    removeUserFromTypingList(user);
+                }
+            }
+        }
+
+        private void removeUserFromTypingList(QBUser user) {
+            String userName = user.getFullName();
+            if (!TextUtils.isEmpty(userName)) {
+                currentTypingUserNames.remove(userName);
+            }
+            typingStatus.setText(makeStringFromNames());
+            if (TextUtils.isEmpty(makeStringFromNames())) {
+                typingStatus.setVisibility(View.GONE);
+            }
+        }
+
+        private void updateTypingInactivityTimer(final String dialogID, final Integer userID) {
+            stopInactivityTimer(userID);
+            Timer timer = new Timer();
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    Log.d("Typing Status", "User with ID " + userID + " Did not refresh typing status. Processing stop typing");
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            processUserStopTyping(dialogID, userID);
+                        }
+                    });
+                }
+            }, TYPING_STATUS_INACTIVITY_DELAY);
+            usersTimerMap.put(userID, timer);
+        }
+
+        private void stopInactivityTimer(Integer userID) {
+            if (usersTimerMap.get(userID) != null) {
+                try {
+                    usersTimerMap.get(userID).cancel();
+                } catch (NullPointerException ignored) {
+
+                } finally {
+                    usersTimerMap.remove(userID);
+                }
+            }
+        }
+
+        private String makeStringFromNames() {
+            String result = "";
+            int usersCount = currentTypingUserNames.size();
+            if (usersCount == 1) {
+                String firstUser = currentTypingUserNames.get(0);
+
+                if (firstUser.length() <= 20) {
+                    result = firstUser + " " + getString(R.string.typing_postfix_singular);
+                } else {
+                    result = firstUser.subSequence(0, 19).toString() +
+                            getString(R.string.typing_ellipsis) +
+                            " " + getString(R.string.typing_postfix_singular);
+                }
+
+            } else if (usersCount == 2) {
+                String firstUser = currentTypingUserNames.get(0);
+                String secondUser = currentTypingUserNames.get(1);
+
+                if ((firstUser + secondUser).length() > 20) {
+                    if (firstUser.length() >= 10) {
+                        firstUser = firstUser.subSequence(0, 9).toString() + getString(R.string.typing_ellipsis);
+                    }
+
+                    if (secondUser.length() >= 10) {
+                        secondUser = secondUser.subSequence(0, 9).toString() + getString(R.string.typing_ellipsis);
+                    }
+                }
+                result = firstUser + " and " + secondUser + " " + getString(R.string.typing_postfix_plural);
+
+            } else if (usersCount > 2) {
+                String firstUser = currentTypingUserNames.get(0);
+                String secondUser = currentTypingUserNames.get(1);
+                String thirdUser = currentTypingUserNames.get(2);
+
+                if ((firstUser + secondUser + thirdUser).length() <= 20) {
+                    result = firstUser + ", " + secondUser + " and " + thirdUser + " " + getString(R.string.typing_postfix_plural);
+                } else if ((firstUser + secondUser).length() <= 20) {
+                    result = firstUser + ", " + secondUser + " and " + (currentTypingUserNames.size() - 2) + " more " + getString(R.string.typing_postfix_plural);
+                } else {
+                    if (firstUser.length() >= 10) {
+                        firstUser = firstUser.subSequence(0, 9).toString() + getString(R.string.typing_ellipsis);
+                    }
+                    if (secondUser.length() >= 10) {
+                        secondUser = secondUser.subSequence(0, 9).toString() + getString(R.string.typing_ellipsis);
+                    }
+                    result = firstUser + ", " + secondUser +
+                            " and " + (currentTypingUserNames.size() - 2) + " more " + getString(R.string.typing_postfix_plural);
+                }
+            }
+            return result;
+        }
+    }
+
+/*
+    @Override
+    public void onResumeFinished() {
+        if (ChatHelper.getInstance().isLogged()) {
+            if (qbChatDialog == null) {
+                qbChatDialog = (QBChatDialog) getIntent().getSerializableExtra(EXTRA_DIALOG_ID);
+            }
+            returnToChat();
+        } else {
+            showProgressDialog(R.string.dlg_loading);
+            ChatHelper.getInstance().loginToChat(SharedPrefsHelper.getInstance().getQbUser(), new QBEntityCallback<Void>() {
+                @Override
+                public void onSuccess(Void aVoid, Bundle bundle) {
+                    returnToChat();
+                    hideProgressDialog();
+                }
+
+                @Override
+                public void onError(QBResponseException e) {
+                    hideProgressDialog();
+                    finish();
+                }
+            });
+        }
+    }
+*/
+
+
+
 }
