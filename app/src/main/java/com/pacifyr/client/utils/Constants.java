@@ -32,6 +32,7 @@ public class Constants {
 
         ArrayList<String> COUNTRY_CHECKS = new ArrayList<String>();
         COUNTRY_CHECKS.add("India");
+        COUNTRY_CHECKS.add("Wakanda");
         return COUNTRY_CHECKS;
     }
 }
