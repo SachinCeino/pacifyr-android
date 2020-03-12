@@ -127,6 +127,34 @@ public class MUser implements Serializable{
     private int recentMentionCount;
     private String visitType;
     private String  address1;
+    private boolean enableScheduling;
+    private String learnMoreUrl;
+    private String getStartedUrl;
+
+    public boolean isEnableScheduling() {
+        return enableScheduling;
+    }
+
+    public void setEnableScheduling(boolean enableScheduling) {
+        this.enableScheduling = enableScheduling;
+    }
+
+
+    public String getLearnMoreUrl() {
+        return learnMoreUrl;
+    }
+
+    public void setLearnMoreUrl(String learnMoreUrl) {
+        this.learnMoreUrl = learnMoreUrl;
+    }
+
+    public String getGetStartedUrl() {
+        return getStartedUrl;
+    }
+
+    public void setGetStartedUrl(String getStartedUrl) {
+        this.getStartedUrl = getStartedUrl;
+    }
 
     public String getAddress1() {
         return address1;

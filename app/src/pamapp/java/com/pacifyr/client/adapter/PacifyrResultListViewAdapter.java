@@ -27,6 +27,7 @@ import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.pacifyr.client.customview.MainTextView;
+import com.pacifyr.client.home.LearnMoreActivity;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.ChatSubscription;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.Education;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
@@ -189,7 +190,17 @@ public class PacifyrResultListViewAdapter extends RecyclerView.Adapter<PacifyrRe
                 holder.requestBook.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        ((DoctorsSearchResultActivity) context).showScheduleDialogueFragment(pacifyer);
+                        if (pacifyer.isEnableScheduling())
+                        {
+                        ((DoctorsSearchResultActivity) context).showScheduleDialogueFragment(pacifyer);}
+                        else
+                        {
+                            Intent intent = new Intent(context, LearnMoreActivity.class);
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable("Object", pacifyer);
+                            intent.putExtras(bundle);
+                            context.startActivity(intent);
+                        }
                     }
                 });
 
