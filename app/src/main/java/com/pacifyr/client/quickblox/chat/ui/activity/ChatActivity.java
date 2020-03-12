@@ -194,7 +194,7 @@ public class ChatActivity extends PacifyrAppCompactActivity implements ImagePick
             finish();
         }
 
-        if (isValid(qbChatDialog))
+        if (isValid(qbChatDialog) &&isValid(qbChatDialog.getRecipientId()))
         {
 
             try {

@@ -200,15 +200,29 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
         public void onReceive(Context context, Intent intent) {
             if (intent != null && intent.hasExtra("message")) {
                 String message = intent.getExtras().getString("message");
+                String type=intent.getExtras().getString("type");
                 if (message != null && message != "" && showNotification) {
-                    showIOSDialogOKCancel("Message", message, "View", new iOSDialogClickListener() {
-                        @Override
-                        public void onClick(iOSDialog dialog) {
-                            dialog.dismiss();
-                            Intent intent1 = new Intent(PacifyrActivity.this, DialogsActivity.class);
-                            startActivity(intent1);
-                        }
-                    }, "Close");
+                    if (type.equals("booking"))
+                    {
+                        showIOSDialogOK("Message", message, "Close", new iOSDialogClickListener() {
+                            @Override
+                            public void onClick(iOSDialog dialog) {
+                                dialog.dismiss();
+                            }
+                        });
+                    }
+                    else
+                    {
+                        showIOSDialogOKCancel("Message", message, "View", new iOSDialogClickListener() {
+                            @Override
+                            public void onClick(iOSDialog dialog) {
+                                dialog.dismiss();
+                                Intent intent1 = new Intent(PacifyrActivity.this, DialogsActivity.class);
+                                startActivity(intent1);
+                            }
+                        }, "Close");
+                    }
+
                 }
             }
         }
