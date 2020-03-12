@@ -64,6 +64,7 @@ import java.util.TimerTask;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static com.pacifyr.client.quickblox.activities.CallActivity.isCallActive;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
 
 public class ProfileScreenActivity extends PacifyrAppCompactActivity {
@@ -223,6 +224,8 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
                 startVideoCimv.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        if (isValid(isCallActive) && isCallActive)
+                            return;
                         if (!isValid(mpacifyerDetial, "Please check network connection"))
                             return;
 
@@ -308,6 +311,8 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
                 startAudioCimv.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        if (isValid(isCallActive) && isCallActive)
+                            return;
                         if(!isValid(mpacifyerDetial,"Please check network connecction"))
                             return;
 

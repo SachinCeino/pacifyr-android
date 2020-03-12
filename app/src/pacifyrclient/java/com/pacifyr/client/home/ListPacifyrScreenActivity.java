@@ -55,6 +55,7 @@ import java.util.TimerTask;
 import static com.pacifyr.client.network.NetworkService.GLOBAL_URL;
 import static com.pacifyr.client.network.NetworkService.modelSpecialist;
 import static com.pacifyr.client.network.NetworkService.pSearchPacifyrWOptionsResponse;
+import static com.pacifyr.client.quickblox.activities.CallActivity.isCallActive;
 
 public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity implements SpecialistAdapter.EmotionClickkListener {
 
@@ -103,6 +104,8 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
     public CallChatEventListner callchatEventListner = new CallChatEventListner() {
         @Override
         public void onCallEventClick(CallEvent event) {
+            if (isValid(isCallActive) && isCallActive)
+                return;
             onCallEvent(event);
         }
 

@@ -762,6 +762,8 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
    public CallChatEventListner callchatEventListner =new CallChatEventListner() {
         @Override
         public void onCallEventClick(CallEvent event) {
+            if (isValid(isCallActive) && isCallActive)
+                return;
             onCallEvent(event);
         }
 

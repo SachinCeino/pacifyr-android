@@ -491,6 +491,9 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
                     @Override
                     public void onClick(View view) {
 
+                        if (isValid(isCallActive) && isCallActive)
+                            return;
+
                         boolean isOnline = pacifyer_obj.getOnline();
                         String reason = "";
                         if (isOnline) {
@@ -555,6 +558,8 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
                 audiocall_rlay.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        if (isValid(isCallActive) && isCallActive)
+                            return;
 
                         if(!pacifyer_obj.isReadyToCall()) {
                             boolean isOnline = pacifyer_obj.getOnline();
