@@ -56,6 +56,7 @@ import com.squareup.picasso.Picasso;
 import com.willy.ratingbar.BaseRatingBar;
 import com.willy.ratingbar.ScaleRatingBar;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -593,7 +594,7 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
                                     //ProfileScreenActivity.pacifyerDetial = GsonUtils.getInstance().gsonToModelUserProfile(json);
                                     if (NetworkService.mCurrentUser != null && NetworkService.mCurrentUser.getEmotion() != null) {
                                         if (!getPackageName().equalsIgnoreCase("com.pacifyr.pam"))
-                                        setBeforeEmotionViews(NetworkService.mCurrentUser.getEmotion());
+                                            setBeforeEmotionViews(NetworkService.mCurrentUser.getEmotion());
                                     }
                                 }
 
@@ -647,26 +648,27 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
 
     public int getEmotionList() {
         int i = -1;
-        try {
+        String emotionJson =
+                PrefManager.getInstance(SessionSummaryActivity.this).getSharedString(PrefManager.JSON_ALL_EMOTIONS
+                        , null);
 
-            String emotionJson =
-                    PrefManager.getInstance(SessionSummaryActivity.this).getSharedString(PrefManager.JSON_ALL_EMOTIONS
-                            , null);
-
-            if (isValid(modelAllEmotions)) {
-                emotions = modelAllEmotions.getResultsList();
-                i = emotions.size();
-            } else if (emotionJson != null) {
-                JSONObject emJsonObject = new JSONObject(emotionJson);
+        if (isValid(modelAllEmotions)) {
+            emotions = modelAllEmotions.getResultsList();
+            i = emotions.size();
+        } else if (emotionJson != null) {
+            JSONObject emJsonObject = null;
+            try {
+                emJsonObject = new JSONObject(emotionJson);
                 modelAllEmotions = GsonUtils.getInstance().gsonToMListAllEmotionsI(emJsonObject);
                 if (modelAllEmotions != null) {
                     emotions = modelAllEmotions.getResultsList();
                     i = emotions.size();
                 }
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            i = -1;
         }
+
         return i;
     }
 
@@ -715,17 +717,13 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
                     if (!isValid(json, "Network Interupted")) {
                         handlerFinish("Network Interupted");
                     } else {
-                        try {
-                            mSessionDetailRoot = GsonUtils.getInstance().gsonToMSessionDetailRoot(json);
-                            onSetValues();
-                            if (getEmotionList() < 0) {
-                                webGetEmotionList();
-                            } else
-                                setAdapter();
-                        } catch (Exception e) {
-                            handlerFinish("Network Interupted");
-                            LogUtils.LOGD("session", " SSA webGetSessionDetail callback exce" + e.getMessage());
-                        }
+                        mSessionDetailRoot = GsonUtils.getInstance().gsonToMSessionDetailRoot(json);
+                        onSetValues();
+                        if (getEmotionList() < 0) {
+                            webGetEmotionList();
+                        } else
+                            setAdapter();
+
                     }
                 }
             };
@@ -793,86 +791,80 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
 
     private void saveSession(String sessionId) {
 
-        try {
-
-            if (!isValid(getAccessToken(), "Token Invalid , Please Re-Login")) {
-                handlerFinish("Error : Token Invalid , Please Re-Login");
-                return;
-            }
-            // finish();
-            if (!isValid(sessionId, "Session id null ")) {
-                handlerFinish("Error : Session id null , Please Re-Login");
-                return;
-            }
-            // finish();
-            if (!isValid(getUserID(), "User id null ")) {
-                handlerFinish("Error : User id null, Please Re-Login");
-                return;
-            }
-            // finish();
-            // before_feel_llay.setVisibility(View.GONE);
-            // after_feel_ctxv.setVisibility(View.GONE)
-            if (afterFeelSelectionLlay.isShown()) {
-                if (!isValid(emotionsListAdapter, "Choose an After Emotion  ")) return;
-                if (!isValid(emotionsListAdapter.getSelectedIndex() >= 0, "Choose an After Emotion   "))
-                    return;
-                if (!isValid(emotionsListAdapter.getSelected(), "Choose an After Emotion   "))
-                    return;
-            }
-
-            MSessionRating mSessionRating = getMSessionRating(sessionId);
-            if (!isValid(mSessionRating, "Error")) {
-                handlerFinish("Error :Token Invalid , Please Re-Login");
-                return;
-            }
-            //  finish();
-
-            setLoading();
-            showProgress();
-
-            AjaxCallback cb = new AjaxCallback<JSONObject>() {
-                @Override
-                public void callback(String url, JSONObject json, AjaxStatus status) {
-                    try {
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                PacifyrActivity.sessionid = null;
-                                hideProgress();
-                            }
-                        }, 1000);
-
-                        if (isPacifyer())
-                            PacifyrDashboardActivity.start(SessionSummaryActivity.this);
-                        else
-                            DashboardActivity.start(SessionSummaryActivity.this);
-
-                        // finish();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        LogUtils.LOGD("session", "SSA savePacifyerSession  callback  exce " + e.getMessage());
-                    }
-                }
-            };
-
-            AQuery aq = new AQuery(SessionSummaryActivity.this);
-            cb.header("Content-Type", "application/json");
-            cb.header("AccessToken", getAccessToken());
-            Gson gson = new Gson();
-            String jsonInString = gson.toJson(mSessionRating);
-            String url = GLOBAL_URL + "rating/customer/session";
-            if (isCustomer)
-                url = GLOBAL_URL + "rating/customer/session";
-            else
-                url = GLOBAL_URL + "rating/pacifyr/session";
-            JSONObject jsonObject = new JSONObject(jsonInString);
-            aq.post(url, jsonObject, JSONObject.class, cb);
-
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            LogUtils.LOGD("session", "SSA savePacifyerSession  exce " + e.getMessage());
+        if (!isValid(getAccessToken(), "Token Invalid , Please Re-Login")) {
+            handlerFinish("Error : Token Invalid , Please Re-Login");
+            return;
         }
+        // finish();
+        if (!isValid(sessionId, "Session id null ")) {
+            handlerFinish("Error : Session id null , Please Re-Login");
+            return;
+        }
+        // finish();
+        if (!isValid(getUserID(), "User id null ")) {
+            handlerFinish("Error : User id null, Please Re-Login");
+            return;
+        }
+        // finish();
+        // before_feel_llay.setVisibility(View.GONE);
+        // after_feel_ctxv.setVisibility(View.GONE)
+        if (afterFeelSelectionLlay.isShown()) {
+            if (!isValid(emotionsListAdapter, "Choose an After Emotion  ")) return;
+            if (!isValid(emotionsListAdapter.getSelectedIndex() >= 0, "Choose an After Emotion   "))
+                return;
+            if (!isValid(emotionsListAdapter.getSelected(), "Choose an After Emotion   "))
+                return;
+        }
+
+        MSessionRating mSessionRating = getMSessionRating(sessionId);
+        if (!isValid(mSessionRating, "Error")) {
+            handlerFinish("Error :Token Invalid , Please Re-Login");
+            return;
+        }
+        //  finish();
+
+        setLoading();
+        showProgress();
+
+        AjaxCallback cb = new AjaxCallback<JSONObject>() {
+            @Override
+            public void callback(String url, JSONObject json, AjaxStatus status) {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        PacifyrActivity.sessionid = null;
+                        hideProgress();
+                    }
+                }, 1000);
+
+                if (isPacifyer())
+                    PacifyrDashboardActivity.start(SessionSummaryActivity.this);
+                else
+                    DashboardActivity.start(SessionSummaryActivity.this);
+
+                // finish();
+            }
+        };
+
+        AQuery aq = new AQuery(SessionSummaryActivity.this);
+        cb.header("Content-Type", "application/json");
+        cb.header("AccessToken", getAccessToken());
+        Gson gson = new Gson();
+        String jsonInString = gson.toJson(mSessionRating);
+        String url = GLOBAL_URL + "rating/customer/session";
+        if (isCustomer)
+            url = GLOBAL_URL + "rating/customer/session";
+        else
+            url = GLOBAL_URL + "rating/pacifyr/session";
+        JSONObject jsonObject = null;
+        try {
+            jsonObject = new JSONObject(jsonInString);
+            aq.post(url, jsonObject, JSONObject.class, cb);
+        } catch (JSONException e) {
+            handlerFinish("Error : " + e.getMessage());
+            e.printStackTrace();
+        }
+
 
     }
 
@@ -890,25 +882,34 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
     };
 
     public void setAdapter() {
-        try {
-            LogUtils.LOGD("session", "SSA setAdapter ");
-            if (isValid(NetworkService.modelListNegEmotions) && isValid(NetworkService.modelListPosEmotions)) {
-                emotions = modelListPosEmotions.getResultsList();
-                emotions.addAll(NetworkService.modelListNegEmotions.getResultsList());
-                emotionsListAdapter = new EmotionsListAdapter(emotions, this);
+        LogUtils.LOGD("session", "SSA setAdapter ");
+        if (isValid(NetworkService.modelListNegEmotions) && isValid(NetworkService.modelListPosEmotions)) {
+            emotions = modelListPosEmotions.getResultsList();
+            emotions.addAll(NetworkService.modelListNegEmotions.getResultsList());
+            emotionsListAdapter = new EmotionsListAdapter(emotions, this);
+            recyclerView.setAdapter(emotionsListAdapter);
+            afterFeelSelectionLlay.setVisibility(View.VISIBLE);
+            if (getPackageName().equalsIgnoreCase("com.pacifyr.pam")) {
+                afterFeelSelectionLlay.setVisibility(View.GONE);
+                before_feel_llay.setVisibility(View.GONE);
+            }
+        } else if (isValid(mSessionDetailRoot)) {
+            if (isValid(modelAllEmotions)) {
+                emotions = modelAllEmotions.getResultsList();
+                emotionsListAdapter = new EmotionsListAdapter(emotions, SessionSummaryActivity.this);
+                //postiveEmotions.setClickListener(this);
                 recyclerView.setAdapter(emotionsListAdapter);
-            } else if (isValid(mSessionDetailRoot)) {
-                if (isValid(modelAllEmotions)) {
-                    emotions = modelAllEmotions.getResultsList();
-                    emotionsListAdapter = new EmotionsListAdapter(emotions, SessionSummaryActivity.this);
-                    //postiveEmotions.setClickListener(this);
-                    recyclerView.setAdapter(emotionsListAdapter);
+                afterFeelSelectionLlay.setVisibility(View.VISIBLE);
+                if (getPackageName().equalsIgnoreCase("com.pacifyr.pam")) {
+                    afterFeelSelectionLlay.setVisibility(View.GONE);
+                    before_feel_llay.setVisibility(View.GONE);
+                }
 
                   /*if(!before_feel_llay.isShown())
                   {*/
-                    MEmotion emotion = getEmotion(emotions);
-                    LogUtils.LOGD("session", "SSA  setAdapter emotion " + emotion);
-                    setBeforeEmotionViews(emotion);
+                MEmotion emotion = getEmotion(emotions);
+                LogUtils.LOGD("session", "SSA  setAdapter emotion " + emotion);
+                setBeforeEmotionViews(emotion);
                /*     if(isValid(emotion)) {
                         before_feel_llay.setVisibility(View.VISIBLE);
                         // call_session_detail_root.getSession().getUser().getEmotion().getImage()
@@ -918,41 +919,34 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
                         LogUtils.LOGD("session","SSA  setAdapter getEmotion() before_feel_llay gone " +emotion);
                       before_feel_llay.setVisibility(View.GONE);
                     }*/
-                    /* }*/
-                } else {
-                    //  before_feel_llay.setVisibility(View.GONE);
-                    afterFeelSelectionLlay.setVisibility(View.GONE);
-                }
+                /* }*/
+            } else {
+                //  before_feel_llay.setVisibility(View.GONE);
+                afterFeelSelectionLlay.setVisibility(View.GONE);
             }
-
-        } catch (Exception e) {
-            LogUtils.LOGD("session", "SSA setAdapter exce " + e.getMessage());
         }
+
     }
 
     private MEmotion getEmotion(ArrayList<MEmotion> emotions) {
         MEmotion mEmotion = null;
         String emotionid = null;
-        try {
-            if (isCustomer()) {
-                // id= WebRtcSessionManager.userCallInfo.OpponentUserid;
-                emotionid = PacifyrActivity.call_emotion.getId();
-            } else {
-                emotionid = call_session_detail_root.getUser().getEmotionId();
-                mEmotion = call_session_detail_root.getUser().getEmotion();
-                LogUtils.LOGD("session", "SSA getEmotion(list) mEmotion " + mEmotion);
-                LogUtils.LOGD("session", "SSA getEmotion (list) call_session_detail_root " + call_session_detail_root);
-            }
-            if (!isValid(mEmotion)) {
-                for (MEmotion item : emotions) {
-                    if (item.getId().equalsIgnoreCase(emotionid)) {
-                        mEmotion = item;
-                        break;
-                    }
+        if (isCustomer()) {
+            // id= WebRtcSessionManager.userCallInfo.OpponentUserid;
+            emotionid = PacifyrActivity.call_emotion.getId();
+        } else {
+            emotionid = call_session_detail_root.getUser().getEmotionId();
+            mEmotion = call_session_detail_root.getUser().getEmotion();
+            LogUtils.LOGD("session", "SSA getEmotion(list) mEmotion " + mEmotion);
+            LogUtils.LOGD("session", "SSA getEmotion (list) call_session_detail_root " + call_session_detail_root);
+        }
+        if (!isValid(mEmotion)) {
+            for (MEmotion item : emotions) {
+                if (item.getId().equalsIgnoreCase(emotionid)) {
+                    mEmotion = item;
+                    break;
                 }
             }
-        } catch (Exception e) {
-            LogUtils.LOGD("session", "SSA getEmotion (list) exce " + e.getMessage());
         }
         return mEmotion;
     }
