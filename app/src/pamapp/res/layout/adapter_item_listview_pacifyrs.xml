@@ -233,6 +233,7 @@
                 android:id="@+id/requestBook">
 
                 <com.pacifyr.client.views.PamTextViewMedium
+                    android:id="@+id/text_schedule_learn_more"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Schedule Appointment"

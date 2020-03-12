@@ -4,7 +4,25 @@ package com.pacifyr.client.network;
  * Created by ceino on 27/6/17.
  */
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+import com.pacifyr.client.fragment.schedule.AppointmentModel;
+import com.pacifyr.client.fragment.schedule.ScheduleData;
+import com.pacifyr.client.fragment.schedule.Slot;
+import com.pacifyr.client.model.InterviewModel;
+import com.pacifyr.client.model.MCustomerList;
+import com.pacifyr.client.model.ModelEvent;
+import com.pacifyr.client.model.ModelOffer;
 import com.pacifyr.client.model.ModelPamTemplates;
+import com.pacifyr.client.model.ModelResources;
+import com.pacifyr.client.model.ModelSpecialityByCategory;
+import com.pacifyr.client.model.ModelSpecialityByEmotion;
+import com.pacifyr.client.model.QRSuccess;
+import com.pacifyr.client.model.UserDetailsModel;
+import com.pacifyr.client.model.UserProfile;
+import com.pacifyr.client.paytmpayment.TransactionResponce;
+import com.pacifyr.client.utils.LogUtils;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.LoginModel;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MAdminDashboardByWeek;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MAdminDashboardMonth;
@@ -38,6 +56,10 @@ import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelSessonsOfCustomer;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelSpecialist;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelStatistics;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelUserProfile;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.RespPostEditProfile;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.RespSearchPacifyrWOption;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.RespSetSessionAsConnected;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.RespStartSessionWithPacifyr;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.post.PRegistrationModel;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.post.PSearchPacifyrWOptionRequest;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.post.PStartSessionWithPacifyr;
@@ -48,27 +70,6 @@ import com.pacifyrapp.utilitylibrary.model.pacifyr.post.PostRatePacifyrSession;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.post.PostRegisterModel;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.post.PostResponse;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.post.PostStopSessionWithPacifyr;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.RespPostEditProfile;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.RespSearchPacifyrWOption;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.RespSetSessionAsConnected;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.RespStartSessionWithPacifyr;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
-import com.pacifyr.client.fragment.schedule.AppointmentModel;
-import com.pacifyr.client.fragment.schedule.ScheduleData;
-import com.pacifyr.client.fragment.schedule.Slot;
-import com.pacifyr.client.model.InterviewModel;
-import com.pacifyr.client.model.MCustomerList;
-import com.pacifyr.client.model.ModelEvent;
-import com.pacifyr.client.model.ModelOffer;
-import com.pacifyr.client.model.ModelResources;
-import com.pacifyr.client.model.ModelSpecialityByCategory;
-import com.pacifyr.client.model.ModelSpecialityByEmotion;
-import com.pacifyr.client.model.QRSuccess;
-import com.pacifyr.client.model.UserDetailsModel;
-import com.pacifyr.client.paytmpayment.TransactionResponce;
-import com.pacifyr.client.utils.LogUtils;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -314,6 +315,20 @@ public class GsonUtils<T> {
         catch (Exception e){
             e.printStackTrace();
             String st=e.getMessage();
+        }
+        return model;
+    }
+
+    public UserProfile convertToUserProfile(JSONObject json) {
+
+        UserProfile model = null;
+        try {
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            String jsonString = json.toString();
+            model = gson.fromJson(jsonString, UserProfile.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+            String st = e.getMessage();
         }
         return model;
     }
