@@ -24,6 +24,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
@@ -64,7 +65,6 @@ import com.quickblox.chat.model.QBDialogType;
 import com.quickblox.core.QBEntityCallback;
 import com.quickblox.core.exception.QBResponseException;
 import com.quickblox.sample.core.ui.dialog.ProgressDialogFragment;
-import com.quickblox.sample.core.utils.SharedPrefsHelper;
 import com.quickblox.sample.core.utils.Toaster;
 import com.quickblox.users.QBUsers;
 import com.quickblox.users.model.QBUser;
@@ -197,7 +197,15 @@ public class ChatActivity extends PacifyrAppCompactActivity implements ImagePick
             finish();
 
             try {
-                qbChatDialog.initForChat(QBChatService.getInstance());
+                try {
+                    qbChatDialog.initForChat(QBChatService.getInstance());
+                } catch (IllegalArgumentException ie) {
+                    ie.printStackTrace();
+                    Toast.makeText(ChatActivity.this, "Sorry, cannot chat with this user. Reason " + ie.getMessage(),
+                            Toast.LENGTH_LONG).show();
+                    finish();
+                    return;
+                }
 
                 chatMessageListener = new ChatMessageListener();
 
