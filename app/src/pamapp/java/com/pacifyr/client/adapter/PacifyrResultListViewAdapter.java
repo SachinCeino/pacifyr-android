@@ -1,22 +1,16 @@
 package com.pacifyr.client.adapter;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-
-import com.pacifyr.client.home.ConnectToSinglePacifyrActivity;;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -26,26 +20,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.pacifyr.client.customview.MainTextView;
-import com.pacifyr.client.home.LearnMoreActivity;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.ChatSubscription;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.Education;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelUserProfile;
-import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.gdacciaro.iOSDialog.iOSDialog;
 import com.gdacciaro.iOSDialog.iOSDialogBuilder;
 import com.gdacciaro.iOSDialog.iOSDialogClickListener;
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.pacifyr.client.R;
+import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.BusProvider;
-import com.pacifyr.client.event.CallEvent;
-import com.pacifyr.client.event.ChatEvent;
-import com.pacifyr.client.home.ConnectToPacifyrActivity;
+import com.pacifyr.client.home.ConnectToSinglePacifyrActivity;
 import com.pacifyr.client.home.DoctorsMoreInformationActivity;
 import com.pacifyr.client.home.DoctorsSearchResultActivity;
+import com.pacifyr.client.home.LearnMoreActivity;
 import com.pacifyr.client.home.PaymentActivity;
-import com.pacifyr.client.home.ProfileScreenActivity;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.quickblox.db.QbUsersDbManager;
 import com.pacifyr.client.quickblox.services.CallService;
@@ -53,6 +39,11 @@ import com.pacifyr.client.quickblox.utils.PermissionsChecker;
 import com.pacifyr.client.quickblox.utils.WebRtcSessionManager;
 import com.pacifyr.client.utils.LogUtils;
 import com.pacifyr.client.utils.Utility;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.ChatSubscription;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.Education;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelUserProfile;
+import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.quickblox.chat.QBChatService;
 import com.quickblox.sample.core.utils.SharedPrefsHelper;
 import com.quickblox.sample.core.utils.Toaster;
@@ -62,7 +53,6 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -154,7 +144,7 @@ public class PacifyrResultListViewAdapter extends RecyclerView.Adapter<PacifyrRe
                 specialiteis = pacifyer.getSpecialities();
                 price = pacifyer.getPrice();
 
-                holder.index_count.setText(String.valueOf(position + 1) + ".");
+                holder.index_count.setText((position + 1) + ".");
                 if (isValid(pacifyer.getDescription())) {
                     holder.pacifyr_description.setText(pacifyer.getDescription());
                 }
@@ -186,6 +176,12 @@ public class PacifyrResultListViewAdapter extends RecyclerView.Adapter<PacifyrRe
                         context.startActivity(intent);
                     }
                 });
+
+                if (!pacifyer.isEnableScheduling()) {
+                    holder.text_schedule_learn_more.setText("learn more");
+                } else {
+                    holder.text_schedule_learn_more.setText("request to book");
+                }
 
                 holder.requestBook.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -244,6 +240,7 @@ public class PacifyrResultListViewAdapter extends RecyclerView.Adapter<PacifyrRe
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
+        private final TextView text_schedule_learn_more;
         public TextView index_count;
         public CircleImageView pacifyrImage;
         public ImageView favorite;
@@ -271,6 +268,8 @@ public class PacifyrResultListViewAdapter extends RecyclerView.Adapter<PacifyrRe
             more_info = view.findViewById(R.id.more_info);
             requestBook = view.findViewById(R.id.requestBook);
             mTextView_connect_pacifyr = view.findViewById(R.id.connect_pacifyr);
+            text_schedule_learn_more = view.findViewById(R.id.text_schedule_learn_more);
+
 
 
         }
