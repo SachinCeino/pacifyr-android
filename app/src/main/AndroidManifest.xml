@@ -51,7 +51,6 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:hardwareAccelerated="true"
-        android:networkSecurityConfig="@xml/network_security_config"
         android:usesCleartextTraffic="true"
         android:theme="@style/CustomNoActionBarTheme2">
         <meta-data
