@@ -393,6 +393,10 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
     }
 
     private void loadEmotions() {
+        if (!isValid(PrefManager.getInstance(PacifyrActivity.this).getAccessToken())) {
+            Log.d(TAG, "loadEmotions Error : Not logged in");
+            return;
+        }
         String emotionJson =
                 PrefManager.getInstance(PacifyrActivity.this).getSharedString(PrefManager.JSON_ALL_EMOTIONS, null);
 
