@@ -188,14 +188,13 @@ public class ChatActivity extends PacifyrAppCompactActivity implements ImagePick
 
         qbChatDialog = (QBChatDialog) getIntent().getSerializableExtra(EXTRA_DIALOG_ID);
 
-        if (ChatHelper.getCurrentUser() != null) {
+       if (ChatHelper.getCurrentUser() != null) {
             currentUser = ChatHelper.getCurrentUser();
         } else {
             finish();
         }
-
-        if (isValid(qbChatDialog) &&isValid(qbChatDialog.getRecipientId()))
-        {
+        if (!isValid(qbChatDialog))
+            finish();
 
             try {
                 qbChatDialog.initForChat(QBChatService.getInstance());
@@ -214,10 +213,7 @@ public class ChatActivity extends PacifyrAppCompactActivity implements ImagePick
             {
                 Log.w("@@@",String.valueOf(e));
             }
-        }
-        else {
-            finish();
-        }
+
     }
 
     @Override
