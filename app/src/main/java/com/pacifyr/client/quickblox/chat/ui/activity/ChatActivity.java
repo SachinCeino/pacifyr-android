@@ -127,6 +127,7 @@ public class ChatActivity extends PacifyrAppCompactActivity implements ImagePick
     public static final long TYPING_STATUS_INACTIVITY_DELAY = 10000;
     private QBUser currentUser;
     private TextView typingStatus;
+    private TextView TextView_noMessages;
 
 
     public static void startForResult(Activity activity, int code, QBChatDialog dialogId,MUser mPaci) {
@@ -187,6 +188,7 @@ public class ChatActivity extends PacifyrAppCompactActivity implements ImagePick
         LogUtils.LOGD("jp",  "onCreate ChatActivity on Thread ID = " + Thread.currentThread().getId());
 
         qbChatDialog = (QBChatDialog) getIntent().getSerializableExtra(EXTRA_DIALOG_ID);
+        TextView_noMessages=findViewById(R.id.TextView_noMessages);
 
        if (ChatHelper.getCurrentUser() != null) {
             currentUser = ChatHelper.getCurrentUser();
@@ -820,6 +822,14 @@ public class ChatActivity extends PacifyrAppCompactActivity implements ImagePick
             public void onSuccess(ArrayList<QBChatMessage> messages, Bundle args) {
                 // The newest messages should be in the end of list,
                 // so we need to reverse list to show messages in the right order
+                if (messages.size()==0)
+                {
+                    TextView_noMessages.setVisibility(View.VISIBLE);
+                }
+                else
+                {
+                    TextView_noMessages.setVisibility(View.GONE);
+                }
                 Collections.reverse(messages);
                 if (chatAdapter == null) {
                     chatAdapter = new ChatAdapter(ChatActivity.this, qbChatDialog, messages);

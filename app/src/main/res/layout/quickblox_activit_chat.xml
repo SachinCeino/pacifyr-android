@@ -18,6 +18,15 @@
     style="@style/MatchParent"
     tools:ignore="RtlHardcoded">
 
+    <com.pacifyr.client.customview.MainTextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:layout_above="@+id/layout_attachment_preview_container"
+        android:textSize="19sp"
+        android:visibility="gone"
+        android:text="No Messages!"
+        android:id="@+id/TextView_noMessages"></com.pacifyr.client.customview.MainTextView>
     <ListView
         android:id="@+id/list_chat_messages"
         style="@style/ListViewWithoutDividerStyle"
