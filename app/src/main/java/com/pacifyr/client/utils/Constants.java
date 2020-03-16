@@ -8,6 +8,10 @@ import java.util.ArrayList;
 
 public class Constants {
 
+    public static String getPacifyrVideoTutorialLink(Context context) {
+        return context.getResources().getString(R.string.tutorial_VideoLink);
+    }
+
     public static String getChannelId(Context context) {
         return context.getResources().getString(R.string.CHANNEL_ID);
     }
