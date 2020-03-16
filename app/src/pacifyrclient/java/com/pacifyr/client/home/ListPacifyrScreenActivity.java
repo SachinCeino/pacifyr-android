@@ -816,15 +816,26 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
             jsonObject.putOpt("country",prefM.getCountry());
             if (searchQuery != null && !searchQuery.isEmpty()) {
                 jsonObject.putOpt("searchQuery", searchQuery);
+
+                JSONArray array = new JSONArray();
+                for (int i = 0; i < modelSpecialist.getResultsList().size(); i++) {
+                    if (modelSpecialist.getResultsList().get(i).getTitle() != null) {
+                        array.put(modelSpecialist.getResultsList().get(i).getTitle());
+                    }
+                }
+                jsonObject.putOpt("specialities",array);
             }
 
-            List<String> list = new ArrayList<String>();
-            list.add(emotion);
-            JSONArray array = new JSONArray();
-            for (int i = 0; i < list.size(); i++) {
-                array.put(list.get(i));
+            else
+            {
+                List<String> list = new ArrayList<String>();
+                list.add(emotion);
+                JSONArray array = new JSONArray();
+                for (int i = 0; i < list.size(); i++) {
+                    array.put(list.get(i));
+                }
+                jsonObject.putOpt("specialities",array);
             }
-            jsonObject.putOpt("specialities",array);
             aq.post(url, jsonObject, JSONObject.class, cb);
         }
         catch (Exception ex)
