@@ -207,6 +207,7 @@ public class ChatAdapter extends BaseListAdapter<QBChatMessage> implements Stick
                                 LogUtils.LOGD("jp", "ChatAdapter IMmage chat  onException " + e.getMessage());
                                 holder.attachmentImageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
                                 holder.attachmentProgressBar.setVisibility(View.GONE);
+                                notifyDataSetChanged();
                                 return false;
                             }
 
@@ -217,6 +218,7 @@ public class ChatAdapter extends BaseListAdapter<QBChatMessage> implements Stick
                                 LogUtils.LOGD("jp", "ChatAdapter IMmage chat  onResourceReady ");
                                 holder.attachmentImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
                                 holder.attachmentProgressBar.setVisibility(View.GONE);
+                                notifyDataSetChanged();
                                 return false;
                             }
                         })
