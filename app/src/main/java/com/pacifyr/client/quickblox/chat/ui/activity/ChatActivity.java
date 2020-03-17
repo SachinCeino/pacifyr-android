@@ -822,14 +822,8 @@ public class ChatActivity extends PacifyrAppCompactActivity implements ImagePick
             public void onSuccess(ArrayList<QBChatMessage> messages, Bundle args) {
                 // The newest messages should be in the end of list,
                 // so we need to reverse list to show messages in the right order
-                if (messages.size()==0)
-                {
-                    TextView_noMessages.setVisibility(View.VISIBLE);
-                }
-                else
-                {
-                    TextView_noMessages.setVisibility(View.GONE);
-                }
+
+
                 Collections.reverse(messages);
                 if (chatAdapter == null) {
                     chatAdapter = new ChatAdapter(ChatActivity.this, qbChatDialog, messages);
@@ -869,9 +863,20 @@ public class ChatActivity extends PacifyrAppCompactActivity implements ImagePick
                     }
                     messagesListView.setAdapter(chatAdapter);
                     messagesListView.setDivider(null);
+                    if (!isValidSize(chatAdapter.getList()))
+                    {
+                        TextView_noMessages.setVisibility(View.VISIBLE);
+
+                    }
+                    else
+                    {
+                        TextView_noMessages.setVisibility(View.GONE);
+                    }
+
                 } else {
                     chatAdapter.addList(messages);
                     messagesListView.setSelection(messages.size());
+
                 }
                 progressBar.setVisibility(View.GONE);
 
