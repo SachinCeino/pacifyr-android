@@ -225,7 +225,7 @@ public class LoginActivity extends PacifyrActivity {
 
                 @Override
                 public void onCancel() {
-                    Toast.makeText(LoginActivity.this, "on cancel", Toast.LENGTH_LONG).show();
+                    Toast.makeText(LoginActivity.this, "Cancelled", Toast.LENGTH_LONG).show();
                     fbLogout();
                     // AppChatNotUSe code
                 }
@@ -249,7 +249,7 @@ public class LoginActivity extends PacifyrActivity {
                     {
                         if (phoneCedit.getText().length()<10)
                         {
-                            phoneCedit.setError("less than 10 digits in India");
+                            phoneCedit.setError("10 digit number required");
                             return;
                         }
                     }
@@ -277,7 +277,7 @@ public class LoginActivity extends PacifyrActivity {
         return findViewById(R.id.percent_rlay);
     }
 
-    public static void hideKeyboard(Activity activity) {
+    public void hideKeyboard(Activity activity) {
         InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
         //Find the currently focused view, so we can grab the correct window token from it.
         View view = activity.getCurrentFocus();
