@@ -390,6 +390,8 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
         googlePlayServicesHelper = new GooglePlayServicesHelper();
 
         loadEmotions();
+
+        tryReLoginToChat();
     }
 
     private void loadEmotions() {
