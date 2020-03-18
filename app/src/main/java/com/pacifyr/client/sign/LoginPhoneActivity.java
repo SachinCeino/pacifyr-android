@@ -3,17 +3,22 @@ package com.pacifyr.client.sign;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
+import com.pacifyr.client.customview.MainTextView;
 import com.pacifyrapp.utilitylibrary.CustomEditText;
+import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MRoleModel;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelPhoneLogin;
@@ -71,6 +76,7 @@ public class LoginPhoneActivity extends PacifyrActivity {
         fbLogout();
 
         setContentView(R.layout.activity_sign_in_code_verify);
+        onSetActionBar();
         context = LoginPhoneActivity.this;
         prefM = PrefManager.getInstance(context);
         InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
@@ -648,6 +654,44 @@ public class LoginPhoneActivity extends PacifyrActivity {
         {
             e.printStackTrace();
         }
+    }
+
+    private LinearLayout actionBarTopLlay;
+    private RelativeLayout bottomPanel;
+    private LinearLayout leftLlay;
+    private DeviceFitImageView backImv;
+    private MainTextView leftTxv;
+    private MainTextView titleTxv;
+    private LinearLayout rightLlay;
+    private MainTextView rightTxv;
+    private DeviceFitImageView rightImv;
+
+    public void onSetActionBar() {
+        actionBarTopLlay = findViewById(R.id.action_bar_top_llay);
+        bottomPanel = findViewById(R.id.bottom_panel);
+        leftLlay = findViewById(R.id.left_llay);
+        backImv = findViewById(R.id.back_imv);
+        leftTxv = findViewById(R.id.left_txv);
+        titleTxv = findViewById(R.id.title_txv);
+        rightLlay = findViewById(R.id.right_llay);
+        rightTxv = findViewById(R.id.right_txv);
+        rightImv = findViewById(R.id.right_imv);
+        rightImv.setVisibility(View.INVISIBLE);
+        rightTxv.setVisibility(View.INVISIBLE);
+        rightLlay.setVisibility(View.INVISIBLE);
+        leftTxv.setVisibility(View.INVISIBLE);
+        backImv.setVisibility(View.VISIBLE);
+        titleTxv.setVisibility(View.VISIBLE);
+        leftLlay.setVisibility(View.VISIBLE);
+        defSetText(titleTxv, getResources().getString(R.string.sign_in));
+        Typeface type = Typeface.createFromAsset(getAssets(),"fonts/ActionBarCommonFont.otf");
+        titleTxv.setTypeface(type);
+        leftLlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
 }
