@@ -1,6 +1,7 @@
 package com.pacifyr.client.sign;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -26,12 +27,14 @@ import android.text.style.ClickableSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.aigestudio.wheelpicker.WheelPicker;
@@ -159,10 +162,10 @@ public class RegisterActivity extends PacifyrActivity {
     private RelativeLayout nextRlay;
     private MainTextView nextCtxv;
     private CustomEditText phoneEdit;
-    private CustomEditText yearEdit;
+    private MainTextView yearEdit;
     private MainTextView termsCtxv;
 
-    WheelYearPicker wheelYearPicker;
+
 
     private String qbID;
     //private String accessToken;
@@ -210,7 +213,6 @@ public class RegisterActivity extends PacifyrActivity {
             nextCtxv = findViewById(R.id.next_ctxv);
             phoneEdit = findViewById(R.id.phone_edt);
             yearEdit = findViewById(R.id.year_edt);
-            wheelYearPicker = findViewById(R.id.wheel_date_picker_year);
             termsCtxv = findViewById(R.id.terms_of_use);
             checkBox = findViewById(R.id.checkBox);
             profileCimv = findViewById(R.id.profile_cimv);
@@ -289,20 +291,8 @@ public class RegisterActivity extends PacifyrActivity {
             yearEdit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    yearEdit.setVisibility(View.GONE);
-                    wheelYearPicker.setVisibility(View.VISIBLE);
 
-                    wheelYearPicker.setOnItemSelectedListener(new WheelPicker.OnItemSelectedListener() {
-                        @Override
-                        public void onItemSelected(WheelPicker picker, Object data, int position) {
-                            yearEdit.setText(data.toString());
-                            yearEdit.setVisibility(View.VISIBLE);
-                            yearEdit.setVisibility(View.VISIBLE);
-                            yearEdit.setVisibility(View.VISIBLE);
-                            wheelYearPicker.setVisibility(View.GONE);
-                        }
-                    });
-
+                    showDialog(yearEdit, "");
 
                 }
             });
@@ -397,6 +387,55 @@ public class RegisterActivity extends PacifyrActivity {
             Log.d("REGISTER",e.toString());
         }
     }
+
+
+
+    public void showDialog(final MainTextView textView, String string){
+        try {
+            final Integer[] vals = {null};
+            final Dialog dialog = new Dialog(RegisterActivity.this);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setCancelable(false);
+            dialog.setContentView(R.layout.dialog_show_year_picker);
+            WheelYearPicker wheelYearPicker = dialog.findViewById(R.id.wheel_date_picker_year);
+            wheelYearPicker.setSelectedItemTextColor(Color.parseColor("#3F51B5"));
+            wheelYearPicker.setCurved(true);
+            wheelYearPicker.setYearEnd(wheelYearPicker.getCurrentYear());
+            wheelYearPicker.setOnItemSelectedListener(new WheelPicker.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(WheelPicker picker, Object data, int position) {
+                    vals[0] = (Integer) data;
+                }
+            });
+
+            TextView selectTxv = dialog.findViewById(R.id.select_year_txv);
+            selectTxv.setText("Please select " + string + " year");
+            TextView cancelTxv = dialog.findViewById(R.id.cancel_ctxv);
+            cancelTxv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
+            dialog.show();
+            TextView saveTxv = dialog.findViewById(R.id.save_ctxv);
+            saveTxv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (isValid(vals[0]))
+                        textView.setText(vals[0].toString());
+                    else
+                        textView.setText(String.valueOf(wheelYearPicker.getCurrentYear()));
+                    dialog.dismiss();
+                }
+            });
+            dialog.show();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
 
     private SpannableString makeLinkSpan(CharSequence text, View.OnClickListener listener) {
         SpannableString link = new SpannableString(text);
