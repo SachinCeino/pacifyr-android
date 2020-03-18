@@ -370,12 +370,34 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
                 {
                     if(getShowallCbox().isChecked()){
                         showAllFlag = true;
-                        webSearchPacifyrWOptions(customerEmotion);
                     }else {
                         showAllFlag = false;
-                        webSearchPacifyrWOptions(customerEmotion);
+
                     }
+                    if (isValid(specialistAdapter))
+                        specialistAdapter.setSelected(0);
+                    webSearchPacifyrWOptions(customerEmotion);
                 }
+                return false;
+            }
+        });
+       
+
+        pacifyr_SearchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                if (!pacifyr_SearchView.isIconified()) {
+                    pacifyr_SearchView.onActionViewCollapsed();
+                }
+
+                if(getShowallCbox().isChecked())
+                    showAllFlag = true;
+                else
+                    showAllFlag = false;
+                if (isValid(specialistAdapter))
+                specialistAdapter.clearSelection();
+                specialistAdapter.setSelected(0);
+                webSearchPacifyrWOptions(customerEmotion);
                 return false;
             }
         });
@@ -386,6 +408,11 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
     }
 
     private void setAdapterSearchOption() {
+        if (!pacifyr_SearchView.getQuery().equals(""))
+        {
+            pacifyr_SearchView.setQuery("", false);
+        }
+
         if (isValid(pSearchPacifyrWOptionsResponse)) {
             ArrayList<MUser> list = new ArrayList<MUser>();
             list.clear();
@@ -583,10 +610,8 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
         if (adapter != null) {
             adapter.clear();
         }
-        if (getSearchQuery().equals(""))
-            webSearchPacifyrWOptions(customerEmotion);
-        else
-            webSearchPacifyrFromSearchView(customerEmotion);
+        webSearchPacifyrWOptions(customerEmotion);
+
 
     }
 
@@ -845,6 +870,10 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
     }
 
     private void setAdapterPacifyrSearchFRomSearchView(ArrayList<MUser> pacifyrList) {
+        if (isValid(specialistAdapter))
+        {
+            specialistAdapter.clearSelection();
+        }
         if(isValid(pacifyrList)) {
             noPacifyrCtxv.setVisibility(View.GONE);
             cardStack.setVisibility(View.VISIBLE);

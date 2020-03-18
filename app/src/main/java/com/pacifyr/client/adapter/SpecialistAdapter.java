@@ -54,6 +54,17 @@ public class SpecialistAdapter extends RecyclerView.Adapter<SpecialistAdapter.My
         }
     }
 
+    public void clearSelection() {
+        if (this.specialList != null && this.specialList.size() > 0) {
+
+            for (int i=0;i<specialList.size();i++)
+            {
+                this.specialList.get(i).setSelect(false);
+            }
+            notifyDataSetChanged();
+        }
+    }
+
     public void clear() {
         if (this.specialList != null) {
             this.specialList.clear();
