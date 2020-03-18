@@ -384,8 +384,8 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
                 afterFeelSelectionCtxv.setText("How are you feeling now?");
 
 
-                if (isValid(ProfileScreenActivity.mpacifyerDetial.getQbid()))
-                    callback_ctxv.setVisibility(View.VISIBLE);
+               /* if (isValid(ProfileScreenActivity.mpacifyerDetial.getQbid()))
+                    callback_ctxv.setVisibility(View.VISIBLE);*/
                 callback_ctxv.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
