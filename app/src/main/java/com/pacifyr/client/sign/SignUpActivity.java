@@ -1,7 +1,6 @@
 package com.pacifyr.client.sign;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -12,7 +11,6 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
@@ -119,8 +117,6 @@ public class SignUpActivity extends PacifyrActivity {
             sms_text_login = findViewById(R.id.sms_text_login);
 
             /*hideKeyboard();*/
-            InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-            imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
             onSetActionBar();
             FacebookSdk.sdkInitialize(SignUpActivity.this);
             //countryCodePicker=(CountryCodePicker) findViewById(R.id.ccp);
