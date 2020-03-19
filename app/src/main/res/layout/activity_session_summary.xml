@@ -357,7 +357,7 @@
                                />-->
                             <com.willy.ratingbar.ScaleRatingBar
                                 android:id="@+id/rating_bar"
-                                android:gravity="left"
+                                android:gravity="center"
                                 android:layout_marginLeft="10dp"
                                 android:layout_width="match_parent"
                                 android:layout_marginTop="5dp"

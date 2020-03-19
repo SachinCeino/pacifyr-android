@@ -357,15 +357,18 @@
                               </RatingBar>-->
                             <com.willy.ratingbar.ScaleRatingBar
                                 android:id="@+id/rating_bar"
-                                android:gravity="left"
+                                android:gravity="center"
                                 android:layout_marginLeft="10dp"
                                 android:layout_width="match_parent"
                                 android:layout_marginTop="8dp"
                                 android:layout_below="@+id/rating_ctxv"
                                 android:layout_height="wrap_content"
                                 app:srb_numStars="5"
+                                android:focusableInTouchMode="false"
+                                android:focusable="false"
+                                android:focusedByDefault="false"
                                 app:srb_starPadding="10dp"
-                                app:srb_clickable="true">
+                                app:srb_clickable="false">
                             </com.willy.ratingbar.ScaleRatingBar>
 
 
