@@ -69,7 +69,7 @@ public class PolicyDocumentActivity extends PacifyrAppCompactActivity {
             public void onClick(View v) {
                 Intent i=new Intent(PolicyDocumentActivity.this,TermsOfUseActivity.class);
                 i.putExtra("spurl", Constants.getUrlDisputePolicy(getApplicationContext()));
-                i.putExtra("title", "Copyright Dispute Policy");
+                i.putExtra("title", "Copyright");
                 startActivity(i);
             }
         });

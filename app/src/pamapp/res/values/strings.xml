@@ -43,7 +43,7 @@
     <string name="bussines_agrement">Business Associate Agreement</string>
     <string name="show_all">Show all</string>
     <string name="copyright">Copyright</string>
-    <string name="copyright_dispute_policy">Copyright Dispute Policy</string>
+    <string name="copyright_dispute_policy">Copyright</string>
     <string name="request_access_for_pacifyrs">Request access for Pacifyrs</string>
     <string name="education">Education</string>
     <string name="add_education">Add Education</string>
@@ -53,7 +53,7 @@
     <string name="upload_documents">Upload Documents</string>
     <string name="document_upload_instruction">JPG, PNG or PDF format only maximum file size -5MB</string>
     <string name="request">Request</string>
-    <string name="year">Year</string>
+    <string name="year">Year</string>C
     <string name="payout">PAYOUT</string>
     <string name="no_pacifyr">There are no Wellness Experts available for selected Category.</string>
     <string name="educations">Education</string>
