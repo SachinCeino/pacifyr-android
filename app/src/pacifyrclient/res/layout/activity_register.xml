@@ -26,57 +26,58 @@
         android:background="@color/white">
 
         <RelativeLayout
-            android:id="@+id/logo_rlay"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            app:layout_marginTopPercent="5%">
-
-            <ImageView
-                android:layout_width="150dp"
-                android:src="@drawable/powered_logo"
-                android:layout_height="150dp"
-                android:layout_centerHorizontal="true"
-                android:id="@+id/logo_blue"/>
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:id="@+id/profile_cimv"
-                android:layout_marginTop="10dp"
-                android:layout_centerHorizontal="true"
-                android:layout_below="@+id/logo_blue"
-                android:src="@drawable/ic_camera"/>
-
-            <TextView
+            android:orientation="vertical"
+            android:gravity="center"
+            android:id="@+id/logo_rlay"
+            >
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/profile_cimv"
-                android:padding="5dp"
-                android:layout_margin="5dp"
-                android:gravity="center"
-                android:textColor="@color/colorPrimary"
-                android:text="@string/mandatory_fields"
-                android:drawableLeft="@drawable/red_star"
-                android:drawableStart="@drawable/red_star"
-                android:drawablePadding="3dp"></TextView>
-
-
-           <!-- <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginTop="10dp"
-                android:src="@drawable/ic_camera"
-                android:id="@+id/user_img"
-                android:layout_below="@+id/logo_blue"
-                android:scaleType="centerInside"
-                android:layout_centerVertical="true"
-                android:layout_centerHorizontal="true" />-->
-
+                android:orientation="vertical"
+                android:id="@+id/upload_layout"
+                android:gravity="center">
+                <ImageView
+                    android:layout_width="150dp"
+                    android:src="@drawable/powered_logo"
+                    android:layout_height="150dp"
+                    android:layout_centerHorizontal="true"
+                    android:id="@+id/logo_blue"/>
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:id="@+id/profile_cimv"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:src="@drawable/ic_camera"/>
+                <TextView
+                    android:id="@+id/upload_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:gravity="center"
+                    android:drawableLeft="@drawable/red_star"
+                    android:drawableStart="@drawable/red_star"
+                    android:drawablePadding="3dp"
+                    android:text="Add photo"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:layout_margin="5dp"
+                    android:gravity="center"
+                    android:textColor="@color/colorPrimary"
+                    android:text="@string/mandatory_fields"
+                    android:drawableLeft="@drawable/red_star"
+                    android:drawableStart="@drawable/red_star"
+                    android:drawablePadding="3dp"></TextView>
+            </LinearLayout>
 
         </RelativeLayout>
+
+
 
         <RelativeLayout
             android:id="@+id/hint_llay"

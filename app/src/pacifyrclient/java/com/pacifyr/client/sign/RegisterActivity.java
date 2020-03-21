@@ -194,6 +194,8 @@ public class RegisterActivity extends PacifyrActivity {
     private String jsonString;
 
     private Context context;
+    private  LinearLayout upload_layout;
+    private TextView upload_textView;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -219,6 +221,10 @@ public class RegisterActivity extends PacifyrActivity {
             phoneCedt = findViewById(R.id.phone_cedit);
             spinner = findViewById(R.id.spinner);
             phone_llay = findViewById(R.id.phone_llay);
+
+            upload_layout = findViewById(R.id.upload_layout);
+            upload_textView= findViewById(R.id.upload_textView);
+
 
             context = RegisterActivity.this;
 
@@ -273,6 +279,7 @@ public class RegisterActivity extends PacifyrActivity {
 
                 if(isValid(fbImage)){
                     Picasso.with(RegisterActivity.this).load(fbImage).placeholder(R.drawable.placeholder_user).into(profileCimv);
+                    upload_textView.setText("Edit photo");
                 }
                 yearEdit.setText("Enter Year of Birth");
 
@@ -282,7 +289,7 @@ public class RegisterActivity extends PacifyrActivity {
             phoneEdit.setFocusable(false);
             phoneEdit.setKeyListener(null);
 
-            profileCimv.setOnClickListener(new View.OnClickListener() {
+            upload_layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     selectImage();      }
@@ -529,6 +536,7 @@ public class RegisterActivity extends PacifyrActivity {
                     edit_image= (Bitmap) data.getExtras().get("data");
                     if(isValid(edit_image))
                         profileCimv.setImageBitmap(edit_image);
+                    upload_textView.setText("Edit photo");
                     // if(bp != null) postEventOnMainThread(new ImageChoosenEvent(bp));
                     //else ToastHandler.newInstance(this).mustShowToast("Please Try Again");
                 }
@@ -546,6 +554,8 @@ public class RegisterActivity extends PacifyrActivity {
             edit_image= getBitmapGalleryExifCode(data);
             if(isValid(edit_image,"")) {
                 profileCimv.setImageBitmap(edit_image);
+                profileCimv.setImageBitmap(edit_image);
+                upload_textView.setText("Edit photo");
                 // Bitmap rotateImage = getCroppedBitmap(image);
                 //    postEventOnMainThread(new ImageChoosenEvent(rotateImage));
             }
