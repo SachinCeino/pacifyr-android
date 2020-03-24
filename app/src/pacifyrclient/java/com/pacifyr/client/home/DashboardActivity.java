@@ -20,6 +20,7 @@ import androidx.multidex.MultiDex;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
+import com.pacifyr.client.utils.Utility;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
@@ -664,7 +665,8 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
         }
     };
 
-
+    public static String CreatedDay="";
+    public static String CreatedYear="";
     private void setProfileValues() {
         try {
             PrefManager prefM = PrefManager.getInstance(DashboardActivity.this);
@@ -679,6 +681,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
                     try {
                         hideProgress();
                         MUser user  = GsonUtils.getInstance().gsonToMUser(json);
+                        Utility.getUserCreatedDayMonthYear(user.getCreatedAt());
                         detailNameCtxv.setText(user.getName());
                         detailMailCtxv.setText(user.getEmail());
                         String imageUrl = user.getImageUrl();

@@ -3,6 +3,7 @@ package com.pacifyr.client.adapter;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,8 @@ import android.widget.RelativeLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.pacifyr.client.customview.MainTextView;
+import com.pacifyr.client.home.DashboardActivity;
+import com.pacifyr.client.utils.Utility;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelRatingDateDetail;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.pacifyr.client.R;
@@ -26,6 +29,7 @@ import org.joda.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import static com.pacifyr.client.home.DashboardActivity.CreatedYear;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
 
 /**
@@ -216,6 +220,16 @@ public class SessionWeekCustomerAdapter extends RecyclerView.Adapter<SessionWeek
             }
             modelYearList.get(0).setSelect(true);
             Collections.reverse(modelYearList);
+            int range=0;
+            for (int i=0;i<modelYearList.size();i++)
+            {
+                if (modelYearList.get(i).getFromDateDisplay().equals(CreatedYear))
+                {
+                    range=i;
+                }
+            }
+            modelYearList.subList(0,range).clear();
+            modelYearList.size();
         }
         catch (Exception e)
         {
@@ -274,6 +288,29 @@ public class SessionWeekCustomerAdapter extends RecyclerView.Adapter<SessionWeek
             }
             modelMonthList.get(0).setSelect(true);
             Collections.reverse(modelMonthList);
+
+            long createdDateInMilli  = Utility.converToMilliSecondsForSession(DashboardActivity.CreatedDay);
+            Log.w("@@@1",String.valueOf(createdDateInMilli));
+            int range=0;
+            for (int i=0;i<modelMonthList.size();i++)
+            {
+                long createdDateInMilli2  = Utility.converToMilliSecondsForSession(modelMonthList.get(i).getFromDate());
+                if (createdDateInMilli2>createdDateInMilli)
+                {
+                    if (range==0)
+                        range=i;
+
+                }
+                Log.w("@@@",String.valueOf(createdDateInMilli2));
+            }
+            if (range==0)
+            {
+                modelMonthList.subList(0,modelMonthList.size()-1).clear();
+            }
+            else {
+                modelMonthList.subList(0,range).clear();
+            }
+            modelMonthList.size();
         }
         catch (Exception ex)
         {ex.printStackTrace();}
@@ -363,7 +400,30 @@ public class SessionWeekCustomerAdapter extends RecyclerView.Adapter<SessionWeek
 
             }
             modelWeekList.get(0).setSelect(true);
+            long createdDateInMilli  = Utility.converToMilliSecondsForSession(DashboardActivity.CreatedDay);
+            //    Log.w("@@@1",String.valueOf(createdDateInMilli));
             Collections.reverse(modelWeekList);
+
+            int range=0;
+            for (int i=0;i<modelWeekList.size();i++)
+            {
+                long createdDateInMilli2  = Utility.converToMilliSecondsForSession(modelWeekList.get(i).getFromDate());
+                if (createdDateInMilli2>createdDateInMilli)
+                {
+                    if (range==0)
+                        range=i;
+
+                }
+                //    Log.w("@@@",String.valueOf(createdDateInMilli2));
+            }
+            if (range==0)
+            {
+                modelWeekList.subList(0,modelWeekList.size()-1).clear();
+            }
+            else {
+                modelWeekList.subList(0,range).clear();
+            }
+            modelWeekList.size();
 
         }
         catch (Exception ex)

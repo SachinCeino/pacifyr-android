@@ -352,7 +352,7 @@ public class MySessionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         try {
             final MSessionDetailRoot results=getItem(position);
             missedViewHolder.nameUserCtxv.setText(results.getPacifyr().getFirstName());
-            String time= results.getEndTime();
+            String time= results.getStartTime();
             /*SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.mmm'Z'");
             Date parsedTime = sdf.parse(time);
             SimpleDateFormat sdf2 = new SimpleDateFormat("MM-dd-yyyy'  'hh:mm a");
@@ -411,7 +411,7 @@ public class MySessionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         try {
             final MSessionDetailRoot results = getItem(position);
             serviceNotProvided.nameUserCtxv.setText(results.getPacifyr().getFirstName());
-            String time = results.getEndTime();
+            String time = results.getStartTime();
             /*SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.mmm'Z'");
             Date parsedTime = sdf.parse(time);
             SimpleDateFormat sdf2 = new SimpleDateFormat("MM-dd-yyyy'  'hh:mm a");
@@ -461,7 +461,7 @@ public class MySessionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         try {
             final MSessionDetailRoot results = getItem(position);
             officeVisit.nameUserCtxv.setText(results.getPacifyr().getFirstName());
-            String time = results.getEndTime();
+            String time = results.getStartTime();
             officeVisit.dateCtxv.setText(Utility.getStartFormatDate(time, context));
 
             String imgUrl = results.getPacifyr().getImageUrl();
