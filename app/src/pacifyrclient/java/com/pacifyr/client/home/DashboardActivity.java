@@ -20,9 +20,6 @@ import androidx.multidex.MultiDex;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
-import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.github.javiersantos.appupdater.AppUpdater;
 import com.pacifyr.client.Payment.PaymentFragment;
 import com.pacifyr.client.R;
@@ -50,6 +47,9 @@ import com.pacifyr.client.utils.AmazonSNSTokenHandler;
 import com.pacifyr.client.utils.LogUtils;
 import com.pacifyr.client.utils.PagerEnabledSlidingPaneLayout;
 import com.pacifyr.client.utils.ToastHandler;
+import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
+import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.quickblox.sample.core.utils.SharedPrefsHelper;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
@@ -58,9 +58,9 @@ import org.json.JSONObject;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
 import static com.pacifyr.client.quickblox.activities.CallActivity.isCallActive;
 import static com.pacifyr.client.utils.Constants.getCountryChecks;
+import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
 
 
 public class DashboardActivity extends PacifyrAppCompactActivity{
@@ -356,6 +356,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
         crisisLlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                hideRightLayActionbar();
                 Intent intent = new Intent(DashboardActivity.this,CrisisActivity.class);
                 startActivity(intent);
                 /*hideRightLayActionbar();
