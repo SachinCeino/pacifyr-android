@@ -28,9 +28,6 @@ import androidx.fragment.app.Fragment;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.MSessionDetailRoot;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
-import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
 import com.pacifyr.client.R;
 import com.pacifyr.client.event.AlertTypeEvent;
 import com.pacifyr.client.event.BusProvider;
@@ -64,6 +61,9 @@ import com.pacifyr.client.utility.PacifyrAppCompactActivity;
 import com.pacifyr.client.utils.FirebaseLogging;
 import com.pacifyr.client.utils.LogUtils;
 import com.pacifyr.client.utils.ToastHandler;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.MSessionDetailRoot;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
+import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
 import com.quickblox.chat.QBChatService;
 import com.quickblox.sample.core.utils.Toaster;
 import com.quickblox.users.model.QBUser;
@@ -93,8 +93,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
 import static com.pacifyr.client.home.ProfileScreenActivity.pacifyerDetial;
+import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
 
 /*import com.quickblox.videochat.webrtc.BaseSession;*/
 
@@ -197,6 +197,7 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode,final Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         Log.d(TAG, "onActivityResult requestCode="+requestCode +", resultCode= " + resultCode);
         if (requestCode == QBRTCScreenCapturer.REQUEST_MEDIA_PROJECTION) {
             if (resultCode == Activity.RESULT_OK) {

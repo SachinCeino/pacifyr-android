@@ -26,12 +26,6 @@ import androidx.appcompat.app.AlertDialog;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.pacifyr.client.quickblox.chat.utils.chat.ChatHelper;
-import com.pacifyrapp.utilitylibrary.ToastHandler;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.MEmotion;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
-import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
-import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.facebook.login.LoginManager;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.JsonObject;
@@ -52,19 +46,21 @@ import com.pacifyr.client.sign.SignActivity;
 import com.pacifyr.client.utils.AmazonSNSTokenHandler;
 import com.pacifyr.client.utils.FirebaseLogging;
 import com.pacifyr.client.utils.LogUtils;
+import com.pacifyrapp.utilitylibrary.ToastHandler;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.MEmotion;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
+import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
+import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.quickblox.auth.QBAuth;
 import com.quickblox.auth.session.BaseService;
 import com.quickblox.auth.session.QBSession;
 import com.quickblox.auth.session.QBSettings;
 import com.quickblox.chat.QBChatService;
-import com.quickblox.chat.model.QBChatDialog;
 import com.quickblox.core.QBEntityCallback;
 import com.quickblox.core.exception.QBResponseException;
-import com.quickblox.sample.core.utils.SharedPrefsHelper;
 import com.quickblox.users.model.QBUser;
 import com.squareup.otto.Subscribe;
 
-import org.jivesoftware.smackx.muc.DiscussionHistory;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -79,14 +75,13 @@ import java.util.TimeZone;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
-import static com.pacifyr.client.quickblox.chat.ui.activity.ChatActivity.EXTRA_DIALOG_ID;
+import static com.pacifyr.client.network.NetworkService.GLOBAL_URL;
+import static com.pacifyr.client.network.NetworkService.modelCustomerDashboard2;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.ACCOUNT_KEY;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.APP_ID;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.AUTH_KEY;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.AUTH_SECRET;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_IMAGE_URL;
-import static com.pacifyr.client.network.NetworkService.GLOBAL_URL;
-import static com.pacifyr.client.network.NetworkService.modelCustomerDashboard2;
 
 //import com.google.android.gms.gcm.GoogleCloudMessaging;
 //import com.pacifyr.pacifyrapp.utils.LogUtils;
@@ -954,16 +949,6 @@ public abstract class PacifyrAppCompactActivity  extends PacifyrActivity {
     public abstract void onSetValues() throws Exception;
 
 
-
-
-
-
-
-
-
-
-
-    @Subscribe
     public abstract void onNotifyEvent(NotifyEvent event);
 
     @Subscribe

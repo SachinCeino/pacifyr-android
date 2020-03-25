@@ -1,7 +1,5 @@
 package com.pacifyr.client.Payment;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
@@ -15,13 +13,13 @@ import android.widget.Toast;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.pacifyr.client.customview.MainTextView;
-import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
-import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.pacifyr.client.R;
+import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.AlertTypeEvent;
 import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.utility.PacifyrAppCompactActivity;
+import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
+import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.squareup.otto.Subscribe;
 import com.stripe.android.Stripe;
 import com.stripe.android.TokenCallback;
@@ -30,8 +28,10 @@ import com.stripe.android.model.Token;
 
 import org.json.JSONObject;
 
-import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.STRIPE_PUBLISH_KEY;
+import java.io.Serializable;
+
 import static com.pacifyr.client.network.NetworkService.GLOBAL_URL;
+import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.STRIPE_PUBLISH_KEY;
 
 /**
  * Created by Mani-Ceino on 1/17/2018.
@@ -47,19 +47,25 @@ public class AlertAddCreditCardActivity extends PacifyrAppCompactActivity {
 	private Token genaratedToken;
 	private String userid,userToken;
 	private PrefManager prefM;
+	public static final int REQUEST_CODE_ADD_CARD = 12;
+	private CardAddListener cardAddListener;
 
-
-	public static void start(Context context) {
-		Intent intent = new Intent(context, AlertAddCreditCardActivity.class);
-
-		context.startActivity(intent);
+	public CardAddListener getCardAddListener() {
+		return cardAddListener;
 	}
+
+	public void setCardAddListener(CardAddListener cardAddListener) {
+		this.cardAddListener = cardAddListener;
+	}
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_add_credit_card);
 		onSetActionBar();
 		initializeViews();
+		cardAddListener = getIntent() != null ? (CardAddListener) getIntent().getSerializableExtra("listener") :
+				null;
 		//59ca23f1dc224d0f8008347b
 		//151238166488392f68d0fc6f144f58b20c50473451b78
 
@@ -77,6 +83,67 @@ public class AlertAddCreditCardActivity extends PacifyrAppCompactActivity {
 			}
 		});
 
+	}
+
+	private void saveCardDetails() {
+		prefM = PrefManager.getInstance(AlertAddCreditCardActivity.this);
+		userToken = prefM.getAccessToken();
+		userid = prefM.getUserID();
+
+		String url = GLOBAL_URL + "payment/saveCard";
+		AjaxCallback cb = new AjaxCallback<JSONObject>() {
+			@Override
+			public void callback(String url, JSONObject json, AjaxStatus status) {
+				try {
+					String message = json.getString("message");
+					String my = json.toString();
+					if (message.equals("Card added")) {
+
+						setStatus("Successfully added your card", R.color.md_green_400);
+						showStatus();
+						final Handler handler = new Handler();
+						handler.postDelayed(new Runnable() {
+							@Override
+							public void run() {
+								hideStatus();
+								if (cardAddListener != null) {
+									cardAddListener.onAdded(true);
+								}
+								finish();
+								/*Intent i= new Intent(AlertAddCreditCardActivity.this,DashboardActivity.class);
+								startActivity(i);*/
+							}
+						}, 2000);
+
+					} else {
+						setStatus("Error occured. Please try again.", R.color.md_red_500);
+						showStatus();
+						final Handler handler = new Handler();
+						handler.postDelayed(new Runnable() {
+							@Override
+							public void run() {
+								hideStatus();
+							}
+						}, 2000);
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		};
+		AQuery aq = new AQuery(AlertAddCreditCardActivity.this);
+		cb.header("Content-Type", "application/json");
+		cb.header("AccessToken", userToken);
+		try {
+			JSONObject jsonObject = new JSONObject();
+			jsonObject.putOpt("userId", userid);
+			jsonObject.putOpt("tokenId", genaratedToken.getId());
+			aq.post(url, jsonObject, JSONObject.class, cb);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		// {"userId":"594bb69edc224d15fc8cb936",
+		// "tokenId":"tok_1Ajl5MEreQwimW2kjnr34bYl" }
 	}
 
 
@@ -160,64 +227,36 @@ public class AlertAddCreditCardActivity extends PacifyrAppCompactActivity {
 		}
 	}
 
-	private void saveCardDetails() {
-		prefM= PrefManager.getInstance(AlertAddCreditCardActivity.this);
-		userToken=prefM.getAccessToken();
-		userid=prefM.getUserID();
-
-		String url = GLOBAL_URL+"payment/saveCard";
-		AjaxCallback cb = new AjaxCallback<JSONObject>() {
+	public void onSetActionBar() {
+		actionBarTopLlay = findViewById(R.id.action_bar_top_llay);
+		bottomPanel = findViewById(R.id.bottom_panel);
+		leftLlay = findViewById(R.id.left_llay);
+		backImv = findViewById(R.id.back_imv);
+		leftTxv = findViewById(R.id.left_txv);
+		titleTxv = findViewById(R.id.title_txv);
+		rightLlay = findViewById(R.id.right_llay);
+		rightTxv = findViewById(R.id.right_txv);
+		rightImv = findViewById(R.id.right_imv);
+		rightImv.setVisibility(View.INVISIBLE);
+		rightTxv.setVisibility(View.INVISIBLE);
+		rightLlay.setVisibility(View.INVISIBLE);
+		leftTxv.setVisibility(View.INVISIBLE);
+		backImv.setVisibility(View.VISIBLE);
+		titleTxv.setVisibility(View.VISIBLE);
+		leftLlay.setVisibility(View.VISIBLE);
+		defSetText(titleTxv, "Add Credit Card");
+		//titleTxv.setText("Add Credit Card");
+		titleTxv.setTextColor(getResources().getColor(R.color._color_action_bar_text_color));
+		//backImv.setBackgroundResource(R.drawable.leftmen);
+		leftLlay.setOnClickListener(new View.OnClickListener() {
 			@Override
-			public void callback(String url, JSONObject json, AjaxStatus status) {
-				try {
-					String message=json.getString("message");
-					String my=json.toString();
-					if(message.equals("Card added")){
-
-						setStatus("Successfully added your card", R.color.md_green_400);
-						showStatus();
-						final Handler handler = new Handler();
-						handler.postDelayed(new Runnable() {
-							@Override
-							public void run() {
-								hideStatus();
-								finish();
-								/*Intent i= new Intent(AlertAddCreditCardActivity.this,DashboardActivity.class);
-								startActivity(i);*/
-							}
-						}, 2000);
-
-					}else {
-						setStatus("Error occured. Please try again.", R.color.md_red_500);
-						showStatus();
-						final Handler handler = new Handler();
-						handler.postDelayed(new Runnable() {
-							@Override
-							public void run() {
-								hideStatus();
-							}
-						}, 2000);
-					}
-				} catch (Exception e) {
-					e.printStackTrace();
+			public void onClick(View v) {
+				if (cardAddListener != null) {
+					cardAddListener.onAdded(false);
 				}
+				finish();
 			}
-		};
-		AQuery aq = new AQuery(AlertAddCreditCardActivity.this);
-		cb.header("Content-Type", "application/json");
-		cb.header("AccessToken",userToken);
-		try {
-			JSONObject jsonObject = new JSONObject();
-			jsonObject.putOpt("userId", userid);
-			jsonObject.putOpt("tokenId", genaratedToken.getId());
-			aq.post(url, jsonObject, JSONObject.class, cb);
-		}
-		catch (Exception ex)
-		{
-			ex.printStackTrace();
-		}
-		// {"userId":"594bb69edc224d15fc8cb936",
-		// "tokenId":"tok_1Ajl5MEreQwimW2kjnr34bYl" }
+		});
 	}
 
 	private void initializeViews() {
@@ -341,32 +380,15 @@ public class AlertAddCreditCardActivity extends PacifyrAppCompactActivity {
     private MainTextView rightTxv;
 	private DeviceFitImageView rightImv;
 
-	public void onSetActionBar() {
-		actionBarTopLlay = findViewById(R.id.action_bar_top_llay);
-		bottomPanel = findViewById(R.id.bottom_panel);
-		leftLlay = findViewById(R.id.left_llay);
-		backImv = findViewById(R.id.back_imv);
-		leftTxv = findViewById(R.id.left_txv);
-		titleTxv = findViewById(R.id.title_txv);
-		rightLlay = findViewById(R.id.right_llay);
-		rightTxv = findViewById(R.id.right_txv);
-		rightImv = findViewById(R.id.right_imv);
-		rightImv.setVisibility(View.INVISIBLE);
-		rightTxv.setVisibility(View.INVISIBLE);
-		rightLlay.setVisibility(View.INVISIBLE);
-		leftTxv.setVisibility(View.INVISIBLE);
-		backImv.setVisibility(View.VISIBLE);
-		titleTxv.setVisibility(View.VISIBLE);
-		leftLlay.setVisibility(View.VISIBLE);
-		defSetText(titleTxv,"Add Credit Card");
-		//titleTxv.setText("Add Credit Card");
-		titleTxv.setTextColor(getResources().getColor(R.color._color_action_bar_text_color));
-		//backImv.setBackgroundResource(R.drawable.leftmen);
-		leftLlay.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				finish();
-			}
-		});
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+		if (cardAddListener != null) {
+			cardAddListener.onAdded(false);
+		}
+	}
+
+	public interface CardAddListener extends Serializable {
+		void onAdded(boolean status);
 	}
 }

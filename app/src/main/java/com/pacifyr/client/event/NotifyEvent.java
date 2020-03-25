@@ -22,6 +22,16 @@ public class NotifyEvent {
     AjaxStatus status=null;
     String classname =null;
 
+    String type;
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
     public ModelSpecialityByEmotion specialityByEmotion;
 
 

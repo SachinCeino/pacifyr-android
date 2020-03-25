@@ -12,11 +12,11 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
-import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.pacifyr.client.R;
 import com.pacifyr.client.quickblox.chat.utils.chat.ChatHelper;
 import com.pacifyr.client.quickblox.utils.Consts;
 import com.pacifyr.client.utils.Constants;
+import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.quickblox.auth.QBAuth;
 import com.quickblox.auth.session.QBSession;
 import com.quickblox.auth.session.QBSettings;
@@ -186,7 +186,7 @@ public class Call_Service extends Service implements QBRTCClientSessionCallbacks
 
             @Override
             public void onError(QBResponseException e) {
-                Log.e(TAG, "Chat login error ->" + e != null ? e.getMessage() : "");
+//                Log.e(TAG, "Chat login error ->" + e != null ? e.getMessage() : "");
                 e.printStackTrace();
                 try {
                     if (e.getHttpStatusCode() == -1) {

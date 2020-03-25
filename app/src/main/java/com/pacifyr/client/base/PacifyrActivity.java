@@ -31,6 +31,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
@@ -289,6 +290,166 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
 
         }
     };
+    /*public void startCall(boolean isVideoCall, long  qbID) {
+     *//*if (opponentsAdapter.getSelectedItems().size() > Consts.MAX_OPPONENTS_COUNT) {
+            Toaster.longToast(String.format(getString(R.string.error_max_opponents_count),
+                    Consts.MAX_OPPONENTS_COUNT));
+            return;
+        }*//*
+
+        Log.d("jp", "startCall()");
+        ArrayList<Integer> opponentsList = new ArrayList<Integer>();
+        opponentsList.add((int) qbID);
+        //ArrayList<Integer> opponentsList = CollectionsUtils.getIdsSelectedOpponents(opponentsAdapter.getSelectedItems());
+        QBRTCTypes.QBConferenceType conferenceType = isVideoCall
+                ? QBRTCTypes.QBConferenceType.QB_CONFERENCE_TYPE_VIDEO
+                : QBRTCTypes.QBConferenceType.QB_CONFERENCE_TYPE_AUDIO;
+
+        QBRTCClient qbrtcClient = QBRTCClient.getInstance(getApplicationContext());
+
+        //QBRTCSession newQbRtcSession = qbrtcClient.createNewSessionWithOpponents(opponentsList, conferenceType);
+        QBRTCSession newQbRtcSession = qbrtcClient.createNewSessionWithOpponents(opponentsList, conferenceType);
+
+
+        Map<String, String> userInfo = new HashMap<>();
+        //   userInfo.put("user", "samsad");
+        userInfo.put("lastName", getUserLastName()+"");
+        userInfo.put("firstName", getUserFirstName()+"");
+        userInfo.put("imageAvathar", getProfileImageURL()+"");
+       // userInfo.put("OpponentUserid", oppentid+"");
+      //  userInfo.put("sessionId", sessionid+"");
+
+        WebRtcSessionManager.getInstance(this).setCurrentSession(newQbRtcSession);
+         WebRtcSessionManager.getInstance(this).getCurrentSession().startCall(userInfo);
+        PushNotificationSender.sendPushMessage(opponentsList, sharedPrefsHelper.getQbUser().getFullName());
+
+
+
+        CallActivity.start(this, false);
+        Log.d("jp", "conferenceType = " + conferenceType);
+    }*/
+    public AvailableMinuteListner listner = new AvailableMinuteListner() {
+     /*   @Override
+        public void onAvailable(ModelUserProfile results, boolean isVideoCall, long qbid) {
+            //startSessionWeb(results,true,qbid);
+            *//*if(isValid(results.getQbid()))
+                startSessionWeb(results,isVideoCall,results.getQbid());
+            else*//*
+                startSessionWeb(results,isVideoCall,qbid);
+        }*/
+
+
+        @Override
+        public void onAvailable(ModelUserProfile mCurrentUser, MUser pacifyerDetial, boolean isVideoCall) {
+            //startSessionWeb(pacifyerDetial,isVideoCall);
+            updateProfileStartCallWeb(pacifyerDetial, isVideoCall);
+        }
+       /* @Override
+        public void onAvailable() {
+           // startSessionWeb(pacifyerDetial,true,qbID);
+
+
+        }
+
+        @Override
+        public void onAlert(long time) {
+         *//*   setAlertStatusInBlue2("Add Card", time+" minutes only left. Add Credit card for further calls.", "Ok", "NO", new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                  //  startSessionWeb(pacifyerDetial,true,qbID);
+                }
+            });*//*
+
+        }*/
+
+        /*     @Override
+             public void onAlert(final long time,final ModelUserProfile results,final boolean isVideoCall,final long qbid) {
+                 setAlertStatusInBlue2("Add Card", time+" minutes only left. Add Credit card for further calls.", "Ok", "NO", new View.OnClickListener() {
+                     @Override
+                     public void onClick(View view) {
+                      *//*    if(isValid(results.getQbid()))
+                       startSessionWeb(results,isVideoCall,results.getQbid());
+                    else*//*
+                        startSessionWeb(results,isVideoCall,qbid);
+                }
+            });
+        }
+*/
+        @Override
+        public void onAlert(long time, final MUser pacifyerDetial, final boolean isVideoCall) {
+
+            setAlertStatusInBlue2("Add Card", " You have " + time + " minutes of free call time left. Please setup payment to continue. If payment is not set up, the call will be disconnected.", "Ok", "NO", new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    hideProgress();
+                    hideStatus2();
+                    updateProfileStartCallWeb(pacifyerDetial, isVideoCall);
+                }
+            });
+        }
+
+        /*  @Override
+          public void onAlert(long time, ModelUserProfile mCurrentUser, boolean isVideoCall) {
+              setAlertStatusInBlue2("Add Card", time+" minutes only left. Add Credit card for further calls.", "Ok", "NO", new View.OnClickListener() {
+                  @Override
+                  public void onClick(View view) {
+                   *//*    if(isValid(results.getQbid()))
+                       startSessionWeb(results,isVideoCall,results.getQbid());
+                    else*//*
+                    startSessionWeb(results,isVideoCall,qbid);
+                }
+            });
+        }
+*/
+        @Override
+        public void onPacifyerAlert(long time, ModelUserProfile mCurrentUser, MUser pacifyerDetial, boolean isVideoCall) {
+            updateProfileStartCallWeb(pacifyerDetial, isVideoCall);
+          /*  setAlertStatusInBlue2("Pacifyer Free limit crossed ", " Add Credit card for further calls.", "Ok", "NO", new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+//time+" minutes only left. Add Credit card for further calls."
+                    AlertAddCreditCardActivity.start(PacifyrActivity.this);
+                }
+            });*/
+        }
+
+        @Override
+        public void onNotAvailable(long time) {
+            setAlertStatusInBlue2("Add Card", "Your free minutes are expired. Please continue enjoying our services by updating your credit card information", "Ok", "NO", new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    hideProgress();
+                    hideStatus2();
+                    Intent intent = new Intent(PacifyrActivity.this,
+                            AlertAddCreditCardActivity.class);
+                    startActivityForResult(intent, AlertAddCreditCardActivity.REQUEST_CODE_ADD_CARD);
+                }
+            }, new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    hideProgress();
+                    hideStatus2();
+                    ShowTransactionFaileToUSer("Add payment cancelled");
+                }
+            });
+
+
+        }
+
+        @Override
+        public void onException(Exception e) {
+            setAlertOKStatusInBlue("Session Expired ", "Please try to Re-Login ", "Ok");
+        }
+
+        @Override
+        public void onError(String e) {
+            setAlertOKStatusInBlue("Error ", "Please try later ", "Ok");
+        }
+
+
+    };
+
     private void doPaymentSetup(Intent intent) {
         String type = intent.getStringExtra("type");
         String id = intent.getStringExtra("id");
@@ -333,11 +494,12 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
 
                             if (isValid(CallActivity.mSessionDetailRoot) && isValid(CallActivity.mSessionDetailRoot.getPacifyr()) &&
                                     isValid(CallActivity.mSessionDetailRoot.getPacifyr().getPrice())) {
-                                String tempSessionId=id;
-                                if (errorCount!=0)
-                                    tempSessionId=tempSessionId+"_"+errorCount;
+                                String tempSessionId = id;
+                                if (errorCount != 0)
+                                    tempSessionId = tempSessionId + "_" + errorCount;
                                 generateCheckSum(tempSessionId, Integer.parseInt(CallActivity.mSessionDetailRoot.getPacifyr().getPrice()));
                             }
+
 
                         } else {
                             Toast.makeText(getApplicationContext(), "Session id not valid !", Toast.LENGTH_SHORT).show();
@@ -346,10 +508,28 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
                     }
                 });
 
+            } else if (getPrefManager().getCountry().equalsIgnoreCase("US")) {
+                setAlertStatusInBlue2("Add Card", message, "Ok", "Cancel",
+                        new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                hideProgress();
+                                hideStatus2();
+                                Intent intent = new Intent(PacifyrActivity.this,
+                                        AlertAddCreditCardActivity.class);
+                                startActivityForResult(intent, AlertAddCreditCardActivity.REQUEST_CODE_ADD_CARD);
+                            }
+                        }, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                hideProgress();
+                                hideStatus2();
+                                ShowTransactionFaileToUSer("Add payment cancelled");
+                            }
+                        });
             }
         }
     }
-
 
     public static Timer trackTimer;
     public static TimerTask trackTimerTask;
@@ -796,159 +976,21 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
         }
     }
 
-
-
-
-    /*public void startCall(boolean isVideoCall, long  qbID) {
-     *//*if (opponentsAdapter.getSelectedItems().size() > Consts.MAX_OPPONENTS_COUNT) {
-            Toaster.longToast(String.format(getString(R.string.error_max_opponents_count),
-                    Consts.MAX_OPPONENTS_COUNT));
-            return;
-        }*//*
-
-        Log.d("jp", "startCall()");
-        ArrayList<Integer> opponentsList = new ArrayList<Integer>();
-        opponentsList.add((int) qbID);
-        //ArrayList<Integer> opponentsList = CollectionsUtils.getIdsSelectedOpponents(opponentsAdapter.getSelectedItems());
-        QBRTCTypes.QBConferenceType conferenceType = isVideoCall
-                ? QBRTCTypes.QBConferenceType.QB_CONFERENCE_TYPE_VIDEO
-                : QBRTCTypes.QBConferenceType.QB_CONFERENCE_TYPE_AUDIO;
-
-        QBRTCClient qbrtcClient = QBRTCClient.getInstance(getApplicationContext());
-
-        //QBRTCSession newQbRtcSession = qbrtcClient.createNewSessionWithOpponents(opponentsList, conferenceType);
-        QBRTCSession newQbRtcSession = qbrtcClient.createNewSessionWithOpponents(opponentsList, conferenceType);
-
-
-        Map<String, String> userInfo = new HashMap<>();
-        //   userInfo.put("user", "samsad");
-        userInfo.put("lastName", getUserLastName()+"");
-        userInfo.put("firstName", getUserFirstName()+"");
-        userInfo.put("imageAvathar", getProfileImageURL()+"");
-       // userInfo.put("OpponentUserid", oppentid+"");
-      //  userInfo.put("sessionId", sessionid+"");
-
-        WebRtcSessionManager.getInstance(this).setCurrentSession(newQbRtcSession);
-         WebRtcSessionManager.getInstance(this).getCurrentSession().startCall(userInfo);
-        PushNotificationSender.sendPushMessage(opponentsList, sharedPrefsHelper.getQbUser().getFullName());
-
-
-
-        CallActivity.start(this, false);
-        Log.d("jp", "conferenceType = " + conferenceType);
-    }*/
-    public AvailableMinuteListner listner = new AvailableMinuteListner() {
-     /*   @Override
-        public void onAvailable(ModelUserProfile results, boolean isVideoCall, long qbid) {
-            //startSessionWeb(results,true,qbid);
-            *//*if(isValid(results.getQbid()))
-                startSessionWeb(results,isVideoCall,results.getQbid());
-            else*//*
-                startSessionWeb(results,isVideoCall,qbid);
-        }*/
-
-
-        @Override
-        public void onAvailable(ModelUserProfile mCurrentUser, MUser pacifyerDetial, boolean isVideoCall) {
-            //startSessionWeb(pacifyerDetial,isVideoCall);
-            updateProfileStartCallWeb(pacifyerDetial, isVideoCall);
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == AlertAddCreditCardActivity.REQUEST_CODE_ADD_CARD) {
+            if (resultCode == RESULT_OK) {
+                TransactionResponce transactionResponce = new TransactionResponce();
+                transactionResponce.setTransactionResponse("success");
+                transactionResponce.setTransactionStatus("success");
+                transactionResponce.setTransactionId("success");
+                ShowTransactionSuccesResultToUSer(transactionResponce);
+            } else {
+                ShowTransactionFaileToUSer("Add payment failed");
+            }
         }
-       /* @Override
-        public void onAvailable() {
-           // startSessionWeb(pacifyerDetial,true,qbID);
-
-
-        }
-
-        @Override
-        public void onAlert(long time) {
-         *//*   setAlertStatusInBlue2("Add Card", time+" minutes only left. Add Credit card for further calls.", "Ok", "NO", new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                  //  startSessionWeb(pacifyerDetial,true,qbID);
-                }
-            });*//*
-
-        }*/
-
-        /*     @Override
-             public void onAlert(final long time,final ModelUserProfile results,final boolean isVideoCall,final long qbid) {
-                 setAlertStatusInBlue2("Add Card", time+" minutes only left. Add Credit card for further calls.", "Ok", "NO", new View.OnClickListener() {
-                     @Override
-                     public void onClick(View view) {
-                      *//*    if(isValid(results.getQbid()))
-                       startSessionWeb(results,isVideoCall,results.getQbid());
-                    else*//*
-                        startSessionWeb(results,isVideoCall,qbid);
-                }
-            });
-        }
-*/
-        @Override
-        public void onAlert(long time, final MUser pacifyerDetial, final boolean isVideoCall) {
-
-            setAlertStatusInBlue2("Add Card", " You have " + time + " minutes of free call time left. Please setup payment to continue. If payment is not set up, the call will be disconnected.", "Ok", "NO", new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-                    hideProgress();
-                    hideStatus2();
-                    updateProfileStartCallWeb(pacifyerDetial, isVideoCall);
-                }
-            });
-        }
-
-        /*  @Override
-          public void onAlert(long time, ModelUserProfile mCurrentUser, boolean isVideoCall) {
-              setAlertStatusInBlue2("Add Card", time+" minutes only left. Add Credit card for further calls.", "Ok", "NO", new View.OnClickListener() {
-                  @Override
-                  public void onClick(View view) {
-                   *//*    if(isValid(results.getQbid()))
-                       startSessionWeb(results,isVideoCall,results.getQbid());
-                    else*//*
-                    startSessionWeb(results,isVideoCall,qbid);
-                }
-            });
-        }
-*/
-        @Override
-        public void onPacifyerAlert(long time, ModelUserProfile mCurrentUser, MUser pacifyerDetial, boolean isVideoCall) {
-            updateProfileStartCallWeb(pacifyerDetial, isVideoCall);
-          /*  setAlertStatusInBlue2("Pacifyer Free limit crossed ", " Add Credit card for further calls.", "Ok", "NO", new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-//time+" minutes only left. Add Credit card for further calls."
-                    AlertAddCreditCardActivity.start(PacifyrActivity.this);
-                }
-            });*/
-        }
-
-        @Override
-        public void onNotAvailable(long time) {
-            setAlertStatusInBlue2("Add Card", "Your free minutes are expired. Please continue enjoying our services by updating your credit card information", "Ok", "NO", new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    hideProgress();
-                    hideStatus2();
-                    AlertAddCreditCardActivity.start(PacifyrActivity.this);
-                }
-            });
-
-
-        }
-
-        @Override
-        public void onException(Exception e) {
-            setAlertOKStatusInBlue("Session Expired ", "Please try to Re-Login ", "Ok");
-        }
-
-        @Override
-        public void onError(String e) {
-            setAlertOKStatusInBlue("Error ", "Please try later ", "Ok");
-        }
-
-
-    };
+    }
 
     protected Snackbar returnshowErrorSnackbar(@StringRes int resId, Exception e,
                                                View.OnClickListener clickListener) {
@@ -3437,7 +3479,7 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
 
     }
 
-    private void ShowTransactionSuccesResultToUSer(TransactionResponce object) {
+    public void ShowTransactionSuccesResultToUSer(TransactionResponce object) {
 
 
         errorCount=0;
@@ -3595,7 +3637,7 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
     }
 
 
-    private void ShowTransactionFaileToUSer(String message) {
+    public void ShowTransactionFaileToUSer(String message) {
         errorCount++;
         if (!isShowDialogs()) {
             if (Build.VERSION.SDK_INT != Build.VERSION_CODES.M) {
