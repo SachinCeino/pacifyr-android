@@ -8,14 +8,14 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-import com.pacifyr.client.customview.MainTextView;
-import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.pacifyr.client.R;
 import com.pacifyr.client.activity.TermsOfUseActivity;
+import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.AlertTypeEvent;
 import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.utility.PacifyrAppCompactActivity;
 import com.pacifyr.client.utils.Constants;
+import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 
 import org.greenrobot.eventbus.Subscribe;
 
@@ -37,10 +37,10 @@ public class PolicyDocumentActivity extends PacifyrAppCompactActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_policy_document);
         onSetActionBar();
-        topLlay = (LinearLayout) findViewById(R.id.top_llay);
-        termsCtxv = (MainTextView) findViewById(R.id.terms_ctxv);
-        privacyCtxv = (MainTextView) findViewById(R.id.privacy_ctxv);
-        copyrightCtxv = (MainTextView) findViewById(R.id.copyright_ctxv);
+        topLlay = findViewById(R.id.top_llay);
+        termsCtxv = findViewById(R.id.terms_ctxv);
+        privacyCtxv = findViewById(R.id.privacy_ctxv);
+        copyrightCtxv = findViewById(R.id.copyright_ctxv);
 
 
         termsCtxv.setOnClickListener(new View.OnClickListener() {
@@ -74,6 +74,12 @@ public class PolicyDocumentActivity extends PacifyrAppCompactActivity {
             }
         });
 
+        topLlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     @Override
@@ -113,15 +119,15 @@ public class PolicyDocumentActivity extends PacifyrAppCompactActivity {
 
     public void onSetActionBar() {
         try {
-            actionBarTopLlay = (LinearLayout) findViewById(R.id.action_bar_top_llay);
-            bottomPanel = (RelativeLayout) findViewById(R.id.bottom_panel);
-            leftLlay = (LinearLayout) findViewById(R.id.left_llay);
-            backImv = (DeviceFitImageView) findViewById(R.id.back_imv);
-            leftTxv = (MainTextView) findViewById(R.id.left_txv);
-            titleTxv = (MainTextView) findViewById(R.id.title_txv);
-            rightLlay = (LinearLayout) findViewById(R.id.right_llay);
-            rightTxv = (MainTextView) findViewById(R.id.right_txv);
-            rightImv = (DeviceFitImageView) findViewById(R.id.right_imv);
+            actionBarTopLlay = findViewById(R.id.action_bar_top_llay);
+            bottomPanel = findViewById(R.id.bottom_panel);
+            leftLlay = findViewById(R.id.left_llay);
+            backImv = findViewById(R.id.back_imv);
+            leftTxv = findViewById(R.id.left_txv);
+            titleTxv = findViewById(R.id.title_txv);
+            rightLlay = findViewById(R.id.right_llay);
+            rightTxv = findViewById(R.id.right_txv);
+            rightImv = findViewById(R.id.right_imv);
 
             rightImv.setVisibility(View.INVISIBLE);
             rightTxv.setVisibility(View.INVISIBLE);

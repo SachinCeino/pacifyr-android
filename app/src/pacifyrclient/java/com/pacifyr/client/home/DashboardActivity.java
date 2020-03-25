@@ -164,6 +164,261 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
     }
 
 
+    public static String CreatedDay = "";
+
+
+    private void loginToQuickblox() {
+        SharedPrefsHelper sharedPrefsHelper = SharedPrefsHelper.getInstance();
+        if (sharedPrefsHelper.hasQbUser()) {
+            CallService.start(DashboardActivity.this, sharedPrefsHelper.getQbUser());
+        }
+    }
+
+
+
+    /*    public static showActionBar()
+    {
+        try {
+            hideRightLayActionbar();
+            showFragment(new UserDashboardFragment());
+            defSetText(titleTxv,"Dashboard");
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }*/
+
+    //https://pacifyrtest.s3.amazonaws.com/Q1514964254954.jpg
+   /* private void setProfileValues() {
+        try {
+            detailNameCtxv.setText(getCurrentUserName());
+            detailMailCtxv.setText(getCurrentUserMail());
+            String imageurl=getCurrentUserImageUrl();
+            LogUtils.LOGD("session","DA setProfileValues imageurl " + imageurl);
+
+            if (isValid(imageurl)) {
+                LogUtils.LOGD("session","DA setProfileValues loading imageurl " + imageurl);
+                //   setAqueryImageUrl(profile_cimv,imageurl, R.drawable.placeholder_user);
+                App.getPicasso(). load(imageurl).into(profile_cimv);
+
+            }
+        }catch (Exception e)
+        {
+            LogUtils.LOGD("session","DA setProfileValues exce " + e.getMessage());
+        }
+    }*/
+
+    @Override
+    protected View getSnackbarAnchorView() {
+        return null;
+    }
+
+    @Override
+    public void onSetValues() throws Exception {
+
+    }
+
+    @Subscribe
+    public void onNotifyEvent(NotifyEvent event) {
+        try {
+            if (event.isSuccess)
+                setProfileValues();
+        } catch (Exception e) {
+            LogUtils.LOGD("session", "DA onNotifyEvent exce " + e.getMessage());
+        }
+
+    }
+
+    @Subscribe
+    public void onAlertTypeEvent(AlertTypeEvent event) {
+
+    }
+
+    @Subscribe
+    public void onActionbarEvent(ActionbarEvent event) {
+        try {
+            defSetText(titleTxv, "MY DASHBOARD");
+        } catch (Exception e) {
+            LogUtils.LOGD("session", "DA onActionbarEvent exce " + e.getMessage());
+        }
+    }
+
+    private LinearLayout actionBarTopLlay;
+    private RelativeLayout bottomPanel;
+    private LinearLayout leftLlay;
+    private DeviceFitImageView backImv;
+    private MainTextView leftTxv;
+    private MainTextView titleTxv;
+    private LinearLayout rightLlay;
+    private MainTextView rightTxv;
+    private DeviceFitImageView rightImv;
+
+    public void onSetActionBar() {
+        actionBarTopLlay = findViewById(R.id.action_bar_top_llay);
+        bottomPanel = findViewById(R.id.bottom_panel);
+        leftLlay = findViewById(R.id.left_llay);
+        backImv = findViewById(R.id.back_imv);
+        leftTxv = findViewById(R.id.left_txv);
+        titleTxv = findViewById(R.id.title_txv);
+        rightLlay = findViewById(R.id.right_llay);
+        rightTxv = findViewById(R.id.right_txv);
+        rightImv = findViewById(R.id.right_imv);
+        rightImv.setVisibility(View.INVISIBLE);
+        rightTxv.setVisibility(View.INVISIBLE);
+        rightLlay.setVisibility(View.INVISIBLE);
+        leftTxv.setVisibility(View.INVISIBLE);
+        backImv.setVisibility(View.VISIBLE);
+        titleTxv.setVisibility(View.VISIBLE);
+        leftLlay.setVisibility(View.VISIBLE);
+        defSetText(titleTxv, getResources().getString(R.string.mydashboard));
+        Typeface type = Typeface.createFromAsset(getAssets(), getResources().getString(R.string.avantica_bold_header));
+        titleTxv.setTypeface(type);
+        titleTxv.setTextColor(getResources().getColor(R.color._color_action_bar_text_color));
+        backImv.setImageDrawable(getResources().getDrawable(R.drawable.leftmen));
+        //backImv.setBackgroundResource(R.drawable.leftmen);
+        leftLlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mSlidingPaneLayout.isOpen()) {
+                    mSlidingPaneLayout.closePane();
+
+                } else {
+                    mSlidingPaneLayout.openPane();
+                }
+            }
+        });
+        showRightLayActionbar();
+    }
+
+    private void showRightLayActionbar() {
+
+        try {
+            rightTxv.setVisibility(View.VISIBLE);
+            rightLlay.setVisibility(View.VISIBLE);
+            rightImv.setVisibility(View.INVISIBLE);
+            defSetText(rightTxv, getResources().getString(R.string.edit));
+            rightTxv.setTextColor(getResources().getColor(R.color._color_action_bar_text_color));
+            rightLlay.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(DashboardActivity.this, AccountEditActivity.class);
+                    //  intent.putExtra("display","Pacifyr");
+                    startActivity(intent);
+                }
+            });
+
+        } catch (Exception e) {
+            LogUtils.LOGD("session", "DA showRightLayActionbar exce " + e.getMessage());
+        }
+
+    }
+
+    private void hideRightLayActionbar() {
+
+        try {
+            rightTxv.setVisibility(View.INVISIBLE);
+            rightLlay.setVisibility(View.INVISIBLE);
+            rightImv.setVisibility(View.INVISIBLE);
+
+
+        } catch (Exception e) {
+            LogUtils.LOGD("session", "DA hideRightLayActionbar exce " + e.getMessage());
+        }
+
+    }
+
+    public void showFragment() {
+        FragmentManager fm = DashboardActivity.this.getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        UserDashboardFragment fragment = new UserDashboardFragment();
+        getSupportFragmentManager().beginTransaction().replace(R.id.activity_main_content_fragment, fragment).commit();
+    }
+
+    public void showFragment(Fragment fragment) {
+        /*FragmentManager fm=DashboardActivity.this.getSupportFragmentManager();
+        FragmentTransaction ft=fm.beginTransaction();
+        UserDashboardFragment fragment=new UserDashboardFragment();*/
+        getSupportFragmentManager().beginTransaction().replace(R.id.activity_main_content_fragment, fragment).commit();
+        mSlidingPaneLayout.closePane();
+    }
+
+    public void showSearchPacifyrs(View view) {
+        Intent i = new Intent(this, ListPacifyrScreenActivity.class);
+        startActivity(i);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mSlidingPaneLayout.isOpen()) {
+            mSlidingPaneLayout.closePane();
+        } else {
+
+            if (getSupportFragmentManager().getBackStackEntryCount() > 0)
+                getSupportFragmentManager().popBackStackImmediate();
+            else {
+                if (!onceBackpressed) {
+                    ToastHandler.newInstance(this).mustShowToast("" + getText(R.string.press_back_again_to_exit));
+                    onceBackpressed = true;
+                    Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            onceBackpressed = false;
+                        }
+                    }, 5000);
+                } else {
+                    finishAffinity();
+                    finish();
+                }
+            }
+        }
+    }
+
+    /*public void showQuickblox(View view) {
+        Intent i=new Intent(this, VideoChatActivity.class);
+        startActivity(i);
+    }*/
+
+    @Subscribe
+    public void onChatEvent(ChatEvent event) {
+        try {
+            LogUtils.LOGD("session", "CPA onCallEvent called ");
+            if (!isValid(event.mpacifyer, "Network Error"))
+                return;
+            startChat(event.mpacifyer);
+
+
+        } catch (Exception e) {
+            LogUtils.LOGD("session", "CPA ChatEvent exce " + e.getMessage());
+        }
+
+    }
+
+
+    public CallChatEventListner callchatEventListner = new CallChatEventListner() {
+        @Override
+        public void onCallEventClick(CallEvent event) {
+
+            //onCallEvent(event);
+        }
+
+        @Override
+        public void onChatEventClick(ChatEvent event) {
+            onChatEvent(event);
+        }
+
+        @Override
+        public void onException(Exception e) {
+
+        }
+
+        @Override
+        public void onError(String e) {
+
+        }
+    };
+    public static String CreatedYear = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -263,6 +518,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
         dashboardLlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 hideRightLayActionbar();
                 showFragment(new UserDashboardFragment());
             }
@@ -270,6 +526,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
         detailLlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 showRightLayActionbar();
                 showFragment(new AccountFragment());
             }
@@ -277,6 +534,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
         connectToPacifyr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 hideRightLayActionbar();
                 ConnectToPacifyrActivity.start(context);
                 /*Intent intent=new Intent(getActivity(), ConnectToPacifyrActivity.class);
@@ -288,6 +546,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
         tutotial_llay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 hideRightLayActionbar();
                 showFragment(new WelcomeTourFragment());
 
@@ -296,6 +555,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
         browsePacifyr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 hideRightLayActionbar();
                 Intent i=new Intent(context, ListPacifyrScreenActivity.class);
                 startActivity(i);
@@ -311,6 +571,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
         paymentLlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 hideRightLayActionbar();
                 showFragment(new PaymentFragment());
 
@@ -321,6 +582,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
         messagesLlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 hideRightLayActionbar();
                 DialogsActivity.start(context);
                 /*showFragment(new PacifyrMessageFragment());*/
@@ -331,6 +593,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
         policyDocumentLlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 hideRightLayActionbar();
                 PolicyDocumentActivity.start(context);
                 /*  showFragment(new PacifyrMessageFragment());*/
@@ -340,6 +603,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
         mysessionsLlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 hideRightLayActionbar();
                 showFragment(new MySessionFragment());
 
@@ -349,6 +613,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
         supportLlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 hideRightLayActionbar();
                 showFragment(new SupportFragment());
             }
@@ -357,6 +622,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
         crisisLlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 hideRightLayActionbar();
                 Intent intent = new Intent(DashboardActivity.this,CrisisActivity.class);
                 startActivity(intent);
@@ -369,6 +635,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
         resourcesLlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 hideRightLayActionbar();
                 showFragment(new ResourcesFragment());
 
@@ -378,6 +645,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
         logoutLlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 hideRightLayActionbar();
                 setAlertStatusInBlue("log out", getResources().getString(R.string.signout_message), new View.OnClickListener() {
                     @Override
@@ -405,269 +673,6 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
         new AmazonSNSTokenHandler(context).register();
         loginToQuickblox();
     }
-
-
-    private void loginToQuickblox() {
-        SharedPrefsHelper sharedPrefsHelper = SharedPrefsHelper.getInstance();
-        if (sharedPrefsHelper.hasQbUser()) {
-            CallService.start(DashboardActivity.this, sharedPrefsHelper.getQbUser());
-        }
-    }
-
-
-
-    /*    public static showActionBar()
-    {
-        try {
-            hideRightLayActionbar();
-            showFragment(new UserDashboardFragment());
-            defSetText(titleTxv,"Dashboard");
-        }catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-    }*/
-
-    //https://pacifyrtest.s3.amazonaws.com/Q1514964254954.jpg
-   /* private void setProfileValues() {
-        try {
-            detailNameCtxv.setText(getCurrentUserName());
-            detailMailCtxv.setText(getCurrentUserMail());
-            String imageurl=getCurrentUserImageUrl();
-            LogUtils.LOGD("session","DA setProfileValues imageurl " + imageurl);
-
-            if (isValid(imageurl)) {
-                LogUtils.LOGD("session","DA setProfileValues loading imageurl " + imageurl);
-                //   setAqueryImageUrl(profile_cimv,imageurl, R.drawable.placeholder_user);
-                App.getPicasso(). load(imageurl).into(profile_cimv);
-
-            }
-        }catch (Exception e)
-        {
-            LogUtils.LOGD("session","DA setProfileValues exce " + e.getMessage());
-        }
-    }*/
-
-    @Override
-    protected View getSnackbarAnchorView() {
-        return null;
-    }
-
-    @Override
-    public void onSetValues() throws Exception {
-
-    }
-
-    @Subscribe
-    public void onNotifyEvent(NotifyEvent event) {
-        try {
-            if(event.isSuccess)
-                setProfileValues();
-        }catch (Exception e)
-        {
-            LogUtils.LOGD("session","DA onNotifyEvent exce " + e.getMessage());
-        }
-
-    }
-
-    @Subscribe
-    public void onAlertTypeEvent(AlertTypeEvent event) {
-
-    }
-    @Subscribe
-    public void onActionbarEvent(ActionbarEvent event) {
-        try {
-            defSetText(titleTxv, "MY DASHBOARD");
-        }catch (Exception e)
-        {
-            LogUtils.LOGD("session","DA onActionbarEvent exce " + e.getMessage());
-        }
-    }
-    private LinearLayout actionBarTopLlay;
-    private RelativeLayout bottomPanel;
-    private LinearLayout leftLlay;
-    private DeviceFitImageView backImv;
-    private MainTextView leftTxv;
-    private MainTextView titleTxv;
-    private LinearLayout rightLlay;
-    private MainTextView rightTxv;
-    private DeviceFitImageView rightImv;
-
-    public void onSetActionBar() {
-        actionBarTopLlay = findViewById(R.id.action_bar_top_llay);
-        bottomPanel = findViewById(R.id.bottom_panel);
-        leftLlay = findViewById(R.id.left_llay);
-        backImv = findViewById(R.id.back_imv);
-        leftTxv = findViewById(R.id.left_txv);
-        titleTxv = findViewById(R.id.title_txv);
-        rightLlay = findViewById(R.id.right_llay);
-        rightTxv = findViewById(R.id.right_txv);
-        rightImv = findViewById(R.id.right_imv);
-        rightImv.setVisibility(View.INVISIBLE);
-        rightTxv.setVisibility(View.INVISIBLE);
-        rightLlay.setVisibility(View.INVISIBLE);
-        leftTxv.setVisibility(View.INVISIBLE);
-        backImv.setVisibility(View.VISIBLE);
-        titleTxv.setVisibility(View.VISIBLE);
-        leftLlay.setVisibility(View.VISIBLE);
-        defSetText(titleTxv,getResources().getString(R.string.mydashboard));
-        Typeface type = Typeface.createFromAsset(getAssets(),getResources().getString(R.string.avantica_bold_header));
-        titleTxv.setTypeface(type);
-        titleTxv.setTextColor(getResources().getColor(R.color._color_action_bar_text_color));
-        backImv.setImageDrawable(getResources().getDrawable(R.drawable.leftmen));
-        //backImv.setBackgroundResource(R.drawable.leftmen);
-        leftLlay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(mSlidingPaneLayout.isOpen()){
-                    mSlidingPaneLayout.closePane();
-
-                }else{
-                    mSlidingPaneLayout.openPane();
-                }
-            }
-        });
-        showRightLayActionbar();
-    }
-
-    private void showRightLayActionbar() {
-
-        try {
-            rightTxv.setVisibility(View.VISIBLE);
-            rightLlay.setVisibility(View.VISIBLE);
-            rightImv.setVisibility(View.INVISIBLE);
-            defSetText(rightTxv,getResources().getString(R.string.edit));
-            rightTxv.setTextColor(getResources().getColor(R.color._color_action_bar_text_color));
-            rightLlay.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent=new Intent(DashboardActivity.this, AccountEditActivity.class);
-                    //  intent.putExtra("display","Pacifyr");
-                    startActivity(intent);
-                }
-            });
-
-        }catch (Exception e)
-        {
-            LogUtils.LOGD("session","DA showRightLayActionbar exce " + e.getMessage());
-        }
-
-    }
-
-    private void hideRightLayActionbar() {
-
-        try {
-            rightTxv.setVisibility(View.INVISIBLE);
-            rightLlay.setVisibility(View.INVISIBLE);
-            rightImv.setVisibility(View.INVISIBLE);
-
-
-        }catch (Exception e)
-        {
-            LogUtils.LOGD("session","DA hideRightLayActionbar exce " + e.getMessage());
-        }
-
-    }
-    public void showFragment()
-    {
-        FragmentManager fm=DashboardActivity.this.getSupportFragmentManager();
-        FragmentTransaction ft=fm.beginTransaction();
-        UserDashboardFragment fragment=new UserDashboardFragment();
-        getSupportFragmentManager().beginTransaction().replace(R.id.activity_main_content_fragment,fragment).commit();
-    }
-
-    public void showFragment(Fragment fragment)
-    {
-        /*FragmentManager fm=DashboardActivity.this.getSupportFragmentManager();
-        FragmentTransaction ft=fm.beginTransaction();
-        UserDashboardFragment fragment=new UserDashboardFragment();*/
-        getSupportFragmentManager().beginTransaction().replace(R.id.activity_main_content_fragment,fragment).commit();
-        mSlidingPaneLayout.closePane();
-    }
-
-    public void showSearchPacifyrs(View view) {
-        Intent i=new Intent(this, ListPacifyrScreenActivity.class);
-        startActivity(i);
-    }
-
-    @Override public void onBackPressed()
-    {
-        if (mSlidingPaneLayout.isOpen())
-        {
-            mSlidingPaneLayout.closePane();
-        }
-        else {
-
-            if(getSupportFragmentManager().getBackStackEntryCount()>0)
-                getSupportFragmentManager().popBackStackImmediate();
-            else {
-                if(!onceBackpressed) {
-                    ToastHandler.newInstance(this).mustShowToast("" + getText(R.string.press_back_again_to_exit));
-                    onceBackpressed = true;
-                    Handler handler = new Handler();
-                    handler.postDelayed(new Runnable()
-                    {
-                        @Override public void run() {
-                            onceBackpressed = false;
-                        }
-                    }, 5000);
-                }
-                else {
-                    finishAffinity();
-                    finish();
-                }
-            }
-        }
-    }
-
-    /*public void showQuickblox(View view) {
-        Intent i=new Intent(this, VideoChatActivity.class);
-        startActivity(i);
-    }*/
-
-    @Subscribe
-    public void onChatEvent(ChatEvent event) {
-        try{
-            LogUtils.LOGD("session","CPA onCallEvent called " );
-            if(!isValid(event.mpacifyer,"Network Error"))
-                return;
-            startChat(event.mpacifyer);
-
-
-
-        }catch (Exception e)
-        {
-            LogUtils.LOGD("session","CPA ChatEvent exce " + e.getMessage());
-        }
-
-    }
-
-
-    public CallChatEventListner callchatEventListner =new CallChatEventListner() {
-        @Override
-        public void onCallEventClick(CallEvent event) {
-
-            //onCallEvent(event);
-        }
-
-        @Override
-        public void onChatEventClick(ChatEvent event) {
-            onChatEvent(event);
-        }
-
-        @Override
-        public void onException(Exception e) {
-
-        }
-
-        @Override
-        public void onError(String e) {
-
-        }
-    };
-
-    public static String CreatedDay = "";
-    public static String CreatedYear = "";
     private void setProfileValues() {
         try {
             PrefManager prefM = PrefManager.getInstance(DashboardActivity.this);

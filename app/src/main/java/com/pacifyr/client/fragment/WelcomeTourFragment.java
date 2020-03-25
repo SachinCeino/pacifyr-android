@@ -9,9 +9,9 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
-import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.R;
 import com.pacifyr.client.adapter.CustomPagerAdapter;
+import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.home.DashboardActivity;
 import com.pacifyr.client.utility.BaseFragment;
@@ -71,6 +71,13 @@ public class WelcomeTourFragment extends BaseFragment {
                     PacifyrDashboardFragment fragment = new PacifyrDashboardFragment();
                     getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.pacifyr_content_fragment, fragment).commit();
                 }*/
+            }
+        });
+
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
     }

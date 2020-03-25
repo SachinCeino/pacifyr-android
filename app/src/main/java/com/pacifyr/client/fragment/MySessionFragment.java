@@ -16,14 +16,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.pacifyr.client.customview.MainTextView;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.MSessionDetailRoot;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelSessonsOfCustomer;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelStatistics;
-import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.pacifyr.client.R;
 import com.pacifyr.client.adapter.MySessionAdapter;
 import com.pacifyr.client.adapter.SessionWeekCustomerAdapter;
+import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.event.WeekSetSessionEvent;
 import com.pacifyr.client.home.DashboardActivity;
@@ -33,6 +29,10 @@ import com.pacifyr.client.quickblox.util.NestedScroll;
 import com.pacifyr.client.utility.BaseFragment;
 import com.pacifyr.client.utils.LogUtils;
 import com.pacifyr.client.utils.Utility;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.MSessionDetailRoot;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelSessonsOfCustomer;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelStatistics;
+import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.squareup.otto.Subscribe;
 
 import org.joda.time.DateTimeConstants;
@@ -43,8 +43,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
 import static com.pacifyr.client.base.PacifyrActivity.sessionid;
+import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
 
 public class MySessionFragment extends BaseFragment {
 
@@ -344,6 +344,13 @@ public class MySessionFragment extends BaseFragment {
                 yearSessionsRcv.setVisibility(View.VISIBLE);
                 weekSessionsRcv.setVisibility(View.GONE);
                 monthSessionsRcv.setVisibility(View.GONE);
+            }
+        });
+
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
 
