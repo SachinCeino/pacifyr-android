@@ -11,6 +11,7 @@ import android.graphics.Bitmap;
 import android.os.Build;
 import android.telephony.TelephonyManager;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -20,6 +21,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.pacifyr.client.R;
+import com.pacifyr.client.home.DashboardActivity;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 
 import java.io.BufferedOutputStream;
@@ -676,4 +678,51 @@ public class Utility {
         String   timeZone = new SimpleDateFormat("Z").format(calendar.getTime());
         return timeZone.substring(0, 3) + ":"+ timeZone.substring(3, 5);
     }
+
+
+    public static void getUserCreatedDayMonthYear(String dateFromServer) {
+        // Date daty=null;
+        Date formattedDate = null;
+        String dateat = "";
+        String[] values = new String[0];
+        try {
+            SimpleDateFormat targetFormat;// = new SimpleDateFormat("MM-dd-yyyy'  'hh:mm a", Locale.ENGLISH);
+            targetFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+            SimpleDateFormat recivedFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+            recivedFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+
+            formattedDate = recivedFormat.parse(dateFromServer);
+
+            DashboardActivity.CreatedDay = String.valueOf(DateFormat.format("yyyy-MM-dd", formattedDate));
+            //PacifyrDashboardActivity.CreatedMonth = String.valueOf(DateFormat.format("MMM", formattedDate));
+            DashboardActivity.CreatedYear = String.valueOf(DateFormat.format("yyyy", formattedDate));
+
+            Calendar c = Calendar.getInstance();
+            c.setTime(formattedDate);
+
+            Log.w("@@@", "dsfdsf");
+
+           /* dateat = targetFormat.format(formattedDate).toLowerCase();
+            values = dateat.split("-");
+            //daty=targetFormat.parse(dateat);*/
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static long converToMilliSecondsForSession(String date) {
+        long millis = 0;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date dt = null;
+        try {
+
+            Date ddd = sdf.parse(date);
+            millis = ddd.getTime();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return millis;
+    }
+
 }
