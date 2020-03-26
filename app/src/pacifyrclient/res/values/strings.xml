@@ -57,7 +57,7 @@
     <string name="no_pacifyr">There is no Pacifyr available for selected Category.</string>
     <string name="educations">Education</string>
     <string name="user_type_error">You are a Pacifyr. Please login using Provider app</string>
-    <string name="if_emergency2">If this is an emergency, please call 911 or rush to the nearest hospital. Crisis Info</string>
+    <string name="if_emergency2">If there is an emergency, please call 911 or rush to the nearest hospital.</string>
 
     <string name="CRISIS_INFO">CRISIS INFO</string>
     <string name="crisis_info">Crisis Info</string>

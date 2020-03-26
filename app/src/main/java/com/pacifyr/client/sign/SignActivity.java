@@ -44,7 +44,7 @@ public class SignActivity extends PacifyrActivity {
         getCountryData();
         String crisisString = getResources().getString(R.string.if_emergency2);
         //If in emergency call 911 or rush to an emergency room. Crisis Info
-        emergencyCtxv.setText(Html.fromHtml("<u><font color=" + getResources().getColor(R.color.om_blue) + ">" + crisisString + "</font></u>"));
+        emergencyCtxv.setText(Html.fromHtml("<font color=" + getResources().getColor(R.color.om_blue) + ">" + crisisString + "</font><u> Crisis Info</u>"));
         emergencyCtxv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
