@@ -28,6 +28,7 @@ import android.text.method.MovementMethod;
 import android.text.style.ClickableSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.CheckBox;
@@ -311,7 +312,6 @@ public class RegisterActivity extends PacifyrActivity {
                 public void onClick(View v) {
                     yearEdit.setError(null);
                     showDialog(yearEdit, "");
-
                 }
             });
 
@@ -905,8 +905,10 @@ public class RegisterActivity extends PacifyrActivity {
                     if (isValid(text + ""))
                         if (isValidMajor(text))
                             return true;
-            yearEdit.setError(error + "");
-            yearEdit.requestFocus();
+
+            setAlertOKStatusInWhite("Invalid",error,"OK");
+           /* yearEdit.setError(error + "");
+            yearEdit.requestFocus();*/
         }
        // setAlertOKStatusInWhite("Invalid",error,"OK");
         return false;

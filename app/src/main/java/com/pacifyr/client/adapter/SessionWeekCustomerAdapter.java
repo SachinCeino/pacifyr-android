@@ -319,9 +319,9 @@ public class SessionWeekCustomerAdapter extends RecyclerView.Adapter<SessionWeek
             LocalDate startofWeek = backNow.withDayOfWeek(DateTimeConstants.SUNDAY);
             LocalDate now = now1.withDayOfWeek(DateTimeConstants.SATURDAY);
             DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
-            formatter.withZone(DateTimeZone.UTC);
+            formatter.withZone(DateTimeZone.getDefault());
             DateTimeFormatter displayFormatter = DateTimeFormat.forPattern("MMM dd");
-            displayFormatter.withZone(DateTimeZone.UTC);
+            displayFormatter.withZone(DateTimeZone.getDefault());
             String fromDateWeek = formatter.print(startofWeek);
             String displayFrom = displayFormatter.print(startofWeek);
             String displayTo = displayFormatter.print(now);
