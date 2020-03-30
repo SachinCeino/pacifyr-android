@@ -22,6 +22,7 @@ import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelRatingDateDetail;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 
 import org.joda.time.DateTimeConstants;
+import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -318,7 +319,9 @@ public class SessionWeekCustomerAdapter extends RecyclerView.Adapter<SessionWeek
             LocalDate startofWeek = backNow.withDayOfWeek(DateTimeConstants.SUNDAY);
             LocalDate now = now1.withDayOfWeek(DateTimeConstants.SATURDAY);
             DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
+            formatter.withZone(DateTimeZone.UTC);
             DateTimeFormatter displayFormatter = DateTimeFormat.forPattern("MMM dd");
+            displayFormatter.withZone(DateTimeZone.UTC);
             String fromDateWeek = formatter.print(startofWeek);
             String displayFrom = displayFormatter.print(startofWeek);
             String displayTo = displayFormatter.print(now);
