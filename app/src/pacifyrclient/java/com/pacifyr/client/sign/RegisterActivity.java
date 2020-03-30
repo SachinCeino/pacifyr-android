@@ -17,10 +17,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.text.Editable;
 import android.text.Html;
 import android.text.InputFilter;
 import android.text.SpannableString;
 import android.text.Spanned;
+import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
 import android.text.method.MovementMethod;
 import android.text.style.ClickableSpan;
@@ -151,7 +153,7 @@ public class RegisterActivity extends PacifyrActivity {
     public static final String MY_PREFS_NAME = "MyPrefsFile";
 
     private ImageView imgBack;
-    private CircleImageView profileCimv;
+    private ImageView profileCimv;
     private RelativeLayout logoRlay;
     private ImageView logoBlue;
     private RelativeLayout hintLlay;
@@ -162,7 +164,7 @@ public class RegisterActivity extends PacifyrActivity {
     private RelativeLayout nextRlay;
     private MainTextView nextCtxv;
     private CustomEditText phoneEdit;
-    private MainTextView yearEdit;
+    private CustomEditText yearEdit;
     private MainTextView termsCtxv;
 
 
@@ -196,7 +198,7 @@ public class RegisterActivity extends PacifyrActivity {
     private Context context;
     private  LinearLayout upload_layout;
     private TextView upload_textView;
-    
+    private  TextView add_photo_textView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -224,6 +226,7 @@ public class RegisterActivity extends PacifyrActivity {
 
             upload_layout = findViewById(R.id.upload_layout);
             upload_textView= findViewById(R.id.upload_textView);
+            add_photo_textView = findViewById(R.id.add_photo_textView);
 
 
             context = RegisterActivity.this;
@@ -280,8 +283,10 @@ public class RegisterActivity extends PacifyrActivity {
                 if(isValid(fbImage)){
                     Picasso.with(RegisterActivity.this).load(fbImage).placeholder(R.drawable.placeholder_user).into(profileCimv);
                     upload_textView.setText("Edit photo");
+                    add_photo_textView.setVisibility(View.GONE);
+                    upload_textView.setVisibility(View.VISIBLE);
                 }
-                yearEdit.setText("Enter Year of Birth");
+                yearEdit.setHint("Enter Year of Birth");
 
                 phone_llay.setVisibility(View.VISIBLE);
                 phoneEdit.setVisibility(View.GONE);
@@ -289,6 +294,12 @@ public class RegisterActivity extends PacifyrActivity {
             phoneEdit.setFocusable(false);
             phoneEdit.setKeyListener(null);
 
+            add_photo_textView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    upload_layout.performClick();
+                }
+            });
             upload_layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -298,9 +309,26 @@ public class RegisterActivity extends PacifyrActivity {
             yearEdit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    yearEdit.setError(null);
                     showDialog(yearEdit, "");
 
+                }
+            });
+
+            emailEdt.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    emailEdt.setError(null);
                 }
             });
 
@@ -376,6 +404,7 @@ public class RegisterActivity extends PacifyrActivity {
                         @Override
                         public CharSequence filter(CharSequence cs, int start,
                                                    int end, Spanned spanned, int dStart, int dEnd) {
+                            nameEdt.setError(null);
                             // TODO Auto-generated method stub
                             if(cs.equals("")){ // for backspace
                                 return cs;
@@ -397,7 +426,7 @@ public class RegisterActivity extends PacifyrActivity {
 
 
 
-    public void showDialog(final MainTextView textView, String string){
+    public void showDialog(final CustomEditText textView, String string){
         try {
             final Integer[] vals = {null};
             final Dialog dialog = new Dialog(RegisterActivity.this);
@@ -412,6 +441,7 @@ public class RegisterActivity extends PacifyrActivity {
                 @Override
                 public void onItemSelected(WheelPicker picker, Object data, int position) {
                     vals[0] = (Integer) data;
+                    yearEdit.setError(null);
                 }
             });
 
@@ -429,6 +459,7 @@ public class RegisterActivity extends PacifyrActivity {
             saveTxv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    yearEdit.setError(null);
                     if (isValid(vals[0]))
                         textView.setText(vals[0].toString());
                     else
@@ -537,6 +568,8 @@ public class RegisterActivity extends PacifyrActivity {
                     if(isValid(edit_image))
                         profileCimv.setImageBitmap(edit_image);
                     upload_textView.setText("Edit photo");
+                    upload_textView.setVisibility(View.VISIBLE);
+                    add_photo_textView.setVisibility(View.GONE);
                     // if(bp != null) postEventOnMainThread(new ImageChoosenEvent(bp));
                     //else ToastHandler.newInstance(this).mustShowToast("Please Try Again");
                 }
@@ -556,6 +589,9 @@ public class RegisterActivity extends PacifyrActivity {
                 profileCimv.setImageBitmap(edit_image);
                 profileCimv.setImageBitmap(edit_image);
                 upload_textView.setText("Edit photo");
+                upload_textView.setVisibility(View.VISIBLE);
+
+                add_photo_textView.setVisibility(View.GONE);
                 // Bitmap rotateImage = getCroppedBitmap(image);
                 //    postEventOnMainThread(new ImageChoosenEvent(rotateImage));
             }
@@ -713,8 +749,6 @@ public class RegisterActivity extends PacifyrActivity {
         try{
             PostRegisterModel postRegisterModel=new PostRegisterModel();
             if(!isFacebook) {
-                if (!isValidNameAndmail(nameEdt, emailEdt, "Enter valid name and email "))
-                    return;
                 if (!isValidName(nameEdt, "Please enter name"))
                     return;
                 if (!isValidEmail1(emailEdt, "Please enter a valid email"))
@@ -780,7 +814,9 @@ public class RegisterActivity extends PacifyrActivity {
         if (text != null)
             if (isValid(text.getText() + ""))
                 return true;
-        setAlertOKStatusInWhite("Invalid",error,"OK");
+        text.setError(error);
+        text.requestFocus();
+      //  setAlertOKStatusInWhite("Invalid",error,"OK");
         //text.setError(error + "");
         return false;
 
@@ -811,8 +847,9 @@ public class RegisterActivity extends PacifyrActivity {
             if (isValid(text.getText() + ""))
                 if (isValidEmail(text.getText() + ""))
                     return true;
-        //text.setError(error + "");
-        setAlertOKStatusInWhite("Invalid",error,"OK");
+        text.setError(error + "");
+        text.requestFocus();
+       // setAlertOKStatusInWhite("Invalid",error,"OK");
         return false;
     }
 
@@ -857,13 +894,21 @@ public class RegisterActivity extends PacifyrActivity {
     }
 
     public Boolean isValidYear(String text, String error) {
-        if (text != null)
-            if(android.text.TextUtils.isDigitsOnly(text))
-                if (isValid(text + ""))
-                    if (isValidMajor(text))
-                        return true;
-        //text.setError(error + "");
-        setAlertOKStatusInWhite("Invalid",error,"OK");
+        if (text.equals(""))
+        {
+            yearEdit.setError("Enter year of birth");
+            yearEdit.requestFocus();
+        }
+        else {
+            if (text != null)
+                if (android.text.TextUtils.isDigitsOnly(text))
+                    if (isValid(text + ""))
+                        if (isValidMajor(text))
+                            return true;
+            yearEdit.setError(error + "");
+            yearEdit.requestFocus();
+        }
+       // setAlertOKStatusInWhite("Invalid",error,"OK");
         return false;
 
     }

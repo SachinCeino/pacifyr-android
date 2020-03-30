@@ -44,23 +44,50 @@
                     android:layout_height="150dp"
                     android:layout_centerHorizontal="true"
                     android:id="@+id/logo_blue"/>
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:id="@+id/profile_cimv"
-                    android:layout_gravity="center"
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_below="@+id/logo_blue"
+                    android:gravity="center"
                     android:layout_marginTop="10dp"
-                    android:src="@drawable/ic_camera"/>
+                    >
+                    <ImageView
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:id="@+id/profile_cimv"
+                        android:layout_gravity="center"
+                        android:background="@color/grey"/>
+
+                    <RelativeLayout
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:background="@android:color/transparent"
+                        android:gravity="center">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/colorPrimary"
+                            android:gravity="center"
+                            android:background="@null"
+                            android:textSize="12sp"
+                            android:id="@+id/add_photo_textView"
+                            android:text="Add\nPhoto" />
+                    </RelativeLayout>
+
+                </RelativeLayout>
+
+
                 <TextView
                     android:id="@+id/upload_textView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
                     android:gravity="center"
-                    android:drawableLeft="@drawable/red_star"
-                    android:drawableStart="@drawable/red_star"
-                    android:drawablePadding="3dp"
+                    android:visibility="gone"
                     android:text="Add photo"
+                    android:textColor="@color/colorPrimary"
+
                     />
                 <TextView
                     android:layout_width="wrap_content"
@@ -175,7 +202,7 @@
             </LinearLayout>
 
 
-            <com.pacifyr.client.customview.MainTextView
+            <com.pacifyrapp.utilitylibrary.CustomEditText
                 android:id="@+id/year_edt"
                 android:layout_marginTop="20dp"
                 android:padding="10dp"
