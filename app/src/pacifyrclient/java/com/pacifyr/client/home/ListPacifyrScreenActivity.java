@@ -795,7 +795,8 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
     public void webSearchPacifyrFromSearchView(String emotion) {
         try{
 
-            String url = GLOBAL_URL + getRoleSearchMap().get(prefM.getCustomerRole());
+           // String url = GLOBAL_URL + getRoleSearchMap().get(prefM.getCustomerRole());
+            String url = GLOBAL_URL +"search/pacifyrs";
 
             AjaxCallback cb = new AjaxCallback<JSONObject>() {
                 @Override
@@ -837,7 +838,7 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
             JSONObject jsonObject = new JSONObject();
             jsonObject.putOpt("initiatorId", userID);
             jsonObject.putOpt("companyId",companyID);
-            jsonObject.putOpt("includeChargeablePacifyrs",showAllFlag);
+            jsonObject.putOpt("includeChargeablePacifyrs",true);
             jsonObject.putOpt("country",prefM.getCountry());
             if (searchQuery != null && !searchQuery.isEmpty()) {
                 jsonObject.putOpt("searchQuery", searchQuery);
