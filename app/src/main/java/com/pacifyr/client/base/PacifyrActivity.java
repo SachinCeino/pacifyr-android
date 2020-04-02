@@ -3320,7 +3320,7 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
 
         PaytmPGService Service;
         if (com.pacifyr.client.paytmpayment.Constants.getTestOrProd().equals("TEST"))
-            Service = PaytmPGService.getStagingService();
+            Service = PaytmPGService.getStagingService("");
         else
             Service = PaytmPGService.getProductionService();
 

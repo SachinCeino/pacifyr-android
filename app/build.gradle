@@ -263,7 +263,7 @@ dependencies {
     //    implementation "com.androidplot:afandroid.support.customtabsndroidplot-core:1.5.3"
     /**App Auto Update Library**/
     implementation 'com.github.javiersantos:AppUpdater:2.7'
-    implementation('com.paytm:pgplussdk:1.3.3') {
+    implementation('com.paytm:pgplussdk:1.4.4') {
         transitive = true
     }
 
