@@ -584,7 +584,9 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
             public void onClick(View v) {
 
                 hideRightLayActionbar();
-                DialogsActivity.start(context);
+                //isFromSlideMenu true for subscription check validation
+                boolean isFromSlideMenu=true;
+                DialogsActivity.start(context,isFromSlideMenu);
                 /*showFragment(new PacifyrMessageFragment());*/
                 //defSetText(titleTxv,"");
             }

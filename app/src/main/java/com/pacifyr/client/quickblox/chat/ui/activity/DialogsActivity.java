@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -22,19 +23,25 @@ import android.widget.Toast;
 import androidx.appcompat.view.ActionMode;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import com.androidquery.AQuery;
+import com.androidquery.callback.AjaxCallback;
+import com.androidquery.callback.AjaxStatus;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout;
 import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
 import com.pacifyr.client.R;
 import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
+import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.quickblox.chat.managers.DialogsManager;
 import com.pacifyr.client.quickblox.chat.ui.adapter.DialogsAdapter;
 import com.pacifyr.client.quickblox.chat.utils.chat.ChatHelper;
 import com.pacifyr.client.quickblox.chat.utils.qb.QbChatDialogMessageListenerImp;
 import com.pacifyr.client.quickblox.chat.utils.qb.QbDialogHolder;
+import com.pacifyr.client.quickblox.chat.utils.qb.QbDialogUtils;
 import com.pacifyr.client.quickblox.chat.utils.qb.callback.QbEntityCallbackImpl;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 import com.quickblox.chat.QBChatService;
 import com.quickblox.chat.QBIncomingMessagesManager;
 import com.quickblox.chat.QBSystemMessagesManager;
@@ -53,8 +60,14 @@ import com.quickblox.sample.core.utils.SharedPrefsHelper;
 import com.quickblox.sample.core.utils.constant.GcmConsts;
 import com.quickblox.users.model.QBUser;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collection;
+
+import static com.pacifyr.client.network.NetworkService.GLOBAL_URL;
 
 
 //com.pacifyr.pacifyrapp.quickblox.chat.ui.activity.BaseActivity
@@ -82,9 +95,16 @@ public class DialogsActivity extends PacifyrActivity implements DialogsManager.M
     private DialogsManager dialogsManager;
     private QBUser currentUser;
     private MainTextView noMessagesCtxv;
+    private boolean isFromSlideMenu=false;
 
     public static void start(Context context) {
         Intent intent = new Intent(context, DialogsActivity.class);
+        context.startActivity(intent);
+    }
+
+    public static void start(Context context,boolean isFromSlideMenu) {
+        Intent intent = new Intent(context, DialogsActivity.class);
+        intent.putExtra("isFromSlideMenu",isFromSlideMenu);
         context.startActivity(intent);
     }
 
@@ -103,6 +123,13 @@ public class DialogsActivity extends PacifyrActivity implements DialogsManager.M
         dialogsManager = new DialogsManager();
 
         currentUser = ChatHelper.getCurrentUser();
+        if(isValid(getIntent()))
+        {
+            if (isValid(getIntent().getBooleanExtra("isFromSlideMenu",false)))
+            {
+                isFromSlideMenu=getIntent().getBooleanExtra("isFromSlideMenu",false);
+            }
+        }
 
         initUi();
 
@@ -278,11 +305,16 @@ public class DialogsActivity extends PacifyrActivity implements DialogsManager.M
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 QBChatDialog selectedDialog = (QBChatDialog) parent.getItemAtPosition(position);
-                if (currentActionMode == null) {
-                    ChatActivity.startForResult(DialogsActivity.this, REQUEST_DIALOG_ID_FOR_UPDATE, selectedDialog);
-                } else {
-                    dialogsAdapter.toggleSelection(selectedDialog);
+                if (isFromSlideMenu){
+                checkUserId(selectedDialog);}
+                else {
+                    if (currentActionMode == null) {
+                        ChatActivity.startForResult(DialogsActivity.this, REQUEST_DIALOG_ID_FOR_UPDATE, selectedDialog);
+                    } else {
+                        dialogsAdapter.toggleSelection(selectedDialog);
+                    }
                 }
+
             }
         });
         dialogsListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -304,6 +336,90 @@ public class DialogsActivity extends PacifyrActivity implements DialogsManager.M
             }
         });
     }
+
+    private void checkUserId(QBChatDialog selectedDialog) {
+
+        QBUser user= QbDialogUtils.getOpposteUser(selectedDialog,getApplicationContext());
+        setLoading();
+        showProgress();
+        try{
+            String url = GLOBAL_URL+"user/profile/"+user.getLogin();
+
+            AjaxCallback cb = new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject json, AjaxStatus status) {
+                    try {
+                        hideProgress();
+                        MUser user = GsonUtils.getInstance().gsonToMUser(json);
+                        boolean isChatSubscriptionRequired=false;
+                        int priceForChat = 0;
+                        if (isValid(user))
+                        {
+                            isChatSubscriptionRequired = user.isChatSubscriptionRequired();
+                        }
+
+                        try {
+                            priceForChat = Integer.parseInt(user.getPriceForChat());
+                        } catch (NumberFormatException ne) {
+                            ne.printStackTrace();
+                        }
+
+                        if (!isChatSubscriptionRequired) {
+                            if (currentActionMode == null) {
+                                ChatActivity.startForResult(DialogsActivity.this, REQUEST_DIALOG_ID_FOR_UPDATE, selectedDialog);
+                            } else {
+                                dialogsAdapter.toggleSelection(selectedDialog);
+                            }
+
+                        } else if (priceForChat == 0) {
+                            if (currentActionMode == null) {
+                                ChatActivity.startForResult(DialogsActivity.this, REQUEST_DIALOG_ID_FOR_UPDATE, selectedDialog);
+                            } else {
+                                dialogsAdapter.toggleSelection(selectedDialog);
+                            }
+
+                        } else {
+                            if (user.getChatSubscription() == null) {
+                                showIOSDialogOK("", "Please purchase unlimited chat per day", "OK");
+                            } else {
+                                if (currentActionMode == null) {
+                                    ChatActivity.startForResult(DialogsActivity.this, REQUEST_DIALOG_ID_FOR_UPDATE, selectedDialog);
+                                } else {
+                                    dialogsAdapter.toggleSelection(selectedDialog);
+                                }
+                            }
+                        }
+
+
+                    } catch (Exception e) {
+                        hideProgress();
+                        e.printStackTrace();
+                    }
+                }
+            };
+            try {
+                AQuery aq = new AQuery(getApplicationContext());
+                cb.header("Content-Type", "application/json");
+                cb.header("AccessToken", getPrefManager().getAccessToken());
+                //aq.post(url, jsonObject, JSONObject.class, cb);
+                aq.ajax(url,JSONObject.class, cb);
+            }
+            catch (Exception ex)
+            {
+                hideProgress();
+                ex.printStackTrace();
+            }
+
+
+
+        }catch (Exception e)
+        {
+            hideProgress();
+            e.printStackTrace();
+        }
+
+
+        }
 
     private void registerQbChatListeners() {
         incomingMessagesManager = QBChatService.getInstance().getIncomingMessagesManager();

@@ -356,7 +356,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
 //            loginToQuickblox();
                 setChatCountInfo();
             } else {
-                setAlertStatusInWhite("No Internet connection!", "Please turn on internet connection to continue.", "Exit", "Ok", new View.OnClickListener() {
+                setAlertStatusInWhiteNoInternet("No Internet connection!", "Please turn on internet connection to continue.", "Exit", "Ok", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         hideProgress();
