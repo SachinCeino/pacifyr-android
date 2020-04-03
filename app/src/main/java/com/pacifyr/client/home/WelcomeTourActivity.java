@@ -23,7 +23,7 @@ public class WelcomeTourActivity extends AppCompatActivity {
 
         skipCtxv = findViewById(R.id.skip_ctxv);
         ViewPager viewPager = findViewById(R.id.viewpager);
-        viewPager.setAdapter(new CustomPagerAdapter(this));
+        viewPager.setAdapter(new CustomPagerAdapter(getApplicationContext(),getSupportFragmentManager()));
 
         skipCtxv.setOnClickListener(new View.OnClickListener() {
             @Override

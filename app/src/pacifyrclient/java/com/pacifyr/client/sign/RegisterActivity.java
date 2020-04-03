@@ -353,7 +353,7 @@ public class RegisterActivity extends PacifyrActivity {
             termsCtxv.append(ic_link);*/
 
             String policyString = getResources().getString(R.string.register_terms_text);
-            termsCtxv.setText(Html.fromHtml("<u><font color=" + getResources().getColor(R.color.colorPrimary) + ">" + policyString + "</font></u>"));
+            termsCtxv.setText(Html.fromHtml("<font color=" + getResources().getColor(R.color.colorPrimary) + ">" + policyString + "</font><font color=" + getResources().getColor(R.color.colorPrimary) + "><u> Pacifyr Terms of Use and Privacy Policy</u></font>"));
             termsCtxv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

@@ -49,7 +49,7 @@ public class WelcomeTourFragment extends BaseFragment {
         //skipCtxv=(MainTextView) findViewById(R.id.skip_ctxv);
         //ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
         skipCtxv.setVisibility(View.INVISIBLE);
-        viewpager.setAdapter(new CustomPagerAdapter(getContext()));
+        viewpager.setAdapter(new CustomPagerAdapter(getActivity(),getChildFragmentManager()));
 
         skipCtxv.setOnClickListener(new View.OnClickListener() {
             @Override
