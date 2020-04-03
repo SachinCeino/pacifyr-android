@@ -10,18 +10,20 @@
        android:layout_width="match_parent"
        android:layout_height="wrap_content">
 
-      <VideoView
+      <com.google.android.exoplayer2.ui.PlayerView
           android:id="@+id/mVideoView"
           android:layout_width="match_parent"
-          android:layout_height="300dp"></VideoView>
+          android:layout_height="300dp">
 
-      <ImageView
+      </com.google.android.exoplayer2.ui.PlayerView>
+
+     <!-- <ImageView
           android:id="@+id/icon_play_pause"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_gravity="center"
           android:padding="20dp"
-          android:src="@android:drawable/ic_media_play" />
+          android:src="@android:drawable/ic_media_play" />-->
 
       <ProgressBar
           android:id="@+id/progress_video"

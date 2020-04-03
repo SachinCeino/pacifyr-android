@@ -22,6 +22,20 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.exoplayer2.ExoPlaybackException;
+import com.google.android.exoplayer2.ExoPlayer;
+import com.google.android.exoplayer2.PlaybackParameters;
+import com.google.android.exoplayer2.PlaybackPreparer;
+import com.google.android.exoplayer2.SimpleExoPlayer;
+import com.google.android.exoplayer2.Timeline;
+import com.google.android.exoplayer2.source.MediaSource;
+import com.google.android.exoplayer2.source.ProgressiveMediaSource;
+import com.google.android.exoplayer2.source.TrackGroupArray;
+import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
+import com.google.android.exoplayer2.ui.PlayerView;
+import com.google.android.exoplayer2.upstream.DataSource;
+import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
+import com.google.android.exoplayer2.util.Util;
 import com.pacifyr.client.R;
 import com.pacifyr.client.activity.TermsOfUseActivity;
 import com.pacifyr.client.adapter.ListSavedCardAdapter;
@@ -33,16 +47,15 @@ import com.pacifyr.client.utils.Constants;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.squareup.otto.Subscribe;
 
-public class SlideTutorialFragment extends BaseFragment {
+public class SlideTutorialFragment extends BaseFragment implements PlaybackPreparer {
 
 
 
-    private boolean prepared = false;
-    private ImageView icon_play_pause;
-    private ProgressBar progress_video;
-    private MediaPlayer mediaPlayer;
-    private boolean isPlaying = false;
     private int position=0;
+
+    private PlayerView video_view;
+    private SimpleExoPlayer player;
+    private ProgressBar progress_video;
 
     public SlideTutorialFragment() {
         // Required empty public constructor
@@ -97,12 +110,12 @@ public class SlideTutorialFragment extends BaseFragment {
         super.onDetach();
 
         try {
-            if (mediaPlayer!=null)
+            if (player!=null)
             {
-                if (mediaPlayer.isPlaying())
+                if (player.isPlaying())
                 {
-                    mediaPlayer.stop();
-                    mediaPlayer.release();
+                    player.stop();
+                    player.release();
 
                 }
             }
@@ -116,32 +129,40 @@ public class SlideTutorialFragment extends BaseFragment {
     public void onDestroy() {
         super.onDestroy();
         try {
-          if (mediaPlayer!=null)
+          if (player!=null)
             {
-                if (mediaPlayer.isPlaying())
-                {
-                    mediaPlayer.stop();
-                    mediaPlayer.release();
+                player.stop();
+                    player.release();
 
-                }
             }
 
     } catch (IllegalStateException e) {
              }
     }
 
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        if (video_view!=null)
+        video_view.onPause();
+        if (player!=null)
+        {
+            player.stop();
+
+        }
+    }
+
     @Override
     public void onDestroyView() {
 
         try {
-            if (mediaPlayer!=null)
+            if (player!=null)
             {
-                if (mediaPlayer.isPlaying())
-                {
-                    mediaPlayer.stop();
-                    mediaPlayer.release();
+                player.release();
+                    player=null;
 
-                }
             }
 
         } catch (Exception e) {
@@ -155,80 +176,56 @@ public class SlideTutorialFragment extends BaseFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
             if (position==3){
-                    icon_play_pause = view.findViewById(R.id.icon_play_pause);
-                    progress_video = view.findViewById(R.id.progress_video);
+                video_view = view.findViewById(R.id.mVideoView);
+                progress_video = view.findViewById(R.id.progress_video);
+                player = new SimpleExoPlayer.Builder(getActivity()).build();
+
+                DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(getActivity(), Util.getUserAgent(getActivity(), ""));
+                final MediaSource videoSource = new ProgressiveMediaSource.Factory(dataSourceFactory).
+                        createMediaSource(Uri.parse(Constants.getPacifyrVideoTutorialLink(getActivity())));
+
+                video_view.setPlayer(player);
+                if (isValid(player) &&isValid(videoSource))
+                {
+                    player.prepare(videoSource);
+                }
+
+                video_view.setPlaybackPreparer(this);
+                video_view.setPlayer(player);
 
 
-                    VideoView mVideoView=view.findViewById(R.id.mVideoView);
-                    ProgressDialog pDialog = new ProgressDialog(getActivity());
+                player.addListener(new ExoPlayer.EventListener() {
 
-                    try {
-                        // Start the MediaController
-                        MediaController mediacontroller = new MediaController(getActivity());
-                        mediacontroller.setAnchorView(mVideoView);
+                    @Override
+                    public void onTracksChanged(TrackGroupArray trackGroups, TrackSelectionArray trackSelections) {}
 
-                        Uri videoUri = Uri.parse(Constants.getPacifyrVideoTutorialLink(getActivity()));
-                        mVideoView.setVideoURI(videoUri);
+                    @Override
+                    public void onLoadingChanged(boolean isLoading) {}
 
-                    } catch (Exception e) {
-
-                        e.printStackTrace();
+                    @Override
+                    public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
+                        if (playbackState == ExoPlayer.STATE_BUFFERING){
+                            progress_video.setVisibility(View.VISIBLE);
+                        } else {
+                            progress_video.setVisibility(View.INVISIBLE);
+                        }
                     }
 
-                    mVideoView.requestFocus();
-                    progress_video.setVisibility(View.VISIBLE);
-                    icon_play_pause.setVisibility(View.GONE);
-                    mVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                        // Close the progress bar and play the video
-                        public void onPrepared(MediaPlayer mp) {
-                            prepared = true;
-                            mediaPlayer = mp;
-                            icon_play_pause.setVisibility(View.VISIBLE);
-                            progress_video.setVisibility(View.GONE);
-                        }
-                    });
-                    mVideoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-
-                        public void onCompletion(MediaPlayer mp) {
-
-                            icon_play_pause.setImageDrawable(getActivity().getResources().getDrawable(android.R.drawable.ic_media_play));
-                            icon_play_pause.setVisibility(View.VISIBLE);
-
-                        }
-                    });
-
-                    icon_play_pause.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if (mediaPlayer != null) {
-                                try {
-                                    if (isPlaying) {
-                                        mediaPlayer.pause();
-                                        icon_play_pause.animate().alpha(1f).setDuration(500);
-                                        icon_play_pause.setImageDrawable(getActivity().getResources().getDrawable(android.R.drawable.ic_media_pause));
-                                    } else {
-                                        icon_play_pause.setImageDrawable(getActivity().getResources().getDrawable(android.R.drawable.ic_media_play));
-                                        mediaPlayer.start();
-                                        new Handler().postDelayed(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                icon_play_pause.animate().alpha(0f).setDuration(500);
-                                            }
-                                        }, 1500);
-                                    }
-                                    isPlaying = !isPlaying;
-                                } catch (Exception e) {
-                                    isPlaying = false;
-                                    e.printStackTrace();
-                                }
-                            }
-                        }
-                    });
+                    @Override
+                    public void onPlayerError(ExoPlaybackException error) {}
 
 
-
-
+                    @Override
+                    public void onPlaybackParametersChanged(PlaybackParameters playbackParameters) {}
+                });
 
             }
+    }
+
+    @Override
+    public void preparePlayback() {
+        if (player!=null)
+        player.retry();
+
     }
 }
