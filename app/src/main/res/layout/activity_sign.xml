@@ -7,20 +7,19 @@
     android:layout_width="match_parent"
     android:background="@drawable/loginbg"
     android:layout_height="match_parent">
-
     <RelativeLayout
         android:id="@+id/logo_rlay"
         android:layout_width="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="30dp"
         android:layout_centerHorizontal="true">
 
         <ImageView
-            android:layout_height="150dp"
-            android:layout_width="150dp"
-            android:src="@drawable/signscreenlogo" />
+            android:layout_width="220dp"
+            android:src="@drawable/signscreenlogo"
+            android:layout_height="wrap_content"/>
 
     </RelativeLayout>
 
@@ -48,6 +47,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:padding="15dp"
             android:layout_above="@+id/constraintLayout">
 
             <com.pacifyr.client.customview.MainTextView
@@ -56,6 +56,7 @@
                 android:layout_height="wrap_content"
                 android:layout_above="@+id/llay2"
                 android:orientation="vertical"
+                android:justificationMode="inter_word"
                 android:text="@string/get_ready_feel_better"
                 android:textAlignment="center"
                 android:textColor="@color/_color_get_ready_feel_better"
@@ -68,6 +69,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
+                android:justificationMode="inter_word"
                 android:layout_marginTop="16dp"
                 android:textAlignment="center"
                 android:text="@string/connect_to_wellness"
@@ -81,6 +83,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/thirty_free"
                 android:textAlignment="center"
+                android:justificationMode="inter_word"
                 android:textColor="@color/_color_thirty_free"
                 android:textSize="14sp" />
 
@@ -93,7 +96,7 @@
                 android:textColor="@color/_color_no_credit_card"
                 android:textSize="14sp"
                 android:visibility="gone"
-
+                android:justificationMode="inter_word"
                 app:layout_constraintEnd_toEndOf="@+id/free_ctxv"
                 app:layout_constraintStart_toStartOf="@+id/free_ctxv"
                 app:layout_constraintTop_toBottomOf="@+id/free_ctxv" />
@@ -105,6 +108,7 @@
                 android:layout_marginTop="10dp"
                 android:textAlignment="center"
                 android:visibility="visible"
+                android:justificationMode="inter_word"
                 android:text="@string/if_emergency2"
                 android:textColor="@color/_color_connect_to_wellness"
                 android:textSize="14sp" />

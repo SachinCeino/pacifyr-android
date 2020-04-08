@@ -61,7 +61,7 @@
                 android:text="@string/mandatory_fields"
                 android:drawableLeft="@drawable/red_star"
                 android:drawableStart="@drawable/red_star"
-                android:drawablePadding="3dp"></TextView>
+                ></TextView>
 
 
            <!-- <ImageView

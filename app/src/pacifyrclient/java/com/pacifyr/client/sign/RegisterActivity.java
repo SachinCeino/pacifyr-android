@@ -729,7 +729,7 @@ public class RegisterActivity extends PacifyrActivity {
             backImv.setVisibility(View.VISIBLE);
             titleTxv.setVisibility(View.VISIBLE);
             leftLlay.setVisibility(View.VISIBLE);
-            defSetText(titleTxv, "Register");
+            defSetText(titleTxv, getResources().getString(R.string.register));
             Typeface type = Typeface.createFromAsset(getAssets(),getResources().getString(R.string.avantica_bold_header));
             titleTxv.setTypeface(type);
             leftLlay.setOnClickListener(new View.OnClickListener() {

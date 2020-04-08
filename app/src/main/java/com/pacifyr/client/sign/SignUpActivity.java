@@ -332,7 +332,7 @@ public class SignUpActivity extends PacifyrActivity {
             backImv.setVisibility(View.VISIBLE);
             titleTxv.setVisibility(View.VISIBLE);
             leftLlay.setVisibility(View.VISIBLE);
-            defSetText(titleTxv, "Register");
+            defSetText(titleTxv, getResources().getString(R.string.register));
             Typeface type = Typeface.createFromAsset(getAssets(), getResources().getString(R.string.avantica_bold_header));
             titleTxv.setTypeface(type);
             //titleTxv.setText("Add Credit Card");
