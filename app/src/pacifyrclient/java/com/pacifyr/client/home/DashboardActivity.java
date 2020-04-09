@@ -1,17 +1,23 @@
 package com.pacifyr.client.home;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.NotificationManager;
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -28,6 +34,7 @@ import com.pacifyr.client.event.ActionbarEvent;
 import com.pacifyr.client.event.AlertTypeEvent;
 import com.pacifyr.client.event.CallEvent;
 import com.pacifyr.client.event.ChatEvent;
+import com.pacifyr.client.event.InternetConnectionEvent;
 import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.fragment.MySessionFragment;
 import com.pacifyr.client.fragment.ResourcesFragment;
@@ -38,6 +45,8 @@ import com.pacifyr.client.home.account.AccountEditActivity;
 import com.pacifyr.client.home.account.AccountFragment;
 import com.pacifyr.client.model.CallStatus;
 import com.pacifyr.client.model.interfaces.CallChatEventListner;
+import com.pacifyr.client.netconnectionlistener.CheckNetworkJob;
+import com.pacifyr.client.netconnectionlistener.ConnectionCheckBroadcast;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.quickblox.chat.ui.activity.DialogsActivity;
 import com.pacifyr.client.quickblox.services.CallService;
@@ -55,6 +64,8 @@ import com.quickblox.sample.core.utils.SharedPrefsHelper;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONObject;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -141,6 +152,23 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
             showSnackbarPopup();
         } else {
             dismissSnackbarPopup();
+        }
+
+        if (ConnectionCheckBroadcast.CheckInternetConnection(getApplicationContext()))
+        {
+            hideProgress();
+            hideStatus2();
+        }
+        else
+        {
+            setAlertStatusInWhiteNoInternet("No Internet connection!", "Please turn on internet connection to continue.", "Exit", "Ok", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    hideProgress();
+                    hideStatus2();
+                    finish();
+                }
+            });
         }
     }
 
@@ -419,6 +447,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
     };
     public static String CreatedYear = "";
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -674,6 +703,21 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
 
         new AmazonSNSTokenHandler(context).register();
         loginToQuickblox();
+
+        /**
+         * network connectivity check JobScheduler
+         *  **/
+        @SuppressLint("MissingPermission")
+        JobInfo myJob = new JobInfo.Builder(0, new ComponentName(this, CheckNetworkJob.class))
+                .setMinimumLatency(1000)
+                .setOverrideDeadline(2000)
+                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
+                .setPersisted(true)
+                .build();
+
+        JobScheduler jobScheduler = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
+        jobScheduler.schedule(myJob);
+
     }
     private void setProfileValues() {
         try {
@@ -726,6 +770,46 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
         defSetText(titleTxv, mActionBarTitle);
     }
 
+
+    @org.greenrobot.eventbus.Subscribe(threadMode = ThreadMode.MAIN)
+    public void onNetworkChanged(InternetConnectionEvent event) {
+        try {
+            if (isValid(event) && isShowDialogs()) {
+                if (!event.isConnected())
+                {
+                    setAlertStatusInWhiteNoInternet("No Internet connection!", "Please turn on internet connection to continue.", "Exit", "Ok", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            hideProgress();
+                            hideStatus2();
+                            finish();
+                        }
+                    });
+                }
+                else
+                {
+                    hideProgress();
+                    hideStatus2();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+
+    }
 
 }
 

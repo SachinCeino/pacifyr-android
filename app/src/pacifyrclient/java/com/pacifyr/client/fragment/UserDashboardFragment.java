@@ -320,7 +320,6 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
 
         try {
 
-            if (isNetworkConnected()) {
                 setLoading();
                 showProgress();
                 handleActionCustomerDashboard();
@@ -355,16 +354,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                 getUnratedSessions();
 //            loginToQuickblox();
                 setChatCountInfo();
-            } else {
-                setAlertStatusInWhiteNoInternet("No Internet connection!", "Please turn on internet connection to continue.", "Exit", "Ok", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        hideProgress();
-                        hideStatus2();
-                        getActivity().finish();
-                    }
-                });
-            }
+
 
         }
         catch (Exception e)
