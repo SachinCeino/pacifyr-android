@@ -21,6 +21,7 @@ import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.AlertTypeEvent;
 import com.pacifyr.client.event.CallEvent;
 import com.pacifyr.client.event.ChatEvent;
+import com.pacifyr.client.event.InternetConnectionEvent;
 import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.event.WeekSetSessionEvent;
 import com.pacifyr.client.model.interfaces.CallChatEventListner;
@@ -35,6 +36,8 @@ import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelStatistics;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.squareup.otto.Subscribe;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.ThreadMode;
 import org.joda.time.DateTimeConstants;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
@@ -498,4 +501,46 @@ public class MySessionsActivity extends PacifyrAppCompactActivity {
 
         }
     };
+
+
+
+    @org.greenrobot.eventbus.Subscribe(threadMode = ThreadMode.MAIN)
+    public void onNetworkChanged(InternetConnectionEvent event) {
+        try {
+            if (isValid(event) && isShowDialogs()) {
+                if (!event.isConnected())
+                {
+                    setAlertStatusInWhiteNoInternet("No Internet connection!", "Please turn on internet connection to continue.", "Exit", "Ok", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            hideProgress();
+                            hideStatus2();
+                            finishAffinity();
+                        }
+                    });
+                }
+                else
+                {
+                    hideProgress();
+                    hideStatus2();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+
+    }
 }

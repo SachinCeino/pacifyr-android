@@ -20,6 +20,7 @@ import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.pacifyr.client.customview.MainTextView;
+import com.pacifyr.client.event.InternetConnectionEvent;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.RespSearchPacifyrWOption;
@@ -548,17 +549,6 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
 
 
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        EventBus.getDefault().register(this);
-    }
-    @Override
-    protected void onStop() {
-        EventBus.getDefault().unregister(this);
-        super.onStop();
-    }
-
     private LinearLayout actionBarTopLlay;
     private RelativeLayout bottomPanel;
     private LinearLayout leftLlay;
@@ -895,6 +885,44 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
 
 
 
+    @org.greenrobot.eventbus.Subscribe(threadMode = ThreadMode.MAIN)
+    public void onNetworkChanged(InternetConnectionEvent event) {
+        try {
+            if (isValid(event) && isShowDialogs()) {
+                if (!event.isConnected())
+                {
+                    setAlertStatusInWhiteNoInternet("No Internet connection!", "Please turn on internet connection to continue.", "Exit", "Ok", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            hideProgress();
+                            hideStatus2();
+                            finishAffinity();
+                        }
+                    });
+                }
+                else
+                {
+                    hideProgress();
+                    hideStatus2();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+
+    }
 
 }

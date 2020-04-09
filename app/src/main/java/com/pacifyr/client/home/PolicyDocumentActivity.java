@@ -169,7 +169,7 @@ public class PolicyDocumentActivity extends PacifyrAppCompactActivity {
                         public void onClick(View v) {
                             hideProgress();
                             hideStatus2();
-                            finish();
+                            finishAffinity();
                         }
                     });
                 }

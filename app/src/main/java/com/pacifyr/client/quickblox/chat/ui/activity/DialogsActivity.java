@@ -32,6 +32,7 @@ import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayoutD
 import com.pacifyr.client.R;
 import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
+import com.pacifyr.client.event.InternetConnectionEvent;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.quickblox.chat.managers.DialogsManager;
 import com.pacifyr.client.quickblox.chat.ui.adapter.DialogsAdapter;
@@ -60,6 +61,8 @@ import com.quickblox.sample.core.utils.SharedPrefsHelper;
 import com.quickblox.sample.core.utils.constant.GcmConsts;
 import com.quickblox.users.model.QBUser;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -721,5 +724,44 @@ public class DialogsActivity extends PacifyrActivity implements DialogsManager.M
     public void onBackPressed() {
         //super.onBackPressed();
         finish();
+    }
+
+    @org.greenrobot.eventbus.Subscribe(threadMode = ThreadMode.MAIN)
+    public void onNetworkChanged(InternetConnectionEvent event) {
+        try {
+            if (isValid(event) && isShowDialogs()) {
+                if (!event.isConnected())
+                {
+                    setAlertStatusInWhiteNoInternet("No Internet connection!", "Please turn on internet connection to continue.", "Exit", "Ok", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            hideProgress();
+                            hideStatus2();
+                            finishAffinity();                     }
+                    });
+                }
+                else
+                {
+                    hideProgress();
+                    hideStatus2();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+
     }
 }
