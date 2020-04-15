@@ -3774,6 +3774,25 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
 
     }
 
+    public void setAlertStatusCovid(String title,String desc,String ok,String dismiss,View.OnClickListener oklistner) {
+        View view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.alert_no_internet, null, false);
+        MainTextView title_dtxv = view.findViewById(com.pacifyrapp.utilitylibrary.R.id.title_dtxv);
+        MainTextView desc_dtxv = view.findViewById(com.pacifyrapp.utilitylibrary.R.id.desc_dtxv);
+        MainTextView ok_dtxv = view.findViewById(com.pacifyrapp.utilitylibrary.R.id.ok_dtxv);
+        if(isValid(title))
+            defSetText(title_dtxv,title);
+        else
+            title_dtxv.setVisibility(View.VISIBLE);
+        defSetText(desc_dtxv,desc);
+        defSetText(ok_dtxv,ok,"YES");
+        hideStatus();
+        hideStatus2();
+        hud_status2 = KProgressHUD.create(PacifyrActivity.this).setStyle(KProgressHUD.Style.SPIN_INDETERMINATE).setCustomView(view).setWindowColor(this.getResources().getColor(com.pacifyrapp.utilitylibrary.R.color.transparent)).setCancellable(true).setAnimationSpeed(2).setDimAmount(0.5f);
+        showStatus2();
+        ok_dtxv.setOnClickListener(oklistner);
+
+    }
+
 }
 
 

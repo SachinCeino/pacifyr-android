@@ -14,6 +14,7 @@ import android.widget.RelativeLayout;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
+import com.pacifyr.client.activity.TermsOfUseActivity;
 import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
@@ -54,6 +55,23 @@ public class SignActivity extends PacifyrActivity {
         });
         fbLogout();
 
+        showCovidNinteenPopUp();
+
+    }
+
+    private void showCovidNinteenPopUp() {
+
+        setAlertStatusCovid("COVID-19", "If you think you have been exposed to COVID‑19 and develop a fever and symptoms, such as cough or difficulty breathing, call your healthcare provider for medical advice.", "Yes", "No", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hideProgress();
+                hideStatus2();
+                Intent i=new Intent(SignActivity.this, TermsOfUseActivity.class);
+                i.putExtra("spurl", "https://www.cdc.gov/coronavirus/2019-ncov/downloads/sick-with-2019-nCoV-fact-sheet.pdf");
+                i.putExtra("title", "COVID-19 Alert");
+                startActivity(i);
+            }
+        });
     }
 
     @Override
