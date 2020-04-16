@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.net.Uri;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.text.Html;
@@ -66,10 +67,10 @@ public class SignActivity extends PacifyrActivity {
             public void onClick(View v) {
                 hideProgress();
                 hideStatus2();
-                Intent i=new Intent(SignActivity.this, TermsOfUseActivity.class);
-                i.putExtra("spurl", "https://www.cdc.gov/coronavirus/2019-ncov/downloads/sick-with-2019-nCoV-fact-sheet.pdf");
-                i.putExtra("title", "COVID-19 Alert");
-                startActivity(i);
+
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.cdc.gov/coronavirus/2019-ncov/downloads/sick-with-2019-nCoV-fact-sheet.pdf"));
+                browserIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(browserIntent);
             }
         });
     }

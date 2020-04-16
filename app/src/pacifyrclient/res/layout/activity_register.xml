@@ -210,21 +210,72 @@
                 android:layout_width="match_parent"
                 android:gravity="left"
                 android:hint="Year of birth"
-                android:focusable="false"
                 android:background="@null"
+                android:focusable="false"
                 android:drawableLeft="@drawable/red_star"
                 android:drawableStart="@drawable/red_star"
                 android:layout_below="@+id/phone_llay"
                 android:textColor="@color/medium_grey_pacifyr"
                 android:layout_height="wrap_content" />
 
-            <CheckBox
-                android:id="@+id/checkBox"
-                android:layout_width="wrap_content"
+            <EditText
+                android:id="@+id/year_edt_err"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:cursorVisible="false"
+                android:layout_below="@+id/phone_llay"
+                android:ems="1"
+                android:layout_marginTop="20dp"
+                android:padding="10dp"
+                android:textColor="@color/white"
+                android:lines="1"
+                android:maxLines="1"></EditText>
+
+            <com.google.android.flexbox.FlexboxLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/submit_ctxv"
+                app:alignContent="stretch"
+                app:alignItems="flex_start"
                 android:layout_below="@+id/year_edt"
-                android:layout_marginTop="10dp"
-                android:textSize="@dimen/sp12"
-                android:layout_height="wrap_content" />
+                app:flexWrap="wrap">
+
+                <CheckBox
+                    android:id="@+id/checkBox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="I have read, understood and agree to the "
+                    app:layout_alignSelf="flex_start" />
+                <EditText
+                    android:id="@+id/terms_of_use_cbox_err"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:cursorVisible="false"
+                    android:ems="1"
+                    android:textColor="@color/white"
+                    android:lines="1"
+                    android:maxLines="1"></EditText>
+
+                <com.pacifyr.client.customview.MainTextView
+                    android:id="@+id/terms_of_use"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="25dp"
+                    android:text=""
+                    android:textColor="@color/blue_pacifyr"
+                    app:layout_alignSelf="flex_start" />
+
+                <com.pacifyr.client.customview.MainTextView
+                    android:id="@+id/privacy_ctxv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:textColor="@color/blue_pacifyr"
+                    app:layout_alignSelf="flex_start" />
+
+            </com.google.android.flexbox.FlexboxLayout>
 
             <!--  <com.pacifyr.client.customview.MainTextView
                   android:layout_width="wrap_content"
@@ -236,20 +287,6 @@
                   android:layout_below="@+id/year_edt"
                   android:textSize="12dp"
                   android:text="@string/read_understand"/>-->
-
-            <com.pacifyr.client.customview.MainTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/checkBox"
-                android:id="@+id/terms_of_use"
-                android:layout_below="@+id/year_edt"
-                android:textSize="12dp"
-                android:textCursorDrawable="@color/om_blue"
-                android:layout_marginTop="20dp"
-                android:drawableLeft="@drawable/red_star"
-                android:drawableStart="@drawable/red_star"
-                android:text="@string/register_terms_text"/>
-
 
             <LinearLayout
                 android:layout_width="wrap_content"

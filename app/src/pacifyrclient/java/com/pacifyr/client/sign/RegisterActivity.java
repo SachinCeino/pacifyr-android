@@ -32,6 +32,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -167,6 +168,7 @@ public class RegisterActivity extends PacifyrActivity {
     private CustomEditText phoneEdit;
     private CustomEditText yearEdit;
     private MainTextView termsCtxv;
+    private EditText terms_of_use_cbox_err,year_edt_err;
 
 
 
@@ -200,6 +202,7 @@ public class RegisterActivity extends PacifyrActivity {
     private  LinearLayout upload_layout;
     private TextView upload_textView;
     private  TextView add_photo_textView;
+    private  TextView terms_of_use,privacy_ctxv;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -224,10 +227,14 @@ public class RegisterActivity extends PacifyrActivity {
             phoneCedt = findViewById(R.id.phone_cedit);
             spinner = findViewById(R.id.spinner);
             phone_llay = findViewById(R.id.phone_llay);
+            privacy_ctxv = findViewById(R.id.privacy_ctxv);
+
 
             upload_layout = findViewById(R.id.upload_layout);
             upload_textView= findViewById(R.id.upload_textView);
             add_photo_textView = findViewById(R.id.add_photo_textView);
+            terms_of_use_cbox_err = findViewById(R.id.terms_of_use_cbox_err);
+            year_edt_err = findViewById(R.id.year_edt_err);
 
 
             context = RegisterActivity.this;
@@ -310,7 +317,7 @@ public class RegisterActivity extends PacifyrActivity {
             yearEdit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    yearEdit.setError(null);
+                    year_edt_err.setError(null);
                     showDialog(yearEdit, "");
                 }
             });
@@ -352,51 +359,28 @@ public class RegisterActivity extends PacifyrActivity {
             ic_link.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.blue_pacifyr)), 0, wordTwo.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             termsCtxv.append(ic_link);*/
 
-            String policyString = getResources().getString(R.string.register_terms_text);
-            termsCtxv.setText(Html.fromHtml("<font color=" + getResources().getColor(R.color.colorPrimary) + ">" + policyString + "</font><font color=" + getResources().getColor(R.color.colorPrimary) + "><u> Pacifyr Terms of Use and Privacy Policy</u></font>"));
+
+            termsCtxv.setText(Html.fromHtml("<font color=" + getResources().getColor(R.color.colorPrimary) + "><u> Pacifyr Terms of Use</u></font>"));
             termsCtxv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(RegisterActivity.this,TermsOfUseActivity.class);
                     intent.putExtra("spurl", Constants.getUrlTerms(getApplicationContext()));
+                    intent.putExtra("title", "Terms of Use");
                     startActivity(intent);
                 }
             });
 
-
-            /*SpannableString ss = new SpannableString("I have read, understand, and agree to be bound by the Pacifyr Terms of Use");
-            ClickableSpan clickableSpan = new ClickableSpan() {
-                @Override
-                public void onClick(View textView) {
-                    Intent i=new Intent(RegisterActivity.this,TermsOfUseActivity.class);
-                    i.putExtra("spurl", termOfUse);
-                    startActivity(i);
-                   *//* startActivity(new Intent(RegisterActivity.this, TermsOfUseActivity.class));*//*
-
-                }
-                @Override
-                public void updateDrawState(TextPaint ds) {
-                    super.updateDrawState(ds);
-                    ds.setUnderlineText(false);
-                }
-            };
-            ss.setSpan(clickableSpan, 54, 74, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-
-            termsCtxv.setText(ss);
-            termsCtxv.setMovementMethod(LinkMovementMethod.getInstance());
-            termsCtxv.setHighlightColor(getResources().getColor(R.color.blue_pacifyr));*/
-
-           /* termsCtxv.setOnClickListener(new View.OnClickListener() {
+            privacy_ctxv.setText(Html.fromHtml("<font color="+getResources().getColor(R.color.education_title) +"> and </font>"+"<font color=" + getResources().getColor(R.color.colorPrimary) + "><u>Privacy policy</u></font>"));
+            privacy_ctxv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent i=new Intent(RegisterActivity.this,TermsOfUseActivity.class);
-                    i.putExtra("spurl", termOfUse);
-                    startActivity(i);
-
+                    Intent intent = new Intent(RegisterActivity.this,TermsOfUseActivity.class);
+                    intent.putExtra("spurl", Constants.getUrlPrivacyPolicy(getApplicationContext()));
+                    intent.putExtra("title", "Privacy Policy");
+                    startActivity(intent);
                 }
-            });*/
-
+            });
 
 
             nameEdt.setFilters(new InputFilter[] {
@@ -416,7 +400,21 @@ public class RegisterActivity extends PacifyrActivity {
                         }
                     }
             });
+
+            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked)
+                    {
+                        terms_of_use_cbox_err.setError(null);
+                    }
+                }
+            });
+
+
             setClicks();
+
+
         }catch (Exception e)
         {
             e.printStackTrace();
@@ -441,7 +439,7 @@ public class RegisterActivity extends PacifyrActivity {
                 @Override
                 public void onItemSelected(WheelPicker picker, Object data, int position) {
                     vals[0] = (Integer) data;
-                    yearEdit.setError(null);
+                    year_edt_err.setError(null);
                 }
             });
 
@@ -459,7 +457,7 @@ public class RegisterActivity extends PacifyrActivity {
             saveTxv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    yearEdit.setError(null);
+                    year_edt_err.setError(null);
                     if (isValid(vals[0]))
                         textView.setText(vals[0].toString());
                     else
@@ -755,7 +753,7 @@ public class RegisterActivity extends PacifyrActivity {
                     return;
                 if (!isValidYear(yearEdit.getText().toString(), "You must be 18 years or older to use Pacifyr"))
                     return;
-                if (!isValidCheckBox(checkBox, getResources().getString(R.string.agree_terms_alert)))
+                if (!isValidCheckBox(terms_of_use_cbox_err,checkBox, getResources().getString(R.string.agree_terms_alert)))
                     return;
                 postRegisterModel.setLoginType("manual");
                 postRegisterModel.setFirstName(nameEdt.getText().toString());
@@ -769,7 +767,7 @@ public class RegisterActivity extends PacifyrActivity {
                         if (!isValidEmail1(emailEdt, "Please enter a valid email"))
                             return;
                     }
-                    if (!isValidCheckBox(checkBox, getResources().getString(R.string.agree_terms_alert)))
+                    if (!isValidCheckBox(terms_of_use_cbox_err,checkBox, getResources().getString(R.string.agree_terms_alert)))
                         return;
                     if (isValidMobile(phoneCedt.getText().toString())) {
                         countryData = (ItemData) spinner.getSelectedItem();
@@ -885,19 +883,21 @@ public class RegisterActivity extends PacifyrActivity {
         }
     }
 
-    private boolean isValidCheckBox(CheckBox checkBox,String error) {
+    private boolean isValidCheckBox(EditText terms_of_use_cbox_err,CheckBox checkBox,String error) {
         if(checkBox.isChecked())
             return true;
         else
-            setAlertOKStatusInWhite("Invalid",error,"OK");
+            terms_of_use_cbox_err.setError(error);
+        terms_of_use_cbox_err.requestFocus();
+            //setAlertOKStatusInWhite("Invalid",error,"OK");
         return false;
     }
 
     public Boolean isValidYear(String text, String error) {
         if (text.equals(""))
         {
-            yearEdit.setError("Enter year of birth");
-            yearEdit.requestFocus();
+            year_edt_err.setError("Please enter year of birth");
+            year_edt_err.requestFocus();
         }
         else {
             if (text != null)
@@ -906,7 +906,9 @@ public class RegisterActivity extends PacifyrActivity {
                         if (isValidMajor(text))
                             return true;
 
-            setAlertOKStatusInWhite("Invalid",error,"OK");
+
+            year_edt_err.setError("Enter valid year of birth");
+            year_edt_err.requestFocus();
            /* yearEdit.setError(error + "");
             yearEdit.requestFocus();*/
         }

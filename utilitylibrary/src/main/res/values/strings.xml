@@ -76,7 +76,7 @@
     <string name="send">Send</string>
     <string name="save">Save</string>
     <string name="read_understand">I have read, Understand, And agree to be bound by the</string>
-    <string name="agree_terms_alert">You need to agree to Terms of use before signing up</string>
+    <string name="agree_terms_alert">Please accept our Terms of use and Privacy policy</string>
     <string name="term_of_use">OMHealthCare Terms of Use</string>
     <string name="terms_of_use">Terms of Use</string>
     <string name="send_confirmcode">send confirmation code </string>
