@@ -11,6 +11,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.webkit.SslErrorHandler;
+import android.webkit.WebResourceError;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
@@ -31,22 +33,27 @@ public class TermsOfUseActivity extends PacifyrActivity {
     private String spurl;
     //private ImageView backButt;
     //private LinearLayout backbtn;
+    private int retryCount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pacifyr_webview);
+        webView = findViewById(R.id.web_view);
         Bundle bundle = getIntent().getExtras();
-        if (bundle != null) {
+
+        if( bundle!= null){
             spurl = bundle.getString("spurl");
-            if (isValid(bundle.getString("title"))) {
-                titleText = bundle.getString("title");
+            if (spurl != null && spurl.contains(".pdf")) {
+                spurl = "https://drive.google.com/viewerng/viewer?embedded=true&url=" + spurl;
             }
+            startWebView(spurl);
+            titleText=bundle.getString("title");
         }
         onSetActionBar();
-        webView = findViewById(R.id.web_view);
-        startWebView(spurl);
+
+
 
     }
 
@@ -75,24 +82,84 @@ public class TermsOfUseActivity extends PacifyrActivity {
 
 
     private void startWebView(String url) {
-        webView.loadUrl(url);
+        //Create new webview Client to show progress dialog
+        //When opening a url or click on link
 
         webView.setWebViewClient(new WebViewClient() {
+            ProgressDialog progressDialog;
 
-            @Override
+            //If you will not use this method url links are opeen in new brower not in webview
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 view.loadUrl(url);
-
-                if (url.startsWith("http") || url.startsWith("https")) {
-                    return true;
-                } else {
-                    webView.stopLoading();
-                    webView.goBack();
-                    Toast.makeText(TermsOfUseActivity.this, "Unknown Link, unable to handle", Toast.LENGTH_SHORT).show();
-                }
-                return false;
+                return true;
             }
+
+            //Show loader on url load
+            public void onLoadResource (WebView view, String url) {
+
+
+
+                if (progressDialog == null) {
+                    // in standard case YourActivity.this
+                    progressDialog = new ProgressDialog(TermsOfUseActivity.this);
+                    progressDialog.setMessage("Loading...");
+                    progressDialog.show();
+                }
+            }
+
+            @Override
+            public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+                super.onReceivedError(view, request, error);
+            }
+
+            @Override
+            public void onReceivedSslError(WebView view, final SslErrorHandler handler, SslError
+                    error) {
+                final AlertDialog.Builder builder = new AlertDialog.Builder
+                        (TermsOfUseActivity.this);
+                builder.setMessage("Webview ssl error");
+                builder.setPositiveButton("continue", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        handler.proceed();
+                    }
+                });
+                builder.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        handler.cancel();
+                    }
+                });
+                final AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+            public void onPageFinished(WebView view, String url) {
+
+
+                int height = view.getContentHeight();
+                if (height == 0 && retryCount <= 5) {
+                    retryCount++;
+                    view.loadUrl(url);
+                }
+
+                try{
+                    if (progressDialog.isShowing()) {
+                        progressDialog.dismiss();
+
+                    }
+                }catch(Exception exception){
+                    exception.printStackTrace();
+                }
+            }
+
         });
+
+        // Javascript inabled on webview
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.getSettings().setLoadWithOverviewMode(true);
+        webView.getSettings().setUseWideViewPort(true);
+        webView.loadUrl(url);
+
     }
 
     ///ACTION BAR FEATURES

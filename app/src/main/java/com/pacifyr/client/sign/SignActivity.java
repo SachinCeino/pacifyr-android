@@ -62,15 +62,16 @@ public class SignActivity extends PacifyrActivity {
 
     private void showCovidNinteenPopUp() {
 
-        setAlertStatusCovid("COVID-19", "If you think you have been exposed to COVID‑19 and develop a fever and symptoms, such as cough or difficulty breathing, call your healthcare provider for medical advice.", "Yes", "No", new View.OnClickListener() {
+        setAlertStatusCovid("COVID-19", "If you think you have been exposed to COVID‑19 and develop a fever and symptoms, such as cough or difficulty breathing, call your healthcare provider for medical advice.", "Ok", "No", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 hideProgress();
                 hideStatus2();
 
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.cdc.gov/coronavirus/2019-ncov/downloads/sick-with-2019-nCoV-fact-sheet.pdf"));
-                browserIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(browserIntent);
+                Intent i=new Intent(SignActivity.this,TermsOfUseActivity.class);
+                i.putExtra("title", "Covid-19");
+                i.putExtra("spurl", "https://www.cdc.gov/coronavirus/2019-ncov/downloads/sick-with-2019-nCoV-fact-sheet.pdf");
+                startActivity(i);
             }
         });
     }

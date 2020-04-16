@@ -3784,7 +3784,7 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
         else
             title_dtxv.setVisibility(View.VISIBLE);
         defSetText(desc_dtxv,desc);
-        defSetText(ok_dtxv,ok,"YES");
+        defSetText(ok_dtxv,ok,"Ok");
         hideStatus();
         hideStatus2();
         hud_status2 = KProgressHUD.create(PacifyrActivity.this).setStyle(KProgressHUD.Style.SPIN_INDETERMINATE).setCustomView(view).setWindowColor(this.getResources().getColor(com.pacifyrapp.utilitylibrary.R.color.transparent)).setCancellable(true).setAnimationSpeed(2).setDimAmount(0.5f);
