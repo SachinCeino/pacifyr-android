@@ -131,7 +131,6 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import static com.facebook.FacebookSdk.getApplicationContext;
 import static com.pacifyr.client.network.NetworkService.modelAllEmotions;
 import static com.pacifyr.client.utils.Constants.getCountryChecks;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
@@ -3194,7 +3193,7 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
                 new NetworkService().sessionTracking(sessionid, new AjaxCallback<JSONObject>() {
                     @Override
                     public void callback(String url, JSONObject json, AjaxStatus status) {
-                        Log.d(TAG, "Url " + url + " -> " + json.toString());
+                        Log.d(TAG, "Url " + url + " -> " + json != null ? json.toString() : null);
                     }
                 });
             }
