@@ -207,9 +207,9 @@ public class Call_Service extends Service implements QBRTCClientSessionCallbacks
         super.onDestroy();
         Log.d(TAG, "onDestroy()");
         try {
-            if (chatService != null) {
+            /*if (chatService != null) {
                 chatService.logout();
-            }
+            }*/
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 stopForeground(true);
             }
