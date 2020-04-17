@@ -13,14 +13,12 @@
         android:layout_width="match_parent">
     </include>
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white">
 
-    <androidx.percentlayout.widget.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <androidx.percentlayout.widget.PercentRelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white">
@@ -204,33 +202,35 @@
 
             <com.pacifyrapp.utilitylibrary.CustomEditText
                 android:id="@+id/year_edt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/phone_llay"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
                 android:layout_marginTop="20dp"
-                android:padding="10dp"
-                android:textCursorDrawable="@color/om_blue"
-                android:layout_width="match_parent"
+                android:layout_toStartOf="@+id/year_edt_err"
+                android:layout_toLeftOf="@+id/year_edt_err"
+                android:background="@null"
+                android:drawableStart="@drawable/red_star"
+                android:drawableLeft="@drawable/red_star"
+                android:focusable="false"
                 android:gravity="left"
                 android:hint="Year of birth"
-                android:background="@null"
-                android:focusable="false"
-                android:drawableLeft="@drawable/red_star"
-                android:drawableStart="@drawable/red_star"
-                android:layout_below="@+id/phone_llay"
+                android:padding="10dp"
                 android:textColor="@color/medium_grey_pacifyr"
-                android:layout_height="wrap_content" />
-
+                android:textCursorDrawable="@color/om_blue" />
             <EditText
                 android:id="@+id/year_edt_err"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@null"
+                android:layout_marginTop="20dp"
                 android:cursorVisible="false"
                 android:layout_below="@+id/phone_llay"
-                android:ems="1"
-                android:layout_marginTop="20dp"
-                android:padding="10dp"
+                android:layout_alignParentEnd="true"
                 android:textColor="@color/white"
-                android:lines="1"
-                android:maxLines="1"></EditText>
+                android:layout_alignParentRight="true" />
+
 
             <com.google.android.flexbox.FlexboxLayout
                 android:layout_width="match_parent"
@@ -245,19 +245,9 @@
                     android:id="@+id/checkBox"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="I have read, understood and agree to the "
+                    android:textColor="@color/grey_dark"
+                    android:text="I have read, understood and agreed to be bound by the Pacifyr"
                     app:layout_alignSelf="flex_start" />
-                <EditText
-                    android:id="@+id/terms_of_use_cbox_err"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:background="@null"
-                    android:cursorVisible="false"
-                    android:ems="1"
-                    android:textColor="@color/white"
-                    android:lines="1"
-                    android:maxLines="1"></EditText>
-
                 <com.pacifyr.client.customview.MainTextView
                     android:id="@+id/terms_of_use"
                     android:layout_width="wrap_content"
@@ -274,7 +264,16 @@
                     android:layout_marginLeft="5dp"
                     android:textColor="@color/blue_pacifyr"
                     app:layout_alignSelf="flex_start" />
-
+                <EditText
+                    android:id="@+id/terms_of_use_cbox_err"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:cursorVisible="false"
+                    android:ems="1"
+                    android:textColor="@color/white"
+                    android:lines="1"
+                    android:maxLines="1"></EditText>
             </com.google.android.flexbox.FlexboxLayout>
 
             <!--  <com.pacifyr.client.customview.MainTextView

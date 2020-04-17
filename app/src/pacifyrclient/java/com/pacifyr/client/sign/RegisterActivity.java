@@ -360,7 +360,7 @@ public class RegisterActivity extends PacifyrActivity {
             termsCtxv.append(ic_link);*/
 
 
-            termsCtxv.setText(Html.fromHtml("<font color=" + getResources().getColor(R.color.colorPrimary) + "><u> Pacifyr Terms of Use</u></font>"));
+            termsCtxv.setText(Html.fromHtml("<font color=" + getResources().getColor(R.color.colorPrimary) + "><u> Terms of Use</u></font>"));
             termsCtxv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -371,7 +371,7 @@ public class RegisterActivity extends PacifyrActivity {
                 }
             });
 
-            privacy_ctxv.setText(Html.fromHtml("<font color="+getResources().getColor(R.color.education_title) +"> and </font>"+"<font color=" + getResources().getColor(R.color.colorPrimary) + "><u>Privacy policy</u></font>"));
+            privacy_ctxv.setText(Html.fromHtml("<font color="+getResources().getColor(R.color.grey_dark) +"> and </font>"+"<font color=" + getResources().getColor(R.color.colorPrimary) + "><u>Privacy policy</u></font>"));
             privacy_ctxv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -454,6 +454,13 @@ public class RegisterActivity extends PacifyrActivity {
             });
             dialog.show();
             TextView saveTxv = dialog.findViewById(R.id.save_ctxv);
+            ImageView close_dimv= dialog.findViewById(R.id.close_dimv);
+            close_dimv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
             saveTxv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
