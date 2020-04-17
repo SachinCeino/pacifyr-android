@@ -29,6 +29,7 @@ import com.androidquery.callback.AjaxStatus;
 import com.github.javiersantos.appupdater.AppUpdater;
 import com.pacifyr.client.Payment.PaymentFragment;
 import com.pacifyr.client.R;
+import com.pacifyr.client.activity.SplashScreen;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.ActionbarEvent;
 import com.pacifyr.client.event.AlertTypeEvent;
@@ -455,6 +456,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
         configPushNotifications();
         setContentView(R.layout.activity_dashboard);
         hideKeyboard();
+        SplashScreen.popupshown=true;
         context = DashboardActivity.this;
         //    permissionCheck();
         /**the library will work in background for checking new update available or not**/

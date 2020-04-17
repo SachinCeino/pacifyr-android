@@ -47,6 +47,7 @@ public class SplashScreen extends BaseAppCompactActivity {
     Intent mServiceIntent;
     private CallService mSensorService;
     private ImageView image_splash;
+    public static  boolean popupshown=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +60,7 @@ public class SplashScreen extends BaseAppCompactActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_splash_screen);
         image_splash = findViewById(R.id.image_splash);
+        popupshown=false;
 
         mSensorService = new CallService(SplashScreen.this);
         mServiceIntent = new Intent(SplashScreen.this, mSensorService.getClass());

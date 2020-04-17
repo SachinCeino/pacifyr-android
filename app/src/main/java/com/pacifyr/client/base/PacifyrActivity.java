@@ -3775,7 +3775,7 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
     }
 
     public void setAlertStatusCovid(String title,String desc,String ok,String dismiss,View.OnClickListener oklistner) {
-        View view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.alert_no_internet, null, false);
+        View view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.alert_covid, null, false);
         MainTextView title_dtxv = view.findViewById(com.pacifyrapp.utilitylibrary.R.id.title_dtxv);
         MainTextView desc_dtxv = view.findViewById(com.pacifyrapp.utilitylibrary.R.id.desc_dtxv);
         MainTextView ok_dtxv = view.findViewById(com.pacifyrapp.utilitylibrary.R.id.ok_dtxv);
