@@ -1178,9 +1178,9 @@ public class NetworkService  extends IntentService {
     }
 
 
-    public void sendCallNotificationToIOSDevices(String sessionID,long toUserId, String recepientName) {
+    public void sendCallNotificationToIOSDevices(String QbRtSessionId, boolean isVideoCall, String sessionID, long toUserId, String recepientName) {
         try {
-
+            PrefManager prefM = PrefManager.getInstance(this);
 
             StringifyArrayList<Integer> userIds = new StringifyArrayList<Integer>();
             userIds.add(Integer.valueOf((int) toUserId));
@@ -1203,10 +1203,23 @@ public class NetworkService  extends IntentService {
                 // custom parameters
                 json.put("ios_voip", "1");
                 json.put("VOIPCall","1");
+                if (isVideoCall)
+                    json.put("conferenceType","1");
+                else
+                    json.put("conferenceType","2");
+                json.put("opponentsIDs",String.valueOf(toUserId));
+                json.put("name",prefM.getUserName()+"");
+                if (isValid(QbRtSessionId))
+                {
+                    json.put("sessionID",QbRtSessionId);
+                }
                 if (isValid(sessionID))
                 {
                     json.put("id",sessionID);
                 }
+
+
+
 
 
             } catch (Exception e) {
@@ -1224,7 +1237,8 @@ public class NetworkService  extends IntentService {
                 }
 
                 @Override
-                public void onError(QBResponseException errors) {
+                public void onError(QBResponseException errors)
+                {
                     Log.w("QQQQQQ","onError");
                 }
             });

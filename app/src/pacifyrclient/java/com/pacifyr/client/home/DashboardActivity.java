@@ -456,7 +456,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
         configPushNotifications();
         setContentView(R.layout.activity_dashboard);
         hideKeyboard();
-        SplashScreen.popupshown=true;
+
         context = DashboardActivity.this;
         //    permissionCheck();
         /**the library will work in background for checking new update available or not**/

@@ -232,38 +232,27 @@
                 android:layout_alignParentRight="true" />
 
 
-            <com.google.android.flexbox.FlexboxLayout
+            <RelativeLayout
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_above="@+id/submit_ctxv"
-                app:alignContent="stretch"
-                app:alignItems="flex_start"
                 android:layout_below="@+id/year_edt"
-                app:flexWrap="wrap">
+                android:id="@+id/terms_of_use_cbox_layout"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                >
 
                 <CheckBox
                     android:id="@+id/checkBox"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/grey_dark"
-                    android:text="I have read, understood and agreed to be bound by the Pacifyr"
-                    app:layout_alignSelf="flex_start" />
-                <com.pacifyr.client.customview.MainTextView
-                    android:id="@+id/terms_of_use"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="25dp"
                     android:text=""
-                    android:textColor="@color/blue_pacifyr"
-                    app:layout_alignSelf="flex_start" />
+                    android:background="@null"
+                    android:textSize="13sp"
+                    android:textColorLink="@color/colorPrimary"
+                    />
 
-                <com.pacifyr.client.customview.MainTextView
-                    android:id="@+id/privacy_ctxv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:textColor="@color/blue_pacifyr"
-                    app:layout_alignSelf="flex_start" />
                 <EditText
                     android:id="@+id/terms_of_use_cbox_err"
                     android:layout_width="wrap_content"
@@ -271,10 +260,19 @@
                     android:background="@null"
                     android:cursorVisible="false"
                     android:ems="1"
+                    android:layout_marginBottom="10dp"
+                    android:layout_gravity="right|top"
+                    android:gravity="right|top"
                     android:textColor="@color/white"
                     android:lines="1"
-                    android:maxLines="1"></EditText>
-            </com.google.android.flexbox.FlexboxLayout>
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:maxLines="1"
+                    />
+
+            </RelativeLayout>
+
+
 
             <!--  <com.pacifyr.client.customview.MainTextView
                   android:layout_width="wrap_content"

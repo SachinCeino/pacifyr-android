@@ -21,6 +21,7 @@ import android.text.Editable;
 import android.text.Html;
 import android.text.InputFilter;
 import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
@@ -221,7 +222,6 @@ public class RegisterActivity extends PacifyrActivity {
             nextCtxv = findViewById(R.id.next_ctxv);
             phoneEdit = findViewById(R.id.phone_edt);
             yearEdit = findViewById(R.id.year_edt);
-            termsCtxv = findViewById(R.id.terms_of_use);
             checkBox = findViewById(R.id.checkBox);
             profileCimv = findViewById(R.id.profile_cimv);
             phoneCedt = findViewById(R.id.phone_cedit);
@@ -339,48 +339,9 @@ public class RegisterActivity extends PacifyrActivity {
                 }
             });
 
-           /* Spannable word = new SpannableString("I have read, understand, and agree to be bound by the ");
-
-            word.setSpan(new ForegroundColorSpan(Color.BLACK), 0, word.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-            termsCtxv.setText(word);
-            Spannable wordTwo = new SpannableString("Pacifyr Terms of Use");
-
-            SpannableString ic_link = makeLinkSpan("Pacifyr Terms of Use", new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // respond to click
-                    Intent i=new Intent(RegisterActivity.this,TermsOfUseActivity.class);
-                    i.putExtra("spurl", termOfUse);
-                    startActivity(i);
-                }
-            });
-
-            ic_link.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.blue_pacifyr)), 0, wordTwo.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            termsCtxv.append(ic_link);*/
 
 
-            termsCtxv.setText(Html.fromHtml("<font color=" + getResources().getColor(R.color.colorPrimary) + "><u> Terms of Use</u></font>"));
-            termsCtxv.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(RegisterActivity.this,TermsOfUseActivity.class);
-                    intent.putExtra("spurl", Constants.getUrlTerms(getApplicationContext()));
-                    intent.putExtra("title", "Terms of Use");
-                    startActivity(intent);
-                }
-            });
 
-            privacy_ctxv.setText(Html.fromHtml("<font color="+getResources().getColor(R.color.grey_dark) +"> and </font>"+"<font color=" + getResources().getColor(R.color.colorPrimary) + "><u>Privacy policy</u></font>"));
-            privacy_ctxv.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(RegisterActivity.this,TermsOfUseActivity.class);
-                    intent.putExtra("spurl", Constants.getUrlPrivacyPolicy(getApplicationContext()));
-                    intent.putExtra("title", "Privacy Policy");
-                    startActivity(intent);
-                }
-            });
 
 
             nameEdt.setFilters(new InputFilter[] {
@@ -411,6 +372,33 @@ public class RegisterActivity extends PacifyrActivity {
                 }
             });
 
+
+            SpannableStringBuilder spanTxt = new SpannableStringBuilder(
+                    "I have read, understood and agree to be bound by the ");
+            spanTxt.append(Html.fromHtml("<font color=" + getResources().getColor(R.color.colorPrimary) + "> <u>" + "Terms of use" + "</u></font>"));
+            spanTxt.setSpan(new ClickableSpan() {
+                @Override
+                public void onClick(View widget) {
+                    Intent intent = new Intent(RegisterActivity.this,TermsOfUseActivity.class);
+                    intent.putExtra("spurl", Constants.getUrlTerms(getApplicationContext()));
+                    intent.putExtra("title", "Terms of Use");
+                    startActivity(intent);
+                }
+            }, spanTxt.length() - "Terms of use".length(), spanTxt.length(), 0);
+            spanTxt.append(", ");
+            spanTxt.append(Html.fromHtml("<font color=" + getResources().getColor(R.color.colorPrimary) + "> <u>" + "Privacy policy" + "</u></font>"));
+            spanTxt.setSpan(new ClickableSpan() {
+                @Override
+                public void onClick(View widget) {
+                    Intent intent = new Intent(RegisterActivity.this,TermsOfUseActivity.class);
+                    intent.putExtra("spurl", Constants.getUrlPrivacyPolicy(getApplicationContext()));
+                    intent.putExtra("title", "Privacy Policy");
+                    startActivity(intent);
+                }
+            }, spanTxt.length() - "Privacy policy".length(), spanTxt.length(), 0);
+
+            checkBox.setMovementMethod(LinkMovementMethod.getInstance());
+            checkBox.setText(spanTxt, TextView.BufferType.SPANNABLE);
 
             setClicks();
 
@@ -954,7 +942,7 @@ public class RegisterActivity extends PacifyrActivity {
                             hideProgress();
                             String message = json.get(getResources().getString(R.string.message_string)).getAsString();
                             setAlertOKStatusInWhite(getResources().getString(R.string.registration_failed), message,"Ok");
-                            ToastHandler.newInstance(RegisterActivity.this).mustShowToast("Please try again Json is null");
+                           // ToastHandler.newInstance(RegisterActivity.this).mustShowToast("Please try again Json is null");
                         } else {
                             final JSONObject json2 = new JSONObject(json.toString());
                             PRegistrationModel regModel = GsonUtils.getInstance().gsonToRegistrationModel(json2);

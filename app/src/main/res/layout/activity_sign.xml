@@ -113,7 +113,16 @@
                 android:textColor="@color/_color_connect_to_wellness"
                 android:textSize="14sp" />
 
-
+            <com.pacifyr.client.customview.MainTextView
+                android:id="@+id/covidMessage_ctxv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="left"
+                android:justificationMode="inter_word"
+                android:text=""
+                android:textColor="@color/_color_connect_to_wellness"
+                android:textSize="14sp" />
         </LinearLayout>
 
         <!-- <com.pacifyr.client.customview.MainTextView

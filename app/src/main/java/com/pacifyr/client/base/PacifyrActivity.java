@@ -1120,8 +1120,10 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
         //convertModel()
 
         CallActivity.mPacifyr = pacifyer;
+        WebRtcSessionManager sessionManager = WebRtcSessionManager.getInstance(this);
+        QBRTCSession currentSession = sessionManager.getCurrentSession();
         /** Sending Notificarion to the IOS App to get Out side Call Notification **/
-        new NetworkService().sendCallNotificationToIOSDevices(sessionid, qbID, getUserName());
+        new NetworkService().sendCallNotificationToIOSDevices(currentSession.getSessionID(),isVideoCall,sessionid, qbID, getUserName());
         CallActivity.start(this, false);
         Log.d("jp", "conferenceType = " + conferenceType);
     }

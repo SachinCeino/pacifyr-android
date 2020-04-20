@@ -25,14 +25,13 @@ import org.json.JSONObject;
 
 import java.util.Locale;
 
-import static com.pacifyr.client.activity.SplashScreen.popupshown;
 
 public class SignActivity extends PacifyrActivity {
 
     MainTextView pacifyrRequestTxv;
     RelativeLayout relative_bg;
 
-    MainTextView emergencyCtxv;
+    MainTextView emergencyCtxv,covidMessage_ctxv;
 
 
     @Override
@@ -45,6 +44,7 @@ public class SignActivity extends PacifyrActivity {
         if (!getPackageName().equalsIgnoreCase("com.pacifyr.pam"))
             relative_bg.setBackground(getResources().getDrawable(R.drawable.loginbg));
         emergencyCtxv = (MainTextView) findViewById(R.id.emergency_ctxv);
+        covidMessage_ctxv = findViewById(R.id.covidMessage_ctxv);
         getCountryData();
         String crisisString = getResources().getString(R.string.if_emergency2);
         //If in emergency call 911 or rush to an emergency room. Crisis Info
@@ -56,26 +56,24 @@ public class SignActivity extends PacifyrActivity {
                 startActivity(intent);
             }
         });
-        fbLogout();
-        if (popupshown==false)
-        showCovidNinteenPopUp();
 
-    }
-
-    private void showCovidNinteenPopUp() {
-
-        setAlertStatusCovid("COVID-19", "If you think you have been exposed to COVID‑19 and develop a fever and symptoms, such as cough or difficulty breathing, call your healthcare provider for medical advice.", "Ok", "No", new View.OnClickListener() {
+        covidMessage_ctxv.setText(Html.fromHtml("<font color=" + getResources().getColor(R.color._color_thirty_free) + ">" + getResources().getString(R.string.covid_message) + "</font><font color=" + getResources().getColor(R.color.colorPrimary) + "><u> COVID Info.</u>"));
+        covidMessage_ctxv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                hideProgress();
-                hideStatus2();
                 Intent i=new Intent(SignActivity.this,TermsOfUseActivity.class);
                 i.putExtra("title", "Covid-19");
                 i.putExtra("spurl", "https://www.cdc.gov/coronavirus/2019-ncov/downloads/sick-with-2019-nCoV-fact-sheet.pdf");
                 startActivity(i);
             }
         });
+
+        fbLogout();
+
+
     }
+
+
 
     @Override
     protected View getSnackbarAnchorView() {
