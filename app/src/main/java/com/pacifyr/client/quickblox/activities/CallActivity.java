@@ -726,8 +726,10 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
         LogUtils.LOGD("call","hangUpCurrentSession");
         ringtonePlayer.stop();
         if (getCurrentSession() != null) {
-            stopSessionWeb(getCurrentSession().getSessionID());
             getCurrentSession().hangUp(new HashMap<String, String>());
+        }
+        if (sessionid != null) {
+            stopSessionWeb(sessionid);
         }
         //jpppppppppppppp
         try {
