@@ -726,6 +726,7 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
         LogUtils.LOGD("call","hangUpCurrentSession");
         ringtonePlayer.stop();
         if (getCurrentSession() != null) {
+            stopSessionWeb(getCurrentSession().getSessionID());
             getCurrentSession().hangUp(new HashMap<String, String>());
         }
         //jpppppppppppppp
@@ -1087,7 +1088,11 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
                 // hangUpCurrentSession();
 
                 Log.d(TAG, "initiator hung up the call");
+
                 hangUpCurrentSessionOther();
+                if (session.getSessionID() != null) {
+                    stopSessionWeb(session.getSessionID());
+                }
             }
 
             QBUser participant = dbManager.getUserById(userID);
