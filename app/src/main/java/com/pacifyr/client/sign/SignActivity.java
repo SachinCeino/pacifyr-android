@@ -64,8 +64,8 @@ public class SignActivity extends PacifyrActivity {
 
 
         SpannableStringBuilder spanTxt = new SpannableStringBuilder(
-                getResources().getString(R.string.covid_message));
-        spanTxt.append(Html.fromHtml("<font color=" + getResources().getColor(R.color.colorPrimary) + "> <u>" + " COVID Info." + "</u></font>"));
+                "If you think you have been exposed to COVID‑19 and develop a fever and symptoms, such as cough or difficulty breathing, call your healthcare provider for medical advice. ");
+        spanTxt.append(Html.fromHtml("<font color=" + getResources().getColor(R.color.colorPrimary) + "> <u>" + "COVID Info." + "</u></font>"));
         spanTxt.setSpan(new ClickableSpan() {
             @Override
             public void onClick(View widget) {
@@ -74,7 +74,7 @@ public class SignActivity extends PacifyrActivity {
                 i.putExtra("spurl", "https://www.cdc.gov/coronavirus/2019-ncov/downloads/sick-with-2019-nCoV-fact-sheet.pdf");
                 startActivity(i);
             }
-        }, spanTxt.length() - " COVID Info.".length(), spanTxt.length(), 0);
+        }, spanTxt.length() - "COVID Info.".length(), spanTxt.length(), 0);
 
 
         covidMessage_ctxv.setMovementMethod(LinkMovementMethod.getInstance());
