@@ -1,10 +1,8 @@
 package com.pacifyr.client.activity;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Typeface;
 import android.net.http.SslError;
 import android.os.Bundle;
@@ -17,14 +15,11 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
-import com.pacifyr.client.customview.MainTextView;
-import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.pacifyr.client.R;
 import com.pacifyr.client.base.PacifyrActivity;
-
-import java.net.URISyntaxException;
+import com.pacifyr.client.customview.MainTextView;
+import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 
 public class TermsOfUseActivity extends PacifyrActivity {
 
@@ -156,8 +151,8 @@ public class TermsOfUseActivity extends PacifyrActivity {
 
         // Javascript inabled on webview
         webView.getSettings().setJavaScriptEnabled(true);
-        webView.getSettings().setLoadWithOverviewMode(true);
-        webView.getSettings().setUseWideViewPort(true);
+       /* webView.getSettings().setLoadWithOverviewMode(true);
+        webView.getSettings().setUseWideViewPort(true);*/
         webView.loadUrl(url);
 
     }
