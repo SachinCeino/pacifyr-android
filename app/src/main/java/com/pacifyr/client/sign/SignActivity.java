@@ -8,9 +8,13 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.text.Html;
+import android.text.SpannableStringBuilder;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
@@ -18,6 +22,7 @@ import com.androidquery.callback.AjaxStatus;
 import com.pacifyr.client.activity.TermsOfUseActivity;
 import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
+import com.pacifyr.client.utils.Constants;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.pacifyr.client.R;
 
@@ -57,17 +62,23 @@ public class SignActivity extends PacifyrActivity {
             }
         });
 
-        covidMessage_ctxv.setText(Html.fromHtml("<font color=" + getResources().getColor(R.color._color_thirty_free) + ">" + getResources().getString(R.string.covid_message) + "</font><font color=" + getResources().getColor(R.color.colorPrimary) + "><u> COVID Info.</u>"));
-        covidMessage_ctxv.setOnClickListener(new View.OnClickListener() {
+
+        SpannableStringBuilder spanTxt = new SpannableStringBuilder(
+                getResources().getString(R.string.covid_message));
+        spanTxt.append(Html.fromHtml("<font color=" + getResources().getColor(R.color.colorPrimary) + "> <u>" + " COVID Info." + "</u></font>"));
+        spanTxt.setSpan(new ClickableSpan() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View widget) {
                 Intent i=new Intent(SignActivity.this,TermsOfUseActivity.class);
                 i.putExtra("title", "Covid-19");
                 i.putExtra("spurl", "https://www.cdc.gov/coronavirus/2019-ncov/downloads/sick-with-2019-nCoV-fact-sheet.pdf");
                 startActivity(i);
             }
-        });
+        }, spanTxt.length() - " COVID Info.".length(), spanTxt.length(), 0);
 
+
+        covidMessage_ctxv.setMovementMethod(LinkMovementMethod.getInstance());
+        covidMessage_ctxv.setText(spanTxt, TextView.BufferType.SPANNABLE);
         fbLogout();
 
 
