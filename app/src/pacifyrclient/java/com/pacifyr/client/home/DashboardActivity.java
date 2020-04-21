@@ -52,6 +52,7 @@ import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.quickblox.chat.ui.activity.DialogsActivity;
 import com.pacifyr.client.quickblox.services.CallService;
 import com.pacifyr.client.sign.CrisisActivity;
+import com.pacifyr.client.sign.DiscountCodeActivity;
 import com.pacifyr.client.utility.PacifyrAppCompactActivity;
 import com.pacifyr.client.utils.AmazonSNSTokenHandler;
 import com.pacifyr.client.utils.LogUtils;
@@ -59,6 +60,7 @@ import com.pacifyr.client.utils.PagerEnabledSlidingPaneLayout;
 import com.pacifyr.client.utils.ToastHandler;
 import com.pacifyr.client.utils.Utility;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.MRoleModel;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.quickblox.sample.core.utils.SharedPrefsHelper;
@@ -121,6 +123,10 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
 
     private LinearLayout messagesLlay;
 
+    String mainLabel;
+    String label;
+    LinearLayout coupon_llay;
+    View coupon_view;
 
     // private PermissionsChecker checker;
     public static void start(Context context
@@ -499,6 +505,9 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
 
         messagesLlay = findViewById(R.id.message_llay);
 
+        coupon_llay = findViewById(R.id.coupon_llay);
+        coupon_view = findViewById(R.id.coupon_view);
+
         //NetworkService.startActionCutomerDashboard(this);
         showFragment();
         MultiDex.install(this);
@@ -720,6 +729,17 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
         JobScheduler jobScheduler = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
         jobScheduler.schedule(myJob);
 
+        coupon_llay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent i = new Intent(DashboardActivity.this, DiscountCodeActivity.class);
+                i.putExtra("FROM","MENU");
+                startActivity(i);
+
+            }
+        });
+
     }
     private void setProfileValues() {
         try {
@@ -747,8 +767,31 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
                                 Picasso.with(DashboardActivity.this).load(imageUrl).placeholder(R.drawable.placeholder_image).into(profile_cimv);
                         }
 
+                        MRoleModel roleModel = user.getRoleModel();
+                        mainLabel = roleModel.getMainLabel();
+                        label=roleModel.getLabel();
+                        if (mainLabel.equals("customer"))
+                        { if (label.equalsIgnoreCase("customer")) {
+                            coupon_llay.setVisibility(View.VISIBLE);
+                            coupon_view.setVisibility(View.VISIBLE);
+                            PrefManager.getInstance(DashboardActivity.this).saveCustomerRole("customer");
+
+                        } else if (label.equalsIgnoreCase("paidMember")) {
+                            coupon_llay.setVisibility(View.VISIBLE);
+                            coupon_view.setVisibility(View.VISIBLE);
+                            PrefManager.getInstance(DashboardActivity.this).saveCustomerRole("paidMember");
+                            }
+                            else
+                        {
+                            coupon_llay.setVisibility(View.GONE);
+                            coupon_view.setVisibility(View.GONE);
+                        }
+                        }
+
                     } catch (Exception e) {
                         hideProgress();
+                        coupon_llay.setVisibility(View.GONE);
+                        coupon_view.setVisibility(View.GONE);
                         e.printStackTrace();
                     }
                 }

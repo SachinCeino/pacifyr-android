@@ -10,6 +10,9 @@ import android.widget.Toast;
 
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
+import com.pacifyr.client.event.AlertTypeEvent;
+import com.pacifyr.client.event.NotifyEvent;
+import com.pacifyr.client.utility.PacifyrAppCompactActivity;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.gdacciaro.iOSDialog.iOSDialog;
 import com.gdacciaro.iOSDialog.iOSDialogClickListener;
@@ -24,7 +27,7 @@ import com.pacifyr.client.network.NetworkService;
 
 import org.json.JSONObject;
 
-public class DiscountCodeActivity extends PacifyrActivity {
+public class DiscountCodeActivity extends PacifyrAppCompactActivity {
     private static final String TAG = DiscountCodeActivity.class.getSimpleName();
     private RelativeLayout button_validate;
     private EditText edit_discount;
@@ -47,6 +50,7 @@ public class DiscountCodeActivity extends PacifyrActivity {
         return null;
     }
 
+    String from;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +59,11 @@ public class DiscountCodeActivity extends PacifyrActivity {
         edit_discount = findViewById(R.id.edit_discount_code);
         button_validate = findViewById(R.id.button_validate);
         skip = findViewById(R.id.text_skip);
+
+        if (isValid(getIntent()) && isValid(getIntent().getExtras()) && isValid(getIntent().getExtras().getString("FROM")))
+        {
+           from= getIntent().getExtras().getString("FROM");
+        }
 
         button_validate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,9 +104,18 @@ public class DiscountCodeActivity extends PacifyrActivity {
                                                             public void onClick(iOSDialog dialog) {
                                                                 //Toast.makeText(PacifyrActivity.this,"Clicked!",Toast.LENGTH_LONG).show();
                                                                 dialog.dismiss();
-                                                                Intent i = new Intent(DiscountCodeActivity.this, WelcomeTourActivity.class);
-                                                                startActivity(i);
-                                                                finishAffinity();
+                                                                if (isValid(from) && from.equals("MENU"))
+                                                                {
+                                                                    deleteInstallationWeb();
+                                                                }
+                                                                else
+                                                                {
+
+                                                                    Intent i = new Intent(DiscountCodeActivity.this, WelcomeTourActivity.class);
+                                                                    startActivity(i);
+                                                                    finishAffinity();
+                                                                }
+
                                                             }
                                                         });
 
@@ -131,11 +149,34 @@ public class DiscountCodeActivity extends PacifyrActivity {
         skip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(DiscountCodeActivity.this, WelcomeTourActivity.class);
-                startActivity(i);
-                finishAffinity();
+                if (isValid(from) && from.equals("MENU"))
+                {
+                    finish();
+                }
+                else {
+                    Intent i = new Intent(DiscountCodeActivity.this, WelcomeTourActivity.class);
+                    startActivity(i);
+                    finishAffinity();
+                }
+
+
             }
         });
+    }
+
+    @Override
+    public void onSetValues() throws Exception {
+
+    }
+
+    @Override
+    public void onNotifyEvent(NotifyEvent event) {
+
+    }
+
+    @Override
+    public void onAlertTypeEvent(AlertTypeEvent event) {
+
     }
 
 }

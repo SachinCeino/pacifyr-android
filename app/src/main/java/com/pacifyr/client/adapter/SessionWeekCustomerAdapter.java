@@ -27,8 +27,11 @@ import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 
 import static com.pacifyr.client.home.DashboardActivity.CreatedYear;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
@@ -314,10 +317,15 @@ public class SessionWeekCustomerAdapter extends RecyclerView.Adapter<SessionWeek
     private void createWeekList() {
 
         try {
-            LocalDate now1 = new LocalDate();
+            Date c = Calendar.getInstance().getTime();
+            System.out.println("Current time =>" + c);
+
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+            String formattedDate = df.format(c);
+            LocalDate now1 = new LocalDate(formattedDate);
             LocalDate backNow = now1.minusDays(7);
             LocalDate startofWeek = backNow.withDayOfWeek(DateTimeConstants.SUNDAY);
-            LocalDate now = now1.withDayOfWeek(DateTimeConstants.SUNDAY);
+            LocalDate now = now1.withDayOfWeek(DateTimeConstants.SATURDAY);
             DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
             formatter.withZone(DateTimeZone.getDefault());
             DateTimeFormatter displayFormatter = DateTimeFormat.forPattern("MMM dd");
