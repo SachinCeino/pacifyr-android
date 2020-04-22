@@ -67,12 +67,11 @@
 
             <com.pacifyr.client.customview.MainTextView
                 android:id="@+id/wellness_ctxv"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:justificationMode="inter_word"
+                android:gravity="center"
                 android:layout_marginTop="16dp"
-                android:textAlignment="center"
                 android:text="@string/connect_to_wellness"
                 android:textColor="@color/_color_connect_to_wellness"
                 android:textSize="14sp" />
@@ -84,22 +83,20 @@
                 android:layout_height="wrap_content"
                 android:text="@string/thirty_free"
                 android:gravity="center"
-                android:layout_gravity="center"
                 android:visibility="gone"
-                android:justificationMode="inter_word"
-                android:textColor="@color/_color_thirty_free"
+                android:textColor="@color/_color_connect_to_wellness"
                 android:textSize="14sp" />
 
             <com.pacifyr.client.customview.MainTextView
                 android:id="@+id/no_credit_ctxv"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="@string/no_credit_card"
                 android:textColor="@color/_color_no_credit_card"
                 android:textSize="14sp"
                 android:visibility="gone"
-                android:justificationMode="inter_word"
+                android:gravity="center"
                 app:layout_constraintEnd_toEndOf="@+id/free_ctxv"
                 app:layout_constraintStart_toStartOf="@+id/free_ctxv"
                 app:layout_constraintTop_toBottomOf="@+id/free_ctxv" />
@@ -110,7 +107,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:gravity="center"
-                android:layout_gravity="center"
                 android:visibility="visible"
                 android:justificationMode="inter_word"
                 android:text="@string/if_emergency2"
@@ -119,11 +115,10 @@
 
             <com.pacifyr.client.customview.MainTextView
                 android:id="@+id/covidMessage_ctxv"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:gravity="center"
-                android:layout_gravity="center"
                 android:text=""
                 android:textColorLink="@color/colorPrimary"
                 android:textColor="@color/_color_connect_to_wellness"
