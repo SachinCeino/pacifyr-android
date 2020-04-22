@@ -47,7 +47,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="15dp"
+            android:padding="10dp"
             android:layout_above="@+id/constraintLayout">
 
             <com.pacifyr.client.customview.MainTextView
@@ -58,7 +58,8 @@
                 android:orientation="vertical"
                 android:justificationMode="inter_word"
                 android:text="@string/get_ready_feel_better"
-                android:textAlignment="center"
+                android:gravity="center"
+                android:layout_gravity="center"
                 android:textColor="@color/_color_get_ready_feel_better"
                 android:textSize="18sp"
                 android:textStyle="bold"
@@ -82,7 +83,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/thirty_free"
-                android:textAlignment="center"
+                android:gravity="center"
+                android:layout_gravity="center"
                 android:visibility="gone"
                 android:justificationMode="inter_word"
                 android:textColor="@color/_color_thirty_free"
@@ -107,7 +109,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:textAlignment="center"
+                android:gravity="center"
+                android:layout_gravity="center"
                 android:visibility="visible"
                 android:justificationMode="inter_word"
                 android:text="@string/if_emergency2"
@@ -116,11 +119,11 @@
 
             <com.pacifyr.client.customview.MainTextView
                 android:id="@+id/covidMessage_ctxv"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:gravity="left"
-                android:justificationMode="inter_word"
+                android:gravity="center"
+                android:layout_gravity="center"
                 android:text=""
                 android:textColorLink="@color/colorPrimary"
                 android:textColor="@color/_color_connect_to_wellness"

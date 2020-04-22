@@ -70,8 +70,8 @@ public class SignActivity extends PacifyrActivity {
             @Override
             public void onClick(View widget) {
                 Intent i=new Intent(SignActivity.this,TermsOfUseActivity.class);
-                i.putExtra("title", "Covid-19");
-                i.putExtra("spurl", "https://www.cdc.gov/coronavirus/2019-ncov/downloads/sick-with-2019-nCoV-fact-sheet.pdf");
+                i.putExtra("title", "COVID-19");
+                i.putExtra("spurl", "https://www.cdc.gov/coronavirus/2019-ncov/if-you-are-sick/steps-when-sick.html");
                 startActivity(i);
             }
         }, spanTxt.length() - "COVID Info.".length(), spanTxt.length(), 0);
