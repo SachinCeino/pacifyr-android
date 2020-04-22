@@ -592,9 +592,11 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
                                 if (json != null) {
                                     NetworkService.mCurrentUser = GsonUtils.getInstance().gsonToModelUserProfile(json);
                                     //ProfileScreenActivity.pacifyerDetial = GsonUtils.getInstance().gsonToModelUserProfile(json);
-                                    if (NetworkService.mCurrentUser != null && NetworkService.mCurrentUser.getEmotion() != null) {
-                                        if (!getPackageName().equalsIgnoreCase("com.pacifyr.pam"))
-                                            setBeforeEmotionViews(NetworkService.mCurrentUser.getEmotion());
+                                    if (NetworkService.mCurrentUser != null && NetworkService.mCurrentUser.getEmotionId() != null) {
+                                        if (!getPackageName().equalsIgnoreCase("com.pacifyr.pam")) {
+                                            MEmotion emo = getEmotion(NetworkService.mCurrentUser.getEmotionId());
+                                            setBeforeEmotionViews(emo);
+                                        }
                                     }
                                 }
 
