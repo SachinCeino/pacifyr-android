@@ -59,12 +59,6 @@ public class DiscountCodeActivity extends PacifyrAppCompactActivity {
         edit_discount = findViewById(R.id.edit_discount_code);
         button_validate = findViewById(R.id.button_validate);
         skip = findViewById(R.id.text_skip);
-
-        if (isValid(getIntent()) && isValid(getIntent().getExtras()) && isValid(getIntent().getExtras().getString("FROM")))
-        {
-           from= getIntent().getExtras().getString("FROM");
-        }
-
         button_validate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -104,17 +98,10 @@ public class DiscountCodeActivity extends PacifyrAppCompactActivity {
                                                             public void onClick(iOSDialog dialog) {
                                                                 //Toast.makeText(PacifyrActivity.this,"Clicked!",Toast.LENGTH_LONG).show();
                                                                 dialog.dismiss();
-                                                                if (isValid(from) && from.equals("MENU"))
-                                                                {
-                                                                    deleteInstallationWeb();
-                                                                }
-                                                                else
-                                                                {
-
-                                                                    Intent i = new Intent(DiscountCodeActivity.this, WelcomeTourActivity.class);
+                                                                Intent i = new Intent(DiscountCodeActivity.this, WelcomeTourActivity.class);
                                                                     startActivity(i);
                                                                     finishAffinity();
-                                                                }
+
 
                                                             }
                                                         });
@@ -149,16 +136,9 @@ public class DiscountCodeActivity extends PacifyrAppCompactActivity {
         skip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isValid(from) && from.equals("MENU"))
-                {
-                    finish();
-                }
-                else {
                     Intent i = new Intent(DiscountCodeActivity.this, WelcomeTourActivity.class);
                     startActivity(i);
                     finishAffinity();
-                }
-
 
             }
         });

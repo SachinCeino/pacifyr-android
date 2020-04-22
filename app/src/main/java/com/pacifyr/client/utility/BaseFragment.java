@@ -1465,6 +1465,16 @@ public abstract class BaseFragment extends Fragment {
                 .build().show();
     }
 
+    public void showIOSDialogOK(String title, String subTitle, String okLabel, iOSDialogClickListener listener)
+    {
+        new iOSDialogBuilder(getActivity())
+                .setTitle(title)
+                .setSubtitle(subTitle)
+                .setBoldPositiveLabel(false)
+                .setCancelable(true)
+                .setPositiveListener(okLabel,listener)
+                .build().show();
+    }
 
     /** Yes and No onclicklistner **/
     public void setAlertStatusInBlue2(String title,String desc,String ok,String dismiss,View.OnClickListener nolistner,View.OnClickListener oklistner) {

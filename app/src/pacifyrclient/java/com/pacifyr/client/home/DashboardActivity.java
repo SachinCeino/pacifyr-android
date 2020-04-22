@@ -37,6 +37,7 @@ import com.pacifyr.client.event.CallEvent;
 import com.pacifyr.client.event.ChatEvent;
 import com.pacifyr.client.event.InternetConnectionEvent;
 import com.pacifyr.client.event.NotifyEvent;
+import com.pacifyr.client.fragment.CouponCodeFragment;
 import com.pacifyr.client.fragment.MySessionFragment;
 import com.pacifyr.client.fragment.ResourcesFragment;
 import com.pacifyr.client.fragment.SupportFragment;
@@ -732,10 +733,8 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
         coupon_llay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Intent i = new Intent(DashboardActivity.this, DiscountCodeActivity.class);
-                i.putExtra("FROM","MENU");
-                startActivity(i);
+                hideRightLayActionbar();
+                showFragment(new CouponCodeFragment());
 
             }
         });
