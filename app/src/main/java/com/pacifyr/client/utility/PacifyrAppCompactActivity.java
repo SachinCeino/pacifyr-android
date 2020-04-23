@@ -1125,7 +1125,7 @@ public abstract class PacifyrAppCompactActivity  extends PacifyrActivity {
                                 } catch (Exception e) {
                                     hideProgress();
                                     hideStatus();
-                                    Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
+                                    /*Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
                                     e.printStackTrace();
                                     getPrefManager().clearSharedAll();
                                     LoginManager mLoginManager = LoginManager.getInstance();
@@ -1133,7 +1133,7 @@ public abstract class PacifyrAppCompactActivity  extends PacifyrActivity {
                                         mLoginManager.logOut();
                                     Intent intent = new Intent(context, SignActivity.class);
                                     startActivity(intent);
-                                    finish();
+                                    finish();*/
                                 }
                             }
 
@@ -1142,7 +1142,7 @@ public abstract class PacifyrAppCompactActivity  extends PacifyrActivity {
                                 //  hideProgressDialog();
                                 //Toaster.longToast("User signInUser failed!" + responseException.getMessage());
 
-                                Toast.makeText(context, "Session Expired...! Please login again." + responseException.getMessage(),
+                               /* Toast.makeText(context, "Session Expired...! Please login again." + responseException.getMessage(),
                                         Toast.LENGTH_LONG).show();
                                 // responseException.printStackTrace();
                                 getPrefManager().clearSharedAll();
@@ -1152,7 +1152,7 @@ public abstract class PacifyrAppCompactActivity  extends PacifyrActivity {
                                     mLoginManager.logOut();
                                 Intent intent = new Intent(context, SignActivity.class);
                                 startActivity(intent);
-                                finish();
+                                finish();*/
                             }
                         });
                     }
