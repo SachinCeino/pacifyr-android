@@ -384,9 +384,16 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     showAllFlag = true;
-                    webSearchPacifyrWOptions(customerEmotion);
+
                 } else {
                     showAllFlag = false;
+
+                }
+
+                if (prefM.getCustomerRole().equals("employee")) {
+                    UpdateEpecialityCatogory();
+                }
+                else {
                     webSearchPacifyrWOptions(customerEmotion);
                 }
             }
@@ -425,6 +432,59 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
 
 
 
+
+
+    }
+
+    private void UpdateEpecialityCatogory() {
+
+        try {
+            String url = GLOBAL_URL + "specialities/byCategory?category=all&includeChargeablePacifyrs=" + showAllFlag;
+
+            AjaxCallback cb = new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject json, AjaxStatus status) {
+                    try {
+                        String js = json.toString();
+
+                        ModelSpecialityByCategory model = GsonUtils.getInstance().gsonToModelSpecialityByCategory(json);
+                        ModelSpecialityByCategory.Results[] item = model.getResults();
+
+                        CategoryListAdapter categoryListAdapter = new CategoryListAdapter(item, getApplicationContext());
+                       /* String[] array = item[0].getCategory();
+                        webSearchPacifyrWOptions(array);*/
+                        imgRcv.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
+                        imgRcv.setAdapter(categoryListAdapter);
+                        categoryListAdapter.addListener((ConnectToPacifyrActivity) activity);
+                        categoryListAdapter.setSelected(0);
+
+                    /* String imgURL = GLOBAL_IMAGE_URL + res[i].getImage();
+                    String title = res[i].getTitle();
+                    if (isValidhtml(imgURL))
+                        Picasso.with(context).load(imgURL).placeholder(R.drawable.placeholder_user).into(emotionDimv);*/
+
+
+                        //emotionDimv  = (ImageView) activity.findViewById(R.id.emotion_dimv);
+
+                        //modelAllEmployees= GsonUtils.getInstance().gsonToMListEmployees(json);
+                        //postEventOnMainThread(new NotifyEvent(true, false));
+                        //EventBus.getDefault().post(new EventMessage(getString(R.string.list_all_employees)));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        if (noPacifyrCtxv != null) {
+                            noPacifyrCtxv.setVisibility(View.VISIBLE);
+                        }
+
+                    }
+                }
+            };
+            AQuery aq = new AQuery(getApplicationContext());
+            cb.header("Content-Type", "application/json");
+            cb.header("AccessToken", getPrefManager().getAccessToken());
+            aq.ajax(url, JSONObject.class, cb);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
 
     }

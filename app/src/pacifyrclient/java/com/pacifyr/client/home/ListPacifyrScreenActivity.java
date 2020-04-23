@@ -23,6 +23,7 @@ import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.InternetConnectionEvent;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelSpecialist;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.RespSearchPacifyrWOption;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.daprlabs.cardstack.SwipeDeck;
@@ -229,7 +230,6 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
         userID = prefM.getUserID();
         setLoading();
         showProgress();
-        NetworkService.startActionSpecialist(this);
         if (getIntent().getExtras() != null && getIntent().getExtras().containsKey("emo_selected")) {
             emoSelected = getIntent().getExtras().getString("emo_selected");
         }
@@ -240,9 +240,16 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
             getShowallCbox().setChecked(showAllFlag);
         }
 
+
         onSetActionBar();
 
-
+        if (getPrefManager().getCustomerRole().equals("employee"))
+        {
+            handleActionSpecilaistforEmployee();
+        }
+        else {
+            NetworkService.startActionSpecialist(this);
+        }
 
 
         //NetworkService.startActionSearchPacifyr(this);
@@ -269,27 +276,37 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
         getShowallCbox().setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                if(isChecked){
+                    showAllFlag = true;
+                }else {
+                    showAllFlag = false;
+
+                }
+
+
                 if (getSearchQuery().equals(""))
                 {
-                    if(isChecked){
-                        showAllFlag = true;
-                        webSearchPacifyrWOptions(customerEmotion);
-                    }else {
-                        showAllFlag = false;
+                    if (prefM.getCustomerRole().equals("employee")) {
+                        handleActionSpecilaistforEmployee();
+
+                    }
+                    else {
                         webSearchPacifyrWOptions(customerEmotion);
                     }
+
                 }
                 else {
+                    if (prefM.getCustomerRole().equals("employee")) {
+                        handleAllspecialityForEmployee();
 
-                    if(isChecked){
-                        showAllFlag = true;
-                        if (isValid(getSearchQuery())&&isValid(customerEmotion))
-                            webSearchPacifyrFromSearchView(customerEmotion);
-                    }else {
-                        showAllFlag = false;
+                    }
+                    else {
                         if (isValid(getSearchQuery())&&isValid(customerEmotion))
                             webSearchPacifyrFromSearchView(customerEmotion);
                     }
+
+
                 }
             }
         });
@@ -358,8 +375,17 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
 
                 //Log.w("QQQQ","onQueryTextSubmit");
                 setSearchQuery(query);
-                if (isValid(query)&&isValid(customerEmotion))
-                    webSearchPacifyrFromSearchView(customerEmotion);
+                if (isValid(query)&&isValid(customerEmotion)) {
+                    if (prefM.getCustomerRole().equals("employee")) {
+                        handleAllspecialityForEmployee();
+
+                    }
+                    else
+                    {
+                        webSearchPacifyrFromSearchView(customerEmotion);
+                    }
+
+                }
                 return false;
             }
 
@@ -407,6 +433,61 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
 
 
     }
+
+
+
+    private void handleActionSpecilaistforEmployee( ) {
+
+        PrefManager prefM= PrefManager.getInstance(getApplicationContext());
+        String token=prefM.getAccessToken();
+
+        String url = GLOBAL_URL+"specialities/byCategory?category=all&includeChargeablePacifyrs="+showAllFlag;
+        AjaxCallback cb = new AjaxCallback<JSONObject>() {
+            @Override
+            public void callback(String url, JSONObject json, AjaxStatus status) {
+                try {
+                    modelSpecialist= GsonUtils.getInstance().gsonToModelSpecialist(json);
+                    modelSpecialist.toString();
+                 if (isValid(modelSpecialist))
+                 {
+                     setAdapterSpecial();
+                 }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        AQuery aq = new AQuery(getApplicationContext());
+        cb.header("Content-Type", "application/json");
+        cb.header("AccessToken",token);
+        aq.ajax(url,JSONObject.class, cb);
+    }
+
+
+    private void handleAllspecialityForEmployee( ) {
+
+        PrefManager prefM= PrefManager.getInstance(getApplicationContext());
+        String token=prefM.getAccessToken();
+
+        String url = GLOBAL_URL+"specialities/byCategory?category=all&includeChargeablePacifyrs=true";
+        AjaxCallback cb = new AjaxCallback<JSONObject>() {
+            @Override
+            public void callback(String url, JSONObject json, AjaxStatus status) {
+                try {
+                    modelSpecialist= GsonUtils.getInstance().gsonToModelSpecialist(json);
+                    webSearchPacifyrFromSearchView(customerEmotion);
+                    }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        AQuery aq = new AQuery(getApplicationContext());
+        cb.header("Content-Type", "application/json");
+        cb.header("AccessToken",token);
+        aq.ajax(url,JSONObject.class, cb);
+    }
+
 
     private void setAdapterSearchOption() {
         if (!pacifyr_SearchView.getQuery().equals(""))

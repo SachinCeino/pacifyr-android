@@ -38,7 +38,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/logo_rlay"
-        android:padding="10dp"
         android:layout_alignParentBottom="true">
 
 
@@ -47,7 +46,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="10dp"
+            android:padding="7dp"
+            android:gravity="center"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"
             android:layout_above="@+id/constraintLayout">
 
             <com.pacifyr.client.customview.MainTextView
@@ -56,12 +58,10 @@
                 android:layout_height="wrap_content"
                 android:layout_above="@+id/llay2"
                 android:orientation="vertical"
-                android:justificationMode="inter_word"
                 android:text="@string/get_ready_feel_better"
                 android:gravity="center"
-                android:layout_gravity="center"
                 android:textColor="@color/_color_get_ready_feel_better"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:textStyle="bold"
                 tools:layout_editor_absoluteY="200dp" />
 
@@ -108,7 +108,6 @@
                 android:layout_marginTop="10dp"
                 android:gravity="center"
                 android:visibility="visible"
-                android:justificationMode="inter_word"
                 android:text="@string/if_emergency2"
                 android:textColor="@color/_color_connect_to_wellness"
                 android:textSize="14sp" />
