@@ -2128,7 +2128,6 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
             // input.putOpt("pacifyrId", oppenentid);
             input.putOpt("id", sessionid);
             aq.post(GLOBAL_URL + "session/stop", input, JSONObject.class, cb);
-            SessionSummaryActivity.start(PacifyrActivity.this, sessionid);
             Log.d(TAG, "session/stop");
         } catch (Exception e){
             LogUtils.LOGD("call", "stopSessionWeb end exception : " + e.getMessage());
