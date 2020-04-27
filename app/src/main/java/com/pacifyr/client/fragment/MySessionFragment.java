@@ -41,7 +41,10 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import static com.pacifyr.client.base.PacifyrActivity.sessionid;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
@@ -65,8 +68,8 @@ public class MySessionFragment extends BaseFragment {
     private  int skip,limit;
     private RecyclerView dateListRcv;
     private MainTextView noDataCtxv;
-    String fromDWeek,fromDMonth,fromDYear;
-    String toDWeek,toDMonth,toDYear;
+    String fromDWeek,FirstDateOfMonth,fromDYear;
+    String toDWeek,lastMonthDate,toDYear;
 
     ArrayList<MSessionDetailRoot> list=new ArrayList<>();
     ArrayList<MSessionDetailRoot> listTemp=new ArrayList<>();
@@ -160,17 +163,28 @@ public class MySessionFragment extends BaseFragment {
 
         fromDWeek=fromDateWeek;
         toDWeek=toDate;
-        toDMonth=toDate;
         toDYear=toDate;
-        fromDMonth=fromDateMonth;
         fromDYear=fromDateYear;
 
+        /** get first day and last day of current month**/
+        Calendar cal = Calendar.getInstance();
+        int res = cal.getActualMaximum(Calendar.DATE);
+        cal.set(Calendar.DATE,res);
+        Date date = cal.getTime();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        lastMonthDate = df.format(date);
+
+        int firstdayMonth = cal.getActualMinimum(Calendar.DATE);
+        cal.set(Calendar.DATE,firstdayMonth);
+        date = cal.getTime();
+        FirstDateOfMonth = df.format(date);
+
         final String thisWeekUrl=GLOBAL_URL+"session/customer/all?userId="+userid+"&skip="+skip+"&limit="+limit+"&fromDate="+fromDWeek+"&toDate="+toDWeek;
-        final String thisMonthUrl=GLOBAL_URL+"session/customer/all?userId="+userid+"&skip="+skip+"&limit="+limit+"&fromDate="+fromDMonth+"&toDate="+toDMonth;
+        final String thisMonthUrl=GLOBAL_URL+"session/customer/all?userId="+userid+"&skip="+skip+"&limit="+limit+"&fromDate="+FirstDateOfMonth+"&toDate="+lastMonthDate;
         final String thisYearUrl=GLOBAL_URL+"session/customer/all?userId="+userid+"&skip="+skip+"&limit="+limit+"&fromDate="+fromDYear+"&toDate="+toDYear;
 
         final String weekStatUrl = GLOBAL_URL+"dashboard/customer/"+userid+"/sessionStatistics?fromDate="+fromDWeek+"&toDate="+toDWeek;
-        final String monthStatUrl = GLOBAL_URL+"dashboard/customer/"+userid+"/sessionStatistics?fromDate="+fromDMonth+"&toDate="+toDMonth;
+        final String monthStatUrl = GLOBAL_URL+"dashboard/customer/"+userid+"/sessionStatistics?fromDate="+FirstDateOfMonth+"&toDate="+lastMonthDate;
         final String yearStatUrl = GLOBAL_URL+"dashboard/customer/"+userid+"/sessionStatistics?fromDate="+fromDYear+"&toDate="+toDYear;
 //        setLoading();
 
@@ -216,8 +230,8 @@ public class MySessionFragment extends BaseFragment {
                         thisMntCtxv.performClick();
                     }else
                         Log.i("sesssuruuuab2","u: "+skip);
-                    final String thisMonthUrl=GLOBAL_URL+"session/customer/all?userId="+userid+"&skip="+skip+"&limit="+limit+"&fromDate="+fromDMonth+"&toDate="+toDMonth;
-                    final String monthStatUrl = GLOBAL_URL+"dashboard/customer/"+userid+"/sessionStatistics?fromDate="+fromDMonth+"&toDate="+toDMonth;
+                    final String thisMonthUrl=GLOBAL_URL+"session/customer/all?userId="+userid+"&skip="+skip+"&limit="+limit+"&fromDate="+FirstDateOfMonth+"&toDate="+lastMonthDate;
+                    final String monthStatUrl = GLOBAL_URL+"dashboard/customer/"+userid+"/sessionStatistics?fromDate="+FirstDateOfMonth+"&toDate="+lastMonthDate;
 
                     callThisMonthSession(thisMonthUrl);
                     thisWkCtxv.setBackground(getResources().getDrawable(R.color.grey_hex_f8));
@@ -580,17 +594,15 @@ public class MySessionFragment extends BaseFragment {
                 toDWeek=event.getToDWeek();
                 listTemp.clear();
                 list.clear();
-                skip = 0;
                 callThisWeekSession(event.getUrl());
                 getStatistics(event.getStatUrl());
 
             }
             else if(event.getWeekType().equals("month")){
-                fromDMonth=event.getFromDWeek();
-                toDMonth=event.getToDWeek();
+                FirstDateOfMonth=event.getFromDWeek();
+                lastMonthDate=event.getToDWeek();
                 listTemp.clear();
                 list.clear();
-                skip = 0;
                 callThisMonthSession(event.getUrl());
                 getStatistics(event.getStatUrl());
 
@@ -600,7 +612,6 @@ public class MySessionFragment extends BaseFragment {
                 toDYear=event.getToDWeek();
                 listTemp.clear();
                 list.clear();
-                skip = 0;
                 callThisYearSession(event.getUrl());
                 getStatistics(event.getStatUrl());
             }

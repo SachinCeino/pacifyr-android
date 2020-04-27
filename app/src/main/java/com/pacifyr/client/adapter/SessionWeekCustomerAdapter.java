@@ -318,36 +318,75 @@ public class SessionWeekCustomerAdapter extends RecyclerView.Adapter<SessionWeek
 
         try {
             Date c = Calendar.getInstance().getTime();
+            Calendar calendar = Calendar.getInstance();
             System.out.println("Current time =>" + c);
 
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
             String formattedDate = df.format(c);
+
             LocalDate now1 = new LocalDate(formattedDate);
-            LocalDate backNow = now1.minusDays(7);
-            LocalDate startofWeek = backNow.withDayOfWeek(DateTimeConstants.SUNDAY);
-            LocalDate now = now1.withDayOfWeek(DateTimeConstants.SATURDAY);
+            LocalDate backNow=null;
+            LocalDate startofWeek=null;
+
+            LocalDate now = null;
+            int dayIsundaorNot=calendar.get(Calendar.DAY_OF_WEEK);
+            if (dayIsundaorNot==Calendar.SUNDAY){
+
+                startofWeek = now1.withDayOfWeek(DateTimeConstants.SUNDAY);
+                SimpleDateFormat df1 = new SimpleDateFormat("yyyy-MM-dd");
+                String formattedDate1 = df1.format(c);
+                now= new LocalDate(formattedDate1);
+
+            }
+            else
+            {
+                backNow= now1.minusDays(7);
+                startofWeek = backNow.withDayOfWeek(DateTimeConstants.SUNDAY);
+                now = now1.withDayOfWeek(DateTimeConstants.SATURDAY);
+            }
+
+
             DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
             formatter.withZone(DateTimeZone.getDefault());
             DateTimeFormatter displayFormatter = DateTimeFormat.forPattern("MMM dd");
             displayFormatter.withZone(DateTimeZone.getDefault());
             String fromDateWeek = formatter.print(startofWeek);
             String displayFrom = displayFormatter.print(startofWeek);
-            String displayTo = displayFormatter.print(now);
-            String toDate = formatter.print(now);
+            String displayTo =null;
+            String toDate =null;
 
+            if (dayIsundaorNot==Calendar.SUNDAY){
 
-
-            DateTimeFormatter displaymonth = DateTimeFormat.forPattern("MMM");
-            DateTimeFormatter displayFormatterdateonly = DateTimeFormat.forPattern("- dd");
-            String start_day_month= displaymonth.print(startofWeek);
-            String end_day_month= displaymonth.print(now);
-            displayFrom = displayFormatter.print(startofWeek);
-            if(start_day_month.equalsIgnoreCase(end_day_month)){
-                displayTo = displayFormatterdateonly.print(now);
+                displayTo = displayFormatter.print(now.plusDays(6));
+                toDate=formatter.print(now.plusDays(6));
             }
             else
             {
                 displayTo = displayFormatter.print(now);
+                toDate= formatter.print(now);
+            }
+
+
+            DateTimeFormatter displaymonth = DateTimeFormat.forPattern("MMM");
+            DateTimeFormatter displayFormatterdateonly = DateTimeFormat.forPattern("- dd");
+
+            String start_day_month= displaymonth.print(startofWeek);
+            String end_day_month= displaymonth.print(now.plusDays(7));
+            displayFrom = displayFormatter.print(startofWeek);
+            if(start_day_month.equalsIgnoreCase(end_day_month)) {
+                displayTo = displayFormatterdateonly.print(now);
+            }
+            else {
+                if (dayIsundaorNot==Calendar.SUNDAY){
+
+                    displayTo = displayFormatter.print(now.plusDays(6));
+                }
+                else
+                {
+                    displayTo = displayFormatter.print(now);
+                }
+
+
             }
 
 
