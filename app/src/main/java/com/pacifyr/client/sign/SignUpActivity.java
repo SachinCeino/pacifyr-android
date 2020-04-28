@@ -156,7 +156,7 @@ public class SignUpActivity extends PacifyrActivity {
                     sp.setSelection(2);
                 } else if (countryCode.equals("US")) {
                     sp.setSelection(0);
-                } else if (countryCode.equals("CA")) {
+                } else if (countryCode.equals("Canada")) {
                     sp.setSelection(1);
                 } else if (countryCode.equals("AE")) {
                     sp.setSelection(3);

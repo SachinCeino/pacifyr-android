@@ -162,7 +162,7 @@ public class LoginActivity extends PacifyrActivity {
                     spinner.setSelection(2);
                 }else if (countryCode.equals("US")){
                     spinner.setSelection(0);
-                }else if (countryCode.equals("CA")){
+                }else if (countryCode.equals("Canada")){
                     spinner.setSelection(1);
                 }
                 else if (countryCode.equals("AE")){
