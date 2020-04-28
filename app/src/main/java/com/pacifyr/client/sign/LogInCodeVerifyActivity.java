@@ -4,12 +4,14 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -63,8 +65,11 @@ public class LogInCodeVerifyActivity extends PacifyrActivity {
     public Bundle bundle;
 
     Pinview pin;
+    ProgressBar progressOtp;
     // [END declare_auth]
-
+    CountDownTimer otpTimer = null;
+    
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,6 +86,7 @@ public class LogInCodeVerifyActivity extends PacifyrActivity {
             imgBack = findViewById(R.id.img_back);
             logoRlay = findViewById(R.id.logo_rlay);
             logoBlue = findViewById(R.id.logo_blue);
+            progressOtp =findViewById(R.id.progressOtp);
 
             pin = findViewById(R.id.pinview);
             pin.setHint("_");
@@ -128,9 +134,13 @@ public class LogInCodeVerifyActivity extends PacifyrActivity {
                     args.putString(FirebaseLogging.EC, phonenumber + "");
                     FirebaseLogging.sendLog(LogInCodeVerifyActivity.this,
                             FirebaseLogging.EVENT_LOGIN_OTP_RESENT, args);
+                    cancelTimer();
+                    startTimer();
 
                 }
             });
+
+            startTimer();
 
         }catch (Exception e)
         {
@@ -143,6 +153,35 @@ public class LogInCodeVerifyActivity extends PacifyrActivity {
     protected View getSnackbarAnchorView() {
         return null;
     }
+
+    //start timer function
+    void startTimer() {
+        otpTimer = new CountDownTimer(30000, 1000) {
+            public void onTick(long millisUntilFinished) {
+                resend_ctxv.setText("Trying to Auto Capture : " + millisUntilFinished / 1000);
+                //here you can have your logic to set text to edittext
+                progressOtp.setVisibility(View.VISIBLE);
+                progressOtp.setVisibility(View.VISIBLE);
+            }
+            public void onFinish() {
+                if (!isValid(pin.getValue()))
+                {
+                    resend_ctxv.setText(getResources().getString(R.string.didnt_get_code));
+                }
+                progressOtp.setVisibility(View.GONE);
+                cancelTimer();
+            }
+        };
+        otpTimer.start();
+    }
+
+
+    //cancel timer
+    void cancelTimer() {
+        if(otpTimer!=null)
+            otpTimer.cancel();
+    }
+    
 
     private void setClicks() {
         try{
@@ -164,6 +203,7 @@ public class LogInCodeVerifyActivity extends PacifyrActivity {
                     // [START_EXCLUDE silent]
                     mVerificationInProgress = false;
                     showProgress();
+                    cancelTimer();
                     // [END_EXCLUDE]
 
                     // [START_EXCLUDE silent]
@@ -200,6 +240,7 @@ public class LogInCodeVerifyActivity extends PacifyrActivity {
                     mVerificationInProgress = false;
                     // [END_EXCLUDE]
                     hideProgress();
+                    cancelTimer();
 
                     if (e instanceof FirebaseAuthInvalidCredentialsException) {
                         // Invalid request

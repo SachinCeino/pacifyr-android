@@ -136,18 +136,36 @@
 
             </RelativeLayout>
 
-            <com.pacifyr.client.customview.MainTextView
+
+
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:textSize="@dimen/sp13"
-                android:layout_alignParentBottom="true"
-                android:id="@+id/resend_ctxv"
-                android:gravity="center"
                 android:layout_height="wrap_content"
-                android:text="@string/didnt_get_code"
-                android:textColor="@color/blue_text_dark"
-                android:textStyle="bold"
+                android:layout_alignParentBottom="true"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="horizontal"
                 android:layout_marginTop="25dp"
-                android:layout_marginBottom="15dp"/>
+                android:layout_marginBottom="15dp"
+                >
+                <ProgressBar
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_margin="10dp"
+                    android:id="@+id/progressOtp"
+                    android:visibility="gone"
+                    android:layout_gravity="center"></ProgressBar>
+                <com.pacifyr.client.customview.MainTextView
+                    android:layout_width="match_parent"
+                    android:textSize="@dimen/sp13"
+                    android:id="@+id/resend_ctxv"
+                    android:gravity="center"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/blue_text_dark"
+                    android:textStyle="bold"
+                   />            </LinearLayout>
+
+
         </LinearLayout>
 
     </androidx.percentlayout.widget.PercentRelativeLayout>

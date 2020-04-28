@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -75,6 +77,10 @@ public class RegisterVerifyActivity extends PacifyrActivity {
 
     Pinview pinview;
 
+    ProgressBar progressOtp;
+    // [END declare_auth]
+    CountDownTimer otpTimer = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         try {
@@ -84,7 +90,7 @@ public class RegisterVerifyActivity extends PacifyrActivity {
             imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
             showProgress();
             /*hideKeyboard();*/
-
+            progressOtp=findViewById(R.id.progressOtp);
             onSetActionBar();
             initialiseViews();
             mAuth = FirebaseAuth.getInstance();
@@ -240,10 +246,7 @@ public class RegisterVerifyActivity extends PacifyrActivity {
                     mCallbacks);        // OnVerificationStateChangedCallbacks
             mVerificationInProgress = true;
 
-           /* if (isValid(phoneRegister)) {
-                startPhoneNumberVerification(phoneRegister);
-
-            }*/
+            startTimer();
       }
         catch (Exception ex)
         {
@@ -338,6 +341,8 @@ public class RegisterVerifyActivity extends PacifyrActivity {
                             Toast.LENGTH_LONG).show();
                     startPhoneNumberVerification(phoneRegister);
                     showProgress();
+                    cancelTimer();
+                    startTimer();
 
                 }
             });
@@ -467,5 +472,34 @@ public class RegisterVerifyActivity extends PacifyrActivity {
                 hideStatus();
             }
         });
+    }
+
+
+
+    //start timer function
+    void startTimer() {
+        otpTimer = new CountDownTimer(30000, 1000) {
+            public void onTick(long millisUntilFinished) {
+                resendCtxv.setText("Trying to Auto Capture : " + millisUntilFinished / 1000);
+                //here you can have your logic to set text to edittext
+                progressOtp.setVisibility(View.VISIBLE);
+            }
+            public void onFinish() {
+                if (!isValid(pinview.getValue()))
+                {
+                    resendCtxv.setText(getResources().getString(R.string.didnt_get_code));
+                }
+                progressOtp.setVisibility(View.GONE);
+                cancelTimer();
+            }
+        };
+        otpTimer.start();
+    }
+
+
+    //cancel timer
+    void cancelTimer() {
+        if(otpTimer!=null)
+            otpTimer.cancel();
     }
 }
