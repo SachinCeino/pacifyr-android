@@ -100,11 +100,17 @@ public class RegisterVerifyActivity extends PacifyrActivity {
             createAccountRlay.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    setLoading();
+                    showProgress();
+                    if(!isValid(mVerificationId,"Incorrect Confirmation Code")) {
+                        hideProgress();
+                        return;
 
-                    if(!isValid(mVerificationId,"Incorrect Confirmation Code"))
+                    }
+                    if(!isValid(pinview.getValue(),"Invalid code ")) {
+                        hideProgress();
                         return;
-                    if(!isValid(pinview.getValue(),"Invalid code "))
-                        return;
+                    }
                     verifyPhoneNumberWithCode(mVerificationId, pinview.getValue()+"");
 
                 }
@@ -269,6 +275,7 @@ public class RegisterVerifyActivity extends PacifyrActivity {
         mAuth.signInWithCredential(credential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+                        hideProgress();
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("LOG:::", "signInWithCredential:success");
