@@ -379,8 +379,12 @@ public class RegisterActivity extends PacifyrActivity {
             spanTxt.setSpan(new ClickableSpan() {
                 @Override
                 public void onClick(View widget) {
+
                     Intent intent = new Intent(RegisterActivity.this,TermsOfUseActivity.class);
-                    intent.putExtra("spurl", Constants.getUrlTerms(getApplicationContext()));
+                    if (isValid(countryData) && countryData.getCountry().equals("India") || countryData.getCountry().equals("Wakanda"))
+                    intent.putExtra("spurl", Constants.getUrlTermsIndia(getApplicationContext()));
+                    else
+                        intent.putExtra("spurl", Constants.getUrlTerms(getApplicationContext()));
                     intent.putExtra("title", "Terms of Use");
                     startActivity(intent);
                 }
@@ -391,7 +395,10 @@ public class RegisterActivity extends PacifyrActivity {
                 @Override
                 public void onClick(View widget) {
                     Intent intent = new Intent(RegisterActivity.this,TermsOfUseActivity.class);
-                    intent.putExtra("spurl", Constants.getUrlPrivacyPolicy(getApplicationContext()));
+                    if (isValid(countryData) && countryData.getCountry().equals("India") || countryData.getCountry().equals("Wakanda"))
+                    intent.putExtra("spurl", Constants.getUrlPrivacyPolicyIndia(getApplicationContext()));
+                    else
+                        intent.putExtra("spurl", Constants.getUrlPrivacyPolicy(getApplicationContext()));
                     intent.putExtra("title", "Privacy Policy");
                     startActivity(intent);
                 }

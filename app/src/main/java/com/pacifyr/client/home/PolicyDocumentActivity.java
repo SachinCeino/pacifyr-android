@@ -50,7 +50,10 @@ public class PolicyDocumentActivity extends PacifyrAppCompactActivity {
             @Override
             public void onClick(View v) {
                 Intent i=new Intent(PolicyDocumentActivity.this,TermsOfUseActivity.class);
-                i.putExtra("spurl", Constants.getUrlTerms(getApplicationContext()));
+                if (getPrefManager().getCountry().equals("India") || getPrefManager().getCountry().equals("Wakanda"))
+                i.putExtra("spurl", Constants.getUrlTermsIndia(getApplicationContext()));
+                else
+                    i.putExtra("spurl", Constants.getUrlTerms(getApplicationContext()));
                 i.putExtra("title", "Terms of Use");
                 startActivity(i);
 
@@ -61,7 +64,10 @@ public class PolicyDocumentActivity extends PacifyrAppCompactActivity {
             @Override
             public void onClick(View v) {
                 Intent i=new Intent(PolicyDocumentActivity.this,TermsOfUseActivity.class);
-                i.putExtra("spurl", Constants.getUrlPrivacyPolicy(getApplicationContext()));
+                if (getPrefManager().getCountry().equals("India") || getPrefManager().getCountry().equals("Wakanda"))
+                i.putExtra("spurl", Constants.getUrlPrivacyPolicyIndia(getApplicationContext()));
+                else
+                    i.putExtra("spurl", Constants.getUrlPrivacyPolicy(getApplicationContext()));
                 i.putExtra("title", "Privacy policy");
                 startActivity(i);
             }
@@ -71,7 +77,10 @@ public class PolicyDocumentActivity extends PacifyrAppCompactActivity {
             @Override
             public void onClick(View v) {
                 Intent i=new Intent(PolicyDocumentActivity.this,TermsOfUseActivity.class);
-                i.putExtra("spurl", Constants.getUrlDisputePolicy(getApplicationContext()));
+                if (getPrefManager().getCountry().equals("India") || getPrefManager().getCountry().equals("Wakanda"))
+                i.putExtra("spurl", Constants.getUrlDisputePolicyIndia(getApplicationContext()));
+                else
+                    i.putExtra("spurl", Constants.getUrlDisputePolicy(getApplicationContext()));
                 i.putExtra("title", "Copyright");
                 startActivity(i);
             }

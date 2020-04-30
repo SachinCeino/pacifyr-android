@@ -31,6 +31,18 @@ public class Constants {
     public static String getUrlDisputePolicy(Context context) {
         return context.getResources().getString(R.string.URL_DISPUTE_POLICY);
     }
+/**for indian users **/
+    public static String getUrlPrivacyPolicyIndia(Context context) {
+        return context.getResources().getString(R.string.URL_PRIVACY_POLICY_INDIA);
+    }
+
+    public static String getUrlTermsIndia(Context context) {
+        return context.getResources().getString(R.string.URL_TERMS_INDIA);
+    }
+
+    public static String getUrlDisputePolicyIndia(Context context) {
+        return context.getResources().getString(R.string.URL_DISPUTE_POLICY_INDIA);
+    }
 
     public static ArrayList<String> getCountryChecks() {
 

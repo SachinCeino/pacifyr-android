@@ -113,6 +113,9 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="URL_TERMS">https://pacifyr.com/terms.html</string>
     <string name="URL_DISPUTE_POLICY">https://pacifyr.com/copyright.html</string>
 
+    <string name="URL_PRIVACY_POLICY_INDIA">https://pacifyr.com/India_Privacy_Policy.pdf</string>
+    <string name="URL_TERMS_INDIA">https://pacifyr.com/Terms_of_Use%20_Clients.pdf</string>
+    <string name="URL_DISPUTE_POLICY_INDIA">https://pacifyr.com/Indian_Copyright_Dispute_Policy.pdf</string>
 
     <string name="audio_call">PACIFYR AUDIO CALL</string>
     <string name="video_call">PACIFYR VIDEO CALL</string>

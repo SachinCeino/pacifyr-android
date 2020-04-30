@@ -11,6 +11,7 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
@@ -149,6 +150,7 @@ public class SignUpActivity extends PacifyrActivity {
             CountrySpinnerAdapter adapter=new CountrySpinnerAdapter(this,
                     R.layout.spinner_item,R.id.txt,list);
             sp.setAdapter(adapter);
+
 
             String countryCode = prefM.getCountryCode();
             if (!getPackageName().equalsIgnoreCase("com.pacifyr.pam")) {
@@ -291,7 +293,17 @@ public class SignUpActivity extends PacifyrActivity {
 
                 }
             });
+            sp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    countryData=list.get(position);
+                }
 
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
 
             sms_text_login.setText(getResources().getString(R.string.app_name) + " " + getResources().getString(R.string.sms_text_login));
         }catch (Exception e) {    e.printStackTrace();
