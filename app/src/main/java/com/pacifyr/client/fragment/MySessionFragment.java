@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import androidx.core.content.ContextCompat;
 import androidx.core.widget.NestedScrollView;
@@ -41,10 +42,12 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 import static com.pacifyr.client.base.PacifyrActivity.sessionid;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
@@ -68,8 +71,8 @@ public class MySessionFragment extends BaseFragment {
     private  int skip,limit;
     private RecyclerView dateListRcv;
     private MainTextView noDataCtxv;
-    String fromDWeek,FirstDateOfMonth,fromDYear;
-    String toDWeek,lastMonthDate,toDYear;
+    String WeekStartDate,FirstDateOfMonth,fromDYear;
+    String WeekEndDate,lastMonthDate,toDYear;
 
     ArrayList<MSessionDetailRoot> list=new ArrayList<>();
     ArrayList<MSessionDetailRoot> listTemp=new ArrayList<>();
@@ -160,9 +163,6 @@ public class MySessionFragment extends BaseFragment {
         final String fromDateMonth = formatter.print(startofMonth);
         final String fromDateYear = formatter.print(startofYear);
         final String toDate = formatter.print(now);
-
-        fromDWeek=fromDateWeek;
-        toDWeek=toDate;
         toDYear=toDate;
         fromDYear=fromDateYear;
 
@@ -179,11 +179,20 @@ public class MySessionFragment extends BaseFragment {
         date = cal.getTime();
         FirstDateOfMonth = df.format(date);
 
-        final String thisWeekUrl=GLOBAL_URL+"session/customer/all?userId="+userid+"&skip="+skip+"&limit="+limit+"&fromDate="+fromDWeek+"&toDate="+toDWeek;
+        /** getting first day and last  day of week**/
+        // get Current Week of the year
+        Calendar calendar=Calendar.getInstance();
+        calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+        DateFormat dff = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        WeekStartDate = dff.format(calendar.getTime());
+        calendar.add(Calendar.DATE, 6);
+        WeekEndDate = dff.format(calendar.getTime());
+
+        final String thisWeekUrl=GLOBAL_URL+"session/customer/all?userId="+userid+"&skip="+skip+"&limit="+limit+"&fromDate="+WeekStartDate+"&toDate="+WeekEndDate;
         final String thisMonthUrl=GLOBAL_URL+"session/customer/all?userId="+userid+"&skip="+skip+"&limit="+limit+"&fromDate="+FirstDateOfMonth+"&toDate="+lastMonthDate;
         final String thisYearUrl=GLOBAL_URL+"session/customer/all?userId="+userid+"&skip="+skip+"&limit="+limit+"&fromDate="+fromDYear+"&toDate="+toDYear;
 
-        final String weekStatUrl = GLOBAL_URL+"dashboard/customer/"+userid+"/sessionStatistics?fromDate="+fromDWeek+"&toDate="+toDWeek;
+        final String weekStatUrl = GLOBAL_URL+"dashboard/customer/"+userid+"/sessionStatistics?fromDate="+WeekStartDate+"&toDate="+WeekEndDate;
         final String monthStatUrl = GLOBAL_URL+"dashboard/customer/"+userid+"/sessionStatistics?fromDate="+FirstDateOfMonth+"&toDate="+lastMonthDate;
         final String yearStatUrl = GLOBAL_URL+"dashboard/customer/"+userid+"/sessionStatistics?fromDate="+fromDYear+"&toDate="+toDYear;
 //        setLoading();
@@ -249,8 +258,8 @@ public class MySessionFragment extends BaseFragment {
                         thisWkCtxv.performClick();
                     }else
                         Log.i("sesssuruuuab1","u: "+skip);
-                    final String thisWeekUrl=GLOBAL_URL+"session/customer/all?userId="+userid+"&skip="+skip+"&limit="+limit+"&fromDate="+fromDWeek+"&toDate="+toDWeek;
-                    final String weekStatUrl = GLOBAL_URL+"dashboard/customer/"+userid+"/sessionStatistics?fromDate="+fromDWeek+"&toDate="+toDWeek;
+                    final String thisWeekUrl=GLOBAL_URL+"session/customer/all?userId="+userid+"&skip="+skip+"&limit="+limit+"&fromDate="+WeekStartDate+"&toDate="+WeekEndDate;
+                    final String weekStatUrl = GLOBAL_URL+"dashboard/customer/"+userid+"/sessionStatistics?fromDate="+WeekStartDate+"&toDate="+WeekEndDate;
 
                     callThisWeekSession(thisWeekUrl);
                     thisWkCtxv.setBackground(getResources().getDrawable(R.drawable.blue_line_bottom));
@@ -590,8 +599,8 @@ public class MySessionFragment extends BaseFragment {
         try {
 
             if(event.getWeekType().equals("week")) {
-                fromDWeek=event.getFromDWeek();
-                toDWeek=event.getToDWeek();
+                WeekStartDate=event.getFromDWeek();
+                WeekEndDate=event.getToDWeek();
                 listTemp.clear();
                 list.clear();
                 callThisWeekSession(event.getUrl());
