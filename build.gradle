@@ -6,9 +6,9 @@ buildscript {
         jcenter()
         mavenCentral()
         maven { url 'https://jitpack.io' }
-        maven { url "http://jcenter.bintray.com/" }
-        maven { url "http://repo.maven.apache.org/maven2" }
-        maven { url "http://maven.google.com" }
+        maven { url "https://jcenter.bintray.com/" }
+        maven { url "https://repo.maven.apache.org/maven2" }
+        maven { url "https://maven.google.com" }
         maven {
             url "https://github.com/QuickBlox/quickblox-android-sdk-releases/raw/master/"
         }
