@@ -374,6 +374,7 @@ public class SessionWeekCustomerAdapter extends RecyclerView.Adapter<SessionWeek
             String end_day_month= displaymonth.print(now.plusDays(7));
             displayFrom = displayFormatter.print(startofWeek);
             if(start_day_month.equalsIgnoreCase(end_day_month)) {
+
                 if (dayIsundaorNot==Calendar.SUNDAY){
 
                     displayTo = displayFormatterdateonly.print(now.plusDays(6));
