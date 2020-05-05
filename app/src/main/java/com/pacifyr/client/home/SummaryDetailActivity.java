@@ -16,18 +16,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.pacifyrapp.utilitylibrary.CustomEditText;
-import com.pacifyr.client.customview.MainTextView;
-import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
-import com.pacifyrapp.utilitylibrary.ToastHandler;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.MEmotion;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.MSessionDetailRoot;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.MSessionRating;
 import com.eralp.circleprogressview.CircleProgressView;
-import com.jesusm.holocircleseekbar.lib.HoloCircleSeekBar;
 import com.pacifyr.client.R;
 import com.pacifyr.client.adapter.CommentsAdapter;
 import com.pacifyr.client.adapter.EmotionsListAdapter;
+import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.AlertTypeEvent;
 import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.model.MComments;
@@ -38,6 +31,12 @@ import com.pacifyr.client.utility.PacifyrAppCompactActivity;
 import com.pacifyr.client.utils.LogUtils;
 import com.pacifyr.client.utils.Utility;
 import com.pacifyr.client.utils.WrappingSlidingPaneLayout;
+import com.pacifyrapp.utilitylibrary.CustomEditText;
+import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
+import com.pacifyrapp.utilitylibrary.ToastHandler;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.MEmotion;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.MSessionDetailRoot;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.MSessionRating;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
 import com.willy.ratingbar.BaseRatingBar;
@@ -50,15 +49,14 @@ import java.util.ArrayList;
 import app.minimize.com.seek_bar_compat.SeekBarCompat;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_IMAGE_URL;
 import static com.pacifyr.client.network.NetworkService.GLOBAL_URL;
 import static com.pacifyr.client.network.NetworkService.modelAllEmotions;
+import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_IMAGE_URL;
 
 public class SummaryDetailActivity   extends PacifyrAppCompactActivity {
 
 
     boolean showingFirst = true;
-    HoloCircleSeekBar holoCircleSeekBar;
     //CircleView effective_circle_view;
     CircleProgressView circleProgressView;
 

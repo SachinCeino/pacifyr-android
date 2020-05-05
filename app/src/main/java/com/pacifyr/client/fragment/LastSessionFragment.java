@@ -20,21 +20,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.pacifyrapp.utilitylibrary.CustomEditText;
-import com.pacifyr.client.customview.MainTextView;
-import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.MEmotion;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.MSessionRating;
-import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.google.gson.Gson;
-import com.jesusm.holocircleseekbar.lib.HoloCircleSeekBar;
 import com.pacifyr.client.R;
 import com.pacifyr.client.adapter.CommentsAdapter;
 import com.pacifyr.client.adapter.EmotionsListAdapter;
+import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.utility.BaseFragment;
 import com.pacifyr.client.utils.WrappingSlidingPaneLayout;
+import com.pacifyrapp.utilitylibrary.CustomEditText;
+import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.MEmotion;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.MSessionRating;
+import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
 import com.willy.ratingbar.BaseRatingBar;
@@ -57,7 +56,6 @@ import static com.pacifyr.client.network.NetworkService.webListEmotions;
 public class LastSessionFragment extends BaseFragment {
 
     boolean showingFirst = true;
-    HoloCircleSeekBar holoCircleSeekBar;
     CircleView circle_view;
 
     EmotionsListAdapter emotionsListAdapter;

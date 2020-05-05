@@ -26,7 +26,6 @@ import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.eralp.circleprogressview.CircleProgressView;
 import com.google.gson.Gson;
-import com.jesusm.holocircleseekbar.lib.HoloCircleSeekBar;
 import com.pacifyr.client.R;
 import com.pacifyr.client.adapter.CommentsAdapter;
 import com.pacifyr.client.adapter.EmotionsListAdapter;
@@ -79,7 +78,6 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
     private static final String TAG = LastSessionActivity.class.getSimpleName();
     boolean showingFirst = true;
 
-    HoloCircleSeekBar holoCircleSeekBar;
 
     EmotionsListAdapter emotionsListAdapter;
     RecyclerView recyclerView;

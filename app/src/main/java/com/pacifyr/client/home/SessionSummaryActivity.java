@@ -25,7 +25,6 @@ import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.eralp.circleprogressview.CircleProgressView;
 import com.google.gson.Gson;
-import com.jesusm.holocircleseekbar.lib.HoloCircleSeekBar;
 import com.pacifyr.client.R;
 import com.pacifyr.client.adapter.CommentsAdapter;
 import com.pacifyr.client.adapter.EmotionsListAdapter;
@@ -79,7 +78,6 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
     private static boolean isEditable;
     boolean showingFirst = true;
     //EditableSeekBar esbExample;
-    HoloCircleSeekBar holoCircleSeekBar;
     //CircleView effective_circle_view;
 
     CircleProgressView circleProgressView;

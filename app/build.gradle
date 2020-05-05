@@ -215,7 +215,6 @@ dependencies {
     implementation(project(':quickblox-core')) {
         exclude group: 'com.quickblox', module: 'quickblox-android-sdk-messages'
     }
-    implementation 'com.github.JesusM:HoloCircleSeekBar:v2.2.2'
     //implementation 'com.crystal:crystalrangeseekbar:1.1.1'
     implementation 'com.minimize.library:seekbar-compat:0.2.5'
     // implementation 'com.gregacucnik:editableseekbar:1.2'
