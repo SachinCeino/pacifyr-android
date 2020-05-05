@@ -468,6 +468,8 @@ public class ChatActivity extends PacifyrAppCompactActivity implements ImagePick
        // actionBar.setDisplayHomeAsUpEnabled(true);
 
         messagesListView = _findViewById(R.id.list_chat_messages);
+        messagesListView.setTranscriptMode(ListView.TRANSCRIPT_MODE_NORMAL);
+        messagesListView.setStackFromBottom(true);
         messageEditText = _findViewById(R.id.edit_chat_message);
         messageEditText.addTextChangedListener(new TextInputWatcher());
 
