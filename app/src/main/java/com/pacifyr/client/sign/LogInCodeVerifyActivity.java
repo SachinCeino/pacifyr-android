@@ -17,8 +17,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
-import com.pacifyr.client.customview.MainTextView;
-import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.goodiebag.pinview.Pinview;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -32,7 +30,9 @@ import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.pacifyr.client.R;
 import com.pacifyr.client.base.PacifyrActivity;
+import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.utils.FirebaseLogging;
+import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
@@ -158,7 +158,7 @@ public class LogInCodeVerifyActivity extends PacifyrActivity {
     void startTimer() {
         otpTimer = new CountDownTimer(30000, 1000) {
             public void onTick(long millisUntilFinished) {
-                resend_ctxv.setText("Trying to Auto Capture : " + millisUntilFinished / 1000);
+                resend_ctxv.setText("Waiting for SMS with verification code : " + millisUntilFinished / 1000);
                 //here you can have your logic to set text to edittext
                 progressOtp.setVisibility(View.VISIBLE);
                 progressOtp.setVisibility(View.VISIBLE);

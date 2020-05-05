@@ -21,8 +21,6 @@ import androidx.annotation.NonNull;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.pacifyr.client.customview.MainTextView;
-import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.goodiebag.pinview.Pinview;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -37,7 +35,9 @@ import com.google.firebase.auth.PhoneAuthProvider;
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.pacifyr.client.R;
 import com.pacifyr.client.base.PacifyrActivity;
+import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.NotifyEvent;
+import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.squareup.otto.Subscribe;
 
 import org.json.JSONObject;
@@ -487,7 +487,7 @@ public class RegisterVerifyActivity extends PacifyrActivity {
     void startTimer() {
         otpTimer = new CountDownTimer(30000, 1000) {
             public void onTick(long millisUntilFinished) {
-                resendCtxv.setText("Trying to Auto Capture : " + millisUntilFinished / 1000);
+                resendCtxv.setText("Waiting for SMS with verification code : " + millisUntilFinished / 1000);
                 //here you can have your logic to set text to edittext
                 progressOtp.setVisibility(View.VISIBLE);
             }
