@@ -84,6 +84,7 @@ import com.pacifyr.client.utils.FirebaseLogging;
 import com.pacifyr.client.utils.LogUtils;
 import com.pacifyr.client.utils.Utility;
 import com.pacifyrapp.utilitylibrary.CustomEditText;
+import com.pacifyrapp.utilitylibrary.CustomFontTextView;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.pacifyrapp.utilitylibrary.ToastHandler;
 import com.pacifyrapp.utilitylibrary.base.BaseAppCompactActivity;
@@ -2012,9 +2013,9 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
     public void setAlertOKStatusInBlue(String title, String desc, String ok, View.OnClickListener listener) {
         //View.OnClickListener oklistner
         View view = LayoutInflater.from(this).inflate(com.pacifyrapp.utilitylibrary.R.layout.alert_ok, null, false);
-        MainTextView title_dtxv = view.findViewById(com.pacifyrapp.utilitylibrary.R.id.title_dtxv);
-        MainTextView desc_dtxv = view.findViewById(com.pacifyrapp.utilitylibrary.R.id.desc_dtxv);
-        MainTextView ok_dtxv = view.findViewById(com.pacifyrapp.utilitylibrary.R.id.ok_dtxv);
+        CustomFontTextView title_dtxv = view.findViewById(com.pacifyrapp.utilitylibrary.R.id.title_dtxv);
+        CustomFontTextView desc_dtxv = view.findViewById(com.pacifyrapp.utilitylibrary.R.id.desc_dtxv);
+        CustomFontTextView ok_dtxv = view.findViewById(com.pacifyrapp.utilitylibrary.R.id.ok_dtxv);
 
         if(isValid(title))
             defSetText(title_dtxv,title);
