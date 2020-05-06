@@ -780,6 +780,11 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
                             coupon_view.setVisibility(View.VISIBLE);
                             PrefManager.getInstance(DashboardActivity.this).saveCustomerRole("paidMember");
                             }
+                        else if (label.equalsIgnoreCase("employee")) {
+                            coupon_llay.setVisibility(View.VISIBLE);
+                            coupon_view.setVisibility(View.VISIBLE);
+                            PrefManager.getInstance(DashboardActivity.this).saveCustomerRole("employee");
+                        }
                             else
                         {
                             coupon_llay.setVisibility(View.GONE);
