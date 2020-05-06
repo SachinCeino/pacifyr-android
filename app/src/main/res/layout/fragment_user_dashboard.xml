@@ -546,4 +546,7 @@
         android:layout_gravity="start">
     </android.support.design.widget.NavigationView>-->
 
+    <WebView
+        android:layout_width="0dp"
+        android:layout_height="0dp" />
 </FrameLayout>
