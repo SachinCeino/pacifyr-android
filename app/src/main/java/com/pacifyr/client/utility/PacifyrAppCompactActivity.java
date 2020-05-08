@@ -1,5 +1,6 @@
 package com.pacifyr.client.utility;
 
+import android.animation.Animator;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.NotificationManager;
@@ -16,6 +17,7 @@ import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,6 +28,7 @@ import androidx.appcompat.app.AlertDialog;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
+import com.bumptech.glide.Glide;
 import com.facebook.login.LoginManager;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.JsonObject;
@@ -1317,26 +1320,26 @@ public abstract class PacifyrAppCompactActivity  extends PacifyrActivity {
                 @Override
                 public void onCompleted(Exception e, JsonObject result) {
                     try {
-                     hideProgress();
-                     if (isValid(result))
-                     {
-                         if (result.has("zipCode"))
-                         {
-                             String zipCode=result.get("zipCode").toString();
-                             getPrefManager().saveZIP(zipCode);
-                         }
+                        hideProgress();
+                        if (isValid(result))
+                        {
+                            if (result.has("zipCode"))
+                            {
+                                String zipCode=result.get("zipCode").toString();
+                                getPrefManager().saveZIP(zipCode);
+                            }
 
-                         if (result.has("gender"))
-                         {
-                             String gender=result.get("gender").toString();
-                             getPrefManager().saveGENDER(gender);
-                         }
+                            if (result.has("gender"))
+                            {
+                                String gender=result.get("gender").toString();
+                                getPrefManager().saveGENDER(gender);
+                            }
 
-                         if (isValid(alertDialog))
-                             alertDialog.cancel();
-                         Log.w("@@@",String.valueOf(result));
+                            if (isValid(alertDialog))
+                                alertDialog.cancel();
+                            Log.w("@@@",String.valueOf(result));
 
-                     }
+                        }
 
                     } catch (Exception eee) {
                         hideProgress();
@@ -1353,6 +1356,62 @@ public abstract class PacifyrAppCompactActivity  extends PacifyrActivity {
             hideProgress();}
 
 
+    }
+
+    public void showImageWithAnim(String url, ImageView image_logo){
+        if (url == null){
+            return;
+        }
+        image_logo.setVisibility(View.VISIBLE);
+        image_logo.animate().alpha(1.0f).setDuration(500).setListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animator) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animator) {
+                image_logo.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animator) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animator) {
+
+            }
+        });
+        Glide.with(this).load(UtilityNetworkService.GLOBAL_IMAGE_URL + url).into(image_logo);
+    }
+
+    public void hideImageWithAnim(ImageView image_logo){
+        if (image_logo != null){
+            image_logo.animate().alpha(0.0f).setDuration(500).setListener(new Animator.AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animator) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animator animator) {
+                    image_logo.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onAnimationCancel(Animator animator) {
+
+                }
+
+                @Override
+                public void onAnimationRepeat(Animator animator) {
+
+                }
+            });
+
+        }
     }
 
 

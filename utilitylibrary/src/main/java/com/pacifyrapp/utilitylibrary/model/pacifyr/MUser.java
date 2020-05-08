@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.pacifyrapp.utilitylibrary.model.Company;
 import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
 
 import java.io.Serializable;
@@ -764,6 +765,14 @@ public class MUser implements Serializable{
 
     public void setRating(String rating) {
         this.rating = rating;
+    }
+
+    @SerializedName("company")
+    @Expose
+    private Company company;
+
+    public Company getCompany() {
+        return company;
     }
 
     @Override

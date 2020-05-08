@@ -1,5 +1,6 @@
 package com.pacifyr.client.home;
 
+import android.animation.Animator;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -21,6 +22,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
+import com.bumptech.glide.Glide;
 import com.google.android.material.snackbar.Snackbar;
 import com.pacifyr.client.R;
 import com.pacifyr.client.adapter.EmotionSpecialityAdapter;
@@ -116,6 +118,8 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
     private RelativeLayout buttonRlay;
     private Timer trackTimer_check_online;
     private TimerTask trackTimerTask_check_online;
+    private ImageView image_logo;
+
     public static void start(Context context, MUser results) {
         Intent intent = new Intent(context, ConnectToSinglePacifyrActivity.class);
         pacifyer_obj=null;
@@ -191,6 +195,7 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
         selectEmotionRlay = findViewById(R.id.select_emotion_rlay);
         listPacifyrRlay = findViewById(R.id.select_list_pacifyr_rlay);
 
+        image_logo = (ImageView) findViewById(R.id.image_logo);
         pacifyr_swipelay = findViewById(R.id.pacifyr_swipelay);
         selectEmotionDetailRlay = findViewById(R.id.select_emotion_detail_rlay);
         emotionRcv = findViewById(R.id.emotion_rcv);
@@ -229,6 +234,9 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (prefM != null && prefM.getCompanyLogo() != null) {
+                    showImageWithAnim(prefM.getCompanyLogo(), image_logo);
+                }
                 button1.setBackgroundResource(R.drawable.circle_click_btn);
                 button2.setBackgroundResource(R.drawable.circle_button);
                 button3.setBackgroundResource(R.drawable.circle_button);
@@ -363,6 +371,12 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
 
         selectFeelingRlay.setVisibility(View.VISIBLE);
 
+        if (prefM != null && prefM.getCompanyLogo() != null) {
+            showImageWithAnim(prefM.getCompanyLogo(), image_logo);
+        }
+        else{
+            hideImageWithAnim(image_logo);
+        }
 
 
     }
@@ -841,6 +855,7 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
 
     public void changeToSecondScreen() {
 
+        hideImageWithAnim(image_logo);
         selectEmotionRlay.setVisibility(View.VISIBLE);
         selectFeelingRlay.setVisibility(View.GONE);
         setLoading();

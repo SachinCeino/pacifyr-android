@@ -299,7 +299,7 @@ public class RegisterVerifyActivity extends PacifyrActivity {
                             if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
                                 //otpRecieveEditText.setError("Invalid code.");
                                 //Toast.makeText(RegisterVerifyActivity.this,"Invalid code ",Toast.LENGTH_LONG).show();
-                                setAlertOKStatusInRed("Login failed", "Invalid verfication code. Please try again", "OK", new View.OnClickListener() {
+                                setAlertOKStatusInRed("Login failed", "Invalid verification code. Please try again", "OK", new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
                                         hideStatus();
