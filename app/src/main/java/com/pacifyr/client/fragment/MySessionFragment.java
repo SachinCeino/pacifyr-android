@@ -182,6 +182,7 @@ public class MySessionFragment extends BaseFragment {
         /** getting first day and last  day of week**/
         // get Current Week of the year
         Calendar calendar=Calendar.getInstance();
+        calendar.setFirstDayOfWeek(Calendar.SUNDAY);
         calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
         DateFormat dff = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         WeekStartDate = dff.format(calendar.getTime());
