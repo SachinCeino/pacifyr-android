@@ -101,7 +101,7 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="AccessToken">AccessToken</string>
 
 
-    <string name="user_type_error">You are a Wellness Expert. Please login using Provider app</string>
+    <string name="user_type_error">This is a counselor account. Please use pacifyr for counselors app to sign in</string>
     <string name="audio_call">PAM AUDIOCALL</string>
     <string name="video_call">PAM VIDEOCALL</string>
     <string name="no_prefered_pacifyr">You have no preferred Doctors.</string>
