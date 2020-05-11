@@ -147,6 +147,9 @@ public class LoginPhoneActivity extends PacifyrActivity {
                         }
                         modelPhoneLogin = GsonUtils.getInstance().gsonToModelPhoneLogin(json);
                         userModel = modelPhoneLogin.getUser();
+                        if (userModel != null && userModel.getCompany() != null){
+                            prefM.saveCompanyLogo(userModel.getCompany().getLogo());
+                        }
                         prefM.saveCompanyID(userModel.getCompanyId());
                         jsonStrng = json.toString();
                         String logstat = modelPhoneLogin.getStatus();

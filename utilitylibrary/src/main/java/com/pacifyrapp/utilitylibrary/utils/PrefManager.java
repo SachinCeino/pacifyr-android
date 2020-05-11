@@ -44,6 +44,7 @@ public class PrefManager {
     public static final String TYPE = "Type";
     public static final String WEBURL = "webUrl";
     public static final String COMPANY_ID = "companyID";
+    public static final String COMPANY_LOGO = "companyLogo";
     public static final String IS_ONLINE = "isOnline";
     public static final String IS_CHAT_SUBSCRIPTION = "isChatEnable";
     public static final String ACCESSTOKEN = "AccessToken";
@@ -740,4 +741,11 @@ public class PrefManager {
     }
 
 
+    public void saveCompanyLogo(String logo) {
+        putSharedString(COMPANY_LOGO, logo);
+    }
+
+    public String getCompanyLogo(){
+        return getSharedString(COMPANY_LOGO, null);
+    }
 }

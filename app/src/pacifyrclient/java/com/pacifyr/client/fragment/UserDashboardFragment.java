@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
@@ -16,6 +17,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.pacifyr.client.R;
 import com.pacifyr.client.customview.MainTextView;
@@ -38,6 +40,7 @@ import com.pacifyr.client.utils.Utility;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelCustomerDashboard2;
+import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.quickblox.chat.QBRestChatService;
 import com.quickblox.chat.model.QBChatDialog;
@@ -107,6 +110,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
 
     private boolean isClickedOnChat=false;
     private int badgeCount=0;
+    private ImageView image_logo;
 
     public UserDashboardFragment() {
         // Required empty public constructor
@@ -286,6 +290,13 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
 
             }
         });
+
+        if (prefM != null && prefM.getCompanyLogo() != null) {
+            Glide.with(getActivity()).load(UtilityNetworkService.GLOBAL_IMAGE_URL + prefM.getCompanyLogo()).into(image_logo);
+        }
+        else{
+            image_logo.setVisibility(View.GONE);
+        }
 
         //NetworkService.webListEmotions(getActivity());
         return view;
@@ -700,6 +711,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
         daysTxv = view.findViewById(R.id.days_txv);
         cirPrefPacifyr = view.findViewById(R.id.cir_pref_pacifyr);
         llayTop = view.findViewById(R.id.llay_top);
+        image_logo = (ImageView) view.findViewById(R.id.image_logo);
 
         llay_bottom = view.findViewById(R.id.llay_bottom);
         pacifyr1Dimv = view.findViewById(R.id.pacifyr1_dimv);

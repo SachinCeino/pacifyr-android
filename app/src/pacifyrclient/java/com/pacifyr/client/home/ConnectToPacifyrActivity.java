@@ -1,5 +1,6 @@
 package com.pacifyr.client.home;
 
+import android.animation.Animator;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -22,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
+import com.bumptech.glide.Glide;
 import com.daprlabs.cardstack.SwipeDeck;
 import com.pacifyr.client.R;
 import com.pacifyr.client.adapter.CategoryListAdapter;
@@ -52,6 +54,7 @@ import com.pacifyrapp.utilitylibrary.model.pacifyr.MListNegativeEmotions;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MListPositiveEmotions;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.RespSearchPacifyrWOption;
+import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.squareup.otto.Subscribe;
 
@@ -113,6 +116,7 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
     private boolean showAllFlag;
     private CategoryListAdapter categoryListAdapter;
     private boolean selfSelectCategory = false;
+    private ImageView image_logo;
 
     public static void start(Context context) {
         EmotionSpecialityAdapter.reason_forcall=null;
@@ -193,6 +197,7 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
         showallCtxv = findViewById(R.id.showall_ctxv);
         topRlay = findViewById(R.id.top_rlay);
         morePacifyrsRlay.setVisibility(View.GONE);
+        image_logo = (ImageView) findViewById(R.id.image_logo);
 
         topRlay.bringToFront();
 
@@ -215,6 +220,9 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (prefM != null && prefM.getCompanyLogo() != null) {
+                    showImageWithAnim(prefM.getCompanyLogo(), image_logo);
+                }
                 button1.setBackgroundResource(R.drawable.circle_click_btn);
                 button2.setBackgroundResource(R.drawable.circle_button);
                 button3.setBackgroundResource(R.drawable.circle_button);
@@ -425,6 +433,12 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
 
 
 
+        if (prefM != null && prefM.getCompanyLogo() != null) {
+            showImageWithAnim(prefM.getCompanyLogo(), image_logo);
+        }
+        else{
+           hideImageWithAnim(image_logo);
+        }
 
 
     }
@@ -454,6 +468,7 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
 
     public void changeToSecondScreen() {
 
+        hideImageWithAnim(image_logo);
         selectEmotionRlay.setVisibility(View.VISIBLE);
         selectFeelingRlay.setVisibility(View.GONE);
         setLoading();
