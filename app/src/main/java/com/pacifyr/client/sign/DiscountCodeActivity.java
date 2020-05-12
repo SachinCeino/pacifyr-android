@@ -63,7 +63,7 @@ public class DiscountCodeActivity extends PacifyrAppCompactActivity {
             @Override
             public void onClick(View v) {
                 if (edit_discount.getText().length() == 0) {
-                    edit_discount.setError("required");
+                    edit_discount.setError("Please enter valid code");
                     return;
                 }
                 edit_discount.setError(null);
@@ -75,7 +75,7 @@ public class DiscountCodeActivity extends PacifyrAppCompactActivity {
                     public void callback(String url, JSONObject json, AjaxStatus status) {
                         if (json == null) {
                             hideProgress();
-                            Toast.makeText(DiscountCodeActivity.this, "Something went wrong. Please try again.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(DiscountCodeActivity.this, "Invalid discount code", Toast.LENGTH_SHORT).show();
                         } else {
 //                            Log.d(TAG, "Resp " + json.toString());
                             final ApiResponse apiResponse = new Gson().fromJson(json.toString(), ApiResponse.class);

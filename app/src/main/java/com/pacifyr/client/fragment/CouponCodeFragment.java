@@ -86,7 +86,7 @@ public class CouponCodeFragment extends BaseFragment {
                     public void callback(String url, JSONObject json, AjaxStatus status) {
                         if (json == null) {
                             hideProgress();
-                            Toast.makeText(getActivity(), "Invalid code.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), "Invalid discount code", Toast.LENGTH_SHORT).show();
                         } else {
 //                            Log.d(TAG, "Resp " + json.toString());
                             final ApiResponse apiResponse = new Gson().fromJson(json.toString(), ApiResponse.class);
@@ -127,7 +127,6 @@ public class CouponCodeFragment extends BaseFragment {
                             } else if (apiResponse.getMessage() != null) {
                                 hideProgress();
                                 Toast.makeText(getActivity(), apiResponse.getMessage(), Toast.LENGTH_LONG).show();
-
                             }
                         }
 
