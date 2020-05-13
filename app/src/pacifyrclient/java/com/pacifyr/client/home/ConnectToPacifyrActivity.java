@@ -1,6 +1,5 @@
 package com.pacifyr.client.home;
 
-import android.animation.Animator;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -23,7 +22,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.bumptech.glide.Glide;
 import com.daprlabs.cardstack.SwipeDeck;
 import com.pacifyr.client.R;
 import com.pacifyr.client.adapter.CategoryListAdapter;
@@ -54,7 +52,6 @@ import com.pacifyrapp.utilitylibrary.model.pacifyr.MListNegativeEmotions;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MListPositiveEmotions;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.RespSearchPacifyrWOption;
-import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.squareup.otto.Subscribe;
 
@@ -197,7 +194,7 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
         showallCtxv = findViewById(R.id.showall_ctxv);
         topRlay = findViewById(R.id.top_rlay);
         morePacifyrsRlay.setVisibility(View.GONE);
-        image_logo = (ImageView) findViewById(R.id.image_logo);
+        image_logo = findViewById(R.id.image_logo);
 
         topRlay.bringToFront();
 
@@ -390,11 +387,11 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
         getShowallCbox().setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    showAllFlag = true;
-                    webSearchPacifyrWOptions(customerEmotion);
+                showAllFlag = isChecked;
+
+                if (prefM.getCustomerRole().equals("employee")) {
+                    UpdateEpecialityCatogory();
                 } else {
-                    showAllFlag = false;
                     webSearchPacifyrWOptions(customerEmotion);
                 }
             }
@@ -443,6 +440,59 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
 
     }
 
+
+    private void UpdateEpecialityCatogory() {
+
+        try {
+            String url = GLOBAL_URL + "specialities/byCategory?category=all&includeChargeablePacifyrs=" + showAllFlag;
+
+            AjaxCallback cb = new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject json, AjaxStatus status) {
+                    try {
+                        String js = json.toString();
+
+                        ModelSpecialityByCategory model = GsonUtils.getInstance().gsonToModelSpecialityByCategory(json);
+                        ModelSpecialityByCategory.Results[] item = model.getResults();
+
+                        CategoryListAdapter categoryListAdapter = new CategoryListAdapter(item, getApplicationContext());
+                       /* String[] array = item[0].getCategory();
+                        webSearchPacifyrWOptions(array);*/
+                        imgRcv.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
+                        imgRcv.setAdapter(categoryListAdapter);
+                        categoryListAdapter.addListener(activity);
+                        categoryListAdapter.setSelected(0);
+
+                    /* String imgURL = GLOBAL_IMAGE_URL + res[i].getImage();
+                    String title = res[i].getTitle();
+                    if (isValidhtml(imgURL))
+                        Picasso.with(context).load(imgURL).placeholder(R.drawable.placeholder_user).into(emotionDimv);*/
+
+
+                        //emotionDimv  = (ImageView) activity.findViewById(R.id.emotion_dimv);
+
+                        //modelAllEmployees= GsonUtils.getInstance().gsonToMListEmployees(json);
+                        //postEventOnMainThread(new NotifyEvent(true, false));
+                        //EventBus.getDefault().post(new EventMessage(getString(R.string.list_all_employees)));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        if (noPacifyrCtxv != null) {
+                            noPacifyrCtxv.setVisibility(View.VISIBLE);
+                        }
+
+                    }
+                }
+            };
+            AQuery aq = new AQuery(getApplicationContext());
+            cb.header("Content-Type", "application/json");
+            cb.header("AccessToken", getPrefManager().getAccessToken());
+            aq.ajax(url, JSONObject.class, cb);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+    }
     @Override
     protected void onRestart() {
         super.onRestart();
