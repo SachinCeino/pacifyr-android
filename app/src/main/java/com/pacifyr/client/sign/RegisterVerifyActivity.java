@@ -239,6 +239,7 @@ public class RegisterVerifyActivity extends PacifyrActivity {
                                        PhoneAuthProvider.ForceResendingToken token) {
                     mVerificationId = verificationId;
                     mResendToken = token;
+                    hideProgress();
                     Toast.makeText(getApplicationContext(), "Verification code sent", Toast.LENGTH_LONG).show();
                 }
             };
@@ -346,8 +347,8 @@ public class RegisterVerifyActivity extends PacifyrActivity {
                 public void onClick(View v) {
                     Toast.makeText(RegisterVerifyActivity.this, "Verification code sent",
                             Toast.LENGTH_LONG).show();
-                    startPhoneNumberVerification(phoneRegister);
                     showProgress();
+                    startPhoneNumberVerification(phoneRegister);
                     cancelTimer();
                     startTimer();
 
@@ -492,10 +493,7 @@ public class RegisterVerifyActivity extends PacifyrActivity {
                 progressOtp.setVisibility(View.VISIBLE);
             }
             public void onFinish() {
-                if (!isValid(pinview.getValue()))
-                {
-                    resendCtxv.setText(getResources().getString(R.string.didnt_get_code));
-                }
+                resendCtxv.setText(getResources().getString(R.string.didnt_get_code));
                 progressOtp.setVisibility(View.GONE);
                 cancelTimer();
             }

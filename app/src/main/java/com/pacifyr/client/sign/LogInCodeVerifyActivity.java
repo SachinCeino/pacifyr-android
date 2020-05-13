@@ -126,9 +126,8 @@ public class LogInCodeVerifyActivity extends PacifyrActivity {
                 @Override
                 public void onClick(View v) {
                     Toast.makeText(LogInCodeVerifyActivity.this,"SMS Sent",Toast.LENGTH_LONG).show();
-                    startPhoneNumberVerification(phonenumber);
                     showProgress();
-
+                    startPhoneNumberVerification(phonenumber);
                     Bundle args =
                             FirebaseLogging.getConstantArgsLoggedOut(LogInCodeVerifyActivity.this);
                     args.putString(FirebaseLogging.EC, phonenumber + "");
@@ -164,10 +163,7 @@ public class LogInCodeVerifyActivity extends PacifyrActivity {
                 progressOtp.setVisibility(View.VISIBLE);
             }
             public void onFinish() {
-                if (!isValid(pin.getValue()))
-                {
-                    resend_ctxv.setText(getResources().getString(R.string.didnt_get_code));
-                }
+                resend_ctxv.setText(getResources().getString(R.string.didnt_get_code));
                 progressOtp.setVisibility(View.GONE);
                 cancelTimer();
             }
@@ -293,7 +289,7 @@ public class LogInCodeVerifyActivity extends PacifyrActivity {
                     // Save verification ID and resending token so we can use them later
                     mVerificationId = verificationId;
                     mResendToken = token;
-
+                    hideProgress();
                     Toast.makeText(getApplicationContext(), "Verification code sent", Toast.LENGTH_LONG).show();
                     // [START_EXCLUDE]
                     // Update UI
