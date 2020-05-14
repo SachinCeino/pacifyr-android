@@ -2,10 +2,14 @@ package com.pacifyr.client.activity;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.net.http.SslError;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.webkit.SslErrorHandler;
@@ -85,7 +89,19 @@ public class TermsOfUseActivity extends PacifyrActivity {
 
             //If you will not use this method url links are opeen in new brower not in webview
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                view.loadUrl(url);
+
+                if (url.contains(".pdf")){
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.setDataAndType(Uri.parse(url), "application/pdf");
+                    try{
+                        view.getContext().startActivity(intent);
+                    } catch (ActivityNotFoundException e) {
+                        Log.w("ERROR",String.valueOf(e));
+                    }
+                } else {
+                    view.loadUrl(url);
+                }
                 return true;
             }
 
@@ -202,4 +218,12 @@ public class TermsOfUseActivity extends PacifyrActivity {
             }
         });
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (isValid(webView))
+        webView.onResume();
+    }
+
 }
