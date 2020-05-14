@@ -93,6 +93,9 @@ public class DiscountCodeActivity extends PacifyrAppCompactActivity {
                                                         PrefManager prefManager = PrefManager.getInstance(DiscountCodeActivity.this);
                                                         prefManager.saveCompanyID(NetworkService.mCurrentUser.getCompanyId());
                                                         prefManager.saveCustomerRole("employee");
+                                                        if (NetworkService.mCurrentUser != null && NetworkService.mCurrentUser.getCompany() != null){
+                                                            prefManager.saveCompanyLogo(NetworkService.mCurrentUser.getCompany().getLogo());
+                                                        }
                                                         showIOSDialogOK("Success", apiResponse.getMessage(), "ok", new iOSDialogClickListener() {
                                                             @Override
                                                             public void onClick(iOSDialog dialog) {

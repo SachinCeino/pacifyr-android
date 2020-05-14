@@ -98,11 +98,13 @@ public class CouponCodeFragment extends BaseFragment {
                                         try {
                                             if (json != null) {
                                                 NetworkService.mCurrentUser = GsonUtils.getInstance().gsonToModelUserProfile(json);
-                                                //ProfileScreenActivity.pacifyerDetial = GsonUtils.getInstance().gsonToModelUserProfile(json);
+                                                PrefManager prefManager = PrefManager.getInstance(getActivity());
                                                 if (NetworkService.mCurrentUser != null) {
                                                     if (NetworkService.mCurrentUser.getRoleModel().getLabel().equals("employee")) {
-                                                        PrefManager prefManager = PrefManager.getInstance(getActivity());
                                                         prefManager.saveCompanyID(NetworkService.mCurrentUser.getCompanyId());
+                                                        if (NetworkService.mCurrentUser != null && NetworkService.mCurrentUser.getCompany() != null){
+                                                            prefManager.saveCompanyLogo(NetworkService.mCurrentUser.getCompany().getLogo());
+                                                        }
                                                         prefManager.saveCustomerRole("employee");
                                                         showIOSDialogOK("Success", apiResponse.getMessage(), "ok", new iOSDialogClickListener() {
                                                             @Override
@@ -112,6 +114,19 @@ public class CouponCodeFragment extends BaseFragment {
                                                         });
 
                                                     }
+                                                    else {
+                                                        prefManager.saveCompanyID(null);
+                                                        prefManager.saveCompanyLogo(null);
+                                                        prefManager.saveCustomerRole(NetworkService.mCurrentUser.getRoleModel().getLabel());
+                                                    }
+                                                        showIOSDialogOK("Success", apiResponse.getMessage(), "ok", new iOSDialogClickListener() {
+                                                            @Override
+                                                            public void onClick(iOSDialog dialog) {
+                                                                dialog.dismiss();
+                                                            }
+                                                        });
+
+
                                                 }
                                             } else {
                                                 Toast.makeText(getActivity(), "Something went wrong. Please try again later", Toast.LENGTH_LONG).show();

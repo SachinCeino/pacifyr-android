@@ -365,7 +365,12 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                 getUnratedSessions();
 //            loginToQuickblox();
                 setChatCountInfo();
-
+            if (prefM != null && prefM.getCompanyLogo() != null) {
+                Glide.with(getActivity()).load(UtilityNetworkService.GLOBAL_IMAGE_URL + prefM.getCompanyLogo()).into(image_logo);
+            }
+            else{
+                image_logo.setVisibility(View.GONE);
+            }
 
         }
         catch (Exception e)
