@@ -1,5 +1,8 @@
 package com.pacifyrapp.utilitylibrary.model.pacifyr;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+import com.pacifyrapp.utilitylibrary.model.Company;
 import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
 
 import java.util.ArrayList;
@@ -139,6 +142,16 @@ public class ModelUserProfile
     private String educationStatus;
     private String schoolName;
     private String address1;
+
+    private Company company;
+
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
+    }
 
     public String getAddress1() {
         return address1;
