@@ -455,26 +455,27 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
                         ModelSpecialityByCategory model = GsonUtils.getInstance().gsonToModelSpecialityByCategory(json);
                         ModelSpecialityByCategory.Results[] item = model.getResults();
 
-                        CategoryListAdapter categoryListAdapter = new CategoryListAdapter(item, getApplicationContext());
+                        if (item.length>0)
+                        {
+                            imgRcv.setVisibility(View.VISIBLE);
+                            CategoryListAdapter categoryListAdapter = new CategoryListAdapter(item, getApplicationContext());
                        /* String[] array = item[0].getCategory();
                         webSearchPacifyrWOptions(array);*/
-                        imgRcv.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
-                        imgRcv.setAdapter(categoryListAdapter);
-                        categoryListAdapter.addListener(activity);
-                        categoryListAdapter.setSelected(0);
+                            imgRcv.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
+                            imgRcv.setAdapter(categoryListAdapter);
+                            categoryListAdapter.addListener(activity);
+                            categoryListAdapter.setSelected(0);
+                        }
+                        else
+                        {
+                            if (noPacifyrCtxv != null) {
+                                noPacifyrCtxv.setVisibility(View.VISIBLE);
+                            }
+                            cardStack.setVisibility(View.GONE);
+                            imgRcv.setVisibility(View.GONE);
+                        }
 
-                    /* String imgURL = GLOBAL_IMAGE_URL + res[i].getImage();
-                    String title = res[i].getTitle();
-                    if (isValidhtml(imgURL))
-                        Picasso.with(context).load(imgURL).placeholder(R.drawable.placeholder_user).into(emotionDimv);*/
-
-
-                        //emotionDimv  = (ImageView) activity.findViewById(R.id.emotion_dimv);
-
-                        //modelAllEmployees= GsonUtils.getInstance().gsonToMListEmployees(json);
-                        //postEventOnMainThread(new NotifyEvent(true, false));
-                        //EventBus.getDefault().post(new EventMessage(getString(R.string.list_all_employees)));
-                    } catch (Exception e) {
+                      } catch (Exception e) {
                         e.printStackTrace();
                         if (noPacifyrCtxv != null) {
                             noPacifyrCtxv.setVisibility(View.VISIBLE);

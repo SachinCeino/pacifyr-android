@@ -186,7 +186,7 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
     private void setAdapterSpecial() {
         try {
             if (modelSpecialist != null)
-                if (modelSpecialist.getResults() != null) {
+                if (modelSpecialist.getResults() != null && isValid(modelSpecialist.getResults())) {
                     recyclerView = findViewById(R.id.special_recycle);
                     recyclerView.setHasFixedSize(true);
                     layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
@@ -213,6 +213,10 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
                         specialistAdapter.setSelected(0);
                     }
                 }
+            {
+                cardStack.setVisibility(View.GONE);
+                noPacifyrCtxv.setVisibility(View.VISIBLE);
+            }
         } catch (Exception ex) {
             ex.printStackTrace();
         }
