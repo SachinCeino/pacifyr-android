@@ -1,6 +1,5 @@
 package com.pacifyr.client.home;
 
-import android.animation.Animator;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -22,7 +21,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.bumptech.glide.Glide;
 import com.google.android.material.snackbar.Snackbar;
 import com.pacifyr.client.R;
 import com.pacifyr.client.adapter.EmotionSpecialityAdapter;
@@ -195,7 +193,7 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
         selectEmotionRlay = findViewById(R.id.select_emotion_rlay);
         listPacifyrRlay = findViewById(R.id.select_list_pacifyr_rlay);
 
-        image_logo = (ImageView) findViewById(R.id.image_logo);
+        image_logo = findViewById(R.id.image_logo);
         pacifyr_swipelay = findViewById(R.id.pacifyr_swipelay);
         selectEmotionDetailRlay = findViewById(R.id.select_emotion_detail_rlay);
         emotionRcv = findViewById(R.id.emotion_rcv);
@@ -487,13 +485,13 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
                 String customerRole = prefM.getCustomerRole();
                 if(customerRole.equals("employee")) {
                     if (pacifyer_obj.isSessionChargeable()){
-                        defSetText(pac_rate_ctxv,pacifyer_obj.getPriceWithSign()+" per hour");
+                        defSetText(pac_rate_ctxv, pacifyer_obj.getPriceWithSign() + " " + Utility.getCostLabel(ConnectToSinglePacifyrActivity.this));
 
                     }else {
                         defSetText(pac_rate_ctxv,"Employer Designated Pacifyr");
                     }
                 }else if(customerRole.equals("customer")){
-                    defSetText(pac_rate_ctxv,pacifyer_obj.getPriceWithSign()+" per hour");
+                    defSetText(pac_rate_ctxv, pacifyer_obj.getPriceWithSign() + " " + Utility.getCostLabel(ConnectToSinglePacifyrActivity.this));
                 }
                 else if(customerRole.equals("paidMember")){
                     defSetText(pac_rate_ctxv,"Employer Designated Pacifyr");

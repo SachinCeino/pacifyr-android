@@ -16,19 +16,14 @@ import android.widget.TextView;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.pacifyr.client.base.PacifyrActivity;
-import com.pacifyr.client.customview.MainTextView;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.ChatSubscription;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.Education;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelUserProfile;
-import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.gdacciaro.iOSDialog.iOSDialog;
 import com.gdacciaro.iOSDialog.iOSDialogBuilder;
 import com.gdacciaro.iOSDialog.iOSDialogClickListener;
 import com.google.android.material.snackbar.Snackbar;
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.pacifyr.client.R;
+import com.pacifyr.client.base.PacifyrActivity;
+import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.CallEvent;
 import com.pacifyr.client.event.ChatEvent;
 import com.pacifyr.client.home.ConnectToSinglePacifyrActivity;
@@ -38,6 +33,11 @@ import com.pacifyr.client.home.ProfileScreenActivity;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.utils.LogUtils;
 import com.pacifyr.client.utils.Utility;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.ChatSubscription;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.Education;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelUserProfile;
+import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -214,10 +214,10 @@ public class SwipeDeckBrowsePacifyerAdapter extends BaseAdapter {
                     ((TextView) v.findViewById(R.id.price_dollar)).setText("Employer Designated Pacifyr");
                     /*((TextView) v.findViewById(R.id.perhour_ctxv)).setVisibility(View.GONE);*/
                 }else {
-                    ((TextView) v.findViewById(R.id.price_dollar)).setText(Utility.getPriceSign(context)+" " +price+ " per hour");
+                    ((TextView) v.findViewById(R.id.price_dollar)).setText(Utility.getPriceSign(context) + " " + price + " " + Utility.getCostLabel(context));
                 }
             }else if(customerRole.equals("customer")){
-                ((TextView) v.findViewById(R.id.price_dollar)).setText(Utility.getPriceSign(context)+" " +price+ " per hour");
+                ((TextView) v.findViewById(R.id.price_dollar)).setText(Utility.getPriceSign(context) + " " + price + " " + Utility.getCostLabel(context));
                 /*((TextView) v.findViewById(R.id.perhour_ctxv)).setVisibility(View.VISIBLE);*/
             }
             else if(customerRole.equals("paidMember")){
@@ -308,7 +308,7 @@ public class SwipeDeckBrowsePacifyerAdapter extends BaseAdapter {
                         } else {
                             Snackbar offlineSnackbar = Snackbar.make(v, pacifyer.getName() + " is currently offline. You can either chat with " + pacifyer.getName() + " or try again later.", Snackbar.LENGTH_LONG);
                             View snackbarView = offlineSnackbar.getView();
-                            TextView snackTextView = (TextView) snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
+                            TextView snackTextView = snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
                             snackTextView.setMaxLines(4);
                             offlineSnackbar.show();
                         }
@@ -350,7 +350,7 @@ public class SwipeDeckBrowsePacifyerAdapter extends BaseAdapter {
                         } else {
                             Snackbar offlineSnackbar = Snackbar.make(v, pacifyer.getName() + " is currently offline. You can either chat with " + pacifyer.getName() + " or try again later.", Snackbar.LENGTH_LONG);
                             View snackbarView = offlineSnackbar.getView();
-                            TextView snackTextView = (TextView) snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
+                            TextView snackTextView = snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
                             snackTextView.setMaxLines(4);
                             offlineSnackbar.show();
                         }
@@ -458,7 +458,7 @@ public class SwipeDeckBrowsePacifyerAdapter extends BaseAdapter {
                         else {
                             Snackbar offlineSnackbar = Snackbar.make(v, pacifyer.getName() + " is currently offline. You can either chat with " + pacifyer.getName() + " or try again later.", Snackbar.LENGTH_LONG);
                             View snackbarView = offlineSnackbar.getView();
-                            TextView snackTextView = (TextView) snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
+                            TextView snackTextView = snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
                             snackTextView.setMaxLines(4);
                             offlineSnackbar.show();
                         }

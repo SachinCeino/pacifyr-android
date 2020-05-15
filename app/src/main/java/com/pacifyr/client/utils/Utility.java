@@ -307,6 +307,20 @@ public class Utility {
         return sign+" ";
     }
 
+    public static String getCostLabel(Context context) {
+
+        PrefManager prefM = PrefManager.getInstance(context);
+        String country = prefM.getCountry();
+        String label = context.getString(R.string.per_hour);
+        if (country.equals("India")) {
+            label = context.getResources().getString(R.string.per_session);
+        } else {
+            label = context.getResources().getString(R.string.per_hour);
+        }
+
+        return label + " ";
+    }
+
 
     public static Boolean isValid(String text) {
         if (text != null)

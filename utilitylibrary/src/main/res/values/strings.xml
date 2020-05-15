@@ -100,6 +100,7 @@
 
     //Prfile
     <string name="per_hour"> per hour</string>
+    <string name="per_session"> per session</string>
 
     //HomeScreen Related
     <string name="dashboard">Dashboard</string>

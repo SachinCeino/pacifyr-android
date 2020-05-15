@@ -214,10 +214,10 @@ public class SwipeDeckConnectPacifyrAdapter extends BaseAdapter {
                         ((TextView) v.findViewById(R.id.price_dollar)).setText("Employer Designated Pacifyr");
                     /*((TextView) v.findViewById(R.id.perhour_ctxv)).setVisibility(View.GONE);*/
                     } else {
-                        ((TextView) v.findViewById(R.id.price_dollar)).setText(Utility.getPriceSign(context) + " " + price + " per hour");
+                        ((TextView) v.findViewById(R.id.price_dollar)).setText(Utility.getPriceSign(context) + " " + price + " " + Utility.getCostLabel(context));
                     }
                 } else if (customerRole.equals("customer")||customerRole.equals("unpaidEmployee")) {
-                    ((TextView) v.findViewById(R.id.price_dollar)).setText(Utility.getPriceSign(context) + " " + price + " per hour");
+                    ((TextView) v.findViewById(R.id.price_dollar)).setText(Utility.getPriceSign(context) + " " + price + " " + Utility.getCostLabel(context));
                 /*((TextView) v.findViewById(R.id.perhour_ctxv)).setVisibility(View.VISIBLE);*/
                 } else if (customerRole.equals("paidMember")) {
                     ((TextView) v.findViewById(R.id.price_dollar)).setText("Employer Designated Pacifyr");
