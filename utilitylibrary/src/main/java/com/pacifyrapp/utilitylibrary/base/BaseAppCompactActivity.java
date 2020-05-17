@@ -21,6 +21,7 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 
 import com.androidquery.AQuery;
+import com.kaopiz.kprogresshud.KProgressHUD;
 import com.pacifyrapp.utilitylibrary.CustomEditText;
 import com.pacifyrapp.utilitylibrary.CustomFontTextView;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
@@ -28,8 +29,8 @@ import com.pacifyrapp.utilitylibrary.R;
 import com.pacifyrapp.utilitylibrary.ToastHandler;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
+import com.pacifyrapp.utilitylibrary.utils.BaseUtils;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
-import com.kaopiz.kprogresshud.KProgressHUD;
 import com.quickblox.sample.core.ui.activity.CoreBaseActivity;
 import com.squareup.picasso.Picasso;
 
@@ -1128,7 +1129,7 @@ public class BaseAppCompactActivity extends CoreBaseActivity {
 
             defSetText(textDialogName, title);
             String country=getPrefManager().getCountry();
-            defSetText(textDialogLastMessage, desc + " per hour");
+            defSetText(textDialogLastMessage, desc + " " + BaseUtils.getCostLabel(BaseAppCompactActivity.this));
 
             if (isValid(userimage))
                 Picasso.with(getApplicationContext()).load(userimage).placeholder(R.drawable.placeholder_user).into(imageDialogIcon);
@@ -1162,7 +1163,7 @@ public class BaseAppCompactActivity extends CoreBaseActivity {
         RelativeLayout saveRlay = view.findViewById(com.pacifyrapp.utilitylibrary.R.id.save_rlay);
 
         defSetText(textDialogName,pacifyer_obj.getFirstName()+""+pacifyer_obj.getLastName());
-        defSetText(textDialogLastMessage, pacifyer_obj.getPriceWithSign()+" per hour");
+        defSetText(textDialogLastMessage, pacifyer_obj.getPriceWithSign() + " " + BaseUtils.getCostLabel(BaseAppCompactActivity.this));
 
         String userimage = UtilityNetworkService.GLOBAL_IMAGE_URL+pacifyer_obj.getImage();
 
