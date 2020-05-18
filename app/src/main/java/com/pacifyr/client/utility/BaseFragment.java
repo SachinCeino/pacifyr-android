@@ -1471,7 +1471,7 @@ public abstract class BaseFragment extends Fragment {
                 .setTitle(title)
                 .setSubtitle(subTitle)
                 .setBoldPositiveLabel(false)
-                .setCancelable(true)
+                .setCancelable(false)
                 .setPositiveListener(okLabel,listener)
                 .build().show();
     }
