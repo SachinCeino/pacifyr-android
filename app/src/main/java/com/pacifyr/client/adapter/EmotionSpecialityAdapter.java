@@ -290,14 +290,25 @@ public class EmotionSpecialityAdapter extends RecyclerView.Adapter<EmotionSpecia
 
                         ModelSpecialityByCategory model = GsonUtils.getInstance().gsonToModelSpecialityByCategory(json);
                         ModelSpecialityByCategory.Results[] item = model.getResults();
-
-                        CategoryListAdapter categoryListAdapter = new CategoryListAdapter(item, context);
+                        if (item.length>0) {
+                            CategoryListAdapter categoryListAdapter = new CategoryListAdapter(item, context);
                        /* String[] array = item[0].getCategory();
                         webSearchPacifyrWOptions(array);*/
-                        imgRcv.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
-                        imgRcv.setAdapter(categoryListAdapter);
-                        categoryListAdapter.addListener((ConnectToPacifyrActivity) activity);
-                        categoryListAdapter.setSelected(0);
+                            imgRcv.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
+                            imgRcv.setAdapter(categoryListAdapter);
+                            categoryListAdapter.addListener((ConnectToPacifyrActivity) activity);
+                            categoryListAdapter.setSelected(0);
+                            if (noPacifyrCtxv != null) {
+                                noPacifyrCtxv.setVisibility(View.GONE);
+                            }
+                        }
+                        else
+                        {
+                            if (noPacifyrCtxv != null) {
+                                noPacifyrCtxv.setVisibility(View.VISIBLE);
+                            }
+                        }
+
 
                     /* String imgURL = GLOBAL_IMAGE_URL + res[i].getImage();
                     String title = res[i].getTitle();
