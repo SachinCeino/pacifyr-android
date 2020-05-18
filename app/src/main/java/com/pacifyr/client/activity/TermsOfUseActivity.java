@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.net.http.SslError;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.view.Window;
 import android.webkit.SslErrorHandler;
@@ -25,14 +26,31 @@ import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+
 public class TermsOfUseActivity extends PacifyrActivity {
 
+    private static final String TAG = TermsOfUseActivity.class.getSimpleName();
     private WebView webView;
     private String titleText;
     private String spurl;
     //private ImageView backButt;
     //private LinearLayout backbtn;
     private int retryCount = 0;
+
+    public static String[] extractLinks(String text) {
+        List<String> links = new ArrayList<String>();
+        Matcher m = Patterns.WEB_URL.matcher(text);
+        while (m.find()) {
+            String url = m.group();
+            Log.d(TAG, "URL extracted: " + url);
+            links.add(url);
+        }
+
+        return links.toArray(new String[links.size()]);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +63,7 @@ public class TermsOfUseActivity extends PacifyrActivity {
         if( bundle!= null){
             spurl = bundle.getString("spurl");
             if (spurl != null && spurl.contains(".pdf")) {
+
                 spurl = "https://drive.google.com/viewerng/viewer?embedded=true&url=" + spurl;
             }
             startWebView(spurl);
@@ -79,7 +98,6 @@ public class TermsOfUseActivity extends PacifyrActivity {
         return null;
     }
 
-
     private void startWebView(String url) {
         //Create new webview Client to show progress dialog
         //When opening a url or click on link
@@ -90,10 +108,11 @@ public class TermsOfUseActivity extends PacifyrActivity {
             //If you will not use this method url links are opeen in new brower not in webview
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
 
+                String[] urls = extractLinks(url);
                 if (url.contains(".pdf")){
                     Intent intent = new Intent(Intent.ACTION_VIEW);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    intent.setDataAndType(Uri.parse(url), "application/pdf");
+                    intent.setDataAndType(Uri.parse(url), "text/html");
                     try{
                         view.getContext().startActivity(intent);
                     } catch (ActivityNotFoundException e) {
