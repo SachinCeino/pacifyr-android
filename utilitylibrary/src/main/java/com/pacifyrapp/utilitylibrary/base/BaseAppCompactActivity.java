@@ -2,13 +2,18 @@ package com.pacifyrapp.utilitylibrary.base;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Html;
+import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -1161,7 +1166,21 @@ public class BaseAppCompactActivity extends CoreBaseActivity {
         CustomFontTextView textDialogName = view.findViewById(com.pacifyrapp.utilitylibrary.R.id.text_dialog_name);
         CustomFontTextView textDialogLastMessage = view.findViewById(com.pacifyrapp.utilitylibrary.R.id.text_dialog_message);
         RelativeLayout saveRlay = view.findViewById(com.pacifyrapp.utilitylibrary.R.id.save_rlay);
-
+       /* CustomFontTextView pacifyr_call_intro = view.findViewById(com.pacifyrapp.utilitylibrary.R.id.pacifyr_call_intro);
+        if (getPrefManager().getCountry().equals("India")||
+        getPrefManager().getCountry().equals("Wakanda"))
+        {
+            pacifyr_call_intro.setVisibility(View.VISIBLE);
+            SpannableStringBuilder spanTxt = new SpannableStringBuilder(
+                    "When a councilor get a call from Patient Initially 5 minuts are given for -\n" +
+                            " - Introduction of Patient\n" +
+                            " - Introduction of Doctor\n" +
+                            " - Collection of Valid proof of patient through Chat window\n" +
+                            " - Councilor should genarate Payment gateway link to Patient\n" +
+                            " - Once the councilor receives payment confirmation start the button on screen - ");
+            spanTxt.append(Html.fromHtml("<font color=" + getResources().getColor(R.color.red) + ">" + "Start Session " + "</font>"+"(i.e. Exactly the consultation process begins)."));
+            pacifyr_call_intro.setText(spanTxt, TextView.BufferType.SPANNABLE);
+        }*/
         defSetText(textDialogName,pacifyer_obj.getFirstName()+""+pacifyer_obj.getLastName());
         defSetText(textDialogLastMessage, pacifyer_obj.getPriceWithSign() + " " + BaseUtils.getCostLabel(BaseAppCompactActivity.this));
 
