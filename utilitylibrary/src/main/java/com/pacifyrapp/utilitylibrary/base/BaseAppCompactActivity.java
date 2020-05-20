@@ -1166,7 +1166,7 @@ public class BaseAppCompactActivity extends CoreBaseActivity {
         CustomFontTextView textDialogName = view.findViewById(com.pacifyrapp.utilitylibrary.R.id.text_dialog_name);
         CustomFontTextView textDialogLastMessage = view.findViewById(com.pacifyrapp.utilitylibrary.R.id.text_dialog_message);
         RelativeLayout saveRlay = view.findViewById(com.pacifyrapp.utilitylibrary.R.id.save_rlay);
-       /* CustomFontTextView pacifyr_call_intro = view.findViewById(com.pacifyrapp.utilitylibrary.R.id.pacifyr_call_intro);
+        CustomFontTextView pacifyr_call_intro = view.findViewById(com.pacifyrapp.utilitylibrary.R.id.pacifyr_call_intro);
         if (getPrefManager().getCountry().equals("India")||
         getPrefManager().getCountry().equals("Wakanda"))
         {
@@ -1180,7 +1180,7 @@ public class BaseAppCompactActivity extends CoreBaseActivity {
                             " - Once the councilor receives payment confirmation start the button on screen - ");
             spanTxt.append(Html.fromHtml("<font color=" + getResources().getColor(R.color.red) + ">" + "Start Session " + "</font>"+"(i.e. Exactly the consultation process begins)."));
             pacifyr_call_intro.setText(spanTxt, TextView.BufferType.SPANNABLE);
-        }*/
+        }
         defSetText(textDialogName,pacifyer_obj.getFirstName()+""+pacifyer_obj.getLastName());
         defSetText(textDialogLastMessage, pacifyer_obj.getPriceWithSign() + " " + BaseUtils.getCostLabel(BaseAppCompactActivity.this));
 
