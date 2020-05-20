@@ -1165,20 +1165,25 @@ public class BaseAppCompactActivity extends CoreBaseActivity {
         CircleImageView imageDialogIcon = view.findViewById(com.pacifyrapp.utilitylibrary.R.id.image_dialog_icon);
         CustomFontTextView textDialogName = view.findViewById(com.pacifyrapp.utilitylibrary.R.id.text_dialog_name);
         CustomFontTextView textDialogLastMessage = view.findViewById(com.pacifyrapp.utilitylibrary.R.id.text_dialog_message);
+        CustomFontTextView connectTo = view.findViewById(com.pacifyrapp.utilitylibrary.R.id.connectTo);
         RelativeLayout saveRlay = view.findViewById(com.pacifyrapp.utilitylibrary.R.id.save_rlay);
         CustomFontTextView pacifyr_call_intro = view.findViewById(com.pacifyrapp.utilitylibrary.R.id.pacifyr_call_intro);
         if (getPrefManager().getCountry().equals("India")||
         getPrefManager().getCountry().equals("Wakanda"))
         {
             pacifyr_call_intro.setVisibility(View.VISIBLE);
+            connectTo.setVisibility(View.INVISIBLE);
             SpannableStringBuilder spanTxt = new SpannableStringBuilder(
-                    "When a councilor get a call from Patient Initially 5 minuts are given for -\n" +
-                            " - Introduction of Patient\n" +
-                            " - Introduction of Doctor\n" +
-                            " - Collection of Valid proof of patient through Chat window\n" +
-                            " - Councilor should genarate Payment gateway link to Patient\n" +
-                            " - Once the councilor receives payment confirmation start the button on screen - ");
-            spanTxt.append(Html.fromHtml("<font color=" + getResources().getColor(R.color.red) + ">" + "Start Session " + "</font>"+"(i.e. Exactly the consultation process begins)."));
+                    "Please follow these steps to conduct the session with your provider.\n\n");
+            spanTxt.append(
+                    "1. Click on the *Start Call* button to connect to the provider.\n\n" +
+                    "2. Introduce yourself. \n\n" +
+                    "3. The provider will introduce himself/herself.\n\n" +
+                    "4. The provider will initiate the payment process. You will be prompted to make the payment. \n\n" +
+                    "5. Click \"Setup Payment\". You can make the required payment by using Paytm Wallet or UPI.\n\n" +
+                    "6. Click 'OK' to confirm successful payment completion.\n\n" +
+                    "7. You will receive a ");
+            spanTxt.append(Html.fromHtml("<font color=" + getResources().getColor(R.color.red) + ">" + " \"Session Started\"" + "</font>"+" message."));
             pacifyr_call_intro.setText(spanTxt, TextView.BufferType.SPANNABLE);
         }
         defSetText(textDialogName,pacifyer_obj.getFirstName()+""+pacifyer_obj.getLastName());

@@ -27,7 +27,9 @@
             android:layout_marginStart="8dp"
             android:layout_centerVertical="true"
             android:text="Connect to"
-            android:textSize="15sp"/>
+            android:textSize="15sp"
+            android:id="@+id/connectTo"
+            android:layout_marginLeft="8dp" />
 
         <com.pacifyrapp.utilitylibrary.DeviceFitImageView
             android:layout_width="wrap_content"
@@ -51,6 +53,7 @@
         android:id="@+id/pacifyr_call_intro"
         android:visibility="gone"
         android:gravity="left"
+        android:layout_gravity="left"
         android:layout_marginBottom="3dp"
         ></com.pacifyrapp.utilitylibrary.CustomFontTextView>
 
