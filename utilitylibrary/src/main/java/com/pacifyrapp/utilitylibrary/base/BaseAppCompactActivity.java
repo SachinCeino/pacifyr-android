@@ -1174,15 +1174,16 @@ public class BaseAppCompactActivity extends CoreBaseActivity {
             pacifyr_call_intro.setVisibility(View.VISIBLE);
             connectTo.setVisibility(View.INVISIBLE);
             SpannableStringBuilder spanTxt = new SpannableStringBuilder(
-                    "Please follow these steps to conduct the session with your provider.\n\n");
+                    "*Steps to follow:*\n\n");
             spanTxt.append(
-                    "1. Click on the *Start Call* button to connect to the provider.\n\n" +
-                    "2. Introduce yourself. \n\n" +
-                    "3. The provider will introduce himself/herself.\n\n" +
-                    "4. The provider will initiate the payment process. You will be prompted to make the payment. \n\n" +
-                    "5. Click \"Setup Payment\". You can make the required payment by using Paytm Wallet or UPI.\n\n" +
-                    "6. Click 'OK' to confirm successful payment completion.\n\n" +
-                    "7. You will receive a ");
+                    "1. Please visit your Profile page and upload your KYC (PAN/Aadhaar/EPIC/DL).\n\n" +
+                    "2. Click on the *Start Call* button to connect to the provider.\n\n" +
+                    "3. Introduction by yourself and the provider.\n\n" +
+                    "4. The provider will initiate the payment process.  \n\n" +
+                    "5. You will be prompted to make the payment. \n\n" +
+                    "6. Click *Setup Payment* and pay using Paytm Wallet or UPI.\n\n" +
+                    "7. Click *OK* to confirm successful payment completion.\n\n" +
+                    "8. You will receive a ");
             spanTxt.append(Html.fromHtml("<font color=" + getResources().getColor(R.color.red) + ">" + " \"Session Started\"" + "</font>"+" message."));
             pacifyr_call_intro.setText(spanTxt, TextView.BufferType.SPANNABLE);
         }
