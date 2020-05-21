@@ -2,15 +2,12 @@ package com.pacifyr.client.activity;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
-import android.net.Uri;
 import android.net.http.SslError;
 import android.os.Bundle;
 import android.util.Log;
-import android.util.Patterns;
 import android.view.View;
 import android.view.Window;
 import android.webkit.SslErrorHandler;
@@ -21,14 +18,17 @@ import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.krishna.fileloader.FileLoader;
+import com.krishna.fileloader.listener.FileRequestListener;
+import com.krishna.fileloader.pojo.FileResponse;
+import com.krishna.fileloader.request.FileLoadRequest;
 import com.pacifyr.client.R;
 import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
+import com.pacifyr.client.utility.PdfViewer;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Matcher;
+import java.io.File;
 
 public class TermsOfUseActivity extends PacifyrActivity {
 
@@ -40,17 +40,6 @@ public class TermsOfUseActivity extends PacifyrActivity {
     //private LinearLayout backbtn;
     private int retryCount = 0;
 
-    public static String[] extractLinks(String text) {
-        List<String> links = new ArrayList<String>();
-        Matcher m = Patterns.WEB_URL.matcher(text);
-        while (m.find()) {
-            String url = m.group();
-            Log.d(TAG, "URL extracted: " + url);
-            links.add(url);
-        }
-
-        return links.toArray(new String[links.size()]);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,16 +97,16 @@ public class TermsOfUseActivity extends PacifyrActivity {
             //If you will not use this method url links are opeen in new brower not in webview
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
 
-                String[] urls = extractLinks(url);
                 if (url.contains(".pdf")){
-                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                   /* Intent intent = new Intent(Intent.ACTION_VIEW);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     intent.setDataAndType(Uri.parse(url), "text/html");
                     try{
                         view.getContext().startActivity(intent);
                     } catch (ActivityNotFoundException e) {
                         Log.w("ERROR",String.valueOf(e));
-                    }
+                    }*/
+                    loadPDF(url);
                 } else {
                     view.loadUrl(url);
                 }
@@ -242,7 +231,34 @@ public class TermsOfUseActivity extends PacifyrActivity {
     protected void onResume() {
         super.onResume();
         if (isValid(webView))
-        webView.onResume();
+            webView.onResume();
     }
+
+    private void loadPDF(String url) {
+        setLoading();
+        showProgress();
+        FileLoader.with(TermsOfUseActivity.this)
+                .load(url, false) //2nd parameter is optioal, pass true to force load from network
+                .fromDirectory("test4", FileLoader.DIR_CACHE)
+                .asFile(new FileRequestListener<File>() {
+                    @Override
+                    public void onLoad(FileLoadRequest request, FileResponse<File> response) {
+                        hideProgress();
+                        File loadedFile = response.getBody();
+                        // do something with the file
+                        Log.d(TAG, "File downloaded ");
+                        PdfViewer.pdf = loadedFile;
+                        Intent intent = new Intent(TermsOfUseActivity.this, PdfViewer.class);
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onError(FileLoadRequest request, Throwable t) {
+                        hideProgress();
+                        Log.d(TAG, "File download failed ");
+                    }
+                });
+    }
+
 
 }
