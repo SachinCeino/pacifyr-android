@@ -50,6 +50,7 @@
                 android:background="#f1f1f1"
                 android:iconifiedByDefault="true"
                 android:imeOptions="actionSearch"
+                android:focusable="false"
                 android:queryHint="@string/query_hint_search_pacifyr"
                 />
             <RelativeLayout

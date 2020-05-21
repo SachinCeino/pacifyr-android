@@ -77,7 +77,7 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
     private MainTextView showallCtxv;
 
     private CharSequence mTitle;
-    private boolean showAllFlag;
+    private boolean showAllFlag=false;
     private String customerRole;
     private MainTextView noPacifyrCtxv;
     CallEvent event_call = null;
@@ -99,7 +99,7 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
         this.searchQuery = searchQuery;
     }
 
-
+    private String emoSelected;
 
 
     public CallChatEventListner callchatEventListner = new CallChatEventListner() {
@@ -125,7 +125,7 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
 
         }
     };
-    private String emoSelected;
+
     private SpecialistAdapter specialistAdapter;
 
     public CheckBox getShowallCbox() {
@@ -171,11 +171,6 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
 
             } else if (msg.equals("Event")) {
 
-                setAdapterSpecial();
-                if (modelSpecialist != null && modelSpecialist.getResultsList() != null &&
-                        modelSpecialist.getResultsList().size() > 0 && emoSelected == null) {
-                    customerEmotion = modelSpecialist.getResultsList().get(0).getTitle();
-                }
                 webSearchPacifyrWOptions(customerEmotion);
             }
         } catch (Exception ex) {
@@ -186,7 +181,9 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
     private void setAdapterSpecial() {
         try {
             if (modelSpecialist != null)
-                if (modelSpecialist.getResults() != null) {
+                if (modelSpecialist.getResults() != null &&modelSpecialist.getResults().length>0) {
+                    if (noPacifyrCtxv!=null)
+                        noPacifyrCtxv.setVisibility(View.GONE);
                     recyclerView = findViewById(R.id.special_recycle);
                     recyclerView.setHasFixedSize(true);
                     layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
@@ -213,6 +210,16 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
                         specialistAdapter.setSelected(0);
                     }
                 }
+            else
+                {
+                    if (noPacifyrCtxv!=null)
+                    noPacifyrCtxv.setVisibility(View.VISIBLE);
+
+                    if (cardStack!=null)
+                        cardStack.setVisibility(View.GONE);
+
+
+                }
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -229,7 +236,7 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
         userID = prefM.getUserID();
         setLoading();
         showProgress();
-        NetworkService.startActionSpecialist(this);
+
         if (getIntent().getExtras() != null && getIntent().getExtras().containsKey("emo_selected")) {
             emoSelected = getIntent().getExtras().getString("emo_selected");
         }
@@ -246,6 +253,7 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
 
 
         //NetworkService.startActionSearchPacifyr(this);
+
 
         showallLlay = findViewById(R.id.showall_llay);
         showallCtxv = findViewById(R.id.showall_ctxv);
@@ -272,11 +280,12 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
                 if (getSearchQuery().equals("")) {
                     if (isChecked) {
                         showAllFlag = true;
-                        webSearchPacifyrWOptions(customerEmotion);
+
                     } else {
                         showAllFlag = false;
-                        webSearchPacifyrWOptions(customerEmotion);
+
                     }
+                    UpdateSpecialityAdapter(showAllFlag);
                 }
                 else {
 
@@ -293,15 +302,6 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
             }
         });
 
-        setAdapterSpecial();
-
-//        webSearchPacifyrWOptions(customerEmotion);
-
-        /*final ArrayList<String> testData = new ArrayList<>();
-        for(int i=0;i<50;i++)
-        {
-            testData.add(Integer.toString(i));
-        }*/
 
 
         cardStack = findViewById(R.id.swipe_deck);
@@ -350,12 +350,15 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
             }
         });
 
+        pacifyr_SearchView.setFocusable(false);
+        pacifyr_SearchView.setIconified(false);
+        pacifyr_SearchView.clearFocus();
         pacifyr_SearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
 
 
-                //Log.w("QQQQ","onQueryTextSubmit");
+                emoSelected=null;
                 setSearchQuery(query);
                 if (isValid(query) && isValid(customerEmotion))
                     webSearchPacifyrFromSearchView(customerEmotion);
@@ -365,14 +368,14 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
             @Override
             public boolean onQueryTextChange(String newText) {
                 //Log.w("QQQQ","onQueryTextChange");
-                setSearchQuery(newText);
+                /*setSearchQuery(newText);
                 if (getSearchQuery().equals(""))
                 {
                     showAllFlag = getShowallCbox().isChecked();
                     if (isValid(specialistAdapter))
                         specialistAdapter.setSelected(0);
                     webSearchPacifyrWOptions(customerEmotion);
-                }
+                }*/
                 return false;
             }
         });
@@ -397,6 +400,14 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
 
 
 
+        /**Update Speciality Adapter
+         * *
+         * default selection is 0
+         * then search pacifyr will load ininitialy first category
+         * update speciality according to showAll flag change
+         * call shw all flag false iniitially**/
+        UpdateSpecialityAdapter(showAllFlag);
+
     }
 
     private void setAdapterSearchOption() {
@@ -409,11 +420,12 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
             ArrayList<MUser> list = new ArrayList<MUser>();
             list.clear();
             list = pSearchPacifyrWOptionsResponse.getResultsList();
-            if(isValid(list)) {
+            if(isValidSize(list)) {
                 noPacifyrCtxv.setVisibility(View.GONE);
                 adapter = new SwipeDeckBrowsePacifyerAdapter(list, ListPacifyrScreenActivity.this, emoSelected != null);
                 cardStack.setAdapter(adapter);
                 cardStack.setVisibility(View.VISIBLE);
+
             }else {
                 cardStack.setVisibility(View.GONE);
                 noPacifyrCtxv.setVisibility(View.VISIBLE);
@@ -591,6 +603,7 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
         if (adapter != null) {
             adapter.clear();
         }
+
         webSearchPacifyrWOptions(customerEmotion);
 
 
@@ -599,7 +612,7 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
     public void webSearchPacifyrWOptions(String emotion) {
         try{
 
-
+            pSearchPacifyrWOptionsResponse=null;
             setLoading("loading...");
             showProgress();
             String url = GLOBAL_URL + getRoleSearchMap().get(prefM.getCustomerRole());
@@ -915,5 +928,44 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
         EventBus.getDefault().register(this);
 
     }
+
+
+
+    public void UpdateSpecialityAdapter(boolean param_showAllFlag) {
+
+        showProgress();
+        modelSpecialist=null;
+        try {
+            String url = GLOBAL_URL + "specialities/byCategory?category=all&includeChargeablePacifyrs="+param_showAllFlag;
+
+            AjaxCallback cb = new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject json, AjaxStatus status) {
+                    hideProgress();
+                    try {
+                        String js = json.toString();
+                        modelSpecialist= GsonUtils.getInstance().gsonToModelSpecialist(json);
+                        modelSpecialist.toString();
+                        setAdapterSpecial();
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        if (noPacifyrCtxv != null) {
+                            noPacifyrCtxv.setVisibility(View.VISIBLE);
+                        }
+
+                    }
+                }
+            };
+            AQuery aq = new AQuery(getApplicationContext());
+            cb.header("Content-Type", "application/json");
+            cb.header("AccessToken", getPrefManager().getAccessToken());
+            aq.ajax(url, JSONObject.class, cb);
+        } catch (Exception e) {
+            e.printStackTrace();
+            hideProgress();
+        }
+    }
+
 
 }
