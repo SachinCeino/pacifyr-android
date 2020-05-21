@@ -24,6 +24,7 @@ public class AttachmentImageActivity extends BaseActivity {
 
     public static void start(Context context, String url) {
         Intent intent = new Intent(context, AttachmentImageActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra(EXTRA_URL, url);
         context.startActivity(intent);
     }

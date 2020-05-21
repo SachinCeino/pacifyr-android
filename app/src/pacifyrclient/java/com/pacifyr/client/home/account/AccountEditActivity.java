@@ -624,32 +624,48 @@ public class AccountEditActivity extends PacifyrAppCompactActivity {
 
 
 
-                if (isValidSize(documentFileList))
+                if (getPrefManager().getCountry().equals("India")||
+                getPrefManager().getCountry().equals("Wakanda"))
                 {
-
                     List<Object> list=new ArrayList<>();
                     ArrayList<Certification> mCertificate = new ArrayList<>();
-                    for (int i=0;i<documentFileList.size();i++)
+                    if (isValidSize(documentFileList))
                     {
-                        if (documentFileList.get(i).isUploaded())
-                            list.add(documentFileList.get(i).getFileName());
 
+                        for (int i=0;i<documentFileList.size();i++)
+                        {
+                            if (documentFileList.get(i).isUploaded())
+                                list.add(documentFileList.get(i).getFileName());
+
+                        }
+
+                        if (isValidSize(NetworkService.mCurrentUser.getCertificationList())) {
+                            mCertificate=NetworkService.mCurrentUser.getCertificationList();
+                            Certification InsuranceObject=new Certification();
+                            if (isValid(mCertificate.get(0)))
+                                InsuranceObject= (Certification) mCertificate.get(0);
+                            InsuranceObject.setDocuments(list);
+                        }
+                        else{
+                            Certification CertificationObject=new Certification();
+                            CertificationObject.setDocuments(list);
+                            mCertificate.add(CertificationObject);
+                        }
+
+
+                        postRegisterModel.setCertification(mCertificate);
                     }
-
-                    if (isValidSize(NetworkService.mCurrentUser.getCertificationList())) {
-                        mCertificate=NetworkService.mCurrentUser.getCertificationList();
-                        Certification InsuranceObject=new Certification();
-                        if (isValid(mCertificate.get(0)))
-                            InsuranceObject= (Certification) mCertificate.get(0);
-                        InsuranceObject.setDocuments(list);
+                    else
+                    {
+                        if (isValidSize(NetworkService.mCurrentUser.getCertificationList())) {
+                            mCertificate=NetworkService.mCurrentUser.getCertificationList();
+                            Certification InsuranceObject=new Certification();
+                            if (isValid(mCertificate.get(0)))
+                                InsuranceObject= (Certification) mCertificate.remove(0);
+                            InsuranceObject.setDocuments(list);
+                            mCertificate.add(InsuranceObject);
+                        }
                     }
-                    else{
-                        Certification CertificationObject=new Certification();
-                        CertificationObject.setDocuments(list);
-                        mCertificate.add(CertificationObject);
-                    }
-
-
                     postRegisterModel.setCertification(mCertificate);
                 }
 
@@ -659,8 +675,8 @@ public class AccountEditActivity extends PacifyrAppCompactActivity {
                //  startAsyntaskSave(edit_image,postRegisterModel);
                      updateProfileMultipartWeb(postRegisterModel);
             }
-            else
-               updateProfileWeb(postRegisterModel);
+
+           updateProfileWeb(postRegisterModel);
 
         }catch (Exception e)
         {

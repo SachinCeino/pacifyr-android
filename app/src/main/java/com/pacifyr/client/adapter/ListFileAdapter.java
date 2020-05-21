@@ -18,9 +18,12 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.pacifyr.client.activity.TermsOfUseActivity;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.R;
 import com.pacifyr.client.model.ModelPacifyrDocuments;
+import com.pacifyr.client.quickblox.chat.ui.activity.AttachmentImageActivity;
+import com.pacifyr.client.sign.CrisisActivity;
 
 import java.util.ArrayList;
 
@@ -99,11 +102,16 @@ public class ListFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (fileList.get(position).getFileName()!=null)
+                    if (fileList.get(position).getFileName()!=null &&fileList.get(position).getFileType().equals("image"))
                     {
-                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(GLOBAL_IMAGE_URL+fileList.get(position).getFileName()+""));
-                        browserIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        mContext.startActivity(browserIntent);
+                        AttachmentImageActivity.start(mContext, GLOBAL_IMAGE_URL+fileList.get(position).getFileName());
+                    }
+                    else if (fileList.get(position).getFileName()!=null&&fileList.get(position).getFileType().equals("pdf"))
+                    {
+                        Intent i=new Intent(mContext, TermsOfUseActivity.class);
+                        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        i.putExtra("spurl",GLOBAL_IMAGE_URL+fileList.get(position).getFileName() );
+                        mContext.startActivity(i);
                     }
 
                 }
