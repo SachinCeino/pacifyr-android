@@ -1,20 +1,30 @@
 package com.pacifyr.client.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.R;
 import com.pacifyr.client.model.ModelPacifyrDocuments;
 
 import java.util.ArrayList;
+
+import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_IMAGE_URL;
 
 /**
  * Created by ceino on 18/5/18.
@@ -37,24 +47,69 @@ public class ListFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         return viewHolder;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         ViewHolder viewHolder = (ViewHolder) holder;
+        ModelPacifyrDocuments object=fileList.get(position);
+        if (object!=null )
+        {
+            if(object.getFileType().equals("image")) {
 
-        if(fileList.get(position).getFileType().equals("image")) {
-            Bitmap bitmap = fileList.get(position).getBitmap();
-            viewHolder.fileImv.setImageBitmap(bitmap);
-        }else{
-            viewHolder.fileImv.setImageDrawable(mContext.getDrawable(R.drawable.ic_pdf));
+                if (object.getFileName()!=null)
+                {
+                    Glide.with(mContext)
+                            .load(GLOBAL_IMAGE_URL+fileList.get(position).getFileName()+"")
+                            .listener(new RequestListener<String, GlideDrawable>() {
+                                @Override
+                                public boolean onException(Exception e, String model,
+                                                           Target<GlideDrawable> target, boolean isFirstResource) {
+                                    e.printStackTrace();
+                                    return false;
+                                }
+
+                                @Override
+                                public boolean onResourceReady(GlideDrawable resource, String model,
+                                                               Target<GlideDrawable> target,
+                                                               boolean isFromMemoryCache, boolean isFirstResource) {
+                                    return false;
+                                }
+                            })
+                            .dontTransform()
+                            .into(viewHolder.fileImv);
+
+                }
+
+            }else{
+                if (object.getFileType().equals("pdf")){
+                    viewHolder.fileImv.setImageDrawable(mContext.getDrawable(R.drawable.pdfdoc2));}
+            }
+
+            viewHolder.closeImv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (fileList.size()!=0)
+                        fileList.remove(position);
+                    notifyDataSetChanged();
+                }
+            });
+
+
+
+            viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (fileList.get(position).getFileName()!=null)
+                    {
+                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(GLOBAL_IMAGE_URL+fileList.get(position).getFileName()+""));
+                        browserIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        mContext.startActivity(browserIntent);
+                    }
+
+                }
+            });
         }
 
-        viewHolder.closeImv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fileList.remove(position);
-                notifyDataSetChanged();
-            }
-        });
 
     }
 

@@ -41,6 +41,7 @@ import com.pacifyr.client.quickblox.utils.PermissionsChecker;
 import com.pacifyr.client.quickblox.utils.WebRtcSessionManager;
 import com.pacifyr.client.utils.LogUtils;
 import com.pacifyr.client.utils.Utility;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.Certification;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.ChatSubscription;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.Education;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
@@ -98,7 +99,7 @@ public class SwipeDeckConnectPacifyrAdapter extends BaseAdapter {
     public SharedPrefsHelper sharedPrefsHelper;
 
     private ArrayList<String> myList=new ArrayList();
-    private ArrayList<ModelUserProfile.Certification> certificateList= new ArrayList<>();
+    private ArrayList<Certification> certificateList= new ArrayList<>();
     private ArrayList<ModelUserProfile.Education> educationsList= new ArrayList<>();
     Activity activity;
     private boolean isChatSubscriptionRequired;

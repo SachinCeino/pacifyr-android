@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <include layout="@layout/actionbar_grey"
@@ -231,13 +231,75 @@
                 android:textColor="@color/white"
                 android:layout_alignParentRight="true" />
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/year_edt"
+                android:id="@+id/uploadDocLayout"
+                android:visibility="gone"
+                android:orientation="vertical">
+                <EditText
+                    android:id="@+id/upload_docs_ctxv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:background="@null"
+                    android:drawableLeft="@drawable/red_star"
+                    android:drawableStart="@drawable/red_star"
+                    android:drawablePadding="3dp"
+                    android:hint="@string/upload_documents"
+                    android:textColor="@color/black"
+                    android:padding="5dp"
+                    android:textSize="18sp"
+                    android:focusable="false"
+                     />
+
+                <EditText
+                    android:id="@+id/upload_docs_err"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:cursorVisible="false"
+                    android:ems="1"
+                    android:textColor="@color/white"
+                    android:lines="1"
+                    android:maxLines="1"
+                    />
+
+                <View
+                    android:id="@+id/upload_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/signup_view"
+                   />
+
+
+                <TextView
+                    android:id="@+id/upload_instruction_txv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/upload_docs_ctxv"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/document_upload_instruction"
+                    android:textSize="8sp"
+                    tools:ignore="RtlCompat" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/file_list_rcv"
+                    android:layout_marginTop="24dp"
+                  />
+
+            </LinearLayout>
 
             <RelativeLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_above="@+id/submit_ctxv"
-                android:layout_below="@+id/year_edt"
+                android:layout_below="@+id/uploadDocLayout"
                 android:id="@+id/terms_of_use_cbox_layout"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"

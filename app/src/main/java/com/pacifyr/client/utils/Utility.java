@@ -30,6 +30,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -737,6 +738,20 @@ public class Utility {
         }
 
         return millis;
+    }
+
+    public static File saveFileInCache(Context context, Bitmap imageBitmap, String fileName) {
+        File cacheFile = getTempFile(context, fileName);
+
+        try {
+            OutputStream os = new BufferedOutputStream(new FileOutputStream(cacheFile));
+            imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, os);
+            os.close();
+            return cacheFile;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }

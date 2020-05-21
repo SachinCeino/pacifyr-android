@@ -42,6 +42,7 @@ import com.pacifyr.client.utility.PacifyrAppCompactActivity;
 import com.pacifyr.client.utils.LogUtils;
 import com.pacifyr.client.utils.Utility;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.Certification;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.ChatSubscription;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelUserProfile;
@@ -115,7 +116,7 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
 
     private LinearLayout call_llay;
     private ArrayList<String> myList=new ArrayList();
-    private ArrayList<ModelUserProfile.Certification> certificateList= new ArrayList<>();
+    private ArrayList<Certification> certificateList= new ArrayList<>();
     private ArrayList<ModelUserProfile.Education> educationsList= new ArrayList<>();
     private String imgUrl;
     private CircleImageView startVideoCimv;

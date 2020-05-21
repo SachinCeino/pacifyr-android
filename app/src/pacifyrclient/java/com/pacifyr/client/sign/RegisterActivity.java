@@ -42,15 +42,23 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.aigestudio.wheelpicker.WheelPicker;
 import com.aigestudio.wheelpicker.widgets.WheelYearPicker;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
+import com.pacifyr.client.adapter.ListFileAdapter;
+
+import com.pacifyr.client.model.ModelPacifyrDocuments;
 import com.pacifyrapp.utilitylibrary.CustomEditText;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.pacifyrapp.utilitylibrary.ToastHandler;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.Certification;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.Education;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MRoleModel;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelUserProfile;
@@ -99,6 +107,7 @@ import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -204,6 +213,17 @@ public class RegisterActivity extends PacifyrActivity {
     private TextView upload_textView;
     private  TextView add_photo_textView;
     private  TextView terms_of_use,privacy_ctxv;
+
+    /** docs upload**/
+    private LinearLayout uploadDocLayout;
+    private EditText upload_docs_ctxv;
+    private EditText upload_docs_err;
+    private int FILE_REQUEST=9;
+    public static ArrayList<ModelPacifyrDocuments> documentFileList;
+    private RecyclerView file_list_rcv;
+    private RecyclerView.Adapter fileAdapter;
+    public ArrayList<Certification> certificationList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -230,12 +250,19 @@ public class RegisterActivity extends PacifyrActivity {
             privacy_ctxv = findViewById(R.id.privacy_ctxv);
 
 
+
             upload_layout = findViewById(R.id.upload_layout);
             upload_textView= findViewById(R.id.upload_textView);
             add_photo_textView = findViewById(R.id.add_photo_textView);
             terms_of_use_cbox_err = findViewById(R.id.terms_of_use_cbox_err);
             year_edt_err = findViewById(R.id.year_edt_err);
 
+
+            uploadDocLayout = findViewById(R.id.uploadDocLayout);
+            upload_docs_ctxv = findViewById(R.id.upload_docs_ctxv);
+            upload_docs_err = findViewById(R.id.upload_docs_err);
+            documentFileList = new ArrayList<ModelPacifyrDocuments>();
+            file_list_rcv = findViewById(R.id.file_list_rcv);
 
             context = RegisterActivity.this;
 
@@ -407,6 +434,20 @@ public class RegisterActivity extends PacifyrActivity {
             checkBox.setMovementMethod(LinkMovementMethod.getInstance());
             checkBox.setText(spanTxt, TextView.BufferType.SPANNABLE);
 
+            if (isValid(countryData) && countryData.getCountry().equals("India") || countryData.getCountry().equals("Wakanda"))
+            {
+                uploadDocLayout.setVisibility(View.VISIBLE);
+            }
+
+            upload_docs_ctxv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    upload_docs_err.setError(null);
+                    startActivityForResult(new Intent(context, UploadActivity.class), FILE_REQUEST);
+
+                }
+            });
             setClicks();
 
 
@@ -570,8 +611,15 @@ public class RegisterActivity extends PacifyrActivity {
                     upload_textView.setText("Edit photo");
                     upload_textView.setVisibility(View.VISIBLE);
                     add_photo_textView.setVisibility(View.GONE);
-                    // if(bp != null) postEventOnMainThread(new ImageChoosenEvent(bp));
-                    //else ToastHandler.newInstance(this).mustShowToast("Please Try Again");
+
+                }
+                else if (requestCode == FILE_REQUEST) {
+                    if (resultCode == RESULT_OK) {
+                        //documentFileList = data.getParcelableArrayListExtra("documentFileList");
+                        if (isValid(documentFileList)) {
+                            setFileAdapter();
+                        }
+                    }
                 }
             }
 
@@ -746,7 +794,9 @@ public class RegisterActivity extends PacifyrActivity {
     }
 
     private void validRegister() {
+
         try{
+
             PostRegisterModel postRegisterModel=new PostRegisterModel();
             if(!isFacebook) {
                 if (!isValidName(nameEdt, "Please enter name"))
@@ -800,7 +850,34 @@ public class RegisterActivity extends PacifyrActivity {
             postRegisterModel.setCountry(countryData.getCountry());
             postRegisterModel.setDateOfBirth("01-Jan-"+yearEdit.getText().toString());
             postRegisterModel.setPhoneNumber(phoneRegister);
+
+            if(uploadDocLayout.getVisibility()==View.VISIBLE&&
+                    isValidFileDocuments(documentFileList,"Select your documents")) {
+
+                if (isValidSize(documentFileList))
+                {
+
+                    List<Object> list=new ArrayList<>();
+                    certificationList=new ArrayList<>();
+                    for (int i=0;i<documentFileList.size();i++)
+                    {
+                        if (documentFileList.get(i).isUploaded())
+                            list.add(documentFileList.get(i).getFileName());
+
+                    }
+                    Certification certification=new Certification();
+                    certification.setDocuments(list);
+                    certificationList.add(certification);
+                }
+                postRegisterModel.setCertification(certificationList);
+            }
+
+
             // postRegisterModel.
+            Gson gson = new Gson();
+            // gson .setExclusionStrategies(new TestExclStrat())
+            String json = gson.toJson(postRegisterModel);
+            Log.w("@@@",String.valueOf(json));
             registerWeb(postRegisterModel);
 
         }catch (Exception e)
@@ -1437,61 +1514,35 @@ public class RegisterActivity extends PacifyrActivity {
         });
     }
 
-/*    private void quickbloxLogin() {
-        try {
 
-            QBSettings.getInstance().init(RegisterActivity.this, APP_ID, AUTH_KEY, AUTH_SECRET);
-            QBSettings.getInstance().setAccountKey(ACCOUNT_KEY);
-            //create a quickblox application session
-            QBAuth.createSession(new QBEntityCallbackImpl<QBSession>() {
-                @Override
-                public void onSuccess(QBSession session, Bundle params) {
-                    // success
-                  *//*  Toast.makeText(RegisterActivity.this, "AppChatNotUSe session created!",
-                            Toast.LENGTH_LONG).show();*//*
-                    PrefManager prefM = PrefManager.getInstance(RegisterActivity.this);
-                    final String userid=appUserID;
-                    String emailID=prefM.getEmail();
-                    String fullName=prefM.getUserName();
-
-                    // Register new user
-                    final QBUser qbUser = new QBUser(userid, userid);
-                    qbUser.setEmail(emailID);
-                    qbUser.setFullName(fullName);
-
-                    QBUsers.signUp(qbUser, new QBEntityCallbackImpl<QBUser>() {
-                        @Override
-                        public void onSuccess(QBUser qbuser, Bundle args) {
-                            // success
-                           *//* Toast.makeText(RegisterActivity.this, "User signed up!",
-                                    Toast.LENGTH_LONG).show();*//*
-                            sharedpreferences = getSharedPreferences(mypreference, Context.
-                                    MODE_PRIVATE);
-                            qbID=qbuser.getId().toString();
-                            SharedPreferences.Editor editor = sharedpreferences.edit();
-                            getPrefManager(RegisterActivity.this).saveQBID(qbID);
-                            editor.commit();
-                            updateQBUserID();
-                         }
-
-                        @Override
-                        public void onError(QBResponseException responseException) {
-                            super.onError(responseException);
-                            responseException.printStackTrace();
-                            hideProgress();
-
-                        }
-                    });
-                }
-
-            });
+    private void setFileAdapter() {
+        if (documentFileList.size()>0) {
+            file_list_rcv.setVisibility(View.VISIBLE);
+            file_list_rcv.setLayoutManager(new GridLayoutManager(this, 5));
+            fileAdapter = new ListFileAdapter(documentFileList, context);
+            file_list_rcv.setAdapter(fileAdapter);
         }
-        catch (Exception exc)
-        {
-            exc.printStackTrace();
+    }
+
+    private boolean isValidFileDocuments(List object, String error) {
+
+        if(isValid(object))
+            return  true;
+        upload_docs_err.setError(error);
+        upload_docs_err.requestFocus();
+        return false;
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (isValidSize(documentFileList)){
+            for (int i = 0; i < documentFileList.size(); i++) {
+                if (!documentFileList.get(i).isUploaded())
+                    documentFileList.remove(i);
+            }
+            setFileAdapter();
         }
-
-    }*/
-
-
+    }
 }

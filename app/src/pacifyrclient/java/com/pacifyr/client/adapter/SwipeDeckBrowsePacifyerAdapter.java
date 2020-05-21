@@ -33,6 +33,7 @@ import com.pacifyr.client.home.ProfileScreenActivity;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.utils.LogUtils;
 import com.pacifyr.client.utils.Utility;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.Certification;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.ChatSubscription;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.Education;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
@@ -77,7 +78,7 @@ public class SwipeDeckBrowsePacifyerAdapter extends BaseAdapter {
     private PrefManager prefM;
 
     private ArrayList<String> myList=new ArrayList();
-    private ArrayList<ModelUserProfile.Certification> certificateList= new ArrayList<>();
+    private ArrayList<Certification> certificateList= new ArrayList<>();
     private ArrayList<ModelUserProfile.Education> educationsList= new ArrayList<>();
     private boolean isChatSubscriptionRequired;
     private int priceForChat;

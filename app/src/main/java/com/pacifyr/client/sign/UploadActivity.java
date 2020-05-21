@@ -1,52 +1,60 @@
 package com.pacifyr.client.sign;
 
+
+
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
-import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.provider.OpenableColumns;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
-
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.pacifyr.client.base.PacifyrActivity;
-import com.pacifyr.client.customview.MainTextView;
-import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
+import com.google.gson.JsonObject;
+import com.kbeanie.multipicker.api.CameraImagePicker;
+import com.kbeanie.multipicker.api.ImagePicker;
+import com.kbeanie.multipicker.api.Picker;
+import com.kbeanie.multipicker.api.callbacks.ImagePickerCallback;
+import com.kbeanie.multipicker.api.entity.ChosenImage;
 import com.pacifyr.client.R;
 import com.pacifyr.client.adapter.FileChooserAdapter;
+import com.pacifyr.client.base.PacifyrActivity;
+import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.model.ModelPacifyrDocuments;
 import com.pacifyr.client.model.interfaces.AddFileClickListner;
-import com.pacifyr.client.utils.LogUtils;
-
-import java.io.ByteArrayOutputStream;
+import com.pacifyr.client.network.ApiClient;
+import com.pacifyr.client.retrofit.TestApiService;
+import com.pacifyr.client.utils.Utility;
+import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
+import org.json.JSONObject;
 import java.io.File;
-import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import okhttp3.MultipartBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import static com.pacifyr.client.sign.RegisterActivity.documentFileList;
 
-import static com.pacifyr.client.sign.PacifyrRequestAccessActivity.documentFileList;
-
-public class UploadActivity extends PacifyrActivity implements AddFileClickListner {
+public class UploadActivity extends PacifyrActivity implements AddFileClickListner, ImagePickerCallback {
 
     private Context context;
     private Bitmap imageBitmap;
@@ -54,22 +62,29 @@ public class UploadActivity extends PacifyrActivity implements AddFileClickListn
     private FileChooserAdapter fileChooserAdapter;
     private RecyclerView.LayoutManager layoutManager;
     private AddFileClickListner listner;
-    public   ModelPacifyrDocuments pacifyrDocuments;
+    public ModelPacifyrDocuments pacifyrDocuments;
     public ArrayList<Uri> uriArrayList;
     private String dir;
     private String cameraPhotoPath;
+
+
+    private CameraImagePicker imagePicker;
+    private ImagePicker galImagePicker;
+    private android.app.AlertDialog choosePicker;
+    private String outputPath;
+
+    int uPloadingCount=0;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload);
         onSetActionBar();
-        //documentsArrayList = documentFileList;
         uriArrayList = new ArrayList<Uri>();
         context = UploadActivity.this;
         Intent i = getIntent();
-        /*if(isValid(this.getIntent().getParcelableArrayListExtra("FILE_LIST")))
-            documentsArrayList = i.getParcelableArrayListExtra("FILE_LIST");*/
 
         filesRcv = findViewById(R.id.files_rcv);
         listner = this;
@@ -85,39 +100,92 @@ public class UploadActivity extends PacifyrActivity implements AddFileClickListn
 
     public int SELECT_PDF_FILE=21, SELECT_IMAGE_GALLERY =31,SELECT_IMAGE_CAMERA = 11;
 
+    public static void copyStream(InputStream in, OutputStream out) throws IOException {
+        byte[] buffer = new byte[1024];
+        int read;
+        while ((read = in.read(buffer)) != -1) {
+            out.write(buffer, 0, read);
+        }
+    }
+
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+
+        // Save a file: path for use with ACTION_VIEW intents
+        cameraPhotoPath = image.getAbsolutePath();
+        return image;
+    }
+
+
+    private void setAdapter() {
+
+
+
+        filesRcv.setLayoutManager(new GridLayoutManager(this, 5));
+            fileChooserAdapter = new FileChooserAdapter(this, documentFileList, listner);
+            //fileChooserAdapter.setClickListener(this);
+            filesRcv.setAdapter(fileChooserAdapter);
+
+
+
+    }
+
+
+
     private void selectImage() {
+
         try {
             PackageManager pm = getPackageManager();
             int hasCamPerm = pm.checkPermission(Manifest.permission.CAMERA, getPackageName());
             int hasFilePerm = pm.checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE, getPackageName());
             if (hasCamPerm == PackageManager.PERMISSION_GRANTED) {
                 if(hasFilePerm == PackageManager.PERMISSION_GRANTED) {
-                    final CharSequence[] options = {"Select PDF", "Take Photo", "Choose From Gallery", "Cancel"};
-                    androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(context);
-                    builder.setTitle("Choose File");
+                    final CharSequence[] options = {"Select PDF", "Take photo", "Choose from gallery"};
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setTitle("Choose file");
                     builder.setItems(options, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int item) {
                             if (options[item].equals("Select PDF")) {
                                 dialog.dismiss();
                                 Intent intent = new Intent();
-                                intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
+                                intent.setAction(Intent.ACTION_GET_CONTENT);
                                 intent.addCategory(Intent.CATEGORY_OPENABLE);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                                 intent.setType("application/pdf");
                                 startActivityForResult(intent, SELECT_PDF_FILE);
-                            } else if (options[item].equals("Take Photo")) {
+                            } else if (options[item].equals("Take photo")) {
                                 //dispatchTakePictureIntent();
                                 //capturarFoto();
-                                dispatchTakePictureIntent();
+                                // dispatchTakePictureIntent();
                                /* Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                                 startActivityForResult(intent, SELECT_IMAGE_CAMERA);*/
-                            } else if (options[item].equals("Choose From Gallery")) {
-                                dialog.dismiss();
-                                Intent pickPhoto = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                                startActivityForResult(pickPhoto, SELECT_IMAGE_GALLERY);
-                            } else if (options[item].equals("Cancel")) {
-                                dialog.dismiss();
+
+
+                                boolean checkPermission = Utility.checkPermission(UploadActivity.this, "camera");
+                                if(checkPermission) {
+                                    imagePicker = new CameraImagePicker(UploadActivity.this);
+                                    imagePicker.shouldGenerateThumbnails(true);
+                                    imagePicker.setImagePickerCallback(UploadActivity.this);
+                                    outputPath = imagePicker.pickImage();
+                                }
+
+                            } else if (options[item].equals("Choose from gallery")) {
+                                boolean checkPermission = Utility.checkPermission(UploadActivity.this, "gallery");
+                                if(checkPermission) {
+                                    galImagePicker = new ImagePicker(UploadActivity.this);
+                                    galImagePicker.shouldGenerateThumbnails(true);
+                                    galImagePicker.setImagePickerCallback(UploadActivity.this);
+                                    galImagePicker.pickImage();
+                                }
                             }
                         }
                     });
@@ -142,139 +210,44 @@ public class UploadActivity extends PacifyrActivity implements AddFileClickListn
         }
     }
 
-    private void dispatchTakePictureIntent() {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        // Ensure that there's a camera activity to handle the intent
-        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            // Create the File where the photo should go
-            File photoFile = null;
-            try {
-                photoFile = createImageFile();
-            } catch (IOException ex) {
-                // Error occurred while creating the File
-                Toast.makeText(context,ex.getMessage(),Toast.LENGTH_LONG).show();
-            }
-            // Continue only if the File was successfully created
-            if (photoFile != null) {
-                Uri photoURI = FileProvider.getUriForFile(this,
-                        "com.pacifyr.pacifyrapp.android.fileprovider",
-                        photoFile);
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                startActivityForResult(takePictureIntent, SELECT_IMAGE_CAMERA);
-            }
-        }
-    }
-
-    private File createImageFile() throws IOException {
-        // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + "_";
-        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
-                imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
-                storageDir      /* directory */
-        );
-
-        // Save a file: path for use with ACTION_VIEW intents
-        cameraPhotoPath = image.getAbsolutePath();
-        return image;
-    }
-
-
-
-    private void setAdapter() {
-
-            filesRcv.setLayoutManager(new GridLayoutManager(this, 5));
-            fileChooserAdapter = new FileChooserAdapter(this, documentFileList, listner);
-            //fileChooserAdapter.setClickListener(this);
-            filesRcv.setAdapter(fileChooserAdapter);
-
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         try {
-            LogUtils.LOGD("onActivityResult", "HA  rq " + requestCode);
+
             if (resultCode != 0) {
-                if(requestCode == SELECT_IMAGE_GALLERY) {
-                    pacifyrDocuments = new ModelPacifyrDocuments();
-                    onActivityProfileEditGallery(data);
-                } else if(requestCode == SELECT_IMAGE_CAMERA) {
-
-                    Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-                    File f = new File(cameraPhotoPath);
-                    Uri contentUri = Uri.fromFile(f);
-                    mediaScanIntent.setData(contentUri);
-                    this.sendBroadcast(mediaScanIntent);
-                    //uploadImage.setImageBitmap(getBitmapFromUri(contentUri));
-
-                    //Bundle extras = data.getExtras();
-                    //Bitmap imageBitmap = (Bitmap) extras.get("data");
-
-                    //////Imview.setImageBitmap(imageBitmap);
-                    // CALL THIS METHOD TO GET THE URI FROM THE BITMAP
-                    //Uri selectedImage = data.getData();
-
-                    //Uri selectedImage = data.getData();
-                    //imageview.setImageURI(selectedImage);
-
-                    pacifyrDocuments = new ModelPacifyrDocuments();
-                    LogUtils.LOGD("SELECT_IMAGE_CAMERA","HA on camera");
-                    //Uri selectedImage = data.getData();
-                    uriArrayList.add(contentUri);
-                    String uriString = contentUri.getPath();
-                    File myFile = new File(uriString);
-                    String path = myFile.getAbsolutePath();
-                    String displayName = null;
-
-                    Bitmap imageBitmap= getBitmapFromUri(contentUri);
-
-                    pacifyrDocuments.setBitmap(imageBitmap);
-                    pacifyrDocuments.setCameraImage(true);
-                    pacifyrDocuments.setUri(contentUri);
-                    pacifyrDocuments.setFileName(displayName);
-                    pacifyrDocuments.setFileType("image");
-                    pacifyrDocuments.setFile(myFile);
-                    pacifyrDocuments.setFilePath(path);
-                    documentFileList.add(pacifyrDocuments);
 
 
-                    if(isValid(documentFileList)) {
-                        setAdapter();
+                if (requestCode == Picker.PICK_IMAGE_DEVICE) {
+                    if (galImagePicker == null) {
+                        galImagePicker = new ImagePicker(UploadActivity.this);
+                        galImagePicker.shouldGenerateThumbnails(true);
+                        galImagePicker.setImagePickerCallback(UploadActivity.this);
                     }
-                    // if(bp != null) postEventOnMainThread(new ImageChoosenEvent(bp));
-                    //else ToastHandler.newInstance(this).mustShowToast("Please Try Again");
-                } else if(requestCode == SELECT_PDF_FILE){
+                    galImagePicker.submit(data);
+                } else if (requestCode == Picker.PICK_IMAGE_CAMERA) {
+                    if (imagePicker == null) {
+                        imagePicker = new CameraImagePicker(UploadActivity.this);
+                        imagePicker.shouldGenerateThumbnails(true);
+                        imagePicker.reinitialize(outputPath);
+                        imagePicker.setImagePickerCallback(UploadActivity.this);
+                    }
+                    imagePicker.submit(data);
+                }
+                else if(requestCode == SELECT_PDF_FILE){
                     if (resultCode == Activity.RESULT_OK && data != null) {
                         pacifyrDocuments = new ModelPacifyrDocuments();
-
-                        /*final int takeFlags = data.getFlags()
-                                & (Intent.FLAG_GRANT_READ_URI_PERMISSION
-                                | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-                        // Check for the freshest data.*/
                         Uri uri = data.getData();
-
-
                         uriArrayList.add(uri);
                         String uriString = uri.toString();
-                        File myFile = new File(uriString);
-                        String path = myFile.getAbsolutePath();
+                        InputStream inputStream = getContentResolver().openInputStream(uri);
+                        File tempFile = File.createTempFile("temp", ".pdf");
+                        FileOutputStream outputStream = new FileOutputStream(tempFile);
+                        copyStream(inputStream, outputStream);
+                        outputStream.close();
+                        File myFile = tempFile;
+                        String path = tempFile.getPath();
                         String displayName = null;
 
-                       /* if (uriString.startsWith("content://")) {
-                            Cursor cursor = null;
-                            try {
-                                cursor = getContentResolver().query(uri, null, null, null, null);
-                                if (cursor != null && cursor.moveToFirst()) {
-                                    displayName = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
-                                }
-                            } finally {
-                                cursor.close();
-                            }
-                        } else if (uriString.startsWith("file://")) {
-                            displayName = myFile.getName();
-                        }*/
 
                         pacifyrDocuments.setBitmap(imageBitmap);
                         pacifyrDocuments.setUri(uri);
@@ -284,6 +257,7 @@ public class UploadActivity extends PacifyrActivity implements AddFileClickListn
                         pacifyrDocuments.setFile(myFile);
                         pacifyrDocuments.setFilePath(path);
                         documentFileList.add(pacifyrDocuments);
+
                         setAdapter();
                     }
 
@@ -296,140 +270,6 @@ public class UploadActivity extends PacifyrActivity implements AddFileClickListn
         }
     }
 
-
-    public Uri getImageUri(Context inContext, Bitmap inImage) {
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
-        return Uri.parse(path);
-    }
-
-    public String getRealPathFromURI(Uri uri) {
-        Cursor cursor = getContentResolver().query(uri, null, null, null, null);
-        cursor.moveToFirst();
-        int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
-        return cursor.getString(idx);
-    }
-
-    public void  onActivityProfileEditGallery(Intent data)
-    {
-        try{
-
-            Uri selectedImage = data.getData();
-            uriArrayList.add(selectedImage);
-            String uriString = selectedImage.toString();
-            File myFile = new File(uriString);
-            String path = myFile.getAbsolutePath();
-            String displayName = null;
-
-            if (uriString.startsWith("content://")) {
-                Cursor cursor = null;
-                try {
-                    cursor = getContentResolver().query(selectedImage, null, null, null, null);
-                    if (cursor != null && cursor.moveToFirst()) {
-                        displayName = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
-                    }
-                } finally {
-                    cursor.close();
-                }
-            } else if (uriString.startsWith("file://")) {
-                displayName = myFile.getName();
-            }
-
-
-            imageBitmap= getBitmapGalleryExifCode(data);
-
-            pacifyrDocuments.setBitmap(imageBitmap);
-            pacifyrDocuments.setUri(selectedImage);
-            pacifyrDocuments.setFileName(displayName);
-            pacifyrDocuments.setFileType("image");
-            pacifyrDocuments.setFile(myFile);
-            pacifyrDocuments.setFilePath(path);
-            documentFileList.add(pacifyrDocuments);
-
-            if(isValid(imageBitmap,"")) {
-                setAdapter();
-                // Bitmap rotateImage = getCroppedBitmap(image);
-                //    postEventOnMainThread(new ImageChoosenEvent(rotateImage));
-            }
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-            LogUtils.LOGD("Exception editgal"," HA onActivityProfileEditGallery "+e.getMessage());
-            com.pacifyr.client.utils.ToastHandler.newInstance(this).mustShowToast("Please Try Again ");
-            //ToastHandler.newInstance(this).showToast("Exception "+e.getMessage());
-        }
-    }
-
-    private Bitmap getBitmapGalleryExifCode(Intent data)
-    {
-        Bitmap bitmap=null;
-        try {
-
-            Log.e("photo from gallery", "-------------------------------");
-
-            Uri selectedImage = data.getData();
-
-            String[] filePathColumn = {MediaStore.Images.Media.DATA};
-            Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
-            cursor.moveToFirst();
-            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-            String picturePath = cursor.getString(columnIndex);
-            cursor.close();
-            System.out.println(picturePath);
-
-            File destination = new File(picturePath);
-
-
-            FileInputStream in = null;
-            try {
-                in = new FileInputStream(destination);
-            } catch (Exception e)
-            {
-                //Crashlytics.logException(e);
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            //  options.iToastHandler.newInstance(this).mustShowToast(" getImageBitmap  "+e.getMessage());nSampleSize = RegisterPage3.calculateInSampleSize(options, 100, 100);
-            options.inSampleSize = 2;
-            Bitmap userImage = BitmapFactory.decodeStream(in, null, options);
-
-            ExifInterface exif = null;
-            try {
-                exif = new ExifInterface(picturePath);
-            } catch (Exception e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
-            }     //Since API Level 5
-            String exifOrientation = exif.getAttribute(ExifInterface.TAG_ORIENTATION);
-            System.out.println(exifOrientation);
-
-            if (Integer.parseInt(exifOrientation) == 6) {
-                Matrix matrix = new Matrix();
-
-                matrix.postRotate(90);
-
-                userImage = Bitmap.createBitmap(userImage, 0, 0, userImage.getWidth(), userImage.getHeight(), matrix, true);
-            }
-            //takepicture.setImageBitmap(userImage);
-            /*photoPath = picturePath;
-            PhotoUploadActivity.mutableBitmap = userImage;
-            PhotoUploadActivity.ivPhoto.setImageBitmap(userImage);*/
-            // dismiss();
-            // new SavePhotoTask().execute(userImage);
-            bitmap=userImage;
-
-            //postEventOnMainThread(new ImageChoosenEvent(userImage));
-        } catch (Exception e){
-            //Crashlytics.logException(e);
-            e.printStackTrace();
-            com.pacifyr.client.utils.ToastHandler.newInstance(this).mustShowToast(" Please Try again ");
-            //ToastHandler.newInstance(this).showToast(" Please Try again "+e.getMessage());
-        }
-        return bitmap;
-    }
 
     private LinearLayout actionBarTopLlay;
     private RelativeLayout bottomPanel;
@@ -455,23 +295,242 @@ public class UploadActivity extends PacifyrActivity implements AddFileClickListn
         leftLlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                setResult(RESULT_CANCELED);
                 finish();
             }
         });
-        headerCtxv.setText("Upload Document");
+
+        headerCtxv.setText("Upload document");
+
         rightTxv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent output = new Intent();
-                //output.putParcelableArrayListExtra("documentFileList", uriArrayList);
-                setResult(RESULT_OK, output);
-                finish();
+
+                /**after selecting multiple documents Upload documents T server One by One **/
+
+                    if (isValidSize(documentFileList) && uPloadingCount<documentFileList.size()){
+                        UploadFilesToserver();
+                    }
+                    else if (uPloadingCount<=documentFileList.size()){
+                        Toast.makeText(context, "Please select a valid file to upload", Toast.LENGTH_SHORT).show(); hideProgress();}
+                    else{
+                        Toast.makeText(context, "No Files Selected.", Toast.LENGTH_SHORT).show();}
+
             }
         });
+    }
+
+    private void UploadFilesToserver() {
+         UploadDocuments();
+    }
+
+
+    private void UploadDocuments() {
+        if (uPloadingCount>=documentFileList.size())
+        {
+            finish();
+        }
+        else  {
+            if (documentFileList.get(uPloadingCount).isUploaded()){
+                uPloadingCount++;
+                UploadFilesToserver();
+            }
+            else
+            {
+                try {
+
+
+                    MultipartBody.Part profileImagePart = null;
+
+                    //for document file
+                    okhttp3.RequestBody mUploadFile= null;
+                    okhttp3.RequestBody mFileFormat = null;
+
+                    okhttp3.RequestBody mProfileImageUploadFile= null;
+                    okhttp3.RequestBody mProfileImageFormat = null;
+
+                    MultipartBody.Part[] documentParts =null;
+                    MultipartBody.Part postFilePart =null;
+                    File file = null;
+
+                    if (isValidSize(documentFileList)&&uPloadingCount<documentFileList.size() )
+                    {
+                        setLoading("Uploading File : " + (uPloadingCount + 1));
+                        showProgress();
+                        documentParts = new MultipartBody.Part[documentFileList.size()];
+
+                        Uri uri;
+                        ModelPacifyrDocuments document = documentFileList.get(uPloadingCount);
+                        file=document.getFile();
+                        if (isValid(file))
+                        {
+                            if (document.getFileType().equals("image")) {
+
+                                mUploadFile = okhttp3.RequestBody.create(okhttp3.MediaType.parse("image/*"), file);
+                                mFileFormat = okhttp3.RequestBody.create(okhttp3.MediaType.parse("text/plain"),  "jpeg");
+
+                            } else if (document.getFileType().equals("pdf")){
+
+                                mUploadFile = okhttp3.RequestBody.create(okhttp3.MediaType.parse("pdf"), file);
+                                mFileFormat = okhttp3.RequestBody.create(okhttp3.MediaType.parse("text/plain"),  "pdf");
+                            }
+
+                        }
+                        else
+                        {
+                            if (isValid(document.getFileName()))
+                            {
+                                uPloadingCount++;
+                                UploadFilesToserver();
+                            }
+                        }
+
+                    }
+                    else
+                    {
+                        Toast.makeText(context, "Files uploaded.", Toast.LENGTH_SHORT).show();
+                        setResult(RESULT_OK);
+                        finish();
+                        return;
+                    }
+
+
+                    final TestApiService webServicesAPI = ApiClient.getClient().create(TestApiService.class);
+                    Call<JsonObject> surveyResponse = null;
+
+                    /** if Updating Profile Image Or files Call this**/
+                    if (isValid(mUploadFile) && isValid(mFileFormat)) {
+                        surveyResponse = webServicesAPI.editProfileWithDocuments(mUploadFile, mFileFormat, getAccessToken());
+                        surveyResponse.enqueue(new Callback<JsonObject>() {
+                            @Override
+                            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                                try {
+                                    hideProgress();
+                                    JsonObject responceObject = response.body();
+                                    if(isValid(responceObject)) {
+                                        final JSONObject jsonObject = new JSONObject(responceObject.toString());
+                                        if (jsonObject.has("fileName"))
+                                        {
+                                            String filename= String.valueOf(jsonObject.get("fileName"));
+
+                                            if (isValid(filename))
+                                            {
+                                                documentFileList.get(uPloadingCount).setFileName(filename);
+                                                documentFileList.get(uPloadingCount).setFileName(filename);
+                                                documentFileList.get(uPloadingCount).setUploaded(true);
+
+                                               /* else
+                                                {
+                                                    if (!isValid(AccountEditActivity.UploadedFileNames))
+                                                        AccountEditActivity.UploadedFileNames=new ArrayList<>();
+
+
+                                                    AccountEditActivity.UploadedFileNames.add(filename);
+                                                }*/
+
+                                                uPloadingCount++;
+                                                if (uPloadingCount<documentFileList.size())
+                                                {
+
+                                                    UploadFilesToserver();
+                                                }
+                                                else
+                                                {
+                                                    Toast.makeText( getApplicationContext(), "All files Uploaded.", Toast.LENGTH_SHORT).show();
+                                                    setResult(RESULT_OK);
+                                                    finish();
+                                                }
+
+                                            }
+
+                                        }
+
+                                    } else {
+                                        Toast.makeText(UploadActivity.this, "please try again  ", Toast.LENGTH_SHORT);
+
+                                    }
+
+
+                                }
+                                catch (Exception e){
+                                    e.printStackTrace();
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<JsonObject> call, Throwable throwable) {
+                                hideProgress();
+                                Toast.makeText(getApplicationContext(),throwable.getMessage(),Toast.LENGTH_LONG).show();
+
+                            }
+                        });
+
+                    }
+
+
+
+                } catch (Exception e) {
+                    hideProgress();
+                    e.printStackTrace();
+                    Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_LONG).show();
+                }
+
+            }
+
+
+        }
+
+
     }
 
     @Override
     public void onClick(View view, int position) {
         selectImage();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putString("picker_path", outputPath);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        if (savedInstanceState.containsKey("picker_path")) {
+            outputPath = savedInstanceState.getString("picker_path");
+        }
+    }
+
+
+
+    @Override
+    public void onImagesChosen(List<ChosenImage> list) {
+
+
+        try {
+            pacifyrDocuments = new ModelPacifyrDocuments();
+
+            Uri contentUri = Uri.parse(list.get(0).getQueryUri());
+            uriArrayList.add(contentUri);
+            pacifyrDocuments.setUri(contentUri);
+            pacifyrDocuments.setFileType("image");
+            File newFile=new File(list.get(0).getOriginalPath());
+            pacifyrDocuments.setFile(newFile);
+            documentFileList.add(pacifyrDocuments);
+
+            setAdapter();
+
+        }catch (Exception e)
+        {
+            Toast.makeText(context, String.valueOf(e), Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    @Override
+    public void onError(String s) {
+        Toast.makeText(context, String.valueOf(s), Toast.LENGTH_SHORT).show();
+
     }
 }

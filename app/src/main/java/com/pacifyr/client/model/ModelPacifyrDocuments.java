@@ -21,6 +21,15 @@ public class ModelPacifyrDocuments  implements Parcelable{
     private Bitmap bitmap;
     private Uri uri;
     private File file;
+    private boolean isUploaded;
+
+    public boolean isUploaded() {
+        return isUploaded;
+    }
+
+    public void setUploaded(boolean uploaded) {
+        isUploaded = uploaded;
+    }
 
     public ModelPacifyrDocuments(){
     }
