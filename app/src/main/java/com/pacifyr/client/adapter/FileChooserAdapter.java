@@ -148,7 +148,7 @@ public class FileChooserAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @Override
     public int getItemCount() {
-        return list.size()+1;
+        return 1;
     }
 
 

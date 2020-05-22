@@ -53,6 +53,7 @@
     <string name="certificates">Certificates</string>
     <string name="specialities">Specialities</string>
     <string name="upload_documents">Upload Documents</string>
+    <string name="upload_kyc_documents">Upload KYC Documents</string>
     <string name="document_upload_instruction">JPG, PNG or PDF format only maximum file size -5MB</string>
     <string name="request">Request</string>
     <string name="year">Year</string>

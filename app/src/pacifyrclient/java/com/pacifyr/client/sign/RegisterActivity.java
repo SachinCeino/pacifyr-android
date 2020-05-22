@@ -217,7 +217,6 @@ public class RegisterActivity extends PacifyrActivity {
     /** docs upload**/
     private LinearLayout uploadDocLayout;
     private EditText upload_docs_ctxv;
-    private EditText upload_docs_err;
     private int FILE_REQUEST=9;
     public static ArrayList<ModelPacifyrDocuments> documentFileList;
     private RecyclerView file_list_rcv;
@@ -260,7 +259,6 @@ public class RegisterActivity extends PacifyrActivity {
 
             uploadDocLayout = findViewById(R.id.uploadDocLayout);
             upload_docs_ctxv = findViewById(R.id.upload_docs_ctxv);
-            upload_docs_err = findViewById(R.id.upload_docs_err);
             documentFileList = new ArrayList<ModelPacifyrDocuments>();
             file_list_rcv = findViewById(R.id.file_list_rcv);
 
@@ -443,7 +441,7 @@ public class RegisterActivity extends PacifyrActivity {
                 @Override
                 public void onClick(View v) {
 
-                    upload_docs_err.setError(null);
+
                     startActivityForResult(new Intent(context, UploadActivity.class), FILE_REQUEST);
 
                 }
@@ -851,8 +849,7 @@ public class RegisterActivity extends PacifyrActivity {
             postRegisterModel.setDateOfBirth("01-Jan-"+yearEdit.getText().toString());
             postRegisterModel.setPhoneNumber(phoneRegister);
 
-            if(uploadDocLayout.getVisibility()==View.VISIBLE&&
-                    isValidFileDocuments(documentFileList,"Select your documents")) {
+            if(uploadDocLayout.getVisibility()==View.VISIBLE) {
 
                 if (isValidSize(documentFileList))
                 {
@@ -868,9 +865,16 @@ public class RegisterActivity extends PacifyrActivity {
                     Certification certification=new Certification();
                     certification.setDocuments(list);
                     certificationList.add(certification);
+                    postRegisterModel.setCertification(certificationList);
                 }
-                postRegisterModel.setCertification(certificationList);
+                else
+                {
+                    certificationList=new ArrayList<>();
+                    postRegisterModel.setCertification(certificationList);
+                }
+
             }
+
 
 
             // postRegisterModel.
@@ -1524,15 +1528,7 @@ public class RegisterActivity extends PacifyrActivity {
         }
     }
 
-    private boolean isValidFileDocuments(List object, String error) {
 
-        if(isValid(object))
-            return  true;
-        upload_docs_err.setError(error);
-        upload_docs_err.requestFocus();
-        return false;
-
-    }
 
     @Override
     protected void onResume() {

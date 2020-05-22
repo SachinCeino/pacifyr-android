@@ -100,7 +100,7 @@ public class AccountEditActivity extends PacifyrAppCompactActivity {
     /** docs upload**/
     private CardView uploadDocLayout;
     private EditText upload_docs_ctxv;
-    private EditText upload_docs_err;
+
     private int FILE_REQUEST=9;
     private RecyclerView file_list_rcv;
     private RecyclerView.Adapter fileAdapter;
@@ -127,7 +127,6 @@ public class AccountEditActivity extends PacifyrAppCompactActivity {
 
             uploadDocLayout = findViewById(R.id.uploadDocLayout);
             upload_docs_ctxv = findViewById(R.id.upload_docs_ctxv);
-            upload_docs_err = findViewById(R.id.upload_docs_err);
             documentFileList = new ArrayList<ModelPacifyrDocuments>();
             file_list_rcv = findViewById(R.id.file_list_rcv);
 
@@ -150,7 +149,7 @@ public class AccountEditActivity extends PacifyrAppCompactActivity {
                 @Override
                 public void onClick(View v) {
 
-                    upload_docs_err.setError(null);
+
                     startActivityForResult(new Intent(getApplicationContext(), UploadActivity.class), FILE_REQUEST);
 
                 }
@@ -655,6 +654,10 @@ public class AccountEditActivity extends PacifyrAppCompactActivity {
 
                         postRegisterModel.setCertification(mCertificate);
                     }
+                    else if (!isValidSize(documentFileList)&&!isValidSize(NetworkService.mCurrentUser.getCertificationList()))
+                    {
+                        postRegisterModel.setCertification(mCertificate);
+                    }
                     else
                     {
                         if (isValidSize(NetworkService.mCurrentUser.getCertificationList())) {
@@ -665,8 +668,9 @@ public class AccountEditActivity extends PacifyrAppCompactActivity {
                             InsuranceObject.setDocuments(list);
                             mCertificate.add(InsuranceObject);
                         }
+                        postRegisterModel.setCertification(mCertificate);
                     }
-                    postRegisterModel.setCertification(mCertificate);
+
                 }
 
 
@@ -684,15 +688,7 @@ public class AccountEditActivity extends PacifyrAppCompactActivity {
         }
     }
 
-    private boolean isValidFileDocuments(List object, String error) {
 
-        if(isValid(object))
-            return  true;
-        upload_docs_err.setError(error);
-        upload_docs_err.requestFocus();
-        return false;
-
-    }
 
     private void updateProfileWeb( PostRegisterModel postRegisterModel) {
         try {
