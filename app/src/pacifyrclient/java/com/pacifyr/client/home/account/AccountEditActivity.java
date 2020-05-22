@@ -28,29 +28,29 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.pacifyr.client.adapter.ListFileAdapter;
-import com.pacifyr.client.model.ModelPacifyrDocuments;
-import com.pacifyr.client.sign.UploadActivity;
-import com.pacifyrapp.utilitylibrary.CustomEditText;
-import com.pacifyr.client.customview.MainTextView;
-import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.Certification;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelUserProfile;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.post.PostRegisterModel;
-import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.koushikdutta.ion.Ion;
 import com.pacifyr.client.R;
+import com.pacifyr.client.adapter.ListFileAdapter;
+import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.AlertTypeEvent;
 import com.pacifyr.client.event.NotifyEvent;
+import com.pacifyr.client.model.ModelPacifyrDocuments;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
+import com.pacifyr.client.sign.UploadActivity;
 import com.pacifyr.client.utility.PacifyrAppCompactActivity;
 import com.pacifyr.client.utils.LogUtils;
 import com.pacifyr.client.utils.ToastHandler;
 import com.pacifyr.client.utils.Utility;
+import com.pacifyrapp.utilitylibrary.CustomEditText;
+import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.Certification;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelUserProfile;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.post.PostRegisterModel;
+import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
 import com.quickblox.core.QBEntityCallback;
 import com.quickblox.core.exception.QBResponseException;
 import com.quickblox.users.QBUsers;
@@ -75,8 +75,8 @@ import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
 import static com.pacifyr.client.sign.RegisterActivity.documentFileList;
+import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
 
 /**
  * Created by Mani-Ceino on 1/2/2018.
@@ -215,7 +215,7 @@ public class AccountEditActivity extends PacifyrAppCompactActivity {
         if (documentFileList.size()>0) {
             file_list_rcv.setVisibility(View.VISIBLE);
             file_list_rcv.setLayoutManager(new GridLayoutManager(this, 5));
-            fileAdapter = new ListFileAdapter(documentFileList, getApplicationContext());
+            fileAdapter = new ListFileAdapter(documentFileList, AccountEditActivity.this);
             file_list_rcv.setAdapter(fileAdapter);
         }
     }
@@ -642,7 +642,7 @@ public class AccountEditActivity extends PacifyrAppCompactActivity {
                             mCertificate=NetworkService.mCurrentUser.getCertificationList();
                             Certification InsuranceObject=new Certification();
                             if (isValid(mCertificate.get(0)))
-                                InsuranceObject= (Certification) mCertificate.get(0);
+                                InsuranceObject = mCertificate.get(0);
                             InsuranceObject.setDocuments(list);
                         }
                         else{
@@ -664,7 +664,7 @@ public class AccountEditActivity extends PacifyrAppCompactActivity {
                             mCertificate=NetworkService.mCurrentUser.getCertificationList();
                             Certification InsuranceObject=new Certification();
                             if (isValid(mCertificate.get(0)))
-                                InsuranceObject= (Certification) mCertificate.remove(0);
+                                InsuranceObject = mCertificate.remove(0);
                             InsuranceObject.setDocuments(list);
                             mCertificate.add(InsuranceObject);
                         }

@@ -2,8 +2,6 @@ package com.pacifyr.client.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,13 +16,18 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
-import com.pacifyr.client.activity.TermsOfUseActivity;
-import com.pacifyr.client.customview.MainTextView;
+import com.krishna.fileloader.FileLoader;
+import com.krishna.fileloader.listener.FileRequestListener;
+import com.krishna.fileloader.pojo.FileResponse;
+import com.krishna.fileloader.request.FileLoadRequest;
 import com.pacifyr.client.R;
+import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.model.ModelPacifyrDocuments;
 import com.pacifyr.client.quickblox.chat.ui.activity.AttachmentImageActivity;
-import com.pacifyr.client.sign.CrisisActivity;
+import com.pacifyr.client.utility.PacifyrAppCompactActivity;
+import com.pacifyr.client.utility.PdfViewer;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_IMAGE_URL;
@@ -108,10 +111,11 @@ public class ListFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     }
                     else if (fileList.get(position).getFileName()!=null&&fileList.get(position).getFileType().equals("pdf"))
                     {
-                        Intent i=new Intent(mContext, TermsOfUseActivity.class);
+                        /*Intent i=new Intent(mContext, TermsOfUseActivity.class);
                         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         i.putExtra("spurl",GLOBAL_IMAGE_URL+fileList.get(position).getFileName() );
-                        mContext.startActivity(i);
+                        mContext.startActivity(i);*/
+                        loadPDF(GLOBAL_IMAGE_URL + fileList.get(position).getFileName());
                     }
 
                 }
@@ -119,6 +123,36 @@ public class ListFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
 
 
+    }
+
+    private void loadPDF(String url) {
+        if (mContext instanceof PacifyrAppCompactActivity) {
+            ((PacifyrAppCompactActivity) mContext).setLoading("Loading...");
+            ((PacifyrAppCompactActivity) mContext).showProgress();
+        }
+        FileLoader.with(mContext)
+                .load(url, false) //2nd parameter is optioal, pass true to force load from network
+                .fromDirectory("Documents", FileLoader.DIR_CACHE)
+                .asFile(new FileRequestListener<File>() {
+                    @Override
+                    public void onLoad(FileLoadRequest request, FileResponse<File> response) {
+                        if (mContext instanceof PacifyrAppCompactActivity) {
+                            ((PacifyrAppCompactActivity) mContext).hideProgress();
+                        }
+                        File loadedFile = response.getBody();
+                        // do something with the file
+                        PdfViewer.pdf = loadedFile;
+                        Intent intent = new Intent(mContext, PdfViewer.class);
+                        mContext.startActivity(intent);
+                    }
+
+                    @Override
+                    public void onError(FileLoadRequest request, Throwable t) {
+                        if (mContext instanceof PacifyrAppCompactActivity) {
+                            ((PacifyrAppCompactActivity) mContext).hideProgress();
+                        }
+                    }
+                });
     }
 
     @Override

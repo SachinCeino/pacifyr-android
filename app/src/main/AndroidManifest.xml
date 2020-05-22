@@ -409,6 +409,10 @@
             android:name=".events.activity.MyInterviewsActvity"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".utility.PdfViewer"
+            android:screenOrientation="portrait" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.android.fileprovider"
