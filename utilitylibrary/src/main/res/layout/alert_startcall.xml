@@ -26,7 +26,8 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginStart="8dp"
             android:layout_centerVertical="true"
-            android:text="Connect to"
+            android:text="Connect to Provider"
+            android:textColor="@color/black"
             android:textSize="15sp"
             android:id="@+id/connectTo"
             android:layout_marginLeft="8dp" />
@@ -47,8 +48,7 @@
     <com.pacifyrapp.utilitylibrary.CustomFontTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="14sp"
-        android:textColor="@color/black"
+        android:textSize="13sp"
         android:layout_marginTop="3dp"
         android:id="@+id/pacifyr_call_intro"
         android:visibility="gone"
@@ -58,7 +58,12 @@
         ></com.pacifyrapp.utilitylibrary.CustomFontTextView>
 
 
-
+<View
+    android:layout_width="match_parent"
+    android:layout_height="1dp"
+    android:background="@color/grey"
+    android:layout_marginTop="3dp"
+    android:layout_marginBottom="3dp"></View>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

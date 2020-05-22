@@ -1165,26 +1165,32 @@ public class BaseAppCompactActivity extends CoreBaseActivity {
         CircleImageView imageDialogIcon = view.findViewById(com.pacifyrapp.utilitylibrary.R.id.image_dialog_icon);
         CustomFontTextView textDialogName = view.findViewById(com.pacifyrapp.utilitylibrary.R.id.text_dialog_name);
         CustomFontTextView textDialogLastMessage = view.findViewById(com.pacifyrapp.utilitylibrary.R.id.text_dialog_message);
-        CustomFontTextView connectTo = view.findViewById(com.pacifyrapp.utilitylibrary.R.id.connectTo);
+
         RelativeLayout saveRlay = view.findViewById(com.pacifyrapp.utilitylibrary.R.id.save_rlay);
         CustomFontTextView pacifyr_call_intro = view.findViewById(com.pacifyrapp.utilitylibrary.R.id.pacifyr_call_intro);
         if (getPrefManager().getCountry().equals("India")||
         getPrefManager().getCountry().equals("Wakanda"))
         {
             pacifyr_call_intro.setVisibility(View.VISIBLE);
-            connectTo.setVisibility(View.INVISIBLE);
             SpannableStringBuilder spanTxt = new SpannableStringBuilder(
-                    "*Steps to follow:*\n\n");
+                    Html.fromHtml("<font color=" + getResources().getColor(R.color.black) + "><b>" + "Steps to follow:" + "</b></font>"));
             spanTxt.append(
-                    "1. Please visit your Profile page and upload your KYC (PAN/Aadhaar/EPIC/DL).\n\n" +
-                    "2. Click on the *Start Call* button to connect to the provider.\n\n" +
-                    "3. Introduction by yourself and the provider.\n\n" +
-                    "4. The provider will initiate the payment process.  \n\n" +
-                    "5. You will be prompted to make the payment. \n\n" +
-                    "6. Click *Setup Payment* and pay using Paytm Wallet or UPI.\n\n" +
-                    "7. Click *OK* to confirm successful payment completion.\n\n" +
-                    "8. You will receive a ");
-            spanTxt.append(Html.fromHtml("<font color=" + getResources().getColor(R.color.red) + ">" + " \"Session Started\"" + "</font>"+" message."));
+                    "\n\n1. Please visit your Profile page and upload your KYC (PAN/Aadhaar/EPIC/DL).\n\n" +
+                    "2. Click on the ");
+            spanTxt.append(Html.fromHtml("<font color=" + getResources().getColor(R.color.black) + "><b>" + "Start Call" + "</b></font>"));
+            spanTxt.append(" button to connect to the provider.\n\n");
+            spanTxt.append("3. Introduction by yourself and the provider.\n\n");
+            spanTxt.append("4. The provider will initiate the payment process.\n\n");
+            spanTxt.append("5. You will be prompted to make the payment.\n\n");
+            spanTxt.append("6. Click ");
+            spanTxt.append(Html.fromHtml("<font color=" + getResources().getColor(R.color.black) + "><b>" + "Setup Payment" + "</b></font>"));
+            spanTxt.append(" and pay using Paytm Wallet or UPI.\n\n");
+            spanTxt.append("7. Click ");
+            spanTxt.append(Html.fromHtml("<font color=" + getResources().getColor(R.color.black) + "><b>" + "OK" + "</b></font>"));
+            spanTxt.append("to confirm successful payment completion.\n\n");
+            spanTxt.append("8. You will receive a ");
+            spanTxt.append(Html.fromHtml("<font color=" + getResources().getColor(R.color.red) + "><b>" + " Session Started" + "<b></font>"));
+            spanTxt.append(" message.");
             pacifyr_call_intro.setText(spanTxt, TextView.BufferType.SPANNABLE);
         }
         defSetText(textDialogName,pacifyer_obj.getFirstName()+""+pacifyer_obj.getLastName());
