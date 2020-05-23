@@ -86,8 +86,8 @@ public class FileChooserAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                                     public boolean onResourceReady(Bitmap resource, Uri model, Target<Bitmap> target, boolean isFromMemoryCache, boolean isFirstResource) {
                                         fHolder.fileImv.setImageBitmap(resource);
                                         documents.setBitmap(resource);
-                                        documents.setFile(Utility.saveFileInCache(context,
-                                                resource, "temp_profile_"+String.valueOf(position)+".jpg"));
+                                       /* documents.setFile(Utility.saveFileInCache(context,
+                                                resource, "temp_profile_"+String.valueOf(position)+".jpg"));*/
                                         return false;
                                     }
                                 })

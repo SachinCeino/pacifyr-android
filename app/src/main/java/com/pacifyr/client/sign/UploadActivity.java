@@ -13,6 +13,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -44,6 +45,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -362,10 +364,22 @@ public class UploadActivity extends PacifyrActivity implements AddFileClickListn
 
                         Uri uri;
                         ModelPacifyrDocuments document = documentFileList.get(uPloadingCount);
-                        file=document.getFile();
+                        file= document.getFile();
+
+
+
+
                         if (isValid(file))
                         {
                             if (document.getFileType().equals("image")) {
+
+                                try {
+                                    file= new File(URI.create(document.getUri().toString()));
+                                }
+                                catch(Exception e)
+                                {
+                                    file=new File(Utility.getAdvancedFilePath(getApplicationContext(),document.getUri()));
+                                }
 
                                 mUploadFile = okhttp3.RequestBody.create(okhttp3.MediaType.parse("image/*"), file);
                                 mFileFormat = okhttp3.RequestBody.create(okhttp3.MediaType.parse("text/plain"),  "jpeg");
@@ -534,4 +548,20 @@ public class UploadActivity extends PacifyrActivity implements AddFileClickListn
         Toast.makeText(context, String.valueOf(s), Toast.LENGTH_SHORT).show();
 
     }
+
+  /* public File persistImage(Bitmap bitmap, String name) {
+        File filesDir = getApplicationContext().getFilesDir();
+        File imageFile = new File(filesDir, name + ".jpg");
+
+        OutputStream os;
+        try {
+            os = new FileOutputStream(imageFile);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, os);
+            os.flush();
+            os.close();
+        } catch (Exception e) {
+            Log.e(getClass().getSimpleName(), "Error writing bitmap", e);
+        }
+        return imageFile;
+    }*/
 }

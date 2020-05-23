@@ -70,7 +70,7 @@ public class ListFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                                 @Override
                                 public boolean onException(Exception e, String model,
                                                            Target<GlideDrawable> target, boolean isFirstResource) {
-                                    e.printStackTrace();
+                                   // e.printStackTrace();
                                     return false;
                                 }
 
