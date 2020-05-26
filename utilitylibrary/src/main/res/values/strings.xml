@@ -367,4 +367,6 @@
     <string name="opening_salary">Starting Salary</string>
     <string name="number_of_opening">Number of opening</string>
 
+    <string name="main_font_medium">Avenir-Medium.ttf</string>
+
 </resources>
