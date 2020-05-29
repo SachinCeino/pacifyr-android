@@ -1172,24 +1172,22 @@ public class BaseAppCompactActivity extends CoreBaseActivity {
         getPrefManager().getCountry().equals("Wakanda"))
         {
             pacifyr_call_intro.setVisibility(View.VISIBLE);
-            SpannableStringBuilder spanTxt = new SpannableStringBuilder(
-                    Html.fromHtml("<font color=" + getResources().getColor(R.color.black) + "><b>" + "Steps to follow:" + "</b></font>"));
-            spanTxt.append(
-                    "\n\n1. Please visit your Profile page and upload your KYC (PAN/Aadhaar/EPIC/DL).\n\n" +
-                    "2. Click on the ");
+            SpannableStringBuilder spanTxt = new SpannableStringBuilder("Please visit your Profile page and upload your KYC (PAN/Aadhaar/EPIC/DL) document if you have not done so.\n\n");
+            spanTxt.append(Html.fromHtml("<font color=" + getResources().getColor(R.color.black) + "><b>" + "Steps to follow:" + "</b></font>"));
+            spanTxt.append("\n\n1. Click on the ");
             spanTxt.append(Html.fromHtml("<font color=" + getResources().getColor(R.color.black) + "><b>" + "Start Call" + "</b></font>"));
-            spanTxt.append(" button to connect to the provider.\n\n");
-            spanTxt.append("3. Introduction by yourself and the provider.\n\n");
-            spanTxt.append("4. The provider will initiate the payment process.\n\n");
-            spanTxt.append("5. You will be prompted to make the payment.\n\n");
-            spanTxt.append("6. Click ");
+            spanTxt.append(" button to connect to the provider.\n");
+            spanTxt.append("2. Introduction by yourself and the provider.\n");
+            spanTxt.append("3. The provider will initiate the payment process.\n");
+            spanTxt.append("4. You will be prompted to make the payment.\n");
+            spanTxt.append("5. Click ");
             spanTxt.append(Html.fromHtml("<font color=" + getResources().getColor(R.color.black) + "><b>" + "Setup Payment" + "</b></font>"));
-            spanTxt.append(" and pay using Paytm Wallet or UPI.\n\n");
-            spanTxt.append("7. Click ");
-            spanTxt.append(Html.fromHtml("<font color=" + getResources().getColor(R.color.black) + "><b>" + "OK" + "</b></font>"));
-            spanTxt.append("to confirm successful payment completion.\n\n");
-            spanTxt.append("8. You will receive a ");
-            spanTxt.append(Html.fromHtml("<font color=" + getResources().getColor(R.color.red) + "><b>" + " Session Started" + "<b></font>"));
+            spanTxt.append(" and pay using Paytm Wallet or UPI.\n");
+            spanTxt.append("6. Click ");
+            spanTxt.append(Html.fromHtml("<font color=" + getResources().getColor(R.color.black) + "><b>" + "OK " + "</b></font>"));
+            spanTxt.append("to confirm successful payment completion.\n");
+            spanTxt.append("7. You will receive a ");
+            spanTxt.append(Html.fromHtml("<font size=14 color=" + getResources().getColor(R.color.black) + "><b>" + " Session Started" + "<b></font>"));
             spanTxt.append(" message.");
             pacifyr_call_intro.setText(spanTxt, TextView.BufferType.SPANNABLE);
         }

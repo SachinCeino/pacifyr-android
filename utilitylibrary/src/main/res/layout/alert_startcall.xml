@@ -24,13 +24,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginStart="8dp"
             android:layout_centerVertical="true"
             android:text="Connect to Provider"
+            app:fontName="@string/main_font_medium"
             android:textColor="@color/black"
             android:textSize="15sp"
             android:id="@+id/connectTo"
-            android:layout_marginLeft="8dp" />
+             />
 
         <com.pacifyrapp.utilitylibrary.DeviceFitImageView
             android:layout_width="wrap_content"
@@ -48,11 +48,14 @@
     <com.pacifyrapp.utilitylibrary.CustomFontTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="13sp"
+        android:textSize="14sp"
         android:layout_marginTop="3dp"
         android:id="@+id/pacifyr_call_intro"
         android:visibility="gone"
+        app:fontName="@string/main_font_medium"
         android:gravity="left"
+        android:textColor="#646464"
+        android:textStyle="bold"
         android:layout_gravity="left"
         android:layout_marginBottom="3dp"
         ></com.pacifyrapp.utilitylibrary.CustomFontTextView>
@@ -83,7 +86,7 @@
             android:layout_gravity="center"
             android:padding="2dp"
             android:textSize="@dimen/sp14"
-            jp:fontName="@string/raleway_light"
+           app:fontName="@string/main_font_medium"
             android:text="Name" />
 
         <com.pacifyrapp.utilitylibrary.CustomFontTextView
@@ -94,6 +97,7 @@
             android:padding="2dp"
             android:text="Message"
             android:textSize="@dimen/sp14"
+            app:fontName="@string/main_font_medium"
             android:textColor="@color/black"
             android:textStyle="bold"
             />
@@ -125,6 +129,7 @@
             android:layout_centerHorizontal="true"
             android:id="@+id/save_ctxv"
             android:textSize="@dimen/sp15"
+            app:fontName="@string/main_font_medium"
             android:textColor="@color/colorPrimary" />
 
     </RelativeLayout>
