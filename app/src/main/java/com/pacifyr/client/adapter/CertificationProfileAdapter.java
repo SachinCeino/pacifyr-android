@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.pacifyr.client.customview.MainTextView;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.Certification;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelUserProfile;
 import com.pacifyr.client.R;
 
@@ -18,9 +19,9 @@ import java.util.ArrayList;
  */
     public class CertificationProfileAdapter extends RecyclerView.Adapter<CertificationProfileAdapter.CertificationViewHolder> {
 
-    ArrayList<ModelUserProfile.Certification> certList;
+    ArrayList<Certification> certList;
 
-    public CertificationProfileAdapter(ArrayList<ModelUserProfile.Certification> planetList, Context context) {
+    public CertificationProfileAdapter(ArrayList<Certification> planetList, Context context) {
         this.certList = planetList;
     }
 

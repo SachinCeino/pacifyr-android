@@ -7,8 +7,8 @@ android {
     buildToolsVersion "26.0.3"
     defaultConfig {
         applicationId "com.ceino.pacifyr.omhealthcare"
-        minSdkVersion 16
-        // minSdkVersion 21
+//        minSdkVersion 16
+         minSdkVersion 21
         targetSdkVersion 28
         versionCode 24
         versionName "1.4.2"
@@ -103,8 +103,8 @@ android {
         pacifyrclient {
             dimension "Pacifyr"
             applicationId "com.pacifyr.pacifyrapp"
-            versionName "1.88"
-            versionCode 67
+            versionName "1.92"
+            versionCode 71
         }
         leadersup {
             dimension "Pacifyr"
@@ -276,5 +276,7 @@ dependencies {
     implementation 'com.google.android.libraries.places:places:2.1.0'
     implementation 'com.google.android.exoplayer:exoplayer:2.11.3'
     implementation 'com.google.android:flexbox:2.0.1'
+    implementation 'com.github.kk121:File-Loader:1.2'
+    implementation "com.pdfview:pdfview-android:1.0.0"
 }
 apply plugin: 'com.google.gms.google-services'

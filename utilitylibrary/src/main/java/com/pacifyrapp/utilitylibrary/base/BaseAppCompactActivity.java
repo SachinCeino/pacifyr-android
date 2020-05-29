@@ -2,13 +2,18 @@ package com.pacifyrapp.utilitylibrary.base;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Html;
+import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +26,7 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 
 import com.androidquery.AQuery;
+import com.kaopiz.kprogresshud.KProgressHUD;
 import com.pacifyrapp.utilitylibrary.CustomEditText;
 import com.pacifyrapp.utilitylibrary.CustomFontTextView;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
@@ -28,8 +34,8 @@ import com.pacifyrapp.utilitylibrary.R;
 import com.pacifyrapp.utilitylibrary.ToastHandler;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
+import com.pacifyrapp.utilitylibrary.utils.BaseUtils;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
-import com.kaopiz.kprogresshud.KProgressHUD;
 import com.quickblox.sample.core.ui.activity.CoreBaseActivity;
 import com.squareup.picasso.Picasso;
 
@@ -1128,7 +1134,7 @@ public class BaseAppCompactActivity extends CoreBaseActivity {
 
             defSetText(textDialogName, title);
             String country=getPrefManager().getCountry();
-            defSetText(textDialogLastMessage, desc + " per hour");
+            defSetText(textDialogLastMessage, desc + " " + BaseUtils.getCostLabel(BaseAppCompactActivity.this));
 
             if (isValid(userimage))
                 Picasso.with(getApplicationContext()).load(userimage).placeholder(R.drawable.placeholder_user).into(imageDialogIcon);
@@ -1159,10 +1165,34 @@ public class BaseAppCompactActivity extends CoreBaseActivity {
         CircleImageView imageDialogIcon = view.findViewById(com.pacifyrapp.utilitylibrary.R.id.image_dialog_icon);
         CustomFontTextView textDialogName = view.findViewById(com.pacifyrapp.utilitylibrary.R.id.text_dialog_name);
         CustomFontTextView textDialogLastMessage = view.findViewById(com.pacifyrapp.utilitylibrary.R.id.text_dialog_message);
-        RelativeLayout saveRlay = view.findViewById(com.pacifyrapp.utilitylibrary.R.id.save_rlay);
 
+        RelativeLayout saveRlay = view.findViewById(com.pacifyrapp.utilitylibrary.R.id.save_rlay);
+        CustomFontTextView pacifyr_call_intro = view.findViewById(com.pacifyrapp.utilitylibrary.R.id.pacifyr_call_intro);
+        if (getPrefManager().getCountry().equals("India")||
+        getPrefManager().getCountry().equals("Wakanda"))
+        {
+            pacifyr_call_intro.setVisibility(View.VISIBLE);
+            SpannableStringBuilder spanTxt = new SpannableStringBuilder("Please visit your Profile page and upload your KYC (PAN/Aadhaar/EPIC/DL) document if you have not done so.\n\n");
+            spanTxt.append(Html.fromHtml("<font color=" + getResources().getColor(R.color.black) + "><b>" + "Steps to follow:" + "</b></font>"));
+            spanTxt.append("\n\n1. Click on the ");
+            spanTxt.append(Html.fromHtml("<font color=" + getResources().getColor(R.color.black) + "><b>" + "Start Call" + "</b></font>"));
+            spanTxt.append(" button to connect to the provider.\n");
+            spanTxt.append("2. Introduction by yourself and the provider.\n");
+            spanTxt.append("3. The provider will initiate the payment process.\n");
+            spanTxt.append("4. You will be prompted to make the payment.\n");
+            spanTxt.append("5. Click ");
+            spanTxt.append(Html.fromHtml("<font color=" + getResources().getColor(R.color.black) + "><b>" + "Setup Payment" + "</b></font>"));
+            spanTxt.append(" and pay using Paytm Wallet or UPI.\n");
+            spanTxt.append("6. Click ");
+            spanTxt.append(Html.fromHtml("<font color=" + getResources().getColor(R.color.black) + "><b>" + "OK " + "</b></font>"));
+            spanTxt.append("to confirm successful payment completion.\n");
+            spanTxt.append("7. You will receive a ");
+            spanTxt.append(Html.fromHtml("<font size=14 color=" + getResources().getColor(R.color.black) + "><b>" + " Session Started" + "<b></font>"));
+            spanTxt.append(" message.");
+            pacifyr_call_intro.setText(spanTxt, TextView.BufferType.SPANNABLE);
+        }
         defSetText(textDialogName,pacifyer_obj.getFirstName()+""+pacifyer_obj.getLastName());
-        defSetText(textDialogLastMessage, pacifyer_obj.getPriceWithSign()+" per hour");
+        defSetText(textDialogLastMessage, pacifyer_obj.getPriceWithSign() + " " + BaseUtils.getCostLabel(BaseAppCompactActivity.this));
 
         String userimage = UtilityNetworkService.GLOBAL_IMAGE_URL+pacifyer_obj.getImage();
 

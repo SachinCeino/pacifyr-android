@@ -1,6 +1,7 @@
 package com.pacifyrapp.utilitylibrary.model.pacifyr;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by ceino on 8/3/18.
@@ -54,6 +55,16 @@ public class Certification implements Serializable
     public void setUserId (String userId)
     {
         this.userId = userId;
+    }
+
+    private List<Object> documents = null;
+
+    public List<Object> getDocuments() {
+        return documents;
+    }
+
+    public void setDocuments(List<Object> documents) {
+        this.documents = documents;
     }
 
     @Override

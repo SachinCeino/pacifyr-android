@@ -460,7 +460,7 @@ public class SummaryDetailActivity   extends PacifyrAppCompactActivity {
                     if(isValid( mSessionDetailRoot.getPacifyr())) {
                         String pacName = mSessionDetailRoot.getPacifyr().getFirstName() + " " + mSessionDetailRoot.getPacifyr().getLastName();
                         pacifyrNameCtxv.setText(pacName);
-                        pacifyrRateCtxv.setText("$ " + mSessionDetailRoot.getPacifyr().getPrice() + " per hour");
+                        pacifyrRateCtxv.setText("$ " + mSessionDetailRoot.getPacifyr().getPrice() + " " + Utility.getCostLabel(SummaryDetailActivity.this));
                         String  imagePac =  mSessionDetailRoot.getPacifyr().getImageUrl();
                         if (isValid(imagePac))
                             Picasso.with(SummaryDetailActivity.this).load(imagePac).placeholder(R.drawable.placeholder_user).into(pacifyrImgCimv);

@@ -28,6 +28,7 @@ import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.utility.BaseFragment;
+import com.pacifyr.client.utils.Utility;
 import com.pacifyr.client.utils.WrappingSlidingPaneLayout;
 import com.pacifyrapp.utilitylibrary.CustomEditText;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
@@ -209,7 +210,7 @@ public class LastSessionFragment extends BaseFragment {
             }
             pacifyrNameCtxv.setText(pacName);
             sessionCostCtxv.setText(" $ " + lastSession.getSessionCost());
-            pacifyrRateCtxv.setText("$ " + lastSession.getPacifyr().getPrice()+" per hour");
+            pacifyrRateCtxv.setText("$ " + lastSession.getPacifyr().getPrice() + " " + Utility.getCostLabel(getActivity()));
             durationCtxv.setText(lastSession.getDuration());
             if (isValidhtml(imagePac))
                 Picasso.with(getContext()).load(imagePac).placeholder(R.drawable.placeholder_user).into(pacifyrImgCimv);

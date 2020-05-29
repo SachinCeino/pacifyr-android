@@ -100,6 +100,7 @@
 
     //Prfile
     <string name="per_hour"> per hour</string>
+    <string name="per_session"> per session</string>
 
     //HomeScreen Related
     <string name="dashboard">Dashboard</string>
@@ -365,5 +366,7 @@
     <string name="opening_count">No of open position</string>
     <string name="opening_salary">Starting Salary</string>
     <string name="number_of_opening">Number of opening</string>
+
+    <string name="main_font_medium">Avenir-Medium.ttf</string>
 
 </resources>

@@ -1,7 +1,10 @@
 package com.pacifyrapp.utilitylibrary.utils;
 
+import android.content.Context;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.pacifyrapp.utilitylibrary.R;
 
 import java.util.List;
 
@@ -37,55 +40,51 @@ public class BaseUtils {
     }
 
 
+    public static String getCostLabel(Context context) {
 
+        PrefManager prefM = PrefManager.getInstance(context);
+        String country = prefM.getCountry();
+        String label = context.getString(R.string.per_hour);
+        if (country.equals("India")) {
+            label = context.getResources().getString(R.string.per_session);
+        } else {
+            label = context.getResources().getString(R.string.per_hour);
+        }
+
+        return label + " ";
+    }
 
     public Boolean isValid(Object text)
     {
-        if(text!=null)
-
-            return  true;
-        return  false;
+        return text != null;
 
     }
 
     public Boolean isValid(int count)
     {
-        if(count>0)
-            return  true;
-        return  false;
+        return count > 0;
 
     }
+
     public Boolean isValid(String text)
     {
         if(text!=null)
-            if(!text.trim().equalsIgnoreCase(""))
-                return  true;
+            return !text.trim().equalsIgnoreCase("");
         return  false;
 
     }
+
     public Boolean isValid(List list)
     {
         if(list!=null)
-            if(list.size()>0)
-                return  true;
+            return list.size() > 0;
         return  false;
 
     }
 
-
-
-
     public Boolean isValidNotNull(List list) {
-        if(list != null)
-            // if(list.size()>0)
-            return true;
-        return false;
-
-    }
-
-    public Boolean isValidSize(List list) {
-        if(list != null) if(list.size() > 0) return true;
-        return false;
+        // if(list.size()>0)
+        return list != null;
 
     }
 
@@ -136,6 +135,11 @@ public class BaseUtils {
 
     }
 
+    public Boolean isValidSize(List list) {
+        if (list != null) return list.size() > 0;
+        return false;
+
+    }
 
 
 }

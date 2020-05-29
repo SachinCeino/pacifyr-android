@@ -2,6 +2,7 @@ package com.pacifyr.client.adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,12 +11,19 @@ import android.widget.RelativeLayout;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.R;
 import com.pacifyr.client.model.ModelPacifyrDocuments;
 import com.pacifyr.client.model.interfaces.AddFileClickListner;
+import com.pacifyr.client.utils.Utility;
 
 import java.util.ArrayList;
+
+import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_IMAGE_URL;
 
 /**
  * Created by ceino on 16/5/18.
@@ -26,13 +34,6 @@ public class FileChooserAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private Context context;
     private ArrayList<ModelPacifyrDocuments> list;
     private AddFileClickListner listner;
-
-   /* public FileChooserAdapter(Context context, ArrayList<Object> fileList, AddFileClickListner listner) {
-        this.list = fileList;
-        this.context = context;
-        this.listner=listner;
-    }*/
-
 
     public FileChooserAdapter(Context context, ArrayList<ModelPacifyrDocuments> documentFileList, AddFileClickListner listner) {
         this.list = documentFileList;
@@ -58,22 +59,73 @@ public class FileChooserAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
-
         if(holder!=null) {
             if (holder instanceof FileChoserHolder) {
                 FileChoserHolder fHolder = (FileChoserHolder) holder;
-                //final MSessionDetailRoot results=getItem(position);
-                //setViewholder(holder,results,position);
-                //loadingViewHolder.progressBar.setIndeterminate(true);
                 ModelPacifyrDocuments documents = list.get(position);
+
                 if (documents.getFileType().equals("image")) {
+
                     Bitmap bitmap = documents.getBitmap();
-                    fHolder.fileImv.setImageBitmap(bitmap);
+                    if (bitmap!=null)
+                        fHolder.fileImv.setImageBitmap(bitmap);
+                    else if (documents.getUri()!=null)
+                    {
+                        Glide.with(context)
+                                .load(documents.getUri())
+                                .asBitmap()
+                                .placeholder(context.getResources().getDrawable(R.drawable.placeholder_user))
+                                .listener(new RequestListener<Uri, Bitmap>() {
+                                    @Override
+                                    public boolean onException(Exception e, Uri model, Target<Bitmap> target, boolean isFirstResource) {
+
+                                        return false;
+                                    }
+
+                                    @Override
+                                    public boolean onResourceReady(Bitmap resource, Uri model, Target<Bitmap> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                                        fHolder.fileImv.setImageBitmap(resource);
+                                        documents.setBitmap(resource);
+                                       /* documents.setFile(Utility.saveFileInCache(context,
+                                                resource, "temp_profile_"+String.valueOf(position)+".jpg"));*/
+                                        return false;
+                                    }
+                                })
+                                .into(fHolder.fileImv);
+                    }
+                    else if (documents.getFileName()!=null)
+                    {
+                        Glide.with(context)
+                                .load(GLOBAL_IMAGE_URL+documents.getFileName()+"")
+                                .listener(new RequestListener<String, GlideDrawable>() {
+                                    @Override
+                                    public boolean onException(Exception e, String model,
+                                                               Target<GlideDrawable> target, boolean isFirstResource) {
+                                        //  e.printStackTrace();
+                                        return false;
+                                    }
+
+                                    @Override
+                                    public boolean onResourceReady(GlideDrawable resource, String model,
+                                                                   Target<GlideDrawable> target,
+                                                                   boolean isFromMemoryCache, boolean isFirstResource) {
+                                        return false;
+                                    }
+                                })
+                                .dontTransform()
+                                .into(fHolder.fileImv);
+
+                    }
+
+
                 }
+
                 fHolder.closeImv.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        list.remove(position);
+
+                        if (list.size()!=0)
+                            list.remove(position);
                         notifyDataSetChanged();
                     }
                 });
@@ -96,7 +148,7 @@ public class FileChooserAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @Override
     public int getItemCount() {
-        return list.size()+1;
+        return 1;
     }
 
 

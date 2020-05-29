@@ -64,7 +64,7 @@ public class UtilityNetworkService extends IntentService {
 
     public static final String termOfUsersUrl = "https://pacifyr.com/TermsUsers.html";
     public static final String PACKAGE_PAM = "com.pacifyr.pam";
-    public static boolean isRelease = false;
+    public static boolean isRelease = true;
     public static boolean isProd = true;
     public static String ACCOUNT_KEY = "";
     public static String ACCOUNT_ID = "";

@@ -732,14 +732,19 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
         if (!isShowDialogs()) {
             return;
         }
-        new iOSDialogBuilder(this)
-                .setTitle(title)
-                .setSubtitle(subTitle)
-                .setBoldPositiveLabel(false)
-                .setCancelable(false)
-                .setPositiveListener(okLabel, listener)
-                .setNegativeListener("Cancel", CancelListener)
-                .build().show();
+        try {
+            new iOSDialogBuilder(this)
+                    .setTitle(title)
+                    .setSubtitle(subTitle)
+                    .setBoldPositiveLabel(false)
+                    .setCancelable(false)
+                    .setPositiveListener(okLabel, listener)
+                    .setNegativeListener("Cancel", CancelListener)
+                    .build().show();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.e(TAG, "Cannot show Dialog " + e.getMessage());
+        }
     }
 
     public void showProgressDialog(@StringRes int messageId) {

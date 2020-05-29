@@ -110,7 +110,7 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
     private boolean employeeFlag;
     private SwipeDeck cardStack;
     public static String customerEmotion;
-    private boolean showAllFlag;
+    private boolean showAllFlag=false;
     private CategoryListAdapter categoryListAdapter;
     private boolean selfSelectCategory = false;
     private ImageView image_logo;
@@ -384,16 +384,16 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
             employeeFlag = true;
         }
 
+
         getShowallCbox().setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                showAllFlag = isChecked;
-
-                if (prefM.getCustomerRole().equals("employee")) {
-                    UpdateEpecialityCatogory();
+                if (isChecked) {
+                    showAllFlag = true;
                 } else {
-                    webSearchPacifyrWOptions(customerEmotion);
+                    showAllFlag = false;
                 }
+                UpdateSpecialityAdapter(showAllFlag);
             }
         });
 
@@ -440,11 +440,10 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
 
     }
 
-
-    private void UpdateEpecialityCatogory() {
+    public void UpdateSpecialityAdapter(boolean param_showAllFlag) {
 
         try {
-            String url = GLOBAL_URL + "specialities/byCategory?category=all&includeChargeablePacifyrs=" + showAllFlag;
+            String url = GLOBAL_URL + "specialities/byCategory?category=all&includeChargeablePacifyrs="+param_showAllFlag;
 
             AjaxCallback cb = new AjaxCallback<JSONObject>() {
                 @Override
@@ -455,25 +454,29 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
                         ModelSpecialityByCategory model = GsonUtils.getInstance().gsonToModelSpecialityByCategory(json);
                         ModelSpecialityByCategory.Results[] item = model.getResults();
 
-                        CategoryListAdapter categoryListAdapter = new CategoryListAdapter(item, getApplicationContext());
-                       /* String[] array = item[0].getCategory();
-                        webSearchPacifyrWOptions(array);*/
-                        imgRcv.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
-                        imgRcv.setAdapter(categoryListAdapter);
-                        categoryListAdapter.addListener(activity);
-                        categoryListAdapter.setSelected(0);
+                        if (item.length>0) {
+                            imgRcv.setVisibility(View.VISIBLE);
+                            CategoryListAdapter categoryListAdapter = new CategoryListAdapter(item, getApplicationContext());
+                            imgRcv.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
+                            imgRcv.setAdapter(categoryListAdapter);
+                            categoryListAdapter.addListener((ConnectToPacifyrActivity) activity);
+                            categoryListAdapter.setSelected(0);
+                        }
+                        else
+                        {
+                            if (noPacifyrCtxv != null) {
+                                noPacifyrCtxv.setVisibility(View.VISIBLE);
+                            }
+                            if ( cardStack!=null)
+                            {
+                                cardStack.setVisibility(View.GONE);
+                            }
+                            if (imgRcv!=null)
+                            {
+                                imgRcv.setVisibility(View.GONE);
+                            }
+                        }
 
-                    /* String imgURL = GLOBAL_IMAGE_URL + res[i].getImage();
-                    String title = res[i].getTitle();
-                    if (isValidhtml(imgURL))
-                        Picasso.with(context).load(imgURL).placeholder(R.drawable.placeholder_user).into(emotionDimv);*/
-
-
-                        //emotionDimv  = (ImageView) activity.findViewById(R.id.emotion_dimv);
-
-                        //modelAllEmployees= GsonUtils.getInstance().gsonToMListEmployees(json);
-                        //postEventOnMainThread(new NotifyEvent(true, false));
-                        //EventBus.getDefault().post(new EventMessage(getString(R.string.list_all_employees)));
                     } catch (Exception e) {
                         e.printStackTrace();
                         if (noPacifyrCtxv != null) {
@@ -490,9 +493,8 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
     }
+
     @Override
     protected void onRestart() {
         super.onRestart();
@@ -865,11 +867,12 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
 
     public void webSearchPacifyrWOptions(String emotion) {
         try {
-            hideProgress();
+            showProgress();
             AjaxCallback cb = new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, JSONObject json, AjaxStatus status) {
                     try {
+                        hideProgress();
                         pSearchPacifyrWOptionsResponse= GsonUtils.getInstance().gsonToRespSearchPacifyrWOption(json);
                         //searchResults=modelSearchPacifyr.getResultsList();
                         pSearchPacifyrWOptionsResponse.toString();
@@ -1033,49 +1036,7 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
 
     }
 
-    public void  showCategories(String category)
-    {
-        try {
-            String url = GLOBAL_URL + "specialities/byCategory?category=" + category;
 
-            AjaxCallback cb = new AjaxCallback<JSONObject>() {
-                @Override
-                public void callback(String url, JSONObject json, AjaxStatus status) {
-                    try {
-                        hideProgress();
-                        ModelSpecialityByCategory model = GsonUtils.getInstance().gsonToModelSpecialityByCategory(json);
-                        categoryListAdapter = new CategoryListAdapter(model.getResults(), ConnectToPacifyrActivity.this);
-                        imgRcv.setLayoutManager(new LinearLayoutManager(ConnectToPacifyrActivity.this, LinearLayoutManager.HORIZONTAL, false));
-                        imgRcv.setAdapter(categoryListAdapter);
-                        categoryListAdapter.addListener(ConnectToPacifyrActivity.this);
-                        categoryListAdapter.setSelected(0);
-
-                    /* String imgURL = GLOBAL_IMAGE_URL + res[i].getImage();
-                    String title = res[i].getTitle();
-                    if (isValidhtml(imgURL))
-                        Picasso.with(context).load(imgURL).placeholder(R.drawable.placeholder_user).into(emotionDimv);*/
-
-
-                        //emotionDimv  = (ImageView) activity.findViewById(R.id.emotion_dimv);
-
-                        //modelAllEmployees= GsonUtils.getInstance().gsonToMListEmployees(json);
-                        //postEventOnMainThread(new NotifyEvent(true, false));
-                        //EventBus.getDefault().post(new EventMessage(getString(R.string.list_all_employees)));
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            };
-            AQuery aq = new AQuery(ConnectToPacifyrActivity.this);
-            cb.header("Content-Type", "application/json");
-            cb.header("AccessToken", token);
-            aq.ajax(url, JSONObject.class, cb);
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-    }
 
 
     @Override

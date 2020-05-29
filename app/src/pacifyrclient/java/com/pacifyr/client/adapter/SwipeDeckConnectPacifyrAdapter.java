@@ -41,6 +41,7 @@ import com.pacifyr.client.quickblox.utils.PermissionsChecker;
 import com.pacifyr.client.quickblox.utils.WebRtcSessionManager;
 import com.pacifyr.client.utils.LogUtils;
 import com.pacifyr.client.utils.Utility;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.Certification;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.ChatSubscription;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.Education;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
@@ -98,7 +99,7 @@ public class SwipeDeckConnectPacifyrAdapter extends BaseAdapter {
     public SharedPrefsHelper sharedPrefsHelper;
 
     private ArrayList<String> myList=new ArrayList();
-    private ArrayList<ModelUserProfile.Certification> certificateList= new ArrayList<>();
+    private ArrayList<Certification> certificateList= new ArrayList<>();
     private ArrayList<ModelUserProfile.Education> educationsList= new ArrayList<>();
     Activity activity;
     private boolean isChatSubscriptionRequired;
@@ -214,10 +215,10 @@ public class SwipeDeckConnectPacifyrAdapter extends BaseAdapter {
                         ((TextView) v.findViewById(R.id.price_dollar)).setText("Employer Designated Pacifyr");
                     /*((TextView) v.findViewById(R.id.perhour_ctxv)).setVisibility(View.GONE);*/
                     } else {
-                        ((TextView) v.findViewById(R.id.price_dollar)).setText(Utility.getPriceSign(context) + " " + price + " per hour");
+                        ((TextView) v.findViewById(R.id.price_dollar)).setText(Utility.getPriceSign(context) + " " + price + " " + Utility.getCostLabel(context));
                     }
                 } else if (customerRole.equals("customer")||customerRole.equals("unpaidEmployee")) {
-                    ((TextView) v.findViewById(R.id.price_dollar)).setText(Utility.getPriceSign(context) + " " + price + " per hour");
+                    ((TextView) v.findViewById(R.id.price_dollar)).setText(Utility.getPriceSign(context) + " " + price + " " + Utility.getCostLabel(context));
                 /*((TextView) v.findViewById(R.id.perhour_ctxv)).setVisibility(View.VISIBLE);*/
                 } else if (customerRole.equals("paidMember")) {
                     ((TextView) v.findViewById(R.id.price_dollar)).setText("Employer Designated Pacifyr");

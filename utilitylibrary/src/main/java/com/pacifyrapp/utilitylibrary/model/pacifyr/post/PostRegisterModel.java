@@ -1,5 +1,9 @@
 package com.pacifyrapp.utilitylibrary.model.pacifyr.post;
 
+import com.pacifyrapp.utilitylibrary.model.pacifyr.Certification;
+
+import java.util.ArrayList;
+
 /**
  * Created by ceino on 27/6/17.
  */
@@ -61,6 +65,18 @@ public class PostRegisterModel {
     private String getPaidForQuickSurveys;
     private String appSource;
     private String address1;
+    private Certification[] certification;
+    public void setCertification(ArrayList<Certification> certification) {
+
+        this.certification = certification.toArray(new Certification[0]);
+    }
+    public Certification[] getEducations() {
+        return certification;
+    }
+
+    public void setEducations(Certification[] certification) {
+        this.certification = certification;
+    }
 
     public String getAddress1() {
         return address1;

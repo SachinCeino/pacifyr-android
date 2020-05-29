@@ -20,19 +20,28 @@ import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.krishna.fileloader.FileLoader;
+import com.krishna.fileloader.listener.FileRequestListener;
+import com.krishna.fileloader.pojo.FileResponse;
+import com.krishna.fileloader.request.FileLoadRequest;
 import com.pacifyr.client.R;
 import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
+import com.pacifyr.client.utility.PdfViewer;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
+
+import java.io.File;
 
 public class TermsOfUseActivity extends PacifyrActivity {
 
+    private static final String TAG = TermsOfUseActivity.class.getSimpleName();
     private WebView webView;
     private String titleText;
     private String spurl;
     //private ImageView backButt;
     //private LinearLayout backbtn;
     private int retryCount = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +54,7 @@ public class TermsOfUseActivity extends PacifyrActivity {
         if( bundle!= null){
             spurl = bundle.getString("spurl");
             if (spurl != null && spurl.contains(".pdf")) {
+
                 spurl = "https://drive.google.com/viewerng/viewer?embedded=true&url=" + spurl;
             }
             startWebView(spurl);
@@ -79,7 +89,6 @@ public class TermsOfUseActivity extends PacifyrActivity {
         return null;
     }
 
-
     private void startWebView(String url) {
         //Create new webview Client to show progress dialog
         //When opening a url or click on link
@@ -91,14 +100,15 @@ public class TermsOfUseActivity extends PacifyrActivity {
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
 
                 if (url.contains(".pdf")){
-                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                   /* Intent intent = new Intent(Intent.ACTION_VIEW);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    intent.setDataAndType(Uri.parse(url), "application/pdf");
+                    intent.setDataAndType(Uri.parse(url), "text/html");
                     try{
                         view.getContext().startActivity(intent);
                     } catch (ActivityNotFoundException e) {
                         Log.w("ERROR",String.valueOf(e));
-                    }
+                    }*/
+                    loadPDF(url);
                 } else {
                     view.loadUrl(url);
                 }
@@ -223,7 +233,34 @@ public class TermsOfUseActivity extends PacifyrActivity {
     protected void onResume() {
         super.onResume();
         if (isValid(webView))
-        webView.onResume();
+            webView.onResume();
     }
+
+    private void loadPDF(String url) {
+        setLoading();
+        showProgress();
+        FileLoader.with(TermsOfUseActivity.this)
+                .load(url, false) //2nd parameter is optioal, pass true to force load from network
+                .fromDirectory("test4", FileLoader.DIR_CACHE)
+                .asFile(new FileRequestListener<File>() {
+                    @Override
+                    public void onLoad(FileLoadRequest request, FileResponse<File> response) {
+                        hideProgress();
+                        File loadedFile = response.getBody();
+                        // do something with the file
+                        Log.d(TAG, "File downloaded ");
+                        PdfViewer.pdf = loadedFile;
+                        Intent intent = new Intent(TermsOfUseActivity.this, PdfViewer.class);
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onError(FileLoadRequest request, Throwable t) {
+                        hideProgress();
+                        Log.d(TAG, "File download failed ");
+                    }
+                });
+    }
+
 
 }

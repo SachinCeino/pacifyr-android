@@ -14,18 +14,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.pacifyr.client.customview.MainTextView;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelUserProfile;
-import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.pacifyr.client.R;
 import com.pacifyr.client.adapter.CertificationProfileAdapter;
 import com.pacifyr.client.adapter.EducationProfileAdapter;
+import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.utility.BaseFragment;
 import com.pacifyr.client.utils.LogUtils;
 import com.pacifyr.client.utils.Utility;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.Certification;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelUserProfile;
+import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
 
@@ -173,7 +174,7 @@ public class PacifyrAccountFragment extends BaseFragment {
                 defSetText(mailDtxv,NetworkService.mCurrentUser.getEmail());
                 defSetText(pnumberDtxv,NetworkService.mCurrentUser.getPhoneNumber());
                 defSetText(snapshotCtxv,NetworkService.mCurrentUser.getDescription());
-                String price= Utility.getPriceSign(getActivity())+NetworkService.mCurrentUser.getPrice()+" per hour";
+                String price = Utility.getPriceSign(getActivity()) + NetworkService.mCurrentUser.getPrice() + " " + Utility.getCostLabel(getActivity());
                 defSetText(priceCtxv,price);
                 defSetText(reviewCtxv,user.getNumberOfReviews()+" reviews");
                 if(prefM.getIsOnline().equals("true")) {
@@ -201,7 +202,7 @@ public class PacifyrAccountFragment extends BaseFragment {
                 }
 
 
-                ArrayList<ModelUserProfile.Certification> certificateList = user.getCertificationList();
+                ArrayList<Certification> certificateList = user.getCertificationList();
                 if (isValid(certificateList)) {
                     //certificate adapter
                     certificateRecyclerView = view.findViewById(R.id.certification_rcv);

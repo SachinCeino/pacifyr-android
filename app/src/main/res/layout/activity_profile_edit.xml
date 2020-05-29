@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto">
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
 
 
@@ -194,7 +195,64 @@
 
             </androidx.cardview.widget.CardView>
 
+            <androidx.cardview.widget.CardView
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="20dp"
+                android:visibility="gone"
+                android:layout_marginBottom="20dp"
+                android:id="@+id/uploadDocLayout"
+                card_view:cardCornerRadius="5dp"
+                card_view:contentPadding="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/year_edt"
+                android:orientation="vertical">
+                <EditText
+                    android:id="@+id/upload_docs_ctxv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:background="@null"
+                    android:drawablePadding="3dp"
+                    android:hint="Upload KYC document"
+                    android:textColor="@color/black"
+                    android:padding="5dp"
+                    android:textSize="18sp"
+                    android:focusable="false"
+                    />
 
+                <View
+                    android:id="@+id/upload_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/signup_view"
+                    />
+
+
+                <TextView
+                    android:id="@+id/upload_instruction_txv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/upload_docs_ctxv"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/document_upload_instruction"
+                    android:textSize="8sp"
+                    tools:ignore="RtlCompat" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/file_list_rcv"
+                    android:layout_marginTop="24dp"
+                    />
+
+            </LinearLayout>
+            </androidx.cardview.widget.CardView>
 
         </LinearLayout>
     </ScrollView>

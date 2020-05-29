@@ -201,7 +201,7 @@ public class EmotionSpecialityAdapter extends RecyclerView.Adapter<EmotionSpecia
                 }
                 else {
                     category = list.get(position).getTitle();
-                    showCategories(category);
+                    //showCategories(category);
 
                     LinearLayout showallLlay = activity.findViewById(R.id.showall_llay);
 
@@ -220,54 +220,15 @@ public class EmotionSpecialityAdapter extends RecyclerView.Adapter<EmotionSpecia
                         employeeFlag = false;
                         showallLlay.setVisibility(View.GONE);
                     }
-                    /*CheckBox showallCbox = ((ConnectToPacifyrActivity)activity).getShowallCbox();
-                    showallCbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                        @Override
-                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                            if(isChecked){
-                                showAllFlag = true;
-                                webSearchPacifyrWOptions(reason_forcall);
-                            }else {
-                                showAllFlag = false;
-                                webSearchPacifyrWOptions(reason_forcall);
-                            }
-                        }
-                    });*/
 
+                    /**Update Speciality Adapter
+                     * *
+                     * default selection is 0
+                     * then search pacifyr will load ininitialy first category
+                     * update speciality according to showAll flag change
+                     * call shw all flag false iniitially**/
+                    ((ConnectToPacifyrActivity)activity).UpdateSpecialityAdapter(false);
 
-                    /*cardStack = activity.findViewById(R.id.swipe_deck);
-
-                    //webSearchPacifyrWOptions(category);
-
-                    cardStack.setEventCallback(new SwipeDeck.SwipeEventCallback() {
-                        @Override
-                        public void cardSwipedLeft(int position) {
-                            Log.i("MainActivity", "card was swiped left, position in adapter: " + position);
-                        }
-
-                        @Override
-                        public void cardSwipedRight(int position) {
-                            Log.i("MainActivity", "card was swiped right, position in adapter: " + position);
-                        }
-
-
-                        @Override
-                        public void cardsDepleted() {
-                            Log.i("MainActivity", "no more cards");
-
-                            setAdapterSearchOption();
-                        }
-
-                        @Override
-                        public void cardActionDown() {
-
-                        }
-
-                        @Override
-                        public void cardActionUp() {
-
-                        }
-                    });*/
                 }
             }
         });
@@ -278,6 +239,10 @@ public class EmotionSpecialityAdapter extends RecyclerView.Adapter<EmotionSpecia
         return list.size();
     }
 
+    /**
+     * using latest api specialities/byCategory?category=all&includeChargeablePacifyrs=
+     * we calling this api in connect pacifyr screen**/
+/*
     public void showCategories(String category) {
         try {
             String url = GLOBAL_URL + "specialities/byCategory?category=" + category;
@@ -292,17 +257,21 @@ public class EmotionSpecialityAdapter extends RecyclerView.Adapter<EmotionSpecia
                         ModelSpecialityByCategory.Results[] item = model.getResults();
 
                         CategoryListAdapter categoryListAdapter = new CategoryListAdapter(item, context);
-                       /* String[] array = item[0].getCategory();
-                        webSearchPacifyrWOptions(array);*/
+                       */
+/* String[] array = item[0].getCategory();
+                        webSearchPacifyrWOptions(array);*//*
+
                         imgRcv.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
                         imgRcv.setAdapter(categoryListAdapter);
                         categoryListAdapter.addListener((ConnectToPacifyrActivity) activity);
                         categoryListAdapter.setSelected(0);
 
-                    /* String imgURL = GLOBAL_IMAGE_URL + res[i].getImage();
+                    */
+/* String imgURL = GLOBAL_IMAGE_URL + res[i].getImage();
                     String title = res[i].getTitle();
                     if (isValidhtml(imgURL))
-                        Picasso.with(context).load(imgURL).placeholder(R.drawable.placeholder_user).into(emotionDimv);*/
+                        Picasso.with(context).load(imgURL).placeholder(R.drawable.placeholder_user).into(emotionDimv);*//*
+
 
 
                         //emotionDimv  = (ImageView) activity.findViewById(R.id.emotion_dimv);
@@ -327,6 +296,7 @@ public class EmotionSpecialityAdapter extends RecyclerView.Adapter<EmotionSpecia
             e.printStackTrace();
         }
     }
+*/
 
     /*private void setAdapterSearchOption() {
 

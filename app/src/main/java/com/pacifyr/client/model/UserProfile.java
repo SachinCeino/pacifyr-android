@@ -45,7 +45,7 @@ public class UserProfile {
     private MEmotion emotion;
     private String country;
     private String updatedAt;
-    private com.pacifyrapp.utilitylibrary.model.pacifyr.ModelUserProfile.Certification[] certification;
+    private Certification[] certification;
     private String price;
     private String pin;
     private String numberOfReviews;
@@ -81,11 +81,11 @@ public class UserProfile {
         return arrayList;
     }
 
-    public ArrayList<com.pacifyrapp.utilitylibrary.model.pacifyr.ModelUserProfile.Certification> getCertificationList() {
-        ArrayList<com.pacifyrapp.utilitylibrary.model.pacifyr.ModelUserProfile.Certification> arrayList = null;
+    public ArrayList<Certification> getCertificationList() {
+        ArrayList<Certification> arrayList = null;
         try {
             if (certification != null) {
-                arrayList = new ArrayList<com.pacifyrapp.utilitylibrary.model.pacifyr.ModelUserProfile.Certification>(Arrays.asList(certification));
+                arrayList = new ArrayList<Certification>(Arrays.asList(certification));
             }
         } catch (Exception e) {
             arrayList = null;
@@ -400,16 +400,16 @@ public class UserProfile {
         this.updatedAt = updatedAt;
     }
 
-    public com.pacifyrapp.utilitylibrary.model.pacifyr.ModelUserProfile.Certification[] getCertification() {
+    public Certification[] getCertification() {
         return certification;
     }
 
-    public void setCertification(ArrayList<com.pacifyrapp.utilitylibrary.model.pacifyr.ModelUserProfile.Certification> list) {
+    public void setCertification(ArrayList<Certification> list) {
         if (list != null)
-            this.certification = list.toArray((new com.pacifyrapp.utilitylibrary.model.pacifyr.ModelUserProfile.Certification[list.size()]));
+            this.certification = list.toArray((new Certification[list.size()]));
     }
 
-    public void setCertification(com.pacifyrapp.utilitylibrary.model.pacifyr.ModelUserProfile.Certification[] certification) {
+    public void setCertification(Certification[] certification) {
         this.certification = certification;
     }
 

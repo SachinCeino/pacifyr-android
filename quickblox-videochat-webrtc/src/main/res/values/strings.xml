@@ -207,4 +207,12 @@
     <string name="sender_id">761750217637</string>
     <string name="mandatory_fields"> - required fields</string>
 
+    <string name="pacifyr_call_intro">When a councilor get a call from Patient Initially 5 minuts are given for -\n
+    - Introduction of Patient\n
+        - Introduction of Doctor\n
+        - Collection of Valid proof of patient through Chat window\n
+        - Councilor should genarate Payment gateway link to Patient\n
+        - Once the councilor receives payment confirmation start the button on screen - Start Session (i.e. Exactly the consultation process begins)
+    </string>
+
 </resources>

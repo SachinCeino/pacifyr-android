@@ -42,6 +42,7 @@ import com.pacifyr.client.utility.PacifyrAppCompactActivity;
 import com.pacifyr.client.utils.LogUtils;
 import com.pacifyr.client.utils.Utility;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.Certification;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.ChatSubscription;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelUserProfile;
@@ -79,7 +80,7 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
     private MainTextView isonlineCtxv;
     private MainTextView dollarSignCtxv;
     private MainTextView priceCtxv;
-    private MainTextView perHourCtxv;
+    private MainTextView cost_label;
     private CardView snapshotCard;
     private MainTextView snapshotCtxv;
     private CardView blogCard;
@@ -115,7 +116,7 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
 
     private LinearLayout call_llay;
     private ArrayList<String> myList=new ArrayList();
-    private ArrayList<ModelUserProfile.Certification> certificateList= new ArrayList<>();
+    private ArrayList<Certification> certificateList= new ArrayList<>();
     private ArrayList<ModelUserProfile.Education> educationsList= new ArrayList<>();
     private String imgUrl;
     private CircleImageView startVideoCimv;
@@ -257,9 +258,7 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
 
                             if(isLoggedInChat()) {
 
-                                setAlertStartCall(mpacifyerDetial.getFirstName()+""+mpacifyerDetial.getLastName(),
-                                        mpacifyerDetial.getPriceIninute(),NetworkService.GLOBAL_IMAGE_URL+mpacifyerDetial.getImage()
-                                        , new View.OnClickListener() {
+                                setAlertStartCall(mpacifyerDetial , new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
                                                 hideStatus();
@@ -274,9 +273,7 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
                         else {
                             if(isLoggedInChat()) {
 
-                                setAlertStartCall(mpacifyerDetial.getFirstName()+""+mpacifyerDetial.getLastName(),
-                                        mpacifyerDetial.getPriceIninute(),NetworkService.GLOBAL_IMAGE_URL+mpacifyerDetial.getImage()
-                                        , new View.OnClickListener() {
+                                setAlertStartCall(mpacifyerDetial, new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
                                                 hideStatus();
@@ -332,8 +329,7 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
 
                             if(isLoggedInChat()) {
 
-                                setAlertStartCall(mpacifyerDetial.getFirstName()+""+mpacifyerDetial.getLastName(),
-                                        mpacifyerDetial.getPriceIninute(),NetworkService.GLOBAL_IMAGE_URL+mpacifyerDetial.getImage()
+                                setAlertStartCall(mpacifyerDetial
                                         , new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
@@ -349,9 +345,7 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
 
                             if(isLoggedInChat()) {
 
-                                setAlertStartCall(mpacifyerDetial.getFirstName()+""+mpacifyerDetial.getLastName(),
-                                        mpacifyerDetial.getPriceIninute(),NetworkService.GLOBAL_IMAGE_URL+mpacifyerDetial.getImage()
-                                        , new View.OnClickListener() {
+                                setAlertStartCall(mpacifyerDetial, new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
                                                 hideStatus();
@@ -924,7 +918,7 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
         isonlineCtxv = findViewById(R.id.isonline_ctxv);
         dollarSignCtxv = findViewById(R.id.dollar_sign_ctxv);
         priceCtxv = findViewById(R.id.price_ctxv);
-        perHourCtxv = findViewById(R.id.per_hour_ctxv);
+        cost_label = findViewById(R.id.per_hour_ctxv);
         snapshotCard = findViewById(R.id.snapshot_card);
         snapshotCtxv = findViewById(R.id.snapshot_ctxv);
         blogCard = findViewById(R.id.blog_card);
@@ -936,6 +930,8 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
         educationRcv = findViewById(R.id.education_rcv);
         certificationCard = findViewById(R.id.certification_card);
         topRlay = findViewById(R.id.prof_top_rlay);
+
+        cost_label.setText(Utility.getCostLabel(ProfileScreenActivity.this));
 
     }
 
