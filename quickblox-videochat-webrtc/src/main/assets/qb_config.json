@@ -1,10 +1,10 @@
 {
-  "app_id": "60603",
-  "auth_key": "RMyP9v64ke8ccet",
-  "auth_secret": "6TAfArmeSzME8su",
-  "account_key": "xMeisck3BS_X6xbjYTQi",
+  "app_id": "03",
+  "auth_key": "RMyP4ke8ccet",
+  "auth_secret": "6TrmeSzME8su",
+  "account_key": "xMei3BS_X6xbjYTQi",
   "api_domain": "https://api.quickblox.com",
   "chat_domain": "chat.quickblox.com",
-  "gcm_sender_id": "761750217637"
+  "gcm_sender_id": "761217637"
 }
 
