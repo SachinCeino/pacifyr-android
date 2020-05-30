@@ -89,6 +89,7 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
     private TextView text_remaining_minutes;
     private String change_Emotion_name;
     private ImageButton img_button_add_note;
+    private boolean callConnected=false;
     private BroadcastReceiver eventReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -261,14 +262,14 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
         emotion_rlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), ActivityChangeEmotionFromCall.class);
-                if (isValid(change_Emotion_name))
-                {
-                    intent.putExtra("emotion",change_Emotion_name);
+                if (callConnected) {
+                    Intent intent = new Intent(getActivity(), ActivityChangeEmotionFromCall.class);
+                    if (isValid(change_Emotion_name)) {
+                        intent.putExtra("emotion", change_Emotion_name);
+                    }
+                    startActivity(intent);
+
                 }
-                startActivity(intent);
-
-
             }
         });
         userDimv.setOnClickListener(new View.OnClickListener() {
@@ -832,4 +833,9 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
 
     }
 
+    @Override
+    public void onCallStarted() {
+        super.onCallStarted();
+        callConnected=true;
+    }
 }

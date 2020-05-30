@@ -141,7 +141,7 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
 
     // private  MainTextView participants_ctxv;
 
-
+    private boolean coonected=false;
     private RelativeLayout userRlay;
     private MainTextView callCtxv;
     private CircleImageView userDimv;
@@ -557,13 +557,14 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
         emotion_rlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), ActivityChangeEmotionFromCall.class);
-                if (isValid(change_Emotion_name))
-                {
-                    intent.putExtra("emotion",change_Emotion_name);
+                if (coonected) {
+                    Intent intent = new Intent(getActivity(), ActivityChangeEmotionFromCall.class);
+                    if (isValid(change_Emotion_name)) {
+                        intent.putExtra("emotion", change_Emotion_name);
+                    }
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
                 }
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
             }
         });
         userDimv.setOnClickListener(new View.OnClickListener() {
@@ -1664,6 +1665,12 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
         params.setMargins(0, 0, 0, (int) getResources().getDimension(R.dimen.margin_common));
 
         recyclerView.setLayoutParams(params);
+    }
+
+    @Override
+    public void onCallStarted() {
+        super.onCallStarted();
+        coonected=true;
     }
 }
 

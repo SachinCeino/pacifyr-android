@@ -106,12 +106,12 @@ public class CouponCodeFragment extends BaseFragment {
                                                             prefManager.saveCompanyLogo(NetworkService.mCurrentUser.getCompany().getLogo());
                                                         }
                                                         prefManager.saveCustomerRole("employee");
-                                                        showIOSDialogOK("Success", apiResponse.getMessage(), "ok", new iOSDialogClickListener() {
+                                                        /*showIOSDialogOK("Success", apiResponse.getMessage(), "ok", new iOSDialogClickListener() {
                                                             @Override
                                                             public void onClick(iOSDialog dialog) {
                                                                 dialog.dismiss();
                                                             }
-                                                        });
+                                                        });*/
 
                                                     }
                                                     else {

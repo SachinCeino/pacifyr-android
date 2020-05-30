@@ -220,6 +220,10 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
 
 
                 }
+            {
+                cardStack.setVisibility(View.GONE);
+                noPacifyrCtxv.setVisibility(View.VISIBLE);
+            }
         } catch (Exception ex) {
             ex.printStackTrace();
         }
