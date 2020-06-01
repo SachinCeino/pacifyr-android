@@ -44,6 +44,8 @@ import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.quickblox.activities.CallActivity;
+import com.pacifyr.client.quickblox.chat.utils.chat.ChatHelper;
+import com.pacifyr.client.quickblox.chat.utils.qb.QbDialogHolder;
 import com.pacifyr.client.quickblox.db.DbHelper;
 import com.pacifyr.client.sign.SignActivity;
 import com.pacifyr.client.utils.AmazonSNSTokenHandler;
@@ -61,6 +63,8 @@ import com.quickblox.auth.session.QBSettings;
 import com.quickblox.chat.QBChatService;
 import com.quickblox.core.QBEntityCallback;
 import com.quickblox.core.exception.QBResponseException;
+import com.quickblox.messages.services.SubscribeService;
+import com.quickblox.sample.core.utils.SharedPrefsHelper;
 import com.quickblox.users.model.QBUser;
 import com.squareup.otto.Subscribe;
 
@@ -517,7 +521,13 @@ public abstract class PacifyrAppCompactActivity  extends PacifyrActivity {
                             mNotificationManager.cancelAll();
                             deleteCache(getApplicationContext());
                             clearApplicationData();
+
+                            ChatHelper.getInstance().destroy();
+                            SharedPrefsHelper.getInstance().removeQbUser();
+                            QbDialogHolder.getInstance().clear();
                             QBChatService.getInstance().destroy();
+
+
                             setStatus("You have been logged out",R.color.colorPrimary);
                             showStatus();
                             new Handler().postDelayed(new Runnable() {

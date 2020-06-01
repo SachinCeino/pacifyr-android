@@ -133,7 +133,8 @@ public class DialogsActivity extends PacifyrActivity implements DialogsManager.M
                 isFromSlideMenu=getIntent().getBooleanExtra("isFromSlideMenu",false);
             }
         }
-
+        if (isValid(QbDialogHolder.getInstance()))
+            QbDialogHolder.getInstance().clear();
         initUi();
 
       //  if(isValid(currentUser))
