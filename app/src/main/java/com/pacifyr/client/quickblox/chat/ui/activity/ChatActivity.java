@@ -12,6 +12,7 @@ import android.os.PersistableBundle;
 import android.os.SystemClock;
 import android.provider.MediaStore;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -792,7 +793,24 @@ public class ChatActivity extends PacifyrAppCompactActivity implements ImagePick
             }
             if (isCustomer()) {
                 String chatName2 = QbDialogUtils.getOpposteUserName(qbChatDialog,ChatActivity.this);
-                if (isValid(leftTxv)) defSetText(leftTxv, "" + chatName2);
+                String res = "";
+                try {
+                    for(int i = 0; i < chatName2.length(); i++) {
+                        Character ch = chatName2.charAt(i);
+                        if(Character.isUpperCase(ch))
+                            res += " " + ch;
+                        else
+                            res += ch;
+                    }
+                }catch (Exception e)
+                {
+
+                }
+                if (isValid(res))
+                    chatName2=res;
+                if (isValid(leftTxv)) {
+                    defSetText(leftTxv, "" + chatName2);
+                }
 
 
                 String imgUrl = QbDialogUtils.getDialogImageChat(qbChatDialog,ChatActivity.this);
