@@ -162,9 +162,15 @@ public class MySessionFragment extends BaseFragment {
         final String fromDateWeek = formatter.print(startofWeek);
         final String fromDateMonth = formatter.print(startofMonth);
         final String fromDateYear = formatter.print(startofYear);
-        final String toDate = formatter.print(now);
-        toDYear=toDate;
         fromDYear=fromDateYear;
+
+/** getting last day of year**/
+
+        Calendar calyear = Calendar.getInstance();
+        calyear.set(Calendar.DAY_OF_YEAR, calyear.getActualMaximum(Calendar.DAY_OF_YEAR));
+        Date yend = calyear.getTime();
+        SimpleDateFormat dfyear = new SimpleDateFormat("yyyy-MM-dd");
+        toDYear = dfyear.format(yend);
 
         /** get first day and last day of current month**/
         Calendar cal = Calendar.getInstance();
@@ -173,6 +179,7 @@ public class MySessionFragment extends BaseFragment {
         Date date = cal.getTime();
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         lastMonthDate = df.format(date);
+
 
         int firstdayMonth = cal.getActualMinimum(Calendar.DATE);
         cal.set(Calendar.DATE,firstdayMonth);
