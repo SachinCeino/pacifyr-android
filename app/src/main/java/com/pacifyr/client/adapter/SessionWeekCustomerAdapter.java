@@ -168,7 +168,11 @@ public class SessionWeekCustomerAdapter extends RecyclerView.Adapter<SessionWeek
 
     private void createYearList() {
         try {
-            LocalDate currentDate = new LocalDate();
+            Calendar cal = Calendar.getInstance();
+            int res = cal.getActualMaximum(Calendar.DATE);
+            cal.set(Calendar.DATE,res);
+            Date date = cal.getTime();
+            LocalDate currentDate = new LocalDate(date);
             LocalDate startofCurrentYear = currentDate.withDayOfYear(DateTimeConstants.JANUARY);
 
             DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
@@ -242,7 +246,12 @@ public class SessionWeekCustomerAdapter extends RecyclerView.Adapter<SessionWeek
     private void createMonthList() {
 
         try {
-            LocalDate now = new LocalDate();
+            Calendar cal = Calendar.getInstance();
+            int res = cal.getActualMaximum(Calendar.DATE);
+            cal.set(Calendar.DATE,res);
+            Date date = cal.getTime();
+
+            LocalDate now = new LocalDate(date);
             LocalDate startofMonth = now.withDayOfMonth(DateTimeConstants.JANUARY);
             DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
             DateTimeFormatter displayFormatter = DateTimeFormat.forPattern("MMM");

@@ -867,6 +867,7 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
 
     public void webSearchPacifyrWOptions(String emotion) {
         try {
+            setLoading("loading...");
             showProgress();
             AjaxCallback cb = new AjaxCallback<JSONObject>() {
                 @Override

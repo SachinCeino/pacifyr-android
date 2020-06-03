@@ -1,6 +1,7 @@
 package com.pacifyr.client.quickblox.chat.ui.adapter;
 
 import android.content.Context;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -78,7 +79,33 @@ public class DialogsAdapter extends BaseSelectableListAdapter<QBChatDialog> {
        QBUser user= QbDialogUtils.getOpposteUser(dialog,context);
         if(isValid(user))
         {
-            holder.nameTextView.setText(user.getFullName());
+            if (isValid(user.getFullName()))
+            {
+                String res = "";
+                try {
+                    for(int i = 0; i < user.getFullName().length(); i++) {
+                        Character ch = user.getFullName().charAt(i);
+                        if(Character.isUpperCase(ch))
+                            res += " " +ch;
+                        else
+                            res += ch;
+                    }
+                }catch (Exception e)
+                {
+
+                }
+                if (isValid(res))
+                {
+                    holder.nameTextView.setText(res);
+                }
+                else
+                {
+                    holder.nameTextView.setText(user.getFullName());
+                }
+            }
+
+
+
 
             String imgUrl =  TextUtils.isEmpty(user.getCustomData()) ? user.getLogin() : user.getCustomData();
             if (imgUrl == null)
