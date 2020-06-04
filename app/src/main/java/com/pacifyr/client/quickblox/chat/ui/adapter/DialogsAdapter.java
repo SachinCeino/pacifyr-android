@@ -79,33 +79,7 @@ public class DialogsAdapter extends BaseSelectableListAdapter<QBChatDialog> {
        QBUser user= QbDialogUtils.getOpposteUser(dialog,context);
         if(isValid(user))
         {
-            if (isValid(user.getFullName()))
-            {
-                String res = "";
-                try {
-                    for(int i = 0; i < user.getFullName().length(); i++) {
-                        Character ch = user.getFullName().charAt(i);
-                        if(Character.isUpperCase(ch))
-                            res += " " +ch;
-                        else
-                            res += ch;
-                    }
-                }catch (Exception e)
-                {
-
-                }
-                if (isValid(res))
-                {
-                    holder.nameTextView.setText(res);
-                }
-                else
-                {
-                    holder.nameTextView.setText(user.getFullName());
-                }
-            }
-
-
-
+            holder.nameTextView.setText(user.getFullName());
 
             String imgUrl =  TextUtils.isEmpty(user.getCustomData()) ? user.getLogin() : user.getCustomData();
             if (imgUrl == null)

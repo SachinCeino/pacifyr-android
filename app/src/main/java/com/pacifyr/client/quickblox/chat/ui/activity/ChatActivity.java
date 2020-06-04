@@ -793,24 +793,7 @@ public class ChatActivity extends PacifyrAppCompactActivity implements ImagePick
             }
             if (isCustomer()) {
                 String chatName2 = QbDialogUtils.getOpposteUserName(qbChatDialog,ChatActivity.this);
-                String res = "";
-                try {
-                    for(int i = 0; i < chatName2.length(); i++) {
-                        Character ch = chatName2.charAt(i);
-                        if(Character.isUpperCase(ch))
-                            res += " " + ch;
-                        else
-                            res += ch;
-                    }
-                }catch (Exception e)
-                {
-
-                }
-                if (isValid(res))
-                    chatName2=res;
-                if (isValid(leftTxv)) {
-                    defSetText(leftTxv, "" + chatName2);
-                }
+                if (isValid(leftTxv)) defSetText(leftTxv, "" + chatName2);
 
 
                 String imgUrl = QbDialogUtils.getDialogImageChat(qbChatDialog,ChatActivity.this);
