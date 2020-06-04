@@ -16,14 +16,6 @@ import android.widget.Toast;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.pacifyr.client.customview.MainTextView;
-import com.pacifyrapp.utilitylibrary.CustomEditText;
-import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.MRoleModel;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelPhoneLogin;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelUserProfile;
-import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.facebook.login.LoginManager;
 import com.gdacciaro.iOSDialog.iOSDialog;
 import com.gdacciaro.iOSDialog.iOSDialogClickListener;
@@ -31,11 +23,19 @@ import com.google.gson.JsonObject;
 import com.koushikdutta.ion.Ion;
 import com.pacifyr.client.R;
 import com.pacifyr.client.base.PacifyrActivity;
+import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.home.DashboardActivity;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.utils.AmazonSNSTokenHandler;
 import com.pacifyr.client.utils.FirebaseLogging;
+import com.pacifyrapp.utilitylibrary.CustomEditText;
+import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.MRoleModel;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelPhoneLogin;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelUserProfile;
+import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.quickblox.auth.QBAuth;
 import com.quickblox.auth.session.QBSession;
 import com.quickblox.auth.session.QBSettings;
@@ -48,12 +48,12 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 
+import static com.pacifyr.client.network.NetworkService.editProfileObject;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.ACCOUNT_KEY;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.APP_ID;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.AUTH_KEY;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.AUTH_SECRET;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
-import static com.pacifyr.client.network.NetworkService.editProfileObject;
 
 public class LoginPhoneActivity extends PacifyrActivity {
 
@@ -433,7 +433,7 @@ public class LoginPhoneActivity extends PacifyrActivity {
         final  String userID = userModel.getId();
         String mail = modelPhoneLogin.getUser().getEmail();
         final QBUser user = new QBUser(userID, userID);
-        user.setEmail(mail);
+//        user.setEmail(mail);
         if (isValid(modelPhoneLogin.getUser().getFirstName()))
         {
             user.setFullName(modelPhoneLogin.getUser().getFirstName());
