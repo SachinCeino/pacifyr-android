@@ -50,6 +50,8 @@ import com.aigestudio.wheelpicker.widgets.WheelYearPicker;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
+import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
+import com.github.florent37.singledateandtimepicker.dialog.SingleDateAndTimePickerDialog;
 import com.pacifyr.client.adapter.ListFileAdapter;
 
 import com.pacifyr.client.model.ModelPacifyrDocuments;
@@ -104,8 +106,10 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -460,53 +464,38 @@ public class RegisterActivity extends PacifyrActivity {
 
     public void showDialog(final CustomEditText textView, String string){
         try {
-            final Integer[] vals = {null};
-            final Dialog dialog = new Dialog(RegisterActivity.this);
-            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-            dialog.setCancelable(false);
-            dialog.setContentView(R.layout.dialog_show_year_picker);
-            WheelYearPicker wheelYearPicker = dialog.findViewById(R.id.wheel_date_picker_year);
-            wheelYearPicker.setSelectedItemTextColor(Color.parseColor("#3F51B5"));
-            wheelYearPicker.setCurved(true);
-            wheelYearPicker.setYearEnd(wheelYearPicker.getCurrentYear());
-            wheelYearPicker.setOnItemSelectedListener(new WheelPicker.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(WheelPicker picker, Object data, int position) {
-                    vals[0] = (Integer) data;
-                    year_edt_err.setError(null);
-                }
-            });
+            Calendar calendar =Calendar.getInstance();
+            calendar.add(Calendar.YEAR,-18);
 
-            TextView selectTxv = dialog.findViewById(R.id.select_year_txv);
-            selectTxv.setText("Please select " + string + " year");
-            TextView cancelTxv = dialog.findViewById(R.id.cancel_ctxv);
-            cancelTxv.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    dialog.dismiss();
-                }
-            });
-            dialog.show();
-            TextView saveTxv = dialog.findViewById(R.id.save_ctxv);
-            ImageView close_dimv= dialog.findViewById(R.id.close_dimv);
-            close_dimv.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    dialog.dismiss();
-                }
-            });
-            saveTxv.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    year_edt_err.setError(null);
-                    if (isValid(vals[0]))
-                        textView.setText(vals[0].toString());
-                    else
-                        textView.setText(String.valueOf(wheelYearPicker.getCurrentYear()));
-                    dialog.dismiss();
-                }
-            });
-            dialog.show();
+            new SingleDateAndTimePickerDialog.Builder(this)
+                    .bottomSheet()
+                    .curved()
+                    .title("Select Date")
+                    .titleTextColor(getResources().getColor(R.color.colorPrimary))
+                    .mainColor(getResources().getColor(R.color.colorPrimary))
+                    .displayListener(new SingleDateAndTimePickerDialog.DisplayListener() {
+                        @Override
+                        public void onDisplayed(SingleDateAndTimePicker picker) {
+                            picker.selectDate(calendar);
+                        }
+                    })
+                    .displayMinutes(false)
+                    .displayHours(false)
+                    .displayDays(false)
+                    .maxDateRange(calendar.getTime())
+                    .displayMonth(true)
+                    .displayYears(true)
+                    .displayDaysOfMonth(true)
+                    .listener(new SingleDateAndTimePickerDialog.Listener() {
+                        @Override
+                        public void onDateSelected(Date date) {
+                            SimpleDateFormat postFormater = new SimpleDateFormat("dd-MMM-yyyy");
+                            String newDateStr = postFormater.format(date);
+                            Log.w("@@@Date",newDateStr);
+                            yearEdit.setText(newDateStr);
+                        }
+                    })
+                    .display();
         }
         catch (Exception e){
             e.printStackTrace();
@@ -846,7 +835,7 @@ public class RegisterActivity extends PacifyrActivity {
             }
 
             postRegisterModel.setCountry(countryData.getCountry());
-            postRegisterModel.setDateOfBirth("01-Jan-"+yearEdit.getText().toString());
+            postRegisterModel.setDateOfBirth(yearEdit.getText().toString());
             postRegisterModel.setPhoneNumber(phoneRegister);
 
             if(uploadDocLayout.getVisibility()==View.VISIBLE) {
@@ -981,8 +970,13 @@ public class RegisterActivity extends PacifyrActivity {
         {
             year_edt_err.setError("Please enter year of birth");
             year_edt_err.requestFocus();
+            return false;
         }
-        else {
+        else
+        {
+            return true;
+        }
+        /*else {
             if (text != null)
                 if (android.text.TextUtils.isDigitsOnly(text))
                     if (isValid(text + ""))
@@ -992,11 +986,11 @@ public class RegisterActivity extends PacifyrActivity {
 
             year_edt_err.setError("Enter valid year of birth");
             year_edt_err.requestFocus();
-           /* yearEdit.setError(error + "");
-            yearEdit.requestFocus();*/
+           *//* yearEdit.setError(error + "");
+            yearEdit.requestFocus();*//*
         }
-       // setAlertOKStatusInWhite("Invalid",error,"OK");
-        return false;
+       // setAlertOKStatusInWhite("Invalid",error,"OK");*/
+
 
     }
 
