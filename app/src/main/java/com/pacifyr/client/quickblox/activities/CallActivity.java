@@ -363,7 +363,7 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
             public void onCameraFreezed(String s) {
                 showToast("Camera freezed: " + s);
                 // hangUpCurrentSession();
-                hangUpCurrentSessionMe();
+//                hangUpCurrentSessionMe();
             }
 
             @Override
@@ -408,6 +408,7 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
     private void hangUpAfterLongReconnection() {
         Log.d(TAG, "hangUpAfterLongReconnection");
         if (expirationReconnectionTime < System.currentTimeMillis()) {
+            Toast.makeText(CallActivity.this, "Reconnection failed. Ending call", Toast.LENGTH_LONG).show();
             hangUpCurrentSessionMe();
         }
     }
@@ -421,6 +422,24 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
     }
 
     private void showNotificationPopUp(final int text, final boolean show) {
+        Log.d(TAG, "showNotificationPopUp");
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (show) {
+                    ((TextView) connectionView.findViewById(R.id.notification)).setText(text);
+                    if (connectionView.getParent() == null) {
+                        ((ViewGroup) CallActivity.this.findViewById(R.id.fragment_container)).addView(connectionView);
+                    }
+                } else {
+                    ((ViewGroup) CallActivity.this.findViewById(R.id.fragment_container)).removeView(connectionView);
+                }
+            }
+        });
+
+    }
+
+    private void showReconnectionPopUp(final String text, final boolean show) {
         Log.d(TAG, "showNotificationPopUp");
         runOnUiThread(new Runnable() {
             @Override
@@ -728,6 +747,7 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
         if (getCurrentSession() != null) {
             getCurrentSession().hangUp(new HashMap<String, String>());
         }
+        stopSessionTracking();
         if (sessionid != null) {
             stopSessionWeb(sessionid);
         }
@@ -759,6 +779,7 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
         if (getCurrentSession() != null) {
             getCurrentSession().hangUp(new HashMap<String, String>());
         }
+        stopSessionTracking();
         //jpppppppppppppp
         try {
 
@@ -1290,18 +1311,19 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
     private class ConnectionListener extends AbstractConnectionListener {
         @Override
         public void connectionClosedOnError(Exception e) {
-            //showNotificationPopUp(R.string.connection_was_lost, true);
+            showNotificationPopUp(R.string.connection_was_lost, true);
             setExpirationReconnectionTime();
         }
 
         @Override
         public void reconnectionSuccessful() {
-            //showNotificationPopUp(R.string.connection_was_lost, false);
+            showNotificationPopUp(R.string.connection_was_lost, false);
         }
 
         @Override
         public void reconnectingIn(int seconds) {
             Log.d(TAG, "reconnectingIn " + seconds);
+//            showReconnectionPopUp(getString(R.string.reconnect_alert, seconds + ""), true);
             if (!callStarted) {
                 hangUpAfterLongReconnection();
             }
