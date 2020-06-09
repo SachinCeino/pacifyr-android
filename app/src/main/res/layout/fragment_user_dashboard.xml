@@ -231,6 +231,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_below="@+id/llay_top"
                                     android:gravity="center"
+                                    android:layout_marginTop="5dp"
                                     android:orientation="horizontal"
                                     android:visibility="gone">
 
