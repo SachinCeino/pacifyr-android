@@ -1,6 +1,7 @@
 package com.pacifyr.client.activity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -54,6 +55,12 @@ public class ActivityChangeEmotionFromCall extends PacifyrAppCompactActivity {
     @Override
     protected void onStop() {
         super.onStop();
+        Log.w("@@@","onStop");
+        /**pip mode open so call activity is opened ,
+         * that time this activity is no need
+         * so goback.**/
+        super.onBackPressed();
+
     }
 
     @Override
