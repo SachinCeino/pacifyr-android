@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -188,7 +189,7 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
                 //String image=searchResults.get(position).getImage();
                 userID = extras2.getString("userid");
                 //NetworkService.startActionProfile(this,userID);
-
+/*
                 int delay = 0; // delay for 0 sec.
                 int period = 10000; // repeat every 10 sec.
                 Timer timer = new Timer();
@@ -196,10 +197,13 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
                 {
                     public void run()
                     {
+                        Log.w("TIMERLOG","ProfileScreenActivity");
                         handleActionProfile(userID);
                         //Call function
                     }
-                }, delay, period);
+                }, delay, period);*/
+
+                handleActionProfile(userID);
 
                 if(isFromConnectPacifyr) {
                     connect_pacifyr_ctxv.setVisibility(View.GONE);
@@ -543,6 +547,7 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
 
     private void handleActionProfile(String id) {
         try {
+            setLoading();
             showProgress();
             //prefrence manager is set at login and signup
             PrefManager prefM = PrefManager.getInstance(ProfileScreenActivity.this);
