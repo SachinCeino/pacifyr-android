@@ -607,7 +607,7 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
                 snapshotCard.setVisibility(View.GONE);
 
             if (isValid(pacifyerDetial.getFirstName()) && isValid(pacifyerDetial.getLastName()))
-                profileNameCtxv.setText(pacifyerDetial.getFirstName() + pacifyerDetial.getLastName());
+                profileNameCtxv.setText(pacifyerDetial.getFirstName() + " "+pacifyerDetial.getLastName());
             else if(isValid(pacifyerDetial.getFirstName()))
                 profileNameCtxv.setText(pacifyerDetial.getFirstName());
 
