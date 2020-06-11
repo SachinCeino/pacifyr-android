@@ -36,7 +36,6 @@ import com.pacifyr.client.adapter.EducationProfileAdapter;
 import com.pacifyr.client.adapter.SpecilaListProfileAdapter;
 import com.pacifyr.client.event.AlertTypeEvent;
 import com.pacifyr.client.event.NotifyEvent;
-import com.pacifyr.client.fragment.schedule.ScheduleBottomSheetFragment;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.quickblox.activities.PermissionsActivity;

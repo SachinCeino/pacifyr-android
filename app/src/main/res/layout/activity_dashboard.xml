@@ -111,6 +111,40 @@
                     android:textSize="15sp"/>
 
             </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/grey" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/mLinearLayoutAppointments"
+                android:padding="10dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+                <!--    android:paddingRight="10dp"-->
+
+                <com.pacifyrapp.utilitylibrary.DeviceFitImageView
+                    android:id="@+id/mDeviceFitImageViewAppointments"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:scaleType="centerInside"
+                    app:width_percentage="10"
+                    android:src="@drawable/tutorial"
+                    android:layout_centerInParent="true" />
+
+                <com.pacifyr.client.customview.MainTextView
+                    android:id="@+id/mTextViewAppointments"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="10dp"
+                    android:text="@string/appointments"
+                    android:textColor="@color/grey_dark"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
 
             <View
                 android:layout_width="match_parent"

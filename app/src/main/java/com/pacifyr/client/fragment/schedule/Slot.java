@@ -25,7 +25,9 @@ public class Slot implements Serializable{
         @SerializedName("id")
         @Expose
         private String id;
-
+    @SerializedName("timeSlotBooking")
+    @Expose
+    private TimeSlotBooking timeSlotBooking;
 
     @SerializedName("booked")
     @Expose
@@ -59,6 +61,14 @@ public class Slot implements Serializable{
     @SerializedName("bookedUserModel")
     @Expose
     private User bookedUserModel;
+
+    public TimeSlotBooking getTimeSlotBooking() {
+        return timeSlotBooking;
+    }
+
+    public void setTimeSlotBooking(TimeSlotBooking timeSlotBooking) {
+        this.timeSlotBooking = timeSlotBooking;
+    }
 
     public User getBookedUserModel() {
         return bookedUserModel;

@@ -295,7 +295,6 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:padding="10dp"
-            android:visibility="gone"
             android:layout_marginLeft="25dp"
             android:id="@+id/schedule_rlay"
             android:background="@drawable/blue_cirlce">

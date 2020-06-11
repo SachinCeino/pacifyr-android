@@ -34,7 +34,6 @@ import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.quickblox.chat.utils.Consts;
 import com.pacifyr.client.utils.Utility;
-import com.pacifyr.client.views.PamTextViewMedium;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 
@@ -61,7 +60,7 @@ import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL
 
 public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
     MUser pacifyer_obj;
-    private PamTextViewMedium text_loading;
+    private TextView text_loading;
 
     public ScheduleBottomSheetFragment() {
 

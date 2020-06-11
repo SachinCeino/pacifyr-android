@@ -30,7 +30,6 @@ import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelUserProfile;
 import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
-import com.pacifyr.client.fragment.schedule.ScheduleBottomSheetFragment;
 import com.pacifyr.client.R;
 import com.pacifyr.client.adapter.EmotionSpecialityAdapter;
 import com.pacifyr.client.adapter.NegativeEmotionsAdapter;

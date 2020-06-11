@@ -37,6 +37,7 @@ import com.pacifyr.client.event.CallEvent;
 import com.pacifyr.client.event.ChatEvent;
 import com.pacifyr.client.event.InternetConnectionEvent;
 import com.pacifyr.client.event.NotifyEvent;
+import com.pacifyr.client.fragment.AppointmentsFragment;
 import com.pacifyr.client.fragment.CouponCodeFragment;
 import com.pacifyr.client.fragment.MySessionFragment;
 import com.pacifyr.client.fragment.ResourcesFragment;
@@ -123,6 +124,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
 
 
     private LinearLayout messagesLlay;
+    private LinearLayout mLinearLayoutAppointments;
 
     String mainLabel;
     String label;
@@ -508,6 +510,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
 
         coupon_llay = findViewById(R.id.coupon_llay);
         coupon_view = findViewById(R.id.coupon_view);
+        mLinearLayoutAppointments = findViewById(R.id.mLinearLayoutAppointments);
 
         //NetworkService.startActionCutomerDashboard(this);
         showFragment();
@@ -710,6 +713,16 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
                     }
                 });
                 //Toast.makeText(getActivity(),"Logout",Toast.LENGTH_LONG).show();
+            }
+        });
+
+        mLinearLayoutAppointments.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                hideRightLayActionbar();
+                showFragment(new AppointmentsFragment());
+                defSetText(titleTxv, getResources().getString(R.string.appointments));
             }
         });
 

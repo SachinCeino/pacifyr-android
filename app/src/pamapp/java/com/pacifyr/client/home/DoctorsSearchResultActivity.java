@@ -32,7 +32,6 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.pacifyr.client.fragment.schedule.ScheduleBottomSheetFragment;
 import com.pacifyr.client.R;
 import com.pacifyr.client.adapter.PacifyrResultListViewAdapter;
 import com.pacifyr.client.event.AlertTypeEvent;

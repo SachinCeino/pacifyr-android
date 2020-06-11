@@ -29,7 +29,6 @@ import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.RespSearchPacifyrWOption;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.daprlabs.cardstack.SwipeDeck;
-import com.pacifyr.client.fragment.schedule.ScheduleBottomSheetFragment;
 import com.pacifyr.client.R;
 import com.pacifyr.client.adapter.CategoryListAdapter;
 import com.pacifyr.client.adapter.EmotionSpecialityAdapter;

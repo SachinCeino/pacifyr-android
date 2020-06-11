@@ -39,7 +39,6 @@ import com.pacifyr.client.event.AlertTypeEvent;
 import com.pacifyr.client.event.CallEvent;
 import com.pacifyr.client.event.ChatEvent;
 import com.pacifyr.client.event.NotifyEvent;
-import com.pacifyr.client.fragment.schedule.ScheduleBottomSheetFragment;
 import com.pacifyr.client.model.ModelPamTemplates;
 import com.pacifyr.client.model.interfaces.CallChatEventListner;
 import com.pacifyr.client.network.GsonUtils;

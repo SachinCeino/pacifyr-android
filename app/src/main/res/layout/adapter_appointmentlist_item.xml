@@ -37,7 +37,7 @@
             android:orientation="vertical"
             android:padding="10dp">
 
-            <com.pacifyr.client.views.PamTextViewBold
+            <com.pacifyr.client.customview.MainTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/mTextView_PacifyrName"
@@ -48,7 +48,7 @@
                 android:maxLines="1"
                 android:textStyle="bold" />
 
-            <com.pacifyr.client.views.PamTextViewMedium
+            <com.pacifyr.client.customview.MainTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/mTextView_PacifyrSpecialities"
@@ -59,7 +59,7 @@
                 android:ellipsize="end"
                 android:maxLines="3" />
 
-            <com.pacifyr.client.views.PamTextViewMedium
+            <com.pacifyr.client.customview.MainTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/mTextView_ScheduleTime"

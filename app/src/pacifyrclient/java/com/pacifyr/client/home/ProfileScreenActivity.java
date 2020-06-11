@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -61,8 +60,6 @@ import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -432,12 +429,12 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
                 });
 
                 schedule_rlay = findViewById(R.id.schedule_rlay);
-                if (getApplicationContext().getPackageName().equals("com.pacifyr.leadersup") ||
+                /*if (getApplicationContext().getPackageName().equals("com.pacifyr.leadersup") ||
                         getApplicationContext().getPackageName().equals("com.pacifyr.pam")) {
                     schedule_rlay.setVisibility(View.VISIBLE);
                 } else {
                     schedule_rlay.setVisibility(View.GONE);
-                }
+                }*/
 
                 schedule_rlay.setOnClickListener(new View.OnClickListener() {
                     @Override

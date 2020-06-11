@@ -699,7 +699,7 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
                 }
 
                 chatSubsCall(pacifyer_obj);
-                schedule_rlay.setVisibility(View.GONE);
+                //schedule_rlay.setVisibility(View.GONE);
                 schedule_rlay.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

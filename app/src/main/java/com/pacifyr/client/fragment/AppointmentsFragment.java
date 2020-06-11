@@ -9,8 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,7 +22,6 @@ import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.fragment.schedule.AppointmentModel;
 import com.pacifyr.client.fragment.schedule.ScheduleBottomSheetFragment;
-import com.pacifyr.client.fragment.schedule.Slot;
 import com.pacifyr.client.home.DashboardActivity;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;

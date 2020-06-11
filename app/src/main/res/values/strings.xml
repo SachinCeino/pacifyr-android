@@ -190,6 +190,7 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="typing_ellipsis">…</string>
     <string name="per_hour"> per hour</string>
     <string name="per_session"> per session</string>
+    <string name="appointments">MY APPOINTMENTS</string>
 
 
 </resources>
