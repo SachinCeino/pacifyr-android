@@ -14,9 +14,11 @@ import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -531,7 +533,13 @@ public class BaseAppCompactActivity extends CoreBaseActivity {
         });
     }*/
     public void showStatus() {
-        if(hud_status != null) if(!hud_status.isShowing()) hud_status.show();
+        try {
+            if(hud_status != null) if(!hud_status.isShowing()) hud_status.show();
+        }
+        catch (WindowManager.BadTokenException e) {
+            Log.w("@@@EXC","WindowManager.BadTokenException");
+        }
+
     }
     public void showStatus2() {
         if(hud_status2 != null) if(!hud_status2.isShowing()) hud_status2.show();
