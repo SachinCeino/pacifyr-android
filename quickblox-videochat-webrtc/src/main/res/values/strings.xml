@@ -156,7 +156,7 @@
 
     <string name="pref_disconnect_time_interval_key">disconnect_time_interval</string>
     <string name="pref_disconnect_time_interval_title">Disconnect Time Interval (10&#8211;90s)</string>
-    <string name="pref_disconnect_time_interval_default_value">10</string>
+    <string name="pref_disconnect_time_interval_default_value">20</string>
     <integer name="pref_disconnect_time_interval_min_value">10</integer>
     <integer name="pref_disconnect_time_interval_max_value">90</integer>
     <integer name="pref_disconnect_time_interval_step_size">5</integer>

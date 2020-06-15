@@ -393,6 +393,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             isMarshmallowabove=true;
         }*/
         if (isCall) {
+            isCall = false;
             new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                 @Override
                 public void run() {

@@ -3214,6 +3214,7 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
         try {
             PacifyrActivity.trackTimer.cancel();
             PacifyrActivity.trackTimerTask.cancel();
+            PacifyrActivity.trackTimer.purge();
         } catch (Exception e) {
             e.printStackTrace();
         }
