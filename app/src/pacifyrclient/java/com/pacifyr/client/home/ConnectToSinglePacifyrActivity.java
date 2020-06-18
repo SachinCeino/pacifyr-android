@@ -479,7 +479,7 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
                 if(isValid(pacifyer_obj.getImage()))
                 Picasso.with(ConnectToSinglePacifyrActivity.this).load(NetworkService.GLOBAL_IMAGE_URL+pacifyer_obj.getImage()).placeholder(R.drawable.placeholder_user).into(pacifyer_cimv);
 
-                defSetText(pac_name_ctxv,pacifyer_obj.getFirstName()+""+pacifyer_obj.getLastName());
+                defSetText(pac_name_ctxv,pacifyer_obj.getFirstName()+" "+pacifyer_obj.getLastName());
                 defSetText(pac_des_ctxv,pacifyer_obj.getDescription());
                 prefM = PrefManager.getInstance(ConnectToSinglePacifyrActivity.this);
                 String customerRole = prefM.getCustomerRole();

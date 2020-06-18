@@ -470,8 +470,6 @@ public class RegisterActivity extends PacifyrActivity {
             new SingleDateAndTimePickerDialog.Builder(this)
                     .bottomSheet()
                     .curved()
-                    .title("Select Date")
-                    .titleTextColor(getResources().getColor(R.color.colorPrimary))
                     .mainColor(getResources().getColor(R.color.colorPrimary))
                     .displayListener(new SingleDateAndTimePickerDialog.DisplayListener() {
                         @Override
@@ -494,6 +492,7 @@ public class RegisterActivity extends PacifyrActivity {
                             Log.w("@@@Date",newDateStr);
                             yearEdit.setText(newDateStr);
                         }
+
                     })
                     .display();
         }
