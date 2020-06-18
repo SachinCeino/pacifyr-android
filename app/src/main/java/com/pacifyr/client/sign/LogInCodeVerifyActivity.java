@@ -236,7 +236,7 @@ public class LogInCodeVerifyActivity extends PacifyrActivity {
                     mVerificationInProgress = false;
                     // [END_EXCLUDE]
                     hideProgress();
-                    cancelTimer();
+                    //cancelTimer();
 
                     if (e instanceof FirebaseAuthInvalidCredentialsException) {
                         // Invalid request
