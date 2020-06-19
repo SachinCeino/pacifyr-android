@@ -90,12 +90,6 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<AppointmentsLi
                         holder.mTextView_ScheduleTime.setText(mDisplayDateAndTime);
                     }
 
-                    holder.itemView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            ProfileScreenActivity.start(mContext, mPacifyr.getId(), true);
-                        }
-                    });
                     if (scheduleIsPassed(mObject.getStartTimeGMT())) {
                         holder.mainLayout.setBackgroundColor(mContext.getResources().getColor(R.color.appointment_no_click));
                         holder.mButton_Cancel.setBackground(null);
@@ -104,6 +98,12 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<AppointmentsLi
 
                         holder.mainLayout.setBackgroundColor(mContext.getResources().getColor(R.color.white));
                         holder.mButton_Cancel.setBackground(mContext.getResources().getDrawable(R.drawable.blue_border_white_background_round));
+                        holder.mCircleImageView_Appointment_pacifyr.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                ProfileScreenActivity.start(mContext, mPacifyr.getId(), true);
+                            }
+                        });
                     }
                 }
 
