@@ -186,15 +186,20 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
 
         }
 
-
+        ll_prev_week.setVisibility(GONE);
         ll_prev_week.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
+                weekNumber--;
+                if (weekNumber<=0)
+                {
+                    ll_prev_week.setVisibility(GONE);
 
+                }
                 rcv_week_schedule_.setAdapter(null);
                 rcv_slote_schedule_.setAdapter(null);
-                weekNumber--;
+
                 if (isValid(data))
                     data = getPreviousWeek();
 
@@ -220,6 +225,11 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
                 rcv_week_schedule_.setAdapter(null);
                 rcv_slote_schedule_.setAdapter(null);
                 weekNumber++;
+                if (weekNumber>0)
+                {
+                    ll_prev_week.setVisibility(VISIBLE);
+
+                }
                 if (isValid(data))
                     data = getNextWeek();
 
@@ -784,16 +794,35 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
 
         }
 
+        List<Slot> tempSlote=new ArrayList<>();
+
+        if (isValidSize(mSlotesData))
+        {
+            for (Slot item:mSlotesData) {
+                if (item.isHideSlote()==false)
+                {
+                    tempSlote.add(item);
+                }
+
+            }
+        }
+        if (!isValidSize(tempSlote))
+        {
+            noDataAvailable.setVisibility(VISIBLE);
+            rcv_week_schedule_.setVisibility(VISIBLE);
+            rcv_slote_schedule_.setVisibility(View.GONE);
+            return;
+        }
 
         noDataAvailable.setVisibility(GONE);
         rcv_week_schedule_.setVisibility(View.VISIBLE);
         rcv_slote_schedule_.setVisibility(View.VISIBLE);
-        mScheduleTimeSlotesAdapter = new ScheduleTimeSlotesAdapter(getActivity(), mSlotesData, isDateIsPassed, new ScheduleTimeSlotesAdapter.SloteBookedListener() {
+        mScheduleTimeSlotesAdapter = new ScheduleTimeSlotesAdapter(getActivity(), tempSlote, isDateIsPassed, new ScheduleTimeSlotesAdapter.SloteBookedListener() {
             @Override
             public void onSloteBooked(int position) {
                 SlotForNextClick = null;
-                if (isValid(mSlotesData) && isValid(mSlotesData.get(position))) {
-                    Slot singleSlote = mSlotesData.get(position);
+                if (isValid(tempSlote) && isValid(tempSlote.get(position))) {
+                    Slot singleSlote = tempSlote.get(position);
 
                     if (isValid(singleSlote)) {
                         SlotForNextClick = singleSlote;
@@ -840,7 +869,7 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
     }
 
 
-    private String getCurrentTime() {
+    public String getCurrentTime() {
 
         Calendar rightNow = Calendar.getInstance();
         int HOUR_OF_DAY = rightNow.get(Calendar.HOUR_OF_DAY);
@@ -858,7 +887,7 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
     }
 
 
-    private long getMilliSecondsTime(String time) {
+    public long getMilliSecondsTime(String time) {
         String[] values = time.split(":");
 
         int hours = Integer.parseInt(values[0]);
