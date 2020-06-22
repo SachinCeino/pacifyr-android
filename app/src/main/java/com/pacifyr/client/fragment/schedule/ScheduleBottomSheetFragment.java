@@ -122,8 +122,8 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
         this.passedTime = passedTime;
     }
 
-    private LinearLayout nextClick;
-    private TextView txtv_next;
+    private RelativeLayout nextClick;
+    private TextView txtv_next,txtv_back;
     private Slot SlotForNextClick = null;
     private RelativeLayout firstLayout;
     private RelativeLayout confirmLayout;
@@ -160,6 +160,7 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
         nextClick = view.findViewById(R.id.nextClick);
         nextClick.setVisibility(View.VISIBLE);
         txtv_next = view.findViewById(R.id.txtv_next);
+        txtv_back = view.findViewById(R.id.txtv_back);
         txtv_next.setText("Cancel");
         txtv_next.setVisibility(GONE);
         firstLayout = view.findViewById(R.id.firstLayout);
@@ -285,6 +286,7 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
     private void callAppoinmentConfirmationScreen(Slot slotForNextClick) {
         firstLayout.setVisibility(GONE);
         confirmLayout.setVisibility(View.VISIBLE);
+        txtv_back.setVisibility(VISIBLE);
         appointmentDoneLayout.setVisibility(GONE);
         ll_prev_week.setVisibility(GONE);
         Glide.with(getActivity())
@@ -313,10 +315,26 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
 
         pacifyr_name.setText(pacifyer_obj.getFirstName() + "" + pacifyer_obj.getLastName() + "");
 
-        appointment_date_and_time.setText(Utility.getDateFormatOne(TempScheduleData.getDate() + "") + "," + Utility.convertTime(slotForNextClick.getStartTime()));
+        appointment_date_and_time.setText(Utility.getDateFormatOne(TempScheduleData.getDate() + "") + ", " + Utility.convertTime(slotForNextClick.getStartTime()));
 
         txtv_next.setText("Confirm");
 
+        txtv_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                firstLayout.setVisibility(VISIBLE);
+                confirmLayout.setVisibility(View.GONE);
+                txtv_back.setVisibility(GONE);
+                appointmentDoneLayout.setVisibility(GONE);
+                ll_prev_week.setVisibility(VISIBLE);
+                rcv_week_schedule_.setVisibility(VISIBLE);
+                txtv_next.setText("Next");
+                l1.setVisibility(View.VISIBLE);
+
+
+            }
+        });
 
     }
 
@@ -1072,6 +1090,7 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
                                                 appointmentDoneLayout.setVisibility(View.VISIBLE);
                                                 confirmLayout.setVisibility(GONE);
                                                 txtv_next.setText("Done");
+                                                txtv_back.setVisibility(GONE);
                                                 confirmationMessageText.setText("Your request for an appointment with "+pacifyer_obj.getFirstName() + ""
                                                         + pacifyer_obj.getLastName()+" " +
                                                         "has been submitted and you will be " +

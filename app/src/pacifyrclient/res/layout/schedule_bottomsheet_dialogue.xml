@@ -283,22 +283,20 @@
 
         </RelativeLayout>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
-            android:gravity="center"
-            android:visibility="gone"
             android:id="@+id/nextClick"
+            android:visibility="gone"
             android:background="@color/white"
-            android:padding="10dp"
-            android:orientation="vertical">
+            android:padding="10dp">
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Next"
+                android:layout_alignParentRight="true"
                 android:id="@+id/txtv_next"
                 android:textColor="@color/colorPrimary"
                 android:textStyle="bold"
@@ -306,7 +304,20 @@
                 android:gravity="right"
                 android:padding="10dp" />
 
-        </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Back"
+                android:visibility="gone"
+                android:layout_alignParentLeft="true"
+                android:id="@+id/txtv_back"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:gravity="left"
+                android:padding="10dp" />
+
+        </RelativeLayout>
     </RelativeLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
