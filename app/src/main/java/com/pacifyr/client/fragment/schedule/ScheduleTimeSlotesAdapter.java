@@ -70,7 +70,7 @@ public class ScheduleTimeSlotesAdapter extends RecyclerView.Adapter<ScheduleTime
                 String S_time = convertTime(object.getStartTime());
                 String E_time = convertTime(object.getEndTime());
 
-                holder.schedule_timelotes.setText(S_time + "\t>\t" + E_time);
+                holder.schedule_timelotes.setText(S_time + "\t-\t " + E_time);
 
             }
 
@@ -98,6 +98,7 @@ public class ScheduleTimeSlotesAdapter extends RecyclerView.Adapter<ScheduleTime
                 holder.img_cancel_slot.setVisibility(View.GONE);
             } else if (object.isClicked()) {
                 holder.itemView.setBackgroundResource(R.drawable.blue_background_white_border);
+                holder.itemView.setAlpha((float) 0.5);
             } else {
 
                 holder.itemView.setBackgroundResource(R.drawable.black_border_white_back);

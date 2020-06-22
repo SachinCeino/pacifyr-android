@@ -178,7 +178,7 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<AppointmentsLi
 
     private void showCompletedPopUp(Object notes) {
         AlertDialog.Builder alert = new AlertDialog.Builder(mContext);
-        alert.setTitle("Visit Notes");
+        alert.setTitle("Visit notes");
         alert.setMessage(notes.toString());
         final TextView input = new TextView (mContext);
         alert.setView(input);
@@ -194,7 +194,7 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<AppointmentsLi
 
     private void showRejectedReasonPopUp(Object rejectReason) {
         AlertDialog.Builder alert = new AlertDialog.Builder(mContext);
-        alert.setTitle("Rejected Reason");
+        alert.setTitle("Rejected reason");
         alert.setMessage(rejectReason.toString());
         final TextView input = new TextView (mContext);
         alert.setView(input);

@@ -98,11 +98,16 @@ public class AppointmentsFragment extends BaseFragment {
                         {
                             mAppointmentModel = GsonUtils.getInstance().gsonToAppointmentModel(json);
                             if (isValid(mAppointmentModel.getResults())) {
+                                emptyLayout.setVisibility(View.GONE);
+                                mRecyclerViewAppointments.setVisibility(View.VISIBLE);
                                 setAppointmentListAdapter(mAppointmentModel.getResults());
                             }
+                            else{
+                                emptyLayout.setVisibility(View.VISIBLE);
+                                mRecyclerViewAppointments.setVisibility(View.GONE);
+                            }
 
-                            emptyLayout.setVisibility(View.GONE);
-                            mRecyclerViewAppointments.setVisibility(View.VISIBLE);
+
                         }
                         else
                         {
