@@ -695,7 +695,7 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
 
 
                         } else {
-                            Toast.makeText(getActivity(), "No slot's Available!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), "No slots available", Toast.LENGTH_SHORT).show();
                         }
 
                     } else {

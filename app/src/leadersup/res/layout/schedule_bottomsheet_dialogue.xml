@@ -143,7 +143,7 @@
                                 android:layout_height="match_parent"
                                 android:gravity="center"
                                 android:layout_centerInParent="true"
-                                android:text="No Slotes available !" />
+                                android:text="No slots available" />
                         </RelativeLayout>
                     </RelativeLayout>
 

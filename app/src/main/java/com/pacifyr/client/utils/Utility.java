@@ -676,7 +676,7 @@ public class Utility {
         try {
             date = format.parse(input);
             outPutString = outFormat.format(date);
-            outPutString = outPutString + "," + timeFormat.format(date);
+            outPutString = outPutString + ", " + timeFormat.format(date);
 
 
         } catch (ParseException e) {
