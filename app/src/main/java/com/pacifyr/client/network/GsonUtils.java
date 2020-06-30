@@ -19,6 +19,7 @@ import com.pacifyr.client.model.ModelResources;
 import com.pacifyr.client.model.ModelSpecialityByCategory;
 import com.pacifyr.client.model.ModelSpecialityByEmotion;
 import com.pacifyr.client.model.QRSuccess;
+import com.pacifyr.client.model.SchedulePayment;
 import com.pacifyr.client.model.UserDetailsModel;
 import com.pacifyr.client.model.UserProfile;
 import com.pacifyr.client.paytmpayment.TransactionResponce;
@@ -464,6 +465,19 @@ public class GsonUtils<T> {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             String jsonString =  json.toString();
             model = gson.fromJson(jsonString, MGetSessionDetails.class);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return model;
+    }
+
+    public SchedulePayment gsonToSchedulePayment(JSONObject json) {
+
+        SchedulePayment model = null;
+        try {
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            String jsonString =  json.toString();
+            model = gson.fromJson(jsonString, SchedulePayment.class);
         } catch (Exception e){
             e.printStackTrace();
         }
