@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -29,6 +30,7 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.kaopiz.kprogresshud.KProgressHUD;
 import com.pacifyr.client.R;
 import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
@@ -41,6 +43,7 @@ import com.pacifyr.client.paytmpayment.TransactionResponce;
 import com.pacifyr.client.quickblox.activities.CallActivity;
 import com.pacifyr.client.quickblox.chat.utils.Consts;
 import com.pacifyr.client.utils.Utility;
+import com.pacifyrapp.utilitylibrary.CustomFontTextView;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 
@@ -76,7 +79,8 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
     public ScheduleBottomSheetFragment() {
 
     }
-
+    public KProgressHUD hud_progress = null;
+    public KProgressHUD hud_status = null;
 
     private LinearLayout ll_next_week, ll_prev_week;
     private String[] data;
@@ -266,15 +270,29 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
                         callAppoinmentConfirmationScreen(SlotForNextClick);
                         //callSlotBookApi(SlotForNextClick);
                     }
-                } else if (txtv_next.getText().equals("Proceed to pay")) {
+                }
+                else if (txtv_next.getText().equals("Confirm")) {
                     if (isValid(SlotForNextClick)) {
+                            //for US customers
+                        callSlotBookApiForUS(SlotForNextClick);
+                    }
 
+                }
+                else if (txtv_next.getText().equals("Proceed to pay")) {
+                    if (isValid(SlotForNextClick)) {
+                    //for Indian customers
                         callSlotBookApi(SlotForNextClick);
                     }
 
                 } else if (txtv_next.getText().equals("Done")) {
 
-                    callSlotBookApiAfterPaymentSuccess(SlotForNextClick);
+                    if (prefM.getCountry().equals("India")||prefM.getCountry().equals("Wakanda")) {
+                        callSlotBookApiAfterPaymentSuccess(SlotForNextClick);
+                    }
+                    else {
+                        EventBus.getDefault().post("NEWSCHEDULE");
+                        dismiss();
+                    }
 
                 }
             }
@@ -305,14 +323,13 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
                     String url = NetworkService.GLOBAL_URL + "schedule/slots/book";
                     PrefManager prefM = PrefManager.getInstance(getActivity());
                     String token = prefM.getAccessToken();
-                    ((PacifyrActivity) getActivity()).setLoading();
-                    ((PacifyrActivity) getActivity()).showProgress();
+                    setLoading();
+                    showProgress();
                     AjaxCallback cb = new AjaxCallback<JSONObject>() {
                         @Override
                         public void callback(String url, JSONObject json, AjaxStatus stat) {
                             try {
-                                ((PacifyrActivity) getActivity()).hideProgress();
-
+                                hideProgress();
                                 if (isValid(json)) {
                                     String jsonS = json.toString();
                                     String status = null;
@@ -328,10 +345,10 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
                                         }
 
                                     }
-                                    if (json.has("messsage"))
+                                    if (json.has("message"))
                                     {
                                         try {
-                                            messsage=json.getString("messsage");
+                                            messsage=json.getString("message");
                                         } catch (JSONException ex) {
                                             ex.printStackTrace();
                                         }
@@ -342,13 +359,13 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
 
                                             if (status.equals("success"))
                                             {
-                                                ((PacifyrActivity) getActivity()).setStatus(messsage, R.color.md_green_400);
-                                                ((PacifyrActivity) getActivity()).showStatus();
+                                                setStatus("Successfully booked", R.color.md_green_400);
+                                                showStatus();
                                                 new Handler().postDelayed(new Runnable() {
                                                     @Override
                                                     public void run() {
 
-                                                        ((PacifyrActivity) getActivity()).hideStatus();
+                                                        hideStatus();
                                                         dismiss();
                                                     }
                                                 }, 2000);
@@ -356,26 +373,26 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
                                             }
 
                                         } else {
-                                            //((PacifyrActivity) getActivity()).setStatus("Something went wrong", R.color.md_red_A700);
-                                            ((PacifyrActivity) getActivity()).showStatus();
+                                            setStatus(messsage, R.color.md_red_A700);
+                                            showStatus();
                                             new Handler().postDelayed(new Runnable() {
                                                 @Override
                                                 public void run() {
 
-                                                    ((PacifyrActivity) getActivity()).hideStatus();
-
+                                                    hideStatus();
+                                                    hideProgress();
                                                 }
                                             }, 2000);
                                         }
 
                                     } else {
-                                        ((PacifyrActivity) getActivity()).setStatus("Something went wrong !", R.color.md_red_A700);
-                                        ((PacifyrActivity) getActivity()).showStatus();
+                                        setStatus("Something went wrong !", R.color.md_red_A700);
+                                        showStatus();
                                         new Handler().postDelayed(new Runnable() {
                                             @Override
                                             public void run() {
 
-                                                ((PacifyrActivity) getActivity()).hideStatus();
+                                                hideStatus();
 
                                             }
                                         }, 2000);
@@ -388,7 +405,7 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
 
                             } catch (Exception e) {
                                 e.printStackTrace();
-                                ((PacifyrActivity) getActivity()).hideProgress();
+                                hideProgress();
                             }
                         }
                     };
@@ -447,7 +464,11 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
 
         appointment_date_and_time.setText(Utility.getDateFormatOne(TempScheduleData.getDate() + "") + ", " + Utility.convertTime(slotForNextClick.getStartTime()));
 
-        txtv_next.setText("Proceed to pay");
+
+        if (prefM.getCountry().equals("India") || prefM.getCountry().equals("Wakanda"))
+            txtv_next.setText("Proceed to pay");
+        else
+            txtv_next.setText("Confirm");
 
         txtv_back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -488,7 +509,7 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
                         Log.w("@@@@", String.valueOf(json));
                         WeekScheduleData = GsonUtils.getInstance().gsonToModelScheduleData(json);
                         if (isValid(WeekScheduleData)) {
-                            ((PacifyrActivity) getActivity()).hideProgress();
+                            hideProgress();
 
                             noDataAvailable.setVisibility(GONE);
                             rcv_week_schedule_.setVisibility(View.VISIBLE);
@@ -496,14 +517,14 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
 
                             setWeekScheduleAdapter(WeekScheduleData);
                         } else {
-                            ((PacifyrActivity) getActivity()).hideProgress();
+                            hideProgress();
                             noDataAvailable.setVisibility(View.VISIBLE);
                             rcv_week_schedule_.setVisibility(GONE);
                             rcv_slote_schedule_.setVisibility(GONE);
                         }
 
                     } else {
-                        ((PacifyrActivity) getActivity()).hideProgress();
+                        hideProgress();
                         if (isValid(status.getMessage())) {
                             Toast.makeText(getActivity(), status.getMessage(), Toast.LENGTH_SHORT).show();
                         }
@@ -511,7 +532,7 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
 
                 } catch (Exception e) {
 
-                    ((PacifyrActivity) getActivity()).hideProgress();
+                    hideProgress();
 
                     e.printStackTrace();
                 }
@@ -932,11 +953,11 @@ Log.w("WWW","onCreate");
             aq.ajax(GLOBAL_URL + "schedule/slots/" + id, JSONArray.class, cb);
 
         } catch (Exception ex) {
-            ((PacifyrActivity) getActivity()).hideProgress();
+            hideProgress();
             ex.printStackTrace();
         }
 
-        ((PacifyrActivity) getActivity()).hideProgress();
+        hideProgress();
     }
 
     private void setTimeSlotesAdapter(List<Slot> mSlotesData) {
@@ -1092,13 +1113,13 @@ Log.w("WWW","onCreate");
                     String url = NetworkService.GLOBAL_URL + "schedule/slots/book/cancel/" + singleSlote.getId();
                     PrefManager prefM = PrefManager.getInstance(getActivity());
                     String token = prefM.getAccessToken();
-                    ((PacifyrActivity) getActivity()).setLoading();
-                    ((PacifyrActivity) getActivity()).showProgress();
+                    setLoading();
+                    showProgress();
                     AjaxCallback cb = new AjaxCallback<JSONObject>() {
                         @Override
                         public void callback(String url, JSONObject json, AjaxStatus stat) {
                             try {
-                                ((PacifyrActivity) getActivity()).hideProgress();
+                                hideProgress();
 
                                 if (isValid(json)) {
                                     String jsonS = json.toString();
@@ -1117,50 +1138,50 @@ Log.w("WWW","onCreate");
 
 
                                             if (status.equals("success")) {
-                                                ((PacifyrActivity) getActivity()).setStatus(messsage, R.color.md_green_400);
-                                                ((PacifyrActivity) getActivity()).showStatus();
+                                                setStatus(messsage, R.color.md_green_400);
+                                                showStatus();
                                                 new Handler().postDelayed(new Runnable() {
                                                     @Override
                                                     public void run() {
 
-                                                        ((PacifyrActivity) getActivity()).hideStatus();
+                                                        hideStatus();
 
                                                     }
                                                 }, 2000);
                                             } else {
-                                                ((PacifyrActivity) getActivity()).setStatus(messsage, R.color.md_red_A700);
-                                                ((PacifyrActivity) getActivity()).showStatus();
+                                                setStatus(messsage, R.color.md_red_A700);
+                                                showStatus();
                                                 new Handler().postDelayed(new Runnable() {
                                                     @Override
                                                     public void run() {
 
-                                                        ((PacifyrActivity) getActivity()).hideStatus();
+                                                        hideStatus();
 
                                                     }
                                                 }, 2000);
                                             }
                                         } else {
-                                            //((PacifyrActivity) getActivity()).setStatus("Something went wrong", R.color.md_red_A700);
-                                            ((PacifyrActivity) getActivity()).showStatus();
+                                            setStatus(messsage, R.color.md_red_A700);
+                                            showStatus();
                                             new Handler().postDelayed(new Runnable() {
                                                 @Override
                                                 public void run() {
 
-                                                    ((PacifyrActivity) getActivity()).hideStatus();
+                                                    hideStatus();
 
                                                 }
                                             }, 2000);
                                         }
 
-                                        ((PacifyrActivity) getActivity()).showStatus();
+                                        showStatus();
                                     } else {
-                                        ((PacifyrActivity) getActivity()).setStatus("Something went wrong !", R.color.md_red_A700);
-                                        ((PacifyrActivity) getActivity()).showStatus();
+                                        setStatus("Something went wrong !", R.color.md_red_A700);
+                                        showStatus();
                                         new Handler().postDelayed(new Runnable() {
                                             @Override
                                             public void run() {
 
-                                                ((PacifyrActivity) getActivity()).hideStatus();
+                                                hideStatus();
 
                                             }
                                         }, 2000);
@@ -1173,7 +1194,7 @@ Log.w("WWW","onCreate");
 
                             } catch (Exception e) {
                                 e.printStackTrace();
-                                ((PacifyrActivity) getActivity()).hideProgress();
+                                hideProgress();
                             }
                         }
                     };
@@ -1228,13 +1249,13 @@ Log.w("WWW","onCreate");
                     String url = NetworkService.GLOBAL_URL + "schedule/bookingRequestPayment";
                     PrefManager prefM = PrefManager.getInstance(getActivity());
                     String token = prefM.getAccessToken();
-                    ((PacifyrActivity) getActivity()).setLoading();
-                    ((PacifyrActivity) getActivity()).showProgress();
+                    setLoading();
+                    showProgress();
                     AjaxCallback cb = new AjaxCallback<JSONObject>() {
                         @Override
                         public void callback(String url, JSONObject json, AjaxStatus stat) {
                             try {
-                                ((PacifyrActivity) getActivity()).hideProgress();
+                                hideProgress();
 
                                 if (isValid(json)) {
                                     String jsonS = json.toString();
@@ -1273,26 +1294,26 @@ Log.w("WWW","onCreate");
                                             }
 
                                         } else {
-                                           // ((PacifyrActivity) getActivity()).setStatus("Something went wrong", R.color.md_red_A700);
-                                            ((PacifyrActivity) getActivity()).showStatus();
+                                          setStatus(messsage, R.color.md_red_A700);
+                                            showStatus();
                                             new Handler().postDelayed(new Runnable() {
                                                 @Override
                                                 public void run() {
 
-                                                    ((PacifyrActivity) getActivity()).hideStatus();
+                                                    hideStatus();
 
                                                 }
                                             }, 2000);
                                         }
 
                                     } else {
-                                        ((PacifyrActivity) getActivity()).setStatus("Something went wrong !", R.color.md_red_A700);
-                                        ((PacifyrActivity) getActivity()).showStatus();
+                                        setStatus("Something went wrong !", R.color.md_red_A700);
+                                        showStatus();
                                         new Handler().postDelayed(new Runnable() {
                                             @Override
                                             public void run() {
 
-                                                ((PacifyrActivity) getActivity()).hideStatus();
+                                                hideStatus();
 
                                             }
                                         }, 2000);
@@ -1304,7 +1325,7 @@ Log.w("WWW","onCreate");
                                 }
                             } catch (Exception e) {
                                 e.printStackTrace();
-                                ((PacifyrActivity) getActivity()).hideProgress();
+                                hideProgress();
                             }
                         }
                     };
@@ -1328,6 +1349,140 @@ Log.w("WWW","onCreate");
     }
 
 
+    private void callSlotBookApiForUS(Slot singleSlote) {
+
+
+        if (isValid(singleSlote)) {
+            try {
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("userId", prefM.getUserID());
+                jsonObject.put("timeZoneOffset",Utility.timeZoneOffset());
+                JSONArray jsonArray = new JSONArray();
+                jsonArray.put(singleSlote.getId());
+                jsonObject.put("timeSlotId",jsonArray);
+
+
+                try {
+                    String url = NetworkService.GLOBAL_URL + "schedule/slots/book";
+                    PrefManager prefM = PrefManager.getInstance(getActivity());
+                    String token = prefM.getAccessToken();
+                   setLoading();
+                    showProgress();
+                    AjaxCallback cb = new AjaxCallback<JSONObject>() {
+                        @Override
+                        public void callback(String url, JSONObject json, AjaxStatus stat) {
+                            try {
+                                hideProgress();
+
+                                if (isValid(json)) {
+                                    String jsonS = json.toString();
+                                    String status;
+                                    String messsage;
+                                    Log.w("QQQQ", jsonS);
+
+                                    if (json.has("status")) {
+
+                                        status = json.getString("status");
+
+                                        messsage = status;
+                                        if (json.has("message"))
+                                            messsage = json.getString("message");
+                                        if (isValid(status)) {
+
+
+                                            if (status.equals("success")) {
+                                                appointmentDoneLayout.setVisibility(View.VISIBLE);
+                                                confirmLayout.setVisibility(GONE);
+                                                txtv_next.setText("Done");
+                                                txtv_back.setVisibility(GONE);
+                                                confirmationMessageText.setText("Your request for an appointment with "+pacifyer_obj.getFirstName() + ""
+                                                        + pacifyer_obj.getLastName()+" " +
+                                                        "has been submitted and you will be " +
+                                                        "notified once the time slot is confirmed.");
+
+                                                /*confirmationMessageText.setText("Your appointment is scheduled with "
+                                                        + pacifyer_obj.getFirstName() + ""
+                                                        + pacifyer_obj.getLastName() + "" + "on "
+                                                        + Utility.getDateFormatOne(TempScheduleData.getDate()) + ","
+                                                        + Utility.convertTime(singleSlote.getStartTime()));*/
+
+                                                /*((PacifyrActivity)getActivity()).setStatus(messsage, R.color.md_green_400);
+                                                ((PacifyrActivity)getActivity()).showStatus();
+                                                new Handler().postDelayed(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+
+                                                        ((PacifyrActivity)getActivity()).hideStatus();
+
+                                                    }
+                                                }, 2000);*/
+                                            } else {
+                                                setStatus(messsage, R.color.md_red_A700);
+                                                showStatus();
+                                                new Handler().postDelayed(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+
+                                                       hideStatus();
+
+                                                    }
+                                                }, 2000);
+                                            }
+                                        } else {
+                                            setStatus(messsage, R.color.md_red_A700);
+                                         showStatus();
+                                            new Handler().postDelayed(new Runnable() {
+                                                @Override
+                                                public void run() {
+
+                                                    hideStatus();
+
+                                                }
+                                            }, 2000);
+                                        }
+
+                                    } else {
+                                        setStatus("Something went wrong !", R.color.md_red_A700);
+                                       showStatus();
+                                        new Handler().postDelayed(new Runnable() {
+                                            @Override
+                                            public void run() {
+
+                                                hideStatus();
+
+                                            }
+                                        }, 2000);
+                                    }
+
+                                    if (isValid(TempScheduleData)) {
+                                        webGetTimSlotes(TempScheduleData);
+                                    }
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                hideProgress();
+                            }
+                        }
+                    };
+
+                    AQuery aq = new AQuery(getActivity());
+                    cb.header("Content-Type", "application/json");
+                    cb.header("AccessToken", token);
+                    aq.post(url, jsonObject, JSONObject.class, cb);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Log.w("@@@",String.valueOf(e));
+                }
+
+
+            } catch (Exception e) {
+                Log.w("@@@",String.valueOf(e));
+            }
+
+        }
+
+    }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onPayTmDone(Object event) {
 
@@ -1350,6 +1505,57 @@ Log.w("WWW","onCreate");
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+
+    public void hideProgress() {
+        try {
+            if(isValid(hud_progress)) if(hud_progress.isShowing()) hud_progress.dismiss();
+        }catch (Exception e)
+        {
+
+        }
+    }
+
+    public void showProgress() {
+        try {
+            hideProgress();
+            if(isValid(hud_progress)) if(!hud_progress.isShowing()) hud_progress.show();
+        }catch (Exception e)
+        {
+
+        }
+    }
+
+    public void setStatus(String status, int color) {
+        View view = LayoutInflater.from(getActivity()).inflate(com.pacifyrapp.utilitylibrary.R.layout.status_dialog, null, false);
+        CustomFontTextView status_dtxv = view.findViewById(com.pacifyrapp.utilitylibrary.R.id.status_dtxv);
+        status_dtxv.setText("" + status);
+        hideStatus();
+        hud_status = KProgressHUD.create(getActivity()).setStyle(KProgressHUD.Style.SPIN_INDETERMINATE).setCustomView(view).setWindowColor(getActivity().getResources().getColor(color)).setCancellable(true).setAnimationSpeed(2).setDimAmount(0.5f);
+
+    }
+
+    public void hideStatus() {
+        if(hud_status != null) if(hud_status.isShowing()) hud_status.dismiss();
+    }
+
+    public void showStatus() {
+        try {
+            if(hud_status != null) if(!hud_status.isShowing()) hud_status.show();
+        }
+        catch (WindowManager.BadTokenException e) {
+            Log.w("@@@EXC","WindowManager.BadTokenException");
+        }
+
+    }
+
+    public void setLoading() {
+        hideProgress();
+        if(isValid(hud_progress))
+            hud_progress=null;
+        hud_progress = KProgressHUD.create(getActivity()).setStyle(KProgressHUD.Style.SPIN_INDETERMINATE).setAnimationSpeed(2).setCancellable(true).setMaxProgress(100).setDimAmount(0.5f);
+
     }
 
 }

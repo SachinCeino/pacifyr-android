@@ -3551,8 +3551,8 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
                                                 }
                                             }
                                         });
-                                    else
-                                        Toast.makeText(PacifyrActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
+                                   // else
+                                       // Toast.makeText(PacifyrActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
 
                                     Bundle args =
                                             FirebaseLogging.getConstantArgsLoggedIn(PacifyrActivity.this);
@@ -3624,8 +3624,8 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
                                                 }
                                             }
                                         });
-                                    else
-                                        Toast.makeText(PacifyrActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
+                                  //  else
+                                      //  Toast.makeText(PacifyrActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
 
                                     Bundle args =
                                             FirebaseLogging.getConstantArgsLoggedIn(PacifyrActivity.this);
