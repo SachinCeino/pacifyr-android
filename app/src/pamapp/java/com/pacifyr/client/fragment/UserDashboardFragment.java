@@ -212,7 +212,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
     @Override
     public void onResume() {
         super.onResume();
-        ((DashboardActivity)getActivity()).changeActionBarTitleForFragments(getResources().getString(R.string.nav_mydashbord_title));
+        ((DashboardActivity) getActivity()).changeActionBarTitleForFragments(getResources().getString(R.string.label_find_care));
 
         try {
 
