@@ -7,37 +7,32 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.multidex.MultiDex;
 
-import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.pacifyr.client.customview.MainTextView;
-import com.pacifyr.client.fragment.AppointmentsFragment;
-import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
-import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.github.javiersantos.appupdater.AppUpdater;
-import com.pacifyr.client.fragment.MySessionFragment;
-import com.pacifyr.client.fragment.ResourcesFragment;
-
-import com.pacifyr.client.fragment.WelcomeTourFragment;
 import com.pacifyr.client.Payment.PaymentFragment;
 import com.pacifyr.client.R;
+import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.ActionbarEvent;
 import com.pacifyr.client.event.AlertTypeEvent;
 import com.pacifyr.client.event.CallEvent;
 import com.pacifyr.client.event.ChatEvent;
 import com.pacifyr.client.event.NotifyEvent;
+import com.pacifyr.client.fragment.AppointmentsFragment;
+import com.pacifyr.client.fragment.MySessionFragment;
+import com.pacifyr.client.fragment.ResourcesFragment;
 import com.pacifyr.client.fragment.UserDashboardFragment;
+import com.pacifyr.client.fragment.WelcomeTourFragment;
 import com.pacifyr.client.home.account.AccountEditActivity;
 import com.pacifyr.client.home.account.AccountFragment;
 import com.pacifyr.client.model.interfaces.CallChatEventListner;
@@ -49,6 +44,9 @@ import com.pacifyr.client.utils.AmazonSNSTokenHandler;
 import com.pacifyr.client.utils.LogUtils;
 import com.pacifyr.client.utils.PagerEnabledSlidingPaneLayout;
 import com.pacifyr.client.utils.ToastHandler;
+import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
+import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
 
@@ -106,6 +104,9 @@ public class DashboardActivity extends PacifyrAppCompactActivity {
     private LinearLayout findCare_layout;
 
     private LinearLayout mLinearLayoutAppointments;
+    public static String CreatedYear = "";
+    public static String CreatedDay = "";
+
     // private PermissionsChecker checker;
     public static void start(Context context
     ) {

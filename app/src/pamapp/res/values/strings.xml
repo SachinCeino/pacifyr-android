@@ -28,6 +28,10 @@
     <string name="call_emergency">If this is an emergency call, please hang up and dial 911 or rush to the nearest hospital.</string>
     <string name="card_number">card number</string>
 
+    <string name="URL_PRIVACY_POLICY_INDIA">https://pacifyr.com/India_Privacy_Policy.pdf</string>
+    <string name="URL_TERMS_INDIA">https://pacifyr.com/Terms_of_Use%20_Clients.pdf</string>
+    <string name="URL_DISPUTE_POLICY_INDIA">https://pacifyr.com/Indian_Copyright_Dispute_Policy.pdf</string>
+
     <!--new adding-->
     <string name="get_ready_feel_better">What is the reason for your visit?</string>
     <string name="feel_better">Feel better with Pacifyr</string>

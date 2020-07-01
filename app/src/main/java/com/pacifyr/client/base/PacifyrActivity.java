@@ -56,7 +56,6 @@ import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.BusProvider;
 import com.pacifyr.client.event.CallEvent;
 import com.pacifyr.client.event.NotifyEvent;
-import com.pacifyr.client.fragment.schedule.ScheduleBottomSheetFragment;
 import com.pacifyr.client.home.PaymentActivity;
 import com.pacifyr.client.home.SessionSummaryActivity;
 import com.pacifyr.client.model.BillingSummary;
@@ -3791,7 +3790,7 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
 
     }
 
-    public void setAlertStatusCovid(String title,String desc,String ok,String dismiss,View.OnClickListener oklistner) {
+    /*public void setAlertStatusCovid(String title,String desc,String ok,String dismiss,View.OnClickListener oklistner) {
         View view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.alert_covid, null, false);
         MainTextView title_dtxv = view.findViewById(com.pacifyrapp.utilitylibrary.R.id.title_dtxv);
         MainTextView desc_dtxv = view.findViewById(com.pacifyrapp.utilitylibrary.R.id.desc_dtxv);
@@ -3808,7 +3807,7 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
         showStatus2();
         ok_dtxv.setOnClickListener(oklistner);
 
-    }
+    }*/
 
 }
 

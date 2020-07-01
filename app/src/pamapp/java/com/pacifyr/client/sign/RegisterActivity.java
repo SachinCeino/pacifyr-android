@@ -40,16 +40,6 @@ import com.aigestudio.wheelpicker.widgets.WheelYearPicker;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.pacifyrapp.utilitylibrary.CustomEditText;
-import com.pacifyr.client.customview.MainTextView;
-import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
-import com.pacifyrapp.utilitylibrary.ToastHandler;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.MRoleModel;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelUserProfile;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.post.PRegistrationModel;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.post.PostRegisterModel;
-import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.facebook.login.LoginManager;
 import com.gdacciaro.iOSDialog.iOSDialog;
 import com.gdacciaro.iOSDialog.iOSDialogClickListener;
@@ -61,9 +51,11 @@ import com.pacifyr.client.R;
 import com.pacifyr.client.activity.TermsOfUseActivity;
 import com.pacifyr.client.adapter.CountrySpinnerAdapter;
 import com.pacifyr.client.base.PacifyrActivity;
+import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.home.PacifyrDashboardActivity;
 import com.pacifyr.client.home.WelcomeTourActivity;
 import com.pacifyr.client.model.ItemData;
+import com.pacifyr.client.model.ModelPacifyrDocuments;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.quickblox.App;
@@ -73,6 +65,15 @@ import com.pacifyr.client.quickblox.utils.QBEntityCallbackImpl;
 import com.pacifyr.client.utils.Constants;
 import com.pacifyr.client.utils.LogUtils;
 import com.pacifyr.client.utils.Utility;
+import com.pacifyrapp.utilitylibrary.CustomEditText;
+import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
+import com.pacifyrapp.utilitylibrary.ToastHandler;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.MRoleModel;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelUserProfile;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.post.PRegistrationModel;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.post.PostRegisterModel;
+import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.quickblox.auth.QBAuth;
 import com.quickblox.auth.session.QBSession;
 import com.quickblox.auth.session.QBSettings;
@@ -95,13 +96,13 @@ import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static com.pacifyr.client.network.NetworkService.countryData;
+import static com.pacifyr.client.sign.RegisterVerifyActivity.phoneRegister;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.ACCOUNT_KEY;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.APP_ID;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.AUTH_KEY;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.AUTH_SECRET;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
-import static com.pacifyr.client.network.NetworkService.countryData;
-import static com.pacifyr.client.sign.RegisterVerifyActivity.phoneRegister;
 
 //import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.termOfUseUrl;
 
@@ -161,7 +162,7 @@ public class RegisterActivity extends PacifyrActivity {
     private CustomEditText phoneEdit;
     private CustomEditText yearEdit;
     private MainTextView termsCtxv;
-
+    public static ArrayList<ModelPacifyrDocuments> documentFileList;
     WheelYearPicker wheelYearPicker;
 
     private String qbID;
@@ -847,7 +848,7 @@ public class RegisterActivity extends PacifyrActivity {
                             jsonString = json2.toString();
                             if (isValid(regModel, getResources().getString(R.string.please_try_again))) {
 
-                                String stat = regModel.getStatus().toString();
+                                String stat = regModel.getStatus();
                                 if (isValid(stat, getResources().getString(R.string.please_try_again))) {
 
                                     if (stat.equals(getResources().getString(R.string.success))) {

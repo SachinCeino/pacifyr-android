@@ -33,10 +33,6 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.MEmotion;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
-import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.gdacciaro.iOSDialog.iOSDialog;
 import com.gdacciaro.iOSDialog.iOSDialogClickListener;
 import com.pacifyr.client.R;
@@ -55,6 +51,10 @@ import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.quickblox.activities.CallActivity;
 import com.pacifyr.client.quickblox.adapters.OpponentsFromCallAdapter;
 import com.pacifyr.client.utils.LogUtils;
+import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.MEmotion;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
+import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.quickblox.sample.core.utils.Toaster;
 import com.quickblox.users.model.QBUser;
 import com.quickblox.videochat.webrtc.BaseSession;
@@ -71,7 +71,6 @@ import com.squareup.picasso.Picasso;
 import org.webrtc.CameraVideoCapturer;
 import org.webrtc.RendererCommon;
 import org.webrtc.SurfaceViewRenderer;
-import org.webrtc.VideoRenderer;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -1044,7 +1043,7 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
     private void fillVideoView(int userId, QBRTCSurfaceView videoView, QBRTCVideoTrack videoTrack,
                                boolean remoteRenderer) {
         videoTrack.removeRenderer(videoTrack.getRenderer());
-        videoTrack.addRenderer(new VideoRenderer(videoView));
+        videoTrack.addRenderer(videoView);
         if (userId != 0) {
             getVideoTrackMap().put(userId, videoTrack);
         }

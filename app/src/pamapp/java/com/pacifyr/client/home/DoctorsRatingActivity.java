@@ -11,18 +11,12 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.pacifyr.client.R;
 import com.pacifyr.client.adapter.RatingGraphAdapter;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.AlertTypeEvent;
 import com.pacifyr.client.event.NotifyEvent;
+import com.pacifyr.client.fragment.schedule.ScheduleBottomSheetFragment;
 import com.pacifyr.client.utility.PacifyrAppCompactActivity;
 import com.pacifyr.client.utils.Utility;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
@@ -98,7 +92,7 @@ public class DoctorsRatingActivity extends PacifyrAppCompactActivity{
         setUpRatingGraphUI(Integer.parseInt(pacifyerObject.getPsi()));
 
         if (isValid(pacifyerObject.getRecentMentionCount()))
-            recentMentionCount.setText("Based on "+ String.valueOf(pacifyerObject.getRecentMentionCount())+" mentions");
+            recentMentionCount.setText("Based on " + pacifyerObject.getRecentMentionCount() + " mentions");
 
         if (isValid(pacifyerObject.getThoroughnessOfExamination()))
             Thorougness_of_examination.setText(pacifyerObject.getThoroughnessOfExamination());
@@ -273,15 +267,15 @@ public class DoctorsRatingActivity extends PacifyrAppCompactActivity{
     private DeviceFitImageView rightImv;
 
     public void onSetActionBar() {
-        actionBarTopLlay = (LinearLayout) findViewById(R.id.action_bar_top_llay);
-        bottomPanel = (RelativeLayout) findViewById(R.id.bottom_panel);
-        leftLlay = (LinearLayout) findViewById(R.id.left_llay);
-        backImv = (DeviceFitImageView) findViewById(R.id.back_imv);
-        leftTxv = (MainTextView) findViewById(R.id.left_txv);
-        titleTxv = (MainTextView) findViewById(R.id.title_txv);
-        rightLlay = (LinearLayout) findViewById(R.id.right_llay);
-        rightTxv = (MainTextView) findViewById(R.id.right_txv);
-        rightImv = (DeviceFitImageView) findViewById(R.id.right_imv);
+        actionBarTopLlay = findViewById(R.id.action_bar_top_llay);
+        bottomPanel = findViewById(R.id.bottom_panel);
+        leftLlay = findViewById(R.id.left_llay);
+        backImv = findViewById(R.id.back_imv);
+        leftTxv = findViewById(R.id.left_txv);
+        titleTxv = findViewById(R.id.title_txv);
+        rightLlay = findViewById(R.id.right_llay);
+        rightTxv = findViewById(R.id.right_txv);
+        rightImv = findViewById(R.id.right_imv);
         rightImv.setVisibility(View.INVISIBLE);
         rightTxv.setVisibility(View.INVISIBLE);
         rightLlay.setVisibility(View.INVISIBLE);
