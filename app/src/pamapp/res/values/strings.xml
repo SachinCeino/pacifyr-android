@@ -187,6 +187,7 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="talk_to_wellness_expert"></string>
     <string name="how_you_rate">How do you rate your provider?</string>
     <string name="learnmore">LEARN MORE</string>
+    <string name="medical_visits">Medical Visits</string>
     <string name="disclaimer_for_patient_scores">When choosing a provider, it can be helpful to review other patients experiences. OM Healthcare publishes patient experience ratings from Fountain Analytics, which aggregates patient reviews from over a hundred sites to compile information about 10 different patient experience metrics. These ratings are not intended as indicators of medical quality — how good a provider is — but rather reflect patients feedback on factors such as good communication, clarity of instructions, etc. Patient experience ratings are issued in the context of a specific physicians specialty, as patients tend to rate types of providers differently.</string>
 
 </resources>
