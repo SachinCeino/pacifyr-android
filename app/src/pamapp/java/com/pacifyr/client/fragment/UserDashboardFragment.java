@@ -1,38 +1,35 @@
 package com.pacifyr.client.fragment;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.pacifyr.client.Payment.AlertAddCreditCardActivity;
-import com.pacifyr.client.base.PacifyrActivity;
-import com.pacifyr.client.customview.MainTextView;
-import com.pacifyr.client.home.DoctorsActivity;
-import com.pacifyr.client.home.DoctorsMoreInformationActivity;
-import com.pacifyr.client.home.ListPacifyrScreenActivity;
-import com.pacifyr.client.home.ProfileScreenActivity;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelCustomerDashboard2;
-import com.pacifyrapp.utilitylibrary.utils.PrefManager;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.gson.Gson;
 import com.pacifyr.client.R;
+import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.home.ConnectToPacifyrActivity;
-import com.pacifyr.client.home.ConnectToSinglePacifyrActivity;
 import com.pacifyr.client.home.DashboardActivity;
-import com.pacifyr.client.home.MySessionsActivity;
+import com.pacifyr.client.home.DoctorsActivity;
+import com.pacifyr.client.home.DoctorsMoreInformationActivity;
+import com.pacifyr.client.home.LearnMoreActivity;
 import com.pacifyr.client.home.SessionSummaryActivity;
 import com.pacifyr.client.model.Session;
 import com.pacifyr.client.network.GsonUtils;
@@ -43,13 +40,15 @@ import com.pacifyr.client.quickblox.services.CallService;
 import com.pacifyr.client.utility.BaseFragment;
 import com.pacifyr.client.utility.EventMessage;
 import com.pacifyr.client.utils.Utility;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.RespSearchPacifyrWOption;
+import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.quickblox.chat.QBRestChatService;
 import com.quickblox.chat.model.QBChatDialog;
 import com.quickblox.core.QBEntityCallback;
 import com.quickblox.core.exception.QBResponseException;
 import com.quickblox.sample.core.utils.SharedPrefsHelper;
 import com.squareup.otto.Subscribe;
-import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONArray;
@@ -59,40 +58,28 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
-import de.hdodenhof.circleimageview.CircleImageView;
 import me.leolin.shortcutbadger.ShortcutBadger;
 
+import static com.pacifyr.client.base.PacifyrActivity.call_emotion;
+import static com.pacifyr.client.network.NetworkService.modelCustomerDashboard2;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_IMAGE_URL;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
-import static com.pacifyr.client.base.PacifyrActivity.call_emotion;
-import static com.pacifyr.client.network.NetworkService.lastSession;
-import static com.pacifyr.client.network.NetworkService.modelCustomerDashboard2;
 import static com.quickblox.sample.core.utils.ConnectivityUtils.isNetworkConnected;
 
 public class UserDashboardFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
 
     private static final String TAG = UserDashboardFragment.class.getSimpleName();
-    private RelativeLayout feelRlay, this_week_rlay, connect_btn_rlay;
-    private RelativeLayout layout_FindCare;
-    private MainTextView lastSsnPacfyrCtxv, no_pacifyr_ctxv;
-    private LinearLayout last_session_top_llay;
-    private MainTextView lastSessionMinuteTxv;
-    private MainTextView daysTxv;
-    private RelativeLayout cirPrefPacifyr;
+    /* private RelativeLayout feelRlay, this_week_rlay, connect_btn_rlay;
+     private MainTextView lastSsnPacfyrCtxv, no_pacifyr_ctxv;
+     private LinearLayout last_session_top_llay;
+     private MainTextView lastSessionMinuteTxv;
+     private MainTextView daysTxv;
+     private RelativeLayout cirPrefPacifyr;*/
     private LinearLayout llayTop, llay_bottom;
-    private CircleImageView pacifyr1Dimv;
-    private CircleImageView pacifyr2Dimv;
-    private CircleImageView pacifyr4Dimv;
-    private LinearLayout llayBottom;
-    private CircleImageView pacifyr3Dimv;
-    //private DeviceFitImageView searchDimv;
-    private RelativeLayout thisWeekRlay;
-    private MainTextView office_visit_count;
-    private MainTextView video_visit_count;
-    private MainTextView message_Count;
-    private MainTextView feelTitleCtxv;
+
     private PrefManager prefM;
     private MUser prefpac;
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -106,6 +93,16 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
     private int badgeCount = 0;
 
     public static boolean isVideoVist=false;
+    private View ball_virtual_visit;
+    private View ball_wellness;
+    private View ball_stherapy;
+    private View ball_momseze;
+    private View ball_pharmacy;
+    private View ball_diagnostics;
+    private String searchSpeciality;
+    private double latitude;
+    private double longitude;
+
     public UserDashboardFragment() {
         // Required empty public constructor
     }
@@ -122,7 +119,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
         NetworkService.startActionCutomerDashboard(getActivity());
         ShortcutBadger.applyCount(getActivity(), prefM.getBadgeValue()); //for 1.1.4+
         //  if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-        setMyAdapter();
+//        setMyAdapter();
         getPermissions();
         //}
     }
@@ -162,14 +159,14 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
         });
 
 
-        layout_FindCare.setOnClickListener(new View.OnClickListener() {
+        ball_virtual_visit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), DoctorsActivity.class);
                 startActivity(intent);
             }
         });
-        feelRlay.setOnClickListener(new View.OnClickListener() {
+        ball_wellness.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 isVideoVist=true;
@@ -177,150 +174,30 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
             }
         });
 
-        thisWeekRlay.setOnClickListener(new View.OnClickListener() {
+        ball_stherapy.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                try {
-                    MySessionsActivity.start(getActivity());
-                    /* getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.activity_main_content_fragment, new MySessionFragment()).commit();
-                    //showFragment(new PacifyrSessionsFragment());
-                    MainTextView titleTxv = (MainTextView) getActivity().findViewById(R.id.title_txv);
-                    defSetText(titleTxv, "My Sessions");
-                    //Toast.makeText(getContext(),"sessions rating",Toast.LENGTH_LONG).show();*/
-                } catch (Exception e) {
-                    e.printStackTrace();
+            public void onClick(View view) {
+                searchSpeciality = "Simple Therapy";
+                boolean granted = Utility.checkPermission(getActivity(), "location");
+                if (granted) {
+                    webSearchPacifyrWOptions(searchSpeciality);
                 }
+                //else check onRequestPermissionsResult
             }
         });
 
-        connect_btn_rlay.setOnClickListener(new View.OnClickListener() {
+        ball_momseze.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                ConnectToPacifyrActivity.start(getActivity());
-                /*Intent intent=new Intent(getActivity(), ConnectToPacifyrActivity.class);
-                intent.putExtra("display","Pacifyr");
-                startActivity(intent);*/
-            }
-        });
-
-        pacifyr1Dimv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-
-                if (isValid(modelCustomerDashboard2)&&isValid(modelCustomerDashboard2.getPreferredPacifyrs()[0]))
-                {
-                    prefpac = modelCustomerDashboard2.getPreferredPacifyrs()[0];
-                    if (isValid(prefpac.getId()))
-                        setAlertStatusInBlue2("Message", "Is this a follow-up call for an existing case?", "No", "Yes", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                hideProgress();
-                                hideStatus2();
-                                ProfileScreenActivity.start(getActivity(), prefpac.getId(), true);
-                            }
-                        },new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                hideProgress();
-                                hideStatus2();
-                                ConnectToSinglePacifyrActivity.start(getActivity(), prefpac);
-                            }
-                        });
-
-
+            public void onClick(View view) {
+                searchSpeciality = "Momseze";
+                boolean granted = Utility.checkPermission(getActivity(), "location");
+                if (granted) {
+                    webSearchPacifyrWOptions(searchSpeciality);
                 }
-
-                // showTheRoundDialog(0, prefpac);
-            }
-        });
-        pacifyr2Dimv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if (isValid(modelCustomerDashboard2)&&isValid(modelCustomerDashboard2.getPreferredPacifyrs()[1]))
-                {
-                    prefpac = modelCustomerDashboard2.getPreferredPacifyrs()[1];
-                    if (isValid(prefpac.getId()))
-                        setAlertStatusInBlue2("Message", "Is this a follow-up call for an existing case?", "No", "Yes", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                hideProgress();
-                                hideStatus2();
-                                ProfileScreenActivity.start(getActivity(), prefpac.getId(), true);
-                            }
-                        },new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                hideProgress();
-                                hideStatus2();
-                                ConnectToSinglePacifyrActivity.start(getActivity(), prefpac);
-                            }
-                        });
-
-
-                }
-            }
-        });
-        pacifyr3Dimv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if (isValid(modelCustomerDashboard2)&&isValid(modelCustomerDashboard2.getPreferredPacifyrs()[2]))
-                {
-                    prefpac = modelCustomerDashboard2.getPreferredPacifyrs()[2];
-                    if (isValid(prefpac.getId()))
-                        setAlertStatusInBlue2("Message", "Is this a follow-up call for an existing case?", "No", "Yes", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                hideProgress();
-                                hideStatus2();
-                                ProfileScreenActivity.start(getActivity(), prefpac.getId(), true);
-                            }
-                        },new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                hideProgress();
-                                hideStatus2();
-                                ConnectToSinglePacifyrActivity.start(getActivity(), prefpac);
-                            }
-                        });
-
-
-                }
+                //else check onRequestPermissionsResult
             }
         });
 
-        pacifyr4Dimv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (isValid(modelCustomerDashboard2)&&isValid(modelCustomerDashboard2.getPreferredPacifyrs()[3]))
-                {
-                    prefpac = modelCustomerDashboard2.getPreferredPacifyrs()[3];
-                    if (isValid(prefpac.getId()))
-                        setAlertStatusInBlue2("Message", "Is this a follow-up call for an existing case?", "No", "Yes", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                hideProgress();
-                                hideStatus2();
-                                ProfileScreenActivity.start(getActivity(), prefpac.getId(), true);
-                            }
-                        },new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                hideProgress();
-                                hideStatus2();
-                                ConnectToSinglePacifyrActivity.start(getActivity(), prefpac);
-                            }
-                        });
-
-
-                }
-            }
-        });
-
-
-        //NetworkService.webListEmotions(getActivity());
         return view;
     }
 
@@ -335,16 +212,16 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
     @Override
     public void onResume() {
         super.onResume();
-        ((DashboardActivity)getActivity()).changeActionBarTitleForFragments(getResources().getString(R.string.nav_mydashbord_title));
+        ((DashboardActivity) getActivity()).changeActionBarTitleForFragments(getResources().getString(R.string.label_find_care));
 
         try {
 
            if(isNetworkConnected())
 
            {
-               setLoading();
-               showProgress();
-               handleActionCustomerDashboard();
+              /* setLoading();
+               showProgress();*/
+//               handleActionCustomerDashboard();
                if (isValid(call_emotion)) {
                    String emotionImg = GLOBAL_IMAGE_URL + call_emotion.getImage();
                    String emotionTitle = call_emotion.getTitle();
@@ -370,6 +247,49 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
             Log.d("ON RESUME;", e.getMessage());
         }
 
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == Utility.MY_PERMISSIONS_REQUEST_LOCATION_PERMISSION) {
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                fetchLastKnownLocation();
+            }
+        }
+    }
+
+    private void fetchLastKnownLocation() {
+        setLoading();
+        showProgress();
+        FusedLocationProviderClient fusedLocationProviderClient = new FusedLocationProviderClient(getActivity());
+        fusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
+            @Override
+            public void onSuccess(Location location) {
+                hideProgress();
+
+                postEventOnMainThread(location);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                hideProgress();
+            }
+        });
+    }
+
+    @Subscribe
+    public void onLocationFetched(Location location) {
+        if (location != null) {
+            latitude = location.getLatitude();
+            longitude = location.getLongitude();
+            if (searchSpeciality != null) {
+                webSearchPacifyrWOptions(searchSpeciality);
+            } else {
+                Log.e(TAG, "searchSpeciality == null");
+            }
+        }
     }
 
     private void getUnratedSessions() {
@@ -413,7 +333,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                 try {
                     hideProgress();
                     modelCustomerDashboard2 = GsonUtils.getInstance().gsonToModelCustomerDashboard2(json);
-                    setMyAdapter();
+//                    setMyAdapter();
                 } catch (Exception e) {
                     e.printStackTrace();
                     // hideProgress();
@@ -440,7 +360,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
         try {
             //Toast.makeText(getContext(),"hiii",Toast.LENGTH_LONG).show();
             //   if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            setMyAdapter();
+//            setMyAdapter();
             //  }
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -450,217 +370,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
     }
 
     //  @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    private void setMyAdapter() {
-        try {
 
-            String emotionImg = null;
-            String emotionTitle = null;
-
-            if (isValid(modelCustomerDashboard2)) {
-                office_visit_count.setText(modelCustomerDashboard2.getOfficeVisits()+"");
-                video_visit_count.setText(modelCustomerDashboard2.getVideoVisits()+"");
-
-                final MUser pfc[] = modelCustomerDashboard2.getPreferredPacifyrs();
-                ModelCustomerDashboard2.ThisWeekStatistics lastWeek = modelCustomerDashboard2.getThisWeekStatistics();
-                lastSession = modelCustomerDashboard2.getLastSession();
-                if (isValid(modelCustomerDashboard2.getUser().getEmotion())) {
-                    emotionImg = GLOBAL_IMAGE_URL + modelCustomerDashboard2.getUser().getEmotion().getImage();
-                    emotionTitle = modelCustomerDashboard2.getUser().getEmotion().getTitle();
-                    EmotionTitle = emotionTitle;
-                }
-
-
-                
-                if (isValid(lastSession)) {
-                   // last_session_top_llay.setVisibility(View.VISIBLE);
-
-
-
-                   String duration = lastSession.getDuration();
-                   // lastSessionMinuteTxv.setText(duration);
-                    String type = lastSession.getSessionType();
-
-                } else {
-
-                }
-
-                if (isValid(lastWeek)) {
-                    String[] split = lastWeek.getDuration().split(":");
-                    PrefManager prefM = PrefManager.getInstance(getContext());
-                    String country = prefM.getCountry();
-                    String sign = "$";
-                  /*  if (country.equals("India")) {
-                        sign = getContext().getResources().getString(R.string.rupee);
-                    } else {
-                        sign = getContext().getResources().getString(R.string.dollar);
-                    }*/
-                   message_Count.setText(lastWeek.getSpendings());
-                } else {
-
-                }
-
-                if (isValid(pfc)) {
-
-
-                    if (isValid(pfc.length)) {
-                        llayTop.setVisibility(View.VISIBLE);
-                        llay_bottom.setVisibility(View.VISIBLE);
-                        no_pacifyr_ctxv.setVisibility(View.GONE);
-                        switch (pfc.length) {
-                            case 0:
-
-                                pacifyr3Dimv.setVisibility(View.GONE);
-                                pacifyr2Dimv.setVisibility(View.GONE);
-                                pacifyr1Dimv.setVisibility(View.GONE);
-                                pacifyr4Dimv.setVisibility(View.GONE);
-                                llayTop.setVisibility(View.GONE);
-                                llay_bottom.setVisibility(View.GONE);
-                                no_pacifyr_ctxv.setVisibility(View.VISIBLE);
-                                defSetText(no_pacifyr_ctxv, getResources().getString(R.string.no_prefered_pacifyr));
-                                break;
-
-                            case 1:
-
-                                pacifyr3Dimv.setVisibility(View.GONE);
-                                pacifyr2Dimv.setVisibility(View.GONE);
-                                pacifyr4Dimv.setVisibility(View.GONE);
-
-                                if (isValid(pfc[0]))
-                                {
-                                    if (isValid(pfc[0].getImageUrl()))
-                                        Picasso.with(getContext()).load(pfc[0].getImageUrl()).into(pacifyr1Dimv);
-                                    else
-                                    {
-                                        Picasso.with(getContext()).load(R.drawable.placeholder_user).into(pacifyr1Dimv);
-                                    }
-                                }
-
-                                break;
-                            case 2:
-                                pacifyr4Dimv.setVisibility(View.GONE);
-                                pacifyr3Dimv.setVisibility(View.GONE);
-
-                                if (isValid(pfc[0]))
-                                {
-                                    if (isValid(pfc[0].getImageUrl()))
-                                        Picasso.with(getContext()).load(pfc[0].getImageUrl()).into(pacifyr1Dimv);
-                                    else
-                                    {
-                                        Picasso.with(getContext()).load(R.drawable.placeholder_user).into(pacifyr1Dimv);
-                                    }
-                                }
-
-                                if (isValid(pfc[1]))
-                                {
-                                    if (isValid(pfc[1].getImageUrl()))
-                                        Picasso.with(getContext()).load(pfc[1].getImageUrl()).into(pacifyr2Dimv);
-                                    else
-                                    {
-                                        Picasso.with(getContext()).load(R.drawable.placeholder_user).into(pacifyr2Dimv);
-                                    }
-                                }
-
-                                break;
-                            case 3:
-                                pacifyr4Dimv.setVisibility(View.GONE);
-
-                                if (isValid(pfc[0]))
-                                {
-                                    if (isValid(pfc[0].getImageUrl()))
-                                        Picasso.with(getContext()).load(pfc[0].getImageUrl()).into(pacifyr1Dimv);
-                                    else
-                                    {
-                                        Picasso.with(getContext()).load(R.drawable.placeholder_user).into(pacifyr1Dimv);
-                                    }
-                                }
-                                if (isValid(pfc[1]))
-                                {
-                                    if (isValid(pfc[1].getImageUrl()))
-                                        Picasso.with(getContext()).load(pfc[1].getImageUrl()).into(pacifyr2Dimv);
-                                    else
-                                    {
-                                        Picasso.with(getContext()).load(R.drawable.placeholder_user).into(pacifyr2Dimv);
-                                    }
-                                }
-
-                                if (isValid(pfc[2]))
-                                {
-                                    if (isValid(pfc[2].getImageUrl()))
-                                        Picasso.with(getContext()).load(pfc[2].getImageUrl()).into(pacifyr3Dimv);
-                                    else
-                                    {
-                                        Picasso.with(getContext()).load(R.drawable.placeholder_user).into(pacifyr3Dimv);
-                                    }
-                                }
-
-                                break;
-                            default:
-
-                                if (isValid(pfc[0]))
-                                {
-                                    if (isValid(pfc[0].getImageUrl()))
-                                        Picasso.with(getContext()).load(pfc[0].getImageUrl()).into(pacifyr1Dimv);
-                                    else
-                                    {
-                                        Picasso.with(getContext()).load(R.drawable.placeholder_user).into(pacifyr1Dimv);
-                                    }
-                                }
-
-
-                                if (isValid(pfc[1]))
-                                {
-                                    if (isValid(pfc[1].getImageUrl()))
-                                        Picasso.with(getContext()).load(pfc[1].getImageUrl()).into(pacifyr2Dimv);
-                                    else
-                                    {
-                                        Picasso.with(getContext()).load(R.drawable.placeholder_user).into(pacifyr2Dimv);
-                                    }
-                                }
-
-                                if (isValid(pfc[2]))
-                                {
-                                    if (isValid(pfc[2].getImageUrl()))
-                                        Picasso.with(getContext()).load(pfc[2].getImageUrl()).into(pacifyr3Dimv);
-                                    else
-                                    {
-                                        Picasso.with(getContext()).load(R.drawable.placeholder_user).into(pacifyr3Dimv);
-                                    }
-                                }
-
-
-                                if (isValid(pfc[3]))
-                                {
-                                    if (isValid(pfc[3].getImageUrl()))
-                                    Picasso.with(getContext()).load(pfc[3].getImageUrl()).into(pacifyr4Dimv);
-                                    else
-                                    {
-                                        Picasso.with(getContext()).load(R.drawable.placeholder_user).into(pacifyr4Dimv);
-                                    }
-                                }
-
-                                break;
-                        }
-
-
-                    } else {
-                        llayTop.setVisibility(View.GONE);
-                        llay_bottom.setVisibility(View.GONE);
-                        no_pacifyr_ctxv.setVisibility(View.VISIBLE);
-                        defSetText(no_pacifyr_ctxv, getResources().getString(R.string.no_prefered_pacifyr));
-                    }
-                } else {
-                    llayTop.setVisibility(View.GONE);
-                    llay_bottom.setVisibility(View.GONE);
-                    no_pacifyr_ctxv.setVisibility(View.VISIBLE);
-                    defSetText(no_pacifyr_ctxv, getResources().getString(R.string.no_prefered_pacifyr));
-                }
-            }
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            Log.d("ON RESUME;", ex.getMessage());
-        }
-    }
 
 
     /*private void showTheRoundDialog(int position, MUser prefpac) {
@@ -699,31 +409,21 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
 
 
     public void intializeViews(View view) {
-        feelRlay = view.findViewById(R.id.feel_rlay);
-        connect_btn_rlay = view.findViewById(R.id.connect_btn_rlay);
-        layout_FindCare = view.findViewById(R.id.layout_FindCare);
+        ball_virtual_visit = view.findViewById(R.id.ball_virtual_visit);
+        ball_wellness = view.findViewById(R.id.ball_wellness);
+        ball_stherapy = view.findViewById(R.id.ball_simple_therapy);
+        ball_momseze = view.findViewById(R.id.ball_momseze);
+        ball_pharmacy = view.findViewById(R.id.ball_pharmacy);
+        ball_diagnostics = view.findViewById(R.id.ball_diagnostics);
+
+
         swipeRefreshLayout = view.findViewById(R.id.user_swipe_layout);
-       // last_session_top_llay = view.findViewById(R.id.last_session_top_llay);
-        no_pacifyr_ctxv = view.findViewById(R.id.no_pacifyr_ctxv);
-        cirPrefPacifyr = view.findViewById(R.id.cir_pref_pacifyr);
+
         llayTop = view.findViewById(R.id.llay_top);
 
         llay_bottom = view.findViewById(R.id.llay_bottom);
-        pacifyr1Dimv = view.findViewById(R.id.pacifyr1_dimv);
-        pacifyr2Dimv = view.findViewById(R.id.pacifyr2_dimv);
-        llayBottom = view.findViewById(R.id.llay_bottom);
-        pacifyr3Dimv = view.findViewById(R.id.pacifyr3_dimv);
-        pacifyr4Dimv = view.findViewById(R.id.pacifyr4_dimv);
-        thisWeekRlay = view.findViewById(R.id.this_week_rlay);
 
-        office_visit_count = view.findViewById(R.id.office_visit_count);
-        video_visit_count = view.findViewById(R.id.video_visit_count);
-
-
-        message_Count = view.findViewById(R.id.message_Count);
-        this_week_rlay = view.findViewById(R.id.this_week_rlay);
         unreadChatCtxv = view.findViewById(R.id.unread_chat_ctxv);
-        defSetText(no_pacifyr_ctxv, "");
         setChatCountInfo();
     }
 
@@ -748,7 +448,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                     if (isValid(unreadCount)) {
                         if (unreadCount > 0) {
                             unreadChatCtxv.setVisibility(View.VISIBLE);
-                            unreadChatCtxv.setText(Integer.toString(unreadCount) + " unread messages");
+                            unreadChatCtxv.setText(unreadCount + " unread messages");
                             badgeCount += unreadCount;
                             prefM.saveBadgeValue(badgeCount);
                             ShortcutBadger.applyCount(getActivity(), prefM.getBadgeValue());
@@ -793,9 +493,71 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                 swipeRefreshLayout.setRefreshing(false);
                 setLoading();
                 showProgress();
-                handleActionCustomerDashboard();
+//                handleActionCustomerDashboard();
                 setChatCountInfo();
             }
         }, 2000);
+    }
+
+    public void webSearchPacifyrWOptions(String Speciality) {
+        try {
+
+
+            setLoading("loading...");
+            showProgress();
+            String url = NetworkService.GLOBAL_URL + "search/pacifyrs/byLocation";
+
+            AjaxCallback cb = new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject json, AjaxStatus status) {
+                    try {
+                        String js = json.toString();
+                        hideProgress();
+                        if (isValid(json)) {
+                            RespSearchPacifyrWOption pacifyrResponse = GsonUtils.getInstance().gsonToRespSearchPacifyrWOption(json);
+                            if (isValid(pacifyrResponse.getResultsList()) && pacifyrResponse.getResultsList().size() > 0) {
+
+                                Intent intent = new Intent(getActivity(), LearnMoreActivity.class);
+                                Bundle bundle = new Bundle();
+                                bundle.putSerializable("Object", pacifyrResponse.getResultsList().get(0));
+                                intent.putExtras(bundle);
+                                startActivity(intent);
+                            } else {
+                                Toast.makeText(getActivity(), getString(R.string.sorry_could_not_complete_action), Toast.LENGTH_LONG).show();
+                            }
+
+                        } else {
+                            Toast.makeText(getActivity(), getString(R.string.sorry_could_not_complete_action), Toast.LENGTH_LONG).show();
+
+                        }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        hideProgress();
+                    }
+                }
+            };
+
+            AQuery aq = new AQuery(getActivity());
+            cb.header("Content-Type", "application/json");
+            cb.header("AccessToken", getPrefManager().getAccessToken());
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.putOpt("initiatorId", getPrefManager().getUserID());
+            jsonObject.putOpt("latitude", latitude);
+            jsonObject.putOpt("longitude", longitude);
+            jsonObject.putOpt("visitType", "office");
+
+            List<String> list = new ArrayList<String>();
+            list.add(Speciality);
+            //list.add("b");
+            JSONArray array = new JSONArray();
+            for (int i = 0; i < list.size(); i++) {
+                array.put(list.get(i));
+            }
+            jsonObject.putOpt("specialities", array);
+            aq.post(url, jsonObject, JSONObject.class, cb);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 }

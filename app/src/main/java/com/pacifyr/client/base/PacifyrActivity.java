@@ -117,6 +117,7 @@ import com.stripe.android.TokenCallback;
 import com.stripe.android.model.Card;
 import com.stripe.android.model.Token;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -133,6 +134,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import static com.pacifyr.client.network.NetworkService.modelAllEmotions;
+import static com.pacifyr.client.quickblox.activities.CallActivity.isCallActive;
 import static com.pacifyr.client.utils.Constants.getCountryChecks;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.STRIPE_PUBLISH_KEY;
@@ -3490,13 +3492,14 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
 
     public void ShowTransactionSuccesResultToUSer(TransactionResponce object) {
 
-
         errorCount=0;
         if (PaymentPopup != null && PaymentPopup.isShowing()) {
             PaymentPopup.dismiss();
         }
 
+
         if (!isShowDialogs()) {
+            if (isCallActive)
             maximizePicInPicView();
             new Handler().postDelayed(new Runnable() {
                 @Override
@@ -3534,6 +3537,8 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
                                     }
                                     /** send Notification to the Provider that user Done the Payment Success fully and able to start Session now.
                                      * type "cardSetup**/
+
+                                    EventBus.getDefault().post("SCHEDULE_PAY");
                                     if (isValid(CallActivity.mSessionDetailRoot) &&
                                             isValid(CallActivity.mSessionDetailRoot.getPacifyr()) &&
                                             isValid(CallActivity.mSessionDetailRoot.getPacifyr().getId()))
@@ -3545,15 +3550,14 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
                                                 }
                                             }
                                         });
-                                    else
-                                        Toast.makeText(PacifyrActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
+                                   // else
+                                       // Toast.makeText(PacifyrActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
 
                                     Bundle args =
                                             FirebaseLogging.getConstantArgsLoggedIn(PacifyrActivity.this);
                                     FirebaseLogging.sendLog(PacifyrActivity.this,
                                             FirebaseLogging.EVENT_CLIENT_PAYMENT_DONE,
                                             args);
-
                                 }
                             });
                             android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(PacifyrActivity.this);
@@ -3569,7 +3573,8 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
             return;
         } else {
 
-            bringCallActivityToFront();
+            if (isCallActive)
+                bringCallActivityToFront();
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -3606,6 +3611,7 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
                                     }
                                     /** send Notification to the Provider that user Done the Payment Success fully and able to start Session now.
                                      * type "cardSetup**/
+                                    EventBus.getDefault().post("SCHEDULE_PAY");
                                     if (isValid(CallActivity.mSessionDetailRoot) &&
                                             isValid(CallActivity.mSessionDetailRoot.getPacifyr()) &&
                                             isValid(CallActivity.mSessionDetailRoot.getPacifyr().getId()))
@@ -3617,14 +3623,15 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
                                                 }
                                             }
                                         });
-                                    else
-                                        Toast.makeText(PacifyrActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
+                                  //  else
+                                      //  Toast.makeText(PacifyrActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
 
                                     Bundle args =
                                             FirebaseLogging.getConstantArgsLoggedIn(PacifyrActivity.this);
                                     FirebaseLogging.sendLog(PacifyrActivity.this,
                                             FirebaseLogging.EVENT_CLIENT_PAYMENT_DONE,
                                             args);
+
 
                                 }
                             });
@@ -3650,6 +3657,7 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
         errorCount++;
         if (!isShowDialogs()) {
             if (Build.VERSION.SDK_INT != Build.VERSION_CODES.M) {
+                if (isCallActive)
                 maximizePicInPicView();
             }
 
@@ -3662,7 +3670,6 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
                             iOSDialogClickListener listener = new iOSDialogClickListener() {
                                 @Override
                                 public void onClick(iOSDialog dialog) {
-
 
                                     new NetworkService().sendPaymentFailedDueToSomeReasons(CallActivity.mSessionDetailRoot.getPacifyr().getId(), "paymentFailure", message, new AjaxCallback<JSONObject>() {
                                         @Override
@@ -3690,7 +3697,8 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
             return;
         } else {
             if (Build.VERSION.SDK_INT != Build.VERSION_CODES.M) {
-                bringCallActivityToFront();
+                if (isCallActive)
+                    bringCallActivityToFront();
             }
 
 
@@ -3703,7 +3711,7 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
                             iOSDialogClickListener listener = new iOSDialogClickListener() {
                                 @Override
                                 public void onClick(iOSDialog dialog) {
-
+                                    if (isValid(CallActivity.mSessionDetailRoot)&&isValid(CallActivity.mSessionDetailRoot.getPacifyr()))
 
                                     new NetworkService().sendPaymentFailedDueToSomeReasons(CallActivity.mSessionDetailRoot.getPacifyr().getId(), "paymentFailure", message, new AjaxCallback<JSONObject>() {
                                         @Override
@@ -3782,7 +3790,7 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
 
     }
 
-    public void setAlertStatusCovid(String title,String desc,String ok,String dismiss,View.OnClickListener oklistner) {
+    /*public void setAlertStatusCovid(String title,String desc,String ok,String dismiss,View.OnClickListener oklistner) {
         View view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.alert_covid, null, false);
         MainTextView title_dtxv = view.findViewById(com.pacifyrapp.utilitylibrary.R.id.title_dtxv);
         MainTextView desc_dtxv = view.findViewById(com.pacifyrapp.utilitylibrary.R.id.desc_dtxv);
@@ -3799,7 +3807,7 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
         showStatus2();
         ok_dtxv.setOnClickListener(oklistner);
 
-    }
+    }*/
 
 }
 

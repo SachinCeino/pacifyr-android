@@ -39,7 +39,9 @@ import com.pacifyr.client.event.AlertTypeEvent;
 import com.pacifyr.client.event.CallEvent;
 import com.pacifyr.client.event.ChatEvent;
 import com.pacifyr.client.event.NotifyEvent;
+import com.pacifyr.client.fragment.schedule.ScheduleBottomSheetFragment;
 import com.pacifyr.client.model.ModelPamTemplates;
+import com.pacifyr.client.model.ModelSpecialityByCategory;
 import com.pacifyr.client.model.interfaces.CallChatEventListner;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
@@ -1068,6 +1070,56 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
 
     }
 
+    public void UpdateSpecialityAdapter(boolean param_showAllFlag) {
+
+        try {
+            String url = GLOBAL_URL + "specialities/byCategory?category=all&includeChargeablePacifyrs=" + param_showAllFlag;
+
+            AjaxCallback cb = new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject json, AjaxStatus status) {
+                    try {
+                        String js = json.toString();
+
+                        ModelSpecialityByCategory model = GsonUtils.getInstance().gsonToModelSpecialityByCategory(json);
+                        ModelSpecialityByCategory.Results[] item = model.getResults();
+
+                        if (item.length > 0) {
+                            imgRcv.setVisibility(View.VISIBLE);
+                            CategoryListAdapter categoryListAdapter = new CategoryListAdapter(item, getApplicationContext());
+                            imgRcv.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
+                            imgRcv.setAdapter(categoryListAdapter);
+                            categoryListAdapter.addListener(activity);
+                            categoryListAdapter.setSelected(0);
+                        } else {
+                            if (noPacifyrCtxv != null) {
+                                noPacifyrCtxv.setVisibility(View.VISIBLE);
+                            }
+                            if (cardStack != null) {
+                                cardStack.setVisibility(View.GONE);
+                            }
+                            if (imgRcv != null) {
+                                imgRcv.setVisibility(View.GONE);
+                            }
+                        }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        if (noPacifyrCtxv != null) {
+                            noPacifyrCtxv.setVisibility(View.VISIBLE);
+                        }
+
+                    }
+                }
+            };
+            AQuery aq = new AQuery(getApplicationContext());
+            cb.header("Content-Type", "application/json");
+            cb.header("AccessToken", getPrefManager().getAccessToken());
+            aq.ajax(url, JSONObject.class, cb);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 
 

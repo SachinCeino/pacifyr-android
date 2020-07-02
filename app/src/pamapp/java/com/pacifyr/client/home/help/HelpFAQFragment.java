@@ -5,16 +5,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
 import com.pacifyr.client.R;
 import com.pacifyr.client.adapter.CustomPagerAdapter;
-import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.NotifyEvent;
-import com.pacifyr.client.fragment.UserDashboardFragment;
-import com.pacifyr.client.home.DashboardActivity;
 import com.pacifyr.client.utility.BaseFragment;
 
 import me.relex.circleindicator.CircleIndicator;
@@ -49,7 +44,7 @@ public class HelpFAQFragment extends BaseFragment {
         viewpager = view.findViewById(R.id.viewpager);
         indicator= view.findViewById(R.id.indicator);
 
-        viewpager.setAdapter(new CustomPagerAdapter(getContext()));
+        viewpager.setAdapter(new CustomPagerAdapter(getContext(), getChildFragmentManager()));
         indicator.setViewPager(viewpager);
 
     }
