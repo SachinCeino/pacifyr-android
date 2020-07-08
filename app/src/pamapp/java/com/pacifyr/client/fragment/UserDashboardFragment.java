@@ -51,8 +51,10 @@ import com.pacifyr.client.quickblox.services.CallService;
 import com.pacifyr.client.utility.BaseFragment;
 import com.pacifyr.client.utility.EventMessage;
 import com.pacifyr.client.utils.Utility;
+import com.pacifyrapp.utilitylibrary.activity.WebActivity;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.RespSearchPacifyrWOption;
+import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.quickblox.chat.QBRestChatService;
 import com.quickblox.chat.model.QBChatDialog;
@@ -173,15 +175,15 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
         ball_virtual_visit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), DoctorsActivity.class);
-                startActivity(intent);
+                isVideoVist = true;
+                ConnectToPacifyrActivity.start(getActivity());
             }
         });
         ball_wellness.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                isVideoVist=true;
-                ConnectToPacifyrActivity.start(getActivity());
+                Intent intent = new Intent(getActivity(), DoctorsActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -206,6 +208,20 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                     fetchLastKnownLocation();
                 }
                 //else check onRequestPermissionsResult
+            }
+        });
+
+        ball_pharmacy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                WebActivity.startWebActivity(getActivity(), UtilityNetworkService.PHARMACY_URL);
+            }
+        });
+
+        ball_diagnostics.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                WebActivity.startWebActivity(getActivity(), UtilityNetworkService.MARKETPLACE_URL);
             }
         });
 

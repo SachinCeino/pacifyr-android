@@ -146,6 +146,8 @@ public class UtilityNetworkService extends IntentService {
 
 
     public static final String pacifyrStripeUrl = "https://pacifyr.com/stripe.html";
+    public static final String MARKETPLACE_URL = "https://accesshealthnet.com/who-we-help/patients/";
+    public static final String PHARMACY_URL = "https://americaspharmacysource.com";
 
 
     public static final  String root_file_path = Environment.getExternalStorageDirectory().getAbsolutePath() +
