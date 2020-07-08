@@ -146,7 +146,9 @@ public class SupportFragment extends BaseFragment {
     public void onAttach(Context context) {
         super.onAttach(context);
 
-        ((DashboardActivity) getActivity()).changeActionBarTitleForFragments(getResources().getString(R.string.nav_support_title));
+        if (getActivity() instanceof DashboardActivity) {
+            ((DashboardActivity) getActivity()).changeActionBarTitleForFragments(getResources().getString(R.string.nav_support_title));
+        }
     }
 
     @Override

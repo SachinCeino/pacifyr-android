@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.widget.AppCompatRatingBar;
 import androidx.cardview.widget.CardView;
@@ -372,6 +373,10 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
                     @Override
                     public void onClick(View view) {
 
+                        if (!isValid(mpacifyerDetial)) {
+                            Toast.makeText(ProfileScreenActivity.this, getString(R.string.group_chat_join_error), Toast.LENGTH_LONG).show();
+                            return;
+                        }
                         isChatSubscriptionRequired = mpacifyerDetial.isChatSubscriptionRequired();
                         priceForChat = Integer.parseInt(mpacifyerDetial.getPriceForChat());
 
