@@ -303,8 +303,8 @@ public class Utility {
 
                 //LogUtils.LOGD("jithish","audiochecks......");
 
-                if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    if (ActivityCompat.shouldShowRequestPermissionRationale((Activity) context, Manifest.permission.ACCESS_COARSE_LOCATION)) {
+                if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    if (ActivityCompat.shouldShowRequestPermissionRationale((Activity) context, Manifest.permission.ACCESS_FINE_LOCATION)) {
                         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(context);
                         alertBuilder.setCancelable(true);
                         alertBuilder.setTitle("Permission required");
@@ -312,7 +312,7 @@ public class Utility {
                         alertBuilder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
                             public void onClick(DialogInterface dialog, int which) {
-                                ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, MY_PERMISSIONS_REQUEST_LOCATION_PERMISSION);
+                                ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, MY_PERMISSIONS_REQUEST_LOCATION_PERMISSION);
                             }
                         });
                         AlertDialog alert = alertBuilder.create();

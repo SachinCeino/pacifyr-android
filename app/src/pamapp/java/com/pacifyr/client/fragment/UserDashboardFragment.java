@@ -5,6 +5,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,14 +14,24 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
+import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationAvailability;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.LocationSettingsResponse;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.gson.Gson;
 import com.pacifyr.client.R;
 import com.pacifyr.client.customview.MainTextView;
@@ -180,7 +191,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                 searchSpeciality = "Simple Therapy";
                 boolean granted = Utility.checkPermission(getActivity(), "location");
                 if (granted) {
-                    webSearchPacifyrWOptions(searchSpeciality);
+                    fetchLastKnownLocation();
                 }
                 //else check onRequestPermissionsResult
             }
@@ -192,7 +203,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                 searchSpeciality = "Momseze";
                 boolean granted = Utility.checkPermission(getActivity(), "location");
                 if (granted) {
-                    webSearchPacifyrWOptions(searchSpeciality);
+                    fetchLastKnownLocation();
                 }
                 //else check onRequestPermissionsResult
             }
@@ -216,32 +227,28 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
 
         try {
 
-           if(isNetworkConnected())
-
-           {
+            if (isNetworkConnected()) {
               /* setLoading();
                showProgress();*/
 //               handleActionCustomerDashboard();
-               if (isValid(call_emotion)) {
-                   String emotionImg = GLOBAL_IMAGE_URL + call_emotion.getImage();
-                   String emotionTitle = call_emotion.getTitle();
-                   EmotionTitle = emotionTitle;
-               }
-               getUnratedSessions();
-               loginToQuickblox();
-               setChatCountInfo();
-           }
-           else
-           {
-               setAlertStatusInWhite("No Internet connection!", "Please turn on internet connection to continue.", "Exit", "Ok", new View.OnClickListener() {
-                   @Override
-                   public void onClick(View v) {
-                       hideProgress();
-                       hideStatus2();
-                       getActivity().finish();
-                   }
-               });
-           }
+                if (isValid(call_emotion)) {
+                    String emotionImg = GLOBAL_IMAGE_URL + call_emotion.getImage();
+                    String emotionTitle = call_emotion.getTitle();
+                    EmotionTitle = emotionTitle;
+                }
+                getUnratedSessions();
+                loginToQuickblox();
+                setChatCountInfo();
+            } else {
+                setAlertStatusInWhite("No Internet connection!", "Please turn on internet connection to continue.", "Exit", "Ok", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        hideProgress();
+                        hideStatus2();
+                        getActivity().finish();
+                    }
+                });
+            }
         } catch (Exception e) {
             e.printStackTrace();
             Log.d("ON RESUME;", e.getMessage());
@@ -260,16 +267,74 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
         }
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Utility.MY_PERMISSIONS_REQUEST_LOCATION_PERMISSION) {
+            fetchLastKnownLocation();
+        }
+    }
+
     private void fetchLastKnownLocation() {
         setLoading();
         showProgress();
         FusedLocationProviderClient fusedLocationProviderClient = new FusedLocationProviderClient(getActivity());
-        fusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
+        fusedLocationProviderClient.getLocationAvailability().addOnSuccessListener(new OnSuccessListener<LocationAvailability>() {
             @Override
-            public void onSuccess(Location location) {
-                hideProgress();
+            public void onSuccess(LocationAvailability locationAvailability) {
+                if (isValid(locationAvailability) && locationAvailability.isLocationAvailable()) {
+                    fusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
+                        @Override
+                        public void onSuccess(Location location) {
+                            hideProgress();
+                            if (location != null) {
+                                postEventOnMainThread(location);
+                            }
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            hideProgress();
+                        }
+                    });
+                } else {
+                    LocationRequest locationRequest = getLocationRequest();
+                    LocationSettingsRequest.Builder locationSettingsRequest = new LocationSettingsRequest.Builder()
+                            .addLocationRequest(locationRequest);
+                    locationSettingsRequest.setAlwaysShow(true);
+                    Task<LocationSettingsResponse> task = LocationServices.getSettingsClient(getActivity()).checkLocationSettings(locationSettingsRequest.build());
+                    task.addOnSuccessListener(new OnSuccessListener<LocationSettingsResponse>() {
+                        @Override
+                        public void onSuccess(LocationSettingsResponse locationSettingsResponse) {
+                            hideProgress();
+                            if (locationSettingsResponse.getLocationSettingsStates().isLocationPresent()) {
+                                FusedLocationProviderClient fusedLocationProviderClient = new FusedLocationProviderClient(getActivity());
+                                fusedLocationProviderClient.requestLocationUpdates(getLocationRequest(), new LocationCallback() {
+                                    @Override
+                                    public void onLocationResult(LocationResult locationResult) {
+                                        super.onLocationResult(locationResult);
+                                        if (locationResult != null && isValid(locationResult.getLocations(), 1)) {
+                                            postEventOnMainThread(locationResult.getLocations().get(0));
+                                        }
+                                    }
+                                }, Looper.myLooper());
+                            }
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            hideProgress();
+                            if (e instanceof ResolvableApiException) {
+                                try {
+                                    ((ResolvableApiException) e).startResolutionForResult(getActivity(), Utility.MY_PERMISSIONS_REQUEST_LOCATION_PERMISSION);
+                                } catch (Exception ex) {
+                                    ex.printStackTrace();
+                                }
+                            }
+                        }
+                    });
 
-                postEventOnMainThread(location);
+                }
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -277,6 +342,16 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                 hideProgress();
             }
         });
+
+    }
+
+    private LocationRequest getLocationRequest() {
+        LocationRequest locationRequest = new LocationRequest();
+        locationRequest.setExpirationDuration(20000);
+        locationRequest.setNumUpdates(3);
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        locationRequest.setMaxWaitTime(15000);
+        return locationRequest;
     }
 
     @Subscribe
