@@ -4,7 +4,7 @@
     <!--<color name="colorPrimary">#0fbeff</color>-->
     <color name="colorPrimary">#ff7b4b</color>
     <color name="blue_pacifyr">#36B0FF</color>
-    <color name="colorAccent">#ffffff</color>
+    <color name="colorAccent">@color/colorPrimary</color>
     <color name="colorPrimaryDark">#000000</color>
 
 
