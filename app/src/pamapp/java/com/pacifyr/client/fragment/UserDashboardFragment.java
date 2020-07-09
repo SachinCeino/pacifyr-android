@@ -317,7 +317,6 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                     LocationRequest locationRequest = getLocationRequest();
                     LocationSettingsRequest.Builder locationSettingsRequest = new LocationSettingsRequest.Builder()
                             .addLocationRequest(locationRequest);
-                    locationSettingsRequest.setAlwaysShow(true);
                     Task<LocationSettingsResponse> task = LocationServices.getSettingsClient(getActivity()).checkLocationSettings(locationSettingsRequest.build());
                     task.addOnSuccessListener(new OnSuccessListener<LocationSettingsResponse>() {
                         @Override
