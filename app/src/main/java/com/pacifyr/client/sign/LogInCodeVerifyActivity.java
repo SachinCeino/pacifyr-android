@@ -177,7 +177,12 @@ public class LogInCodeVerifyActivity extends PacifyrActivity {
         if(otpTimer!=null)
             otpTimer.cancel();
     }
-    
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        cancelTimer();
+    }
 
     private void setClicks() {
         try{
