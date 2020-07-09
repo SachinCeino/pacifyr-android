@@ -124,12 +124,19 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         if (remoteMessage.getNotification() != null) {
             String title = "";
             String body = "";
+            String type = null;
             if (remoteMessage.getNotification().getTitle() != null) {
                 title = remoteMessage.getNotification().getTitle();
             }
 
             if (remoteMessage.getNotification().getBody() != null) {
                 body = remoteMessage.getNotification().getBody();
+            }
+            if (remoteMessage.getData().containsKey("type")) {
+                type = remoteMessage.getData().get("type");
+            }
+            if (type != null && type.equalsIgnoreCase("chat")) {
+                return;
             }
             if (!title.isEmpty() && !body.isEmpty()) {
                 Intent intent = new Intent(NotificationUtils.NOTIFY_INTENT_GENERAL);
