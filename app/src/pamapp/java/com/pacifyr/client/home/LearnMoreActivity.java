@@ -87,6 +87,7 @@ public class LearnMoreActivity extends PacifyrAppCompactActivity  {
 
                     if (userProfile != null && userProfile.getLearnMore() != null) {
                         adapter = new LearnMoreAdapter(LearnMoreActivity.this,
+
                                 userProfile.getLearnMore());
                         if (adapter != null) {
                             content_view.setAdapter(adapter);
@@ -95,26 +96,16 @@ public class LearnMoreActivity extends PacifyrAppCompactActivity  {
                         button_get_started.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                if (userProfile.getLearnMore().get(0).getTitle().equalsIgnoreCase(
-                                        "simpletherapy")) {
-                                    String pkg = SIMPLE_THERAPY_GOOGLE_PLAY.split("=")[1];
+                                if (userProfile.getGetStartedUrlAndroid() != null) {
                                     try {
+                                        userProfile.setGetStartedUrlAndroid(userProfile.getGetStartedUrlAndroid().trim());
+                                        String pkg = userProfile.getGetStartedUrlAndroid().split("=")[1];
                                         startActivity(getPackageManager().getLaunchIntentForPackage(pkg));
                                     } catch (Exception e) {
                                         e.printStackTrace();
-                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(SIMPLE_THERAPY_GOOGLE_PLAY)));
-                                    }
-                                } else if (userProfile.getLearnMore().get(0).getTitle().equalsIgnoreCase(
-                                        "momseze")) {
-                                    String pkg = MOMSEZE_GOOGLE_PLAY.split("=")[1];
-                                    try {
-                                        startActivity(getPackageManager().getLaunchIntentForPackage(pkg));
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
-                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(MOMSEZE_GOOGLE_PLAY)));
+                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(userProfile.getGetStartedUrlAndroid())));
                                     }
                                 }
-
                             }
                         });
                     } else {
