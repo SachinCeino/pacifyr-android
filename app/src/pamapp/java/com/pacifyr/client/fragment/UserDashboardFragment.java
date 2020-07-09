@@ -3,6 +3,7 @@ package com.pacifyr.client.fragment;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -38,7 +39,6 @@ import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.home.ConnectToPacifyrActivity;
 import com.pacifyr.client.home.DashboardActivity;
-import com.pacifyr.client.home.DoctorsActivity;
 import com.pacifyr.client.home.DoctorsMoreInformationActivity;
 import com.pacifyr.client.home.LearnMoreActivity;
 import com.pacifyr.client.home.SessionSummaryActivity;
@@ -182,8 +182,13 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
         ball_wellness.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), DoctorsActivity.class);
-                startActivity(intent);
+                try {
+                    String pkg = UtilityNetworkService.OM_PLAYSTORE.split("=")[1];
+                    startActivity(getActivity().getPackageManager().getLaunchIntentForPackage(pkg));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(UtilityNetworkService.OM_PLAYSTORE)));
+                }
             }
         });
 

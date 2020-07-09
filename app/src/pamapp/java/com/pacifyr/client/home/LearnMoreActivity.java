@@ -34,12 +34,8 @@ import org.json.JSONObject;
 public class LearnMoreActivity extends PacifyrAppCompactActivity  {
 
 
-    public static final String SIMPLE_THERAPY_GOOGLE_PLAY = "https://play.google" +
-            ".com/store/apps/details?id=com.simpletherapy.android.mhealth";
     private MUser pacifyerObject;
     private VideoView mVideoView;
-    public static final String MOMSEZE_GOOGLE_PLAY = "https://play.google" +
-            ".com/store/apps/details?id=com.mobileapp.mom.momseze";
     private static final String TAG = LearnMoreActivity.class.getSimpleName();
     private RecyclerView content_view;
     private LearnMoreAdapter adapter;
