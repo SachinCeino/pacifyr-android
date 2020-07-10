@@ -23,6 +23,7 @@ import com.pacifyr.client.R;
 import com.pacifyr.client.activity.SplashScreen;
 import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.event.CallEvent;
+import com.pacifyr.client.home.DashboardActivity;
 import com.pacifyr.client.quickblox.activities.CallActivity;
 import com.pacifyr.client.quickblox.chat.ui.activity.DialogsActivity;
 import com.pacifyr.client.quickblox.services.CallService;
@@ -39,7 +40,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private static final String TAG = "MyFirebaseMsgService";
     private static boolean isCall = false;
-
+    String typeId = null;
 
     @Override
     public void onNewToken(@NonNull String s) {
@@ -104,9 +105,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Log.d(TAG, "From: " + remoteMessage.getFrom());
 
         String data = remoteMessage.getData().toString();
+        Log.d("@@@@/noti", "From: " + remoteMessage.toString());
         // Check if message contains a data payload.
         if (remoteMessage.getData().size() > 0) {
             Log.d(TAG, "Message data payload: " + remoteMessage.getData());
+            Log.d("@@@@/noti", "From: " + remoteMessage.getData());
+
             handleNow(remoteMessage);
             /* if (*//* Check if data needs to be processed by long running job *//* true) {
                 // For long-running tasks (10 seconds or more) use Firebase Job Dispatcher.
@@ -117,6 +121,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             }*/
 
         }
+        //2020-07-09 12:00:00.786 31831-4123/com.pacifyr.pacifyrapp D/@@@@/noti: From: {typeId=5f06b2e0afdb7539ae8b1d66, type=reminder, sound=default, message=Please start your session with provider "Niva Live Provider"}
 
         // Check if message contains a notification payload.
 
@@ -152,6 +157,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     String message = null;
                     String _id = null;
                     String actual_type = null;
+
                     if (remoteMessage.getData().containsKey("message")) {
                         message = remoteMessage.getData().get("message") + "";
                     }
@@ -160,6 +166,17 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     }
                     if (remoteMessage.getData().containsKey("type")) {
                         actual_type = remoteMessage.getData().get("type");
+                    }
+                    if (remoteMessage.getData().containsKey("typeId")) {
+                        typeId = remoteMessage.getData().get("typeId");
+                    }
+
+                    if (actual_type.equals("reminder") && isValid(typeId))
+                    {
+                        Intent i=new Intent(context, DashboardActivity.class);
+                        i.putExtra("typeId",typeId);
+                        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(i);
                     }
 
                     if (actual_type != null && (actual_type.equals("billing") || actual_type.equals("rating"))) {
@@ -209,6 +226,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                                         }
                                     }
                                 } else {
+
                                     isCall = false;
                                     showNotification(context, _id, message, actual_type);
                                 }
@@ -358,7 +376,18 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             stackBuilder.addNextIntentWithParentStack(cIntent);
             pendingIntent =
                     stackBuilder.getPendingIntent(0, PendingIntent.FLAG_CANCEL_CURRENT);
-        } else {
+        }
+        else if (actualType.equals("reminder") && isValid(typeId)){
+
+            cIntent = new Intent(context, DashboardActivity.class);
+            cIntent.putExtra("typeId", typeId);
+            cIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            cIntent.setAction(Long.toString(System.currentTimeMillis()));
+
+            pendingIntent = PendingIntent.getActivity(context, (int) System.currentTimeMillis(),
+                    cIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        }
+        else {
 
             cIntent = new Intent(context, SplashScreen.class);
             Bundle b = new Bundle();

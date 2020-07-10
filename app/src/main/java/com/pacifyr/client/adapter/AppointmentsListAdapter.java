@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,6 +15,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.pacifyr.client.R;
+import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.fragment.schedule.AppointmentModel;
 import com.pacifyr.client.home.ProfileScreenActivity;
 import com.pacifyr.client.network.NetworkService;
@@ -90,9 +92,45 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<AppointmentsLi
                         holder.mTextView_ScheduleTime.setText(mDisplayDateAndTime);
                     }
 
+
                     if (scheduleIsPassed(mObject.getStartTimeGMT())) {
-                        holder.mainLayout.setBackgroundColor(mContext.getResources().getColor(R.color.appointment_no_click));
-                        holder.mButton_Cancel.setBackground(null);
+                        if (AppointMentCalUIForAppointMentTime(mObject.getStartTimeGMT()) == true && mObject.getConfirmed() ==true)
+                        {
+                            /**show call UI **/
+                            holder.mButton_Cancel.setVisibility(View.GONE);
+                            holder.call_layout.setVisibility(View.VISIBLE);
+
+
+                            holder.videocall_rlay.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                  /*  if (isValid("sessionid", "Please try later session expired")) {
+                                        ((PacifyrActivity)mContext).startCall(true, pacifyer, pacifyer.getQbid(), pacifyer.getId(), sessionid);
+                                    }*/
+                                }
+                            });
+
+                            holder.audiocall_rlay.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                 /*   if (isValid("sessionid", "Please try later session expired")) {
+                                        ((PacifyrActivity)mContext).startCall(true, pacifyer, pacifyer.getQbid(), pacifyer.getId(), sessionid);
+                                    }*/
+                                }
+                            });
+
+                            holder.chat_rlay.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                //    ((PacifyrActivity)mContext).startChat();
+                                }
+                            });
+
+                        }
+                        else {
+                            holder.mainLayout.setBackgroundColor(mContext.getResources().getColor(R.color.appointment_no_click));
+                            holder.mButton_Cancel.setBackground(null);
+                        }
 
                     } else {
 
@@ -220,7 +258,8 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<AppointmentsLi
         private TextView mTextView_ScheduleTime;
         private TextView mButton_RejestReason;
         private Button mButton_Cancel;
-        private LinearLayout mainLayout;
+        private LinearLayout mainLayout,call_layout;
+        private RelativeLayout videocall_rlay,audiocall_rlay,chat_rlay;
 
 
         public ViewHolder(View itemView) {
@@ -232,6 +271,10 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<AppointmentsLi
             mButton_RejestReason = itemView.findViewById(R.id.mButton_RejestReason);
             mButton_Cancel = itemView.findViewById(R.id.mButton_Cancel);
             mainLayout = itemView.findViewById(R.id.mainLayout);
+            call_layout = itemView.findViewById(R.id.call_layout);
+            videocall_rlay = itemView.findViewById(R.id.videocall_rlay);
+            audiocall_rlay = itemView.findViewById(R.id.audiocall_rlay);
+            chat_rlay = itemView.findViewById(R.id.chat_rlay);
 
         }
     }
@@ -266,8 +309,21 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<AppointmentsLi
     public boolean scheduleIsPassed(String date) {
         long mcurrentMilliSeconds = Utility.getCurrentDateinMilliSeconds();
         long mServerMilliSeconds = Utility.getLocalTimeFromUtc(date);
-
         return mcurrentMilliSeconds >= mServerMilliSeconds;
+
+    }
+
+    public boolean AppointMentCalUIForAppointMentTime(String date) {
+        long mcurrentMilliSeconds = Utility.getCurrentDateinMilliSeconds();
+        long mServerMilliSeconds = Utility.getLocalTimeFromUtc(date);
+        long TimDifference=mcurrentMilliSeconds - mServerMilliSeconds;
+        if (TimDifference<1800000)
+        {
+            return true;
+        }
+        else {
+            return false;
+        }
 
     }
 

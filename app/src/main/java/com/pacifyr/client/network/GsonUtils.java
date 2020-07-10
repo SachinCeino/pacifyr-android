@@ -10,6 +10,7 @@ import com.google.gson.reflect.TypeToken;
 import com.pacifyr.client.fragment.schedule.AppointmentModel;
 import com.pacifyr.client.fragment.schedule.ScheduleData;
 import com.pacifyr.client.fragment.schedule.Slot;
+import com.pacifyr.client.model.AppoinmentNotification;
 import com.pacifyr.client.model.InterviewModel;
 import com.pacifyr.client.model.MCustomerList;
 import com.pacifyr.client.model.ModelEvent;
@@ -947,7 +948,18 @@ public class GsonUtils<T> {
         }
         return model;
     }
+    public AppoinmentNotification gsonToAppoinmentNotification(JSONObject json) {
 
+        AppoinmentNotification model = null;
+        try {
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            String jsonString = json.toString();
+            model = gson.fromJson(jsonString, AppoinmentNotification.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return model;
+    }
 
     public List<ModelPamTemplates> gsonToModelPamTemplates(JSONArray jsonArray) {
 
