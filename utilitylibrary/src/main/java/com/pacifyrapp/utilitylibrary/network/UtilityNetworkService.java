@@ -64,6 +64,7 @@ public class UtilityNetworkService extends IntentService {
 
     public static final String termOfUsersUrl = "https://pacifyr.com/TermsUsers.html";
     public static final String PACKAGE_PAM = "com.pacifyr.pam";
+    public static final String OM_PLAYSTORE = "https://play.google.com/store/apps/details?id=com.ceino.pacifyr.omhealthcare";
     public static boolean isRelease = false;
     public static boolean isProd = true;
     public static String ACCOUNT_KEY = "";
@@ -146,6 +147,8 @@ public class UtilityNetworkService extends IntentService {
 
 
     public static final String pacifyrStripeUrl = "https://pacifyr.com/stripe.html";
+    public static final String MARKETPLACE_URL = "https://accesshealthnet.com/who-we-help/patients/";
+    public static final String PHARMACY_URL = "https://americaspharmacysource.com";
 
 
     public static final  String root_file_path = Environment.getExternalStorageDirectory().getAbsolutePath() +

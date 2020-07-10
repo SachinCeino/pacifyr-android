@@ -21,10 +21,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.pacifyr.client.customview.MainTextView;
-import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.RespSearchPacifyrWOption;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -34,11 +30,16 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.pacifyr.client.R;
 import com.pacifyr.client.adapter.PacifyrResultListViewAdapter;
+import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.AlertTypeEvent;
 import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.fragment.DoctorsFilterFragment;
+import com.pacifyr.client.fragment.schedule.ScheduleBottomSheetFragment;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.utility.PacifyrAppCompactActivity;
+import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.RespSearchPacifyrWOption;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.ThreadMode;
@@ -80,9 +81,9 @@ public class DoctorsSearchResultActivity extends PacifyrAppCompactActivity imple
         onSetActionBar();
         rcv_SearchResult = findViewById(R.id.rcv_SearchResult);
         total_results = findViewById(R.id.total_results);
-        mSegmentedGroup = (RadioGroup) findViewById(R.id.segmentedgroup);
-        mRadioButtonB = (RadioButton) findViewById(R.id.rblistView);
-        mRadioButtonA = (RadioButton) findViewById(R.id.rbMapView);
+        mSegmentedGroup = findViewById(R.id.segmentedgroup);
+        mRadioButtonB = findViewById(R.id.rblistView);
+        mRadioButtonA = findViewById(R.id.rbMapView);
         listViewTypeLayout = findViewById(R.id.listViewTypeLayout);
         mapViewTypeLayout = findViewById(R.id.mapViewTypeLayout);
         desclaimertextView=findViewById(R.id.desclaimertextView);
@@ -374,7 +375,7 @@ public class DoctorsSearchResultActivity extends PacifyrAppCompactActivity imple
                             if (isValid(json))
                             {
                                 if (json.has("message"))
-                                    message=json.getString("message").toString();
+                                    message = json.getString("message");
                                 if(isValid(message))
                                     Toast.makeText(DoctorsSearchResultActivity.this, message, Toast.LENGTH_SHORT).show();
                                 object.setFavorite(true);
@@ -424,7 +425,7 @@ public class DoctorsSearchResultActivity extends PacifyrAppCompactActivity imple
                             if (isValid(json))
                             {
                                 if (json.has("message"))
-                                    message=json.getString("message").toString();
+                                    message = json.getString("message");
                                 if(isValid(message))
                                     Toast.makeText(DoctorsSearchResultActivity.this, message, Toast.LENGTH_SHORT).show();
                                 object.setFavorite(false);
@@ -520,15 +521,15 @@ public class DoctorsSearchResultActivity extends PacifyrAppCompactActivity imple
     private DeviceFitImageView rightImv;
 
     public void onSetActionBar() {
-        actionBarTopLlay = (LinearLayout) findViewById(R.id.action_bar_top_llay);
-        bottomPanel = (RelativeLayout) findViewById(R.id.bottom_panel);
-        leftLlay = (LinearLayout) findViewById(R.id.left_llay);
-        backImv = (DeviceFitImageView) findViewById(R.id.back_imv);
-        leftTxv = (MainTextView) findViewById(R.id.left_txv);
-        titleTxv = (MainTextView) findViewById(R.id.title_txv);
-        rightLlay = (LinearLayout) findViewById(R.id.right_llay);
-        rightTxv = (MainTextView) findViewById(R.id.right_txv);
-        rightImv = (DeviceFitImageView) findViewById(R.id.right_imv);
+        actionBarTopLlay = findViewById(R.id.action_bar_top_llay);
+        bottomPanel = findViewById(R.id.bottom_panel);
+        leftLlay = findViewById(R.id.left_llay);
+        backImv = findViewById(R.id.back_imv);
+        leftTxv = findViewById(R.id.left_txv);
+        titleTxv = findViewById(R.id.title_txv);
+        rightLlay = findViewById(R.id.right_llay);
+        rightTxv = findViewById(R.id.right_txv);
+        rightImv = findViewById(R.id.right_imv);
         rightImv.setVisibility(View.INVISIBLE);
         rightTxv.setVisibility(View.INVISIBLE);
         rightLlay.setVisibility(View.INVISIBLE);

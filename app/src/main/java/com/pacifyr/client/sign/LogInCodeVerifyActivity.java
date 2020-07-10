@@ -159,8 +159,8 @@ public class LogInCodeVerifyActivity extends PacifyrActivity {
             public void onTick(long millisUntilFinished) {
                 resend_ctxv.setText("Waiting for SMS with verification code : " + millisUntilFinished / 1000);
                 //here you can have your logic to set text to edittext
-                progressOtp.setVisibility(View.VISIBLE);
-                progressOtp.setVisibility(View.VISIBLE);
+                if (progressOtp != null)
+                    progressOtp.setVisibility(View.VISIBLE);
             }
             public void onFinish() {
                 resend_ctxv.setText(getResources().getString(R.string.didnt_get_code));
@@ -177,7 +177,12 @@ public class LogInCodeVerifyActivity extends PacifyrActivity {
         if(otpTimer!=null)
             otpTimer.cancel();
     }
-    
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        cancelTimer();
+    }
 
     private void setClicks() {
         try{

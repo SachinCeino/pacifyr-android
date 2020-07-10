@@ -62,6 +62,10 @@ public class UserProfile {
     private String educationStatus;
     private String schoolName;
     private String address1;
+
+    @SerializedName("getStartedUrlAndroid")
+    @Expose
+    private String getStartedUrlAndroid;
     @SerializedName("learnMore")
     @Expose
     private List<LearnMore> learnMore = null;
@@ -460,6 +464,15 @@ public class UserProfile {
     public void setRating(String rating) {
         this.rating = rating;
     }
+
+    public String getGetStartedUrlAndroid() {
+        return getStartedUrlAndroid;
+    }
+
+    public void setGetStartedUrlAndroid(String getStartedUrlAndroid) {
+        this.getStartedUrlAndroid = getStartedUrlAndroid;
+    }
+
 
     @Override
     public String toString() {

@@ -118,7 +118,7 @@
                             android:layout_below="@id/rcv_week_schedule_"
                             android:layout_marginTop="10dp">
 
-                            <com.pacifyr.client.views.PamTextViewMedium
+                            <com.pacifyr.client.customview.MainTextView
                                 android:id="@+id/text_loading"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -283,22 +283,20 @@
 
         </RelativeLayout>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:id="@+id/nextClick"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
-            android:gravity="center"
+            android:layout_width="match_parent"
             android:visibility="gone"
-            android:id="@+id/nextClick"
             android:background="@color/white"
-            android:padding="10dp"
-            android:orientation="vertical">
+            android:padding="10dp">
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Next"
+                android:layout_alignParentRight="true"
                 android:id="@+id/txtv_next"
                 android:textColor="@color/colorPrimary"
                 android:textStyle="bold"
@@ -306,7 +304,20 @@
                 android:gravity="right"
                 android:padding="10dp" />
 
-        </LinearLayout>
+            <TextView
+                android:id="@+id/txtv_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:gravity="left"
+                android:padding="10dp"
+                android:text="Back"
+                android:textColor="@color/colorPrimary"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:visibility="gone" />
+
+        </RelativeLayout>
     </RelativeLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

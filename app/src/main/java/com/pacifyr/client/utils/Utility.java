@@ -59,6 +59,7 @@ import static com.pacifyr.client.sign.PacifyrRequestAccessActivity.getPath;
 public class Utility {
 
     private static final int MY_PERMISSIONS_REQUEST_ESSENTIAL = 130;
+    public static final int MY_PERMISSIONS_REQUEST_LOCATION_PERMISSION = 131;
     public static int colourcode=2;
 
 
@@ -298,7 +299,35 @@ public class Utility {
                     return true;
                 }
 
-            }else {
+            } else if (type.equals("location")) {
+
+                //LogUtils.LOGD("jithish","audiochecks......");
+
+                if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    if (ActivityCompat.shouldShowRequestPermissionRationale((Activity) context, Manifest.permission.ACCESS_FINE_LOCATION)) {
+                        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(context);
+                        alertBuilder.setCancelable(true);
+                        alertBuilder.setTitle("Permission required");
+                        alertBuilder.setMessage("Your location is required to search for Councelors around you");
+                        alertBuilder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+                            public void onClick(DialogInterface dialog, int which) {
+                                ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, MY_PERMISSIONS_REQUEST_LOCATION_PERMISSION);
+                            }
+                        });
+                        AlertDialog alert = alertBuilder.create();
+                        alert.show();
+
+                    } else {
+                        //LogUtils.LOGD("jithish","audiochecks..jjjjj....1");
+                        ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, MY_PERMISSIONS_REQUEST_LOCATION_PERMISSION);
+                    }
+                    return false;
+                } else {
+                    return true;
+                }
+
+            } else {
                 return true;
             }
 

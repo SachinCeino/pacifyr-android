@@ -315,17 +315,17 @@
         </service>
         <service android:name="com.pacifyr.client.quickblox.services.CallService" />
         <service android:name="com.pacifyr.client.quickblox.services.Call_Service" />
-        <receiver
-            android:name="com.google.android.gms.gcm.GcmReceiver"
-            android:exported="true"
-            android:permission="com.google.android.c2dm.permission.SEND">
-            <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+        <!-- <receiver
+             android:name="com.google.android.gms.gcm.GcmReceiver"
+             android:exported="true"
+             android:permission="com.google.android.c2dm.permission.SEND">
+             <intent-filter>
+                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                 <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
 
-                <category android:name="com.quickblox.sample.groupchatwebrtc" />
-            </intent-filter>
-        </receiver>
+                 <category android:name="com.quickblox.sample.groupchatwebrtc" />
+             </intent-filter>
+         </receiver>-->
         <!--<receiver
             android:name=".receiver.PacifyrReceiver"
             android:enabled="true"

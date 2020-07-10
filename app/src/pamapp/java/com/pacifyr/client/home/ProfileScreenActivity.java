@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.widget.AppCompatRatingBar;
 import androidx.cardview.widget.CardView;
@@ -23,13 +24,12 @@ import com.gdacciaro.iOSDialog.iOSDialog;
 import com.gdacciaro.iOSDialog.iOSDialogClickListener;
 import com.google.android.material.snackbar.Snackbar;
 import com.pacifyr.client.R;
-import com.pacifyr.client.adapter.CertificationProfileAdapter;
-import com.pacifyr.client.adapter.EducationProfileAdapter;
 import com.pacifyr.client.adapter.SpecilaListProfileAdapter;
 import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.AlertTypeEvent;
 import com.pacifyr.client.event.NotifyEvent;
+import com.pacifyr.client.fragment.schedule.ScheduleBottomSheetFragment;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.quickblox.activities.PermissionsActivity;
@@ -225,7 +225,7 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
 
                             offlineSnackbar = Snackbar.make(topRlay, mpacifyerDetial.getName() + " is currently offline. You can either chat with " + mpacifyerDetial.getName() + " or try again later.", Snackbar.LENGTH_LONG);
                             View snackbarView = offlineSnackbar.getView();
-                            TextView snackTextView = (TextView) snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
+                            TextView snackTextView = snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
                             snackTextView.setMaxLines(4);
                             offlineSnackbar.show();
                             //ToastHandler.newInstance(ProfileScreenActivity.this).mustShowToast(mpacifyerDetial.getName() + " is currently offline. You can either chat with " + mpacifyerDetial.getName() + " or try agein later");
@@ -300,7 +300,7 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
 
                             offlineSnackbar = Snackbar.make(topRlay, mpacifyerDetial.getName() + " is currently offline. You can either chat with " + mpacifyerDetial.getName() + " or try again later.", Snackbar.LENGTH_LONG);
                             View snackbarView = offlineSnackbar.getView();
-                            TextView snackTextView = (TextView) snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
+                            TextView snackTextView = snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
                             snackTextView.setMaxLines(4);
                             offlineSnackbar.show();
                             return;
@@ -373,6 +373,10 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
                     @Override
                     public void onClick(View view) {
 
+                        if (!isValid(mpacifyerDetial)) {
+                            Toast.makeText(ProfileScreenActivity.this, getString(R.string.group_chat_join_error), Toast.LENGTH_LONG).show();
+                            return;
+                        }
                         isChatSubscriptionRequired = mpacifyerDetial.isChatSubscriptionRequired();
                         priceForChat = Integer.parseInt(mpacifyerDetial.getPriceForChat());
 

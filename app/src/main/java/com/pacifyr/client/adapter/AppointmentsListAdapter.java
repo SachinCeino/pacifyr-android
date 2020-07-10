@@ -307,7 +307,8 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<AppointmentsLi
 
 
     public boolean scheduleIsPassed(String date) {
-        long mcurrentMilliSeconds = Utility.getCurrentDateinMilliSeconds();
+        //add 15 minuts more
+        long mcurrentMilliSeconds =900000+ Utility.getCurrentDateinMilliSeconds();
         long mServerMilliSeconds = Utility.getLocalTimeFromUtc(date);
         return mcurrentMilliSeconds >= mServerMilliSeconds;
 
