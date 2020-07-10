@@ -858,59 +858,5 @@ public class ModelUserProfile
         }
     }
 
-    public class Certification implements Serializable {
-        private String id;
 
-        private String title;
-
-        private String duration;
-
-        private String userId;
-        private List<Object> documents = null;
-
-        public String getId() {
-            return id;
-        }
-
-        public void setId(String id) {
-            this.id = id;
-        }
-
-        public String getTitle() {
-            return title;
-        }
-
-        public void setTitle(String title) {
-            this.title = title;
-        }
-
-        public String getDuration() {
-            return duration;
-        }
-
-        public void setDuration(String duration) {
-            this.duration = duration;
-        }
-
-        public String getUserId() {
-            return userId;
-        }
-
-        public void setUserId(String userId) {
-            this.userId = userId;
-        }
-
-        public List<Object> getDocuments() {
-            return documents;
-        }
-
-        public void setDocuments(List<Object> documents) {
-            this.documents = documents;
-        }
-
-        @Override
-        public String toString() {
-            return "ClassPojo [id = " + id + ", title = " + title + ", duration = " + duration + ", userId = " + userId + "]";
-        }
-    }
 }

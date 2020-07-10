@@ -24,6 +24,7 @@ import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.utility.BaseFragment;
 import com.pacifyr.client.utils.LogUtils;
 import com.pacifyr.client.utils.Utility;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.Certification;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelUserProfile;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.squareup.otto.Subscribe;
@@ -201,7 +202,7 @@ public class PacifyrAccountFragment extends BaseFragment {
                 }
 
 
-                ArrayList<ModelUserProfile.Certification> certificateList = user.getCertificationList();
+                ArrayList<Certification> certificateList = user.getCertificationList();
                 if (isValid(certificateList)) {
                     //certificate adapter
                     certificateRecyclerView = view.findViewById(R.id.certification_rcv);
