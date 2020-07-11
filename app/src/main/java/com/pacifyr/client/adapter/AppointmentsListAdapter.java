@@ -104,25 +104,22 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<AppointmentsLi
                             holder.videocall_rlay.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
-                                  /*  if (isValid("sessionid", "Please try later session expired")) {
-                                        ((PacifyrActivity)mContext).startCall(true, pacifyer, pacifyer.getQbid(), pacifyer.getId(), sessionid);
-                                    }*/
+                                    ((PacifyrActivity)mContext).startSessionWebforAppoinmetCall(mObject.getPacifyr(), false,mObject.getId());
                                 }
                             });
 
                             holder.audiocall_rlay.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
-                                 /*   if (isValid("sessionid", "Please try later session expired")) {
-                                        ((PacifyrActivity)mContext).startCall(true, pacifyer, pacifyer.getQbid(), pacifyer.getId(), sessionid);
-                                    }*/
+                                    ((PacifyrActivity)mContext).startSessionWebforAppoinmetCall(mObject.getPacifyr(), false,mObject.getId());
+
                                 }
                             });
 
                             holder.chat_rlay.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
-                                //    ((PacifyrActivity)mContext).startChat();
+                               ((PacifyrActivity)mContext).startChat(mObject.getPacifyr());
                                 }
                             });
 

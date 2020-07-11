@@ -37,6 +37,7 @@ import com.github.javiersantos.appupdater.AppUpdater;
 import com.pacifyr.client.Payment.PaymentFragment;
 import com.pacifyr.client.R;
 import com.pacifyr.client.activity.SplashScreen;
+import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.ActionbarEvent;
 import com.pacifyr.client.event.AlertTypeEvent;
@@ -278,7 +279,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
                 chat_rlay.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
+                      startChat(mAppointmentModel.getPacifyr());
                     }
                 });
 
