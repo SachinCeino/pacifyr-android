@@ -286,7 +286,7 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
 
                 } else if (txtv_next.getText().equals("Done")) {
 
-                    if (prefM.getCountry().equals("India")||prefM.getCountry().equals("Wakanda1")) {
+                    if (prefM.getCountry().equals("India")||prefM.getCountry().equals("Wakanda")) {
                         callSlotBookApiAfterPaymentSuccess(SlotForNextClick);
                     }
                     else {
@@ -465,7 +465,7 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
         appointment_date_and_time.setText(Utility.getDateFormatOne(TempScheduleData.getDate() + "") + ", " + Utility.convertTime(slotForNextClick.getStartTime()));
 
 
-        if (prefM.getCountry().equals("India") || prefM.getCountry().equals("Wakanda1"))
+        if (prefM.getCountry().equals("India") || prefM.getCountry().equals("Wakanda"))
             txtv_next.setText("Proceed to pay");
         else
             txtv_next.setText("Confirm");
