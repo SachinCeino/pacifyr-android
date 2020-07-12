@@ -178,13 +178,13 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                         typeId = remoteMessage.getData().get("typeId");
                     }
 
-                    if (actual_type.equals("reminder") && isValid(typeId))
+                    /*if (actual_type.equals("reminder") && isValid(typeId))
                     {
                         Intent i=new Intent(context, DashboardActivity.class);
                         i.putExtra("typeId",typeId);
                         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(i);
-                    }
+                    }*/
 
                     if (actual_type != null && (actual_type.equals("billing") || actual_type.equals("rating"))) {
                         Intent callIntent = new Intent(CallEvent.CALL_EVENT);
