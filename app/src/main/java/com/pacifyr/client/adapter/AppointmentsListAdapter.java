@@ -97,14 +97,24 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<AppointmentsLi
                         if (AppointMentCalUIForAppointMentTime(mObject.getStartTimeGMT()) == true && mObject.getConfirmed() ==true)
                         {
                             /**show call UI **/
-                            holder.mButton_Cancel.setVisibility(View.GONE);
-                            holder.call_layout.setVisibility(View.VISIBLE);
+                            if (mObject.getRejected())
+                            {
+                                holder.mButton_Cancel.setText("Rejected");
+                                holder.mButton_RejestReason.setVisibility(View.VISIBLE);
+                                holder.call_layout.setVisibility(View.GONE);
+                            }
+                            else
+                            {
+                                holder.mButton_Cancel.setVisibility(View.GONE);
+                                holder.call_layout.setVisibility(View.VISIBLE);
+                            }
+
 
 
                             holder.videocall_rlay.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
-                                    ((PacifyrActivity)mContext).startSessionWebforAppoinmetCall(mObject.getPacifyr(), false,mObject.getId());
+                                    ((PacifyrActivity)mContext).startSessionWebforAppoinmetCall(mObject.getPacifyr(), true,mObject.getId());
                                 }
                             });
 
@@ -136,7 +146,7 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<AppointmentsLi
                         holder.mCircleImageView_Appointment_pacifyr.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                ProfileScreenActivity.start(mContext, mPacifyr.getId(), true);
+                                //ProfileScreenActivity.start(mContext, mPacifyr.getId(), true);
                             }
                         });
                     }

@@ -21,11 +21,14 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
+import android.text.Html;
+import android.text.SpannableStringBuilder;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -33,7 +36,9 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
+import androidx.appcompat.app.AlertDialog;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 import com.aigestudio.wheelpicker.WheelPicker;
 import com.aigestudio.wheelpicker.widgets.WheelYearPicker;
@@ -58,6 +63,7 @@ import com.pacifyr.client.event.CallEvent;
 import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.home.PaymentActivity;
 import com.pacifyr.client.home.SessionSummaryActivity;
+import com.pacifyr.client.model.AppoinmentNotification;
 import com.pacifyr.client.model.BillingSummary;
 import com.pacifyr.client.model.Session;
 import com.pacifyr.client.model.interfaces.AvailableMinuteListner;
@@ -94,6 +100,7 @@ import com.pacifyrapp.utilitylibrary.model.pacifyr.MSessionRoot;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelUserProfile;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.post.PostRegisterModel;
+import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.paytm.pgsdk.PaytmOrder;
 import com.paytm.pgsdk.PaytmPGService;
@@ -112,6 +119,7 @@ import com.quickblox.users.model.QBUser;
 import com.quickblox.videochat.webrtc.QBRTCClient;
 import com.quickblox.videochat.webrtc.QBRTCSession;
 import com.quickblox.videochat.webrtc.QBRTCTypes;
+import com.squareup.picasso.Picasso;
 import com.stripe.android.Stripe;
 import com.stripe.android.TokenCallback;
 import com.stripe.android.model.Card;
@@ -293,6 +301,24 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
 
         }
     };
+
+
+    private BroadcastReceiver poupForAppoinmetCall = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            if (intent != null && intent.hasExtra("typeId") ) {
+                String typeId = intent.getExtras().getString("typeId");
+
+                if (isValid(typeId)) {
+                    webGetAppointmentDetails(typeId);
+                }
+            }
+
+        }
+    };
+
+
     /*public void startCall(boolean isVideoCall, long  qbID) {
      *//*if (opponentsAdapter.getSelectedItems().size() > Consts.MAX_OPPONENTS_COUNT) {
             Toaster.longToast(String.format(getString(R.string.error_max_opponents_count),
@@ -547,6 +573,7 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
                 new IntentFilter(NotificationUtils.NOTIFY_INTENT_GENERAL));
         LocalBroadcastManager.getInstance(this).registerReceiver(eventReceiver, new IntentFilter(CallEvent.CALL_EVENT));
         LocalBroadcastManager.getInstance(this).registerReceiver(waringToAddPayTmPaymentReceiver, new IntentFilter(NotificationUtils.PAYTM_PAYMENT_EVENT));
+        LocalBroadcastManager.getInstance(this).registerReceiver(poupForAppoinmetCall, new IntentFilter(NotificationUtils.APPOINTMENT_EVENT));
     }
 
     @Override
@@ -557,6 +584,7 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(generalNotificationReceiver);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(notificationReceiver);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(waringToAddPayTmPaymentReceiver);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(poupForAppoinmetCall);
     }
 
     @Override
@@ -3957,6 +3985,153 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
         ok_dtxv.setOnClickListener(oklistner);
 
     }*/
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        Log.w("APPOINMETNOTI","onNewIntentPacifyrActivty");
+    }
+
+    public void webGetAppointmentDetails(String appointMentId) {
+
+        try {
+            setLoading();
+            showProgress();
+            String url = GLOBAL_URL + "schedule/getAppointment/"+appointMentId;
+
+            AjaxCallback cb = new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject json, AjaxStatus status) {
+                    try {
+                        hideProgress();
+                        hideStatus();
+                        if (isValid(json))
+                        {
+                            Log.w("APPOINMETNOTI",String.valueOf(json));
+                            AppoinmentNotification mAppointmentModel = GsonUtils.getInstance().gsonToAppoinmentNotification(json);
+                            if (isValid(mAppointmentModel))
+                            {
+                                showAppointmentReminderPopup(mAppointmentModel);
+                            }
+                        }
+
+
+                    } catch (Exception e) {
+                        hideProgress();
+                        e.printStackTrace();
+                    }
+                }
+            };
+            AQuery aq = new AQuery(getApplicationContext());
+            cb.header("Content-Type", "application/json");
+            cb.header("AccessToken", getAccessToken());
+            aq.ajax(url, JSONObject.class, cb);
+        } catch (Exception ex) {
+            hideProgress();
+            ex.printStackTrace();
+        }
+    }
+
+    public void showAppointmentReminderPopup(AppoinmentNotification mAppointmentModel) {
+
+        // create an alert builder
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        // set the custom layout
+        final View customLayout = getLayoutInflater().inflate(R.layout.appoinment_call_popup_from_notification, null);
+
+        TextView textView_intro=customLayout.findViewById(R.id.textView_intro);
+        TextView mTextView_PacifyrName=customLayout.findViewById(R.id.mTextView_PacifyrName);
+        CircleImageView pacifyr_profileImage=customLayout.findViewById(R.id.pacifyr_profileImage);
+        TextView mTextView_ScheduleTime=customLayout.findViewById(R.id.mTextView_ScheduleTime);
+        TextView TextView_initiateCallInfo =customLayout.findViewById(R.id.TextView_initiateCallInfo);
+        Button Button_Dismiss  =customLayout.findViewById(R.id.Button_Dismiss);
+        RelativeLayout audiocall_rlay = customLayout.findViewById(R.id.audiocall_rlay);
+        RelativeLayout videocall_rlay = customLayout.findViewById(R.id.videocall_rlay);
+        RelativeLayout chat_rlay = customLayout.findViewById(R.id.chat_rlay);
+
+        builder.setView(customLayout);
+
+
+        SpannableStringBuilder spanTxt = new SpannableStringBuilder("Please visit your Profile page and upload your KYC (PAN/Aadhaar/EPIC/DL) document if you have not done so.\n\n");
+        spanTxt.append(Html.fromHtml("<font color=" + getResources().getColor(com.pacifyrapp.utilitylibrary.R.color.black) + "><b>" + "Steps to follow:" + "</b></font>"));
+        spanTxt.append("\n\n1. Click on the Audio or Video button to connect to the provider.\n");
+        spanTxt.append("2. Introduction by yourself and the provider.\n");
+        spanTxt.append("7. You will receive a ");
+        spanTxt.append(Html.fromHtml("<font size=14 color=" + getResources().getColor(com.pacifyrapp.utilitylibrary.R.color.black) + "><b>" + " Session Started" + "<b></font>"));
+        spanTxt.append(" message.");
+        textView_intro.setText(spanTxt, TextView.BufferType.SPANNABLE);
+
+        SpannableStringBuilder spanTxt2 = new SpannableStringBuilder("If you click on dismiss you can initiate this call from ");
+        spanTxt2.append(Html.fromHtml("<font size=14 color=" + getResources().getColor(com.pacifyrapp.utilitylibrary.R.color.black) + "><b>" + " MY APPOINTMENTS" + "<b></font>"));
+        TextView_initiateCallInfo.setText(spanTxt2, TextView.BufferType.SPANNABLE);
+        // create and show the alert dialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
+        Button_Dismiss.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        if (isValid(mAppointmentModel))
+        {
+            if (isValid(mAppointmentModel.getPacifyr()))
+            {
+                isValid(mAppointmentModel.getPacifyr().getFirstName());
+                {
+                    mTextView_PacifyrName.setText(mAppointmentModel.getPacifyr().getFirstName());
+                    if (isValid(mAppointmentModel.getPacifyr().getLastName()))
+                    {
+                        mTextView_PacifyrName.append(" "+mAppointmentModel.getPacifyr().getLastName()+"");
+                    }
+                }
+
+                if (isValid(mAppointmentModel.getPacifyr().getImage()))
+                {
+                    String imgUrl= mAppointmentModel.getPacifyr().getImage();
+                    if (isValid(imgUrl))
+                        imgUrl= UtilityNetworkService.GLOBAL_IMAGE_URL + imgUrl;
+
+                    if (isValidhtml(imgUrl))
+                        Picasso.with(this).load(imgUrl).placeholder(R.drawable.placeholder_user).into(pacifyr_profileImage);
+
+                }
+
+
+                audiocall_rlay.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        startSessionWebforAppoinmetCall(mAppointmentModel.getPacifyr(), false,mAppointmentModel.getId());
+                    }
+                });
+
+                videocall_rlay.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        startSessionWebforAppoinmetCall(mAppointmentModel.getPacifyr(), true,mAppointmentModel.getId());
+                    }
+                });
+
+                chat_rlay.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        startChat(mAppointmentModel.getPacifyr());
+                    }
+                });
+
+            }
+
+
+            if (isValid(mAppointmentModel.getStartTimeGMT()))
+            {
+                String mDisplayDateAndTime = Utility.getDateAndTimeForAppointmentList(mAppointmentModel.getStartTimeGMT());
+                mTextView_ScheduleTime.setText(mDisplayDateAndTime+"");
+            }
+
+        }
+
+    }
 
 }
 

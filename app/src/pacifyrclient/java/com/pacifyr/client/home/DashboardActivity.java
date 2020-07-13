@@ -135,7 +135,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
 
 
     private LinearLayout messagesLlay;
-    private LinearLayout mLinearLayoutAppointments;
+    public LinearLayout mLinearLayoutAppointments;
 
     String mainLabel;
     String label;
@@ -169,6 +169,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
     @Override
     protected void onResume() {
         super.onResume();
+
         if (isValid(isCallActive) && isCallActive) {
             showSnackbarPopup();
         } else {
@@ -195,106 +196,6 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
 
     }
 
-    private void showAppointmentReminderPopup(AppoinmentNotification mAppointmentModel) {
-
-        // create an alert builder
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        // set the custom layout
-        final View customLayout = getLayoutInflater().inflate(R.layout.appoinment_call_popup_from_notification, null);
-
-        TextView textView_intro=customLayout.findViewById(R.id.textView_intro);
-        TextView mTextView_PacifyrName=customLayout.findViewById(R.id.mTextView_PacifyrName);
-        CircleImageView pacifyr_profileImage=customLayout.findViewById(R.id.pacifyr_profileImage);
-        TextView mTextView_ScheduleTime=customLayout.findViewById(R.id.mTextView_ScheduleTime);
-        TextView TextView_initiateCallInfo =customLayout.findViewById(R.id.TextView_initiateCallInfo);
-        Button Button_Dismiss  =customLayout.findViewById(R.id.Button_Dismiss);
-        RelativeLayout audiocall_rlay = customLayout.findViewById(R.id.audiocall_rlay);
-        RelativeLayout videocall_rlay = customLayout.findViewById(R.id.videocall_rlay);
-        RelativeLayout chat_rlay = customLayout.findViewById(R.id.chat_rlay);
-
-        builder.setView(customLayout);
-
-
-        SpannableStringBuilder spanTxt = new SpannableStringBuilder("Please visit your Profile page and upload your KYC (PAN/Aadhaar/EPIC/DL) document if you have not done so.\n\n");
-        spanTxt.append(Html.fromHtml("<font color=" + getResources().getColor(com.pacifyrapp.utilitylibrary.R.color.black) + "><b>" + "Steps to follow:" + "</b></font>"));
-        spanTxt.append("\n\n1. Click on the Audio or Video button to connect to the provider.\n");
-        spanTxt.append("2. Introduction by yourself and the provider.\n");
-        spanTxt.append("7. You will receive a ");
-        spanTxt.append(Html.fromHtml("<font size=14 color=" + getResources().getColor(com.pacifyrapp.utilitylibrary.R.color.black) + "><b>" + " Session Started" + "<b></font>"));
-        spanTxt.append(" message.");
-        textView_intro.setText(spanTxt, TextView.BufferType.SPANNABLE);
-
-        SpannableStringBuilder spanTxt2 = new SpannableStringBuilder("If you click on dismiss you can initiate this call from ");
-        spanTxt2.append(Html.fromHtml("<font size=14 color=" + getResources().getColor(com.pacifyrapp.utilitylibrary.R.color.black) + "><b>" + " MY APPOINTMENTS" + "<b></font>"));
-        TextView_initiateCallInfo.setText(spanTxt2, TextView.BufferType.SPANNABLE);
-        // create and show the alert dialog
-        AlertDialog dialog = builder.create();
-        dialog.show();
-        Button_Dismiss.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
-
-        if (isValid(mAppointmentModel))
-        {
-            if (isValid(mAppointmentModel.getPacifyr()))
-            {
-                isValid(mAppointmentModel.getPacifyr().getFirstName());
-                {
-                    mTextView_PacifyrName.setText(mAppointmentModel.getPacifyr().getFirstName());
-                    if (isValid(mAppointmentModel.getPacifyr().getLastName()))
-                    {
-                        mTextView_PacifyrName.append(" "+mAppointmentModel.getPacifyr().getLastName()+"");
-                    }
-                }
-
-                if (isValid(mAppointmentModel.getPacifyr().getImage()))
-                {
-                    String imgUrl= mAppointmentModel.getPacifyr().getImage();
-                    if (isValid(imgUrl))
-                            imgUrl= UtilityNetworkService.GLOBAL_IMAGE_URL + imgUrl;
-
-                    if (isValidhtml(imgUrl))
-                        Picasso.with(this).load(imgUrl).placeholder(R.drawable.placeholder_user).into(pacifyr_profileImage);
-
-                }
-
-
-                audiocall_rlay.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        startSessionWebforAppoinmetCall(mAppointmentModel.getPacifyr(), false,mAppointmentModel.getId());
-                    }
-                });
-
-                videocall_rlay.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        startSessionWebforAppoinmetCall(mAppointmentModel.getPacifyr(), true,mAppointmentModel.getId());
-                    }
-                });
-
-                chat_rlay.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                      startChat(mAppointmentModel.getPacifyr());
-                    }
-                });
-
-            }
-
-
-            if (isValid(mAppointmentModel.getStartTimeGMT()))
-            {
-                String mDisplayDateAndTime = Utility.getDateAndTimeForAppointmentList(mAppointmentModel.getStartTimeGMT());
-                mTextView_ScheduleTime.setText(mDisplayDateAndTime+"");
-            }
-
-        }
-
-    }
 
     @Subscribe
     public void onCallStatusChanged(CallStatus callStatus) {
@@ -630,15 +531,6 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
         coupon_view = findViewById(R.id.coupon_view);
         mLinearLayoutAppointments = findViewById(R.id.mLinearLayoutAppointments);
 
-        if (isValid(getIntent()) && isValid(getIntent().getExtras())&&isValid(getIntent().getExtras().get("AppointMentId"))) {
-            AppointMentId = getIntent().getExtras().get("typeId").toString();
-        }
-        if (isValid(AppointMentId))
-        {
-
-            webGetAppointmentDetails(AppointMentId);
-
-        }
 
 
 
@@ -670,7 +562,27 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
         mSlidingPaneLayout = findViewById(R.id.sliding_pane);
         mSlidingPaneLayout.setSliderFadeColor(getResources().getColor(android.R.color.transparent));
         mSlidingPaneLayout.setParallaxDistance(480);
+        String type=null;
+        if (isValid(getIntent()) && isValid(getIntent().getExtras())&&isValid(getIntent().getExtras().get("type"))) {
+            type = getIntent().getExtras().get("type").toString();
+        }
+        if (isValid(getIntent()) && isValid(getIntent().getExtras())&&isValid(getIntent().getExtras().get("typeId"))) {
+            AppointMentId = getIntent().getExtras().get("typeId").toString();
+        }
 
+        if(isValid(type) && type.equals("reminder"))
+        {
+            if (isValid(AppointMentId))
+            {
+                webGetAppointmentDetails(AppointMentId);
+            }
+            else
+            {
+                hideRightLayActionbar();
+                showFragment(new AppointmentsFragment());
+                defSetText(titleTxv, getResources().getString(R.string.appointments));
+            }
+        }
 
         mSlidingPaneLayout.setPanelSlideListener(new PagerEnabledSlidingPaneLayout.PanelSlideListener() {
             @Override
@@ -884,45 +796,6 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
 
     }
 
-    private void webGetAppointmentDetails(String appointMentId) {
-
-        try {
-            setLoading();
-            showProgress();
-            String url = GLOBAL_URL + "schedule/getAppointment/"+appointMentId;
-
-            AjaxCallback cb = new AjaxCallback<JSONObject>() {
-                @Override
-                public void callback(String url, JSONObject json, AjaxStatus status) {
-                    try {
-                        hideProgress();
-                        hideStatus();
-                        if (isValid(json))
-                        {
-                            Log.w("APPOINMETNOTI",String.valueOf(json));
-                            AppoinmentNotification mAppointmentModel = GsonUtils.getInstance().gsonToAppoinmentNotification(json);
-                            if (isValid(mAppointmentModel))
-                            {
-                                showAppointmentReminderPopup(mAppointmentModel);
-                            }
-                        }
-
-
-                    } catch (Exception e) {
-                        hideProgress();
-                        e.printStackTrace();
-                    }
-                }
-            };
-            AQuery aq = new AQuery(getApplicationContext());
-            cb.header("Content-Type", "application/json");
-            cb.header("AccessToken", getAccessToken());
-            aq.ajax(url, JSONObject.class, cb);
-        } catch (Exception ex) {
-            hideProgress();
-            ex.printStackTrace();
-        }
-    }
 
     private void setProfileValues() {
         try {
@@ -1044,6 +917,11 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
 
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        Log.w("APPOINMETNOTI","DashboardActivty");
+    }
 }
 
 

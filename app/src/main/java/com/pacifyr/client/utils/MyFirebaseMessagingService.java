@@ -279,6 +279,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                                     intent.putExtra("id", _id);
                                     LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
                                 }
+                                else if (actual_type.equals("reminder") && isValid(typeId))
+                                {
+                                    Intent intent = new Intent(NotificationUtils.APPOINTMENT_EVENT);
+                                    intent.putExtra("typeId", typeId);
+                                    LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+                                }
 
                             }
                         } else {
@@ -388,7 +394,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
             cIntent = new Intent(context, DashboardActivity.class);
             cIntent.putExtra("typeId", typeId);
-            cIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            cIntent.putExtra("type", "reminder");
+            cIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP);
             cIntent.setAction(Long.toString(System.currentTimeMillis()));
 
             pendingIntent = PendingIntent.getActivity(context, (int) System.currentTimeMillis(),
