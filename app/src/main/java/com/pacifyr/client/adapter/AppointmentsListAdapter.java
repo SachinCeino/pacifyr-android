@@ -65,7 +65,18 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<AppointmentsLi
     }
 
     @Override
+    public long getItemId(int position) {
+        return super.getItemId(position);
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return super.getItemViewType(position);
+    }
+
+    @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
+        holder.setIsRecyclable(false);
         final AppointmentModel.Result mObject = getItem(position);
         if (isValid(mObject)) {
             if (isValid(mObject.getPacifyr())) {
@@ -135,8 +146,18 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<AppointmentsLi
 
                         }
                         else {
-                            holder.mainLayout.setBackgroundColor(mContext.getResources().getColor(R.color.appointment_no_click));
-                            holder.mButton_Cancel.setBackground(null);
+                            if (scheduleIsFullyPassed(mObject.getStartTimeGMT()))
+                            {
+                                holder.mainLayout.setBackgroundColor(mContext.getResources().getColor(R.color.appointment_no_click));
+                                holder.mButton_Cancel.setVisibility(View.GONE);
+                            }
+                            else
+                            {
+                                holder.mainLayout.setBackgroundColor(mContext.getResources().getColor(R.color.white));
+                                holder.mButton_Cancel.setBackground(mContext.getResources().getDrawable(R.drawable.blue_border_white_background_round));
+                                holder.mButton_Cancel.setVisibility(View.VISIBLE);
+                            }
+
                         }
 
                     } else {
@@ -320,7 +341,13 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<AppointmentsLi
         return mcurrentMilliSeconds >= mServerMilliSeconds;
 
     }
+    public boolean scheduleIsFullyPassed(String date) {
+        //add 15 minuts more
+        long mcurrentMilliSeconds =Utility.getCurrentDateinMilliSeconds();
+        long mServerMilliSeconds = Utility.getLocalTimeFromUtc(date);
+        return mcurrentMilliSeconds >= mServerMilliSeconds;
 
+    }
     public boolean AppointMentCalUIForAppointMentTime(String date) {
         long mcurrentMilliSeconds = Utility.getCurrentDateinMilliSeconds();
         long mServerMilliSeconds = Utility.getLocalTimeFromUtc(date);
