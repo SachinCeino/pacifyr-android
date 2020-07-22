@@ -1,38 +1,30 @@
 package com.pacifyr.client.fragment;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.gdacciaro.iOSDialog.iOSDialog;
 import com.gdacciaro.iOSDialog.iOSDialogClickListener;
 import com.google.gson.Gson;
 import com.pacifyr.client.R;
-import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.home.DashboardActivity;
 import com.pacifyr.client.model.ApiResponse;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.utility.BaseFragment;
-import com.pacifyrapp.utilitylibrary.CustomEditText;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONObject;
-
-import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
 
 
 public class CouponCodeFragment extends BaseFragment {
@@ -73,7 +65,7 @@ public class CouponCodeFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 if (edit_discount.getText().length() == 0) {
-                    edit_discount.setError("Please enter valid code");
+                    edit_discount.setError(getString(R.string.invalid_coupon_code));
                     edit_discount.requestFocus();
                     return;
                 }
@@ -86,7 +78,7 @@ public class CouponCodeFragment extends BaseFragment {
                     public void callback(String url, JSONObject json, AjaxStatus status) {
                         if (json == null) {
                             hideProgress();
-                            Toast.makeText(getActivity(), "Invalid discount code", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), getString(R.string.invalid_coupon_code), Toast.LENGTH_SHORT).show();
                         } else {
 //                            Log.d(TAG, "Resp " + json.toString());
                             final ApiResponse apiResponse = new Gson().fromJson(json.toString(), ApiResponse.class);

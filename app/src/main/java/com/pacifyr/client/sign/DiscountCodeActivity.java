@@ -10,20 +10,19 @@ import android.widget.Toast;
 
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.pacifyr.client.event.AlertTypeEvent;
-import com.pacifyr.client.event.NotifyEvent;
-import com.pacifyr.client.utility.PacifyrAppCompactActivity;
-import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.gdacciaro.iOSDialog.iOSDialog;
 import com.gdacciaro.iOSDialog.iOSDialogClickListener;
 import com.google.gson.Gson;
 import com.pacifyr.client.R;
-import com.pacifyr.client.base.PacifyrActivity;
+import com.pacifyr.client.event.AlertTypeEvent;
 import com.pacifyr.client.event.BusProvider;
+import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.home.WelcomeTourActivity;
 import com.pacifyr.client.model.ApiResponse;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
+import com.pacifyr.client.utility.PacifyrAppCompactActivity;
+import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 
 import org.json.JSONObject;
 
@@ -63,7 +62,7 @@ public class DiscountCodeActivity extends PacifyrAppCompactActivity {
             @Override
             public void onClick(View v) {
                 if (edit_discount.getText().length() == 0) {
-                    edit_discount.setError("Please enter valid code");
+                    edit_discount.setError(getString(R.string.invalid_coupon_code));
                     return;
                 }
                 edit_discount.setError(null);
@@ -75,7 +74,7 @@ public class DiscountCodeActivity extends PacifyrAppCompactActivity {
                     public void callback(String url, JSONObject json, AjaxStatus status) {
                         if (json == null) {
                             hideProgress();
-                            Toast.makeText(DiscountCodeActivity.this, "Invalid discount code", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(DiscountCodeActivity.this, getString(R.string.invalid_coupon_code), Toast.LENGTH_SHORT).show();
                         } else {
 //                            Log.d(TAG, "Resp " + json.toString());
                             final ApiResponse apiResponse = new Gson().fromJson(json.toString(), ApiResponse.class);

@@ -97,7 +97,7 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="pacifyr_audio">PACIFYR  AUDIOCALL</string>
     <string name="pacifyr_video">PACIFYR  VIDEOCALL</string>
 
-    <string name="have_discount_code">Have a discount code?</string>
+    <string name="have_discount_code">Have a coupon code?</string>
     <string name="skip_this_step">Skip this step</string>
     <string name="validate">Validate</string>
     <string name="user_first_time_emotion">Select your emotion before your call</string>
@@ -128,4 +128,5 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="register">Register</string>
     <string name="main_font_bold">Raleway-SemiBold.ttf</string>
     <string name="main_font_medium">Raleway-SemiBold.ttf</string>
+    <string name="invalid_coupon_code">Invalid coupon code</string>
 </resources>
