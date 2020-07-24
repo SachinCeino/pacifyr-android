@@ -217,6 +217,8 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<AppointmentsLi
                 else
                 {
                     holder.mButton_Cancel.setText("Cancel");
+                    holder.mTextView_warning_Confirm.setVisibility(View.VISIBLE);
+                    holder.mTextView_warning_Confirm.setText(mContext.getResources().getString(R.string.waiting_for_confirmation));
                 }
             }
             if (isValid(mObject.getCancelled())&& mObject.getCancelled()
@@ -292,7 +294,7 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<AppointmentsLi
         private TextView mTextView_PacifyrName;
         private TextView mTextView_PacifyrSpecialities;
         private TextView mTextView_ScheduleTime;
-        private TextView mButton_RejestReason;
+        private TextView mButton_RejestReason,mTextView_warning_Confirm;
         private Button mButton_Cancel;
         private LinearLayout mainLayout,call_layout;
         private RelativeLayout videocall_rlay,audiocall_rlay,chat_rlay;
@@ -311,6 +313,7 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<AppointmentsLi
             videocall_rlay = itemView.findViewById(R.id.videocall_rlay);
             audiocall_rlay = itemView.findViewById(R.id.audiocall_rlay);
             chat_rlay = itemView.findViewById(R.id.chat_rlay);
+            mTextView_warning_Confirm = itemView.findViewById(R.id.mTextView_warning_Confirm);
 
         }
     }

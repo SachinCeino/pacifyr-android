@@ -61,19 +61,33 @@
                 android:maxLines="3" />
 
             <com.pacifyr.client.customview.MainTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/mTextView_ScheduleTime"
+            android:textColor="@color/grey_hex_7a"
+            android:text=""
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:layout_marginTop="3dp"
+            android:textSize="14sp"
+            android:ellipsize="end"
+            android:maxLines="3"
+            android:drawableLeft="@drawable/svg_event_time_date__detail"
+            android:drawablePadding="5dp" />
+
+            <com.pacifyr.client.customview.MainTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/mTextView_ScheduleTime"
-                android:textColor="@color/grey_hex_7a"
-                android:text=""
-                android:layout_gravity="center_vertical"
-                android:gravity="center_vertical"
+                android:id="@+id/mTextView_warning_Confirm"
+                android:textColor="@color/red"
+                android:layout_gravity="left"
+                android:gravity="left"
+                android:visibility="gone"
                 android:layout_marginTop="3dp"
-                android:textSize="14sp"
+                android:textSize="13sp"
                 android:ellipsize="end"
                 android:maxLines="3"
-                android:drawableLeft="@drawable/svg_event_time_date__detail"
-                android:drawablePadding="5dp" />
+                />
 
             <LinearLayout
                 android:layout_width="match_parent"
