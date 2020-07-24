@@ -4056,7 +4056,7 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
         spanTxt.append(Html.fromHtml("<font color=" + getResources().getColor(com.pacifyrapp.utilitylibrary.R.color.black) + "><b>" + "Steps to follow:" + "</b></font>"));
         spanTxt.append("\n\n1. Click on the Audio or Video button to connect to the provider.\n");
         spanTxt.append("2. Introduction by yourself and the provider.\n");
-        spanTxt.append("7. You will receive a ");
+        spanTxt.append("3. You will receive a ");
         spanTxt.append(Html.fromHtml("<font size=14 color=" + getResources().getColor(com.pacifyrapp.utilitylibrary.R.color.black) + "><b>" + " Session Started" + "<b></font>"));
         spanTxt.append(" message.");
         textView_intro.setText(spanTxt, TextView.BufferType.SPANNABLE);
@@ -4103,6 +4103,7 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
                     @Override
                     public void onClick(View view) {
                         startSessionWebforAppoinmetCall(mAppointmentModel.getPacifyr(), false,mAppointmentModel.getId());
+                        dialog.dismiss();
                     }
                 });
 
@@ -4110,6 +4111,7 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
                     @Override
                     public void onClick(View view) {
                         startSessionWebforAppoinmetCall(mAppointmentModel.getPacifyr(), true,mAppointmentModel.getId());
+                        dialog.dismiss();
                     }
                 });
 
@@ -4117,6 +4119,7 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
                     @Override
                     public void onClick(View view) {
                         startChat(mAppointmentModel.getPacifyr());
+                        dialog.dismiss();
                     }
                 });
 

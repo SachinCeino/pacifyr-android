@@ -2,13 +2,15 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
+    android:gravity="center"
+    android:layout_gravity="center"
     android:background="@android:color/transparent"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         >
         <com.pacifyr.client.customview.MainTextView
             android:layout_width="match_parent"
@@ -186,13 +188,13 @@
             android:layout_width="match_parent"
             android:layout_below="@+id/TextView_initiateCallInfo"
             android:gravity="center"
-            android:layout_margin="25dp"
+            android:layout_margin="20dp"
             android:text="Dismiss"
             android:textColor="@color/blue"
             android:textStyle="bold"
             android:id="@+id/Button_Dismiss"
             android:background="@drawable/blue_border_white_background_round"
-            android:layout_height="60dp"></Button>
+            android:layout_height="40dp"></Button>
 
     </RelativeLayout>
 
