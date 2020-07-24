@@ -114,6 +114,12 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<AppointmentsLi
                                 holder.mButton_RejestReason.setVisibility(View.VISIBLE);
                                 holder.call_layout.setVisibility(View.GONE);
                             }
+                            else if(isValid(mObject.getCancelled()) && mObject.getCancelled()==true)
+                            {
+                                //cancelled
+                                holder.mButton_Cancel.setVisibility(View.VISIBLE);
+                                holder.mButton_Cancel.setText("Cancelled");
+                            }
                             else
                             {
                                 holder.mButton_Cancel.setVisibility(View.GONE);
