@@ -209,7 +209,15 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<AppointmentsLi
 
             else
             {
-                holder.mButton_Cancel.setText("Cancel");
+
+                if (isValid(mObject.getConfirmed()) && mObject.getConfirmed()==true)
+                {
+                    holder.mButton_Cancel.setText("Accepted");
+                }
+                else
+                {
+                    holder.mButton_Cancel.setText("Cancel");
+                }
             }
             if (isValid(mObject.getCancelled())&& mObject.getCancelled()
             || isValid(mObject.getRejected())&&mObject.getRejected())
