@@ -103,8 +103,8 @@ android {
         pacifyrclient {
             dimension "Pacifyr"
             applicationId "com.pacifyr.pacifyrapp"
-            versionName "2.0"
-            versionCode 79
+            versionName "2.0.1"
+            versionCode 80
         }
         leadersup {
             dimension "Pacifyr"
