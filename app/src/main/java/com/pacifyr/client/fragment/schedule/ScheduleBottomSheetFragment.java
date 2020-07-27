@@ -201,7 +201,7 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
 
         }
 
-        ll_prev_week.setVisibility(GONE);
+        ll_prev_week.setVisibility(View.INVISIBLE);
         ll_prev_week.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -209,7 +209,7 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
                 weekNumber--;
                 if (weekNumber<=0)
                 {
-                    ll_prev_week.setVisibility(GONE);
+                    ll_prev_week.setVisibility(View.INVISIBLE);
 
                 }
                 rcv_week_schedule_.setAdapter(null);
@@ -435,7 +435,7 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
         confirmLayout.setVisibility(View.VISIBLE);
         txtv_back.setVisibility(VISIBLE);
         appointmentDoneLayout.setVisibility(GONE);
-        ll_prev_week.setVisibility(GONE);
+        ll_prev_week.setVisibility(View.INVISIBLE);
         Glide.with(getActivity())
                 .load(GLOBAL_IMAGE_URL + pacifyer_obj.getImage())
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
