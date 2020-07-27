@@ -26,7 +26,12 @@ import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.eralp.circleprogressview.CircleProgressView;
 import com.google.gson.Gson;
+import com.krishna.fileloader.FileLoader;
+import com.krishna.fileloader.listener.FileRequestListener;
+import com.krishna.fileloader.pojo.FileResponse;
+import com.krishna.fileloader.request.FileLoadRequest;
 import com.pacifyr.client.R;
+import com.pacifyr.client.activity.TermsOfUseActivity;
 import com.pacifyr.client.adapter.CommentsAdapter;
 import com.pacifyr.client.adapter.EmotionsListAdapter;
 import com.pacifyr.client.customview.MainTextView;
@@ -40,6 +45,7 @@ import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.quickblox.App;
 import com.pacifyr.client.utility.PacifyrAppCompactActivity;
+import com.pacifyr.client.utility.PdfViewer;
 import com.pacifyr.client.utils.LogUtils;
 import com.pacifyr.client.utils.Utility;
 import com.pacifyr.client.utils.WrappingSlidingPaneLayout;
@@ -59,6 +65,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import app.minimize.com.seek_bar_compat.SeekBarCompat;
@@ -108,7 +115,7 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
     public MSessionDetailRoot mSessionDetailRoot;
     public SeekBarCompat effective_seekbar;
     public ScaleRatingBar rating_bar;
-
+    private TextView mTextView_View_pres;
     // public RatingBar rating_bar;
 
 
@@ -376,6 +383,7 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
             afterFeelSelectionLlay = (LinearLayout) findViewById(R.id.after_feel_selection_llay);*/
 
             rating_llay = findViewById(R.id.rating_llay);
+
             before_feel_llay = findViewById(R.id.before_feel_llay);
             after_feel_llay = findViewById(R.id.after_feel_llay);
             afterFeelSelectionLlay = findViewById(R.id.after_feel_selection_llay);
@@ -410,6 +418,7 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
             //  rating_bar = (RatingBar) findViewById(R.id.rating_bar);
 
             effective_seekbar = findViewById(R.id.effective_seekbar);
+            mTextView_View_pres  = findViewById(R.id.mTextView_View_pres);
             //holoCircleSeekBar=(HoloCircleSeekBar) findViewById(R.id.picker);
             //effective_circle_view = (CircleView) findViewById(R.id.effective_circle_view);
             rating_llay.setVisibility(View.GONE);
@@ -461,7 +470,15 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
                 rating_bar.setIsIndicator(true);
             }
 
-
+            mTextView_View_pres.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (isValid(mSessionDetailRoot.getPrescriptionFile()))
+                    loadPDF(mSessionDetailRoot.getPrescriptionFile());
+                    else
+                        Toast.makeText(LastSessionActivity.this, "Invalid Prescription file", Toast.LENGTH_SHORT).show();
+                }
+            });
 
        /*     rating_bar.setNumStars(5);
             rating =5;
@@ -507,6 +524,34 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
             LogUtils.LOGD("session", "SSA onCreateView exce " + e.getMessage());
         }
     }
+
+
+    private void loadPDF(String url) {
+        setLoading();
+        showProgress();
+        FileLoader.with(LastSessionActivity.this)
+                .load(GLOBAL_IMAGE_URL+url, false) //2nd parameter is optioal, pass true to force load from network
+                .fromDirectory("test4", FileLoader.DIR_CACHE)
+                .asFile(new FileRequestListener<File>() {
+                    @Override
+                    public void onLoad(FileLoadRequest request, FileResponse<File> response) {
+                        hideProgress();
+                        File loadedFile = response.getBody();
+                        // do something with the file
+                        Log.d(TAG, "File downloaded ");
+                        PdfViewer.pdf = loadedFile;
+                        Intent intent = new Intent(LastSessionActivity.this, PdfViewer.class);
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onError(FileLoadRequest request, Throwable t) {
+                        hideProgress();
+                        Log.d(TAG, "File download failed ");
+                    }
+                });
+    }
+
 
     private void setAfterEmotionViews(MEmotion mEmotion) {
         try {

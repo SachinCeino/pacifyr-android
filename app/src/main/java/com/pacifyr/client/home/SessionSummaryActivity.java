@@ -25,6 +25,10 @@ import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.eralp.circleprogressview.CircleProgressView;
 import com.google.gson.Gson;
+import com.krishna.fileloader.FileLoader;
+import com.krishna.fileloader.listener.FileRequestListener;
+import com.krishna.fileloader.pojo.FileResponse;
+import com.krishna.fileloader.request.FileLoadRequest;
 import com.pacifyr.client.R;
 import com.pacifyr.client.adapter.CommentsAdapter;
 import com.pacifyr.client.adapter.EmotionsListAdapter;
@@ -40,6 +44,7 @@ import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.quickblox.App;
 import com.pacifyr.client.quickblox.utils.Consts;
 import com.pacifyr.client.utility.PacifyrAppCompactActivity;
+import com.pacifyr.client.utility.PdfViewer;
 import com.pacifyr.client.utils.LogUtils;
 import com.pacifyr.client.utils.Utility;
 import com.pacifyr.client.utils.WrappingSlidingPaneLayout;
@@ -58,6 +63,7 @@ import com.willy.ratingbar.ScaleRatingBar;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import app.minimize.com.seek_bar_compat.SeekBarCompat;
@@ -133,6 +139,7 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
     private RelativeLayout notes_Layout;
     private CustomEditText etv_notes;
     private String mSessionId;
+    private  TextView mTextView_View_pres;
 
     /*public static void start(Context context, boolean isAudioCall) {
         Intent intent = new Intent(context, SessionSummaryActivity.class);
@@ -306,6 +313,42 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
             afterFeelSelectionLlay.setVisibility(View.GONE);
             before_feel_llay.setVisibility(View.GONE);
         }
+        mTextView_View_pres = findViewById(R.id.mTextView_View_pres);
+        mTextView_View_pres.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (isValid(mSessionDetailRoot.getPrescriptionFile()))
+                    loadPDF(mSessionDetailRoot.getPrescriptionFile());
+                else
+                    Toast.makeText(SessionSummaryActivity.this, "Invalid Prescription file", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void loadPDF(String url) {
+        setLoading();
+        showProgress();
+        FileLoader.with(SessionSummaryActivity.this)
+                .load(GLOBAL_IMAGE_URL+url, false) //2nd parameter is optioal, pass true to force load from network
+                .fromDirectory("test4", FileLoader.DIR_CACHE)
+                .asFile(new FileRequestListener<File>() {
+                    @Override
+                    public void onLoad(FileLoadRequest request, FileResponse<File> response) {
+                        hideProgress();
+                        File loadedFile = response.getBody();
+                        // do something with the file
+                        Log.d(TAG, "File downloaded ");
+                        PdfViewer.pdf = loadedFile;
+                        Intent intent = new Intent(SessionSummaryActivity.this, PdfViewer.class);
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onError(FileLoadRequest request, Throwable t) {
+                        hideProgress();
+                        Log.d(TAG, "File download failed ");
+                    }
+                });
     }
 
 

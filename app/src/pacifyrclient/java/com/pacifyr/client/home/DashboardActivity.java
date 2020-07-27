@@ -48,6 +48,7 @@ import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.fragment.AppointmentsFragment;
 import com.pacifyr.client.fragment.CouponCodeFragment;
 import com.pacifyr.client.fragment.MySessionFragment;
+import com.pacifyr.client.fragment.PrescriptionListFragment;
 import com.pacifyr.client.fragment.ResourcesFragment;
 import com.pacifyr.client.fragment.SupportFragment;
 import com.pacifyr.client.fragment.UserDashboardFragment;
@@ -305,6 +306,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
     private LinearLayout rightLlay;
     private MainTextView rightTxv;
     private DeviceFitImageView rightImv;
+    private LinearLayout mLinearLayoutPrescription;
 
     public void onSetActionBar() {
         actionBarTopLlay = findViewById(R.id.action_bar_top_llay);
@@ -316,6 +318,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
         rightLlay = findViewById(R.id.right_llay);
         rightTxv = findViewById(R.id.right_txv);
         rightImv = findViewById(R.id.right_imv);
+        mLinearLayoutPrescription = findViewById(R.id.mLinearLayoutPrescription);
         rightImv.setVisibility(View.INVISIBLE);
         rightTxv.setVisibility(View.INVISIBLE);
         rightLlay.setVisibility(View.INVISIBLE);
@@ -791,6 +794,14 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
                 hideRightLayActionbar();
                 showFragment(new CouponCodeFragment());
 
+            }
+        });
+
+        mLinearLayoutPrescription.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                hideRightLayActionbar();
+                showFragment(new PrescriptionListFragment());
             }
         });
 

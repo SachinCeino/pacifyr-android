@@ -1,0 +1,24 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <com.pacifyr.client.customview.MainTextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="No prescriptions available "
+        android:layout_centerInParent="true"
+        android:textStyle="bold"
+        android:id="@+id/emptyLayout"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:visibility="gone" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/mRecyclerViewPrescriptions"
+        android:visibility="visible" />
+
+
+</RelativeLayout>

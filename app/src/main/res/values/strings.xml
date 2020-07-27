@@ -191,6 +191,7 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="per_hour"> per hour</string>
     <string name="per_session"> per session</string>
     <string name="appointments">MY APPOINTMENTS</string>
+    <string name="my_prescriptions">MY PRESCRIPTIONS</string>
     <string name="wellness">Wellness</string>
     <string name="physical_therapy">Physical Therapy</string>
     <string name="parenting_support">Parenting Support</string>

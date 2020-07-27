@@ -241,6 +241,9 @@
         <activity
             android:name="com.pacifyr.client.sign.DiscountCodeActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.PrescriptionViewActivity"
+            android:screenOrientation="portrait" />
 
 
         <!-- android:launchMode = "singleInstance" -->

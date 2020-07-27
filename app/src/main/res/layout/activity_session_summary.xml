@@ -267,6 +267,18 @@
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
                             android:background="#DFDFDF"/>
+                        <com.pacifyr.client.customview.MainTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/colorPrimary"
+                            android:text="View Prescription"
+                            android:layout_marginTop="20dp"
+                            android:id="@+id/mTextView_View_pres"
+                            android:padding="10dp"
+                            android:drawableLeft="@drawable/prescription"
+                            android:background="@drawable/blue_border_white_background_round"
+                            android:drawablePadding="5dp"
+                            />
                         <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"

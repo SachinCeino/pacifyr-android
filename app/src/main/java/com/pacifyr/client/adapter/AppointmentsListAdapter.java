@@ -223,8 +223,11 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<AppointmentsLi
                 else
                 {
                     holder.mButton_Cancel.setText("Cancel");
-                    holder.mTextView_warning_Confirm.setVisibility(View.VISIBLE);
-                    holder.mTextView_warning_Confirm.setText(mContext.getResources().getString(R.string.waiting_for_confirmation));
+                    if (!scheduleIsFullyPassed(mObject.getStartTimeGMT()))
+                    {
+                        holder.mTextView_warning_Confirm.setVisibility(View.VISIBLE);
+                        holder.mTextView_warning_Confirm.setText(mContext.getResources().getString(R.string.waiting_for_confirmation));
+                    }
                 }
             }
             if (isValid(mObject.getCancelled())&& mObject.getCancelled()
