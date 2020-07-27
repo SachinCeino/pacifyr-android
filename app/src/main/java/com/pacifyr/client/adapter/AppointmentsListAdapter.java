@@ -276,7 +276,7 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<AppointmentsLi
 
     private void showRejectedReasonPopUp(Object rejectReason) {
         AlertDialog.Builder alert = new AlertDialog.Builder(mContext);
-        alert.setTitle("Rejected reason");
+        alert.setTitle("Reason for rejection");
         alert.setMessage(rejectReason.toString());
         final TextView input = new TextView (mContext);
         alert.setView(input);
