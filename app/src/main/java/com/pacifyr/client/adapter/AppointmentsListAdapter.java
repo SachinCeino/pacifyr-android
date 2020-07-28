@@ -124,6 +124,7 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<AppointmentsLi
                             {
                                 holder.mButton_Cancel.setVisibility(View.GONE);
                                 holder.call_layout.setVisibility(View.VISIBLE);
+                                holder.Button_PrevistNote.setVisibility(View.GONE);
                             }
 
 
@@ -156,6 +157,7 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<AppointmentsLi
                             {
                                 holder.mainLayout.setBackgroundColor(mContext.getResources().getColor(R.color.appointment_no_click));
                                 holder.mButton_Cancel.setVisibility(View.GONE);
+                                holder.Button_PrevistNote.setVisibility(View.GONE);
                             }
                             else
                             {
@@ -219,6 +221,17 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<AppointmentsLi
                 if (isValid(mObject.getConfirmed()) && mObject.getConfirmed()==true)
                 {
                     holder.mButton_Cancel.setText("Accepted");
+                    if (!scheduleIsFullyPassed(mObject.getStartTimeGMT()))
+                    {
+                        holder.Button_PrevistNote.setVisibility(View.VISIBLE);
+                        holder.Button_PrevistNote.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                showPreVistNotPopUp(mObject.getPreVisitNote());
+                            }
+                        });
+                    }
+
                 }
                 else
                 {
@@ -259,6 +272,21 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<AppointmentsLi
 
 
 
+    }
+
+    private void showPreVistNotPopUp(Object preVisitNote) {
+        AlertDialog.Builder alert = new AlertDialog.Builder(mContext);
+        alert.setTitle("Previsit notes");
+        alert.setMessage(preVisitNote.toString());
+        final TextView input = new TextView (mContext);
+        alert.setView(input);
+
+        alert.setNegativeButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                dialog.cancel();
+            }
+        });
+        alert.show();
     }
 
     private void showCompletedPopUp(Object notes) {
@@ -304,7 +332,7 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<AppointmentsLi
         private TextView mTextView_PacifyrSpecialities;
         private TextView mTextView_ScheduleTime;
         private TextView mButton_RejestReason,mTextView_warning_Confirm;
-        private Button mButton_Cancel;
+        private Button mButton_Cancel,Button_PrevistNote;
         private LinearLayout mainLayout,call_layout;
         private RelativeLayout videocall_rlay,audiocall_rlay,chat_rlay;
 
@@ -317,6 +345,7 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<AppointmentsLi
             mTextView_ScheduleTime = itemView.findViewById(R.id.mTextView_ScheduleTime);
             mButton_RejestReason = itemView.findViewById(R.id.mButton_RejestReason);
             mButton_Cancel = itemView.findViewById(R.id.mButton_Cancel);
+            Button_PrevistNote = itemView.findViewById(R.id.Button_PrevistNote);
             mainLayout = itemView.findViewById(R.id.mainLayout);
             call_layout = itemView.findViewById(R.id.call_layout);
             videocall_rlay = itemView.findViewById(R.id.videocall_rlay);

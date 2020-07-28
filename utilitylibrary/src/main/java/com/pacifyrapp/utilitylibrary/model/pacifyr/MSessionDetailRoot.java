@@ -63,8 +63,18 @@ public class MSessionDetailRoot
 
     private boolean billedSession;
 
+    private String prescriptionFile;
+
 
     private String aggregationSessionId;
+
+    public String getPrescriptionFile() {
+        return prescriptionFile;
+    }
+
+    public void setPrescriptionFile(String prescriptionFile) {
+        this.prescriptionFile = prescriptionFile;
+    }
 
     public double getSessionCost ()
     {
