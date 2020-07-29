@@ -13,6 +13,17 @@ public class SchedulePayment {
     @SerializedName("status")
     @Expose
     private String status;
+    @SerializedName("message")
+    @Expose
+    private String message;
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
 
     public BookingRequestPayment getBookingRequestPayment() {
         return bookingRequestPayment;

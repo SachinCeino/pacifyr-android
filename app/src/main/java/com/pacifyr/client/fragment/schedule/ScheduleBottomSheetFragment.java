@@ -1232,7 +1232,7 @@ Log.w("WWW","onCreate");
         });
     }*/
     private void callSlotBookApi(Slot singleSlote) {
-
+//"createdAt":"2020-07-29T08:49:56.144Z","cost":1,"id":"5f213834afdb75314aa8b3a6","userId":"5e9d63e53b105d2ba27f8819","pacifyrId":"5e6a27b03b105d65099abadc","charged":false,"updatedAt":"2020-07-29T08:49:56.144Z"},"status":"success"}
         bookingRequestPaymentId=null;
         if (isValid(singleSlote)) {
             try {
@@ -1270,7 +1270,7 @@ Log.w("WWW","onCreate");
                                     if (isValid(mSchedulePayment)) {
 
                                         status = mSchedulePayment.getStatus()+"";
-                                        messsage = mSchedulePayment.getStatus();
+                                        messsage = mSchedulePayment.getMessage()+"";
                                         if (isValid(status)) {
 
                                             if (status.equals("success"))
@@ -1291,6 +1291,19 @@ Log.w("WWW","onCreate");
                                                 {
                                                     Toast.makeText(getActivity(), "Invalid TimeSloteId", Toast.LENGTH_SHORT).show();
                                                 }
+                                            }
+                                            if (status.equals("error"))
+                                            {
+                                                setStatus(messsage, R.color.md_red_A700);
+                                                showStatus();
+                                                new Handler().postDelayed(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+
+                                                        hideStatus();
+
+                                                    }
+                                                }, 2000);
                                             }
 
                                         } else {
