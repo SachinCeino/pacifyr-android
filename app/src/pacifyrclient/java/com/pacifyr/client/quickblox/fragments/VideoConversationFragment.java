@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -147,7 +148,7 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
     private CircleImageView userDimv;
     private MainTextView usernameCtxv;
     private DeviceFitImageView moreDimv;
-    private RelativeLayout more_rlay;
+    private LinearLayout more_rlay;
     private TextView billingStatus;
     private TextView text_remaining_minutes;
     private String change_Emotion_name;
@@ -479,15 +480,16 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
           callCtxv = view.findViewById(R.id.call_ctxv);
           userDimv = view.findViewById(R.id.user_dimv);
           usernameCtxv = view.findViewById(R.id.username_ctxv);
-          moreDimv = view.findViewById(R.id.more_dimv);
           more_rlay = view.findViewById(R.id.more_rlay);
- moreDimv.setVisibility(View.VISIBLE);
           more_rlay.setVisibility(View.GONE);
       }catch (Exception e)
       {
           e.printStackTrace();
       }
     }
+
+    private ImageView toggle_Max_Min,ImageView_emotion,ImageView_chat,ImageView_prescription;
+    private LinearLayout call_overlay;
 
     @Override
     protected void initViews(View view) {
@@ -505,7 +507,14 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
         billingStatus = view.findViewById(R.id.billing_status);
         emotion_rlay = view.findViewById(R.id.emotion_rlay);
 
+        toggle_Max_Min = view.findViewById(R.id.toggle_Max_Min);
+        ImageView_emotion = view.findViewById(R.id.ImageView_emotion);
+        call_overlay = view.findViewById(R.id.call_overlay);
+        ImageView_chat = view.findViewById(R.id.ImageView_chat);
+        ImageView_prescription = view.findViewById(R.id.ImageView_prescription);
+
         text_remaining_minutes.setVisibility(View.GONE);
+
         onUserInfoViews(view);
  //  participants_ctxv = (MainTextView) view.findViewById(R.id.participants_ctxv);
         emotion_dimv.setVisibility(View.GONE);
@@ -576,7 +585,41 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
             }
         });
 
-       // ArrayList<MUser>call_user_list=getCallParticipantlist();
+        toggle_Max_Min.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (call_overlay.getOrientation() == LinearLayout.HORIZONTAL) {
+                    call_overlay.setOrientation(LinearLayout.VERTICAL);
+                    emotion_rlay.setVisibility(View.VISIBLE);
+                    ImageView_emotion.setVisibility(View.GONE);
+                }
+                else
+                {
+                    call_overlay.setOrientation(LinearLayout.HORIZONTAL);
+                    emotion_rlay.setVisibility(View.GONE);
+                    ImageView_emotion.setVisibility(View.VISIBLE);
+
+                }
+            }
+        });
+
+        ImageView_chat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (isValid(call_particpants_list) &&isValid( call_particpants_list.get(1))){
+                    MUser customer=call_particpants_list.get(1);
+                    if(isValid(customer))
+                        ((PacifyrActivity) getActivity()).startChat(customer);
+                }
+            }
+        });
+
+        ImageView_prescription.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
     }
 
 
@@ -690,6 +733,7 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
            if(isValid(image)) {
                  emotion_dimv.setVisibility(View.VISIBLE);
                  Picasso.with(getActivity()).load(NetworkService.GLOBAL_IMAGE_URL + image).placeholder(R.drawable.placeholder_image).into(emotion_dimv);
+               Picasso.with(getActivity()).load(NetworkService.GLOBAL_IMAGE_URL + image).placeholder(R.drawable.placeholder_image).into(ImageView_emotion);
              }
             if(isValid(emotion)) {
                 change_Emotion_name=emotion.getId();
@@ -1595,6 +1639,8 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
                 if (isValid(event.getEmotion().getImage())) {
                     emotion_dimv.setVisibility(View.VISIBLE);
                     Picasso.with(getActivity()).load(NetworkService.GLOBAL_IMAGE_URL + event.getEmotion().getImage()).placeholder(R.drawable.placeholder_image).into(emotion_dimv);
+                    Picasso.with(getActivity()).load(NetworkService.GLOBAL_IMAGE_URL + event.getEmotion().getImage()).placeholder(R.drawable.placeholder_image).into(ImageView_emotion);
+
                 }
 
             if (isValid(event.getEmotion().getTitle())) {
@@ -1622,6 +1668,7 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
         info_overlay_llay.setVisibility(View.GONE);
         actionVideoButtonsLayout.setVisibility(View.GONE);
         emotion_rlay.setVisibility(View.GONE);
+        call_overlay.setVisibility(View.GONE);
         userRlay.setVisibility(View.GONE);
         billingStatus.setVisibility(View.INVISIBLE);
         localVideoView.setVisibility(View.INVISIBLE);
@@ -1636,7 +1683,9 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
         localVideoView.setVisibility(View.VISIBLE);
         info_overlay_llay.setVisibility(View.VISIBLE);
         actionVideoButtonsLayout.setVisibility(View.VISIBLE);
-        emotion_rlay.setVisibility(View.VISIBLE);
+        emotion_rlay.setVisibility(View.GONE);
+        call_overlay.setVisibility(View.VISIBLE);
+        call_overlay.setOrientation(LinearLayout.HORIZONTAL);
         userRlay.setVisibility(View.VISIBLE);
         localVideoView.setVisibility(View.VISIBLE);
         if (getActivity() instanceof PacifyrActivity) {

@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
@@ -74,14 +75,14 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
 
 //    private CircleImageView callerAvatarImageView;
 
-    private RelativeLayout emotion_rlay;
+    private LinearLayout emotion_rlay;
     private LinearLayout info_overlay_llay;
     private RelativeLayout userRlay;
     private MainTextView callCtxv;
     private CircleImageView userDimv;
     private MainTextView usernameCtxv;
     private DeviceFitImageView moreDimv;
-    private RelativeLayout more_rlay;
+    private LinearLayout more_rlay;
     private MainTextView reason_ctxv,emotion_ctxv;
     private MainTextView billingStatus;
 
@@ -199,6 +200,9 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
         // actionBar.setSubtitle(String.format(getString(R.string.subtitle_text_logged_in_as), currentUser.getFullName()));
     }
 
+
+    private ImageView toggle_Max_Min,ImageView_emotion,ImageView_chat,ImageView_prescription;
+    private LinearLayout call_overlay;
     @Override
     protected void initViews(View view) {
         super.initViews(view);
@@ -219,6 +223,12 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
         emotion_ctxv.setVisibility(View.INVISIBLE);
         text_remaining_minutes.setVisibility(View.GONE);
 
+        toggle_Max_Min = view.findViewById(R.id.toggle_Max_Min);
+        ImageView_emotion = view.findViewById(R.id.ImageView_emotion);
+        call_overlay = view.findViewById(R.id.call_overlay);
+        ImageView_chat = view.findViewById(R.id.ImageView_chat);
+        ImageView_prescription = view.findViewById(R.id.ImageView_prescription);
+        userDimv = view.findViewById(R.id.user_dimv);
 //        callerAvatarImageView = (CircleImageView) view.findViewById(R.id.image_caller_avatar);
         //  firstOpponentNameTextView = (TextView) view.findViewById(R.id.text_caller_name);
         //    firstOpponentNameTextView.setText(opponents.get(0).getFullName());
@@ -281,6 +291,45 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
             }
         });
 
+
+
+        toggle_Max_Min.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (call_overlay.getOrientation() == LinearLayout.HORIZONTAL) {
+                    call_overlay.setOrientation(LinearLayout.VERTICAL);
+                    emotion_rlay.setVisibility(View.VISIBLE);
+                    ImageView_emotion.setVisibility(View.GONE);
+                }
+                else
+                {
+                    call_overlay.setOrientation(LinearLayout.HORIZONTAL);
+                    emotion_rlay.setVisibility(View.GONE);
+                    ImageView_emotion.setVisibility(View.VISIBLE);
+
+                }
+            }
+        });
+
+        ImageView_chat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (isValid(call_particpants_list) &&isValid( call_particpants_list.get(1))){
+                    MUser customer=call_particpants_list.get(1);
+                    if(isValid(customer))
+                        ((PacifyrActivity) getActivity()).startChat(customer);
+                }
+            }
+        });
+
+        ImageView_prescription.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+
         Bundle args =
                 FirebaseLogging.getConstantArgsLoggedIn(getActivity());
         if (getCallPacifyr() != null) {
@@ -289,6 +338,9 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
         FirebaseLogging.sendLog(getActivity(),
                 FirebaseLogging.EVENT_AUDIOCALL_STARTED,
                 args);
+
+
+
 
 
     }
@@ -365,11 +417,8 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
             info_overlay_llay = view.findViewById(R.id.info_overlay_llay);
             userRlay = view.findViewById(R.id.user_rlay);
             callCtxv = view.findViewById(R.id.call_ctxv);
-            userDimv = view.findViewById(R.id.user_dimv);
             usernameCtxv = view.findViewById(R.id.username_ctxv);
             more_rlay = view.findViewById(R.id.more_rlay);
-            moreDimv = view.findViewById(R.id.more_dimv);
-            moreDimv.setVisibility(View.VISIBLE);
             more_rlay.setVisibility(View.GONE);
         }catch (Exception e)
         {
@@ -499,6 +548,7 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
             if(isValid(image)) {
                 emotion_dimv.setVisibility(View.VISIBLE);
                 Picasso.with(getActivity()).load(NetworkService.GLOBAL_IMAGE_URL + image).placeholder(R.drawable.placeholder_image).into(emotion_dimv);
+                Picasso.with(getActivity()).load(NetworkService.GLOBAL_IMAGE_URL + image).placeholder(R.drawable.placeholder_image).into(ImageView_emotion);
             }
 
             if(isValid(emotion)) {
@@ -761,6 +811,8 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
                 if (isValid(event.getEmotion().getImage())) {
                     emotion_dimv.setVisibility(View.VISIBLE);
                     Picasso.with(getActivity()).load(NetworkService.GLOBAL_IMAGE_URL + event.getEmotion().getImage()).placeholder(R.drawable.placeholder_image).into(emotion_dimv);
+                    Picasso.with(getActivity()).load(NetworkService.GLOBAL_IMAGE_URL + event.getEmotion().getImage()).placeholder(R.drawable.placeholder_image).into(ImageView_emotion);
+
                 }
 
             if (isValid(event.getEmotion().getTitle())) {
@@ -810,6 +862,8 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
         userRlay.setVisibility(View.GONE);
         billingStatus.setVisibility(View.GONE);
         call_layout.setVisibility(View.INVISIBLE);
+        emotion_rlay.setVisibility(View.GONE);
+        call_overlay.setVisibility(View.GONE);
         Log.d(TAG, "hideToolBarAndButtons");
 
     }
@@ -818,7 +872,9 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
         // actionBar.show();
         actionBar.hide();
         info_overlay_llay.setVisibility(View.VISIBLE);
-        emotion_rlay.setVisibility(View.VISIBLE);
+        emotion_rlay.setVisibility(View.GONE);
+        call_overlay.setVisibility(View.VISIBLE);
+        call_overlay.setOrientation(LinearLayout.HORIZONTAL);
         userRlay.setVisibility(View.VISIBLE);
         call_layout.setVisibility(View.VISIBLE);
         if (getActivity() instanceof PacifyrActivity) {
