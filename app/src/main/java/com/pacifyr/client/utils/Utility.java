@@ -578,7 +578,10 @@ public class Utility {
 
 
     public static String convertTime(String time) {
-
+        if (time.equals("12:00")){
+            return "12:00 PM";}
+        else if (time.equals("12:30")){
+            return "12:30 PM";}
         SimpleDateFormat sdf = new SimpleDateFormat("hh:mm:ss");
         SimpleDateFormat sdfs = new SimpleDateFormat("hh:mm a");
         Date dt = null;
