@@ -2,6 +2,7 @@ package com.pacifyr.client.adapter;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -89,13 +90,20 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<AppointmentsLi
                         Picasso.with(mContext).load(NetworkService.GLOBAL_IMAGE_URL + mPacifyr.getImage())
                                 .placeholder(R.drawable.placeholder).into(holder.mCircleImageView_Appointment_pacifyr);
 
-                    if (isValid(mPacifyr.getSpecialities())) {
-                        StringBuffer mStringBuffer = new StringBuffer();
-                        for (String mSpecialityItem : mPacifyr.getSpecialities()) {
-                            mStringBuffer.append(mSpecialityItem + ",");
+                    try {
+                        if (isValid(mPacifyr.getSpecialities())) {
+                            StringBuffer mStringBuffer = new StringBuffer();
+                            for (String mSpecialityItem : mPacifyr.getSpecialities()) {
+                                mStringBuffer.append(mSpecialityItem + ",");
+                            }
+                            mStringBuffer.setLength(Math.max(mStringBuffer.length()-1,0));
+                            if (isValid(mStringBuffer))
+                                holder.mTextView_PacifyrSpecialities.setText(mStringBuffer);
                         }
-                        if (isValid(mStringBuffer))
-                            holder.mTextView_PacifyrSpecialities.setText(mStringBuffer);
+
+                    }catch (Exception e)
+                    {
+                        Log.w("ERROR",String.valueOf(e));
                     }
 
                     if (isValid(mObject.getStartTimeGMT())) {
