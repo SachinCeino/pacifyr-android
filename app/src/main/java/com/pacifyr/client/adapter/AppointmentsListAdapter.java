@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -132,10 +133,10 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<AppointmentsLi
                             {
                                 holder.mButton_Cancel.setVisibility(View.GONE);
                                 holder.call_layout.setVisibility(View.VISIBLE);
-                                holder.Button_PrevistNote.setVisibility(View.GONE);
+
                             }
 
-
+                            holder.ImageView_PrevistNote.setVisibility(View.VISIBLE);
 
                             holder.videocall_rlay.setOnClickListener(new View.OnClickListener() {
                                 @Override
@@ -165,7 +166,7 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<AppointmentsLi
                             {
                                 holder.mainLayout.setBackgroundColor(mContext.getResources().getColor(R.color.appointment_no_click));
                                 holder.mButton_Cancel.setVisibility(View.GONE);
-                                holder.Button_PrevistNote.setVisibility(View.GONE);
+                                holder.ImageView_PrevistNote.setVisibility(View.GONE);
                             }
                             else
                             {
@@ -231,8 +232,8 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<AppointmentsLi
                     holder.mButton_Cancel.setText("Accepted");
                     if (!scheduleIsFullyPassed(mObject.getStartTimeGMT()))
                     {
-                        holder.Button_PrevistNote.setVisibility(View.VISIBLE);
-                        holder.Button_PrevistNote.setOnClickListener(new View.OnClickListener() {
+                        holder.ImageView_PrevistNote.setVisibility(View.VISIBLE);
+                        holder.ImageView_PrevistNote.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
                                 showPreVistNotPopUp(mObject.getPreVisitNote());
@@ -340,7 +341,8 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<AppointmentsLi
         private TextView mTextView_PacifyrSpecialities;
         private TextView mTextView_ScheduleTime;
         private TextView mButton_RejestReason,mTextView_warning_Confirm;
-        private Button mButton_Cancel,Button_PrevistNote;
+        private Button mButton_Cancel;
+        private ImageView ImageView_PrevistNote;
         private LinearLayout mainLayout,call_layout;
         private RelativeLayout videocall_rlay,audiocall_rlay,chat_rlay;
 
@@ -353,7 +355,7 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<AppointmentsLi
             mTextView_ScheduleTime = itemView.findViewById(R.id.mTextView_ScheduleTime);
             mButton_RejestReason = itemView.findViewById(R.id.mButton_RejestReason);
             mButton_Cancel = itemView.findViewById(R.id.mButton_Cancel);
-            Button_PrevistNote = itemView.findViewById(R.id.Button_PrevistNote);
+            ImageView_PrevistNote = itemView.findViewById(R.id.ImageView_PrevistNote);
             mainLayout = itemView.findViewById(R.id.mainLayout);
             call_layout = itemView.findViewById(R.id.call_layout);
             videocall_rlay = itemView.findViewById(R.id.videocall_rlay);
