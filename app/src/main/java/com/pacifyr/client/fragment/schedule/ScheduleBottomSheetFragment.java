@@ -821,7 +821,7 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
         String month2 = format5.format(dt4);
 
 
-        displaydate = first_dd + "-" + month + "--" + second_dd + "-" + month2;
+        displaydate = first_dd + "-" + month + " - " + second_dd + "-" + month2;
 
         return displaydate;
 

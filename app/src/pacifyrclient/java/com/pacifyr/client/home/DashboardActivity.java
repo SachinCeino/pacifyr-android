@@ -46,6 +46,7 @@ import com.pacifyr.client.event.ChatEvent;
 import com.pacifyr.client.event.InternetConnectionEvent;
 import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.fragment.AppointmentsFragment;
+import com.pacifyr.client.fragment.AppointmentsTabViewFragment;
 import com.pacifyr.client.fragment.CouponCodeFragment;
 import com.pacifyr.client.fragment.MySessionFragment;
 import com.pacifyr.client.fragment.PrescriptionListFragment;
@@ -766,7 +767,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
             public void onClick(View v) {
 
                 hideRightLayActionbar();
-                showFragment(new AppointmentsFragment());
+                showFragment(new AppointmentsTabViewFragment());
                 defSetText(titleTxv, getResources().getString(R.string.appointments));
             }
         });

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/appointment_no_click"
+    android:id="@+id/mainLayout"
+    android:orientation="vertical"
+
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:weightSum="2">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="0.5"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="5dp"
+            android:gravity="center">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/mCircleImageView_Appointment_pacifyr"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/placeholder_user" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.5"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <com.pacifyr.client.customview.MainTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/mTextView_PacifyrName"
+                android:textColor="@color/black"
+                android:text=""
+                android:textSize="19sp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textStyle="bold" />
+
+            <com.pacifyr.client.customview.MainTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/mTextView_PacifyrSpecialities"
+                android:textColor="@color/grey_hex_7a"
+                android:text=""
+                android:layout_marginTop="5dp"
+                android:textSize="16sp"
+                android:ellipsize="end"
+                android:maxLines="3" />
+
+            <com.pacifyr.client.customview.MainTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/mTextView_ScheduleTime"
+            android:textColor="@color/grey_hex_7a"
+            android:text=""
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:layout_marginTop="3dp"
+            android:textSize="14sp"
+            android:ellipsize="end"
+            android:maxLines="3"
+            android:drawableLeft="@drawable/svg_event_time_date__detail"
+            android:drawablePadding="5dp" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="2"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <com.pacifyr.client.customview.MainTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Cancelled"
+                    android:id="@+id/TextView_cancelled"
+                    android:textAllCaps="false"
+                    android:visibility="gone"
+                    android:textColor="@color/colorPrimary"
+                     />
+                <com.pacifyr.client.customview.MainTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Rejected"
+                    android:visibility="gone"
+                    android:id="@+id/TextView_Rejected"
+                    android:textColor="@color/red"
+                    />
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/grey"></View>
+</LinearLayout>
