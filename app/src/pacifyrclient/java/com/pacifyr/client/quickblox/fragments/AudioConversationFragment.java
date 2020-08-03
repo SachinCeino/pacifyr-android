@@ -334,7 +334,7 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
         ImageView_prescription.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                callPrescriptionData();
             }
         });
 
@@ -353,6 +353,8 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
 
 
     }
+
+
 
     private String getOpponentId() {
         String mUserId = PrefManager.getInstance(getActivity()).getUserID();

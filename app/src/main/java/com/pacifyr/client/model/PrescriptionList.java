@@ -59,6 +59,18 @@ public class PrescriptionList implements Serializable {
         @Expose
         private String updatedAt;
 
+        @SerializedName("prescriptionFile")
+        @Expose
+        private String prescriptionFile;
+
+        public String getPrescriptionFile() {
+            return prescriptionFile;
+        }
+
+        public void setPrescriptionFile(String prescriptionFile) {
+            this.prescriptionFile = prescriptionFile;
+        }
+
         public String getCreatedAt() {
             return createdAt;
         }

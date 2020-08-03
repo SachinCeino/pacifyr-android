@@ -654,7 +654,7 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
         ImageView_prescription.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                callPrescriptionData();
             }
         });
     }

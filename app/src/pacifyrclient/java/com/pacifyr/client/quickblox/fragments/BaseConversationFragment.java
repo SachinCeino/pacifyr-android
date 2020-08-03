@@ -1,6 +1,7 @@
 package com.pacifyr.client.quickblox.fragments;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.SystemClock;
@@ -16,8 +17,17 @@ import android.widget.ToggleButton;
 
 import androidx.annotation.Nullable;
 
+import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
+import com.krishna.fileloader.FileLoader;
+import com.krishna.fileloader.listener.FileRequestListener;
+import com.krishna.fileloader.pojo.FileResponse;
+import com.krishna.fileloader.request.FileLoadRequest;
+import com.pacifyr.client.home.SessionSummaryActivity;
+import com.pacifyr.client.model.PrescriptionList;
+import com.pacifyr.client.network.GsonUtils;
+import com.pacifyr.client.utility.PdfViewer;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.pacifyr.client.R;
@@ -37,9 +47,13 @@ import com.quickblox.videochat.webrtc.QBRTCTypes;
 
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.ArrayList;
 
+import static com.pacifyr.client.base.PacifyrActivity.sessionid;
 import static com.pacifyr.client.utils.Constants.getCountryChecks;
+import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_IMAGE_URL;
+import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
 
 /*import com.quickblox.sample.groupchatwebrtc.R;
 import com.quickblox.sample.groupchatwebrtc.activities.CallActivity;
@@ -462,11 +476,11 @@ public abstract class BaseConversationFragment extends BaseToolBarFragment imple
         CallActivity.isOpponenetConnected = true;
         // ((PacifyrActivity)getActivity()) .connectedSessionWeb(PacifyrActivity.sessionid);
         if (isCustomer())
-            customerconnectedSessionWeb(PacifyrActivity.sessionid);
+            customerconnectedSessionWeb(sessionid);
         onCallStatus("Connected");
         hideOutgoingScreen();
         startTimer();
-        getPrefManager().saveSessionId(PacifyrActivity.sessionid);
+        getPrefManager().saveSessionId(sessionid);
         actionButtonsEnabled(true);
     }
 
@@ -508,6 +522,89 @@ public abstract class BaseConversationFragment extends BaseToolBarFragment imple
 
 
 
+    public void callPrescriptionData() {
+        try {
+            setLoading();
+            showProgress();
+            PrefManager mPrefManager = PrefManager.getInstance(getContext());
+            String token = mPrefManager.getAccessToken();
+            String url = GLOBAL_URL + "prescription/list/user/"+mPrefManager.getUserID();
+
+            AjaxCallback cb = new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject json, AjaxStatus status) {
+                    try {
+                        hideProgress();
+                        hideStatus();
+                        Log.w("@@@",String.valueOf(json));
+                        if (isValid(json))
+                        {
+                            PrescriptionList mPrescriptionList = GsonUtils.getInstance().gsonToPrescriptionList(json);
+                            if (isValidSize(mPrescriptionList.getResults())) {
+
+                                if (isValid(mPrescriptionList.getResults().get(0)) && isValid(mPrescriptionList.getResults().get(0).getPrescriptionFile()))
+                                {
+                                    if (mPrescriptionList.getResults().get(0).getSessionId().equals(sessionid))
+                                    {
+                                        String mPrescriptionFile=mPrescriptionList.getResults().get(0).getPrescriptionFile();
+                                        if(isValid(mPrescriptionFile))
+                                        {
+                                            loadPDF(mPrescriptionFile);
+                                        }
+                                    }
+                                }
+                            }
+
+                        }
+                        else
+                        {
+
+                        }
+
+
+                    } catch (Exception e) {
+                        hideProgress();
+                        e.printStackTrace();
+                    }
+                }
+            };
+            AQuery aq = new AQuery(getContext());
+            cb.header("Content-Type", "application/json");
+            cb.header("AccessToken", token);
+            aq.ajax(url, JSONObject.class, cb);
+        } catch (Exception ex) {
+            hideProgress();
+            ex.printStackTrace();
+            Log.w("@@@",String.valueOf(ex));
+        }
+
+    }
+
+    private void loadPDF(String url) {
+        setLoading();
+        showProgress();
+        FileLoader.with(getActivity())
+                .load(GLOBAL_IMAGE_URL+url, false) //2nd parameter is optioal, pass true to force load from network
+                .fromDirectory("test4", FileLoader.DIR_CACHE)
+                .asFile(new FileRequestListener<File>() {
+                    @Override
+                    public void onLoad(FileLoadRequest request, FileResponse<File> response) {
+                        hideProgress();
+                        File loadedFile = response.getBody();
+                        // do something with the file
+                        Log.d(TAG, "File downloaded ");
+                        PdfViewer.pdf = loadedFile;
+                        Intent intent = new Intent(getActivity(), PdfViewer.class);
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onError(FileLoadRequest request, Throwable t) {
+                        hideProgress();
+                        Log.d(TAG, "File download failed ");
+                    }
+                });
+    }
 
 
 }
