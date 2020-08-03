@@ -339,6 +339,20 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
                     userDimv.setVisibility(View.VISIBLE);
                     Picasso.with(getActivity()).load(image).placeholder(R.drawable.placeholder_image).into(userDimv);
                 }
+
+                    if(isValid(call_particpants_list.get(1)))
+                    {
+
+                        more_rlay.setVisibility(View.VISIBLE);
+                        more_rlay.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+
+                                CustomerDetailActivity.start(getActivity(),call_particpants_list.get(1));
+                            }
+                        });
+
+                    }
                }
             }
             else {
@@ -386,6 +400,20 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
                         if(isValid(image)) {
                             userDimv.setVisibility(View.VISIBLE);
                             Picasso.with(getActivity()).load(image).placeholder(R.drawable.placeholder_image).into(userDimv);
+                        }
+
+                        if(isValid(call_particpants_list.get(1)))
+                        {
+
+                            more_rlay.setVisibility(View.VISIBLE);
+                            more_rlay.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+
+                                    CustomerDetailActivity.start(getActivity(),call_particpants_list.get(1));
+                                }
+                            });
+
                         }
                     }
                 }
@@ -576,6 +604,13 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
                 }
             }
         });
+
+        ImageView_emotion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                emotion_rlay.performClick();
+            }
+        });
         userDimv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -592,13 +627,15 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
                     call_overlay.setOrientation(LinearLayout.VERTICAL);
                     emotion_rlay.setVisibility(View.VISIBLE);
                     ImageView_emotion.setVisibility(View.GONE);
+                    call_overlay.setBackgroundColor(Color.TRANSPARENT);
+
                 }
                 else
                 {
                     call_overlay.setOrientation(LinearLayout.HORIZONTAL);
                     emotion_rlay.setVisibility(View.GONE);
                     ImageView_emotion.setVisibility(View.VISIBLE);
-
+                    call_overlay.setBackground(getContext().getResources().getDrawable(R.drawable.call_overlay_background));
                 }
             }
         });
@@ -662,9 +699,9 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
 
             reason_ctxv.setVisibility(View.VISIBLE);
             if(isCustomer())
-                defSetText(reason_ctxv, EmotionSpecialityAdapter.reason_forcall);
+                defSetText(reason_ctxv,"Cause: "+ EmotionSpecialityAdapter.reason_forcall);
             else {
-                defSetText(reason_ctxv, CallActivity.mSessionDetailRoot.getReasonForTheCall());
+                defSetText(reason_ctxv,"Cause: "+ CallActivity.mSessionDetailRoot.getReasonForTheCall());
             }
         }catch (Exception e)
         {
@@ -738,7 +775,7 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
             if(isValid(emotion)) {
                 change_Emotion_name=emotion.getId();
                 emotion_ctxv.setVisibility(View.VISIBLE);
-                 defSetText(emotion_ctxv,emotion.getTitle());
+                 defSetText(emotion_ctxv,"Emotions: "+emotion.getTitle());
             }
 
 
@@ -1200,8 +1237,10 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
     {
         try
         {
-            //   if(isValid(status))
-            defSetText(connectionStatusLocal,status);
+            if(isValid(status) && status.equals("Connected")) {
+                connectionStatusLocal.setVisibility(View.VISIBLE);
+                defSetText(connectionStatusLocal, status);
+            }
         }catch (Exception e)
         {
             e.printStackTrace();
@@ -1646,7 +1685,7 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
             if (isValid(event.getEmotion().getTitle())) {
                 emotion_ctxv.setVisibility(View.VISIBLE);
                 change_Emotion_name=event.getEmotion().getId();
-                defSetText(emotion_ctxv, event.getEmotion().getTitle());
+                defSetText(emotion_ctxv,"Emotions: "+event.getEmotion().getTitle());
             }
         } catch (Exception e) {
             e.printStackTrace();

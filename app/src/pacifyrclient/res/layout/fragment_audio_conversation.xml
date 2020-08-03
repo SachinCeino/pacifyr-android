@@ -11,16 +11,16 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
         android:layout_gravity="end"
-        android:layout_marginTop="30dp"
         android:background="@android:color/transparent"
         android:id="@+id/call_overlay_frame"
         android:padding="10dp"
+        android:layout_margin="8dp"
         >
 
         <ImageView
             android:id="@+id/toggle_Max_Min"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_gravity="end"
             android:src="@drawable/overlay_max_min"></ImageView>
 
@@ -122,8 +122,7 @@
     <LinearLayout
         android:id="@+id/layout_info_about_call"
         style="@style/MatchWidth"
-        android:layout_below="@+id/info_overlay_llay"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="250dp"
         android:gravity="center"
         android:orientation="vertical"
         android:paddingLeft="@dimen/also_in_call_text_left_right_padding"
@@ -160,7 +159,7 @@
                 android:padding="5dp"
                 android:singleLine="true"
                 android:text=""
-                android:textColor="@color/blue_button_primary"
+                android:textColor="@color/white"
                 android:textSize="@dimen/sp18"
                 android:visibility="visible" />
 
@@ -174,7 +173,7 @@
             android:layout_width="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="@dimen/margin_common"
-            android:textColor="@color/blue_button_primary"
+            android:textColor="@color/white"
             android:textSize="@dimen/text_size"
             android:visibility="invisible" />
 
@@ -232,6 +231,20 @@
                 android:text="@string/audio_call"
                 android:textColor="@color/grey_fit"
                 android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/connectionStatusLocal"
+                style="@style/WrapContent"
+                android:layout_below="@+id/call_ctxv"
+                android:layout_marginBottom="@dimen/margin_very_small"
+                android:layout_marginTop="5dp"
+                android:maxLength="13"
+                android:maxLines="1"
+                android:text="Ringing..."
+                android:visibility="gone"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/blue_button_primary"
+                android:textStyle="normal" />
+
 
 
         </RelativeLayout>
@@ -240,30 +253,16 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/connectionStatusLocal"
-                style="@style/MatchWidth"
-                android:layout_marginBottom="@dimen/margin_very_small"
-                android:layout_marginTop="10dp"
-                android:maxLength="13"
-                android:maxLines="1"
-                android:text="Ringing..."
-                android:layout_marginLeft="4dp"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@color/blue_button_primary"
-                android:textStyle="normal" />
             <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:layout_width="wrap_content"
-                android:layout_marginTop="30dp"
                 android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
                 android:padding="5dp"
-                android:visibility="gone"
                 android:orientation="horizontal"
                 android:gravity="center"
                 android:background="@color/grey_dark"
                 android:id="@+id/emotion_rlay"
-
+                android:visibility="gone"
                 android:layout_height="wrap_content">
 
                 <com.pacifyrapp.utilitylibrary.DeviceFitImageView
@@ -283,7 +282,7 @@
                     android:layout_width="wrap_content"
                     android:orientation="vertical"
                     android:gravity="center"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="5dp"
                     android:layout_below="@+id/emotion_dimv"
                     android:layout_height="wrap_content">
 
@@ -299,7 +298,7 @@
                             android:singleLine="true"
                             android:text="Emotion : "
                             android:textColor="@color/colorPrimary"
-                            android:textSize="@dimen/sp16"
+                            android:textSize="@dimen/sp13"
                             android:textStyle="bold"
                             android:visibility="visible" />
 
@@ -310,7 +309,7 @@
                             android:layout_centerHorizontal="true"
                             android:singleLine="true"
                             android:textColor="@color/colorPrimary"
-                            android:textSize="@dimen/sp16"
+                            android:textSize="@dimen/sp13"
                             android:textStyle="bold"
                             android:visibility="visible" />
 
@@ -333,7 +332,7 @@
                                 android:singleLine="true"
                                 android:text="Cause : "
                                 android:textColor="@color/colorPrimary"
-                                android:textSize="@dimen/sp16"
+                                android:textSize="@dimen/sp13"
                                 android:textStyle="bold"
                                 android:visibility="visible" />
 
@@ -344,7 +343,7 @@
                                 android:layout_centerHorizontal="true"
                                 android:singleLine="true"
                                 android:textColor="@color/colorPrimary"
-                                android:textSize="@dimen/sp16"
+                                android:textSize="@dimen/sp13"
                                 android:textStyle="bold"
                                 android:visibility="visible" />
 

@@ -58,7 +58,7 @@
 
             <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="100dp"
                 android:layout_below="@+id/call_ctxv"
                 android:layout_height="wrap_content">
                 <!--        <com.pacifyrapp.utilitylibrary.DeviceFitImageView
@@ -98,7 +98,7 @@
                     android:layout_marginLeft="10dp"
                     android:padding="5dp"
                     android:text=""
-                    android:textColor="@color/blue_button_primary"
+                    android:textColor="@color/white"
                     android:layout_height="wrap_content" />
 
             </RelativeLayout>
@@ -111,7 +111,7 @@
             android:layout_width="wrap_content"
             android:layout_marginTop="5dp"
             android:padding="8dp"
-            android:background="@color/black_transparent_50"
+            android:background="@color/transparent"
             android:id="@+id/emotion_rlay"
             android:visibility="gone"
             android:layout_alignParentLeft="true"
@@ -143,7 +143,7 @@
                     android:id="@+id/emotion_ctxv"
                     android:layout_centerHorizontal="true"
                     android:visibility="visible"
-                    android:textSize="@dimen/sp16"
+                    android:textSize="@dimen/sp13"
                     android:singleLine="true"
                     android:textStyle="bold"
                     android:text=""
@@ -155,7 +155,7 @@
                     android:id="@+id/reason_ctxv"
                     android:layout_centerHorizontal="true"
                     android:visibility="visible"
-                    android:textSize="@dimen/sp16"
+                    android:textSize="@dimen/sp13"
                     android:singleLine="true"
                     android:textStyle="bold"
                     android:text=""
@@ -172,7 +172,7 @@
             android:layout_width="wrap_content"
             android:layout_gravity="left"
             android:layout_margin="@dimen/margin_common"
-            android:textColor="@color/blue_button_primary"
+            android:textColor="@color/white"
             android:textSize="@dimen/text_size"
             android:visibility="invisible" />
 
@@ -195,6 +195,7 @@
                 android:layout_marginTop="10dp"
                 android:maxLength="13"
                 android:maxLines="1"
+                android:visibility="gone"
                 android:text="Ringing..."
                 android:layout_marginLeft="4dp"
                 android:textAppearance="?android:attr/textAppearanceSmall"
@@ -210,16 +211,16 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
         android:layout_gravity="end"
-        android:layout_marginTop="30dp"
         android:background="@android:color/transparent"
         android:id="@+id/call_overlay_frame"
         android:padding="10dp"
+        android:layout_margin="8dp"
         >
 
         <ImageView
             android:id="@+id/toggle_Max_Min"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_gravity="end"
             android:src="@drawable/overlay_max_min"></ImageView>
 

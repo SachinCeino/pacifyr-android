@@ -282,6 +282,12 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
                 }
             }
         });
+        ImageView_emotion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                emotion_rlay.performClick();
+            }
+        });
         userDimv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -300,15 +306,18 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
                     call_overlay.setOrientation(LinearLayout.VERTICAL);
                     emotion_rlay.setVisibility(View.VISIBLE);
                     ImageView_emotion.setVisibility(View.GONE);
+                    call_overlay.setBackground(null);
                 }
                 else
                 {
                     call_overlay.setOrientation(LinearLayout.HORIZONTAL);
                     emotion_rlay.setVisibility(View.GONE);
                     ImageView_emotion.setVisibility(View.VISIBLE);
+                    call_overlay.setBackground(getContext().getResources().getDrawable(R.drawable.call_overlay_background));
 
                 }
             }
+
         });
 
         ImageView_chat.setOnClickListener(new View.OnClickListener() {
@@ -608,6 +617,20 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
                         userDimv.setVisibility(View.VISIBLE);
                         Picasso.with(getActivity()).load(image).placeholder(R.drawable.placeholder_image).into(userDimv);
                     }
+
+                    if(isValid(call_particpants_list.get(1)))
+                    {
+
+                        more_rlay.setVisibility(View.VISIBLE);
+                        more_rlay.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+
+                                CustomerDetailActivity.start(getActivity(),call_particpants_list.get(1));
+                            }
+                        });
+
+                    }
                 }
             }
             else {
@@ -653,7 +676,21 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
                             userDimv.setVisibility(View.VISIBLE);
                             Picasso.with(getActivity()).load(image).placeholder(R.drawable.placeholder_image).into(userDimv);
                         }
+                        if(isValid(call_particpants_list.get(1)))
+                        {
+
+                            more_rlay.setVisibility(View.VISIBLE);
+                            more_rlay.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+
+                                    CustomerDetailActivity.start(getActivity(),call_particpants_list.get(1));
+                                }
+                            });
+
+                        }
                     }
+
                 }
 
 
@@ -753,14 +790,17 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
     {
         try
         {
-            //   if(isValid(status))
-            defSetText(connectionStatusLocal,status);
+            if(isValid(status) && status.equals("Connected")) {
+                connectionStatusLocal.setVisibility(View.VISIBLE);
+                defSetText(connectionStatusLocal, status);
+            }
         }catch (Exception e)
         {
             e.printStackTrace();
         }
     }
     @Override
+
     int getFragmentLayout() {
         return R.layout.fragment_audio_conversation;
     }
