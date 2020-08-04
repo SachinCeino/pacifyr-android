@@ -897,6 +897,7 @@ Log.w("WWW","onCreate");
     private void webGetTimSlotes(ScheduleData mObject) {
 
         text_loading.setVisibility(VISIBLE);
+        noDataAvailable.setVisibility(GONE);
         rcv_slote_schedule_.setAdapter(null);
         PrefManager prefM = PrefManager.getInstance(getActivity());
         String token = prefM.getAccessToken();
