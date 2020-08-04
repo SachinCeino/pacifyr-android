@@ -13,6 +13,7 @@ import android.widget.Chronometer;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import androidx.annotation.Nullable;
@@ -551,13 +552,30 @@ public abstract class BaseConversationFragment extends BaseToolBarFragment imple
                                         {
                                             loadPDF(mPrescriptionFile);
                                         }
+                                        else
+                                        {
+                                            Toast.makeText(getActivity(), getResources().getString(R.string.no_prescription), Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                    else
+                                    {
+                                        Toast.makeText(getActivity(), getResources().getString(R.string.no_prescription), Toast.LENGTH_SHORT).show();
                                     }
                                 }
+                                else
+                                {
+                                    Toast.makeText(getActivity(), getResources().getString(R.string.no_prescription), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                            else
+                            {
+                                Toast.makeText(getActivity(), getResources().getString(R.string.no_prescription), Toast.LENGTH_SHORT).show();
                             }
 
                         }
                         else
                         {
+                            Toast.makeText(getActivity(), getResources().getString(R.string.no_prescription), Toast.LENGTH_SHORT).show();
 
                         }
 
