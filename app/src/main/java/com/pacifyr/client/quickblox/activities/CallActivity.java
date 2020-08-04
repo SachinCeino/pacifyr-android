@@ -24,6 +24,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
@@ -34,6 +36,7 @@ import com.pacifyr.client.event.BusProvider;
 import com.pacifyr.client.event.CallTimerEvent;
 import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.event.PicInPic;
+import com.pacifyr.client.fragment.PrescriptionWhileCallFragment;
 import com.pacifyr.client.home.PacifyrDashboardActivity;
 import com.pacifyr.client.home.SessionSummaryActivity;
 import com.pacifyr.client.model.CallStatus;
@@ -1204,6 +1207,12 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
             returnToCamera();
             super.onBackPressed();
         }
+        else {
+            Fragment f = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+            if (f instanceof PrescriptionWhileCallFragment) {
+                super.onBackPressed();
+            }
+        }
     }
 
 
@@ -1399,5 +1408,16 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
 
     }
 
-
+    public void showPrescriptionFragment(String mPrescriptionFile) {
+        Fragment fragment = new PrescriptionWhileCallFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("mPrescriptionFile", mPrescriptionFile);
+        fragment.setArguments(bundle);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction =
+                fragmentManager.beginTransaction();
+        fragmentTransaction.add(R.id.fragment_container, fragment);
+        fragmentTransaction.addToBackStack("");
+        fragmentTransaction.commit();
+    }
 }

@@ -543,14 +543,15 @@ public abstract class BaseConversationFragment extends BaseToolBarFragment imple
                             PrescriptionList mPrescriptionList = GsonUtils.getInstance().gsonToPrescriptionList(json);
                             if (isValidSize(mPrescriptionList.getResults())) {
 
-                                if (isValid(mPrescriptionList.getResults().get(0)) && isValid(mPrescriptionList.getResults().get(0).getPrescriptionFile()))
+                                if (isValid(mPrescriptionList.getResults().get(0)) && isValid(mPrescriptionList.getResults().get(0).getText()))
                                 {
                                     if (mPrescriptionList.getResults().get(0).getSessionId().equals(sessionid))
                                     {
-                                        String mPrescriptionFile=mPrescriptionList.getResults().get(0).getPrescriptionFile();
+                                        String mPrescriptionFile=mPrescriptionList.getResults().get(0).getText();
                                         if(isValid(mPrescriptionFile))
                                         {
-                                            loadPDF(mPrescriptionFile);
+                                            ((CallActivity) getActivity()).showPrescriptionFragment(mPrescriptionFile);
+
                                         }
                                         else
                                         {
