@@ -320,7 +320,7 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
                 if (isValid(mSessionDetailRoot.getPrescriptionFile()))
                     loadPDF(mSessionDetailRoot.getPrescriptionFile());
                 else
-                    Toast.makeText(SessionSummaryActivity.this, "Invalid Prescription file", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SessionSummaryActivity.this, getResources().getString(R.string.no_prescription), Toast.LENGTH_SHORT).show();
             }
         });
     }

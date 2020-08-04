@@ -462,8 +462,16 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
 
         pacifyr_name.setText(pacifyer_obj.getFirstName() + "" + pacifyer_obj.getLastName() + "");
 
-        appointment_date_and_time.setText(Utility.getDateFormatOne(TempScheduleData.getDate() + "") + ", " + Utility.convertTime(slotForNextClick.getStartTime()));
+        String t =TempScheduleData.getDate();
+        String time = Utility.getStartFormatDate(t,getActivity());
+        int spacePos = time.indexOf(" ");
+        if (spacePos > 0) {
+            time= time.substring(0, spacePos - 1);
+        }
+        appointment_date_and_time.setText(time +" "+ Utility.convertTime(slotForNextClick.getStartTime()));
+       // Log.w("@@@",TempScheduleData.getDate() + slotForNextClick.getStartTime());
 
+      //  appointment_date_and_time.setText(Utility.getDateFormatOne(TempScheduleData.getDate() + "") + ", " + Utility.convertTime(slotForNextClick.getStartTime()));
 
         if (prefM.getCountry().equals("India") || prefM.getCountry().equals("Wakanda"))
             txtv_next.setText("Proceed to pay");

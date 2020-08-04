@@ -67,8 +67,11 @@ public class PrescriptionAdapter extends RecyclerView.Adapter<PrescriptionAdapte
                             + " " + object.getPacifyr().getLastName());
 
                 if (isValid(object.getCreatedAt())) {
-                    String mDisplayDateAndTime = Utility.getDateAndTimeForAppointmentList(object.getCreatedAt());
-                    holder.mTextView_ScheduleTime.setText(mDisplayDateAndTime);
+                  /*  String mDisplayDateAndTime = Utility.getDateAndTimeForAppointmentList(object.getCreatedAt());
+                    holder.mTextView_ScheduleTime.setText(mDisplayDateAndTime);*/
+                    String t =object.getCreatedAt();
+                    String time = Utility.getStartFormatDate(t,context);
+                    holder.mTextView_ScheduleTime.setText(time);
                 }
 
                 holder.mTextView_View_pres.setOnClickListener(new View.OnClickListener() {

@@ -201,6 +201,7 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="sorry_could_not_complete_action">Sorry, could not complete this action. Please try later</string>
     <string name="invalid_coupon_code">Invalid coupon code</string>
     <string name="waiting_for_confirmation">Waiting for confirmation</string>
+    <string name="no_prescription">No prescriptions found</string>
 
 
 </resources>
