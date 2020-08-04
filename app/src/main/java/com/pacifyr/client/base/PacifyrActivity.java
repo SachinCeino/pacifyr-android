@@ -61,6 +61,8 @@ import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.BusProvider;
 import com.pacifyr.client.event.CallEvent;
 import com.pacifyr.client.event.NotifyEvent;
+import com.pacifyr.client.fragment.AppointmentsTabViewFragment;
+import com.pacifyr.client.home.DashboardActivity;
 import com.pacifyr.client.home.PaymentActivity;
 import com.pacifyr.client.home.SessionSummaryActivity;
 import com.pacifyr.client.model.AppoinmentNotification;
@@ -222,6 +224,17 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
                                 dialog.dismiss();
                             }
                         });
+                    }
+                    if (type.equals("confirmBooking") || type.equals("rejectBooking"))
+                    {
+                        showIOSDialogOKCancel("Message", message, "View", new iOSDialogClickListener() {
+                            @Override
+                            public void onClick(iOSDialog dialog) {
+                                dialog.dismiss();
+                                if (getClass().getName().contains("DashboardActivity"))
+                                showFragment(new AppointmentsTabViewFragment());
+                            }
+                        }, "Close");
                     }
                     else
                     {
