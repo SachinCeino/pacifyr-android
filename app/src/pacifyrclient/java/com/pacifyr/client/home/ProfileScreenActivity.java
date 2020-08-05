@@ -640,6 +640,11 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
             {
                 indicateOnline.setImageDrawable(getResources().getDrawable(R.drawable.online));
                 isonlineCtxv.setText("ONLINE");
+                if(!pacifyerDetial.getCurrentlyAvailable())
+                {
+                    indicateOnline.setImageDrawable(context.getResources().getDrawable(R.drawable.online));
+                    isonlineCtxv.setText("In-Session");
+                }
             }else {
                 indicateOnline.setImageDrawable(getResources().getDrawable(R.drawable.offline));
                 isonlineCtxv.setText("OFFLINE");

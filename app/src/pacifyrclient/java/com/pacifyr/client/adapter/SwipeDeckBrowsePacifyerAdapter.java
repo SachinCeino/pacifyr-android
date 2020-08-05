@@ -31,6 +31,7 @@ import com.pacifyr.client.home.ListPacifyrScreenActivity;
 import com.pacifyr.client.home.PaymentActivity;
 import com.pacifyr.client.home.ProfileScreenActivity;
 import com.pacifyr.client.network.NetworkService;
+import com.pacifyr.client.quickblox.activities.CallActivity;
 import com.pacifyr.client.utils.LogUtils;
 import com.pacifyr.client.utils.Utility;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.Certification;
@@ -53,6 +54,7 @@ import java.util.Locale;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.pacifyr.client.network.NetworkService.GLOBAL_IMAGE_URL;
+import static com.pacifyr.client.quickblox.activities.CallActivity.isCallActive;
 
 
 public class SwipeDeckBrowsePacifyerAdapter extends BaseAdapter {
@@ -457,11 +459,17 @@ public class SwipeDeckBrowsePacifyerAdapter extends BaseAdapter {
                         if (pacifyer.isReadyToCall())
                             ConnectToSinglePacifyrActivity.start(context, searchResults.get(position));
                         else {
-                            Snackbar offlineSnackbar = Snackbar.make(v, pacifyer.getName() + " is currently offline. You can either chat with " + pacifyer.getName() + " or try again later.", Snackbar.LENGTH_LONG);
-                            View snackbarView = offlineSnackbar.getView();
-                            TextView snackTextView = snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
-                            snackTextView.setMaxLines(4);
-                            offlineSnackbar.show();
+                           if (pacifyer.getOnline() && isValid(isCallActive) && isCallActive)
+                           {
+                               ConnectToSinglePacifyrActivity.start(context, searchResults.get(position));
+                           }
+                           else {
+                               Snackbar offlineSnackbar = Snackbar.make(v, pacifyer.getName() + " is currently offline. You can either chat with " + pacifyer.getName() + " or try again later.", Snackbar.LENGTH_LONG);
+                               View snackbarView = offlineSnackbar.getView();
+                               TextView snackTextView = snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
+                               snackTextView.setMaxLines(4);
+                               offlineSnackbar.show();
+                           }
                         }
 
 
