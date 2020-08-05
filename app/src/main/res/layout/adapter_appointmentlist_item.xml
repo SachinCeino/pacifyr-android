@@ -88,15 +88,34 @@
                 android:ellipsize="end"
                 android:maxLines="3"
                 />
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:visibility="gone"
-                android:src="@drawable/svg_add_note_primary"
-                android:id="@+id/ImageView_PrevistNote"
-                />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:visibility="gone"
+                    android:src="@drawable/svg_add_note_primary"
+                    android:id="@+id/ImageView_PrevistNote"
+                    />
+                <com.pacifyr.client.customview.MainTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:id="@+id/accepted_textView"
+                    android:layout_marginLeft="15dp"
+                    android:text="Accepted"
+                    android:visibility="gone"
+                    android:layout_gravity="center"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorPrimary"
+                    />
+
+
+            </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

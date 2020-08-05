@@ -141,6 +141,13 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<AppointmentsLi
                             }
 
                             holder.ImageView_PrevistNote.setVisibility(View.VISIBLE);
+                            holder.accepted_textView.setVisibility(View.GONE);
+                            holder.ImageView_PrevistNote.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    showPreVistNotPopUp(mObject.getPreVisitNote());
+                                }
+                            });
 
                             holder.videocall_rlay.setOnClickListener(new View.OnClickListener() {
                                 @Override
@@ -171,6 +178,7 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<AppointmentsLi
                                 holder.mainLayout.setBackgroundColor(mContext.getResources().getColor(R.color.appointment_no_click));
                                 holder.mButton_Cancel.setVisibility(View.GONE);
                                 holder.ImageView_PrevistNote.setVisibility(View.GONE);
+                                holder.accepted_textView.setVisibility(View.GONE);
                             }
                             else
                             {
@@ -233,10 +241,11 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<AppointmentsLi
 
                 if (isValid(mObject.getConfirmed()) && mObject.getConfirmed()==true)
                 {
-                    holder.mButton_Cancel.setText("Accepted");
+                    holder.mButton_Cancel.setVisibility(View.GONE);
                     if (!scheduleIsFullyPassed(mObject.getStartTimeGMT()))
                     {
                         holder.ImageView_PrevistNote.setVisibility(View.VISIBLE);
+                        holder.accepted_textView.setVisibility(View.VISIBLE);
                         holder.ImageView_PrevistNote.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
@@ -367,6 +376,7 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<AppointmentsLi
         private ImageView ImageView_PrevistNote;
         private LinearLayout mainLayout,call_layout;
         private RelativeLayout videocall_rlay,audiocall_rlay,chat_rlay;
+        private TextView accepted_textView;
 
 
         public ViewHolder(View itemView) {
@@ -384,6 +394,7 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<AppointmentsLi
             audiocall_rlay = itemView.findViewById(R.id.audiocall_rlay);
             chat_rlay = itemView.findViewById(R.id.chat_rlay);
             mTextView_warning_Confirm = itemView.findViewById(R.id.mTextView_warning_Confirm);
+            accepted_textView = itemView.findViewById(R.id.accepted_textView);
 
         }
     }
