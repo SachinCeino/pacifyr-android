@@ -33,7 +33,9 @@ import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.fragment.schedule.ScheduleBottomSheetFragment;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
+import com.pacifyr.client.quickblox.activities.CallActivity;
 import com.pacifyr.client.quickblox.activities.PermissionsActivity;
+import com.pacifyr.client.quickblox.chat.ui.activity.ChatActivity;
 import com.pacifyr.client.quickblox.db.QbUsersDbManager;
 import com.pacifyr.client.quickblox.utils.Consts;
 import com.pacifyr.client.quickblox.utils.WebRtcSessionManager;
@@ -994,7 +996,7 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
         leftLlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                onBackPressed();
             }
         });
     }
@@ -1114,5 +1116,15 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
         {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (isValid(isCallActive) && isCallActive) {
+            Intent i = new Intent(ProfileScreenActivity.this, CallActivity.class);
+            i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            startActivity(i);
+        }
+        finish();
     }
 }

@@ -40,6 +40,7 @@ import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.AlertTypeEvent;
 import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.network.NetworkService;
+import com.pacifyr.client.quickblox.activities.CallActivity;
 import com.pacifyr.client.quickblox.chat.ui.adapter.AttachmentPreviewAdapter;
 import com.pacifyr.client.quickblox.chat.ui.adapter.ChatAdapter;
 import com.pacifyr.client.quickblox.chat.ui.widget.AttachmentPreviewAdapterView;
@@ -88,6 +89,7 @@ import java.util.TimerTask;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.pacifyr.client.network.NetworkService.GLOBAL_IMAGE_URL;
+import static com.pacifyr.client.quickblox.activities.CallActivity.isCallActive;
 
 //com.pacifyr.pacifyrapp.quickblox.chat.ui.activity.BaseActivity
 public class ChatActivity extends PacifyrAppCompactActivity implements ImagePickerCallback {
@@ -263,7 +265,13 @@ public class ChatActivity extends PacifyrAppCompactActivity implements ImagePick
         releaseChat();
         sendDialogId();
 
-        super.onBackPressed();
+        if (isValid(isCallActive) && isCallActive) {
+            Intent i = new Intent(ChatActivity.this, CallActivity.class);
+            i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            startActivity(i);
+        }
+        finish();
+
     }
 
     @Override
