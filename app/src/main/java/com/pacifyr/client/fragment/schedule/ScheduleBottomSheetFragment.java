@@ -206,6 +206,8 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
 
             @Override
             public void onClick(View v) {
+                if (!pacifyer_obj.isEnableScheduling())
+                    return;
                 weekNumber--;
                 if (weekNumber<=0)
                 {
@@ -236,7 +238,8 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
         ll_next_week.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (!pacifyer_obj.isEnableScheduling())
+                    return;
                 rcv_week_schedule_.setAdapter(null);
                 rcv_slote_schedule_.setAdapter(null);
                 weekNumber++;
@@ -256,7 +259,11 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
             }
         });
 
+        if (pacifyer_obj.isEnableScheduling())
         getWeakScheduleList();
+        else {
+            noDataAvailable.setVisibility(VISIBLE);
+        }
 
         nextClick.setOnClickListener(new View.OnClickListener() {
             @Override
