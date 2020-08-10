@@ -85,7 +85,7 @@ public class PrescriptionAdapter extends RecyclerView.Adapter<PrescriptionAdapte
                         }
                         else
                         {
-                            Toast.makeText(context, "Prescription not available !", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, context.getResources().getString(R.string.no_prescription), Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
