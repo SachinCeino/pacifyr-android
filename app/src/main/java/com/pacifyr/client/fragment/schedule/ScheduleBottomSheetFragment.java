@@ -473,7 +473,7 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
         String time = Utility.getStartFormatDate(t,getActivity());
         int spacePos = time.indexOf(" ");
         if (spacePos > 0) {
-            time= time.substring(0, spacePos - 1);
+            time= time.substring(0, spacePos);
         }
         appointment_date_and_time.setText(time +" "+ Utility.convertTime(slotForNextClick.getStartTime()));
        // Log.w("@@@",TempScheduleData.getDate() + slotForNextClick.getStartTime());
