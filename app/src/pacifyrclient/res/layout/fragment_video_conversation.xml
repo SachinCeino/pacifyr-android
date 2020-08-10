@@ -78,8 +78,7 @@
                     android:layout_width="45dp"
                     android:id="@+id/user_dimv"
                     app:width_percentage="12"
-
-                    android:visibility="visible"
+                    android:visibility="gone"
                     app:height_percentage="10"
                     android:layout_centerVertical="true"
                     app:parameter="aspect_width"
@@ -93,6 +92,7 @@
                     android:layout_toRightOf="@+id/user_dimv"
                     android:visibility="visible"
                     android:textSize="@dimen/sp18"
+                    android:cursorVisible="false"
                     android:singleLine="true"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
@@ -274,12 +274,11 @@
                     android:src="@drawable/overlay_more" />
             </LinearLayout>
 
-            <!--
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:id="@+id/certificate_View"
                             android:visibility="gone"
+                            android:id="@+id/certificate_View"
                             android:padding="5dp">
 
                             <ImageView
@@ -288,7 +287,6 @@
                                 android:layout_height="40dp"
                                 android:src="@drawable/overlay_kyc" />
                         </LinearLayout>
-            -->
 
             <LinearLayout
                 android:layout_width="wrap_content"

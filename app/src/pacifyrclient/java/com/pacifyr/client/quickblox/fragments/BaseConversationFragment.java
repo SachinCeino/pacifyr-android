@@ -599,7 +599,7 @@ public abstract class BaseConversationFragment extends BaseToolBarFragment imple
 
     }
 
-    private void loadPDF(String url) {
+    public void loadPDF(String url) {
         setLoading();
         showProgress();
         FileLoader.with(getActivity())

@@ -55,6 +55,7 @@ import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.quickblox.activities.CallActivity;
 import com.pacifyr.client.quickblox.adapters.OpponentsFromCallAdapter;
+import com.pacifyr.client.quickblox.chat.ui.activity.AttachmentImageActivity;
 import com.pacifyr.client.utils.FirebaseLogging;
 import com.pacifyr.client.utils.LogUtils;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
@@ -90,6 +91,7 @@ import java.util.Map;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL;
+import static com.pacifyr.client.network.NetworkService.GLOBAL_IMAGE_URL;
 
 /*import com.quickblox.videochat.webrtc.BaseSession;*/
 
@@ -153,6 +155,7 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
     private TextView text_remaining_minutes;
     private String change_Emotion_name;
     private ImageButton img_button_add_note;
+    LinearLayout certificate_View;
     private BroadcastReceiver eventReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -309,11 +312,11 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
                     userRlay.setVisibility(View.VISIBLE);
                     defSetText(usernameCtxv, call_particpants_list.get(0).getName());
                     String image = call_particpants_list.get(0).getImageUrl();
-                    userDimv.setVisibility(View.GONE);
+                  /*  userDimv.setVisibility(View.GONE);
                     if(isValid(image)) {
                         userDimv.setVisibility(View.VISIBLE);
                         Picasso.with(getActivity()).load(image).placeholder(R.drawable.placeholder_image).into(userDimv);
-                    }
+                    }*/
 
                     if(isValid(call_particpants_list.get(0)))
                     {
@@ -334,11 +337,11 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
                 userRlay.setVisibility(View.VISIBLE);
                 defSetText(usernameCtxv, call_particpants_list.get(1).getName());
                 String image = call_particpants_list.get(1).getImageUrl();
-                userDimv.setVisibility(View.GONE);
+               /* userDimv.setVisibility(View.GONE);
                 if(isValid(image)) {
                     userDimv.setVisibility(View.VISIBLE);
                     Picasso.with(getActivity()).load(image).placeholder(R.drawable.placeholder_image).into(userDimv);
-                }
+                }*/
 
                     if(isValid(call_particpants_list.get(1)))
                     {
@@ -366,11 +369,11 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
                        userRlay.setVisibility(View.VISIBLE);
                        defSetText(usernameCtxv, muser.getName());
                        String image = muser.getImageUrl();
-                       userDimv.setVisibility(View.GONE);
+                      /* userDimv.setVisibility(View.GONE);
                        if(isValid(image)) {
                            userDimv.setVisibility(View.VISIBLE);
                            Picasso.with(getActivity()).load(image).placeholder(R.drawable.placeholder_image).into(userDimv);
-                       }
+                       }*/
 
 
 
@@ -396,11 +399,11 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
                         userRlay.setVisibility(View.VISIBLE);
                         defSetText(usernameCtxv, muser.getName());
                         String image = muser.getImageUrl();
-                        userDimv.setVisibility(View.GONE);
+                      /*  userDimv.setVisibility(View.GONE);
                         if(isValid(image)) {
                             userDimv.setVisibility(View.VISIBLE);
                             Picasso.with(getActivity()).load(image).placeholder(R.drawable.placeholder_image).into(userDimv);
-                        }
+                        }*/
 
                         if(isValid(call_particpants_list.get(1)))
                         {
@@ -510,6 +513,7 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
           usernameCtxv = view.findViewById(R.id.username_ctxv);
           more_rlay = view.findViewById(R.id.more_rlay);
           more_rlay.setVisibility(View.GONE);
+
       }catch (Exception e)
       {
           e.printStackTrace();
@@ -540,7 +544,7 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
         call_overlay = view.findViewById(R.id.call_overlay);
         ImageView_chat = view.findViewById(R.id.ImageView_chat);
         ImageView_prescription = view.findViewById(R.id.ImageView_prescription);
-
+        certificate_View = view.findViewById(R.id.certificate_View);
         text_remaining_minutes.setVisibility(View.GONE);
 
         onUserInfoViews(view);
@@ -655,6 +659,42 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
             @Override
             public void onClick(View view) {
                 callPrescriptionData();
+            }
+        });
+        if (getPrefManager().getCountry().equals("India")||
+                getPrefManager().getCountry().equals("Wakanda"))
+        {
+            certificate_View.setVisibility(View.VISIBLE);
+        }
+        certificate_View.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (isValid(NetworkService.mCurrentUser) && isValidSize(NetworkService.mCurrentUser.getCertificationList())) {
+                    if (isValid(NetworkService.mCurrentUser.getCertificationList().get(0)) && isValidSize(NetworkService.mCurrentUser.getCertificationList().get(0).getDocuments())
+                            && isValid(NetworkService.mCurrentUser.getCertificationList().get(0).getDocuments().get(0))
+                            && isValid(NetworkService.mCurrentUser.getCertificationList().get(0).getDocuments().get(0))) {
+                        String fileName=NetworkService.mCurrentUser.getCertificationList().get(0).getDocuments().get(0).toString();
+                        if (isValid(fileName)) {
+                           /* Intent i=new Intent(getActivity(), TermsOfUseActivity.class);
+                            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            i.putExtra("spurl",GLOBAL_IMAGE_URL+fileName);
+                            getActivity().startActivity(i);*/
+                            if (fileName.contains(".pdf")) {
+                                loadPDF(GLOBAL_IMAGE_URL + NetworkService.mCurrentUser.getCertificationList().get(0).getDocuments().get(0).toString());
+                            } else if (fileName.toLowerCase().contains(".jpg") || fileName.toLowerCase().contains(".jpeg") || fileName.toLowerCase().contains(".png")) {
+                                AttachmentImageActivity.start(getActivity(), GLOBAL_IMAGE_URL + fileName, true);
+                            } else {
+                                Toast.makeText(getActivity(), "Unknown document format. Cannot open", Toast.LENGTH_LONG).show();
+                            }
+
+                        } else {
+                            Toast.makeText(getActivity(), "No KYC documents available.", Toast.LENGTH_LONG).show();
+                        }
+                    } else {
+                        Toast.makeText(getActivity(), "No KYC documents available.", Toast.LENGTH_LONG).show();
+                    }
+                }
+
             }
         });
     }
@@ -1724,8 +1764,8 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
         actionVideoButtonsLayout.setVisibility(View.VISIBLE);
         emotion_rlay.setVisibility(View.GONE);
         call_overlay.setVisibility(View.VISIBLE);
-        call_overlay.setOrientation(LinearLayout.HORIZONTAL);
         userRlay.setVisibility(View.VISIBLE);
+
         localVideoView.setVisibility(View.VISIBLE);
         if (getActivity() instanceof PacifyrActivity) {
             if (((PacifyrActivity) getActivity()).hasBillingStarted()) {

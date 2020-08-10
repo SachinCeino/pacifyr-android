@@ -26,6 +26,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.pacifyr.client.base.PacifyrActivity;
+import com.pacifyr.client.quickblox.chat.ui.activity.AttachmentImageActivity;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MEmotion;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
@@ -59,6 +60,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+
+import static com.pacifyr.client.network.NetworkService.GLOBAL_IMAGE_URL;
 
 /**
  * Created by tereha on 25.05.16.
@@ -202,7 +205,7 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
 
 
     private ImageView toggle_Max_Min,ImageView_emotion,ImageView_chat,ImageView_prescription;
-    private LinearLayout call_overlay;
+    private LinearLayout call_overlay,certificate_View;
     @Override
     protected void initViews(View view) {
         super.initViews(view);
@@ -229,6 +232,7 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
         ImageView_chat = view.findViewById(R.id.ImageView_chat);
         ImageView_prescription = view.findViewById(R.id.ImageView_prescription);
         userDimv = view.findViewById(R.id.user_dimv);
+        certificate_View = view.findViewById(R.id.certificate_View);
 //        callerAvatarImageView = (CircleImageView) view.findViewById(R.id.image_caller_avatar);
         //  firstOpponentNameTextView = (TextView) view.findViewById(R.id.text_caller_name);
         //    firstOpponentNameTextView.setText(opponents.get(0).getFullName());
@@ -349,8 +353,42 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
                 args);
 
 
+        if (getPrefManager().getCountry().equals("India")||
+                getPrefManager().getCountry().equals("Wakanda"))
+        {
+            certificate_View.setVisibility(View.VISIBLE);
+        }
+        certificate_View.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
+                if (isValid(NetworkService.mCurrentUser) && isValidSize(NetworkService.mCurrentUser.getCertificationList())) {
+                    if (isValid(NetworkService.mCurrentUser.getCertificationList().get(0)) && isValidSize(NetworkService.mCurrentUser.getCertificationList().get(0).getDocuments())
+                            && isValid(NetworkService.mCurrentUser.getCertificationList().get(0).getDocuments().get(0))
+                            && isValid(NetworkService.mCurrentUser.getCertificationList().get(0).getDocuments().get(0))) {
+                        String fileName=NetworkService.mCurrentUser.getCertificationList().get(0).getDocuments().get(0).toString();
+                        if (isValid(fileName)) {
+                           /* Intent i=new Intent(getActivity(), TermsOfUseActivity.class);
+                            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            i.putExtra("spurl",GLOBAL_IMAGE_URL+fileName);
+                            getActivity().startActivity(i);*/
+                            if (fileName.contains(".pdf")) {
+                                loadPDF(GLOBAL_IMAGE_URL + NetworkService.mCurrentUser.getCertificationList().get(0).getDocuments().get(0).toString());
+                            } else if (fileName.toLowerCase().contains(".jpg") || fileName.toLowerCase().contains(".jpeg") || fileName.toLowerCase().contains(".png")) {
+                                AttachmentImageActivity.start(getActivity(), GLOBAL_IMAGE_URL + fileName, true);
+                            } else {
+                                Toast.makeText(getActivity(), "Unknown document format. Cannot open", Toast.LENGTH_LONG).show();
+                            }
 
+                        } else {
+                            Toast.makeText(getActivity(), "No KYC documents available.", Toast.LENGTH_LONG).show();
+                        }
+                    } else {
+                        Toast.makeText(getActivity(), "No KYC documents available.", Toast.LENGTH_LONG).show();
+                    }
+                }
+            }
+        });
 
     }
 
@@ -558,8 +596,8 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
             setUserInfoViews();
             if(isValid(image)) {
                 emotion_dimv.setVisibility(View.VISIBLE);
-                Picasso.with(getActivity()).load(NetworkService.GLOBAL_IMAGE_URL + image).placeholder(R.drawable.placeholder_image).into(emotion_dimv);
-                Picasso.with(getActivity()).load(NetworkService.GLOBAL_IMAGE_URL + image).placeholder(R.drawable.placeholder_image).into(ImageView_emotion);
+                Picasso.with(getActivity()).load(GLOBAL_IMAGE_URL + image).placeholder(R.drawable.placeholder_image).into(emotion_dimv);
+                Picasso.with(getActivity()).load(GLOBAL_IMAGE_URL + image).placeholder(R.drawable.placeholder_image).into(ImageView_emotion);
             }
 
             if(isValid(emotion)) {
@@ -852,8 +890,8 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
             if (isValid(event.getEmotion()))
                 if (isValid(event.getEmotion().getImage())) {
                     emotion_dimv.setVisibility(View.VISIBLE);
-                    Picasso.with(getActivity()).load(NetworkService.GLOBAL_IMAGE_URL + event.getEmotion().getImage()).placeholder(R.drawable.placeholder_image).into(emotion_dimv);
-                    Picasso.with(getActivity()).load(NetworkService.GLOBAL_IMAGE_URL + event.getEmotion().getImage()).placeholder(R.drawable.placeholder_image).into(ImageView_emotion);
+                    Picasso.with(getActivity()).load(GLOBAL_IMAGE_URL + event.getEmotion().getImage()).placeholder(R.drawable.placeholder_image).into(emotion_dimv);
+                    Picasso.with(getActivity()).load(GLOBAL_IMAGE_URL + event.getEmotion().getImage()).placeholder(R.drawable.placeholder_image).into(ImageView_emotion);
 
                 }
 
@@ -916,7 +954,6 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
         info_overlay_llay.setVisibility(View.VISIBLE);
         emotion_rlay.setVisibility(View.GONE);
         call_overlay.setVisibility(View.VISIBLE);
-        call_overlay.setOrientation(LinearLayout.HORIZONTAL);
         userRlay.setVisibility(View.VISIBLE);
         call_layout.setVisibility(View.VISIBLE);
         if (getActivity() instanceof PacifyrActivity) {

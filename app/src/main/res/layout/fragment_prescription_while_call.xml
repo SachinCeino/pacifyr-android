@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:clickable="true"
     android:layout_height="match_parent">
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -21,11 +22,9 @@
             android:layout_height="?attr/actionBarSize"
             android:layout_alignParentTop="true"
             android:layout_gravity="center"
-
             android:background="?attr/colorPrimary"
             android:orientation="horizontal"
             android:theme="@style/AppTheme.PopupOverlay">
-
             <include layout="@layout/actionbar_three_text_image" />
 
         </RelativeLayout>
