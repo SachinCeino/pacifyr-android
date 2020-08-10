@@ -231,8 +231,13 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
                             @Override
                             public void onClick(iOSDialog dialog) {
                                 dialog.dismiss();
-                                if (getClass().getName().contains("DashboardActivity"))
-                                showFragment(new AppointmentsTabViewFragment());
+                                if (getClass().getName().contains("DashboardActivity")) {
+                                    showFragment(new AppointmentsTabViewFragment());
+                                }
+                                else
+                                {
+                                    DashboardActivity.start(PacifyrActivity.this,true);
+                                }
                             }
                         }, "Close");
                     }

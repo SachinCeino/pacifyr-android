@@ -143,7 +143,12 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
     String label;
     LinearLayout coupon_llay;
     View coupon_view;
-
+    boolean isNeedToOpenAppointments=false;
+    public static void start(Context context,boolean isNeedToOpenAppointments) {
+        Intent intent = new Intent(context, DashboardActivity.class);
+        intent.putExtra("isNeedToOpenAppointments",isNeedToOpenAppointments);
+        context.startActivity(intent);
+    }
     // private PermissionsChecker checker;
     public static void start(Context context
     ) {
@@ -806,6 +811,15 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
             }
         });
 
+        if (isValid(getIntent()) && isValid(getIntent().getExtras())&&isValid(getIntent().getExtras().getBoolean("isNeedToOpenAppointments",false))) {
+            isNeedToOpenAppointments = getIntent().getExtras().getBoolean("isNeedToOpenAppointments",false);
+            if (isValid(isNeedToOpenAppointments) && isNeedToOpenAppointments)
+            {
+                hideRightLayActionbar();
+                showFragment(new AppointmentsTabViewFragment());
+                defSetText(titleTxv, getResources().getString(R.string.appointments));
+            }
+        }
     }
 
 
