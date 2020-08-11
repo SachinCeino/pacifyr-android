@@ -65,6 +65,7 @@ import com.pacifyr.client.event.BusProvider;
 import com.pacifyr.client.event.CallEvent;
 import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.fragment.AppointmentsTabViewFragment;
+import com.pacifyr.client.home.DashboardActivity;
 import com.pacifyr.client.home.PaymentActivity;
 import com.pacifyr.client.home.SessionSummaryActivity;
 import com.pacifyr.client.model.AppoinmentNotification;

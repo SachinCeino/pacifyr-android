@@ -2,8 +2,6 @@ package com.pacifyr.client.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,27 +10,20 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.pacifyr.client.R;
 import com.pacifyr.client.adapter.AppointmentsCancelRejecListAdapter;
-import com.pacifyr.client.adapter.AppointmentsListAdapter;
-import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.fragment.schedule.AppointmentModel;
-import com.pacifyr.client.fragment.schedule.ScheduleBottomSheetFragment;
-import com.pacifyr.client.home.DashboardActivity;
 import com.pacifyr.client.network.GsonUtils;
-import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.utility.BaseFragment;
-import com.pacifyr.client.utility.PacifyrAppCompactActivity;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.squareup.otto.Subscribe;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONObject;
 
 import java.util.List;
@@ -47,6 +38,7 @@ public class AppointmentsRejOrCancelledFragment extends BaseFragment {
     private RecyclerView.LayoutManager mLayoutManager;
     private AppointmentModel mAppointmentModel;
     private TextView emptyLayout;
+    private SwipeRefreshLayout swiperefresh;
 
 
     public AppointmentsRejOrCancelledFragment() {
@@ -65,15 +57,18 @@ public class AppointmentsRejOrCancelledFragment extends BaseFragment {
 
         try {
             setLoading();
-            showProgress();
+//            showProgress();
+            swiperefresh.setRefreshing(true);
             mPrefManager = PrefManager.getInstance(getContext());
             String token = mPrefManager.getAccessToken();
             String url = GLOBAL_URL + "schedule/user/" + mPrefManager.getUserID() + "/bookings/cancelled?skip=0&limit=30";
             AjaxCallback cb = new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, JSONObject json, AjaxStatus status) {
+                    swiperefresh.setRefreshing(false);
                     try {
-                        hideProgress();
+
+//                        hideProgress();
                         hideStatus();
                         if (isValid(json))
                         {
@@ -154,6 +149,7 @@ public class AppointmentsRejOrCancelledFragment extends BaseFragment {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_appointments, container, false);
         mRecyclerViewAppointments = root.findViewById(R.id.mRecyclerViewAppointments);
+        swiperefresh = root.findViewById(R.id.swiperefresh);
         emptyLayout=root.findViewById(R.id.emptyLayout);
         getAppointmentsList();
         return root;
@@ -163,6 +159,12 @@ public class AppointmentsRejOrCancelledFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        swiperefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getAppointmentsList();
+            }
+        });
     }
 
     @Override
