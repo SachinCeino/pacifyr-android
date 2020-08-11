@@ -2,28 +2,40 @@ package com.pacifyr.client.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.krishna.fileloader.FileLoader;
+import com.krishna.fileloader.listener.FileRequestListener;
+import com.krishna.fileloader.pojo.FileResponse;
+import com.krishna.fileloader.request.FileLoadRequest;
 import com.pacifyr.client.R;
 import com.pacifyr.client.activity.PrescriptionViewActivity;
+import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
+import com.pacifyr.client.home.LastSessionActivity;
+import com.pacifyr.client.home.SessionSummaryActivity;
 import com.pacifyr.client.model.MComments;
 import com.pacifyr.client.model.PrescriptionList;
 import com.pacifyr.client.model.interfaces.CommentClick;
 import com.pacifyr.client.network.NetworkService;
+import com.pacifyr.client.utility.PdfViewer;
 import com.pacifyr.client.utils.Utility;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import de.hdodenhof.circleimageview.CircleImageView;
+
+import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_IMAGE_URL;
 
 /**
  * Created by ceino on 14/12/17.
@@ -77,16 +89,12 @@ public class PrescriptionAdapter extends RecyclerView.Adapter<PrescriptionAdapte
                 holder.mTextView_View_pres.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if (isValid(object.getText()))
-                        {
-                            Intent intent=new Intent(context, PrescriptionViewActivity.class);
-                            intent.putExtra("text",object.getText());
-                            context.startActivity(intent);
-                        }
+
+                        if (isValid(object.getPrescriptionFile()))
+                            ((PacifyrActivity)context).loadPDF(object.getPrescriptionFile());
                         else
-                        {
                             Toast.makeText(context, context.getResources().getString(R.string.no_prescription), Toast.LENGTH_SHORT).show();
-                        }
+
                     }
                 });
 
@@ -96,6 +104,8 @@ public class PrescriptionAdapter extends RecyclerView.Adapter<PrescriptionAdapte
 
 
     }
+
+
     public Boolean isValid(List list)
     {
         if(list!=null)

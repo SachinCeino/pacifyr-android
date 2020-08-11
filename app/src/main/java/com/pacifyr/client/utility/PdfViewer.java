@@ -8,11 +8,13 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.pacifyr.client.R;
+import com.pacifyr.client.event.AlertTypeEvent;
+import com.pacifyr.client.event.NotifyEvent;
 import com.pdfview.PDFView;
 
 import java.io.File;
 
-public class PdfViewer extends AppCompatActivity {
+public class PdfViewer extends PacifyrAppCompactActivity {
 
     public static File pdf;
     private PDFView pdfView;
@@ -29,6 +31,10 @@ public class PdfViewer extends AppCompatActivity {
         if (pdf != null) {
             String filename = pdf.getPath();
             filename = filename.substring(filename.lastIndexOf("/"));
+            if (isValid(getIntent()) && isValid(getIntent().getExtras()) && isValid(getIntent().getExtras().getString("title")))
+            {
+                filename=getIntent().getExtras().getString("title");
+            }
             if (filename != null) {
                 titleText.setText(filename);
             }
@@ -44,8 +50,28 @@ public class PdfViewer extends AppCompatActivity {
     }
 
     @Override
+    protected View getSnackbarAnchorView() {
+        return null;
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         pdf = null;
+    }
+
+    @Override
+    public void onSetValues() throws Exception {
+
+    }
+
+    @Override
+    public void onNotifyEvent(NotifyEvent event) {
+
+    }
+
+    @Override
+    public void onAlertTypeEvent(AlertTypeEvent event) {
+
     }
 }

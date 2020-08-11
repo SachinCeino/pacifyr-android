@@ -32,6 +32,8 @@ import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 
 import java.io.File;
 
+import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_IMAGE_URL;
+
 public class TermsOfUseActivity extends PacifyrActivity {
 
     private static final String TAG = TermsOfUseActivity.class.getSimpleName();
@@ -108,7 +110,7 @@ public class TermsOfUseActivity extends PacifyrActivity {
                     } catch (ActivityNotFoundException e) {
                         Log.w("ERROR",String.valueOf(e));
                     }*/
-                    loadPDF(url);
+                    loadTemsPDF(url);
                 } else {
                     view.loadUrl(url);
                 }
@@ -182,6 +184,31 @@ public class TermsOfUseActivity extends PacifyrActivity {
         webView.loadUrl(url);
 
     }
+    public void loadTemsPDF(String url) {
+        setLoading();
+        showProgress();
+        FileLoader.with(TermsOfUseActivity.this)
+                .load(GLOBAL_IMAGE_URL+url, false) //2nd parameter is optioal, pass true to force load from network
+                .fromDirectory("test4", FileLoader.DIR_CACHE)
+                .asFile(new FileRequestListener<File>() {
+                    @Override
+                    public void onLoad(FileLoadRequest request, FileResponse<File> response) {
+                        hideProgress();
+                        File loadedFile = response.getBody();
+                        // do something with the file
+                        Log.d(TAG, "File downloaded ");
+                        PdfViewer.pdf = loadedFile;
+                        Intent intent = new Intent(TermsOfUseActivity.this, PdfViewer.class);
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onError(FileLoadRequest request, Throwable t) {
+                        hideProgress();
+                        Log.d(TAG, "File download failed ");
+                    }
+                });
+    }
 
     ///ACTION BAR FEATURES
     private LinearLayout actionBarTopLlay;
@@ -234,32 +261,6 @@ public class TermsOfUseActivity extends PacifyrActivity {
         super.onResume();
         if (isValid(webView))
             webView.onResume();
-    }
-
-    private void loadPDF(String url) {
-        setLoading();
-        showProgress();
-        FileLoader.with(TermsOfUseActivity.this)
-                .load(url, false) //2nd parameter is optioal, pass true to force load from network
-                .fromDirectory("test4", FileLoader.DIR_CACHE)
-                .asFile(new FileRequestListener<File>() {
-                    @Override
-                    public void onLoad(FileLoadRequest request, FileResponse<File> response) {
-                        hideProgress();
-                        File loadedFile = response.getBody();
-                        // do something with the file
-                        Log.d(TAG, "File downloaded ");
-                        PdfViewer.pdf = loadedFile;
-                        Intent intent = new Intent(TermsOfUseActivity.this, PdfViewer.class);
-                        startActivity(intent);
-                    }
-
-                    @Override
-                    public void onError(FileLoadRequest request, Throwable t) {
-                        hideProgress();
-                        Log.d(TAG, "File download failed ");
-                    }
-                });
     }
 
 

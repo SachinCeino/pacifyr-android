@@ -86,10 +86,10 @@ public class PrescriptionWhileCallFragment extends BaseFragment {
         rightTxv = root.findViewById(R.id.right_txv);
         rightImv = root.findViewById(R.id.right_imv);
         submit_ctxv = root.findViewById(R.id.submit_ctxv);
-        rightImv.setVisibility(View.INVISIBLE);
+        rightImv.setVisibility(View.GONE);
         rightTxv.setVisibility(View.GONE);
         rightLlay.setVisibility(View.GONE);
-        leftTxv.setVisibility(View.INVISIBLE);
+        leftTxv.setVisibility(View.GONE);
         backImv.setVisibility(View.VISIBLE);
         titleTxv.setVisibility(View.VISIBLE);
         leftLlay.setVisibility(View.VISIBLE);

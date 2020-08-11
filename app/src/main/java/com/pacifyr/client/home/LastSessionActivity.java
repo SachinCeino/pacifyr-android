@@ -526,32 +526,6 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
     }
 
 
-    private void loadPDF(String url) {
-        setLoading();
-        showProgress();
-        FileLoader.with(LastSessionActivity.this)
-                .load(GLOBAL_IMAGE_URL+url, false) //2nd parameter is optioal, pass true to force load from network
-                .fromDirectory("test4", FileLoader.DIR_CACHE)
-                .asFile(new FileRequestListener<File>() {
-                    @Override
-                    public void onLoad(FileLoadRequest request, FileResponse<File> response) {
-                        hideProgress();
-                        File loadedFile = response.getBody();
-                        // do something with the file
-                        Log.d(TAG, "File downloaded ");
-                        PdfViewer.pdf = loadedFile;
-                        Intent intent = new Intent(LastSessionActivity.this, PdfViewer.class);
-                        startActivity(intent);
-                    }
-
-                    @Override
-                    public void onError(FileLoadRequest request, Throwable t) {
-                        hideProgress();
-                        Log.d(TAG, "File download failed ");
-                    }
-                });
-    }
-
 
     private void setAfterEmotionViews(MEmotion mEmotion) {
         try {
