@@ -38,7 +38,6 @@ import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AlertDialog;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-import de.hdodenhof.circleimageview.CircleImageView;
 
 import com.aigestudio.wheelpicker.WheelPicker;
 import com.aigestudio.wheelpicker.widgets.WheelYearPicker;
@@ -66,7 +65,6 @@ import com.pacifyr.client.event.BusProvider;
 import com.pacifyr.client.event.CallEvent;
 import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.fragment.AppointmentsTabViewFragment;
-import com.pacifyr.client.home.DashboardActivity;
 import com.pacifyr.client.home.PaymentActivity;
 import com.pacifyr.client.home.SessionSummaryActivity;
 import com.pacifyr.client.model.AppoinmentNotification;
@@ -147,6 +145,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.pacifyr.client.network.NetworkService.modelAllEmotions;
 import static com.pacifyr.client.quickblox.activities.CallActivity.isCallActive;
@@ -277,6 +277,7 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
         }
     };
     private boolean showDialogs = true;
+    private iOSDialog dialog;
 
     public void showNotificationPopups(boolean val) {
         this.showNotification = val;
@@ -751,20 +752,35 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
         if (!isShowDialogs()) {
             return;
         }
-        new iOSDialogBuilder(this)
+        if (dialog != null) {
+            try {
+                dialog.dismiss();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        dialog = new iOSDialogBuilder(this)
                 .setTitle(title)
                 .setSubtitle(subTitle)
                 .setBoldPositiveLabel(false)
                 .setCancelable(true)
                 .setPositiveListener(okLabel,listener)
-                .build().show();
+                .build();
+        dialog.show();
     }
 
     public void showIOSDialogOKCancel(String title, String subTitle, String okLabel, iOSDialogClickListener listener, String negativeLabel) {
         if (!isShowDialogs()) {
             return;
         }
-        new iOSDialogBuilder(this)
+        if (dialog != null) {
+            try {
+                dialog.dismiss();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        dialog = new iOSDialogBuilder(this)
                 .setTitle(title)
                 .setSubtitle(subTitle)
                 .setBoldPositiveLabel(false)
@@ -778,7 +794,8 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
 
                     }
                 })
-                .build().show();
+                .build();
+        dialog.show();
     }
 
 
@@ -786,15 +803,23 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
         if (!isShowDialogs()) {
             return;
         }
+        if (dialog != null) {
+            try {
+                dialog.dismiss();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
         try {
-            new iOSDialogBuilder(this)
+            dialog = new iOSDialogBuilder(this)
                     .setTitle(title)
                     .setSubtitle(subTitle)
                     .setBoldPositiveLabel(false)
                     .setCancelable(false)
                     .setPositiveListener(okLabel, listener)
                     .setNegativeListener("Cancel", CancelListener)
-                    .build().show();
+                    .build();
+            dialog.show();
         } catch (Exception e) {
             e.printStackTrace();
             Log.e(TAG, "Cannot show Dialog " + e.getMessage());
