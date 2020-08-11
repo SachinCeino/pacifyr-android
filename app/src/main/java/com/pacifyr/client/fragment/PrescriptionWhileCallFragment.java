@@ -76,40 +76,15 @@ public class PrescriptionWhileCallFragment extends BaseFragment {
     }
 
     public void onSetActionBar(View root) {
-        actionBarTopLlay = root.findViewById(R.id.action_bar_top_llay);
-        bottomPanel = root.findViewById(R.id.bottom_panel);
         leftLlay = root.findViewById(R.id.left_llay);
-        backImv = root.findViewById(R.id.back_imv);
-        leftTxv = root.findViewById(R.id.left_txv);
         titleTxv = root.findViewById(R.id.title_txv);
-        rightLlay = root.findViewById(R.id.right_llay);
-        rightTxv = root.findViewById(R.id.right_txv);
-        rightImv = root.findViewById(R.id.right_imv);
-        submit_ctxv = root.findViewById(R.id.submit_ctxv);
-        rightImv.setVisibility(View.GONE);
-        rightTxv.setVisibility(View.GONE);
-        rightLlay.setVisibility(View.GONE);
-        leftTxv.setVisibility(View.GONE);
-        backImv.setVisibility(View.VISIBLE);
-        titleTxv.setVisibility(View.VISIBLE);
-        leftLlay.setVisibility(View.VISIBLE);
-        defSetText(titleTxv, "Prescription");
-        rightTxv.setBackground(getResources().getDrawable(R.drawable.blue_border_lightblue));
-        // backImv.setImageDrawable(getResources().getDrawable(R.drawable.back2x));
+        defSetText(titleTxv, getResources().getString(R.string.prescription));
         leftLlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 getActivity().onBackPressed();
             }
         });
-        rightLlay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //  submit_notes.performClick();
-            }
-        });
-
-
     }
 
     @Override

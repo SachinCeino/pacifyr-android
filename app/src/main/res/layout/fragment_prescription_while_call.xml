@@ -16,19 +16,10 @@
         tools:layout_editor_absoluteX="8dp"
         tools:layout_editor_absoluteY="8dp">
 
-        <RelativeLayout
-            android:id="@+id/action_bar"
+        <include android:layout_height="@dimen/action_bar_height"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:layout_alignParentTop="true"
-            android:layout_gravity="center"
-            android:background="?attr/colorPrimary"
-            android:orientation="horizontal"
-            android:theme="@style/AppTheme.PopupOverlay">
-            <include layout="@layout/actionbar_three_text_image" />
-
-        </RelativeLayout>
-
+            layout="@layout/actionbar_grey_back_and_title"
+            android:id="@+id/action_bar"></include>
 
         <RelativeLayout
             android:layout_width="match_parent"

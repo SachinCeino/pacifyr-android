@@ -43,9 +43,9 @@ public class ActivityChangeEmotionFromCall extends PacifyrAppCompactActivity {
     private LinearLayout actionBarTopLlay;
     private RelativeLayout bottomPanel;
     private LinearLayout leftLlay;
-    private DeviceFitImageView backImv;
+    private DeviceFitImageView back_imv;
     private MainTextView leftTxv;
-    private MainTextView titleTxv;
+    private MainTextView title_txv;
     private LinearLayout rightLlay;
     private MainTextView rightTxv;
     private DeviceFitImageView rightImv;
@@ -165,40 +165,17 @@ public class ActivityChangeEmotionFromCall extends PacifyrAppCompactActivity {
 
     public void onSetActionBar() {
         try {
-            actionBarTopLlay = findViewById(R.id.action_bar_top_llay);
-            bottomPanel = findViewById(R.id.bottom_panel);
-            leftLlay = findViewById(R.id.left_llay);
-            backImv = findViewById(R.id.back_imv);
-            leftTxv = findViewById(R.id.left_txv);
-            titleTxv = findViewById(R.id.title_txv);
-            rightLlay = findViewById(R.id.right_llay);
-            rightTxv = findViewById(R.id.right_txv);
-            rightImv = findViewById(R.id.right_imv);
+            back_imv = findViewById(R.id.back_imv);
+            title_txv = findViewById(R.id.title_txv);
+            defSetText(title_txv, getResources().getString(R.string.change_emotion));
 
-            rightImv.setVisibility(View.INVISIBLE);
-            rightTxv.setVisibility(View.VISIBLE);
-            rightLlay.setVisibility(View.GONE);
-            leftTxv.setVisibility(View.INVISIBLE);
-            backImv.setVisibility(View.VISIBLE);
-            titleTxv.setVisibility(View.VISIBLE);
-            leftLlay.setVisibility(View.VISIBLE);
-            defSetText(titleTxv, "Change Emotion");
-            defSetText(rightTxv, "Done");
-            backImv.setImageDrawable(getResources().getDrawable(R.drawable.backarrow));
-            //backImv.setBackgroundResource(R.drawable.leftmen);
-            leftLlay.setOnClickListener(new View.OnClickListener() {
+            back_imv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     onBackPressed();
                 }
             });
 
-            rightLlay.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //Toast.makeText(ActivityChangeEmotionFromCall.this, "Done", Toast.LENGTH_SHORT).show();
-                }
-            });
 
 
         } catch (Exception ex) {

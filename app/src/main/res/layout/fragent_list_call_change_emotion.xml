@@ -5,7 +5,7 @@
 
     <include
         android:id="@+id/include"
-        layout="@layout/actionbar_three_text_image"
+        layout="@layout/actionbar_grey_back_and_title"
         android:layout_width="match_parent"
         android:layout_height="50dp" />
 
