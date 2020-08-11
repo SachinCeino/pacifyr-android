@@ -27,6 +27,6 @@
         android:textColor="@color/grey_dark"
         android:layout_height="wrap_content"
         android:id="@+id/emotion_ctxv"
-        android:text="Testing"/>
+        android:text=""/>
 
 </LinearLayout>

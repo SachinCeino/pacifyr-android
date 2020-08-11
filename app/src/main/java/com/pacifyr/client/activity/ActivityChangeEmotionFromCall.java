@@ -1,5 +1,6 @@
 package com.pacifyr.client.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,6 +14,7 @@ import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.pacifyr.client.customview.MainTextView;
+import com.pacifyr.client.quickblox.activities.CallActivity;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MListNegativeEmotions;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MListPositiveEmotions;
@@ -28,6 +30,7 @@ import com.pacifyr.client.utility.PacifyrAppCompactActivity;
 import org.json.JSONObject;
 
 import static com.pacifyr.client.network.NetworkService.GLOBAL_URL;
+import static com.pacifyr.client.quickblox.activities.CallActivity.isCallActive;
 
 
 public class ActivityChangeEmotionFromCall extends PacifyrAppCompactActivity {
@@ -186,7 +189,7 @@ public class ActivityChangeEmotionFromCall extends PacifyrAppCompactActivity {
             leftLlay.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    finish();
+                    onBackPressed();
                 }
             });
 
@@ -204,4 +207,14 @@ public class ActivityChangeEmotionFromCall extends PacifyrAppCompactActivity {
     }
 
 
+    @Override
+    public void onBackPressed() {
+        if (isCallActive) {
+            Intent i = new Intent(ActivityChangeEmotionFromCall.this, CallActivity.class);
+            i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            startActivity(i);
+        }
+        finish();
+
+    }
 }

@@ -952,10 +952,16 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
         // actionBar.show();
         actionBar.hide();
         info_overlay_llay.setVisibility(View.VISIBLE);
-        emotion_rlay.setVisibility(View.GONE);
         call_overlay.setVisibility(View.VISIBLE);
         userRlay.setVisibility(View.VISIBLE);
         call_layout.setVisibility(View.VISIBLE);
+        if(call_overlay.getOrientation() == LinearLayout.VERTICAL)
+        {
+            emotion_rlay.setVisibility(View.VISIBLE);
+        }
+        else {
+            emotion_rlay.setVisibility(View.GONE);
+        }
         if (getActivity() instanceof PacifyrActivity) {
             if (((PacifyrActivity) getActivity()).hasBillingStarted()) {
                 billingStatus.setVisibility(View.VISIBLE);
