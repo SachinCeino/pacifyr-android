@@ -1,5 +1,6 @@
 package com.pacifyr.client.quickblox.fragments;
 
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -91,6 +92,7 @@ import java.util.Map;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL;
+import static androidx.recyclerview.widget.LinearLayoutManager.VERTICAL;
 import static com.pacifyr.client.network.NetworkService.GLOBAL_IMAGE_URL;
 
 /*import com.quickblox.videochat.webrtc.BaseSession;*/
@@ -1756,6 +1758,7 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
         }
     }
 
+    @SuppressLint("WrongConstant")
     private void showToolBarAndButtons() {
         // actionBar.show();
         actionBar.hide();
@@ -1765,7 +1768,13 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
         emotion_rlay.setVisibility(View.GONE);
         call_overlay.setVisibility(View.VISIBLE);
         userRlay.setVisibility(View.VISIBLE);
-
+        if (call_overlay.getVisibility() == LinearLayout.VERTICAL)
+        {
+            emotion_rlay.setVisibility(View.VISIBLE);
+        }
+        else {
+            emotion_rlay.setVisibility(View.GONE);
+        }
         localVideoView.setVisibility(View.VISIBLE);
         if (getActivity() instanceof PacifyrActivity) {
             if (((PacifyrActivity) getActivity()).hasBillingStarted()) {
