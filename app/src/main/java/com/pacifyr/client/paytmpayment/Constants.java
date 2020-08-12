@@ -18,9 +18,9 @@ public class Constants {
     public static final String CALLBACK_URL = "https://securegw-stage.paytm.in/theia/paytmCallback?ORDER_ID=";
 
     //  PROD CREDENTIAL
-    public static final String PROD_M_ID = "emCqhm26765949296735"; //Paytm Merchand Id we got it in paytm credentials
+    public static final String PROD_M_ID = "Pacify79411204626683"; //Paytm Merchand Id we got it in paytm credentials
     public static final String PROD_CHANNEL_ID = "WAP"; //Paytm Channel Id, got it in paytm credentials
-    public static final String PROD_INDUSTRY_TYPE_ID = "Retail"; //Paytm industry type got it in paytm credential
+    public static final String PROD_INDUSTRY_TYPE_ID = "ECommerce"; //Paytm industry type got it in paytm credential
 
     public static final String PROD_WEBSITE = "DEFAULT";
 
