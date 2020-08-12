@@ -97,7 +97,7 @@ public class AppointmentsFragment extends BaseFragment {
                         if (isValid(json))
                         {
                             mAppointmentModel = GsonUtils.getInstance().gsonToAppointmentModel(json);
-                            if (isValid(mAppointmentModel.getResults())) {
+                            if (isValidSize(mAppointmentModel.getResults())) {
                                 emptyLayout.setVisibility(View.GONE);
                                 mRecyclerViewAppointments.setVisibility(View.VISIBLE);
                                 setAppointmentListAdapter(mAppointmentModel.getResults());
@@ -221,15 +221,6 @@ public class AppointmentsFragment extends BaseFragment {
         mRecyclerViewAppointments = root.findViewById(R.id.mRecyclerViewAppointments);
         emptyLayout=root.findViewById(R.id.emptyLayout);
         getAppointmentsList();
-        emptyLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                UserDashboardFragment fragment=new UserDashboardFragment();
-                ((DashboardActivity)getActivity()).showFragment(fragment);
-
-            }
-        });
         return root;
     }
 
