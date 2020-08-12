@@ -12,6 +12,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
@@ -50,6 +51,7 @@ public class AppointmentsFragment extends BaseFragment {
     private int reSchedulePosition;
     private AppointmentModel.Result mObject;
     private TextView emptyLayout;
+    private SwipeRefreshLayout swiperefresh;
 
     public int getReSchedulePosition() {
         return reSchedulePosition;
@@ -83,7 +85,8 @@ public class AppointmentsFragment extends BaseFragment {
 
         try {
             setLoading();
-            showProgress();
+//            showProgress();
+            swiperefresh.setRefreshing(true);
             mPrefManager = PrefManager.getInstance(getContext());
             String token = mPrefManager.getAccessToken();
             String url = GLOBAL_URL + "schedule/user/" + mPrefManager.getUserID() + "/bookings?skip=0&limit=100";
@@ -91,9 +94,11 @@ public class AppointmentsFragment extends BaseFragment {
             AjaxCallback cb = new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, JSONObject json, AjaxStatus status) {
+                    swiperefresh.setRefreshing(false);
                     try {
-                        hideProgress();
+//                        hideProgress();
                         hideStatus();
+
                         if (isValid(json))
                         {
                             mAppointmentModel = GsonUtils.getInstance().gsonToAppointmentModel(json);
@@ -219,6 +224,7 @@ public class AppointmentsFragment extends BaseFragment {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_appointments, container, false);
         mRecyclerViewAppointments = root.findViewById(R.id.mRecyclerViewAppointments);
+        swiperefresh = root.findViewById(R.id.swiperefresh);
         emptyLayout=root.findViewById(R.id.emptyLayout);
         getAppointmentsList();
         return root;
@@ -228,6 +234,12 @@ public class AppointmentsFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        swiperefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getAppointmentsList();
+            }
+        });
     }
 
     @Override
