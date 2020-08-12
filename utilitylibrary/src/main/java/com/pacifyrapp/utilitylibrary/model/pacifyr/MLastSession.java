@@ -57,6 +57,15 @@ public class MLastSession {
     private String aggregationSessionId;
 
     private String customerRating;
+    private String reasonForTheCall;
+
+    public String getReasonForTheCall() {
+        return reasonForTheCall;
+    }
+
+    public void setReasonForTheCall(String reasonForTheCall) {
+        this.reasonForTheCall = reasonForTheCall;
+    }
 
     public MSessionRating[] getSessionRatings ()
     {

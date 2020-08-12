@@ -541,6 +541,15 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
             else {
                 defSetText(reason_ctxv, CallActivity.mSessionDetailRoot.getReasonForTheCall());
             }
+                if (!isValid(reason_ctxv.getText()))
+                {
+                    if (isValid(getPrefManager().getReasonFortheCall()))
+                    {
+                        reason_ctxv.setText(getPrefManager().getReasonFortheCall());
+                    }
+
+                }
+
 
             if(isValid( actionBar))
                 actionBar.hide();

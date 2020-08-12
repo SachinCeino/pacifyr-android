@@ -44,6 +44,7 @@ public class PrefManager {
     public static final String TYPE = "Type";
     public static final String WEBURL = "webUrl";
     public static final String COMPANY_ID = "companyID";
+    public static final String REASON_FOR_THE_CALL = "reaonForTheCall";
     public static final String COMPANY_LOGO = "companyLogo";
     public static final String IS_ONLINE = "isOnline";
     public static final String IS_CHAT_SUBSCRIPTION = "isChatEnable";
@@ -215,6 +216,17 @@ public class PrefManager {
     {
         putSharedString(COMPANY_ID,id);
 
+    }
+
+    public void saveReasonFortheCall(String  reason)
+    {
+        putSharedString(REASON_FOR_THE_CALL,reason);
+
+    }
+
+    public String getReasonFortheCall()
+    {
+        return getSharedString(REASON_FOR_THE_CALL,"");
     }
 
     public void saveCustomerRole(String  role)

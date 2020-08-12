@@ -20,6 +20,8 @@ import com.androidquery.callback.AjaxStatus;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.pacifyr.client.R;
+import com.pacifyr.client.adapter.EmotionSpecialityAdapter;
+import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.home.ConnectToPacifyrActivity;
@@ -38,6 +40,7 @@ import com.pacifyr.client.utility.BaseFragment;
 import com.pacifyr.client.utility.EventMessage;
 import com.pacifyr.client.utils.Utility;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.MEmotion;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelCustomerDashboard2;
 import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
@@ -485,7 +488,28 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                 final MUser[] pfc = modelCustomerDashboard2.getPreferredPacifyrs();
                 ModelCustomerDashboard2.ThisWeekStatistics lastWeek = modelCustomerDashboard2.getThisWeekStatistics();
                 lastSession = modelCustomerDashboard2.getLastSession();
+                try {
+                    if (isValid(lastSession.getReasonForTheCall()))
+                    {
+                        getPrefManager().saveReasonFortheCall(lastSession.getReasonForTheCall());
+                        EmotionSpecialityAdapter.reason_forcall = lastSession.getReasonForTheCall();
+
+                    }
+                }catch(Exception e)
+                {
+
+                }
                 if(isValid(modelCustomerDashboard2.getUser().getEmotion())){
+
+                    try {
+                        PacifyrActivity.call_emotion = new MEmotion();
+                        PacifyrActivity.call_emotion.setId(modelCustomerDashboard2.getUser().getEmotion().getId());
+                        PacifyrActivity.call_emotion.setTitle(modelCustomerDashboard2.getUser().getEmotion().getTitle());
+                        PacifyrActivity.call_emotion.setImage(modelCustomerDashboard2.getUser().getEmotion().getImage());
+                    }catch(Exception e)
+                    {
+
+                    }
                     emotionImg =   GLOBAL_IMAGE_URL+modelCustomerDashboard2.getUser().getEmotion().getImage();
                     emotionTitle = modelCustomerDashboard2.getUser().getEmotion().getTitle();
                     EmotionTitle=emotionTitle;
