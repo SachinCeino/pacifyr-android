@@ -5,117 +5,6 @@
     android:id="@+id/fragmentIncomeCall"
     android:background="@color/grey_dark"
     style="@style/MatchParent">
-    <FrameLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
-        android:layout_gravity="end"
-        android:background="@android:color/transparent"
-        android:id="@+id/call_overlay_frame"
-        android:padding="10dp"
-        android:layout_margin="8dp"
-        >
-
-        <ImageView
-            android:id="@+id/toggle_Max_Min"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_gravity="end"
-            android:src="@drawable/overlay_max_min"></ImageView>
-
-        <LinearLayout
-            android:id="@+id/call_overlay"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_below="@+id/toggle_Max_Min"
-            android:layout_marginTop="50dp"
-            android:background="@drawable/call_overlay_background"
-            android:orientation="horizontal"
-            android:padding="5dp">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="5dp">
-
-                <ImageView
-                    android:id="@+id/ImageView_emotion"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/confused" />
-            </LinearLayout>
-
-<!--
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:id="@+id/ImageView_note"
-                android:padding="5dp">
-
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/overlay_note" />
-            </LinearLayout>
--->
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/more_rlay"
-                android:padding="5dp">
-
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/overlay_more" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/certificate_View"
-                android:visibility="gone"
-                android:padding="5dp">
-
-                <ImageView
-                    android:id="@+id/ImageView_kyc"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/overlay_kyc" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/LinearLayout_chat"
-                android:padding="5dp">
-
-                <ImageView
-                    android:id="@+id/ImageView_chat"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/overlay_chat" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/LinearLayout_prescription"
-                android:padding="5dp">
-
-                <ImageView
-                    android:id="@+id/ImageView_prescription"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/overlay_prescription" />
-            </LinearLayout>
-        </LinearLayout>
-
-    </FrameLayout>
 
     <LinearLayout
         android:id="@+id/layout_info_about_call"
@@ -204,7 +93,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:orientation="vertical"
         android:id="@+id/info_overlay_llay"
         android:layout_marginTop="10dp"
@@ -252,7 +141,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="5dp"
                 android:padding="5dp"
@@ -277,7 +166,7 @@
                     android:layout_height="wrap_content" />
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:orientation="vertical"
                     android:gravity="center"
                     android:layout_marginLeft="5dp"
@@ -302,13 +191,13 @@
 
                         <com.pacifyr.client.customview.MainTextView
                             android:id="@+id/emotion_ctxv"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_centerHorizontal="true"
-                            android:singleLine="true"
                             android:textColor="@color/colorPrimary"
                             android:textSize="@dimen/sp13"
                             android:textStyle="bold"
+                            android:text=""
                             android:visibility="visible" />
 
                     </LinearLayout>
@@ -336,7 +225,7 @@
 
                             <com.pacifyr.client.customview.MainTextView
                                 android:id="@+id/reason_ctxv"
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_centerHorizontal="true"
                                 android:singleLine="true"
@@ -354,6 +243,120 @@
 
         </RelativeLayout>
     </LinearLayout>
+
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_gravity="end"
+        android:background="@android:color/transparent"
+        android:id="@+id/call_overlay_frame"
+        android:padding="10dp"
+        android:layout_margin="8dp"
+        >
+
+        <ImageView
+            android:id="@+id/toggle_Max_Min"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="end"
+            android:src="@drawable/overlay_max_min"></ImageView>
+
+        <LinearLayout
+            android:id="@+id/call_overlay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/toggle_Max_Min"
+            android:layout_marginTop="50dp"
+            android:background="@drawable/call_overlay_background"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp">
+
+                <ImageView
+                    android:id="@+id/ImageView_emotion"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/confused" />
+            </LinearLayout>
+
+            <!--
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"
+                            android:id="@+id/ImageView_note"
+                            android:padding="5dp">
+
+                            <ImageView
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:src="@drawable/overlay_note" />
+                        </LinearLayout>
+            -->
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/more_rlay"
+                android:padding="5dp">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/overlay_more" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/certificate_View"
+                android:visibility="gone"
+                android:padding="5dp">
+
+                <ImageView
+                    android:id="@+id/ImageView_kyc"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/overlay_kyc" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/LinearLayout_chat"
+                android:padding="5dp">
+
+                <ImageView
+                    android:id="@+id/ImageView_chat"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/overlay_chat" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/LinearLayout_prescription"
+                android:padding="5dp">
+
+                <ImageView
+                    android:id="@+id/ImageView_prescription"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/overlay_prescription" />
+            </LinearLayout>
+        </LinearLayout>
+
+    </FrameLayout>
+
 
     <include
         layout="@layout/view_outgoing_screen"
