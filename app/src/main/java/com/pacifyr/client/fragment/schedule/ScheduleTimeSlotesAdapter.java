@@ -131,20 +131,22 @@ public class ScheduleTimeSlotesAdapter extends RecyclerView.Adapter<ScheduleTime
     private String convertTime(String time) {
 
         if (time.equals("12:00")){
-            return "12:00 PM";}
+            return "12:00 pm";}
         else if (time.equals("12:30")){
-            return "12:30 PM";}
+            return "12:30 pm";}
         else {
             SimpleDateFormat sdf = new SimpleDateFormat("hh:mm:ss");
             SimpleDateFormat sdfs = new SimpleDateFormat("hh:mm a");
+
             Date dt = null;
             try {
                 dt = sdf.parse(time + ":00");
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-
-            return sdfs.format(dt);
+            String d= sdfs.format(dt);;
+            d = d.replace("AM", "am").replace("PM","pm");
+            return d;
         }
     }
 
