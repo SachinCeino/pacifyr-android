@@ -91,6 +91,7 @@
                     android:id="@+id/TextView_cancelled"
                     android:textAllCaps="false"
                     android:visibility="gone"
+                    android:textSize="16sp"
                     android:textColor="@color/colorPrimary"
                      />
                 <com.pacifyr.client.customview.MainTextView
@@ -100,6 +101,9 @@
                     android:text="Rejected"
                     android:visibility="gone"
                     android:id="@+id/TextView_Rejected"
+                    android:drawablePadding="3dp"
+                    android:textSize="16sp"
+                    android:drawableLeft="@drawable/png_reject"
                     android:textColor="@color/red"
                     />
             </LinearLayout>

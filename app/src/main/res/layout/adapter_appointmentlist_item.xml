@@ -84,9 +84,20 @@
                 android:gravity="left"
                 android:visibility="gone"
                 android:layout_marginTop="3dp"
-                android:textSize="13sp"
+                android:textSize="16sp"
                 android:ellipsize="end"
                 android:maxLines="3"
+                />
+            <com.pacifyr.client.customview.MainTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cancelled"
+                android:layout_marginTop="3dp"
+                android:id="@+id/TextView_cancelled"
+                android:textAllCaps="false"
+                android:visibility="gone"
+                android:textSize="16sp"
+                android:textColor="@color/colorPrimary"
                 />
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -128,11 +139,14 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_marginRight="5dp"
-                    android:text="Reason"
+                    android:text="Rejected"
+                    android:textSize="16sp"
                     android:id="@+id/mButton_RejestReason"
                     android:textAllCaps="false"
+                    android:drawablePadding="3dp"
                     android:visibility="gone"
-                    android:textColor="@color/colorPrimary"
+                    android:drawableLeft="@drawable/png_reject"
+                    android:textColor="@color/red"
                      />
 
                 <Button
