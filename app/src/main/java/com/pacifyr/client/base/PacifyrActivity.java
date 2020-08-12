@@ -141,8 +141,12 @@ import java.io.FileDescriptor;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -3741,7 +3745,10 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
                             TextView text_amount_charged = view.findViewById(R.id.text_amount_charged);
                             try {
                                 transactionId.setText(object.getTransactionId());
-                                text_date.setText(transaction_date);
+                                Date c = Calendar.getInstance().getTime();
+                                SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
+                                String formattedDate = df.format(c);
+                                text_date.setText(formattedDate);
 
                                 PrefManager prefM = PrefManager.getInstance(getApplicationContext());
                                 String country = prefM.getCountry();
@@ -3815,7 +3822,11 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
                             TextView text_amount_charged = view.findViewById(R.id.text_amount_charged);
                             try {
                                 transactionId.setText(object.getTransactionId());
-                                text_date.setText(transaction_date);
+
+                                Date c = Calendar.getInstance().getTime();
+                                SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
+                                String formattedDate = df.format(c);
+                                text_date.setText(formattedDate);
 
                                 PrefManager prefM = PrefManager.getInstance(getApplicationContext());
                                 String country = prefM.getCountry();
@@ -4178,7 +4189,7 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
 
             if (isValid(mAppointmentModel.getStartTimeGMT()))
             {
-                String mDisplayDateAndTime = Utility.getDateAndTimeForAppointmentList(mAppointmentModel.getStartTimeGMT());
+                String mDisplayDateAndTime = Utility.getStartFormatDate(mAppointmentModel.getStartTimeGMT(),PacifyrActivity.this);
                 mTextView_ScheduleTime.setText(mDisplayDateAndTime+"");
             }
 

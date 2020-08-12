@@ -228,7 +228,7 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
                 /** if previous wee is loaded
                  * the the current date is passed**/
 
-
+                noDataAvailable.setVisibility(GONE);
                 getWeakScheduleList();
 
             }
@@ -255,6 +255,7 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
 
                 if (isValid(disaplay_date))
                     tv_week_display.setText(disaplay_date);
+                noDataAvailable.setVisibility(GONE);
                 getWeakScheduleList();
             }
         });
