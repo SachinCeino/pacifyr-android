@@ -147,6 +147,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
     public static void start(Context context,boolean isNeedToOpenAppointments) {
         Intent intent = new Intent(context, DashboardActivity.class);
         intent.putExtra("isNeedToOpenAppointments",isNeedToOpenAppointments);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
         context.startActivity(intent);
     }
     // private PermissionsChecker checker;
@@ -947,6 +948,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         Log.w("APPOINMETNOTI","DashboardActivty");
+
     }
 }
 

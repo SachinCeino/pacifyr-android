@@ -137,6 +137,14 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<AppointmentsLi
                                 holder.TextView_cancelled.setVisibility(View.VISIBLE);
                                 holder.ImageView_PrevistNote.setVisibility(View.GONE);
                             }
+                            else if (isValid(mObject.getConfirmed())&&mObject.getConfirmed()
+                                    && isValid(mObject.getCompleted())&&mObject.getCompleted())
+                            {
+                                holder.call_layout.setVisibility(View.GONE);
+                                holder.ImageView_PrevistNote.setVisibility(View.VISIBLE);
+                                holder.mTextView_Completed.setVisibility(View.VISIBLE);
+                                holder.accepted_textView.setVisibility(View.GONE);
+                            }
                             else
                             {
                                 holder.mButton_Cancel.setVisibility(View.GONE);
@@ -152,6 +160,14 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<AppointmentsLi
                             else
                             {
                                 holder.accepted_textView.setVisibility(View.VISIBLE);
+                                if (isValid(mObject.getConfirmed())&&mObject.getConfirmed()
+                                        && isValid(mObject.getCompleted())&&mObject.getCompleted())
+                                {
+                                    holder.call_layout.setVisibility(View.GONE);
+                                    holder.ImageView_PrevistNote.setVisibility(View.VISIBLE);
+                                    holder.mTextView_Completed.setVisibility(View.VISIBLE);
+                                    holder.accepted_textView.setVisibility(View.GONE);
+                                }
                             }
 
                             holder.videocall_rlay.setOnClickListener(new View.OnClickListener() {
@@ -251,8 +267,10 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<AppointmentsLi
             else if (isValid(mObject.getConfirmed())&&mObject.getConfirmed()
             && isValid(mObject.getCompleted())&&mObject.getCompleted())
             {
-                holder.mButton_Cancel.setText("Completed");
+                //complted
+                holder.mTextView_Completed.setVisibility(View.VISIBLE);
                 holder.mButton_RejestReason.setVisibility(View.GONE);
+                holder.mButton_Cancel.setVisibility(View.GONE);
 
             }
 
@@ -398,7 +416,7 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<AppointmentsLi
         private ImageView ImageView_PrevistNote;
         private LinearLayout mainLayout,call_layout;
         private RelativeLayout videocall_rlay,audiocall_rlay,chat_rlay;
-        private TextView accepted_textView,TextView_cancelled;
+        private TextView accepted_textView,TextView_cancelled,mTextView_Completed;
 
 
         public ViewHolder(View itemView) {
@@ -418,6 +436,7 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<AppointmentsLi
             mTextView_warning_Confirm = itemView.findViewById(R.id.mTextView_warning_Confirm);
             accepted_textView = itemView.findViewById(R.id.accepted_textView);
             TextView_cancelled = itemView.findViewById(R.id.TextView_cancelled);
+            mTextView_Completed = itemView.findViewById(R.id.mTextView_Completed);
 
         }
     }
