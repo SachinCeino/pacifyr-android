@@ -1299,7 +1299,10 @@ Log.w("WWW","onCreate");
                                                     paytmOrderId = mSchedulePayment.getBookingRequestPayment().getId();
                                                 }
                                                 if (isValid(paytmOrderId)) {
-                                                        bookingRequestPaymentId = paytmOrderId+System.currentTimeMillis();
+
+                                                    bookingRequestPaymentId = paytmOrderId;
+                                                    if (errorCount != 0)
+                                                        bookingRequestPaymentId = bookingRequestPaymentId + "_" + errorCount;
                                                         ((PacifyrActivity) getActivity()).generateCheckSum(bookingRequestPaymentId, Integer.parseInt(pacifyer_obj.getPrice()));
 
 
