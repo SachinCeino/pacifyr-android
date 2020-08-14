@@ -1769,7 +1769,7 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
         emotion_rlay.setVisibility(View.GONE);
         call_overlay.setVisibility(View.VISIBLE);
         userRlay.setVisibility(View.VISIBLE);
-        if (call_overlay.getVisibility() == LinearLayout.VERTICAL)
+        if (call_overlay.getOrientation() == LinearLayout.VERTICAL)
         {
             emotion_rlay.setVisibility(View.VISIBLE);
         }
