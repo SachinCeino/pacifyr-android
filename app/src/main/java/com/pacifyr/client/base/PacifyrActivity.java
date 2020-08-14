@@ -3745,10 +3745,16 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
                             TextView text_amount_charged = view.findViewById(R.id.text_amount_charged);
                             try {
                                 transactionId.setText(object.getTransactionId());
-                                Date c = Calendar.getInstance().getTime();
-                                SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
-                                String formattedDate = df.format(c);
-                                text_date.setText(formattedDate);
+                                Calendar c = Calendar.getInstance();
+                                SimpleDateFormat targetFormat;
+                                if (getPrefManager().getCountry().equals("India")) {
+                                    targetFormat = new SimpleDateFormat("dd-MM-yyyy'  'hh:mm a", Locale.ENGLISH);
+                                } else {
+                                    targetFormat = new SimpleDateFormat("MM-dd-yyyy'  'hh:mm a", Locale.ENGLISH);
+                                }
+                                String strDate = targetFormat.format(c.getTime());
+                                strDate.replace("AM", "am").replace("PM","pm");
+                                text_date.setText(strDate.toLowerCase());
 
                                 PrefManager prefM = PrefManager.getInstance(getApplicationContext());
                                 String country = prefM.getCountry();
@@ -3823,10 +3829,16 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
                             try {
                                 transactionId.setText(object.getTransactionId());
 
-                                Date c = Calendar.getInstance().getTime();
-                                SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
-                                String formattedDate = df.format(c);
-                                text_date.setText(formattedDate);
+                                Calendar c = Calendar.getInstance();
+                                SimpleDateFormat targetFormat;
+                                if (getPrefManager().getCountry().equals("India")) {
+                                    targetFormat = new SimpleDateFormat("dd-MM-yyyy'  'hh:mm a", Locale.ENGLISH);
+                                } else {
+                                    targetFormat = new SimpleDateFormat("MM-dd-yyyy'  'hh:mm a", Locale.ENGLISH);
+                                }
+                                String strDate = targetFormat.format(c.getTime());
+                                strDate.replace("AM", "am").replace("PM","pm");
+                                text_date.setText(strDate.toLowerCase());
 
                                 PrefManager prefM = PrefManager.getInstance(getApplicationContext());
                                 String country = prefM.getCountry();

@@ -65,6 +65,7 @@
                 android:layout_gravity="center"
                 android:gravity="left"
                 android:text=""
+                android:textAllCaps="false"
                 android:padding="5dp"
                 android:textStyle="bold" />
 

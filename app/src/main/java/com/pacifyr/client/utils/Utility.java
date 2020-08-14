@@ -490,7 +490,7 @@ public class Utility {
         if (timeOnly) {
             outFormat = new SimpleDateFormat("hh:mm a");
         } else {
-            outFormat = new SimpleDateFormat("MM-dd-yyyy");
+            outFormat = new SimpleDateFormat("dd-MM-yyyy");
         }
         outFormat.setTimeZone(TimeZone.getDefault());
         Date date = null;
