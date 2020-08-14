@@ -615,6 +615,7 @@ public abstract class BaseConversationFragment extends BaseToolBarFragment imple
                         Log.d(TAG, "File downloaded ");
                         PdfViewer.pdf = loadedFile;
                         Intent intent = new Intent(getActivity(), PdfViewer.class);
+                        intent.putExtra("title",getActivity().getResources().getString(R.string.kyc_document));
                         startActivity(intent);
                     }
 

@@ -1,5 +1,6 @@
 package com.pacifyr.client.utility;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -10,9 +11,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.pacifyr.client.R;
 import com.pacifyr.client.event.AlertTypeEvent;
 import com.pacifyr.client.event.NotifyEvent;
+import com.pacifyr.client.home.CustomerDetailActivity;
+import com.pacifyr.client.quickblox.activities.CallActivity;
 import com.pdfview.PDFView;
 
 import java.io.File;
+
+import static com.pacifyr.client.quickblox.activities.CallActivity.isCallActive;
 
 public class PdfViewer extends PacifyrAppCompactActivity {
 
@@ -44,7 +49,7 @@ public class PdfViewer extends PacifyrAppCompactActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
+              onBackPressed();
             }
         });
     }
@@ -73,5 +78,15 @@ public class PdfViewer extends PacifyrAppCompactActivity {
     @Override
     public void onAlertTypeEvent(AlertTypeEvent event) {
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (isCallActive) {
+            Intent i = new Intent(PdfViewer.this, CallActivity.class);
+            i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            startActivity(i);
+        }
+        finish();
     }
 }
