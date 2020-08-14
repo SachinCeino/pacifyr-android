@@ -328,7 +328,7 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
                             @Override
                             public void onClick(View view) {
 
-                               // CustomerDetailActivity.start(getActivity(),call_particpants_list.get(0));
+                               CustomerDetailActivity.start(getActivity(),call_particpants_list.get(0));
                             }
                         });
 
@@ -353,7 +353,7 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
                             @Override
                             public void onClick(View view) {
 
-                              //  CustomerDetailActivity.start(getActivity(),call_particpants_list.get(1));
+                               CustomerDetailActivity.start(getActivity(),call_particpants_list.get(1));
                             }
                         });
 
@@ -385,7 +385,7 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
                                @Override
                                public void onClick(View view) {
 
-                                  // CustomerDetailActivity.start(getActivity(),muser);
+                                   CustomerDetailActivity.start(getActivity(),muser);
                                }
                            });
 
@@ -415,7 +415,7 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
                                 @Override
                                 public void onClick(View view) {
 
-                                  //  CustomerDetailActivity.start(getActivity(),call_particpants_list.get(1));
+                                  CustomerDetailActivity.start(getActivity(),call_particpants_list.get(1));
                                 }
                             });
 

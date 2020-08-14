@@ -138,15 +138,11 @@
                 android:id="@+id/swipe_lay"
                 android:layout_width="match_parent"
                 android:visibility="gone"
-
                 android:layout_height="match_parent">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:paddingLeft="20dp"
-                    android:paddingRight="20dp"
-                    android:paddingTop="20dp"
                     android:id="@+id/pacifyr_list_rcv"
                     android:layout_below="@+id/past_session_ctxv">
 

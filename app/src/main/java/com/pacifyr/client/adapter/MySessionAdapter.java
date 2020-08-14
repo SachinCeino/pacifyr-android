@@ -113,6 +113,7 @@ public class MySessionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder topholder, final int position) {
         if (topholder != null) {
+
             if (topholder instanceof  MyViewHolder) {
                 MyViewHolder holder = ( MyViewHolder) topholder;
 

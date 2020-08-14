@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -19,6 +20,7 @@ import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.pacifyr.client.customview.MainTextView;
+import com.pacifyr.client.quickblox.activities.CallActivity;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.pacifyrapp.utilitylibrary.FlexLayout;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MEmotion;
@@ -48,6 +50,8 @@ import static com.pacifyr.client.network.NetworkService.GLOBAL_URL;
 import static com.pacifyr.client.network.NetworkService.mPastSessions;
 import static com.pacifyr.client.network.NetworkService.mPastSessionsPaged;
 import static com.pacifyr.client.network.NetworkService.modelAllEmotions;
+import static com.pacifyr.client.quickblox.activities.CallActivity.isCallActive;
+
 public class CustomerDetailActivity extends PacifyrAppCompactActivity {
 
     private LinearLayout topLlay;
@@ -77,7 +81,7 @@ public class CustomerDetailActivity extends PacifyrAppCompactActivity {
 
     private FlexLayout emptyFlay;
     private DeviceFitImageView im;
-    private MainTextView welcomeDtxv, emptyDtxv;
+    private TextView welcomeDtxv, emptyDtxv;
     boolean isBackendError=false;
     ArrayList<MPastSessions.Results> pastsessions_list=new ArrayList<MPastSessions.Results>();
 
@@ -250,7 +254,7 @@ public class CustomerDetailActivity extends PacifyrAppCompactActivity {
             cb.header("Content-Type", "application/json");
             //cb.header("AccessToken",token);
             cb.header("AccessToken",token);
-            url = GLOBAL_URL+"session/customer/all?userId="+custListUser.getId()+"&skip="+skip+"&limit="+limit;
+            url = GLOBAL_URL+"session/pacifyr/all?userId="+custListUser.getId()+"&skip="+skip+"&limit="+limit;
             
             aq.ajax(url,JSONObject.class, cb);
         }
@@ -428,10 +432,7 @@ public class CustomerDetailActivity extends PacifyrAppCompactActivity {
             backImv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-            /*    Intent intent = new Intent(CustomerDetailActivity.this, DashboardActivity.class);
-                startActivity(intent);
-                finish();*/
-                    finish();
+                onBackPressed();
                 }
             });
         }
@@ -481,5 +482,15 @@ public class CustomerDetailActivity extends PacifyrAppCompactActivity {
         }
         //}
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (isCallActive) {
+            Intent i = new Intent(CustomerDetailActivity.this, CallActivity.class);
+            i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            startActivity(i);
+        }
+        finish();
     }
 }

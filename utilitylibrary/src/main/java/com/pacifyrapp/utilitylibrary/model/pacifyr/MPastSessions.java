@@ -118,6 +118,23 @@ public class MPastSessions
         private MUser user;
 
         private String  aggregationSessionId;
+        private boolean billedSession;
+
+        public boolean isDeclined() {
+            return declined;
+        }
+
+        public boolean isMissed() {
+            return missed;
+        }
+
+        public boolean isBilledSession() {
+            return billedSession;
+        }
+
+        public void setBilledSession(boolean billedSession) {
+            this.billedSession = billedSession;
+        }
 
         public String getSessionCost ()
         {
