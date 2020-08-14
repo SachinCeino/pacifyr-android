@@ -634,11 +634,13 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
                     emotion_rlay.setVisibility(View.VISIBLE);
                     ImageView_emotion.setVisibility(View.GONE);
                     call_overlay.setBackgroundColor(Color.TRANSPARENT);
+                    toggle_Max_Min.setImageDrawable(getResources().getDrawable(R.drawable.minimize_));
 
                 }
                 else
                 {
                     call_overlay.setOrientation(LinearLayout.HORIZONTAL);
+                    toggle_Max_Min.setImageDrawable(getResources().getDrawable(R.drawable.maximize_));
                     emotion_rlay.setVisibility(View.GONE);
                     ImageView_emotion.setVisibility(View.VISIBLE);
                     call_overlay.setBackground(getContext().getResources().getDrawable(R.drawable.call_overlay_background));
@@ -1279,10 +1281,9 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
     {
         try
         {
-            if(isValid(status) && status.equals("Connected")) {
-                connectionStatusLocal.setVisibility(View.VISIBLE);
-                defSetText(connectionStatusLocal, status);
-            }
+            connectionStatusLocal.setVisibility(View.VISIBLE);
+            defSetText(connectionStatusLocal, status);
+
         }catch (Exception e)
         {
             e.printStackTrace();

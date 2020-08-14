@@ -59,7 +59,7 @@
             style="@style/WrapContent"
             android:layout_width="wrap_content"
             android:layout_gravity="center"
-            android:layout_margin="@dimen/margin_common"
+            android:layout_margin="10dp"
             android:textColor="@color/white"
             android:textSize="@dimen/text_size"
             android:visibility="invisible" />
@@ -127,7 +127,6 @@
                 android:maxLength="13"
                 android:maxLines="1"
                 android:text="Ringing..."
-                android:visibility="gone"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/blue_button_primary"
                 android:textStyle="normal" />
@@ -185,7 +184,7 @@
                             android:singleLine="true"
                             android:text="Emotion : "
                             android:textColor="@color/colorPrimary"
-                            android:textSize="@dimen/sp13"
+                            android:textSize="@dimen/sp16"
                             android:textStyle="bold"
                             android:visibility="visible" />
 
@@ -195,7 +194,7 @@
                             android:layout_height="wrap_content"
                             android:layout_centerHorizontal="true"
                             android:textColor="@color/colorPrimary"
-                            android:textSize="@dimen/sp13"
+                            android:textSize="@dimen/sp16"
                             android:textStyle="bold"
                             android:text=""
                             android:visibility="visible" />
@@ -219,7 +218,7 @@
                                 android:singleLine="true"
                                 android:text="Cause : "
                                 android:textColor="@color/colorPrimary"
-                                android:textSize="@dimen/sp13"
+                                android:textSize="@dimen/sp16"
                                 android:textStyle="bold"
                                 android:visibility="visible" />
 
@@ -230,7 +229,7 @@
                                 android:layout_centerHorizontal="true"
                                 android:singleLine="true"
                                 android:textColor="@color/colorPrimary"
-                                android:textSize="@dimen/sp13"
+                                android:textSize="@dimen/sp16"
                                 android:textStyle="bold"
                                 android:visibility="visible" />
 
@@ -262,7 +261,7 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_gravity="end"
-            android:src="@drawable/overlay_max_min"></ImageView>
+            android:src="@drawable/maximize_"></ImageView>
 
         <LinearLayout
             android:id="@+id/call_overlay"

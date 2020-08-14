@@ -56,10 +56,24 @@
                 android:textColor="@color/grey_fit"
                 android:layout_height="wrap_content" />
 
+                <TextView
+                    android:id="@+id/connectionStatusLocal"
+                    style="@style/MatchWidth"
+                    android:layout_below="@+id/call_ctxv"
+                    android:layout_marginTop="10dp"
+                    android:maxLength="13"
+                    android:maxLines="1"
+                    android:text="Ringing..."
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/blue_button_primary"
+                    android:textStyle="normal" />
+
+
+
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_marginTop="100dp"
-                android:layout_below="@+id/call_ctxv"
+                android:layout_below="@+id/connectionStatusLocal"
                 android:layout_height="wrap_content">
                 <!--        <com.pacifyrapp.utilitylibrary.DeviceFitImageView
                             android:layout_width="wrap_content"
@@ -90,12 +104,11 @@
                     android:layout_width="wrap_content"
                     android:id="@+id/username_ctxv"
                     android:layout_toRightOf="@+id/user_dimv"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:textSize="@dimen/sp18"
                     android:cursorVisible="false"
                     android:singleLine="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp"
                     android:padding="5dp"
                     android:text=""
                     android:textColor="@color/white"
@@ -143,7 +156,7 @@
                     android:id="@+id/emotion_ctxv"
                     android:layout_centerHorizontal="true"
                     android:visibility="visible"
-                    android:textSize="@dimen/sp13"
+                    android:textSize="@dimen/sp16"
                     android:singleLine="true"
                     android:textStyle="bold"
                     android:text=""
@@ -155,7 +168,7 @@
                     android:id="@+id/reason_ctxv"
                     android:layout_centerHorizontal="true"
                     android:visibility="visible"
-                    android:textSize="@dimen/sp13"
+                    android:textSize="@dimen/sp16"
                     android:singleLine="true"
                     android:textStyle="bold"
                     android:text=""
@@ -171,7 +184,7 @@
             style="@style/WrapContent"
             android:layout_width="wrap_content"
             android:layout_gravity="left"
-            android:layout_margin="@dimen/margin_common"
+            android:layout_margin="10dp"
             android:textColor="@color/white"
             android:textSize="@dimen/text_size"
             android:visibility="invisible" />
@@ -184,26 +197,6 @@
             android:textColor="@color/blue_button_primary"
             android:textSize="@dimen/also_on_call_text_size" />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/connectionStatusLocal"
-                style="@style/MatchWidth"
-                android:layout_marginBottom="@dimen/margin_very_small"
-                android:layout_marginTop="10dp"
-                android:maxLength="13"
-                android:maxLines="1"
-                android:visibility="gone"
-                android:text="Ringing..."
-                android:layout_marginLeft="4dp"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@color/blue_button_primary"
-                android:textStyle="normal" />
-
-
-        </RelativeLayout>
     </LinearLayout>
     <FrameLayout
         android:layout_width="wrap_content"
@@ -222,7 +215,7 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_gravity="end"
-            android:src="@drawable/overlay_max_min"></ImageView>
+            android:src="@drawable/maximize_"></ImageView>
 
         <LinearLayout
             android:id="@+id/call_overlay"

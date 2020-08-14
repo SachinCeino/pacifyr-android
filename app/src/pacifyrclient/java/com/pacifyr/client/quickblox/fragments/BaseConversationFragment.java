@@ -365,6 +365,19 @@ public abstract class BaseConversationFragment extends BaseToolBarFragment imple
     public void startTimer() {
         if (!isStarted) {
             timerChronometer.setVisibility(View.VISIBLE);
+            timerChronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
+
+                @Override
+                public void onChronometerTick(Chronometer chronometer) {
+                    long time = SystemClock.elapsedRealtime() - chronometer.getBase();
+                    int h   = (int)(time /3600000);
+                    int m = (int)(time - h*3600000)/60000;
+                    int s= (int)(time - h*3600000- m*60000)/1000 ;
+                    String t = (h < 10 ? "0"+h: h)+":"+(m < 10 ? "0"+m: m)+":"+ (s < 10 ? "0"+s: s);
+                    chronometer.setText(t);
+                }
+            });
+
             timerChronometer.setBase(SystemClock.elapsedRealtime());
             timerChronometer.start();
             if (isCustomer())
@@ -372,19 +385,7 @@ public abstract class BaseConversationFragment extends BaseToolBarFragment imple
                     if (isValid(NetworkService.mCurrentUser)) {
                         long time = NetworkService.mCurrentUser.getAvailableMinutes();
                         setAvaiableTimer((time * 60) - 15);
-               /* timerChronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
 
-                    @Override
-                    public void onChronometerTick(Chronometer chronometer) {
-                        // TODO Auto-generated method stub
-                        //    chronometer.g
-                        String currentTime = timerChronometer.getText().toString();
-                        if(currentTime.equals("03:00")) //put time according to you
-                        {
-                            chrono.stop();
-                        }
-                    }
-                });*/
                     }
 
 

@@ -311,9 +311,11 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
                     emotion_rlay.setVisibility(View.VISIBLE);
                     ImageView_emotion.setVisibility(View.GONE);
                     call_overlay.setBackground(null);
+                    toggle_Max_Min.setImageDrawable(getResources().getDrawable(R.drawable.minimize_));
                 }
                 else
                 {
+                    toggle_Max_Min.setImageDrawable(getResources().getDrawable(R.drawable.maximize_));
                     call_overlay.setOrientation(LinearLayout.HORIZONTAL);
                     emotion_rlay.setVisibility(View.GONE);
                     ImageView_emotion.setVisibility(View.VISIBLE);
@@ -839,10 +841,8 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
     {
         try
         {
-            if(isValid(status) && status.equals("Connected")) {
-                connectionStatusLocal.setVisibility(View.VISIBLE);
-                defSetText(connectionStatusLocal, status);
-            }
+            connectionStatusLocal.setVisibility(View.VISIBLE);
+        defSetText(connectionStatusLocal, status);
         }catch (Exception e)
         {
             e.printStackTrace();
