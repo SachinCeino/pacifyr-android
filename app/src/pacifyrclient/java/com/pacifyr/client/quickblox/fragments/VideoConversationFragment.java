@@ -815,11 +815,26 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
                  emotion_dimv.setVisibility(View.VISIBLE);
                  Picasso.with(getActivity()).load(NetworkService.GLOBAL_IMAGE_URL + image).placeholder(R.drawable.placeholder_image).into(emotion_dimv);
                Picasso.with(getActivity()).load(NetworkService.GLOBAL_IMAGE_URL + image).placeholder(R.drawable.placeholder_image).into(ImageView_emotion);
+               getPrefManager().saveEmotionImage(image);
              }
             if(isValid(emotion)) {
                 change_Emotion_name=emotion.getId();
                 emotion_ctxv.setVisibility(View.VISIBLE);
                  defSetText(emotion_ctxv,"Emotions: "+emotion.getTitle());
+                getPrefManager().saveEmotionName(emotion.getTitle());
+            }
+            else {
+                if (isValid(getPrefManager().getSavedEmotionImage()))
+                {
+                    emotion_dimv.setVisibility(View.VISIBLE);
+                    Picasso.with(getActivity()).load(GLOBAL_IMAGE_URL + getPrefManager().getSavedEmotionImage()).placeholder(R.drawable.placeholder_image).into(emotion_dimv);
+                    Picasso.with(getActivity()).load(GLOBAL_IMAGE_URL + getPrefManager().getSavedEmotionImage()).placeholder(R.drawable.placeholder_image).into(ImageView_emotion);
+                }
+                if (isValid(getPrefManager().getSavedEmotionName()))
+                {
+                    emotion_ctxv.setVisibility(View.VISIBLE);
+                    defSetText(emotion_ctxv,getPrefManager().getSavedEmotionName());
+                }
             }
 
 
@@ -1722,13 +1737,15 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
                     emotion_dimv.setVisibility(View.VISIBLE);
                     Picasso.with(getActivity()).load(NetworkService.GLOBAL_IMAGE_URL + event.getEmotion().getImage()).placeholder(R.drawable.placeholder_image).into(emotion_dimv);
                     Picasso.with(getActivity()).load(NetworkService.GLOBAL_IMAGE_URL + event.getEmotion().getImage()).placeholder(R.drawable.placeholder_image).into(ImageView_emotion);
-
+                    getPrefManager().saveEmotionImage(event.getEmotion().getImage());
                 }
 
             if (isValid(event.getEmotion().getTitle())) {
                 emotion_ctxv.setVisibility(View.VISIBLE);
                 change_Emotion_name=event.getEmotion().getId();
                 defSetText(emotion_ctxv,"Emotions: "+event.getEmotion().getTitle());
+                getPrefManager().saveEmotionName(event.getEmotion().getTitle());
+
             }
         } catch (Exception e) {
             e.printStackTrace();

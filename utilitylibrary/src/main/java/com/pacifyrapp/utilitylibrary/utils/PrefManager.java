@@ -45,6 +45,8 @@ public class PrefManager {
     public static final String WEBURL = "webUrl";
     public static final String COMPANY_ID = "companyID";
     public static final String REASON_FOR_THE_CALL = "reaonForTheCall";
+    public static final String EMOTION_IMAGE = "emotionImgae";
+    public static final String EMOTION_NAME = "emotionName";
     public static final String COMPANY_LOGO = "companyLogo";
     public static final String IS_ONLINE = "isOnline";
     public static final String IS_CHAT_SUBSCRIPTION = "isChatEnable";
@@ -222,6 +224,26 @@ public class PrefManager {
     {
         putSharedString(REASON_FOR_THE_CALL,reason);
 
+    }
+
+    public void saveEmotionImage(String  reason)
+    {
+        putSharedString(EMOTION_IMAGE,reason);
+
+    }
+    public String getSavedEmotionImage()
+    {
+        return getSharedString(EMOTION_IMAGE,"");
+    }
+    public void saveEmotionName(String  reason)
+    {
+        putSharedString(EMOTION_NAME,reason);
+
+    }
+
+    public String getSavedEmotionName()
+    {
+        return getSharedString(EMOTION_NAME,"");
     }
 
     public String getReasonFortheCall()

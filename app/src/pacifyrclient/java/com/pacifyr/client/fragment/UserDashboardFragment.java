@@ -506,6 +506,8 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                         PacifyrActivity.call_emotion.setId(modelCustomerDashboard2.getUser().getEmotion().getId());
                         PacifyrActivity.call_emotion.setTitle(modelCustomerDashboard2.getUser().getEmotion().getTitle());
                         PacifyrActivity.call_emotion.setImage(modelCustomerDashboard2.getUser().getEmotion().getImage());
+                        getPrefManager().saveEmotionName(modelCustomerDashboard2.getUser().getEmotion().getTitle());
+                        getPrefManager().saveEmotionImage(modelCustomerDashboard2.getUser().getEmotion().getImage());
                     }catch(Exception e)
                     {
 
