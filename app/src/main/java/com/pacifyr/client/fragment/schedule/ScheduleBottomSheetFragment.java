@@ -1,6 +1,7 @@
 package com.pacifyr.client.fragment.schedule;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -18,6 +19,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.androidquery.AQuery;
@@ -28,20 +30,25 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.gdacciaro.iOSDialog.iOSDialog;
+import com.gdacciaro.iOSDialog.iOSDialogClickListener;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.pacifyr.client.R;
+import com.pacifyr.client.adapter.ListSavedCardAdapter;
 import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.BusProvider;
 import com.pacifyr.client.event.InternetConnectionEvent;
+import com.pacifyr.client.home.PaymentActivity;
 import com.pacifyr.client.model.SchedulePayment;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.paytmpayment.TransactionResponce;
 import com.pacifyr.client.quickblox.activities.CallActivity;
 import com.pacifyr.client.quickblox.chat.utils.Consts;
+import com.pacifyr.client.utils.LogUtils;
 import com.pacifyr.client.utils.Utility;
 import com.pacifyrapp.utilitylibrary.CustomFontTextView;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
@@ -68,6 +75,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
+import static com.facebook.appevents.AppEventsLogger.getUserID;
 import static com.pacifyr.client.base.PacifyrActivity.errorCount;
 import static com.pacifyr.client.network.NetworkService.GLOBAL_IMAGE_URL;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
@@ -279,13 +287,13 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
                         //callSlotBookApi(SlotForNextClick);
                     }
                 }
-                else if (txtv_next.getText().equals("Confirm")) {
+                /*else if (txtv_next.getText().equals("Confirm")) {
                     if (isValid(SlotForNextClick)) {
                             //for US customers
                         callSlotBookApiForUS(SlotForNextClick);
                     }
 
-                }
+                }*/
                 else if (txtv_next.getText().equals("Proceed to pay")) {
                     if (isValid(SlotForNextClick)) {
                     //for Indian customers
@@ -293,6 +301,7 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
                     }
 
                 } else if (txtv_next.getText().equals("Done")) {
+
 
                     if (prefM.getCountry().equals("India")||prefM.getCountry().equals("Wakanda")) {
                         callSlotBookApiAfterPaymentSuccess(SlotForNextClick);
@@ -309,6 +318,8 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
 
         return view;
     }
+
+
 
     private void callSlotBookApiAfterPaymentSuccess(Slot singleSlote) {
         if (isValid(singleSlote)) {
@@ -481,10 +492,10 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
 
       //  appointment_date_and_time.setText(Utility.getDateFormatOne(TempScheduleData.getDate() + "") + ", " + Utility.convertTime(slotForNextClick.getStartTime()));
 
-        if (prefM.getCountry().equals("India") || prefM.getCountry().equals("Wakanda"))
+      //  if (prefM.getCountry().equals("India") || prefM.getCountry().equals("Wakanda"))
             txtv_next.setText("Proceed to pay");
-        else
-            txtv_next.setText("Confirm");
+      //  else
+       //     txtv_next.setText("Confirm");
 
         txtv_back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1294,23 +1305,40 @@ Log.w("WWW","onCreate");
                                             {
                                                 /**Call Paytm Activity from here **/
 
+
+
                                                 if (isValid(mSchedulePayment.getBookingRequestPayment() )&& isValid(mSchedulePayment.getBookingRequestPayment().getId()))
                                                 {
                                                     paytmOrderId = mSchedulePayment.getBookingRequestPayment().getId();
                                                 }
-                                                if (isValid(paytmOrderId)) {
+                                                if (prefM.getCountry().equals("India") || prefM.getCountry().equals("Wakanda"))
+                                                {
+                                                    if (isValid(paytmOrderId)) {
 
-                                                    bookingRequestPaymentId = paytmOrderId;
-                                                    String bookingTempId=paytmOrderId;
-                                                    if (errorCount != 0)
-                                                        bookingTempId = bookingTempId + "_" + errorCount;
+                                                        bookingRequestPaymentId = paytmOrderId;
+                                                        String bookingTempId=paytmOrderId;
+                                                        if (errorCount != 0)
+                                                            bookingTempId = bookingTempId + "_" + errorCount;
                                                         ((PacifyrActivity) getActivity()).generateCheckSum(bookingTempId, Integer.parseInt(pacifyer_obj.getPrice()));
 
 
+                                                    }
+                                                    else
+                                                    {
+                                                        Toast.makeText(getActivity(), "Invalid TimeSloteId", Toast.LENGTH_SHORT).show();
+                                                    }
                                                 }
-                                                else
-                                                {
-                                                    Toast.makeText(getActivity(), "Invalid TimeSloteId", Toast.LENGTH_SHORT).show();
+                                                else {
+
+
+                                                    if (isValid(paytmOrderId)) {
+                                                        bookingRequestPaymentId = paytmOrderId;
+                                                        checkIfCardIsAddedOrNot(singleSlote);
+                                                    }
+                                                    else
+                                                    {
+                                                        Toast.makeText(getActivity(), "Invalid TimeSloteId", Toast.LENGTH_SHORT).show();
+                                                    }
                                                 }
                                             }
                                             if (status.equals("error"))
@@ -1381,6 +1409,217 @@ Log.w("WWW","onCreate");
         }
 
     }
+
+    private void checkIfCardIsAddedOrNot(Slot singleSlote) {
+
+        try {
+            LogUtils.LOGD("session", "PA getSavedCardWeb " );
+            PrefManager prefM= PrefManager.getInstance(getActivity());
+            showProgress();
+            String url= NetworkService.GLOBAL_URL+"payment/savedcard/"+prefM.getUserID();
+            AjaxCallback cb = new AjaxCallback<JSONArray>() {
+                @Override
+                public void callback(String url, JSONArray json, AjaxStatus status) {
+                    try {
+                        iOSDialogClickListener listener = new iOSDialogClickListener() {
+                            @Override
+                            public void onClick(iOSDialog dialog) {
+                                Intent i = new Intent(getActivity(), PaymentActivity.class);
+                                startActivity(i);
+                                dialog.dismiss();
+                            }
+                        };
+                        hideProgress();
+                        LogUtils.LOGD("session", "PA getSavedCardWeb callbaack "+json );
+                        if(isValid(json)) {
+                            String jsonString = json.toString();
+                            int l=jsonString.length();
+                            if(l>3) {
+                                LogUtils.LOGD("session", "PA saveCardExist true " );
+                                callSlotBookApiAfterStripeSuccess(singleSlote);
+                            }
+                            else{
+                                ((PacifyrActivity)getActivity()).showIOSDialogOK("","A payment method needs to be set up.","Set up Payment",listener);
+                            }
+                        }else{
+                            ((PacifyrActivity)getActivity()).showIOSDialogOK("","A payment method needs to be set up.","Set up Payment",listener);
+                        }
+                    } catch (Exception e) {
+
+                    }
+                }
+            };
+            AQuery aq = new AQuery(getActivity());
+            cb.header("Content-Type", "application/json");
+            cb.header("AccessToken",prefM.getAccessToken());
+            aq.ajax(url,JSONArray.class, cb);
+        }
+        catch (Exception ex)
+        {
+            hideProgress();
+            ((PacifyrActivity)getActivity()).showIOSDialogOK("","Please try again","OK");
+            LogUtils.LOGD("session","PA getSavedCardWeb exce " + ex.getMessage());
+        }
+
+    }
+
+    private void callSlotBookApiAfterStripeSuccess(Slot singleSlote) {
+
+        if (isValid(singleSlote)) {
+            try {
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("userId", prefM.getUserID());
+                jsonObject.put("timeZoneOffset",Utility.timeZoneOffset());
+                JSONArray jsonArray = new JSONArray();
+                jsonArray.put(singleSlote.getId());
+                jsonObject.put("timeSlotId",jsonArray);
+                if (!isValid(bookingRequestPaymentId))
+                {
+                    Toast.makeText(getActivity(), "Invalid bookingRequestPaymentId", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                jsonObject.put("bookingRequestPaymentId",bookingRequestPaymentId);
+
+
+                try {
+                    String url = NetworkService.GLOBAL_URL + "payment/chargeForAppointment";
+                    PrefManager prefM = PrefManager.getInstance(getActivity());
+                    String token = prefM.getAccessToken();
+                    setLoading();
+                    showProgress();
+                    AjaxCallback cb = new AjaxCallback<JSONObject>() {
+                        @Override
+                        public void callback(String url, JSONObject json, AjaxStatus stat) {
+                            try {
+                                hideProgress();
+                                if (isValid(json)) {
+                                    String jsonS = json.toString();
+                                    String status = null;
+                                    String messsage= null;
+                                    Log.w("QQQQ", jsonS);
+
+                                    if (json.has("status"))
+                                    {
+                                        try {
+                                            status=json.getString("status");
+                                        } catch (JSONException ex) {
+                                            ex.printStackTrace();
+                                        }
+
+                                    }
+                                    if (json.has("message"))
+                                    {
+                                        try {
+                                            messsage=json.getString("message");
+                                        } catch (JSONException ex) {
+                                            ex.printStackTrace();
+                                        }
+
+                                    }
+
+                                    if (json.has("messageExtended"))
+                                    {
+                                        String extendMessage=null;
+                                        try {
+                                            if (isValid(json.getString("messageExtended")))
+                                                extendMessage=json.getString("messageExtended");
+                                            if (!extendMessage.equalsIgnoreCase("null"))
+                                                messsage = extendMessage;
+
+                                        } catch (JSONException ex) {
+                                            ex.printStackTrace();
+                                        }
+
+                                    }
+
+
+                                    if (isValid(status)) {
+
+                                        if (status.equals("success"))
+                                        {
+                                            setStatus("Successfully booked", R.color.md_green_400);
+                                            showStatus();
+                                            new Handler().postDelayed(new Runnable() {
+                                                @Override
+                                                public void run() {
+
+                                                    hideStatus();
+                                                    dismiss();
+                                                }
+                                            }, 2000);
+
+                                        }
+                                        else {
+                                            setStatus(messsage, R.color.md_red_A700);
+                                            showStatus();
+                                            new Handler().postDelayed(new Runnable() {
+                                                @Override
+                                                public void run() {
+
+                                                    hideStatus();
+                                                    hideProgress();
+                                                }
+                                            }, 2000);
+                                        }
+
+                                    } else {
+                                        setStatus(messsage, R.color.md_red_A700);
+                                        showStatus();
+                                        new Handler().postDelayed(new Runnable() {
+                                            @Override
+                                            public void run() {
+
+                                                hideStatus();
+                                                hideProgress();
+                                            }
+                                        }, 2000);
+                                    }
+
+                                } else {
+                                    setStatus("Something went wrong !", R.color.md_red_A700);
+                                    showStatus();
+                                    new Handler().postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+
+                                            hideStatus();
+
+                                        }
+                                    }, 2000);
+                                }
+
+                                    /*if (isValid(TempScheduleData)) {
+                                        webGetTimSlotes(TempScheduleData);
+                                    }
+                                }*/
+
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                hideProgress();
+                            }
+                        }
+                    };
+
+                    AQuery aq = new AQuery(getActivity());
+                    cb.header("Content-Type", "application/json");
+                    cb.header("AccessToken", token);
+                    aq.post(url, jsonObject, JSONObject.class, cb);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Log.w("@@@",String.valueOf(e));
+                }
+
+
+            } catch (Exception e) {
+                Log.w("@@@",String.valueOf(e));
+            }
+
+        }
+
+
+    }
+
+
 
 
     private void callSlotBookApiForUS(Slot singleSlote) {
