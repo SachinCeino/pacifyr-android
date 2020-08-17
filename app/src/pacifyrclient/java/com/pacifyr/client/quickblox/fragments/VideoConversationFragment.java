@@ -620,9 +620,9 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
         userDimv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isValid(getOpponentId())) {
-                    ProfileScreenActivity.start(getActivity(), getOpponentId(), false);
-                }
+                MUser mUser = getCallPacifyr();
+                if (isValid(mUser) && isValid(mUser.getId()))
+                    ProfileScreenActivity.start(getActivity(), mUser.getId(), false);
             }
         });
 

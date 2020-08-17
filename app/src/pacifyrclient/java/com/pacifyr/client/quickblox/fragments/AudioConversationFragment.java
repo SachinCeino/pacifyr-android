@@ -295,9 +295,10 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
         userDimv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isValid(getOpponentId())) {
-                    ProfileScreenActivity.start(getActivity(), getOpponentId(), false);
-                }
+                MUser mUser = getCallPacifyr();
+                if (isValid(mUser) && isValid(mUser.getId()))
+                    ProfileScreenActivity.start(getActivity(), mUser.getId(), false);
+
             }
         });
 
@@ -400,6 +401,11 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
         String mUserId = PrefManager.getInstance(getActivity()).getUserID();
         if (isValid(call_particpants_list)) {
             for (int i = 0; i < call_particpants_list.size(); i++) {
+
+                if (isValid(call_particpants_list.get(i)) && isValid(call_particpants_list.get(i).getId()))
+                {
+
+                }
                 if (!call_particpants_list.get(i).getId().equals(mUserId)) {
                     return call_particpants_list.get(i).getId();
                 }
