@@ -206,6 +206,8 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="change_emotion">Change Emotion</string>
     <string name="no_appointments">No appointments available</string>
     <string name="kyc_document">KYC Document</string>
+    <string name="cancel_appointment">Cancel note</string>
+    <string name="cancelled_reason">Reason for cancel</string>
 
 
 </resources>

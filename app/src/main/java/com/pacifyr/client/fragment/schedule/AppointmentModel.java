@@ -84,6 +84,10 @@ public class AppointmentModel implements Serializable {
         @SerializedName("preVisitNote")
         @Expose
         private Object preVisitNote;
+        @SerializedName("cancelReason")
+        @Expose
+        private Object cancelReason;
+
 
         @SerializedName("confirmed")
         @Expose
@@ -105,6 +109,14 @@ public class AppointmentModel implements Serializable {
         @SerializedName("isCompleted")
         @Expose
         private Boolean isCompleted;
+
+        public Object getCancelReason() {
+            return cancelReason;
+        }
+
+        public void setCancelReason(Object cancelReason) {
+            this.cancelReason = cancelReason;
+        }
 
         public Boolean getisCompleted() {
             return isCompleted;

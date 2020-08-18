@@ -92,6 +92,9 @@
                     android:textAllCaps="false"
                     android:visibility="gone"
                     android:textSize="16sp"
+                    android:drawableLeft="@drawable/svg_add_note_primary"
+                    android:drawableTint="@color/colorPrimary"
+                    android:drawablePadding="3dp"
                     android:textColor="@color/colorPrimary"
                      />
                 <com.pacifyr.client.customview.MainTextView
@@ -103,7 +106,8 @@
                     android:id="@+id/TextView_Rejected"
                     android:drawablePadding="3dp"
                     android:textSize="16sp"
-                    android:drawableLeft="@drawable/png_reject"
+                    android:drawableLeft="@drawable/svg_add_note_primary"
+                    android:drawableTint="@color/red"
                     android:textColor="@color/red"
                     />
             </LinearLayout>

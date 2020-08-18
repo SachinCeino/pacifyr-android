@@ -98,6 +98,9 @@
                 android:textAllCaps="false"
                 android:visibility="gone"
                 android:textSize="16sp"
+                android:drawableLeft="@drawable/svg_add_note_primary"
+                android:drawableTint="@color/colorPrimary"
+                android:drawablePadding="3dp"
                 android:textColor="@color/colorPrimary"
                 />
 
@@ -139,7 +142,8 @@
                 android:textStyle="bold"
                 android:textSize="16sp"
                 android:visibility="gone"
-                android:drawableLeft="@drawable/png_accept"
+                android:drawableTint="@color/bonus_green"
+                android:drawableLeft="@drawable/svg_add_note_primary"
                 android:drawablePadding="5dp"
                 android:textColor="@color/bonus_green">
 
@@ -162,7 +166,8 @@
                     android:textAllCaps="false"
                     android:drawablePadding="3dp"
                     android:visibility="gone"
-                    android:drawableLeft="@drawable/png_reject"
+                    android:drawableLeft="@drawable/svg_add_note_primary"
+                    android:drawableTint="@color/red"
                     android:textColor="@color/red"
                      />
 

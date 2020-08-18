@@ -141,7 +141,7 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<AppointmentsLi
                                     && isValid(mObject.getCompleted())&&mObject.getCompleted())
                             {
                                 holder.call_layout.setVisibility(View.GONE);
-                                holder.ImageView_PrevistNote.setVisibility(View.VISIBLE);
+                                holder.ImageView_PrevistNote.setVisibility(View.GONE);
                                 holder.mTextView_Completed.setVisibility(View.VISIBLE);
                                 holder.accepted_textView.setVisibility(View.GONE);
                             }
@@ -164,7 +164,7 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<AppointmentsLi
                                         && isValid(mObject.getCompleted())&&mObject.getCompleted())
                                 {
                                     holder.call_layout.setVisibility(View.GONE);
-                                    holder.ImageView_PrevistNote.setVisibility(View.VISIBLE);
+                                    holder.ImageView_PrevistNote.setVisibility(View.GONE);
                                     holder.mTextView_Completed.setVisibility(View.VISIBLE);
                                     holder.accepted_textView.setVisibility(View.GONE);
                                 }
@@ -203,6 +203,12 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<AppointmentsLi
                                 if (mObject.getConfirmed()!=null && mObject.getConfirmed())
                                 {
                                     holder.ImageView_PrevistNote.setVisibility(View.VISIBLE);
+                                    if (isValid(mObject.getConfirmed())&&mObject.getConfirmed()
+                                            && isValid(mObject.getCompleted())&&mObject.getCompleted())
+                                    {
+                                        holder.ImageView_PrevistNote.setVisibility(View.GONE);
+                                    }
+
                                 }
                                 else if (mObject.getCancelled()!=null && mObject.getCancelled())
                                 {
@@ -330,6 +336,22 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<AppointmentsLi
                 }
             });
 
+            holder.mTextView_Completed.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (isValid(mObject.getPreVisitNote()))
+                        showPreVistNotPopUp(mObject.getPreVisitNote());
+                }
+            });
+
+            holder.TextView_cancelled.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    if (isValid(mObject.getCancelReason()))
+                        showCancelledNotPopUp(mObject.getCancelReason());
+                }
+            });
         }
 
 
@@ -342,6 +364,27 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<AppointmentsLi
         final TextView message_edt = myView.findViewById(R.id.message_edt);
         final LinearLayout close_layout = myView.findViewById(R.id.close_layout);
         title.setText("Previsit notes");
+        message_edt.setText(preVisitNote.toString());
+        AlertDialog.Builder alert = new AlertDialog.Builder(mContext);
+        alert.setView(myView);
+        // disallow cancel of AlertDialog on click of back button and outside touch
+        alert.setCancelable(false);
+        AlertDialog dialog = alert.create();
+        dialog.show();
+        close_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+    }
+
+    private void showCancelledNotPopUp(Object preVisitNote) {
+        View myView = LayoutInflater.from(mContext).inflate(R.layout.reasons_and_notes_popup, null);
+        final TextView title = myView.findViewById(R.id.title);
+        final TextView message_edt = myView.findViewById(R.id.message_edt);
+        final LinearLayout close_layout = myView.findViewById(R.id.close_layout);
+        title.setText(mContext.getResources().getString(R.string.cancelled_reason));
         message_edt.setText(preVisitNote.toString());
         AlertDialog.Builder alert = new AlertDialog.Builder(mContext);
         alert.setView(myView);

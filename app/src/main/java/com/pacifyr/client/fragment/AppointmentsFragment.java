@@ -7,8 +7,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -176,14 +180,38 @@ public class AppointmentsFragment extends BaseFragment {
 
     private void showBookedSlotCancel(AppointmentModel.Result mObject, int position) {
 
-        ((PacifyrActivity) getActivity()).setAlertStatusInBlue("Cancel Appointment", "Do you want to cancel the Appointment ?", new View.OnClickListener() {
+        View myView = LayoutInflater.from(getActivity()).inflate(R.layout.cancel_appointment, null);
+        final TextView title = myView.findViewById(R.id.title);
+        final EditText message_edt = myView.findViewById(R.id.message_edt);
+        final LinearLayout close_layout = myView.findViewById(R.id.close_layout);
+        final ImageView close_dialogue = myView.findViewById(R.id.close_dialogue);
+        title.setText(getResources().getString(R.string.cancel_appointment));
+        message_edt.setHint("Enter notes");
+        AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+        alert.setView(myView);
+        // disallow cancel of AlertDialog on click of back button and outside touch
+        alert.setCancelable(true);
+        AlertDialog dialog = alert.create();
+        dialog.show();
+        close_layout.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                ((PacifyrActivity) getActivity()).hideStatus();
-
-                callCAncelBookedSlotApi(mObject,position);
+            public void onClick(View view) {
+                String reason = String.valueOf(message_edt.getText());
+                if (isValid(reason))
+                {
+                    mObject.setCancelReason(reason);
+                    callCAncelBookedSlotApi(mObject,position);
+                }
+                dialog.dismiss();
             }
         });
+        close_dialogue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
 
     }
 
@@ -266,6 +294,8 @@ public class AppointmentsFragment extends BaseFragment {
             try {
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put("userId", mPrefManager.getUserID());
+                if (isValid(mObject.getCancelReason()))
+                jsonObject.put("cancelReason", mObject.getCancelReason());
 
                 try {
                     String url = NetworkService.GLOBAL_URL + "schedule/slots/book/cancel/" + mObject.getId();
@@ -405,4 +435,9 @@ public class AppointmentsFragment extends BaseFragment {
 
         }
     }
+
+
+
+
+
 }
