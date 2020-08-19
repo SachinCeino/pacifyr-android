@@ -29,9 +29,11 @@
             android:orientation="vertical">
 
             <com.pacifyr.client.customview.MainTextView
+                android:scrollbars="vertical"
+                android:scrollbarAlwaysDrawVerticalTrack="true"
                 android:id="@+id/etv_notes"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="250dp"
                 android:layout_margin="10dp"
                 android:background="@drawable/rounded_white"
                 android:gravity="top"

@@ -2,6 +2,7 @@ package com.pacifyr.client.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -61,6 +62,7 @@ public class PrescriptionWhileCallFragment extends BaseFragment {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_prescription_while_call, container, false);
         etv_notes = root.findViewById(R.id.etv_notes);
+        etv_notes.setMovementMethod(new ScrollingMovementMethod());
         Bundle bundle = getArguments();
 
         if (isValid(bundle.get("mPrescriptionFile"))) {
