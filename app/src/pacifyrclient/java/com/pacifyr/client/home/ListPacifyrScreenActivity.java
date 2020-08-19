@@ -845,6 +845,7 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
         {
 
             ScheduleBottomSheetFragment bottomSheetFragment = new ScheduleBottomSheetFragment();
+            bottomSheetFragment.setCancelable(false);
             Bundle bundle=new Bundle();
             bundle.putSerializable("OBJECT",pacifyer_obj);
             bottomSheetFragment.setArguments(bundle);

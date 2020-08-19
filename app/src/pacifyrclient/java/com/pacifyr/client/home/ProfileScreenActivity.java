@@ -462,6 +462,7 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
             {
                 if (isValid(getPrefManager().getGENDER()) && isValid(getPrefManager().getZIP())) {
                     ScheduleBottomSheetFragment bottomSheetFragment = new ScheduleBottomSheetFragment();
+                    bottomSheetFragment.setCancelable(false);
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("OBJECT", mpacifyerDetial);
                     bottomSheetFragment.setArguments(bundle);
@@ -474,6 +475,7 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
             else
             {
                 ScheduleBottomSheetFragment bottomSheetFragment = new ScheduleBottomSheetFragment();
+               // bottomSheetFragment.setCancelable(false);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("OBJECT", mpacifyerDetial);
                 bottomSheetFragment.setArguments(bundle);

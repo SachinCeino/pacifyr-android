@@ -1,6 +1,7 @@
 package com.pacifyr.client.fragment.schedule;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -220,7 +221,6 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
                 if (weekNumber<=0)
                 {
                     ll_prev_week.setVisibility(View.INVISIBLE);
-
                 }
                 rcv_week_schedule_.setAdapter(null);
                 rcv_slote_schedule_.setAdapter(null);
@@ -274,13 +274,15 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
             noDataAvailable.setVisibility(VISIBLE);
         }
 
-        nextClick.setOnClickListener(new View.OnClickListener() {
+        txtv_next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 if (txtv_next.getText().equals("Cancel")) {
                     dismiss();
                 } else if (txtv_next.getText().equals("Next")) {
+                    txtv_back.setVisibility(VISIBLE);
+                    txtv_back.setText("Back");
                     rcv_week_schedule_.setVisibility(GONE);
                     if (isValid(SlotForNextClick)) {
                         callAppoinmentConfirmationScreen(SlotForNextClick);
@@ -319,7 +321,32 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
         return view;
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
 
+        txtv_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (txtv_back.getText().equals("Close"))
+                {
+                    dismiss();
+                }
+                else {
+                    firstLayout.setVisibility(VISIBLE);
+                    confirmLayout.setVisibility(View.GONE);
+                    appointmentDoneLayout.setVisibility(GONE);
+                    rcv_week_schedule_.setVisibility(VISIBLE);
+                    txtv_next.setText("Next");
+                    txtv_back.setText("Close");
+                    l1.setVisibility(View.VISIBLE);
+                }
+
+
+            }
+        });
+    }
 
     private void callSlotBookApiAfterPaymentSuccess(Slot singleSlote) {
         if (isValid(singleSlote)) {
@@ -452,7 +479,6 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
     private void callAppoinmentConfirmationScreen(Slot slotForNextClick) {
         firstLayout.setVisibility(GONE);
         confirmLayout.setVisibility(View.VISIBLE);
-        txtv_back.setVisibility(VISIBLE);
         appointmentDoneLayout.setVisibility(GONE);
         ll_prev_week.setVisibility(View.INVISIBLE);
         Glide.with(getActivity())
@@ -497,22 +523,7 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
       //  else
        //     txtv_next.setText("Confirm");
 
-        txtv_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-                firstLayout.setVisibility(VISIBLE);
-                confirmLayout.setVisibility(View.GONE);
-                txtv_back.setVisibility(GONE);
-                appointmentDoneLayout.setVisibility(GONE);
-                ll_prev_week.setVisibility(VISIBLE);
-                rcv_week_schedule_.setVisibility(VISIBLE);
-                txtv_next.setText("Next");
-                l1.setVisibility(View.VISIBLE);
-
-
-            }
-        });
 
     }
 
@@ -1830,5 +1841,6 @@ Log.w("WWW","onCreate");
         hud_progress = KProgressHUD.create(getActivity()).setStyle(KProgressHUD.Style.SPIN_INDETERMINATE).setAnimationSpeed(2).setCancellable(true).setMaxProgress(100).setDimAmount(0.5f);
 
     }
+
 
 }

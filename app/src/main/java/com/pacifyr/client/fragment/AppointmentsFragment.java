@@ -220,6 +220,7 @@ public class AppointmentsFragment extends BaseFragment {
         if (isValid(mObject.getPacifyr())) {
             if (isValid(getPrefManager().getGENDER()) && isValid(getPrefManager().getZIP())) {
                 ScheduleBottomSheetFragment bottomSheetFragment = new ScheduleBottomSheetFragment();
+                bottomSheetFragment.setCancelable(false);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("OBJECT", mObject.getPacifyr());
                 bottomSheetFragment.setArguments(bundle);

@@ -1126,6 +1126,7 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
         {
 
             ScheduleBottomSheetFragment bottomSheetFragment = new ScheduleBottomSheetFragment();
+            bottomSheetFragment.setCancelable(false);
             Bundle bundle=new Bundle();
             bundle.putSerializable("OBJECT",pacifyer_obj);
             bottomSheetFragment.setArguments(bundle);
@@ -1173,4 +1174,6 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
         EventBus.getDefault().register(this);
 
     }
+
+
 }
