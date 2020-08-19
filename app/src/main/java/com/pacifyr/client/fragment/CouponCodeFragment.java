@@ -65,7 +65,7 @@ public class CouponCodeFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 if (edit_discount.getText().length() == 0) {
-                    edit_discount.setError(getString(R.string.invalid_coupon_code));
+                    edit_discount.setError(getString(R.string.please_enter_a_valid_coupon_code));
                     edit_discount.requestFocus();
                     return;
                 }
@@ -115,18 +115,19 @@ public class CouponCodeFragment extends BaseFragment {
                                                             @Override
                                                             public void onClick(iOSDialog dialog) {
                                                                 dialog.dismiss();
+                                                                ((DashboardActivity)getActivity()).showFragment(new UserDashboardFragment());
                                                             }
                                                         });
 
 
                                                 }
                                             } else {
-                                                Toast.makeText(getActivity(), "Something went wrong. Please try again later", Toast.LENGTH_LONG).show();
+                                                Toast.makeText(getActivity(), getResources().getString(R.string.invalid_coupon_code), Toast.LENGTH_LONG).show();
                                             }
 
 
                                         } catch (Exception e) {
-                                            Toast.makeText(getActivity(), "Something went wrong. Please try again later", Toast.LENGTH_LONG).show();
+                                            Toast.makeText(getActivity(),  getResources().getString(R.string.invalid_coupon_code), Toast.LENGTH_LONG).show();
                                             e.printStackTrace();
                                         }
                                     }

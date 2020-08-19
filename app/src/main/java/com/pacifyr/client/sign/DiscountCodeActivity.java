@@ -62,7 +62,7 @@ public class DiscountCodeActivity extends PacifyrAppCompactActivity {
             @Override
             public void onClick(View v) {
                 if (edit_discount.getText().length() == 0) {
-                    edit_discount.setError(getString(R.string.invalid_coupon_code));
+                    edit_discount.setError(getString(R.string.please_enter_a_valid_coupon_code));
                     return;
                 }
                 edit_discount.setError(null);
@@ -111,12 +111,12 @@ public class DiscountCodeActivity extends PacifyrAppCompactActivity {
                                                     }
                                                 }
                                             } else {
-                                                Toast.makeText(DiscountCodeActivity.this, "Something went wrong. Please try again later", Toast.LENGTH_LONG).show();
+                                                Toast.makeText(DiscountCodeActivity.this, getResources().getString(R.string.invalid_coupon_code), Toast.LENGTH_LONG).show();
                                             }
 
 
                                         } catch (Exception e) {
-                                            Toast.makeText(DiscountCodeActivity.this, "Something went wrong. Please try again later", Toast.LENGTH_LONG).show();
+                                            Toast.makeText(DiscountCodeActivity.this, getResources().getString(R.string.invalid_coupon_code), Toast.LENGTH_LONG).show();
                                             e.printStackTrace();
                                         }
                                     }
