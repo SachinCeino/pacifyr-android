@@ -93,7 +93,7 @@ public class AppointmentsFragment extends BaseFragment {
             swiperefresh.setRefreshing(true);
             mPrefManager = PrefManager.getInstance(getContext());
             String token = mPrefManager.getAccessToken();
-            String url = GLOBAL_URL + "schedule/user/" + mPrefManager.getUserID() + "/bookings?skip=0&limit=100";
+            String url = GLOBAL_URL + "schedule/user/" + mPrefManager.getUserID() + "/bookings?skip=0&limit=30";
 
             AjaxCallback cb = new AjaxCallback<JSONObject>() {
                 @Override
