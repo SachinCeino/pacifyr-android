@@ -772,8 +772,10 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
             String image=null;
             MEmotion emotion=null;
             if(isCustomer()) {
-                emotion= PacifyrActivity.call_emotion;
-                image= PacifyrActivity.call_emotion.getImage();
+                if (isValid(PacifyrActivity.call_emotion)){
+                    emotion= PacifyrActivity.call_emotion;
+                    image= PacifyrActivity.call_emotion.getImage();
+                }
                 call_particpants_list=new ArrayList<MUser>();
                 call_particpants_list.add( convertModel(NetworkService.mCurrentUser));
                 call_particpants_list.add(CallActivity.mPacifyr);
