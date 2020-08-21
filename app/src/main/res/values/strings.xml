@@ -53,7 +53,7 @@
     <string name="certificates">Certificates</string>
     <string name="specialities">Specialities</string>
     <string name="upload_documents">Upload Documents</string>
-    <string name="upload_kyc_documents">Upload KYC Documents</string>
+    <string name="upload_kyc_documents">Identity Document</string>
     <string name="document_upload_instruction">JPG, PNG or PDF format only maximum file size -5MB</string>
     <string name="request">Request</string>
     <string name="year">Year</string>
@@ -209,6 +209,6 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="cancel_appointment">Cancel note</string>
     <string name="cancelled_reason">Reason for cancel</string>
     <string name="please_enter_a_valid_coupon_code">Please enter valid coupon code</string>
-
+    <string name="upload"><u>Upload</u></string>
 
 </resources>

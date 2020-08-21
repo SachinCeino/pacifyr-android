@@ -217,9 +217,10 @@ public class RegisterActivity extends PacifyrActivity {
     private TextView upload_textView;
     private  TextView add_photo_textView;
     private  TextView terms_of_use,privacy_ctxv;
+    private TextView TextView_Upload;
 
     /** docs upload**/
-    private LinearLayout uploadDocLayout;
+    private RelativeLayout uploadDocLayout;
     private EditText upload_docs_ctxv;
     private int FILE_REQUEST=9;
     public static ArrayList<ModelPacifyrDocuments> documentFileList;
@@ -255,6 +256,7 @@ public class RegisterActivity extends PacifyrActivity {
 
 
             upload_layout = findViewById(R.id.upload_layout);
+            TextView_Upload = findViewById(R.id.TextView_Upload);
             upload_textView= findViewById(R.id.upload_textView);
             add_photo_textView = findViewById(R.id.add_photo_textView);
             terms_of_use_cbox_err = findViewById(R.id.terms_of_use_cbox_err);
@@ -441,10 +443,9 @@ public class RegisterActivity extends PacifyrActivity {
                 uploadDocLayout.setVisibility(View.VISIBLE);
             }
 
-            upload_docs_ctxv.setOnClickListener(new View.OnClickListener() {
+            TextView_Upload.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
 
                     startActivityForResult(new Intent(context, UploadActivity.class), FILE_REQUEST);
 

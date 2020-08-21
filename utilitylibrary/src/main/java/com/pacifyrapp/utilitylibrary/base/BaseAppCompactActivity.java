@@ -1180,7 +1180,7 @@ public class BaseAppCompactActivity extends CoreBaseActivity {
         getPrefManager().getCountry().equals("Wakanda"))
         {
             pacifyr_call_intro.setVisibility(View.VISIBLE);
-            SpannableStringBuilder spanTxt = new SpannableStringBuilder("Please visit your Profile page and upload your KYC (PAN/Aadhaar/EPIC/DL) document if you have not done so.\n\n");
+            SpannableStringBuilder spanTxt = new SpannableStringBuilder("Please visit your Profile page and upload your Identity document (PAN/Aadhaar/EPIC/DL) document if you have not done so.\n\n");
             spanTxt.append(Html.fromHtml("<font color=" + getResources().getColor(R.color.black) + "><b>" + "Steps to follow:" + "</b></font>"));
             spanTxt.append("\n\n1. Click on the ");
             spanTxt.append(Html.fromHtml("<font color=" + getResources().getColor(R.color.black) + "><b>" + "Start Call" + "</b></font>"));

@@ -230,55 +230,64 @@
                 android:layout_alignParentEnd="true"
                 android:textColor="@color/white"
                 android:layout_alignParentRight="true" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
+            <RelativeLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/year_edt"
-                android:id="@+id/uploadDocLayout"
                 android:visibility="gone"
-                android:orientation="vertical">
-                <EditText
-                    android:id="@+id/upload_docs_ctxv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:background="@null"
-                    android:drawablePadding="3dp"
-                    android:hint="Upload KYC documents"
-                    android:textColor="@color/black"
-                    android:padding="5dp"
-                    android:textSize="18sp"
-                    android:focusable="false"
-                     />
-
-                <View
-                    android:id="@+id/upload_view"
+                android:id="@+id/uploadDocLayout">
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/signup_view"
-                   />
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <EditText
+                        android:id="@+id/upload_docs_ctxv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp"
+                        android:background="@null"
+                        android:drawablePadding="3dp"
+                        android:hint="@string/upload_kyc_documents"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/black"
+                        android:padding="5dp"
+                        android:textSize="18sp"
+                        android:focusable="false"
+                        />
+                    <TextView
+                        android:id="@+id/upload_instruction_txv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/upload_docs_ctxv"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/document_upload_instruction"
+                        android:textSize="8sp"
+                        tools:ignore="RtlCompat" />
 
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/file_list_rcv"
+                        android:layout_marginTop="24dp"
+                        />
 
-                <TextView
-                    android:id="@+id/upload_instruction_txv"
+                </LinearLayout>
+                <com.pacifyr.client.customview.MainTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/upload_docs_ctxv"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginTop="8dp"
-                    android:text="@string/document_upload_instruction"
-                    android:textSize="8sp"
-                    tools:ignore="RtlCompat" />
+                    android:text="@string/upload"
+                    android:layout_marginTop="26dp"
+                    android:padding="5dp"
+                    android:id="@+id/TextView_Upload"
+                    android:layout_marginRight="10dp"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:gravity="center_horizontal"
+                    ></com.pacifyr.client.customview.MainTextView>
+            </RelativeLayout>
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/file_list_rcv"
-                    android:layout_marginTop="24dp"
-                  />
-
-            </LinearLayout>
 
             <RelativeLayout
                 android:orientation="horizontal"

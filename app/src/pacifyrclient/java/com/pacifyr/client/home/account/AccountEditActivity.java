@@ -19,6 +19,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.cardview.widget.CardView;
@@ -104,7 +105,7 @@ public class AccountEditActivity extends PacifyrAppCompactActivity {
     private int FILE_REQUEST=9;
     private RecyclerView file_list_rcv;
     private RecyclerView.Adapter fileAdapter;
-
+    private TextView TextView_Upload;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,6 +130,7 @@ public class AccountEditActivity extends PacifyrAppCompactActivity {
             upload_docs_ctxv = findViewById(R.id.upload_docs_ctxv);
             documentFileList = new ArrayList<ModelPacifyrDocuments>();
             file_list_rcv = findViewById(R.id.file_list_rcv);
+            TextView_Upload = findViewById(R.id.TextView_Upload);
 
             onSetActionBar();
             onSetValues();
@@ -145,7 +147,7 @@ public class AccountEditActivity extends PacifyrAppCompactActivity {
                 uploadDocLayout.setVisibility(View.VISIBLE);
             }
 
-            upload_docs_ctxv.setOnClickListener(new View.OnClickListener() {
+            TextView_Upload.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
