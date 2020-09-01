@@ -290,13 +290,7 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
 
 
                 if (getSearchQuery().equals("")) {
-                    if (isChecked) {
-                        showAllFlag = true;
-
-                    } else {
-                        showAllFlag = false;
-
-                    }
+                    showAllFlag = isChecked;
                     UpdateSpecialityAdapter(showAllFlag);
                 }
                 else {
@@ -650,7 +644,7 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
             backImv.setVisibility(View.VISIBLE);
             titleTxv.setVisibility(View.VISIBLE);
             leftLlay.setVisibility(View.VISIBLE);
-            defSetText(titleTxv, "PACIFYR");
+            defSetText(titleTxv, getString(R.string.browse_pacifyr));
             Typeface type = Typeface.createFromAsset(getAssets(),getResources().getString(R.string.avantica_bold_header));
             titleTxv.setTypeface(type);
             backImv.setImageDrawable(getResources().getDrawable(R.drawable.backarrow));

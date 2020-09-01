@@ -85,7 +85,7 @@
             <com.pacifyr.client.customview.MainTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="How customer felt"
+                android:text="@string/how_client_felt"
                 android:textSize="12sp"
                 android:layout_marginLeft="10dp"
                 android:textColor="@color/black"

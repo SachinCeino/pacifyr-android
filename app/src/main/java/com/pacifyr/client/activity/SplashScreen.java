@@ -17,9 +17,8 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.pacifyrapp.utilitylibrary.base.BaseAppCompactActivity;
-import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.pacifyr.client.R;
 import com.pacifyr.client.home.DashboardActivity;
 import com.pacifyr.client.home.PacifyrDashboardActivity;
@@ -28,6 +27,9 @@ import com.pacifyr.client.quickblox.services.CallService;
 import com.pacifyr.client.sign.PacifyrTermsPolicyActivity;
 import com.pacifyr.client.sign.SignActivity;
 import com.pacifyr.client.utils.Constants;
+import com.pacifyr.client.utils.Utility;
+import com.pacifyrapp.utilitylibrary.base.BaseAppCompactActivity;
+import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.quickblox.sample.core.utils.SharedPrefsHelper;
 import com.quickblox.users.model.QBUser;
 import com.squareup.picasso.Picasso;
@@ -61,6 +63,8 @@ public class SplashScreen extends BaseAppCompactActivity {
         image_splash = findViewById(R.id.image_splash);
 
 
+        FirebaseAnalytics.getInstance(this);
+        Utility.handleDeepLink(SplashScreen.this, getIntent());
         mSensorService = new CallService(SplashScreen.this);
         mServiceIntent = new Intent(SplashScreen.this, mSensorService.getClass());
         /**place holder issue fix **/

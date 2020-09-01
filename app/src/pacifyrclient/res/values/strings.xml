@@ -31,7 +31,7 @@
 
     <!--new adding-->
     <string name="get_ready_feel_better">Feel better with pacifyr</string>
-    <string name="connect_to_wellness">Connect to wellness/health expert through video, audio or chat.</string>
+    <string name="connect_to_wellness">Connect to provider through video, audio or chat.</string>
     <string name="thirty_free">Free Introductory call time.</string>
     <string name="no_credit_card">Free Introductory call time.</string>
     <string name="if_emergency">If in emergency call 911 or rush to an emergency room.</string>
@@ -42,7 +42,7 @@
     <string name="bussines_agrement">Business Associate Agreement</string>
     <string name="show_all">Show all</string>
     <string name="copyright">Copyright</string>
-    <string name="request_access_for_pacifyrs">Request access for Pacifyrs</string>
+    <string name="request_access_for_pacifyrs">Request access for Providers</string>
     <string name="register_terms_text">I have read, understood and agree to be bound by the</string>
     <string name="education">Education</string>
     <string name="add_education">Add Education</string>
@@ -50,13 +50,13 @@
     <string name="certificates">Certificates</string>
     <string name="specialities">Specialities</string>
     <string name="upload_documents">Upload Documents</string>
-    <string name="document_upload_instruction">JPG, PNG or PDF fromat only maximum file size -5MB</string>
+    <string name="document_upload_instruction">JPG, PNG or PDF format only maximum file size -5MB</string>
     <string name="request">Request</string>
     <string name="year">Year</string>
     <string name="payout">PAYOUT</string>
-    <string name="no_pacifyr">There is no Pacifyr available for selected Category.</string>
+    <string name="no_pacifyr">There is no Provider available for selected Category.</string>
     <string name="educations">Education</string>
-    <string name="user_type_error">This is a counselor account. Please use pacifyr for counselors app to sign in</string>
+    <string name="user_type_error">This is a Provider account. Please use Pacifyr for counselors app to sign in</string>
     <string name="if_emergency2">If there is an emergency, please call 911 or rush to the nearest hospital.</string>
 
     <string name="CRISIS_INFO">CRISIS INFO</string>
@@ -77,7 +77,7 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="samhsa_header">SAMHSA Referral Helpline</string>
     <string name="samhsa_talk">1-800-662-HELP (4357)</string>
     <string name="samhsa_tty">TTY: 1-800-487-4889</string>
-    <string name="samhsa_description">24-hour free and private treatment referal and
+    <string name="samhsa_description">24-hour free and private treatment referral and
         information about mental and/or substance disorders, prevention, and recovery.
         Calls in Englisi and Spanish.</string>
 
@@ -94,14 +94,14 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="resources">RESOURCES</string>
     <string name="start_session">Session Started</string>
 
-    <string name="pacifyr_audio">PACIFYR  AUDIOCALL</string>
-    <string name="pacifyr_video">PACIFYR  VIDEOCALL</string>
+    <string name="pacifyr_audio">AUDIO CALL</string>
+    <string name="pacifyr_video">VIDEO CALL</string>
 
     <string name="have_discount_code">Have a coupon code?</string>
     <string name="skip_this_step">Skip this step</string>
     <string name="validate">Validate</string>
     <string name="user_first_time_emotion">Select your emotion before your call</string>
-    <string name="more_wellness_experts">More wellness experts</string>
+    <string name="more_wellness_experts">More providers</string>
 
 
 
@@ -117,11 +117,11 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="URL_TERMS_INDIA">https://pacifyr.com/Terms_of_Use%20_Clients.pdf</string>
     <string name="URL_DISPUTE_POLICY_INDIA">https://pacifyr.com/Indian_Copyright_Dispute_Policy.pdf</string>
 
-    <string name="audio_call">PACIFYR AUDIO CALL</string>
-    <string name="video_call">PACIFYR VIDEO CALL</string>
-    <string name="pref_wellness_experts">Preferred Wellness Experts</string>
+    <string name="audio_call">AUDIO CALL</string>
+    <string name="video_call">VIDEO CALL</string>
+    <string name="pref_wellness_experts">Preferred providers</string>
     <string name="This_Week">This Week</string>
-    <string name="no_wellness_experts_category">No Pacifyr available for the selected category.</string>
+    <string name="no_wellness_experts_category">No providers available for the selected category.</string>
 
     <string name="note_add_tilte">Add Notes</string>
 

@@ -7,6 +7,7 @@ import android.app.AlertDialog;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -29,6 +30,10 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
+import com.google.firebase.dynamiclinks.PendingDynamicLinkData;
 import com.pacifyr.client.R;
 import com.pacifyr.client.home.DashboardActivity;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
@@ -60,6 +65,7 @@ public class Utility {
 
     private static final int MY_PERMISSIONS_REQUEST_ESSENTIAL = 130;
     public static final int MY_PERMISSIONS_REQUEST_LOCATION_PERMISSION = 131;
+    private static final String TAG = Utility.class.getSimpleName();
     public static int colourcode=2;
 
 
@@ -591,7 +597,7 @@ public class Utility {
             e.printStackTrace();
         }
 
-        String d= sdfs.format(dt);;
+        String d = sdfs.format(dt);
         d = d.replace("AM", "am").replace("PM","pm");
         return d;
     }
@@ -1038,6 +1044,28 @@ public class Utility {
                 e.printStackTrace();
             }
         }
+    }
+
+    public static void handleDeepLink(Activity context, Intent intent) {
+        FirebaseDynamicLinks.getInstance()
+                .getDynamicLink(intent)
+                .addOnSuccessListener(context, new OnSuccessListener<PendingDynamicLinkData>() {
+                    @Override
+                    public void onSuccess(PendingDynamicLinkData pendingDynamicLinkData) {
+                        // Get deep link from result (may be null if no link is found)
+                        Uri deepLink = null;
+                        if (pendingDynamicLinkData != null) {
+                            deepLink = pendingDynamicLinkData.getLink();
+                        }
+                        Log.d(TAG, "deep link " + deepLink);
+                    }
+                })
+                .addOnFailureListener(context, new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w("handleDeepLink", "getDynamicLink:onFailure", e);
+                    }
+                });
     }
 
 }

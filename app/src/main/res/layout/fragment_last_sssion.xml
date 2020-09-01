@@ -173,7 +173,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/how_eff_ctxv"
                 android:layout_centerHorizontal="true"
-                android:text="How effective was the call in solving customer issues"
+                android:text="@string/call_effectiveness"
                 android:textColor="@color/md_grey_user"
                 android:textSize="18sp"/>
 
@@ -269,7 +269,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:text="How were you feeling before the call?"
+                android:text="@string/your_feeling_before_call"
                 android:textColor="@color/md_grey_user"
                 android:textSize="20sp"/>
 

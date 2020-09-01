@@ -24,27 +24,27 @@
     <string name="dollar">$</string>
     <string name="get_sessions_date_range">Get sessions date range</string>
     <string name="earnings_api">Earnings API</string>
-    <string name="get_all_pacifyr_sessions">Get all pacifyr sessions</string>
+    <string name="get_all_pacifyr_sessions">Get all Provider sessions</string>
     <string name="get_saved_cards">Get saved cards</string>
     <string name="get_session_details">Get session details</string>
     <string name="get_session_rating">Get session rating</string>
-    <string name="list_negative_emotions">List neagative emotions</string>
+    <string name="list_negative_emotions">List negative emotions</string>
     <string name="list_positive_emotions">List positive emotions</string>
-    <string name="pacifyr_dashboard">Pacifyr Dashboard</string>
+    <string name="pacifyr_dashboard">Provider Dashboard</string>
     <string name="list_emotions">List emotions</string>
     <string name="list_all_employees">List all employees</string>
     <string name="edit_profile_request">Edit profile request</string>
     <string name="edit_profile_response">Edit profile response</string>
     <string name="post_rate_customer_session">Post rate customer session</string>
-    <string name="post_rate_pacifyr">Rate pacifyr</string>
-    <string name="post_rate_pacifyr_session">Rate pacifyr session</string>
-    <string name="search_pacifyr_with_option_response">Search pacifyr with option response</string>
-    <string name="search_pacifyr_with_option_request">Search pacifyr with option request</string>
+    <string name="post_rate_pacifyr">Rate Provider</string>
+    <string name="post_rate_pacifyr_session">Rate provider session</string>
+    <string name="search_pacifyr_with_option_response">Search provider with option response</string>
+    <string name="search_pacifyr_with_option_request">Search provider with option request</string>
     <string name="post_registration">Post registration</string>
     <string name="stop_session_with_pacifyr">Stop Session With Pacifyr</string>
-    <string name="resp_start_session_with_pacifyr">Response Start Session With Pacifyr</string>
+    <string name="resp_start_session_with_pacifyr">Response Start Session With Provider</string>
     <string name="resp_set_session_as_connected">Set session as connected</string>
-    <string name="start_session_with_pacifyr">Start Session With Pacifyr</string>
+    <string name="start_session_with_pacifyr">Start Session With Provider</string>
 
     <!--//Facebook-->
     <string name="facebook_app_id">180931982441982</string>
@@ -88,11 +88,11 @@
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email completions."</string>
-    <string name="how_you_rate">How do you rate your Pacifyr / Therapist?</string>
+    <string name="how_you_rate">How do you rate your Provider / Therapist?</string>
 
-    <string name="find_helping_pacifyr">Find a Wllness expert who can help you</string>
+    <string name="find_helping_pacifyr">Find a provider who can help you</string>
     <string name="specify_emotion">Specify your emotion</string>
-    <string name="talk_to_wellness_expert">Talk to your Wellness Expert using chat,audio or video</string>
+    <string name="talk_to_wellness_expert">Talk to your provider using chat,audio or video</string>
     <string name="skip">Skip</string>
 
 
@@ -135,9 +135,9 @@
     <string name="upcoming_session">UPCOMING SESSION</string>
     <string name="press_back_again_to_exit">Press back again to exit...!</string>
     <string name="logout">LOGOUT</string>
-    <string name="Connect_to_Wellness_Experts">connect to wellness experts</string>
-    <string name="connect_to_wellness_experts">CONNECT TO WELLNESS EXPERTS</string>
-    <string name="browse_wellness_experts">BROWSE WELLNESS EXPERTS</string>
+    <string name="Connect_to_Wellness_Experts">connect to providers</string>
+    <string name="connect_to_wellness_experts">CONNECT TO PROVIDERS</string>
+    <string name="browse_wellness_experts">BROWSE PROVIDERS</string>
     <string name="SUPPORT">SUPPORT</string>
     <string name="support">support</string>
     <string name="PAYMENT">PAYMENT</string>
@@ -155,11 +155,11 @@
     <string name="status">status</string>
 
 
-    <string name="talk_to_pacifyr">Talk to your Pacifyr using chat,audio or video</string>
+    <string name="talk_to_pacifyr">Talk to your Provider using chat,audio or video</string>
 
-    <string name="connect_pacifyr">CONNECT TO PACIFYRS</string>
-    <string name="browse_pacifyr">BROWSE PACIFYRS</string>
-    <string name="pref_pacifyrs">PREFFERED PACIFYRS</string>
+    <string name="connect_pacifyr">CONNECT TO PROVIDERS</string>
+    <string name="browse_pacifyr">BROWSE PROVIDERS</string>
+    <string name="pref_pacifyrs">PREFERRED PROVIDERS</string>
     <string name="signup">Sign in</string>
 
 
@@ -360,7 +360,7 @@
 
     <string name="missed">Missed</string>
     <string name="declined">Declined</string>
-    <string name="pref_wellness_experts">Preferred Wellness Experts</string>
+    <string name="pref_wellness_experts">Preferred Providers</string>
     <string name="This_Week">This Week</string>
     <string name="opening_location">Location</string>
     <string name="opening_count">No of open position</string>

@@ -25,10 +25,6 @@ import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.eralp.circleprogressview.CircleProgressView;
 import com.google.gson.Gson;
-import com.krishna.fileloader.FileLoader;
-import com.krishna.fileloader.listener.FileRequestListener;
-import com.krishna.fileloader.pojo.FileResponse;
-import com.krishna.fileloader.request.FileLoadRequest;
 import com.pacifyr.client.R;
 import com.pacifyr.client.adapter.CommentsAdapter;
 import com.pacifyr.client.adapter.EmotionsListAdapter;
@@ -44,7 +40,6 @@ import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.quickblox.App;
 import com.pacifyr.client.quickblox.utils.Consts;
 import com.pacifyr.client.utility.PacifyrAppCompactActivity;
-import com.pacifyr.client.utility.PdfViewer;
 import com.pacifyr.client.utils.LogUtils;
 import com.pacifyr.client.utils.Utility;
 import com.pacifyr.client.utils.WrappingSlidingPaneLayout;
@@ -63,7 +58,6 @@ import com.willy.ratingbar.ScaleRatingBar;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
 import java.util.ArrayList;
 
 import app.minimize.com.seek_bar_compat.SeekBarCompat;
@@ -394,9 +388,9 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
                 customer_fees_llay.setVisibility(View.VISIBLE);
                 pacifyrRateCtxv.setVisibility(View.VISIBLE);
                 rating_llay.setVisibility(View.VISIBLE);
-                before_feel_ctxv.setText("How were you feeling before the call?");
+                before_feel_ctxv.setText(getString(R.string.your_feeling_before_call));
                 // afterFeelSelectionCtxv.setText("How were you feeling after the call ?");
-                afterFeelSelectionCtxv.setText("How are you feeling now?");
+                afterFeelSelectionCtxv.setText(getString(R.string.your_feeling_now));
 
 
                /* if (isValid(ProfileScreenActivity.mpacifyerDetial.getQbid()))
@@ -447,10 +441,10 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
                 pacifyrRateCtxv.setVisibility(View.GONE);
                 customer_fees_llay.setVisibility(View.GONE);
                 callback_ctxv.setVisibility(View.GONE);
-                before_feel_ctxv.setText("How was the customer feeling before call?");
+                before_feel_ctxv.setText(getString(R.string.client_feeling_before_call));
               /*  after_feel_ctxv.setText("How was the  customer feeling after the call ?");
                 after_feel_llay.setVisibility(View.VISIBLE);*/
-                afterFeelSelectionCtxv.setText("How was the customer feeling after the call in your opinion?");
+                afterFeelSelectionCtxv.setText(getString(R.string.client_feeling_after_call_opinion));
             }
 
 
@@ -523,9 +517,9 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
                 defSetText(before_feel_ctxv, mEmotion.getTitle());
 
                 if (isCustomer) {
-                    before_feel_ctxv.setText("How were you feeling before the call?");
+                    before_feel_ctxv.setText(getString(R.string.your_feeling_before_call));
                 } else {
-                    before_feel_ctxv.setText("How was the customer feeling before call?");
+                    before_feel_ctxv.setText(getString(R.string.client_feeling_before_call));
                 }
                 String beforeImgUrl = GLOBAL_IMAGE_URL + mEmotion.getImage();
                 if (isValid(beforeImgUrl))
