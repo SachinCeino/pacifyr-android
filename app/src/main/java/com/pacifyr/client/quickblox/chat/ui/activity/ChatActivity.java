@@ -414,6 +414,7 @@ public class ChatActivity extends PacifyrAppCompactActivity implements ImagePick
         if (!uploadedAttachments.isEmpty()) {
             if (uploadedAttachments.size() == totalAttachmentsCount) {
                 for (QBAttachment attachment : uploadedAttachments) {
+                    TextView_noMessages.setVisibility(View.GONE);
                     sendChatMessage(null, attachment);
                 }
             } else {
@@ -423,7 +424,9 @@ public class ChatActivity extends PacifyrAppCompactActivity implements ImagePick
 
         String text = messageEditText.getText().toString().trim();
         if (!TextUtils.isEmpty(text)) {
+            TextView_noMessages.setVisibility(View.GONE);
             sendChatMessage(text, null);
+
         }
     }
 
@@ -1026,7 +1029,7 @@ public class ChatActivity extends PacifyrAppCompactActivity implements ImagePick
 
             }
         });*/
-        File file = new File(list.get(0).getThumbnailPath());
+        File file = new File(list.get(0).getOriginalPath());
         if (file != null) {
             attachmentPreviewAdapter.add(file);
         } else {

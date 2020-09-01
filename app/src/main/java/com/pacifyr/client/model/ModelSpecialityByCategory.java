@@ -77,6 +77,15 @@ public class ModelSpecialityByCategory {
         private String image;
 
         private boolean select;
+        private String description;
+
+        public String getDescription() {
+            return description;
+        }
+
+        public void setDescription(String description) {
+            this.description = description;
+        }
 
         public boolean isSelect() {
             return select;

@@ -13,6 +13,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
@@ -200,6 +201,7 @@ public class ChatAdapter extends BaseListAdapter<QBChatMessage> implements Stick
                 LogUtils.LOGD("jp", "ChatAdapter Image chat  setMessageBody url  " + attachment.getUrl());
                 Glide.with(context)
                         .load(attachment.getUrl())
+                        .priority(Priority.HIGH)
                         .listener(new RequestListener<String, GlideDrawable>() {
                             @Override
                             public boolean onException(Exception e, String model,
