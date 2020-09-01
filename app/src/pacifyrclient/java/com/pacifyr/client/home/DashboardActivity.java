@@ -7,24 +7,18 @@ import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.Html;
-import android.text.SpannableStringBuilder;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -36,8 +30,6 @@ import com.androidquery.callback.AjaxStatus;
 import com.github.javiersantos.appupdater.AppUpdater;
 import com.pacifyr.client.Payment.PaymentFragment;
 import com.pacifyr.client.R;
-import com.pacifyr.client.activity.SplashScreen;
-import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.ActionbarEvent;
 import com.pacifyr.client.event.AlertTypeEvent;
@@ -54,10 +46,8 @@ import com.pacifyr.client.fragment.ResourcesFragment;
 import com.pacifyr.client.fragment.SupportFragment;
 import com.pacifyr.client.fragment.UserDashboardFragment;
 import com.pacifyr.client.fragment.WelcomeTourFragment;
-import com.pacifyr.client.fragment.schedule.AppointmentModel;
 import com.pacifyr.client.home.account.AccountEditActivity;
 import com.pacifyr.client.home.account.AccountFragment;
-import com.pacifyr.client.model.AppoinmentNotification;
 import com.pacifyr.client.model.CallStatus;
 import com.pacifyr.client.model.interfaces.CallChatEventListner;
 import com.pacifyr.client.netconnectionlistener.CheckNetworkJob;
@@ -66,7 +56,6 @@ import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.quickblox.chat.ui.activity.DialogsActivity;
 import com.pacifyr.client.quickblox.services.CallService;
 import com.pacifyr.client.sign.CrisisActivity;
-import com.pacifyr.client.sign.DiscountCodeActivity;
 import com.pacifyr.client.utility.PacifyrAppCompactActivity;
 import com.pacifyr.client.utils.AmazonSNSTokenHandler;
 import com.pacifyr.client.utils.LogUtils;
@@ -76,7 +65,6 @@ import com.pacifyr.client.utils.Utility;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MRoleModel;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
-import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.quickblox.sample.core.utils.SharedPrefsHelper;
 import com.squareup.otto.Subscribe;
@@ -556,6 +544,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
         String mail=prefM.geteMail();
         String json=prefM.getJsonKey();
         String country=prefM.getCountry();
+        String couponCode = prefM.getSharedString(PrefManager.COUPON_CODE, null);
 
         if(country.equals("US")){
             crisisLlay.setVisibility(View.VISIBLE);
@@ -778,6 +767,9 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
             }
         });
 
+        if (couponCode != null) {
+            applyCouponCode(DashboardActivity.this, couponCode);
+        }
         new AmazonSNSTokenHandler(context).register();
         loginToQuickblox();
 
