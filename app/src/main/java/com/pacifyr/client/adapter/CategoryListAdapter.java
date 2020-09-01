@@ -6,18 +6,34 @@ package com.pacifyr.client.adapter;
  */
 
 import android.content.Context;
+import android.text.Html;
+import android.text.SpannableStringBuilder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
+import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.R;
 import com.pacifyr.client.home.ConnectToPacifyrActivity;
 import com.pacifyr.client.model.ModelSpecialityByCategory;
+import com.pacifyr.client.utils.LogUtils;
+import com.pacifyr.client.utils.Utility;
+import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
 import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -101,6 +117,66 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
 
             @Override
             public void onClick(View v) {
+                String _description = null ;
+
+                    if (specalArray[position].getDescription() != null){
+                        _description = specalArray[position].getDescription();
+                    }
+                    if (_description != null && ! _description.equalsIgnoreCase("")) {
+                        showAdditionalPopUpForKLE(position, holder, v);
+                    }
+                    else {
+                        for (int i=0;i<specalArray.length;i++)
+                        {
+                            ConnectToPacifyrActivity.customerEmotion = specalArray[position].getTitle();
+                            if (i==position) {
+                                specalArray[position].setSelect(true);
+                                holder.circleImageView.setBorderColor(ContextCompat.getColor(context, R.color.colorPrimary));
+                                holder.circleImageView.setBorderWidth(3);
+                                categorySelectListener.OnEmotionClickkListener();
+                                //customerEmotion=specialList.get(position).getTitle();
+                                //holder.emotionIMG.clearColorFilter();}
+                            }
+                            else
+                                specalArray[i].setSelect(false);
+
+                        }
+                        notifyDataSetChanged();
+                    }
+
+
+
+            }
+        });
+
+
+        /*holder.title.setText(special.getTitle());
+        holder.genre.setText(special.getGenre());
+        holder.year.setText(special.getDuration());*/
+
+    }
+
+    private void showAdditionalPopUpForKLE(int position, MyViewHolder holder, View v) {
+
+        View myView = LayoutInflater.from(context).inflate(R.layout.popup_additional_for_kle, null);
+        final TextView _TextView_Speciality_explanation = myView.findViewById(R.id.TextView_Speciality_explanation);
+        final ImageView _ImageView_speciality = myView.findViewById(R.id.ImageView_speciality);
+        final TextView _TextView_Speciality_Name = myView.findViewById(R.id.TextView_Speciality_Name);
+        final TextView _TextView_Ok = myView.findViewById(R.id.TextView_Ok);
+
+        _TextView_Speciality_explanation.setText(specalArray[position].getDescription()+"");
+        _TextView_Speciality_Name.setText(specalArray[position].getTitle()+"");
+        Picasso.with(context).load(GLOBAL_IMAGE_URL + specalArray[position].getImage()+"").into(_ImageView_speciality);
+
+
+        AlertDialog.Builder alert = new AlertDialog.Builder(v.getContext(),R.style.Theme_AppCompat_Light_Dialog);
+        alert.setView(myView);
+        alert.setCancelable(false);
+        AlertDialog dialog = alert.create();
+        dialog.show();
+        _TextView_Ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 for (int i=0;i<specalArray.length;i++)
                 {
                     ConnectToPacifyrActivity.customerEmotion = specalArray[position].getTitle();
@@ -117,13 +193,12 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
 
                 }
                 notifyDataSetChanged();
+                dialog.dismiss();
             }
         });
 
 
-        /*holder.title.setText(special.getTitle());
-        holder.genre.setText(special.getGenre());
-        holder.year.setText(special.getDuration());*/
+
 
     }
 
