@@ -1029,7 +1029,7 @@ public class ChatActivity extends PacifyrAppCompactActivity implements ImagePick
 
             }
         });*/
-        File file = new File(list.get(0).getThumbnailPath());
+        File file = new File(list.get(0).getOriginalPath());
         if (file != null) {
             attachmentPreviewAdapter.add(file);
         } else {
