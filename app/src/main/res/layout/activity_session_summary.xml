@@ -290,7 +290,7 @@
                                 android:layout_height="wrap_content"
                                 android:id="@+id/how_eff_ctxv"
                                 android:layout_centerHorizontal="true"
-                                android:text="How effective was the call in solving your issues?"
+                                android:text="@string/your_call_effectiveness"
                                 android:textColor="@color/md_grey_user"
                                 android:textSize="14sp"/>
 
@@ -397,7 +397,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="5dp"
-                                android:text="How were you feeling before the call?"
+                                android:text="@string/your_feeling_before_call"
                                 android:textColor="@color/md_grey_user"
                                 android:textSize="14sp"
                                 />
@@ -474,7 +474,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:id="@+id/after_feel_selection_ctxv"
-                                android:text="How are you feeling after the call"
+                                android:text="@string/your_feeling_after_call"
                                 android:textColor="@color/md_grey_user"
                                 android:textSize="14sp"/>
 
