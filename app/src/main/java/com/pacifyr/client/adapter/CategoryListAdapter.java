@@ -67,10 +67,13 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
 
         if(specalArray[position].isSelect())
         {
+            holder.circleImageView.setBorderColor(context.getResources().getColor(R.color.colorAccent));
             holder.circleImageView.setBorderWidth(3);
+            holder.pac_name.setTextColor(context.getResources().getColor(R.color.colorAccent));
         }
         else {
             holder.circleImageView.setBorderWidth(0);
+            holder.pac_name.setTextColor(context.getResources().getColor(R.color.grey_dark));
         }
 
         holder.circleImageView.setOnClickListener(new View.OnClickListener() {
@@ -80,8 +83,8 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
                 boolean isSel=specalArray[position].isSelect();
                 if(!isSel) {
                     holder.circleImageView.setBorderWidth(3);
-                    holder.pac_name.setTextColor(context.getResources().getColor(R.color.color_primary));
-                    holder.circleImageView.setBorderColor(ContextCompat.getColor(context, R.color.colorPrimary));
+                    holder.pac_name.setTextColor(context.getResources().getColor(R.color.colorAccent));
+                    holder.circleImageView.setBorderColor(context.getResources().getColor(R.color.colorAccent));
                     specalArray[position].setSelect(true);
                 }
                 else {

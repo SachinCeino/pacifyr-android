@@ -5,6 +5,7 @@ package com.pacifyr.client.adapter;
  * samsad@ceinotech.com
  */
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -113,10 +114,13 @@ public class SpecialistAdapter extends RecyclerView.Adapter<SpecialistAdapter.My
 
         if(specialList.get(position).isSelect())
         {
+            holder.circleImageView.setBorderColor(context.getResources().getColor(R.color.colorAccent));
             holder.circleImageView.setBorderWidth(3);
+            holder.pac_name.setTextColor(context.getResources().getColor(R.color.colorAccent));
         }
         else {
             holder.circleImageView.setBorderWidth(0);
+            holder.pac_name.setTextColor(context.getResources().getColor(R.color.grey_dark_text));
         }
 
        /* holder.circleImageView.setOnClickListener(new View.OnClickListener() {
@@ -140,6 +144,7 @@ public class SpecialistAdapter extends RecyclerView.Adapter<SpecialistAdapter.My
 
         holder.circleImageView.setOnClickListener(new View.OnClickListener() {
 
+            @SuppressLint("ResourceAsColor")
             @Override
             public void onClick(View v) {
                 for (int i=0;i<specialList.size();i++)
@@ -147,8 +152,9 @@ public class SpecialistAdapter extends RecyclerView.Adapter<SpecialistAdapter.My
                     customerEmotion=specialList.get(position).getTitle();
                     if (i==position) {
                         specialList.get(position).setSelect(true);
-                        holder.circleImageView.setBorderColor(ContextCompat.getColor(context, R.color.colorPrimary));
+                        holder.circleImageView.setBorderColor(context.getResources().getColor(R.color.colorAccent));
                         holder.circleImageView.setBorderWidth(3);
+                        holder.pac_name.setTextColor(context.getResources().getColor(R.color.colorAccent));
                         emotionClickkListener.OnEmotionClickkListener();
                         //customerEmotion=specialList.get(position).getTitle();
                         //holder.emotionIMG.clearColorFilter();}

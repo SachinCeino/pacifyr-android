@@ -74,6 +74,7 @@
     <color name="education_title">#000000</color>
     <color name="education_desc">#585858</color>
     <color name="text_Color_High_light">#93ECE4</color>
+    <color name="selection_color">#00acee</color>
 
 
 </resources>
