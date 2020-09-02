@@ -303,7 +303,7 @@ public class UploadActivity extends PacifyrActivity implements AddFileClickListn
         });
 
         headerCtxv.setTextSize(18);
-        headerCtxv.setText("Upload KYC document");
+        headerCtxv.setText(getResources().getString(R.string.kyc_document));
 
         rightTxv.setOnClickListener(new View.OnClickListener() {
             @Override
