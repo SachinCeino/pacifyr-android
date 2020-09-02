@@ -68,6 +68,7 @@ import com.pacifyr.client.fragment.AppointmentsTabViewFragment;
 import com.pacifyr.client.home.DashboardActivity;
 import com.pacifyr.client.home.PaymentActivity;
 import com.pacifyr.client.home.SessionSummaryActivity;
+import com.pacifyr.client.model.ApiResponse;
 import com.pacifyr.client.model.AppoinmentNotification;
 import com.pacifyr.client.model.BillingSummary;
 import com.pacifyr.client.model.Session;
@@ -144,7 +145,6 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -2666,6 +2666,71 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
             ex.printStackTrace();
             LogUtils.LOGD("base", "PA userDetailWeb  exception : " + ex.getMessage());
         }
+    }
+
+    public void applyCouponCode(Context context, String couponCode) {
+        setLoading();
+        showProgress();
+        new NetworkService().validateDiscountCode(couponCode, new AjaxCallback<JSONObject>() {
+            @Override
+            public void callback(String url, JSONObject json, AjaxStatus status) {
+                if (json == null) {
+                    hideProgress();
+                    Toast.makeText(context, getString(R.string.invalid_coupon_code), Toast.LENGTH_SHORT).show();
+                } else {
+//                            Log.d(TAG, "Resp " + json.toString());
+                    PrefManager.getInstance(context).putString(PrefManager.COUPON_CODE, null);
+                    final ApiResponse apiResponse = new Gson().fromJson(json.toString(), ApiResponse.class);
+                    if (apiResponse.isSuccess()) {
+                        getUserProfile(getUserID(), new AjaxCallback<JSONObject>() {
+                            @Override
+                            public void callback(String url, JSONObject json, AjaxStatus status) {
+                                hideProgress();
+                                try {
+                                    if (json != null) {
+                                        NetworkService.mCurrentUser = GsonUtils.getInstance().gsonToModelUserProfile(json);
+                                        //ProfileScreenActivity.pacifyerDetial = GsonUtils.getInstance().gsonToModelUserProfile(json);
+                                        if (NetworkService.mCurrentUser != null) {
+                                            if (NetworkService.mCurrentUser.getRoleModel().getLabel().equals("employee")) {
+                                                PrefManager prefManager = PrefManager.getInstance(context);
+                                                prefManager.saveCompanyID(NetworkService.mCurrentUser.getCompanyId());
+                                                prefManager.saveCustomerRole("employee");
+                                                if (NetworkService.mCurrentUser != null && NetworkService.mCurrentUser.getCompany() != null) {
+                                                    prefManager.saveCompanyLogo(NetworkService.mCurrentUser.getCompany().getLogo());
+                                                }
+                                                showIOSDialogOK("Success", apiResponse.getMessage(), "ok", new iOSDialogClickListener() {
+                                                    @Override
+                                                    public void onClick(iOSDialog dialog) {
+                                                        //Toast.makeText(PacifyrActivity.this,"Clicked!",Toast.LENGTH_LONG).show();
+                                                        dialog.dismiss();
+                                                        Intent i = new Intent(context, DashboardActivity.class);
+                                                        startActivity(i);
+                                                        finish();
+
+                                                    }
+                                                });
+
+                                            }
+                                        }
+                                    } else {
+                                        Toast.makeText(context, getResources().getString(R.string.invalid_coupon_code), Toast.LENGTH_LONG).show();
+                                    }
+
+
+                                } catch (Exception e) {
+                                    Toast.makeText(context, getResources().getString(R.string.invalid_coupon_code), Toast.LENGTH_LONG).show();
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                    } else if (apiResponse.getMessage() != null) {
+                        hideProgress();
+                        Toast.makeText(context, apiResponse.getMessage(), Toast.LENGTH_LONG).show();
+
+                    }
+                }
+            }
+        });
     }
 
 

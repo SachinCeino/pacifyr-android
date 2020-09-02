@@ -58,6 +58,8 @@ public class DiscountCodeActivity extends PacifyrAppCompactActivity {
         edit_discount = findViewById(R.id.edit_discount_code);
         button_validate = findViewById(R.id.button_validate);
         skip = findViewById(R.id.text_skip);
+        String couponCode = PrefManager.getInstance(DiscountCodeActivity.this).getSharedString(PrefManager.COUPON_CODE, null);
+
         button_validate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -77,6 +79,7 @@ public class DiscountCodeActivity extends PacifyrAppCompactActivity {
                             Toast.makeText(DiscountCodeActivity.this, getString(R.string.invalid_coupon_code), Toast.LENGTH_SHORT).show();
                         } else {
 //                            Log.d(TAG, "Resp " + json.toString());
+                            PrefManager.getInstance(DiscountCodeActivity.this).putString(PrefManager.COUPON_CODE, null);
                             final ApiResponse apiResponse = new Gson().fromJson(json.toString(), ApiResponse.class);
                             if (apiResponse.isSuccess()) {
                                 getUserProfile(getUserID(), new AjaxCallback<JSONObject>() {
@@ -144,6 +147,11 @@ public class DiscountCodeActivity extends PacifyrAppCompactActivity {
 
             }
         });
+
+        if (isValid(couponCode)) {
+            edit_discount.setText(couponCode);
+            button_validate.performClick();
+        }
     }
 
     @Override

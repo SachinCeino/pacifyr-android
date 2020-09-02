@@ -1057,7 +1057,15 @@ public class Utility {
                         if (pendingDynamicLinkData != null) {
                             deepLink = pendingDynamicLinkData.getLink();
                         }
-                        Log.d(TAG, "deep link " + deepLink);
+                        if (deepLink != null) {
+                            Log.d(TAG, "deep link " + deepLink);
+                            String code = deepLink.getLastPathSegment();
+                            Log.d(TAG, "deep link code " + code);
+                            if (code != null) {
+                                PrefManager.getInstance(context).putString(PrefManager.COUPON_CODE, code);
+                            }
+                        }
+
                     }
                 })
                 .addOnFailureListener(context, new OnFailureListener() {
