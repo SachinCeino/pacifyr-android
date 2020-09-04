@@ -4190,7 +4190,7 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
         builder.setView(customLayout);
 
 
-        SpannableStringBuilder spanTxt = new SpannableStringBuilder("Please visit your Profile page and upload your Identity document (PAN/Aadhaar/EPIC/DL) document if you have not done so.\n\n");
+        SpannableStringBuilder spanTxt = new SpannableStringBuilder("Please visit your profile page and upload your identity document (PAN/Aadhaar/EPIC/DL) document if you have not done so.\n\n");
         spanTxt.append(Html.fromHtml("<font color=" + getResources().getColor(com.pacifyrapp.utilitylibrary.R.color.black) + "><b>" + "Steps to follow:" + "</b></font>"));
         spanTxt.append("\n\n1. Click on the Audio or Video button to connect to the provider.\n");
         spanTxt.append("2. Introduction by yourself and the provider.\n");

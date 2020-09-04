@@ -142,11 +142,8 @@ public class AccountEditActivity extends PacifyrAppCompactActivity {
             });
 
 
-            if (getPrefManager().getCountry().equals("India")|| getPrefManager().getCountry().equals("Wakanda"))
-            {
-                uploadDocLayout.setVisibility(View.VISIBLE);
-            }
 
+            uploadDocLayout.setVisibility(View.VISIBLE);
             TextView_Upload.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

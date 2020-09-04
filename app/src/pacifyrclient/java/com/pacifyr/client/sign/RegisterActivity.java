@@ -438,11 +438,8 @@ public class RegisterActivity extends PacifyrActivity {
             checkBox.setMovementMethod(LinkMovementMethod.getInstance());
             checkBox.setText(spanTxt, TextView.BufferType.SPANNABLE);
 
-            if (isValid(countryData) && countryData.getCountry().equals("India") || countryData.getCountry().equals("Wakanda"))
-            {
-                uploadDocLayout.setVisibility(View.VISIBLE);
-            }
 
+            uploadDocLayout.setVisibility(View.VISIBLE);
             TextView_Upload.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

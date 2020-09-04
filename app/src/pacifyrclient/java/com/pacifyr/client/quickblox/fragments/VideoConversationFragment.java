@@ -665,11 +665,9 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
                 callPrescriptionData();
             }
         });
-        if (getPrefManager().getCountry().equals("India")||
-                getPrefManager().getCountry().equals("Wakanda"))
-        {
-            certificate_View.setVisibility(View.VISIBLE);
-        }
+
+
+        certificate_View.setVisibility(View.VISIBLE);
         certificate_View.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -692,10 +690,10 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
                             }
 
                         } else {
-                            Toast.makeText(getActivity(), "No KYC documents available.", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getActivity(), getResources().getString(R.string.No_identity_document_available), Toast.LENGTH_LONG).show();
                         }
                     } else {
-                        Toast.makeText(getActivity(), "No KYC documents available.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity(), getResources().getString(R.string.No_identity_document_available), Toast.LENGTH_LONG).show();
                     }
                 }
 
