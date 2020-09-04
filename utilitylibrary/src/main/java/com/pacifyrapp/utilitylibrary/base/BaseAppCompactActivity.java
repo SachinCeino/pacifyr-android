@@ -1187,7 +1187,7 @@ public class BaseAppCompactActivity extends CoreBaseActivity {
         {
             pacifyr_call_intro.setVisibility(View.VISIBLE);
             if (! isFreePacify) {
-                SpannableStringBuilder spanTxt = new SpannableStringBuilder("Please visit your profile page and upload your identity document (PAN/Aadhaar/EPIC/DL) document if you have not done so.\n\n");
+                SpannableStringBuilder spanTxt = new SpannableStringBuilder("Please visit your profile page and upload your identity document (PAN/Aadhaar/EPIC/DL) if you have not done so.\n\n");
                 spanTxt.append(Html.fromHtml("<font color=" + getResources().getColor(R.color.black) + "><b>" + "Steps to follow:" + "</b></font>"));
                 spanTxt.append("\n\n1. Click on the ");
                 spanTxt.append(Html.fromHtml("<font color=" + getResources().getColor(R.color.black) + "><b>" + "Start Call" + "</b></font>"));
@@ -1207,7 +1207,7 @@ public class BaseAppCompactActivity extends CoreBaseActivity {
                 pacifyr_call_intro.setText(spanTxt, TextView.BufferType.SPANNABLE);
             }
             else {
-                SpannableStringBuilder spanTxt = new SpannableStringBuilder("Please visit your profile page and upload your identity document (PAN/Aadhaar/EPIC/DL) document if you have not done so.\n\n");
+                SpannableStringBuilder spanTxt = new SpannableStringBuilder("Please visit your profile page and upload your identity document (PAN/Aadhaar/EPIC/DL) if you have not done so.\n\n");
                 spanTxt.append(Html.fromHtml("<font color=" + getResources().getColor(R.color.black) + "><b>" + "Steps to follow:" + "</b></font>"));
                 spanTxt.append("\n\n1. Click on the ");
                 spanTxt.append(Html.fromHtml("<font color=" + getResources().getColor(R.color.black) + "><b>" + "Start Call" + "</b></font>"));
