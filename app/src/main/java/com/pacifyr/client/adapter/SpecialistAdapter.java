@@ -156,6 +156,23 @@ public class SpecialistAdapter extends RecyclerView.Adapter<SpecialistAdapter.My
                     _description = specialList.get(position).getDescription();
                 }
                 if (_description != null && ! _description.equalsIgnoreCase("")) {
+                    for (int i=0;i<specialList.size();i++)
+                    {
+
+                        if (i==position) {
+                            specialList.get(position).setSelect(true);
+                            holder.circleImageView.setBorderColor(context.getResources().getColor(R.color.colorAccent));
+                            holder.circleImageView.setBorderWidth(3);
+                            holder.pac_name.setTextColor(context.getResources().getColor(R.color.colorAccent));
+                        }
+
+                        else{
+                            specialList.get(i).setSelect(false);
+                            holder.circleImageView.setBorderWidth(0);
+                        }
+
+                    }
+                    notifyDataSetChanged();
                     showAdditionalPopUpForKLE(position, holder, v);
                 }
                 else {

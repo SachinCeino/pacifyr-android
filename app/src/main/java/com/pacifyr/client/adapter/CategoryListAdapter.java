@@ -123,6 +123,18 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
                         _description = specalArray[position].getDescription();
                     }
                     if (_description != null && ! _description.equalsIgnoreCase("")) {
+                        for (int i=0;i<specalArray.length;i++)
+                        {
+                            if (i==position) {
+                                specalArray[position].setSelect(true);
+                                holder.circleImageView.setBorderColor(ContextCompat.getColor(context, R.color.colorPrimary));
+                                holder.circleImageView.setBorderWidth(3);
+                            }
+                            else
+                                specalArray[i].setSelect(false);
+
+                        }
+                        notifyDataSetChanged();
                         showAdditionalPopUpForKLE(position, holder, v);
                     }
                     else {

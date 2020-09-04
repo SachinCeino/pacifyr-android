@@ -221,6 +221,7 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="client_feeling_after_call_opinion">How was the client feeling after the call in your opinion?</string>
     <string name="document_one">Document 1</string>
     <string name="No_identity_document_available">No identity document is available</string>
+    <string name="ActionBarCommonFont">ActionBarCommonFont.otf</string>
 
 
 </resources>

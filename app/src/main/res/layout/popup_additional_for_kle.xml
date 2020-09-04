@@ -34,18 +34,19 @@
                     android:layout_gravity="center"
                     android:id="@+id/ImageView_speciality"></ImageView>
             </androidx.cardview.widget.CardView>
-            <com.pacifyr.client.customview.MainTextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/TextView_Speciality_Name"
-                android:textSize="16sp"
+                android:textSize="18sp"
+                app:fontFamily="@string/ActionBarCommonFont"
                 android:textColor="@color/black"
                 android:textStyle="bold"
                 android:text=""
                 android:gravity="center"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp">
-            </com.pacifyr.client.customview.MainTextView>
+            </androidx.appcompat.widget.AppCompatTextView>
 
             <com.pacifyr.client.customview.MainTextView
                 android:layout_width="wrap_content"
