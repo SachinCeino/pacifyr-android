@@ -136,6 +136,7 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<AppointmentsLi
                                 holder.mButton_Cancel.setText("Cancelled");
                                 holder.TextView_cancelled.setVisibility(View.VISIBLE);
                                 holder.ImageView_PrevistNote.setVisibility(View.GONE);
+                                holder.accepted_textView.setVisibility(View.GONE);
                             }
                             else if (isValid(mObject.getConfirmed())&&mObject.getConfirmed()
                                     && isValid(mObject.getCompleted())&&mObject.getCompleted())
@@ -160,6 +161,8 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<AppointmentsLi
                             else
                             {
                                 holder.accepted_textView.setVisibility(View.VISIBLE);
+                                if (isValid(mObject.getCancelled()) && mObject.getCancelled()==true)
+                                    holder.accepted_textView.setVisibility(View.GONE);
                                 if (isValid(mObject.getConfirmed())&&mObject.getConfirmed()
                                         && isValid(mObject.getCompleted())&&mObject.getCompleted())
                                 {
@@ -285,11 +288,13 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<AppointmentsLi
 
                 if (isValid(mObject.getConfirmed()) && mObject.getConfirmed()==true)
                 {
-                    holder.mButton_Cancel.setVisibility(View.GONE);
+
                     if (!scheduleIsFullyPassed(mObject.getStartTimeGMT()))
                     {
                         holder.ImageView_PrevistNote.setVisibility(View.VISIBLE);
                         holder.accepted_textView.setVisibility(View.VISIBLE);
+                        if (holder.call_layout.getVisibility() != View.VISIBLE)
+                            holder.mButton_Cancel.setVisibility(View.VISIBLE);
                     }
 
                 }
