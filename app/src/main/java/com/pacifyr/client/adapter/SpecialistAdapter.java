@@ -123,7 +123,7 @@ public class SpecialistAdapter extends RecyclerView.Adapter<SpecialistAdapter.My
         }
         else {
             holder.circleImageView.setBorderWidth(0);
-            holder.pac_name.setTextColor(context.getResources().getColor(R.color.grey_dark_text));
+            holder.pac_name.setTextColor(context.getResources().getColor(R.color.grey_dark));
         }
 
        /* holder.circleImageView.setOnClickListener(new View.OnClickListener() {
@@ -169,6 +169,7 @@ public class SpecialistAdapter extends RecyclerView.Adapter<SpecialistAdapter.My
                         else{
                             specialList.get(i).setSelect(false);
                             holder.circleImageView.setBorderWidth(0);
+                            holder.pac_name.setTextColor(context.getResources().getColor(R.color.grey_dark));
                         }
 
                     }
@@ -189,6 +190,7 @@ public class SpecialistAdapter extends RecyclerView.Adapter<SpecialistAdapter.My
                         } else {
                             specialList.get(i).setSelect(false);
                             holder.circleImageView.setBorderWidth(0);
+                            holder.pac_name.setTextColor(context.getResources().getColor(R.color.grey_dark));
                         }
 
                     }
