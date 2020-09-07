@@ -357,6 +357,13 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<AppointmentsLi
                         showCancelledNotPopUp(mObject.getCancelReason());
                 }
             });
+
+            holder.accepted_textView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    holder.ImageView_PrevistNote.performClick();
+                }
+            });
         }
 
 
