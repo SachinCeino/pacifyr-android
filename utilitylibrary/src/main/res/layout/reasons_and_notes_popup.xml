@@ -24,6 +24,7 @@
         android:ems="10"
         android:padding="15dp"
         android:lines="7"
+        android:textColor="@color/grey_dark"
         android:scrollbars="vertical"
         android:gravity="top|left"
         android:background="@drawable/rounded_white"

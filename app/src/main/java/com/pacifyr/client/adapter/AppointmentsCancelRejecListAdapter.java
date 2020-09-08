@@ -157,6 +157,8 @@ public class AppointmentsCancelRejecListAdapter extends RecyclerView.Adapter<App
                         if (event.getRawX() <=  textLocation[0] + holder.TextView_cancelled.getTotalPaddingLeft()) {
                             if (isValid(mObject.getCancelReason()))
                                 showCancelledNotPopUp(mObject.getCancelReason());
+                            else
+                                showCancelledNotPopUp(mContext.getResources().getString(R.string.Cancelled_since_you_did_not_call_the_provider));
                             return true;
                         }
 

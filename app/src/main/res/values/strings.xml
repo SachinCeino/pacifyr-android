@@ -222,6 +222,7 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="document_one">Document 1</string>
     <string name="No_identity_document_available">No identity document is available</string>
     <string name="ActionBarCommonFont">ActionBarCommonFont.otf</string>
+    <string name="Cancelled_since_you_did_not_call_the_provider">Cancelled since you did not call the provider</string>
 
 
 </resources>
