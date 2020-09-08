@@ -34,7 +34,7 @@ import java.io.File;
 public class PrescriptionViewActivity extends PacifyrActivity {
 
 
-    private String titleText="PRESCRIPTION";
+    private String titleText="Prescription";
     private String text;
     private TextView message_edt;
     @Override

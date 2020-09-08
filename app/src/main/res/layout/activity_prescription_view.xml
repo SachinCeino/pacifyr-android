@@ -17,6 +17,7 @@
         android:textColorHighlight="@color/text_Color_High_light"
         android:scrollbars="vertical"
         android:padding="15dp"
+        android:textColor="@color/grey_dark"
         android:gravity="top|left"
         android:background="@drawable/rounded_white"
         android:inputType="textCapSentences|textMultiLine" />

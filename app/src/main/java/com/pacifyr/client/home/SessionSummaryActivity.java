@@ -26,6 +26,7 @@ import com.androidquery.callback.AjaxStatus;
 import com.eralp.circleprogressview.CircleProgressView;
 import com.google.gson.Gson;
 import com.pacifyr.client.R;
+import com.pacifyr.client.activity.PrescriptionViewActivity;
 import com.pacifyr.client.adapter.CommentsAdapter;
 import com.pacifyr.client.adapter.EmotionsListAdapter;
 import com.pacifyr.client.base.PacifyrActivity;
@@ -34,10 +35,12 @@ import com.pacifyr.client.event.AlertTypeEvent;
 import com.pacifyr.client.event.EventLoadEmotion;
 import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.model.MComments;
+import com.pacifyr.client.model.PrescriptionList;
 import com.pacifyr.client.model.interfaces.CommentClick;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.quickblox.App;
+import com.pacifyr.client.quickblox.activities.CallActivity;
 import com.pacifyr.client.quickblox.utils.Consts;
 import com.pacifyr.client.utility.PacifyrAppCompactActivity;
 import com.pacifyr.client.utils.LogUtils;
@@ -49,6 +52,7 @@ import com.pacifyrapp.utilitylibrary.ToastHandler;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MEmotion;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MSessionDetailRoot;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MSessionRating;
+import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
@@ -314,9 +318,89 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
                 if (isValid(mSessionDetailRoot.getPrescriptionFile()))
                     loadPDF(mSessionDetailRoot.getPrescriptionFile());
                 else
-                    Toast.makeText(SessionSummaryActivity.this, getResources().getString(R.string.no_prescription), Toast.LENGTH_SHORT).show();
+                    callPrescriptionData();
             }
         });
+    }
+
+    private void callPrescriptionData() {
+
+        try {
+            setLoading();
+            showProgress();
+            PrefManager mPrefManager = PrefManager.getInstance(SessionSummaryActivity.this);
+            String token = mPrefManager.getAccessToken();
+            String url = UtilityNetworkService.GLOBAL_URL + "prescription/list/user/"+mPrefManager.getUserID();
+
+            AjaxCallback cb = new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject json, AjaxStatus status) {
+                    try {
+                        hideProgress();
+                        hideStatus();
+                        Log.w("@@@",String.valueOf(json));
+                        if (isValid(json))
+                        {
+                            PrescriptionList mPrescriptionList = GsonUtils.getInstance().gsonToPrescriptionList(json);
+                            if (isValidSize(mPrescriptionList.getResults())) {
+
+                                if (isValid(mPrescriptionList.getResults().get(0)) && isValid(mPrescriptionList.getResults().get(0).getText()))
+                                {
+                                    if (mPrescriptionList.getResults().get(0).getSessionId().equals(sessionid))
+                                    {
+                                        String mPrescriptionFile=mPrescriptionList.getResults().get(0).getText();
+                                        if(isValid(mPrescriptionFile))
+                                        {
+                                           Intent intent =  new Intent(SessionSummaryActivity.this, PrescriptionViewActivity.class);
+                                           intent.putExtra("text",mPrescriptionFile);
+                                           intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                           startActivity(intent);
+
+                                        }
+                                        else
+                                        {
+                                            Toast.makeText(SessionSummaryActivity.this, getResources().getString(R.string.no_prescription), Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                    else
+                                    {
+                                        Toast.makeText(SessionSummaryActivity.this, getResources().getString(R.string.no_prescription), Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                                else
+                                {
+                                    Toast.makeText(SessionSummaryActivity.this, getResources().getString(R.string.no_prescription), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                            else
+                            {
+                                Toast.makeText(SessionSummaryActivity.this, getResources().getString(R.string.no_prescription), Toast.LENGTH_SHORT).show();
+                            }
+
+                        }
+                        else
+                        {
+                            Toast.makeText(SessionSummaryActivity.this, getResources().getString(R.string.no_prescription), Toast.LENGTH_SHORT).show();
+
+                        }
+
+
+                    } catch (Exception e) {
+                        hideProgress();
+                        e.printStackTrace();
+                    }
+                }
+            };
+            AQuery aq = new AQuery(SessionSummaryActivity.this);
+            cb.header("Content-Type", "application/json");
+            cb.header("AccessToken", token);
+            aq.ajax(url, JSONObject.class, cb);
+        } catch (Exception ex) {
+            hideProgress();
+            ex.printStackTrace();
+            Log.w("@@@",String.valueOf(ex));
+        }
+
     }
 
 
