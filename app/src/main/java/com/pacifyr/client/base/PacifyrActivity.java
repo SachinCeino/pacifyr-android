@@ -2999,6 +2999,7 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
             mUser.setBonusProfileId(pacifyerDetial.getBonusProfileId());
             mUser.setCompanyId(pacifyerDetial.getCompanyId());
             mUser.setReasonForTheCall(pacifyerDetial.getReasonForTheCall());
+            mUser.setEnableScheduling(pacifyerDetial.isEnableScheduling());
         }catch (Exception ex)
         {
             ex.printStackTrace();

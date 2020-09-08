@@ -837,13 +837,7 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
     public void showScheduleDialogueFragment(MUser pacifyer_obj) {
         if (isValid(pacifyer_obj))
         {
-
-            ScheduleBottomSheetFragment bottomSheetFragment = new ScheduleBottomSheetFragment();
-            bottomSheetFragment.setCancelable(false);
-            Bundle bundle=new Bundle();
-            bundle.putSerializable("OBJECT",pacifyer_obj);
-            bottomSheetFragment.setArguments(bundle);
-            bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
+            callPacifyrForRefreshBeforeScheduleUI(pacifyer_obj.getId());
         }
 
     }

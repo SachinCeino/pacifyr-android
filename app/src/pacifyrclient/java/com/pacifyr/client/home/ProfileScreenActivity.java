@@ -461,12 +461,7 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
             if (getPackageName().equalsIgnoreCase("com.pacifyr.pam"))
             {
                 if (isValid(getPrefManager().getGENDER()) && isValid(getPrefManager().getZIP())) {
-                    ScheduleBottomSheetFragment bottomSheetFragment = new ScheduleBottomSheetFragment();
-                    bottomSheetFragment.setCancelable(false);
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("OBJECT", mpacifyerDetial);
-                    bottomSheetFragment.setArguments(bundle);
-                    bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
+                    callPacifyrForRefreshBeforeScheduleUI(mpacifyerDetial.getId());
                 }
                 else
                 { showMandatoryFieldsPopUp();
@@ -474,12 +469,7 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
             }
             else
             {
-                ScheduleBottomSheetFragment bottomSheetFragment = new ScheduleBottomSheetFragment();
-               // bottomSheetFragment.setCancelable(false);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("OBJECT", mpacifyerDetial);
-                bottomSheetFragment.setArguments(bundle);
-                bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
+                callPacifyrForRefreshBeforeScheduleUI(mpacifyerDetial.getId());
             }
 
         }

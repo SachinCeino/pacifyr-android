@@ -268,11 +268,8 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
             }
         });
 
-        if (pacifyer_obj.isEnableScheduling())
         getWeakScheduleList();
-        else {
-            noDataAvailable.setVisibility(VISIBLE);
-        }
+
 
         txtv_next.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -633,14 +630,18 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
             @Override
             public void onDateClick(int position) {
 
-                if (isValid(weekScheduleData.get(position))) {
-                    ScheduleData singleItem = weekScheduleData.get(position);
-                    TempScheduleData = singleItem;
-                    if (isValid(singleItem)) {
-                        webGetTimSlotes(singleItem);
+                if (pacifyer_obj.isEnableScheduling()) {
+                    if (isValid(weekScheduleData.get(position))) {
+                        ScheduleData singleItem = weekScheduleData.get(position);
+                        TempScheduleData = singleItem;
+                        if (isValid(singleItem)) {
+                            webGetTimSlotes(singleItem);
+                        }
                     }
                 }
-
+                else {
+                    noDataAvailable.setVisibility(VISIBLE);
+                }
 
             }
         });

@@ -703,7 +703,7 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
                 schedule_rlay.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        showScheduleDialogueFragment(pacifyer_obj);
+                        callPacifyrForRefreshBeforeScheduleUI(pacifyer_obj.getId());
                     }
                 });
 
@@ -1121,19 +1121,6 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
         });
     }
 
-    private void showScheduleDialogueFragment(MUser pacifyer_obj) {
-        if (isValid(pacifyer_obj))
-        {
-
-            ScheduleBottomSheetFragment bottomSheetFragment = new ScheduleBottomSheetFragment();
-            bottomSheetFragment.setCancelable(false);
-            Bundle bundle=new Bundle();
-            bundle.putSerializable("OBJECT",pacifyer_obj);
-            bottomSheetFragment.setArguments(bundle);
-            bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
-        }
-
-    }
 
     @org.greenrobot.eventbus.Subscribe(threadMode = ThreadMode.MAIN)
     public void onNetworkChanged(InternetConnectionEvent event) {

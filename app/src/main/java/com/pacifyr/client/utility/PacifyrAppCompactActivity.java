@@ -41,6 +41,8 @@ import com.pacifyr.client.event.AlertTypeEvent;
 import com.pacifyr.client.event.BusProvider;
 import com.pacifyr.client.event.CallDetailEvent;
 import com.pacifyr.client.event.NotifyEvent;
+import com.pacifyr.client.fragment.schedule.ScheduleBottomSheetFragment;
+import com.pacifyr.client.home.ConnectToSinglePacifyrActivity;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.quickblox.activities.CallActivity;
@@ -54,6 +56,7 @@ import com.pacifyr.client.utils.LogUtils;
 import com.pacifyrapp.utilitylibrary.ToastHandler;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MEmotion;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelUserProfile;
 import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.quickblox.auth.QBAuth;
@@ -1425,4 +1428,60 @@ public abstract class PacifyrAppCompactActivity  extends PacifyrActivity {
     }
 
 
+    public void callPacifyrForRefreshBeforeScheduleUI(String id)
+    {
+        try {
+           showProgress();
+            PrefManager prefM = PrefManager.getInstance(PacifyrAppCompactActivity.this);
+            String token = prefM.getAccessToken();
+
+            String url = UtilityNetworkService.GLOBAL_URL + "user/profile/" + id;
+            AjaxCallback cb = new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject json, AjaxStatus status) {
+                    try {
+                        hideProgress();
+                        if(json!=null) {
+                            ModelUserProfile pacifyer_obj2 = GsonUtils.getInstance().gsonToModelUserProfile(json);
+
+                            MUser pacifyer_obj=convertModel(pacifyer_obj2);
+                           if (isValid(pacifyer_obj)){
+                               ScheduleBottomSheetFragment bottomSheetFragment = new ScheduleBottomSheetFragment();
+                               bottomSheetFragment.setCancelable(false);
+                               Bundle bundle=new Bundle();
+                               bundle.putSerializable("OBJECT",pacifyer_obj);
+                               bottomSheetFragment.setArguments(bundle);
+                               bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
+
+                           }
+                           else {
+                               return;
+                           }
+                        }
+                        else
+                        {
+                        return;
+                        }
+
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        hideProgress();
+                    }
+                }
+            };
+
+            AQuery aq = new AQuery(PacifyrAppCompactActivity.this);
+            //cb.header("Content-Type", "application/json");
+            cb.header("AccessToken", token);
+            aq.ajax(url, JSONObject.class, cb);
+
+        }
+        catch (Exception ex)
+        {
+            hideProgress();
+            ex.printStackTrace();
+        }
+
+    }
 }

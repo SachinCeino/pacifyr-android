@@ -145,6 +145,15 @@ public class ModelUserProfile
 
     private Company company;
 
+    private boolean enableScheduling;
+    public boolean isEnableScheduling() {
+        return enableScheduling;
+    }
+
+    public void setEnableScheduling(boolean enableScheduling) {
+        this.enableScheduling = enableScheduling;
+    }
+
     public Company getCompany() {
         return company;
     }
