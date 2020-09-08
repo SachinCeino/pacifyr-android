@@ -1,9 +1,11 @@
 package com.pacifyr.client.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -242,18 +244,7 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<AppointmentsLi
 
             }
 
-            holder.mButton_RejestReason.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
 
-                    if (isValid(mObject.getRejectReason()))
-                    {
-                        showRejectedReasonPopUp(mObject.getRejectReason());
-                    } else {
-                        Toast.makeText(mContext, "Not available", Toast.LENGTH_LONG).show();
-                    }
-                }
-            });
 
             if (isValid(mObject.getCancelled())&& mObject.getCancelled())
             {
@@ -341,29 +332,70 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<AppointmentsLi
                 }
             });
 
-            holder.mTextView_Completed.setOnClickListener(new View.OnClickListener() {
+
+            holder.mTextView_Completed.setOnTouchListener(new View.OnTouchListener() {
+                @SuppressLint("ClickableViewAccessibility")
                 @Override
-                public void onClick(View view) {
-                    if (isValid(mObject.getPreVisitNote()))
-                        showPreVistNotPopUp(mObject.getPreVisitNote());
+                public boolean onTouch(View v, MotionEvent event) {
+                    if (event.getAction() == MotionEvent.ACTION_UP) {
+                        int[] textLocation = new int[2];
+                        holder.mTextView_Completed.getLocationOnScreen(textLocation);
+
+                        if (event.getRawX() <=  textLocation[0] + holder.mTextView_Completed.getTotalPaddingLeft()) {
+                            if (isValid(mObject.getPreVisitNote()))
+                                showPreVistNotPopUp(mObject.getPreVisitNote());
+                            return true;
+                        }
+
+                    }
+                    return true;
                 }
             });
 
-            holder.TextView_cancelled.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
 
-                    if (isValid(mObject.getCancelReason()))
-                        showCancelledNotPopUp(mObject.getCancelReason());
+            holder.TextView_cancelled.setOnTouchListener(new View.OnTouchListener() {
+                @SuppressLint("ClickableViewAccessibility")
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    if (event.getAction() == MotionEvent.ACTION_UP) {
+                        int[] textLocation = new int[2];
+                        holder.TextView_cancelled.getLocationOnScreen(textLocation);
+
+                        if (event.getRawX() <=  textLocation[0] + holder.TextView_cancelled.getTotalPaddingLeft()) {
+                            if (isValid(mObject.getCancelReason()))
+                                showCancelledNotPopUp(mObject.getCancelReason());
+                            return true;
+                        }
+
+                    }
+                    return true;
                 }
             });
 
-            holder.accepted_textView.setOnClickListener(new View.OnClickListener() {
+
+            holder.mButton_RejestReason.setOnTouchListener(new View.OnTouchListener() {
+                @SuppressLint("ClickableViewAccessibility")
                 @Override
-                public void onClick(View view) {
-                    holder.ImageView_PrevistNote.performClick();
+                public boolean onTouch(View v, MotionEvent event) {
+                    if (event.getAction() == MotionEvent.ACTION_UP) {
+                        int[] textLocation = new int[2];
+                        holder.mButton_RejestReason.getLocationOnScreen(textLocation);
+
+                        if (event.getRawX() <=  textLocation[0] + holder.mButton_RejestReason.getTotalPaddingLeft()) {
+                            if (isValid(mObject.getRejectReason()))
+                            {
+                                showRejectedReasonPopUp(mObject.getRejectReason());
+                            } else {
+                                Toast.makeText(mContext, "Not available", Toast.LENGTH_LONG).show();
+                            }
+                            return true;
+                        }
+
+                    }
+                    return true;
                 }
             });
+
         }
 
 

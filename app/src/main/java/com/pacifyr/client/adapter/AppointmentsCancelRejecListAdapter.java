@@ -1,9 +1,11 @@
 package com.pacifyr.client.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -121,25 +123,45 @@ public class AppointmentsCancelRejecListAdapter extends RecyclerView.Adapter<App
             }
 
 
-            holder.TextView_Rejected.setOnClickListener(new View.OnClickListener() {
+            holder.TextView_Rejected.setOnTouchListener(new View.OnTouchListener() {
+                @SuppressLint("ClickableViewAccessibility")
                 @Override
-                public void onClick(View v) {
+                public boolean onTouch(View v, MotionEvent event) {
+                    if (event.getAction() == MotionEvent.ACTION_UP) {
+                        int[] textLocation = new int[2];
+                        holder.TextView_Rejected.getLocationOnScreen(textLocation);
 
-                    if (isValid(mObject.getRejectReason()))
-                    {
-                        showRejectedReasonPopUp(mObject.getRejectReason());
-                    } else {
-                        Toast.makeText(mContext, "Not available", Toast.LENGTH_LONG).show();
+                        if (event.getRawX() <=  textLocation[0] + holder.TextView_Rejected.getTotalPaddingLeft()) {
+                            if (isValid(mObject.getRejectReason()))
+                            {
+                                showRejectedReasonPopUp(mObject.getRejectReason());
+                            } else {
+                                Toast.makeText(mContext, "Not available", Toast.LENGTH_LONG).show();
+                            }
+                            return true;
+                        }
+
                     }
+                    return true;
                 }
             });
 
-            holder.TextView_cancelled.setOnClickListener(new View.OnClickListener() {
+            holder.TextView_cancelled.setOnTouchListener(new View.OnTouchListener() {
+                @SuppressLint("ClickableViewAccessibility")
                 @Override
-                public void onClick(View view) {
+                public boolean onTouch(View v, MotionEvent event) {
+                    if (event.getAction() == MotionEvent.ACTION_UP) {
+                        int[] textLocation = new int[2];
+                        holder.TextView_cancelled.getLocationOnScreen(textLocation);
 
-                    if (isValid(mObject.getCancelReason()))
-                        showCancelledNotPopUp(mObject.getCancelReason());
+                        if (event.getRawX() <=  textLocation[0] + holder.TextView_cancelled.getTotalPaddingLeft()) {
+                            if (isValid(mObject.getCancelReason()))
+                                showCancelledNotPopUp(mObject.getCancelReason());
+                            return true;
+                        }
+
+                    }
+                    return true;
                 }
             });
 
