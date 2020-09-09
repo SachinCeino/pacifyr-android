@@ -741,7 +741,19 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
 
             reason_ctxv.setVisibility(View.VISIBLE);
             if(isCustomer())
-                defSetText(reason_ctxv,"Cause: "+ EmotionSpecialityAdapter.reason_forcall);
+            {
+                if (isValid(NetworkService.mCurrentUser)) {
+                    if (isValid(NetworkService.mCurrentUser.getSelectedSpecialityCategory()))
+                    defSetText(reason_ctxv,"Cause: "+ NetworkService.mCurrentUser.getSelectedSpecialityCategory());
+                    else if (isValid(NetworkService.mCurrentUser.getSelectedSpeciality()))
+                    defSetText(reason_ctxv,"Cause: "+ NetworkService.mCurrentUser.getSelectedSpeciality());
+                }
+                else {
+                    defSetText(reason_ctxv,"Cause: "+ EmotionSpecialityAdapter.reason_forcall);
+                }
+
+            }
+
             else {
                 defSetText(reason_ctxv,"Cause: "+ CallActivity.mSessionDetailRoot.getReasonForTheCall());
             }
