@@ -467,8 +467,9 @@ public class RegisterActivity extends PacifyrActivity {
 
             new SingleDateAndTimePickerDialog.Builder(this)
                     .bottomSheet()
-                    .curved()
-                    .mainColor(getResources().getColor(R.color.colorPrimary))
+                    .backgroundColor(getResources().getColor(R.color.grey_light))
+                    .titleTextColor(getResources().getColor(R.color.colorPrimary))
+                    .mainColor(getResources().getColor(R.color.black))
                     .displayListener(new SingleDateAndTimePickerDialog.DisplayListener() {
                         @Override
                         public void onDisplayed(SingleDateAndTimePicker picker) {
