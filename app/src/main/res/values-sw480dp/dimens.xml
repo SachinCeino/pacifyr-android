@@ -6,7 +6,7 @@
     <dimen name="nav_header_height">176dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="text_view_find_care_sub">15sp</dimen>
-    <dimen name="dash_circle_wh">120dp</dimen>
+    <dimen name="dash_circle_wh">135dp</dimen>
     <!-- Per the design guidelines, navigation drawers should be between 240dp and 320dp:
          https://developer.android.com/design/patterns/navigation-drawer.html -->
 
