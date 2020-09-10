@@ -622,9 +622,7 @@ public class AccountEditActivity extends PacifyrAppCompactActivity {
 
 
 
-                if (getPrefManager().getCountry().equals("India")||
-                getPrefManager().getCountry().equals("Wakanda"))
-                {
+
                     List<Object> list=new ArrayList<>();
                     ArrayList<Certification> mCertificate = new ArrayList<>();
                     if (isValidSize(documentFileList))
@@ -669,8 +667,6 @@ public class AccountEditActivity extends PacifyrAppCompactActivity {
                         }
                         postRegisterModel.setCertification(mCertificate);
                     }
-
-                }
 
 
 
