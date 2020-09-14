@@ -241,6 +241,8 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
         setEmotionViews();
         if (isIncomingCall)
             getCurrentUserInformation();
+        else
+            getCurrentUserProfileInfo();
         /*billingSwitch.setVisibility(View.VISIBLE);
         billingSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -391,6 +393,29 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
 
     }
 
+    private void getCurrentUserProfileInfo() {
+
+        if (isValid(getPrefManager().getUserID())) {
+            new NetworkService().incomingVideoCallUserEmotion(getPrefManager().getUserID(), new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject json, AjaxStatus status) {
+                    MEmotion emotion = null;
+                    String image = null;
+
+                    if (isValid(json)) {
+
+                        NetworkService.mCurrentUser = GsonUtils.getInstance().gsonToModelUserProfile(json);
+                        if (isValid(NetworkService.mCurrentUser)) {
+                            if (isValid(NetworkService.mCurrentUser.getEmotion()))
+                                PacifyrActivity.call_emotion=NetworkService.mCurrentUser.getEmotion();
+                            setEmotionViews();
+                            setResaonViews();
+                        }
+                    }
+                }
+            });
+        }
+    }
 
 
     private String getOpponentId() {

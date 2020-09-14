@@ -559,7 +559,8 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
         setEmotionViews();
         if (isIncomingCall)
             getCurrentUserInformation();
-
+        else
+            getCurrentUserProfileInfo();
         localVideoView = view.findViewById(R.id.local_video_view);
         initCorrectSizeForLocalView();
         localVideoView.setZOrderMediaOverlay(true);
@@ -701,6 +702,30 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
         });
     }
 
+    private void getCurrentUserProfileInfo() {
+
+        if (isValid(getPrefManager().getUserID())) {
+            new NetworkService().incomingVideoCallUserEmotion(getPrefManager().getUserID(), new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject json, AjaxStatus status) {
+                    MEmotion emotion = null;
+                    String image = null;
+
+                    if (isValid(json)) {
+
+                        NetworkService.mCurrentUser = GsonUtils.getInstance().gsonToModelUserProfile(json);
+                        if (isValid(NetworkService.mCurrentUser)) {
+                            if (isValid(NetworkService.mCurrentUser.getEmotion()))
+                                PacifyrActivity.call_emotion=NetworkService.mCurrentUser.getEmotion();
+                            setEmotionViews();
+                            setResaonViews();
+                        }
+                    }
+                }
+            });
+        }
+    }
+
 
     private void getCurrentUserInformation() {
         if (isValid(getCallUser()) && isValid(getCallUser().getId())) {
@@ -741,22 +766,42 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
 
             reason_ctxv.setVisibility(View.VISIBLE);
             if(isCustomer())
-            {
-                if (isValid(NetworkService.mCurrentUser)) {
-                    if (isValid(NetworkService.mCurrentUser.getSelectedSpecialityCategory()))
-                    defSetText(reason_ctxv,"Cause: "+ NetworkService.mCurrentUser.getSelectedSpecialityCategory());
-                    else if (isValid(NetworkService.mCurrentUser.getSelectedSpeciality()))
-                    defSetText(reason_ctxv,"Cause: "+ NetworkService.mCurrentUser.getSelectedSpeciality());
-                }
-                else {
-                    defSetText(reason_ctxv,"Cause: "+ EmotionSpecialityAdapter.reason_forcall);
-                }
+                if (isIncomingCall) {
+                    /**call from pacifyr to user **/
 
-            }
+                    if (isValid(NetworkService.mCurrentUser))
+                        if (isValid(NetworkService.mCurrentUser.getSelectedSpecialityCategory()))
+                            defSetText(reason_ctxv, "Cause: "+NetworkService.mCurrentUser.getSelectedSpecialityCategory());
+                        else if (isValid(NetworkService.mCurrentUser.getSelectedSpeciality()))
+                            defSetText(reason_ctxv, "Cause: "+NetworkService.mCurrentUser.getSelectedSpeciality());
+
+                } else {
+                    if (isValid(NetworkService.mCurrentUser)) {
+                        if (isValid(NetworkService.mCurrentUser.getSelectedSpecialityCategory()))
+                            defSetText(reason_ctxv, "Cause: "+NetworkService.mCurrentUser.getSelectedSpecialityCategory());
+                        else if (isValid(NetworkService.mCurrentUser.getSelectedSpeciality()))
+                            defSetText(reason_ctxv, "Cause: "+NetworkService.mCurrentUser.getSelectedSpeciality());
+                    }
+                    else {
+                        defSetText(reason_ctxv, "Cause: "+EmotionSpecialityAdapter.reason_forcall);
+                    }
+
+                }
 
             else {
-                defSetText(reason_ctxv,"Cause: "+ CallActivity.mSessionDetailRoot.getReasonForTheCall());
+                defSetText(reason_ctxv, "Cause: "+CallActivity.mSessionDetailRoot.getReasonForTheCall());
             }
+            if (!isValid(reason_ctxv.getText()))
+            {
+                if (isValid(getPrefManager().getReasonFortheCall()))
+                {
+                    reason_ctxv.setText("Cause: "+getPrefManager().getReasonFortheCall());
+                }
+
+            }
+
+
+
         }catch (Exception e)
         {
             reason_ctxv.setVisibility(View.GONE);
@@ -845,7 +890,7 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
                 if (isValid(getPrefManager().getSavedEmotionName()))
                 {
                     emotion_ctxv.setVisibility(View.VISIBLE);
-                    defSetText(emotion_ctxv,getPrefManager().getSavedEmotionName());
+                    defSetText(emotion_ctxv,"Emotions :"+getPrefManager().getSavedEmotionName());
                 }
             }
 

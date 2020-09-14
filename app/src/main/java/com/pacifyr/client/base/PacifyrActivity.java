@@ -153,6 +153,7 @@ import java.util.TimerTask;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static com.pacifyr.client.network.NetworkService.mCurrentUser;
 import static com.pacifyr.client.network.NetworkService.modelAllEmotions;
 import static com.pacifyr.client.quickblox.activities.CallActivity.isCallActive;
 import static com.pacifyr.client.utils.Constants.getCountryChecks;
@@ -1846,6 +1847,7 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
                 };
                 AQuery aq = new AQuery(this);
                 //cb.header("support-app-id", "appid");
+
                 //cb.header("support-app-key", "appkey");
                 cb.header("AccessToken", getAccessToken());
                 cb.header("Content-Type", "application/json");
@@ -1856,7 +1858,12 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
                 //     input.putOpt("deviceType", Constants.DEVICETYPE);
                 input.putOpt("sessionType", roomType);
                 input.putOpt("appSource", Constants.getAppSource(getApplicationContext()));
-                input.putOpt("reasonForTheCall", EmotionSpecialityAdapter.reason_forcall);
+                if (isValid(EmotionSpecialityAdapter.reason_forcall))
+                    input.putOpt("reasonForTheCall", EmotionSpecialityAdapter.reason_forcall);
+                else if (isValid(getPrefManager().getReasonFortheCall()))
+                    input.putOpt("reasonForTheCall",getPrefManager().getReasonFortheCall());
+                else if (isValid(mCurrentUser.getSelectedSpecialityCategory()))
+                    input.putOpt("reasonForTheCall",mCurrentUser.getSelectedSpecialityCategory());
                 aq.post(GLOBAL_URL + "session/start", input, JSONObject.class, cb);
             }
         } catch (Exception e2){
@@ -2005,7 +2012,12 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
                 input.putOpt("timeSlotBookingId",timeSlotBookingId);
                 input.putOpt("sessionType", roomType);
                 input.putOpt("appSource", Constants.getAppSource(getApplicationContext()));
-                input.putOpt("reasonForTheCall", EmotionSpecialityAdapter.reason_forcall);
+                if (isValid(EmotionSpecialityAdapter.reason_forcall))
+                    input.putOpt("reasonForTheCall", EmotionSpecialityAdapter.reason_forcall);
+                else if (isValid(getPrefManager().getReasonFortheCall()))
+                    input.putOpt("reasonForTheCall",getPrefManager().getReasonFortheCall());
+                else if (isValid(mCurrentUser.getSelectedSpecialityCategory()))
+                    input.putOpt("reasonForTheCall",mCurrentUser.getSelectedSpecialityCategory());
                 aq.post(GLOBAL_URL + "session/start", input, JSONObject.class, cb);
             }
         } catch (Exception e2){

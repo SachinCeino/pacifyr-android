@@ -17,6 +17,8 @@ import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.MEmotion;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.post.PostRegisterModel;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.google.gson.Gson;
@@ -36,6 +38,8 @@ import java.util.HashMap;
 
 import static com.pacifyr.client.home.ConnectToPacifyrActivity.customerEmotion;
 import static com.pacifyr.client.network.NetworkService.GLOBAL_URL;
+import static com.pacifyr.client.network.NetworkService.mCurrentUser;
+import static com.pacifyr.client.network.NetworkService.modelCustomerDashboard2;
 
 /**
  * Created by ceino on 19/12/17.
@@ -331,6 +335,39 @@ public class EmotionSpecialityAdapter extends RecyclerView.Adapter<EmotionSpecia
                                     } else {
                                         Toast.makeText(context, "Error :" + e.getMessage(), Toast.LENGTH_LONG).show();
                                     }
+
+                                   try {
+                                       if (isValid(result))
+                                       {
+                                           PrefManager prefManager = PrefManager.getInstance(context);
+                                           MUser user  = GsonUtils.getInstance().gsonToMUser(jsonObject);
+                                           if (isValid(user) && isValid(user.getSelectedSpecialityCategory()))
+                                           {
+                                               EmotionSpecialityAdapter.reason_forcall = user.getSelectedSpecialityCategory();
+                                               prefManager.saveReasonFortheCall(user.getSelectedSpecialityCategory());
+                                           }
+
+                                           if (isValid(user) && isValid(user.getEmotion()))
+                                           {
+                                               try {
+                                                   PacifyrActivity.call_emotion = user.getEmotion();
+                                                   PacifyrActivity.call_emotion.setId(user.getEmotion().getId());
+                                                   PacifyrActivity.call_emotion.setTitle(user.getEmotion().getTitle());
+                                                   PacifyrActivity.call_emotion.setImage(user.getEmotion().getImage());
+                                                   prefManager.saveEmotionName(user.getEmotion().getTitle());
+                                                   prefManager.saveEmotionImage(user.getEmotion().getImage());
+                                               }catch(Exception e1)
+                                               {
+                                                   e1.printStackTrace();
+                                               }
+                                           }
+                                       }
+                                   }catch (Exception mException)
+                                   {
+                                       mException.printStackTrace();
+                                   }
+
+
                                 }
                             } catch (Exception eee) {
                                 Toast.makeText(context, "Error :" + e.getMessage() + ", ex :" + eee.getMessage(), Toast.LENGTH_LONG).show();
