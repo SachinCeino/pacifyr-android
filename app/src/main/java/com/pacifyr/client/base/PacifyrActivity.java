@@ -2716,8 +2716,9 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
                                                         //Toast.makeText(PacifyrActivity.this,"Clicked!",Toast.LENGTH_LONG).show();
                                                         dialog.dismiss();
                                                         Intent i = new Intent(context, DashboardActivity.class);
-                                                        startActivity(i);
+                                                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                                         finish();
+                                                        startActivity(i);
 
                                                     }
                                                 });

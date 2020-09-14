@@ -35,6 +35,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
 import com.google.firebase.dynamiclinks.PendingDynamicLinkData;
 import com.pacifyr.client.R;
+import com.pacifyr.client.activity.SplashScreen;
 import com.pacifyr.client.home.DashboardActivity;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 
@@ -1046,7 +1047,7 @@ public class Utility {
         }
     }
 
-    public static void handleDeepLink(Activity context, Intent intent) {
+    public static void handleDeepLink(Activity context, Intent intent, SplashScreen.DeepLinkListener linkListener) {
         FirebaseDynamicLinks.getInstance()
                 .getDynamicLink(intent)
                 .addOnSuccessListener(context, new OnSuccessListener<PendingDynamicLinkData>() {
@@ -1065,6 +1066,9 @@ public class Utility {
                                 PrefManager.getInstance(context).putString(PrefManager.COUPON_CODE, code);
                             }
                         }
+                        if (linkListener != null) {
+                            linkListener.onDone();
+                        }
 
                     }
                 })
@@ -1072,6 +1076,9 @@ public class Utility {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Log.w("handleDeepLink", "getDynamicLink:onFailure", e);
+                        if (linkListener != null) {
+                            linkListener.onDone();
+                        }
                     }
                 });
     }

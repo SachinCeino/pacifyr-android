@@ -64,68 +64,62 @@ public class SplashScreen extends BaseAppCompactActivity {
 
 
         FirebaseAnalytics.getInstance(this);
-        Utility.handleDeepLink(SplashScreen.this, getIntent());
-        mSensorService = new CallService(SplashScreen.this);
-        mServiceIntent = new Intent(SplashScreen.this, mSensorService.getClass());
-        /**place holder issue fix **/
-        ColorDrawable mColorDrawable = new ColorDrawable(getResources().getColor(R.color.black));
-        Picasso.with(this).load(R.drawable.splash).placeholder(mColorDrawable).into(image_splash);
-        if (!isMyServiceRunning(mSensorService.getClass())) {
-            startService(mServiceIntent);
-        }
-        try {
-            //generateHashkey();
-            progressquest2 = findViewById(R.id.progressquest2);
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    if(isValid(PrefManager.getInstance(SplashScreen.this))) {
-                        if(isValid(PrefManager.getInstance(SplashScreen.this).getJsonKey())) {
-                            String jsonString =PrefManager.getInstance(SplashScreen.this).getJsonKey();
-                            try {
+        Utility.handleDeepLink(SplashScreen.this, getIntent(), new DeepLinkListener() {
+            @Override
+            public void onDone() {
+                try {
+                    //generateHashkey();
+                    progressquest2 = findViewById(R.id.progressquest2);
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (isValid(PrefManager.getInstance(SplashScreen.this))) {
+                                if (isValid(PrefManager.getInstance(SplashScreen.this).getJsonKey())) {
+                                    String jsonString = PrefManager.getInstance(SplashScreen.this).getJsonKey();
+                                    try {
 
-                                JSONObject obj = new JSONObject(jsonString);
-                                Log.d("My App", obj.toString());
-                                userObject=obj.getJSONObject("user");
-                                JSONObject role=userObject.getJSONObject("roleModel");
-                                label=role.getString("mainLabel");
-                                //label=label+"";
+                                        JSONObject obj = new JSONObject(jsonString);
+                                        Log.d("My App", obj.toString());
+                                        userObject = obj.getJSONObject("user");
+                                        JSONObject role = userObject.getJSONObject("roleModel");
+                                        label = role.getString("mainLabel");
+                                        //label=label+"";
 
-                            } catch (Exception t) {
-                                t.printStackTrace();
-                            }
-                            sharedPrefsHelper = SharedPrefsHelper.getInstance();
-                            if (sharedPrefsHelper.hasQbUser()) {
-                                startLoginService(sharedPrefsHelper.getQbUser());
-                                // startOpponentsActivity();
-                                //return;
-                            }
-
-                            if(label.equals("pacifyr")) {
-
-                                NetworkService.startActionListCustomer(SplashScreen.this,0,10);
-                                try {
-                                    Boolean flag =userObject.getBoolean("termsAccepted");
-                                    if (flag) {
-
-                                        Intent intent = new Intent(SplashScreen.this, PacifyrDashboardActivity.class);
-                                        startActivity(intent);
-                                        finish();
-                                        Intent i = new Intent(SplashScreen.this, CallService.class);
-                                        startService(i);
-                                    }else{
-                                        Intent i = new Intent(SplashScreen.this, PacifyrTermsPolicyActivity.class);
-                                        startActivity(i);
-                                        finish();
-                                        Intent intent = new Intent(SplashScreen.this, CallService.class);
-                                        startService(intent);
+                                    } catch (Exception t) {
+                                        t.printStackTrace();
                                     }
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                    Toast.makeText(SplashScreen.this,"Network error, Please try again",Toast.LENGTH_LONG).show();
-                                }
-                            } else if(label.equals("customer")) {
-                                DashboardActivity.start(SplashScreen.this);
+                                    sharedPrefsHelper = SharedPrefsHelper.getInstance();
+                                    if (sharedPrefsHelper.hasQbUser()) {
+                                        startLoginService(sharedPrefsHelper.getQbUser());
+                                        // startOpponentsActivity();
+                                        //return;
+                                    }
+
+                                    if (label.equals("pacifyr")) {
+
+                                        NetworkService.startActionListCustomer(SplashScreen.this, 0, 10);
+                                        try {
+                                            Boolean flag = userObject.getBoolean("termsAccepted");
+                                            if (flag) {
+
+                                                Intent intent = new Intent(SplashScreen.this, PacifyrDashboardActivity.class);
+                                                startActivity(intent);
+                                                finish();
+                                                Intent i = new Intent(SplashScreen.this, CallService.class);
+                                                startService(i);
+                                            } else {
+                                                Intent i = new Intent(SplashScreen.this, PacifyrTermsPolicyActivity.class);
+                                                startActivity(i);
+                                                finish();
+                                                Intent intent = new Intent(SplashScreen.this, CallService.class);
+                                                startService(intent);
+                                            }
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                            Toast.makeText(SplashScreen.this, "Network error, Please try again", Toast.LENGTH_LONG).show();
+                                        }
+                                    } else if (label.equals("customer")) {
+                                        DashboardActivity.start(SplashScreen.this);
 
                                  /*Intent intent = new Intent(SplashScreen.this, ConnectToPacifyrActivity.class);
                                 intent.putExtra("display","Pacifyr");
@@ -136,27 +130,38 @@ public class SplashScreen extends BaseAppCompactActivity {
                                 /*Intent intent = new Intent(SplashScreen.this, DashboardActivity.class);
                                 startActivity(intent);
                                 finish();*/
+                                    }
+                                } else {
+                                    Intent intent = new Intent(SplashScreen.this, SignActivity.class);
+                                    startActivity(intent);
+                                    finish();
+
+                                }
+                            } else {
+                                Intent intent = new Intent(SplashScreen.this, SignActivity.class);
+                                startActivity(intent);
+                                finish();
                             }
-                        } else {
-                            Intent intent = new Intent(SplashScreen.this, SignActivity.class);
-                            startActivity(intent);
-                            finish();
-
                         }
-                    } else {
-                        Intent intent = new Intent(SplashScreen.this, SignActivity.class);
-                        startActivity(intent);
-                        finish();
-                    }
+                    }, SPLASH_TIME_OUT);
+
+
+                } catch (Exception e) {
+                    Intent intent = new Intent(SplashScreen.this, SignActivity.class);
+                    startActivity(intent);
+                    finish();
                 }
-            }, SPLASH_TIME_OUT);
-
-
-        }catch (Exception e) {
-            Intent intent = new Intent(SplashScreen.this, SignActivity.class);
-            startActivity(intent);
-            finish();
+            }
+        });
+        mSensorService = new CallService(SplashScreen.this);
+        mServiceIntent = new Intent(SplashScreen.this, mSensorService.getClass());
+        /**place holder issue fix **/
+        ColorDrawable mColorDrawable = new ColorDrawable(getResources().getColor(R.color.black));
+        Picasso.with(this).load(R.drawable.splash).placeholder(mColorDrawable).into(image_splash);
+        if (!isMyServiceRunning(mSensorService.getClass())) {
+            startService(mServiceIntent);
         }
+
         try {
             createNotificationChannel(this);
         } catch (Exception e) {
@@ -165,6 +170,10 @@ public class SplashScreen extends BaseAppCompactActivity {
         }
 
 
+    }
+
+    public interface DeepLinkListener {
+        void onDone();
     }
 
     private void createNotificationChannel(Context context) {
