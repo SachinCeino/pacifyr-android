@@ -525,6 +525,10 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
     }
 
     private void getWeakScheduleList() {
+        if (isValid(pacifyer_obj) &&isValid(pacifyer_obj.isEnableScheduling()) && !pacifyer_obj.isEnableScheduling()) {
+            noDataAvailable.setVisibility(VISIBLE);
+            return;
+        }
 
         text_loading.setVisibility(VISIBLE);
         rcv_week_schedule_.setAdapter(null);
@@ -630,18 +634,14 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
             @Override
             public void onDateClick(int position) {
 
-                if (pacifyer_obj.isEnableScheduling()) {
-                    if (isValid(weekScheduleData.get(position))) {
-                        ScheduleData singleItem = weekScheduleData.get(position);
-                        TempScheduleData = singleItem;
-                        if (isValid(singleItem)) {
-                            webGetTimSlotes(singleItem);
-                        }
+                if (isValid(weekScheduleData.get(position))) {
+                    ScheduleData singleItem = weekScheduleData.get(position);
+                    TempScheduleData = singleItem;
+                    if (isValid(singleItem)) {
+                        webGetTimSlotes(singleItem);
                     }
                 }
-                else {
-                    noDataAvailable.setVisibility(VISIBLE);
-                }
+
 
             }
         });
