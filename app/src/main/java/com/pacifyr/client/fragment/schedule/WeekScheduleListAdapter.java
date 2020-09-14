@@ -66,21 +66,20 @@ public class WeekScheduleListAdapter extends RecyclerView.Adapter<WeekScheduleLi
     public void setDefaultFirstWeekSelection() {
 
         long mServerMilliSeconds = 0;
-        long mcurrentMilliSeconds = Utility.getCurrentDateinMilliSeconds();
-
+        long mcurrentMilliSeconds = Utility.getCurrentMaxMilliseconds();
+        Log.w("@@@",String.valueOf(mcurrentMilliSeconds));
         ArrayList<Long> dates=new ArrayList<Long>();
         for (int i=0;i<weekScheduleData.size();i++)
         {
             mServerMilliSeconds = Utility.getLocalTimeFromUtc(weekScheduleData.get(i).getDate());
             dates.add(mServerMilliSeconds);
-            //Log.w("@@@",String.valueOf(mServerMilliSeconds));
+            Log.w("@@@",String.valueOf(mServerMilliSeconds));
         }
         int index=0;
 
         for(int j = 0; j < dates.size(); j++){
-            if(mcurrentMilliSeconds < dates.get(j)){
+            if(mcurrentMilliSeconds > dates.get(j)){
                 index = j;
-                break;
             }
         }
         weekScheduleData.get(index).setSetselected(true);
