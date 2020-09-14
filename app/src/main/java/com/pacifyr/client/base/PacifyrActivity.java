@@ -237,7 +237,7 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
                             }
                         });
                     }
-                    if (type.equals("confirmBooking") || type.equals("rejectBooking"))
+                    if (type.equals("confirmBooking") || type.equals("rejectBooking") || type.equals("reminder"))
                     {
                         showIOSDialogOKCancel("Message", message, "View", new iOSDialogClickListener() {
                             @Override

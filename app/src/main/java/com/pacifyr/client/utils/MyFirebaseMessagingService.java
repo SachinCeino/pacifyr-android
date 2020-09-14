@@ -286,6 +286,15 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                                     intent.putExtra("typeId", typeId);
                                     LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
                                 }
+                                else if (actual_type.equalsIgnoreCase("chat")
+                                        ||actual_type.equalsIgnoreCase("confirmBooking")
+                                        || actual_type.equalsIgnoreCase("rejectBooking")
+                                        || actual_type.equalsIgnoreCase("reminder")) {
+                                    Intent intent = new Intent(NotificationUtils.NOTIFY_INTENT);
+                                    intent.putExtra("type", actual_type);
+                                    intent.putExtra("message", message);
+                                    LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+                                }
 
                             }
                         } else {
