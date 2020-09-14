@@ -185,7 +185,7 @@ public class AppointmentsFragment extends BaseFragment {
         final EditText message_edt = myView.findViewById(R.id.message_edt);
         final LinearLayout close_layout = myView.findViewById(R.id.close_layout);
         final ImageView close_dialogue = myView.findViewById(R.id.close_dialogue);
-        title.setText(getResources().getString(R.string.cancel_appointment));
+        title.setText(getResources().getString(R.string.cancelled_reason));
         message_edt.setHint("Enter notes");
         AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
         alert.setView(myView);

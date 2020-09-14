@@ -207,7 +207,6 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="no_appointments">No appointments available</string>
     <string name="kyc_document">Identity Document</string>
     <string name="cancel_appointment">Cancel note</string>
-    <string name="cancelled_reason">Reason for cancel</string>
     <string name="please_enter_a_valid_coupon_code">Please enter valid coupon code</string>
     <string name="upload"><u>Upload</u></string>
     <string name="how_client_felt">How client felt</string>
@@ -223,6 +222,8 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="No_identity_document_available">No identity document is available</string>
     <string name="ActionBarCommonFont">ActionBarCommonFont.otf</string>
     <string name="Cancelled_since_you_did_not_call_the_provider">Cancelled since you did not call the provider</string>
+    <string name="reason_for_rejection">Reason for rejection</string>
+    <string name="cancelled_reason">Reason for Cancellation</string>
 
 
 </resources>

@@ -473,7 +473,7 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<AppointmentsLi
         final TextView title = myView.findViewById(R.id.title);
         final TextView message_edt = myView.findViewById(R.id.message_edt);
         final LinearLayout close_layout = myView.findViewById(R.id.close_layout);
-        title.setText("Reason for rejection");
+        title.setText(mContext.getResources().getString(R.string.reason_for_rejection));
         message_edt.setText(rejectReason.toString());
         AlertDialog.Builder alert = new AlertDialog.Builder(mContext);
         alert.setView(myView);
