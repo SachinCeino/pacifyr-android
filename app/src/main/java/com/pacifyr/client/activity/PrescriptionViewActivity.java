@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.net.http.SslError;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -43,11 +44,13 @@ public class PrescriptionViewActivity extends PacifyrActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_prescription_view);
         message_edt = findViewById(R.id.message_edt);
+        message_edt.setMovementMethod(new ScrollingMovementMethod());
         Bundle bundle = getIntent().getExtras();
         if( bundle!= null){
             text=bundle.getString("text");
         }
         message_edt.setText(text);
+        message_edt.setSelected(true);
         onSetActionBar();
 
 
