@@ -465,25 +465,25 @@ public class RegisterActivity extends PacifyrActivity {
             Calendar calendar =Calendar.getInstance();
             calendar.add(Calendar.YEAR,-18);
 
-            new SingleDateAndTimePickerDialog.Builder(this)
-                    .bottomSheet()
-                    .backgroundColor(getResources().getColor(R.color.grey_light))
-                    .titleTextColor(getResources().getColor(R.color.colorPrimary))
-                    .mainColor(getResources().getColor(R.color.black))
-                    .displayListener(new SingleDateAndTimePickerDialog.DisplayListener() {
+            SingleDateAndTimePickerDialog.Builder mSingleDateAndTimePickerDialog =   new SingleDateAndTimePickerDialog.Builder(this);
+            mSingleDateAndTimePickerDialog.bottomSheet();
+            mSingleDateAndTimePickerDialog.backgroundColor(getResources().getColor(R.color.grey_light));
+            mSingleDateAndTimePickerDialog.titleTextColor(getResources().getColor(R.color.colorPrimary));
+            mSingleDateAndTimePickerDialog.mainColor(getResources().getColor(R.color.black));
+            mSingleDateAndTimePickerDialog.displayListener(new SingleDateAndTimePickerDialog.DisplayListener() {
                         @Override
                         public void onDisplayed(SingleDateAndTimePicker picker) {
                             picker.selectDate(calendar);
                         }
-                    })
-                    .displayMinutes(false)
-                    .displayHours(false)
-                    .displayDays(false)
-                    .maxDateRange(calendar.getTime())
-                    .displayMonth(true)
-                    .displayYears(true)
-                    .displayDaysOfMonth(true)
-                    .listener(new SingleDateAndTimePickerDialog.Listener() {
+                    });
+            mSingleDateAndTimePickerDialog.displayMinutes(false);
+            mSingleDateAndTimePickerDialog.displayHours(false);
+            mSingleDateAndTimePickerDialog.displayDays(false);
+            mSingleDateAndTimePickerDialog.maxDateRange(calendar.getTime());
+            mSingleDateAndTimePickerDialog.displayMonth(true);
+            mSingleDateAndTimePickerDialog.displayYears(true);
+            mSingleDateAndTimePickerDialog.displayDaysOfMonth(true);
+            mSingleDateAndTimePickerDialog.listener(new SingleDateAndTimePickerDialog.Listener() {
                         @Override
                         public void onDateSelected(Date date) {
                             SimpleDateFormat postFormater = new SimpleDateFormat("dd-MMM-yyyy");
