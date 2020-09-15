@@ -82,6 +82,8 @@
                         android:id="@+id/tv_name"
                         android:textSize="20sp"
                         android:textStyle="bold"
+                        android:maxLines="2"
+                        android:ellipsize="end"
                         android:textColor="@color/blue_text_dark"
                         android:text=""/>
 

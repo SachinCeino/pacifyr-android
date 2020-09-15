@@ -344,8 +344,11 @@
                                         android:layout_centerHorizontal="true"
                                         android:gravity="center"
                                         android:text="..."
+                                        android:padding="1dp"
                                         android:textColor="@color/white"
                                         android:textSize="15sp"
+                                        android:maxLines="2"
+                                        android:ellipsize="end"
                                         android:textStyle="bold" />
 
                                     <LinearLayout

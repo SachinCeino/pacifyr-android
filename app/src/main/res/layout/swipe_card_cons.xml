@@ -79,6 +79,8 @@
         android:text="Samsad CV"
         android:textColor="@color/blue_text_dark"
         android:textSize="20sp"
+        android:maxLines="2"
+        android:ellipsize="end"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/right_guideline"
