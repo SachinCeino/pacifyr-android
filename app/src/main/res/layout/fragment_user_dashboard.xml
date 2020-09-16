@@ -343,7 +343,7 @@
                                         android:layout_below="@+id/last_session_dimv"
                                         android:layout_centerHorizontal="true"
                                         android:gravity="center"
-                                        android:text="..."
+                                        android:text=""
                                         android:padding="1dp"
                                         android:textColor="@color/white"
                                         android:textSize="15sp"
@@ -366,7 +366,7 @@
                                             android:layout_height="wrap_content"
                                             android:src="@drawable/ic_video_cam_blue"
                                             app:parameter="aspect_width"
-                                            app:width_percentage="5" />
+                                            app:width_percentage="4" />
 
                                         <com.pacifyr.client.customview.MainTextView
                                             android:id="@+id/last_session_minute_txv"
@@ -390,7 +390,7 @@
                                         android:padding="5dp"
                                         android:text="0  Days ago"
                                         android:textColor="#ffffff"
-                                        android:textSize="12sp"
+                                        android:textSize="11sp"
                                         android:visibility="visible" />
 
                                 </LinearLayout>
