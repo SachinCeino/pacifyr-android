@@ -84,6 +84,7 @@ public class CouponCodeFragment extends BaseFragment {
                             final ApiResponse apiResponse = new Gson().fromJson(json.toString(), ApiResponse.class);
                             if (apiResponse.isSuccess()) {
                                 PrefManager.getInstance(getContext()).putSharedString(PrefManager.APPLIED_COUPON_CODE, code);
+                                PrefManager.getInstance(getContext()).putSharedString(PrefManager.COUPON_CODE, code);
                                 ((DashboardActivity)getActivity()).getUserProfile(getUserID(), new AjaxCallback<JSONObject>() {
                                     @Override
                                     public void callback(String url, JSONObject json, AjaxStatus status) {

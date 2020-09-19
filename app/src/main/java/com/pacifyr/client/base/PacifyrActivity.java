@@ -285,6 +285,7 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
     };
     private boolean showDialogs = true;
     private iOSDialog dialog;
+    private boolean inProgress;
 
     public void showNotificationPopups(boolean val) {
         this.showNotification = val;
@@ -2682,11 +2683,18 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
     }
 
     public void applyCouponCode(Context context, String couponCode) {
+        if (inProgress) {
+            Log.d(TAG, "applyCouponCode in progress skipping...");
+            return;
+        }
+        Log.d(TAG, "applyCouponCode = " + couponCode);
+        inProgress = true;
         setLoading();
         showProgress();
         new NetworkService().validateDiscountCode(couponCode, new AjaxCallback<JSONObject>() {
             @Override
             public void callback(String url, JSONObject json, AjaxStatus status) {
+                inProgress = false;
                 if (json == null) {
                     hideProgress();
                     Toast.makeText(context, getString(R.string.invalid_coupon_code), Toast.LENGTH_SHORT).show();

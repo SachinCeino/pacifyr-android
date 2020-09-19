@@ -83,6 +83,7 @@ import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL
 
 public class DashboardActivity extends PacifyrAppCompactActivity{
 
+    private static final String TAG = DashboardActivity.class.getSimpleName();
     boolean showingFirst = true;
     private Context context;
 
@@ -810,6 +811,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
                 defSetText(titleTxv, getResources().getString(R.string.appointments));
             }
         }
+        checkAndApplyCode();
     }
 
 
@@ -936,15 +938,23 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
+        Log.d(TAG, "onNewIntent");
+        checkAndApplyCode();
+        Log.w("APPOINMETNOTI","DashboardActivty");
+
+    }
+
+    public void checkAndApplyCode() {
+        Log.d(TAG, "checkAndApplyCode");
         String couponCode = PrefManager.getInstance(DashboardActivity.this).getSharedString(PrefManager.COUPON_CODE, null);
+        Log.d(TAG, "checkAndApplyCode couponcode = " + couponCode);
         if (couponCode != null) {
             String appliedCouponCode = PrefManager.getInstance(DashboardActivity.this).getSharedString(PrefManager.APPLIED_COUPON_CODE, null);
+            Log.d(TAG, "checkAndApplyCode applied couponcode = " + appliedCouponCode);
             if (!isValid(appliedCouponCode) || !appliedCouponCode.equalsIgnoreCase(couponCode)) {
                 applyCouponCode(DashboardActivity.this, couponCode);
             }
         }
-        Log.w("APPOINMETNOTI","DashboardActivty");
-
     }
 }
 
