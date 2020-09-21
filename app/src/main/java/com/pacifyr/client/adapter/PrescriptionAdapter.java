@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.krishna.fileloader.FileLoader;
@@ -17,6 +18,7 @@ import com.pacifyr.client.R;
 import com.pacifyr.client.activity.PrescriptionViewActivity;
 import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
+import com.pacifyr.client.fragment.schedule.AppointmentModel;
 import com.pacifyr.client.home.LastSessionActivity;
 import com.pacifyr.client.home.SessionSummaryActivity;
 import com.pacifyr.client.model.MComments;
@@ -41,7 +43,7 @@ import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL
  * Created by ceino on 14/12/17.
  */
 
-public class PrescriptionAdapter extends RecyclerView.Adapter<PrescriptionAdapter.MyViewHolder>{
+public class PrescriptionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     List<PrescriptionList.Result> list;
     Context context;
@@ -49,12 +51,35 @@ public class PrescriptionAdapter extends RecyclerView.Adapter<PrescriptionAdapte
         this.list=list;
         this.context=context;
     }
+
     @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public int getItemViewType(int position) {
+        int ViewType = 0;
+        if (list.get(position).getPacifyr()==null)
+        {
+            ViewType =1;
+        }
+        return ViewType;
+
+    }
+
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
+        RecyclerView.ViewHolder rcv=null;
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.list_prescriptions, parent, false);
 
-        return new MyViewHolder(itemView);
+        if (viewType==1) {
+            itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_event_empty, parent, false);
+            rcv = new ViewHolderEmpty(itemView);
+        }
+        else
+        {
+            rcv = new MyViewHolder(itemView);
+        }
+
+        return rcv;
     }
     public PrescriptionList.Result getItem (int position) {
         PrescriptionList.Result results = null;
@@ -63,9 +88,32 @@ public class PrescriptionAdapter extends RecyclerView.Adapter<PrescriptionAdapte
         return results;
     }
     @Override
-    public void onBindViewHolder(final MyViewHolder holder, final int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
 
-        final PrescriptionList.Result object=getItem(position);
+        if (holder instanceof MyViewHolder) {
+            MyViewHolder mMyViewHolder = (MyViewHolder) holder;
+            final PrescriptionList.Result object=getItem(position);
+           setMyViewHolder(mMyViewHolder,object,position);
+
+        }else if (holder instanceof ViewHolderEmpty) {
+            ViewHolderEmpty mViewHolderEmpty = (ViewHolderEmpty) holder;
+            setmViewHolderEmpty(mViewHolderEmpty);
+        }
+
+    }
+
+    private void setmViewHolderEmpty(ViewHolderEmpty mViewHolderEmpty) {
+       // mViewHolderEmpty.rootLayout.setBackgroundColor(context.getResources().getColor(R.color.appointment_no_click));
+    }
+
+    public class ViewHolderEmpty extends RecyclerView.ViewHolder {
+        private RelativeLayout rootLayout;
+        public ViewHolderEmpty(View view) {
+            super(view);
+            rootLayout = view.findViewById(R.id.rootLayout);
+        }
+    }
+    private void setMyViewHolder(MyViewHolder holder, PrescriptionList.Result object, int position) {
         if(isValid(object)) {
 
             if (isValid(object.getPacifyr().getImage()))
@@ -100,8 +148,7 @@ public class PrescriptionAdapter extends RecyclerView.Adapter<PrescriptionAdapte
 
 
             }
-            }
-
+        }
 
     }
 

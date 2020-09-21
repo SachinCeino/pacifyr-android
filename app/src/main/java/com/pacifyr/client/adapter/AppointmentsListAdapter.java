@@ -24,6 +24,7 @@ import com.pacifyr.client.fragment.schedule.AppointmentModel;
 import com.pacifyr.client.home.ProfileScreenActivity;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.utils.Utility;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.MSessionDetailRoot;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 import com.squareup.picasso.Picasso;
 
@@ -35,7 +36,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by ceino on 18/5/18.
  */
 
-public class AppointmentsListAdapter extends RecyclerView.Adapter<AppointmentsListAdapter.ViewHolder> {
+public class AppointmentsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private List<AppointmentModel.Result> mAppointmentList;
     private Context mContext;
@@ -58,10 +59,21 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<AppointmentsLi
     }
 
     @Override
-    public AppointmentsListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_appointmentlist_item, parent, false);
-        ViewHolder viewHolder = new ViewHolder(v);
-        return viewHolder;
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        RecyclerView.ViewHolder rcv=null;
+        View itemView = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.adapter_appointmentlist_item, parent, false);
+
+        if (viewType==1) {
+            itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_event_empty, parent, false);
+            rcv = new ViewHolderEmpty(itemView);
+        }
+        else
+        {
+            rcv = new MyViewHolder(itemView);
+        }
+
+        return rcv;
     }
 
     private AppointmentModel.Result getItem(int position) {
@@ -75,13 +87,39 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<AppointmentsLi
 
     @Override
     public int getItemViewType(int position) {
-        return super.getItemViewType(position);
+        int ViewType = 0;
+        if (mAppointmentList.get(position).getPacifyr()==null)
+        {
+            ViewType =1;
+        }
+        return ViewType;
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, final int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         holder.setIsRecyclable(false);
-        final AppointmentModel.Result mObject = getItem(position);
+        if (holder instanceof MyViewHolder) {
+            MyViewHolder mMyViewHolder = (MyViewHolder) holder;
+            final AppointmentModel.Result mObject = getItem(position);
+            setMyViewHolder(mMyViewHolder,mObject,position);
+
+        }else if (holder instanceof ViewHolderEmpty) {
+            ViewHolderEmpty mViewHolderEmpty = (ViewHolderEmpty) holder;
+            setmViewHolderEmpty(mViewHolderEmpty);
+        }
+
+
+
+
+
+    }
+
+    private void setmViewHolderEmpty(ViewHolderEmpty mViewHolderEmpty) {
+        mViewHolderEmpty.rootLayout.setBackgroundColor(mContext.getResources().getColor(R.color.appointment_no_click));
+    }
+
+    private void setMyViewHolder(MyViewHolder holder, AppointmentModel.Result mObject, int position) {
+
         if (isValid(mObject)) {
             if (isValid(mObject.getPacifyr())) {
                 MUser mPacifyr = mObject.getPacifyr();
@@ -193,7 +231,7 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<AppointmentsLi
                             holder.chat_rlay.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
-                               ((PacifyrActivity)mContext).startChat(mObject.getPacifyr());
+                                    ((PacifyrActivity)mContext).startChat(mObject.getPacifyr());
                                 }
                             });
 
@@ -265,7 +303,7 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<AppointmentsLi
 
             }
             else if (isValid(mObject.getConfirmed())&&mObject.getConfirmed()
-            && isValid(mObject.getCompleted())&&mObject.getCompleted())
+                    && isValid(mObject.getCompleted())&&mObject.getCompleted())
             {
                 //complted
                 holder.mTextView_Completed.setVisibility(View.VISIBLE);
@@ -300,7 +338,7 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<AppointmentsLi
                 }
             }
             if (isValid(mObject.getCancelled())&& mObject.getCancelled()
-            || isValid(mObject.getRejected())&&mObject.getRejected())
+                    || isValid(mObject.getRejected())&&mObject.getRejected())
             {
                 //do do nothing disable click
             }
@@ -313,7 +351,7 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<AppointmentsLi
                                 && isValid(mObject.getCompleted())&&mObject.getCompleted())
                         {
                             if (isValid(mObject.getVisitNote()))
-                            showCompletedPopUp(mObject.getVisitNote());
+                                showCompletedPopUp(mObject.getVisitNote());
                         }
                         else if (!scheduleIsFullyPassed(mObject.getStartTimeGMT())) {
                             mScheduleCancelListner.onScheduleCancel(mObject, position);
@@ -328,7 +366,7 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<AppointmentsLi
                 @Override
                 public void onClick(View view) {
                     if (isValid(mObject.getPreVisitNote()))
-                    showPreVistNotPopUp(mObject.getPreVisitNote());
+                        showPreVistNotPopUp(mObject.getPreVisitNote());
                 }
             });
 
@@ -399,8 +437,6 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<AppointmentsLi
             });
 
         }
-
-
 
     }
 
@@ -494,7 +530,16 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<AppointmentsLi
         return mAppointmentList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+        public class ViewHolderEmpty extends RecyclerView.ViewHolder {
+            private RelativeLayout rootLayout;
+            public ViewHolderEmpty(View view) {
+                super(view);
+                rootLayout = view.findViewById(R.id.rootLayout);
+            }
+        }
+
+
+    public class MyViewHolder extends RecyclerView.ViewHolder {
 
         private CircleImageView mCircleImageView_Appointment_pacifyr;
         private TextView mTextView_PacifyrName;
@@ -508,7 +553,7 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<AppointmentsLi
         private TextView accepted_textView,TextView_cancelled,mTextView_Completed;
 
 
-        public ViewHolder(View itemView) {
+        public MyViewHolder(View itemView) {
             super(itemView);
             mCircleImageView_Appointment_pacifyr = itemView.findViewById(R.id.mCircleImageView_Appointment_pacifyr);
             mTextView_PacifyrName = itemView.findViewById(R.id.mTextView_PacifyrName);
@@ -584,5 +629,7 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<AppointmentsLi
         }
 
     }
+
+
 
 }

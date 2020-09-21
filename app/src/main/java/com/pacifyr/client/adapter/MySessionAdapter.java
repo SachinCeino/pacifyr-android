@@ -131,9 +131,17 @@ public class MySessionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 OfficeVisit officeVisit = (OfficeVisit) topholder;
                 setViewholder(officeVisit, position);
             }
+            else if (topholder instanceof ViewHolderEmpty) {
+                ViewHolderEmpty officeVisit = (ViewHolderEmpty) topholder;
+                setViewholder(officeVisit, position);
+            }
 
         }
 
+
+    }
+
+    private void setViewholder(ViewHolderEmpty holder, int position) {
 
     }
 
@@ -508,7 +516,7 @@ public class MySessionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
             pos = 1;
 
-        }else if(!isValid(list.get(position).getPacifyr().getName())){
+        }else if(list.get(position).getPacifyr() ==null){
             pos = 2;
         } else if (isValid(list.get(position)) && isValid(list.get(position).getSessionType())
                 && list.get(position).getSessionType().equalsIgnoreCase(MUser.VISIT_TYPE_OFFICE)) {

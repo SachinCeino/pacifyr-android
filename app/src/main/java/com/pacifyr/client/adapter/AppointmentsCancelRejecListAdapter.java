@@ -35,7 +35,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  */
 
 
-public class AppointmentsCancelRejecListAdapter extends RecyclerView.Adapter<AppointmentsCancelRejecListAdapter.ViewHolder> {
+public class AppointmentsCancelRejecListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private List<AppointmentModel.Result> mAppointmentList;
     private Context mContext;
@@ -49,12 +49,32 @@ public class AppointmentsCancelRejecListAdapter extends RecyclerView.Adapter<App
 
 
     @Override
-    public AppointmentsCancelRejecListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_appointmen_cancel_reject_item, parent, false);
-        ViewHolder viewHolder = new ViewHolder(v);
-        return viewHolder;
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        
+        RecyclerView.ViewHolder rcv=null;
+        View itemView = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.adapter_appointmen_cancel_reject_item, parent, false);
+
+        if (viewType==1) {
+            itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_event_empty, parent, false);
+            rcv = new ViewHolderEmpty(itemView);
+        }
+        else
+        {
+            rcv = new MyViewHolder(itemView);
+        }
+
+        return rcv;
     }
 
+    public class ViewHolderEmpty extends RecyclerView.ViewHolder {
+        private RelativeLayout rootLayout;
+        public ViewHolderEmpty(View view) {
+            super(view);
+            rootLayout = view.findViewById(R.id.rootLayout);
+        }
+    }
+    
     private AppointmentModel.Result getItem(int position) {
         return mAppointmentList.get(position);
     }
@@ -66,13 +86,35 @@ public class AppointmentsCancelRejecListAdapter extends RecyclerView.Adapter<App
 
     @Override
     public int getItemViewType(int position) {
-        return super.getItemViewType(position);
+        int ViewType = 0;
+        if (mAppointmentList.get(position).getPacifyr()==null)
+        {
+            ViewType =1;
+        }
+        return ViewType;
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, final int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         holder.setIsRecyclable(false);
-        final AppointmentModel.Result mObject = getItem(position);
+        if (holder instanceof MyViewHolder) {
+            MyViewHolder mMyViewHolder = (MyViewHolder) holder;
+            final AppointmentModel.Result mObject = getItem(position);
+            setMyViewHolder(mMyViewHolder,mObject,position);
+
+        }else if (holder instanceof ViewHolderEmpty) {
+            ViewHolderEmpty mViewHolderEmpty = (ViewHolderEmpty) holder;
+            setmViewHolderEmpty(mViewHolderEmpty);
+        }
+        
+
+    }
+
+    private void setmViewHolderEmpty(ViewHolderEmpty mViewHolderEmpty) {
+        mViewHolderEmpty.rootLayout.setBackgroundColor(mContext.getResources().getColor(R.color.appointment_no_click));
+    }
+
+    private void setMyViewHolder(MyViewHolder holder, AppointmentModel.Result mObject, int position) {
         if (isValid(mObject)) {
             if (isValid(mObject.getPacifyr())) {
                 MUser mPacifyr = mObject.getPacifyr();
@@ -169,10 +211,7 @@ public class AppointmentsCancelRejecListAdapter extends RecyclerView.Adapter<App
 
         }
 
-
-
     }
-
 
 
     private void showRejectedReasonPopUp(Object rejectReason) {
@@ -201,7 +240,7 @@ public class AppointmentsCancelRejecListAdapter extends RecyclerView.Adapter<App
         return mAppointmentList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class MyViewHolder extends RecyclerView.ViewHolder {
 
         private CircleImageView mCircleImageView_Appointment_pacifyr;
         private TextView mTextView_PacifyrName;
@@ -211,7 +250,7 @@ public class AppointmentsCancelRejecListAdapter extends RecyclerView.Adapter<App
 
 
 
-        public ViewHolder(View itemView) {
+        public MyViewHolder(View itemView) {
             super(itemView);
             mCircleImageView_Appointment_pacifyr = itemView.findViewById(R.id.mCircleImageView_Appointment_pacifyr);
             mTextView_PacifyrName = itemView.findViewById(R.id.mTextView_PacifyrName);
