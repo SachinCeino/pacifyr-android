@@ -1,7 +1,6 @@
 package com.pacifyr.client.sign;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -29,9 +28,7 @@ import android.text.method.MovementMethod;
 import android.text.style.ClickableSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.Window;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -45,31 +42,14 @@ import android.widget.Toast;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.aigestudio.wheelpicker.WheelPicker;
-import com.aigestudio.wheelpicker.widgets.WheelYearPicker;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
-import com.github.florent37.singledateandtimepicker.dialog.SingleDateAndTimePickerDialog;
-import com.pacifyr.client.adapter.ListFileAdapter;
-
-import com.pacifyr.client.model.ModelPacifyrDocuments;
-import com.pacifyrapp.utilitylibrary.CustomEditText;
-import com.pacifyr.client.customview.MainTextView;
-import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
-import com.pacifyrapp.utilitylibrary.ToastHandler;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.Certification;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.Education;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.MRoleModel;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelUserProfile;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.post.PRegistrationModel;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.post.PostRegisterModel;
-import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.facebook.login.LoginManager;
 import com.gdacciaro.iOSDialog.iOSDialog;
 import com.gdacciaro.iOSDialog.iOSDialogClickListener;
+import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
+import com.github.florent37.singledateandtimepicker.dialog.SingleDateAndTimePickerDialog;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.kaopiz.kprogresshud.KProgressHUD;
@@ -77,10 +57,13 @@ import com.koushikdutta.ion.Ion;
 import com.pacifyr.client.R;
 import com.pacifyr.client.activity.TermsOfUseActivity;
 import com.pacifyr.client.adapter.CountrySpinnerAdapter;
+import com.pacifyr.client.adapter.ListFileAdapter;
 import com.pacifyr.client.base.PacifyrActivity;
+import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.home.PacifyrDashboardActivity;
 import com.pacifyr.client.home.WelcomeTourActivity;
 import com.pacifyr.client.model.ItemData;
+import com.pacifyr.client.model.ModelPacifyrDocuments;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.quickblox.App;
@@ -91,6 +74,16 @@ import com.pacifyr.client.utils.Constants;
 import com.pacifyr.client.utils.FirebaseLogging;
 import com.pacifyr.client.utils.LogUtils;
 import com.pacifyr.client.utils.Utility;
+import com.pacifyrapp.utilitylibrary.CustomEditText;
+import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
+import com.pacifyrapp.utilitylibrary.ToastHandler;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.Certification;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.MRoleModel;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelUserProfile;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.post.PRegistrationModel;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.post.PostRegisterModel;
+import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.quickblox.auth.QBAuth;
 import com.quickblox.auth.session.QBSession;
 import com.quickblox.auth.session.QBSettings;
@@ -114,15 +107,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import de.hdodenhof.circleimageview.CircleImageView;
-
+import static com.pacifyr.client.network.NetworkService.countryData;
+import static com.pacifyr.client.sign.RegisterVerifyActivity.phoneRegister;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.ACCOUNT_KEY;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.APP_ID;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.AUTH_KEY;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.AUTH_SECRET;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
-import static com.pacifyr.client.network.NetworkService.countryData;
-import static com.pacifyr.client.sign.RegisterVerifyActivity.phoneRegister;
 
 //import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.termOfUseUrl;
 
@@ -1260,14 +1251,26 @@ public class RegisterActivity extends PacifyrActivity {
                                 } else if (label.equalsIgnoreCase("customer")) {
                                     //  ConnectToPacifyrActivity.start(SignUpActivity.this);
                                     PrefManager.getInstance(RegisterActivity.this).saveCustomerRole("customer");
-                                    Intent i = new Intent(RegisterActivity.this, DiscountCodeActivity.class);
+                                    String couponCode = PrefManager.getInstance(context).getString(PrefManager.COUPON_CODE, null);
+                                    Intent i = null;
+                                    if (!isValid(couponCode)) { //If coupon code obtained from deep link, then auto apply in Dashboard, Skip DiscountCodeActivity
+                                        i = new Intent(RegisterActivity.this, DiscountCodeActivity.class);
+                                    } else {
+                                        i = new Intent(RegisterActivity.this, WelcomeTourActivity.class);
+                                    }
                                     startActivity(i);
                                     finishAffinity();
                                     //finish();
                                 } else if (label.equalsIgnoreCase("paidMember")) {
                                     //  ConnectToPacifyrActivity.start(SignUpActivity.this);
                                     PrefManager.getInstance(RegisterActivity.this).saveCustomerRole("paidMember");
-                                    Intent i = new Intent(RegisterActivity.this, DiscountCodeActivity.class);
+                                    String couponCode = PrefManager.getInstance(context).getString(PrefManager.COUPON_CODE, null);
+                                    Intent i = null;
+                                    if (!isValid(couponCode)) { //If coupon code obtained from deep link, then auto apply in Dashboard, Skip DiscountCodeActivity
+                                        i = new Intent(RegisterActivity.this, DiscountCodeActivity.class);
+                                    } else {
+                                        i = new Intent(RegisterActivity.this, WelcomeTourActivity.class);
+                                    }
                                     startActivity(i);
                                     finishAffinity();
                                     //finish();
@@ -1340,14 +1343,26 @@ public class RegisterActivity extends PacifyrActivity {
                                             } else if (label.equalsIgnoreCase("customer")) {
                                                 //  ConnectToPacifyrActivity.start(SignUpActivity.this);
                                                 PrefManager.getInstance(RegisterActivity.this).saveCustomerRole("customer");
-                                                Intent i = new Intent(RegisterActivity.this, DiscountCodeActivity.class);
+                                                String couponCode = PrefManager.getInstance(context).getString(PrefManager.COUPON_CODE, null);
+                                                Intent i = null;
+                                                if (!isValid(couponCode)) { //If coupon code obtained from deep link, then auto apply in Dashboard, Skip DiscountCodeActivity
+                                                    i = new Intent(RegisterActivity.this, DiscountCodeActivity.class);
+                                                } else {
+                                                    i = new Intent(RegisterActivity.this, WelcomeTourActivity.class);
+                                                }
                                                 startActivity(i);
                                                 finishAffinity();
                                                 //finish();
                                             } else if (label.equalsIgnoreCase("paidMember")) {
                                                 //  ConnectToPacifyrActivity.start(SignUpActivity.this);
                                                 PrefManager.getInstance(RegisterActivity.this).saveCustomerRole("paidMember");
-                                                Intent i = new Intent(RegisterActivity.this, DiscountCodeActivity.class);
+                                                String couponCode = PrefManager.getInstance(context).getString(PrefManager.COUPON_CODE, null);
+                                                Intent i = null;
+                                                if (!isValid(couponCode)) { //If coupon code obtained from deep link, then auto apply in Dashboard, Skip DiscountCodeActivity
+                                                    i = new Intent(RegisterActivity.this, DiscountCodeActivity.class);
+                                                } else {
+                                                    i = new Intent(RegisterActivity.this, WelcomeTourActivity.class);
+                                                }
                                                 startActivity(i);
                                                 finishAffinity();
                                                 //finish();

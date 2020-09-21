@@ -71,6 +71,7 @@ public class PrefManager {
     public static final String ZIP = "ZIP";
     public static final String GENDER = "GENDER";
     public static final String COUPON_CODE = "coupon_code";
+    public static final String APPLIED_COUPON_CODE = "applied_coupon_code";
     public static final String JSON_ALL_EMOTIONS = "ALL_EMOTIONS_JSON";
     public static final String JSON_POSITIVE_EMOTIONS = "POSITIVE_EMOTIONS_JSON";
     public static final String JSON_NEGATIVE_EMOTIONS = "NEGATIVE_EMOTIONS_JSON";

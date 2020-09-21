@@ -65,6 +65,7 @@ import com.pacifyr.client.event.BusProvider;
 import com.pacifyr.client.event.CallEvent;
 import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.fragment.AppointmentsTabViewFragment;
+import com.pacifyr.client.fragment.UserDashboardFragment;
 import com.pacifyr.client.home.DashboardActivity;
 import com.pacifyr.client.home.PaymentActivity;
 import com.pacifyr.client.home.SessionSummaryActivity;
@@ -284,6 +285,7 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
     };
     private boolean showDialogs = true;
     private iOSDialog dialog;
+    private boolean inProgress;
 
     public void showNotificationPopups(boolean val) {
         this.showNotification = val;
@@ -2681,19 +2683,27 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
     }
 
     public void applyCouponCode(Context context, String couponCode) {
+        if (inProgress) {
+            Log.d(TAG, "applyCouponCode in progress skipping...");
+            return;
+        }
+        Log.d(TAG, "applyCouponCode = " + couponCode);
+        inProgress = true;
         setLoading();
         showProgress();
         new NetworkService().validateDiscountCode(couponCode, new AjaxCallback<JSONObject>() {
             @Override
             public void callback(String url, JSONObject json, AjaxStatus status) {
+                inProgress = false;
                 if (json == null) {
                     hideProgress();
                     Toast.makeText(context, getString(R.string.invalid_coupon_code), Toast.LENGTH_SHORT).show();
                 } else {
 //                            Log.d(TAG, "Resp " + json.toString());
-                    PrefManager.getInstance(context).putString(PrefManager.COUPON_CODE, null);
                     final ApiResponse apiResponse = new Gson().fromJson(json.toString(), ApiResponse.class);
                     if (apiResponse.isSuccess()) {
+                        PrefManager.getInstance(context).putString(PrefManager.COUPON_CODE, null);
+                        PrefManager.getInstance(context).putString(PrefManager.APPLIED_COUPON_CODE, couponCode);
                         getUserProfile(getUserID(), new AjaxCallback<JSONObject>() {
                             @Override
                             public void callback(String url, JSONObject json, AjaxStatus status) {
@@ -2715,11 +2725,7 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
                                                     public void onClick(iOSDialog dialog) {
                                                         //Toast.makeText(PacifyrActivity.this,"Clicked!",Toast.LENGTH_LONG).show();
                                                         dialog.dismiss();
-                                                        Intent i = new Intent(context, DashboardActivity.class);
-                                                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                                        finish();
-                                                        startActivity(i);
-
+                                                        showFragment(new UserDashboardFragment());
                                                     }
                                                 });
 
