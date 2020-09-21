@@ -1223,74 +1223,156 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
 
     public void startChat(final MUser pacifyer)
     {
-        if (!Utility.checkPermission(PacifyrActivity.this, "write")) {
-            Log.d(TAG, "Write storage permission required!");
-            return;
-        }
-        // setLoading("Creating Chat");
-        setLoading();
-        showProgress();
-
-        QBPagedRequestBuilder pagedRequestBuilder = new QBPagedRequestBuilder();
-        pagedRequestBuilder.setPage(1);
-        pagedRequestBuilder.setPerPage(50);
-
-        final  ArrayList<Integer> opponentsList = new ArrayList<Integer>();
-        ArrayList<Integer> usersIds = new ArrayList<Integer>();
-        //  usersIds.add(getUserID());
-        if (isValid(pacifyer.getForwardToPacifyrId())&& isValid(pacifyer.getForwardToPacifyr()))
+        if (pacifyer.getOnline() == false)
         {
-            if (isValid(pacifyer.getForwardToPacifyr().getQbid()))
-            {
+            showIOSDialogOKCancel("", pacifyer.getFirstName()+ "is currently offline. You can either chat with "+pacifyer.getFirstName()+"or try again later.", "Chat", new iOSDialogClickListener() {
+                @Override
+                public void onClick(iOSDialog dialog) {
+                    dialog.dismiss();
+                    if (!Utility.checkPermission(PacifyrActivity.this, "write")) {
+                        Log.d(TAG, "Write storage permission required!");
+                        return;
+                    }
+                    // setLoading("Creating Chat");
+                    setLoading();
+                    showProgress();
 
-                usersIds.add((int)pacifyer.getForwardToPacifyr().getQbid());
-            }
+                    QBPagedRequestBuilder pagedRequestBuilder = new QBPagedRequestBuilder();
+                    pagedRequestBuilder.setPage(1);
+                    pagedRequestBuilder.setPerPage(50);
+
+                    final  ArrayList<Integer> opponentsList = new ArrayList<Integer>();
+                    ArrayList<Integer> usersIds = new ArrayList<Integer>();
+                    //  usersIds.add(getUserID());
+                    if (isValid(pacifyer.getForwardToPacifyrId())&& isValid(pacifyer.getForwardToPacifyr()))
+                    {
+                        if (isValid(pacifyer.getForwardToPacifyr().getQbid()))
+                        {
+
+                            usersIds.add((int)pacifyer.getForwardToPacifyr().getQbid());
+                        }
+
+                    }
+                    else
+                    {
+                        if (pacifyer.getQbid() <= 0) {
+                            hideProgress();
+                            Toast.makeText(PacifyrActivity.this, "Sorry, cannot chat with this Pacifyr. " +
+                                    "Reason : Invalid qbId", Toast.LENGTH_LONG).show();
+                            return;
+                        }
+                        usersIds.add((int) pacifyer.getQbid());
+                    }
+
+
+                    QBUsers.getUsersByIDs(usersIds,pagedRequestBuilder).performAsync(new QBEntityCallback<ArrayList<QBUser>>() {
+                        @Override
+                        public void onSuccess(ArrayList<QBUser> qbUsers, Bundle bundle) {
+                            // createChatDialog(pacifyer,qbUsers);
+                            // createChatDialog(pacifyer,qbUsers);
+                            qbUsers.add(ChatHelper.getCurrentUser());
+                            hideProgress();
+                            if (isPrivateDialogExist(qbUsers)) {
+                                qbUsers.remove(ChatHelper.getCurrentUser());
+                                QBChatDialog existingPrivateDialog = QbDialogHolder.getInstance().getPrivateDialogWithUser(qbUsers.get(0));
+                                // isProcessingResultInProgress = false;
+                                // isProcessingResultInProgress = false;
+
+                                ChatActivity.start(PacifyrActivity.this, existingPrivateDialog,pacifyer);
+                                //ChatActivity.start(this,DialogsActivity. REQUEST_DIALOG_ID_FOR_UPDATE, existingPrivateDialog);
+                            } else {
+                                //ProgressDialogFragment.show(getSupportFragmentManager(), com.quickblox.sample.chat.R.string.create_chat);
+                                createChatDialog(pacifyer,qbUsers);
+                            }
+                        }
+
+                        @Override
+                        public void onError(QBResponseException e) {
+                            hideProgress();
+
+                            showErrorSnackbar(0, e, null);
+                        }
+                    });
+
+
+
+                }
+            }, "Ok");
 
         }
-        else
-        {
-            if (pacifyer.getQbid() <= 0) {
-                hideProgress();
-                Toast.makeText(PacifyrActivity.this, "Sorry, cannot chat with this Pacifyr. " +
-                        "Reason : Invalid qbId", Toast.LENGTH_LONG).show();
+        else {
+            if (!Utility.checkPermission(PacifyrActivity.this, "write")) {
+                Log.d(TAG, "Write storage permission required!");
                 return;
             }
-            usersIds.add((int) pacifyer.getQbid());
-        }
+            // setLoading("Creating Chat");
+            setLoading();
+            showProgress();
 
+            QBPagedRequestBuilder pagedRequestBuilder = new QBPagedRequestBuilder();
+            pagedRequestBuilder.setPage(1);
+            pagedRequestBuilder.setPerPage(50);
 
-        QBUsers.getUsersByIDs(usersIds,pagedRequestBuilder).performAsync(new QBEntityCallback<ArrayList<QBUser>>() {
-            @Override
-            public void onSuccess(ArrayList<QBUser> qbUsers, Bundle bundle) {
-                // createChatDialog(pacifyer,qbUsers);
-                // createChatDialog(pacifyer,qbUsers);
-                qbUsers.add(ChatHelper.getCurrentUser());
-                hideProgress();
-                if (isPrivateDialogExist(qbUsers)) {
-                    qbUsers.remove(ChatHelper.getCurrentUser());
-                    QBChatDialog existingPrivateDialog = QbDialogHolder.getInstance().getPrivateDialogWithUser(qbUsers.get(0));
-                    // isProcessingResultInProgress = false;
-                    // isProcessingResultInProgress = false;
+            final  ArrayList<Integer> opponentsList = new ArrayList<Integer>();
+            ArrayList<Integer> usersIds = new ArrayList<Integer>();
+            //  usersIds.add(getUserID());
+            if (isValid(pacifyer.getForwardToPacifyrId())&& isValid(pacifyer.getForwardToPacifyr()))
+            {
+                if (isValid(pacifyer.getForwardToPacifyr().getQbid()))
+                {
 
-                    ChatActivity.start(PacifyrActivity.this, existingPrivateDialog,pacifyer);
-                    //ChatActivity.start(this,DialogsActivity. REQUEST_DIALOG_ID_FOR_UPDATE, existingPrivateDialog);
-                } else {
-                    //ProgressDialogFragment.show(getSupportFragmentManager(), com.quickblox.sample.chat.R.string.create_chat);
-                    createChatDialog(pacifyer,qbUsers);
+                    usersIds.add((int)pacifyer.getForwardToPacifyr().getQbid());
                 }
+
+            }
+            else
+            {
+                if (pacifyer.getQbid() <= 0) {
+                    hideProgress();
+                    Toast.makeText(PacifyrActivity.this, "Sorry, cannot chat with this Pacifyr. " +
+                            "Reason : Invalid qbId", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                usersIds.add((int) pacifyer.getQbid());
             }
 
-            @Override
-            public void onError(QBResponseException e) {
-                hideProgress();
 
-                showErrorSnackbar(0, e, null);
-            }
-        });
+            QBUsers.getUsersByIDs(usersIds,pagedRequestBuilder).performAsync(new QBEntityCallback<ArrayList<QBUser>>() {
+                @Override
+                public void onSuccess(ArrayList<QBUser> qbUsers, Bundle bundle) {
+                    // createChatDialog(pacifyer,qbUsers);
+                    // createChatDialog(pacifyer,qbUsers);
+                    qbUsers.add(ChatHelper.getCurrentUser());
+                    hideProgress();
+                    if (isPrivateDialogExist(qbUsers)) {
+                        qbUsers.remove(ChatHelper.getCurrentUser());
+                        QBChatDialog existingPrivateDialog = QbDialogHolder.getInstance().getPrivateDialogWithUser(qbUsers.get(0));
+                        // isProcessingResultInProgress = false;
+                        // isProcessingResultInProgress = false;
 
+                        ChatActivity.start(PacifyrActivity.this, existingPrivateDialog,pacifyer);
+                        //ChatActivity.start(this,DialogsActivity. REQUEST_DIALOG_ID_FOR_UPDATE, existingPrivateDialog);
+                    } else {
+                        //ProgressDialogFragment.show(getSupportFragmentManager(), com.quickblox.sample.chat.R.string.create_chat);
+                        createChatDialog(pacifyer,qbUsers);
+                    }
+                }
+
+                @Override
+                public void onError(QBResponseException e) {
+                    hideProgress();
+
+                    showErrorSnackbar(0, e, null);
+                }
+            });
+
+
+        }
 
 
     }
+
+
 
     public void handlerLogoutFinish(String s) {
         try {
