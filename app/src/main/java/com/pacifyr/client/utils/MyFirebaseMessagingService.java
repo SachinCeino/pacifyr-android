@@ -430,6 +430,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context,Constants.getChannelId(context))
                 .setSmallIcon(R.drawable.ic_pacifyr_notification)
                 .setContentText(message)
+                .setStyle(new NotificationCompat.BigTextStyle()
+                        .bigText(message))
                 .setContentTitle(getResources().getString(R.string.app_name))
                 .setContentIntent(pendingIntent)
                 .setSound(notificationSound)
