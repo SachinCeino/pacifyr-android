@@ -37,9 +37,9 @@
     <string name="edit_profile_response">Edit profile response</string>
     <string name="post_rate_customer_session">Post rate customer session</string>
     <string name="post_rate_pacifyr">Rate Provider</string>
-    <string name="post_rate_pacifyr_session">Rate provider session</string>
-    <string name="search_pacifyr_with_option_response">Search provider with option response</string>
-    <string name="search_pacifyr_with_option_request">Search provider with option request</string>
+    <string name="post_rate_pacifyr_session">Rate Provider session</string>
+    <string name="search_pacifyr_with_option_response">Search Provider with option response</string>
+    <string name="search_pacifyr_with_option_request">Search Provider with option request</string>
     <string name="post_registration">Post registration</string>
     <string name="stop_session_with_pacifyr">Stop Session With Pacifyr</string>
     <string name="resp_start_session_with_pacifyr">Response Start Session With Provider</string>
@@ -90,9 +90,9 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email completions."</string>
     <string name="how_you_rate">How do you rate your Provider / Therapist?</string>
 
-    <string name="find_helping_pacifyr">Find a provider who can help you</string>
+    <string name="find_helping_pacifyr">Find a Provider who can help you</string>
     <string name="specify_emotion">Specify your emotion</string>
-    <string name="talk_to_wellness_expert">Talk to your provider using chat,audio or video</string>
+    <string name="talk_to_wellness_expert">Talk to your Provider using chat,audio or video</string>
     <string name="skip">Skip</string>
 
 
@@ -135,7 +135,7 @@
     <string name="upcoming_session">UPCOMING SESSION</string>
     <string name="press_back_again_to_exit">Press back again to exit...!</string>
     <string name="logout">LOGOUT</string>
-    <string name="Connect_to_Wellness_Experts">connect to providers</string>
+    <string name="Connect_to_Wellness_Experts">connect to Providers</string>
     <string name="connect_to_wellness_experts">CONNECT TO PROVIDERS</string>
     <string name="browse_wellness_experts">BROWSE PROVIDERS</string>
     <string name="SUPPORT">SUPPORT</string>

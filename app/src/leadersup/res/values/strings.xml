@@ -101,7 +101,7 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="AccessToken">AccessToken</string>
 
 
-    <string name="user_type_error">This is a provider account. Please use pacifyr for counselor app to sign in</string>
+    <string name="user_type_error">This is a Provider account. Please use pacifyr for counselor app to sign in</string>
     <string name="audio_call">LEADERS UP AUDIOCALL</string>
     <string name="video_call">LEADERS UP VIDEOCALL</string>
     <string name="no_prefered_pacifyr">You have no preferred Career Coach.</string>

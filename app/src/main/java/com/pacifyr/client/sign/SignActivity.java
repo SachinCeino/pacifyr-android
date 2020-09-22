@@ -2,9 +2,6 @@ package com.pacifyr.client.sign;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
-import android.content.res.Resources;
-import android.net.Uri;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.text.Html;
@@ -16,19 +13,11 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.androidquery.AQuery;
-import com.androidquery.callback.AjaxCallback;
-import com.androidquery.callback.AjaxStatus;
+import com.pacifyr.client.R;
 import com.pacifyr.client.activity.TermsOfUseActivity;
 import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
-import com.pacifyr.client.utils.Constants;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
-import com.pacifyr.client.R;
-
-import org.json.JSONObject;
-
-import java.util.Locale;
 
 
 public class SignActivity extends PacifyrActivity {
@@ -45,10 +34,10 @@ public class SignActivity extends PacifyrActivity {
         setContentView(R.layout.activity_sign);
 
 
-        relative_bg = (RelativeLayout) findViewById(R.id.relative_bg);
+        relative_bg = findViewById(R.id.relative_bg);
         if (!getPackageName().equalsIgnoreCase("com.pacifyr.pam"))
             relative_bg.setBackground(getResources().getDrawable(R.drawable.loginbg));
-        emergencyCtxv = (MainTextView) findViewById(R.id.emergency_ctxv);
+        emergencyCtxv = findViewById(R.id.emergency_ctxv);
         covidMessage_ctxv = findViewById(R.id.covidMessage_ctxv);
         getCountryData();
         String crisisString = getResources().getString(R.string.if_emergency2);
@@ -64,7 +53,7 @@ public class SignActivity extends PacifyrActivity {
 
 
         SpannableStringBuilder spanTxt = new SpannableStringBuilder(
-                "If you think you have been exposed to COVID‑19 and develop a fever and symptoms, such as cough or difficulty breathing, call your healthcare provider for medical advice. ");
+                "If you think you have been exposed to COVID‑19 and develop a fever and symptoms, such as cough or difficulty breathing, call your healthcare Provider for medical advice. ");
         spanTxt.append(Html.fromHtml("<font color=" + getResources().getColor(R.color.colorPrimary) + "> <u>" + "COVID Info." + "</u></font>"));
         spanTxt.setSpan(new ClickableSpan() {
             @Override

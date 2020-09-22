@@ -31,13 +31,13 @@
     <!--new adding-->
     <string name="get_ready_feel_better">Get ready to feel better!</string>
     <string name="feel_better">Feel better with Pacifyr</string>
-    <string name="connect_to_wellness">Connect to provider through video, audio or chat.</string>
+    <string name="connect_to_wellness">Connect to Provider through video, audio or chat.</string>
     <string name="thirty_free">Free Introductory call time</string>
     <string name="no_credit_card">No Credit Card required.</string>
     <string name="if_emergency">If in emergency, call 911 or rush to an emergency room. Crisis Info</string>
     <string name="if_emergency2">If there is an emergency, please call 911 or rush to the nearest hospital.</string>
 
-    <string name="covid_message">If you think you have been exposed to COVID‑19 and develop a fever and symptoms, such as cough or difficulty breathing, call your healthcare provider for medical advice. </string>
+    <string name="covid_message">If you think you have been exposed to COVID‑19 and develop a fever and symptoms, such as cough or difficulty breathing, call your healthcare Provider for medical advice. </string>
 
 
     <string name="term_of_use2">Terms of Use</string>
@@ -58,7 +58,7 @@
     <string name="request">Request</string>
     <string name="year">Year</string>
     <string name="payout">PAYOUT</string>
-    <string name="no_pacifyr">There are no providers available for selected Category.</string>
+    <string name="no_pacifyr">There are no Providers available for selected Category.</string>
     <string name="educations">Education</string>
 
     <string name="policy_documents">policy documents</string>
@@ -104,12 +104,12 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="AccessToken">AccessToken</string>
 
 
-    <string name="user_type_error">This is a provider account. Please use Pacifyr for counselor app to sign in</string>
+    <string name="user_type_error">This is a Provider account. Please use Pacifyr for counselor app to sign in</string>
     <string name="audio_call">OMHEALTH CARE AUDIOCALL</string>
     <string name="video_call">OMHEALTH CARE VIDEOCALL</string>
-    <string name="no_prefered_pacifyr">You have no preferred providers.</string>
+    <string name="no_prefered_pacifyr">You have no preferred Providers.</string>
     <string name="reviews">Reviews</string>
-    <string name="no_sessions_yet">No sessions yet, Connect to providers.</string>
+    <string name="no_sessions_yet">No sessions yet, Connect to Providers.</string>
 
 
     <string name="mydashboard">MY DASHBOARD</string>
@@ -119,14 +119,14 @@ Yor call is routed to the nearest crisis center.</string>
 
     <string name="register_terms_text">I have read, understand, and agree to be bound by the OMHealthCare Terms of Use</string>
     <string name="edit">edit</string>
-    <string name="more_wellness_experts">more providers</string>
+    <string name="more_wellness_experts">more Providers</string>
 
     <string name="payout_url">https://pacifyr.com/stripe_dev.html</string>
     <string name="sign_up">Register</string>
     <string name="registration_failed">Registration failed</string>
     <string name="failed_register_message">Your mobile number is already registered. Please sign in</string>
     <string name="select_specialisation">Select a specialization</string>
-    <string name="no_wellness_experts_category">No providers for the selected category.</string>
+    <string name="no_wellness_experts_category">No Providers for the selected category.</string>
     <string name="please_try_again">Please try again</string>
     <string name="success">success</string>
     <string name="contact_us">SUPPORT</string>
@@ -136,7 +136,7 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="start_session">Session Started</string>
     <string name="have_discount_code">Have a discount code?</string>
     <string name="skip_this_step">Skip this step</string>
-    <string name="query_hint_search_pacifyr">search for a provider</string>
+    <string name="query_hint_search_pacifyr">search for a Provider</string>
 
     /** URLS **/
     <string name="CHANNEL_ID">om_general_notifications</string>
@@ -147,7 +147,7 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="AWS_PROJECT">OMDev</string>
     <string name="tutorial_VideoLink">https://pacifyrprod.storage.googleapis.com/File_1554372725400.mp4</string>
 
-    <string name="pref_wellness_experts">Preferred providers</string>
+    <string name="pref_wellness_experts">Preferred Providers</string>
     <string name="tick">✔</string>
     <string name="activity_checkin">Checkin</string>
     <string name="desc_resume_zone">Let\'s make sure your resume is ready for our employers.
@@ -221,7 +221,7 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="document_one">Document 1</string>
     <string name="No_identity_document_available">No identity document is available</string>
     <string name="ActionBarCommonFont">ActionBarCommonFont.otf</string>
-    <string name="Cancelled_since_you_did_not_call_the_provider">Cancelled since you did not call the provider</string>
+    <string name="Cancelled_since_you_did_not_call_the_provider">Cancelled since you did not call the Provider</string>
     <string name="reason_for_rejection">Reason for rejection</string>
     <string name="cancelled_reason">Reason for Cancellation</string>
     <string name="account_was_deleted">Account was deleted</string>

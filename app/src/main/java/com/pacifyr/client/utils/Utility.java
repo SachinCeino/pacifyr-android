@@ -315,7 +315,7 @@ public class Utility {
                         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(context);
                         alertBuilder.setCancelable(true);
                         alertBuilder.setTitle("Permission required");
-                        alertBuilder.setMessage("Your location is required to search for Councelors around you");
+                        alertBuilder.setMessage("Your location is required to search for Counselors around you");
                         alertBuilder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
                             public void onClick(DialogInterface dialog, int which) {

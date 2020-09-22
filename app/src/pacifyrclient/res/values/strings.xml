@@ -31,7 +31,7 @@
 
     <!--new adding-->
     <string name="get_ready_feel_better">Feel better with pacifyr</string>
-    <string name="connect_to_wellness">Connect to provider through video, audio or chat.</string>
+    <string name="connect_to_wellness">Connect to Provider through video, audio or chat.</string>
     <string name="thirty_free">Free Introductory call time.</string>
     <string name="no_credit_card">Free Introductory call time.</string>
     <string name="if_emergency">If in emergency call 911 or rush to an emergency room.</string>
@@ -101,7 +101,7 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="skip_this_step">Skip this step</string>
     <string name="validate">Validate</string>
     <string name="user_first_time_emotion">Select your emotion before your call</string>
-    <string name="more_wellness_experts">More providers</string>
+    <string name="more_wellness_experts">More Providers</string>
 
 
 
@@ -119,9 +119,9 @@ Yor call is routed to the nearest crisis center.</string>
 
     <string name="audio_call">AUDIO CALL</string>
     <string name="video_call">VIDEO CALL</string>
-    <string name="pref_wellness_experts">Preferred providers</string>
+    <string name="pref_wellness_experts">Preferred Providers</string>
     <string name="This_Week">This Week</string>
-    <string name="no_wellness_experts_category">No providers available for the selected category.</string>
+    <string name="no_wellness_experts_category">No Providers available for the selected category.</string>
 
     <string name="note_add_tilte">Add Notes</string>
 
