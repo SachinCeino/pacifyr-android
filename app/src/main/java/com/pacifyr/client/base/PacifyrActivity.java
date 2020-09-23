@@ -2415,6 +2415,7 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
 
 
     public void stopSessionWeb( String sessionid) {
+        Log.d(TAG, "stopSessionWeb " + sessionid);
         try {
             //  ToastHandler.newInstance(PacifyrActivity.this).showToast("stopSessionWeb api called ");
             LogUtils.LOGD("call", "stopSessionWeb getUserID "+ getUserID());
@@ -2660,6 +2661,7 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
     }*/
 
     public void missedSessionWeb( String sessionid) {
+        Log.d(TAG, "missedSessionWeb " + sessionid);
         try {
             //  ToastHandler.newInstance(PacifyrActivity.this).showToast("missedSessionWeb");
             LogUtils.LOGD("call", "missedSessionWeb getAccessToken() "+getAccessToken());
@@ -2693,6 +2695,7 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
 
             JSONObject input = new JSONObject();
             input.putOpt("id", sessionid);
+            Log.d(TAG, "session/missed");
             aq.post(GLOBAL_URL + "session/missed", input, JSONObject.class, cb);
         } catch (Exception e){
             LogUtils.LOGD("call", "missedSessionWeb end exception : " + e.getMessage());
@@ -3610,6 +3613,7 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
     }
 
     public void stopSessionTracking() {
+        Log.d(TAG, "stopSessionTracking");
         //called in CallActivity
         try {
             PacifyrActivity.trackTimer.cancel();
