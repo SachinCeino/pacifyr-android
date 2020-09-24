@@ -108,7 +108,7 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
         OnCallEventsController, IncomeCallFragmentCallbackListener, ConversationFragmentCallbackListener, NetworkConnectionChecker.OnConnectivityChangedListener, ScreenShareFragment.OnSharingEvents {
     //PacifyrAppCompactActivity
     //BaseActivity
-    private static final String TAG = "call";
+    private static final String TAG = CallActivity.class.getSimpleName();
 
     public static final String OPPONENTS_CALL_FRAGMENT = "opponents_call_fragment";
     public static final String INCOME_CALL_FRAGMENT = "income_call_fragment";
@@ -474,7 +474,7 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
                 if (currentSession == null) {
                     return;
                 }
-
+                Log.d(TAG, "initIncomingCallTask run");
                 QBRTCSession.QBRTCSessionState currentSessionState = currentSession.getState();
                 if (QBRTCSession.QBRTCSessionState.QB_RTC_SESSION_NEW.equals(currentSessionState)) {
                     rejectCurrentSession();
@@ -736,6 +736,7 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
     }
 
     public void hangUpCurrentSessionMe() {
+        Log.d(TAG, "hangUpCurrentSessionMe");
         Bundle args =
                 FirebaseLogging.getConstantArgsLoggedIn(CallActivity.this);
         if (getCallPacifyr() != null) {
@@ -751,9 +752,6 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
             getCurrentSession().hangUp(new HashMap<String, String>());
         }
         stopSessionTracking();
-        if (sessionid != null) {
-            stopSessionWeb(sessionid);
-        }
         //jpppppppppppppp
         try {
             LogUtils.LOGD("call","CA hangUpCurrentSessionMe sessionid"+sessionid);
@@ -762,6 +760,9 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
                 missedSessionWeb(sessionid);
             } else if (!hasBillingStarted()) {
                 showToast("Thank you for the call. You are not billed as Service was not provided");
+            }
+            if (sessionid != null) {
+                stopSessionWeb(sessionid);
             }
             finish();
         }
@@ -868,13 +869,14 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
         if (!session.equals(getCurrentSession())) {
             return;
         }
-        LogUtils.LOGD("call", "onUserNotAnswer getUserID "+ userID);
+        Log.d(TAG, "onUserNotAnswer");
         missedSessionWeb(sessionid);
         ringtonePlayer.stop();
     }
     //dd
     @Override
     public void onUserNoActions(QBRTCSession qbrtcSession, Integer userID) {
+        Log.d(TAG, "onUserNoActions");
         startIncomeCallTimer(0);
         LogUtils.LOGD("call", "onUserNoActions getUserID "+ userID);
     }
