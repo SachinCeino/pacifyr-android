@@ -1225,7 +1225,7 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
     {
         if (pacifyer.getOnline() == false)
         {
-            showIOSDialogOKCancel("", pacifyer.getFirstName()+ "is currently offline. You can either chat with "+pacifyer.getFirstName()+"or try again later.", "Chat", new iOSDialogClickListener() {
+            showIOSDialogOKCancel("", pacifyer.getFirstName()+ " is currently offline. You can either chat with "+pacifyer.getFirstName()+" or try again later.", "Chat", new iOSDialogClickListener() {
                 @Override
                 public void onClick(iOSDialog dialog) {
                     dialog.dismiss();

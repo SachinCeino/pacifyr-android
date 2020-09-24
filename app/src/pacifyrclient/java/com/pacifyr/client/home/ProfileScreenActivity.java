@@ -29,6 +29,7 @@ import com.pacifyr.client.adapter.SpecilaListProfileAdapter;
 import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.AlertTypeEvent;
+import com.pacifyr.client.event.CallEvent;
 import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.fragment.schedule.ScheduleBottomSheetFragment;
 import com.pacifyr.client.network.GsonUtils;
@@ -242,69 +243,59 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
                                     reason = " in a session";
                                 }
                             } else {
-                                reason = " offline";
+                                reason = "offline";
                             }
-                            offlineSnackbar = Snackbar.make(topRlay, mpacifyerDetial.getName() +
-                                    " is currently " + reason + ". You can either chat with " + mpacifyerDetial.getName() + " or try again later.", Snackbar.LENGTH_LONG);
-                            View snackbarView = offlineSnackbar.getView();
-                            TextView snackTextView = snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
-                            snackTextView.setMaxLines(4);
-                            offlineSnackbar.show();
-                            //ToastHandler.newInstance(ProfileScreenActivity.this).mustShowToast(mpacifyerDetial.getName() + " is currently offline. You can either chat with " + mpacifyerDetial.getName() + " or try agein later");
-                            return;
-                        }
-
-
-                        if (checker.lacksPermissions(Consts.PERMISSIONS)) {
-
-                            startPermissionsActivity(false,ProfileScreenActivity.this);
-
-                            if(isLoggedInChat()) {
-
-                                setAlertStartCall(mpacifyerDetial , new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View v) {
-                                                hideStatus();
-                                                checkRoleRequest(mpacifyerDetial, listner, true);
-                                            }
-                                        });
-
-                                //callRequestWeb(pacifyer_obj, listner, true);
+                            if (reason.equals("offline"))
+                            {
+                                startChat(mpacifyerDetial);
+                            }
+                            else
+                            {
+                                offlineSnackbar = Snackbar.make(topRlay, mpacifyerDetial.getName() +
+                                        " is currently " + reason + ". You can either chat with " + mpacifyerDetial.getName() + " or try again later.", Snackbar.LENGTH_LONG);
+                                View snackbarView = offlineSnackbar.getView();
+                                TextView snackTextView = snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
+                                snackTextView.setMaxLines(4);
+                                offlineSnackbar.show();
                             }
 
                         }
-                        else {
-                            if(isLoggedInChat()) {
+                        else
+                        {
+                            if (checker.lacksPermissions(Consts.PERMISSIONS)) {
 
-                                setAlertStartCall(mpacifyerDetial, new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View v) {
-                                                hideStatus();
-                                                checkRoleRequest(mpacifyerDetial, listner, true);
-                                            }
-                                        });
+                                startPermissionsActivity(false,ProfileScreenActivity.this);
 
-                                //callRequestWeb(pacifyer_obj, listner, true);
-                            }
-                        }
+                                if(isLoggedInChat()) {
 
+                                    setAlertStartCall(mpacifyerDetial , new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            hideStatus();
+                                            checkRoleRequest(mpacifyerDetial, listner, true);
+                                        }
+                                    });
 
-            /*            if (checker.lacksPermissions(Consts.PERMISSIONS)) {
-                            startPermissionsActivity(false,ProfileScreenActivity.this);
-                        }
-                        else {
-                            if(isLoggedInChat()) {
-                                //callRequestWeb(mpacifyerDetial, listner, true);
-                                if(mpacifyerDetial.isReadyToCall()) {
-                                    checkRoleRequest(mpacifyerDetial, listner, true);
-                                }
-                                else
-                                {
-                                    ToastHandler.newInstance(ProfileScreenActivity.this).mustShowToast(mpacifyerDetial.getName()+" is offline. Please try later.");
+                                    //callRequestWeb(pacifyer_obj, listner, true);
                                 }
 
                             }
-                        }*/
+                            else {
+                                if(isLoggedInChat()) {
+
+                                    setAlertStartCall(mpacifyerDetial, new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            hideStatus();
+                                            checkRoleRequest(mpacifyerDetial, listner, true);
+                                        }
+                                    });
+
+                                    //callRequestWeb(pacifyer_obj, listner, true);
+                                }
+                            }
+                        }
+
                     }
                 });
 
@@ -318,66 +309,69 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
 
                         if(!mpacifyerDetial.isReadyToCall()) {
 
-                            offlineSnackbar = Snackbar.make(topRlay, mpacifyerDetial.getName() + " is currently offline. You can either chat with " + mpacifyerDetial.getName() + " or try again later.", Snackbar.LENGTH_LONG);
-                            View snackbarView = offlineSnackbar.getView();
-                            TextView snackTextView = snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
-                            snackTextView.setMaxLines(4);
-                            offlineSnackbar.show();
-                            return;
-                        }
-
-                        if (checker.lacksPermissions(Consts.PERMISSIONS[1])) {
-
-                            startPermissionsActivity(true,ProfileScreenActivity.this);
-
-                            if(isLoggedInChat()) {
-
-                                setAlertStartCall(mpacifyerDetial
-                                        , new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View v) {
-                                                hideStatus();
-                                                checkRoleRequest(mpacifyerDetial, listner, true);
-                                            }
-                                        });
-
-                                //callRequestWeb(pacifyer_obj, listner, true);
-                            }
-                        }
-                        else {
-
-                            if(isLoggedInChat()) {
-
-                                setAlertStartCall(mpacifyerDetial, new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View v) {
-                                                hideStatus();
-                                                checkRoleRequest(mpacifyerDetial, listner, false);
-                                            }
-                                        });
-
-                                //callRequestWeb(pacifyer_obj, listner, true);
-                            }
-                        }
-
-
-                 /*       if (checker.lacksPermissions(Consts.PERMISSIONS[1])) {
-                            startPermissionsActivity(true,ProfileScreenActivity.this);
-                        }
-                        else {
-
-                            if(isLoggedInChat()) {
-
-                                if(mpacifyerDetial.isReadyToCall()) {
-                                    checkRoleRequest(mpacifyerDetial, listner, false);
+                            boolean isOnline = mpacifyerDetial.getOnline();
+                            String reason = "";
+                            if (isOnline) {
+                                if (!mpacifyerDetial.getCurrentlyAvailable()) {
+                                    reason = " in a session";
                                 }
-                                else
-                                {
-                                    ToastHandler.newInstance(ProfileScreenActivity.this).mustShowToast(mpacifyerDetial.getName()+" is offline. Please try later.");
-                                }
-                                //callRequestWeb(mpacifyerDetial, listner, false);
+                            } else {
+                                reason = "offline";
                             }
-                        }*/
+                            if (reason.equals("offline"))
+                            {
+                                startChat(mpacifyerDetial);
+                            }
+                            else
+                            {
+                                offlineSnackbar = Snackbar.make(topRlay, mpacifyerDetial.getName() +
+                                        " is currently " + reason + ". You can either chat with " + mpacifyerDetial.getName() + " or try again later.", Snackbar.LENGTH_LONG);
+                                View snackbarView = offlineSnackbar.getView();
+                                TextView snackTextView = snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
+                                snackTextView.setMaxLines(4);
+                                offlineSnackbar.show();
+                            }
+                        }
+
+                      else
+                        {
+                            if (checker.lacksPermissions(Consts.PERMISSIONS[1])) {
+
+                                startPermissionsActivity(true,ProfileScreenActivity.this);
+
+                                if(isLoggedInChat()) {
+
+                                    setAlertStartCall(mpacifyerDetial
+                                            , new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View v) {
+                                                    hideStatus();
+                                                    checkRoleRequest(mpacifyerDetial, listner, true);
+                                                }
+                                            });
+
+                                    //callRequestWeb(pacifyer_obj, listner, true);
+                                }
+                            }
+                            else {
+
+                                if(isLoggedInChat()) {
+
+                                    setAlertStartCall(mpacifyerDetial, new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            hideStatus();
+                                            checkRoleRequest(mpacifyerDetial, listner, false);
+                                        }
+                                    });
+
+                                    //callRequestWeb(pacifyer_obj, listner, true);
+                                }
+                            }
+
+                        }
+
+
                     }
                 });
 

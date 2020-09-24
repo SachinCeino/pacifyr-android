@@ -511,29 +511,36 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
                                 reason = " in a session";
                             }
                         } else {
-                            reason = " offline";
+                            reason = "offline";
                         }
                         if(!pacifyer_obj.isReadyToCall()) {
 
-                            Snackbar offlineSnackbar = Snackbar.make(topRlay,
-                                    pacifyer_obj.getName() + " is currently " + reason + ". You can " +
-                                            "either chat with " + pacifyer_obj.getName() + " or try again later.", Snackbar.LENGTH_LONG);
-                            View snackbarView = offlineSnackbar.getView();
-                            TextView snackTextView = snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
-                            snackTextView.setMaxLines(4);
-                            offlineSnackbar.show();
-                            return;
+                            if (reason.equals("offline"))
+                            {
+                                startChat(pacifyer_obj);
+                            }
+                            else {
+                                Snackbar offlineSnackbar = Snackbar.make(topRlay,
+                                        pacifyer_obj.getName() + " is currently " + reason + ". You can " +
+                                                "either chat with " + pacifyer_obj.getName() + " or try again later.", Snackbar.LENGTH_LONG);
+                                View snackbarView = offlineSnackbar.getView();
+                                TextView snackTextView = snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
+                                snackTextView.setMaxLines(4);
+                                offlineSnackbar.show();
+                                return;
+                            }
                         }
 
-                        if (checker.lacksPermissions(Consts.PERMISSIONS)) {
-
-                            startPermissionsActivity(false,ConnectToSinglePacifyrActivity.this);
-
+                       else {
                             if (checker.lacksPermissions(Consts.PERMISSIONS)) {
 
-                            if(isLoggedInChat()) {
+                                startPermissionsActivity(false,ConnectToSinglePacifyrActivity.this);
 
-                                setAlertStartCall(pacifyer_obj , new View.OnClickListener() {
+                                if (checker.lacksPermissions(Consts.PERMISSIONS)) {
+
+                                    if(isLoggedInChat()) {
+
+                                        setAlertStartCall(pacifyer_obj , new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
                                                 hideStatus();
@@ -541,27 +548,28 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
                                             }
                                         });
 
-                                //callRequestWeb(pacifyer_obj, listner, true);
-                            }
-
-                            }
-
-                        }
-                        else {
-                            if(isLoggedInChat()) {
-
-                            setAlertStartCall(pacifyer_obj, new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        hideStatus();
-                             checkRoleRequest(pacifyer_obj, listner, true);
+                                        //callRequestWeb(pacifyer_obj, listner, true);
                                     }
-                                });
 
-                                //callRequestWeb(pacifyer_obj, listner, true);
+                                }
+
                             }
-                        }
+                            else {
+                                if(isLoggedInChat()) {
 
+                                    setAlertStartCall(pacifyer_obj, new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            hideStatus();
+                                            checkRoleRequest(pacifyer_obj, listner, true);
+                                        }
+                                    });
+
+                                    //callRequestWeb(pacifyer_obj, listner, true);
+                                }
+                            }
+
+                        }
                     }
                 });
 
@@ -579,51 +587,60 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
                                     reason = " in a session";
                                 }
                             } else {
-                                reason = " offline";
+                                reason = "offline";
                             }
-                            Snackbar offlineSnackbar = Snackbar.make(topRlay,
-                                    pacifyer_obj.getName() + " is currently " + reason + ". You " +
-                                            "can " +
-                                            "either chat with " + pacifyer_obj.getName() + " or try again later.", Snackbar.LENGTH_LONG);
-                            View snackbarView = offlineSnackbar.getView();
-                            TextView snackTextView = snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
-                            snackTextView.setMaxLines(4);
-                            offlineSnackbar.show();
-                            return;
-                        }
-
-                        if (checker.lacksPermissions(Consts.PERMISSIONS[1])) {
-
-                            startPermissionsActivity(true,ConnectToSinglePacifyrActivity.this);
-
-                            if(isLoggedInChat()) {
-
-                                setAlertStartCall(pacifyer_obj, new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View v) {
-                                                hideStatus();
-                                                checkRoleRequest(pacifyer_obj, listner, true);
-                                            }
-                                        });
-
-                                //callRequestWeb(pacifyer_obj, listner, true);
-                            }
+                          if (reason.equals("offline"))
+                          {
+                              startChat(pacifyer_obj);
+                          }
+                          else {
+                              Snackbar offlineSnackbar = Snackbar.make(topRlay,
+                                      pacifyer_obj.getName() + " is currently " + reason + ". You " +
+                                              "can " +
+                                              "either chat with " + pacifyer_obj.getName() + " or try again later.", Snackbar.LENGTH_LONG);
+                              View snackbarView = offlineSnackbar.getView();
+                              TextView snackTextView = snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
+                              snackTextView.setMaxLines(4);
+                              offlineSnackbar.show();
+                              return;
+                          }
                         }
                         else {
+                            if (checker.lacksPermissions(Consts.PERMISSIONS[1])) {
 
-                            if(isLoggedInChat()) {
+                                startPermissionsActivity(true,ConnectToSinglePacifyrActivity.this);
 
-                                setAlertStartCall(pacifyer_obj, new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View v) {
-                                                hideStatus();
-                                                checkRoleRequest(pacifyer_obj, listner, false);
-                                            }
-                                        });
+                                if(isLoggedInChat()) {
 
-                                //callRequestWeb(pacifyer_obj, listner, true);
+                                    setAlertStartCall(pacifyer_obj, new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            hideStatus();
+                                            checkRoleRequest(pacifyer_obj, listner, true);
+                                        }
+                                    });
+
+                                    //callRequestWeb(pacifyer_obj, listner, true);
+                                }
+                            }
+                            else {
+
+                                if(isLoggedInChat()) {
+
+                                    setAlertStartCall(pacifyer_obj, new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            hideStatus();
+                                            checkRoleRequest(pacifyer_obj, listner, false);
+                                        }
+                                    });
+
+                                    //callRequestWeb(pacifyer_obj, listner, true);
+                                }
                             }
                         }
+
+
 
                     }
                 });

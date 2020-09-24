@@ -266,14 +266,22 @@ public class SwipeDeckConnectPacifyrAdapter extends BaseAdapter {
                                     reason = " in a session";
                                 }
                             } else {
-                                reason = " offline";
+                                reason = "offline";
                             }
-                            Snackbar offlineSnackbar = Snackbar.make(v, pacifyer.getName() + " is" +
-                                    " currently " + reason + ". You can either chat with " + pacifyer.getName() + " or try again later.", Snackbar.LENGTH_LONG);
-                            View snackbarView = offlineSnackbar.getView();
-                            TextView snackTextView = snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
-                            snackTextView.setMaxLines(4);
-                            offlineSnackbar.show();
+
+                            if (reason.equals("offline"))
+                            {
+                                ((ConnectToPacifyrActivity) (activity)).callchatEventListner.onChatEventClick((new ChatEvent(pacifyer, false)));
+                            }
+                            else {
+                                Snackbar offlineSnackbar = Snackbar.make(v, pacifyer.getName() + " is" +
+                                        " currently " + reason + ". You can either chat with " + pacifyer.getName() + " or try again later.", Snackbar.LENGTH_LONG);
+                                View snackbarView = offlineSnackbar.getView();
+                                TextView snackTextView = snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
+                                snackTextView.setMaxLines(4);
+                                offlineSnackbar.show();
+                            }
+
                         }
 
 
@@ -307,11 +315,29 @@ public class SwipeDeckConnectPacifyrAdapter extends BaseAdapter {
                             }, 1000);
 
                         } else {
-                            Snackbar offlineSnackbar = Snackbar.make(v, pacifyer.getName() + " is currently offline. You can either chat with " + pacifyer.getName() + " or try again later.", Snackbar.LENGTH_LONG);
-                            View snackbarView = offlineSnackbar.getView();
-                            TextView snackTextView = snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
-                            snackTextView.setMaxLines(4);
-                            offlineSnackbar.show();
+                            boolean isOnline = pacifyer.getOnline();
+                            String reason = "";
+                            if (isOnline) {
+                                if (!pacifyer.getCurrentlyAvailable()) {
+                                    reason = " in a session";
+                                }
+                            } else {
+                                reason = "offline";
+                            }
+
+                            if (reason.equals("offline"))
+                            {
+                                ((ConnectToPacifyrActivity) (activity)).callchatEventListner.onChatEventClick((new ChatEvent(pacifyer, false)));
+                            }
+                            else {
+                                Snackbar offlineSnackbar = Snackbar.make(v, pacifyer.getName() + " is" +
+                                        " currently " + reason + ". You can either chat with " + pacifyer.getName() + " or try again later.", Snackbar.LENGTH_LONG);
+                                View snackbarView = offlineSnackbar.getView();
+                                TextView snackTextView = snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
+                                snackTextView.setMaxLines(4);
+                                offlineSnackbar.show();
+                            }
+
                         }
 
                         //  Toast.makeText(context,"Video call",Toast.LENGTH_SHORT).show();

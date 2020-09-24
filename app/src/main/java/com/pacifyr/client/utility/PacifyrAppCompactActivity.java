@@ -1431,6 +1431,7 @@ public abstract class PacifyrAppCompactActivity  extends PacifyrActivity {
     public void callPacifyrForRefreshBeforeScheduleUI(String id)
     {
         try {
+            setLoading("Loading...");
            showProgress();
             PrefManager prefM = PrefManager.getInstance(PacifyrAppCompactActivity.this);
             String token = prefM.getAccessToken();
