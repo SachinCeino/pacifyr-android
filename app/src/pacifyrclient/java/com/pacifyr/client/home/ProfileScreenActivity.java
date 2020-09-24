@@ -30,6 +30,7 @@ import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.AlertTypeEvent;
 import com.pacifyr.client.event.CallEvent;
+import com.pacifyr.client.event.ChatEvent;
 import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.fragment.schedule.ScheduleBottomSheetFragment;
 import com.pacifyr.client.network.GsonUtils;
@@ -240,24 +241,23 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
                             String reason = "";
                             if (isOnline) {
                                 if (!mpacifyerDetial.getCurrentlyAvailable()) {
-                                    reason = " in a session";
+                                    reason = "in a session";
                                 }
                             } else {
                                 reason = "offline";
                             }
-                            if (reason.equals("offline"))
+
+                            if (!reason.equals(""))
                             {
-                                startChat(mpacifyerDetial);
+                                showIOSDialogOKCancel("", mpacifyerDetial.getFirstName()+ " is currently "+reason+". You can either chat with "+mpacifyerDetial.getFirstName()+" or try again later.", "Chat", new iOSDialogClickListener() {
+                                    @Override
+                                    public void onClick(iOSDialog dialog) {
+                                        dialog.dismiss();
+                                        startChat(mpacifyerDetial);
+                                    }
+                                }, "Ok");
                             }
-                            else
-                            {
-                                offlineSnackbar = Snackbar.make(topRlay, mpacifyerDetial.getName() +
-                                        " is currently " + reason + ". You can either chat with " + mpacifyerDetial.getName() + " or try again later.", Snackbar.LENGTH_LONG);
-                                View snackbarView = offlineSnackbar.getView();
-                                TextView snackTextView = snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
-                                snackTextView.setMaxLines(4);
-                                offlineSnackbar.show();
-                            }
+
 
                         }
                         else
@@ -313,24 +313,23 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
                             String reason = "";
                             if (isOnline) {
                                 if (!mpacifyerDetial.getCurrentlyAvailable()) {
-                                    reason = " in a session";
+                                    reason = "in a session";
                                 }
                             } else {
                                 reason = "offline";
                             }
-                            if (reason.equals("offline"))
+                            if (!reason.equals(""))
                             {
-                                startChat(mpacifyerDetial);
+                                showIOSDialogOKCancel("", mpacifyerDetial.getFirstName()+ " is currently "+reason+". You can either chat with "+mpacifyerDetial.getFirstName()+" or try again later.", "Chat", new iOSDialogClickListener() {
+                                        @Override
+                                        public void onClick(iOSDialog dialog) {
+                                            dialog.dismiss();
+                                            startChat(mpacifyerDetial);
+                                        }
+                                    }, "Ok");
+
                             }
-                            else
-                            {
-                                offlineSnackbar = Snackbar.make(topRlay, mpacifyerDetial.getName() +
-                                        " is currently " + reason + ". You can either chat with " + mpacifyerDetial.getName() + " or try again later.", Snackbar.LENGTH_LONG);
-                                View snackbarView = offlineSnackbar.getView();
-                                TextView snackTextView = snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
-                                snackTextView.setMaxLines(4);
-                                offlineSnackbar.show();
-                            }
+
                         }
 
                       else

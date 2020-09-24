@@ -21,6 +21,8 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
+import com.gdacciaro.iOSDialog.iOSDialog;
+import com.gdacciaro.iOSDialog.iOSDialogClickListener;
 import com.google.android.material.snackbar.Snackbar;
 import com.pacifyr.client.R;
 import com.pacifyr.client.adapter.EmotionSpecialityAdapter;
@@ -29,6 +31,7 @@ import com.pacifyr.client.adapter.PostiveEmotionsAdapter;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.AlertTypeEvent;
 import com.pacifyr.client.event.CallEvent;
+import com.pacifyr.client.event.ChatEvent;
 import com.pacifyr.client.event.InternetConnectionEvent;
 import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.fragment.schedule.ScheduleBottomSheetFragment;
@@ -508,27 +511,25 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
                         String reason = "";
                         if (isOnline) {
                             if (!pacifyer_obj.getCurrentlyAvailable()) {
-                                reason = " in a session";
+                                reason = "in a session";
                             }
                         } else {
                             reason = "offline";
                         }
                         if(!pacifyer_obj.isReadyToCall()) {
 
-                            if (reason.equals("offline"))
+                            if (!reason.equals(""))
                             {
-                                startChat(pacifyer_obj);
+                                showIOSDialogOKCancel("", pacifyer_obj.getFirstName()+ " is currently "+reason+". You can either chat with "+pacifyer_obj.getFirstName()+" or try again later.", "Chat", new iOSDialogClickListener() {
+                                    @Override
+                                    public void onClick(iOSDialog dialog) {
+                                        dialog.dismiss();
+                                        startChat(pacifyer_obj);
+                                    }
+                                }, "Ok");
+
                             }
-                            else {
-                                Snackbar offlineSnackbar = Snackbar.make(topRlay,
-                                        pacifyer_obj.getName() + " is currently " + reason + ". You can " +
-                                                "either chat with " + pacifyer_obj.getName() + " or try again later.", Snackbar.LENGTH_LONG);
-                                View snackbarView = offlineSnackbar.getView();
-                                TextView snackTextView = snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
-                                snackTextView.setMaxLines(4);
-                                offlineSnackbar.show();
-                                return;
-                            }
+
                         }
 
                        else {
@@ -584,26 +585,22 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
                             String reason = "";
                             if (isOnline) {
                                 if (!pacifyer_obj.getCurrentlyAvailable()) {
-                                    reason = " in a session";
+                                    reason = "in a session";
                                 }
                             } else {
                                 reason = "offline";
                             }
-                          if (reason.equals("offline"))
-                          {
-                              startChat(pacifyer_obj);
-                          }
-                          else {
-                              Snackbar offlineSnackbar = Snackbar.make(topRlay,
-                                      pacifyer_obj.getName() + " is currently " + reason + ". You " +
-                                              "can " +
-                                              "either chat with " + pacifyer_obj.getName() + " or try again later.", Snackbar.LENGTH_LONG);
-                              View snackbarView = offlineSnackbar.getView();
-                              TextView snackTextView = snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
-                              snackTextView.setMaxLines(4);
-                              offlineSnackbar.show();
-                              return;
-                          }
+                            if (!reason.equals(""))
+                            {
+                                showIOSDialogOKCancel("", pacifyer_obj.getFirstName()+ " is currently "+reason+". You can either chat with "+pacifyer_obj.getFirstName()+" or try again later.", "Chat", new iOSDialogClickListener() {
+                                    @Override
+                                    public void onClick(iOSDialog dialog) {
+                                        dialog.dismiss();
+                                        startChat(pacifyer_obj);
+                                    }
+                                }, "Ok");
+
+                            }
                         }
                         else {
                             if (checker.lacksPermissions(Consts.PERMISSIONS[1])) {
