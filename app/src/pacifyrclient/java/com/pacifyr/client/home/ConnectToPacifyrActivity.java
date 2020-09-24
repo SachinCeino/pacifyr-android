@@ -460,7 +460,10 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
                             imgRcv.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
                             imgRcv.setAdapter(categoryListAdapter);
                             categoryListAdapter.addListener((ConnectToPacifyrActivity) activity);
-                            categoryListAdapter.setSelected(0);
+
+                            int selectedCatogoryPosition = getPositionFromSeletedCatogory(item);
+                            categoryListAdapter.setSelected(selectedCatogoryPosition);
+                            imgRcv.scrollToPosition(selectedCatogoryPosition);
                         }
                         else
                         {
@@ -493,6 +496,13 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private int getPositionFromSeletedCatogory(ModelSpecialityByCategory.Results[] item) {
+        int selectedCatogoryPosition = 0;
+        for (int i=0;i<item.length;i++)
+            if (item[i].getTitle().equals(customerEmotion)) selectedCatogoryPosition = i;
+        return selectedCatogoryPosition;
     }
 
     @Override
