@@ -32,6 +32,12 @@ import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
 import com.google.firebase.dynamiclinks.PendingDynamicLinkData;
 import com.pacifyr.client.R;
@@ -758,6 +764,11 @@ public class Utility {
         return timeZone.substring(0, 3) + ":"+ timeZone.substring(3, 5);
     }
 
+    public static String getTimeStamp() {
+        Date mDate = Calendar.getInstance().getTime();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        return df.format(mDate);
+    }
 
     public static void getUserCreatedDayMonthYear(String dateFromServer) {
         // Date daty=null;
@@ -1092,6 +1103,54 @@ public class Utility {
                         }
                     }
                 });
+    }
+
+    public static void getRealTimeLogging(Context context) {
+        String userId = PrefManager.getInstance(context).getUserID();
+        if (userId == null || userId.isEmpty()) {
+            PrefManager.getInstance(context).putSharedInteger(Constants.KEY_REALTIME_LOGGING, 0);
+            return;
+        }
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+        DatabaseReference userRef = database.getReference(FirebaseLogging.FIREBASE_LOG_USERS_TRACKED_TABLE);
+        Query userQuery = userRef.child("userId");
+        userQuery.limitToFirst(1);
+        userQuery.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                //Log.d(TAG, "Child added " + previousChildName +":" + snapshot.getValue());
+                if (snapshot != null && snapshot.getValue() != null && snapshot.getValue().equals(userId)) {
+                    PrefManager.getInstance(context).putSharedInteger(Constants.KEY_REALTIME_LOGGING, 1);
+                    userQuery.removeEventListener(this);
+                } else {
+                    PrefManager.getInstance(context).putSharedInteger(Constants.KEY_REALTIME_LOGGING, -1);
+                }
+
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                //Log.d(TAG, "Child changed " + previousChildName);
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+                //Log.d(TAG, "Child removed " );
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                //Log.d(TAG, "Child moved " );
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                //Log.d(TAG, "cancelled " );
+            }
+            // TODO: implement the ChildEventListener methods as documented above
+            // ...
+        });
     }
 
 }

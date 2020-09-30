@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import androidx.core.content.ContextCompat;
 import androidx.core.widget.NestedScrollView;
@@ -28,6 +27,7 @@ import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.quickblox.util.NestedScroll;
 import com.pacifyr.client.utility.BaseFragment;
+import com.pacifyr.client.utils.FirebaseLogging;
 import com.pacifyr.client.utils.LogUtils;
 import com.pacifyr.client.utils.Utility;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MSessionDetailRoot;
@@ -91,6 +91,15 @@ public class MySessionFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         ((DashboardActivity) getActivity()).changeActionBarTitleForFragments(getResources().getString(R.string.nav_my_session_title));
+
+        Bundle args =
+                FirebaseLogging.getConstantArgsLoggedIn(getActivity());
+
+        args.putString(FirebaseLogging.EC, MySessionFragment.class.getSimpleName());
+
+        FirebaseLogging.sendLog(getActivity(),
+                FirebaseLogging.EVENT_ON_SCREEN,
+                args);
     }
 
     @Override

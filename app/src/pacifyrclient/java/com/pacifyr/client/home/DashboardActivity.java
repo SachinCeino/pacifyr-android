@@ -58,6 +58,8 @@ import com.pacifyr.client.quickblox.services.CallService;
 import com.pacifyr.client.sign.CrisisActivity;
 import com.pacifyr.client.utility.PacifyrAppCompactActivity;
 import com.pacifyr.client.utils.AmazonSNSTokenHandler;
+import com.pacifyr.client.utils.Constants;
+import com.pacifyr.client.utils.FirebaseLogging;
 import com.pacifyr.client.utils.LogUtils;
 import com.pacifyr.client.utils.PagerEnabledSlidingPaneLayout;
 import com.pacifyr.client.utils.ToastHandler;
@@ -190,6 +192,14 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
             });
         }
 
+        Bundle args =
+                FirebaseLogging.getConstantArgsLoggedIn(DashboardActivity.this);
+
+        args.putString(FirebaseLogging.EC, DashboardActivity.class.getSimpleName());
+
+        FirebaseLogging.sendLog(DashboardActivity.this,
+                FirebaseLogging.EVENT_ON_SCREEN,
+                args);
 
     }
 
@@ -812,6 +822,11 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
             }
         }
         checkAndApplyCode();
+
+        int realTimeLogging = PrefManager.getInstance(DashboardActivity.this).getSharedInteger(Constants.KEY_REALTIME_LOGGING, -1);
+        if (realTimeLogging == 0) {
+            Utility.getRealTimeLogging(DashboardActivity.this);
+        }
     }
 
 

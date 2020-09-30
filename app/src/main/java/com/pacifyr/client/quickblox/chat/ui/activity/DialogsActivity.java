@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -41,6 +40,7 @@ import com.pacifyr.client.quickblox.chat.utils.qb.QbChatDialogMessageListenerImp
 import com.pacifyr.client.quickblox.chat.utils.qb.QbDialogHolder;
 import com.pacifyr.client.quickblox.chat.utils.qb.QbDialogUtils;
 import com.pacifyr.client.quickblox.chat.utils.qb.callback.QbEntityCallbackImpl;
+import com.pacifyr.client.utils.FirebaseLogging;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 import com.quickblox.chat.QBChatService;
@@ -63,10 +63,8 @@ import com.quickblox.users.model.QBUser;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.ThreadMode;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -160,6 +158,15 @@ public class DialogsActivity extends PacifyrActivity implements DialogsManager.M
 
         LocalBroadcastManager.getInstance(this).registerReceiver(pushBroadcastReceiver,
                 new IntentFilter(GcmConsts.ACTION_NEW_GCM_EVENT));
+
+        Bundle args =
+                FirebaseLogging.getConstantArgsLoggedIn(DialogsActivity.this);
+
+        args.putString(FirebaseLogging.EC, DialogsActivity.class.getSimpleName());
+
+        FirebaseLogging.sendLog(DialogsActivity.this,
+                FirebaseLogging.EVENT_ON_SCREEN,
+                args);
     }
 
     @Override

@@ -10,7 +10,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -23,7 +22,6 @@ import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.gdacciaro.iOSDialog.iOSDialog;
 import com.gdacciaro.iOSDialog.iOSDialogClickListener;
-import com.google.android.material.snackbar.Snackbar;
 import com.pacifyr.client.R;
 import com.pacifyr.client.adapter.EmotionSpecialityAdapter;
 import com.pacifyr.client.adapter.NegativeEmotionsAdapter;
@@ -31,16 +29,15 @@ import com.pacifyr.client.adapter.PostiveEmotionsAdapter;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.AlertTypeEvent;
 import com.pacifyr.client.event.CallEvent;
-import com.pacifyr.client.event.ChatEvent;
 import com.pacifyr.client.event.InternetConnectionEvent;
 import com.pacifyr.client.event.NotifyEvent;
-import com.pacifyr.client.fragment.schedule.ScheduleBottomSheetFragment;
 import com.pacifyr.client.model.ModelSpecialityByEmotion;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.quickblox.activities.PermissionsActivity;
 import com.pacifyr.client.quickblox.utils.Consts;
 import com.pacifyr.client.utility.PacifyrAppCompactActivity;
+import com.pacifyr.client.utils.FirebaseLogging;
 import com.pacifyr.client.utils.LogUtils;
 import com.pacifyr.client.utils.Utility;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
@@ -428,6 +425,15 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
         } else {
             dismissSnackbarPopup();
         }
+
+        Bundle args =
+                FirebaseLogging.getConstantArgsLoggedIn(ConnectToSinglePacifyrActivity.this);
+
+        args.putString(FirebaseLogging.EC, ConnectToSinglePacifyrActivity.class.getSimpleName());
+
+        FirebaseLogging.sendLog(ConnectToSinglePacifyrActivity.this,
+                FirebaseLogging.EVENT_ON_SCREEN,
+                args);
     }
 
 

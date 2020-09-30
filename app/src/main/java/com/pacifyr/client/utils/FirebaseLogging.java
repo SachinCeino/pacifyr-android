@@ -8,7 +8,13 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.gson.Gson;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Created by Sachin Thampan on 28/10/19.
@@ -36,6 +42,13 @@ public class FirebaseLogging {
     public static final String EVENT_CLIENT_PAYMENT_DONE = "client_done_payment";
     public static final String EVENT_CLIENT_PAYMENT_FAILED = "client_payment_failed";
     public static final String EVENT_COUNCELOR_SESSION_STARTED = "councelor_session_started";
+    public static final String EVENT_ON_SCREEN = "on_screen";
+    public static final String EVENT_AUTO_APPLY_COUPON_CODE = "auto_apply_coupon_code";
+    public static final String EVENT_APPLY_COUPON_CODE = "apply_coupon_code";
+    public static String FIREBASE_LOG_USERS_TRACKED_TABLE = "device_users_tracked";
+    private static String FIREBASE_LOG_TABLE = "device_logs";
+
+
     private static String TAG = FirebaseLogging.class.getSimpleName();
 
 
@@ -91,5 +104,28 @@ public class FirebaseLogging {
         }
         FirebaseAnalytics analytics = FirebaseAnalytics.getInstance(context);
         analytics.logEvent(event, args);
+
+        String userId = args.getString("userId");
+
+        if (userId != null) {
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+            int realtimeLogging = PrefManager.getInstance(context).getSharedInteger(Constants.KEY_REALTIME_LOGGING, -1);
+            if (realtimeLogging == 1) {
+                String params = null;
+                JSONObject ev = new JSONObject();
+                try {
+                    ev.put(event, args);
+                    ev.put("timeStamp", Utility.getTimeStamp());
+                    params = new Gson().toJson(ev);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                DatabaseReference myRef = database.getReference(FIREBASE_LOG_TABLE);
+                DatabaseReference childRef = myRef.child(userId).push();
+                childRef.setValue(params);
+            }
+
+        }
     }
 }

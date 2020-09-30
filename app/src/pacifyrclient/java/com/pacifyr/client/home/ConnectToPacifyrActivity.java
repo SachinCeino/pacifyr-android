@@ -36,7 +36,6 @@ import com.pacifyr.client.event.CallEvent;
 import com.pacifyr.client.event.ChatEvent;
 import com.pacifyr.client.event.InternetConnectionEvent;
 import com.pacifyr.client.event.NotifyEvent;
-import com.pacifyr.client.fragment.schedule.ScheduleBottomSheetFragment;
 import com.pacifyr.client.model.ModelSpecialityByCategory;
 import com.pacifyr.client.model.ModelSpecialityByEmotion;
 import com.pacifyr.client.model.interfaces.CallChatEventListner;
@@ -45,6 +44,7 @@ import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.quickblox.activities.PermissionsActivity;
 import com.pacifyr.client.quickblox.utils.Consts;
 import com.pacifyr.client.utility.PacifyrAppCompactActivity;
+import com.pacifyr.client.utils.FirebaseLogging;
 import com.pacifyr.client.utils.LogUtils;
 import com.pacifyr.client.utils.Utility;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
@@ -388,11 +388,7 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
         getShowallCbox().setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    showAllFlag = true;
-                } else {
-                    showAllFlag = false;
-                }
+                showAllFlag = isChecked;
                 UpdateSpecialityAdapter(showAllFlag);
             }
         });
@@ -459,7 +455,7 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
                             CategoryListAdapter categoryListAdapter = new CategoryListAdapter(item, getApplicationContext());
                             imgRcv.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
                             imgRcv.setAdapter(categoryListAdapter);
-                            categoryListAdapter.addListener((ConnectToPacifyrActivity) activity);
+                            categoryListAdapter.addListener(activity);
 
                             int selectedCatogoryPosition = getPositionFromSeletedCatogory(item);
                             categoryListAdapter.setSelected(selectedCatogoryPosition);
@@ -1095,6 +1091,14 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
             dismissSnackbarPopup();
         }
 
+        Bundle args =
+                FirebaseLogging.getConstantArgsLoggedIn(ConnectToPacifyrActivity.this);
+
+        args.putString(FirebaseLogging.EC, ConnectToPacifyrActivity.class.getSimpleName());
+
+        FirebaseLogging.sendLog(ConnectToPacifyrActivity.this,
+                FirebaseLogging.EVENT_ON_SCREEN,
+                args);
 
     }
 

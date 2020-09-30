@@ -812,6 +812,16 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
        networkConnectionChecker.registerListener(this);
         App.getInstance().setCurrentActivity(this);
         isForeground = true;
+
+        Bundle args =
+                FirebaseLogging.getConstantArgsLoggedIn(CallActivity.this);
+
+        args.putString(FirebaseLogging.EC, CallActivity.class.getSimpleName());
+
+        FirebaseLogging.sendLog(CallActivity.this,
+                FirebaseLogging.EVENT_ON_SCREEN,
+                args);
+        App.getInstance().setCurrentActivity(this);
     }
 
     @Override

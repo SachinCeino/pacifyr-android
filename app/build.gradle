@@ -284,6 +284,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-core:17.2.0'
     implementation 'com.google.firebase:firebase-messaging:20.0.0'
     implementation 'com.google.firebase:firebase-analytics:17.2.0'
+    implementation 'com.google.firebase:firebase-database:19.4.0'
+
     //All firebase dependencies
 }
 apply plugin: 'com.google.gms.google-services'

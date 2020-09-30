@@ -64,6 +64,7 @@ public class SplashScreen extends BaseAppCompactActivity {
 
 
         FirebaseAnalytics.getInstance(this);
+        Utility.getRealTimeLogging(SplashScreen.this);
         Utility.handleDeepLink(SplashScreen.this, getIntent(), new DeepLinkListener() {
             @Override
             public void onDone() {

@@ -2702,6 +2702,15 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
                 if (json == null) {
                     hideProgress();
                     Toast.makeText(context, getString(R.string.invalid_coupon_code), Toast.LENGTH_SHORT).show();
+
+                    Bundle args =
+                            FirebaseLogging.getConstantArgsLoggedIn(PacifyrActivity.this);
+
+                    args.putString(FirebaseLogging.EC, couponCode + " : Invalid");
+
+                    FirebaseLogging.sendLog(PacifyrActivity.this,
+                            FirebaseLogging.EVENT_AUTO_APPLY_COUPON_CODE,
+                            args);
                 } else {
 //                            Log.d(TAG, "Resp " + json.toString());
                     final ApiResponse apiResponse = new Gson().fromJson(json.toString(), ApiResponse.class);
@@ -2746,10 +2755,26 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
                                 }
                             }
                         });
+
+                        Bundle args =
+                                FirebaseLogging.getConstantArgsLoggedIn(PacifyrActivity.this);
+
+                        args.putString(FirebaseLogging.EC, "Success : " + couponCode);
+
+                        FirebaseLogging.sendLog(PacifyrActivity.this,
+                                FirebaseLogging.EVENT_AUTO_APPLY_COUPON_CODE,
+                                args);
                     } else if (apiResponse.getMessage() != null) {
                         hideProgress();
                         Toast.makeText(context, apiResponse.getMessage(), Toast.LENGTH_LONG).show();
+                        Bundle args =
+                                FirebaseLogging.getConstantArgsLoggedIn(PacifyrActivity.this);
 
+                        args.putString(FirebaseLogging.EC, couponCode + " : " + apiResponse.getMessage());
+
+                        FirebaseLogging.sendLog(PacifyrActivity.this,
+                                FirebaseLogging.EVENT_AUTO_APPLY_COUPON_CODE,
+                                args);
                     }
                 }
             }

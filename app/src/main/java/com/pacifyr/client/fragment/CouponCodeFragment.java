@@ -21,6 +21,7 @@ import com.pacifyr.client.model.ApiResponse;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.utility.BaseFragment;
+import com.pacifyr.client.utils.FirebaseLogging;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -79,6 +80,14 @@ public class CouponCodeFragment extends BaseFragment {
                         if (json == null) {
                             hideProgress();
                             Toast.makeText(getActivity(), getString(R.string.invalid_coupon_code), Toast.LENGTH_SHORT).show();
+                            Bundle args =
+                                    FirebaseLogging.getConstantArgsLoggedIn(getActivity());
+
+                            args.putString(FirebaseLogging.EC, code + " : failed");
+
+                            FirebaseLogging.sendLog(getActivity(),
+                                    FirebaseLogging.EVENT_APPLY_COUPON_CODE,
+                                    args);
                         } else {
 //                            Log.d(TAG, "Resp " + json.toString());
                             final ApiResponse apiResponse = new Gson().fromJson(json.toString(), ApiResponse.class);
@@ -134,9 +143,26 @@ public class CouponCodeFragment extends BaseFragment {
                                         }
                                     }
                                 });
+                                Bundle args =
+                                        FirebaseLogging.getConstantArgsLoggedIn(getActivity());
+
+                                args.putString(FirebaseLogging.EC, "Success : " + code);
+
+                                FirebaseLogging.sendLog(getActivity(),
+                                        FirebaseLogging.EVENT_APPLY_COUPON_CODE,
+                                        args);
                             } else if (apiResponse.getMessage() != null) {
                                 hideProgress();
                                 Toast.makeText(getActivity(), apiResponse.getMessage(), Toast.LENGTH_LONG).show();
+
+                                Bundle args =
+                                        FirebaseLogging.getConstantArgsLoggedIn(getActivity());
+
+                                args.putString(FirebaseLogging.EC, code + apiResponse.getMessage());
+
+                                FirebaseLogging.sendLog(getActivity(),
+                                        FirebaseLogging.EVENT_APPLY_COUPON_CODE,
+                                        args);
                             }
                         }
 

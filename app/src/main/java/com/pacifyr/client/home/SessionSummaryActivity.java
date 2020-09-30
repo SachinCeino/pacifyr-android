@@ -40,9 +40,9 @@ import com.pacifyr.client.model.interfaces.CommentClick;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.quickblox.App;
-import com.pacifyr.client.quickblox.activities.CallActivity;
 import com.pacifyr.client.quickblox.utils.Consts;
 import com.pacifyr.client.utility.PacifyrAppCompactActivity;
+import com.pacifyr.client.utils.FirebaseLogging;
 import com.pacifyr.client.utils.LogUtils;
 import com.pacifyr.client.utils.Utility;
 import com.pacifyr.client.utils.WrappingSlidingPaneLayout;
@@ -426,6 +426,15 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
         super.onResume();
 
         App.getInstance().setCurrentActivity(this);
+
+        Bundle args =
+                FirebaseLogging.getConstantArgsLoggedIn(SessionSummaryActivity.this);
+
+        args.putString(FirebaseLogging.EC, SessionSummaryActivity.class.getSimpleName());
+
+        FirebaseLogging.sendLog(SessionSummaryActivity.this,
+                FirebaseLogging.EVENT_ON_SCREEN,
+                args);
     }
 
     @Override

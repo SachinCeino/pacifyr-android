@@ -22,6 +22,7 @@ import com.pacifyr.client.model.ApiResponse;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.utility.PacifyrAppCompactActivity;
+import com.pacifyr.client.utils.FirebaseLogging;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 
 import org.json.JSONObject;
@@ -77,6 +78,14 @@ public class DiscountCodeActivity extends PacifyrAppCompactActivity {
                         if (json == null) {
                             hideProgress();
                             Toast.makeText(DiscountCodeActivity.this, getString(R.string.invalid_coupon_code), Toast.LENGTH_SHORT).show();
+                            Bundle args =
+                                    FirebaseLogging.getConstantArgsLoggedIn(DiscountCodeActivity.this);
+
+                            args.putString(FirebaseLogging.EC, code + " : failed");
+
+                            FirebaseLogging.sendLog(DiscountCodeActivity.this,
+                                    FirebaseLogging.EVENT_APPLY_COUPON_CODE,
+                                    args);
                         } else {
 //                            Log.d(TAG, "Resp " + json.toString());
                             PrefManager.getInstance(DiscountCodeActivity.this).putString(PrefManager.COUPON_CODE, null);
@@ -113,8 +122,17 @@ public class DiscountCodeActivity extends PacifyrAppCompactActivity {
 
                                                     }
                                                 }
+
                                             } else {
                                                 Toast.makeText(DiscountCodeActivity.this, getResources().getString(R.string.invalid_coupon_code), Toast.LENGTH_LONG).show();
+                                                Bundle args =
+                                                        FirebaseLogging.getConstantArgsLoggedIn(DiscountCodeActivity.this);
+
+                                                args.putString(FirebaseLogging.EC, code + " : failed");
+
+                                                FirebaseLogging.sendLog(DiscountCodeActivity.this,
+                                                        FirebaseLogging.EVENT_APPLY_COUPON_CODE,
+                                                        args);
                                             }
 
 
@@ -124,9 +142,26 @@ public class DiscountCodeActivity extends PacifyrAppCompactActivity {
                                         }
                                     }
                                 });
+                                Bundle args =
+                                        FirebaseLogging.getConstantArgsLoggedIn(DiscountCodeActivity.this);
+
+                                args.putString(FirebaseLogging.EC, "Success : " + code);
+
+                                FirebaseLogging.sendLog(DiscountCodeActivity.this,
+                                        FirebaseLogging.EVENT_APPLY_COUPON_CODE,
+                                        args);
                             } else if (apiResponse.getMessage() != null) {
                                 hideProgress();
                                 Toast.makeText(DiscountCodeActivity.this, apiResponse.getMessage(), Toast.LENGTH_LONG).show();
+
+                                Bundle args =
+                                        FirebaseLogging.getConstantArgsLoggedIn(DiscountCodeActivity.this);
+
+                                args.putString(FirebaseLogging.EC, code + apiResponse.getMessage());
+
+                                FirebaseLogging.sendLog(DiscountCodeActivity.this,
+                                        FirebaseLogging.EVENT_APPLY_COUPON_CODE,
+                                        args);
 
                             }
                         }
