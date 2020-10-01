@@ -6,12 +6,10 @@ import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.pacifyr.client.R;
 import com.pacifyr.client.event.AlertTypeEvent;
 import com.pacifyr.client.event.NotifyEvent;
-import com.pacifyr.client.home.CustomerDetailActivity;
 import com.pacifyr.client.quickblox.activities.CallActivity;
 import com.pdfview.PDFView;
 
@@ -25,6 +23,7 @@ public class PdfViewer extends PacifyrAppCompactActivity {
     private PDFView pdfView;
     private View back;
     private TextView titleText;
+    private boolean restoreCall;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -33,6 +32,7 @@ public class PdfViewer extends PacifyrAppCompactActivity {
         back = findViewById(R.id.back_imv);
         titleText = findViewById(R.id.title_txv);
         pdfView = findViewById(R.id.pdfview);
+        restoreCall = getIntent().getBooleanExtra("restoreCall", false);
         if (pdf != null) {
             String filename = pdf.getPath();
             filename = filename.substring(filename.lastIndexOf("/"));
@@ -82,7 +82,7 @@ public class PdfViewer extends PacifyrAppCompactActivity {
 
     @Override
     public void onBackPressed() {
-        if (isCallActive) {
+        if (restoreCall && isCallActive) {
             Intent i = new Intent(PdfViewer.this, CallActivity.class);
             i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(i);

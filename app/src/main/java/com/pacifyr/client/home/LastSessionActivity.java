@@ -39,6 +39,7 @@ import com.pacifyr.client.model.interfaces.CommentClick;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.quickblox.App;
+import com.pacifyr.client.quickblox.activities.CallActivity;
 import com.pacifyr.client.utility.PacifyrAppCompactActivity;
 import com.pacifyr.client.utils.LogUtils;
 import com.pacifyr.client.utils.Utility;
@@ -66,6 +67,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.pacifyr.client.network.NetworkService.GLOBAL_URL;
 import static com.pacifyr.client.network.NetworkService.modelAllEmotions;
+import static com.pacifyr.client.quickblox.activities.CallActivity.isCallActive;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_IMAGE_URL;
 
 /**
@@ -1266,6 +1268,11 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
     public void onBackPressed() {
         //super.onBackPressed();
         finish();
+        if (isCallActive) {
+            Intent i = new Intent(LastSessionActivity.this, CallActivity.class);
+            i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            startActivity(i);
+        }
     }
 
     @Override

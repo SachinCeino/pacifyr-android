@@ -1,36 +1,18 @@
 package com.pacifyr.client.activity;
 
-import android.app.AlertDialog;
-import android.app.ProgressDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Typeface;
-import android.net.http.SslError;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
-import android.webkit.SslErrorHandler;
-import android.webkit.WebResourceError;
-import android.webkit.WebResourceRequest;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.krishna.fileloader.FileLoader;
-import com.krishna.fileloader.listener.FileRequestListener;
-import com.krishna.fileloader.pojo.FileResponse;
-import com.krishna.fileloader.request.FileLoadRequest;
 import com.pacifyr.client.R;
 import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
-import com.pacifyr.client.utility.PdfViewer;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
-
-import java.io.File;
 
 public class PrescriptionViewActivity extends PacifyrActivity {
 
@@ -66,9 +48,7 @@ public class PrescriptionViewActivity extends PacifyrActivity {
     @Override
     // Detect when the back button is pressed
     public void onBackPressed() {
-
-            finish();
-
+        finish();
     }
 
 
@@ -114,7 +94,7 @@ public class PrescriptionViewActivity extends PacifyrActivity {
             @Override
             public void onClick(View v) {
 
-                    finish();
+                finish();
 
             }
         });

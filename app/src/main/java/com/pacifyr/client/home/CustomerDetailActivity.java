@@ -19,23 +19,23 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
+import com.pacifyr.client.R;
+import com.pacifyr.client.adapter.ListCustomerSessionAdapter;
 import com.pacifyr.client.customview.MainTextView;
+import com.pacifyr.client.event.AlertTypeEvent;
+import com.pacifyr.client.event.CustomerNotifyEvent;
+import com.pacifyr.client.event.NotifyEvent;
+import com.pacifyr.client.network.GsonUtils;
+import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.quickblox.activities.CallActivity;
+import com.pacifyr.client.utility.PacifyrAppCompactActivity;
+import com.pacifyr.client.utils.LogUtils;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.pacifyrapp.utilitylibrary.FlexLayout;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MEmotion;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MPastSessions;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
-import com.pacifyr.client.R;
-import com.pacifyr.client.adapter.ListCustomerSessionAdapter;
-import com.pacifyr.client.event.AlertTypeEvent;
-import com.pacifyr.client.event.CustomerNotifyEvent;
-import com.pacifyr.client.event.NotifyEvent;
-import com.pacifyr.client.network.GsonUtils;
-import com.pacifyr.client.network.NetworkService;
-import com.pacifyr.client.utility.PacifyrAppCompactActivity;
-import com.pacifyr.client.utils.LogUtils;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
 
@@ -90,14 +90,14 @@ public class CustomerDetailActivity extends PacifyrAppCompactActivity {
 
         Intent intent = new Intent(context, CustomerDetailActivity.class);
         CustomerDetailActivity.custListUser=user;
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS | Intent.FLAG_ACTIVITY_NO_HISTORY);
         context.startActivity(intent);
     }
     public static void start (Activity context, MUser user) {
 
         Intent intent = new Intent(context, CustomerDetailActivity.class);
         CustomerDetailActivity.custListUser=user;
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS | Intent.FLAG_ACTIVITY_NO_HISTORY);
         context.startActivity(intent);
     }
     @Override
@@ -486,11 +486,12 @@ public class CustomerDetailActivity extends PacifyrAppCompactActivity {
 
     @Override
     public void onBackPressed() {
+        finish();
         if (isCallActive) {
             Intent i = new Intent(CustomerDetailActivity.this, CallActivity.class);
             i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(i);
         }
-        finish();
+
     }
 }

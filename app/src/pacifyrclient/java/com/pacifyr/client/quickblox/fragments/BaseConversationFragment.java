@@ -25,22 +25,20 @@ import com.krishna.fileloader.FileLoader;
 import com.krishna.fileloader.listener.FileRequestListener;
 import com.krishna.fileloader.pojo.FileResponse;
 import com.krishna.fileloader.request.FileLoadRequest;
-import com.pacifyr.client.home.SessionSummaryActivity;
-import com.pacifyr.client.model.PrescriptionList;
-import com.pacifyr.client.network.GsonUtils;
-import com.pacifyr.client.utility.PdfViewer;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
-import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.pacifyr.client.R;
-import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.event.CallTimerEvent;
 import com.pacifyr.client.interfaces.EmpMinutesListener;
+import com.pacifyr.client.model.PrescriptionList;
+import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.quickblox.activities.CallActivity;
 import com.pacifyr.client.quickblox.db.QbUsersDbManager;
 import com.pacifyr.client.quickblox.utils.Consts;
 import com.pacifyr.client.quickblox.utils.UsersUtils;
 import com.pacifyr.client.quickblox.utils.WebRtcSessionManager;
+import com.pacifyr.client.utility.PdfViewer;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
+import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.quickblox.chat.QBChatService;
 import com.quickblox.users.model.QBUser;
 import com.quickblox.videochat.webrtc.QBRTCSession;
@@ -616,6 +614,7 @@ public abstract class BaseConversationFragment extends BaseToolBarFragment imple
                         PdfViewer.pdf = loadedFile;
                         Intent intent = new Intent(getActivity(), PdfViewer.class);
                         intent.putExtra("title",getActivity().getResources().getString(R.string.kyc_document));
+                        intent.putExtra("restoreCall", true);
                         startActivity(intent);
                     }
 

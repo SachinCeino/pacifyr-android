@@ -1,14 +1,12 @@
 package com.pacifyr.client.adapter;
 
 import android.content.Context;
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,29 +14,20 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.pacifyr.client.R;
 import com.pacifyr.client.customview.MainTextView;
-import com.pacifyr.client.event.ChatEvent;
-import com.pacifyr.client.home.DashboardActivity;
 import com.pacifyr.client.home.LastSessionActivity;
-import com.pacifyr.client.home.MySessionsActivity;
-import com.pacifyr.client.home.OfficeVisitSummary;
+import com.pacifyr.client.utils.LogUtils;
 import com.pacifyr.client.utils.Utility;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MEmotion;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MPastSessions;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.MSessionDetailRoot;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MSessionRating;
-import com.pacifyr.client.R;
-import com.pacifyr.client.home.SummaryDetailActivity;
-import com.pacifyr.client.utils.LogUtils;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.squareup.picasso.Picasso;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -326,10 +315,10 @@ public class ListCustomerSessionAdapter extends RecyclerView.Adapter<RecyclerVie
             holder.topLlay.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    boolean editable = true;
+                    boolean editable = false;
                     try {
                         String sessionID = results.getId();
-                       // LastSessionActivity.start(mContext, sessionID, editable);
+                        LastSessionActivity.start(mContext, sessionID, editable);
                     }
                     catch (Exception ex)
                     {
