@@ -83,6 +83,7 @@ import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.CIRTIF
 public class NetworkService  extends IntentService {
 
      public static final String GLOBAL_URL = UtilityNetworkService.GLOBAL_URL;
+    public static final String ACCESS_TOKEN_SERVER_URL = "http://testapp.pacifyr.net:8080/pacifyr/v1/twilio/generateToken";
     public static String GLOBAL_IMAGE_URL = UtilityNetworkService.GLOBAL_IMAGE_URL;
    // public static String GLOBAL_IMAGE_URL = UtilityNetworkService.GLOBAL_IMAGE_URL;
 

@@ -427,6 +427,9 @@
         <activity
             android:name=".utility.PdfViewer"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".twilio.VideoActivity"
+            android:screenOrientation="portrait" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

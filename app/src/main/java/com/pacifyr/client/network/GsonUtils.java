@@ -25,7 +25,9 @@ import com.pacifyr.client.model.SchedulePayment;
 import com.pacifyr.client.model.UserDetailsModel;
 import com.pacifyr.client.model.UserProfile;
 import com.pacifyr.client.paytmpayment.TransactionResponce;
+import com.pacifyr.client.twilio.TwilioAccessToken;
 import com.pacifyr.client.utils.LogUtils;
+import com.pacifyrapp.utilitylibrary.LogUtilsutility;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.LoginModel;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MAdminDashboardByWeek;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MAdminDashboardMonth;
@@ -1003,6 +1005,20 @@ public class GsonUtils<T> {
     }
 
 
+    public TwilioAccessToken gsonToTwilioAccessToken(JSONObject json) {
 
+        TwilioAccessToken users = null;
+        try {
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            String jsonString =  json.toString();
+            users = gson.fromJson(jsonString, TwilioAccessToken.class);
+
+        } catch (Exception e){
+            LogUtilsutility.LOGD("exception", "NS ModelClassParentDetail " + e.getMessage());
+            //Crashlytics.logException(e);
+            e.printStackTrace();
+        }
+        return users;
+    }
 }
 

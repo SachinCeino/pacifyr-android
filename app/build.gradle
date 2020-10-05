@@ -286,6 +286,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics:17.2.0'
     implementation 'com.google.firebase:firebase-database:19.4.0'
 
-    //All firebase dependencies
+    //Twilio SDK
+    implementation 'com.twilio:video-android:5.11.1'
+    implementation 'com.twilio:audioswitch:1.0.1'
 }
 apply plugin: 'com.google.gms.google-services'
