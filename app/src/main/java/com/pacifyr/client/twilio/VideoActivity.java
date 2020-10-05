@@ -2,13 +2,18 @@ package com.pacifyr.client.twilio;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.media.AudioManager;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.os.SystemClock;
 import android.preference.PreferenceManager;
 
 import android.util.Log;
@@ -16,10 +21,14 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Chronometer;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
@@ -28,18 +37,47 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
+import com.gdacciaro.iOSDialog.iOSDialog;
+import com.gdacciaro.iOSDialog.iOSDialogClickListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
-import com.kbeanie.multipicker.utils.LogUtils;
 import com.koushikdutta.ion.Ion;
 import com.pacifyr.client.R;
+import com.pacifyr.client.activity.ActivityChangeEmotionFromCall;
+import com.pacifyr.client.adapter.EmotionSpecialityAdapter;
+import com.pacifyr.client.event.BusProvider;
+import com.pacifyr.client.event.CallChangeEmotion;
+import com.pacifyr.client.event.CallDetailEvent;
+import com.pacifyr.client.event.CallEvent;
+import com.pacifyr.client.event.CallTimerEvent;
+import com.pacifyr.client.fragment.PrescriptionWhileCallFragment;
+import com.pacifyr.client.home.ProfileScreenActivity;
+import com.pacifyr.client.home.SessionSummaryActivity;
+import com.pacifyr.client.interfaces.EmpMinutesListener;
+import com.pacifyr.client.model.CallStatus;
+import com.pacifyr.client.model.PrescriptionList;
+import com.pacifyr.client.network.GsonUtils;
+import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.quickblox.activities.CallActivity;
+import com.pacifyr.client.quickblox.chat.ui.activity.AttachmentImageActivity;
 import com.pacifyr.client.utility.PacifyrAppCompactActivity;
-import com.pacifyrapp.utilitylibrary.network.GsonUtils;
+import com.pacifyr.client.utils.FirebaseLogging;
+import com.pacifyr.client.utils.LogUtils;
+import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.MEmotion;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.MSessionDetailRoot;
+import com.pacifyrapp.utilitylibrary.utils.PrefManager;
+import com.quickblox.sample.core.utils.Toaster;
+import com.squareup.otto.Subscribe;
+import com.squareup.picasso.Picasso;
 import com.twilio.audioswitch.AudioDevice;
 import com.twilio.audioswitch.AudioDevice.BluetoothHeadset;
 import com.twilio.audioswitch.AudioDevice.Earpiece;
@@ -79,6 +117,7 @@ import com.twilio.video.Vp9Codec;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 import com.pacifyr.client.base.PacifyrActivity;
@@ -87,8 +126,11 @@ import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 
 import org.json.JSONObject;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import kotlin.Unit;
 
+import static com.pacifyr.client.network.NetworkService.GLOBAL_IMAGE_URL;
+import static com.pacifyr.client.utils.Constants.getCountryChecks;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
 
 public class VideoActivity extends PacifyrActivity {
@@ -165,6 +207,185 @@ public class VideoActivity extends PacifyrActivity {
     //Call HangUp
     private ImageView button_hangup_call;
     private ToggleButton micToggleVideoCall;
+
+
+    private TextView billingStatus,emotion_ctxv,reason_ctxv;
+    private TextView text_remaining_minutes;
+    private CountDownTimer countDownTimer;
+    protected boolean isStarted;
+    protected Chronometer timerChronometer;
+    boolean isFirsttime = false;
+    public CountDownTimer timer;
+    private EmpMinutesListener empMinutesListener;
+    private ImageView toggle_Max_Min,ImageView_emotion,ImageView_chat,ImageView_prescription;
+    private LinearLayout call_overlay,LinearLayout_chat,certificate_View,more_rlay;
+    private RelativeLayout emotion_rlay;
+    private String change_Emotion_name;
+    private DeviceFitImageView emotion_dimv;
+    private CircleImageView userDimv;
+    private static final String FREE_MINUTES_10 = "freeMinutes10";
+    private static final String FREE_MINUTES_5 = "freeMinutes5";
+    private static final String FREE_MINUTES_OVER = "freeMinutesOver";
+    private static final String PAYTM_PAYMENT_DONE = "cardSetup";
+    boolean freeMinuteAlert10, freeMinuteAlert5, freeMinuteAlert0, freeMinuteAlertMore10 = false; // track which of the 3 alerts are shown. 10, 5 or 0;
+
+
+    public EmpMinutesListener getEmpMinutesListener() {
+        return empMinutesListener;
+    }
+
+    public void setEmpMinutesListener(EmpMinutesListener empMinutesListener) {
+        this.empMinutesListener = empMinutesListener;
+    }
+
+    private BroadcastReceiver eventReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // Get extra data included in the Intent
+            String type = intent.getStringExtra("type");
+            Log.d("receiver", "Got message: " + type);
+            if (type != null && type.equals("billing")) {
+                billingStatus.setVisibility(View.VISIBLE);
+                setBillingStarted(true);
+                if (isEmployee()) {
+                    setEmpMinutesListener(empMinutesListener);
+                    checkEmpAvailableMinutes();
+                }
+                try {
+                    stopTimer();
+                    startTimer();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    };
+
+    private EmpMinutesListener mEmpMinutesListener = new EmpMinutesListener() {
+        @Override
+        public void onMinutesLeft(long minutes) {
+           /* setAlertStatusInBlue2("Warning", "Your monthly free sessions is expiring soon. Please enter your Credit Card to continue service.",
+                    "Add Card", "Cancel", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            setAlertAddCardInBlue2();
+                        }
+                    });*/
+
+             showIOSDialogOKCancel("Warning", "Your monthly free sessions is expiring soon. Please enter your Credit Card to continue service.", "Add Card", new iOSDialogClickListener() {
+                    @Override
+                    public void onClick(iOSDialog dialog) {
+                        //Toast.makeText(PacifyrActivity.this,"Clicked!",Toast.LENGTH_LONG).show();
+                        dialog.dismiss();
+                        setAlertAddCardInBlue2();
+
+                    }
+                }, "Cancel");
+
+        }
+
+        @Override
+        public void expired() {
+            try {
+
+
+                Toast.makeText(getApplicationContext(), "Your monthly free sessions has expired. Please enter your Credit Card to continue.", Toast.LENGTH_LONG).show();
+                hangUpCurrentSessionMe();
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        public void tick(long minutes) {
+            text_remaining_minutes.setText(minutes + " free minutes remaining");
+            text_remaining_minutes.setVisibility(View.VISIBLE);
+        }
+    };
+
+
+    public void checkEmpAvailableMinutes() {
+        boolean cardExist = isCardExist();
+        if (!cardExist && isEmployee()) {
+            if (NetworkService.mCurrentUser == null) {
+                return;
+            }
+            long freeMinutes = NetworkService.mCurrentUser.getAvailableMinutes();
+            if (freeMinutes > 0) {
+                long freeMillis = freeMinutes * 60 * 1000;
+                final long ONE_MINUTE = 60 * 1000;
+                countDownTimer = new CountDownTimer(freeMillis, ONE_MINUTE) {
+                    @Override
+                    public void onTick(long millisUntilFinished) {
+                        long minutesLeft = millisUntilFinished / (60 * 1000);
+
+                        if (empMinutesListener != null) {
+                            empMinutesListener.tick(minutesLeft);
+                        }
+                        if (minutesLeft <= 0 && !freeMinuteAlert0) {
+                            if (empMinutesListener != null) {
+                                empMinutesListener.expired();
+                            }
+                            if (getCallPacifyr() != null) {
+                                new NetworkService().sendCardAddedNotification(getCallPacifyr().getId(), FREE_MINUTES_OVER, new AjaxCallback<JSONObject>() {
+                                    @Override
+                                    public void callback(String url, JSONObject json, AjaxStatus status) {
+                                        if (json != null) {
+                                            freeMinuteAlert0 = true;
+                                        }
+                                    }
+                                });
+                            }
+                        } else if (minutesLeft <= 5 && !freeMinuteAlert5) {
+                            if (empMinutesListener != null) {
+                                empMinutesListener.onMinutesLeft(minutesLeft);
+                            }
+                            if (getCallPacifyr() != null) {
+                                new NetworkService().sendCardAddedNotification(getCallPacifyr().getId(), FREE_MINUTES_5, new AjaxCallback<JSONObject>() {
+                                    @Override
+                                    public void callback(String url, JSONObject json, AjaxStatus status) {
+                                        if (json != null) {
+                                            freeMinuteAlert5 = true;
+                                        }
+                                    }
+                                });
+                            }
+                        } else if (minutesLeft <= 10 && !freeMinuteAlert10) {
+                            if (empMinutesListener != null) {
+                                empMinutesListener.onMinutesLeft(minutesLeft);
+                            }
+                            if (getCallPacifyr() != null) {
+                                new NetworkService().sendCardAddedNotification(getCallPacifyr().getId(), FREE_MINUTES_10, new AjaxCallback<JSONObject>() {
+                                    @Override
+                                    public void callback(String url, JSONObject json, AjaxStatus status) {
+                                        if (json != null) {
+                                            freeMinuteAlert10 = true;
+                                        }
+
+                                    }
+                                });
+                            }
+                        } else {
+                            Log.d(TAG, minutesLeft + " minutes left");
+                        }
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        if (empMinutesListener != null) {
+                            empMinutesListener.onMinutesLeft(0);
+                        }
+                    }
+                };
+                countDownTimer.start();
+            }
+        }
+    }
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -180,6 +401,24 @@ public class VideoActivity extends PacifyrActivity {
         muteActionFab = findViewById(R.id.mute_action_fab);
         button_hangup_call= findViewById(R.id.button_hangup_call);
         micToggleVideoCall = findViewById(R.id.toggle_mic);
+        billingStatus = findViewById(R.id.billing_status);
+        text_remaining_minutes = findViewById(R.id.text_remaining_minutes);
+        text_remaining_minutes.setVisibility(View.GONE);
+        timerChronometer = findViewById(R.id.chronometer_timer_video_call);
+        ImageView_prescription = findViewById(R.id.ImageView_prescription);
+        userDimv = findViewById(R.id.user_dimv);
+        LinearLayout_chat= findViewById(R.id.LinearLayout_chat);
+        certificate_View= findViewById(R.id.certificate_View);
+        more_rlay= findViewById(R.id.certificate_View);
+        ImageView_emotion=findViewById(R.id.ImageView_emotion);
+        toggle_Max_Min = findViewById(R.id.toggle_Max_Min);
+        emotion_rlay = findViewById(R.id.emotion_rlay);
+        emotion_dimv = findViewById(R.id.emotion_dimv);
+        reason_ctxv = findViewById(R.id.reason_ctxv);
+        emotion_ctxv = findViewById(R.id.emotion_ctxv);
+        ImageView_chat = findViewById(R.id.ImageView_chat);
+        call_overlay = findViewById(R.id.call_overlay);
+
         /*
          * Get shared preferences to read settings
          */
@@ -204,6 +443,10 @@ public class VideoActivity extends PacifyrActivity {
                 Log.w("SessionId",SessionId);
             }
         }
+        if (isVideoCall)
+            primaryVideoView.setVisibility(View.VISIBLE);
+        else
+            primaryVideoView.setVisibility(View.GONE);
         /*
          * Check camera and microphone permissions. Needed in Android M.
          */
@@ -243,16 +486,391 @@ public class VideoActivity extends PacifyrActivity {
                 }
             }
         });
+
+        toggle_Max_Min.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (call_overlay.getOrientation() == LinearLayout.HORIZONTAL) {
+                    call_overlay.setOrientation(LinearLayout.VERTICAL);
+                    emotion_rlay.setVisibility(View.VISIBLE);
+                    ImageView_emotion.setVisibility(View.GONE);
+                    call_overlay.setBackgroundColor(Color.TRANSPARENT);
+                    toggle_Max_Min.setImageDrawable(getResources().getDrawable(R.drawable.minimize_));
+                }
+                else
+                {
+                    call_overlay.setOrientation(LinearLayout.HORIZONTAL);
+                    toggle_Max_Min.setImageDrawable(getResources().getDrawable(R.drawable.maximize_));
+                    emotion_rlay.setVisibility(View.GONE);
+                    ImageView_emotion.setVisibility(View.VISIBLE);
+                    call_overlay.setBackground(getResources().getDrawable(R.drawable.call_overlay_background));
+                }
+            }
+        });
+
+        emotion_rlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isOpponentConnected()) {
+                    Intent intent = new Intent(getApplicationContext(), ActivityChangeEmotionFromCall.class);
+                    if (isValid(change_Emotion_name)) {
+                        intent.putExtra("emotion", change_Emotion_name);
+                    }
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                }
+            }
+        });
+
+        ImageView_emotion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                emotion_rlay.performClick();
+            }
+        });
+
+        userDimv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MUser mUser = getCallUser();
+                if (isValid(mUser) && isValid(mUser.getId()))
+                    ProfileScreenActivity.start(getApplicationContext(), mUser.getId(), false);
+            }
+        });
+
+        ImageView_chat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (isValid(getCallUser()) ){
+                    MUser customer=getCallUser();
+                    /*if(isValid(customer))
+                        //startChat(customer);*/
+                }
+            }
+        });
+
+        ImageView_prescription.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                callPrescriptionData();
+            }
+        });
+
+
+        certificate_View.setVisibility(View.VISIBLE);
+        certificate_View.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (isValid(NetworkService.mCurrentUser) && isValidSize(NetworkService.mCurrentUser.getCertificationList())) {
+                    if (isValid(NetworkService.mCurrentUser.getCertificationList().get(0)) && isValidSize(NetworkService.mCurrentUser.getCertificationList().get(0).getDocuments())
+                            && isValid(NetworkService.mCurrentUser.getCertificationList().get(0).getDocuments().get(0))
+                            && isValid(NetworkService.mCurrentUser.getCertificationList().get(0).getDocuments().get(0))) {
+                        String fileName=NetworkService.mCurrentUser.getCertificationList().get(0).getDocuments().get(0).toString();
+                        if (isValid(fileName)) {
+                           /* Intent i=new Intent(getActivity(), TermsOfUseActivity.class);
+                            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            i.putExtra("spurl",GLOBAL_IMAGE_URL+fileName);
+                            getActivity().startActivity(i);*/
+                            if (fileName.contains(".pdf")) {
+                                loadPDF(NetworkService.mCurrentUser.getCertificationList().get(0).getDocuments().get(0).toString());
+                            } else if (fileName.toLowerCase().contains(".jpg") || fileName.toLowerCase().contains(".jpeg") || fileName.toLowerCase().contains(".png")) {
+                                AttachmentImageActivity.start(VideoActivity.this, GLOBAL_IMAGE_URL + fileName, true);
+                            } else {
+                                Toast.makeText(VideoActivity.this, "Unknown document format. Cannot open", Toast.LENGTH_LONG).show();
+                            }
+
+                        } else {
+                            Toast.makeText(VideoActivity.this, getResources().getString(R.string.No_identity_document_available), Toast.LENGTH_LONG).show();
+                        }
+                    } else {
+                        Toast.makeText(VideoActivity.this, getResources().getString(R.string.No_identity_document_available), Toast.LENGTH_LONG).show();
+                    }
+                }
+
+            }
+        });
+
         webGetSessionDetail(SessionId);
+        getCurrentUserProfileInfo();
+    }
+
+    private void getCurrentUserProfileInfo() {
+
+        if (isValid(getPrefManager().getUserID())) {
+            new NetworkService().incomingVideoCallUserEmotion(getPrefManager().getUserID(), new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject json, AjaxStatus status) {
+                    MEmotion emotion = null;
+                    String image = null;
+
+                    if (isValid(json)) {
+
+                        NetworkService.mCurrentUser = GsonUtils.getInstance().gsonToModelUserProfile(json);
+                        if (isValid(NetworkService.mCurrentUser)) {
+                            if (isValid(NetworkService.mCurrentUser.getEmotion()))
+                                PacifyrActivity.call_emotion=NetworkService.mCurrentUser.getEmotion();
+                            setEmotionViews();
+                            setResaonViews();
+                        }
+                    }
+                }
+            });
+        }
+    }
+
+    private void setEmotionViews() {
+        try{
+            setResaonViews();
+            String image=null;
+            MEmotion emotion=null;
+            if(isCustomer()) {
+                if (isValid(PacifyrActivity.call_emotion)){
+                    emotion= PacifyrActivity.call_emotion;
+                    image= PacifyrActivity.call_emotion.getImage();
+                }
+
+            }
+            MUser mUser=null;
+            if (!isValid(getCallUser()))
+            {
+                return;
+            }
+            else {
+               mUser = getCallUser();
+
+                emotion_dimv.setVisibility(View.GONE);
+                // reason_ctxv.setVisibility(View.GONE);
+                if(!isValid(mUser)) return;
+                if(isValid(mUser.getEmotion())) {
+                    emotion=mUser.getEmotion();
+                    image = mUser.getEmotion().getImage();
+                    if(!isValid(image)) {
+                        if(isValid(mUser.getEmotionId())) {
+                            MEmotion mEmotion = getEmotion(mUser.getEmotionId());
+                            emotion=mEmotion;
+                            image = mEmotion.getImage();
+
+                        }
+                    }
+                } else if(isValid(mUser.getEmotionId())) {
+                    MEmotion mEmotion = getEmotion(mUser.getEmotionId());
+                    emotion=mEmotion;
+                    image = mEmotion.getImage();
+
+                }
+            }
+
+            //setUserInfoViews();
+            if(isValid(image)) {
+                emotion_dimv.setVisibility(View.VISIBLE);
+                Picasso.with(getApplicationContext()).load(NetworkService.GLOBAL_IMAGE_URL + image).placeholder(R.drawable.placeholder_image).into(emotion_dimv);
+                Picasso.with(getApplicationContext()).load(NetworkService.GLOBAL_IMAGE_URL + image).placeholder(R.drawable.placeholder_image).into(ImageView_emotion);
+                getPrefManager().saveEmotionImage(image);
+            }
+            if(isValid(emotion)) {
+                change_Emotion_name=emotion.getId();
+                emotion_ctxv.setVisibility(View.VISIBLE);
+                defSetText(emotion_ctxv,"Emotions: "+emotion.getTitle());
+                getPrefManager().saveEmotionName(emotion.getTitle());
+            }
+            else {
+                if (isValid(getPrefManager().getSavedEmotionImage()))
+                {
+                    emotion_dimv.setVisibility(View.VISIBLE);
+                    Picasso.with(getApplicationContext()).load(GLOBAL_IMAGE_URL + getPrefManager().getSavedEmotionImage()).placeholder(R.drawable.placeholder_image).into(emotion_dimv);
+                    Picasso.with(getApplicationContext()).load(GLOBAL_IMAGE_URL + getPrefManager().getSavedEmotionImage()).placeholder(R.drawable.placeholder_image).into(ImageView_emotion);
+                }
+                if (isValid(getPrefManager().getSavedEmotionName()))
+                {
+                    emotion_ctxv.setVisibility(View.VISIBLE);
+                    defSetText(emotion_ctxv,"Emotions :"+getPrefManager().getSavedEmotionName());
+                }
+            }
+
+
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+
+    private void setResaonViews() {
+        try{
+
+            reason_ctxv.setVisibility(View.VISIBLE);
+
+                if (isValid(NetworkService.mCurrentUser)) {
+                    if (isValid(NetworkService.mCurrentUser.getSelectedSpecialityCategory()))
+                        defSetText(reason_ctxv, "Cause: " + NetworkService.mCurrentUser.getSelectedSpecialityCategory());
+                    else if (isValid(NetworkService.mCurrentUser.getSelectedSpeciality()))
+                        defSetText(reason_ctxv, "Cause: " + NetworkService.mCurrentUser.getSelectedSpeciality());
+                } else {
+                    defSetText(reason_ctxv, "Cause: " + EmotionSpecialityAdapter.reason_forcall);
+                }
+
+            if (!isValid(reason_ctxv.getText()))
+            {
+                if (isValid(getPrefManager().getReasonFortheCall()))
+                {
+                    reason_ctxv.setText("Cause: "+getPrefManager().getReasonFortheCall());
+                }
+
+            }
+
+        }catch (Exception e)
+        {
+            reason_ctxv.setVisibility(View.GONE);
+        }
+    }
+
+
+    public void callPrescriptionData() {
+        try {
+            setLoading();
+            showProgress();
+            PrefManager mPrefManager = PrefManager.getInstance(this);
+            String token = mPrefManager.getAccessToken();
+            String url = GLOBAL_URL + "prescription/list/user/"+mPrefManager.getUserID();
+
+            AjaxCallback cb = new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject json, AjaxStatus status) {
+                    try {
+                        hideProgress();
+                        hideStatus();
+                        Log.w("@@@",String.valueOf(json));
+                        if (isValid(json))
+                        {
+                            PrescriptionList mPrescriptionList = GsonUtils.getInstance().gsonToPrescriptionList(json);
+                            if (isValidSize(mPrescriptionList.getResults())) {
+
+                                if (isValid(mPrescriptionList.getResults().get(0)) && isValid(mPrescriptionList.getResults().get(0).getText()))
+                                {
+                                    if (mPrescriptionList.getResults().get(0).getSessionId().equals(sessionid))
+                                    {
+                                        String mPrescriptionFile=mPrescriptionList.getResults().get(0).getText();
+                                        if(isValid(mPrescriptionFile))
+                                        {
+                                        showPrescriptionFragment(mPrescriptionFile);
+
+                                        }
+                                        else
+                                        {
+                                            Toast.makeText(getApplicationContext(), getResources().getString(R.string.no_prescription), Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                    else
+                                    {
+                                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.no_prescription), Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                                else
+                                {
+                                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.no_prescription), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                            else
+                            {
+                                Toast.makeText(getApplicationContext(), getResources().getString(R.string.no_prescription), Toast.LENGTH_SHORT).show();
+                            }
+
+                        }
+                        else
+                        {
+                            Toast.makeText(getApplicationContext(), getResources().getString(R.string.no_prescription), Toast.LENGTH_SHORT).show();
+
+                        }
+
+
+                    } catch (Exception e) {
+                        hideProgress();
+                        e.printStackTrace();
+                    }
+                }
+            };
+            AQuery aq = new AQuery(getApplicationContext());
+            cb.header("Content-Type", "application/json");
+            cb.header("AccessToken", token);
+            aq.ajax(url, JSONObject.class, cb);
+        } catch (Exception ex) {
+            hideProgress();
+            ex.printStackTrace();
+            Log.w("@@@",String.valueOf(ex));
+        }
 
     }
 
-    private void webGetSessionDetail(String sessionid) {
+    public void showPrescriptionFragment(String mPrescriptionFile) {
+        Fragment fragment = new PrescriptionWhileCallFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("mPrescriptionFile", mPrescriptionFile);
+        fragment.setArguments(bundle);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction =
+                fragmentManager.beginTransaction();
+        fragmentTransaction.add(R.id.fragment_container, fragment);
+        fragmentTransaction.addToBackStack("");
+        fragmentTransaction.commit();
+    }
 
 
+    private void webGetSessionDetail(String sessionId) {
 
+        try {
+            setLoading();
+            showProgress();
+
+            if(!isValid(sessionId,"Network Interupted")) {
+                finish();
+                return;
+            }
+            AjaxCallback<JSONObject> cb = new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject json, AjaxStatus status) {
+                    hideProgress();
+                    com.pacifyr.client.utils.LogUtils.LOGD("session", " PACA webGetSessionDetail callback result" + json + " " + status.getMessage());
+                    if(!isValid(json,"Network Interupted"))
+                    {
+                        finish();
+                    }
+                    else {
+                        try {
+                            CallActivity.mSessionDetailRoot= GsonUtils.getInstance().gsonToMSessionDetailRoot(json);
+                            if (isValid(getCallUser()))
+                            {
+                                setEmotionViews();
+                            }
+
+                        } catch (Exception e){
+                            Bundle args =
+                                    FirebaseLogging.getConstantArgsLoggedIn(VideoActivity.this);
+                            if (status != null) {
+                                args.putString(FirebaseLogging.EC,
+                                        "webGetSessionDetail=null,err=" + e.getMessage());
+                            }
+                            FirebaseLogging.sendLog(VideoActivity.this,
+                                    FirebaseLogging.EVENT_INCOMING_CALL_FAIL,
+                                    args);
+                            finish();
+                            com.pacifyr.client.utils.LogUtils.LOGD("session", " PACA webGetSessionDetail callback exce" + e.getMessage());
+                        }
+                    }
+                }
+            };
+            AQuery aq = new AQuery(this);
+            cb.header("Content-Type", "application/json");
+            cb.header("AccessToken", getAccessToken());
+            String url = "session/"+sessionId;
+            aq.ajax(NetworkService.GLOBAL_URL + url, JSONObject.class, cb);
+        } catch (Exception e){
+            hideProgress();
+            LogUtils.LOGD("session","PACA webGetSessionDetail exce " + e.getMessage());
+            finish();
+        }
 
     }
+
 
     @Override
     protected View getSnackbarAnchorView() {
@@ -316,7 +934,7 @@ public class VideoActivity extends PacifyrActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
+        LocalBroadcastManager.getInstance(this).registerReceiver(eventReceiver, new IntentFilter(CallEvent.CALL_EVENT));
         audioCodec = getAudioCodecPreference(PREF_AUDIO_CODEC,
                 PREF_AUDIO_CODEC_DEFAULT);
         videoCodec = getVideoCodecPreference(PREF_VIDEO_CODEC,
@@ -359,6 +977,7 @@ public class VideoActivity extends PacifyrActivity {
 
     @Override
     protected void onPause() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(eventReceiver);
         /*
          * Release the local video track before going in the background. This ensures that the
          * camera can be used by other applications while this app is in the background.
@@ -465,8 +1084,80 @@ public class VideoActivity extends PacifyrActivity {
                    .audioTracks(Collections.singletonList(localAudioTrack))
                    .videoTracks(Collections.singletonList(localVideoTrack))
                    .build();
-           room = Video.connect(this, connectOptions, roomListener());
-           setDisconnectAction();
+           // Connect to room
+           room = Video.connect(this, connectOptions, new Room.Listener() {
+               @Override
+               public void onConnected(Room room) {
+                   VideoActivity.this.room=room;
+                   localParticipant = room.getLocalParticipant();
+
+                   for (RemoteParticipant remoteParticipant : room.getRemoteParticipants()) {
+                       addRemoteParticipant(remoteParticipant);
+                       break;
+                   }
+               }
+
+               @Override
+               public void onConnectFailure(Room room, TwilioException e) {
+                   audioSwitch.deactivate();
+                   intializeUI();
+               }
+
+               @Override
+               public void onReconnecting(@NonNull Room room, @NonNull TwilioException twilioException) {
+
+               }
+
+               @Override
+               public void onReconnected(@NonNull Room room) {
+
+               }
+
+               @Override
+               public void onDisconnected(Room room, TwilioException e) {
+                   Log.w("####","onDisconnected");
+                   localParticipant = null;
+
+                   reconnectingProgressBar.setVisibility(View.GONE);
+                   VideoActivity.this.room = null;
+                   // Only reinitialize the UI if disconnect was not called from onDestroy()
+                   if (!disconnectedFromOnDestroy) {
+                       audioSwitch.deactivate();
+                       intializeUI();
+                       moveLocalVideoToPrimaryView();
+                       stopSessionWeb(SessionId);
+                   }
+               }
+
+               @Override
+               public void onRecordingStarted(Room room) {
+               }
+
+               @Override
+               public void onRecordingStopped(Room room) {
+               }
+
+               @Override
+               public void onParticipantConnected(Room room, RemoteParticipant remoteParticipant) {
+                   Log.w("####","onParticipantConnected");
+                   addRemoteParticipant(remoteParticipant);
+
+                   hangUpCurrentSessionMe();
+
+               }
+
+               @Override
+               public void onParticipantDisconnected(Room room, RemoteParticipant remoteParticipant) {
+                   Log.w("####","onParticipantDisconnected");
+                   removeRemoteParticipant(remoteParticipant);
+               }
+
+               @Override
+               public void onDominantSpeakerChanged(@NonNull Room room, @Nullable RemoteParticipant remoteParticipant) {
+
+               }
+
+           });
 
        }
        catch(Exception e){
@@ -673,21 +1364,25 @@ public class VideoActivity extends PacifyrActivity {
      * Set primary view as renderer for participant video track
      */
     private void addRemoteParticipantVideo(VideoTrack videoTrack) {
-        moveLocalVideoToThumbnailView();
-        primaryVideoView.setMirror(false);
-        videoTrack.addRenderer(primaryVideoView);
+        if (isVideoCall)
+        {
+            moveLocalVideoToThumbnailView();
+            primaryVideoView.setMirror(false);
+            videoTrack.addRenderer(primaryVideoView);
+        }
 
     }
 
     private void moveLocalVideoToThumbnailView() {
-        if (thumbnailVideoView.getVisibility() == View.GONE) {
-            thumbnailVideoView.setVisibility(View.VISIBLE);
-            localVideoTrack.removeRenderer(primaryVideoView);
-            localVideoTrack.addRenderer(thumbnailVideoView);
-            localVideoView = thumbnailVideoView;
-            thumbnailVideoView.setMirror(cameraCapturerCompat.getCameraSource() ==
-                    CameraSource.FRONT_CAMERA);
-        }
+
+            if (thumbnailVideoView.getVisibility() == View.GONE) {
+                thumbnailVideoView.setVisibility(View.VISIBLE);
+                localVideoTrack.removeRenderer(primaryVideoView);
+                localVideoTrack.addRenderer(thumbnailVideoView);
+                localVideoView = thumbnailVideoView;
+                thumbnailVideoView.setMirror(cameraCapturerCompat.getCameraSource() ==
+                        CameraSource.FRONT_CAMERA);
+            }
     }
 
     /*
@@ -721,92 +1416,23 @@ public class VideoActivity extends PacifyrActivity {
     }
 
     private void moveLocalVideoToPrimaryView() {
-        if (thumbnailVideoView.getVisibility() == View.VISIBLE) {
-            thumbnailVideoView.setVisibility(View.GONE);
-            if (localVideoTrack != null) {
-                localVideoTrack.removeRenderer(thumbnailVideoView);
-                localVideoTrack.addRenderer(primaryVideoView);
+        if (isVideoCall)
+        {
+            if (thumbnailVideoView.getVisibility() == View.VISIBLE) {
+                thumbnailVideoView.setVisibility(View.GONE);
+                if (localVideoTrack != null) {
+                    localVideoTrack.removeRenderer(thumbnailVideoView);
+                    localVideoTrack.addRenderer(primaryVideoView);
+                }
+                localVideoView = primaryVideoView;
+                primaryVideoView.setMirror(cameraCapturerCompat.getCameraSource() ==
+                        CameraSource.FRONT_CAMERA);
             }
-            localVideoView = primaryVideoView;
-            primaryVideoView.setMirror(cameraCapturerCompat.getCameraSource() ==
-                    CameraSource.FRONT_CAMERA);
         }
     }
 
 
-    @SuppressLint("SetTextI18n")
-    private Room.Listener roomListener() {
-        return new Room.Listener() {
-            @Override
-            public void onConnected(Room room) {
-                VideoActivity.this.room=room;
-                localParticipant = room.getLocalParticipant();
 
-                for (RemoteParticipant remoteParticipant : room.getRemoteParticipants()) {
-                    addRemoteParticipant(remoteParticipant);
-                    break;
-                }
-            }
-
-            @Override
-            public void onReconnecting(@NonNull Room room, @NonNull TwilioException twilioException) {
-                reconnectingProgressBar.setVisibility(View.VISIBLE);
-            }
-
-            @Override
-            public void onReconnected(@NonNull Room room) {
-                reconnectingProgressBar.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onConnectFailure(Room room, TwilioException e) {
-                audioSwitch.deactivate();
-                intializeUI();
-            }
-
-            @Override
-            public void onDisconnected(Room room, TwilioException e) {
-                localParticipant = null;
-                reconnectingProgressBar.setVisibility(View.GONE);
-                VideoActivity.this.room = null;
-                // Only reinitialize the UI if disconnect was not called from onDestroy()
-                if (!disconnectedFromOnDestroy) {
-                    audioSwitch.deactivate();
-                    intializeUI();
-                    moveLocalVideoToPrimaryView();
-                }
-            }
-
-            @Override
-            public void onParticipantConnected(Room room, RemoteParticipant remoteParticipant) {
-                addRemoteParticipant(remoteParticipant);
-
-            }
-
-            @Override
-            public void onParticipantDisconnected(Room room, RemoteParticipant remoteParticipant) {
-                removeRemoteParticipant(remoteParticipant);
-            }
-
-            @Override
-            public void onRecordingStarted(Room room) {
-
-               /*  * Indicates when media shared to a Room is being recorded. Note that
-                 * recording is only available in our Group Rooms developer preview.*/
-
-                Log.d(TAG, "onRecordingStarted");
-            }
-
-            @Override
-            public void onRecordingStopped(Room room) {
-
-               /*  * Indicates when media shared to a Room is no longer being recorded. Note that
-                 * recording is only available in our Group Rooms developer preview.*/
-
-                Log.d(TAG, "onRecordingStopped");
-            }
-        };
-    }
 
     @SuppressLint("SetTextI18n")
     private RemoteParticipant.Listener remoteParticipantListener() {
@@ -879,7 +1505,7 @@ public class VideoActivity extends PacifyrActivity {
                         remoteVideoTrackPublication.isTrackEnabled(),
                         remoteVideoTrackPublication.isTrackSubscribed(),
                         remoteVideoTrackPublication.getTrackName()));
-
+                if (isValid(remoteVideoTrackPublication.getVideoTrack()))
                 addRemoteParticipantVideo(remoteVideoTrackPublication.getVideoTrack());
             }
 
@@ -1138,4 +1764,252 @@ public class VideoActivity extends PacifyrActivity {
             }
         };
     }
+
+
+    public void setAvaiableTimer(long availableseconds) {
+        try {
+            isFirsttime = false;
+            if (availableseconds < 30) {
+
+                    if (!getCountryChecks().contains(getPrefManager().getCountry()))
+                        postEventOnMainThread(new CallTimerEvent(true));
+                    return;
+            }
+            availableseconds = availableseconds * 1000;
+            Log.d("session", "BCF setAvaiableTimer availableseconds = " + availableseconds);
+            if (timer != null) {
+                timer.cancel();
+                timer = null;
+            }
+            //Log.d("session", "BCF setAvaiableTimer availableseconds = " + availableseconds);
+            timer = new CountDownTimer(availableseconds, 10000) {
+
+                public void onTick(long millisUntilFinished) {
+                    Log.d("session", "BCF CountDownTimer millisUntilFinished = " + millisUntilFinished);
+                    if ((300 >= (millisUntilFinished / 10000) && !isFirsttime)) {
+                        isFirsttime = true;
+                        setAlertStatusInBlue2("Add Card", "Your free minutes are expired. Please continue enjoying our services by updating your credit card information", "Ok", "NO", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                hideProgress();
+                                hideStatus2();
+                                setAlertAddCardInBlue2();
+                                //  ToastHandler.newInstance(getActivity()).mustShowToast("Works Under progress");
+
+                                // AlertAddCreditCardActivity.start(getActivity());
+                            }
+                        });
+                    }
+
+                }
+
+                public void onFinish() {
+                    Log.d("session", "BCF CountDownTimer onFinish  ");
+                    postEventOnMainThread(new CallTimerEvent(true));
+                }
+
+            };
+        } catch (Exception e) {
+            Log.d("session", "BCF setAvaiableTimer exception = " + e.getMessage());
+        }
+    }
+
+    public void stopTimer() {
+        if (timerChronometer != null) {
+            timerChronometer.stop();
+            isStarted = false;
+        }
+        if (countDownTimer != null) {
+            countDownTimer.cancel();
+        }
+    }
+
+
+    public void startTimer() {
+        if (!isStarted) {
+            timerChronometer.setVisibility(View.VISIBLE);
+            timerChronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
+
+                @Override
+                public void onChronometerTick(Chronometer chronometer) {
+                    long time = SystemClock.elapsedRealtime() - chronometer.getBase();
+                    int h   = (int)(time /3600000);
+                    int m = (int)(time - h*3600000)/60000;
+                    int s= (int)(time - h*3600000- m*60000)/1000 ;
+                    String t = (h < 10 ? "0"+h: h)+":"+(m < 10 ? "0"+m: m)+":"+ (s < 10 ? "0"+s: s);
+                    chronometer.setText(t);
+                }
+            });
+
+            timerChronometer.setBase(SystemClock.elapsedRealtime());
+            timerChronometer.start();
+            if (isCustomer())
+                if (!isCardExist()) {
+                    if (isValid(NetworkService.mCurrentUser)) {
+                        long time = NetworkService.mCurrentUser.getAvailableMinutes();
+                        setAvaiableTimer((time * 60) - 15);
+
+                    }
+
+
+                }
+            isStarted = true;
+        }
+    }
+
+    public void hangUpCurrentSessionMe() {
+        Log.d(TAG, "hangUpCurrentSessionMe");
+        Bundle args =
+                FirebaseLogging.getConstantArgsLoggedIn(VideoActivity.this);
+        if (getCallPacifyr() != null) {
+            args.putString(FirebaseLogging.EC, getCallPacifyr().getId());
+        }
+        FirebaseLogging.sendLog(VideoActivity.this,
+                isVideoCall ? FirebaseLogging.EVENT_VIDEOCALL_STOPPED :
+                        FirebaseLogging.EVENT_AUDIOCALL_STOPPED,
+                args);
+        LogUtils.LOGD("call","hangUpCurrentSession");
+        stopSessionTracking();
+        //jpppppppppppppp
+        try {
+            LogUtils.LOGD("call","CA hangUpCurrentSessionMe sessionid"+SessionId);
+            if(isOpponentConnected())
+            {
+
+                if (hasBillingStarted())
+                {
+                    SessionSummaryActivity.start(VideoActivity.this, SessionId);
+                    getPrefManager().saveSessionId(null);
+                }
+                else
+                {
+                    missedSessionWeb(SessionId);
+                }
+            } else if (!hasBillingStarted()) {
+                showToast("Thank you for the call. You are not billed as Service was not provided");
+            }
+
+            if (SessionId != null) {
+                stopSessionWeb(SessionId);
+            }
+            finish();
+        }
+        catch (Exception e)
+        {
+            LogUtils.LOGD("call","CA hangUpCurrentSessionMe Exception e "+ e.getMessage());
+        }
+        //isCallActive = false;
+        //BusProvider.getInstance().post(new CallStatus(isCallActive));
+        //jpppppppppppppppppp
+
+    }
+
+    private boolean isOpponentConnected() {
+        if (isValid(room) && isValid(room.getRemoteParticipants()) && room.getRemoteParticipants().size()>1)
+        {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public MUser getCallPacifyr() {
+        MUser mUser=null;
+        try{
+
+            mUser= CallActivity.mSessionDetailRoot.getPacifyr();
+        }catch (Exception e)
+        {
+            mUser=null;
+        }
+        return mUser;
+    }
+
+
+    public MUser getCallUser() {
+        MUser mUser=null;
+        try{
+
+            mUser= CallActivity.mSessionDetailRoot.getUser();
+        }catch (Exception e)
+        {
+            mUser=null;
+        }
+        return mUser;
+    }
+
+
+    private void showToast(final String message) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toaster.shortToast(message);
+            }
+        });
+    }
+
+    public CallTimerEvent callTimerEvent =null;
+    @Subscribe
+    public void onCallTimerEvent(CallTimerEvent event) {
+        try{
+            if(event.isFinishCall) {
+                callTimerEvent=event;
+
+            }
+        }catch (Exception e)
+        {
+            Log.d("session", "CA onCallTimerEvent exception = " + e.getMessage());
+        }
+
+    }
+
+    public boolean isCustomer()
+    {
+        boolean isCustomer=false;
+        try{
+
+            try {
+                String label= PrefManager.getInstance(getApplicationContext()).getUserType();
+                if(label.equals("customer")) {
+                    isCustomer=true;
+                }
+                else if(label.equalsIgnoreCase("pacifyr"))
+                    isCustomer=false;
+
+            } catch (Exception t) {
+                isCustomer=false;
+                //  LogUtils.LOGD("session","SSA getMSessionRating list exce " + t.getMessage());
+            }
+        }catch (Exception e)
+        {
+            isCustomer=false;
+        }
+        return isCustomer;
+    }
+
+    @Subscribe
+    public void onChangedEmotionEvent(CallChangeEmotion event) {
+        try {
+            if (isValid(event.getEmotion()))
+                if (isValid(event.getEmotion().getImage())) {
+                    emotion_dimv.setVisibility(View.VISIBLE);
+                    Picasso.with(this).load(NetworkService.GLOBAL_IMAGE_URL + event.getEmotion().getImage()).placeholder(R.drawable.placeholder_image).into(emotion_dimv);
+                    Picasso.with(this).load(NetworkService.GLOBAL_IMAGE_URL + event.getEmotion().getImage()).placeholder(R.drawable.placeholder_image).into(ImageView_emotion);
+                    getPrefManager().saveEmotionImage(event.getEmotion().getImage());
+                }
+
+            if (isValid(event.getEmotion().getTitle())) {
+                emotion_ctxv.setVisibility(View.VISIBLE);
+                change_Emotion_name=event.getEmotion().getId();
+                defSetText(emotion_ctxv,"Emotions: "+event.getEmotion().getTitle());
+                getPrefManager().saveEmotionName(event.getEmotion().getTitle());
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }

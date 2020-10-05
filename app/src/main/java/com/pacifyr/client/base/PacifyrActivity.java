@@ -3040,7 +3040,7 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
         }
     }*/
 
-    void postEventOnMainThread(final Object event) {
+    public void postEventOnMainThread(final Object event) {
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
             public void run() {
