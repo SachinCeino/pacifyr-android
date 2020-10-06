@@ -31,6 +31,7 @@ import com.google.firebase.auth.PhoneAuthProvider;
 import com.pacifyr.client.R;
 import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
+import com.pacifyr.client.network.Auth;
 import com.pacifyr.client.utils.FirebaseLogging;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 
@@ -393,6 +394,8 @@ public class LogInCodeVerifyActivity extends PacifyrActivity {
                             FirebaseUser user = task.getResult().getUser();
 
 
+
+
                             if(bundle.getString("from").equals("signup")) {
                                 Intent intent = new Intent(LogInCodeVerifyActivity.this, RegisterActivity.class);
                                 startActivity(intent);
@@ -409,6 +412,9 @@ public class LogInCodeVerifyActivity extends PacifyrActivity {
                             args.putString(FirebaseLogging.EC, phonenumber + "");
                             FirebaseLogging.sendLog(LogInCodeVerifyActivity.this,
                                     FirebaseLogging.EVENT_LOGIN_OTP_VERIFIED, args);
+
+
+
                             // [START_EXCLUDE]
                          //   updateUI(STATE_SIGNIN_SUCCESS, user);
                             // [END_EXCLUDE]

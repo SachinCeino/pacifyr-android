@@ -31,6 +31,7 @@ import com.pacifyr.client.home.LastSessionActivity;
 import com.pacifyr.client.home.MySessionsActivity;
 import com.pacifyr.client.home.SessionSummaryActivity;
 import com.pacifyr.client.model.Session;
+import com.pacifyr.client.network.Auth;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.quickblox.chat.ui.activity.DialogsActivity;
@@ -388,7 +389,10 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
         AjaxCallback cb = new AjaxCallback<JSONObject>() {
             @Override
             public void callback(String url, JSONObject json, AjaxStatus status) {
-
+                /*
+                 *this must be the first line of any httpCallBacks
+                 */
+                Auth.httpStatusFilter(getActivity(),status.getCode());
                 try {
                     if (json != null) {
                         JSONArray results = json.getJSONArray("results");

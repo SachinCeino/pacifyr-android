@@ -25,6 +25,7 @@ import com.pacifyr.client.R;
 import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.home.DashboardActivity;
+import com.pacifyr.client.network.Auth;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.utils.AmazonSNSTokenHandler;
@@ -69,7 +70,7 @@ public class LoginPhoneActivity extends PacifyrActivity {
     private Context context;
 
     private PrefManager prefM;
-
+private static String TAG=LoginPhoneActivity.class.getName();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -121,6 +122,7 @@ public class LoginPhoneActivity extends PacifyrActivity {
 
     public void callLogin()
     {
+        Log.d(TAG, "callLogin: ");
         try {
             String url = GLOBAL_URL + "login/phonenumber";
             AjaxCallback cb = new AjaxCallback<JSONObject>() {
@@ -172,6 +174,7 @@ public class LoginPhoneActivity extends PacifyrActivity {
 
                         if (isValid(logstat)) {
                             if (logstat.equals("success")) {
+
                                 if (main_label.equals("pacifyr")){
                                     hideProgress();
                                     setAlertOKStatusInBlue("Info", getResources().getString(R.string.user_type_error), "OK", new View.OnClickListener() {
@@ -439,6 +442,7 @@ public class LoginPhoneActivity extends PacifyrActivity {
             user.setFullName(modelPhoneLogin.getUser().getFirstName());
 
         }
+
         QBSettings.getInstance().init(LoginPhoneActivity.this, APP_ID, AUTH_KEY, AUTH_SECRET);
         QBSettings.getInstance().setAccountKey(ACCOUNT_KEY);
         QBAuth.createSession().performAsync(new QBEntityCallback<QBSession>() {
@@ -449,12 +453,14 @@ public class LoginPhoneActivity extends PacifyrActivity {
                     public void onSuccess(QBUser qbUser, Bundle params) {
                         qbUser.setPassword(userID);
                         Log.d("jp", "LPA signInCreatedUser getPassword "+qbUser.getPassword());
+
                         try {
                             /**/
                                 saveUserData(qbUser);
                                 startLoginService(qbUser);
                                 saveValuesToPrefM(context,modelPhoneLogin);
                                 loginTheUser(qbUser);
+
                            }
                            catch (Exception e) {
                                 hideProgress();
@@ -625,6 +631,10 @@ public class LoginPhoneActivity extends PacifyrActivity {
             hideStatus();
             prefM.saveCustomerRole(role);
             hideKeyboard();
+            Auth.setActiveOnFDB(LoginPhoneActivity.this);
+            Auth.scanUpdates(LoginPhoneActivity.this);
+            Log.d(TAG,"Firebase - user id logged");
+
             DashboardActivity.start(context);
             finishAffinity();
         }

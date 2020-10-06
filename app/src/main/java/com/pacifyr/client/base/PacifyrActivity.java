@@ -74,6 +74,7 @@ import com.pacifyr.client.model.AppoinmentNotification;
 import com.pacifyr.client.model.BillingSummary;
 import com.pacifyr.client.model.Session;
 import com.pacifyr.client.model.interfaces.AvailableMinuteListner;
+import com.pacifyr.client.network.Auth;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.paytmpayment.Paytm;
@@ -197,6 +198,10 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
                 new NetworkService().getBillingData(PacifyrActivity.this, id, new AjaxCallback<JSONObject>() {
                     @Override
                     public void callback(String url, JSONObject json, AjaxStatus status) {
+                        /*
+                         *this must be the first line of any httpCallBacks
+                         */
+                        Auth.httpStatusFilter(getApplicationContext(),status.getCode());
                         try {
                             Log.d(TAG, "URL : " + url);
                             Log.d(TAG, "Resp JSON : " + json);
@@ -531,7 +536,10 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
                         new NetworkService().sendPaymentFailedDueToSomeReasons(CallActivity.mSessionDetailRoot.getPacifyr().getId(), "paymentFailure", "Transaction cancelled", new AjaxCallback<JSONObject>() {
                             @Override
                             public void callback(String url, JSONObject json, AjaxStatus status) {
-
+                                /*
+                                 *this must be the first line of any httpCallBacks
+                                 */
+                                Auth.httpStatusFilter(getApplicationContext(),status.getCode());
                                 if (json != null) {
                                     Log.w("@@@", "sendCardAddedNotificationFail messages" + json.toString());
                                 }
@@ -2698,6 +2706,10 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
         new NetworkService().validateDiscountCode(couponCode, new AjaxCallback<JSONObject>() {
             @Override
             public void callback(String url, JSONObject json, AjaxStatus status) {
+                /*
+                 *this must be the first line of any httpCallBacks
+                 */
+                Auth.httpStatusFilter(getApplicationContext(),status.getCode());
                 inProgress = false;
                 if (json == null) {
                     hideProgress();
@@ -3548,6 +3560,10 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
                 new NetworkService().sessionTracking(sessionid, new AjaxCallback<JSONObject>() {
                     @Override
                     public void callback(String url, JSONObject json, AjaxStatus status) {
+                        /*
+                         *this must be the first line of any httpCallBacks
+                         */
+                        Auth.httpStatusFilter(getApplicationContext(),status.getCode());
                         Log.d(TAG, "Url " + url + " -> " + json != null ? json.toString() : null);
                     }
                 });
@@ -3900,6 +3916,10 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
                                         new NetworkService().sendCardAddedNotificationAfterPaytmSuccess(CallActivity.mSessionDetailRoot.getPacifyr().getId(), "cardSetup", new AjaxCallback<JSONObject>() {
                                             @Override
                                             public void callback(String url, JSONObject json, AjaxStatus status) {
+                                                /*
+                                                 *this must be the first line of any httpCallBacks
+                                                 */
+                                                Auth.httpStatusFilter(getApplicationContext(),status.getCode());
                                                 if (json != null) {
                                                     Log.w("PAYTMLOG", "sendCardAddedNotification responce" + json.toString());
                                                 }
@@ -3983,6 +4003,10 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
                                         new NetworkService().sendCardAddedNotificationAfterPaytmSuccess(CallActivity.mSessionDetailRoot.getPacifyr().getId(), "cardSetup", new AjaxCallback<JSONObject>() {
                                             @Override
                                             public void callback(String url, JSONObject json, AjaxStatus status) {
+                                                /*
+                                                 *this must be the first line of any httpCallBacks
+                                                 */
+                                                Auth.httpStatusFilter(getApplicationContext(),status.getCode());
                                                 if (json != null) {
                                                     Log.w("PAYTMLOG", "sendCardAddedNotification responce" + json.toString());
                                                 }
@@ -4039,7 +4063,10 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
                                     new NetworkService().sendPaymentFailedDueToSomeReasons(CallActivity.mSessionDetailRoot.getPacifyr().getId(), "paymentFailure", message, new AjaxCallback<JSONObject>() {
                                         @Override
                                         public void callback(String url, JSONObject json, AjaxStatus status) {
-
+                                            /*
+                                             *this must be the first line of any httpCallBacks
+                                             */
+                                            Auth.httpStatusFilter(getApplicationContext(),status.getCode());
                                             if (json != null) {
                                                 Log.w("PAYTMLOG", "sendCardAddedNotificationFail messages" + json.toString());
                                             }
@@ -4081,7 +4108,10 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
                                     new NetworkService().sendPaymentFailedDueToSomeReasons(CallActivity.mSessionDetailRoot.getPacifyr().getId(), "paymentFailure", message, new AjaxCallback<JSONObject>() {
                                         @Override
                                         public void callback(String url, JSONObject json, AjaxStatus status) {
-
+                                            /*
+                                             *this must be the first line of any httpCallBacks
+                                             */
+                                            Auth.httpStatusFilter(getApplicationContext(),status.getCode());
                                             if (json != null) {
                                                 Log.w("PAYTMLOG", "sendCardAddedNotificationFail messages" + json.toString());
                                             }
