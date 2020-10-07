@@ -957,7 +957,7 @@ public class RegisterActivity extends PacifyrActivity {
     public Boolean isValidYear(String text, String error) {
         if (text.equals(""))
         {
-            year_edt_err.setError("Please enter year of birth");
+            year_edt_err.setError("Please enter date of birth");
             year_edt_err.requestFocus();
             return false;
         }

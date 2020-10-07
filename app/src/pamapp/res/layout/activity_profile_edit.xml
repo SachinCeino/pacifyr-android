@@ -208,7 +208,7 @@
                         android:textSize="13sp"
                         android:layout_marginTop="5dp"
                         android:textColor="@color/education_title"
-                        android:text="Year of Birth"/>
+                        android:text="Date of birth"/>
                     <com.pacifyrapp.utilitylibrary.CustomEditText
                         android:id="@+id/yearOfBirth_cedt"
                         android:layout_width="match_parent"
@@ -217,7 +217,7 @@
                         android:gravity="center_vertical"
                         android:text=""
                         android:textColorHighlight="@color/text_Color_High_light"
-                        android:hint="year of birth"
+                        android:hint="Date of birth"
                         android:textColor="@color/black"
                         android:textSize="@dimen/sp16"
                         app:percentage_height="8" />

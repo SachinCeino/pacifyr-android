@@ -215,7 +215,7 @@
                 android:drawableLeft="@drawable/red_star"
                 android:focusable="false"
                 android:gravity="left"
-                android:hint="Year of birth"
+                android:hint="Date of birth"
                 android:padding="10dp"
                 android:textColor="@color/medium_grey_pacifyr"
                 android:textCursorDrawable="@color/om_blue" />
