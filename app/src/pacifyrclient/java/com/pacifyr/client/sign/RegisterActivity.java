@@ -325,7 +325,7 @@ public class RegisterActivity extends PacifyrActivity {
                     add_photo_textView.setVisibility(View.GONE);
                     upload_textView.setVisibility(View.VISIBLE);
                 }
-                yearEdit.setHint("Enter Year of Birth");
+                yearEdit.setHint("Enter Date of birth");
 
                 phone_llay.setVisibility(View.VISIBLE);
                 phoneEdit.setVisibility(View.GONE);
