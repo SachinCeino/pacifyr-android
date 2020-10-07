@@ -816,7 +816,7 @@ public class RegisterActivity extends PacifyrActivity {
                             postRegisterModel.setImage(fbImage);
                         }
                     }else {
-                        Toast.makeText(RegisterActivity.this,"Please Valid enter phone number.",Toast.LENGTH_LONG).show();
+                        Toast.makeText(RegisterActivity.this,getResources().getString(R.string.Invalid_phone_number_format),Toast.LENGTH_LONG).show();
                     }
                 }else {
                     Toast.makeText(RegisterActivity.this,"Please enter phone.",Toast.LENGTH_LONG).show();

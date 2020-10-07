@@ -785,9 +785,17 @@ public class BaseAppCompactActivity extends CoreBaseActivity {
         //String phone=phone_tv.getText().toString();
         //return android.util.Patterns.PHONE.matcher(phone).matches();
     }
-    public boolean isValidMobile(String txt)
+    public boolean isValidMobile(String mobileNumber)
     {
-        return android.util.Patterns.PHONE.matcher(txt).matches();
+        String pattern = "^\\s*(?:\\+?(\\d{1,3}))?[-. (]*(\\d{3})[-. )]*(\\d{3})[-. ]*(\\d{4})(?: *x(\\d+))?\\s*$";
+
+        if (!mobileNumber.matches(pattern)) {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
     }
 
     public Boolean isValidPassword(EditText text, String error) {
