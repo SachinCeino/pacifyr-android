@@ -368,7 +368,7 @@ public class SignUpActivity extends PacifyrActivity {
 
     private void phoneVerifyWeb() {
         try{
-            if(!isValidMobile(phoneCedit,"Please enter a valid mobile number"))
+            if(!isValidMobile(phoneCedit,getResources().getString(R.string.Please_enter_your_phone_number)))
                 return ;
             countryData = (ItemData) sp.getSelectedItem();
             String code = countryData.getCode();
