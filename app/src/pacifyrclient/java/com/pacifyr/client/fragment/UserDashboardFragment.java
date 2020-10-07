@@ -20,8 +20,6 @@ import com.androidquery.callback.AjaxStatus;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.pacifyr.client.R;
-import com.pacifyr.client.adapter.EmotionSpecialityAdapter;
-import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.home.ConnectToPacifyrActivity;
@@ -40,7 +38,6 @@ import com.pacifyr.client.utility.BaseFragment;
 import com.pacifyr.client.utility.EventMessage;
 import com.pacifyr.client.utils.Utility;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.MEmotion;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelCustomerDashboard2;
 import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
@@ -73,7 +70,6 @@ import static com.pacifyr.client.network.NetworkService.modelAllEmotions;
 import static com.pacifyr.client.network.NetworkService.modelCustomerDashboard2;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_IMAGE_URL;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
-import static com.quickblox.sample.core.utils.ConnectivityUtils.isNetworkConnected;
 
 public class UserDashboardFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
 
@@ -719,7 +715,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
         daysTxv = view.findViewById(R.id.days_txv);
         cirPrefPacifyr = view.findViewById(R.id.cir_pref_pacifyr);
         llayTop = view.findViewById(R.id.llay_top);
-        image_logo = (ImageView) view.findViewById(R.id.image_logo);
+        image_logo = view.findViewById(R.id.image_logo);
 
         llay_bottom = view.findViewById(R.id.llay_bottom);
         pacifyr1Dimv = view.findViewById(R.id.pacifyr1_dimv);
@@ -805,11 +801,15 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
     public void onRefresh() {
         new Handler().postDelayed(new Runnable() {
             @Override public void run() {
-                swipeRefreshLayout.setRefreshing(false);
-                setLoading();
-                showProgress();
-                handleActionCustomerDashboard();
-                setChatCountInfo();
+                try {
+                    swipeRefreshLayout.setRefreshing(false);
+                    setLoading();
+                    showProgress();
+                    handleActionCustomerDashboard();
+                    setChatCountInfo();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }, 2000);
     }
