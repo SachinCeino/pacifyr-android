@@ -345,8 +345,6 @@ public class RegisterVerifyActivity extends PacifyrActivity {
             resendCtxv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(RegisterVerifyActivity.this, "Verification code sent",
-                            Toast.LENGTH_LONG).show();
                     showProgress();
                     startPhoneNumberVerification(phoneRegister);
                     cancelTimer();
