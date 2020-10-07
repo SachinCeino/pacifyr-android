@@ -95,6 +95,7 @@ import com.quickblox.users.model.QBUser;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -170,10 +171,9 @@ public class RegisterActivity extends PacifyrActivity {
     private LinearLayout nextLlay;
     private RelativeLayout nextRlay;
     private MainTextView nextCtxv;
-    private CustomEditText phoneEdit;
+    private TextView phoneEdit;
     private CustomEditText yearEdit;
     private MainTextView termsCtxv;
-    private EditText terms_of_use_cbox_err,year_edt_err;
 
 
 
@@ -211,13 +211,18 @@ public class RegisterActivity extends PacifyrActivity {
     private TextView TextView_Upload;
 
     /** docs upload**/
-    private RelativeLayout uploadDocLayout;
+    private LinearLayout uploadDocLayout;
     private EditText upload_docs_ctxv;
     private int FILE_REQUEST=9;
     public static ArrayList<ModelPacifyrDocuments> documentFileList;
     private RecyclerView file_list_rcv;
     private RecyclerView.Adapter fileAdapter;
     public ArrayList<Certification> certificationList;
+
+    private TextView TextView_Name_Error,TextView_Email_Error,TextView_Phone_Error,TextView_Phonelay_Error,
+            TextView_Year_Error,TextView_terms_Error;
+    private RelativeLayout RelativeLayout_UploadDoc;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -229,7 +234,6 @@ public class RegisterActivity extends PacifyrActivity {
             imgBack = findViewById(R.id.img_back);
             logoRlay = findViewById(R.id.logo_rlay);
             logoBlue = findViewById(R.id.logo_blue);
-            hintLlay = findViewById(R.id.hint_llay);
             nameEdt = findViewById(R.id.name_edt);
             emailEdt = findViewById(R.id.email_edt);
             nextLlay = findViewById(R.id.next_llay);
@@ -250,14 +254,19 @@ public class RegisterActivity extends PacifyrActivity {
             TextView_Upload = findViewById(R.id.TextView_Upload);
             upload_textView= findViewById(R.id.upload_textView);
             add_photo_textView = findViewById(R.id.add_photo_textView);
-            terms_of_use_cbox_err = findViewById(R.id.terms_of_use_cbox_err);
-            year_edt_err = findViewById(R.id.year_edt_err);
-
+            RelativeLayout_UploadDoc= findViewById(R.id.RelativeLayout_UploadDoc);
+            TextView_Year_Error = findViewById(R.id.TextView_Year_Error);
+            TextView_terms_Error = findViewById(R.id.TextView_terms_Error);
 
             uploadDocLayout = findViewById(R.id.uploadDocLayout);
             upload_docs_ctxv = findViewById(R.id.upload_docs_ctxv);
             documentFileList = new ArrayList<ModelPacifyrDocuments>();
             file_list_rcv = findViewById(R.id.file_list_rcv);
+
+            TextView_Name_Error =findViewById(R.id.TextView_Name_Error);
+            TextView_Email_Error=findViewById(R.id.TextView_Email_Error);
+            TextView_Phone_Error=findViewById(R.id.TextView_Phone_Error);
+            TextView_Phonelay_Error=findViewById(R.id.TextView_Phonelay_Error);
 
             context = RegisterActivity.this;
 
@@ -321,8 +330,6 @@ public class RegisterActivity extends PacifyrActivity {
                 phone_llay.setVisibility(View.VISIBLE);
                 phoneEdit.setVisibility(View.GONE);
             }
-            phoneEdit.setFocusable(false);
-            phoneEdit.setKeyListener(null);
 
             add_photo_textView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -339,7 +346,8 @@ public class RegisterActivity extends PacifyrActivity {
             yearEdit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    year_edt_err.setError(null);
+                    TextView_Year_Error.setVisibility(View.GONE);
+                    makEditTextBackgroundBlack(yearEdit);
                     showDialog(yearEdit, "");
                 }
             });
@@ -347,49 +355,73 @@ public class RegisterActivity extends PacifyrActivity {
             emailEdt.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+                    TextView_Email_Error.setVisibility(View.GONE);
+                    makEditTextBackgroundBlack(emailEdt);
                 }
 
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+                    TextView_Email_Error.setVisibility(View.GONE);
+                    makEditTextBackgroundBlack(emailEdt);
                 }
 
                 @Override
                 public void afterTextChanged(Editable s) {
-                    emailEdt.setError(null);
+                    TextView_Email_Error.setVisibility(View.GONE);
+                    makEditTextBackgroundBlack(emailEdt);
+                }
+            });
+
+
+            phoneCedt.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                    TextView_Phonelay_Error.setVisibility(View.GONE);
+                    makEditTextBackgroundBlack(phoneCedt);
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    TextView_Phonelay_Error.setVisibility(View.GONE);
+                    makEditTextBackgroundBlack(phoneCedt);
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    TextView_Phonelay_Error.setVisibility(View.GONE);
+                    makEditTextBackgroundBlack(phoneCedt);
+                }
+            });
+
+            nameEdt.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                    TextView_Name_Error.setVisibility(View.GONE);
+                    makEditTextBackgroundBlack(nameEdt);
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    TextView_Name_Error.setVisibility(View.GONE);
+                    makEditTextBackgroundBlack(nameEdt);
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    TextView_Name_Error.setVisibility(View.GONE);
+                    makEditTextBackgroundBlack(nameEdt);
                 }
             });
 
 
 
-
-
-
-            nameEdt.setFilters(new InputFilter[] {
-                    new InputFilter() {
-                        @Override
-                        public CharSequence filter(CharSequence cs, int start,
-                                                   int end, Spanned spanned, int dStart, int dEnd) {
-                            nameEdt.setError(null);
-                            // TODO Auto-generated method stub
-                            if(cs.equals("")){ // for backspace
-                                return cs;
-                            }
-                            if(cs.toString().matches("[a-zA-Z ]+")){
-                                return cs;
-                            }
-                            return "";
-                        }
-                    }
-            });
 
             checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if (isChecked)
                     {
-                        terms_of_use_cbox_err.setError(null);
+                        TextView_terms_Error.setVisibility(View.VISIBLE);
                     }
                 }
             });
@@ -411,7 +443,7 @@ public class RegisterActivity extends PacifyrActivity {
                     startActivity(intent);
                 }
             }, spanTxt.length() - "Terms of use".length(), spanTxt.length(), 0);
-            spanTxt.append(", ");
+            spanTxt.append(" and ");
             spanTxt.append(Html.fromHtml("<font color=" + getResources().getColor(R.color.colorPrimary) + "> <u>" + "Privacy policy" + "</u></font>"));
             spanTxt.setSpan(new ClickableSpan() {
                 @Override
@@ -523,14 +555,12 @@ public class RegisterActivity extends PacifyrActivity {
         editText.setEnabled(false);
         editText.setCursorVisible(false);
         editText.setKeyListener(null);
-        editText.setBackgroundColor(Color.TRANSPARENT);
     }
 
     private void enableEditText(EditText editText) {
         editText.setFocusable(true);
         editText.setEnabled(true);
         editText.setCursorVisible(true);
-        editText.setBackgroundColor(Color.WHITE);
     }
 
 
@@ -779,9 +809,9 @@ public class RegisterActivity extends PacifyrActivity {
                     return;
                 if (!isValidEmail1(emailEdt, "Please enter a valid email"))
                     return;
-                if (!isValidYear(yearEdit.getText().toString(), "You must be 18 years or older to use Pacifyr"))
+                if (!isValidYear(yearEdit.getText().toString()))
                     return;
-                if (!isValidCheckBox(terms_of_use_cbox_err,checkBox, getResources().getString(R.string.agree_terms_alert)))
+                if (!isValidCheckBox(checkBox, getResources().getString(R.string.agree_terms_alert)))
                     return;
                 postRegisterModel.setLoginType("manual");
                 postRegisterModel.setFirstName(nameEdt.getText().toString());
@@ -789,15 +819,17 @@ public class RegisterActivity extends PacifyrActivity {
                 postRegisterModel.setLastName("");
                 Rfullname=nameEdt.getText().toString();
                 Remail=emailEdt.getText().toString();
+                phoneRegister=phoneEdit.getText().toString();
             }else{
                 if(isValid(phoneCedt)) {
                     if(!isValid(fbMail)){
                         if (!isValidEmail1(emailEdt, "Please enter a valid email"))
                             return;
                     }
-                    if (!isValidCheckBox(terms_of_use_cbox_err,checkBox, getResources().getString(R.string.agree_terms_alert)))
-                        return;
+
                     if (isValidMobile(phoneCedt.getText().toString())) {
+                        TextView_Phonelay_Error.setVisibility(View.GONE);
+                        makEditTextBackgroundBlack(phoneCedt);
                         countryData = (ItemData) spinner.getSelectedItem();
                         String code = countryData.getCode();
                         phoneRegister = code + phoneCedt.getText();
@@ -816,8 +848,14 @@ public class RegisterActivity extends PacifyrActivity {
                             postRegisterModel.setImage(fbImage);
                         }
                     }else {
-                        Toast.makeText(RegisterActivity.this,getResources().getString(R.string.Invalid_phone_number_format),Toast.LENGTH_LONG).show();
+                        makeAlertMessageInTextView(TextView_Phonelay_Error,"Enter valid phone number");
+                        makEditTextBackgroundRed(phoneCedt);
                     }
+                    if (!isValidYear(yearEdit.getText().toString()))
+                        return;
+                    if (!isValidCheckBox(checkBox, getResources().getString(R.string.agree_terms_alert)))
+                        return;
+
                 }else {
                     Toast.makeText(RegisterActivity.this,"Please enter phone.",Toast.LENGTH_LONG).show();
                 }
@@ -870,13 +908,15 @@ public class RegisterActivity extends PacifyrActivity {
     }
 
     public Boolean isValidName(EditText text, String error) {
-        if (text != null)
-            if (isValid(text.getText() + ""))
+        if (text != null) {
+            if (isValid(text.getText() + "")) {
+                TextView_Name_Error.setVisibility(View.GONE);
+                makEditTextBackgroundBlack(nameEdt);
                 return true;
-        text.setError(error);
-        text.requestFocus();
-      //  setAlertOKStatusInWhite("Invalid",error,"OK");
-        //text.setError(error + "");
+            }
+        }
+        makEditTextBackgroundRed(text);
+        makeAlertMessageInTextView(TextView_Name_Error,error);
         return false;
 
     }
@@ -902,13 +942,17 @@ public class RegisterActivity extends PacifyrActivity {
     }
 
     public Boolean isValidEmail1(EditText text, String error) {
-        if (text != null)
-            if (isValid(text.getText() + ""))
-                if (isValidEmail(text.getText() + ""))
+        if (text != null) {
+            if (isValid(text.getText() + "")) {
+                if (isValidEmail(text.getText() + "")) {
+                    TextView_Email_Error.setVisibility(View.GONE);
+                    makEditTextBackgroundBlack(text);
                     return true;
-        text.setError(error + "");
-        text.requestFocus();
-       // setAlertOKStatusInWhite("Invalid",error,"OK");
+                }
+            }
+        }
+       makEditTextBackgroundRed(text);
+        makeAlertMessageInTextView(TextView_Email_Error,error);
         return false;
     }
 
@@ -944,41 +988,29 @@ public class RegisterActivity extends PacifyrActivity {
         }
     }
 
-    private boolean isValidCheckBox(EditText terms_of_use_cbox_err,CheckBox checkBox,String error) {
-        if(checkBox.isChecked())
+    private boolean isValidCheckBox(CheckBox checkBox,String error) {
+        if(checkBox.isChecked()) {
+            TextView_terms_Error.setVisibility(View.GONE);
             return true;
-        else
-            terms_of_use_cbox_err.setError(error);
-        terms_of_use_cbox_err.requestFocus();
-            //setAlertOKStatusInWhite("Invalid",error,"OK");
-        return false;
+        }
+        else {
+            makeAlertMessageInTextView(TextView_terms_Error,error);
+            return false;
+        }
     }
 
-    public Boolean isValidYear(String text, String error) {
+    public Boolean isValidYear(String text) {
         if (text.equals(""))
         {
-            year_edt_err.setError("Please enter date of birth");
-            year_edt_err.requestFocus();
+            makeAlertMessageInTextView(TextView_Year_Error,"Please enter date of birth");
             return false;
         }
         else
         {
+            TextView_Year_Error.setVisibility(View.GONE);
+            makEditTextBackgroundBlack(yearEdit);
             return true;
         }
-        /*else {
-            if (text != null)
-                if (android.text.TextUtils.isDigitsOnly(text))
-                    if (isValid(text + ""))
-                        if (isValidMajor(text))
-                            return true;
-
-
-            year_edt_err.setError("Enter valid year of birth");
-            year_edt_err.requestFocus();
-           *//* yearEdit.setError(error + "");
-            yearEdit.requestFocus();*//*
-        }
-       // setAlertOKStatusInWhite("Invalid",error,"OK");*/
 
 
     }
@@ -1548,4 +1580,29 @@ public class RegisterActivity extends PacifyrActivity {
             setFileAdapter();
         }
     }
+
+    private void makeAlertMessageInTextView(TextView textView_name_error, String error) {
+        textView_name_error.setText(error);
+        textView_name_error.setVisibility(View.VISIBLE);
+    }
+
+    public void  makEditTextBackgroundBlack(EditText mEditText)
+    {
+        mEditText.setBackground(getResources().getDrawable(R.drawable.edittext_black_curve));
+    }
+    public void  makEditTextBackgroundRed(EditText mEditText)
+    {
+        mEditText.setBackground(getResources().getDrawable(R.drawable.edittext_red_curve));
+    }
+
+    public void  makeViewBackgroundBlack(View mView)
+    {
+        mView.setBackground(getResources().getDrawable(R.drawable.edittext_black_curve));
+    }
+
+    public void  makeViewBackgroundRed(View mView)
+    {
+        mView.setBackground(getResources().getDrawable(R.drawable.edittext_red_curve));
+    }
+
 }
