@@ -639,8 +639,8 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
                 String callType = mSessionDetailRoot.getSessionType();
 
                 durationCtxv.setText(mSessionDetailRoot.getDuration());
-                if (isValid(mSessionDetailRoot.getEndTime()))
-                    durationCtxv.setText(mSessionDetailRoot.getDuration() + " " + Utility.getStartFormatDate(mSessionDetailRoot.getEndTime(), getApplicationContext()));
+                if (isValid(mSessionDetailRoot.getStartTime()))
+                    durationCtxv.setText(mSessionDetailRoot.getDuration() + " " + Utility.getStartFormatDate(mSessionDetailRoot.getStartTime(), getApplicationContext()));
 
                 if (isCustomer) {
                     sessionCostCtxv.setText(Utility.getPriceSign(SessionSummaryActivity.this) + mSessionDetailRoot.getSessionCost());
