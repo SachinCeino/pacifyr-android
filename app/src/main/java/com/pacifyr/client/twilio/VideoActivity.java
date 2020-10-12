@@ -575,7 +575,7 @@ public class VideoActivity extends PacifyrActivity {
                             i.putExtra("spurl",GLOBAL_IMAGE_URL+fileName);
                             getActivity().startActivity(i);*/
                             if (fileName.contains(".pdf")) {
-                                loadPDF(NetworkService.mCurrentUser.getCertificationList().get(0).getDocuments().get(0).toString());
+                                loadPDF(NetworkService.mCurrentUser.getCertificationList().get(0).getDocuments().get(0).toString(),getResources().getString(R.string.kyc_document));
                             } else if (fileName.toLowerCase().contains(".jpg") || fileName.toLowerCase().contains(".jpeg") || fileName.toLowerCase().contains(".png")) {
                                 AttachmentImageActivity.start(VideoActivity.this, GLOBAL_IMAGE_URL + fileName, true);
                             } else {

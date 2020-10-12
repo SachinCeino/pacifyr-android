@@ -139,7 +139,7 @@ public class PrescriptionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     public void onClick(View view) {
 
                         if (isValid(object.getPrescriptionFile()))
-                            ((PacifyrActivity)context).loadPDF(object.getPrescriptionFile());
+                            ((PacifyrActivity)context).loadPDF(object.getPrescriptionFile(),context.getResources().getString(R.string.prescription));
                         else
                             Toast.makeText(context, context.getResources().getString(R.string.no_prescription), Toast.LENGTH_SHORT).show();
 

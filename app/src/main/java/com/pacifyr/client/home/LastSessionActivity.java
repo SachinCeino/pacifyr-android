@@ -469,7 +469,7 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
                 @Override
                 public void onClick(View view) {
                     if (isValid(mSessionDetailRoot.getPrescriptionFile()))
-                    loadPDF(mSessionDetailRoot.getPrescriptionFile());
+                    loadPDF(mSessionDetailRoot.getPrescriptionFile(),getResources().getString(R.string.prescription));
                     else
                         Toast.makeText(LastSessionActivity.this, getResources().getString(R.string.no_prescription), Toast.LENGTH_SHORT).show();
                 }

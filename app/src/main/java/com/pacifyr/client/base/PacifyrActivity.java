@@ -4395,7 +4395,7 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
 
     }
 
-    public void loadPDF(String url) {
+    public void loadPDF(String url,String title) {
         setLoading();
         showProgress();
         FileLoader.with(PacifyrActivity.this)
@@ -4410,7 +4410,7 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
                         Log.d(TAG, "File downloaded ");
                         PdfViewer.pdf = loadedFile;
                         Intent intent = new Intent(PacifyrActivity.this, PdfViewer.class);
-                        intent.putExtra("title",getResources().getString(R.string.prescription));
+                        intent.putExtra("title",title);
                         startActivity(intent);
                     }
 
