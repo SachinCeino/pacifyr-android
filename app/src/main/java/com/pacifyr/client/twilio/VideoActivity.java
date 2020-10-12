@@ -231,7 +231,7 @@ public class VideoActivity extends PacifyrActivity {
     private static final String FREE_MINUTES_OVER = "freeMinutesOver";
     private static final String PAYTM_PAYMENT_DONE = "cardSetup";
     boolean freeMinuteAlert10, freeMinuteAlert5, freeMinuteAlert0, freeMinuteAlertMore10 = false; // track which of the 3 alerts are shown. 10, 5 or 0;
-
+    private TextView connectionStatusLocal;
 
     public EmpMinutesListener getEmpMinutesListener() {
         return empMinutesListener;
@@ -421,6 +421,7 @@ public class VideoActivity extends PacifyrActivity {
         emotion_ctxv = findViewById(R.id.emotion_ctxv);
         ImageView_chat = findViewById(R.id.ImageView_chat);
         call_overlay = findViewById(R.id.call_overlay);
+        connectionStatusLocal = findViewById(R.id.connectionStatusLocal);
 
         /*
          * Get shared preferences to read settings
@@ -1091,6 +1092,8 @@ public class VideoActivity extends PacifyrActivity {
                public void onConnected(Room room) {
                    VideoActivity.this.room=room;
                    localParticipant = room.getLocalParticipant();
+                   if (isValid(connectionStatusLocal))
+                   connectionStatusLocal.setText("Connecting...");
                    if(!isValid(SessionId))
                        startSessionWeb(roomName,accessToken,pacifyerDetial, isVideoCall);
                    for (RemoteParticipant remoteParticipant : room.getRemoteParticipants()) {
@@ -1142,6 +1145,9 @@ public class VideoActivity extends PacifyrActivity {
                @Override
                public void onParticipantConnected(Room room, RemoteParticipant remoteParticipant) {
                    Log.w("####","onParticipantConnected");
+                   if (isValid(connectionStatusLocal))
+                   connectionStatusLocal.setText("Connected...");
+
                    addRemoteParticipant(remoteParticipant);
 
 
