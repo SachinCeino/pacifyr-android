@@ -984,19 +984,6 @@ public class VideoActivity extends PacifyrActivity {
          * Release the local video track before going in the background. This ensures that the
          * camera can be used by other applications while this app is in the background.
          */
-        if (localVideoTrack != null) {
-            /*
-             * If this local video track is being shared in a Room, unpublish from room before
-             * releasing the video track. Participants will be notified that the track has been
-             * unpublished.
-             */
-            if (localParticipant != null) {
-                localParticipant.unpublishTrack(localVideoTrack);
-            }
-
-            localVideoTrack.release();
-            localVideoTrack = null;
-        }
         super.onPause();
     }
 
