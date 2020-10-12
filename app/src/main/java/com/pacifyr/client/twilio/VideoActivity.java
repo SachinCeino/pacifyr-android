@@ -58,6 +58,7 @@ import com.pacifyr.client.event.CallChangeEmotion;
 import com.pacifyr.client.event.CallDetailEvent;
 import com.pacifyr.client.event.CallEvent;
 import com.pacifyr.client.event.CallTimerEvent;
+import com.pacifyr.client.event.TwilioCallEvent;
 import com.pacifyr.client.fragment.PrescriptionWhileCallFragment;
 import com.pacifyr.client.home.ProfileScreenActivity;
 import com.pacifyr.client.home.SessionSummaryActivity;
@@ -124,6 +125,8 @@ import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.quickblox.activities.SettingsActivity;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONObject;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -439,8 +442,7 @@ public class VideoActivity extends PacifyrActivity {
                 roomName=getIntent().getExtras().getString("roomName");
                 pacifyerDetial= (MUser) getIntent().getExtras().getSerializable("pacifyerDetial");
                 isVideoCall=getIntent().getExtras().getBoolean("isVideoCall");
-                SessionId=getIntent().getExtras().getString("SessionId");
-                Log.w("SessionId",SessionId);
+                //SessionId=getIntent().getExtras().getString("SessionId");
             }
         }
         if (isVideoCall)
@@ -590,7 +592,6 @@ public class VideoActivity extends PacifyrActivity {
             }
         });
 
-        webGetSessionDetail(SessionId);
         getCurrentUserProfileInfo();
     }
 
@@ -837,10 +838,10 @@ public class VideoActivity extends PacifyrActivity {
                     else {
                         try {
                             CallActivity.mSessionDetailRoot= GsonUtils.getInstance().gsonToMSessionDetailRoot(json);
-                            if (isValid(getCallUser()))
+                           /* if (isValid(getCallUser()))
                             {
                                 setEmotionViews();
-                            }
+                            }*/
 
                         } catch (Exception e){
                             Bundle args =
@@ -1090,7 +1091,8 @@ public class VideoActivity extends PacifyrActivity {
                public void onConnected(Room room) {
                    VideoActivity.this.room=room;
                    localParticipant = room.getLocalParticipant();
-
+                   if(!isValid(SessionId))
+                       startSessionWeb(roomName,accessToken,pacifyerDetial, isVideoCall);
                    for (RemoteParticipant remoteParticipant : room.getRemoteParticipants()) {
                        addRemoteParticipant(remoteParticipant);
                        break;
@@ -1118,7 +1120,7 @@ public class VideoActivity extends PacifyrActivity {
                    Log.w("####","onDisconnected");
                    localParticipant = null;
 
-                   reconnectingProgressBar.setVisibility(View.GONE);
+                 //  reconnectingProgressBar.setVisibility(View.GONE);
                    VideoActivity.this.room = null;
                    // Only reinitialize the UI if disconnect was not called from onDestroy()
                    if (!disconnectedFromOnDestroy) {
@@ -1142,7 +1144,6 @@ public class VideoActivity extends PacifyrActivity {
                    Log.w("####","onParticipantConnected");
                    addRemoteParticipant(remoteParticipant);
 
-                   hangUpCurrentSessionMe();
 
                }
 
@@ -1150,6 +1151,7 @@ public class VideoActivity extends PacifyrActivity {
                public void onParticipantDisconnected(Room room, RemoteParticipant remoteParticipant) {
                    Log.w("####","onParticipantDisconnected");
                    removeRemoteParticipant(remoteParticipant);
+                   hangUpCurrentSessionMe();
                }
 
                @Override
@@ -1375,13 +1377,19 @@ public class VideoActivity extends PacifyrActivity {
 
     private void moveLocalVideoToThumbnailView() {
 
-            if (thumbnailVideoView.getVisibility() == View.GONE) {
-                thumbnailVideoView.setVisibility(View.VISIBLE);
-                localVideoTrack.removeRenderer(primaryVideoView);
-                localVideoTrack.addRenderer(thumbnailVideoView);
-                localVideoView = thumbnailVideoView;
-                thumbnailVideoView.setMirror(cameraCapturerCompat.getCameraSource() ==
-                        CameraSource.FRONT_CAMERA);
+            try {
+                if (thumbnailVideoView.getVisibility() == View.GONE) {
+                    thumbnailVideoView.setVisibility(View.VISIBLE);
+                    localVideoTrack.removeRenderer(primaryVideoView);
+                    localVideoTrack.addRenderer(thumbnailVideoView);
+                    localVideoView = thumbnailVideoView;
+                    thumbnailVideoView.setMirror(cameraCapturerCompat.getCameraSource() ==
+                            CameraSource.FRONT_CAMERA);
+                }
+            }
+            catch (Exception e)
+            {
+
             }
     }
 
@@ -1616,6 +1624,7 @@ public class VideoActivity extends PacifyrActivity {
                 /* if (remoteParticipant == null) {
                     addParticipant(remoteParticipant);
                 }*/
+                if (isValid(remoteVideoTrack))
                 addRemoteParticipantVideo(remoteVideoTrack);
             }
 
@@ -2012,4 +2021,27 @@ public class VideoActivity extends PacifyrActivity {
     }
 
 
+    @Override
+    protected void onStart() {
+        EventBus.getDefault().register(this);
+        super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        EventBus.getDefault().unregister(this);
+        super.onStop();
+    }
+
+    @org.greenrobot.eventbus.Subscribe(threadMode = ThreadMode.MAIN)
+    public void onCallConnected(TwilioCallEvent mTwilioCallEvent) {
+
+        if (isValid(mTwilioCallEvent.getIdsession()))
+        {
+            SessionId= mTwilioCallEvent.getIdsession();
+            webGetSessionDetail(SessionId);
+        Log.w("WWWWW","onCallConnected");
+        }
+
+    }
 }

@@ -64,6 +64,7 @@ import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.BusProvider;
 import com.pacifyr.client.event.CallEvent;
 import com.pacifyr.client.event.NotifyEvent;
+import com.pacifyr.client.event.TwilioCallEvent;
 import com.pacifyr.client.fragment.AppointmentsTabViewFragment;
 import com.pacifyr.client.fragment.UserDashboardFragment;
 import com.pacifyr.client.home.DashboardActivity;
@@ -1163,16 +1164,15 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
     }
 
     public void startCall(String roomName,String TwilioToken ,boolean isVideoCall,final MUser pacifyer, long  qbID,String oppentid,String idsession) {
-        Intent intent = new Intent(getApplicationContext(), VideoActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.putExtra("accessToken",TwilioToken);
-        intent.putExtra("roomName",roomName);
-        intent.putExtra("pacifyerDetial",pacifyer);
-        intent.putExtra("SessionId",idsession);
-        intent.putExtra("isVideoCall",isVideoCall);
-        startActivity(intent);
 
-
+        TwilioCallEvent mTwilioCallEvent=new TwilioCallEvent();
+        mTwilioCallEvent.setCallConnected(true);
+        mTwilioCallEvent.setIdsession(idsession);
+        mTwilioCallEvent.setPacifyer(pacifyer);
+        mTwilioCallEvent.setRoomName(roomName);
+        mTwilioCallEvent.setVideoCall(isVideoCall);
+        EventBus.getDefault().post(mTwilioCallEvent);
+        Log.w("WWWWW","startCall");
 
        /* if (isValid(pacifyer.getForwardToPacifyrId())&& isValid(pacifyer.getForwardToPacifyr()))
         {
@@ -1754,7 +1754,13 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
                         {
                             TwilioAccessToken mTwilioAccessToken=GsonUtils.getInstance().gsonToTwilioAccessToken(jsonObject);
                             if (isValid(mTwilioAccessToken) && mTwilioAccessToken.getStatus().equals("success") &&isValid(mTwilioAccessToken.getMessage())) {
-                                startSessionWeb(roomName,mTwilioAccessToken.getMessage(),pacifyerDetial, isVideoCall);
+                                Intent intent = new Intent(getApplicationContext(), VideoActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                intent.putExtra("accessToken",mTwilioAccessToken.getMessage());
+                                intent.putExtra("roomName",roomName);
+                                intent.putExtra("pacifyerDetial",pacifyerDetial);
+                                intent.putExtra("isVideoCall",isVideoCall);
+                                startActivity(intent);
                             }
                             else
                             {
@@ -1832,6 +1838,7 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
                                         if (session != null) {
                                             startSessionTracking(session.getId());
                                         }
+
                                         startCall(roomName,TwilioToken,isVideoCall,pacifyer,pacifyer.getQbid(), pacifyer.getId(),call_session_root.getSession().getId());
                                     }
                                     else
@@ -1839,6 +1846,7 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
 //                                        stopSessionWeb(pacifyer);
                                         if (json.has("message")) {
                                             ToastHandler.newInstance(PacifyrActivity.this).mustShowToast(json.getString("message"));
+                                            finish();
                                         }
 
                                         //setAlertOKStatusInBlue("Connect call","Connect the call","OK");
