@@ -189,6 +189,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:visibility="gone"
                 android:orientation="horizontal">
 
                 <View
@@ -216,6 +217,7 @@
                 android:id="@+id/facebook_rlay"
                 android:layout_width="match_parent"
                 android:layout_height="43dp"
+                android:visibility="gone"
                 android:layout_gravity="center"
                 android:background="@drawable/fb_signup_btn"
                 android:padding="10dp">
