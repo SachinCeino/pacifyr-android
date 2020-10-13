@@ -65,13 +65,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
+                android:id="@+id/LinearLayout_phone"
+                android:background="@drawable/edittext_black_curve"
                 android:gravity="center"
                 android:padding="5dp">
 
-                <!--<com.hbb20.CountryCodePicker
-                    android:id="@+id/ccp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />-->
 
                 <Spinner
                     android:id="@+id/spinner"
@@ -84,10 +82,10 @@
                 <com.pacifyrapp.utilitylibrary.CustomEditText
                     android:id="@+id/phone_cedit"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@null"
+                    android:layout_height="40dp"
                     android:hint="@string/phone"
                     android:inputType="phone"
+                    android:background="@null"
                     android:theme="@style/OMEditTheme"
                     android:maxLength="10"
                     android:maxLines="1"
@@ -96,10 +94,16 @@
 
             </LinearLayout>
 
-            <View
+            <TextView
+                android:id="@+id/TextView_phone_error"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/signup_view" />
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:text=""
+                android:visibility="gone"
+                android:textColor="@color/red"
+                android:textSize="12sp"
+                android:layout_marginTop="2dp"/>
 
         </LinearLayout>
 
