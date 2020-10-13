@@ -206,17 +206,16 @@ public class VideoActivity extends PacifyrActivity {
     private boolean disconnectedFromOnDestroy;
     private boolean enableAutomaticSubscription;
 
-
     //Call HangUp
     private ImageView button_hangup_call;
     private ToggleButton micToggleVideoCall;
 
 
     private TextView billingStatus,emotion_ctxv,reason_ctxv;
-    private TextView text_remaining_minutes;
+    private TextView text_remaining_minutes,audio_text_remaining_minutes;
     private CountDownTimer countDownTimer;
     protected boolean isStarted;
-    protected Chronometer timerChronometer;
+    protected Chronometer timerChronometer,chronometer_timer_audio_call;
     boolean isFirsttime = false;
     public CountDownTimer timer;
     private EmpMinutesListener empMinutesListener;
@@ -232,6 +231,8 @@ public class VideoActivity extends PacifyrActivity {
     private static final String PAYTM_PAYMENT_DONE = "cardSetup";
     boolean freeMinuteAlert10, freeMinuteAlert5, freeMinuteAlert0, freeMinuteAlertMore10 = false; // track which of the 3 alerts are shown. 10, 5 or 0;
     private TextView connectionStatusLocal;
+    private TextView username_ctxv;
+    private LinearLayout layout_info_about_audio_call;
 
     public EmpMinutesListener getEmpMinutesListener() {
         return empMinutesListener;
@@ -305,6 +306,7 @@ public class VideoActivity extends PacifyrActivity {
         public void tick(long minutes) {
             text_remaining_minutes.setText(minutes + " free minutes remaining");
             text_remaining_minutes.setVisibility(View.VISIBLE);
+
         }
     };
 
@@ -393,7 +395,7 @@ public class VideoActivity extends PacifyrActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video);
-
+        EventBus.getDefault().register(this);
         primaryVideoView = findViewById(R.id.primary_video_view);
         thumbnailVideoView = findViewById(R.id.thumbnail_video_view);
         reconnectingProgressBar = findViewById(R.id.reconnecting_progress_bar);
@@ -408,6 +410,7 @@ public class VideoActivity extends PacifyrActivity {
         text_remaining_minutes = findViewById(R.id.text_remaining_minutes);
         text_remaining_minutes.setVisibility(View.GONE);
         timerChronometer = findViewById(R.id.chronometer_timer_video_call);
+        chronometer_timer_audio_call = findViewById(R.id.chronometer_timer_audio_call);
         ImageView_prescription = findViewById(R.id.ImageView_prescription);
         userDimv = findViewById(R.id.user_dimv);
         LinearLayout_chat= findViewById(R.id.LinearLayout_chat);
@@ -422,6 +425,8 @@ public class VideoActivity extends PacifyrActivity {
         ImageView_chat = findViewById(R.id.ImageView_chat);
         call_overlay = findViewById(R.id.call_overlay);
         connectionStatusLocal = findViewById(R.id.connectionStatusLocal);
+        username_ctxv = findViewById(R.id.username_ctxv);
+        layout_info_about_audio_call = findViewById(R.id.layout_info_about_audio_call);
 
         /*
          * Get shared preferences to read settings
@@ -514,14 +519,13 @@ public class VideoActivity extends PacifyrActivity {
         emotion_rlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isOpponentConnected()) {
-                    Intent intent = new Intent(getApplicationContext(), ActivityChangeEmotionFromCall.class);
+                Intent intent = new Intent(getApplicationContext(), ActivityChangeEmotionFromCall.class);
                     if (isValid(change_Emotion_name)) {
                         intent.putExtra("emotion", change_Emotion_name);
                     }
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
-                }
+
             }
         });
 
@@ -535,9 +539,9 @@ public class VideoActivity extends PacifyrActivity {
         userDimv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MUser mUser = getCallUser();
+               /* MUser mUser = getCallUser();
                 if (isValid(mUser) && isValid(mUser.getId()))
-                    ProfileScreenActivity.start(getApplicationContext(), mUser.getId(), false);
+                    ProfileScreenActivity.start(getApplicationContext(), mUser.getId(), false);*/
             }
         });
 
@@ -593,6 +597,25 @@ public class VideoActivity extends PacifyrActivity {
             }
         });
 
+        if (!isVideoCall)
+        {
+            layout_info_about_audio_call.setVisibility(View.VISIBLE);
+            if (isValid(pacifyerDetial))
+            {
+                if (isValid(pacifyerDetial.getFirstName()))
+                {
+                    username_ctxv.setText(pacifyerDetial.getFirstName());
+                }
+                if (isValid(pacifyerDetial.getImageUrl()))
+                {
+                    String image = pacifyerDetial.getImageUrl();
+                    if(isValid(image)) {
+                        Picasso.with(getApplicationContext()).load(image).placeholder(R.drawable.placeholder_image).into(userDimv);
+                    }
+                }
+            }
+        }
+
         getCurrentUserProfileInfo();
     }
 
@@ -611,8 +634,7 @@ public class VideoActivity extends PacifyrActivity {
                         if (isValid(NetworkService.mCurrentUser)) {
                             if (isValid(NetworkService.mCurrentUser.getEmotion()))
                                 PacifyrActivity.call_emotion=NetworkService.mCurrentUser.getEmotion();
-                            setEmotionViews();
-                            setResaonViews();
+                            setEmotionViews(NetworkService.mCurrentUser.getEmotion());
                         }
                     }
                 }
@@ -620,79 +642,30 @@ public class VideoActivity extends PacifyrActivity {
         }
     }
 
-    private void setEmotionViews() {
+    private void setEmotionViews(MEmotion emotion) {
         try{
             setResaonViews();
             String image=null;
-            MEmotion emotion=null;
-            if(isCustomer()) {
-                if (isValid(PacifyrActivity.call_emotion)){
-                    emotion= PacifyrActivity.call_emotion;
-                    image= PacifyrActivity.call_emotion.getImage();
-                }
 
-            }
-            MUser mUser=null;
-            if (!isValid(getCallUser()))
-            {
-                return;
-            }
-            else {
-               mUser = getCallUser();
-
-                emotion_dimv.setVisibility(View.GONE);
-                // reason_ctxv.setVisibility(View.GONE);
-                if(!isValid(mUser)) return;
-                if(isValid(mUser.getEmotion())) {
-                    emotion=mUser.getEmotion();
-                    image = mUser.getEmotion().getImage();
-                    if(!isValid(image)) {
-                        if(isValid(mUser.getEmotionId())) {
-                            MEmotion mEmotion = getEmotion(mUser.getEmotionId());
-                            emotion=mEmotion;
-                            image = mEmotion.getImage();
-
-                        }
-                    }
-                } else if(isValid(mUser.getEmotionId())) {
-                    MEmotion mEmotion = getEmotion(mUser.getEmotionId());
-                    emotion=mEmotion;
-                    image = mEmotion.getImage();
-
-                }
-            }
-
-            //setUserInfoViews();
-            if(isValid(image)) {
+            if(isValid(emotion.getImage())) {
                 emotion_dimv.setVisibility(View.VISIBLE);
-                Picasso.with(getApplicationContext()).load(NetworkService.GLOBAL_IMAGE_URL + image).placeholder(R.drawable.placeholder_image).into(emotion_dimv);
-                Picasso.with(getApplicationContext()).load(NetworkService.GLOBAL_IMAGE_URL + image).placeholder(R.drawable.placeholder_image).into(ImageView_emotion);
-                getPrefManager().saveEmotionImage(image);
+                Picasso.with(getApplicationContext()).load(NetworkService.GLOBAL_IMAGE_URL + emotion.getImage()).placeholder(R.drawable.placeholder_image).into(emotion_dimv);
+                Picasso.with(getApplicationContext()).load(NetworkService.GLOBAL_IMAGE_URL + emotion.getImage()).placeholder(R.drawable.placeholder_image).into(ImageView_emotion);
+
             }
-            if(isValid(emotion)) {
+            if(isValid(emotion.getTitle())) {
                 change_Emotion_name=emotion.getId();
                 emotion_ctxv.setVisibility(View.VISIBLE);
-                defSetText(emotion_ctxv,"Emotions: "+emotion.getTitle());
-                getPrefManager().saveEmotionName(emotion.getTitle());
+                defSetText(emotion_ctxv,"Emotion: "+emotion.getTitle());
+
             }
-            else {
-                if (isValid(getPrefManager().getSavedEmotionImage()))
-                {
-                    emotion_dimv.setVisibility(View.VISIBLE);
-                    Picasso.with(getApplicationContext()).load(GLOBAL_IMAGE_URL + getPrefManager().getSavedEmotionImage()).placeholder(R.drawable.placeholder_image).into(emotion_dimv);
-                    Picasso.with(getApplicationContext()).load(GLOBAL_IMAGE_URL + getPrefManager().getSavedEmotionImage()).placeholder(R.drawable.placeholder_image).into(ImageView_emotion);
-                }
-                if (isValid(getPrefManager().getSavedEmotionName()))
-                {
-                    emotion_ctxv.setVisibility(View.VISIBLE);
-                    defSetText(emotion_ctxv,"Emotions :"+getPrefManager().getSavedEmotionName());
-                }
-            }
+
 
 
         }catch (Exception e)
         {
             e.printStackTrace();
+            Log.w("@@@@setEmotionViews",String.valueOf(e));
         }
     }
 
@@ -711,14 +684,6 @@ public class VideoActivity extends PacifyrActivity {
                     defSetText(reason_ctxv, "Cause: " + EmotionSpecialityAdapter.reason_forcall);
                 }
 
-            if (!isValid(reason_ctxv.getText()))
-            {
-                if (isValid(getPrefManager().getReasonFortheCall()))
-                {
-                    reason_ctxv.setText("Cause: "+getPrefManager().getReasonFortheCall());
-                }
-
-            }
 
         }catch (Exception e)
         {
@@ -1016,7 +981,7 @@ public class VideoActivity extends PacifyrActivity {
             localVideoTrack.release();
             localVideoTrack = null;
         }
-
+        EventBus.getDefault().unregister(this);
         super.onDestroy();
     }
 
@@ -1817,10 +1782,23 @@ public class VideoActivity extends PacifyrActivity {
     }
 
     public void stopTimer() {
-        if (timerChronometer != null) {
-            timerChronometer.stop();
-            isStarted = false;
+
+
+        if (!isVideoCall)
+        {
+
+            if (chronometer_timer_audio_call != null) {
+                chronometer_timer_audio_call.stop();
+                isStarted = false;
+            }
         }
+        else {
+            if (timerChronometer != null) {
+                timerChronometer.stop();
+                isStarted = false;
+            }
+        }
+
         if (countDownTimer != null) {
             countDownTimer.cancel();
         }
@@ -1829,33 +1807,65 @@ public class VideoActivity extends PacifyrActivity {
 
     public void startTimer() {
         if (!isStarted) {
-            timerChronometer.setVisibility(View.VISIBLE);
-            timerChronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
 
-                @Override
-                public void onChronometerTick(Chronometer chronometer) {
-                    long time = SystemClock.elapsedRealtime() - chronometer.getBase();
-                    int h   = (int)(time /3600000);
-                    int m = (int)(time - h*3600000)/60000;
-                    int s= (int)(time - h*3600000- m*60000)/1000 ;
-                    String t = (h < 10 ? "0"+h: h)+":"+(m < 10 ? "0"+m: m)+":"+ (s < 10 ? "0"+s: s);
-                    chronometer.setText(t);
-                }
-            });
+            if (isVideoCall) {
+                timerChronometer.setVisibility(View.VISIBLE);
+                timerChronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
 
-            timerChronometer.setBase(SystemClock.elapsedRealtime());
-            timerChronometer.start();
-            if (isCustomer())
-                if (!isCardExist()) {
-                    if (isValid(NetworkService.mCurrentUser)) {
-                        long time = NetworkService.mCurrentUser.getAvailableMinutes();
-                        setAvaiableTimer((time * 60) - 15);
+                    @Override
+                    public void onChronometerTick(Chronometer chronometer) {
+                        long time = SystemClock.elapsedRealtime() - chronometer.getBase();
+                        int h = (int) (time / 3600000);
+                        int m = (int) (time - h * 3600000) / 60000;
+                        int s = (int) (time - h * 3600000 - m * 60000) / 1000;
+                        String t = (h < 10 ? "0" + h : h) + ":" + (m < 10 ? "0" + m : m) + ":" + (s < 10 ? "0" + s : s);
+                        chronometer.setText(t);
+                    }
+                });
+
+                timerChronometer.setBase(SystemClock.elapsedRealtime());
+                timerChronometer.start();
+                if (isCustomer())
+                    if (!isCardExist()) {
+                        if (isValid(NetworkService.mCurrentUser)) {
+                            long time = NetworkService.mCurrentUser.getAvailableMinutes();
+                            setAvaiableTimer((time * 60) - 15);
+
+                        }
+
 
                     }
+                isStarted = true;
+            }
+            else {
+                chronometer_timer_audio_call.setVisibility(View.VISIBLE);
+                chronometer_timer_audio_call.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
+
+                    @Override
+                    public void onChronometerTick(Chronometer chronometer) {
+                        long time = SystemClock.elapsedRealtime() - chronometer.getBase();
+                        int h = (int) (time / 3600000);
+                        int m = (int) (time - h * 3600000) / 60000;
+                        int s = (int) (time - h * 3600000 - m * 60000) / 1000;
+                        String t = (h < 10 ? "0" + h : h) + ":" + (m < 10 ? "0" + m : m) + ":" + (s < 10 ? "0" + s : s);
+                        chronometer.setText(t);
+                    }
+                });
+
+                chronometer_timer_audio_call.setBase(SystemClock.elapsedRealtime());
+                chronometer_timer_audio_call.start();
+                if (isCustomer())
+                    if (!isCardExist()) {
+                        if (isValid(NetworkService.mCurrentUser)) {
+                            long time = NetworkService.mCurrentUser.getAvailableMinutes();
+                            setAvaiableTimer((time * 60) - 15);
+
+                        }
 
 
-                }
-            isStarted = true;
+                    }
+                isStarted = true;
+            }
         }
     }
 
@@ -1990,7 +2000,7 @@ public class VideoActivity extends PacifyrActivity {
         return isCustomer;
     }
 
-    @Subscribe
+    @org.greenrobot.eventbus.Subscribe(threadMode = ThreadMode.MAIN)
     public void onChangedEmotionEvent(CallChangeEmotion event) {
         try {
             if (isValid(event.getEmotion()))
@@ -1998,14 +2008,13 @@ public class VideoActivity extends PacifyrActivity {
                     emotion_dimv.setVisibility(View.VISIBLE);
                     Picasso.with(this).load(NetworkService.GLOBAL_IMAGE_URL + event.getEmotion().getImage()).placeholder(R.drawable.placeholder_image).into(emotion_dimv);
                     Picasso.with(this).load(NetworkService.GLOBAL_IMAGE_URL + event.getEmotion().getImage()).placeholder(R.drawable.placeholder_image).into(ImageView_emotion);
-                    getPrefManager().saveEmotionImage(event.getEmotion().getImage());
                 }
 
             if (isValid(event.getEmotion().getTitle())) {
                 emotion_ctxv.setVisibility(View.VISIBLE);
                 change_Emotion_name=event.getEmotion().getId();
-                defSetText(emotion_ctxv,"Emotions: "+event.getEmotion().getTitle());
-                getPrefManager().saveEmotionName(event.getEmotion().getTitle());
+                defSetText(emotion_ctxv,"Emotion: "+event.getEmotion().getTitle());
+
 
             }
         } catch (Exception e) {
@@ -2016,13 +2025,11 @@ public class VideoActivity extends PacifyrActivity {
 
     @Override
     protected void onStart() {
-        EventBus.getDefault().register(this);
         super.onStart();
     }
 
     @Override
     protected void onStop() {
-        EventBus.getDefault().unregister(this);
         super.onStop();
     }
 

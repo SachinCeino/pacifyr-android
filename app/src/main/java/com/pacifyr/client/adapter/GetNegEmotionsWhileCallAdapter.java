@@ -32,6 +32,7 @@ import com.pacifyr.client.event.BusProvider;
 import com.pacifyr.client.event.CallChangeEmotion;
 import com.squareup.picasso.Picasso;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -131,9 +132,9 @@ public class GetNegEmotionsWhileCallAdapter extends RecyclerView.Adapter<GetNegE
                                 String js = result.toString();
                                 String phone = jsonObject.getString("phoneNumber");
                                 if (isValid(phone)) {
-                                    postEventOnMainThread(new CallChangeEmotion(emotion));
-                                    Intent i=new Intent(context,CallActivity.class);
-                                    ((Activity) context).startActivity(i);
+                                    EventBus.getDefault().post(new CallChangeEmotion(emotion));
+                                   /* Intent i=new Intent(context,CallActivity.class);
+                                    ((Activity) context).startActivity(i);*/
                                     ((Activity) context).finish();
                                 } else {
                                     Toast.makeText(context, "Error :" + e.getMessage(), Toast.LENGTH_LONG).show();

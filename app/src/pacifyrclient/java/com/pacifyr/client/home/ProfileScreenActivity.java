@@ -147,6 +147,7 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
     public static void start(Context context,String id,boolean flag ) {
         Intent intent = new Intent(context, ProfileScreenActivity.class);
         intent.putExtra("userid",id);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         isFromConnectPacifyr=flag;
         context.startActivity(intent);
     }
