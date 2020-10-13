@@ -350,7 +350,7 @@ public class ListCustomerSessionAdapter extends RecyclerView.Adapter<RecyclerVie
             missedViewHolder.dateCtxv.setText(Utility.getStartFormatDate(time, mContext));
 
             String  imgUrl = results.getUser().getImageUrl();
-            if(isValid(imgUrl)){
+            if (isValid(imgUrl) && !imgUrl.isEmpty()) {
                 Picasso.with(mContext).load(imgUrl).placeholder(mContext.getResources().getDrawable(R.drawable.placeholder_user)).error(mContext.getResources().getDrawable(R.drawable.placeholder_user)).into(missedViewHolder.userCimv);
             }
 
@@ -365,6 +365,7 @@ public class ListCustomerSessionAdapter extends RecyclerView.Adapter<RecyclerVie
                 missedViewHolder.missedCtxv.setText("Declined Call");
             }
 
+            missedViewHolder.messageImv.setVisibility(View.GONE);
            /* missedViewHolder.topLlay.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
