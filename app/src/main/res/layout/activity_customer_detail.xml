@@ -4,161 +4,166 @@
     android:layout_height="match_parent"
     xmlns:card_view="http://schemas.android.com/apk/res-auto">
 
-    <include layout="@layout/actionbar_three_text_image"
+    <include
+        layout="@layout/actionbar_three_text_image"
         android:id="@+id/include"
         android:layout_height="50dp"
-        android:layout_width="match_parent">
-    </include>
+        android:layout_width="match_parent"></include>
 
-    <RelativeLayout
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nested_scroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/include"
-        android:background="@color/white">
+        android:layout_below="@+id/include">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:gravity="center"
-            android:background="@color/colorPrimary"
-            android:orientation="horizontal"
-            android:id="@+id/top_llay">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_margin="20dp"
-                android:gravity="center">
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:id="@+id/profile_cimv"
-                    android:src="@drawable/placeholder_user"/>
-
-                <com.pacifyr.client.customview.MainTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textStyle="bold"
-                    android:textSize="13sp"
-                    android:id="@+id/profile_name_ctxv"
-                    android:textColor="@color/white"
-                    android:text=""/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_margin="20dp"
-                android:padding="5dp"
-                android:gravity="center">
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:id="@+id/emotion_cimv"
-                    android:tint="@color/white"
-                    android:src="@drawable/happy"/>
-
-                <com.pacifyr.client.customview.MainTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textStyle="bold"
-                    android:textSize="13sp"
-                    android:id="@+id/emotion_name_ctxv"
-                    android:textColor="@color/white"
-                    android:text=""/>
-            </LinearLayout>
-
-
-        </LinearLayout>
-
-        <androidx.cardview.widget.CardView
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="-25dp"
-            android:id="@+id/bio_card_view"
-            android:layout_below="@+id/top_llay"
-            card_view:cardCornerRadius="5dp"
-            card_view:contentPadding="5dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/include"
+            android:background="@color/white">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="10dp">
+                android:layout_height="150dp"
+                android:gravity="center"
+                android:background="@color/colorPrimary"
+                android:orientation="horizontal"
+                android:id="@+id/top_llay">
 
-                <com.pacifyr.client.customview.MainTextView
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textStyle="bold"
-                    android:textSize="13sp"
-                    android:textColor="@color/black"
-                    android:text="BIO"/>
+                    android:orientation="vertical"
+                    android:layout_margin="20dp"
+                    android:gravity="center">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:id="@+id/profile_cimv"
+                        android:src="@drawable/placeholder_user"/>
+
+                    <com.pacifyr.client.customview.MainTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:textSize="13sp"
+                        android:id="@+id/profile_name_ctxv"
+                        android:textColor="@color/white"
+                        android:text=""/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_margin="20dp"
+                    android:padding="5dp"
+                    android:gravity="center">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:id="@+id/emotion_cimv"
+                        android:tint="@color/white"
+                        android:src="@drawable/happy"/>
+
+                    <com.pacifyr.client.customview.MainTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:textSize="13sp"
+                        android:id="@+id/emotion_name_ctxv"
+                        android:textColor="@color/white"
+                        android:text=""/>
+                </LinearLayout>
 
 
-                <com.pacifyr.client.customview.MainTextView
+            </LinearLayout>
+
+            <androidx.cardview.widget.CardView
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="-25dp"
+                android:id="@+id/bio_card_view"
+                android:layout_below="@+id/top_llay"
+                card_view:cardCornerRadius="5dp"
+                card_view:contentPadding="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textStyle="bold"
-                    android:textSize="11sp"
-                    android:layout_marginBottom="10dp"
-                    android:id="@+id/bio_ctxv"
-                    android:textColor="@color/education_desc"/>
+                    android:orientation="vertical"
+                    android:padding="10dp">
 
-            </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
-
-        <com.pacifyr.client.customview.MainTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:paddingTop="20dp"
-            android:id="@+id/past_session_ctxv"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:layout_below="@+id/bio_card_view"
-            android:text="PAST SESSIONS"/>
-
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
-            android:layout_below="@+id/past_session_ctxv"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+                    <com.pacifyr.client.customview.MainTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:textSize="13sp"
+                        android:textColor="@color/black"
+                        android:text="BIO"/>
 
 
-            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-                android:id="@+id/swipe_lay"
+                    <com.pacifyr.client.customview.MainTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:textSize="11sp"
+                        android:layout_marginBottom="10dp"
+                        android:id="@+id/bio_ctxv"
+                        android:textColor="@color/education_desc"/>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <com.pacifyr.client.customview.MainTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="20dp"
+                android:id="@+id/past_session_ctxv"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:layout_below="@+id/bio_card_view"
+                android:text="PAST SESSIONS"/>
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
-                android:visibility="gone"
-                android:layout_height="match_parent">
+                android:layout_below="@+id/past_session_ctxv"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
                     android:id="@+id/pacifyr_list_rcv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_below="@+id/past_session_ctxv">
 
                 </androidx.recyclerview.widget.RecyclerView>
-                <!-- <androidx.recyclerview.widget.RecyclerView
-                     android:id="@+id/rcv"
+
+                <!-- <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                     android:id="@+id/swipe_lay"
                      android:layout_width="match_parent"
-                     android:layout_height="wrap_content"></androidx.recyclerview.widget.RecyclerView>-->
-
-            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-            <include layout="@layout/empty" android:visibility="visible"/>
-        </LinearLayout>
+                     android:visibility="visible"
+                     android:layout_height="match_parent">
 
 
+                     &lt;!&ndash; <androidx.recyclerview.widget.RecyclerView
+                          android:id="@+id/rcv"
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"></androidx.recyclerview.widget.RecyclerView>&ndash;&gt;
+
+                 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>-->
+                <!--            <include layout="@layout/empty" android:visibility="gone"/>-->
+            </LinearLayout>
 
 
-    </RelativeLayout>
-
+        </RelativeLayout>
+    </androidx.core.widget.NestedScrollView>
 </RelativeLayout>
