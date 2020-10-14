@@ -9,12 +9,16 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.CallbackManager;
@@ -103,6 +107,8 @@ public class SignUpActivity extends PacifyrActivity {
     Context context;
     private String qbID;
     private MainTextView sms_text_login;
+    private TextView TextView_phone_error;
+    private LinearLayout LinearLayout_phone;
     //private MainTextView enter_phone_ctxv;
 
     @SuppressLint("SetTextI18n")
@@ -116,6 +122,8 @@ public class SignUpActivity extends PacifyrActivity {
             context = SignUpActivity.this;
             prefM = PrefManager.getInstance(context);
             sms_text_login = findViewById(R.id.sms_text_login);
+            TextView_phone_error = findViewById(R.id.TextView_phone_error);
+            LinearLayout_phone = findViewById(R.id.LinearLayout_phone);
 
             /*hideKeyboard();*/
             onSetActionBar();
@@ -305,12 +313,47 @@ public class SignUpActivity extends PacifyrActivity {
                 }
             });
 
+
+            phoneCedit.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                    TextView_phone_error.setVisibility(View.GONE);
+                    makeViewBackgroundBlack(LinearLayout_phone);
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    TextView_phone_error.setVisibility(View.GONE);
+                    makeViewBackgroundBlack(LinearLayout_phone);
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    TextView_phone_error.setVisibility(View.GONE);
+                    makeViewBackgroundBlack(LinearLayout_phone);
+                }
+            });
+
             sms_text_login.setText(getResources().getString(R.string.app_name) + " " + getResources().getString(R.string.sms_text_login));
         }catch (Exception e) {    e.printStackTrace();
             //LogUtils.LOGD("sign","lA onCreate exception "+e.getMessage());
         }
     }
 
+    public void  makeViewBackgroundBlack(View mView)
+    {
+        mView.setBackground(getResources().getDrawable(R.drawable.edittext_black_curve));
+    }
+
+    public void  makeViewBackgroundRed(View mView)
+    {
+        mView.setBackground(getResources().getDrawable(R.drawable.edittext_red_curve));
+    }
+
+    private void makeAlertMessageInTextView(TextView textView_name_error, String error) {
+        textView_name_error.setText(error);
+        textView_name_error.setVisibility(View.VISIBLE);
+    }
     @Override
     protected View getSnackbarAnchorView() {
         return null;
@@ -395,23 +438,25 @@ public class SignUpActivity extends PacifyrActivity {
           }
     }
 
-   /* private void phoneVerifyWeb() {
-        try{
-            if(!isValid(phoneCedit,"Enter phone"))
-                return ;
-            CodeVerifyActivity. phonenumber= countryCodePicker.getSelectedCountryCode()+phoneCedit.getText()+"";
+    public boolean isValidMobile(CustomEditText phone_tv, String error) {
+        if (phone_tv != null) {
+            if (isValid(phone_tv.getText() + "")) {
+                if (isValidMobile(phone_tv.getText().toString())) {
+                    return true;
+                }
+                else {
+                    error=getResources().getString(R.string.Invalid_phone_number_format);
+                }
+            }
 
-            Intent intent=new Intent(SignUpActivity.this,CodeVerifyActivity.class);
-            intent.putExtra("from","" +
-                    "signup");
-            startActivity(intent);
-            // OnVerificationStateChangedCallbacks
-        }catch (Exception e)
-        {
-            e.printStackTrace();
-            //  LogUtils.LOGD("sign","lA onCreate exception "+e.getMessage());
         }
-    }*/
+        makeAlertMessageInTextView(TextView_phone_error,error);
+        makeViewBackgroundRed(LinearLayout_phone);
+        return false;
+
+        //String phone=phone_tv.getText().toString();
+        //return android.util.Patterns.PHONE.matcher(phone).matches();
+    }
 
 
 
