@@ -60,6 +60,7 @@ import com.pacifyr.client.event.CallEvent;
 import com.pacifyr.client.event.CallTimerEvent;
 import com.pacifyr.client.event.TwilioCallEvent;
 import com.pacifyr.client.fragment.PrescriptionWhileCallFragment;
+import com.pacifyr.client.home.CustomerDetailActivity;
 import com.pacifyr.client.home.ProfileScreenActivity;
 import com.pacifyr.client.home.SessionSummaryActivity;
 import com.pacifyr.client.interfaces.EmpMinutesListener;
@@ -233,6 +234,8 @@ public class VideoActivity extends PacifyrActivity {
     private TextView connectionStatusLocal;
     private TextView username_ctxv;
     private LinearLayout layout_info_about_audio_call;
+    private TextView TextView_call_type;
+
 
     public EmpMinutesListener getEmpMinutesListener() {
         return empMinutesListener;
@@ -395,228 +398,262 @@ public class VideoActivity extends PacifyrActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video);
-        EventBus.getDefault().register(this);
-        primaryVideoView = findViewById(R.id.primary_video_view);
-        thumbnailVideoView = findViewById(R.id.thumbnail_video_view);
-        reconnectingProgressBar = findViewById(R.id.reconnecting_progress_bar);
+      try {
+          EventBus.getDefault().register(this);
+          primaryVideoView = findViewById(R.id.primary_video_view);
+          thumbnailVideoView = findViewById(R.id.thumbnail_video_view);
+          reconnectingProgressBar = findViewById(R.id.reconnecting_progress_bar);
 
-        connectActionFab = findViewById(R.id.connect_action_fab);
-        switchCameraActionFab = findViewById(R.id.switch_camera_action_fab);
-        localVideoActionFab = findViewById(R.id.local_video_action_fab);
-        muteActionFab = findViewById(R.id.mute_action_fab);
-        button_hangup_call= findViewById(R.id.button_hangup_call);
-        micToggleVideoCall = findViewById(R.id.toggle_mic);
-        billingStatus = findViewById(R.id.billing_status);
-        text_remaining_minutes = findViewById(R.id.text_remaining_minutes);
-        text_remaining_minutes.setVisibility(View.GONE);
-        timerChronometer = findViewById(R.id.chronometer_timer_video_call);
-        chronometer_timer_audio_call = findViewById(R.id.chronometer_timer_audio_call);
-        ImageView_prescription = findViewById(R.id.ImageView_prescription);
-        userDimv = findViewById(R.id.user_dimv);
-        LinearLayout_chat= findViewById(R.id.LinearLayout_chat);
-        certificate_View= findViewById(R.id.certificate_View);
-        more_rlay= findViewById(R.id.certificate_View);
-        ImageView_emotion=findViewById(R.id.ImageView_emotion);
-        toggle_Max_Min = findViewById(R.id.toggle_Max_Min);
-        emotion_rlay = findViewById(R.id.emotion_rlay);
-        emotion_dimv = findViewById(R.id.emotion_dimv);
-        reason_ctxv = findViewById(R.id.reason_ctxv);
-        emotion_ctxv = findViewById(R.id.emotion_ctxv);
-        ImageView_chat = findViewById(R.id.ImageView_chat);
-        call_overlay = findViewById(R.id.call_overlay);
-        connectionStatusLocal = findViewById(R.id.connectionStatusLocal);
-        username_ctxv = findViewById(R.id.username_ctxv);
-        layout_info_about_audio_call = findViewById(R.id.layout_info_about_audio_call);
+          connectActionFab = findViewById(R.id.connect_action_fab);
+          switchCameraActionFab = findViewById(R.id.switch_camera_action_fab);
+          localVideoActionFab = findViewById(R.id.local_video_action_fab);
+          muteActionFab = findViewById(R.id.mute_action_fab);
+          button_hangup_call= findViewById(R.id.button_hangup_call);
+          micToggleVideoCall = findViewById(R.id.toggle_mic);
+          billingStatus = findViewById(R.id.billing_status);
+          text_remaining_minutes = findViewById(R.id.text_remaining_minutes);
+          text_remaining_minutes.setVisibility(View.GONE);
+          timerChronometer = findViewById(R.id.chronometer_timer_video_call);
+          chronometer_timer_audio_call = findViewById(R.id.chronometer_timer_audio_call);
+          ImageView_prescription = findViewById(R.id.ImageView_prescription);
+          userDimv = findViewById(R.id.user_dimv);
+          LinearLayout_chat= findViewById(R.id.LinearLayout_chat);
+          certificate_View= findViewById(R.id.certificate_View);
+          more_rlay= findViewById(R.id.more_rlay);
+          ImageView_emotion=findViewById(R.id.ImageView_emotion);
+          toggle_Max_Min = findViewById(R.id.toggle_Max_Min);
+          emotion_rlay = findViewById(R.id.emotion_rlay);
+          emotion_dimv = findViewById(R.id.emotion_dimv);
+          reason_ctxv = findViewById(R.id.reason_ctxv);
+          emotion_ctxv = findViewById(R.id.emotion_ctxv);
+          ImageView_chat = findViewById(R.id.ImageView_chat);
+          call_overlay = findViewById(R.id.call_overlay);
+          connectionStatusLocal = findViewById(R.id.connectionStatusLocal);
+          username_ctxv = findViewById(R.id.username_ctxv);
+          layout_info_about_audio_call = findViewById(R.id.layout_info_about_audio_call);
+          TextView_call_type= findViewById(R.id.TextView_call_type);
 
-        /*
-         * Get shared preferences to read settings
-         */
-        preferences = PreferenceManager.getDefaultSharedPreferences(this);
+          /*
+           * Get shared preferences to read settings
+           */
+          preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-        /*
-         * Setup audio management and set the volume control stream
-         */
-        audioSwitch = new AudioSwitch(getApplicationContext());
-        audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-        savedVolumeControlStream = getVolumeControlStream();
-        setVolumeControlStream(AudioManager.STREAM_VOICE_CALL);
-        if (isValid(getIntent()))
-        {
-            if (isValid(getIntent().getExtras()))
-            {
-                accessToken=getIntent().getExtras().getString("accessToken");
-                roomName=getIntent().getExtras().getString("roomName");
-                pacifyerDetial= (MUser) getIntent().getExtras().getSerializable("pacifyerDetial");
-                isVideoCall=getIntent().getExtras().getBoolean("isVideoCall");
-                //SessionId=getIntent().getExtras().getString("SessionId");
-            }
-        }
-        if (isVideoCall)
-            primaryVideoView.setVisibility(View.VISIBLE);
-        else
-            primaryVideoView.setVisibility(View.GONE);
-        /*
-         * Check camera and microphone permissions. Needed in Android M.
-         */
-        if (!checkPermissionForCameraAndMicrophone()) {
-            requestPermissionForCameraAndMicrophone();
-        } else {
-            createAudioAndVideoTracks();
+          /*
+           * Setup audio management and set the volume control stream
+           */
+          audioSwitch = new AudioSwitch(getApplicationContext());
+          audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+          savedVolumeControlStream = getVolumeControlStream();
+          setVolumeControlStream(AudioManager.STREAM_VOICE_CALL);
+          if (isValid(getIntent()))
+          {
+              if (isValid(getIntent().getExtras()))
+              {
+                  accessToken=getIntent().getExtras().getString("accessToken");
+                  roomName=getIntent().getExtras().getString("roomName");
+                  pacifyerDetial= (MUser) getIntent().getExtras().getSerializable("pacifyerDetial");
+                  isVideoCall=getIntent().getExtras().getBoolean("isVideoCall");
+                  //SessionId=getIntent().getExtras().getString("SessionId");
+              }
+          }
+          if (isVideoCall){
+              primaryVideoView.setVisibility(View.VISIBLE);
+              TextView_call_type.setText(getResources().getString(R.string.video_call));
+          }
+          else {
+              primaryVideoView.setVisibility(View.GONE);
+              TextView_call_type.setText(getResources().getString(R.string.audio_call));
+          }
+          /*
+           * Check camera and microphone permissions. Needed in Android M.
+           */
+          if (!checkPermissionForCameraAndMicrophone()) {
+              requestPermissionForCameraAndMicrophone();
+          } else {
+              createAudioAndVideoTracks();
 
-        }
+          }
 
-        intializeUI();
-        connectToRoom(roomName);
+          intializeUI();
+          connectToRoom(roomName);
 
-        button_hangup_call.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+          button_hangup_call.setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View view) {
 
-                if (SessionId != null) {
-                    stopSessionWeb(SessionId);
-                    room.disconnect();
-                }
-                finish();
-            }
-        });
+                  if (SessionId != null) {
+                      stopSessionWeb(SessionId);
+                      room.disconnect();
+                  }
+                  finish();
+              }
+          });
 
-        micToggleVideoCall.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+          micToggleVideoCall.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+              @Override
+              public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
-                if (localAudioTrack != null) {
+               /* if (localAudioTrack != null) {
                     boolean enable = !localAudioTrack.isEnabled();
                     localAudioTrack.enable(enable);
                     int icon = enable ?
                             R.drawable.call_mic_on : R.drawable.call_mic_off;
                     muteActionFab.setImageDrawable(ContextCompat.getDrawable(
                             VideoActivity.this, icon));
-                }
-            }
-        });
+                }*/
 
-        toggle_Max_Min.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (call_overlay.getOrientation() == LinearLayout.HORIZONTAL) {
-                    call_overlay.setOrientation(LinearLayout.VERTICAL);
-                    emotion_rlay.setVisibility(View.VISIBLE);
-                    ImageView_emotion.setVisibility(View.GONE);
-                    call_overlay.setBackgroundColor(Color.TRANSPARENT);
-                    toggle_Max_Min.setImageDrawable(getResources().getDrawable(R.drawable.minimize_));
-                }
-                else
-                {
-                    call_overlay.setOrientation(LinearLayout.HORIZONTAL);
-                    toggle_Max_Min.setImageDrawable(getResources().getDrawable(R.drawable.maximize_));
-                    emotion_rlay.setVisibility(View.GONE);
-                    ImageView_emotion.setVisibility(View.VISIBLE);
-                    call_overlay.setBackground(getResources().getDrawable(R.drawable.call_overlay_background));
-                }
-            }
-        });
+                  if (audioManager!=null)
+                  {
+                      boolean isMute = audioManager.isMicrophoneMute();
+                      if (isMute)
+                      {
+                          audioManager.setMicrophoneMute(false);
+                      }
+                      else
+                      {
+                          audioManager.setMicrophoneMute(true);
+                      }
 
-        emotion_rlay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ActivityChangeEmotionFromCall.class);
-                    if (isValid(change_Emotion_name)) {
-                        intent.putExtra("emotion", change_Emotion_name);
-                    }
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
+                      int icon = isMute ?
+                              R.drawable.call_mic_on : R.drawable.call_mic_off;
+                      muteActionFab.setImageDrawable(ContextCompat.getDrawable(
+                              VideoActivity.this, icon));
+                  }
+              }
+          });
 
-            }
-        });
+          toggle_Max_Min.setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View view) {
+                  if (call_overlay.getOrientation() == LinearLayout.HORIZONTAL) {
+                      call_overlay.setOrientation(LinearLayout.VERTICAL);
+                      emotion_rlay.setVisibility(View.VISIBLE);
+                      ImageView_emotion.setVisibility(View.GONE);
+                      call_overlay.setBackgroundColor(Color.TRANSPARENT);
+                      toggle_Max_Min.setImageDrawable(getResources().getDrawable(R.drawable.minimize_));
+                  }
+                  else
+                  {
+                      call_overlay.setOrientation(LinearLayout.HORIZONTAL);
+                      toggle_Max_Min.setImageDrawable(getResources().getDrawable(R.drawable.maximize_));
+                      emotion_rlay.setVisibility(View.GONE);
+                      ImageView_emotion.setVisibility(View.VISIBLE);
+                      call_overlay.setBackground(getResources().getDrawable(R.drawable.call_overlay_background));
+                  }
+              }
+          });
 
-        ImageView_emotion.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                emotion_rlay.performClick();
-            }
-        });
+          emotion_rlay.setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View v) {
+                  Intent intent = new Intent(getApplicationContext(), ActivityChangeEmotionFromCall.class);
+                  if (isValid(change_Emotion_name)) {
+                      intent.putExtra("emotion", change_Emotion_name);
+                  }
+                  intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                  startActivity(intent);
 
-        userDimv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-               /* MUser mUser = getCallUser();
-                if (isValid(mUser) && isValid(mUser.getId()))
-                    ProfileScreenActivity.start(getApplicationContext(), mUser.getId(), false);*/
-            }
-        });
+              }
+          });
 
-        ImageView_chat.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (isValid(getCallUser()) ){
-                    MUser customer=getCallUser();
-                    /*if(isValid(customer))
-                        //startChat(customer);*/
-                }
-            }
-        });
-
-        ImageView_prescription.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                callPrescriptionData();
-            }
-        });
+          ImageView_emotion.setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View view) {
+                  emotion_rlay.performClick();
+              }
+          });
 
 
-        certificate_View.setVisibility(View.VISIBLE);
-        certificate_View.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (isValid(NetworkService.mCurrentUser) && isValidSize(NetworkService.mCurrentUser.getCertificationList())) {
-                    if (isValid(NetworkService.mCurrentUser.getCertificationList().get(0)) && isValidSize(NetworkService.mCurrentUser.getCertificationList().get(0).getDocuments())
-                            && isValid(NetworkService.mCurrentUser.getCertificationList().get(0).getDocuments().get(0))
-                            && isValid(NetworkService.mCurrentUser.getCertificationList().get(0).getDocuments().get(0))) {
-                        String fileName=NetworkService.mCurrentUser.getCertificationList().get(0).getDocuments().get(0).toString();
-                        if (isValid(fileName)) {
+          ImageView_chat.setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View view) {
+                  if(isValid(pacifyerDetial))
+                      startChat(pacifyerDetial);
+              }
+          });
+
+          ImageView_prescription.setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View view) {
+                  callPrescriptionData();
+              }
+          });
+
+          more_rlay.setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View view) {
+                  if (isValid(pacifyerDetial)) {
+                      CustomerDetailActivity.start(getApplicationContext(), pacifyerDetial);
+                  }
+              }
+          });
+
+          certificate_View.setVisibility(View.VISIBLE);
+          certificate_View.setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View view) {
+                  if (isValid(NetworkService.mCurrentUser) && isValidSize(NetworkService.mCurrentUser.getCertificationList())) {
+                      if (isValid(NetworkService.mCurrentUser.getCertificationList().get(0)) && isValidSize(NetworkService.mCurrentUser.getCertificationList().get(0).getDocuments())
+                              && isValid(NetworkService.mCurrentUser.getCertificationList().get(0).getDocuments().get(0))
+                              && isValid(NetworkService.mCurrentUser.getCertificationList().get(0).getDocuments().get(0))) {
+                          String fileName=NetworkService.mCurrentUser.getCertificationList().get(0).getDocuments().get(0).toString();
+                          if (isValid(fileName)) {
                            /* Intent i=new Intent(getActivity(), TermsOfUseActivity.class);
                             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             i.putExtra("spurl",GLOBAL_IMAGE_URL+fileName);
                             getActivity().startActivity(i);*/
-                            if (fileName.contains(".pdf")) {
-                                loadPDF(NetworkService.mCurrentUser.getCertificationList().get(0).getDocuments().get(0).toString(),getResources().getString(R.string.kyc_document));
-                            } else if (fileName.toLowerCase().contains(".jpg") || fileName.toLowerCase().contains(".jpeg") || fileName.toLowerCase().contains(".png")) {
-                                AttachmentImageActivity.start(VideoActivity.this, GLOBAL_IMAGE_URL + fileName, true);
-                            } else {
-                                Toast.makeText(VideoActivity.this, "Unknown document format. Cannot open", Toast.LENGTH_LONG).show();
-                            }
+                              if (fileName.contains(".pdf")) {
+                                  loadPDF(NetworkService.mCurrentUser.getCertificationList().get(0).getDocuments().get(0).toString(),getResources().getString(R.string.kyc_document));
+                              } else if (fileName.toLowerCase().contains(".jpg") || fileName.toLowerCase().contains(".jpeg") || fileName.toLowerCase().contains(".png")) {
+                                  AttachmentImageActivity.start(VideoActivity.this, GLOBAL_IMAGE_URL + fileName, true);
+                              } else {
+                                  Toast.makeText(VideoActivity.this, "Unknown document format. Cannot open", Toast.LENGTH_LONG).show();
+                              }
 
-                        } else {
-                            Toast.makeText(VideoActivity.this, getResources().getString(R.string.No_identity_document_available), Toast.LENGTH_LONG).show();
-                        }
-                    } else {
-                        Toast.makeText(VideoActivity.this, getResources().getString(R.string.No_identity_document_available), Toast.LENGTH_LONG).show();
-                    }
-                }
+                          } else {
+                              Toast.makeText(VideoActivity.this, getResources().getString(R.string.No_identity_document_available), Toast.LENGTH_LONG).show();
+                          }
+                      } else {
+                          Toast.makeText(VideoActivity.this, getResources().getString(R.string.No_identity_document_available), Toast.LENGTH_LONG).show();
+                      }
+                  }
 
-            }
-        });
+              }
+          });
 
-        if (!isVideoCall)
-        {
-            layout_info_about_audio_call.setVisibility(View.VISIBLE);
-            if (isValid(pacifyerDetial))
-            {
-                if (isValid(pacifyerDetial.getFirstName()))
-                {
-                    username_ctxv.setText(pacifyerDetial.getFirstName());
-                }
-                if (isValid(pacifyerDetial.getImageUrl()))
-                {
-                    String image = pacifyerDetial.getImageUrl();
-                    if(isValid(image)) {
-                        Picasso.with(getApplicationContext()).load(image).placeholder(R.drawable.placeholder_image).into(userDimv);
-                    }
-                }
-            }
-        }
+          if (!isVideoCall)
+          {
+              layout_info_about_audio_call.setVisibility(View.VISIBLE);
+              if (isValid(pacifyerDetial))
+              {
+                  if (isValid(pacifyerDetial.getFirstName()))
+                  {
+                      username_ctxv.setText(pacifyerDetial.getFirstName());
+                  }
+                  if (isValid(pacifyerDetial.getImageUrl()))
+                  {
+                      String image = pacifyerDetial.getImageUrl();
+                      if(isValid(image)) {
+                          Picasso.with(getApplicationContext()).load(image).placeholder(R.drawable.placeholder_image).into(userDimv);
+                      }
+                  }
+              }
+          }
 
-        getCurrentUserProfileInfo();
+          userDimv.setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View v) {
+               /* MUser mUser = getCallUser();
+                if (isValid(mUser) && isValid(mUser.getId()))
+                    ProfileScreenActivity.start(getApplicationContext(), mUser.getId(), false);*/
+              }
+          });
+          getCurrentUserProfileInfo();
+      }
+      catch (Exception e)
+      {
+          Log.w("www",String.valueOf(e));
+      }
     }
 
     private void getCurrentUserProfileInfo() {
@@ -1109,7 +1146,11 @@ public class VideoActivity extends PacifyrActivity {
                public void onParticipantDisconnected(Room room, RemoteParticipant remoteParticipant) {
                    Log.w("####","onParticipantDisconnected");
                    removeRemoteParticipant(remoteParticipant);
-                   hangUpCurrentSessionMe();
+                   if (room != null && room.getState() != Room.State.DISCONNECTED) {
+                       room.disconnect();
+                       hangUpCurrentSessionMe();
+                   }
+
                }
 
                @Override

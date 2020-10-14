@@ -166,7 +166,7 @@
 
                 <com.pacifyr.client.customview.MainTextView
                     android:layout_width="wrap_content"
-                    android:id="@+id/call_ctxv"
+                    android:id="@+id/TextView_call_type"
                     android:visibility="visible"
                     android:textSize="@dimen/sp16"
                     android:singleLine="true"
@@ -178,7 +178,7 @@
                 <TextView
                     android:id="@+id/connectionStatusLocal"
                     style="@style/MatchWidth"
-                    android:layout_below="@+id/call_ctxv"
+                    android:layout_below="@+id/TextView_call_type"
                     android:layout_marginTop="10dp"
                     android:maxLength="13"
                     android:maxLines="1"
@@ -195,19 +195,7 @@
                     android:visibility="gone"
                     android:layout_below="@+id/connectionStatusLocal"
                     android:layout_height="wrap_content">
-                    <!--        <com.pacifyrapp.utilitylibrary.DeviceFitImageView
-                                android:layout_width="wrap_content"
-                                android:id="@+id/user_dimv"
-                                app:width_percentage="12"
-                    android:background="@drawable/shape_circle"
-                                android:visibility="visible"
-                                app:height_percentage="10"
-                                android:layout_centerVertical="true"
-                                app:parameter="aspect_width"
-                                app:aspect_ratio="1"
 
-                                android:src="@drawable/placeholder_image"
-                                android:layout_height="wrap_content" />-->
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:layout_width="45dp"
                         app:width_percentage="12"
