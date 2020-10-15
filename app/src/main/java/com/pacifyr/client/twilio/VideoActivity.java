@@ -74,6 +74,7 @@ import com.pacifyr.client.utility.PacifyrAppCompactActivity;
 import com.pacifyr.client.utils.FirebaseLogging;
 import com.pacifyr.client.utils.LogUtils;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
+import com.pacifyrapp.utilitylibrary.ToastHandler;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MEmotion;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MSessionDetailRoot;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
@@ -235,7 +236,7 @@ public class VideoActivity extends PacifyrActivity {
     private TextView username_ctxv;
     private LinearLayout layout_info_about_audio_call;
     private TextView TextView_call_type;
-
+    private CountDownTimer OutGoingCallTimer =null;
 
     public EmpMinutesListener getEmpMinutesListener() {
         return empMinutesListener;
@@ -649,11 +650,41 @@ public class VideoActivity extends PacifyrActivity {
               }
           });
           getCurrentUserProfileInfo();
+
+          /**out going call time after 30 seconds it will automatically end
+           * marked as missed call **/
+          startOutGoingCallTimer();
       }
       catch (Exception e)
       {
           Log.w("www",String.valueOf(e));
       }
+    }
+
+    private void startOutGoingCallTimer() {
+        OutGoingCallTimer = new CountDownTimer(30000, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+                if (room != null && room.getRemoteParticipants().size()>0 && room.getState() == Room.State.CONNECTED) {
+                    cancelOutGoingCallTimer();
+                }
+            }
+
+            public void onFinish() {
+                if (room != null && room.getRemoteParticipants().size()==0 || room.getState() == Room.State.CONNECTING) {
+                    room.disconnect();
+                    missedSessionWeb(SessionId);
+
+                }
+            }
+
+        }.start();
+    }
+
+    //cancel OutGoingCallTimer
+    void cancelOutGoingCallTimer() {
+        if(OutGoingCallTimer!=null)
+            OutGoingCallTimer.cancel();
     }
 
     private void getCurrentUserProfileInfo() {
@@ -1018,6 +1049,7 @@ public class VideoActivity extends PacifyrActivity {
             localVideoTrack.release();
             localVideoTrack = null;
         }
+        cancelOutGoingCallTimer();
         EventBus.getDefault().unregister(this);
         super.onDestroy();
     }
@@ -1136,7 +1168,7 @@ public class VideoActivity extends PacifyrActivity {
                    Log.w("####","onParticipantConnected");
                    if (isValid(connectionStatusLocal))
                    connectionStatusLocal.setText("Connected...");
-
+                   startTimer();
                    addRemoteParticipant(remoteParticipant);
 
 
@@ -1148,6 +1180,7 @@ public class VideoActivity extends PacifyrActivity {
                    removeRemoteParticipant(remoteParticipant);
                    if (room != null && room.getState() != Room.State.DISCONNECTED) {
                        room.disconnect();
+                       stopTimer();
                        hangUpCurrentSessionMe();
                    }
 
@@ -2084,5 +2117,48 @@ public class VideoActivity extends PacifyrActivity {
         Log.w("WWWWW","onCallConnected");
         }
 
+    }
+
+    public void missedSessionWeb( String sessionid) {
+        Log.d(TAG, "missedSessionWeb " + sessionid);
+        try {
+            //  ToastHandler.newInstance(PacifyrActivity.this).showToast("missedSessionWeb");
+            LogUtils.LOGD("call", "missedSessionWeb getAccessToken() "+getAccessToken());
+
+            if (!isValid(getAccessToken(),"missed call accesstoken error"))
+                return;
+
+            AjaxCallback<JSONObject> cb = new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject json, AjaxStatus status) {
+                    CallActivity.isMissed=true;
+                    if (json == null) {
+
+                        ToastHandler.newInstance(getApplicationContext()).showToast("Please Try again");
+                        LogUtils.LOGD("call", "missedSessionWeb json null ");
+                    } else {
+                        if (json != null) try {
+
+                            LogUtils.LOGD("call", "missedSessionWeb json  " + json);
+                        } catch (Exception e){
+                            ToastHandler.newInstance(getApplicationContext()).showToast("Please Try again");
+                            LogUtils.LOGD("call", "missedSessionWeb exception : " + e.getMessage());
+                        }
+                    }
+                    finish();
+                }
+            };
+            AQuery aq = new AQuery(this);
+
+            cb.header("AccessToken", getAccessToken());
+            cb.header("Content-Type", "application/json");
+
+            JSONObject input = new JSONObject();
+            input.putOpt("id", sessionid);
+            Log.d(TAG, "session/missed");
+            aq.post(GLOBAL_URL + "session/missed", input, JSONObject.class, cb);
+        } catch (Exception e){
+            LogUtils.LOGD("call", "missedSessionWeb end exception : " + e.getMessage());
+        }
     }
 }
