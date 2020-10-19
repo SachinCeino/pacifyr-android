@@ -465,14 +465,13 @@ public class SessionWeekCustomerAdapter extends RecyclerView.Adapter<SessionWeek
 
             }
             modelWeekList.get(0).setSelect(true);
-            String createdWeek=makeCreatedDateToInitialMonth(DashboardActivity.CreatedDay);
-            long createdDateInMilli = Utility.converToMilliSecondsForSession(createdWeek);
+            long createdDateInMilli = Utility.converToMilliSecondsForSession(DashboardActivity.CreatedDay);
             //    Log.w("@@@1",String.valueOf(createdDateInMilli));
             Collections.reverse(modelWeekList);
 
             int range = 0;
             for (int i = 0; i < modelWeekList.size(); i++) {
-                long createdDateInMilli2 = Utility.converToMilliSecondsForSession(modelWeekList.get(i).getFromDate());
+                long createdDateInMilli2 = Utility.converToMilliSecondsForSession(modelWeekList.get(i).getToDate());
                 if (createdDateInMilli2 >= createdDateInMilli) {
                         range = i;break;
                 }
