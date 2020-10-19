@@ -407,10 +407,10 @@ public class MySessionFragment extends BaseFragment {
                         sessionNoCtxv.setText(model.getTotalSessions());
                         earningsNoCtxv.setText(Utility.getPriceSign(getActivity()) + model.getSpendings());
                         String duration = model.getDuration();
-                        String hours = duration.substring(3,5);
-                        String mint = duration.substring(6,8);
-                        hoursNoCtxv.setText(mint);
-                        minutesNoCtxv.setText(hours);
+                        String hours = duration.substring(0,2);
+                        String minute = duration.substring(3,5);
+                        hoursNoCtxv.setText(hours);
+                        minutesNoCtxv.setText(minute);
                     }
                     catch(Exception excp){
                         excp.printStackTrace();
