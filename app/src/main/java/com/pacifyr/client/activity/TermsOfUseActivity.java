@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.net.http.SslError;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.view.Window;
 import android.webkit.SslErrorHandler;
@@ -31,6 +32,12 @@ import com.pacifyr.client.utility.PdfViewer;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 
 import java.io.File;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_IMAGE_URL;
 
@@ -102,15 +109,26 @@ public class TermsOfUseActivity extends PacifyrActivity {
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
 
                 if (url.contains(".pdf")){
-                   /* Intent intent = new Intent(Intent.ACTION_VIEW);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    intent.setDataAndType(Uri.parse(url), "text/html");
-                    try{
-                        view.getContext().startActivity(intent);
-                    } catch (ActivityNotFoundException e) {
-                        Log.w("ERROR",String.valueOf(e));
-                    }*/
-                    loadTemsPDF(url);
+                    String[] separated = url.split("https://");
+                    for (int i=0;i<separated.length;i++)
+                    {
+                        if (separated[i].contains(".pdf"))
+                        {
+                            url = "https://"+separated[i];
+                        }
+
+                    }
+
+
+                    if (isValid(url))
+                    {
+                        url=url.substring(0,url.indexOf(".pdf"))+".pdf";
+                        String url1=url;
+                        String title = url.replace("https://pacifyr.com/","");
+                        loadTemsPDF(url1,title);
+                    }
+
+
                 } else {
                     view.loadUrl(url);
                 }
@@ -179,16 +197,19 @@ public class TermsOfUseActivity extends PacifyrActivity {
 
         // Javascript inabled on webview
         webView.getSettings().setJavaScriptEnabled(true);
-       /* webView.getSettings().setLoadWithOverviewMode(true);
-        webView.getSettings().setUseWideViewPort(true);*/
+        webView.getSettings().setSupportZoom(true);
+        webView.getSettings().setBuiltInZoomControls(true);
         webView.loadUrl(url);
 
     }
-    public void loadTemsPDF(String url) {
+
+
+
+    public void loadTemsPDF(String url,String titleText) {
         setLoading();
         showProgress();
         FileLoader.with(TermsOfUseActivity.this)
-                .load(GLOBAL_IMAGE_URL+url, false) //2nd parameter is optioal, pass true to force load from network
+                .load(url, false) //2nd parameter is optioal, pass true to force load from network
                 .fromDirectory("test4", FileLoader.DIR_CACHE)
                 .asFile(new FileRequestListener<File>() {
                     @Override
@@ -199,6 +220,7 @@ public class TermsOfUseActivity extends PacifyrActivity {
                         Log.d(TAG, "File downloaded ");
                         PdfViewer.pdf = loadedFile;
                         Intent intent = new Intent(TermsOfUseActivity.this, PdfViewer.class);
+                        intent.putExtra("title",titleText);
                         startActivity(intent);
                     }
 
