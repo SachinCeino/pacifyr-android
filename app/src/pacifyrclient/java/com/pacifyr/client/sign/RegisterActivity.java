@@ -60,10 +60,12 @@ import com.pacifyr.client.adapter.CountrySpinnerAdapter;
 import com.pacifyr.client.adapter.ListFileAdapter;
 import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
+import com.pacifyr.client.fragment.StatesDialog;
 import com.pacifyr.client.home.PacifyrDashboardActivity;
 import com.pacifyr.client.home.WelcomeTourActivity;
 import com.pacifyr.client.model.ItemData;
 import com.pacifyr.client.model.ModelPacifyrDocuments;
+import com.pacifyr.client.model.State;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.quickblox.App;
@@ -222,7 +224,13 @@ public class RegisterActivity extends PacifyrActivity {
     private TextView TextView_Name_Error,TextView_Email_Error,TextView_Phone_Error,TextView_Phonelay_Error,
             TextView_Year_Error,TextView_terms_Error;
     private RelativeLayout RelativeLayout_UploadDoc;
-
+    private View layout_states;
+    private EditText selected_states_txtv_err;
+    private TextView TextView_states_Error;
+    String[] stateList;
+    private ArrayList<String> statesSelected = null;
+    ArrayList<State> mstateList = new ArrayList<>();
+    private TextView selected_states_txtv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -247,8 +255,10 @@ public class RegisterActivity extends PacifyrActivity {
             spinner = findViewById(R.id.spinner);
             phone_llay = findViewById(R.id.phone_llay);
             privacy_ctxv = findViewById(R.id.privacy_ctxv);
-
-
+            layout_states = findViewById(R.id.layout_states);
+            selected_states_txtv_err=findViewById(R.id.selected_states_txtv_err);
+            TextView_states_Error = findViewById(R.id.TextView_states_Error);
+            selected_states_txtv=findViewById(R.id.selected_states_txtv);
 
             upload_layout = findViewById(R.id.upload_layout);
             TextView_Upload = findViewById(R.id.TextView_Upload);
@@ -426,7 +436,6 @@ public class RegisterActivity extends PacifyrActivity {
                 }
             });
 
-
             SpannableStringBuilder spanTxt = new SpannableStringBuilder(
                     "I have read, understood and agree to be bound by the ");
             spanTxt.append(Html.fromHtml("<font color=" + getResources().getColor(R.color.colorPrimary) + "> <u>" + "Terms of use" + "</u></font>"));
@@ -471,6 +480,72 @@ public class RegisterActivity extends PacifyrActivity {
 
                 }
             });
+
+            if (isValid(countryData) &&countryData.getCountry().equals("India"))
+            {
+                stateList = getResources().getStringArray(R.array.indian_states);
+            }
+            else if (isValid(countryData) &&countryData.getCountry().equalsIgnoreCase("US"))
+            {
+                stateList = getResources().getStringArray(R.array.us_states);
+            }
+            else if (isValid(countryData) &&countryData.getCountry().equalsIgnoreCase("Canada"))
+            {
+                stateList = getResources().getStringArray(R.array.Canada_states);
+            }
+            else if (isValid(countryData) &&countryData.getCountry().equalsIgnoreCase("UAE"))
+            {
+                stateList = getResources().getStringArray(R.array.UAE_states);
+            }
+
+
+            if (stateList != null) {
+
+                for (String state : stateList) {
+                    State mState = new State(state, false);
+                    mstateList.add(mState);
+                }
+            }
+
+
+            layout_states.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //selected_states_txtv_err.setError(null);
+                    //TextView_states_Error.setVisibility(View.GONE);
+                    makeViewBackgroundBlack(layout_states);
+                    StatesDialog statesDialog = new StatesDialog(mstateList);
+                    statesDialog.setStateSelectionListener(new StatesDialog.StateSelectionListener() {
+                        @Override
+                        public void onSelected(ArrayList<String> states) {
+                            statesSelected = states;
+                            if (isValid(statesSelected)&&isValidSize(statesSelected)) {
+
+                                StringBuffer buffer =new StringBuffer();
+                                for (int i=0;i<statesSelected.size();i++)
+                                {
+                                    buffer.append(statesSelected.get(i));
+                                    if (i!=statesSelected.size()-1)
+                                    {
+                                        buffer.append(",");
+                                    }
+                                }
+                                selected_states_txtv.setText(buffer);
+
+                            }
+                            else {
+                                selected_states_txtv.setText("");
+                                selected_states_txtv.setHint(getResources().getString(R.string.State_you_are_licensed_to_practise));
+                            }
+
+                        }
+                    });
+                    statesDialog.show(getSupportFragmentManager(), StatesDialog.class.getSimpleName());
+                }
+            });
+
+
+
             setClicks();
 
 
@@ -864,6 +939,10 @@ public class RegisterActivity extends PacifyrActivity {
             postRegisterModel.setCountry(countryData.getCountry());
             postRegisterModel.setDateOfBirth(yearEdit.getText().toString());
             postRegisterModel.setPhoneNumber(phoneRegister);
+            String[] states = getStringArray(statesSelected);
+            if (isValid(states)){
+                postRegisterModel.setStates(states);
+            }
 
             if(uploadDocLayout.getVisibility()==View.VISIBLE) {
 
@@ -905,6 +984,24 @@ public class RegisterActivity extends PacifyrActivity {
             LogUtils.LOGD("sign","lA validRegister exception "+e.getMessage());
             e.printStackTrace();
         }
+    }
+
+    public static String[] getStringArray(ArrayList<String> arr) {
+
+        if (arr == null) {
+            return null;
+        }
+        // declaration and initialise String Array
+        String[] str = new String[arr.size()];
+
+        // ArrayList to Array Conversion
+        for (int j = 0; j < arr.size(); j++) {
+
+            // Assign each value to String array
+            str[j] = arr.get(j);
+        }
+
+        return str;
     }
 
     public Boolean isValidName(EditText text, String error) {

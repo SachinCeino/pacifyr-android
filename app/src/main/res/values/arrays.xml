@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="us_states">
+        <item>Alabama</item>
+        <item>Alaska</item>
+        <item>American Samoa</item>
+        <item>Arizona</item>
+        <item>Arkansas</item>
+        <item>California</item>
+        <item>Colorado</item>
+        <item>Connecticut</item>
+        <item>Delaware</item>
+        <item>District of Columbia</item>
+        <item>Florida</item>
+        <item>Georgia</item>
+        <item>Guam</item>
+        <item>Hawaii</item>
+        <item>Idaho</item>
+        <item>Illinois</item>
+        <item>Indiana</item>
+        <item>Iowa</item>
+        <item>Kansas</item>
+        <item>Kentucky</item>
+        <item>Louisiana</item>
+        <item>Maine</item>
+        <item>Maryland</item>
+        <item>Massachusetts</item>
+        <item>Michigan</item>
+        <item>Minnesota</item>
+        <item>Mississippi</item>
+        <item>Missouri</item>
+        <item>Montana</item>
+        <item>Nebraska</item>
+        <item>Nevada</item>
+        <item>New Hampshire</item>
+        <item>New Jersey</item>
+        <item>New Mexico</item>
+        <item>New York</item>
+        <item>North Carolina</item>
+        <item>North Dakota</item>
+        <item>Northern Marianas Islands</item>
+        <item>Ohio</item>
+        <item>Oklahoma</item>
+        <item>Oregon</item>
+        <item>Pennsylvania</item>
+        <item>Puerto Rico</item>
+        <item>Rhode Island</item>
+        <item>South Carolina</item>
+        <item>South Dakota</item>
+        <item>Tennessee</item>
+        <item>Texas</item>
+        <item>Utah</item>
+        <item>Vermont</item>
+        <item>Virginia</item>
+        <item>Virgin Islands</item>
+        <item>Washington</item>
+        <item>West Virginia</item>
+        <item>Wisconsin</item>
+        <item>Wyoming</item>
+    </string-array>
+
+    <string-array name="indian_states">
+        <item>Andhra Pradesh</item>
+        <item>Arunachal Pradesh</item>
+        <item>Assam</item>
+        <item>Bihar</item>
+        <item>Chhattisgarh </item>
+        <item>Goa </item>
+        <item>Gujarat </item>
+        <item>Haryana </item>
+        <item>Himachal Pradesh</item>
+        <item>Jammu and Kashmir </item>
+        <item>Jharkhand </item>
+        <item>Karnataka </item>
+        <item>Kerala </item>
+        <item>Madhya Pradesh </item>
+        <item>Maharashtra </item>
+        <item>Manipur </item>
+        <item>Meghalaya </item>
+        <item>Mizoram </item>
+        <item>Nagaland </item>
+        <item>Odisha</item>
+        <item>Punjab </item>
+        <item>Rajasthan </item>
+        <item>Sikkim </item>
+        <item>Tamil Nadu</item>
+        <item>Telangana </item>
+        <item>Tripura </item>
+        <item>Uttar Pradesh</item>
+        <item>Uttarakhand </item>
+        <item>West Bengal</item>
+    </string-array>
+
+    <string-array name="Canada_states">
+        <item>Alberta </item>
+        <item>British Columbia </item>
+        <item>Manitoba </item>
+        <item>New Brunswick </item>
+        <item>Newfoundland and Labrador</item>
+        <item>Northwest Territories </item>
+        <item>Nova Scotia </item>
+        <item>Nunavut </item>
+        <item>Ontario</item>
+        <item>Prince Edward Island </item>
+        <item>Quebec </item>
+        <item>Saskatchewan</item>
+        <item>Yukon </item>
+    </string-array>
+
+    <string-array name="UAE_states">
+        <item>Abu Dhabi</item>
+        <item>Ajman </item>
+        <item>Fujairah </item>
+        <item>Sharjah</item>
+        <item>Dubai</item>
+        <item>Ras Al Khaimah </item>
+        <item>Umm Al Quwain </item>
+    </string-array>
+
+</resources>

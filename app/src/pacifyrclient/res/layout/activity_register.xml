@@ -361,13 +361,73 @@
                     />
             </LinearLayout>
 
+            <RelativeLayout
+                android:id="@+id/layout_states"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/uploadDocLayout"
+                android:background="@drawable/edittext_black_curve"
+                android:minHeight="40dp"
+                android:layout_marginTop="15dp"
+                android:gravity="center_vertical"
+                android:padding="3dp"
+                >
+
+                <com.pacifyr.client.customview.MainTextView
+                    android:id="@+id/selected_states_txtv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_alignParentLeft="true"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="3dp"
+                    android:hint="@string/State_you_are_licensed_to_practise"
+                    android:textColorHint="@color/black" />
+
+                <com.pacifyrapp.utilitylibrary.CustomEditText
+                    android:id="@+id/selected_states_txtv_err"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="15dp"
+                    android:background="@null"
+                    android:cursorVisible="false"
+                    android:ems="1"
+                    android:gravity="end"
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:textColor="@color/white" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/right_arrow2"
+                    android:foregroundGravity="center"
+                    android:padding="5dp"
+                    android:tint="@color/black" />
+
+            </RelativeLayout>
+
+            <com.pacifyr.client.customview.MainTextView
+                android:id="@+id/TextView_states_Error"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:text="ffbfb"
+                android:textColor="@color/red"
+                android:textSize="12sp"
+                android:visibility="gone"
+                android:layout_below="@+id/layout_states"
+                ></com.pacifyr.client.customview.MainTextView>
+
 
             <RelativeLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_above="@+id/submit_ctxv"
-                android:layout_below="@+id/uploadDocLayout"
+                android:layout_below="@+id/TextView_states_Error"
                 android:id="@+id/terms_of_use_cbox_layout"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
