@@ -643,7 +643,12 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
                     durationCtxv.setText(mSessionDetailRoot.getDuration() + " " + Utility.getStartFormatDate(mSessionDetailRoot.getStartTime(), getApplicationContext()));
 
                 if (isCustomer) {
-                    sessionCostCtxv.setText(Utility.getPriceSign(SessionSummaryActivity.this) + mSessionDetailRoot.getSessionCost());
+                    if (isValid(mSessionDetailRoot.getTimeSlotBookingId()))
+                        sessionCostCtxv.setText(Utility.getPriceSign(SessionSummaryActivity.this) + mSessionDetailRoot.getSessionCost()+getResources().getString(R.string.prepaid));
+                    else
+                        sessionCostCtxv.setText(Utility.getPriceSign(SessionSummaryActivity.this) + mSessionDetailRoot.getSessionCost());
+
+
                     if (isValid(mSessionDetailRoot.getPacifyr())) {
                         String pacName = mSessionDetailRoot.getPacifyr().getFirstName() + " " + mSessionDetailRoot.getPacifyr().getLastName();
                         pacifyrNameCtxv.setText(pacName);
@@ -667,6 +672,7 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
                     }
 */
                 } else {
+
                     defSetText(earingstCtxv, Utility.getPriceSign(SessionSummaryActivity.this) + (mSessionDetailRoot.getPacifyrEarnings()));
                     defSetText(comapnyfeesCtxv, Utility.getPriceSign(SessionSummaryActivity.this) + (mSessionDetailRoot.getSessionCost() - mSessionDetailRoot.getPacifyrEarnings()));
                     if (isValid(mSessionDetailRoot.getUser())) {

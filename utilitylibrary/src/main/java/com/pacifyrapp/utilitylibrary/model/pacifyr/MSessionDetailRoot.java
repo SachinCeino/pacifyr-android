@@ -67,6 +67,15 @@ public class MSessionDetailRoot
 
 
     private String aggregationSessionId;
+    private  String  timeSlotBookingId;
+
+    public String getTimeSlotBookingId() {
+        return timeSlotBookingId;
+    }
+
+    public void setTimeSlotBookingId(String timeSlotBookingId) {
+        this.timeSlotBookingId = timeSlotBookingId;
+    }
 
     public String getPrescriptionFile() {
         return prescriptionFile;

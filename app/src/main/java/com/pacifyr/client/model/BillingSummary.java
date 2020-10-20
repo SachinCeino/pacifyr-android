@@ -42,6 +42,7 @@ public class BillingSummary {
     @Expose
     private Integer creditCardCharges;
 
+
     public String getDuration() {
         return duration;
     }

@@ -1331,7 +1331,7 @@ Log.w("WWW","onCreate");
                                                         String bookingTempId=paytmOrderId;
                                                         if (errorCount != 0)
                                                             bookingTempId = bookingTempId + "_" + errorCount;
-                                                        ((PacifyrActivity) getActivity()).generateCheckSum(bookingTempId, Integer.parseInt(pacifyer_obj.getPrice()));
+                                                        ((PacifyrActivity) getActivity()).generateCheckSum(false,bookingTempId, Integer.parseInt(pacifyer_obj.getPrice()));
 
 
                                                     }

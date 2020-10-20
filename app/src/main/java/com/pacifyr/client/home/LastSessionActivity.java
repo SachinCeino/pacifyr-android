@@ -662,7 +662,11 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
                 if (isValid(mSessionDetailRoot.getStartTime()))
                     durationCtxv.setText(mSessionDetailRoot.getDuration() + " " + Utility.getStartFormatDate(mSessionDetailRoot.getStartTime(), getApplicationContext()));
                 if (isCustomer) {
-                    sessionCostCtxv.setText(Utility.getPriceSign(LastSessionActivity.this) + mSessionDetailRoot.getSessionCost());
+                    if (isValid(mSessionDetailRoot.getTimeSlotBookingId()))
+                        sessionCostCtxv.setText(Utility.getPriceSign(LastSessionActivity.this) + mSessionDetailRoot.getSessionCost()+getResources().getString(R.string.prepaid));
+                    else
+                        sessionCostCtxv.setText(Utility.getPriceSign(LastSessionActivity.this) + mSessionDetailRoot.getSessionCost());
+
                     if (isValid(mSessionDetailRoot.getPacifyr())) {
                         String pacName = mSessionDetailRoot.getPacifyr().getFirstName() + " " + mSessionDetailRoot.getPacifyr().getLastName();
                         pacifyrNameCtxv.setText(pacName);

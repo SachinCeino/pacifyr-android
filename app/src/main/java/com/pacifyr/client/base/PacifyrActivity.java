@@ -559,7 +559,7 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
                                 String tempSessionId = id;
                                 if (errorCount != 0)
                                     tempSessionId = tempSessionId + "_" + errorCount;
-                                generateCheckSum(tempSessionId, Integer.parseInt(CallActivity.mSessionDetailRoot.getPacifyr().getPrice()));
+                                generateCheckSum(true,tempSessionId, Integer.parseInt(CallActivity.mSessionDetailRoot.getPacifyr().getPrice()));
                             }
 
 
@@ -1117,7 +1117,10 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
             text_date.setText(date.substring(0, date.indexOf(' ')));
             text_start_date.setText(time);
             text_duration.setText(billingSummary.getSession().getDuration());
-            text_amount_charged.setText(sign + billingSummary.getSessionCost() + "");
+            if (isValid(billingSummary.getSession()) && isValid(billingSummary.getSession().getTimeSlotBookingId()))
+            text_amount_charged.setText(sign + billingSummary.getSessionCost() +getResources().getString(R.string.prepaid));
+            else
+                text_amount_charged.setText(sign + billingSummary.getSessionCost()+" ");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -3582,8 +3585,9 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
     /** PAYTM INTEGRATION
      * @param sessionid
      * @param price**/
-    public void generateCheckSum(String sessionid, int price) {
-
+    boolean isFromCall =false ;
+    public void generateCheckSum(boolean isFromCallb ,String sessionid, int price) {
+        isFromCall = isFromCallb;
        /* if (ContextCompat.checkSelfPermission(PacifyrActivity.this, Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(PacifyrActivity.this, new String[]{Manifest.permission.READ_SMS, Manifest.permission.RECEIVE_SMS}, 101);
         }*/
@@ -3879,7 +3883,9 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
                                 } else {
                                     sign = getApplicationContext().getResources().getString(R.string.dollar);
                                 }
-
+                                if (!isFromCall)
+                                text_amount_charged.setText(sign + " " + txnAmount+getResources().getString(R.string.prepaid));
+                                else
                                 text_amount_charged.setText(sign + " " + txnAmount);
                             } catch (Exception e) {
                                 e.printStackTrace();
@@ -3964,7 +3970,10 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
                                     sign = getApplicationContext().getResources().getString(R.string.dollar);
                                 }
 
-                                text_amount_charged.setText(sign + " " + txnAmount);
+                                if (!isFromCall)
+                                    text_amount_charged.setText(sign + " " + txnAmount+getResources().getString(R.string.prepaid));
+                                else
+                                    text_amount_charged.setText(sign + " " + txnAmount);
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
