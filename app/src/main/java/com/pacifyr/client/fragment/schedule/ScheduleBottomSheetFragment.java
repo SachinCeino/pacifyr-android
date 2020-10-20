@@ -411,7 +411,7 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
                                                         hideStatus();
                                                         dismiss();
                                                     }
-                                                }, 2000);
+                                                }, 4000);
 
                                             }
 
@@ -425,7 +425,7 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
                                                     hideStatus();
                                                     hideProgress();
                                                 }
-                                            }, 2000);
+                                            }, 4000);
                                         }
 
                                     } else {
@@ -438,7 +438,7 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
                                                 hideStatus();
 
                                             }
-                                        }, 2000);
+                                        }, 4000);
                                     }
 
                                     /*if (isValid(TempScheduleData)) {
@@ -1364,7 +1364,7 @@ Log.w("WWW","onCreate");
                                                         hideStatus();
 
                                                     }
-                                                }, 2000);
+                                                }, 4000);
                                             }
 
                                         } else {
@@ -1377,7 +1377,7 @@ Log.w("WWW","onCreate");
                                                     hideStatus();
 
                                                 }
-                                            }, 2000);
+                                            }, 4000);
                                         }
 
                                     } else {
