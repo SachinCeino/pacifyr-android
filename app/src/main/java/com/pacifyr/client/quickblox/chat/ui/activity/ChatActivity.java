@@ -12,7 +12,6 @@ import android.os.PersistableBundle;
 import android.os.SystemClock;
 import android.provider.MediaStore;
 import android.text.Editable;
-import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -435,18 +434,23 @@ public class ChatActivity extends PacifyrAppCompactActivity implements ImagePick
         shoImagePickerAlert(view);
     }
 
+    String[] items = null;
     private void shoImagePickerAlert(View view) {
-        String[] items = new String[]{"Camera", "Gallery"};
+        if (!isCallActive) {
+            items = new String[]{"Camera", "Gallery"};
+        } else {
+            items = new String[]{"Gallery"};
+        }
         AlertDialog.Builder builder = new AlertDialog.Builder(ChatActivity.this);
         builder.setItems(items, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if (which == 0) {
+                if (items[which].equalsIgnoreCase("camera")) {
                     imagePicker = new CameraImagePicker(ChatActivity.this);
                     imagePicker.shouldGenerateThumbnails(true);
                     imagePicker.setImagePickerCallback(ChatActivity.this);
                     outputPath = imagePicker.pickImage();
-                } else if (which == 1) {
+                } else if (items[which].equalsIgnoreCase("gallery")) {
                     galImagePicker = new ImagePicker(ChatActivity.this);
                     galImagePicker.shouldGenerateThumbnails(true);
                     galImagePicker.setImagePickerCallback(ChatActivity.this);
