@@ -254,8 +254,7 @@ public class CustomerDetailActivity extends PacifyrAppCompactActivity {
                        
 
 
-                    }
-                    catch(Exception excp){
+                    } catch (Exception excp) {
                         hideProgress();
                         excp.printStackTrace();
                     }
@@ -264,10 +263,14 @@ public class CustomerDetailActivity extends PacifyrAppCompactActivity {
             AQuery aq = new AQuery(CustomerDetailActivity.this);
             cb.header("Content-Type", "application/json");
             //cb.header("AccessToken",token);
-            cb.header("AccessToken",token);
-            url = GLOBAL_URL+"session/pacifyr/all?userId="+custListUser.getId()+"&skip="+skip+"&limit="+limit;
-            
-            aq.ajax(url,JSONObject.class, cb);
+            cb.header("AccessToken", token);
+            if (!isCallActive) {
+                url = GLOBAL_URL + "session/pacifyr/all?userId=" + custListUser.getId() + "&skip=" + skip + "&limit=" + limit;
+            } else {
+                url = GLOBAL_URL + "session/pacifyr/all?userId=" + custListUser.getId() + "&skip=" + skip + "&limit=" + limit + "&type=session_started";
+            }
+
+            aq.ajax(url, JSONObject.class, cb);
         }
         catch (Exception e) {
             hideProgress();
