@@ -49,7 +49,7 @@ public class SplashScreen extends BaseAppCompactActivity {
     Intent mServiceIntent;
     private CallService mSensorService;
     private ImageView image_splash;
-
+    private boolean isNeedToOpenAppointments ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -61,7 +61,9 @@ public class SplashScreen extends BaseAppCompactActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_splash_screen);
         image_splash = findViewById(R.id.image_splash);
-
+        if (isValid(getIntent()) && isValid(getIntent().getExtras())&&isValid(getIntent().getExtras().getBoolean("isNeedToOpenAppointments",false))) {
+            isNeedToOpenAppointments = getIntent().getExtras().getBoolean("isNeedToOpenAppointments",false);
+        }
 
         FirebaseAnalytics.getInstance(this);
         Utility.getRealTimeLogging(SplashScreen.this);
@@ -120,7 +122,7 @@ public class SplashScreen extends BaseAppCompactActivity {
                                             Toast.makeText(SplashScreen.this, "Network error, Please try again", Toast.LENGTH_LONG).show();
                                         }
                                     } else if (label.equals("customer")) {
-                                        DashboardActivity.start(SplashScreen.this);
+                                        DashboardActivity.start(SplashScreen.this,isNeedToOpenAppointments);
 
                                  /*Intent intent = new Intent(SplashScreen.this, ConnectToPacifyrActivity.class);
                                 intent.putExtra("display","Pacifyr");

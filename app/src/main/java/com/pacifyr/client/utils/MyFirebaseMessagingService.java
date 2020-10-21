@@ -412,6 +412,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     cIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         }
         else {
+            boolean isNeedToOpenAppointments=false;
+            if (actualType.equals("confirmBooking") ||actualType.equalsIgnoreCase("rejectBooking")) {
+                isNeedToOpenAppointments=true;
+            }
 
             cIntent = new Intent(context, SplashScreen.class);
             Bundle b = new Bundle();
@@ -419,6 +423,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             b.putString("id", qsid);
             b.putString("actualType", actualType);
             cIntent.putExtra("Bundle", b);
+            cIntent.putExtra("isNeedToOpenAppointments",isNeedToOpenAppointments);
             cIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             cIntent.setAction(Long.toString(System.currentTimeMillis()));
 
