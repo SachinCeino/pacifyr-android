@@ -28,6 +28,7 @@ import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.quickblox.activities.CallActivity;
+import com.pacifyr.client.twilio.VideoActivity;
 import com.pacifyr.client.utility.PacifyrAppCompactActivity;
 import com.pacifyr.client.utils.LogUtils;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
@@ -50,7 +51,7 @@ import static com.pacifyr.client.network.NetworkService.GLOBAL_URL;
 import static com.pacifyr.client.network.NetworkService.mPastSessions;
 import static com.pacifyr.client.network.NetworkService.mPastSessionsPaged;
 import static com.pacifyr.client.network.NetworkService.modelAllEmotions;
-import static com.pacifyr.client.quickblox.activities.CallActivity.isCallActive;
+import static com.pacifyr.client.twilio.VideoActivity.isCallActive;
 
 public class CustomerDetailActivity extends PacifyrAppCompactActivity {
 
@@ -488,7 +489,7 @@ public class CustomerDetailActivity extends PacifyrAppCompactActivity {
     public void onBackPressed() {
         finish();
         if (isCallActive) {
-            Intent i = new Intent(CustomerDetailActivity.this, CallActivity.class);
+            Intent i = new Intent(CustomerDetailActivity.this, VideoActivity.class);
             i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(i);
         }

@@ -16,7 +16,10 @@ import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.pacifyr.client.quickblox.activities.CallActivity;
+import com.pacifyr.client.twilio.VideoActivity;
 import com.quickblox.sample.chat.R;
+
+import static com.pacifyr.client.twilio.VideoActivity.isCallActive;
 
 
 public class AttachmentImageActivity extends BaseActivity {
@@ -29,8 +32,8 @@ public class AttachmentImageActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        if (restoreCall && CallActivity.isCallActive) {
-            startActivity(new Intent(AttachmentImageActivity.this, CallActivity.class)
+        if (restoreCall && isCallActive) {
+            startActivity(new Intent(AttachmentImageActivity.this, VideoActivity.class)
                     .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
             finish();
         }
@@ -41,8 +44,8 @@ public class AttachmentImageActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                if (restoreCall && CallActivity.isCallActive) {
-                    startActivity(new Intent(AttachmentImageActivity.this, CallActivity.class)
+                if (restoreCall && isCallActive) {
+                    startActivity(new Intent(AttachmentImageActivity.this, VideoActivity.class)
                             .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
                     finish();
                 }
@@ -55,8 +58,8 @@ public class AttachmentImageActivity extends BaseActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if (restoreCall && CallActivity.isCallActive) {
-                startActivity(new Intent(AttachmentImageActivity.this, CallActivity.class)
+            if (restoreCall && isCallActive) {
+                startActivity(new Intent(AttachmentImageActivity.this, VideoActivity.class)
                         .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
                 finish();
                 return true;

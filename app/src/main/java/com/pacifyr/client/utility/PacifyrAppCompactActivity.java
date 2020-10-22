@@ -50,6 +50,7 @@ import com.pacifyr.client.quickblox.chat.utils.chat.ChatHelper;
 import com.pacifyr.client.quickblox.chat.utils.qb.QbDialogHolder;
 import com.pacifyr.client.quickblox.db.DbHelper;
 import com.pacifyr.client.sign.SignActivity;
+import com.pacifyr.client.twilio.VideoActivity;
 import com.pacifyr.client.utils.AmazonSNSTokenHandler;
 import com.pacifyr.client.utils.FirebaseLogging;
 import com.pacifyr.client.utils.LogUtils;
@@ -1197,7 +1198,7 @@ public abstract class PacifyrAppCompactActivity  extends PacifyrActivity {
             public void onClick(View v) {
                 // Call your action method here
                 mSnackbar.dismiss();
-                Intent intent = new Intent(PacifyrAppCompactActivity.this, CallActivity.class);
+                Intent intent = new Intent(PacifyrAppCompactActivity.this, VideoActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intent);
             }

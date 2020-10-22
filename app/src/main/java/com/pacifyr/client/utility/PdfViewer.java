@@ -11,11 +11,13 @@ import com.pacifyr.client.R;
 import com.pacifyr.client.event.AlertTypeEvent;
 import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.quickblox.activities.CallActivity;
+import com.pacifyr.client.twilio.VideoActivity;
 import com.pdfview.PDFView;
 
 import java.io.File;
 
-import static com.pacifyr.client.quickblox.activities.CallActivity.isCallActive;
+import static com.pacifyr.client.twilio.VideoActivity.isCallActive;
+
 
 public class PdfViewer extends PacifyrAppCompactActivity {
 
@@ -83,7 +85,7 @@ public class PdfViewer extends PacifyrAppCompactActivity {
     @Override
     public void onBackPressed() {
         if (restoreCall && isCallActive) {
-            Intent i = new Intent(PdfViewer.this, CallActivity.class);
+            Intent i = new Intent(PdfViewer.this, VideoActivity.class);
             i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(i);
         }

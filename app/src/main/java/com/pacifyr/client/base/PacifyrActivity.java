@@ -160,7 +160,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.pacifyr.client.network.NetworkService.mCurrentUser;
 import static com.pacifyr.client.network.NetworkService.modelAllEmotions;
-import static com.pacifyr.client.quickblox.activities.CallActivity.isCallActive;
+import static com.pacifyr.client.twilio.VideoActivity.isCallActive;
 import static com.pacifyr.client.utils.Constants.getCountryChecks;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_IMAGE_URL;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
@@ -964,7 +964,7 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
 
     public void maximizePicInPicView() {
         Log.d(TAG, "maximizePicInPicView");
-        getApplication().startActivity(new Intent(this, CallActivity.class)
+        getApplication().startActivity(new Intent(this, VideoActivity.class)
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
     }
 

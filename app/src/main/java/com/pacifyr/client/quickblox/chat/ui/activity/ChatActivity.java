@@ -51,6 +51,7 @@ import com.pacifyr.client.quickblox.chat.utils.qb.QbDialogHolder;
 import com.pacifyr.client.quickblox.chat.utils.qb.QbDialogUtils;
 import com.pacifyr.client.quickblox.chat.utils.qb.QbUsersHolder;
 import com.pacifyr.client.quickblox.chat.utils.qb.VerboseQbChatConnectionListener;
+import com.pacifyr.client.twilio.VideoActivity;
 import com.pacifyr.client.utility.PacifyrAppCompactActivity;
 import com.pacifyr.client.utils.FirebaseLogging;
 import com.pacifyr.client.utils.LogUtils;
@@ -89,7 +90,8 @@ import java.util.TimerTask;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.pacifyr.client.network.NetworkService.GLOBAL_IMAGE_URL;
-import static com.pacifyr.client.quickblox.activities.CallActivity.isCallActive;
+import static com.pacifyr.client.twilio.VideoActivity.isCallActive;
+
 
 //com.pacifyr.pacifyrapp.quickblox.chat.ui.activity.BaseActivity
 public class ChatActivity extends PacifyrAppCompactActivity implements ImagePickerCallback {
@@ -266,7 +268,7 @@ public class ChatActivity extends PacifyrAppCompactActivity implements ImagePick
         sendDialogId();
 
         if (isValid(isCallActive) && isCallActive) {
-            Intent i = new Intent(ChatActivity.this, CallActivity.class);
+            Intent i = new Intent(ChatActivity.this, VideoActivity.class);
             i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(i);
         }

@@ -65,7 +65,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.pacifyr.client.network.NetworkService.GLOBAL_URL;
 import static com.pacifyr.client.network.NetworkService.modelCustomerDashboard2;
-import static com.pacifyr.client.quickblox.activities.CallActivity.isCallActive;
+import static com.pacifyr.client.twilio.VideoActivity.isCallActive;
+
 
 //import com.pacifyr.pacifyrapp.Fragment.SelecetFeelingFragment;
 

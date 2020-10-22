@@ -56,7 +56,7 @@ import java.util.TimerTask;
 import static com.pacifyr.client.network.NetworkService.GLOBAL_URL;
 import static com.pacifyr.client.network.NetworkService.modelSpecialist;
 import static com.pacifyr.client.network.NetworkService.pSearchPacifyrWOptionsResponse;
-import static com.pacifyr.client.quickblox.activities.CallActivity.isCallActive;
+import static com.pacifyr.client.twilio.VideoActivity.isCallActive;
 
 public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity implements SpecialistAdapter.EmotionClickkListener {
 

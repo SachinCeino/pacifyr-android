@@ -41,6 +41,7 @@ import com.pacifyr.client.quickblox.chat.ui.activity.ChatActivity;
 import com.pacifyr.client.quickblox.db.QbUsersDbManager;
 import com.pacifyr.client.quickblox.utils.Consts;
 import com.pacifyr.client.quickblox.utils.WebRtcSessionManager;
+import com.pacifyr.client.twilio.VideoActivity;
 import com.pacifyr.client.utility.EventMessage;
 import com.pacifyr.client.utility.PacifyrAppCompactActivity;
 import com.pacifyr.client.utils.LogUtils;
@@ -67,7 +68,7 @@ import java.util.Date;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-import static com.pacifyr.client.quickblox.activities.CallActivity.isCallActive;
+import static com.pacifyr.client.twilio.VideoActivity.isCallActive;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
 
 public class ProfileScreenActivity extends PacifyrAppCompactActivity {
@@ -1107,7 +1108,7 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
     @Override
     public void onBackPressed() {
         if (isValid(isCallActive) && isCallActive) {
-            Intent i = new Intent(ProfileScreenActivity.this, CallActivity.class);
+            Intent i = new Intent(ProfileScreenActivity.this, VideoActivity.class);
             i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(i);
         }

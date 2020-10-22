@@ -15,6 +15,7 @@ import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.quickblox.activities.CallActivity;
+import com.pacifyr.client.twilio.VideoActivity;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MListNegativeEmotions;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MListPositiveEmotions;
@@ -30,7 +31,7 @@ import com.pacifyr.client.utility.PacifyrAppCompactActivity;
 import org.json.JSONObject;
 
 import static com.pacifyr.client.network.NetworkService.GLOBAL_URL;
-import static com.pacifyr.client.quickblox.activities.CallActivity.isCallActive;
+import static com.pacifyr.client.twilio.VideoActivity.isCallActive;
 
 
 public class ActivityChangeEmotionFromCall extends PacifyrAppCompactActivity {
@@ -187,7 +188,7 @@ public class ActivityChangeEmotionFromCall extends PacifyrAppCompactActivity {
     @Override
     public void onBackPressed() {
         if (isCallActive) {
-            Intent i = new Intent(ActivityChangeEmotionFromCall.this, CallActivity.class);
+            Intent i = new Intent(ActivityChangeEmotionFromCall.this, VideoActivity.class);
             i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(i);
         }

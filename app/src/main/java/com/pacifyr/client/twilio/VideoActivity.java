@@ -21,6 +21,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Chronometer;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -58,6 +59,7 @@ import com.pacifyr.client.event.CallChangeEmotion;
 import com.pacifyr.client.event.CallDetailEvent;
 import com.pacifyr.client.event.CallEvent;
 import com.pacifyr.client.event.CallTimerEvent;
+import com.pacifyr.client.event.PicInPic;
 import com.pacifyr.client.event.TwilioCallEvent;
 import com.pacifyr.client.fragment.PrescriptionWhileCallFragment;
 import com.pacifyr.client.home.CustomerDetailActivity;
@@ -70,6 +72,8 @@ import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.quickblox.activities.CallActivity;
 import com.pacifyr.client.quickblox.chat.ui.activity.AttachmentImageActivity;
+import com.pacifyr.client.quickblox.utils.PermissionsChecker;
+import com.pacifyr.client.quickblox.utils.RingtonePlayer;
 import com.pacifyr.client.utility.PacifyrAppCompactActivity;
 import com.pacifyr.client.utils.FirebaseLogging;
 import com.pacifyr.client.utils.LogUtils;
@@ -77,6 +81,7 @@ import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.pacifyrapp.utilitylibrary.ToastHandler;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MEmotion;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MSessionDetailRoot;
+import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.quickblox.sample.core.utils.Toaster;
 import com.squareup.otto.Subscribe;
@@ -196,7 +201,7 @@ public class VideoActivity extends PacifyrActivity {
     private ProgressBar reconnectingProgressBar;
     private AlertDialog connectDialog;
     private String remoteParticipantIdentity;
-
+    public static boolean isCallActive = false;
     /*
      * Audio management
      */
@@ -210,7 +215,7 @@ public class VideoActivity extends PacifyrActivity {
 
     //Call HangUp
     private ImageView button_hangup_call;
-    private ToggleButton micToggleVideoCall;
+    private ToggleButton micToggleVideoCall,toggle_speaker,toggle_camera;
 
 
     private TextView billingStatus,emotion_ctxv,reason_ctxv;
@@ -245,7 +250,7 @@ public class VideoActivity extends PacifyrActivity {
     public void setEmpMinutesListener(EmpMinutesListener empMinutesListener) {
         this.empMinutesListener = empMinutesListener;
     }
-
+    private RingtonePlayer ringtonePlayer;
     private BroadcastReceiver eventReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -411,6 +416,8 @@ public class VideoActivity extends PacifyrActivity {
           muteActionFab = findViewById(R.id.mute_action_fab);
           button_hangup_call= findViewById(R.id.button_hangup_call);
           micToggleVideoCall = findViewById(R.id.toggle_mic);
+          toggle_speaker = findViewById(R.id.toggle_speaker);
+          toggle_camera=findViewById(R.id.toggle_camera);
           billingStatus = findViewById(R.id.billing_status);
           text_remaining_minutes = findViewById(R.id.text_remaining_minutes);
           text_remaining_minutes.setVisibility(View.GONE);
@@ -434,6 +441,19 @@ public class VideoActivity extends PacifyrActivity {
           layout_info_about_audio_call = findViewById(R.id.layout_info_about_audio_call);
           TextView_call_type= findViewById(R.id.TextView_call_type);
 
+          this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN |
+                          WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
+                          WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
+                          WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON,
+                  WindowManager.LayoutParams.FLAG_FULLSCREEN |
+                          WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
+                          WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
+                          WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
+
+          //  ringtonePlayer = new RingtonePlayer(this, R.raw.beep);
+          ringtonePlayer = new RingtonePlayer(this, R.raw.beep);
+          ringtonePlayer.play(true);
+          checker = new PermissionsChecker(VideoActivity.this);
           /*
            * Get shared preferences to read settings
            */
@@ -460,10 +480,18 @@ public class VideoActivity extends PacifyrActivity {
           if (isVideoCall){
               primaryVideoView.setVisibility(View.VISIBLE);
               TextView_call_type.setText(getResources().getString(R.string.video_call));
+              toggle_speaker.setVisibility(View.GONE);
+              toggle_camera.setVisibility(View.VISIBLE);
+              audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+              audioManager.setSpeakerphoneOn(true);
           }
           else {
               primaryVideoView.setVisibility(View.GONE);
               TextView_call_type.setText(getResources().getString(R.string.audio_call));
+              toggle_speaker.setVisibility(View.VISIBLE);
+              toggle_camera.setVisibility(View.GONE);
+              audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+              audioManager.setSpeakerphoneOn(false);
           }
           /*
            * Check camera and microphone permissions. Needed in Android M.
@@ -481,7 +509,8 @@ public class VideoActivity extends PacifyrActivity {
           button_hangup_call.setOnClickListener(new View.OnClickListener() {
               @Override
               public void onClick(View view) {
-
+                    if (isValid(ringtonePlayer))
+                        ringtonePlayer.stop();
                   if (SessionId != null) {
                       stopSessionWeb(SessionId);
                       room.disconnect();
@@ -493,15 +522,6 @@ public class VideoActivity extends PacifyrActivity {
           micToggleVideoCall.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
               @Override
               public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
-               /* if (localAudioTrack != null) {
-                    boolean enable = !localAudioTrack.isEnabled();
-                    localAudioTrack.enable(enable);
-                    int icon = enable ?
-                            R.drawable.call_mic_on : R.drawable.call_mic_off;
-                    muteActionFab.setImageDrawable(ContextCompat.getDrawable(
-                            VideoActivity.this, icon));
-                }*/
 
                   if (audioManager!=null)
                   {
@@ -541,6 +561,47 @@ public class VideoActivity extends PacifyrActivity {
                       ImageView_emotion.setVisibility(View.VISIBLE);
                       call_overlay.setBackground(getResources().getDrawable(R.drawable.call_overlay_background));
                   }
+              }
+          });
+
+          toggle_speaker.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+              @Override
+              public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                  if (audioManager!=null)
+                  {
+                      boolean isSpeakerOn = audioManager.isSpeakerphoneOn();
+                      if (isSpeakerOn)
+                      {
+                          audioManager.setSpeakerphoneOn(false);
+                      }
+                      else
+                      {
+                          audioManager.setSpeakerphoneOn(true);
+                      }
+
+                      int icon = isSpeakerOn ?
+                              R.drawable.speaker_light_off : R.drawable.speaker_light;
+                      muteActionFab.setImageDrawable(ContextCompat.getDrawable(
+                              VideoActivity.this, icon));
+                  }
+              }
+          });
+
+
+          toggle_camera.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+              @Override
+              public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                  if (cameraCapturerCompat != null) {
+                      CameraSource cameraSource = cameraCapturerCompat.getCameraSource();
+                      cameraCapturerCompat.switchCamera();
+                      if (thumbnailVideoView.getVisibility() == View.VISIBLE) {
+                          thumbnailVideoView.setMirror(cameraSource == CameraSource.BACK_CAMERA);
+                      } else {
+                          primaryVideoView.setMirror(cameraSource == CameraSource.BACK_CAMERA);
+                      }
+                  }
+
               }
           });
 
@@ -618,7 +679,9 @@ public class VideoActivity extends PacifyrActivity {
                           Toast.makeText(VideoActivity.this, getResources().getString(R.string.No_identity_document_available), Toast.LENGTH_LONG).show();
                       }
                   }
-
+                  else {
+                      Toast.makeText(VideoActivity.this, getResources().getString(R.string.No_identity_document_available), Toast.LENGTH_LONG).show();
+                  }
               }
           });
 
@@ -660,6 +723,64 @@ public class VideoActivity extends PacifyrActivity {
           Log.w("www",String.valueOf(e));
       }
     }
+
+    @Override
+    public void onPictureInPictureModeChanged(boolean isInPictureInPictureMode) {
+        super.onPictureInPictureModeChanged(isInPictureInPictureMode);
+        setShowDialogs(!isInPictureInPictureMode);
+        if (!isInPictureInPictureMode) {
+            maximizePicInPicView();
+        }
+    }
+
+    public void onPictureInPicture(PicInPic picInPic) {
+        if (picInPic.isEnabled()) {
+            hideToolBarAndButtons();
+        } else {
+            showToolBarAndButtons();
+        }
+    }
+
+    private void hideToolBarAndButtons() {
+        actionBar.hide();
+
+       // info_overlay_llay.setVisibility(View.GONE);
+        emotion_rlay.setVisibility(View.GONE);
+        //userRlay.setVisibility(View.GONE);
+        billingStatus.setVisibility(View.GONE);
+       // call_layout.setVisibility(View.INVISIBLE);
+        emotion_rlay.setVisibility(View.GONE);
+        call_overlay.setVisibility(View.GONE);
+        Log.d(TAG, "hideToolBarAndButtons");
+
+    }
+
+    private void showToolBarAndButtons() {
+        // actionBar.show();
+        actionBar.hide();
+        //info_overlay_llay.setVisibility(View.VISIBLE);
+        call_overlay.setVisibility(View.VISIBLE);
+       // userRlay.setVisibility(View.VISIBLE);
+       // call_layout.setVisibility(View.VISIBLE);
+        if(call_overlay.getOrientation() == LinearLayout.VERTICAL)
+        {
+            emotion_rlay.setVisibility(View.VISIBLE);
+        }
+        else {
+            emotion_rlay.setVisibility(View.GONE);
+        }
+
+        if (hasBillingStarted()) {
+            billingStatus.setVisibility(View.VISIBLE);
+        } else {
+            billingStatus.setVisibility(View.INVISIBLE);
+        }
+
+
+        Log.d(TAG, "showToolBarAndButtons");
+
+    }
+
 
     private void startOutGoingCallTimer() {
         OutGoingCallTimer = new CountDownTimer(30000, 1000) {
@@ -1049,6 +1170,9 @@ public class VideoActivity extends PacifyrActivity {
             localVideoTrack.release();
             localVideoTrack = null;
         }
+        if (isValid(ringtonePlayer))
+            ringtonePlayer.stop();
+
         cancelOutGoingCallTimer();
         EventBus.getDefault().unregister(this);
         super.onDestroy();
@@ -1127,6 +1251,8 @@ public class VideoActivity extends PacifyrActivity {
                public void onConnectFailure(Room room, TwilioException e) {
                    audioSwitch.deactivate();
                    intializeUI();
+                   if (isValid(ringtonePlayer))
+                       ringtonePlayer.stop();
                }
 
                @Override
@@ -1143,7 +1269,8 @@ public class VideoActivity extends PacifyrActivity {
                public void onDisconnected(Room room, TwilioException e) {
                    Log.w("####","onDisconnected");
                    localParticipant = null;
-
+                   if (isValid(ringtonePlayer))
+                       ringtonePlayer.stop();
                  //  reconnectingProgressBar.setVisibility(View.GONE);
                    VideoActivity.this.room = null;
                    // Only reinitialize the UI if disconnect was not called from onDestroy()
@@ -1151,7 +1278,7 @@ public class VideoActivity extends PacifyrActivity {
                        audioSwitch.deactivate();
                        intializeUI();
                        moveLocalVideoToPrimaryView();
-                       stopSessionWeb(SessionId);
+                       hangUpCurrentSessionMe();
                    }
                }
 
@@ -1167,7 +1294,9 @@ public class VideoActivity extends PacifyrActivity {
                public void onParticipantConnected(Room room, RemoteParticipant remoteParticipant) {
                    Log.w("####","onParticipantConnected");
                    if (isValid(connectionStatusLocal))
-                   connectionStatusLocal.setText("Connected...");
+                   connectionStatusLocal.setText("Connected");
+                   if (isValid(ringtonePlayer))
+                       ringtonePlayer.stop();
                    startTimer();
                    addRemoteParticipant(remoteParticipant);
 
@@ -2160,5 +2289,11 @@ public class VideoActivity extends PacifyrActivity {
         } catch (Exception e){
             LogUtils.LOGD("call", "missedSessionWeb end exception : " + e.getMessage());
         }
+    }
+
+
+    @Override
+    public void onBackPressed() {
+
     }
 }

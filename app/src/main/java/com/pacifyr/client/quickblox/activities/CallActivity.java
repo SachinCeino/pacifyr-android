@@ -60,6 +60,7 @@ import com.pacifyr.client.quickblox.utils.SettingsUtil;
 import com.pacifyr.client.quickblox.utils.UsersUtils;
 import com.pacifyr.client.quickblox.utils.WebRtcSessionManager;
 import com.pacifyr.client.receiver.PacifyrReceiver;
+import com.pacifyr.client.twilio.VideoActivity;
 import com.pacifyr.client.utility.PacifyrAppCompactActivity;
 import com.pacifyr.client.utils.FirebaseLogging;
 import com.pacifyr.client.utils.LogUtils;
@@ -97,6 +98,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.pacifyr.client.home.ProfileScreenActivity.pacifyerDetial;
+import static com.pacifyr.client.twilio.VideoActivity.isCallActive;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
 
 /*import com.quickblox.videochat.webrtc.BaseSession;*/
@@ -179,9 +181,6 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
 
         }
     }
-
-
-    public static boolean isCallActive = false;
 
 
     private void startScreenSharing(final Intent data){
