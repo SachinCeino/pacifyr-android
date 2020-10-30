@@ -3883,9 +3883,6 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
                                 } else {
                                     sign = getApplicationContext().getResources().getString(R.string.dollar);
                                 }
-                                if (!isFromCall)
-                                text_amount_charged.setText(sign + " " + txnAmount+getResources().getString(R.string.prepaid));
-                                else
                                 text_amount_charged.setText(sign + " " + txnAmount);
                             } catch (Exception e) {
                                 e.printStackTrace();
@@ -3969,11 +3966,7 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
                                 } else {
                                     sign = getApplicationContext().getResources().getString(R.string.dollar);
                                 }
-
-                                if (!isFromCall)
-                                    text_amount_charged.setText(sign + " " + txnAmount+getResources().getString(R.string.prepaid));
-                                else
-                                    text_amount_charged.setText(sign + " " + txnAmount);
+                                text_amount_charged.setText(sign + " " + txnAmount);
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
