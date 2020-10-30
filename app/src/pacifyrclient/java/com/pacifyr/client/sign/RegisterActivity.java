@@ -431,7 +431,7 @@ public class RegisterActivity extends PacifyrActivity {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if (isChecked)
                     {
-                        TextView_terms_Error.setVisibility(View.VISIBLE);
+                        TextView_terms_Error.setVisibility(View.GONE);
                     }
                 }
             });

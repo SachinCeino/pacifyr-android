@@ -34,8 +34,8 @@ public class PdfViewer extends PacifyrAppCompactActivity {
         pdfView = findViewById(R.id.pdfview);
         restoreCall = getIntent().getBooleanExtra("restoreCall", false);
         if (pdf != null) {
-            String filename = pdf.getPath();
-            filename = filename.substring(filename.lastIndexOf("/"));
+            String filename = null;
+            //filename = filename.substring(filename.lastIndexOf("/"));
             if (isValid(getIntent()) && isValid(getIntent().getExtras()) && isValid(getIntent().getExtras().getString("title")))
             {
                 filename=getIntent().getExtras().getString("title");
