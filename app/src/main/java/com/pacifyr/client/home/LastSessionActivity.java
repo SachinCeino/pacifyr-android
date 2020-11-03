@@ -1217,6 +1217,11 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
                 onBackPressed();
             }
         });
+        if (!editable) {
+            rightLlay.setVisibility(View.GONE);
+            submit_ctxv.setVisibility(View.GONE);
+        }
+
         rightLlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
