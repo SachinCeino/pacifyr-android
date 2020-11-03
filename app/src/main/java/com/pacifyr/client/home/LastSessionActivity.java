@@ -1277,11 +1277,11 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
     public void onBackPressed() {
         //super.onBackPressed();
         finish();
-        if (isCallActive) {
+       /* if (isCallActive) {
             Intent i = new Intent(LastSessionActivity.this, CallActivity.class);
             i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(i);
-        }
+        }*/
     }
 
     @Override
