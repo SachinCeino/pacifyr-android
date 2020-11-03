@@ -172,7 +172,6 @@ public class SplashScreen extends BaseAppCompactActivity {
             e.printStackTrace();
         }
 
-
     }
 
     public interface DeepLinkListener {
