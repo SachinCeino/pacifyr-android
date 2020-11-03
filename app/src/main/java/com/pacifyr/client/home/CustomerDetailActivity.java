@@ -91,7 +91,7 @@ public class CustomerDetailActivity extends PacifyrAppCompactActivity {
 
         Intent intent = new Intent(context, CustomerDetailActivity.class);
         CustomerDetailActivity.custListUser = user;
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS | Intent.FLAG_ACTIVITY_NO_HISTORY);
+       //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS | Intent.FLAG_ACTIVITY_NO_HISTORY);
         context.startActivity(intent);
     }
 
@@ -99,7 +99,7 @@ public class CustomerDetailActivity extends PacifyrAppCompactActivity {
 
         Intent intent = new Intent(context, CustomerDetailActivity.class);
         CustomerDetailActivity.custListUser=user;
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS | Intent.FLAG_ACTIVITY_NO_HISTORY);
+       // intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS | Intent.FLAG_ACTIVITY_NO_HISTORY);
         context.startActivity(intent);
     }
     @Override
@@ -500,12 +500,12 @@ public class CustomerDetailActivity extends PacifyrAppCompactActivity {
 
     @Override
     public void onBackPressed() {
-        finish();
+
         if (isCallActive) {
             Intent i = new Intent(CustomerDetailActivity.this, CallActivity.class);
             i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(i);
         }
-
+        finish();
     }
 }
