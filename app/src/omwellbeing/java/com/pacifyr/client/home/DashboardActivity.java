@@ -22,7 +22,7 @@ import com.pacifyr.client.customview.MainTextView;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
-import com.github.javiersantos.appupdater.AppUpdater;
+//import com.github.javiersantos.appupdater.AppUpdater;
 import com.pacifyr.client.fragment.MySessionFragment;
 import com.pacifyr.client.fragment.ResourcesFragment;
 import com.pacifyr.client.fragment.SupportFragment;
@@ -124,15 +124,15 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
     }
 
 
-    AppUpdater appUpdater;
+//    AppUpdater appUpdater;
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (isValid(appUpdater))
+       /* if (isValid(appUpdater))
         {
             appUpdater.stop();
-        }
+        }*/
 
     }
 
@@ -148,8 +148,8 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
         context = DashboardActivity.this;
         //    permissionCheck();
         /**the library will work in background for checking new update available or not**/
-        appUpdater = new AppUpdater(this);
-        appUpdater.start();
+        a/*ppUpdater = new AppUpdater(this);
+        appUpdater.start();*/
 
         connectToPacifyr = findViewById(R.id.connect_pacifyr_llay);
         leftPane = findViewById(R.id.left_pane);

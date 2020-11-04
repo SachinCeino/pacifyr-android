@@ -17,6 +17,8 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.pacifyr.client.R;
@@ -172,6 +174,21 @@ public class SplashScreen extends BaseAppCompactActivity {
             e.printStackTrace();
         }
 
+        Utility.checkForAppUpdate(this, Utility.APP_UPDATE_REQUEST_CODE);
+
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Utility.APP_UPDATE_REQUEST_CODE) {
+            if (resultCode != RESULT_OK) {
+                if (SplashScreen.this != null && !SplashScreen.this.isFinishing()) {
+                    Utility.checkForAppUpdate(this, Utility.APP_UPDATE_REQUEST_CODE);
+                }
+            }
+        }
     }
 
     public interface DeepLinkListener {
