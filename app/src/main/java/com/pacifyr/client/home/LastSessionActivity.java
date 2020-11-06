@@ -725,7 +725,6 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
                         exist_cmt_list.add(new MComments("Video issues"));
                         exist_cmt_list.add(new MComments("Other"));
 
-                        LogUtils.LOGD("session", "LSA cmtlist sizee " + cmtlist.size());
                         if (isValid(cmtlist)) {
                             String cmt_edt = "";
                             for (int j = 0; j < cmtlist.size(); j++) {
@@ -768,7 +767,7 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
                             }
                         }
 
-                        LogUtils.LOGD("session", "LSA exist_cmt_list sizee " + exist_cmt_list.size());
+
                         commentsAdapter = new CommentsAdapter(LastSessionActivity.this, exist_cmt_list, click);
                         commentsAdapter.setEditable(editable);
                         commentsRcv.setAdapter(commentsAdapter);
