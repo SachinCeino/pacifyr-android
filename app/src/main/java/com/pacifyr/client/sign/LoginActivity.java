@@ -11,6 +11,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -288,6 +289,18 @@ public class LoginActivity extends PacifyrActivity {
 
             sms_text_login.setText(getResources().getString(R.string.app_name) + " " + getResources().getString(R.string.sms_text_login));
 
+            spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                    selectRemoteConfigUrl(i);
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView) {
+
+                }
+            });
+            selectRemoteConfigUrl(spinner.getSelectedItemPosition());
 
         }
         catch (Exception e)

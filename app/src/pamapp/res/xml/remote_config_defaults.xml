@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?><!-- START xml_defaults -->
+<defaultsMap>
+    <entry>
+        <key>US</key>
+        <value>http://pam.pacifyr.net:8080/pacifyr/v1/</value>
+    </entry>
+</defaultsMap><!-- END xml_defaults -->

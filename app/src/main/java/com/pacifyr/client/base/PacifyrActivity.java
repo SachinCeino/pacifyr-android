@@ -4353,6 +4353,18 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
                 });
     }
 
+    public void selectRemoteConfigUrl(int i) {
+        if (i == 0) { //US
+            GLOBAL_URL = ((App) getApplication()).getRemoteConfig().getString("US");
+        } else if (i == 2) { //India
+            GLOBAL_URL = ((App) getApplication()).getRemoteConfig().getString("India");
+        } else { //use default
+            UtilityNetworkService.init(this);
+        }
+        Log.d(TAG, "GLOBAL-URL : " + GLOBAL_URL);
+    }
+
+
 }
 
 

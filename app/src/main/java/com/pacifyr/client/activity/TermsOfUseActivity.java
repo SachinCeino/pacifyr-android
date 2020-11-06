@@ -2,15 +2,12 @@ package com.pacifyr.client.activity;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
-import android.net.Uri;
 import android.net.http.SslError;
 import android.os.Bundle;
 import android.util.Log;
-import android.util.Patterns;
 import android.view.View;
 import android.view.Window;
 import android.webkit.SslErrorHandler;
@@ -32,14 +29,6 @@ import com.pacifyr.client.utility.PdfViewer;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 
 import java.io.File;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_IMAGE_URL;
 
 public class TermsOfUseActivity extends PacifyrActivity {
 
@@ -50,6 +39,7 @@ public class TermsOfUseActivity extends PacifyrActivity {
     //private ImageView backButt;
     //private LinearLayout backbtn;
     private int retryCount = 0;
+    private String currentUrl;
 
 
     @Override
@@ -107,31 +97,45 @@ public class TermsOfUseActivity extends PacifyrActivity {
 
             //If you will not use this method url links are opeen in new brower not in webview
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-
-                if (url.contains(".pdf")){
+                if (currentUrl != null && url != null && url.equals(currentUrl)) {
+                    view.goBack();
+                    return true;
+                }
+                if (url.contains(".pdf")) {
+                    String originalUrl = url;
                     String[] separated = url.split("https://");
-                    for (int i=0;i<separated.length;i++)
-                    {
-                        if (separated[i].contains(".pdf"))
-                        {
-                            url = "https://"+separated[i];
+                    for (int i = 0; i < separated.length; i++) {
+                        if (separated[i].contains(".pdf")) {
+                            url = "https://" + separated[i];
                         }
 
                     }
+                    if (originalUrl.equalsIgnoreCase(url)) {
+                        String[] separated1 = url.split("http://");
+                        for (int i = 0; i < separated1.length; i++) {
+                            if (separated1[i].contains(".pdf")) {
+                                url = "http://" + separated1[i];
+                            }
+
+                        }
+                    }
 
 
-                    if (isValid(url))
-                    {
-                        url=url.substring(0,url.indexOf(".pdf"))+".pdf";
-                        String url1=url;
-                        String title = url.replace("https://pacifyr.com/","");
-                        loadTemsPDF(url1,title);
+                    if (isValid(url) && !url.contains("dmca")) {
+                        url = url.substring(0, url.indexOf(".pdf")) + ".pdf";
+                        String url1 = url;
+                        String title = url.replace("https://pacifyr.com/", "");
+                        loadTemsPDF(url1, title);
+                    } else { //load DMCA pdf in Google Drive pdf viewer. Normal PDF viewer is not rendering it properly
+                        url = "https://drive.google.com/viewerng/viewer?embedded=true&url=" + url;
+                        view.loadUrl(url);
                     }
 
 
                 } else {
                     view.loadUrl(url);
                 }
+                currentUrl = url;
                 return true;
             }
 

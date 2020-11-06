@@ -17,12 +17,19 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.pacifyr.client.R;
 import com.pacifyr.client.home.DashboardActivity;
 import com.pacifyr.client.home.PacifyrDashboardActivity;
 import com.pacifyr.client.network.NetworkService;
+import com.pacifyr.client.quickblox.App;
 import com.pacifyr.client.quickblox.services.CallService;
 import com.pacifyr.client.sign.PacifyrTermsPolicyActivity;
 import com.pacifyr.client.sign.SignActivity;
@@ -172,6 +179,36 @@ public class SplashScreen extends BaseAppCompactActivity {
             e.printStackTrace();
         }
 
+        FirebaseRemoteConfig remConfig = ((App) getApplication()).getRemoteConfig();
+        remConfig.fetchAndActivate().addOnCompleteListener(this, new OnCompleteListener<Boolean>() {
+            @Override
+            public void onComplete(@NonNull Task<Boolean> task) {
+                if (task.isSuccessful()) {
+                    Log.d(TAG, "Remote config fetch successful");
+                } else {
+                    Log.d(TAG, "Remote config fetch failed");
+                }
+                String usUrl = remConfig.getString("US");
+                String indiaUrl = remConfig.getString("India");
+                Log.d(TAG, "US url = " + usUrl);
+                Log.d(TAG, "India url = " + indiaUrl);
+            }
+        });
+        Utility.checkForAppUpdate(this, Utility.APP_UPDATE_REQUEST_CODE);
+
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Utility.APP_UPDATE_REQUEST_CODE) {
+            if (resultCode != RESULT_OK) {
+                if (SplashScreen.this != null && !SplashScreen.this.isFinishing()) {
+                    Utility.checkForAppUpdate(this, Utility.APP_UPDATE_REQUEST_CODE);
+                }
+            }
+        }
     }
 
     public interface DeepLinkListener {
