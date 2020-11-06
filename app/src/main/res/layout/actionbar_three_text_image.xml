@@ -54,8 +54,6 @@
         <com.pacifyr.client.customview.MainTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/left_llay"
-            android:layout_toLeftOf="@+id/right_llay"
             android:maxLines="1"
             android:maxLength="25"
             android:ellipsize="end"
