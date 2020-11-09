@@ -315,10 +315,13 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
         mTextView_View_pres.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (isValid(mSessionDetailRoot.getPrescriptionFile()))
+                mTextView_View_pres.setClickable(false);
+                if (isValid(mSessionDetailRoot.getPrescriptionFile())) {
                     loadPDF(mSessionDetailRoot.getPrescriptionFile());
-                else
+                }
+                else{
                     callPrescriptionData();
+                }
             }
         });
     }
@@ -339,6 +342,7 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
                         hideProgress();
                         hideStatus();
                         Log.w("@@@",String.valueOf(json));
+                        mTextView_View_pres.setClickable(true);
                         if (isValid(json))
                         {
                             PrescriptionList mPrescriptionList = GsonUtils.getInstance().gsonToPrescriptionList(json);
@@ -386,6 +390,7 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
 
 
                     } catch (Exception e) {
+                        mTextView_View_pres.setClickable(true);
                         hideProgress();
                         e.printStackTrace();
                     }
@@ -398,6 +403,7 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
         } catch (Exception ex) {
             hideProgress();
             ex.printStackTrace();
+            mTextView_View_pres.setClickable(true);
             Log.w("@@@",String.valueOf(ex));
         }
 
@@ -424,7 +430,8 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
+        if (isValid(mTextView_View_pres)){
+        mTextView_View_pres.setClickable(true);}
         App.getInstance().setCurrentActivity(this);
 
         Bundle args =
