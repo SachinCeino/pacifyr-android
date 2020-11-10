@@ -224,7 +224,7 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
         intent.putExtra("editable", editable);
         LastSessionActivity.isAudioCall = true;
         mysessions = true;
-        sessionid = sessionID;
+       // sessionid = sessionID;
        /* try {
             Activity activity = null;
             activity = ((AppChatNotUSe) AppChatNotUSe.getInstance()).getCurrentActivity();
@@ -258,7 +258,7 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
 
         if (isValid(getIntent().getExtras().getString("id"))) {
             mSessionId = getIntent().getExtras().getString("id") + "";
-            sessionid = getIntent().getExtras().getString("id") + "";
+           // sessionid = getIntent().getExtras().getString("id") + "";
         }
 
         if (getIntent().getExtras().containsKey("editable")) {
