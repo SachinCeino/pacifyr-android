@@ -25,8 +25,13 @@ public class SignActivity extends PacifyrActivity {
     MainTextView pacifyrRequestTxv;
     RelativeLayout relative_bg;
 
-    MainTextView emergencyCtxv,covidMessage_ctxv;
+    MainTextView emergencyCtxv, covidMessage_ctxv;
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        checkForAppUpdate(SignActivity.this, APP_UPDATE_REQUEST_CODE);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

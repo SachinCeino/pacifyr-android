@@ -18,7 +18,6 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -194,22 +193,10 @@ public class SplashScreen extends BaseAppCompactActivity {
                 Log.d(TAG, "India url = " + indiaUrl);
             }
         });
-        Utility.checkForAppUpdate(this, Utility.APP_UPDATE_REQUEST_CODE);
 
 
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == Utility.APP_UPDATE_REQUEST_CODE) {
-            if (resultCode != RESULT_OK) {
-                if (SplashScreen.this != null && !SplashScreen.this.isFinishing()) {
-                    Utility.checkForAppUpdate(this, Utility.APP_UPDATE_REQUEST_CODE);
-                }
-            }
-        }
-    }
 
     public interface DeepLinkListener {
         void onDone();

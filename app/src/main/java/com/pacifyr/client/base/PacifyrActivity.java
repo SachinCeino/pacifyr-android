@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.IntentSender;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -49,6 +50,14 @@ import com.gdacciaro.iOSDialog.iOSDialog;
 import com.gdacciaro.iOSDialog.iOSDialogBuilder;
 import com.gdacciaro.iOSDialog.iOSDialogClickListener;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.android.play.core.appupdate.AppUpdateInfo;
+import com.google.android.play.core.appupdate.AppUpdateManager;
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
+import com.google.android.play.core.install.InstallStateUpdatedListener;
+import com.google.android.play.core.install.model.AppUpdateType;
+import com.google.android.play.core.install.model.InstallStatus;
+import com.google.android.play.core.install.model.UpdateAvailability;
+import com.google.android.play.core.tasks.Task;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.kaopiz.kprogresshud.KProgressHUD;
@@ -166,8 +175,11 @@ import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.STRIPE
  * Created by Mani-Ceino on 12/4/2017.
  */
 
-public abstract  class PacifyrActivity extends BaseAppCompactActivity {
+public abstract class PacifyrActivity extends BaseAppCompactActivity {
 
+    public static final int APP_UPDATE_REQUEST_CODE = 121;
+    private static final int HIGH_PRIORITY_APP_UPDATE = 5;
+    private static Integer DAYS_FOR_FLEXIBLE_APP_UPDATE = 5;
     private static final String TAG = PacifyrActivity.class.getSimpleName();
     public SharedPrefsHelper sharedPrefsHelper;
     private ProgressDialog progressDialog;
@@ -1081,6 +1093,13 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
                 ShowTransactionSuccesResultToUSer(transactionResponce);
             } else {
                 ShowTransactionFaileToUSer("Add payment failed");
+            }
+        } else if (requestCode == APP_UPDATE_REQUEST_CODE) {
+            if (resultCode != RESULT_OK) {
+                Log.d(TAG, "Update flow failed! RFireesult code: " + resultCode);
+                // If the update is cancelled or fails,
+                // you can request to start the update again.
+//                checkForAppUpdate(PacifyrActivity.this, APP_UPDATE_REQUEST_CODE);
             }
         }
     }
@@ -4364,6 +4383,90 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
         Log.d(TAG, "GLOBAL-URL : " + GLOBAL_URL);
     }
 
+    public void checkForAppUpdate(Activity context, int UPDATE_REQUEST_CODE) {
+        if (CallActivity.isCallActive) {
+            Log.d(TAG, "Call is active. Not checking for updates");
+            return;
+        }
+        // Creates instance of the manager.
+        AppUpdateManager appUpdateManager = AppUpdateManagerFactory.create(context);
+
+        // Returns an intent object that you use to check for an update.
+        Task<AppUpdateInfo> appUpdateInfoTask = appUpdateManager.getAppUpdateInfo();
+
+        // Checks whether the platform allows the specified type of update,
+        // and current version staleness.
+        appUpdateInfoTask.addOnSuccessListener(appUpdateInfo -> {
+           /* Log.d(TAG, "Check for app update");
+            Log.d(TAG, "Update available : " + (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE ? "Yes" : "No"));
+            Log.d(TAG, "Stateness Days : " + appUpdateInfo.clientVersionStalenessDays());
+            Log.d(TAG, "App update Info : " + appUpdateInfo.toString());*/
+//            Toast.makeText(context, "App update available : " + (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE ? "Yes" : "No"), Toast.LENGTH_LONG).show();
+//            Log.d(TAG, "version code " + appUpdateInfo.availableVersionCode());
+            if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
+                    && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE) && checkIfImmediateUpdateRequired(appUpdateInfo.availableVersionCode())) {
+                try {
+//                    Toast.makeText(context, "Immediate app update", Toast.LENGTH_LONG).show();
+                    finish();
+                    appUpdateManager.startUpdateFlowForResult(
+                            // Pass the intent that is returned by 'getAppUpdateInfo()'.
+                            appUpdateInfo,
+                            // Or 'AppUpdateType.FLEXIBLE' for flexible updates.
+                            AppUpdateType.IMMEDIATE,
+                            // The current activity making the update request.
+                            context,
+                            // Include a request code to later monitor this update request.
+                            UPDATE_REQUEST_CODE);
+                } catch (IntentSender.SendIntentException e) {
+                    Toast.makeText(context, "Immediate app update : " + e.getMessage(), Toast.LENGTH_LONG).show();
+                    e.printStackTrace();
+                }
+            } else if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
+                    && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE)) {
+                try {
+//                    Toast.makeText(context, "Flexible app update", Toast.LENGTH_LONG).show();
+                    // Create a listener to track request state updates.
+                    InstallStateUpdatedListener listener = state -> {
+                        // (Optional) Provide a download progress bar.
+                        if (state.installStatus() == InstallStatus.DOWNLOADED) {
+                            if (!CallActivity.isCallActive) {
+                                appUpdateManager.completeUpdate();
+                            }
+                        }
+                        // Log state or install the update.
+                    };
+
+                    // Before starting an update, register a listener for updates.
+                    appUpdateManager.registerListener(listener);
+                    appUpdateManager.startUpdateFlowForResult(
+                            // Pass the intent that is returned by 'getAppUpdateInfo()'.
+                            appUpdateInfo,
+                            // Or 'AppUpdateType.FLEXIBLE' for flexible updates.
+                            AppUpdateType.FLEXIBLE,
+                            // The current activity making the update request.
+                            context,
+                            // Include a request code to later monitor this update request.
+                            UPDATE_REQUEST_CODE);
+                } catch (IntentSender.SendIntentException e) {
+                    Toast.makeText(context, "Flexible app update : " + e.getMessage(), Toast.LENGTH_LONG).show();
+                    e.printStackTrace();
+                }
+            } else if (appUpdateInfo.installStatus() == InstallStatus.DOWNLOADED) {
+                appUpdateManager.completeUpdate();
+            }
+        });
+        appUpdateInfoTask.addOnFailureListener(new com.google.android.play.core.tasks.OnFailureListener() {
+            @Override
+            public void onFailure(Exception e) {
+                Toast.makeText(context, "App update : " + e.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private boolean checkIfImmediateUpdateRequired(int availableVersionCode) {
+        long code = FirebaseLogging.getAppVersionCode(getApplicationContext());
+        return code > 0 && (availableVersionCode - code) >= 2;
+    }
 
 }
 

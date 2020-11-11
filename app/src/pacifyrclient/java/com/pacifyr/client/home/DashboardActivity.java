@@ -948,7 +948,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
     protected void onStart() {
         super.onStart();
         EventBus.getDefault().register(this);
-
+        checkForAppUpdate(DashboardActivity.this, APP_UPDATE_REQUEST_CODE);
     }
 
     @Override
