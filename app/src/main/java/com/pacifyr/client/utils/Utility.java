@@ -8,7 +8,6 @@ import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -33,12 +32,6 @@ import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.play.core.appupdate.AppUpdateInfo;
-import com.google.android.play.core.appupdate.AppUpdateManager;
-import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
-import com.google.android.play.core.install.model.AppUpdateType;
-import com.google.android.play.core.install.model.UpdateAvailability;
-import com.google.android.play.core.tasks.Task;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -81,9 +74,6 @@ public class Utility {
     public static final int MY_PERMISSIONS_REQUEST_LOCATION_PERMISSION = 131;
     private static final String TAG = Utility.class.getSimpleName();
     public static int colourcode = 2;
-    public static final int APP_UPDATE_REQUEST_CODE = 121;
-    private static final int HIGH_PRIORITY_APP_UPDATE = 5;
-    private static Integer DAYS_FOR_FLEXIBLE_APP_UPDATE = 5;
 
     public static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 123;
     public static final int MY_PERMISSIONS_REQUEST_CAMERA = 124;
@@ -1159,57 +1149,6 @@ public class Utility {
             }
             // TODO: implement the ChildEventListener methods as documented above
             // ...
-        });
-    }
-
-    public static void checkForAppUpdate(Activity context, int UPDATE_REQUEST_CODE) {
-        // Creates instance of the manager.
-        AppUpdateManager appUpdateManager = AppUpdateManagerFactory.create(context);
-
-        // Returns an intent object that you use to check for an update.
-        Task<AppUpdateInfo> appUpdateInfoTask = appUpdateManager.getAppUpdateInfo();
-
-        // Checks whether the platform allows the specified type of update,
-        // and current version staleness.
-        appUpdateInfoTask.addOnSuccessListener(appUpdateInfo -> {
-           /* Log.d(TAG, "Check for app update");
-            Log.d(TAG, "Update available : " + (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE ? "Yes" : "No"));
-            Log.d(TAG, "Stateness Days : " + appUpdateInfo.clientVersionStalenessDays());
-            Log.d(TAG, "App update Info : " + appUpdateInfo.toString());*/
-            if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
-                    && appUpdateInfo.updatePriority() >= HIGH_PRIORITY_APP_UPDATE
-                    && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
-                try {
-                    appUpdateManager.startUpdateFlowForResult(
-                            // Pass the intent that is returned by 'getAppUpdateInfo()'.
-                            appUpdateInfo,
-                            // Or 'AppUpdateType.FLEXIBLE' for flexible updates.
-                            AppUpdateType.IMMEDIATE,
-                            // The current activity making the update request.
-                            context,
-                            // Include a request code to later monitor this update request.
-                            UPDATE_REQUEST_CODE);
-                } catch (IntentSender.SendIntentException e) {
-                    e.printStackTrace();
-                }
-            } else if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
-                    && appUpdateInfo.clientVersionStalenessDays() != null
-                    && appUpdateInfo.clientVersionStalenessDays() >= DAYS_FOR_FLEXIBLE_APP_UPDATE
-                    && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE)) {
-                try {
-                    appUpdateManager.startUpdateFlowForResult(
-                            // Pass the intent that is returned by 'getAppUpdateInfo()'.
-                            appUpdateInfo,
-                            // Or 'AppUpdateType.FLEXIBLE' for flexible updates.
-                            AppUpdateType.FLEXIBLE,
-                            // The current activity making the update request.
-                            context,
-                            // Include a request code to later monitor this update request.
-                            UPDATE_REQUEST_CODE);
-                } catch (IntentSender.SendIntentException e) {
-                    e.printStackTrace();
-                }
-            }
         });
     }
 
