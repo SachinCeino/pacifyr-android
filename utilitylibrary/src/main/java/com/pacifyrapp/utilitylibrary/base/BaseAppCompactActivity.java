@@ -29,6 +29,7 @@ import com.kaopiz.kprogresshud.KProgressHUD;
 import com.pacifyrapp.utilitylibrary.CustomEditText;
 import com.pacifyrapp.utilitylibrary.CustomFontTextView;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
+import com.pacifyrapp.utilitylibrary.Dialog;
 import com.pacifyrapp.utilitylibrary.R;
 import com.pacifyrapp.utilitylibrary.ToastHandler;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
@@ -212,28 +213,9 @@ public class BaseAppCompactActivity extends CoreBaseActivity {
 
     }
 
-    public void setAlertStatusInBlue(String title,String desc,View.OnClickListener oklistner) {
-        View view = LayoutInflater.from(this).inflate(R.layout.alert_yes_no, null, false);
-        CustomFontTextView title_dtxv = view.findViewById(R.id.title_dtxv);
-        CustomFontTextView desc_dtxv = view.findViewById(R.id.desc_dtxv);
-        CustomFontTextView dismis_dtxv = view.findViewById(R.id.dismis_dtxv);
-        CustomFontTextView ok_dtxv = view.findViewById(R.id.ok_dtxv);
-        defSetText(title_dtxv,title);
-        defSetText(desc_dtxv,desc);
-        dismis_dtxv.setText(" No ");
-        ok_dtxv.setText(" Yes ");
-        hideStatus();
-        hud_status = KProgressHUD.create(this).setStyle(KProgressHUD.Style.SPIN_INDETERMINATE).setCustomView(view).setWindowColor(this.getResources().getColor(R.color.transparent)).setCancellable(false).setAnimationSpeed(2).setDimAmount(0.5f);
-        showStatus();
-        ok_dtxv.setOnClickListener(oklistner);
-        dismis_dtxv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                hideStatus();
+    public void setAlertStatusInBlue(String title,String desc,Dialog.onClick oklistner) {
+        Dialog.newInstance(title,desc,oklistner).show(getSupportFragmentManager(),"blue");
 
-
-            }
-        });
     }
 
     public void setAlertOKStatusInBlue(String title,String desc,String ok) {

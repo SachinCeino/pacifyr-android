@@ -24,6 +24,7 @@ import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
+import com.pacifyrapp.utilitylibrary.Dialog;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.github.javiersantos.appupdater.AppUpdater;
@@ -381,9 +382,9 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
             public void onClick(View v) {
                 closePane(true);
                 hideRightLayActionbar();
-                setAlertStatusInBlue("log out", getResources().getString(R.string.signout_message), new View.OnClickListener() {
+                setAlertStatusInBlue("log out", getResources().getString(R.string.signout_message), new Dialog.onClick() {
                     @Override
-                    public void onClick(View v) {
+                    public void onAction(Dialog d) {
                         hideStatus();
                             /*PrefManager prefM= PrefManager.getInstance(getActivity());
                             prefM.clearSharedAll();*/
@@ -395,7 +396,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
                             startActivity(i);
                             finish();*/
                     }
-                });
+                } );
                 //Toast.makeText(getActivity(),"Logout",Toast.LENGTH_LONG).show();
             }
         });

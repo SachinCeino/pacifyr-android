@@ -1,13 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:jp="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/orange_round_square"
-    android:padding="2dp">
+    android:backgroundTint="@color/blue_dashboard"
 
+   >
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+
+android:layout_margin="10dp"
+    android:padding="2dp">
+<androidx.appcompat.widget.AppCompatImageView
+    android:layout_margin="10dp"
+    android:id="@+id/image"
+    jp:layout_constraintStart_toStartOf="parent"
+    jp:layout_constraintEnd_toEndOf="parent"
+    android:src="@drawable/ic_baseline_settings_power_24"
+    jp:layout_constraintTop_toTopOf="parent"
+    android:visibility="gone"
+    android:layout_width="70dp"
+    android:layout_height="70dp"/>
 
     <com.pacifyrapp.utilitylibrary.CustomFontTextView
+        jp:layout_constraintStart_toStartOf="parent"
+        jp:layout_constraintEnd_toEndOf="parent"
+
+        android:layout_margin="10dp"
+        jp:layout_constraintTop_toBottomOf="@id/image"
         android:id="@+id/title_dtxv"
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -16,9 +39,14 @@
         android:textStyle="bold"
         android:text="Alert heading"
         android:textColor="@color/white"
-        android:textSize="@dimen/sp18" />
+        android:textSize="@dimen/sp15" />
 
     <com.pacifyrapp.utilitylibrary.CustomFontTextView
+        jp:layout_constraintStart_toStartOf="parent"
+        jp:layout_constraintEnd_toEndOf="parent"
+
+        android:layout_margin="10dp"
+        jp:layout_constraintTop_toBottomOf="@id/title_dtxv"
         android:id="@+id/desc_dtxv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -26,9 +54,9 @@
         android:maxLines="5"
         android:padding="10dp"
         android:gravity="center"
-        android:text="Alert content"
+        android:text="Alert content are you fucking idiet fdjg dfkj my tee dfifmd lsdk"
         android:textColor="@color/white"
-        android:textSize="@dimen/sp18"
+        android:textSize="@dimen/sp12"
         />
    <!-- <Te
         android:id="@+id/anot_edt"
@@ -47,46 +75,48 @@
         android:textColor="@color/fluid_black" />-->
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_margin="10dp"
+        jp:layout_constraintTop_toBottomOf="@id/desc_dtxv"
+        jp:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="wrap_content"
         android:layout_height="60dp"
-        android:layout_below="@+id/desc_dtxv"
-        android:background="@color/white"
-        android:layout_marginTop="10dp"
+jp:layout_constraintEnd_toEndOf="parent"
+
+
         android:orientation="horizontal"
-        android:paddingTop="1dp"
+       android:padding="10dp"
         android:weightSum="2">
 
          <com.pacifyrapp.utilitylibrary.CustomFontTextView
             android:id="@+id/dismis_dtxv"
             android:layout_width="wrap_content"
-            android:layout_height="60dp"
-            android:layout_weight="1"
-            android:background="@color/colorPrimary"
+            android:layout_height="match_parent"
+
+
+             android:background="?android:attr/selectableItemBackground"
             android:gravity="center"
             android:text="No"
+             android:layout_marginRight="5dp"
             android:textColor="@color/white"
             android:textStyle="bold"
             android:textSize="@dimen/sp16"
-            jp:percentage_width="49" />
+            jp:percentage_width="20" />
 
-        <TextView
-            android:layout_width="1dp"
-            android:layout_height="60dp"
-            android:gravity="center"
-            android:background="@color/white" />
 
          <com.pacifyrapp.utilitylibrary.CustomFontTextView
+             android:layout_marginRight="5dp"
             android:id="@+id/ok_dtxv"
             android:layout_width="wrap_content"
-            android:layout_height="60dp"
-            android:layout_weight="1"
-            android:background="@color/colorPrimary"
+            android:layout_height="match_parent"
+
+             android:background="?android:attr/selectableItemBackground"
             android:gravity="center"
             android:text="Yes"
             android:textColor="@color/white"
             android:textStyle="bold"
             android:textSize="@dimen/sp16"
-            jp:percentage_width="49" />
+            jp:percentage_width="20" />
     </LinearLayout>
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>
