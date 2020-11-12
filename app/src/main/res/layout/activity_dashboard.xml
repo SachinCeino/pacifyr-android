@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:background="@color/white"
     android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
     tools:context="com.pacifyr.client.home.DashboardActivity"
     android:id="@+id/drawer_layout">
 
@@ -23,6 +24,9 @@
             android:layout_width="250dp"
             android:layout_height="match_parent"
             android:orientation="vertical">
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
         <ScrollView
             android:layout_width="match_parent"
             android:fillViewport="true"
@@ -31,23 +35,23 @@
         <LinearLayout
             android:background="@android:color/white"
             android:layout_width="match_parent"
-            android:padding="2dp"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
 
             <LinearLayout
+                android:background="?android:attr/selectableItemBackground"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:padding="10dp"
+                android:padding="20dp"
                 android:layout_gravity="center_vertical"
                 android:gravity="center_vertical"
                 android:id="@+id/detail_llay">
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
                     android:id="@+id/profile_cimv"
                     android:src="@drawable/placeholder_user"/>
 
@@ -80,10 +84,11 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="1px"
                 android:background="@color/grey"/>
 
             <LinearLayout
+                android:background="?android:attr/selectableItemBackground"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/dashboard_llay"
@@ -93,10 +98,12 @@
                 <!--    android:paddingRight="10dp"-->
 
                 <com.pacifyrapp.utilitylibrary.DeviceFitImageView
+                    android:padding="5dp"
                     android:id="@+id/dashboard_dimv"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:scaleType="centerInside"
+
                     app:width_percentage="10"
                     android:src="@drawable/ic_dashboard_menu"
                     android:layout_centerInParent="true"/>
@@ -108,15 +115,16 @@
                     android:layout_height="wrap_content"
                     android:text="@string/my_dashboard"
                     android:textColor="@color/grey_dark"
-                    android:textSize="15sp"/>
+                    android:textSize="12sp"/>
 
             </LinearLayout>
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="1px"
                 android:background="@color/grey" />
 
             <LinearLayout
+                android:background="?android:attr/selectableItemBackground"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/mLinearLayoutPrescription"
@@ -126,6 +134,7 @@
                 <!--    android:paddingRight="10dp"-->
 
                 <com.pacifyrapp.utilitylibrary.DeviceFitImageView
+                    android:padding="5dp"
                     android:id="@+id/mDeviceFitImageViewPrescription"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
@@ -142,16 +151,17 @@
                     android:layout_marginLeft="10dp"
                     android:text="@string/my_prescriptions"
                     android:textColor="@color/grey_dark"
-                    android:textSize="15sp" />
+                    android:textSize="12sp" />
 
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="1px"
                 android:background="@color/grey"/>
 
             <LinearLayout
+                android:background="?android:attr/selectableItemBackground"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/mLinearLayoutAppointments"
@@ -161,6 +171,7 @@
                 <!--    android:paddingRight="10dp"-->
 
                 <com.pacifyrapp.utilitylibrary.DeviceFitImageView
+                    android:padding="5dp"
                     android:id="@+id/mDeviceFitImageViewAppointments"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
@@ -177,16 +188,17 @@
                     android:layout_marginLeft="10dp"
                     android:text="@string/appointments"
                     android:textColor="@color/grey_dark"
-                    android:textSize="15sp" />
+                    android:textSize="12sp" />
 
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="1px"
                 android:background="@color/grey"/>
 
             <LinearLayout
+                android:background="?android:attr/selectableItemBackground"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/mysessions_llay"
@@ -196,6 +208,7 @@
                 <!--    android:paddingRight="10dp"-->
 
                 <com.pacifyrapp.utilitylibrary.DeviceFitImageView
+                    android:padding="5dp"
                     android:id="@+id/mesessions_dimv"
                     android:layout_width="25dp"
                     android:scaleType="centerInside"
@@ -212,19 +225,20 @@
                     android:layout_marginLeft="10dp"
                     android:layout_centerInParent="true"
                     android:textColor="@color/grey_dark"
-                    android:textSize="15sp"/>
+                    android:textSize="12sp"/>
 
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="1px"
                 android:id="@+id/coupon_view"
                 android:visibility="gone"
                 android:background="@color/grey"/>
 
 
             <LinearLayout
+                android:background="?android:attr/selectableItemBackground"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/coupon_llay"
@@ -235,6 +249,7 @@
                 <!--    android:paddingRight="10dp"-->
 
                 <com.pacifyrapp.utilitylibrary.DeviceFitImageView
+                    android:padding="5dp"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:scaleType="centerInside"
@@ -249,19 +264,20 @@
                     android:layout_marginLeft="10dp"
                     android:text="COUPON CODE"
                     android:textColor="@color/grey_dark"
-                    android:textSize="15sp"/>
+                    android:textSize="12sp"/>
 
             </LinearLayout>
 
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="1px"
                 android:background="@color/grey"/>
 
 
 
             <LinearLayout
+                android:background="?android:attr/selectableItemBackground"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/browse_llay"
@@ -271,6 +287,7 @@
                 <!--    android:paddingRight="10dp"-->
 
                 <com.pacifyrapp.utilitylibrary.DeviceFitImageView
+                    android:padding="5dp"
                     android:id="@+id/browse_dimv"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
@@ -287,17 +304,18 @@
                     android:layout_marginLeft="10dp"
                     android:text="@string/browse_wellness_experts"
                     android:textColor="@color/grey_dark"
-                    android:textSize="15sp"/>
+                    android:textSize="12sp"/>
 
             </LinearLayout>
 
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="1px"
                 android:background="@color/grey"/>
 
             <LinearLayout
+                android:background="?android:attr/selectableItemBackground"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/payment_llay"
@@ -307,6 +325,7 @@
                 <!--    android:paddingRight="10dp"-->
 
                 <com.pacifyrapp.utilitylibrary.DeviceFitImageView
+                    android:padding="5dp"
                     android:id="@+id/payment_dimv"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
@@ -323,18 +342,19 @@
                     android:layout_marginLeft="10dp"
                     android:text="@string/PAYMENT"
                     android:textColor="@color/grey_dark"
-                    android:textSize="15sp"/>
+                    android:textSize="12sp"/>
 
             </LinearLayout>
 
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="1px"
                 android:background="@color/grey"/>
 
 
             <LinearLayout
+                android:background="?android:attr/selectableItemBackground"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/message_llay"
@@ -345,6 +365,7 @@
                 <!--    android:paddingRight="10dp"-->
 
                 <com.pacifyrapp.utilitylibrary.DeviceFitImageView
+                    android:padding="5dp"
                     android:id="@+id/message_dimv"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
@@ -362,16 +383,17 @@
                     android:layout_marginLeft="10dp"
                     android:text="@string/messages"
                     android:textColor="@color/grey_dark"
-                    android:textSize="15sp"/>
+                    android:textSize="12sp"/>
             </LinearLayout>
 
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="1px"
                 android:background="@color/grey"/>
 
             <LinearLayout
+                android:background="?android:attr/selectableItemBackground"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/support_llay"
@@ -380,7 +402,7 @@
                 android:orientation="horizontal">
                 <!--    android:paddingRight="10dp"-->
 
-                <com.pacifyrapp.utilitylibrary.DeviceFitImageView
+                <com.pacifyrapp.utilitylibrary.DeviceFitImageView    android:padding="5dp"
                     android:id="@+id/support_dimv"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
@@ -397,7 +419,7 @@
                     android:layout_marginLeft="10dp"
                     android:text="@string/SUPPORT"
                     android:textColor="@color/grey_dark"
-                    android:textSize="15sp"/>
+                    android:textSize="12sp"/>
 
             </LinearLayout>
 
@@ -405,12 +427,13 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="1px"
                 android:id="@+id/crisis_view"
                 android:background="@color/grey"/>
 
 
             <LinearLayout
+                android:background="?android:attr/selectableItemBackground"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/crisis_llay"
@@ -420,6 +443,7 @@
                 <!--    android:paddingRight="10dp"-->
 
                 <com.pacifyrapp.utilitylibrary.DeviceFitImageView
+                    android:padding="5dp"
                     android:id="@+id/crisis_dimv"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
@@ -436,7 +460,7 @@
                     android:layout_marginLeft="10dp"
                     android:text="@string/CRISIS_INFO"
                     android:textColor="@color/grey_dark"
-                    android:textSize="15sp"/>
+                    android:textSize="12sp"/>
 
             </LinearLayout>
 
@@ -444,12 +468,13 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="1px"
                 android:background="@color/grey"/>
 
 
 
             <LinearLayout
+                android:background="?android:attr/selectableItemBackground"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/tutotial_llay"
@@ -459,6 +484,7 @@
                 <!--    android:paddingRight="10dp"-->
 
                 <com.pacifyrapp.utilitylibrary.DeviceFitImageView
+                    android:padding="5dp"
                     android:id="@+id/tutotial_dimv"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
@@ -476,17 +502,18 @@
                     android:layout_marginLeft="10dp"
                     android:text="@string/tutorial"
                     android:textColor="@color/grey_dark"
-                    android:textSize="15sp"/>
+                    android:textSize="12sp"/>
 
             </LinearLayout>
 
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="1px"
                 android:background="@color/grey"/>
 
             <LinearLayout
+                android:background="?android:attr/selectableItemBackground"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/policy_document_llay"
@@ -495,7 +522,7 @@
                 android:orientation="horizontal">
                 <!--    android:paddingRight="10dp"-->
 
-                <com.pacifyrapp.utilitylibrary.DeviceFitImageView
+                <com.pacifyrapp.utilitylibrary.DeviceFitImageView    android:padding="5dp"
                     android:id="@+id/policy_document_dimv"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
@@ -513,7 +540,7 @@
                     android:layout_marginLeft="10dp"
                     android:text="@string/Policy_Documents"
                     android:textColor="@color/grey_dark"
-                    android:textSize="15sp"/>
+                    android:textSize="12sp"/>
 
             </LinearLayout>
 
@@ -521,10 +548,11 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="1px"
                 android:background="@color/grey"/>
 
             <LinearLayout
+                android:background="?android:attr/selectableItemBackground"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/resourses_llay"
@@ -534,6 +562,7 @@
                 <!--    android:paddingRight="10dp"-->
 
                 <com.pacifyrapp.utilitylibrary.DeviceFitImageView
+                    android:padding="5dp"
                     android:id="@+id/resourses_dimv"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
@@ -551,16 +580,17 @@
                     android:layout_marginLeft="10dp"
                     android:text="@string/RESOURCES"
                     android:textColor="@color/grey_dark"
-                    android:textSize="15sp"/>
+                    android:textSize="12sp"/>
 
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="1px"
                 android:background="@color/grey"/>
 
             <LinearLayout
+                android:background="?android:attr/selectableItemBackground"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/connect_pacifyr_llay"
@@ -570,6 +600,7 @@
                 <!--    android:paddingRight="10dp"-->
 
                 <com.pacifyrapp.utilitylibrary.DeviceFitImageView
+                    android:padding="5dp"
                     android:id="@+id/connect_pacifyr_dimv"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
@@ -586,18 +617,19 @@
                     android:layout_marginLeft="10dp"
                     android:text="@string/connect_to_wellness_experts"
                     android:textColor="@color/grey_dark"
-                    android:textSize="15sp"/>
+                    android:textSize="12sp"/>
 
             </LinearLayout>
 
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="1px"
                 android:background="@color/grey"/>
 
 
             <LinearLayout
+                android:background="?android:attr/selectableItemBackground"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/logout_llay"
@@ -607,6 +639,7 @@
                 <!--    android:paddingRight="10dp"-->
 
                 <com.pacifyrapp.utilitylibrary.DeviceFitImageView
+                    android:padding="5dp"
                     android:id="@+id/logout_dimv"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
@@ -624,19 +657,20 @@
                     android:layout_marginLeft="10dp"
                     android:text="@string/logout"
                     android:textColor="@color/grey_dark"
-                    android:textSize="15sp"/>
+                    android:textSize="12sp"/>
 
             </LinearLayout>
 
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="1px"
                 android:background="@color/grey"/>
 
 
         </LinearLayout>
-    </ScrollView>
+
+        </ScrollView></androidx.cardview.widget.CardView>
 </LinearLayout>
         <!--<fragment android:name="TestFragment"
             android:id="@+id/left_pane"
@@ -649,24 +683,30 @@
                  android:layout_width="match_parent"
                  android:layout_height="match_parent"
                  android:background="@android:color/white">-->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
         <LinearLayout
+            android:clickable="true"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
             <include layout="@layout/actionbar_three_text_image"
+                android:clickable="true"
                 android:id="@+id/include"
                 android:layout_height="52dp"
                 android:layout_width="match_parent"></include>
 
             <FrameLayout
+                android:clickable="true"
                 android:id="@+id/activity_main_content_fragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
             </FrameLayout>
 
-        </LinearLayout>
+        </LinearLayout></androidx.cardview.widget.CardView>
         <!--            </FrameLayout>-->
     </com.pacifyr.client.utils.PagerEnabledSlidingPaneLayout>
 

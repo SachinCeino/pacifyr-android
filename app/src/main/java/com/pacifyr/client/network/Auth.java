@@ -16,6 +16,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.gson.internal.$Gson$Preconditions;
+import com.pacifyr.client.activity.SplashScreen;
 import com.pacifyr.client.quickblox.App;
 import com.pacifyr.client.sign.LoginActivity;
 import com.pacifyr.client.sign.SignActivity;
@@ -28,16 +29,21 @@ public class Auth {
     public static void httpStatusFilter(Context c,int status){
         switch(status){
             case 401://Forbidden
-                if(!VISIBLE_ACTIVITY.equals(SignActivity.class.getName() )
-                        && !VISIBLE_ACTIVITY.equals(LoginActivity.class.getName())) {
-                    Intent intent = new Intent(c, LoginActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-                            | Intent.FLAG_ACTIVITY_CLEAR_TOP
-                            | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    intent.putExtra("EXIT", true);
-                    c.startActivity(intent);
+                if(VISIBLE_ACTIVITY.equals(SignActivity.class.getName() )
+                        || VISIBLE_ACTIVITY.equals(LoginActivity.class.getName())
+                        || VISIBLE_ACTIVITY.equals(SplashScreen.class.getName())) {
+                    Log.d(TAG, "httpStatusFilter: login page already shown"+status);
+                }else{
+                        Intent intent = new Intent(c, LoginActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                                | Intent.FLAG_ACTIVITY_CLEAR_TOP
+                                | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        intent.putExtra("EXIT", true);
+                        c.startActivity(intent);
+                        Toast.makeText(c,"Your session is time out",Toast.LENGTH_LONG).show();
+
                 }
-                Toast.makeText(c,"Your session is time out",Toast.LENGTH_LONG).show();
+
                 break;
             default:
                 Log.d(TAG, "httpStatusFilter: "+status);
@@ -59,8 +65,9 @@ public class Auth {
         Log.d(TAG, "scanUpdates: calling");
         ANDROID_ID=getDeviceId(context);
         String userId= PrefManager.getInstance(context).getUserID();
+        Log.d(TAG, "scanUpdates: user id :" + userId);
         if (!userId.equals("")) {
-            Log.d(TAG, "scanUpdates: scanning");
+            Log.d(TAG, "scanUpdates: scanning :" + userId);
             FirebaseDatabase database = FirebaseDatabase.getInstance();
             DatabaseReference myRef = database.getReference("sessions").child(userId);
             ValueEventListener valueEventListener = new ValueEventListener() {

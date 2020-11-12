@@ -116,6 +116,10 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
     private int badgeCount=0;
     private ImageView image_logo;
 
+    private static boolean isVisible=false;
+    public static boolean getVisibility(){
+        return isVisible;
+    }
     public UserDashboardFragment() {
         // Required empty public constructor
     }
@@ -327,10 +331,15 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
         cb.header("AccessToken", token);
         aq.ajax(url, JSONObject.class, cb);
     }
-
+    @Override
+    public void onStop() {
+        super.onStop();
+        isVisible=false;
+    }
     @Override
     public void onResume() {
         super.onResume();
+        isVisible=true;
         ((DashboardActivity) getActivity()).changeActionBarTitleForFragments(getResources().getString(R.string.nav_mydashbord_title));
 
         try {

@@ -379,6 +379,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
         logoutLlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                closePane(true);
                 hideRightLayActionbar();
                 setAlertStatusInBlue("log out", getResources().getString(R.string.signout_message), new View.OnClickListener() {
                     @Override
@@ -563,17 +564,19 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
         leftLlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(mSlidingPaneLayout.isOpen()){
-                    mSlidingPaneLayout.closePane();
-
-                }else{
-                    mSlidingPaneLayout.openPane();
-                }
+                closePane(mSlidingPaneLayout.isOpen());
             }
         });
         showRightLayActionbar();
     }
 
+    public void closePane(boolean close){
+        if(close){
+            mSlidingPaneLayout.closePane();
+        }else{
+            mSlidingPaneLayout.openPane();
+        }
+    }
     private void showRightLayActionbar() {
 
         try {
