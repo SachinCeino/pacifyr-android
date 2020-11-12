@@ -1081,10 +1081,18 @@ public class Utility {
                         }
                         if (deepLink != null) {
                             Log.d(TAG, "deep link " + deepLink);
-                            String code = deepLink.getLastPathSegment();
-                            Log.d(TAG, "deep link code " + code);
-                            if (code != null) {
-                                PrefManager.getInstance(context).putString(PrefManager.COUPON_CODE, code);
+                            String link = deepLink.toString();
+                            if (link.contains("/")) {
+                                String[] splits = link.split("/");
+                                if (splits != null && splits.length > 0) {
+                                    if (splits[splits.length - 2] != null && splits[splits.length - 2].equalsIgnoreCase("coupon")) {
+                                        String code = splits[splits.length - 1];
+                                        Log.d(TAG, "deep link code " + code);
+                                        if (code != null) {
+                                            PrefManager.getInstance(context).putString(PrefManager.COUPON_CODE, code);
+                                        }
+                                    }
+                                }
                             }
                         }
                         if (linkListener != null) {
