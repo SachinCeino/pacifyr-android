@@ -852,6 +852,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
             AjaxCallback cb = new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, JSONObject json, AjaxStatus status) {
+                    Auth.httpStatusFilter(getApplicationContext(), status.getCode());
                     try {
                         hideProgress();
                         MUser user  = GsonUtils.getInstance().gsonToMUser(json);
@@ -952,12 +953,14 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
     protected void onStop() {
         super.onStop();
         EventBus.getDefault().unregister(this);
+        Auth.foreground("");
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         EventBus.getDefault().register(this);
+        Auth.foreground(DashboardActivity.class.getSimpleName());
     }
 
     @Override

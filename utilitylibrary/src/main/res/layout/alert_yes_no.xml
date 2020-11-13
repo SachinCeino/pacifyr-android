@@ -54,7 +54,7 @@ android:layout_margin="10dp"
         android:maxLines="5"
         android:padding="10dp"
         android:gravity="center"
-        android:text="Alert content are you fucking idiet fdjg dfkj my tee dfifmd lsdk"
+        android:text=""
         android:textColor="@color/white"
         android:textSize="@dimen/sp12"
         />

@@ -3,19 +3,17 @@ package com.pacifyr.client.network;
 import android.content.Context;
 import android.content.Intent;
 import android.provider.Settings;
-import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.IntentCompat;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.gson.internal.$Gson$Preconditions;
+import com.pacifyr.client.R;
 import com.pacifyr.client.activity.SplashScreen;
 import com.pacifyr.client.quickblox.App;
 import com.pacifyr.client.sign.LoginActivity;
@@ -33,14 +31,15 @@ public class Auth {
                         || VISIBLE_ACTIVITY.equals(LoginActivity.class.getName())
                         || VISIBLE_ACTIVITY.equals(SplashScreen.class.getName())) {
                     Log.d(TAG, "httpStatusFilter: login page already shown"+status);
-                }else{
-                        Intent intent = new Intent(c, LoginActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-                                | Intent.FLAG_ACTIVITY_CLEAR_TOP
-                                | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        intent.putExtra("EXIT", true);
-                        c.startActivity(intent);
-                        Toast.makeText(c,"Your session is time out",Toast.LENGTH_LONG).show();
+                }else {
+                    PrefManager.getInstance(c).clear();
+                    Intent intent = new Intent(c, SignActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                            | Intent.FLAG_ACTIVITY_CLEAR_TOP
+                            | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    intent.putExtra("EXIT", true);
+                    c.startActivity(intent);
+                    Toast.makeText(c, c.getString(R.string.please_login_to_continue), Toast.LENGTH_LONG).show();
 
                 }
 

@@ -37,6 +37,7 @@ import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.model.MComments;
 import com.pacifyr.client.model.PrescriptionList;
 import com.pacifyr.client.model.interfaces.CommentClick;
+import com.pacifyr.client.network.Auth;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.quickblox.App;
@@ -338,7 +339,8 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
                     try {
                         hideProgress();
                         hideStatus();
-                        Log.w("@@@",String.valueOf(json));
+                        Auth.httpStatusFilter(getApplicationContext(), status.getCode());
+                        Log.w("@@@", String.valueOf(json));
                         if (isValid(json))
                         {
                             PrescriptionList mPrescriptionList = GsonUtils.getInstance().gsonToPrescriptionList(json);
@@ -412,6 +414,18 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
         if (imm != null) {
             imm.showSoftInput(comments_cedt, InputMethodManager.SHOW_FORCED);
         }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Auth.foreground(SessionSummaryActivity.class.getSimpleName());
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Auth.foreground("");
     }
 
     @Override
@@ -690,6 +704,7 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
                         @Override
                         public void callback(String url, JSONObject json, AjaxStatus status) {
                             hideProgress();
+                            Auth.httpStatusFilter(getApplicationContext(), status.getCode());
                             try {
                                 if (json != null) {
                                     NetworkService.mCurrentUser = GsonUtils.getInstance().gsonToModelUserProfile(json);
@@ -784,6 +799,7 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
             AjaxCallback cb = new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, JSONObject json, AjaxStatus status) {
+                    Auth.httpStatusFilter(getApplicationContext(), status.getCode());
                     try {
                         hideProgress();
                         modelAllEmotions = GsonUtils.getInstance().gsonToMListAllEmotionsI(json);
@@ -817,6 +833,7 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
                 @Override
                 public void callback(String url, JSONObject json, AjaxStatus status) {
                     hideProgress();
+                    Auth.httpStatusFilter(getApplicationContext(), status.getCode());
                     LogUtils.LOGD("session", " SSA webGetSessionDetail callback result" + json + " " + status.getMessage());
                     if (!isValid(json, "Network Interupted")) {
                         handlerFinish("Network Interupted");
