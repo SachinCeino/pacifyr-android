@@ -162,10 +162,10 @@ public class NetworkService  extends IntentService {
     private static final String SKIP_PARAM = "SKIP";
     private static final String LIMIT_PARAM = "LIMIT";
 
-    public static  boolean isRelease=UtilityNetworkService.isRelease;
+    public static  boolean isRelease = UtilityNetworkService.isRelease;
 
     public NetworkService() {
-        
+
         super("NetworkService");
 
     }
@@ -380,6 +380,11 @@ public class NetworkService  extends IntentService {
             AjaxCallback<JSONObject> cb = new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, JSONObject json, AjaxStatus status) {
+                    /*
+                     *this must be the first line of any httpCallBacks
+                     */
+                    Auth.httpStatusFilter(getApplicationContext(),status.getCode());
+
                     LogUtils.LOGD("SAMSAD", " ns handleActionGetListCustomers result" + json + " " + status.getMessage());
                     if(json == null) {
                         postEventOnMainThread(new NotifyEvent(false, status));
@@ -438,6 +443,7 @@ public class NetworkService  extends IntentService {
                 com.koushikdutta.async.future.FutureCallback<JsonObject> futureCallback = new com.koushikdutta.async.future.FutureCallback<JsonObject>() {
                     @Override
                     public void onCompleted(Exception e, JsonObject result) {
+
                         try {
                             if (isValid(result)) {
                                 final JSONObject jsonObject = new JSONObject(result.toString());
@@ -473,6 +479,11 @@ public class NetworkService  extends IntentService {
         AjaxCallback cb = new AjaxCallback<JSONObject>() {
             @Override
             public void callback(String url, JSONObject json, AjaxStatus status) {
+                /*
+                 *this must be the first line of any httpCallBacks
+                 */
+                Auth.httpStatusFilter(getApplicationContext(),status.getCode());
+
                 try {
                     modelListPosEmotions= GsonUtils.getInstance().gsonToMListPositiveEmotions(json);
                     //EventBus.getDefault().post(new EventMessage(getString(R.string.list_positive_emotions)));
@@ -502,6 +513,10 @@ public class NetworkService  extends IntentService {
         AjaxCallback cb = new AjaxCallback<JSONObject>() {
             @Override
             public void callback(String url, JSONObject json, AjaxStatus status) {
+                /*
+                 *this must be the first line of any httpCallBacks
+                 */
+                Auth.httpStatusFilter(getApplicationContext(),status.getCode());
                 try {
                     modelListNegEmotions= GsonUtils.getInstance().gsonToMListNegativeEmotions(json);
                     if (json != null && modelListNegEmotions != null && modelListNegEmotions.getResults() != null
@@ -529,6 +544,10 @@ public class NetworkService  extends IntentService {
         AjaxCallback cb = new AjaxCallback<JSONObject>() {
             @Override
             public void callback(String url, JSONObject json, AjaxStatus status) {
+                /*
+                 *this must be the first line of any httpCallBacks
+                 */
+                Auth.httpStatusFilter(getApplicationContext(),status.getCode());
                 try {
                     modelAllEmployees= GsonUtils.getInstance().gsonToMListEmployees(json);
                     postEventOnMainThread(new NotifyEvent(true, false));
@@ -552,6 +571,10 @@ public class NetworkService  extends IntentService {
         AjaxCallback cb = new AjaxCallback<JSONObject>() {
             @Override
             public void callback(String url, JSONObject json, AjaxStatus status) {
+                /*
+                 *this must be the first line of any httpCallBacks
+                 */
+                Auth.httpStatusFilter(getApplicationContext(),status.getCode());
                 try {
                     modelAllEmotions= GsonUtils.getInstance().gsonToMListAllEmotionsI(json);
                     postEventOnMainThread(new NotifyEvent(true, false));
@@ -580,6 +603,10 @@ public class NetworkService  extends IntentService {
         AjaxCallback cb = new AjaxCallback<JSONObject>() {
             @Override
             public void callback(String url, JSONObject json, AjaxStatus status) {
+                /*
+                 *this must be the first line of any httpCallBacks
+                 */
+                Auth.httpStatusFilter(getApplicationContext(),status.getCode());
                 try {
                     modelGetSessionRating= GsonUtils.getInstance().gsonToMGetSessionRating(json);
                     EventBus.getDefault().post(new EventMessage(getString(R.string.get_session_rating)));
@@ -604,6 +631,10 @@ public class NetworkService  extends IntentService {
         AjaxCallback cb = new AjaxCallback<JSONObject>() {
             @Override
             public void callback(String url, JSONObject json, AjaxStatus status) {
+                /*
+                 *this must be the first line of any httpCallBacks
+                 */
+                Auth.httpStatusFilter(getApplicationContext(),status.getCode());
                 try {
                     modelGetSessionDetails= GsonUtils.getInstance().gsonMGetSessionDetails(json);
                     EventBus.getDefault().post(new EventMessage(getString(R.string.get_session_details)));
@@ -612,9 +643,11 @@ public class NetworkService  extends IntentService {
                 }
             }
         };
+
         AQuery aq = new AQuery(getApplicationContext());
         cb.header("Content-Type", "application/json");
         cb.header("AccessToken",token);
+
         aq.ajax(url,JSONObject.class, cb);
     }
 
@@ -627,6 +660,10 @@ public class NetworkService  extends IntentService {
         AjaxCallback cb = new AjaxCallback<JSONObject>() {
             @Override
             public void callback(String url, JSONObject json, AjaxStatus status) {
+                /*
+                 *this must be the first line of any httpCallBacks
+                 */
+                Auth.httpStatusFilter(getApplicationContext(),status.getCode());
                 try {
                     modelGetSavedCards= GsonUtils.getInstance().gsonToMGetSavedCards(json);
                     EventBus.getDefault().post(new EventMessage(getString(R.string.earnings_api)));
@@ -650,6 +687,10 @@ public class NetworkService  extends IntentService {
         AjaxCallback cb = new AjaxCallback<JSONObject>() {
             @Override
             public void callback(String url, JSONObject json, AjaxStatus status) {
+                /*
+                 *this must be the first line of any httpCallBacks
+                 */
+                Auth.httpStatusFilter(getApplicationContext(),status.getCode());
                 try {
                     modelAllPacifyrSessions= GsonUtils.getInstance().gsonToMGetAllPacifyrSessions(json);
                     EventBus.getDefault().post(new EventMessage(getString(R.string.earnings_api)));
@@ -676,6 +717,10 @@ public class NetworkService  extends IntentService {
         AjaxCallback cb = new AjaxCallback<JSONObject>() {
             @Override
             public void callback(String url, JSONObject json, AjaxStatus status) {
+                /*
+                 *this must be the first line of any httpCallBacks
+                 */
+                Auth.httpStatusFilter(getApplicationContext(),status.getCode());
                 try {
                     modelEarningsAPI= GsonUtils.getInstance().gsonToMEarningsAPI(json);
                     postEventOnMainThread(new NotifyEvent(true, false));
@@ -701,6 +746,10 @@ public class NetworkService  extends IntentService {
         AjaxCallback cb = new AjaxCallback<JSONObject>() {
             @Override
             public void callback(String url, JSONObject json, AjaxStatus status) {
+                /*
+                 *this must be the first line of any httpCallBacks
+                 */
+                Auth.httpStatusFilter(getApplicationContext(),status.getCode());
                 try {
                     modelAllSessionsDateRange= GsonUtils.getInstance().gsonToMAllSessionsWithDateRange(json);
                     modelAllSessionsDateRange.toString();
@@ -725,6 +774,10 @@ public class NetworkService  extends IntentService {
         AjaxCallback cb = new AjaxCallback<JSONObject>() {
             @Override
             public void callback(String url, JSONObject json, AjaxStatus status) {
+                /*
+                 *this must be the first line of any httpCallBacks
+                 */
+                Auth.httpStatusFilter(getApplicationContext(),status.getCode());
                 try {
                     adminDashboardYear= GsonUtils.getInstance().gsonToMAdminDashboardYear(json);
                     adminDashboardYear.toString();
@@ -749,6 +802,10 @@ public class NetworkService  extends IntentService {
         AjaxCallback cb = new AjaxCallback<JSONObject>() {
             @Override
             public void callback(String url, JSONObject json, AjaxStatus status) {
+                /*
+                 *this must be the first line of any httpCallBacks
+                 */
+                Auth.httpStatusFilter(getApplicationContext(),status.getCode());
                 try {
                     adminDashboardMonth= GsonUtils.getInstance().gsonToMAdminDashboardMonth(json);
                     adminDashboardMonth.toString();
@@ -773,6 +830,10 @@ public class NetworkService  extends IntentService {
         AjaxCallback cb = new AjaxCallback<JSONObject>() {
             @Override
             public void callback(String url, JSONObject json, AjaxStatus status) {
+                /*
+                 *this must be the first line of any httpCallBacks
+                 */
+                Auth.httpStatusFilter(getApplicationContext(),status.getCode());
                 try {
                     adminDashboardWeek= GsonUtils.getInstance().gsonToMAdminDashboardByWeek(json);
                     adminDashboardWeek.toString();
@@ -797,6 +858,10 @@ public class NetworkService  extends IntentService {
         AjaxCallback cb = new AjaxCallback<JSONObject>() {
             @Override
             public void callback(String url, JSONObject json, AjaxStatus status) {
+                /*
+                 *this must be the first line of any httpCallBacks
+                 */
+                Auth.httpStatusFilter(getApplicationContext(),status.getCode());
                 try {
                     modelSpecialist= GsonUtils.getInstance().gsonToModelSpecialist(json);
                     modelResults=modelSpecialist.getResults();
@@ -827,6 +892,10 @@ public class NetworkService  extends IntentService {
         AjaxCallback cb = new AjaxCallback<JSONObject>() {
             @Override
             public void callback(String url, JSONObject json, AjaxStatus status) {
+                /*
+                 *this must be the first line of any httpCallBacks
+                 */
+                Auth.httpStatusFilter(getApplicationContext(),status.getCode());
                 try {
                     pSearchPacifyrWOptionsResponse= GsonUtils.getInstance().gsonToRespSearchPacifyrWOption(json);
                     //searchResults=modelSearchPacifyr.getResultsList();
@@ -885,6 +954,10 @@ public class NetworkService  extends IntentService {
         AjaxCallback cb = new AjaxCallback<JSONObject>() {
             @Override
             public void callback(String url, JSONObject json, AjaxStatus status) {
+                /*
+                 *this must be the first line of any httpCallBacks
+                 */
+                Auth.httpStatusFilter(getApplicationContext(),status.getCode());
                 try {
                     modelCustomerDashboard2= GsonUtils.getInstance().gsonToModelCustomerDashboard2(json);
                     String js=status.getMessage();
@@ -918,6 +991,10 @@ public class NetworkService  extends IntentService {
         AjaxCallback cb = new AjaxCallback<JSONObject>() {
             @Override
             public void callback(String url, JSONObject json, AjaxStatus status) {
+                /*
+                 *this must be the first line of any httpCallBacks
+                 */
+                Auth.httpStatusFilter(getApplicationContext(),status.getCode());
                 try {
                     modelPacifyrDashboard= GsonUtils.getInstance().gsonToModelPacifyrDashboard(json);
                     String js=status.getMessage();
@@ -1239,6 +1316,7 @@ public class NetworkService  extends IntentService {
                 @Override
                 public void onError(QBResponseException errors)
                 {
+
                     Log.w("QQQQQQ","onError");
                 }
             });

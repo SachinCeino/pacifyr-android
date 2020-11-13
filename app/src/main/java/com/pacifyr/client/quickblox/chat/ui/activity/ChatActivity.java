@@ -38,6 +38,7 @@ import com.pacifyr.client.R;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.AlertTypeEvent;
 import com.pacifyr.client.event.NotifyEvent;
+import com.pacifyr.client.network.Auth;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.quickblox.activities.CallActivity;
 import com.pacifyr.client.quickblox.chat.ui.adapter.AttachmentPreviewAdapter;
@@ -599,6 +600,10 @@ public class ChatActivity extends PacifyrAppCompactActivity implements ImagePick
                             AjaxCallback cb = new AjaxCallback<JSONObject>() {
                                 @Override
                                 public void callback(String url, JSONObject json, AjaxStatus status) {
+                                    /*
+                                     *this must be the first line of any httpCallBacks
+                                     */
+                                    Auth.httpStatusFilter(getApplicationContext(),status.getCode());
                                     if (json != null) {
                                         Log.d(TAG, "sendChatNotification Response " + json.toString());
                                     } else {

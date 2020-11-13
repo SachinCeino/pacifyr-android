@@ -11,6 +11,8 @@ import androidx.multidex.MultiDex;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 import com.pacifyr.client.R;
+import com.pacifyr.client.network.Auth;
+import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
 import com.pacifyr.client.quickblox.chat.models.SampleConfigs;
 import com.pacifyr.client.quickblox.chat.utils.Consts;
 import com.pacifyr.client.quickblox.chat.utils.configs.ConfigUtils;
@@ -61,6 +63,8 @@ public class App extends CoreApp {
             Log.e(TAG, "Exception " + Call_Service.class.getSimpleName() + " cannot be started");
             e.printStackTrace();
         }
+
+        Auth.scanUpdates(this);
         /**/
     }
 

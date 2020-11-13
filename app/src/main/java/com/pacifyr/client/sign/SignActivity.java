@@ -17,6 +17,7 @@ import com.pacifyr.client.R;
 import com.pacifyr.client.activity.TermsOfUseActivity;
 import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
+import com.pacifyr.client.network.Auth;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 
 
@@ -25,7 +26,12 @@ public class SignActivity extends PacifyrActivity {
     MainTextView pacifyrRequestTxv;
     RelativeLayout relative_bg;
 
-    MainTextView emergencyCtxv, covidMessage_ctxv;
+    MainTextView emergencyCtxv,covidMessage_ctxv;
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Auth.foreground("");
+    }
 
     @Override
     protected void onStart() {
@@ -37,7 +43,7 @@ public class SignActivity extends PacifyrActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign);
-
+        Auth.foreground(this.getClass().getName());
 
         relative_bg = findViewById(R.id.relative_bg);
         if (!getPackageName().equalsIgnoreCase("com.pacifyr.pam"))

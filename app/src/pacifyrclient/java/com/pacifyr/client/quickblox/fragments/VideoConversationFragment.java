@@ -52,6 +52,7 @@ import com.pacifyr.client.event.PicInPic;
 import com.pacifyr.client.home.CustomerDetailActivity;
 import com.pacifyr.client.home.ProfileScreenActivity;
 import com.pacifyr.client.interfaces.EmpMinutesListener;
+import com.pacifyr.client.network.Auth;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.quickblox.activities.CallActivity;
@@ -708,6 +709,10 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
             new NetworkService().incomingVideoCallUserEmotion(getPrefManager().getUserID(), new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, JSONObject json, AjaxStatus status) {
+                    /*
+                     *this must be the first line of any httpCallBacks
+                     */
+                    Auth.httpStatusFilter(getActivity(),status.getCode());
                     MEmotion emotion = null;
                     String image = null;
 
@@ -732,6 +737,10 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
             new NetworkService().incomingVideoCallUserEmotion(getCallUser().getId(), new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, JSONObject json, AjaxStatus status) {
+                    /*
+                     *this must be the first line of any httpCallBacks
+                     */
+                    Auth.httpStatusFilter(getActivity(),status.getCode());
                     MEmotion emotion = null;
                     String image = null;
 

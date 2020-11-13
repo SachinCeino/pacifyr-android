@@ -25,6 +25,8 @@ public class CoreApp extends MultiDexApplication {
         instance = this;
         /*initQbConfigs();
         initCredentials();*/
+
+
     }
 
     private void initQbConfigs() {

@@ -52,6 +52,7 @@ import com.pacifyr.client.quickblox.chat.utils.Consts;
 import com.pacifyr.client.utils.LogUtils;
 import com.pacifyr.client.utils.Utility;
 import com.pacifyrapp.utilitylibrary.CustomFontTextView;
+import com.pacifyrapp.utilitylibrary.Dialog;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 
@@ -1101,9 +1102,9 @@ Log.w("WWW","onCreate");
 
     private void showBookedSlotCancel(Slot singleSlote) {
 
-        ((PacifyrActivity) getActivity()).setAlertStatusInBlue("Cancel the slot", "Do you want to cancel the slot ?", new View.OnClickListener() {
+        ((PacifyrActivity) getActivity()).setAlertStatusInBlue("Cancel the slot", "Do you want to cancel the slot ?", new Dialog.onClick() {
             @Override
-            public void onClick(View v) {
+            public void onAction(Dialog d) {
                 ((PacifyrActivity) getActivity()).hideStatus();
 
                 callCAncelBookedSlotApi(singleSlote);

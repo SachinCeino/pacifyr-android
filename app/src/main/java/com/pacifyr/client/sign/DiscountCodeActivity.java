@@ -19,6 +19,7 @@ import com.pacifyr.client.event.BusProvider;
 import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.home.WelcomeTourActivity;
 import com.pacifyr.client.model.ApiResponse;
+import com.pacifyr.client.network.Auth;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.utility.PacifyrAppCompactActivity;
@@ -75,6 +76,10 @@ public class DiscountCodeActivity extends PacifyrAppCompactActivity {
                 new NetworkService().validateDiscountCode(code, new AjaxCallback<JSONObject>() {
                     @Override
                     public void callback(String url, JSONObject json, AjaxStatus status) {
+                        /*
+                         *this must be the first line of any httpCallBacks
+                         */
+                        Auth.httpStatusFilter(getApplicationContext(),status.getCode());
                         if (json == null) {
                             hideProgress();
                             Toast.makeText(DiscountCodeActivity.this, getString(R.string.invalid_coupon_code), Toast.LENGTH_SHORT).show();
