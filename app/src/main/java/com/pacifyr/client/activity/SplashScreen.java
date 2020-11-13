@@ -11,7 +11,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -25,6 +24,7 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.pacifyr.client.R;
+import com.pacifyr.client.application.RemoteConfig;
 import com.pacifyr.client.home.DashboardActivity;
 import com.pacifyr.client.home.PacifyrDashboardActivity;
 import com.pacifyr.client.network.Auth;
@@ -194,10 +194,12 @@ public class SplashScreen extends BaseAppCompactActivity {
                 } else {
                     Log.d(TAG, "Remote config fetch failed");
                 }
-                String usUrl = remConfig.getString("US");
-                String indiaUrl = remConfig.getString("India");
+                String usUrl = remConfig.getString(RemoteConfig.KEY_US_URL);
+                String indiaUrl = remConfig.getString(RemoteConfig.KEY_INDIA_URL);
+                boolean forceUpgrade = remConfig.getBoolean(RemoteConfig.KEY_FORCE_UPGRADE);
                 Log.d(TAG, "US url = " + usUrl);
                 Log.d(TAG, "India url = " + indiaUrl);
+                Log.d(TAG, "Force Upgrade = " + forceUpgrade);
             }
         });
 

@@ -69,6 +69,7 @@ import com.krishna.fileloader.request.FileLoadRequest;
 import com.pacifyr.client.Payment.AlertAddCreditCardActivity;
 import com.pacifyr.client.R;
 import com.pacifyr.client.adapter.EmotionSpecialityAdapter;
+import com.pacifyr.client.application.RemoteConfig;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.BusProvider;
 import com.pacifyr.client.event.CallEvent;
@@ -4404,9 +4405,9 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
 
     public void selectRemoteConfigUrl(int i) {
         if (i == 0) { //US
-            GLOBAL_URL = ((App) getApplication()).getRemoteConfig().getString("US");
+            GLOBAL_URL = ((App) getApplication()).getRemoteConfig().getString(RemoteConfig.KEY_US_URL);
         } else if (i == 2) { //India
-            GLOBAL_URL = ((App) getApplication()).getRemoteConfig().getString("India");
+            GLOBAL_URL = ((App) getApplication()).getRemoteConfig().getString(RemoteConfig.KEY_INDIA_URL);
         } else { //use default
             UtilityNetworkService.init(this);
         }
@@ -4495,7 +4496,8 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
 
     private boolean checkIfImmediateUpdateRequired(int availableVersionCode) {
         long code = FirebaseLogging.getAppVersionCode(getApplicationContext());
-        return code > 0 && (availableVersionCode - code) >= 2;
+        boolean forceUpgrade = ((App) getApplication()).getRemoteConfig().getBoolean(RemoteConfig.KEY_FORCE_UPGRADE);
+        return (code > 0 && (availableVersionCode - code) >= 2) || forceUpgrade;
     }
 
 }
