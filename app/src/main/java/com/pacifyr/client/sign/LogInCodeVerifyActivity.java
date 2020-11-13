@@ -26,6 +26,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GetTokenResult;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.pacifyr.client.R;
@@ -389,26 +390,38 @@ public class LogInCodeVerifyActivity extends PacifyrActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("jithish", "signInWithCredential:success");
-
+                            String[] idToken = new String[1];
                             FirebaseUser user = task.getResult().getUser();
+                            user.getIdToken(true)
+                                    .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
+                                        public void onComplete(@NonNull Task<GetTokenResult> task) {
+                                            if (task.isSuccessful()) {
+                                                idToken[0] = task.getResult().getToken();
+                                                if(bundle.getString("from").equals("signup")) {
+                                                    Intent intent = new Intent(LogInCodeVerifyActivity.this, RegisterActivity.class);
+                                                    startActivity(intent);
+                                                    finish();
+                                                }
+                                                else
+                                                {
+                                                    Intent intent = new Intent(LogInCodeVerifyActivity.this, LoginPhoneActivity.class);
+                                                    intent.putExtra("phone",phonenumber);
+                                                    if (isValid(idToken[0]))
+                                                        intent.putExtra("token", idToken[0]);
+                                                    startActivity(intent);
+                                                }
+                                                /*Bundle args =
+                                                        FirebaseLogging.getConstantArgsLoggedOut(LogInCodeVerifyActivity.this);
+                                                args.putString(FirebaseLogging.EC, phonenumber + "");
+                                                FirebaseLogging.sendLog(LogInCodeVerifyActivity.this,
+                                                        FirebaseLogging.EVENT_LOGIN_OTP_VERIFIED, args);*/
+                                            } else {
+                                                // Handle error -> task.getException();
+                                            }
+                                        }
+                                    });
 
 
-                            if(bundle.getString("from").equals("signup")) {
-                                Intent intent = new Intent(LogInCodeVerifyActivity.this, RegisterActivity.class);
-                                startActivity(intent);
-                                finish();
-                            }
-                            else
-                            {
-                                Intent intent = new Intent(LogInCodeVerifyActivity.this, LoginPhoneActivity.class);
-                                intent.putExtra("phone",phonenumber);
-                                startActivity(intent);
-                            }
-                            Bundle args =
-                                    FirebaseLogging.getConstantArgsLoggedOut(LogInCodeVerifyActivity.this);
-                            args.putString(FirebaseLogging.EC, phonenumber + "");
-                            FirebaseLogging.sendLog(LogInCodeVerifyActivity.this,
-                                    FirebaseLogging.EVENT_LOGIN_OTP_VERIFIED, args);
                             // [START_EXCLUDE]
                          //   updateUI(STATE_SIGNIN_SUCCESS, user);
                             // [END_EXCLUDE]

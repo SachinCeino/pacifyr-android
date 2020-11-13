@@ -27,6 +27,7 @@ import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.home.DashboardActivity;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
+import com.pacifyr.client.utility.AWSManager;
 import com.pacifyr.client.utils.AmazonSNSTokenHandler;
 import com.pacifyr.client.utils.FirebaseLogging;
 import com.pacifyrapp.utilitylibrary.CustomEditText;
@@ -35,6 +36,7 @@ import com.pacifyrapp.utilitylibrary.model.pacifyr.MRoleModel;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelPhoneLogin;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelUserProfile;
+import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.quickblox.auth.QBAuth;
 import com.quickblox.auth.session.QBSession;
@@ -58,7 +60,7 @@ import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL
 public class LoginPhoneActivity extends PacifyrActivity {
 
     public Bundle bundle;
-    public String phoneNo;
+    public String phoneNo,token;
     public ModelPhoneLogin modelPhoneLogin;
     public CustomEditText phone_tv;
     public String main_label="error",label="error";
@@ -83,7 +85,8 @@ public class LoginPhoneActivity extends PacifyrActivity {
         imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
         bundle=getIntent().getExtras();
         phoneNo=bundle.getString("phone");
-
+        if (isValid(bundle.getString("token")))
+            token=bundle.getString("token");
         loginUsingPhone();
 
 
@@ -122,7 +125,7 @@ public class LoginPhoneActivity extends PacifyrActivity {
     public void callLogin()
     {
         try {
-            String url = GLOBAL_URL + "login/phonenumber";
+            String url = GLOBAL_URL + "login/firebaseAuth";
             AjaxCallback cb = new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, final JSONObject json, final AjaxStatus status) {
@@ -259,8 +262,10 @@ public class LoginPhoneActivity extends PacifyrActivity {
             AQuery aq = new AQuery(LoginPhoneActivity.this);
             cb.header("Content-Type", "application/json");
             JSONObject postDataParams = new JSONObject();
-            postDataParams.putOpt("phoneNumber",phoneNo);
+           // postDataParams.putOpt("phoneNumber",phoneNo);
            // postDataParams.putOpt("phoneNumber","+"+phoneNo);
+            postDataParams.putOpt("applicationName", AWSManager.getProjectName(context));
+            postDataParams.putOpt("token",token);
             aq.post(url, postDataParams, JSONObject.class, cb);
         }
         catch(Exception ex)
