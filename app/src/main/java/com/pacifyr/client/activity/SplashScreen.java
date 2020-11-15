@@ -25,6 +25,7 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.pacifyr.client.R;
 import com.pacifyr.client.application.RemoteConfig;
+import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.home.DashboardActivity;
 import com.pacifyr.client.home.PacifyrDashboardActivity;
 import com.pacifyr.client.network.Auth;
@@ -61,6 +62,7 @@ public class SplashScreen extends BaseAppCompactActivity {
     protected void onCreate(Bundle savedInstanceState) {
         Auth.foreground(this.getClass().getName());
         FirebaseApp.initializeApp(this);
+        PacifyrActivity.flexibleUpdatePopupShown = false;
         //  overridePendingTransition(0, 0);
        // requestWindowFeature(Window.FEATURE_NO_TITLE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {

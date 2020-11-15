@@ -4414,6 +4414,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
         Log.d(TAG, "GLOBAL-URL : " + GLOBAL_URL);
     }
 
+    public static boolean flexibleUpdatePopupShown = false;
     public void checkForAppUpdate(Activity context, int UPDATE_REQUEST_CODE) {
         if (CallActivity.isCallActive) {
             Log.d(TAG, "Call is active. Not checking for updates");
@@ -4453,7 +4454,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                     e.printStackTrace();
                 }
             } else if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
-                    && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE)) {
+                    && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE) && !flexibleUpdatePopupShown) {
                 try {
 //                    Toast.makeText(context, "Flexible app update", Toast.LENGTH_LONG).show();
                     // Create a listener to track request state updates.
@@ -4478,6 +4479,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                             context,
                             // Include a request code to later monitor this update request.
                             UPDATE_REQUEST_CODE);
+                    flexibleUpdatePopupShown = true;
                 } catch (IntentSender.SendIntentException e) {
                     Toast.makeText(context, "Flexible app update : " + e.getMessage(), Toast.LENGTH_LONG).show();
                     e.printStackTrace();
