@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -33,6 +32,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
+import com.opensooq.supernova.gligar.GligarPicker;
 import com.pacifyr.client.R;
 import com.pacifyr.client.adapter.CountrySpinnerAdapter;
 import com.pacifyr.client.base.PacifyrActivity;
@@ -67,9 +67,10 @@ import static com.pacifyr.client.network.NetworkService.countryData;
 
 public class SignUpActivity extends PacifyrActivity {
 
+    private static final int REQUESTCODE_CAMERA_IMAGE = 101;
+    private static final int REQUESTCODE_GALLERY_IMAGE = 102;
     public static final String MY_PREFS_NAME = "AppPrefFile";
     public static final String mypreference = "mypref";
-
 
 
     private RelativeLayout logoRlay;
@@ -730,14 +731,10 @@ public class SignUpActivity extends PacifyrActivity {
                 @Override
                 public void onClick(DialogInterface dialog, int item) {
                     if (items[item].equals("Take Photo")) {
-                        Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        startActivityForResult(takePicture, 0);
+                        new GligarPicker().requestCode(REQUESTCODE_CAMERA_IMAGE).disableCamera(false).cameraDirect(true).limit(1).withActivity(SignUpActivity.this).show();
 
                     } else if (items[item].equals("Choose from Library")) {
-                        Intent intent = new Intent(
-                                Intent.ACTION_PICK,
-                                MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                        startActivityForResult(intent, 1);
+                        new GligarPicker().requestCode(REQUESTCODE_GALLERY_IMAGE).disableCamera(true).limit(1).withActivity(SignUpActivity.this).show();
                     } else if (items[item].equals("Cancel")) {
                         dialog.dismiss();
                     }
