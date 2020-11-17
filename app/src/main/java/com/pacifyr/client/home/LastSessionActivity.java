@@ -803,6 +803,19 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
                 commentsRcv.setAdapter(commentsAdapter);
 
             }
+
+            if (!editable)
+            {
+                if (isValid(comments_cedt))
+                {
+                    comments_cedt.setFocusable(false);
+                    comments_cedt.setCursorVisible(false);
+                    comments_cedt.setLongClickable(false);
+                    comments_cedt.setClickable(false);
+                    comments_cedt.setFocusable(false);
+                    comments_cedt.setSelected(false);
+                }
+            }
         } catch (Exception e) {
             LogUtils.LOGD("session", "SSA onSetValues exce " + e.getMessage());
         }
