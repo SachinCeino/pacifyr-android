@@ -163,6 +163,7 @@ import java.util.TimerTask;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static com.pacifyr.client.network.NetworkService.isRelease;
 import static com.pacifyr.client.network.NetworkService.mCurrentUser;
 import static com.pacifyr.client.network.NetworkService.modelAllEmotions;
 import static com.pacifyr.client.quickblox.activities.CallActivity.isCallActive;
@@ -525,6 +526,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
     };
 
     private void doPaymentSetup(Intent intent) {
+        if (isCallActive)return;
         String type = intent.getStringExtra("type");
         String id = intent.getStringExtra("id");
         String message = intent.getStringExtra("message");

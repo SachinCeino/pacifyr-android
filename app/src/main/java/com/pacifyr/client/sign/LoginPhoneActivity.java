@@ -51,6 +51,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 
 import static com.pacifyr.client.network.NetworkService.editProfileObject;
+import static com.pacifyr.client.network.NetworkService.isRelease;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.ACCOUNT_KEY;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.APP_ID;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.AUTH_KEY;
@@ -125,7 +126,13 @@ public class LoginPhoneActivity extends PacifyrActivity {
     public void callLogin()
     {
         try {
-            String url = GLOBAL_URL + "login/firebaseAuth";
+            String url;
+            if (isRelease){
+                url = GLOBAL_URL + "login/firebaseAuth";
+            }
+            else {
+                url = GLOBAL_URL + "login/phonenumber";
+            }
             AjaxCallback cb = new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, final JSONObject json, final AjaxStatus status) {
@@ -264,8 +271,15 @@ public class LoginPhoneActivity extends PacifyrActivity {
             JSONObject postDataParams = new JSONObject();
            // postDataParams.putOpt("phoneNumber",phoneNo);
            // postDataParams.putOpt("phoneNumber","+"+phoneNo);
-            postDataParams.putOpt("applicationName", AWSManager.getProjectName(context));
-            postDataParams.putOpt("token",token);
+
+            if (isRelease){
+                postDataParams.putOpt("applicationName", AWSManager.getProjectName(context));
+                postDataParams.putOpt("token",token);
+            }
+            else {
+                postDataParams.putOpt("phoneNumber",phoneNo);
+            }
+
             aq.post(url, postDataParams, JSONObject.class, cb);
         }
         catch(Exception ex)
