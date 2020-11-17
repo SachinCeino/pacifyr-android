@@ -1,7 +1,6 @@
 package com.pacifyr.client.sign;
 
 
-
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
@@ -9,26 +8,31 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.Request;
+import com.bumptech.glide.request.target.SizeReadyCallback;
+import com.bumptech.glide.request.target.Target;
+import com.bumptech.glide.request.transition.Transition;
 import com.google.gson.JsonObject;
-import com.kbeanie.multipicker.api.CameraImagePicker;
-import com.kbeanie.multipicker.api.ImagePicker;
-import com.kbeanie.multipicker.api.Picker;
-import com.kbeanie.multipicker.api.callbacks.ImagePickerCallback;
-import com.kbeanie.multipicker.api.entity.ChosenImage;
+import com.opensooq.supernova.gligar.GligarPicker;
 import com.pacifyr.client.R;
 import com.pacifyr.client.adapter.FileChooserAdapter;
 import com.pacifyr.client.base.PacifyrActivity;
@@ -39,7 +43,9 @@ import com.pacifyr.client.network.ApiClient;
 import com.pacifyr.client.retrofit.TestApiService;
 import com.pacifyr.client.utils.Utility;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
+
 import org.json.JSONObject;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -49,15 +55,19 @@ import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+
 import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
 import static com.pacifyr.client.sign.RegisterActivity.documentFileList;
 
-public class UploadActivity extends PacifyrActivity implements AddFileClickListner, ImagePickerCallback {
+public class UploadActivity extends PacifyrActivity implements AddFileClickListner {
 
+    private static final int REQUESTCODE_CAMERA_IMAGE = 101;
+    private static final int REQUESTCODE_GALLERY_IMAGE = 102;
+    private static final String TAG = UploadActivity.class.getSimpleName();
     private Context context;
     private Bitmap imageBitmap;
     private RecyclerView filesRcv;
@@ -68,10 +78,6 @@ public class UploadActivity extends PacifyrActivity implements AddFileClickListn
     public ArrayList<Uri> uriArrayList;
     private String dir;
     private String cameraPhotoPath;
-
-
-    private CameraImagePicker imagePicker;
-    private ImagePicker galImagePicker;
     private android.app.AlertDialog choosePicker;
     private String outputPath;
 
@@ -174,19 +180,13 @@ public class UploadActivity extends PacifyrActivity implements AddFileClickListn
 
                                 boolean checkPermission = Utility.checkPermission(UploadActivity.this, "camera");
                                 if(checkPermission) {
-                                    imagePicker = new CameraImagePicker(UploadActivity.this);
-                                    imagePicker.shouldGenerateThumbnails(true);
-                                    imagePicker.setImagePickerCallback(UploadActivity.this);
-                                    outputPath = imagePicker.pickImage();
+                                    new GligarPicker().requestCode(REQUESTCODE_CAMERA_IMAGE).disableCamera(false).cameraDirect(true).withActivity(UploadActivity.this).show();
                                 }
 
                             } else if (options[item].equals("Choose from gallery")) {
                                 boolean checkPermission = Utility.checkPermission(UploadActivity.this, "gallery");
                                 if(checkPermission) {
-                                    galImagePicker = new ImagePicker(UploadActivity.this);
-                                    galImagePicker.shouldGenerateThumbnails(true);
-                                    galImagePicker.setImagePickerCallback(UploadActivity.this);
-                                    galImagePicker.pickImage();
+                                    new GligarPicker().requestCode(REQUESTCODE_GALLERY_IMAGE).disableCamera(true).withActivity(UploadActivity.this).show();
                                 }
                             }
                         }
@@ -219,7 +219,7 @@ public class UploadActivity extends PacifyrActivity implements AddFileClickListn
             if (resultCode != 0) {
 
 
-                if (requestCode == Picker.PICK_IMAGE_DEVICE) {
+                /*if (requestCode == Picker.PICK_IMAGE_DEVICE) {
                     if (galImagePicker == null) {
                         galImagePicker = new ImagePicker(UploadActivity.this);
                         galImagePicker.shouldGenerateThumbnails(true);
@@ -234,8 +234,16 @@ public class UploadActivity extends PacifyrActivity implements AddFileClickListn
                         imagePicker.setImagePickerCallback(UploadActivity.this);
                     }
                     imagePicker.submit(data);
-                }
-                else if(requestCode == SELECT_PDF_FILE){
+                }*/
+
+                if (requestCode == REQUESTCODE_CAMERA_IMAGE || requestCode == REQUESTCODE_GALLERY_IMAGE) {
+                    String[] pathsList = data.getExtras().getStringArray(GligarPicker.IMAGES_RESULT);
+                    if (isValid(pathsList)) {
+                        for (String url : pathsList) {
+                            resizeImage(url);
+                        }
+                    }
+                } else if (requestCode == SELECT_PDF_FILE) {
                     if (resultCode == Activity.RESULT_OK && data != null) {
                         pacifyrDocuments = new ModelPacifyrDocuments();
                         Uri uri = data.getData();
@@ -270,6 +278,90 @@ public class UploadActivity extends PacifyrActivity implements AddFileClickListn
             e.printStackTrace();
 
         }
+    }
+
+
+    private void resizeImage(String url) {
+        Glide.with(UploadActivity.this).load(url).override(1200, 1200).into(new Target<Drawable>() {
+            @Override
+            public void onLoadStarted(@Nullable Drawable placeholder) {
+
+            }
+
+            @Override
+            public void onLoadFailed(@Nullable Drawable errorDrawable) {
+
+            }
+
+            @Override
+            public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+                if (resource instanceof BitmapDrawable) {
+                    File file = Utility.saveFileInCache(UploadActivity.this, ((BitmapDrawable) resource).getBitmap(), "tmp_" + System.currentTimeMillis() + ".jpg");
+                    if (file != null) {
+                        long fileSizeInBytes = file.length();
+                        long fileSizeInKB = fileSizeInBytes / 1024;
+                        Log.d(TAG, "File size : " + fileSizeInKB + " KB");
+
+                        try {
+                            pacifyrDocuments = new ModelPacifyrDocuments();
+
+                            Uri contentUri = Uri.fromFile(file);
+                            uriArrayList.add(contentUri);
+                            pacifyrDocuments.setUri(contentUri);
+                            pacifyrDocuments.setFileType("image");
+                            pacifyrDocuments.setFile(file);
+                            documentFileList.add(pacifyrDocuments);
+
+                            setAdapter();
+
+                        } catch (Exception e) {
+                            Toast.makeText(context, String.valueOf(e), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onLoadCleared(@Nullable Drawable placeholder) {
+
+            }
+
+            @Override
+            public void getSize(@NonNull SizeReadyCallback cb) {
+
+            }
+
+            @Override
+            public void removeCallback(@NonNull SizeReadyCallback cb) {
+
+            }
+
+            @Nullable
+            @Override
+            public Request getRequest() {
+                return null;
+            }
+
+            @Override
+            public void setRequest(@Nullable Request request) {
+
+            }
+
+            @Override
+            public void onStart() {
+
+            }
+
+            @Override
+            public void onStop() {
+
+            }
+
+            @Override
+            public void onDestroy() {
+
+            }
+        });
     }
 
 
@@ -519,7 +611,7 @@ public class UploadActivity extends PacifyrActivity implements AddFileClickListn
 
 
 
-    @Override
+    /*@Override
     public void onImagesChosen(List<ChosenImage> list) {
 
 
@@ -547,7 +639,7 @@ public class UploadActivity extends PacifyrActivity implements AddFileClickListn
     public void onError(String s) {
         Toast.makeText(context, String.valueOf(s), Toast.LENGTH_SHORT).show();
 
-    }
+    }*/
 
   /* public File persistImage(Bitmap bitmap, String name) {
         File filesDir = getApplicationContext().getFilesDir();

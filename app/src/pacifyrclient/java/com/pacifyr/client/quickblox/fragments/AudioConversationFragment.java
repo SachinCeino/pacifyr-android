@@ -26,6 +26,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.pacifyr.client.base.PacifyrActivity;
+import com.pacifyr.client.network.Auth;
 import com.pacifyr.client.quickblox.chat.ui.activity.AttachmentImageActivity;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MEmotion;
@@ -399,6 +400,10 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
             new NetworkService().incomingVideoCallUserEmotion(getPrefManager().getUserID(), new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, JSONObject json, AjaxStatus status) {
+                    /*
+                     *this must be the first line of any httpCallBacks
+                     */
+                    Auth.httpStatusFilter(getActivity(),status.getCode());
                     MEmotion emotion = null;
                     String image = null;
 
@@ -441,6 +446,10 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
             new NetworkService().incomingVideoCallUserEmotion(getCallUser().getId(), new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, JSONObject json, AjaxStatus status) {
+                    /*
+                     *this must be the first line of any httpCallBacks
+                     */
+                    Auth.httpStatusFilter(getActivity(),status.getCode());
                     MEmotion emotion = null;
                     String image = null;
 

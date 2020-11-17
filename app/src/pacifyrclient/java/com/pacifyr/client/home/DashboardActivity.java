@@ -51,6 +51,7 @@ import com.pacifyr.client.model.CallStatus;
 import com.pacifyr.client.model.interfaces.CallChatEventListner;
 import com.pacifyr.client.netconnectionlistener.CheckNetworkJob;
 import com.pacifyr.client.netconnectionlistener.ConnectionCheckBroadcast;
+import com.pacifyr.client.network.Auth;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.quickblox.chat.ui.activity.DialogsActivity;
 import com.pacifyr.client.quickblox.services.CallService;
@@ -64,6 +65,7 @@ import com.pacifyr.client.utils.PagerEnabledSlidingPaneLayout;
 import com.pacifyr.client.utils.ToastHandler;
 import com.pacifyr.client.utils.Utility;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
+import com.pacifyrapp.utilitylibrary.Dialog;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MRoleModel;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
@@ -342,17 +344,18 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
         leftLlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mSlidingPaneLayout.isOpen()) {
-                    mSlidingPaneLayout.closePane();
-
-                } else {
-                    mSlidingPaneLayout.openPane();
-                }
+                closePane(mSlidingPaneLayout.isOpen());
             }
         });
         showRightLayActionbar();
     }
-
+    public void closePane(boolean close){
+        if(close){
+            mSlidingPaneLayout.closePane();
+        }else{
+            mSlidingPaneLayout.openPane();
+        }
+    }
     private void showRightLayActionbar() {
 
         try {
@@ -398,11 +401,12 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
     }
 
     public void showFragment(Fragment fragment) {
+        closePane(true);
         /*FragmentManager fm=DashboardActivity.this.getSupportFragmentManager();
         FragmentTransaction ft=fm.beginTransaction();
         UserDashboardFragment fragment=new UserDashboardFragment();*/
         getSupportFragmentManager().beginTransaction().replace(R.id.activity_main_content_fragment, fragment).commit();
-        mSlidingPaneLayout.closePane();
+       // mSlidingPaneLayout.closePane();
     }
 
     public void showSearchPacifyrs(View view) {
@@ -416,9 +420,11 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
             mSlidingPaneLayout.closePane();
         } else {
 
-            if (getSupportFragmentManager().getBackStackEntryCount() > 0)
-                getSupportFragmentManager().popBackStackImmediate();
-            else {
+ //           if (getSupportFragmentManager().getBackStackEntryCount() > 0){
+  //              getSupportFragmentManager().popBackStackImmediate();
+               if(UserDashboardFragment.getVisibility()==false) {
+                   showFragment();
+               } else {
                 if (!onceBackpressed) {
                     ToastHandler.newInstance(this).mustShowToast("" + getText(R.string.press_back_again_to_exit));
                     onceBackpressed = true;
@@ -633,6 +639,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
             public void onClick(View v) {
 
                 hideRightLayActionbar();
+                closePane(true);
                 ConnectToPacifyrActivity.start(context);
                 /*Intent intent=new Intent(getActivity(), ConnectToPacifyrActivity.class);
                   intent.putExtra("display","Pacifyr");
@@ -654,6 +661,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
             public void onClick(View v) {
 
                 hideRightLayActionbar();
+                closePane(true);
                 Intent i=new Intent(context, ListPacifyrScreenActivity.class);
                 startActivity(i);
             }
@@ -681,6 +689,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
             public void onClick(View v) {
 
                 hideRightLayActionbar();
+                closePane(true);
                 //isFromSlideMenu true for subscription check validation
                 boolean isFromSlideMenu=true;
                 DialogsActivity.start(context,isFromSlideMenu);
@@ -694,6 +703,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
             public void onClick(View v) {
 
                 hideRightLayActionbar();
+                closePane(true);
                 PolicyDocumentActivity.start(context);
                 /*  showFragment(new PacifyrMessageFragment());*/
             }
@@ -723,6 +733,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
             public void onClick(View v) {
 
                 hideRightLayActionbar();
+                closePane(true);
                 Intent intent = new Intent(DashboardActivity.this,CrisisActivity.class);
                 startActivity(intent);
                 /*hideRightLayActionbar();
@@ -744,11 +755,11 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
         logoutLlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+               closePane(true);
                 hideRightLayActionbar();
-                setAlertStatusInBlue("log out", getResources().getString(R.string.signout_message), new View.OnClickListener() {
+                setAlertStatusInBlue("Logout", getResources().getString(R.string.signout_message), new Dialog.onClick() {
                     @Override
-                    public void onClick(View v) {
+                    public void onAction(Dialog d) {
                         hideStatus();
                             /*PrefManager prefM= PrefManager.getInstance(getActivity());
                             prefM.clearSharedAll();*/
@@ -842,6 +853,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
             AjaxCallback cb = new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, JSONObject json, AjaxStatus status) {
+                    Auth.httpStatusFilter(getApplicationContext(), status.getCode());
                     try {
                         hideProgress();
                         MUser user  = GsonUtils.getInstance().gsonToMUser(json);
@@ -942,6 +954,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
     protected void onStop() {
         super.onStop();
         EventBus.getDefault().unregister(this);
+        Auth.foreground("");
     }
 
     @Override
@@ -949,6 +962,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
         super.onStart();
         EventBus.getDefault().register(this);
         checkForAppUpdate(DashboardActivity.this, APP_UPDATE_REQUEST_CODE);
+        Auth.foreground(DashboardActivity.class.getSimpleName());
     }
 
     @Override

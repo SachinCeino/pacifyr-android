@@ -42,6 +42,7 @@ import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.home.DashboardActivity;
 import com.pacifyr.client.model.ItemData;
+import com.pacifyr.client.network.Auth;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.quickblox.chat.utils.qb.callback.QbEntityCallbackImpl;
@@ -105,9 +106,17 @@ public class LoginActivity extends PacifyrActivity {
     private MainTextView sms_text_login;
     private TextView TextView_phone_error;
     private LinearLayout LinearLayout_phone;
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Auth.foreground("");
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Auth.foreground(this.getClass().getName());
         setContentView(R.layout.activity_login_user);
         try {
             fbLogout();

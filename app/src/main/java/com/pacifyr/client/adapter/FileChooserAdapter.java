@@ -2,24 +2,26 @@ package com.pacifyr.client.adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.net.Uri;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
-import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.R;
+import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.model.ModelPacifyrDocuments;
 import com.pacifyr.client.model.interfaces.AddFileClickListner;
-import com.pacifyr.client.utils.Utility;
 
 import java.util.ArrayList;
 
@@ -73,44 +75,40 @@ public class FileChooserAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     {
                         Glide.with(context)
                                 .load(documents.getUri())
-                                .asBitmap()
                                 .placeholder(context.getResources().getDrawable(R.drawable.placeholder_user))
-                                .listener(new RequestListener<Uri, Bitmap>() {
+                                .listener(new RequestListener<Drawable>() {
                                     @Override
-                                    public boolean onException(Exception e, Uri model, Target<Bitmap> target, boolean isFirstResource) {
-
+                                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                                         return false;
                                     }
 
                                     @Override
-                                    public boolean onResourceReady(Bitmap resource, Uri model, Target<Bitmap> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                                        fHolder.fileImv.setImageBitmap(resource);
-                                        documents.setBitmap(resource);
-                                       /* documents.setFile(Utility.saveFileInCache(context,
-                                                resource, "temp_profile_"+String.valueOf(position)+".jpg"));*/
+                                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                                        if (resource instanceof BitmapDrawable) {
+                                            fHolder.fileImv.setImageBitmap(((BitmapDrawable) resource).getBitmap());
+                                            documents.setBitmap(((BitmapDrawable) resource).getBitmap());
+                                        }
                                         return false;
                                     }
+
                                 })
                                 .into(fHolder.fileImv);
                     }
                     else if (documents.getFileName()!=null)
                     {
                         Glide.with(context)
-                                .load(GLOBAL_IMAGE_URL+documents.getFileName()+"")
-                                .listener(new RequestListener<String, GlideDrawable>() {
+                                .load(GLOBAL_IMAGE_URL + documents.getFileName() + "")
+                                .listener(new RequestListener<Drawable>() {
                                     @Override
-                                    public boolean onException(Exception e, String model,
-                                                               Target<GlideDrawable> target, boolean isFirstResource) {
-                                        //  e.printStackTrace();
+                                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                                         return false;
                                     }
 
                                     @Override
-                                    public boolean onResourceReady(GlideDrawable resource, String model,
-                                                                   Target<GlideDrawable> target,
-                                                                   boolean isFromMemoryCache, boolean isFirstResource) {
+                                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
                                         return false;
                                     }
+
                                 })
                                 .dontTransform()
                                 .into(fHolder.fileImv);

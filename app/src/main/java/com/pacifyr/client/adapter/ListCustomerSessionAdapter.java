@@ -1,6 +1,7 @@
 package com.pacifyr.client.adapter;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,10 +9,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.pacifyr.client.R;
@@ -195,20 +198,17 @@ public class ListCustomerSessionAdapter extends RecyclerView.Adapter<RecyclerVie
             if(isValid(imgUrl)){
                 Glide.with(mContext)
                         .load(imgUrl)
-                        .listener(new RequestListener<String, GlideDrawable>() {
+                        .listener(new RequestListener<Drawable>() {
                             @Override
-                            public boolean onException(Exception e, String model,
-                                                       Target<GlideDrawable> target, boolean isFirstResource) {
-                                e.printStackTrace();
+                            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                                 return false;
                             }
 
                             @Override
-                            public boolean onResourceReady(GlideDrawable resource, String model,
-                                                           Target<GlideDrawable> target,
-                                                           boolean isFromMemoryCache, boolean isFirstResource) {
+                            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
                                 return false;
                             }
+
                         })
                         .dontTransform()
                         .into(holder.userCimv);
@@ -250,20 +250,17 @@ public class ListCustomerSessionAdapter extends RecyclerView.Adapter<RecyclerVie
                                 //Picasso.with(context).load(GLOBAL_IMAGE_URL + emotionList.get(i).getImage()).into(holder.afterEmotionImg);
                                 Glide.with(mContext)
                                         .load(GLOBAL_IMAGE_URL + emotionList.get(i).getImage())
-                                        .listener(new RequestListener<String, GlideDrawable>() {
+                                        .listener(new RequestListener<Drawable>() {
                                             @Override
-                                            public boolean onException(Exception e, String model,
-                                                                       Target<GlideDrawable> target, boolean isFirstResource) {
-                                                e.printStackTrace();
+                                            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                                                 return false;
                                             }
 
                                             @Override
-                                            public boolean onResourceReady(GlideDrawable resource, String model,
-                                                                           Target<GlideDrawable> target,
-                                                                           boolean isFromMemoryCache, boolean isFirstResource) {
+                                            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
                                                 return false;
                                             }
+
                                         })
                                         .dontTransform()
                                         .into(holder.afterEmotionImg);
@@ -279,20 +276,17 @@ public class ListCustomerSessionAdapter extends RecyclerView.Adapter<RecyclerVie
                                 // Picasso.with(context).load(GLOBAL_IMAGE_URL + emotionList.get(i).getImage()).into(holder.beforeEmotionImg);
                                 Glide.with(mContext)
                                         .load(GLOBAL_IMAGE_URL + emotionList.get(i).getImage())
-                                        .listener(new RequestListener<String, GlideDrawable>() {
+                                        .listener(new RequestListener<Drawable>() {
                                             @Override
-                                            public boolean onException(Exception e, String model,
-                                                                       Target<GlideDrawable> target, boolean isFirstResource) {
-                                                e.printStackTrace();
+                                            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                                                 return false;
                                             }
 
                                             @Override
-                                            public boolean onResourceReady(GlideDrawable resource, String model,
-                                                                           Target<GlideDrawable> target,
-                                                                           boolean isFromMemoryCache, boolean isFirstResource) {
+                                            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
                                                 return false;
                                             }
+
                                         })
                                         .dontTransform()
                                         .into(holder.beforeEmotionImg);

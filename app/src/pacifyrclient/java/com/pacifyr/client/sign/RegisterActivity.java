@@ -8,9 +8,10 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -18,10 +19,8 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.Html;
-import android.text.InputFilter;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
-import android.text.Spanned;
 import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
 import android.text.method.MovementMethod;
@@ -39,12 +38,19 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.Request;
+import com.bumptech.glide.request.target.SizeReadyCallback;
+import com.bumptech.glide.request.target.Target;
+import com.bumptech.glide.request.transition.Transition;
 import com.facebook.login.LoginManager;
 import com.gdacciaro.iOSDialog.iOSDialog;
 import com.gdacciaro.iOSDialog.iOSDialogClickListener;
@@ -54,6 +60,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.koushikdutta.ion.Ion;
+import com.opensooq.supernova.gligar.GligarPicker;
 import com.pacifyr.client.R;
 import com.pacifyr.client.activity.TermsOfUseActivity;
 import com.pacifyr.client.adapter.CountrySpinnerAdapter;
@@ -97,7 +104,6 @@ import com.quickblox.users.model.QBUser;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -151,7 +157,10 @@ public class RegisterActivity extends PacifyrActivity {
     public static final String TURN_SERVER = "turnserver.quickblox.com";*/
 
 
-    public static String qbUsrName,qbPassWord;
+    private static final int REQUESTCODE_CAMERA_IMAGE = 101;
+    private static final int REQUESTCODE_GALLERY_IMAGE = 102;
+    private static final String TAG = RegisterActivity.class.getSimpleName();
+    public static String qbUsrName, qbPassWord;
 
     public final String API_DOMAIN = "https://api.quickblox.com";
     public final String CHAT_DOMAIN = "chat.quickblox.com";
@@ -655,17 +664,14 @@ public class RegisterActivity extends PacifyrActivity {
                 {
                     boolean checkPermission = Utility.checkPermission(RegisterActivity.this, "camera");
                     if(checkPermission) {
-                        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        startActivityForResult(intent, CAMERA);
+                        new GligarPicker().requestCode(REQUESTCODE_CAMERA_IMAGE).disableCamera(false).cameraDirect(true).limit(1).withActivity(RegisterActivity.this).show();
                     }
                 }
                 else if (options[item].equals("Choose from Gallery"))
                 {
                     boolean checkPermission = Utility.checkPermission(RegisterActivity.this, "gallery");
                     if(checkPermission) {
-                        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                        startActivityForResult(intent, GALLERY);
-
+                        new GligarPicker().requestCode(REQUESTCODE_GALLERY_IMAGE).disableCamera(true).limit(1).withActivity(RegisterActivity.this).show();
                     }
                 }
                 else if (options[item].equals("Cancel")) {
@@ -682,12 +688,19 @@ public class RegisterActivity extends PacifyrActivity {
             LogUtils.LOGD("jithish", "HA  rq " + requestCode);
             //LogUtils.LOGD("jithish", "HA rvc" + CameraFragment.  REQUEST_VIDEO_CAPTURE);
             if (resultCode != 0) {
-                if(requestCode == GALLERY) {
+                if (requestCode == REQUESTCODE_CAMERA_IMAGE || requestCode == REQUESTCODE_GALLERY_IMAGE) {
+                    String[] pathsList = data.getExtras().getStringArray(GligarPicker.IMAGES_RESULT);
+                    if (isValid(pathsList)) {
+                        for (String url : pathsList) {
+                            resizeImage(url);
+                        }
+                    }
+                } else if (requestCode == GALLERY) {
                     onActivityProfileEditGallery(data);
-                } else if(requestCode == CAMERA) {
-                    LogUtils.LOGD("jithish","HA on camera");
-                    edit_image= (Bitmap) data.getExtras().get("data");
-                    if(isValid(edit_image))
+                } else if (requestCode == CAMERA) {
+                    LogUtils.LOGD("jithish", "HA on camera");
+                    edit_image = (Bitmap) data.getExtras().get("data");
+                    if (isValid(edit_image))
                         profileCimv.setImageBitmap(edit_image);
                     upload_textView.setText("Edit photo");
                     upload_textView.setVisibility(View.VISIBLE);
@@ -705,16 +718,89 @@ public class RegisterActivity extends PacifyrActivity {
             }
 
 
-
         } catch (Exception e) {
 
         }
     }
-    public void  onActivityProfileEditGallery(Intent data)
-    {
-        try{
-            edit_image= getBitmapGalleryExifCode(data);
-            if(isValid(edit_image,"")) {
+
+    private void resizeImage(String url) {
+        Glide.with(RegisterActivity.this).load(url).override(1200, 1200).into(new Target<Drawable>() {
+            @Override
+            public void onLoadStarted(@Nullable Drawable placeholder) {
+
+            }
+
+            @Override
+            public void onLoadFailed(@Nullable Drawable errorDrawable) {
+                edit_image = null;
+            }
+
+            @Override
+            public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+                if (resource instanceof BitmapDrawable) {
+                    File file = Utility.saveFileInCache(RegisterActivity.this, ((BitmapDrawable) resource).getBitmap(), "tmp_" + System.currentTimeMillis() + ".jpg");
+                    if (file != null) {
+                        long fileSizeInBytes = file.length();
+                        long fileSizeInKB = fileSizeInBytes / 1024;
+                        Log.d(TAG, "File size : " + fileSizeInKB + " KB");
+
+                        edit_image = ((BitmapDrawable) resource).getBitmap();
+                        upload_textView.setText("Edit Photo");
+                        upload_textView.setVisibility(View.VISIBLE);
+                        add_photo_textView.setVisibility(View.GONE);
+
+
+                    }
+                }
+            }
+
+            @Override
+            public void onLoadCleared(@Nullable Drawable placeholder) {
+
+            }
+
+            @Override
+            public void getSize(@NonNull SizeReadyCallback cb) {
+
+            }
+
+            @Override
+            public void removeCallback(@NonNull SizeReadyCallback cb) {
+
+            }
+
+            @Nullable
+            @Override
+            public Request getRequest() {
+                return null;
+            }
+
+            @Override
+            public void setRequest(@Nullable Request request) {
+
+            }
+
+            @Override
+            public void onStart() {
+
+            }
+
+            @Override
+            public void onStop() {
+
+            }
+
+            @Override
+            public void onDestroy() {
+
+            }
+        });
+    }
+
+    public void onActivityProfileEditGallery(Intent data) {
+        try {
+            edit_image = getBitmapGalleryExifCode(data);
+            if (isValid(edit_image, "")) {
                 profileCimv.setImageBitmap(edit_image);
                 profileCimv.setImageBitmap(edit_image);
                 upload_textView.setText("Edit photo");

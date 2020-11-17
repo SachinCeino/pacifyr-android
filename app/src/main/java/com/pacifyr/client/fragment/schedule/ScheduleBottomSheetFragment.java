@@ -1,8 +1,8 @@
 package com.pacifyr.client.fragment.schedule;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -20,15 +20,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.gdacciaro.iOSDialog.iOSDialog;
@@ -37,21 +37,17 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.pacifyr.client.R;
-import com.pacifyr.client.adapter.ListSavedCardAdapter;
 import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
-import com.pacifyr.client.event.BusProvider;
-import com.pacifyr.client.event.InternetConnectionEvent;
 import com.pacifyr.client.home.PaymentActivity;
 import com.pacifyr.client.model.SchedulePayment;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
-import com.pacifyr.client.paytmpayment.TransactionResponce;
-import com.pacifyr.client.quickblox.activities.CallActivity;
 import com.pacifyr.client.quickblox.chat.utils.Consts;
 import com.pacifyr.client.utils.LogUtils;
 import com.pacifyr.client.utils.Utility;
 import com.pacifyrapp.utilitylibrary.CustomFontTextView;
+import com.pacifyrapp.utilitylibrary.Dialog;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 
@@ -76,7 +72,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
-import static com.facebook.appevents.AppEventsLogger.getUserID;
 import static com.pacifyr.client.base.PacifyrActivity.errorCount;
 import static com.pacifyr.client.network.NetworkService.GLOBAL_IMAGE_URL;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
@@ -481,19 +476,15 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
         Glide.with(getActivity())
                 .load(GLOBAL_IMAGE_URL + pacifyer_obj.getImage())
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .listener(new RequestListener<String, GlideDrawable>() {
+                .listener(new RequestListener<Drawable>() {
+
                     @Override
-                    public boolean onException(Exception e, String model,
-                                               Target<GlideDrawable> target, boolean isFirstResource) {
-                        e.printStackTrace();
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                         return false;
                     }
 
                     @Override
-                    public boolean onResourceReady(GlideDrawable resource, String model,
-                                                   Target<GlideDrawable> target, boolean isFromMemoryCache,
-                                                   boolean isFirstResource) {
-                        // progressBar.setVisibility(View.GONE);
+                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
                         return false;
                     }
                 })
@@ -1101,9 +1092,9 @@ Log.w("WWW","onCreate");
 
     private void showBookedSlotCancel(Slot singleSlote) {
 
-        ((PacifyrActivity) getActivity()).setAlertStatusInBlue("Cancel the slot", "Do you want to cancel the slot ?", new View.OnClickListener() {
+        ((PacifyrActivity) getActivity()).setAlertStatusInBlue("Cancel the slot", "Do you want to cancel the slot ?", new Dialog.onClick() {
             @Override
-            public void onClick(View v) {
+            public void onAction(Dialog d) {
                 ((PacifyrActivity) getActivity()).hideStatus();
 
                 callCAncelBookedSlotApi(singleSlote);
@@ -1771,7 +1762,7 @@ Log.w("WWW","onCreate");
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onPayTmDone(Object event) {
 
-        Log.w("@@@",String.valueOf("onPayTmDone"));
+        Log.w("@@@", "onPayTmDone");
          try {
             if (event.equals("SCHEDULE_PAY")) {
                 Log.w("@@@@---", bookingRequestPaymentId);

@@ -69,6 +69,7 @@ import com.krishna.fileloader.request.FileLoadRequest;
 import com.pacifyr.client.Payment.AlertAddCreditCardActivity;
 import com.pacifyr.client.R;
 import com.pacifyr.client.adapter.EmotionSpecialityAdapter;
+import com.pacifyr.client.application.RemoteConfig;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.BusProvider;
 import com.pacifyr.client.event.CallEvent;
@@ -83,6 +84,7 @@ import com.pacifyr.client.model.AppoinmentNotification;
 import com.pacifyr.client.model.BillingSummary;
 import com.pacifyr.client.model.Session;
 import com.pacifyr.client.model.interfaces.AvailableMinuteListner;
+import com.pacifyr.client.network.Auth;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.paytmpayment.Paytm;
@@ -210,6 +212,10 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                 new NetworkService().getBillingData(PacifyrActivity.this, id, new AjaxCallback<JSONObject>() {
                     @Override
                     public void callback(String url, JSONObject json, AjaxStatus status) {
+                        /*
+                         *this must be the first line of any httpCallBacks
+                         */
+                        Auth.httpStatusFilter(getApplicationContext(),status.getCode());
                         try {
                             Log.d(TAG, "URL : " + url);
                             Log.d(TAG, "Resp JSON : " + json);
@@ -545,7 +551,10 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                         new NetworkService().sendPaymentFailedDueToSomeReasons(CallActivity.mSessionDetailRoot.getPacifyr().getId(), "paymentFailure", "Transaction cancelled", new AjaxCallback<JSONObject>() {
                             @Override
                             public void callback(String url, JSONObject json, AjaxStatus status) {
-
+                                /*
+                                 *this must be the first line of any httpCallBacks
+                                 */
+                                Auth.httpStatusFilter(getApplicationContext(),status.getCode());
                                 if (json != null) {
                                     Log.w("@@@", "sendCardAddedNotificationFail messages" + json.toString());
                                 }
@@ -2722,6 +2731,10 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
         new NetworkService().validateDiscountCode(couponCode, new AjaxCallback<JSONObject>() {
             @Override
             public void callback(String url, JSONObject json, AjaxStatus status) {
+                /*
+                 *this must be the first line of any httpCallBacks
+                 */
+                Auth.httpStatusFilter(getApplicationContext(),status.getCode());
                 inProgress = false;
                 if (json == null) {
                     hideProgress();
@@ -3572,6 +3585,10 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                 new NetworkService().sessionTracking(sessionid, new AjaxCallback<JSONObject>() {
                     @Override
                     public void callback(String url, JSONObject json, AjaxStatus status) {
+                        /*
+                         *this must be the first line of any httpCallBacks
+                         */
+                        Auth.httpStatusFilter(getApplicationContext(),status.getCode());
                         Log.d(TAG, "Url " + url + " -> " + json != null ? json.toString() : null);
                     }
                 });
@@ -3924,6 +3941,10 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                                         new NetworkService().sendCardAddedNotificationAfterPaytmSuccess(CallActivity.mSessionDetailRoot.getPacifyr().getId(), "cardSetup", new AjaxCallback<JSONObject>() {
                                             @Override
                                             public void callback(String url, JSONObject json, AjaxStatus status) {
+                                                /*
+                                                 *this must be the first line of any httpCallBacks
+                                                 */
+                                                Auth.httpStatusFilter(getApplicationContext(),status.getCode());
                                                 if (json != null) {
                                                     Log.w("PAYTMLOG", "sendCardAddedNotification responce" + json.toString());
                                                 }
@@ -4006,6 +4027,10 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                                         new NetworkService().sendCardAddedNotificationAfterPaytmSuccess(CallActivity.mSessionDetailRoot.getPacifyr().getId(), "cardSetup", new AjaxCallback<JSONObject>() {
                                             @Override
                                             public void callback(String url, JSONObject json, AjaxStatus status) {
+                                                /*
+                                                 *this must be the first line of any httpCallBacks
+                                                 */
+                                                Auth.httpStatusFilter(getApplicationContext(),status.getCode());
                                                 if (json != null) {
                                                     Log.w("PAYTMLOG", "sendCardAddedNotification responce" + json.toString());
                                                 }
@@ -4062,7 +4087,10 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                                     new NetworkService().sendPaymentFailedDueToSomeReasons(CallActivity.mSessionDetailRoot.getPacifyr().getId(), "paymentFailure", message, new AjaxCallback<JSONObject>() {
                                         @Override
                                         public void callback(String url, JSONObject json, AjaxStatus status) {
-
+                                            /*
+                                             *this must be the first line of any httpCallBacks
+                                             */
+                                            Auth.httpStatusFilter(getApplicationContext(),status.getCode());
                                             if (json != null) {
                                                 Log.w("PAYTMLOG", "sendCardAddedNotificationFail messages" + json.toString());
                                             }
@@ -4104,7 +4132,10 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                                     new NetworkService().sendPaymentFailedDueToSomeReasons(CallActivity.mSessionDetailRoot.getPacifyr().getId(), "paymentFailure", message, new AjaxCallback<JSONObject>() {
                                         @Override
                                         public void callback(String url, JSONObject json, AjaxStatus status) {
-
+                                            /*
+                                             *this must be the first line of any httpCallBacks
+                                             */
+                                            Auth.httpStatusFilter(getApplicationContext(),status.getCode());
                                             if (json != null) {
                                                 Log.w("PAYTMLOG", "sendCardAddedNotificationFail messages" + json.toString());
                                             }
@@ -4376,15 +4407,16 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
 
     public void selectRemoteConfigUrl(int i) {
         if (i == 0) { //US
-            GLOBAL_URL = ((App) getApplication()).getRemoteConfig().getString("US");
+            GLOBAL_URL = ((App) getApplication()).getRemoteConfig().getString(RemoteConfig.KEY_US_URL);
         } else if (i == 2) { //India
-            GLOBAL_URL = ((App) getApplication()).getRemoteConfig().getString("India");
+            GLOBAL_URL = ((App) getApplication()).getRemoteConfig().getString(RemoteConfig.KEY_INDIA_URL);
         } else { //use default
             UtilityNetworkService.init(this);
         }
         Log.d(TAG, "GLOBAL-URL : " + GLOBAL_URL);
     }
 
+    public static boolean flexibleUpdatePopupShown = false;
     public void checkForAppUpdate(Activity context, int UPDATE_REQUEST_CODE) {
         if (CallActivity.isCallActive) {
             Log.d(TAG, "Call is active. Not checking for updates");
@@ -4424,7 +4456,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                     e.printStackTrace();
                 }
             } else if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
-                    && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE)) {
+                    && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE) && !flexibleUpdatePopupShown) {
                 try {
 //                    Toast.makeText(context, "Flexible app update", Toast.LENGTH_LONG).show();
                     // Create a listener to track request state updates.
@@ -4449,6 +4481,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                             context,
                             // Include a request code to later monitor this update request.
                             UPDATE_REQUEST_CODE);
+                    flexibleUpdatePopupShown = true;
                 } catch (IntentSender.SendIntentException e) {
                     Toast.makeText(context, "Flexible app update : " + e.getMessage(), Toast.LENGTH_LONG).show();
                     e.printStackTrace();
@@ -4467,7 +4500,8 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
 
     private boolean checkIfImmediateUpdateRequired(int availableVersionCode) {
         long code = FirebaseLogging.getAppVersionCode(getApplicationContext());
-        return code > 0 && (availableVersionCode - code) >= 2;
+        boolean forceUpgrade = ((App) getApplication()).getRemoteConfig().getBoolean(RemoteConfig.KEY_FORCE_UPGRADE);
+        return (code > 0 && (availableVersionCode - code) >= 2) || forceUpgrade;
     }
 
 }

@@ -11,7 +11,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -25,8 +24,11 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.pacifyr.client.R;
+import com.pacifyr.client.application.RemoteConfig;
+import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.home.DashboardActivity;
 import com.pacifyr.client.home.PacifyrDashboardActivity;
+import com.pacifyr.client.network.Auth;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.quickblox.App;
 import com.pacifyr.client.quickblox.services.CallService;
@@ -58,14 +60,21 @@ public class SplashScreen extends BaseAppCompactActivity {
     private boolean isNeedToOpenAppointments ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
+        Auth.foreground(this.getClass().getName());
         FirebaseApp.initializeApp(this);
+        PacifyrActivity.flexibleUpdatePopupShown = false;
         //  overridePendingTransition(0, 0);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
+       // requestWindowFeature(Window.FEATURE_NO_TITLE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+                    WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        }
+     //   getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         super.onCreate(savedInstanceState);
         NetworkService.webListEmotions(SplashScreen.this);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.activity_splash_screen);
+               setContentView(R.layout.activity_splash_screen);
         image_splash = findViewById(R.id.image_splash);
         if (isValid(getIntent()) && isValid(getIntent().getExtras())&&isValid(getIntent().getExtras().getBoolean("isNeedToOpenAppointments",false))) {
             isNeedToOpenAppointments = getIntent().getExtras().getBoolean("isNeedToOpenAppointments",false);
@@ -187,10 +196,12 @@ public class SplashScreen extends BaseAppCompactActivity {
                 } else {
                     Log.d(TAG, "Remote config fetch failed");
                 }
-                String usUrl = remConfig.getString("US");
-                String indiaUrl = remConfig.getString("India");
+                String usUrl = remConfig.getString(RemoteConfig.KEY_US_URL);
+                String indiaUrl = remConfig.getString(RemoteConfig.KEY_INDIA_URL);
+                boolean forceUpgrade = remConfig.getBoolean(RemoteConfig.KEY_FORCE_UPGRADE);
                 Log.d(TAG, "US url = " + usUrl);
                 Log.d(TAG, "India url = " + indiaUrl);
+                Log.d(TAG, "Force Upgrade = " + forceUpgrade);
             }
         });
 

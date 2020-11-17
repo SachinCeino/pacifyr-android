@@ -29,6 +29,7 @@ import com.pacifyr.client.home.LastSessionActivity;
 import com.pacifyr.client.home.MySessionsActivity;
 import com.pacifyr.client.home.SessionSummaryActivity;
 import com.pacifyr.client.model.Session;
+import com.pacifyr.client.network.Auth;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.quickblox.chat.ui.activity.DialogsActivity;
@@ -111,6 +112,10 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
     private int badgeCount=0;
     private ImageView image_logo;
 
+    private static boolean isVisible=false;
+    public static boolean getVisibility(){
+        return isVisible;
+    }
     public UserDashboardFragment() {
         // Required empty public constructor
     }
@@ -322,10 +327,15 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
         cb.header("AccessToken", token);
         aq.ajax(url, JSONObject.class, cb);
     }
-
+    @Override
+    public void onStop() {
+        super.onStop();
+        isVisible=false;
+    }
     @Override
     public void onResume() {
         super.onResume();
+        isVisible=true;
         ((DashboardActivity) getActivity()).changeActionBarTitleForFragments(getResources().getString(R.string.nav_mydashbord_title));
 
         try {
@@ -384,7 +394,10 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
         AjaxCallback cb = new AjaxCallback<JSONObject>() {
             @Override
             public void callback(String url, JSONObject json, AjaxStatus status) {
-
+                /*
+                 *this must be the first line of any httpCallBacks
+                 */
+                Auth.httpStatusFilter(getActivity(),status.getCode());
                 try {
                     if (json != null) {
                         JSONArray results = json.getJSONArray("results");
@@ -418,6 +431,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
             @Override
             public void callback(String url, JSONObject json, AjaxStatus status) {
 
+                Auth.httpStatusFilter(getContext(), status.getCode());
                 try {
                     hideProgress();
                     modelCustomerDashboard2= GsonUtils.getInstance().gsonToModelCustomerDashboard2(json);
