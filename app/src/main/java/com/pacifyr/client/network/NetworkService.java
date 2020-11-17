@@ -74,6 +74,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import static com.pacifyr.client.base.PacifyrActivity.sessionid;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.CIRTIFICATE_KEY;
 
 /**
@@ -1091,6 +1092,8 @@ public class NetworkService  extends IntentService {
             params.putOpt("toUserId", toUserId);
             params.putOpt("fromUserId", userID);
             params.putOpt("type", type);
+            if (isValid(sessionid))
+                params.putOpt("sessionId", sessionid);
             aq.post(url, params, JSONObject.class, cb);
 
         } catch (Exception e) {
@@ -1111,6 +1114,8 @@ public class NetworkService  extends IntentService {
             params.putOpt("toUserId", toUserId);
             params.putOpt("fromUserId", userID);
             params.putOpt("type", type);
+            if (isValid(sessionid))
+                params.putOpt("sessionId", sessionid);
             aq.post(url, params, JSONObject.class, cb);
 
         } catch (Exception e) {
@@ -1133,6 +1138,8 @@ public class NetworkService  extends IntentService {
             params.putOpt("fromUserId", userID);
             params.putOpt("type", type);
             params.putOpt("status", message);
+            if (isValid(sessionid))
+                params.putOpt("sessionId", sessionid);
             aq.post(url, params, JSONObject.class, cb);
 
         } catch (Exception e) {
