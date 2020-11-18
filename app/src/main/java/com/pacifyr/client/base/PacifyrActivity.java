@@ -173,6 +173,7 @@ import static com.pacifyr.client.utils.Constants.getCountryChecks;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_IMAGE_URL;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.STRIPE_PUBLISH_KEY;
+import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.isProd;
 
 /**
  * Created by Mani-Ceino on 12/4/2017.
@@ -4406,11 +4407,17 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
     }
 
     public void selectRemoteConfigUrl(int i) {
-        if (i == 0) { //US
-            GLOBAL_URL = ((App) getApplication()).getRemoteConfig().getString(RemoteConfig.KEY_US_URL);
-        } else if (i == 2) { //India
-            GLOBAL_URL = ((App) getApplication()).getRemoteConfig().getString(RemoteConfig.KEY_INDIA_URL);
-        } else { //use default
+        if(isProd)
+        {
+            if (i == 0) { //US
+                GLOBAL_URL = ((App) getApplication()).getRemoteConfig().getString(RemoteConfig.KEY_US_URL);
+            } else if (i == 2) { //India
+                GLOBAL_URL = ((App) getApplication()).getRemoteConfig().getString(RemoteConfig.KEY_INDIA_URL);
+            } else { //use default
+                UtilityNetworkService.init(this);
+            }
+        }
+        else {
             UtilityNetworkService.init(this);
         }
         Log.d(TAG, "GLOBAL-URL : " + GLOBAL_URL);
