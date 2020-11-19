@@ -533,7 +533,6 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
     };
 
     private void doPaymentSetup(Intent intent) {
-        if (isCallActive)return;
         String type = intent.getStringExtra("type");
         String id = intent.getStringExtra("id");
         String message = intent.getStringExtra("message");
