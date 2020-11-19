@@ -107,7 +107,7 @@ public class RegisterVerifyActivity extends PacifyrActivity {
                         return;
 
                     }
-                    if(!isValid(pinview.getValue(),"Invalid code ")) {
+                    if(!isValid(pinview.getValue(),"Please enter verification code ")) {
                         hideProgress();
                         return;
                     }

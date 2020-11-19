@@ -318,7 +318,7 @@ public class LogInCodeVerifyActivity extends PacifyrActivity {
                         return;
                     }
 
-                    if(!isValid(pin.getValue(),"Invalid code "))
+                    if(!isValid(pin.getValue(),"Please enter verification code "))
                     {
                         hideProgress();
                         return;
