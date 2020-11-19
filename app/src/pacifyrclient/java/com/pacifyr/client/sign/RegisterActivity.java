@@ -745,6 +745,8 @@ public class RegisterActivity extends PacifyrActivity {
                         Log.d(TAG, "File size : " + fileSizeInKB + " KB");
 
                         edit_image = ((BitmapDrawable) resource).getBitmap();
+                        if (isValid(edit_image))
+                            profileCimv.setImageBitmap(edit_image);
                         upload_textView.setText("Edit Photo");
                         upload_textView.setVisibility(View.VISIBLE);
                         add_photo_textView.setVisibility(View.GONE);
