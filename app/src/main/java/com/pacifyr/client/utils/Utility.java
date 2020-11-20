@@ -43,6 +43,7 @@ import com.google.firebase.dynamiclinks.PendingDynamicLinkData;
 import com.pacifyr.client.R;
 import com.pacifyr.client.activity.SplashScreen;
 import com.pacifyr.client.home.DashboardActivity;
+import com.pacifyr.client.model.HttpStatus;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 
 import java.io.BufferedOutputStream;
@@ -1110,6 +1111,30 @@ public class Utility {
                         }
                     }
                 });
+    }
+
+    public static HttpStatus checkStatusCode(int code) {
+        HttpStatus httpStatus = new HttpStatus();
+        switch (code) {
+            case 500: {
+                return httpStatus;
+            }
+            case 200: {
+                httpStatus.setValid(true);
+                httpStatus.setMessage("Success");
+                return httpStatus;
+            }
+            case 401: {
+                httpStatus.setValid(false);
+                httpStatus.setMessage("Authentication required");
+                return httpStatus;
+            }
+            default: {
+                httpStatus.setValid(false);
+                httpStatus.setMessage("Something went wrong. PLease try later");
+                return httpStatus;
+            }
+        }
     }
 
     public static void getRealTimeLogging(Context context) {

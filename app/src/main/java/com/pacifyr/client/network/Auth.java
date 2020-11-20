@@ -23,7 +23,8 @@ import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 public class Auth {
     private static String TAG=Auth.class.getName();
     private static String ANDROID_ID;
-    private static String VISIBLE_ACTIVITY="";
+    private static String VISIBLE_ACTIVITY = "";
+    private static final boolean enableSessionManagement = false;
     public static void httpStatusFilter(Context c,int status){
         switch(status){
             case 401://Forbidden
@@ -48,22 +49,28 @@ public class Auth {
                 Log.d(TAG, "httpStatusFilter: "+status);
         }
     }
-    public static void setActiveOnFDB(Context context){
-        PrefManager prefM= PrefManager.getInstance(context);
-        String token=prefM.getAccessToken();
-        String userId=prefM.getUserID();
+    public static void setActiveOnFDB(Context context) {
+        if (!enableSessionManagement) {
+            return;
+        }
+        PrefManager prefM = PrefManager.getInstance(context);
+        String token = prefM.getAccessToken();
+        String userId = prefM.getUserID();
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("sessions").child(userId);
         myRef.setValue(getDeviceId(context));
         scanUpdates(context);
-        Log.d(TAG, "setActiveOnFDB: "+userId+"-"+getDeviceId(context));
+        Log.d(TAG, "setActiveOnFDB: " + userId + "-" + getDeviceId(context));
     }
 
-    public static void scanUpdates(Context context){
+    public static void scanUpdates(Context context) {
+        if (!enableSessionManagement) {
+            return;
+        }
         Log.d(TAG, "scanUpdates: calling");
-        ANDROID_ID=getDeviceId(context);
-        String userId= PrefManager.getInstance(context).getUserID();
+        ANDROID_ID = getDeviceId(context);
+        String userId = PrefManager.getInstance(context).getUserID();
         Log.d(TAG, "scanUpdates: user id :" + userId);
         if (!userId.equals("")) {
             Log.d(TAG, "scanUpdates: scanning :" + userId);

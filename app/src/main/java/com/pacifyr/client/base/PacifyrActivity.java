@@ -165,7 +165,6 @@ import java.util.TimerTask;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-import static com.pacifyr.client.network.NetworkService.isRelease;
 import static com.pacifyr.client.network.NetworkService.mCurrentUser;
 import static com.pacifyr.client.network.NetworkService.modelAllEmotions;
 import static com.pacifyr.client.quickblox.activities.CallActivity.isCallActive;
@@ -3588,7 +3587,8 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                         /*
                          *this must be the first line of any httpCallBacks
                          */
-                        Auth.httpStatusFilter(getApplicationContext(),status.getCode());
+//                        Auth.httpStatusFilter(getApplicationContext(),status.getCode());
+                        BusProvider.getInstance().post(Utility.checkStatusCode(status.getCode())); // for call related apis
                         Log.d(TAG, "Url " + url + " -> " + json != null ? json.toString() : null);
                     }
                 });
@@ -3944,7 +3944,8 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                                                 /*
                                                  *this must be the first line of any httpCallBacks
                                                  */
-                                                Auth.httpStatusFilter(getApplicationContext(),status.getCode());
+//                                                Auth.httpStatusFilter(getApplicationContext(),status.getCode());
+                                                BusProvider.getInstance().post(Utility.checkStatusCode(status.getCode())); // for call related apis
                                                 if (json != null) {
                                                     Log.w("PAYTMLOG", "sendCardAddedNotification responce" + json.toString());
                                                 }
