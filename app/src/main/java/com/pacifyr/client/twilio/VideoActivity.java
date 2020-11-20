@@ -2,6 +2,7 @@ package com.pacifyr.client.twilio;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.PictureInPictureParams;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -9,14 +10,17 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.media.AudioManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
 
 import android.util.Log;
+import android.util.Rational;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -72,6 +76,9 @@ import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.quickblox.activities.CallActivity;
 import com.pacifyr.client.quickblox.chat.ui.activity.AttachmentImageActivity;
+import com.pacifyr.client.quickblox.fragments.AudioConversationFragment;
+import com.pacifyr.client.quickblox.fragments.VideoConversationFragment;
+import com.pacifyr.client.quickblox.utils.Consts;
 import com.pacifyr.client.quickblox.utils.PermissionsChecker;
 import com.pacifyr.client.quickblox.utils.RingtonePlayer;
 import com.pacifyr.client.utility.PacifyrAppCompactActivity;
@@ -399,6 +406,15 @@ public class VideoActivity extends PacifyrActivity {
     }
 
 
+    public static void start(Context context,String accessToken,String roomName,MUser pacifyerDetial,boolean isVideoCall) {
+        Intent intent = new Intent(context, VideoActivity.class);
+        intent.putExtra("accessToken",accessToken);
+        intent.putExtra("pacifyerDetial",pacifyerDetial);
+        intent.putExtra("roomName",roomName);
+        intent.putExtra("isVideoCall",isVideoCall);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -724,27 +740,12 @@ public class VideoActivity extends PacifyrActivity {
       }
     }
 
-    @Override
-    public void onPictureInPictureModeChanged(boolean isInPictureInPictureMode) {
-        super.onPictureInPictureModeChanged(isInPictureInPictureMode);
-        setShowDialogs(!isInPictureInPictureMode);
-        if (!isInPictureInPictureMode) {
-            maximizePicInPicView();
-        }
-    }
 
-    public void onPictureInPicture(PicInPic picInPic) {
-        if (picInPic.isEnabled()) {
-            hideToolBarAndButtons();
-        } else {
-            showToolBarAndButtons();
-        }
-    }
 
     private void hideToolBarAndButtons() {
-        actionBar.hide();
 
-       // info_overlay_llay.setVisibility(View.GONE);
+
+       button_hangup_call.setVisibility(View.GONE);
         emotion_rlay.setVisibility(View.GONE);
         //userRlay.setVisibility(View.GONE);
         billingStatus.setVisibility(View.GONE);
@@ -756,8 +757,7 @@ public class VideoActivity extends PacifyrActivity {
     }
 
     private void showToolBarAndButtons() {
-        // actionBar.show();
-        actionBar.hide();
+
         //info_overlay_llay.setVisibility(View.VISIBLE);
         call_overlay.setVisibility(View.VISIBLE);
        // userRlay.setVisibility(View.VISIBLE);
@@ -774,6 +774,7 @@ public class VideoActivity extends PacifyrActivity {
             billingStatus.setVisibility(View.VISIBLE);
         } else {
             billingStatus.setVisibility(View.INVISIBLE);
+            button_hangup_call.setVisibility(View.VISIBLE);
         }
 
 
@@ -2113,7 +2114,7 @@ public class VideoActivity extends PacifyrActivity {
         {
             LogUtils.LOGD("call","CA hangUpCurrentSessionMe Exception e "+ e.getMessage());
         }
-        //isCallActive = false;
+        isCallActive = false;
         //BusProvider.getInstance().post(new CallStatus(isCallActive));
         //jpppppppppppppppppp
 
@@ -2238,7 +2239,7 @@ public class VideoActivity extends PacifyrActivity {
 
     @org.greenrobot.eventbus.Subscribe(threadMode = ThreadMode.MAIN)
     public void onCallConnected(TwilioCallEvent mTwilioCallEvent) {
-
+        isCallActive=true;
         if (isValid(mTwilioCallEvent.getIdsession()))
         {
             SessionId= mTwilioCallEvent.getIdsession();
@@ -2288,6 +2289,37 @@ public class VideoActivity extends PacifyrActivity {
             aq.post(GLOBAL_URL + "session/missed", input, JSONObject.class, cb);
         } catch (Exception e){
             LogUtils.LOGD("call", "missedSessionWeb end exception : " + e.getMessage());
+        }
+    }
+
+    /**Picture-in-picture Support **/
+
+    @Override
+    protected void onUserLeaveHint() {
+        if (isCallActive) {
+            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                PictureInPictureParams.Builder pictureParams = new PictureInPictureParams.Builder();
+                pictureParams.setAspectRatio(new Rational(1200, 720)).build();
+                enterPictureInPictureMode(pictureParams.build());
+            }
+        }
+    }
+
+    @Override
+    public void onPictureInPictureModeChanged(boolean isInPictureInPictureMode, Configuration newConfig) {
+
+        onPictureInPicture(new PicInPic(isInPictureInPictureMode));
+        setShowDialogs(!isInPictureInPictureMode);
+        if (!isInPictureInPictureMode) {
+            maximizePicInPicView();
+        }
+    }
+
+    public void onPictureInPicture(PicInPic picInPic) {
+        if (picInPic.isEnabled()) {
+            hideToolBarAndButtons();
+        } else {
+            showToolBarAndButtons();
         }
     }
 

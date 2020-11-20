@@ -640,7 +640,7 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
 //            we have already currentSession == null, so it's no reason to do further initialization
             finish();
             Log.d(TAG, "finish CallActivity");
-            isCallActive = false;
+            //isCallActive = false;
             BusProvider.getInstance().post(new CallStatus(isCallActive));
             return;
         }

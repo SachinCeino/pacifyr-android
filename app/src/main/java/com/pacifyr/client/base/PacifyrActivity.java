@@ -1754,13 +1754,7 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
                         {
                             TwilioAccessToken mTwilioAccessToken=GsonUtils.getInstance().gsonToTwilioAccessToken(jsonObject);
                             if (isValid(mTwilioAccessToken) && mTwilioAccessToken.getStatus().equals("success") &&isValid(mTwilioAccessToken.getMessage())) {
-                                Intent intent = new Intent(getApplicationContext(), VideoActivity.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                intent.putExtra("accessToken",mTwilioAccessToken.getMessage());
-                                intent.putExtra("roomName",roomName);
-                                intent.putExtra("pacifyerDetial",pacifyerDetial);
-                                intent.putExtra("isVideoCall",isVideoCall);
-                                startActivity(intent);
+                                VideoActivity.start(getApplicationContext(),mTwilioAccessToken.getMessage(),roomName,pacifyerDetial,isVideoCall);
                             }
                             else
                             {
@@ -2405,6 +2399,7 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
 
 
     public void stopSessionWeb( String sessionid) {
+        isCallActive=false;
         Log.d(TAG, "stopSessionWeb " + sessionid);
         try {
             //  ToastHandler.newInstance(PacifyrActivity.this).showToast("stopSessionWeb api called ");
