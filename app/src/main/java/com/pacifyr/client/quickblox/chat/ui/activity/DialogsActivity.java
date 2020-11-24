@@ -150,6 +150,8 @@ public class DialogsActivity extends PacifyrActivity implements DialogsManager.M
         if (mNotificationManager != null) {
             mNotificationManager.cancelAll();
         }
+
+        userDetailWeb(getUserID());
     }
 
     @Override

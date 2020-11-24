@@ -214,6 +214,7 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
         selectFeelingRlay.setVisibility(View.VISIBLE);
 
         listPacifyrRlay.setVisibility(View.GONE);
+        userDetailWeb(getUserID());
 
         button1.setOnClickListener(new View.OnClickListener() {
             @Override

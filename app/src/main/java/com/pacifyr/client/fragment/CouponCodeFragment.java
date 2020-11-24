@@ -41,7 +41,13 @@ public class CouponCodeFragment extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        userDetailWeb(getUserID(), new AjaxCallback<JSONObject>() {
+            @Override
+            public void callback(String url, JSONObject object, AjaxStatus status) {
+                super.callback(url, object, status);
+                Auth.httpStatusFilter(getContext(), status.getCode());
+            }
+        });
     }
 
     @Override

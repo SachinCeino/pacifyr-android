@@ -61,7 +61,7 @@ public class TermsOfUseActivity extends PacifyrActivity {
         }
         onSetActionBar();
 
-
+        userDetailWeb(getUserID());
 
     }
 

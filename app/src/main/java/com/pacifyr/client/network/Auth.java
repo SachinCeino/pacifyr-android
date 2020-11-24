@@ -21,18 +21,20 @@ import com.pacifyr.client.sign.SignActivity;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 
 public class Auth {
-    private static String TAG=Auth.class.getName();
+    private static String TAG = Auth.class.getName();
     private static String ANDROID_ID;
     private static String VISIBLE_ACTIVITY = "";
     private static final boolean enableSessionManagement = false;
-    public static void httpStatusFilter(Context c,int status){
-        switch(status){
+    private static Toast toast;
+
+    public static void httpStatusFilter(Context c, int status) {
+        switch (status) {
             case 401://Forbidden
-                if(VISIBLE_ACTIVITY.equals(SignActivity.class.getName() )
+                if (VISIBLE_ACTIVITY.equals(SignActivity.class.getName())
                         || VISIBLE_ACTIVITY.equals(LoginActivity.class.getName())
                         || VISIBLE_ACTIVITY.equals(SplashScreen.class.getName())) {
-                    Log.d(TAG, "httpStatusFilter: login page already shown"+status);
-                }else {
+                    Log.d(TAG, "httpStatusFilter: login page already shown" + status);
+                } else {
                     PrefManager.getInstance(c).clear();
                     Intent intent = new Intent(c, SignActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
@@ -40,7 +42,11 @@ public class Auth {
                             | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     intent.putExtra("EXIT", true);
                     c.startActivity(intent);
-                    Toast.makeText(c, c.getString(R.string.please_login_to_continue), Toast.LENGTH_LONG).show();
+                    if (toast != null) {
+                        toast.cancel();
+                    }
+                    toast = Toast.makeText(c, c.getString(R.string.please_login_to_continue), Toast.LENGTH_LONG);
+                    toast.show();
 
                 }
 
