@@ -1301,6 +1301,10 @@ public class NetworkService  extends IntentService {
                 {
                     json.put("id",sessionID);
                 }
+                if (isValid(prefM.getUserID()))
+                {
+                    json.put("oppositeuserid",prefM.getUserID());
+                }
 
 
 
