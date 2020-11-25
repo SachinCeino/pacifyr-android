@@ -29,8 +29,8 @@ import com.pacifyr.client.event.CallEvent;
 import com.pacifyr.client.event.ChatEvent;
 import com.pacifyr.client.event.InternetConnectionEvent;
 import com.pacifyr.client.event.NotifyEvent;
-import com.pacifyr.client.fragment.schedule.ScheduleBottomSheetFragment;
 import com.pacifyr.client.model.interfaces.CallChatEventListner;
+import com.pacifyr.client.network.Auth;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.quickblox.utils.Consts;
@@ -431,6 +431,7 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
         AjaxCallback cb = new AjaxCallback<JSONObject>() {
             @Override
             public void callback(String url, JSONObject json, AjaxStatus status) {
+                Auth.httpStatusFilter(getApplicationContext(), status.getCode());
                 try {
                     modelSpecialist = GsonUtils.getInstance().gsonToModelSpecialist(json);
                     modelSpecialist.toString();
@@ -458,6 +459,7 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
         AjaxCallback cb = new AjaxCallback<JSONObject>() {
             @Override
             public void callback(String url, JSONObject json, AjaxStatus status) {
+                Auth.httpStatusFilter(getApplicationContext(), status.getCode());
                 try {
                     modelSpecialist = GsonUtils.getInstance().gsonToModelSpecialist(json);
                     webSearchPacifyrFromSearchView(customerEmotion);
@@ -684,6 +686,7 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
             AjaxCallback cb = new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, JSONObject json, AjaxStatus status) {
+                    Auth.httpStatusFilter(getApplicationContext(), status.getCode());
                     try {
                         pSearchPacifyrWOptionsResponse = GsonUtils.getInstance().gsonToRespSearchPacifyrWOption(json);
                         //searchResults=modelSearchPacifyr.getResultsList();
@@ -768,6 +771,7 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
             AjaxCallback cb = new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, JSONObject json, AjaxStatus status) {
+                    Auth.httpStatusFilter(getApplicationContext(), status.getCode());
                     try {
 
                         RespSearchPacifyrWOption mRespSearchPacifyrWOption=GsonUtils.getInstance().gsonToRespSearchPacifyrWOption(json);
@@ -854,6 +858,7 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
             AjaxCallback cb = new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, JSONObject json, AjaxStatus status) {
+                    Auth.httpStatusFilter(getApplicationContext(), status.getCode());
                     try {
                         hideProgress();
                         RespSearchPacifyrWOption  mSearchResult= GsonUtils.getInstance().gsonToRespSearchPacifyrWOption(json);
@@ -983,6 +988,7 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
                 @Override
                 public void callback(String url, JSONObject json, AjaxStatus status) {
                     hideProgress();
+                    Auth.httpStatusFilter(getApplicationContext(), status.getCode());
                     try {
                         String js = json.toString();
                         modelSpecialist= GsonUtils.getInstance().gsonToModelSpecialist(json);

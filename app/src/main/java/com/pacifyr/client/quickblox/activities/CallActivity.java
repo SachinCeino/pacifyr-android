@@ -40,6 +40,8 @@ import com.pacifyr.client.fragment.PrescriptionWhileCallFragment;
 import com.pacifyr.client.home.PacifyrDashboardActivity;
 import com.pacifyr.client.home.SessionSummaryActivity;
 import com.pacifyr.client.model.CallStatus;
+import com.pacifyr.client.model.HttpStatus;
+import com.pacifyr.client.network.Auth;
 import com.pacifyr.client.quickblox.App;
 import com.pacifyr.client.quickblox.db.QbUsersDbManager;
 import com.pacifyr.client.quickblox.fragments.AudioConversationFragment;
@@ -1120,6 +1122,14 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
                 Toaster.shortToast(message);
             }
         });
+    }
+
+    @Subscribe
+    public void onUnAuthResponse(HttpStatus httpStatus) {
+        if (!httpStatus.isValid()) {
+            hangUpCurrentSessionMe();
+            Auth.httpStatusFilter(getApplicationContext(), 401);
+        }
     }
 
     @Override

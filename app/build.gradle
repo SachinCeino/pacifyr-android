@@ -104,8 +104,8 @@ android {
         pacifyrclient {
             dimension "Pacifyr"
             applicationId "com.pacifyr.pacifyrapp"
-            versionName "2.1"
-            versionCode 97
+            versionName "2.1.1"
+            versionCode 98
         }
         leadersup {
             dimension "Pacifyr"
@@ -276,9 +276,9 @@ dependencies {
     implementation 'com.github.kk121:File-Loader:1.2'
     implementation "com.pdfview:pdfview-android:1.0.0"
     implementation 'com.github.florent37:singledateandtimepicker:2.2.5'
-
     implementation "androidx.constraintlayout:constraintlayout:2.0.2"
-    implementation 'com.opensooq.supernova:gligar:1.1.0'
+    implementation project(':gligar')
+
 
 
     //All firebase dependencies

@@ -80,7 +80,6 @@
         <activity
             android:name="com.pacifyr.client.activity.SplashScreen"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.Transparent"
             android:windowSoftInputMode="stateAlwaysHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

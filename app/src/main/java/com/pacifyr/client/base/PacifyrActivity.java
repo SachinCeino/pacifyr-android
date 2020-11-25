@@ -165,7 +165,6 @@ import java.util.TimerTask;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-import static com.pacifyr.client.network.NetworkService.isRelease;
 import static com.pacifyr.client.network.NetworkService.mCurrentUser;
 import static com.pacifyr.client.network.NetworkService.modelAllEmotions;
 import static com.pacifyr.client.quickblox.activities.CallActivity.isCallActive;
@@ -2665,6 +2664,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
             AjaxCallback cb = new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, JSONObject json, AjaxStatus status) {
+                    Auth.httpStatusFilter(getApplicationContext(), status.getCode());
                     try {
                         if(json!=null) {
                             NetworkService.mCurrentUser = GsonUtils.getInstance().gsonToModelUserProfile(json);
@@ -3588,7 +3588,8 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                         /*
                          *this must be the first line of any httpCallBacks
                          */
-                        Auth.httpStatusFilter(getApplicationContext(),status.getCode());
+//                        Auth.httpStatusFilter(getApplicationContext(),status.getCode());
+                        BusProvider.getInstance().post(Utility.checkStatusCode(status.getCode())); // for call related apis
                         Log.d(TAG, "Url " + url + " -> " + json != null ? json.toString() : null);
                     }
                 });
@@ -3944,7 +3945,8 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                                                 /*
                                                  *this must be the first line of any httpCallBacks
                                                  */
-                                                Auth.httpStatusFilter(getApplicationContext(),status.getCode());
+//                                                Auth.httpStatusFilter(getApplicationContext(),status.getCode());
+                                                BusProvider.getInstance().post(Utility.checkStatusCode(status.getCode())); // for call related apis
                                                 if (json != null) {
                                                     Log.w("PAYTMLOG", "sendCardAddedNotification responce" + json.toString());
                                                 }
@@ -4489,7 +4491,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                             UPDATE_REQUEST_CODE);
                     flexibleUpdatePopupShown = true;
                 } catch (IntentSender.SendIntentException e) {
-                    Toast.makeText(context, "Flexible app update : " + e.getMessage(), Toast.LENGTH_LONG).show();
+//                    Toast.makeText(context, "Flexible app update : " + e.getMessage(), Toast.LENGTH_LONG).show();
                     e.printStackTrace();
                 }
             } else if (appUpdateInfo.installStatus() == InstallStatus.DOWNLOADED) {
@@ -4499,7 +4501,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
         appUpdateInfoTask.addOnFailureListener(new com.google.android.play.core.tasks.OnFailureListener() {
             @Override
             public void onFailure(Exception e) {
-                Toast.makeText(context, "App update : " + e.getMessage(), Toast.LENGTH_LONG).show();
+                //Toast.makeText(context, "App update : " + e.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }

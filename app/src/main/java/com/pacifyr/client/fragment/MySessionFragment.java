@@ -23,6 +23,7 @@ import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.event.WeekSetSessionEvent;
 import com.pacifyr.client.home.DashboardActivity;
+import com.pacifyr.client.network.Auth;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.quickblox.util.NestedScroll;
@@ -402,6 +403,7 @@ public class MySessionFragment extends BaseFragment {
             AjaxCallback cb = new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, JSONObject json, AjaxStatus status) {
+                    Auth.httpStatusFilter(getContext(), status.getCode());
                     try {
                         ModelStatistics model = GsonUtils.getInstance().gsonToModelStatistics(json);
                         sessionNoCtxv.setText(model.getTotalSessions());
@@ -439,6 +441,7 @@ public class MySessionFragment extends BaseFragment {
                 @Override
                 public void callback(String url, JSONObject json, AjaxStatus status) {
                     hideProgress();
+                    Auth.httpStatusFilter(getContext(), status.getCode());
                     list.clear();
                     skip=skip+10;
                     ModelSessonsOfCustomer model= GsonUtils.getInstance().gsonToModelSessonsOfCustomer(json);
@@ -503,6 +506,7 @@ public class MySessionFragment extends BaseFragment {
                 @Override
                 public void callback(String url, JSONObject json, AjaxStatus status) {
                     hideProgress();
+                    Auth.httpStatusFilter(getContext(), status.getCode());
                     list.clear();
                     skip=skip+10;
                     ModelSessonsOfCustomer model= GsonUtils.getInstance().gsonToModelSessonsOfCustomer(json);
@@ -550,7 +554,8 @@ public class MySessionFragment extends BaseFragment {
                 @Override
                 public void callback(String url, JSONObject json, AjaxStatus status) {
                     hideProgress();
-                    Log.i("weeeeek12","w:  "+json);
+                    Auth.httpStatusFilter(getContext(), status.getCode());
+                    Log.i("weeeeek12", "w:  " + json);
                     list.clear();
                     skip=skip+10;
                     ModelSessonsOfCustomer model= GsonUtils.getInstance().gsonToModelSessonsOfCustomer(json);
@@ -661,6 +666,7 @@ public class MySessionFragment extends BaseFragment {
                 @Override
                 public void callback(String url, JSONObject json, AjaxStatus status) {
 //                    hideProgress();
+                    Auth.httpStatusFilter(getContext(), status.getCode());
                     LogUtils.LOGD("session", " SSA webGetSessionDetail callback result" + json + " " + status.getMessage());
                     if(!isValid(json,"Network Interupted"))
                     {

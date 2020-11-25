@@ -27,7 +27,7 @@ import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.fragment.schedule.AppointmentModel;
 import com.pacifyr.client.fragment.schedule.ScheduleBottomSheetFragment;
-import com.pacifyr.client.home.DashboardActivity;
+import com.pacifyr.client.network.Auth;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.utility.BaseFragment;
@@ -99,6 +99,7 @@ public class AppointmentsFragment extends BaseFragment {
                 @Override
                 public void callback(String url, JSONObject json, AjaxStatus status) {
                     swiperefresh.setRefreshing(false);
+                    Auth.httpStatusFilter(getContext(), status.getCode());
                     try {
 //                        hideProgress();
                         hideStatus();
@@ -307,6 +308,7 @@ public class AppointmentsFragment extends BaseFragment {
                     AjaxCallback cb = new AjaxCallback<JSONObject>() {
                         @Override
                         public void callback(String url, JSONObject json, AjaxStatus stat) {
+                            Auth.httpStatusFilter(getContext(), status.getCode());
                             try {
                                 ((PacifyrActivity) getActivity()).hideProgress();
 

@@ -92,6 +92,8 @@ public class PolicyDocumentActivity extends PacifyrAppCompactActivity {
 
             }
         });
+
+        userDetailWeb(getUserID());
     }
 
     @Override

@@ -1,29 +1,26 @@
 package com.pacifyr.client.fragment;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.pacifyr.client.R;
-import com.pacifyr.client.activity.TermsOfUseActivity;
-import com.pacifyr.client.adapter.ListSavedCardAdapter;
 import com.pacifyr.client.adapter.PrescriptionAdapter;
-import com.pacifyr.client.adapter.ResourcesListAdapter;
-import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.home.DashboardActivity;
 import com.pacifyr.client.model.PrescriptionList;
+import com.pacifyr.client.network.Auth;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.utility.BaseFragment;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
@@ -32,10 +29,6 @@ import com.squareup.otto.Subscribe;
 import org.json.JSONObject;
 
 import java.util.List;
-
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
 
@@ -119,7 +112,8 @@ public class PrescriptionListFragment extends BaseFragment {
                     try {
                         hideProgress();
                         hideStatus();
-                        Log.w("@@@",String.valueOf(json));
+                        Auth.httpStatusFilter(getContext(), status.getCode());
+                        Log.w("@@@", String.valueOf(json));
                         if (isValid(json))
                         {
                             PrescriptionList mPrescriptionList = GsonUtils.getInstance().gsonToPrescriptionList(json);
