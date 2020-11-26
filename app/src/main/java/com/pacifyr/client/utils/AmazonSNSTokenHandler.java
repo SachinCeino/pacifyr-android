@@ -1,6 +1,7 @@
 package com.pacifyr.client.utils;
 
 import android.content.Context;
+import android.os.Build;
 import android.provider.Settings;
 import android.util.Log;
 
@@ -16,6 +17,9 @@ import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.utility.AWSManager;
 
 import org.json.JSONObject;
+
+import static com.pacifyr.client.utils.FirebaseLogging.getAndroidVersion;
+import static com.pacifyr.client.utils.FirebaseLogging.getAppVersion;
 
 /* PSEUDO CODE
 * retrieve the latest device token from the mobile operating system
@@ -141,6 +145,12 @@ public class AmazonSNSTokenHandler {
             input.putOpt("devicetoken", getFcmToken());
             input.putOpt("deviceType", PrefManager.DEVICETYPE);
             input.putOpt("applicationname", AWSManager.getProjectName(context));
+            if (isValid(Build.MODEL))
+                input.putOpt("deviceModel", Build.MODEL);
+            else
+                input.putOpt("deviceModel", "Not Model find");
+            input.putOpt("appVersion", getAppVersion(context));
+            input.putOpt("osVersion", getAndroidVersion());
             Gson gson = new Gson();
             String json = gson.toJson(input);
             LogUtils.LOGD("install", "installationWeb : " + json);

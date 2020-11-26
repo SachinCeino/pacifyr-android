@@ -340,46 +340,8 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
 
         try {
 
-                setLoading();
-                showProgress();
-                handleActionCustomerDashboard();
-                if (isValid(call_emotion)) {
-                    // feel_err_text.setVisibility(View.GONE);
-                    String emotionImg = GLOBAL_IMAGE_URL + call_emotion.getImage();
-                    String emotionTitle = call_emotion.getTitle();
-                    EmotionTitle = emotionTitle;
-                    if (isValidhtml(emotionImg)) {
-                        Picasso.with(getActivity()).load(emotionImg).into(feelImageDimv);
-                        float brightness = (float) 100;
-                        float[] colorMatrix = {
-                                0.33f, 0.33f, 0.33f, 0, brightness, //red
-                                0.33f, 0.33f, 0.33f, 0, brightness, //green
-                                0.33f, 0.33f, 0.33f, 0, brightness, //blue
-                                0, 0, 0, 1, 0    //alpha
-                        };
-                        ColorMatrix matrix = new ColorMatrix();
-                        matrix.setSaturation(0);
-                        ColorMatrixColorFilter filter = new ColorMatrixColorFilter(colorMatrix);
-                        feelImageDimv.setColorFilter(filter);
-                        feelTitleCtxv.setText(emotionTitle);
-                        if (isValid(feel_err_text)) {
-                            feel_err_text.setVisibility(View.GONE);
+            checkLastTimeLoginFiftyDaysExcceed();
 
-                        }
-
-                    }
-                } else {
-                    //feel_err_text.setVisibility(View.VISIBLE);
-                }
-                getUnratedSessions();
-//            loginToQuickblox();
-                setChatCountInfo();
-            if (prefM != null && prefM.getCompanyLogo() != null) {
-                Glide.with(getActivity()).load(UtilityNetworkService.GLOBAL_IMAGE_URL + prefM.getCompanyLogo()).into(image_logo);
-            }
-            else{
-                image_logo.setVisibility(View.GONE);
-            }
 
         }
         catch (Exception e)
@@ -418,6 +380,136 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
             }
         };
         new NetworkService().unratedSessions(cb);
+    }
+
+
+    private void checkLastTimeLoginFiftyDaysExcceed() {
+        long mLastTimeLoginTimeStamp=prefM.getLoginTimeStamp();//1606362531198
+        long mCurrentDateTimeStamp=System.currentTimeMillis();
+
+        long defference=mCurrentDateTimeStamp - mLastTimeLoginTimeStamp;
+
+        if (defference>Long.parseLong("5184000000"))// 60 days over
+        {
+            Auth.httpStatusFilter(getActivity(), 401);//logout user
+        }
+       else if (defference>Long.parseLong("4320000000"))
+        {
+            //50days esceded
+            callRefreshAccessToken();
+        }
+        else {
+
+           onResumeCommonAPICalls();
+        }
+    }
+
+    private void onResumeCommonAPICalls() {
+        setLoading();
+        showProgress();
+        handleActionCustomerDashboard();
+        if (isValid(call_emotion)) {
+            // feel_err_text.setVisibility(View.GONE);
+            String emotionImg = GLOBAL_IMAGE_URL + call_emotion.getImage();
+            String emotionTitle = call_emotion.getTitle();
+            EmotionTitle = emotionTitle;
+            if (isValidhtml(emotionImg)) {
+                Picasso.with(getActivity()).load(emotionImg).into(feelImageDimv);
+                float brightness = (float) 100;
+                float[] colorMatrix = {
+                        0.33f, 0.33f, 0.33f, 0, brightness, //red
+                        0.33f, 0.33f, 0.33f, 0, brightness, //green
+                        0.33f, 0.33f, 0.33f, 0, brightness, //blue
+                        0, 0, 0, 1, 0    //alpha
+                };
+                ColorMatrix matrix = new ColorMatrix();
+                matrix.setSaturation(0);
+                ColorMatrixColorFilter filter = new ColorMatrixColorFilter(colorMatrix);
+                feelImageDimv.setColorFilter(filter);
+                feelTitleCtxv.setText(emotionTitle);
+                if (isValid(feel_err_text)) {
+                    feel_err_text.setVisibility(View.GONE);
+
+                }
+
+            }
+        } else {
+            //feel_err_text.setVisibility(View.VISIBLE);
+        }
+        getUnratedSessions();
+//            loginToQuickblox();
+        setChatCountInfo();
+        if (prefM != null && prefM.getCompanyLogo() != null) {
+            Glide.with(getActivity()).load(UtilityNetworkService.GLOBAL_IMAGE_URL + prefM.getCompanyLogo()).into(image_logo);
+        }
+        else{
+            image_logo.setVisibility(View.GONE);
+        }
+    }
+
+
+    private void callRefreshAccessToken() {
+
+        try {
+            showProgress();
+            PrefManager prefM = PrefManager.getInstance(getActivity());
+            String token = prefM.getAccessToken();
+
+            String url = NetworkService.GLOBAL_URL + "refreshToken";
+            AjaxCallback cb = new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject json, AjaxStatus status) {
+                    try {
+                        hideProgress();
+                        if(json!=null) {
+                            if (json.has("accessToken"))
+                            {
+                                String updatedAccessToken=json.getString("accessToken");
+                                prefM.saveAccessToken(updatedAccessToken);
+                                /**
+                                 * update timestamp after 50days need to refresh the token**/
+                                long mTimeStamp = System.currentTimeMillis();
+                                prefM.saveLoginTimeStamp(String.valueOf(mTimeStamp));
+                                onResumeCommonAPICalls();
+                            }
+                            else {
+                                if (json.has("status"))
+                                {
+                                    String mStatus=json.getString("status");
+                                    if (mStatus.equals("error"))
+                                    {
+                                        Auth.httpStatusFilter(getActivity(), status.getCode());
+                                    }
+                                }
+                            }
+                            Log.w("EWERE",String.valueOf(json));
+                            Log.w("EWERE",String.valueOf(json));
+
+                        }
+
+                    } catch (Exception e) {
+
+                        hideProgress();
+                        Auth.httpStatusFilter(getActivity(), status.getCode());
+                    }
+                }
+            };
+
+            AQuery aq = new AQuery(getActivity());
+            cb.header("Content-Type", "application/json");
+            cb.header("AccessToken", token);
+            aq.ajax(url, JSONObject.class, cb);
+
+        }
+        catch (Exception ex)
+        {
+            hideProgress();
+
+            ex.printStackTrace();
+        }
+
+
+
     }
 
     private void handleActionCustomerDashboard(){

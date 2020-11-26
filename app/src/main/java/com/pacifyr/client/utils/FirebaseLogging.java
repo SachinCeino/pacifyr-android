@@ -84,7 +84,7 @@ public class FirebaseLogging {
         return args;
     }
 
-    private static String getAppVersion(Context context) {
+    public static String getAppVersion(Context context) {
         try {
             PackageInfo pInfo =
                     context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
@@ -96,7 +96,7 @@ public class FirebaseLogging {
         return "NA";
     }
 
-    private static String getAndroidVersion() {
+    public static String getAndroidVersion() {
         return Build.VERSION.SDK_INT + "";
     }
 

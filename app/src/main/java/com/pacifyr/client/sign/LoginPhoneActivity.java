@@ -596,6 +596,12 @@ private static String TAG=LoginPhoneActivity.class.getName();
 
 
                     }else if(main_label.equals("customer")){
+
+                        /**
+                         * after 50days need to refresh the token**/
+                        long mTimeStamp = System.currentTimeMillis();
+                        prefM.saveLoginTimeStamp(String.valueOf(mTimeStamp));
+
                         String qbID = qbUser.getId().toString();
                         prefM.saveQBID(qbID);
                         editProfileObject=new JSONObject();
