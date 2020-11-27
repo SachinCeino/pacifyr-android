@@ -71,6 +71,8 @@ import static com.pacifyr.client.network.NetworkService.modelAllEmotions;
 import static com.pacifyr.client.network.NetworkService.modelCustomerDashboard2;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_IMAGE_URL;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
+import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.TOKEN_EXPIRY_TIME;
+import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.TOKEN_REFRESH_TIME;
 
 public class UserDashboardFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
 
@@ -389,18 +391,15 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
 
         long defference=mCurrentDateTimeStamp - mLastTimeLoginTimeStamp;
 
-        if (defference>Long.parseLong("5184000000"))// 60 days over
+        if (defference > Long.parseLong(TOKEN_EXPIRY_TIME))// 60 days over
         {
             Auth.httpStatusFilter(getActivity(), 401);//logout user
-        }
-       else if (defference>Long.parseLong("4320000000"))
-        {
+        } else if (defference > Long.parseLong(TOKEN_REFRESH_TIME)) {
             //50days esceded
             callRefreshAccessToken();
-        }
-        else {
+        } else {
 
-           onResumeCommonAPICalls();
+            onResumeCommonAPICalls();
         }
     }
 
