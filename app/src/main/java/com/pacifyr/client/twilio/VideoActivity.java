@@ -1158,6 +1158,7 @@ public class VideoActivity extends PacifyrActivity {
         /*
          * Tear down audio management and restore previous volume stream
          */
+        isCallActive=false;
         audioSwitch.stop();
         setVolumeControlStream(savedVolumeControlStream);
 
@@ -2271,7 +2272,6 @@ public class VideoActivity extends PacifyrActivity {
         {
             SessionId= mTwilioCallEvent.getIdsession();
             webGetSessionDetail(SessionId);
-            isProviderConnected=true;
         Log.w("WWWWW","onCallConnected");
         }
 
