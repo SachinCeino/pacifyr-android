@@ -4408,6 +4408,7 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
                         PdfViewer.pdf = loadedFile;
                         Intent intent = new Intent(PacifyrActivity.this, PdfViewer.class);
                         intent.putExtra("title",title);
+                        intent.putExtra("restoreCall",true);
                         startActivity(intent);
                     }
 
