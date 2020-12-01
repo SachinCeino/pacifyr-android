@@ -550,7 +550,6 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
         return id;
     }
 
-    public static boolean isForeground = false;
 
     @Override
     protected void onUserLeaveHint() {
@@ -810,7 +809,6 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
         super.onResume();
        networkConnectionChecker.registerListener(this);
         App.getInstance().setCurrentActivity(this);
-        isForeground = true;
 
         Bundle args =
                 FirebaseLogging.getConstantArgsLoggedIn(CallActivity.this);
@@ -827,7 +825,7 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
     protected void onPause() {
         super.onPause();
         networkConnectionChecker.unregisterListener(this);
-        isForeground = false;
+
     }
 
     @Override

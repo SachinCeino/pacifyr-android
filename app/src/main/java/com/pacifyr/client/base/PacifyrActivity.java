@@ -963,15 +963,17 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
     }
 
     public void maximizePicInPicView() {
-        Log.d(TAG, "maximizePicInPicView");
-        getApplication().startActivity(new Intent(this, VideoActivity.class)
-                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
+        if (isCallActive) {
+            Intent i = new Intent(PacifyrActivity.this, VideoActivity.class);
+            i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            startActivity(i);
+        }
     }
 
     public void bringCallActivityToFront() {
-        if (!CallActivity.isForeground) {
+        if (!VideoActivity.isForeground) {
             Log.d(TAG, "bringCallActivityToFront");
-            Intent intent = new Intent(this, CallActivity.class);
+            Intent intent = new Intent(this, VideoActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_NEW_TASK);
             getApplication().startActivity(intent);
         } else {

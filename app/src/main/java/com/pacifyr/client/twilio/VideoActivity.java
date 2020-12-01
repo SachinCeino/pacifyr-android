@@ -419,6 +419,8 @@ public class VideoActivity extends PacifyrActivity {
         context.startActivity(intent);
     }
 
+    public static boolean isForeground = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -1098,6 +1100,7 @@ public class VideoActivity extends PacifyrActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        isForeground = true;
         LocalBroadcastManager.getInstance(this).registerReceiver(eventReceiver, new IntentFilter(CallEvent.CALL_EVENT));
         audioCodec = getAudioCodecPreference(PREF_AUDIO_CODEC,
                 PREF_AUDIO_CODEC_DEFAULT);
@@ -1141,6 +1144,7 @@ public class VideoActivity extends PacifyrActivity {
 
     @Override
     protected void onPause() {
+        isForeground = false;
         LocalBroadcastManager.getInstance(this).unregisterReceiver(eventReceiver);
         /*
          * Release the local video track before going in the background. This ensures that the
@@ -1316,7 +1320,6 @@ public class VideoActivity extends PacifyrActivity {
                public void onParticipantDisconnected(Room room, RemoteParticipant remoteParticipant) {
                    Log.w("####","onParticipantDisconnected");
                    removeRemoteParticipant(remoteParticipant);
-                   isProviderConnected=false;
                    isCallActive=false;
                    if (room != null && room.getState() != Room.State.DISCONNECTED) {
                        room.disconnect();
