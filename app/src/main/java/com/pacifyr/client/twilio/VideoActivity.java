@@ -2239,6 +2239,12 @@ public class VideoActivity extends PacifyrActivity {
 
 
             }
+
+            if (isCallActive) {
+                Intent i = new Intent(VideoActivity.this, VideoActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                startActivity(i);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -2262,6 +2268,7 @@ public class VideoActivity extends PacifyrActivity {
         {
             SessionId= mTwilioCallEvent.getIdsession();
             webGetSessionDetail(SessionId);
+            isProviderConnected=true;
         Log.w("WWWWW","onCallConnected");
         }
 
