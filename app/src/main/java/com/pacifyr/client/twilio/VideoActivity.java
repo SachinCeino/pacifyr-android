@@ -147,8 +147,10 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import kotlin.Unit;
 
 import static com.pacifyr.client.network.NetworkService.GLOBAL_IMAGE_URL;
+import static com.pacifyr.client.network.NetworkService.isRelease;
 import static com.pacifyr.client.utils.Constants.getCountryChecks;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
+import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.isProd;
 
 public class VideoActivity extends PacifyrActivity {
     private static final int CAMERA_MIC_PERMISSION_REQUEST_CODE = 1;
@@ -249,6 +251,7 @@ public class VideoActivity extends PacifyrActivity {
     private LinearLayout layout_info_about_audio_call;
     private TextView TextView_call_type;
     private CountDownTimer OutGoingCallTimer =null;
+    private boolean isProviderConnected=false;
 
     public EmpMinutesListener getEmpMinutesListener() {
         return empMinutesListener;
@@ -308,7 +311,7 @@ public class VideoActivity extends PacifyrActivity {
         public void expired() {
             try {
 
-
+                isCallActive=false;
                 Toast.makeText(getApplicationContext(), "Your monthly free sessions has expired. Please enter your Credit Card to continue.", Toast.LENGTH_LONG).show();
                 hangUpCurrentSessionMe();
 
@@ -525,13 +528,14 @@ public class VideoActivity extends PacifyrActivity {
           button_hangup_call.setOnClickListener(new View.OnClickListener() {
               @Override
               public void onClick(View view) {
+                  isCallActive=false;
                     if (isValid(ringtonePlayer))
                         ringtonePlayer.stop();
                   if (SessionId != null) {
-                      stopSessionWeb(SessionId);
+                      hangUpCurrentSessionMe();
                       room.disconnect();
                   }
-                  finish();
+
               }
           });
 
@@ -579,7 +583,10 @@ public class VideoActivity extends PacifyrActivity {
                   }
               }
           });
-
+                if (!isVideoCall)
+                {
+                    audioManager.setSpeakerphoneOn(false);
+                }
           toggle_speaker.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
               @Override
               public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -1270,6 +1277,7 @@ public class VideoActivity extends PacifyrActivity {
                public void onDisconnected(Room room, TwilioException e) {
                    Log.w("####","onDisconnected");
                    localParticipant = null;
+                   isCallActive=false;
                    if (isValid(ringtonePlayer))
                        ringtonePlayer.stop();
                  //  reconnectingProgressBar.setVisibility(View.GONE);
@@ -1300,7 +1308,7 @@ public class VideoActivity extends PacifyrActivity {
                        ringtonePlayer.stop();
                    startTimer();
                    addRemoteParticipant(remoteParticipant);
-
+                   isProviderConnected=true;
 
                }
 
@@ -1308,6 +1316,8 @@ public class VideoActivity extends PacifyrActivity {
                public void onParticipantDisconnected(Room room, RemoteParticipant remoteParticipant) {
                    Log.w("####","onParticipantDisconnected");
                    removeRemoteParticipant(remoteParticipant);
+                   isProviderConnected=false;
+                   isCallActive=false;
                    if (room != null && room.getState() != Room.State.DISCONNECTED) {
                        room.disconnect();
                        stopTimer();
@@ -2103,6 +2113,14 @@ public class VideoActivity extends PacifyrActivity {
                 }
             } else if (!hasBillingStarted()) {
                 showToast("Thank you for the call. You are not billed as Service was not provided");
+                if (isProd==false &&isRelease==false)
+                {
+                    if (isProviderConnected==false){
+                        ToastHandler.newInstance(getApplicationContext()).showToast("Pacifyr is busy with another call");
+                    }else {
+                        ToastHandler.newInstance(getApplicationContext()).showToast("Thank you for the call. You are not billed as Service was not provided");
+                    }
+                }
             }
 
             if (SessionId != null) {

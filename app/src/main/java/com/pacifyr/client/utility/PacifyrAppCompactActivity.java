@@ -88,6 +88,7 @@ import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 import static com.pacifyr.client.network.NetworkService.GLOBAL_URL;
 import static com.pacifyr.client.network.NetworkService.modelCustomerDashboard2;
+import static com.pacifyr.client.twilio.VideoActivity.isCallActive;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.ACCOUNT_KEY;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.APP_ID;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.AUTH_KEY;
@@ -1197,10 +1198,15 @@ public abstract class PacifyrAppCompactActivity  extends PacifyrActivity {
             @Override
             public void onClick(View v) {
                 // Call your action method here
-                mSnackbar.dismiss();
-                Intent intent = new Intent(PacifyrAppCompactActivity.this, VideoActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                startActivity(intent);
+                if (isCallActive) {
+                    mSnackbar.dismiss();
+                    Intent intent = new Intent(PacifyrAppCompactActivity.this, VideoActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                    startActivity(intent);
+                }
+                else {
+                    mSnackbar.dismiss();
+                }
             }
         });
         mSnackbar.show();
