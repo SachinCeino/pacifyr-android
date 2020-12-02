@@ -2137,7 +2137,7 @@ public class VideoActivity extends PacifyrActivity {
             LogUtils.LOGD("call","CA hangUpCurrentSessionMe Exception e "+ e.getMessage());
         }
         isCallActive = false;
-        //BusProvider.getInstance().post(new CallStatus(isCallActive));
+        BusProvider.getInstance().post(new CallStatus(isCallActive));
         //jpppppppppppppppppp
 
     }

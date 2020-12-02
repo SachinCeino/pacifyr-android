@@ -31,6 +31,7 @@ import com.pacifyr.client.event.AlertTypeEvent;
 import com.pacifyr.client.event.CallEvent;
 import com.pacifyr.client.event.InternetConnectionEvent;
 import com.pacifyr.client.event.NotifyEvent;
+import com.pacifyr.client.model.CallStatus;
 import com.pacifyr.client.model.ModelSpecialityByEmotion;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
@@ -1183,5 +1184,12 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
 
     }
 
-
+    @Subscribe
+    public void onCallStatusChanged(CallStatus callStatus) {
+        if (callStatus.isActive()) {
+            showSnackbarPopup();
+        } else {
+            dismissSnackbarPopup();
+        }
+    }
 }
