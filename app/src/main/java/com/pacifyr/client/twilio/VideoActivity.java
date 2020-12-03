@@ -654,8 +654,10 @@ public class VideoActivity extends PacifyrActivity {
           ImageView_chat.setOnClickListener(new View.OnClickListener() {
               @Override
               public void onClick(View view) {
-                  if(isValid(pacifyerDetial))
-                      startChat(pacifyerDetial);
+                  if (checkPermissions()) {
+                      if (isValid(pacifyerDetial))
+                          startChat(pacifyerDetial);
+                  }
               }
           });
 
@@ -1074,26 +1076,64 @@ public class VideoActivity extends PacifyrActivity {
                 return false;
         }
     }
-
+    public static final int MULTIPLE_PERMISSIONS = 10;
+    String[] permissions= new String[]{
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.CAMERA
+    };
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
-        if (requestCode == CAMERA_MIC_PERMISSION_REQUEST_CODE) {
-            boolean cameraAndMicPermissionGranted = true;
-
-            for (int grantResult : grantResults) {
-                cameraAndMicPermissionGranted &= grantResult == PackageManager.PERMISSION_GRANTED;
+        switch (requestCode) {
+            case MULTIPLE_PERMISSIONS: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    if (isValid(pacifyerDetial))
+                        startChat(pacifyerDetial);
+                } else {
+                    String permissi = "";
+                    for (String per : permissions) {
+                        permissi += "\n" + per;
+                    }
+                    // permissions list of don't granted permission
+                }
+                return;
             }
 
-            if (cameraAndMicPermissionGranted) {
-                createAudioAndVideoTracks();
-            } else {
-                Toast.makeText(this,
-                        R.string.permissions_needed,
-                        Toast.LENGTH_LONG).show();
+            case CAMERA_MIC_PERMISSION_REQUEST_CODE: {
+                boolean cameraAndMicPermissionGranted = true;
+
+                for (int grantResult : grantResults) {
+                    cameraAndMicPermissionGranted &= grantResult == PackageManager.PERMISSION_GRANTED;
+                }
+
+                if (cameraAndMicPermissionGranted) {
+                    createAudioAndVideoTracks();
+                } else {
+                    Toast.makeText(this,
+                            R.string.permissions_needed,
+                            Toast.LENGTH_LONG).show();
+                }
             }
         }
+
+    }
+
+    private  boolean checkPermissions() {
+        int result;
+        List<String> listPermissionsNeeded = new ArrayList<>();
+        for (String p:permissions) {
+            result = ContextCompat.checkSelfPermission(getApplicationContext(),p);
+            if (result != PackageManager.PERMISSION_GRANTED) {
+                listPermissionsNeeded.add(p);
+            }
+        }
+        if (!listPermissionsNeeded.isEmpty()) {
+            ActivityCompat.requestPermissions(this, listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]),MULTIPLE_PERMISSIONS );
+            return false;
+        }
+        return true;
     }
 
     @SuppressLint("SetTextI18n")
