@@ -286,6 +286,15 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                                     intent.putExtra("typeId", typeId);
                                     LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
                                 }
+                                //{type=sessionDeclined, sound=default, message=Your call was declined by the provider "VINEESH PROVIDER "}
+
+                                else if (actual_type.equals("sessionDeclined"))
+                                {
+                                    Intent intent = new Intent(NotificationUtils.SESSION_DECLAINED);
+                                    intent.putExtra("message", message);
+                                    LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+                                }
+
                                 else if (actual_type.equalsIgnoreCase("chat")
                                         ||actual_type.equalsIgnoreCase("confirmBooking")
                                         || actual_type.equalsIgnoreCase("rejectBooking")

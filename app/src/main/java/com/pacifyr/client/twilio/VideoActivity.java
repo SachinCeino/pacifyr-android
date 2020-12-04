@@ -81,6 +81,7 @@ import com.pacifyr.client.quickblox.fragments.VideoConversationFragment;
 import com.pacifyr.client.quickblox.utils.Consts;
 import com.pacifyr.client.quickblox.utils.PermissionsChecker;
 import com.pacifyr.client.quickblox.utils.RingtonePlayer;
+import com.pacifyr.client.receiver.NotificationUtils;
 import com.pacifyr.client.utility.PacifyrAppCompactActivity;
 import com.pacifyr.client.utils.FirebaseLogging;
 import com.pacifyr.client.utils.LogUtils;
@@ -1201,7 +1202,7 @@ public class VideoActivity extends PacifyrActivity {
         isCallActive=false;
         audioSwitch.stop();
         setVolumeControlStream(savedVolumeControlStream);
-
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(sessionDeclainedReceiver);
         /*
          * Always disconnect from the room before leaving the Activity to
          * ensure any memory allocated to the Room resource is freed.
@@ -2295,9 +2296,33 @@ public class VideoActivity extends PacifyrActivity {
     }
 
 
+    private BroadcastReceiver sessionDeclainedReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (isValid(intent)) {
+                if (isValid(ringtonePlayer))
+                    ringtonePlayer.stop();
+                showToast("Thank you for the call. You are not billed as Service was not provided");
+                if (isProd==false &&isRelease==false)
+                {
+                    ToastHandler.newInstance(getApplicationContext()).showToast("Pacifyr is busy with another call");
+                }
+                else {
+                  showToast("Pacifyr is busy with another call");
+                }
+                finish();
+            }
+
+
+        }
+    };
+
+
     @Override
     protected void onStart() {
         super.onStart();
+        LocalBroadcastManager.getInstance(this).registerReceiver(sessionDeclainedReceiver, new IntentFilter(NotificationUtils.SESSION_DECLAINED));
+
     }
 
     @Override
