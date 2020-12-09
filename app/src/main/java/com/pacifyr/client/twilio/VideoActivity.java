@@ -16,9 +16,10 @@ import android.media.AudioManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.Looper;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
-
 import android.util.Log;
 import android.util.Rational;
 import android.view.Menu;
@@ -54,20 +55,18 @@ import com.gdacciaro.iOSDialog.iOSDialog;
 import com.gdacciaro.iOSDialog.iOSDialogClickListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
-import com.koushikdutta.ion.Ion;
 import com.pacifyr.client.R;
 import com.pacifyr.client.activity.ActivityChangeEmotionFromCall;
 import com.pacifyr.client.adapter.EmotionSpecialityAdapter;
+import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.event.BusProvider;
 import com.pacifyr.client.event.CallChangeEmotion;
-import com.pacifyr.client.event.CallDetailEvent;
 import com.pacifyr.client.event.CallEvent;
 import com.pacifyr.client.event.CallTimerEvent;
 import com.pacifyr.client.event.PicInPic;
 import com.pacifyr.client.event.TwilioCallEvent;
 import com.pacifyr.client.fragment.PrescriptionWhileCallFragment;
 import com.pacifyr.client.home.CustomerDetailActivity;
-import com.pacifyr.client.home.ProfileScreenActivity;
 import com.pacifyr.client.home.SessionSummaryActivity;
 import com.pacifyr.client.interfaces.EmpMinutesListener;
 import com.pacifyr.client.model.CallStatus;
@@ -75,21 +74,17 @@ import com.pacifyr.client.model.PrescriptionList;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.quickblox.activities.CallActivity;
+import com.pacifyr.client.quickblox.activities.SettingsActivity;
 import com.pacifyr.client.quickblox.chat.ui.activity.AttachmentImageActivity;
-import com.pacifyr.client.quickblox.fragments.AudioConversationFragment;
-import com.pacifyr.client.quickblox.fragments.VideoConversationFragment;
-import com.pacifyr.client.quickblox.utils.Consts;
 import com.pacifyr.client.quickblox.utils.PermissionsChecker;
 import com.pacifyr.client.quickblox.utils.RingtonePlayer;
 import com.pacifyr.client.receiver.NotificationUtils;
-import com.pacifyr.client.utility.PacifyrAppCompactActivity;
 import com.pacifyr.client.utils.FirebaseLogging;
 import com.pacifyr.client.utils.LogUtils;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.pacifyrapp.utilitylibrary.ToastHandler;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MEmotion;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.MSessionDetailRoot;
-import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.quickblox.sample.core.utils.Toaster;
 import com.squareup.otto.Subscribe;
@@ -131,18 +126,13 @@ import com.twilio.video.VideoView;
 import com.twilio.video.Vp8Codec;
 import com.twilio.video.Vp9Codec;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
-import com.pacifyr.client.base.PacifyrActivity;
-import com.pacifyr.client.quickblox.activities.SettingsActivity;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
-
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import kotlin.Unit;
@@ -757,13 +747,15 @@ public class VideoActivity extends PacifyrActivity {
     private void hideToolBarAndButtons() {
 
 
-       button_hangup_call.setVisibility(View.GONE);
+        button_hangup_call.setVisibility(View.GONE);
         emotion_rlay.setVisibility(View.GONE);
         //userRlay.setVisibility(View.GONE);
         billingStatus.setVisibility(View.GONE);
-       // call_layout.setVisibility(View.INVISIBLE);
+        // call_layout.setVisibility(View.INVISIBLE);
         emotion_rlay.setVisibility(View.GONE);
         call_overlay.setVisibility(View.GONE);
+        toggle_speaker.setVisibility(View.GONE);
+        micToggleVideoCall.setVisibility(View.GONE);
         Log.d(TAG, "hideToolBarAndButtons");
 
     }
@@ -789,6 +781,8 @@ public class VideoActivity extends PacifyrActivity {
             button_hangup_call.setVisibility(View.VISIBLE);
         }
 
+        toggle_speaker.setVisibility(View.VISIBLE);
+        micToggleVideoCall.setVisibility(View.VISIBLE);
 
         Log.d(TAG, "showToolBarAndButtons");
 
@@ -2184,13 +2178,7 @@ public class VideoActivity extends PacifyrActivity {
     }
 
     private boolean isOpponentConnected() {
-        if (isValid(room) && isValid(room.getRemoteParticipants()) && room.getRemoteParticipants().size()>1)
-        {
-            return true;
-        }
-        else {
-            return false;
-        }
+        return isValid(room) && isValid(room.getRemoteParticipants()) && room.getRemoteParticipants().size() > 1;
     }
 
     public MUser getCallPacifyr() {
@@ -2380,19 +2368,26 @@ public class VideoActivity extends PacifyrActivity {
             input.putOpt("id", sessionid);
             Log.d(TAG, "session/missed");
             aq.post(GLOBAL_URL + "session/missed", input, JSONObject.class, cb);
-        } catch (Exception e){
+        } catch (Exception e) {
             LogUtils.LOGD("call", "missedSessionWeb end exception : " + e.getMessage());
         }
     }
 
-    /**Picture-in-picture Support **/
+    private View getCurrentView() {
+        return findViewById(R.id.parent_call);
+    }
+
+    /**
+     * Picture-in-picture Support
+     **/
 
     @Override
     protected void onUserLeaveHint() {
         if (isCallActive) {
             if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 PictureInPictureParams.Builder pictureParams = new PictureInPictureParams.Builder();
-                pictureParams.setAspectRatio(new Rational(1200, 720)).build();
+                pictureParams.setAspectRatio(new Rational(getCurrentView().getWidth(),
+                        getCurrentView().getHeight())).build();
                 enterPictureInPictureMode(pictureParams.build());
             }
         }
@@ -2404,7 +2399,29 @@ public class VideoActivity extends PacifyrActivity {
         onPictureInPicture(new PicInPic(isInPictureInPictureMode));
         setShowDialogs(!isInPictureInPictureMode);
         if (!isInPictureInPictureMode) {
-            maximizePicInPicView();
+            if (isSettingUpPayment()) {
+                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        showIOSDialogOK("", getString(R.string.please_continue_or_cancel_payment), getString(R.string.dlg_ok), false, new iOSDialogClickListener() {
+                            @Override
+                            public void onClick(iOSDialog dialog) {
+                                dialog.dismiss();
+                                if (isCallActive) {
+                                    if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                        PictureInPictureParams.Builder pictureParams = new PictureInPictureParams.Builder();
+                                        pictureParams.setAspectRatio(new Rational(getCurrentView().getWidth(),
+                                                getCurrentView().getHeight())).build();
+                                        enterPictureInPictureMode(pictureParams.build());
+                                    }
+                                }
+                            }
+                        });
+                    }
+                }, 1000);
+            } else {
+                maximizePicInPicView();
+            }
         }
     }
 

@@ -2,6 +2,7 @@ package com.pacifyr.client.base;
 
 import android.app.Activity;
 import android.app.PendingIntent;
+import android.app.PictureInPictureParams;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -24,6 +25,7 @@ import android.provider.MediaStore;
 import android.text.Html;
 import android.text.SpannableStringBuilder;
 import android.util.Log;
+import android.util.Rational;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -90,7 +92,6 @@ import com.pacifyr.client.quickblox.services.CallService;
 import com.pacifyr.client.quickblox.util.QBResRequestExecutor;
 import com.pacifyr.client.quickblox.utils.Consts;
 import com.pacifyr.client.quickblox.utils.PermissionsChecker;
-import com.pacifyr.client.quickblox.utils.WebRtcSessionManager;
 import com.pacifyr.client.receiver.NotificationUtils;
 import com.pacifyr.client.sign.SignActivity;
 import com.pacifyr.client.twilio.TwilioAccessToken;
@@ -127,9 +128,6 @@ import com.quickblox.sample.core.utils.SharedPrefsHelper;
 import com.quickblox.sample.core.utils.Toaster;
 import com.quickblox.users.QBUsers;
 import com.quickblox.users.model.QBUser;
-import com.quickblox.videochat.webrtc.QBRTCClient;
-import com.quickblox.videochat.webrtc.QBRTCSession;
-import com.quickblox.videochat.webrtc.QBRTCTypes;
 import com.squareup.picasso.Picasso;
 import com.stripe.android.Stripe;
 import com.stripe.android.TokenCallback;
@@ -290,6 +288,12 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
     private boolean showDialogs = true;
     private iOSDialog dialog;
     private boolean inProgress;
+
+    private boolean settingUpPayment = false;
+
+    public boolean isSettingUpPayment() {
+        return settingUpPayment;
+    }
 
     public void showNotificationPopups(boolean val) {
         this.showNotification = val;
@@ -776,7 +780,28 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
                 .setSubtitle(subTitle)
                 .setBoldPositiveLabel(false)
                 .setCancelable(true)
-                .setPositiveListener(okLabel,listener)
+                .setPositiveListener(okLabel, listener)
+                .build();
+        dialog.show();
+    }
+
+    public void showIOSDialogOK(String title, String subTitle, String okLabel, boolean cancelable, iOSDialogClickListener listener) {
+        if (!isShowDialogs()) {
+            return;
+        }
+        if (dialog != null) {
+            try {
+                dialog.dismiss();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        dialog = new iOSDialogBuilder(this)
+                .setTitle(title)
+                .setSubtitle(subTitle)
+                .setBoldPositiveLabel(false)
+                .setCancelable(cancelable)
+                .setPositiveListener(okLabel, listener)
                 .build();
         dialog.show();
     }
@@ -3762,25 +3787,35 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
         paramMap.put("CHANNEL_ID", paytm.getChannelId());
         paramMap.put("TXN_AMOUNT", paytm.getTxnAmount());
         paramMap.put("WEBSITE", paytm.getWebsite());
-        paramMap.put("CALLBACK_URL", paytm.getCallBackUrl()+sessionid);
+        paramMap.put("CALLBACK_URL", paytm.getCallBackUrl() + sessionid);
         paramMap.put("CHECKSUMHASH", checksumHash);
         paramMap.put("MOBILE_NO", prefM.getPhoneNumber());
-        paramMap.put( "EMAIL" , prefM.getEmail());
+        paramMap.put("EMAIL", prefM.getEmail());
         paramMap.put("INDUSTRY_TYPE_ID", paytm.getIndustryTypeId());
 
 
         PaytmOrder Order = new PaytmOrder((HashMap<String, String>) paramMap);
         Service.initialize(Order, null);
 
+        settingUpPayment = true;
+        if (isCallActive) {
+            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                PictureInPictureParams.Builder pictureParams = new PictureInPictureParams.Builder();
+                pictureParams.setAspectRatio(new Rational(getCurrentView().getWidth(),
+                        getCurrentView().getHeight())).build();
+                enterPictureInPictureMode(pictureParams.build());
+            }
+        }
         Service.startPaymentTransaction(this, true, true, new PaytmPaymentTransactionCallback() {
             /*Call Backs*/
             public void someUIErrorOccurred(String inErrorMessage) {
-                Log.w("@@@","someUIErrorOccurred"+inErrorMessage);
+                Log.w("@@@", "someUIErrorOccurred" + inErrorMessage);
                 ShowTransactionFaileToUSer(inErrorMessage);
+                settingUpPayment = false;
             }
 
             public void onTransactionResponse(Bundle inResponse) {
-                Log.w("PAYTMLOG","onTransactionResponse-----"+inResponse.toString());
+                Log.w("PAYTMLOG", "onTransactionResponse-----" + inResponse.toString());
 
                 /**After completing payment call the API to confirm and once again verify from server ! **/
                 if (isValid(inResponse))
@@ -3788,36 +3823,43 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
                     Log.w("PAYTMLOG","Bundle inResponse-----"+inResponse.toString());
                     ConfirmationFromSever(inResponse,checksumHash);
                 }
-
-
+                settingUpPayment = false;
             }
 
             public void networkNotAvailable() {
                 Log.w("@@@","networkNotAvailable");
                 ShowTransactionFaileToUSer("Paytm server networkNotAvailable");
+                settingUpPayment = false;
             }
 
             public void clientAuthenticationFailed(String inErrorMessage) {
                 Log.w("@@@","clientAuthenticationFailed"+inErrorMessage);
                 ShowTransactionFaileToUSer(inErrorMessage);
-
+                settingUpPayment = false;
             }
 
             public void onErrorLoadingWebPage(int iniErrorCode, String inErrorMessage, String inFailingUrl) {
                 Log.w("@@@","onErrorLoadingWebPage"+inErrorMessage);
                 ShowTransactionFaileToUSer(inErrorMessage);
+                settingUpPayment = false;
             }
 
             public void onBackPressedCancelTransaction() {
                 Log.w("@@@","onBackPressedCancel");
                 ShowTransactionFaileToUSer("Transaction cancelled");
+                settingUpPayment = false;
             }
 
             public void onTransactionCancel(String inErrorMessage, Bundle inResponse) {
-                Log.w("@@@","onTransactionCancel"+inErrorMessage);
+                Log.w("@@@", "onTransactionCancel" + inErrorMessage);
                 ShowTransactionFaileToUSer(inErrorMessage);
+                settingUpPayment = false;
             }
         });
+    }
+
+    private View getCurrentView() {
+        return findViewById(R.id.parent_call);
     }
 
 
