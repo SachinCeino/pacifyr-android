@@ -20,7 +20,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
-
 import android.util.Log;
 import android.util.Rational;
 import android.view.Menu;
@@ -69,7 +68,6 @@ import com.pacifyr.client.event.PicInPic;
 import com.pacifyr.client.event.TwilioCallEvent;
 import com.pacifyr.client.fragment.PrescriptionWhileCallFragment;
 import com.pacifyr.client.home.CustomerDetailActivity;
-import com.pacifyr.client.home.SessionSummaryActivity;
 import com.pacifyr.client.interfaces.EmpMinutesListener;
 import com.pacifyr.client.model.CallStatus;
 import com.pacifyr.client.model.PrescriptionList;
@@ -1202,7 +1200,9 @@ public class VideoActivity extends PacifyrActivity {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(eventReceiver);
         isCallActive=false;
         audioSwitch.stop();
+        audioSwitch.deactivate();
         setVolumeControlStream(savedVolumeControlStream);
+        configureAudio(false);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(sessionDeclainedReceiver);
         /*
          * Always disconnect from the room before leaving the Activity to
@@ -1327,6 +1327,7 @@ public class VideoActivity extends PacifyrActivity {
                    isCallActive=false;
                    if (isValid(ringtonePlayer))
                        ringtonePlayer.stop();
+                   configureAudio(false);
                  //  reconnectingProgressBar.setVisibility(View.GONE);
                    VideoActivity.this.room = null;
                    // Only reinitialize the UI if disconnect was not called from onDestroy()
