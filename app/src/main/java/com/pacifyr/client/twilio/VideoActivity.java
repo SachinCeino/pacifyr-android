@@ -20,6 +20,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
+
 import android.util.Log;
 import android.util.Rational;
 import android.view.Menu;
@@ -30,6 +31,7 @@ import android.view.WindowManager;
 import android.widget.Chronometer;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -214,7 +216,7 @@ public class VideoActivity extends PacifyrActivity {
     private boolean enableAutomaticSubscription;
 
     //Call HangUp
-    private ImageView button_hangup_call;
+    private ImageButton button_hangup_call;
     private ToggleButton micToggleVideoCall,toggle_speaker,toggle_camera;
 
 
@@ -769,7 +771,7 @@ public class VideoActivity extends PacifyrActivity {
         //info_overlay_llay.setVisibility(View.VISIBLE);
         call_overlay.setVisibility(View.VISIBLE);
        // userRlay.setVisibility(View.VISIBLE);
-       // call_layout.setVisibility(View.VISIBLE);
+        button_hangup_call.setVisibility(View.VISIBLE);
         if(call_overlay.getOrientation() == LinearLayout.VERTICAL)
         {
             emotion_rlay.setVisibility(View.VISIBLE);
@@ -1184,7 +1186,7 @@ public class VideoActivity extends PacifyrActivity {
     @Override
     protected void onPause() {
         isForeground = false;
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(eventReceiver);
+
         /*
          * Release the local video track before going in the background. This ensures that the
          * camera can be used by other applications while this app is in the background.
@@ -1197,6 +1199,7 @@ public class VideoActivity extends PacifyrActivity {
         /*
          * Tear down audio management and restore previous volume stream
          */
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(eventReceiver);
         isCallActive=false;
         audioSwitch.stop();
         setVolumeControlStream(savedVolumeControlStream);
@@ -2147,22 +2150,19 @@ public class VideoActivity extends PacifyrActivity {
 
                 if (hasBillingStarted())
                 {
-                    SessionSummaryActivity.start(VideoActivity.this, SessionId);
-                    getPrefManager().saveSessionId(null);
+                   // SessionSummaryActivity.start(VideoActivity.this, SessionId);
+                   // getPrefManager().saveSessionId(null);
                 }
                 else
                 {
                     missedSessionWeb(SessionId);
                 }
-            } else if (!hasBillingStarted()) {
-                showToast("Thank you for the call. You are not billed as Service was not provided");
+            } else if (!hasBillingStarted() && isProviderConnected) {
+                showToast("Thank you for the call. You are not billed as service was not provided");
                 if (isProd==false &&isRelease==false)
                 {
-                    if (isProviderConnected==false){
-                        ToastHandler.newInstance(getApplicationContext()).showToast("Pacifyr is busy with another call");
-                    }else {
-                        ToastHandler.newInstance(getApplicationContext()).showToast("Thank you for the call. You are not billed as Service was not provided");
-                    }
+                    ToastHandler.newInstance(getApplicationContext()).showToast("Thank you for the call. You are not billed as service was not provided");
+
                 }
             }
 
@@ -2292,9 +2292,9 @@ public class VideoActivity extends PacifyrActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (isValid(intent)) {
+                isCallActive = false;
                 if (isValid(ringtonePlayer))
                     ringtonePlayer.stop();
-                showToast("Thank you for the call. You are not billed as Service was not provided");
                 if (isProd==false &&isRelease==false)
                 {
                     ToastHandler.newInstance(getApplicationContext()).showToast("Pacifyr is busy with another call");
@@ -2426,6 +2426,10 @@ public class VideoActivity extends PacifyrActivity {
             } else {
                 maximizePicInPicView();
             }
+                getApplication().startActivity(new Intent(this, getClass())
+                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
+            maximizePicInPicView();
+
         }
     }
 
@@ -2440,6 +2444,10 @@ public class VideoActivity extends PacifyrActivity {
 
     @Override
     public void onBackPressed() {
+        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
 
+            if (currentFragment instanceof PrescriptionWhileCallFragment) {
+                super.onBackPressed();
+            }
     }
 }
