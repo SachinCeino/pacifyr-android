@@ -460,7 +460,8 @@ public class VideoActivity extends PacifyrActivity {
                   WindowManager.LayoutParams.FLAG_FULLSCREEN |
                           WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
                           WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
-                          WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
+                          WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON |
+                          WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
           //  ringtonePlayer = new RingtonePlayer(this, R.raw.beep);
           checker = new PermissionsChecker(VideoActivity.this);
