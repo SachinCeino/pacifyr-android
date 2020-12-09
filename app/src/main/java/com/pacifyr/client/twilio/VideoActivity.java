@@ -463,8 +463,6 @@ public class VideoActivity extends PacifyrActivity {
                           WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
 
           //  ringtonePlayer = new RingtonePlayer(this, R.raw.beep);
-          ringtonePlayer = new RingtonePlayer(this, R.raw.beep);
-          ringtonePlayer.play(true);
           checker = new PermissionsChecker(VideoActivity.this);
           /*
            * Get shared preferences to read settings
@@ -478,14 +476,19 @@ public class VideoActivity extends PacifyrActivity {
           audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
           savedVolumeControlStream = getVolumeControlStream();
           setVolumeControlStream(AudioManager.STREAM_VOICE_CALL);
-          if (isValid(getIntent()))
-          {
-              if (isValid(getIntent().getExtras()))
-              {
-                  accessToken=getIntent().getExtras().getString("accessToken");
-                  roomName=getIntent().getExtras().getString("roomName");
-                  pacifyerDetial= (MUser) getIntent().getExtras().getSerializable("pacifyerDetial");
-                  isVideoCall=getIntent().getExtras().getBoolean("isVideoCall");
+          new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+              @Override
+              public void run() {
+                  ringtonePlayer = new RingtonePlayer(VideoActivity.this, R.raw.beep);
+                  ringtonePlayer.play(true);
+              }
+          }, 1000);
+          if (isValid(getIntent())) {
+              if (isValid(getIntent().getExtras())) {
+                  accessToken = getIntent().getExtras().getString("accessToken");
+                  roomName = getIntent().getExtras().getString("roomName");
+                  pacifyerDetial = (MUser) getIntent().getExtras().getSerializable("pacifyerDetial");
+                  isVideoCall = getIntent().getExtras().getBoolean("isVideoCall");
                   //SessionId=getIntent().getExtras().getString("SessionId");
               }
           }
