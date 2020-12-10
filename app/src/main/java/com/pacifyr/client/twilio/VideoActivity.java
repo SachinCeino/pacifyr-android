@@ -68,6 +68,7 @@ import com.pacifyr.client.event.PicInPic;
 import com.pacifyr.client.event.TwilioCallEvent;
 import com.pacifyr.client.fragment.PrescriptionWhileCallFragment;
 import com.pacifyr.client.home.CustomerDetailActivity;
+import com.pacifyr.client.home.DashboardActivity;
 import com.pacifyr.client.interfaces.EmpMinutesListener;
 import com.pacifyr.client.model.CallStatus;
 import com.pacifyr.client.model.PrescriptionList;
@@ -2170,6 +2171,9 @@ public class VideoActivity extends PacifyrActivity {
             if (SessionId != null) {
                 stopSessionWeb(SessionId);
             }
+            Intent intent=new Intent(getApplicationContext(),DashboardActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
             finish();
         }
         catch (Exception e)
