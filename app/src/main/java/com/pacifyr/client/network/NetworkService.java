@@ -19,8 +19,9 @@ import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.event.BusProvider;
 import com.pacifyr.client.event.EventLoadEmotion;
 import com.pacifyr.client.event.NotifyEvent;
-import com.pacifyr.client.model.ItemData;
+import com.pacifyr.client.model.Country;
 import com.pacifyr.client.model.MCustomerList;
+import com.pacifyr.client.orginals.Auth;
 import com.pacifyr.client.utility.EventMessage;
 import com.pacifyr.client.utils.LogUtils;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.LoginModel;
@@ -74,13 +75,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import static com.pacifyr.client.base.PacifyrActivity.sessionid;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.CIRTIFICATE_KEY;
 
 /**
  * Created by ceino on 27/6/17.
  */
 
-public class NetworkService  extends IntentService {
+public class  NetworkService  extends IntentService {
 
      public static final String GLOBAL_URL = UtilityNetworkService.GLOBAL_URL;
     public static String GLOBAL_IMAGE_URL = UtilityNetworkService.GLOBAL_IMAGE_URL;
@@ -156,7 +158,7 @@ public class NetworkService  extends IntentService {
     public static MPastSessions mPastSessions;
     public static MPastSessions mPastSessionsPaged;
 
-    public static ItemData countryData;
+    public static Country countryData;
     public static JSONObject editProfileObject=new JSONObject();
 
     private static final String SKIP_PARAM = "SKIP";
@@ -1061,9 +1063,6 @@ public class NetworkService  extends IntentService {
 
     }
 
-
-
-
    /* private void handleActionProfile(String id){
 
         PrefManager prefM= PrefManager.getInstance(getApplicationContext());
@@ -1168,6 +1167,8 @@ public class NetworkService  extends IntentService {
             params.putOpt("toUserId", toUserId);
             params.putOpt("fromUserId", userID);
             params.putOpt("type", type);
+            if (isValid(sessionid))
+                params.putOpt("sessionId", sessionid);
             aq.post(url, params, JSONObject.class, cb);
 
         } catch (Exception e) {
@@ -1188,13 +1189,14 @@ public class NetworkService  extends IntentService {
             params.putOpt("toUserId", toUserId);
             params.putOpt("fromUserId", userID);
             params.putOpt("type", type);
+            if (isValid(sessionid))
+                params.putOpt("sessionId", sessionid);
             aq.post(url, params, JSONObject.class, cb);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
 
     public void sendPaymentFailedDueToSomeReasons(String toUserId, String type, String message, AjaxCallback cb) {
         try {
@@ -1210,6 +1212,8 @@ public class NetworkService  extends IntentService {
             params.putOpt("fromUserId", userID);
             params.putOpt("type", type);
             params.putOpt("status", message);
+            if (isValid(sessionid))
+                params.putOpt("sessionId", sessionid);
             aq.post(url, params, JSONObject.class, cb);
 
         } catch (Exception e) {
@@ -1293,6 +1297,10 @@ public class NetworkService  extends IntentService {
                 if (isValid(sessionID))
                 {
                     json.put("id",sessionID);
+                }
+                if (isValid(prefM.getUserID()))
+                {
+                    json.put("oppositeuserid",prefM.getUserID());
                 }
 
 

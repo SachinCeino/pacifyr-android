@@ -17,9 +17,9 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:id="@+id/left_llay"
-            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
-            android:paddingLeft="10dp"
+            android:paddingStart="10dp"
             android:layout_centerHorizontal="true"
             android:layout_height="wrap_content">
             <ImageView
@@ -27,20 +27,19 @@
                 android:id="@+id/back_imv"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_cancel2"
-                android:tint="@color/_color_back_arrow_tint"
                 android:visibility="visible"
-                android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true"
-                android:layout_alignParentStart="true" />
+                android:layout_alignParentStart="true"
+                app:tint="@color/_color_back_arrow_tint" />
 
             <com.pacifyr.client.customview.MainTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/back_imv"
                 android:id="@+id/left_txv"
-                android:paddingLeft="2dp"
-                android:textSize="@dimen/sp18"
+                android:paddingStart="2dp"
+                android:textSize="@dimen/sp15"
                 android:visibility="gone"
                 android:text=""
 
@@ -71,9 +70,9 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:id="@+id/right_llay"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:paddingRight="5dp"
+            android:paddingEnd="5dp"
             android:layout_centerHorizontal="true"
             android:layout_height="wrap_content">
 
@@ -83,7 +82,7 @@
 
                 android:layout_toLeftOf="@+id/right_imv"
                 android:id="@+id/right_txv"
-                android:paddingRight="2dp"
+                android:paddingEnd="2dp"
                 android:textSize="@dimen/sp18"
                 android:text=""
 
@@ -97,7 +96,7 @@
                 android:visibility="gone"
                 app:width_percentage="7"
 
-                android:layout_marginRight="4dp"
+                android:layout_marginEnd="4dp"
 
                 android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true"/>
@@ -108,7 +107,7 @@
                  android:visibility="gone"
                  app:width_percentage="7"
                  android:src="@drawable/icon_preferences"
-                 android:layout_marginRight="5dp"
+                 android:layout_marginEnd="5dp"
 
                  android:layout_centerVertical="true"
                  android:layout_centerHorizontal="true"

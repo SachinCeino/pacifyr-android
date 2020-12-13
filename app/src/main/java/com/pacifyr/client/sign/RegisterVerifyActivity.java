@@ -107,7 +107,7 @@ public class RegisterVerifyActivity extends PacifyrActivity {
                         return;
 
                     }
-                    if(!isValid(pinview.getValue(),"Invalid code ")) {
+                    if(!isValid(pinview.getValue(),"Please enter verification code ")) {
                         hideProgress();
                         return;
                     }
@@ -210,7 +210,7 @@ public class RegisterVerifyActivity extends PacifyrActivity {
                         // Invalid request
                         //otpRecieveEditText.setError("Invalid phone number format. Check the phone number you entered and the country code.");
 //                        Toast.makeText(RegisterVerifyActivity.this,"Invalid phone number format. Check the phone number you entered and the country code.",Toast.LENGTH_LONG).show();
-                        setAlertOKStatusInRed("Login failed", "Invalid phone number format. Check the phone number you entered and the country code.", "OK", new View.OnClickListener() {
+                        setAlertOKStatusInRed(getResources().getString(R.string.registration_failed), "Invalid phone number format. Check the phone number you entered and the country code.", "OK", new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 hideStatus();
@@ -218,14 +218,14 @@ public class RegisterVerifyActivity extends PacifyrActivity {
                         });
                     } else if (e instanceof FirebaseTooManyRequestsException) {
                         // The SMS quota for the project has been exceeded
-                        setAlertOKStatusInRed("Login failed", e.getMessage(), "OK", new View.OnClickListener() {
+                        setAlertOKStatusInRed(getResources().getString(R.string.registration_failed), e.getMessage(), "OK", new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 hideStatus();
                             }
                         });
                     } else {
-                        setAlertOKStatusInRed("Login failed", e.getMessage(), "OK", new View.OnClickListener() {
+                        setAlertOKStatusInRed(getResources().getString(R.string.registration_failed), e.getMessage(), "OK", new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 hideStatus();
@@ -300,14 +300,14 @@ public class RegisterVerifyActivity extends PacifyrActivity {
                             if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
                                 //otpRecieveEditText.setError("Invalid code.");
                                 //Toast.makeText(RegisterVerifyActivity.this,"Invalid code ",Toast.LENGTH_LONG).show();
-                                setAlertOKStatusInRed("Login failed", "Invalid verification code. Please try again", "OK", new View.OnClickListener() {
+                                setAlertOKStatusInRed(getResources().getString(R.string.registration_failed), "Invalid verification code. Please try again", "OK", new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
                                         hideStatus();
                                     }
                                 });
                             } else {
-                                setAlertOKStatusInRed("Login failed", task.getException().getMessage(), "OK", new View.OnClickListener() {
+                                setAlertOKStatusInRed(getResources().getString(R.string.registration_failed), task.getException().getMessage(), "OK", new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
                                         hideStatus();
@@ -345,8 +345,6 @@ public class RegisterVerifyActivity extends PacifyrActivity {
             resendCtxv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(RegisterVerifyActivity.this, "Verification code sent",
-                            Toast.LENGTH_LONG).show();
                     showProgress();
                     startPhoneNumberVerification(phoneRegister);
                     cancelTimer();

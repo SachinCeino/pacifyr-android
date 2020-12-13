@@ -40,6 +40,8 @@ import com.pacifyr.client.fragment.PrescriptionWhileCallFragment;
 import com.pacifyr.client.home.PacifyrDashboardActivity;
 import com.pacifyr.client.home.SessionSummaryActivity;
 import com.pacifyr.client.model.CallStatus;
+import com.pacifyr.client.model.HttpStatus;
+import com.pacifyr.client.orginals.Auth;
 import com.pacifyr.client.quickblox.App;
 import com.pacifyr.client.quickblox.db.QbUsersDbManager;
 import com.pacifyr.client.quickblox.fragments.AudioConversationFragment;
@@ -151,6 +153,7 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
     public static  MUser mPacifyr;
     public static  MSessionDetailRoot mSessionDetailRoot;
     public static boolean isConnected=false,isMissed=false,isDeclined=false,isOpponenetConnected=false,isOppenentHangUP=false;
+    private boolean isCallRejectedByPacifyr=false;
 
     public static void start(Context context,boolean isIncomingCall) {
         mSessionDetailRoot=null;
@@ -916,10 +919,11 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
         ringtonePlayer.stop();
 
         try {
+            CallActivity.isDeclined=true;
         AjaxCallback<JSONObject> cb = new AjaxCallback<JSONObject>() {
             @Override
             public void callback(String url, JSONObject json, AjaxStatus status) {
-                CallActivity.isDeclined=true;
+
                 if (json == null) {
                     com.pacifyrapp.utilitylibrary.ToastHandler.newInstance(CallActivity.this).showToast("Please Try again");
                     LogUtils.LOGD("call", "declineSessionWeb json null ");
@@ -942,7 +946,7 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        Toast.makeText(CallActivity.this,"Pacifyr is busy with another call",Toast.LENGTH_LONG).show();
+
     }
 
     @Override
@@ -1012,7 +1016,8 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
         Log.d(TAG, "Session " + session.getSessionID() + " start stop session");
 
         if (!hasBillingStarted()) {
-            showToast("Thank you for the call. You are not billed as Service was not provided");
+            if (isDeclined&&!isConnected)
+            showToast("Provider is busy with another call");
         }
         if (session.equals(getCurrentSession())) {
             Log.d(TAG, "Stop session");
@@ -1043,7 +1048,10 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
                 }*/
                 }
                 else if( !isMissed && !isDeclined && isOpponenetConnected &&!isOppenentHangUP) {
-                    ToastHandler.newInstance(CallActivity.this).showToast("Calling Stop api "+sessionid);
+                    if (!hasBillingStarted()&&isConnected)
+                        showToast("Thank you for the call. You are not billed as Service was not provided");
+                    else
+                        ToastHandler.newInstance(CallActivity.this).showToast("Calling Stop api "+sessionid);
 //                    stopSessionWeb(sessionid);
                     getPrefManager().saveSessionId(null);
                     finish();
@@ -1061,7 +1069,6 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
                         PacifyrDashboardActivity.start(CallActivity.this);
                     else {
 //                        stopSessionWeb(getCallPacifyr());
-                        ToastHandler.newInstance(CallActivity.this).showToast("Pacifyr is buzy. Please try again");
                         //DashboardActivity.start(CallActivity.this);
                     }
                 }
@@ -1115,6 +1122,14 @@ public class CallActivity extends PacifyrAppCompactActivity implements QBRTCClie
                 Toaster.shortToast(message);
             }
         });
+    }
+
+    @Subscribe
+    public void onUnAuthResponse(HttpStatus httpStatus) {
+        if (!httpStatus.isValid()) {
+            hangUpCurrentSessionMe();
+            Auth.httpStatusFilter(getApplicationContext(), 401);
+        }
     }
 
     @Override

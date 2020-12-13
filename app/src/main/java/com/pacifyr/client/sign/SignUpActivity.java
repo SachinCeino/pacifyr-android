@@ -8,13 +8,15 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.CallbackManager;
@@ -30,13 +32,16 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
+
+import com.opensooq.supernova.gligar.GligarPicker;
 import com.pacifyr.client.R;
 import com.pacifyr.client.adapter.CountrySpinnerAdapter;
 import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.home.DashboardActivity;
 import com.pacifyr.client.home.PacifyrDashboardActivity;
-import com.pacifyr.client.model.ItemData;
+
+import com.pacifyr.client.model.Country;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.utils.LogUtils;
@@ -64,9 +69,10 @@ import static com.pacifyr.client.network.NetworkService.countryData;
 
 public class SignUpActivity extends PacifyrActivity {
 
+    private static final int REQUESTCODE_CAMERA_IMAGE = 101;
+    private static final int REQUESTCODE_GALLERY_IMAGE = 102;
     public static final String MY_PREFS_NAME = "AppPrefFile";
     public static final String mypreference = "mypref";
-
 
 
     private RelativeLayout logoRlay;
@@ -103,6 +109,8 @@ public class SignUpActivity extends PacifyrActivity {
     Context context;
     private String qbID;
     private MainTextView sms_text_login;
+    private TextView TextView_phone_error;
+    private LinearLayout LinearLayout_phone;
     //private MainTextView enter_phone_ctxv;
 
     @SuppressLint("SetTextI18n")
@@ -116,6 +124,8 @@ public class SignUpActivity extends PacifyrActivity {
             context = SignUpActivity.this;
             prefM = PrefManager.getInstance(context);
             sms_text_login = findViewById(R.id.sms_text_login);
+            TextView_phone_error = findViewById(R.id.TextView_phone_error);
+            LinearLayout_phone = findViewById(R.id.LinearLayout_phone);
 
             /*hideKeyboard();*/
             onSetActionBar();
@@ -138,38 +148,12 @@ public class SignUpActivity extends PacifyrActivity {
                 }
             });*/
 
-            ArrayList<ItemData> list=new ArrayList<>();
-            list.add(new ItemData("+1","US",R.drawable.flag_usa));
-            if (!getPackageName().equalsIgnoreCase("com.pacifyr.pam")) {
-                list.add(new ItemData("+1", "Canada", R.drawable.canada2));
-                list.add(new ItemData("+91", "India", R.drawable.ic_india));
-                list.add(new ItemData("+971", "UAE", R.drawable.flag_uae2));
-            }
-            /*list.add(new ItemData("+971","Kuwait", R.drawable.kuwait2));*/
+
             sp = findViewById(R.id.spinner);
-            CountrySpinnerAdapter adapter=new CountrySpinnerAdapter(this,
-                    R.layout.spinner_item,R.id.txt,list);
+            CountrySpinnerAdapter adapter = new CountrySpinnerAdapter(this,
+                    R.layout.spinner_item, R.id.txt, Country.getAvailableCountryList());
             sp.setAdapter(adapter);
-
-
-            String countryCode = prefM.getCountryCode();
-            if (!getPackageName().equalsIgnoreCase("com.pacifyr.pam")) {
-                if (countryCode.equals("IN")) {
-                    sp.setSelection(2);
-                } else if (countryCode.equals("US")) {
-                    sp.setSelection(0);
-                } else if (countryCode.equals("Canada")) {
-                    sp.setSelection(1);
-                } else if (countryCode.equals("AE")) {
-                    sp.setSelection(3);
-                }
-            }
-            else
-            {
-                if (countryCode.equals("US")){
-                    sp.setSelection(0);
-                }
-            }
+            sp.setSelection(Country.getIndex(this, Country.getAvailableCountryList()));
 
             /* enter_phone_ctxv = (MainTextView) findViewById(R.id.enter_phone_ctxv);*/
 
@@ -296,12 +280,36 @@ public class SignUpActivity extends PacifyrActivity {
             sp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    countryData=list.get(position);
+                    countryData = Country.getAvailableCountryList().get(position);
+                    selectRemoteConfigUrl(position);
                 }
 
                 @Override
                 public void onNothingSelected(AdapterView<?> parent) {
 
+                }
+            });
+
+            selectRemoteConfigUrl(sp.getSelectedItemPosition());
+
+
+            phoneCedit.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                    TextView_phone_error.setVisibility(View.GONE);
+                    makeViewBackgroundBlack(LinearLayout_phone);
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    TextView_phone_error.setVisibility(View.GONE);
+                    makeViewBackgroundBlack(LinearLayout_phone);
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    TextView_phone_error.setVisibility(View.GONE);
+                    makeViewBackgroundBlack(LinearLayout_phone);
                 }
             });
 
@@ -311,6 +319,20 @@ public class SignUpActivity extends PacifyrActivity {
         }
     }
 
+    public void  makeViewBackgroundBlack(View mView)
+    {
+        mView.setBackground(getResources().getDrawable(R.drawable.edittext_black_curve));
+    }
+
+    public void  makeViewBackgroundRed(View mView)
+    {
+        mView.setBackground(getResources().getDrawable(R.drawable.edittext_red_curve));
+    }
+
+    private void makeAlertMessageInTextView(TextView textView_name_error, String error) {
+        textView_name_error.setText(error);
+        textView_name_error.setVisibility(View.VISIBLE);
+    }
     @Override
     protected View getSnackbarAnchorView() {
         return null;
@@ -368,9 +390,9 @@ public class SignUpActivity extends PacifyrActivity {
 
     private void phoneVerifyWeb() {
         try{
-            if(!isValidMobile(phoneCedit,"Please enter a valid mobile number"))
+            if(!isValidMobile(phoneCedit,getResources().getString(R.string.Please_enter_your_phone_number)))
                 return ;
-            countryData = (ItemData) sp.getSelectedItem();
+            countryData = (Country) sp.getSelectedItem();
             String code = countryData.getCode();
             RegisterVerifyActivity.phoneRegister = code+/* countryCodePicker.getSelectedCountryCode() +*/ phoneCedit.getText() + "";
             RegisterVerifyActivity.phoneRegisterSub = code+ /*countryCodePicker.getDefaultCountryCode() + " " +*/ phoneCedit.getText() + " ";
@@ -395,23 +417,25 @@ public class SignUpActivity extends PacifyrActivity {
           }
     }
 
-   /* private void phoneVerifyWeb() {
-        try{
-            if(!isValid(phoneCedit,"Enter phone"))
-                return ;
-            CodeVerifyActivity. phonenumber= countryCodePicker.getSelectedCountryCode()+phoneCedit.getText()+"";
+    public boolean isValidMobile(CustomEditText phone_tv, String error) {
+        if (phone_tv != null) {
+            if (isValid(phone_tv.getText() + "")) {
+                if (isValidMobile(phone_tv.getText().toString())) {
+                    return true;
+                }
+                else {
+                    error=getResources().getString(R.string.Invalid_phone_number_format);
+                }
+            }
 
-            Intent intent=new Intent(SignUpActivity.this,CodeVerifyActivity.class);
-            intent.putExtra("from","" +
-                    "signup");
-            startActivity(intent);
-            // OnVerificationStateChangedCallbacks
-        }catch (Exception e)
-        {
-            e.printStackTrace();
-            //  LogUtils.LOGD("sign","lA onCreate exception "+e.getMessage());
         }
-    }*/
+        makeAlertMessageInTextView(TextView_phone_error,error);
+        makeViewBackgroundRed(LinearLayout_phone);
+        return false;
+
+        //String phone=phone_tv.getText().toString();
+        //return android.util.Patterns.PHONE.matcher(phone).matches();
+    }
 
 
 
@@ -683,14 +707,10 @@ public class SignUpActivity extends PacifyrActivity {
                 @Override
                 public void onClick(DialogInterface dialog, int item) {
                     if (items[item].equals("Take Photo")) {
-                        Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        startActivityForResult(takePicture, 0);
+                        new GligarPicker().requestCode(REQUESTCODE_CAMERA_IMAGE).disableCamera(false).cameraDirect(true).limit(1).withActivity(SignUpActivity.this).show();
 
                     } else if (items[item].equals("Choose from Library")) {
-                        Intent intent = new Intent(
-                                Intent.ACTION_PICK,
-                                MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                        startActivityForResult(intent, 1);
+                        new GligarPicker().requestCode(REQUESTCODE_GALLERY_IMAGE).disableCamera(true).limit(1).withActivity(SignUpActivity.this).show();
                     } else if (items[item].equals("Cancel")) {
                         dialog.dismiss();
                     }

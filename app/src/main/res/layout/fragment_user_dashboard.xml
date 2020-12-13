@@ -28,13 +28,14 @@
                     android:layout_below="@+id/online_switch_llay"
                     android:layout_marginBottom="5dp"
                     android:padding="5dp"
+                    android:layout_above="@+id/grid_balls"
                     android:id="@+id/missed_chat_rlay">
 
                     <ImageView
                         android:id="@+id/image_logo"
                         android:layout_centerHorizontal="true"
-                        android:layout_width="100dp"
-                        android:layout_height="50dp"
+                        android:layout_width="@dimen/company_logo_w"
+                        android:layout_height="@dimen/company_logo_h"
                         android:scaleType="centerInside"
                         android:layout_marginBottom="5dp" />
 
@@ -46,20 +47,20 @@
                         android:layout_below="@+id/image_logo"
                         android:textColor="@color/black"
                         android:visibility="gone"
-                        android:layout_marginLeft="30dp"
-                        android:layout_alignParentLeft="true"
+                        android:layout_marginStart="30dp"
+                        android:layout_alignParentStart="true"
                         android:id="@+id/unread_chat_ctxv"
-                        android:text="un read" />
+                        android:text="" />
 
                     <com.pacifyr.client.customview.MainTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
                         android:textSize="12sp"
                         android:visibility="gone"
                         android:layout_below="@+id/image_logo"
                         android:textColor="@color/black"
-                        android:layout_marginRight="40dp"
+                        android:layout_marginEnd="40dp"
                         android:id="@+id/missed_call_ctxv"
                         android:text=""/>
 
@@ -79,6 +80,7 @@
                     android:verticalSpacing="5dp">
 
                     <LinearLayout
+                        android:layout_marginBottom="15dp"
                         android:layout_width="match_parent"
                         android:layout_rowWeight="1"
                         android:layout_columnSpan="2"
@@ -90,11 +92,13 @@
                             android:layout_rowWeight="1"
                             android:layout_columnWeight="1"
                             android:layout_gravity="center"
-                            android:layout_marginRight="5dp"
+                            android:layout_marginEnd="5dp"
                             android:layout_weight="1"
                             android:orientation="vertical">
 
                             <RelativeLayout
+                                android:foreground="?android:attr/selectableItemBackground"
+                                android:elevation="6dp"
                                 android:id="@+id/feel_rlay"
                                 android:layout_width="@dimen/dash_circle_wh"
                                 android:layout_height="@dimen/dash_circle_wh"
@@ -131,7 +135,7 @@
                                     android:layout_centerHorizontal="true"
                                     android:layout_centerVertical="true"
                                     android:gravity="center"
-                                    android:text="Please select an emotion"
+                                    android:text="@string/please_select_an_emotion"
                                     android:textColor="@color/white"
                                     android:textSize="15sp"
                                     android:textStyle="bold"
@@ -157,11 +161,13 @@
                             android:layout_rowWeight="1"
                             android:layout_columnWeight="1"
                             android:layout_gravity="center"
-                            android:layout_marginLeft="5dp"
+                            android:layout_marginStart="5dp"
                             android:layout_weight="1"
                             android:orientation="vertical">
 
                             <RelativeLayout
+                                android:foreground="?android:attr/selectableItemBackground"
+                                android:elevation="6dp"
                                 android:id="@+id/cir_pref_pacifyr"
                                 android:layout_width="@dimen/dash_circle_wh"
                                 android:layout_height="@dimen/dash_circle_wh"
@@ -178,7 +184,7 @@
                                     android:layout_centerVertical="true"
                                     android:gravity="center"
                                     android:padding="10dp"
-                                    android:text="..."
+                                    android:text="@string/___"
                                     android:textColor="@color/white"
                                     android:textSize="15sp"
                                     android:textStyle="bold"
@@ -210,14 +216,14 @@
                                         android:id="@+id/pacifyr2_dimv"
                                         android:layout_width="40dp"
                                         android:layout_height="40dp"
-                                        android:layout_marginLeft="15dp" />
+                                        android:layout_marginStart="15dp" />
 
 
                                     <!-- <com.pacifyrapp.utilitylibrary.DeviceFitImageView
                                          android:layout_width="wrap_content"
                                          android:layout_height="wrap_content"
                                          app:parameter="aspect_width"
-                                         android:layout_marginLeft="15dp"
+                                         android:layout_marginStart="15dp"
                                          app:width_percentage="11"
                                          android:src="@drawable/placeholder_user"
                                          android:id="@+id/pacifyr2_dimv"/>-->
@@ -254,7 +260,7 @@
                                         android:id="@+id/pacifyr4_dimv"
                                         android:layout_width="40dp"
                                         android:layout_height="40dp"
-                                        android:layout_marginLeft="15dp"
+                                        android:layout_marginStart="15dp"
                                         android:background="@drawable/user" />
 
 
@@ -290,11 +296,13 @@
                             android:layout_rowWeight="1"
                             android:layout_columnWeight="1"
                             android:layout_gravity="center"
-                            android:layout_marginRight="5dp"
+                            android:layout_marginEnd="5dp"
                             android:layout_weight="1"
                             android:orientation="vertical">
 
                             <RelativeLayout
+                                android:foreground="?android:attr/selectableItemBackground"
+                                android:elevation="6dp"
                                 android:id="@+id/last_session_rlay"
                                 android:layout_width="@dimen/dash_circle_wh"
                                 android:layout_height="@dimen/dash_circle_wh"
@@ -312,7 +320,7 @@
                                     android:layout_centerVertical="true"
                                     android:gravity="center"
                                     android:padding="10dp"
-                                    android:text="..."
+                                    android:text="@string/___"
 
                                     android:textColor="@color/white"
                                     android:textSize="15sp"
@@ -373,8 +381,8 @@
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:layout_centerHorizontal="true"
-                                            android:layout_marginLeft="10dp"
-                                            android:text="00 "
+                                            android:layout_marginStart="10dp"
+                                            android:text="@string/_00"
                                             android:textColor="@color/white"
                                             android:textSize="13sp"
                                             android:textStyle="bold" />
@@ -388,7 +396,7 @@
                                         android:layout_below="@id/session_llay"
                                         android:layout_centerHorizontal="true"
                                         android:padding="5dp"
-                                        android:text="0  Days ago"
+                                        android:text="@string/_0_days_ago"
                                         android:textColor="#ffffff"
                                         android:textSize="11sp"
                                         android:visibility="visible" />
@@ -417,11 +425,13 @@
                             android:layout_rowWeight="1"
                             android:layout_columnWeight="1"
                             android:layout_gravity="center"
-                            android:layout_marginLeft="5dp"
+                            android:layout_marginStart="5dp"
                             android:layout_weight="1"
                             android:orientation="vertical">
 
                             <RelativeLayout
+                                android:foreground="?android:attr/selectableItemBackground"
+                                android:elevation="6dp"
                                 android:id="@+id/this_week_rlay"
                                 android:layout_width="@dimen/dash_circle_wh"
                                 android:layout_height="@dimen/dash_circle_wh"
@@ -446,14 +456,14 @@
                                             android:id="@+id/sessions_txv"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
-                                            android:text="00"
+                                            android:text="@string/_00"
                                             android:textColor="@color/white"
                                             android:textSize="20sp" />
 
                                         <com.pacifyr.client.customview.MainTextView
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
-                                            android:layout_marginLeft="7dp"
+                                            android:layout_marginStart="7dp"
                                             android:text="@string/sessionS"
                                             android:textColor="@color/text_inside_circle_light"
                                             android:textSize="12sp"
@@ -473,7 +483,7 @@
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:layout_marginTop="10dp"
-                                            android:text="00"
+                                            android:text="@string/_00"
                                             android:textColor="@color/white"
                                             android:textSize="20sp" />
 
@@ -481,7 +491,7 @@
                                         <com.pacifyr.client.customview.MainTextView
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
-                                            android:layout_marginLeft="7dp"
+                                            android:layout_marginStart="7dp"
                                             android:layout_marginTop="10dp"
                                             android:text="@string/hrs"
                                             android:textColor="@color/text_inside_circle_light"
@@ -494,7 +504,7 @@
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:layout_marginTop="10dp"
-                                            android:text="00"
+                                            android:text="@string/_00"
                                             android:textColor="@color/white"
                                             android:textSize="20sp" />
 
@@ -502,7 +512,7 @@
                                         <com.pacifyr.client.customview.MainTextView
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
-                                            android:layout_marginLeft="7dp"
+                                            android:layout_marginStart="7dp"
                                             android:layout_marginTop="10dp"
                                             android:text="@string/mns"
                                             android:textColor="@color/text_inside_circle_light"
@@ -523,14 +533,14 @@
                                             android:layout_height="wrap_content"
                                             android:layout_below="@id/hours_txv"
                                             android:layout_marginTop="10dp"
-                                            android:text=" 00"
+                                            android:text="@string/_00"
                                             android:textColor="@color/white"
                                             android:textSize="20sp" />
 
                                         <com.pacifyr.client.customview.MainTextView
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
-                                            android:layout_marginLeft="7dp"
+                                            android:layout_marginStart="7dp"
                                             android:layout_marginTop="10dp"
                                             android:text="@string/paid"
                                             android:textColor="@color/text_inside_circle_light"

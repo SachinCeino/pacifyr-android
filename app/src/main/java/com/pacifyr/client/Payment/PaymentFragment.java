@@ -19,6 +19,7 @@ import com.pacifyr.client.adapter.ListSavedCardAdapter;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.home.DashboardActivity;
+import com.pacifyr.client.orginals.Auth;
 import com.pacifyr.client.utility.BaseFragment;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.squareup.otto.Subscribe;
@@ -82,6 +83,7 @@ public class PaymentFragment extends BaseFragment {
         AjaxCallback cb = new AjaxCallback<JSONArray>() {
             @Override
             public void callback(String url, JSONArray json, AjaxStatus status) {
+                Auth.httpStatusFilter(getActivity(), status.getCode());
                 try {
                     if(isValid(json)) {
                         String jsonString = json.toString();

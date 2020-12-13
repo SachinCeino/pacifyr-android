@@ -20,24 +20,18 @@ import android.widget.ToggleButton;
 
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
-import androidx.core.content.IntentCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.pacifyr.client.base.PacifyrActivity;
-import com.pacifyr.client.network.Auth;
-import com.pacifyr.client.quickblox.chat.ui.activity.AttachmentImageActivity;
-import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.MEmotion;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
-import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.gdacciaro.iOSDialog.iOSDialog;
 import com.gdacciaro.iOSDialog.iOSDialogClickListener;
 import com.pacifyr.client.R;
 import com.pacifyr.client.activity.ActivityChangeEmotionFromCall;
 import com.pacifyr.client.adapter.EmotionSpecialityAdapter;
+import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
+import com.pacifyr.client.event.BusProvider;
 import com.pacifyr.client.event.CallChangeEmotion;
 import com.pacifyr.client.event.CallDetailEvent;
 import com.pacifyr.client.event.CallEvent;
@@ -49,9 +43,15 @@ import com.pacifyr.client.interfaces.EmpMinutesListener;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.quickblox.activities.CallActivity;
+import com.pacifyr.client.quickblox.chat.ui.activity.AttachmentImageActivity;
 import com.pacifyr.client.quickblox.utils.CollectionsUtils;
 import com.pacifyr.client.utils.FirebaseLogging;
 import com.pacifyr.client.utils.LogUtils;
+import com.pacifyr.client.utils.Utility;
+import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.MEmotion;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
+import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.quickblox.users.model.QBUser;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
@@ -403,7 +403,8 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
                     /*
                      *this must be the first line of any httpCallBacks
                      */
-                    Auth.httpStatusFilter(getActivity(),status.getCode());
+                    BusProvider.getInstance().post(Utility.checkStatusCode(status.getCode())); // for call related apis
+                    //Auth.httpStatusFilter(getActivity(),status.getCode());
                     MEmotion emotion = null;
                     String image = null;
 
@@ -412,7 +413,7 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
                         NetworkService.mCurrentUser = GsonUtils.getInstance().gsonToModelUserProfile(json);
                         if (isValid(NetworkService.mCurrentUser)) {
                             if (isValid(NetworkService.mCurrentUser.getEmotion()))
-                                PacifyrActivity.call_emotion=NetworkService.mCurrentUser.getEmotion();
+                                PacifyrActivity.call_emotion = NetworkService.mCurrentUser.getEmotion();
                             setEmotionViews();
                             setResaonViews();
                         }
@@ -449,7 +450,8 @@ public class AudioConversationFragment extends BaseConversationFragment implemen
                     /*
                      *this must be the first line of any httpCallBacks
                      */
-                    Auth.httpStatusFilter(getActivity(),status.getCode());
+                    BusProvider.getInstance().post(Utility.checkStatusCode(status.getCode()));
+//                    Auth.httpStatusFilter(getActivity(),status.getCode());
                     MEmotion emotion = null;
                     String image = null;
 

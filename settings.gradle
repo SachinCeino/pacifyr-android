@@ -1,1 +1,2 @@
+include ':gligar'
 include ':app', ':utilitylibrary', ':quickblox-core', ':quickblox-videochat-webrtc', ':quickblox-chat', ':quickblox-content'

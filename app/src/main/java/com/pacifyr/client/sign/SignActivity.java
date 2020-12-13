@@ -17,7 +17,7 @@ import com.pacifyr.client.R;
 import com.pacifyr.client.activity.TermsOfUseActivity;
 import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
-import com.pacifyr.client.network.Auth;
+import com.pacifyr.client.orginals.Auth;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 
 
@@ -33,6 +33,11 @@ public class SignActivity extends PacifyrActivity {
         Auth.foreground("");
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        checkForAppUpdate(SignActivity.this, APP_UPDATE_REQUEST_CODE);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

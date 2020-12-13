@@ -11,19 +11,27 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.pacifyr.client.R;
+import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.home.DashboardActivity;
 import com.pacifyr.client.home.PacifyrDashboardActivity;
-import com.pacifyr.client.network.Auth;
+import com.pacifyr.client.orginals.Auth;
 import com.pacifyr.client.network.NetworkService;
+import com.pacifyr.client.orginals.DynamicLink;
+import com.pacifyr.client.orginals.RemoteConfig;
+import com.pacifyr.client.quickblox.App;
 import com.pacifyr.client.quickblox.services.CallService;
 import com.pacifyr.client.sign.PacifyrTermsPolicyActivity;
 import com.pacifyr.client.sign.SignActivity;
@@ -50,11 +58,13 @@ public class SplashScreen extends BaseAppCompactActivity {
     Intent mServiceIntent;
     private CallService mSensorService;
     private ImageView image_splash;
-
+    private boolean isNeedToOpenAppointments ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Auth.foreground(this.getClass().getName());
         FirebaseApp.initializeApp(this);
+        RemoteConfig.Update(this);
+        PacifyrActivity.flexibleUpdatePopupShown = false;
         //  overridePendingTransition(0, 0);
        // requestWindowFeature(Window.FEATURE_NO_TITLE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -68,101 +78,18 @@ public class SplashScreen extends BaseAppCompactActivity {
         NetworkService.webListEmotions(SplashScreen.this);
                setContentView(R.layout.activity_splash_screen);
         image_splash = findViewById(R.id.image_splash);
-
+        if (isValid(getIntent()) && isValid(getIntent().getExtras())&&isValid(getIntent().getExtras().getBoolean("isNeedToOpenAppointments",false))) {
+            isNeedToOpenAppointments = getIntent().getExtras().getBoolean("isNeedToOpenAppointments",false);
+        }
 
         FirebaseAnalytics.getInstance(this);
         Utility.getRealTimeLogging(SplashScreen.this);
-        Utility.handleDeepLink(SplashScreen.this, getIntent(), new DeepLinkListener() {
-            @Override
-            public void onDone() {
-                try {
-                    //generateHashkey();
-                    progressquest2 = findViewById(R.id.progressquest2);
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (isValid(PrefManager.getInstance(SplashScreen.this))) {
-                                if (isValid(PrefManager.getInstance(SplashScreen.this).getJsonKey())) {
-                                    String jsonString = PrefManager.getInstance(SplashScreen.this).getJsonKey();
-                                    try {
-
-                                        JSONObject obj = new JSONObject(jsonString);
-                                        Log.d("My App", obj.toString());
-                                        userObject = obj.getJSONObject("user");
-                                        JSONObject role = userObject.getJSONObject("roleModel");
-                                        label = role.getString("mainLabel");
-                                        //label=label+"";
-
-                                    } catch (Exception t) {
-                                        t.printStackTrace();
-                                    }
-                                    sharedPrefsHelper = SharedPrefsHelper.getInstance();
-                                    if (sharedPrefsHelper.hasQbUser()) {
-                                        startLoginService(sharedPrefsHelper.getQbUser());
-                                        // startOpponentsActivity();
-                                        //return;
-                                    }
-
-                                    if (label.equals("pacifyr")) {
-
-                                        NetworkService.startActionListCustomer(SplashScreen.this, 0, 10);
-                                        try {
-                                            Boolean flag = userObject.getBoolean("termsAccepted");
-                                            if (flag) {
-
-                                                Intent intent = new Intent(SplashScreen.this, PacifyrDashboardActivity.class);
-                                                startActivity(intent);
-                                                finish();
-                                                Intent i = new Intent(SplashScreen.this, CallService.class);
-                                                startService(i);
-                                            } else {
-                                                Intent i = new Intent(SplashScreen.this, PacifyrTermsPolicyActivity.class);
-                                                startActivity(i);
-                                                finish();
-                                                Intent intent = new Intent(SplashScreen.this, CallService.class);
-                                                startService(intent);
-                                            }
-                                        } catch (Exception e) {
-                                            e.printStackTrace();
-                                            Toast.makeText(SplashScreen.this, "Network error, Please try again", Toast.LENGTH_LONG).show();
-                                        }
-                                    } else if (label.equals("customer")) {
-                                        DashboardActivity.start(SplashScreen.this);
-
-                                 /*Intent intent = new Intent(SplashScreen.this, ConnectToPacifyrActivity.class);
-                                intent.putExtra("display","Pacifyr");
-                                startActivity(intent);
-                                finish();*/
 
 
-                                /*Intent intent = new Intent(SplashScreen.this, DashboardActivity.class);
-                                startActivity(intent);
-                                finish();*/
-                                    }
-                                } else {
-                                    Intent intent = new Intent(SplashScreen.this, SignActivity.class);
-                                    startActivity(intent);
-                                    finish();
 
-                                }
-                            } else {
-                                Intent intent = new Intent(SplashScreen.this, SignActivity.class);
-                                startActivity(intent);
-                                finish();
-                            }
-                        }
-                    }, SPLASH_TIME_OUT);
-
-
-                } catch (Exception e) {
-                    Intent intent = new Intent(SplashScreen.this, SignActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
-            }
-        });
         mSensorService = new CallService(SplashScreen.this);
         mServiceIntent = new Intent(SplashScreen.this, mSensorService.getClass());
+
         /**place holder issue fix **/
         ColorDrawable mColorDrawable = new ColorDrawable(getResources().getColor(R.color.black));
         Picasso.with(this).load(R.drawable.splash).placeholder(mColorDrawable).into(image_splash);
@@ -177,8 +104,22 @@ public class SplashScreen extends BaseAppCompactActivity {
             e.printStackTrace();
         }
 
+        Bundle bundle = getIntent().getExtras();
 
+        if( bundle!= null){
+            try {
+                String screen = bundle.getString("screen");
+                String screen_data = bundle.getString("screen_data");
+                DynamicLink.setScreenFromNotification(screen,screen_data);
+            }catch (Exception e){
+
+            }
+        }
+
+        DynamicLink.fetch(this);
+        gatePass();
     }
+
 
     public interface DeepLinkListener {
         void onDone();
@@ -236,4 +177,86 @@ public class SplashScreen extends BaseAppCompactActivity {
         super.onDestroy();
 
     }
+
+    public void gatePass(){
+        progressquest2 = findViewById(R.id.progressquest2);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (isValid(PrefManager.getInstance(SplashScreen.this))) {
+                    if (isValid(PrefManager.getInstance(SplashScreen.this).getJsonKey())) {
+                        String jsonString = PrefManager.getInstance(SplashScreen.this).getJsonKey();
+                        try {
+
+                            JSONObject obj = new JSONObject(jsonString);
+                            Log.d("My App", obj.toString());
+                            userObject = obj.getJSONObject("user");
+                            JSONObject role = userObject.getJSONObject("roleModel");
+                            label = role.getString("mainLabel");
+                            //label=label+"";
+
+                        } catch (Exception t) {
+                            t.printStackTrace();
+                        }
+                        sharedPrefsHelper = SharedPrefsHelper.getInstance();
+                        if (sharedPrefsHelper.hasQbUser()) {
+                            startLoginService(sharedPrefsHelper.getQbUser());
+                            // startOpponentsActivity();
+                            //return;
+                        }
+
+                        if (label.equals("pacifyr")) {
+
+                            NetworkService.startActionListCustomer(SplashScreen.this, 0, 10);
+                            try {
+                                Boolean flag = userObject.getBoolean("termsAccepted");
+                                if (flag) {
+
+                                    Intent intent = new Intent(SplashScreen.this, PacifyrDashboardActivity.class);
+                                    startActivity(intent);
+                                    finish();
+                                    Intent i = new Intent(SplashScreen.this, CallService.class);
+                                    startService(i);
+                                } else {
+                                    Intent i = new Intent(SplashScreen.this, PacifyrTermsPolicyActivity.class);
+                                    startActivity(i);
+                                    finish();
+                                    Intent intent = new Intent(SplashScreen.this, CallService.class);
+                                    startService(intent);
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                Toast.makeText(SplashScreen.this, "Network error, Please try again", Toast.LENGTH_LONG).show();
+                            }
+                        } else if (label.equals("customer")) {
+                            DashboardActivity.start(SplashScreen.this,isNeedToOpenAppointments);
+
+                                 /*Intent intent = new Intent(SplashScreen.this, ConnectToPacifyrActivity.class);
+                                intent.putExtra("display","Pacifyr");
+                                startActivity(intent);
+                                finish();*/
+
+
+                                /*Intent intent = new Intent(SplashScreen.this, DashboardActivity.class);
+                                startActivity(intent);
+                                finish();*/
+                        }
+                    } else {
+                        Intent intent = new Intent(SplashScreen.this, SignActivity.class);
+                        startActivity(intent);
+                        finish();
+
+                    }
+                } else {
+                    Intent intent = new Intent(SplashScreen.this, SignActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            }
+        }, SPLASH_TIME_OUT);
+    }
+
+
 }
+
+

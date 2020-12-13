@@ -32,7 +32,7 @@ import com.pacifyr.client.R;
 import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.InternetConnectionEvent;
-import com.pacifyr.client.network.Auth;
+import com.pacifyr.client.orginals.Auth;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.quickblox.chat.managers.DialogsManager;
 import com.pacifyr.client.quickblox.chat.ui.adapter.DialogsAdapter;
@@ -150,6 +150,8 @@ public class DialogsActivity extends PacifyrActivity implements DialogsManager.M
         if (mNotificationManager != null) {
             mNotificationManager.cancelAll();
         }
+
+        userDetailWeb(getUserID());
     }
 
     @Override

@@ -21,7 +21,7 @@ import androidx.multidex.MultiDex;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.github.javiersantos.appupdater.AppUpdater;
+//import com.github.javiersantos.appupdater.AppUpdater;
 import com.pacifyr.client.Payment.PaymentFragment;
 import com.pacifyr.client.R;
 import com.pacifyr.client.customview.MainTextView;
@@ -131,14 +131,14 @@ public class DashboardActivity extends PacifyrAppCompactActivity {
     }
 
 
-    AppUpdater appUpdater;
+//    AppUpdater appUpdater;
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (isValid(appUpdater)) {
+       /* if (isValid(appUpdater)) {
             appUpdater.stop();
-        }
+        }*/
 
     }
 
@@ -153,8 +153,8 @@ public class DashboardActivity extends PacifyrAppCompactActivity {
         context = DashboardActivity.this;
         //    permissionCheck();
         /**the library will work in background for checking new update available or not**/
-        appUpdater = new AppUpdater(this);
-        appUpdater.start();
+       /* appUpdater = new AppUpdater(this);
+        appUpdater.start();*/
         mLinearLayoutAppointments = findViewById(R.id.mLinearLayoutAppointments);
         connectToPacifyr = findViewById(R.id.connect_pacifyr_llay);
         leftPane = findViewById(R.id.left_pane);

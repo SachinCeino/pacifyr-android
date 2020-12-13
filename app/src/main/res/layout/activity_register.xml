@@ -191,7 +191,7 @@
                 android:layout_width="match_parent"
                 android:gravity="left"
                 android:theme="@style/OMEditTheme"
-                android:hint="Year of birth"
+                android:hint="Date of birth"
                 android:background="@null"
                 android:drawableLeft="@drawable/red_star"
                 android:drawableStart="@drawable/red_star"

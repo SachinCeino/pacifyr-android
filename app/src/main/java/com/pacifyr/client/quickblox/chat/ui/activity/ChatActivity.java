@@ -6,13 +6,14 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.os.SystemClock;
 import android.provider.MediaStore;
 import android.text.Editable;
-import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -27,24 +28,30 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.Request;
+import com.bumptech.glide.request.target.SizeReadyCallback;
+import com.bumptech.glide.request.target.Target;
+import com.bumptech.glide.request.transition.Transition;
 import com.google.android.material.snackbar.Snackbar;
-import com.kbeanie.multipicker.api.CameraImagePicker;
-import com.kbeanie.multipicker.api.ImagePicker;
-import com.kbeanie.multipicker.api.Picker;
-import com.kbeanie.multipicker.api.callbacks.ImagePickerCallback;
-import com.kbeanie.multipicker.api.entity.ChosenImage;
+import com.opensooq.supernova.gligar.GligarPicker;
 import com.pacifyr.client.R;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.AlertTypeEvent;
 import com.pacifyr.client.event.NotifyEvent;
-import com.pacifyr.client.network.Auth;
+import com.pacifyr.client.orginals.Auth;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.quickblox.activities.CallActivity;
+import com.pacifyr.client.quickblox.chat.interfaces.AttachmentClick;
 import com.pacifyr.client.quickblox.chat.ui.adapter.AttachmentPreviewAdapter;
 import com.pacifyr.client.quickblox.chat.ui.adapter.ChatAdapter;
 import com.pacifyr.client.quickblox.chat.ui.widget.AttachmentPreviewAdapterView;
+import com.pacifyr.client.quickblox.chat.ui.widget.BottomAttachDialog;
 import com.pacifyr.client.quickblox.chat.utils.chat.ChatHelper;
 import com.pacifyr.client.quickblox.chat.utils.qb.PaginationHistoryListener;
 import com.pacifyr.client.quickblox.chat.utils.qb.QbChatDialogMessageListenerImp;
@@ -77,6 +84,7 @@ import org.jivesoftware.smack.ConnectionListener;
 import org.jivesoftware.smack.SmackException;
 import org.jivesoftware.smack.XMPPException;
 import org.json.JSONObject;
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -93,10 +101,12 @@ import static com.pacifyr.client.network.NetworkService.GLOBAL_IMAGE_URL;
 import static com.pacifyr.client.quickblox.activities.CallActivity.isCallActive;
 
 //com.pacifyr.pacifyrapp.quickblox.chat.ui.activity.BaseActivity
-public class ChatActivity extends PacifyrAppCompactActivity implements ImagePickerCallback {
+public class ChatActivity extends PacifyrAppCompactActivity implements AttachmentClick {
     private static final String TAG = ChatActivity.class.getSimpleName();
     private static final int REQUEST_CODE_ATTACHMENT = 721;
     private static final int REQUEST_CODE_SELECT_PEOPLE = 752;
+    private static final int REQUESTCODE_CAMERA_IMAGE = 101;
+    private static final int REQUESTCODE_GALLERY_IMAGE = 102;
 
     private static final String PROPERTY_SAVE_TO_HISTORY = "save_to_history";
 
@@ -105,7 +115,7 @@ public class ChatActivity extends PacifyrAppCompactActivity implements ImagePick
     private ProgressBar progressBar;
     private ListView messagesListView;
     private EditText messageEditText;
-
+    private  BottomAttachDialog bottomSheet;
     private LinearLayout attachmentPreviewContainerLayout;
     private Snackbar snackbar;
 
@@ -120,9 +130,8 @@ public class ChatActivity extends PacifyrAppCompactActivity implements ImagePick
     public static MUser mPacifyr;
     private String myUserId;
     private ArrayList<String> opponentIds;
-    private AlertDialog choosePicker;
-    private CameraImagePicker imagePicker;
-    private ImagePicker galImagePicker;
+    //private AlertDialog choosePicker;
+
     private String outputPath;
     private View sendButton;
 
@@ -360,25 +369,85 @@ public class ChatActivity extends PacifyrAppCompactActivity implements ImagePick
                         SelectUsersActivity.EXTRA_QB_USERS);
 
                 updateDialog(selectedUsers);
-            } else if (requestCode == Picker.PICK_IMAGE_DEVICE) {
-                if (galImagePicker == null) {
-                    galImagePicker = new ImagePicker(ChatActivity.this);
-                    galImagePicker.shouldGenerateThumbnails(true);
-                    galImagePicker.setImagePickerCallback(ChatActivity.this);
+            } else if (requestCode == REQUESTCODE_CAMERA_IMAGE || requestCode == REQUESTCODE_GALLERY_IMAGE) {
+                String[] pathsList = data.getExtras().getStringArray(GligarPicker.IMAGES_RESULT);
+                if (isValid(pathsList)) {
+                    for (String url : pathsList) {
+                        resizeImage(url);
+                    }
                 }
-                galImagePicker.submit(data);
-            } else if (requestCode == Picker.PICK_IMAGE_CAMERA) {
-                if (imagePicker == null) {
-                    imagePicker = new CameraImagePicker(ChatActivity.this);
-                    imagePicker.shouldGenerateThumbnails(true);
-                    imagePicker.reinitialize(outputPath);
-                    imagePicker.setImagePickerCallback(ChatActivity.this);
-                }
-                imagePicker.submit(data);
             }
         }
     }
 
+
+    private void resizeImage(String url) {
+        Glide.with(ChatActivity.this).load(url).override(1200, 1200).into(new Target<Drawable>() {
+            @Override
+            public void onLoadStarted(@Nullable Drawable placeholder) {
+
+            }
+
+            @Override
+            public void onLoadFailed(@Nullable Drawable errorDrawable) {
+
+            }
+
+            @Override
+            public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+                if (resource instanceof BitmapDrawable) {
+                    File file = Utility.saveFileInCache(ChatActivity.this, ((BitmapDrawable) resource).getBitmap(), "tmp_" + System.currentTimeMillis() + ".jpg");
+                    if (file != null) {
+                        attachmentPreviewAdapter.add(file);
+                        long fileSizeInBytes = file.length();
+                        long fileSizeInKB = fileSizeInBytes / 1024;
+                        Log.d(TAG, "File size : " + fileSizeInKB + " KB");
+                    }
+                }
+            }
+
+            @Override
+            public void onLoadCleared(@Nullable Drawable placeholder) {
+
+            }
+
+            @Override
+            public void getSize(@NonNull SizeReadyCallback cb) {
+
+            }
+
+            @Override
+            public void removeCallback(@NonNull SizeReadyCallback cb) {
+
+            }
+
+            @Nullable
+            @Override
+            public Request getRequest() {
+                return null;
+            }
+
+            @Override
+            public void setRequest(@Nullable Request request) {
+
+            }
+
+            @Override
+            public void onStart() {
+
+            }
+
+            @Override
+            public void onStop() {
+
+            }
+
+            @Override
+            public void onDestroy() {
+
+            }
+        });
+    }
 /*    @Override
     public void onImagePicked(int requestCode, File file) {
         switch (requestCode) {
@@ -436,32 +505,11 @@ public class ChatActivity extends PacifyrAppCompactActivity implements ImagePick
         shoImagePickerAlert(view);
     }
 
+    String[] items = null;
     private void shoImagePickerAlert(View view) {
-        String[] items = new String[]{"Camera", "Gallery"};
-        AlertDialog.Builder builder = new AlertDialog.Builder(ChatActivity.this);
-        builder.setItems(items, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if (which == 0) {
-                    imagePicker = new CameraImagePicker(ChatActivity.this);
-                    imagePicker.shouldGenerateThumbnails(true);
-                    imagePicker.setImagePickerCallback(ChatActivity.this);
-                    outputPath = imagePicker.pickImage();
-                } else if (which == 1) {
-                    galImagePicker = new ImagePicker(ChatActivity.this);
-                    galImagePicker.shouldGenerateThumbnails(true);
-                    galImagePicker.setImagePickerCallback(ChatActivity.this);
-                    galImagePicker.pickImage();
-                }
-            }
-        });
-        builder.setTitle("Choose");
-        if (choosePicker != null && choosePicker.isShowing()) {
-            choosePicker.dismiss();
-        }
-        choosePicker = builder.create();
-        choosePicker.show();
 
+         bottomSheet = new BottomAttachDialog(isCallActive,this);
+        bottomSheet.show(getSupportFragmentManager(), "AttachBottomSheet");
     }
 
     public void showMessage(QBChatMessage message) {
@@ -509,6 +557,27 @@ public class ChatActivity extends PacifyrAppCompactActivity implements ImagePick
                 });
         AttachmentPreviewAdapterView previewAdapterView = _findViewById(R.id.adapter_view_attachment_preview);
         previewAdapterView.setAdapter(attachmentPreviewAdapter);
+    }
+
+    @Override
+    public void onClick(int pos) {
+    switch (pos){
+        case 0:
+        new GligarPicker().requestCode(REQUESTCODE_CAMERA_IMAGE).disableCamera(false).cameraDirect(true).withActivity(ChatActivity.this).show();
+        bottomSheet.dismiss();
+        break;
+        case 1:
+            new GligarPicker().requestCode(REQUESTCODE_GALLERY_IMAGE).disableCamera(true).withActivity(ChatActivity.this).show();
+            bottomSheet.dismiss();
+            break;
+        case 2:
+        //todo open docs list
+        bottomSheet.dismiss();
+        break;
+        case -1:
+            bottomSheet.dismiss();
+            break;
+}
     }
 
 
@@ -573,7 +642,7 @@ public class ChatActivity extends PacifyrAppCompactActivity implements ImagePick
         chatMessage.setMarkable(true);
 
         if (!QBDialogType.PRIVATE.equals(qbChatDialog.getType()) && !qbChatDialog.isJoined()){
-            Toaster.shortToast("You're still joining a group chat, please wait a bit");
+            Toaster.shortToast(R.string.toast_youstill_joining_group_chat);
             return;
         }
 
@@ -626,7 +695,7 @@ public class ChatActivity extends PacifyrAppCompactActivity implements ImagePick
                     if (sendButton != null) {
                         sendButton.setEnabled(true);
                     }
-                    Toaster.shortToast("Message not sent " + e.getMessage());
+                    Toaster.shortToast(getString(R.string.toast_msg_not_sent) + e.getMessage());
                 }
             });
 
@@ -636,7 +705,7 @@ public class ChatActivity extends PacifyrAppCompactActivity implements ImagePick
                 sendButton.setEnabled(true);
             }
             Log.w(TAG, e);
-            Toaster.shortToast("Message not sent " + e.getMessage());
+            Toaster.shortToast(getString(R.string.toast_msg_not_sent)  + e.getMessage());
         }
     }
 
@@ -967,9 +1036,9 @@ public class ChatActivity extends PacifyrAppCompactActivity implements ImagePick
         };
     }
 
-    @Override
-    public void onImagesChosen(List<ChosenImage> list) {
-        /*Glide.with(ChatActivity.this).load(Uri.parse(list.get(0).getQueryUri()))
+    /* @Override
+     public void onImagesChosen(List<ChosenImage> list) {
+         *//*Glide.with(ChatActivity.this).load(Uri.parse(list.get(0).getQueryUri()))
                 .asBitmap().into(new Target<Bitmap>() {
             @Override
             public void onLoadStarted(Drawable placeholder) {
@@ -1033,7 +1102,7 @@ public class ChatActivity extends PacifyrAppCompactActivity implements ImagePick
             public void onDestroy() {
 
             }
-        });*/
+        });*//*
         File file = new File(list.get(0).getOriginalPath());
         if (file != null) {
             attachmentPreviewAdapter.add(file);
@@ -1046,7 +1115,7 @@ public class ChatActivity extends PacifyrAppCompactActivity implements ImagePick
     public void onError(String s) {
         showIOSDialogOK("Error", s, "OK");
     }
-
+*/
     public class ChatMessageListener extends QbChatDialogMessageListenerImp {
         @Override
         public void processMessage(String s, QBChatMessage qbChatMessage, Integer integer) {

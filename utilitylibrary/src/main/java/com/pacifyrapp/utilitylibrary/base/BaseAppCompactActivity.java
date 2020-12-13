@@ -767,9 +767,11 @@ public class BaseAppCompactActivity extends CoreBaseActivity {
         //String phone=phone_tv.getText().toString();
         //return android.util.Patterns.PHONE.matcher(phone).matches();
     }
-    public boolean isValidMobile(String txt)
+    public boolean isValidMobile(String mobileNumber)
     {
-        return android.util.Patterns.PHONE.matcher(txt).matches();
+        String pattern = "^\\s*(?:\\+?(\\d{1,3}))?[-. (]*(\\d{3})[-. )]*(\\d{3})[-. ]*(\\d{4})(?: *x(\\d+))?\\s*$";
+
+        return mobileNumber.matches(pattern);
     }
 
     public Boolean isValidPassword(EditText text, String error) {
@@ -1234,7 +1236,7 @@ public class BaseAppCompactActivity extends CoreBaseActivity {
         defSetText(desc_dtxv,desc);
 
         defSetText(dismis_dtxv,dismiss,"NO");
-        defSetText(ok_dtxv,ok,"Yes");
+        defSetText(ok_dtxv, ok, "Yes");
 
         hideStatus();
         hideStatus2();
@@ -1244,4 +1246,18 @@ public class BaseAppCompactActivity extends CoreBaseActivity {
         dismis_dtxv.setOnClickListener(nolistner);
 
     }
+
+    /*public void testCode(){
+        String link = "https://www.pacifyr.com/KLEA2020/";
+        if (link.contains("/")) {
+            String[] splits = link.split("/");
+            if (splits != null && splits.length > 0) {
+                if (splits[splits.length - 2] != null && splits[splits.length - 2].equalsIgnoreCase("coupon")) {
+                    String code = splits[splits.length - 1];
+                    Log.d("BaseAppcompat", "deep link code " + code);
+
+                }
+            }
+        }
+    }*/
 }

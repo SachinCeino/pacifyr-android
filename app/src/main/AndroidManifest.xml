@@ -80,7 +80,6 @@
         <activity
             android:name="com.pacifyr.client.activity.SplashScreen"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.Transparent"
             android:windowSoftInputMode="stateAlwaysHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -96,6 +95,9 @@
 
                 <data
                     android:host="pacifyrapp.page.link"
+                    android:scheme="https" />
+                <data
+                    android:host="pacifyrapp.com"
                     android:scheme="https" />
             </intent-filter>
         </activity>
@@ -430,9 +432,10 @@
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="${applicationId}.android.fileprovider"
+            android:authorities="${applicationId}.provider"
             android:exported="false"
-            android:grantUriPermissions="true">
+            android:grantUriPermissions="true"
+            tools:replace="android:authorities">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
@@ -468,6 +471,7 @@
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
+
 
     </application>
 

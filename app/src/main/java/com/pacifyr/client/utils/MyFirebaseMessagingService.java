@@ -24,6 +24,7 @@ import com.pacifyr.client.activity.SplashScreen;
 import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.event.CallEvent;
 import com.pacifyr.client.home.DashboardActivity;
+import com.pacifyr.client.orginals.DynamicLink;
 import com.pacifyr.client.quickblox.activities.CallActivity;
 import com.pacifyr.client.quickblox.chat.ui.activity.DialogsActivity;
 import com.pacifyr.client.quickblox.services.CallService;
@@ -31,6 +32,9 @@ import com.pacifyr.client.quickblox.utils.WebRtcSessionManager;
 import com.pacifyr.client.receiver.NotificationUtils;
 import com.pacifyr.client.receiver.PacifyrReceiver;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import me.leolin.shortcutbadger.ShortcutBadger;
 
@@ -111,14 +115,19 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             Log.d(TAG, "Message data payload: " + remoteMessage.getData());
             Log.d("@@@@/noti", "From: " + remoteMessage.getData());
 
-            handleNow(remoteMessage);
-            /* if (*//* Check if data needs to be processed by long running job *//* true) {
-                // For long-running tasks (10 seconds or more) use Firebase Job Dispatcher.
-                //scheduleJob();
-            } else {
-                // Handle message within 10 seconds
-                handleNow();
-            }*/
+            if(data.contains("screen")){
+                try {
+                    JSONObject j= new JSONObject(data);
+                  //  DynamicLink.setScreenFromNotification(j.getString("screen"),j.getString("screen_data"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+            else{
+                handleNow(remoteMessage);
+            }
+
 
         }
         //2020-07-09 12:00:00.786 31831-4123/com.pacifyr.pacifyrapp D/@@@@/noti: From: {typeId=5f06b2e0afdb7539ae8b1d66, type=reminder, sound=default, message=Please start your session with provider "Niva Live Provider"}
@@ -412,6 +421,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     cIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         }
         else {
+            boolean isNeedToOpenAppointments=false;
+            if (actualType.equals("confirmBooking") ||actualType.equalsIgnoreCase("rejectBooking")) {
+                isNeedToOpenAppointments=true;
+            }
 
             cIntent = new Intent(context, SplashScreen.class);
             Bundle b = new Bundle();
@@ -419,6 +432,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             b.putString("id", qsid);
             b.putString("actualType", actualType);
             cIntent.putExtra("Bundle", b);
+            cIntent.putExtra("isNeedToOpenAppointments",isNeedToOpenAppointments);
             cIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             cIntent.setAction(Long.toString(System.currentTimeMillis()));
 

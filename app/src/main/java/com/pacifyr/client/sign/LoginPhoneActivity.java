@@ -25,9 +25,10 @@ import com.pacifyr.client.R;
 import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.home.DashboardActivity;
-import com.pacifyr.client.network.Auth;
+import com.pacifyr.client.orginals.Auth;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
+import com.pacifyr.client.utility.AWSManager;
 import com.pacifyr.client.utils.AmazonSNSTokenHandler;
 import com.pacifyr.client.utils.FirebaseLogging;
 import com.pacifyrapp.utilitylibrary.CustomEditText;
@@ -50,6 +51,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 
 import static com.pacifyr.client.network.NetworkService.editProfileObject;
+import static com.pacifyr.client.network.NetworkService.isRelease;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.ACCOUNT_KEY;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.APP_ID;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.AUTH_KEY;
@@ -59,7 +61,7 @@ import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL
 public class LoginPhoneActivity extends PacifyrActivity {
 
     public Bundle bundle;
-    public String phoneNo;
+    public String phoneNo,token;
     public ModelPhoneLogin modelPhoneLogin;
     public CustomEditText phone_tv;
     public String main_label="error",label="error";
@@ -84,7 +86,8 @@ private static String TAG=LoginPhoneActivity.class.getName();
         imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
         bundle=getIntent().getExtras();
         phoneNo=bundle.getString("phone");
-
+        if (isValid(bundle.getString("token")))
+            token=bundle.getString("token");
         loginUsingPhone();
 
 
@@ -124,7 +127,13 @@ private static String TAG=LoginPhoneActivity.class.getName();
     {
         Log.d(TAG, "callLogin: ");
         try {
-            String url = GLOBAL_URL + "login/phonenumber";
+            String url;
+            if (isRelease){
+                url = GLOBAL_URL + "login/firebaseAuth";
+            }
+            else {
+                url = GLOBAL_URL + "login/phonenumber";
+            }
             AjaxCallback cb = new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, final JSONObject json, final AjaxStatus status) {
@@ -262,8 +271,17 @@ private static String TAG=LoginPhoneActivity.class.getName();
             AQuery aq = new AQuery(LoginPhoneActivity.this);
             cb.header("Content-Type", "application/json");
             JSONObject postDataParams = new JSONObject();
-            postDataParams.putOpt("phoneNumber",phoneNo);
+           // postDataParams.putOpt("phoneNumber",phoneNo);
            // postDataParams.putOpt("phoneNumber","+"+phoneNo);
+
+            if (isRelease){
+                postDataParams.putOpt("applicationName", AWSManager.getProjectName(context));
+                postDataParams.putOpt("token",token);
+            }
+            else {
+                postDataParams.putOpt("phoneNumber",phoneNo);
+            }
+
             aq.post(url, postDataParams, JSONObject.class, cb);
         }
         catch(Exception ex)
@@ -577,6 +595,12 @@ private static String TAG=LoginPhoneActivity.class.getName();
 
 
                     }else if(main_label.equals("customer")){
+
+                        /**
+                         * after 50days need to refresh the token**/
+                        long mTimeStamp = System.currentTimeMillis();
+                        prefM.saveLoginTimeStamp(String.valueOf(mTimeStamp));
+
                         String qbID = qbUser.getId().toString();
                         prefM.saveQBID(qbID);
                         editProfileObject=new JSONObject();

@@ -27,7 +27,6 @@ import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.pacifyrapp.utilitylibrary.Dialog;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
-import com.github.javiersantos.appupdater.AppUpdater;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.pacifyr.client.Payment.PaymentFragment;
@@ -144,15 +143,15 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
     }
 
 
-    AppUpdater appUpdater;
+//    AppUpdater appUpdater;
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (isValid(appUpdater))
+       /* if (isValid(appUpdater))
         {
             appUpdater.stop();
-        }
+        }*/
 
     }
 
@@ -168,8 +167,8 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
         context = DashboardActivity.this;
         //    permissionCheck();
         /**the library will work in background for checking new update available or not**/
-        appUpdater = new AppUpdater(this);
-        appUpdater.start();
+       /* appUpdater = new AppUpdater(this);
+        appUpdater.start();*/
 
         connectToPacifyr = findViewById(R.id.connect_pacifyr_llay);
         leftPane = findViewById(R.id.left_pane);

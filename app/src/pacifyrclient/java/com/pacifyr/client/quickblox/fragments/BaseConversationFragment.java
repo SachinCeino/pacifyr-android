@@ -29,7 +29,6 @@ import com.pacifyr.client.R;
 import com.pacifyr.client.event.CallTimerEvent;
 import com.pacifyr.client.interfaces.EmpMinutesListener;
 import com.pacifyr.client.model.PrescriptionList;
-import com.pacifyr.client.network.Auth;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.quickblox.activities.CallActivity;
@@ -312,7 +311,7 @@ public abstract class BaseConversationFragment extends BaseToolBarFragment imple
                                         /*
                                          *this must be the first line of any httpCallBacks
                                          */
-                                        Auth.httpStatusFilter(getActivity(),status.getCode());
+//                                        Auth.httpStatusFilter(getActivity(),status.getCode());
                                         if (json != null) {
                                             freeMinuteAlert0 = true;
                                         }
@@ -330,7 +329,7 @@ public abstract class BaseConversationFragment extends BaseToolBarFragment imple
                                         /*
                                          *this must be the first line of any httpCallBacks
                                          */
-                                        Auth.httpStatusFilter(getActivity(),status.getCode());
+//                                        Auth.httpStatusFilter(getActivity(),status.getCode());
                                         if (json != null) {
                                             freeMinuteAlert5 = true;
                                         }
@@ -348,7 +347,7 @@ public abstract class BaseConversationFragment extends BaseToolBarFragment imple
                                         /*
                                          *this must be the first line of any httpCallBacks
                                          */
-                                        Auth.httpStatusFilter(getActivity(),status.getCode());
+//                                        Auth.httpStatusFilter(getActivity(),status.getCode());
                                         if (json != null) {
                                             freeMinuteAlert10 = true;
                                         }

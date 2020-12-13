@@ -19,6 +19,7 @@ import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.home.DashboardActivity;
 import com.pacifyr.client.model.ModelResources;
+import com.pacifyr.client.orginals.Auth;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.utility.BaseFragment;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
@@ -82,6 +83,7 @@ public class ResourcesFragment extends BaseFragment {
                 AjaxCallback cb = new AjaxCallback<JSONObject>() {
                     @Override
                     public void callback(String url, JSONObject json, AjaxStatus status) {
+                        Auth.httpStatusFilter(getContext(), status.getCode());
                         try {
                             hideProgress();
                             resourcesList = GsonUtils.getInstance().gsonToModelResources(json).getResultsList();

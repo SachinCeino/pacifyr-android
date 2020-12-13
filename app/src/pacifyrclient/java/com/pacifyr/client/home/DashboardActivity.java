@@ -27,9 +27,10 @@ import androidx.multidex.MultiDex;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.github.javiersantos.appupdater.AppUpdater;
+import com.google.gson.JsonObject;
 import com.pacifyr.client.Payment.PaymentFragment;
 import com.pacifyr.client.R;
+import com.pacifyr.client.activity.TermsOfUseActivity;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.ActionbarEvent;
 import com.pacifyr.client.event.AlertTypeEvent;
@@ -52,8 +53,10 @@ import com.pacifyr.client.model.CallStatus;
 import com.pacifyr.client.model.interfaces.CallChatEventListner;
 import com.pacifyr.client.netconnectionlistener.CheckNetworkJob;
 import com.pacifyr.client.netconnectionlistener.ConnectionCheckBroadcast;
-import com.pacifyr.client.network.Auth;
+import com.pacifyr.client.orginals.Auth;
 import com.pacifyr.client.network.GsonUtils;
+import com.pacifyr.client.orginals.DynamicLink;
+import com.pacifyr.client.orginals.RemoteConfig;
 import com.pacifyr.client.quickblox.chat.ui.activity.DialogsActivity;
 import com.pacifyr.client.quickblox.services.CallService;
 import com.pacifyr.client.sign.CrisisActivity;
@@ -76,6 +79,7 @@ import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.ThreadMode;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -83,6 +87,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import static com.pacifyr.client.quickblox.activities.CallActivity.isCallActive;
 import static com.pacifyr.client.utils.Constants.getCountryChecks;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
+
+//import com.github.javiersantos.appupdater.AppUpdater;
 
 
 public class DashboardActivity extends PacifyrAppCompactActivity{
@@ -164,7 +170,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
     }
 
 
-    AppUpdater appUpdater;
+//    AppUpdater appUpdater;
 
 
     @Override
@@ -218,10 +224,10 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (isValid(appUpdater))
+        /*if (isValid(appUpdater))
         {
             appUpdater.stop();
-        }
+        }*/
 
     }
 
@@ -503,8 +509,8 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
         context = DashboardActivity.this;
         //    permissionCheck();
         /**the library will work in background for checking new update available or not**/
-        appUpdater = new AppUpdater(this);
-        appUpdater.start();
+        /*appUpdater = new AppUpdater(this);
+        appUpdater.start();*/
 
         connectToPacifyr = findViewById(R.id.connect_pacifyr_llay);
         leftPane = findViewById(R.id.left_pane);
@@ -833,13 +839,64 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
             }
         }
         checkAndApplyCode();
-
+        Browser(DynamicLink.link(this),true);
+        String s=DynamicLink.getScreenFromNotification();
+        if(s!=null && !s.equals(""))Browser(s,false);
         int realTimeLogging = PrefManager.getInstance(DashboardActivity.this).getSharedInteger(Constants.KEY_REALTIME_LOGGING, -1);
         if (realTimeLogging == 0) {
             Utility.getRealTimeLogging(DashboardActivity.this);
         }
     }
 
+    private void Browser(String screeName,boolean isLink){
+        switch (screeName){
+            case "PrescriptionListFragment":
+                mLinearLayoutPrescription.callOnClick();
+                break;
+            case "AppointmentsTabViewFragment":
+                mLinearLayoutAppointments.callOnClick();
+                break;
+            case "TermsOfUseActivity": {
+                String spurl = "", title="";
+
+                    try {
+                        JSONObject j =  new JSONObject(isLink?RemoteConfig.Config().getString(screeName):DynamicLink.getScreenDataFromNotification());
+                        spurl = j.getString("url");
+                        title = j.getString("title");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                if (spurl.equals("")) {
+                    resourcesLlay.callOnClick();
+                } else {
+                    Intent i = new Intent(this, TermsOfUseActivity.class);
+                    i.putExtra("spurl", spurl);
+                    i.putExtra("title", title);
+                    startActivity(i);
+                }
+            }
+                break;
+            case "CouponCodeFragment": {
+                String code = "";
+                try {
+                    JSONObject j = new JSONObject(isLink?RemoteConfig.Config().getString(screeName):DynamicLink.getScreenDataFromNotification());;
+                    code = j.getString("code");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                hideRightLayActionbar();
+                showFragment(CouponCodeFragment.setCoupen(code));
+            }
+                break;
+            case "ListPacifyrScreenActivity":{
+                browsePacifyr.callOnClick();
+            }
+                break;
+            default:
+                LogUtils.LOGD(TAG,"deepLink returned no action screenName : "+screeName);
+        }
+    }
 
     private void setProfileValues() {
         try {
@@ -960,6 +1017,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
     protected void onStart() {
         super.onStart();
         EventBus.getDefault().register(this);
+        checkForAppUpdate(DashboardActivity.this, APP_UPDATE_REQUEST_CODE);
         Auth.foreground(DashboardActivity.class.getSimpleName());
     }
 

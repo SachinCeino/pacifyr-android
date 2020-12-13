@@ -7,6 +7,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 
+import androidx.core.content.pm.PackageInfoCompat;
+
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -82,7 +84,7 @@ public class FirebaseLogging {
         return args;
     }
 
-    private static String getAppVersion(Context context) {
+    public static String getAppVersion(Context context) {
         try {
             PackageInfo pInfo =
                     context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
@@ -94,7 +96,7 @@ public class FirebaseLogging {
         return "NA";
     }
 
-    private static String getAndroidVersion() {
+    public static String getAndroidVersion() {
         return Build.VERSION.SDK_INT + "";
     }
 
@@ -127,5 +129,16 @@ public class FirebaseLogging {
             }
 
         }
+    }
+
+    public static long getAppVersionCode(Context context) {
+        try {
+            PackageInfo pInfo =
+                    context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+            return PackageInfoCompat.getLongVersionCode(pInfo);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 }

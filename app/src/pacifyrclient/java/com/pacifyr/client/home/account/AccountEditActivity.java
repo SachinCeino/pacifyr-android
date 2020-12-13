@@ -8,6 +8,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -22,6 +24,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,10 +33,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.Request;
+import com.bumptech.glide.request.target.SizeReadyCallback;
+import com.bumptech.glide.request.target.Target;
+import com.bumptech.glide.request.transition.Transition;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.koushikdutta.ion.Ion;
+import com.opensooq.supernova.gligar.GligarPicker;
 import com.pacifyr.client.R;
 import com.pacifyr.client.adapter.ListFileAdapter;
 import com.pacifyr.client.customview.MainTextView;
@@ -85,6 +95,9 @@ import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL
 
 public class AccountEditActivity extends PacifyrAppCompactActivity {
 
+    private static final int REQUESTCODE_CAMERA_IMAGE = 101;
+    private static final int REQUESTCODE_GALLERY_IMAGE = 102;
+    private static final String TAG = AccountEditActivity.class.getSimpleName();
     //private include include;
     private LinearLayout profileLlay;
     private CircleImageView profileCimv;
@@ -239,16 +252,14 @@ public class AccountEditActivity extends PacifyrAppCompactActivity {
                 {
                     boolean checkPermission = Utility.checkPermission(AccountEditActivity.this, "camera");
                     if(checkPermission) {
-                        Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                       startActivityForResult(intent, CAMERA);
+                        new GligarPicker().requestCode(REQUESTCODE_CAMERA_IMAGE).disableCamera(false).cameraDirect(true).limit(1).withActivity(AccountEditActivity.this).show();
                     }
                 }
                 else if (options[item].equals("Choose from Gallery"))
                 {
                     boolean checkPermission = Utility.checkPermission(AccountEditActivity.this, "gallery");
                     if(checkPermission) {
-                        Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                        startActivityForResult(intent, GALLERY);
+                        new GligarPicker().requestCode(REQUESTCODE_GALLERY_IMAGE).limit(1).disableCamera(true).withActivity(AccountEditActivity.this).show();
 
                     }
                 }
@@ -267,7 +278,16 @@ public class AccountEditActivity extends PacifyrAppCompactActivity {
             LogUtils.LOGD("jithish", "HA  rq " + requestCode);
             //LogUtils.LOGD("jithish", "HA rvc" + CameraFragment.  REQUEST_VIDEO_CAPTURE);
             if (resultCode != 0) {
-                   if(requestCode == GALLERY) {
+
+                if (requestCode == REQUESTCODE_CAMERA_IMAGE || requestCode == REQUESTCODE_GALLERY_IMAGE) {
+                    String[] pathsList = data.getExtras().getStringArray(GligarPicker.IMAGES_RESULT);
+                    if (isValid(pathsList)) {
+                        for (String url : pathsList) {
+                            resizeImage(url);
+                        }
+                    }
+                }
+                   /*if(requestCode == GALLERY) {
                     onActivityProfileEditGallery(data);
                   } else if(requestCode == CAMERA) {
                     LogUtils.LOGD("jithish","HA on camera");
@@ -276,23 +296,92 @@ public class AccountEditActivity extends PacifyrAppCompactActivity {
                            profileCimv.setImageBitmap(edit_image);
                    // if(bp != null) postEventOnMainThread(new ImageChoosenEvent(bp));
                     //else ToastHandler.newInstance(this).mustShowToast("Please Try Again");
-                }
+                }*/
             }
-
 
 
         } catch (Exception e) {
 
         }
     }
-    public void  onActivityProfileEditGallery(Intent data)
-    {
-        try{
-            edit_image= getBitmapGalleryExifCode(data);
-            if(isValid(edit_image,"")) {
+
+    private void resizeImage(String url) {
+        Glide.with(AccountEditActivity.this).load(url).override(1200, 1200).into(new Target<Drawable>() {
+            @Override
+            public void onLoadStarted(@Nullable Drawable placeholder) {
+
+            }
+
+            @Override
+            public void onLoadFailed(@Nullable Drawable errorDrawable) {
+                edit_image = null;
+            }
+
+            @Override
+            public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+                if (resource instanceof BitmapDrawable) {
+                    File file = Utility.saveFileInCache(AccountEditActivity.this, ((BitmapDrawable) resource).getBitmap(), "tmp_" + System.currentTimeMillis() + ".jpg");
+                    if (file != null) {
+                        long fileSizeInBytes = file.length();
+                        long fileSizeInKB = fileSizeInBytes / 1024;
+                        Log.d(TAG, "File size : " + fileSizeInKB + " KB");
+
+                        edit_image = ((BitmapDrawable) resource).getBitmap();
+                        profileCimv.setImageBitmap(edit_image);
+                    }
+                }
+            }
+
+            @Override
+            public void onLoadCleared(@Nullable Drawable placeholder) {
+
+            }
+
+            @Override
+            public void getSize(@NonNull SizeReadyCallback cb) {
+
+            }
+
+            @Override
+            public void removeCallback(@NonNull SizeReadyCallback cb) {
+
+            }
+
+            @Nullable
+            @Override
+            public Request getRequest() {
+                return null;
+            }
+
+            @Override
+            public void setRequest(@Nullable Request request) {
+
+            }
+
+            @Override
+            public void onStart() {
+
+            }
+
+            @Override
+            public void onStop() {
+
+            }
+
+            @Override
+            public void onDestroy() {
+
+            }
+        });
+    }
+
+    public void onActivityProfileEditGallery(Intent data) {
+        try {
+            edit_image = getBitmapGalleryExifCode(data);
+            if (isValid(edit_image, "")) {
                 profileCimv.setImageBitmap(edit_image);
-               // Bitmap rotateImage = getCroppedBitmap(image);
-            //    postEventOnMainThread(new ImageChoosenEvent(rotateImage));
+                // Bitmap rotateImage = getCroppedBitmap(image);
+                //    postEventOnMainThread(new ImageChoosenEvent(rotateImage));
             }
         }
         catch (Exception e)

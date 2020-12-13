@@ -8,13 +8,24 @@ import android.util.Log;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.multidex.MultiDex;
 
-import com.pacifyr.client.network.Auth;
+
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
+import com.pacifyr.client.R;
+
+
+import com.pacifyr.client.orginals.Auth;
+import com.pacifyr.client.orginals.DynamicLink;
+import com.pacifyr.client.orginals.RemoteConfig;
+import com.pacifyr.client.orginals.UserProperties;
 import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
+
 import com.pacifyr.client.quickblox.chat.models.SampleConfigs;
 import com.pacifyr.client.quickblox.chat.utils.Consts;
 import com.pacifyr.client.quickblox.chat.utils.configs.ConfigUtils;
 import com.pacifyr.client.quickblox.services.Call_Service;
 import com.pacifyr.client.quickblox.util.QBResRequestExecutor;
+import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
 import com.quickblox.auth.session.QBSettings;
 import com.quickblox.sample.core.CoreApp;
 import com.quickblox.sample.core.utils.ActivityLifecycle;
@@ -31,6 +42,7 @@ public class App extends CoreApp {
     private static String TAG = App.class.getSimpleName();
     private static App instance;
     private QBResRequestExecutor qbResRequestExecutor;
+    private FirebaseRemoteConfig mFirebaseRemoteConfig;
 
 
     public static App getInstance() {
@@ -46,6 +58,7 @@ public class App extends CoreApp {
         StrictMode.setVmPolicy(builder.build());
         UtilityNetworkService.init(this);
         initApplication();
+
             /*chat*/
         ActivityLifecycle.init(this);
 //        initSampleConfigs();
@@ -59,11 +72,16 @@ public class App extends CoreApp {
             e.printStackTrace();
         }
 
+
         Auth.scanUpdates(this);
+        UserProperties.setProperty(this);
+        RemoteConfig.init();
+
         /**/
     }
 
-    private void initApplication(){
+
+    private void initApplication() {
         instance = this;
     }
 

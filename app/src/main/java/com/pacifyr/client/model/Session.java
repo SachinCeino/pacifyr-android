@@ -103,6 +103,15 @@ public class Session {
     @SerializedName("scheduledSessionId")
     @Expose
     private Object scheduledSessionId;
+    private String timeSlotBookingId;
+
+    public String getTimeSlotBookingId() {
+        return timeSlotBookingId;
+    }
+
+    public void setTimeSlotBookingId(String timeSlotBookingId) {
+        this.timeSlotBookingId = timeSlotBookingId;
+    }
 
     public Boolean getReadStatus() {
         return readStatus;

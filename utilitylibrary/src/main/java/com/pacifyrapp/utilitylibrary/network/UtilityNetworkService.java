@@ -66,7 +66,7 @@ public class UtilityNetworkService extends IntentService {
     public static final String PACKAGE_PAM = "com.pacifyr.pam";
     public static final String OM_PLAYSTORE = "https://play.google.com/store/apps/details?id=com.ceino.pacifyr.omhealthcare";
     public static boolean isRelease = false;
-    public static boolean isProd = false;
+    public static boolean isProd = true;
     public static String ACCOUNT_KEY = "";
     public static String ACCOUNT_ID = "";
     public static String TURN_SERVER = "";
@@ -77,7 +77,8 @@ public class UtilityNetworkService extends IntentService {
     public static String GLOBAL_URL = "";
     public static String GLOBAL_IMAGE_URL = "";
     public static String STRIPE_PUBLISH_KEY = "";
-
+    public static final String TOKEN_EXPIRY_TIME = "5184000000";
+    public static final String TOKEN_REFRESH_TIME = "4320000000";
 
 
     /** Production*/
