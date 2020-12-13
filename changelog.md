@@ -1,4 +1,4 @@
-<sup><sup>*Fixes*</sup></sup>
+*Fixes*
 
 #### UI
  - Logout popup
