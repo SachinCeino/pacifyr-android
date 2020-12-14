@@ -95,15 +95,21 @@
                             android:layout_marginEnd="5dp"
                             android:layout_weight="1"
                             android:orientation="vertical">
-
                             <RelativeLayout
-                                android:foreground="?android:attr/selectableItemBackground"
+                                android:background="@drawable/solid_circle"
                                 android:elevation="6dp"
-                                android:id="@+id/feel_rlay"
                                 android:layout_width="@dimen/dash_circle_wh"
                                 android:layout_height="@dimen/dash_circle_wh"
                                 android:layout_gravity="center_horizontal"
-                                android:background="@drawable/solid_circle"
+                                android:gravity="center">
+                            <RelativeLayout
+                                android:background="?android:attr/selectableItemBackgroundBorderless"
+                                android:clickable="true"
+                                android:elevation="6dp"
+                                android:id="@+id/feel_rlay"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center_horizontal"
                                 android:gravity="center">
 
                                 <com.pacifyrapp.utilitylibrary.DeviceFitImageView
@@ -142,7 +148,7 @@
                                     android:visibility="gone" />
 
                             </RelativeLayout>
-
+                            </RelativeLayout>
                             <com.pacifyr.client.customview.MainTextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -166,7 +172,6 @@
                             android:orientation="vertical">
 
                             <RelativeLayout
-                                android:foreground="?android:attr/selectableItemBackground"
                                 android:elevation="6dp"
                                 android:id="@+id/cir_pref_pacifyr"
                                 android:layout_width="@dimen/dash_circle_wh"
@@ -189,7 +194,10 @@
                                     android:textSize="15sp"
                                     android:textStyle="bold"
                                     android:visibility="gone" />
-
+                            <RelativeLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true">
                                 <LinearLayout
                                     android:id="@+id/llay_top"
                                     android:layout_width="wrap_content"
@@ -209,6 +217,8 @@
                                     <de.hdodenhof.circleimageview.CircleImageView
                                         android:id="@+id/pacifyr1_dimv"
                                         android:layout_width="40dp"
+                                        android:background="?android:attr/selectableItemBackgroundBorderless"
+                                        android:clickable="true"
                                         android:layout_height="40dp" />
 
 
@@ -216,6 +226,8 @@
                                         android:id="@+id/pacifyr2_dimv"
                                         android:layout_width="40dp"
                                         android:layout_height="40dp"
+                                        android:background="?android:attr/selectableItemBackgroundBorderless"
+                                        android:clickable="true"
                                         android:layout_marginStart="15dp" />
 
 
@@ -245,7 +257,8 @@
                                         android:id="@+id/pacifyr3_dimv"
                                         android:layout_width="40dp"
                                         android:layout_height="40dp"
-                                        android:background="@drawable/user" />
+                                        android:background="?android:attr/selectableItemBackgroundBorderless"
+                                        android:clickable="true" />
 
                                     <!-- <com.pacifyrapp.utilitylibrary.DeviceFitImageView
                                          android:layout_width="wrap_content"
@@ -260,12 +273,13 @@
                                         android:id="@+id/pacifyr4_dimv"
                                         android:layout_width="40dp"
                                         android:layout_height="40dp"
-                                        android:layout_marginStart="15dp"
-                                        android:background="@drawable/user" />
+                                        android:background="?android:attr/selectableItemBackgroundBorderless"
+                                        android:clickable="true"
+                                        android:layout_marginStart="15dp" />
 
 
                                 </LinearLayout>
-
+                            </RelativeLayout>
 
                             </RelativeLayout>
 
@@ -299,16 +313,21 @@
                             android:layout_marginEnd="5dp"
                             android:layout_weight="1"
                             android:orientation="vertical">
-
                             <RelativeLayout
-                                android:foreground="?android:attr/selectableItemBackground"
+                                android:background="@drawable/solid_circle"
                                 android:elevation="6dp"
-                                android:id="@+id/last_session_rlay"
                                 android:layout_width="@dimen/dash_circle_wh"
                                 android:layout_height="@dimen/dash_circle_wh"
-                                android:layout_below="@+id/feel_rlay"
                                 android:layout_gravity="center_horizontal"
-                                android:background="@drawable/solid_circle"
+                                android:gravity="center">
+                            <RelativeLayout
+                                android:background="?android:attr/selectableItemBackgroundBorderless"
+                                android:clickable="true"
+                                android:elevation="6dp"
+                                android:id="@+id/last_session_rlay"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center_horizontal"
                                 android:gravity="center">
 
                                 <com.pacifyr.client.customview.MainTextView
@@ -328,6 +347,7 @@
                                     android:visibility="gone" />
 
                                 <LinearLayout
+                                    android:layout_centerInParent="true"
                                     android:id="@+id/last_session_top_llay"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
@@ -405,7 +425,7 @@
 
 
                             </RelativeLayout>
-
+                            </RelativeLayout>
                             <com.pacifyr.client.customview.MainTextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -428,19 +448,24 @@
                             android:layout_marginStart="5dp"
                             android:layout_weight="1"
                             android:orientation="vertical">
-
                             <RelativeLayout
-                                android:foreground="?android:attr/selectableItemBackground"
+                                android:background="@drawable/solid_circle"
                                 android:elevation="6dp"
-                                android:id="@+id/this_week_rlay"
                                 android:layout_width="@dimen/dash_circle_wh"
                                 android:layout_height="@dimen/dash_circle_wh"
                                 android:layout_gravity="center_horizontal"
-                                android:layout_toRightOf="@+id/last_session_rlay"
-                                android:background="@drawable/solid_circle"
                                 android:gravity="center">
-
+                            <RelativeLayout
+                                android:background="?android:attr/selectableItemBackgroundBorderless"
+                                android:clickable="true"
+                                android:elevation="6dp"
+                                android:id="@+id/this_week_rlay"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center_horizontal"
+                                android:gravity="center">
                                 <LinearLayout
+                                    android:layout_centerInParent="true"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:gravity="center"
@@ -553,7 +578,7 @@
 
 
                             </RelativeLayout>
-
+                            </RelativeLayout>
                             <com.pacifyr.client.customview.MainTextView
                                 android:id="@+id/this_week_ctxv"
                                 android:layout_width="wrap_content"

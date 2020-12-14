@@ -961,9 +961,12 @@ public class  NetworkService  extends IntentService {
                  */
                 Auth.httpStatusFilter(getApplicationContext(),status.getCode());
                 try {
+                    ModelCustomerDashboard2 m=modelCustomerDashboard2;
                     modelCustomerDashboard2= GsonUtils.getInstance().gsonToModelCustomerDashboard2(json);
+
                     String js=status.getMessage();
                     //EventBus.getDefault().post(new EventMessage(getString(R.string.event_customer_dashboard)));
+                   if(!m.equals(modelCustomerDashboard2))
                     postEventOnMainThread(new NotifyEvent(true, false));//succes,notpaged
                 } catch (Exception e) {
                     e.printStackTrace();

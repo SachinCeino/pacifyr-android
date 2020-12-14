@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/gray_actionbar_background"
     android:orientation="vertical"
+    android:animateLayoutChanges="true"
     >
 
 
@@ -13,6 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/bottom_panel"
+        android:animateLayoutChanges="true"
         android:orientation="horizontal">
         <LinearLayout
             android:layout_width="wrap_content"

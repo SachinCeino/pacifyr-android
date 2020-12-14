@@ -1316,6 +1316,7 @@ public class RegisterActivity extends PacifyrActivity {
                             if (mainLabel.equals("pacifyr")) {
                                 getPrefManager(RegisterActivity.this).saveIsOnline("true");
                                 Intent i = new Intent(RegisterActivity.this, PacifyrDashboardActivity.class);
+                                overridePendingTransition(R.anim.slide_out_left, R.anim.slide_in_left);
                                 startActivity(i);
                                 finishAffinity();
                             } else if (mainLabel.equals("customer")) {
@@ -1408,6 +1409,7 @@ public class RegisterActivity extends PacifyrActivity {
                                         if (mainLabel.equals("pacifyr")) {
                                             getPrefManager(RegisterActivity.this).saveIsOnline("true");
                                             Intent i = new Intent(RegisterActivity.this, PacifyrDashboardActivity.class);
+                                            overridePendingTransition(R.anim.slide_out_left, R.anim.slide_in_left);
                                             startActivity(i);
                                             finishAffinity();
                                         } else if (mainLabel.equals("customer")) {

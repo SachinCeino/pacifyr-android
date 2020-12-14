@@ -34,7 +34,7 @@
         <include layout="@layout/actionbar_grey"
             android:id="@+id/include"
             android:layout_height="50dp"
-            android:layout_width="match_parent"></include>
+            android:layout_width="match_parent"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -74,7 +74,7 @@
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:id="@+id/tv_search"
-                      android:layout_marginLeft="10dp"
+                      android:layout_marginStart="10dp"
                       android:text="Search for a Pacifyr"/>-->
 
 
@@ -94,9 +94,9 @@
                 android:layout_height="wrap_content"
                 android:visibility="gone"
                 android:id="@+id/showall_llay"
-                android:gravity="right"
+                android:gravity="end"
                 android:layout_below="@id/rlay_search"
-                android:layout_marginRight="30dp"
+                android:layout_marginEnd="30dp"
                 android:orientation="horizontal">
 
                 <CheckBox
@@ -108,7 +108,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/showall_ctxv"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
                     android:textColor="@color/colorPrimary"
                     android:text="@string/show_all"/>
 
@@ -116,9 +116,11 @@
 
 
             <com.daprlabs.cardstack.SwipeDeck
+                android:layout_marginBottom="@dimen/sp15"
                 android:id="@+id/swipe_deck"
                 android:layout_width="match_parent"
-                android:layout_height="350dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:padding="20dp"
                 android:layout_below="@id/showall_llay"
                 swipedeck:card_spacing="10dp"

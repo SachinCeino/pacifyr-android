@@ -624,6 +624,7 @@ public class SignUpActivity extends PacifyrActivity {
                         String compID = user.getCompanyId();
                         if (mainLabel.equals("pacifyr")) {
                             Intent i = new Intent(SignUpActivity.this, PacifyrDashboardActivity.class);
+                            overridePendingTransition(R.anim.slide_out_left, R.anim.slide_in_left);
                             startActivity(i);
                             finish();
                         } else if (mainLabel.equals("customer")) {

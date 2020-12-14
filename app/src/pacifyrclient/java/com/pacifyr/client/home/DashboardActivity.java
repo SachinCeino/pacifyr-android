@@ -143,10 +143,11 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
     LinearLayout coupon_llay;
     View coupon_view;
     boolean isNeedToOpenAppointments=false;
-    public static void start(Context context,boolean isNeedToOpenAppointments) {
+    public static void start(Activity context,boolean isNeedToOpenAppointments) {
         Intent intent = new Intent(context, DashboardActivity.class);
         intent.putExtra("isNeedToOpenAppointments",isNeedToOpenAppointments);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        context.overridePendingTransition(R.anim.slide_out_left, R.anim.slide_in_left);
         context.startActivity(intent);
     }
     // private PermissionsChecker checker;
@@ -397,21 +398,28 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
         }
 
     }
-
+    UserDashboardFragment userDashboardFragment = null;
+    boolean dashBoardVisibility=true;
     public void showFragment() {
         FragmentManager fm = DashboardActivity.this.getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        UserDashboardFragment fragment = new UserDashboardFragment();
-        getSupportFragmentManager().beginTransaction().replace(R.id.activity_main_content_fragment, fragment).commit();
+
+        if (userDashboardFragment==null){
+            userDashboardFragment=new UserDashboardFragment();
+        }
+        getSupportFragmentManager().beginTransaction().replace(R.id.activity_main_content_fragment, userDashboardFragment).commit();
+
+        dashBoardVisibility=true;
     }
 
     public void showFragment(Fragment fragment) {
         closePane(true);
-        /*FragmentManager fm=DashboardActivity.this.getSupportFragmentManager();
-        FragmentTransaction ft=fm.beginTransaction();
-        UserDashboardFragment fragment=new UserDashboardFragment();*/
-        getSupportFragmentManager().beginTransaction().replace(R.id.activity_main_content_fragment, fragment).commit();
-       // mSlidingPaneLayout.closePane();
+        if(fragment instanceof UserDashboardFragment){
+            showFragment();
+        }else {
+            getSupportFragmentManager().beginTransaction().replace(R.id.activity_main_content_fragment, fragment).commit();
+            dashBoardVisibility=false;
+        }
     }
 
     public void showSearchPacifyrs(View view) {
@@ -427,7 +435,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
 
  //           if (getSupportFragmentManager().getBackStackEntryCount() > 0){
   //              getSupportFragmentManager().popBackStackImmediate();
-               if(UserDashboardFragment.getVisibility()==false) {
+               if(!dashBoardVisibility) {
                    showFragment();
                } else {
                 if (!onceBackpressed) {
@@ -860,7 +868,8 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
                 String spurl = "", title="";
 
                     try {
-                        JSONObject j =  new JSONObject(isLink?RemoteConfig.Config().getString(screeName):DynamicLink.getScreenDataFromNotification());
+                        JSONObject j =  new JSONObject(isLink?RemoteConfig.Config().getString(screeName):
+                                DynamicLink.getScreenDataFromNotification());
                         spurl = j.getString("url");
                         title = j.getString("title");
                     } catch (JSONException e) {

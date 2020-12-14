@@ -24,7 +24,7 @@ public class Auth {
     private static String TAG = Auth.class.getName();
     private static String ANDROID_ID;
     private static String VISIBLE_ACTIVITY = "";
-    private static final boolean enableSessionManagement = false;
+    private static final boolean enableSessionManagement = true;
     private static Toast toast;
 
     public static void httpStatusFilter(Context c, int status) {
@@ -111,6 +111,7 @@ public class Auth {
     /*
      *used to know is any of login activity on front
      */
+
     public static void foreground(String activity){
         VISIBLE_ACTIVITY=activity;
     }

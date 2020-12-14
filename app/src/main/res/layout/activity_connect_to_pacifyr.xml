@@ -27,7 +27,7 @@
         android:gravity="center_horizontal"
         android:layout_below="@+id/image_logo"
         android:elevation="10dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="30dp"
         android:layout_marginTop="10dp"
         android:id="@+id/top_rlay">
 
@@ -188,7 +188,8 @@
                     android:layout_height="wrap_content">
 
                     <com.pacifyrapp.utilitylibrary.DeviceFitImageView
-                        android:background="?android:attr/selectableItemBackground"
+                        android:background="?android:attr/selectableItemBackgroundBorderless"
+                        android:clickable="true"
                         android:layout_width="45dp"
                         android:layout_height="45dp"
                         android:id="@+id/sad_dimv"
@@ -216,7 +217,8 @@
                     android:layout_marginEnd="10dp"
                     android:layout_height="wrap_content">
                     <com.pacifyrapp.utilitylibrary.DeviceFitImageView
-                        android:background="?android:attr/selectableItemBackground"
+                        android:background="?android:attr/selectableItemBackgroundBorderless"
+                        android:clickable="true"
                         android:layout_width="45dp"
                         android:layout_height="45dp"
                         android:id="@+id/happy_dimv"
@@ -391,9 +393,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/image_rcv">
-
-            </androidx.recyclerview.widget.RecyclerView>
+                android:id="@+id/image_rcv"/>
 
                <com.daprlabs.cardstack.SwipeDeck
                    android:id="@+id/swipe_deck"

@@ -11,6 +11,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -66,7 +67,7 @@ public class SplashScreen extends BaseAppCompactActivity {
         RemoteConfig.Update(this);
         PacifyrActivity.flexibleUpdatePopupShown = false;
         //  overridePendingTransition(0, 0);
-       // requestWindowFeature(Window.FEATURE_NO_TITLE);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
@@ -213,6 +214,7 @@ public class SplashScreen extends BaseAppCompactActivity {
                                 if (flag) {
 
                                     Intent intent = new Intent(SplashScreen.this, PacifyrDashboardActivity.class);
+                                    overridePendingTransition(R.anim.slide_out_left, R.anim.slide_in_left);
                                     startActivity(intent);
                                     finish();
                                     Intent i = new Intent(SplashScreen.this, CallService.class);
@@ -229,7 +231,13 @@ public class SplashScreen extends BaseAppCompactActivity {
                                 Toast.makeText(SplashScreen.this, "Network error, Please try again", Toast.LENGTH_LONG).show();
                             }
                         } else if (label.equals("customer")) {
-                            DashboardActivity.start(SplashScreen.this,isNeedToOpenAppointments);
+                           DashboardActivity.start(SplashScreen.this,isNeedToOpenAppointments);
+
+//                            Intent intent = new Intent(SplashScreen.this, DashboardActivity.class);
+//                            intent.putExtra("isNeedToOpenAppointments",isNeedToOpenAppointments);
+//                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                            overridePendingTransition(R.anim.slide_out_left, R.anim.slide_in_left);
+//                            startActivity(intent);
 
                                  /*Intent intent = new Intent(SplashScreen.this, ConnectToPacifyrActivity.class);
                                 intent.putExtra("display","Pacifyr");

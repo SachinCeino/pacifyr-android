@@ -12,6 +12,17 @@
     <dimen name="dash_icon_text_marginbottom">24dp</dimen>
     <dimen name="company_logo_h">50dp</dimen>
     <dimen name="company_logo_w">100dp</dimen>
+    <dimen name="dp16">16dp</dimen>
+    <dimen name="dp22">22dp</dimen>
+    <dimen name="dp12">12dp</dimen>
+    <dimen name="sp25">25sp</dimen>
+    <dimen name="dp29">29dp</dimen>
+    <dimen name="dp10">10dp</dimen>
+    <dimen name="dp40">40dp</dimen>
+    <dimen name="dp3">3dp</dimen>
+    <dimen name="dp4">4dp</dimen>
+    <dimen name="dp5">5dp</dimen>
+    <dimen name="dp2">2dp</dimen>
     <!-- Per the design guidelines, navigation drawers should be between 240dp and 320dp:
          https://developer.android.com/design/patterns/navigation-drawer.html -->
 

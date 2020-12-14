@@ -15,19 +15,33 @@
         <item name="android:colorAccent">@color/colorAccent</item>
         <item name="android:colorBackground">@color/grey_light</item>
         <item name="android:windowAnimationStyle">@style/WindowAnimationTransition</item>
-
     </style>
+
+    <style name="CustomNoActionBarDarkTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="android:colorPrimary">@color/colorPrimary</item>
+        <item name="android:colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="android:colorAccent">@color/colorAccent</item>
+        <item name="android:colorBackground">@color/grey_light</item>
+
+        <item name="android:textColor">#000000</item>
+
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:background">#000000</item>
+    </style>
+
+
+    <style name="WindowAnimationTransition">
+        <item name="android:windowEnterAnimation">@anim/animation</item>
+        <item name="android:windowExitAnimation">@anim/animation2</item>
+    </style>
+
 
         <style name="Theme.Transparent" parent="Theme.AppCompat.Light.NoActionBar">
             <item name="android:windowIsTranslucent">true</item>
             <item name="android:windowTranslucentStatus">true</item>
             <item name="android:windowTranslucentNavigation">true</item>
         </style>
-
-    <style name="WindowAnimationTransition">
-        <item name="android:windowEnterAnimation">@anim/animation</item>
-        <item name="android:windowExitAnimation">@anim/animation2</item>
-    </style>
 
 
 </resources>

@@ -116,18 +116,18 @@ public class BaseAppCompactActivity extends CoreBaseActivity {
         }
     }*/
     public void setLoading() {
-        hideProgress();
-        if(isValid(hud_progress))
-            hud_progress=null;
-        hud_progress = KProgressHUD.create(this).setStyle(KProgressHUD.Style.SPIN_INDETERMINATE).setAnimationSpeed(2).setCancellable(true).setMaxProgress(100).setDimAmount(0.5f);
+//        hideProgress();
+//        if(isValid(hud_progress))
+//            hud_progress=null;
+//        hud_progress = KProgressHUD.create(this).setStyle(KProgressHUD.Style.SPIN_INDETERMINATE).setAnimationSpeed(2).setCancellable(true).setMaxProgress(100).setDimAmount(0.5f);
 
     }
 
     public void setLoadingWait() {
-        hideProgress();
-        if(isValid(hud_progress))
-        hud_progress=null;
-        hud_progress = KProgressHUD.create(this).setStyle(KProgressHUD.Style.SPIN_INDETERMINATE).setLabel("Please wait").setAnimationSpeed(2).setCancellable(true).setMaxProgress(100).setDimAmount(0.5f);
+//        hideProgress();
+//        if(isValid(hud_progress))
+//        hud_progress=null;
+//        hud_progress = KProgressHUD.create(this).setStyle(KProgressHUD.Style.SPIN_INDETERMINATE).setLabel("Please wait").setAnimationSpeed(2).setCancellable(true).setMaxProgress(100).setDimAmount(0.5f);
 
     }
 

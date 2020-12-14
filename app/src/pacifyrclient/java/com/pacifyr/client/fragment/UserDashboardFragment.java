@@ -18,6 +18,8 @@ import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.google.gson.Gson;
 import com.pacifyr.client.R;
 import com.pacifyr.client.customview.MainTextView;
@@ -49,7 +51,7 @@ import com.quickblox.core.QBEntityCallback;
 import com.quickblox.core.exception.QBResponseException;
 import com.quickblox.sample.core.utils.SharedPrefsHelper;
 import com.squareup.otto.Subscribe;
-import com.squareup.picasso.Picasso;
+
 
 import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONArray;
@@ -129,14 +131,18 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         prefM = PrefManager.getInstance(getContext());
-        NetworkService.startActionCutomerDashboard(getActivity());
         ShortcutBadger.applyCount(getActivity(), prefM.getBadgeValue()); //for 1.1.4+
-      //  if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+
+        if(savedInstanceState==null)
+        {
+          //  modelCustomerDashboard2=null;
+            NetworkService.startActionCutomerDashboard(getActivity());
+            getPermissions();
             setMyAdapter();
-        getPermissions();
-        //}
+        }
+
     }
 
     private void loginToQuickblox() {
@@ -298,7 +304,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
         });
 
         if (prefM != null && prefM.getCompanyLogo() != null) {
-            Glide.with(getActivity()).load(UtilityNetworkService.GLOBAL_IMAGE_URL + prefM.getCompanyLogo()).into(image_logo);
+            Glide.with(getActivity()).load(UtilityNetworkService.GLOBAL_IMAGE_URL + prefM.getCompanyLogo()).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).into(image_logo);
         }
         else{
             image_logo.setVisibility(View.GONE);
@@ -399,13 +405,13 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
             callRefreshAccessToken();
         } else {
 
-            onResumeCommonAPICalls();
+           onResumeCommonAPICalls();
         }
     }
 
     private void onResumeCommonAPICalls() {
-        setLoading();
-        showProgress();
+       // setLoading();
+      // showProgress();
         handleActionCustomerDashboard();
         if (isValid(call_emotion)) {
             // feel_err_text.setVisibility(View.GONE);
@@ -413,7 +419,8 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
             String emotionTitle = call_emotion.getTitle();
             EmotionTitle = emotionTitle;
             if (isValidhtml(emotionImg)) {
-                Picasso.with(getActivity()).load(emotionImg).into(feelImageDimv);
+                Glide.with(getActivity()).load(emotionImg).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                        .transition(DrawableTransitionOptions.withCrossFade()).into(feelImageDimv);
                 float brightness = (float) 100;
                 float[] colorMatrix = {
                         0.33f, 0.33f, 0.33f, 0, brightness, //red
@@ -439,11 +446,18 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
 //            loginToQuickblox();
         setChatCountInfo();
         if (prefM != null && prefM.getCompanyLogo() != null) {
-            Glide.with(getActivity()).load(UtilityNetworkService.GLOBAL_IMAGE_URL + prefM.getCompanyLogo()).into(image_logo);
+            Glide.with(getActivity())
+                    .load(UtilityNetworkService.GLOBAL_IMAGE_URL + prefM.getCompanyLogo())
+                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                    .into(image_logo);
         }
         else{
             image_logo.setVisibility(View.GONE);
         }
+
+
+
+
     }
 
 
@@ -510,7 +524,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
 
 
     }
-
+boolean itIsFirstCallFrom=true;
     private void handleActionCustomerDashboard(){
 
         prefM= PrefManager.getInstance(getContext());
@@ -525,12 +539,17 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                 Auth.httpStatusFilter(getContext(), status.getCode());
                 try {
                     hideProgress();
-                    modelCustomerDashboard2= GsonUtils.getInstance().gsonToModelCustomerDashboard2(json);
+                    ModelCustomerDashboard2 m = modelCustomerDashboard2;
+                    modelCustomerDashboard2 = GsonUtils.getInstance().gsonToModelCustomerDashboard2(json);
+                   // if (!m.equals(modelCustomerDashboard2))
                     setMyAdapter();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                   // hideProgress();
-                }
+
+
+                    } catch(Exception e){
+                        e.printStackTrace();
+                        // hideProgress();
+                    }
+
             }
         };
         try {
@@ -555,7 +574,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
         try {
            //Toast.makeText(getContext(),"hiii",Toast.LENGTH_LONG).show();
          //   if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                setMyAdapter();
+               setMyAdapter();
           //  }
         }
         catch (Exception ex)
@@ -566,7 +585,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
 
     }
 
-  //  @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+  //@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void setMyAdapter() {
         try {
 
@@ -596,7 +615,8 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
 
                     if(isValidhtml(emotionImg)){
                        // feel_err_text.setVisibility(View.GONE);
-                        Picasso.with(getActivity()).load(emotionImg).into(feelImageDimv);
+                        Glide.with(getActivity()).load(emotionImg).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                                .transition(DrawableTransitionOptions.withCrossFade()).into(feelImageDimv);
 
                         float brightness = (float)100;
 
@@ -643,7 +663,9 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
 
 
                     lastSsnPacfyrCtxv.setText(lastSession.getPacifyr().getFirstName() + " " + lastSession.getPacifyr().getLastName());
-                    Picasso.with(getContext()).load(lastSession.getPacifyr().getImageUrl()).into(lastSessionDimv);
+                    Glide.with(getContext()).load(lastSession.getPacifyr().getImageUrl()).transition(DrawableTransitionOptions.withCrossFade()).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).into(lastSessionDimv);
+
+
                     String duration = lastSession.getDuration();
                     lastSessionMinuteTxv.setText(duration);
                     String type = lastSession.getSessionType();
@@ -715,7 +737,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                                 pacifyr3Dimv.setVisibility(View.GONE);
                                 pacifyr2Dimv.setVisibility(View.GONE);
                                 pacifyr4Dimv.setVisibility(View.GONE);
-                                Picasso.with(getContext()).load( pfc[0].getImageUrl()).into(pacifyr1Dimv);
+                                Glide.with(getContext()).load( pfc[0].getImageUrl()).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).into(pacifyr1Dimv);
                                 break;
                             case 2:
                                 Log.i("preffffffc5","p: "+pfc);
@@ -723,22 +745,22 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                                 pacifyr3Dimv.setVisibility(View.GONE);
                                 Log.i("preffffffc51","p: "+ pfc[0].getImageUrl());
                                 Log.i("preffffffc52","p: "+pfc[1].getImageUrl());
-                                Picasso.with(getActivity()).load( pfc[0].getImageUrl()).into(pacifyr1Dimv);
-                                Picasso.with(getActivity()).load( pfc[1].getImageUrl()).into(pacifyr2Dimv);
+                                Glide.with(getActivity()).load( pfc[0].getImageUrl()).transition(DrawableTransitionOptions.withCrossFade()).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).into(pacifyr1Dimv);
+                                Glide.with(getActivity()).load( pfc[1].getImageUrl()).transition(DrawableTransitionOptions.withCrossFade()).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).into(pacifyr2Dimv);
                                 break;
                             case 3:
                                 Log.i("preffffffc3","p: "+pfc);
                                 pacifyr4Dimv.setVisibility(View.GONE);
-                                Picasso.with(getContext()).load( pfc[0].getImageUrl()).into(pacifyr1Dimv);
-                                Picasso.with(getContext()).load( pfc[1].getImageUrl()).into(pacifyr2Dimv);
-                                Picasso.with(getContext()).load( pfc[2].getImageUrl()).into(pacifyr3Dimv);
+                                Glide.with(getContext()).load( pfc[0].getImageUrl()).transition(DrawableTransitionOptions.withCrossFade()).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).into(pacifyr1Dimv);
+                                Glide.with(getContext()).load( pfc[1].getImageUrl()).transition(DrawableTransitionOptions.withCrossFade()).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).into(pacifyr2Dimv);
+                                Glide.with(getContext()).load( pfc[2].getImageUrl()).transition(DrawableTransitionOptions.withCrossFade()).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).into(pacifyr3Dimv);
                                 break;
                             default:
                                 Log.i("preffffffc4","p: "+pfc);
-                                Picasso.with(getContext()).load( pfc[0].getImageUrl()).into(pacifyr1Dimv);
-                                Picasso.with(getContext()).load( pfc[1].getImageUrl()).into(pacifyr2Dimv);
-                                Picasso.with(getContext()).load( pfc[2].getImageUrl()).into(pacifyr3Dimv);
-                                Picasso.with(getContext()).load( pfc[3].getImageUrl()).into(pacifyr4Dimv);
+                                Glide.with(getContext()).load( pfc[0].getImageUrl()).transition(DrawableTransitionOptions.withCrossFade()).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).into(pacifyr1Dimv);
+                                Glide.with(getContext()).load( pfc[1].getImageUrl()).transition(DrawableTransitionOptions.withCrossFade()).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).into(pacifyr2Dimv);
+                                Glide.with(getContext()).load( pfc[2].getImageUrl()).transition(DrawableTransitionOptions.withCrossFade()).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).into(pacifyr3Dimv);
+                                Glide.with(getContext()).load( pfc[3].getImageUrl()).transition(DrawableTransitionOptions.withCrossFade()).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).into(pacifyr4Dimv);
                                 break;
                         }
 
@@ -791,7 +813,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
         }
         sel_speciality_ctxv.setText(spec);
         dialog_rating.setRating(Float.parseFloat(prefpac.getRating()));
-        Picasso.with(getContext()).load( prefpac.getImageUrl()).into(image);
+        Glide.with(getContext()).load( prefpac.getImageUrl()).into(image);
         dialog.show();
     }*/
 
