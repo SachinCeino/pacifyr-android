@@ -786,7 +786,10 @@ public class VideoActivity extends PacifyrActivity {
             button_hangup_call.setVisibility(View.VISIBLE);
         }
 
-        toggle_speaker.setVisibility(View.VISIBLE);
+        if(!isVideoCall)
+        {
+            toggle_speaker.setVisibility(View.VISIBLE);
+        }
         micToggleVideoCall.setVisibility(View.VISIBLE);
 
         Log.d(TAG, "showToolBarAndButtons");
