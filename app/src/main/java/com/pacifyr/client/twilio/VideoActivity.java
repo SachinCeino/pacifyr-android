@@ -2302,10 +2302,10 @@ public class VideoActivity extends PacifyrActivity {
                     ringtonePlayer.stop();
                 if (isProd==false &&isRelease==false)
                 {
-                    ToastHandler.newInstance(getApplicationContext()).showToast("Pacifyr is busy with another call");
+                    ToastHandler.newInstance(getApplicationContext()).showToast("Provider is busy with another call");
                 }
                 else {
-                  showToast("Pacifyr is busy with another call");
+                  showToast("Provider is busy with another call");
                 }
                 finish();
             }
