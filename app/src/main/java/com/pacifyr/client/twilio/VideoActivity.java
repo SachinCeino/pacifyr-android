@@ -2160,11 +2160,14 @@ public class VideoActivity extends PacifyrActivity {
                     missedSessionWeb(SessionId);
                 }
             } else if (!hasBillingStarted() && isProviderConnected) {
-                showToast("Thank you for the call. You are not billed as service was not provided");
+
                 if (isProd==false &&isRelease==false)
                 {
                     ToastHandler.newInstance(getApplicationContext()).showToast("Thank you for the call. You are not billed as service was not provided");
 
+                }else
+                {
+                    showToast("Thank you for the call. You are not billed as service was not provided");
                 }
             }
 
