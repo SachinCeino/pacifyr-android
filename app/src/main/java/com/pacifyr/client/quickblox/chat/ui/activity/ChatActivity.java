@@ -436,9 +436,13 @@ public class ChatActivity extends PacifyrAppCompactActivity implements ImagePick
 //        new ImagePickHelper().pickAnImage(this, REQUEST_CODE_ATTACHMENT);
         shoImagePickerAlert(view);
     }
-
+    String[] items = null;
     private void shoImagePickerAlert(View view) {
-        String[] items = new String[]{"Camera", "Gallery"};
+        if (!isCallActive) {
+            items = new String[]{"Camera", "Gallery"};
+        } else {
+            items = new String[]{"Gallery"};
+        }
         AlertDialog.Builder builder = new AlertDialog.Builder(ChatActivity.this);
         builder.setItems(items, new DialogInterface.OnClickListener() {
             @Override
