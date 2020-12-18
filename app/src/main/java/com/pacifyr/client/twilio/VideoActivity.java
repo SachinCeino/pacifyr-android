@@ -412,6 +412,35 @@ public class VideoActivity extends PacifyrActivity {
     }
 
     public static boolean isForeground = false;
+    private EarPhoneChanges mEarPhoneChanges;
+    private boolean isHeadeSetIsPlugged=false;
+    private class EarPhoneChanges extends BroadcastReceiver {
+        @Override public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals(Intent.ACTION_HEADSET_PLUG)) {
+                int state = intent.getIntExtra("state", -1);
+                switch (state) {
+                    case 0:
+                        Log.d(TAG, "Headset is unplugged");
+                        isHeadeSetIsPlugged=false;
+                        if (!isVideoCall)
+                        {
+                            audioManager.setSpeakerphoneOn(false);
+                        }
+                        else {
+                            audioManager.setSpeakerphoneOn(true);
+                        }
+                        break;
+                    case 1:
+                        Log.d(TAG, "Headset is plugged");
+                        isHeadeSetIsPlugged=true;
+                        audioManager.setSpeakerphoneOn(false);
+                        break;
+                    default:
+                        Log.d(TAG, "I have no idea what the headset state is");
+                }
+            }
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -419,6 +448,10 @@ public class VideoActivity extends PacifyrActivity {
         setContentView(R.layout.activity_video);
       try {
           EventBus.getDefault().register(this);
+
+          mEarPhoneChanges = new EarPhoneChanges();
+          IntentFilter filter = new IntentFilter(Intent.ACTION_HEADSET_PLUG);
+          registerReceiver(mEarPhoneChanges, filter);
           primaryVideoView = findViewById(R.id.primary_video_view);
           thumbnailVideoView = findViewById(R.id.thumbnail_video_view);
           reconnectingProgressBar = findViewById(R.id.reconnecting_progress_bar);
@@ -500,7 +533,10 @@ public class VideoActivity extends PacifyrActivity {
               toggle_speaker.setVisibility(View.GONE);
               toggle_camera.setVisibility(View.VISIBLE);
               audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+              if (!isHeadeSetIsPlugged)
               audioManager.setSpeakerphoneOn(true);
+              else
+                  audioManager.setSpeakerphoneOn(false);
           }
           else {
               primaryVideoView.setVisibility(View.GONE);
@@ -588,7 +624,8 @@ public class VideoActivity extends PacifyrActivity {
           toggle_speaker.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
               @Override
               public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
+                  if (isHeadeSetIsPlugged)
+                      return;
                   if (audioManager!=null)
                   {
                       boolean isSpeakerOn = audioManager.isSpeakerphoneOn();
@@ -1208,6 +1245,7 @@ public class VideoActivity extends PacifyrActivity {
         setVolumeControlStream(savedVolumeControlStream);
         configureAudio(false);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(sessionDeclainedReceiver);
+        unregisterReceiver(mEarPhoneChanges);
         /*
          * Always disconnect from the room before leaving the Activity to
          * ensure any memory allocated to the Room resource is freed.
