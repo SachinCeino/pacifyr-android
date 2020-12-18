@@ -2438,9 +2438,11 @@ public class VideoActivity extends PacifyrActivity {
     protected void onUserLeaveHint() {
         if (isCallActive) {
             if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                PictureInPictureParams.Builder pictureParams = new PictureInPictureParams.Builder();
+                /*PictureInPictureParams.Builder pictureParams = new PictureInPictureParams.Builder();
                 pictureParams.setAspectRatio(new Rational(getCurrentView().getWidth(),
-                        getCurrentView().getHeight())).build();
+                        getCurrentView().getHeight())).build();*/
+                PictureInPictureParams.Builder pictureParams = new PictureInPictureParams.Builder();
+                pictureParams.setAspectRatio(new Rational(700, 1100)).build();
                 enterPictureInPictureMode(pictureParams.build());
             }
         }
@@ -2462,9 +2464,11 @@ public class VideoActivity extends PacifyrActivity {
                                 dialog.dismiss();
                                 if (isCallActive) {
                                     if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                        PictureInPictureParams.Builder pictureParams = new PictureInPictureParams.Builder();
+                                       /* PictureInPictureParams.Builder pictureParams = new PictureInPictureParams.Builder();
                                         pictureParams.setAspectRatio(new Rational(getCurrentView().getWidth(),
-                                                getCurrentView().getHeight())).build();
+                                                getCurrentView().getHeight())).build();*/
+                                        PictureInPictureParams.Builder pictureParams = new PictureInPictureParams.Builder();
+                                        pictureParams.setAspectRatio(new Rational(700, 1100)).build();
                                         enterPictureInPictureMode(pictureParams.build());
                                     }
                                 }
