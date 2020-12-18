@@ -192,116 +192,81 @@
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
-                    android:layout_marginTop="100dp"
+                    android:background="@color/transparent"
+                    android:id="@+id/emotion_rlay"
+                    android:layout_marginTop="10dp"
                     android:visibility="gone"
                     android:layout_below="@+id/connectionStatusLocal"
                     android:layout_height="wrap_content">
 
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:layout_width="45dp"
-                        app:width_percentage="12"
-                        android:visibility="gone"
+                    <com.pacifyrapp.utilitylibrary.DeviceFitImageView
+                        android:layout_width="wrap_content"
+                        android:id="@+id/emotion_dimv"
+                        app:width_percentage="15"
+                        android:layout_marginLeft="5dp"
+                        android:visibility="visible"
                         app:height_percentage="10"
-                        android:layout_centerVertical="true"
                         app:parameter="aspect_width"
                         app:aspect_ratio="1"
-                        android:src="@drawable/placeholder_image"
-                        android:layout_height="45dp" />
-
-                    <com.pacifyr.client.customview.MainTextView
-                        android:layout_width="wrap_content"
-                        android:visibility="gone"
-                        android:textSize="@dimen/sp18"
-                        android:cursorVisible="false"
-                        android:singleLine="true"
-                        android:layout_centerVertical="true"
-                        android:padding="5dp"
-                        android:text=""
-                        android:textColor="@color/white"
+                        android:src="@drawable/placeholder_user"
                         android:layout_height="wrap_content" />
 
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:orientation="vertical"
+                        android:id="@+id/l1"
+                        android:layout_marginLeft="4dp"
+                        android:layout_toRightOf="@+id/emotion_dimv"
+                        android:layout_height="wrap_content">
+
+                        <com.pacifyr.client.customview.MainTextView
+                            android:layout_width="wrap_content"
+                            android:id="@+id/emotion_ctxv"
+                            android:visibility="visible"
+                            android:textSize="@dimen/sp16"
+                            android:singleLine="true"
+                            android:textStyle="bold"
+                            android:text=""
+                            android:textColor="@color/colorPrimary"
+                            android:layout_height="wrap_content" />
+
+                        <com.pacifyr.client.customview.MainTextView
+                            android:layout_width="wrap_content"
+                            android:id="@+id/reason_ctxv"
+                            android:visibility="visible"
+                            android:textSize="@dimen/sp16"
+                            android:singleLine="true"
+                            android:textStyle="bold"
+                            android:text=""
+                            android:textColor="@color/colorPrimary"
+                            android:layout_height="wrap_content" />
+
+                    </LinearLayout>
+                    <Chronometer
+                        android:id="@+id/chronometer_timer_video_call"
+                        style="@style/WrapContent"
+                        android:layout_width="wrap_content"
+                        android:layout_gravity="left"
+                        android:layout_margin="10dp"
+                        android:layout_below="@+id/emotion_dimv"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_size"
+                        android:visibility="invisible" />
+
+                    <TextView
+                        android:id="@+id/text_remaining_minutes"
+                        style="@style/WrapContent"
+                        android:layout_marginLeft="4dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_below="@+id/chronometer_timer_video_call"
+                        android:textColor="@color/blue_button_primary"
+                        android:textSize="@dimen/also_on_call_text_size" />
                 </RelativeLayout>
 
+
+
             </RelativeLayout>
 
-
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_marginTop="5dp"
-                android:padding="8dp"
-                android:background="@color/transparent"
-                android:id="@+id/emotion_rlay"
-                android:visibility="gone"
-                android:layout_alignParentLeft="true"
-                android:layout_height="wrap_content">
-
-                <com.pacifyrapp.utilitylibrary.DeviceFitImageView
-                    android:layout_width="wrap_content"
-                    android:id="@+id/emotion_dimv"
-                    app:width_percentage="15"
-                    android:layout_marginLeft="5dp"
-                    android:visibility="visible"
-                    app:height_percentage="10"
-                    android:layout_centerVertical="true"
-                    app:parameter="aspect_width"
-                    app:aspect_ratio="1"
-                    android:src="@drawable/placeholder_user"
-                    android:layout_height="wrap_content" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="4dp"
-                    android:layout_toRightOf="@+id/emotion_dimv"
-                    android:layout_height="wrap_content">
-
-                    <com.pacifyr.client.customview.MainTextView
-                        android:layout_width="wrap_content"
-                        android:id="@+id/emotion_ctxv"
-                        android:layout_centerHorizontal="true"
-                        android:visibility="visible"
-                        android:textSize="@dimen/sp16"
-                        android:singleLine="true"
-                        android:textStyle="bold"
-                        android:text=""
-                        android:textColor="@color/colorPrimary"
-                        android:layout_height="wrap_content" />
-
-                    <com.pacifyr.client.customview.MainTextView
-                        android:layout_width="wrap_content"
-                        android:id="@+id/reason_ctxv"
-                        android:layout_centerHorizontal="true"
-                        android:visibility="visible"
-                        android:textSize="@dimen/sp16"
-                        android:singleLine="true"
-                        android:textStyle="bold"
-                        android:text=""
-                        android:textColor="@color/colorPrimary"
-                        android:layout_height="wrap_content" />
-
-                </LinearLayout>
-            </RelativeLayout>
-
-
-            <Chronometer
-                android:id="@+id/chronometer_timer_video_call"
-                style="@style/WrapContent"
-                android:layout_width="wrap_content"
-                android:layout_gravity="left"
-                android:layout_margin="10dp"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_size"
-                android:visibility="invisible" />
-
-            <TextView
-                android:id="@+id/text_remaining_minutes"
-                style="@style/WrapContent"
-                android:layout_marginLeft="4dp"
-                android:layout_marginTop="5dp"
-                android:textColor="@color/blue_button_primary"
-                android:textSize="@dimen/also_on_call_text_size" />
 
         </LinearLayout>
         <FrameLayout
