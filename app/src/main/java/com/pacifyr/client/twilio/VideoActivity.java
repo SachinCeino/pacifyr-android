@@ -446,6 +446,7 @@ public class VideoActivity extends PacifyrActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
       try {
           EventBus.getDefault().register(this);
 
@@ -1272,6 +1273,7 @@ public class VideoActivity extends PacifyrActivity {
 
         cancelOutGoingCallTimer();
         EventBus.getDefault().unregister(this);
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         super.onDestroy();
     }
 
