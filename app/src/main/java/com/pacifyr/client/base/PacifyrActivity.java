@@ -2376,7 +2376,7 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
     }
 
 
-    public void stopSessionWeb( String sessionid,int id) {
+  /*  public void stopSessionWeb( String sessionid,int id) {
         try {
             //  ToastHandler.newInstance(PacifyrActivity.this).showToast("stopSessionWeb api called ");
             LogUtils.LOGD("call", "stopSessionWeb getUserID "+ getUserID());
@@ -2423,7 +2423,7 @@ public abstract  class PacifyrActivity extends BaseAppCompactActivity {
             LogUtils.LOGD("call", "stopSessionWeb end exception : " + e.getMessage());
         }
     }
-
+*/
 
     public void stopSessionWeb( String sessionid) {
         isCallActive=false;

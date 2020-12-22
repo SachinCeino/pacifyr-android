@@ -77,7 +77,8 @@ public class UtilityNetworkService extends IntentService {
     public static String GLOBAL_URL = "";
     public static String GLOBAL_IMAGE_URL = "";
     public static String STRIPE_PUBLISH_KEY = "";
-
+    public static final String TOKEN_EXPIRY_TIME = "5184000000";
+    public static final String TOKEN_REFRESH_TIME = "4320000000";
 
 
     /** Production*/

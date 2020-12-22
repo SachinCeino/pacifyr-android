@@ -845,7 +845,7 @@ public class VideoActivity extends PacifyrActivity {
             }
 
             public void onFinish() {
-                if (room != null && room.getRemoteParticipants().size()==0 || room.getState() == Room.State.CONNECTING) {
+                if (room != null && room.getRemoteParticipants().size() == 0 || (room != null && room.getState() == Room.State.CONNECTING)) {
                     room.disconnect();
                     missedSessionWeb(SessionId);
 
@@ -2204,20 +2204,24 @@ public class VideoActivity extends PacifyrActivity {
                 }
             } else if (!hasBillingStarted() && isProviderConnected) {
 
-                if (isProd==false &&isRelease==false)
-                {
+                if (isProd == false && isRelease == false) {
                     ToastHandler.newInstance(getApplicationContext()).showToast("Thank you for the call. You are not billed as service was not provided");
 
-                }else
-                {
+                } else {
                     showToast("Thank you for the call. You are not billed as service was not provided");
                 }
             }
 
-            if (SessionId != null) {
-                stopSessionWeb(SessionId);
+            if (isProviderConnected) {
+                if (SessionId != null) {
+                    stopSessionWeb(SessionId);
+                }
+            } else {
+                if (SessionId != null) {
+                    missedSessionWeb(SessionId);
+                }
             }
-            Intent intent=new Intent(getApplicationContext(),DashboardActivity.class);
+            Intent intent = new Intent(getApplicationContext(), DashboardActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
             finish();
@@ -2397,7 +2401,7 @@ public class VideoActivity extends PacifyrActivity {
             AjaxCallback<JSONObject> cb = new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, JSONObject json, AjaxStatus status) {
-                    CallActivity.isMissed=true;
+//                    CallActivity.isMissed=true;
                     if (json == null) {
 
                         ToastHandler.newInstance(getApplicationContext()).showToast("Please Try again");
@@ -2406,7 +2410,7 @@ public class VideoActivity extends PacifyrActivity {
                         if (json != null) try {
 
                             LogUtils.LOGD("call", "missedSessionWeb json  " + json);
-                        } catch (Exception e){
+                        } catch (Exception e) {
                             ToastHandler.newInstance(getApplicationContext()).showToast("Please Try again");
                             LogUtils.LOGD("call", "missedSessionWeb exception : " + e.getMessage());
                         }
@@ -2414,7 +2418,7 @@ public class VideoActivity extends PacifyrActivity {
                     finish();
                 }
             };
-            AQuery aq = new AQuery(this);
+            AQuery aq = new AQuery(getApplicationContext());
 
             cb.header("AccessToken", getAccessToken());
             cb.header("Content-Type", "application/json");
@@ -2440,11 +2444,11 @@ public class VideoActivity extends PacifyrActivity {
     protected void onUserLeaveHint() {
         if (isCallActive) {
             if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                /*PictureInPictureParams.Builder pictureParams = new PictureInPictureParams.Builder();
-                pictureParams.setAspectRatio(new Rational(getCurrentView().getWidth(),
-                        getCurrentView().getHeight())).build();*/
                 PictureInPictureParams.Builder pictureParams = new PictureInPictureParams.Builder();
-                pictureParams.setAspectRatio(new Rational(700, 1100)).build();
+                pictureParams.setAspectRatio(new Rational(getCurrentView().getWidth(),
+                        getCurrentView().getHeight())).build();
+                /*PictureInPictureParams.Builder pictureParams = new PictureInPictureParams.Builder();
+                pictureParams.setAspectRatio(new Rational(700, 1100)).build();*/
                 enterPictureInPictureMode(pictureParams.build());
             }
         }
