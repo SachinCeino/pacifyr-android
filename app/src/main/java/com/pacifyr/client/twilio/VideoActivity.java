@@ -574,10 +574,14 @@ public class VideoActivity extends PacifyrActivity {
               }
           });
 
+          toggle_speaker.setClickable(false);
+          toggle_camera.setClickable(false);
+          micToggleVideoCall.setClickable(false);
+
           micToggleVideoCall.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
               @Override
               public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
+                  if (!isProviderConnected)return;
                   if (audioManager!=null)
                   {
                       boolean isMute = audioManager.isMicrophoneMute();
@@ -601,6 +605,7 @@ public class VideoActivity extends PacifyrActivity {
           toggle_Max_Min.setOnClickListener(new View.OnClickListener() {
               @Override
               public void onClick(View view) {
+                  if (!isProviderConnected)return;
                   if (call_overlay.getOrientation() == LinearLayout.HORIZONTAL) {
                       call_overlay.setOrientation(LinearLayout.VERTICAL);
                       emotion_rlay.setVisibility(View.VISIBLE);
@@ -622,6 +627,7 @@ public class VideoActivity extends PacifyrActivity {
                 {
                     audioManager.setSpeakerphoneOn(false);
                 }
+
           toggle_speaker.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
               @Override
               public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -1401,6 +1407,9 @@ public class VideoActivity extends PacifyrActivity {
                    startTimer();
                    addRemoteParticipant(remoteParticipant);
                    isProviderConnected=true;
+                   toggle_speaker.setClickable(true);
+                   toggle_camera.setClickable(true);
+                   micToggleVideoCall.setClickable(true);
 
                }
 
