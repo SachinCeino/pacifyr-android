@@ -442,6 +442,7 @@ public class VideoActivity extends PacifyrActivity {
         }
     }
 
+    private boolean hangUpCurrentFromClient=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -567,6 +568,7 @@ public class VideoActivity extends PacifyrActivity {
                     if (isValid(ringtonePlayer))
                         ringtonePlayer.stop();
                   if (SessionId != null) {
+                      hangUpCurrentFromClient=true;
                       hangUpCurrentSessionMe();
                       room.disconnect();
                   }
@@ -1385,6 +1387,7 @@ public class VideoActivity extends PacifyrActivity {
                        audioSwitch.deactivate();
                        intializeUI();
                        moveLocalVideoToPrimaryView();
+                       if (!hangUpCurrentFromClient)
                        hangUpCurrentSessionMe();
                    }
                }
