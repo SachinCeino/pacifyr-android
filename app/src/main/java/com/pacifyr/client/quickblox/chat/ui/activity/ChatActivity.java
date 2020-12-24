@@ -447,12 +447,12 @@ public class ChatActivity extends PacifyrAppCompactActivity implements ImagePick
         builder.setItems(items, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if (which == 0) {
+                if (items[which].equalsIgnoreCase("Camera")) {
                     imagePicker = new CameraImagePicker(ChatActivity.this);
                     imagePicker.shouldGenerateThumbnails(true);
                     imagePicker.setImagePickerCallback(ChatActivity.this);
                     outputPath = imagePicker.pickImage();
-                } else if (which == 1) {
+                } else if (items[which].equalsIgnoreCase("Gallery")) {
                     galImagePicker = new ImagePicker(ChatActivity.this);
                     galImagePicker.shouldGenerateThumbnails(true);
                     galImagePicker.setImagePickerCallback(ChatActivity.this);
