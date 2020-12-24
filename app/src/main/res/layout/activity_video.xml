@@ -423,7 +423,7 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="13dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:background="@drawable/white_border_transparent_black"
             android:enabled="false"
             android:padding="10dp"
