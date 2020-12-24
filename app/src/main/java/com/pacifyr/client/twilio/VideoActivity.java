@@ -617,7 +617,7 @@ public class VideoActivity extends PacifyrActivity {
                   {
                       call_overlay.setOrientation(LinearLayout.HORIZONTAL);
                       toggle_Max_Min.setImageDrawable(getResources().getDrawable(R.drawable.maximize_));
-                      emotion_rlay.setVisibility(View.GONE);
+                      emotion_rlay.setVisibility(View.INVISIBLE);
                       ImageView_emotion.setVisibility(View.VISIBLE);
                       call_overlay.setBackground(getResources().getDrawable(R.drawable.call_overlay_background));
                   }
@@ -797,11 +797,11 @@ public class VideoActivity extends PacifyrActivity {
 
 
         button_hangup_call.setVisibility(View.GONE);
-        emotion_rlay.setVisibility(View.GONE);
+        emotion_rlay.setVisibility(View.INVISIBLE);
         //userRlay.setVisibility(View.GONE);
         billingStatus.setVisibility(View.GONE);
         // call_layout.setVisibility(View.INVISIBLE);
-        emotion_rlay.setVisibility(View.GONE);
+        emotion_rlay.setVisibility(View.INVISIBLE);
         call_overlay.setVisibility(View.GONE);
         toggle_speaker.setVisibility(View.GONE);
         micToggleVideoCall.setVisibility(View.GONE);
@@ -820,7 +820,7 @@ public class VideoActivity extends PacifyrActivity {
             emotion_rlay.setVisibility(View.VISIBLE);
         }
         else {
-            emotion_rlay.setVisibility(View.GONE);
+            emotion_rlay.setVisibility(View.INVISIBLE);
         }
 
         if (hasBillingStarted()) {

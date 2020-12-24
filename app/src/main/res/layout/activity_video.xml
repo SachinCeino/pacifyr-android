@@ -196,7 +196,7 @@
                     android:background="@color/transparent"
                     android:id="@+id/emotion_rlay"
                     android:layout_marginTop="10dp"
-                    android:visibility="gone"
+                    android:visibility="invisible"
                     android:layout_below="@+id/connectionStatusLocal"
                     android:layout_height="wrap_content">
 
@@ -243,27 +243,26 @@
                             android:layout_height="wrap_content" />
 
                     </LinearLayout>
-                    <Chronometer
-                        android:id="@+id/chronometer_timer_video_call"
-                        style="@style/WrapContent"
-                        android:layout_width="wrap_content"
-                        android:layout_gravity="left"
-                        android:layout_margin="10dp"
-                        android:layout_below="@+id/emotion_dimv"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/text_size"
-                        android:visibility="invisible" />
 
                     <TextView
                         android:id="@+id/text_remaining_minutes"
                         style="@style/WrapContent"
                         android:layout_marginLeft="4dp"
                         android:layout_marginTop="5dp"
-                        android:layout_below="@+id/chronometer_timer_video_call"
+                        android:layout_below="@+id/l1"
                         android:textColor="@color/blue_button_primary"
                         android:textSize="@dimen/also_on_call_text_size" />
                 </RelativeLayout>
-
+                <Chronometer
+                    android:id="@+id/chronometer_timer_video_call"
+                    style="@style/WrapContent"
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_margin="10dp"
+                    android:layout_below="@+id/emotion_rlay"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size"
+                    android:visibility="invisible" />
 
 
             </RelativeLayout>
