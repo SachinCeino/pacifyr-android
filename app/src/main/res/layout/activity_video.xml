@@ -64,8 +64,8 @@
 
         <com.twilio.video.VideoView
             android:id="@+id/thumbnail_video_view"
-            android:layout_width="96dp"
-            android:layout_height="96dp"
+            android:layout_width="100dp"
+            android:layout_height="150dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
             android:layout_marginStart="16dp"
