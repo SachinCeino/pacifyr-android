@@ -118,6 +118,7 @@ public class SplashScreen extends BaseAppCompactActivity {
         }
 
         DynamicLink.fetch(this);
+        NetworkService.startActionCutomerDashboard(this);
         gatePass();
     }
 

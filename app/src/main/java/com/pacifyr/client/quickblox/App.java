@@ -56,12 +56,15 @@ public class App extends CoreApp {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
-        UtilityNetworkService.init(this);
+        RemoteConfig.init();
+
+        UtilityNetworkService.init(this);//before this ,Remote config int must be called
         initApplication();
 
             /*chat*/
         ActivityLifecycle.init(this);
 //        initSampleConfigs();
+
         QBSettings.getInstance().init(this, APP_ID, AUTH_KEY, AUTH_SECRET);
         QBSettings.getInstance().setAccountKey(ACCOUNT_KEY);
         try {

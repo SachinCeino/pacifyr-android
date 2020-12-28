@@ -18,6 +18,8 @@ import com.pacifyrapp.utilitylibrary.model.Users;
 
 import org.json.JSONObject;
 
+import static com.pacifyrapp.utilitylibrary.orginals.RemoteConfigs.*;
+import static com.pacifyrapp.utilitylibrary.orginals.RemoteConfigs.getDefaultConfigForKey;
 
 
 /**
@@ -104,42 +106,42 @@ public class UtilityNetworkService extends IntentService {
         CIRTIFICATE_KEY = "development";
         if (context.getPackageName().equalsIgnoreCase(PACKAGE_PAM)) {
             if (isProd) {
-                GLOBAL_URL = "http://pam.pacifyr.net:8080/pacifyr/v1/";
-                GLOBAL_IMAGE_URL = "https://pam-prod.storage.googleapis.com/";
-                STRIPE_PUBLISH_KEY = "pk_live_GClqoTSF6tHpuUmqQET2nxsg";
-                CIRTIFICATE_KEY = "production";
-                APP_ID = "79939";
-                AUTH_KEY = "fVKU-SnfR-PV6FV";
-                AUTH_SECRET = "eFYX-M4yjuCQTcK";
+                GLOBAL_URL =getDefaultConfigForKey(_pamGlobalUrlProd);// "http://pam.pacifyr.net:8080/pacifyr/v1/";
+                GLOBAL_IMAGE_URL =getDefaultConfigForKey(_pamGlobalImageUrlProd);// "https://pam-prod.storage.googleapis.com/";
+                STRIPE_PUBLISH_KEY = getDefaultConfigForKey(_stripeKey);//"pk_live_GClqoTSF6tHpuUmqQET2nxsg";
+                CIRTIFICATE_KEY = getDefaultConfigForKey(_certificateKey);// "production";
+                APP_ID = getDefaultConfigForKey(_pamAppIdProd);//"79939";
+                AUTH_KEY = getDefaultConfigForKey(_pamAuthKeyProd);//"fVKU-SnfR-PV6FV";
+                AUTH_SECRET = getDefaultConfigForKey(_pamAuthSecretProd);//"eFYX-M4yjuCQTcK";
             } else {
-                GLOBAL_URL = "http://pam_test.pacifyr.net:8080/pacifyr/v1/";
-                GLOBAL_IMAGE_URL = "https://pacifyrtest.storage.googleapis.com/";
-                STRIPE_PUBLISH_KEY = "pk_test_FAVrlQ9hMG3RELCIcWUJpdZf";
-                CIRTIFICATE_KEY = "development";
-                APP_ID = "78571";
-                AUTH_KEY = "6ZSW67fV5vcUOc7";
-                AUTH_SECRET = "7mQzMYGczcznz6z";
+                GLOBAL_URL =getDefaultConfigForKey(_pamGlobalUrl);// "http://pam_test.pacifyr.net:8080/pacifyr/v1/";
+                GLOBAL_IMAGE_URL = getDefaultConfigForKey(_pamGlobalImageUrl);//"https://pacifyrtest.storage.googleapis.com/";
+                STRIPE_PUBLISH_KEY = getDefaultConfigForKey(_devStripeKey);//"pk_test_FAVrlQ9hMG3RELCIcWUJpdZf";
+                CIRTIFICATE_KEY = getDefaultConfigForKey(_certificateKeyDev);// "development";
+                APP_ID = getDefaultConfigForKey(_appIdPam);//"78571";
+                AUTH_KEY = getDefaultConfigForKey(_authKeyPam);//"6ZSW67fV5vcUOc7";
+                AUTH_SECRET = getDefaultConfigForKey(_authSecretPam);//"7mQzMYGczcznz6z";
             }
 
         } else {
             if (isProd) {
-                GLOBAL_URL = "https://app.pacifyr.net/pacifyr/v1/";
-                GLOBAL_IMAGE_URL = "https://pacifyrprod.storage.googleapis.com/";
-                STRIPE_PUBLISH_KEY = "pk_live_GClqoTSF6tHpuUmqQET2nxsg";
-                CIRTIFICATE_KEY = "production";
+                GLOBAL_URL =getDefaultConfigForKey(_globalUrl); //"https://app.pacifyr.net/pacifyr/v1/";
+                GLOBAL_IMAGE_URL =getDefaultConfigForKey(_globalImageUrl);// "https://pacifyrprod.storage.googleapis.com/";
+                STRIPE_PUBLISH_KEY = getDefaultConfigForKey(_stripeKey);//"pk_live_GClqoTSF6tHpuUmqQET2nxsg";
+                CIRTIFICATE_KEY = getDefaultConfigForKey(_certificateKey);// "production";
 
-                APP_ID = "61574";
-                AUTH_KEY = "2qzAw4EjRen6JeC";
-                AUTH_SECRET = "jjpWMb9HRUVnTj7";
+                APP_ID = getDefaultConfigForKey(_appId);//"61574";
+                AUTH_KEY = getDefaultConfigForKey(_authKey);//"2qzAw4EjRen6JeC";
+                AUTH_SECRET = getDefaultConfigForKey(_authSecret);//"jjpWMb9HRUVnTj7";
             } else {
-                GLOBAL_URL = "http://testapp.pacifyr.net:8080/pacifyr/v1/";
-                GLOBAL_IMAGE_URL = "https://pacifyrtest.storage.googleapis.com/";
-                STRIPE_PUBLISH_KEY = "pk_test_FAVrlQ9hMG3RELCIcWUJpdZf";
-                CIRTIFICATE_KEY = "development";
+                GLOBAL_URL = getDefaultConfigForKey(_pamGlobalUrlNonPamDev);//"http://testapp.pacifyr.net:8080/pacifyr/v1/";
+                GLOBAL_IMAGE_URL =getDefaultConfigForKey(_pamGlobalImageUrlNonPamDev);// "https://pacifyrtest.storage.googleapis.com/";
+                STRIPE_PUBLISH_KEY = getDefaultConfigForKey(_devStripeKey);//"pk_test_FAVrlQ9hMG3RELCIcWUJpdZf";
+                CIRTIFICATE_KEY = getDefaultConfigForKey(_certificateKeyDev);//"development";
 
-                APP_ID = "60603";
-                AUTH_KEY = "RMyP9v64ke8ccet";
-                AUTH_SECRET = "6TAfArmeSzME8su";
+                APP_ID = getDefaultConfigForKey(_appIdNonPamDev);//"60603";
+                AUTH_KEY = getDefaultConfigForKey(_authKeyNonPamDev);//"RMyP9v64ke8ccet";
+                AUTH_SECRET = getDefaultConfigForKey(_authSecretNonPamDev);//"6TAfArmeSzME8su";
             }
 
         }

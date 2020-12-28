@@ -443,7 +443,6 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
             //feel_err_text.setVisibility(View.VISIBLE);
         }
         getUnratedSessions();
-//            loginToQuickblox();
         setChatCountInfo();
         if (prefM != null && prefM.getCompanyLogo() != null) {
             Glide.with(getActivity())
@@ -454,20 +453,14 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
         else{
             image_logo.setVisibility(View.GONE);
         }
-
-
-
-
     }
 
 
     private void callRefreshAccessToken() {
-
         try {
             showProgress();
             PrefManager prefM = PrefManager.getInstance(getActivity());
             String token = prefM.getAccessToken();
-
             String url = NetworkService.GLOBAL_URL + "refreshToken";
             AjaxCallback cb = new AjaxCallback<JSONObject>() {
                 @Override
@@ -497,27 +490,21 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                             }
                             Log.w("EWERE",String.valueOf(json));
                             Log.w("EWERE",String.valueOf(json));
-
                         }
-
                     } catch (Exception e) {
-
                         hideProgress();
                         Auth.httpStatusFilter(getActivity(), status.getCode());
                     }
                 }
             };
-
             AQuery aq = new AQuery(getActivity());
             cb.header("Content-Type", "application/json");
             cb.header("AccessToken", token);
             aq.ajax(url, JSONObject.class, cb);
-
         }
         catch (Exception ex)
         {
             hideProgress();
-
             ex.printStackTrace();
         }
 
