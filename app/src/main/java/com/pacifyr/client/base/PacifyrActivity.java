@@ -4537,7 +4537,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
 
     public static boolean flexibleUpdatePopupShown = false;
     public void checkForAppUpdate(Activity context, int UPDATE_REQUEST_CODE) {
-        if (CallActivity.isCallActive) {
+        if (VideoActivity.isCallActive) {
             Log.d(TAG, "Call is active. Not checking for updates");
             return;
         }
@@ -4582,7 +4582,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                     InstallStateUpdatedListener listener = state -> {
                         // (Optional) Provide a download progress bar.
                         if (state.installStatus() == InstallStatus.DOWNLOADED) {
-                            if (!CallActivity.isCallActive) {
+                            if (!VideoActivity.isCallActive) {
                                 appUpdateManager.completeUpdate();
                             }
                         }
