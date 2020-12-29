@@ -2,11 +2,9 @@ package com.pacifyr.client.activity;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
-import android.net.Uri;
 import android.net.http.SslError;
 import android.os.Bundle;
 import android.util.Log;
@@ -32,8 +30,6 @@ import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 
 import java.io.File;
 
-import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_IMAGE_URL;
-
 public class TermsOfUseActivity extends PacifyrActivity {
 
     private static final String TAG = TermsOfUseActivity.class.getSimpleName();
@@ -43,6 +39,7 @@ public class TermsOfUseActivity extends PacifyrActivity {
     //private ImageView backButt;
     //private LinearLayout backbtn;
     private int retryCount = 0;
+    private String currentUrl;
 
 
     @Override
@@ -64,7 +61,7 @@ public class TermsOfUseActivity extends PacifyrActivity {
         }
         onSetActionBar();
 
-
+        userDetailWeb(getUserID());
 
     }
 
@@ -100,20 +97,45 @@ public class TermsOfUseActivity extends PacifyrActivity {
 
             //If you will not use this method url links are opeen in new brower not in webview
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                if (currentUrl != null && url != null && url.equals(currentUrl)) {
+                    view.goBack();
+                    return true;
+                }
+                if (url.contains(".pdf")) {
+                    String originalUrl = url;
+                    String[] separated = url.split("https://");
+                    for (int i = 0; i < separated.length; i++) {
+                        if (separated[i].contains(".pdf")) {
+                            url = "https://" + separated[i];
+                        }
 
-                if (url.contains(".pdf")){
-                   /* Intent intent = new Intent(Intent.ACTION_VIEW);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    intent.setDataAndType(Uri.parse(url), "text/html");
-                    try{
-                        view.getContext().startActivity(intent);
-                    } catch (ActivityNotFoundException e) {
-                        Log.w("ERROR",String.valueOf(e));
-                    }*/
-                    loadTemsPDF(url);
+                    }
+                    if (originalUrl.equalsIgnoreCase(url)) {
+                        String[] separated1 = url.split("http://");
+                        for (int i = 0; i < separated1.length; i++) {
+                            if (separated1[i].contains(".pdf")) {
+                                url = "http://" + separated1[i];
+                            }
+
+                        }
+                    }
+
+
+                    if (isValid(url) && !url.contains("dmca")) {
+                        url = url.substring(0, url.indexOf(".pdf")) + ".pdf";
+                        String url1 = url;
+                        String title = url.replace("https://pacifyr.com/", "");
+                        loadTemsPDF(url1, title);
+                    } else { //load DMCA pdf in Google Drive pdf viewer. Normal PDF viewer is not rendering it properly
+                        url = "https://drive.google.com/viewerng/viewer?embedded=true&url=" + url;
+                        view.loadUrl(url);
+                    }
+
+
                 } else {
                     view.loadUrl(url);
                 }
+                currentUrl = url;
                 return true;
             }
 
@@ -179,16 +201,19 @@ public class TermsOfUseActivity extends PacifyrActivity {
 
         // Javascript inabled on webview
         webView.getSettings().setJavaScriptEnabled(true);
-       /* webView.getSettings().setLoadWithOverviewMode(true);
-        webView.getSettings().setUseWideViewPort(true);*/
+        webView.getSettings().setSupportZoom(true);
+        webView.getSettings().setBuiltInZoomControls(true);
         webView.loadUrl(url);
 
     }
-    public void loadTemsPDF(String url) {
+
+
+
+    public void loadTemsPDF(String url,String titleText) {
         setLoading();
         showProgress();
         FileLoader.with(TermsOfUseActivity.this)
-                .load(GLOBAL_IMAGE_URL+url, false) //2nd parameter is optioal, pass true to force load from network
+                .load(url, false) //2nd parameter is optioal, pass true to force load from network
                 .fromDirectory("test4", FileLoader.DIR_CACHE)
                 .asFile(new FileRequestListener<File>() {
                     @Override
@@ -199,6 +224,7 @@ public class TermsOfUseActivity extends PacifyrActivity {
                         Log.d(TAG, "File downloaded ");
                         PdfViewer.pdf = loadedFile;
                         Intent intent = new Intent(TermsOfUseActivity.this, PdfViewer.class);
+                        intent.putExtra("title",titleText);
                         startActivity(intent);
                     }
 

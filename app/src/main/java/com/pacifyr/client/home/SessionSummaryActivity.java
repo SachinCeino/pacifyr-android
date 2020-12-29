@@ -37,6 +37,7 @@ import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.model.MComments;
 import com.pacifyr.client.model.PrescriptionList;
 import com.pacifyr.client.model.interfaces.CommentClick;
+import com.pacifyr.client.network.Auth;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.quickblox.App;
@@ -339,6 +340,9 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
                         hideProgress();
                         hideStatus();
                         Log.w("@@@",String.valueOf(json));
+                        mTextView_View_pres.setClickable(true);
+                        Auth.httpStatusFilter(getApplicationContext(), status.getCode());
+                        Log.w("@@@", String.valueOf(json));
                         if (isValid(json))
                         {
                             PrescriptionList mPrescriptionList = GsonUtils.getInstance().gsonToPrescriptionList(json);
@@ -386,6 +390,7 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
 
 
                     } catch (Exception e) {
+                        mTextView_View_pres.setClickable(true);
                         hideProgress();
                         e.printStackTrace();
                     }
@@ -398,6 +403,7 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
         } catch (Exception ex) {
             hideProgress();
             ex.printStackTrace();
+            mTextView_View_pres.setClickable(true);
             Log.w("@@@",String.valueOf(ex));
         }
 
@@ -415,6 +421,18 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        Auth.foreground(SessionSummaryActivity.class.getSimpleName());
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Auth.foreground("");
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         sessionid = null;
@@ -424,7 +442,8 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
+        if (isValid(mTextView_View_pres)){
+        mTextView_View_pres.setClickable(true);}
         App.getInstance().setCurrentActivity(this);
 
         Bundle args =
@@ -639,11 +658,16 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
                 String callType = mSessionDetailRoot.getSessionType();
 
                 durationCtxv.setText(mSessionDetailRoot.getDuration());
-                if (isValid(mSessionDetailRoot.getEndTime()))
-                    durationCtxv.setText(mSessionDetailRoot.getDuration() + " " + Utility.getStartFormatDate(mSessionDetailRoot.getEndTime(), getApplicationContext()));
+                if (isValid(mSessionDetailRoot.getStartTime()))
+                    durationCtxv.setText(mSessionDetailRoot.getDuration() + " " + Utility.getStartFormatDate(mSessionDetailRoot.getStartTime(), getApplicationContext()));
 
                 if (isCustomer) {
-                    sessionCostCtxv.setText(Utility.getPriceSign(SessionSummaryActivity.this) + mSessionDetailRoot.getSessionCost());
+                    if (isValid(mSessionDetailRoot.getTimeSlotBookingId()))
+                        sessionCostCtxv.setText(Utility.getPriceSign(SessionSummaryActivity.this) + mSessionDetailRoot.getSessionCost()+getResources().getString(R.string.prepaid));
+                    else
+                        sessionCostCtxv.setText(Utility.getPriceSign(SessionSummaryActivity.this) + mSessionDetailRoot.getSessionCost());
+
+
                     if (isValid(mSessionDetailRoot.getPacifyr())) {
                         String pacName = mSessionDetailRoot.getPacifyr().getFirstName() + " " + mSessionDetailRoot.getPacifyr().getLastName();
                         pacifyrNameCtxv.setText(pacName);
@@ -690,6 +714,7 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
                         @Override
                         public void callback(String url, JSONObject json, AjaxStatus status) {
                             hideProgress();
+                            Auth.httpStatusFilter(getApplicationContext(), status.getCode());
                             try {
                                 if (json != null) {
                                     NetworkService.mCurrentUser = GsonUtils.getInstance().gsonToModelUserProfile(json);
@@ -784,6 +809,7 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
             AjaxCallback cb = new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, JSONObject json, AjaxStatus status) {
+                    Auth.httpStatusFilter(getApplicationContext(), status.getCode());
                     try {
                         hideProgress();
                         modelAllEmotions = GsonUtils.getInstance().gsonToMListAllEmotionsI(json);
@@ -817,6 +843,7 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
                 @Override
                 public void callback(String url, JSONObject json, AjaxStatus status) {
                     hideProgress();
+                    Auth.httpStatusFilter(getApplicationContext(), status.getCode());
                     LogUtils.LOGD("session", " SSA webGetSessionDetail callback result" + json + " " + status.getMessage());
                     if (!isValid(json, "Network Interupted")) {
                         handlerFinish("Network Interupted");

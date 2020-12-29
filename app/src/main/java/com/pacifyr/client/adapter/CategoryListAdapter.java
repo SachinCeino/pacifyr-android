@@ -6,34 +6,20 @@ package com.pacifyr.client.adapter;
  */
 
 import android.content.Context;
-import android.text.Html;
-import android.text.SpannableStringBuilder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.Priority;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
-import com.pacifyr.client.base.PacifyrActivity;
-import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.R;
+import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.home.ConnectToPacifyrActivity;
 import com.pacifyr.client.model.ModelSpecialityByCategory;
-import com.pacifyr.client.utils.LogUtils;
-import com.pacifyr.client.utils.Utility;
-import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
 import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;

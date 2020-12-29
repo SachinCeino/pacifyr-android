@@ -299,28 +299,32 @@ public class SessionWeekCustomerAdapter extends RecyclerView.Adapter<SessionWeek
             }
             modelMonthList.get(0).setSelect(true);
             Collections.reverse(modelMonthList);
-
-            long createdDateInMilli = Utility.converToMilliSecondsForSession(DashboardActivity.CreatedDay);
+            
+            String createdMonth=makeCreatedDateToInitialMonth(DashboardActivity.CreatedDay);
+            long createdDateInMilli = Utility.converToMilliSecondsForSession(createdMonth);
             Log.w("@@@1", String.valueOf(createdDateInMilli));
             int range = 0;
             for (int i = 0; i < modelMonthList.size(); i++) {
                 long createdDateInMilli2 = Utility.converToMilliSecondsForSession(modelMonthList.get(i).getFromDate());
-                if (createdDateInMilli2 > createdDateInMilli) {
-                    if (range == 0)
+                if (createdDateInMilli2 >= createdDateInMilli) {
                         range = i;
-
+                        break;
                 }
                 Log.w("@@@", String.valueOf(createdDateInMilli2));
             }
-            if (range == 0) {
-                modelMonthList.subList(0, modelMonthList.size() - 1).clear();
-            } else {
+            if (range != 0) {
                 modelMonthList.subList(0, range).clear();
             }
             modelMonthList.size();
         }
         catch (Exception ex)
         {ex.printStackTrace();}
+    }
+
+    private String makeCreatedDateToInitialMonth(String createdDay) {
+        String[] separated = createdDay.split("-");
+        String finalStringOutPut = separated[0]+"-"+separated[1]+"-01";
+        return finalStringOutPut;
     }
 
     private void createWeekList() {
@@ -467,17 +471,13 @@ public class SessionWeekCustomerAdapter extends RecyclerView.Adapter<SessionWeek
 
             int range = 0;
             for (int i = 0; i < modelWeekList.size(); i++) {
-                long createdDateInMilli2 = Utility.converToMilliSecondsForSession(modelWeekList.get(i).getFromDate());
-                if (createdDateInMilli2 > createdDateInMilli) {
-                    if (range == 0)
-                        range = i;
-
+                long createdDateInMilli2 = Utility.converToMilliSecondsForSession(modelWeekList.get(i).getToDate());
+                if (createdDateInMilli2 >= createdDateInMilli) {
+                        range = i;break;
                 }
-                //    Log.w("@@@",String.valueOf(createdDateInMilli2));
+
             }
-            if (range == 0) {
-                modelWeekList.subList(0, modelWeekList.size() - 1).clear();
-            } else {
+            if (range != 0) {
                 modelWeekList.subList(0, range).clear();
             }
             modelWeekList.size();

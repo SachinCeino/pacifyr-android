@@ -39,6 +39,7 @@ import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.model.ModelSpecialityByCategory;
 import com.pacifyr.client.model.ModelSpecialityByEmotion;
 import com.pacifyr.client.model.interfaces.CallChatEventListner;
+import com.pacifyr.client.network.Auth;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.quickblox.activities.PermissionsActivity;
@@ -213,6 +214,7 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
         selectFeelingRlay.setVisibility(View.VISIBLE);
 
         listPacifyrRlay.setVisibility(View.GONE);
+        userDetailWeb(getUserID());
 
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -337,6 +339,7 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
                 AjaxCallback cb = new AjaxCallback<JSONObject>() {
                     @Override
                     public void callback(String url, JSONObject json, AjaxStatus status) {
+                        Auth.httpStatusFilter(getApplicationContext(), status.getCode());
                         try {
                             hideProgress();
                             ModelSpecialityByEmotion modelSpeciltyByEmotion= GsonUtils.getInstance().gsonToModelSpeciltyByEmotion(json);
@@ -444,6 +447,7 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
             AjaxCallback cb = new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, JSONObject json, AjaxStatus status) {
+                    Auth.httpStatusFilter(getApplicationContext(), status.getCode());
                     try {
                         String js = json.toString();
 
@@ -538,6 +542,7 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
             AjaxCallback cb = new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, JSONObject json, AjaxStatus status) {
+                    Auth.httpStatusFilter(getApplicationContext(), 200);
                     try {
                         hideProgress();
                         MListPositiveEmotions modelListPosEmotions= GsonUtils.getInstance().gsonToMListPositiveEmotions(json);
@@ -1142,12 +1147,14 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
     protected void onStop() {
         super.onStop();
         EventBus.getDefault().unregister(this);
+        Auth.foreground("");
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         EventBus.getDefault().register(this);
+        Auth.foreground(ConnectToPacifyrActivity.class.getSimpleName());
 
     }
 }

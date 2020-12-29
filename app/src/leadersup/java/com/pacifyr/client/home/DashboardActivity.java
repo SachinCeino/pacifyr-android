@@ -24,9 +24,9 @@ import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
+import com.pacifyrapp.utilitylibrary.Dialog;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
-import com.github.javiersantos.appupdater.AppUpdater;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.pacifyr.client.Payment.PaymentFragment;
@@ -143,15 +143,15 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
     }
 
 
-    AppUpdater appUpdater;
+//    AppUpdater appUpdater;
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (isValid(appUpdater))
+       /* if (isValid(appUpdater))
         {
             appUpdater.stop();
-        }
+        }*/
 
     }
 
@@ -167,8 +167,8 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
         context = DashboardActivity.this;
         //    permissionCheck();
         /**the library will work in background for checking new update available or not**/
-        appUpdater = new AppUpdater(this);
-        appUpdater.start();
+       /* appUpdater = new AppUpdater(this);
+        appUpdater.start();*/
 
         connectToPacifyr = findViewById(R.id.connect_pacifyr_llay);
         leftPane = findViewById(R.id.left_pane);
@@ -379,10 +379,11 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
         logoutLlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                closePane(true);
                 hideRightLayActionbar();
-                setAlertStatusInBlue("log out", getResources().getString(R.string.signout_message), new View.OnClickListener() {
+                setAlertStatusInBlue("log out", getResources().getString(R.string.signout_message), new Dialog.onClick() {
                     @Override
-                    public void onClick(View v) {
+                    public void onAction(Dialog d) {
                         hideStatus();
                             /*PrefManager prefM= PrefManager.getInstance(getActivity());
                             prefM.clearSharedAll();*/
@@ -394,7 +395,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
                             startActivity(i);
                             finish();*/
                     }
-                });
+                } );
                 //Toast.makeText(getActivity(),"Logout",Toast.LENGTH_LONG).show();
             }
         });
@@ -563,17 +564,19 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
         leftLlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(mSlidingPaneLayout.isOpen()){
-                    mSlidingPaneLayout.closePane();
-
-                }else{
-                    mSlidingPaneLayout.openPane();
-                }
+                closePane(mSlidingPaneLayout.isOpen());
             }
         });
         showRightLayActionbar();
     }
 
+    public void closePane(boolean close){
+        if(close){
+            mSlidingPaneLayout.closePane();
+        }else{
+            mSlidingPaneLayout.openPane();
+        }
+    }
     private void showRightLayActionbar() {
 
         try {

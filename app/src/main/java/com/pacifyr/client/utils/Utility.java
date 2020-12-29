@@ -43,6 +43,7 @@ import com.google.firebase.dynamiclinks.PendingDynamicLinkData;
 import com.pacifyr.client.R;
 import com.pacifyr.client.activity.SplashScreen;
 import com.pacifyr.client.home.DashboardActivity;
+import com.pacifyr.client.model.HttpStatus;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 
 import java.io.BufferedOutputStream;
@@ -73,8 +74,7 @@ public class Utility {
     private static final int MY_PERMISSIONS_REQUEST_ESSENTIAL = 130;
     public static final int MY_PERMISSIONS_REQUEST_LOCATION_PERMISSION = 131;
     private static final String TAG = Utility.class.getSimpleName();
-    public static int colourcode=2;
-
+    public static int colourcode = 2;
 
     public static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 123;
     public static final int MY_PERMISSIONS_REQUEST_CAMERA = 124;
@@ -1082,10 +1082,18 @@ public class Utility {
                         }
                         if (deepLink != null) {
                             Log.d(TAG, "deep link " + deepLink);
-                            String code = deepLink.getLastPathSegment();
-                            Log.d(TAG, "deep link code " + code);
-                            if (code != null) {
-                                PrefManager.getInstance(context).putString(PrefManager.COUPON_CODE, code);
+                            String link = deepLink.toString();
+                            if (link.contains("/")) {
+                                String[] splits = link.split("/");
+                                if (splits != null && splits.length > 0) {
+                                    if (splits[splits.length - 2] != null && splits[splits.length - 2].equalsIgnoreCase("coupon")) {
+                                        String code = splits[splits.length - 1];
+                                        Log.d(TAG, "deep link code " + code);
+                                        if (code != null) {
+                                            PrefManager.getInstance(context).putString(PrefManager.COUPON_CODE, code);
+                                        }
+                                    }
+                                }
                             }
                         }
                         if (linkListener != null) {
@@ -1103,6 +1111,30 @@ public class Utility {
                         }
                     }
                 });
+    }
+
+    public static HttpStatus checkStatusCode(int code) {
+        HttpStatus httpStatus = new HttpStatus();
+        switch (code) {
+            case 500: {
+                return httpStatus;
+            }
+            case 200: {
+                httpStatus.setValid(true);
+                httpStatus.setMessage("Success");
+                return httpStatus;
+            }
+            case 401: {
+                httpStatus.setValid(false);
+                httpStatus.setMessage("Authentication required");
+                return httpStatus;
+            }
+            default: {
+                httpStatus.setValid(false);
+                httpStatus.setMessage("Something went wrong. PLease try later");
+                return httpStatus;
+            }
+        }
     }
 
     public static void getRealTimeLogging(Context context) {
@@ -1152,5 +1184,6 @@ public class Utility {
             // ...
         });
     }
+
 
 }

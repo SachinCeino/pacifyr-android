@@ -1,21 +1,25 @@
 package com.pacifyr.client.utils;
 
 import android.content.Context;
+import android.os.Build;
 import android.provider.Settings;
 import android.util.Log;
 
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.pacifyrapp.utilitylibrary.ToastHandler;
-import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
 import com.pacifyr.client.model.Installation;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.utility.AWSManager;
+import com.pacifyrapp.utilitylibrary.ToastHandler;
+import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 
 import org.json.JSONObject;
+
+import static com.pacifyr.client.utils.FirebaseLogging.getAndroidVersion;
+import static com.pacifyr.client.utils.FirebaseLogging.getAppVersion;
 
 /* PSEUDO CODE
 * retrieve the latest device token from the mobile operating system
@@ -141,6 +145,12 @@ public class AmazonSNSTokenHandler {
             input.putOpt("devicetoken", getFcmToken());
             input.putOpt("deviceType", PrefManager.DEVICETYPE);
             input.putOpt("applicationname", AWSManager.getProjectName(context));
+            if (isValid(Build.MODEL) && isValid(Build.MANUFACTURER))
+                input.putOpt("deviceModel", Build.MANUFACTURER + " " + Build.MODEL);
+            else
+                input.putOpt("deviceModel", "NA");
+            input.putOpt("appVersion", getAppVersion(context));
+            input.putOpt("osVersion", getAndroidVersion());
             Gson gson = new Gson();
             String json = gson.toJson(input);
             LogUtils.LOGD("install", "installationWeb : " + json);

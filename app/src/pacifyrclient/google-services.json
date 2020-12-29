@@ -15,8 +15,36 @@
       },
       "oauth_client": [
         {
-          "client_id": "904937773105-k5drdkf2uidvmgq3lk4cbqd02mbfaihh.apps.googleusercontent.com",
-          "client_type": 3
+          "client_id": "904937773105-p7ier7utjppmckbqif281ug79dqm67df.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pacifyr.pacifyrapp",
+            "certificate_hash": "b2ce8177bdb6a38b02b0ca06a6c122385e384172"
+          }
+        },
+        {
+          "client_id": "904937773105-kptirc41u9q7ksg0dsorsp3iklq3uo4t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pacifyr.pacifyrapp",
+            "certificate_hash": "d373a5a7f286eca52f0762fe8350439e30cd1ba8"
+          }
+        },
+        {
+          "client_id": "904937773105-8l1mfcd2ojt6qr4e26hjctqeeao5bdld.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pacifyr.pacifyrapp",
+            "certificate_hash": "11c7d8dc5bd8ac5ed36d2904c6f81ff0abcf7cbd"
+          }
+        },
+        {
+          "client_id": "904937773105-1cjr92cm50ntmb3q1jbbrtn67mhgvdlr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pacifyr.pacifyrapp",
+            "certificate_hash": "8ac501d28a658c5287329f987790582b69508ab3"
+          }
         }
       ],
       "api_key": [
@@ -25,15 +53,21 @@
         }
       ],
       "services": {
-        "analytics_service": {
-          "status": 1
-        },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
-        },
-        "ads_service": {
-          "status": 2
+          "other_platform_oauth_client": [
+            {
+              "client_id": "904937773105-k5drdkf2uidvmgq3lk4cbqd02mbfaihh.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "904937773105-89n9iadvd4q2247rvo8mr0pa82gkm0im.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.pacifyr.mainapp",
+                "app_store_id": "1276087747"
+              }
+            }
+          ]
         }
       }
     }

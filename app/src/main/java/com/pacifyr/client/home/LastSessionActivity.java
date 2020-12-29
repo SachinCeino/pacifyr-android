@@ -225,7 +225,7 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
         intent.putExtra("editable", editable);
         LastSessionActivity.isAudioCall = true;
         mysessions = true;
-        sessionid = sessionID;
+       // sessionid = sessionID;
        /* try {
             Activity activity = null;
             activity = ((AppChatNotUSe) AppChatNotUSe.getInstance()).getCurrentActivity();
@@ -259,7 +259,7 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
 
         if (isValid(getIntent().getExtras().getString("id"))) {
             mSessionId = getIntent().getExtras().getString("id") + "";
-            sessionid = getIntent().getExtras().getString("id") + "";
+           // sessionid = getIntent().getExtras().getString("id") + "";
         }
 
         if (getIntent().getExtras().containsKey("editable")) {
@@ -663,7 +663,11 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
                 if (isValid(mSessionDetailRoot.getStartTime()))
                     durationCtxv.setText(mSessionDetailRoot.getDuration() + " " + Utility.getStartFormatDate(mSessionDetailRoot.getStartTime(), getApplicationContext()));
                 if (isCustomer) {
-                    sessionCostCtxv.setText(Utility.getPriceSign(LastSessionActivity.this) + mSessionDetailRoot.getSessionCost());
+                    if (isValid(mSessionDetailRoot.getTimeSlotBookingId()))
+                        sessionCostCtxv.setText(Utility.getPriceSign(LastSessionActivity.this) + mSessionDetailRoot.getSessionCost()+getResources().getString(R.string.prepaid));
+                    else
+                        sessionCostCtxv.setText(Utility.getPriceSign(LastSessionActivity.this) + mSessionDetailRoot.getSessionCost());
+
                     if (isValid(mSessionDetailRoot.getPacifyr())) {
                         String pacName = mSessionDetailRoot.getPacifyr().getFirstName() + " " + mSessionDetailRoot.getPacifyr().getLastName();
                         pacifyrNameCtxv.setText(pacName);
@@ -722,7 +726,6 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
                         exist_cmt_list.add(new MComments("Video issues"));
                         exist_cmt_list.add(new MComments("Other"));
 
-                        LogUtils.LOGD("session", "LSA cmtlist sizee " + cmtlist.size());
                         if (isValid(cmtlist)) {
                             String cmt_edt = "";
                             for (int j = 0; j < cmtlist.size(); j++) {
@@ -765,7 +768,7 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
                             }
                         }
 
-                        LogUtils.LOGD("session", "LSA exist_cmt_list sizee " + exist_cmt_list.size());
+
                         commentsAdapter = new CommentsAdapter(LastSessionActivity.this, exist_cmt_list, click);
                         commentsAdapter.setEditable(editable);
                         commentsRcv.setAdapter(commentsAdapter);
@@ -800,6 +803,19 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
                 commentsAdapter.setEditable(editable);
                 commentsRcv.setAdapter(commentsAdapter);
 
+            }
+
+            if (!editable)
+            {
+                if (isValid(comments_cedt))
+                {
+                    comments_cedt.setFocusable(false);
+                    comments_cedt.setCursorVisible(false);
+                    comments_cedt.setLongClickable(false);
+                    comments_cedt.setClickable(false);
+                    comments_cedt.setFocusable(false);
+                    comments_cedt.setSelected(false);
+                }
             }
         } catch (Exception e) {
             LogUtils.LOGD("session", "SSA onSetValues exce " + e.getMessage());
@@ -1214,6 +1230,11 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
                 onBackPressed();
             }
         });
+        if (!editable) {
+            rightLlay.setVisibility(View.GONE);
+            submit_ctxv.setVisibility(View.GONE);
+        }
+
         rightLlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

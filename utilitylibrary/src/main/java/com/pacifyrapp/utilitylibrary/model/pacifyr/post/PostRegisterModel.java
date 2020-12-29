@@ -66,6 +66,16 @@ public class PostRegisterModel {
     private String appSource;
     private String address1;
     private Certification[] certification;
+    private String[] states;
+
+    public String[] getStates() {
+        return states;
+    }
+
+    public void setStates(String[] states) {
+        this.states = states;
+    }
+
     public void setCertification(ArrayList<Certification> certification) {
 
         this.certification = certification.toArray(new Certification[0]);

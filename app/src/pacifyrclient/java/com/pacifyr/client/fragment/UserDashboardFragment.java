@@ -20,8 +20,6 @@ import com.androidquery.callback.AjaxStatus;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.pacifyr.client.R;
-import com.pacifyr.client.adapter.EmotionSpecialityAdapter;
-import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.home.ConnectToPacifyrActivity;
@@ -31,6 +29,7 @@ import com.pacifyr.client.home.LastSessionActivity;
 import com.pacifyr.client.home.MySessionsActivity;
 import com.pacifyr.client.home.SessionSummaryActivity;
 import com.pacifyr.client.model.Session;
+import com.pacifyr.client.network.Auth;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.quickblox.chat.ui.activity.DialogsActivity;
@@ -40,7 +39,6 @@ import com.pacifyr.client.utility.BaseFragment;
 import com.pacifyr.client.utility.EventMessage;
 import com.pacifyr.client.utils.Utility;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.MEmotion;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelCustomerDashboard2;
 import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
@@ -73,7 +71,8 @@ import static com.pacifyr.client.network.NetworkService.modelAllEmotions;
 import static com.pacifyr.client.network.NetworkService.modelCustomerDashboard2;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_IMAGE_URL;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
-import static com.quickblox.sample.core.utils.ConnectivityUtils.isNetworkConnected;
+import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.TOKEN_EXPIRY_TIME;
+import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.TOKEN_REFRESH_TIME;
 
 public class UserDashboardFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
 
@@ -115,6 +114,10 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
     private int badgeCount=0;
     private ImageView image_logo;
 
+    private static boolean isVisible=false;
+    public static boolean getVisibility(){
+        return isVisible;
+    }
     public UserDashboardFragment() {
         // Required empty public constructor
     }
@@ -326,54 +329,21 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
         cb.header("AccessToken", token);
         aq.ajax(url, JSONObject.class, cb);
     }
-
+    @Override
+    public void onStop() {
+        super.onStop();
+        isVisible=false;
+    }
     @Override
     public void onResume() {
         super.onResume();
+        isVisible=true;
         ((DashboardActivity) getActivity()).changeActionBarTitleForFragments(getResources().getString(R.string.nav_mydashbord_title));
 
         try {
 
-                setLoading();
-                showProgress();
-                handleActionCustomerDashboard();
-                if (isValid(call_emotion)) {
-                    // feel_err_text.setVisibility(View.GONE);
-                    String emotionImg = GLOBAL_IMAGE_URL + call_emotion.getImage();
-                    String emotionTitle = call_emotion.getTitle();
-                    EmotionTitle = emotionTitle;
-                    if (isValidhtml(emotionImg)) {
-                        Picasso.with(getActivity()).load(emotionImg).into(feelImageDimv);
-                        float brightness = (float) 100;
-                        float[] colorMatrix = {
-                                0.33f, 0.33f, 0.33f, 0, brightness, //red
-                                0.33f, 0.33f, 0.33f, 0, brightness, //green
-                                0.33f, 0.33f, 0.33f, 0, brightness, //blue
-                                0, 0, 0, 1, 0    //alpha
-                        };
-                        ColorMatrix matrix = new ColorMatrix();
-                        matrix.setSaturation(0);
-                        ColorMatrixColorFilter filter = new ColorMatrixColorFilter(colorMatrix);
-                        feelImageDimv.setColorFilter(filter);
-                        feelTitleCtxv.setText(emotionTitle);
-                        if (isValid(feel_err_text)) {
-                            feel_err_text.setVisibility(View.GONE);
+            checkLastTimeLoginFiftyDaysExcceed();
 
-                        }
-
-                    }
-                } else {
-                    //feel_err_text.setVisibility(View.VISIBLE);
-                }
-                getUnratedSessions();
-//            loginToQuickblox();
-                setChatCountInfo();
-            if (prefM != null && prefM.getCompanyLogo() != null) {
-                Glide.with(getActivity()).load(UtilityNetworkService.GLOBAL_IMAGE_URL + prefM.getCompanyLogo()).into(image_logo);
-            }
-            else{
-                image_logo.setVisibility(View.GONE);
-            }
 
         }
         catch (Exception e)
@@ -388,7 +358,10 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
         AjaxCallback cb = new AjaxCallback<JSONObject>() {
             @Override
             public void callback(String url, JSONObject json, AjaxStatus status) {
-
+                /*
+                 *this must be the first line of any httpCallBacks
+                 */
+                Auth.httpStatusFilter(getActivity(),status.getCode());
                 try {
                     if (json != null) {
                         JSONArray results = json.getJSONArray("results");
@@ -411,6 +384,133 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
         new NetworkService().unratedSessions(cb);
     }
 
+
+    private void checkLastTimeLoginFiftyDaysExcceed() {
+        long mLastTimeLoginTimeStamp=prefM.getLoginTimeStamp();//1606362531198
+        long mCurrentDateTimeStamp=System.currentTimeMillis();
+
+        long defference=mCurrentDateTimeStamp - mLastTimeLoginTimeStamp;
+
+        if (defference > Long.parseLong(TOKEN_EXPIRY_TIME))// 60 days over
+        {
+            Auth.httpStatusFilter(getActivity(), 401);//logout user
+        } else if (defference > Long.parseLong(TOKEN_REFRESH_TIME)) {
+            //50days esceded
+            callRefreshAccessToken();
+        } else {
+
+            onResumeCommonAPICalls();
+        }
+    }
+
+    private void onResumeCommonAPICalls() {
+        setLoading();
+        showProgress();
+        handleActionCustomerDashboard();
+        if (isValid(call_emotion)) {
+            // feel_err_text.setVisibility(View.GONE);
+            String emotionImg = GLOBAL_IMAGE_URL + call_emotion.getImage();
+            String emotionTitle = call_emotion.getTitle();
+            EmotionTitle = emotionTitle;
+            if (isValidhtml(emotionImg)) {
+                Picasso.with(getActivity()).load(emotionImg).into(feelImageDimv);
+                float brightness = (float) 100;
+                float[] colorMatrix = {
+                        0.33f, 0.33f, 0.33f, 0, brightness, //red
+                        0.33f, 0.33f, 0.33f, 0, brightness, //green
+                        0.33f, 0.33f, 0.33f, 0, brightness, //blue
+                        0, 0, 0, 1, 0    //alpha
+                };
+                ColorMatrix matrix = new ColorMatrix();
+                matrix.setSaturation(0);
+                ColorMatrixColorFilter filter = new ColorMatrixColorFilter(colorMatrix);
+                feelImageDimv.setColorFilter(filter);
+                feelTitleCtxv.setText(emotionTitle);
+                if (isValid(feel_err_text)) {
+                    feel_err_text.setVisibility(View.GONE);
+
+                }
+
+            }
+        } else {
+            //feel_err_text.setVisibility(View.VISIBLE);
+        }
+        getUnratedSessions();
+//            loginToQuickblox();
+        setChatCountInfo();
+        if (prefM != null && prefM.getCompanyLogo() != null) {
+            Glide.with(getActivity()).load(UtilityNetworkService.GLOBAL_IMAGE_URL + prefM.getCompanyLogo()).into(image_logo);
+        }
+        else{
+            image_logo.setVisibility(View.GONE);
+        }
+    }
+
+
+    private void callRefreshAccessToken() {
+
+        try {
+            showProgress();
+            PrefManager prefM = PrefManager.getInstance(getActivity());
+            String token = prefM.getAccessToken();
+
+            String url = NetworkService.GLOBAL_URL + "refreshToken";
+            AjaxCallback cb = new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject json, AjaxStatus status) {
+                    try {
+                        hideProgress();
+                        if(json!=null) {
+                            if (json.has("accessToken"))
+                            {
+                                String updatedAccessToken=json.getString("accessToken");
+                                prefM.saveAccessToken(updatedAccessToken);
+                                /**
+                                 * update timestamp after 50days need to refresh the token**/
+                                long mTimeStamp = System.currentTimeMillis();
+                                prefM.saveLoginTimeStamp(String.valueOf(mTimeStamp));
+                                onResumeCommonAPICalls();
+                            }
+                            else {
+                                if (json.has("status"))
+                                {
+                                    String mStatus=json.getString("status");
+                                    if (mStatus.equals("error"))
+                                    {
+                                        Auth.httpStatusFilter(getActivity(), status.getCode());
+                                    }
+                                }
+                            }
+                            Log.w("EWERE",String.valueOf(json));
+                            Log.w("EWERE",String.valueOf(json));
+
+                        }
+
+                    } catch (Exception e) {
+
+                        hideProgress();
+                        Auth.httpStatusFilter(getActivity(), status.getCode());
+                    }
+                }
+            };
+
+            AQuery aq = new AQuery(getActivity());
+            cb.header("Content-Type", "application/json");
+            cb.header("AccessToken", token);
+            aq.ajax(url, JSONObject.class, cb);
+
+        }
+        catch (Exception ex)
+        {
+            hideProgress();
+
+            ex.printStackTrace();
+        }
+
+
+
+    }
+
     private void handleActionCustomerDashboard(){
 
         prefM= PrefManager.getInstance(getContext());
@@ -422,6 +522,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
             @Override
             public void callback(String url, JSONObject json, AjaxStatus status) {
 
+                Auth.httpStatusFilter(getContext(), status.getCode());
                 try {
                     hideProgress();
                     modelCustomerDashboard2= GsonUtils.getInstance().gsonToModelCustomerDashboard2(json);
@@ -719,7 +820,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
         daysTxv = view.findViewById(R.id.days_txv);
         cirPrefPacifyr = view.findViewById(R.id.cir_pref_pacifyr);
         llayTop = view.findViewById(R.id.llay_top);
-        image_logo = (ImageView) view.findViewById(R.id.image_logo);
+        image_logo = view.findViewById(R.id.image_logo);
 
         llay_bottom = view.findViewById(R.id.llay_bottom);
         pacifyr1Dimv = view.findViewById(R.id.pacifyr1_dimv);
@@ -805,11 +906,15 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
     public void onRefresh() {
         new Handler().postDelayed(new Runnable() {
             @Override public void run() {
-                swipeRefreshLayout.setRefreshing(false);
-                setLoading();
-                showProgress();
-                handleActionCustomerDashboard();
-                setChatCountInfo();
+                try {
+                    swipeRefreshLayout.setRefreshing(false);
+                    setLoading();
+                    showProgress();
+                    handleActionCustomerDashboard();
+                    setChatCountInfo();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }, 2000);
     }

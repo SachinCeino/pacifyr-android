@@ -59,13 +59,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:id="@+id/LinearLayout_phone"
+                android:background="@drawable/edittext_black_curve"
                 android:layout_marginTop="20dp">
-
-                <!--<com.hbb20.CountryCodePicker
-                    android:id="@+id/ccp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />-->
-
                 <Spinner
                     android:id="@+id/spinner"
                     android:layout_width="wrap_content"
@@ -88,11 +84,16 @@
 
             </LinearLayout>
 
-            <View
+            <TextView
+                android:id="@+id/TextView_phone_error"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/signup_view" />
-
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:text=""
+                android:visibility="gone"
+                android:textColor="@color/red"
+                android:textSize="12sp"
+                android:layout_marginTop="2dp"/>
         </LinearLayout>
 
 
@@ -173,6 +174,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:visibility="gone"
                 android:orientation="horizontal">
 
                 <View
@@ -200,6 +202,7 @@
                 android:id="@+id/facebook_rlay"
                 android:layout_width="match_parent"
                 android:layout_height="43dp"
+                android:visibility="gone"
                 android:layout_gravity="center"
                 android:background="@drawable/fb_signup_btn"
                 android:padding="10dp">

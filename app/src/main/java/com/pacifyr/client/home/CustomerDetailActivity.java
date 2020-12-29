@@ -8,9 +8,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import androidx.cardview.widget.CardView;
+import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,10 +29,10 @@ import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.quickblox.activities.CallActivity;
 import com.pacifyr.client.twilio.VideoActivity;
+import com.pacifyr.client.quickblox.util.NestedScroll;
 import com.pacifyr.client.utility.PacifyrAppCompactActivity;
 import com.pacifyr.client.utils.LogUtils;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
-import com.pacifyrapp.utilitylibrary.FlexLayout;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MEmotion;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MPastSessions;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
@@ -74,31 +74,33 @@ public class CustomerDetailActivity extends PacifyrAppCompactActivity {
 
 
     private int lastVisibleItem, totalItemCount;
-    private boolean isLoading=false;
-    private boolean isFullLoaded=false;
+    private boolean isLoading = false;
+    private boolean isFullLoaded = false;
     private int visibleThreshold = 2;
-    int flag=0;
-    private SwipeRefreshLayout swipeLay,search_swipe_lay;
-
-    private FlexLayout emptyFlay;
+    int flag = 0, skip = 0, limit = 20;
+    //    private TextView welcomeDtxv, emptyDtxv;
+    boolean isBackendError = false;
+    private SwipeRefreshLayout search_swipe_lay;
+    //    private FlexLayout emptyFlay;
     private DeviceFitImageView im;
-    private TextView welcomeDtxv, emptyDtxv;
-    boolean isBackendError=false;
-    ArrayList<MPastSessions.Results> pastsessions_list=new ArrayList<MPastSessions.Results>();
+    ArrayList<MPastSessions.Results> pastsessions_list = new ArrayList<MPastSessions.Results>();
 
-    public static MUser custListUser=null;
-    public static void start (Context context,MUser user) {
+    public static MUser custListUser = null;
+    private NestedScrollView nested_scroll;
+
+    public static void start(Context context, MUser user) {
 
         Intent intent = new Intent(context, CustomerDetailActivity.class);
-        CustomerDetailActivity.custListUser=user;
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS | Intent.FLAG_ACTIVITY_NO_HISTORY);
+        CustomerDetailActivity.custListUser = user;
+       //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS | Intent.FLAG_ACTIVITY_NO_HISTORY);
         context.startActivity(intent);
     }
-    public static void start (Activity context, MUser user) {
+
+    public static void start(Activity context, MUser user) {
 
         Intent intent = new Intent(context, CustomerDetailActivity.class);
         CustomerDetailActivity.custListUser=user;
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS | Intent.FLAG_ACTIVITY_NO_HISTORY);
+       // intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS | Intent.FLAG_ACTIVITY_NO_HISTORY);
         context.startActivity(intent);
     }
     @Override
@@ -124,26 +126,27 @@ public class CustomerDetailActivity extends PacifyrAppCompactActivity {
 
             emotionNameCtxv = findViewById(R.id.emotion_name_ctxv);
 
-            emptyDtxv = findViewById(R.id.empty_dtxv);
+           /* emptyDtxv = findViewById(R.id.empty_dtxv);
             emptyFlay = findViewById(R.id.empty_flay);
-            emptyFlay.setVisibility(View.VISIBLE);
-            swipeLay = findViewById(R.id.swipe_lay);
-            swipeLay.setVisibility(View.VISIBLE);
+            emptyFlay.setVisibility(View.VISIBLE);*/
+//            swipeLay = findViewById(R.id.swipe_lay);
+            nested_scroll = findViewById(R.id.nested_scroll);
+//            swipeLay.setVisibility(View.VISIBLE);
 
             layoutManager = new LinearLayoutManager(CustomerDetailActivity.this, LinearLayoutManager.VERTICAL, false);
             pacifyrListRcv.setLayoutManager(layoutManager);
-            swipeLay.setColorSchemeResources(R.color.md_blue_300, R.color.colorPrimary, R.color.colorPrimaryDark, R.color.md_amber_300);
-            swipeLay.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+//            swipeLay.setColorSchemeResources(R.color.md_blue_300, R.color.colorPrimary, R.color.colorPrimaryDark, R.color.md_amber_300);
+            /*swipeLay.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                 @Override
                 public void onRefresh() {
                     swipeLay.setRefreshing(true);
                     webGetPastSessions(0, 20);
 
                 }
-            });
+            });*/
 
             setAdapter();
-            webGetPastSessions(0,20);
+            webGetPastSessions(skip, limit);
 
 
 
@@ -171,10 +174,18 @@ public class CustomerDetailActivity extends PacifyrAppCompactActivity {
                         }
                     }
                 }
-            }else{
+            } else {
                 NetworkService.webListEmotions(CustomerDetailActivity.this);
             }
             emotionCimv.setColorFilter(Color.parseColor("#ffffff"));
+
+            nested_scroll.setOnScrollChangeListener(new NestedScroll() {
+                @Override
+                public void onScroll() {
+                    skip += 20;
+                    webGetPastSessions(skip, limit);
+                }
+            });
 
         }
         catch (Exception ex)
@@ -244,8 +255,7 @@ public class CustomerDetailActivity extends PacifyrAppCompactActivity {
                        
 
 
-                    }
-                    catch(Exception excp){
+                    } catch (Exception excp) {
                         hideProgress();
                         excp.printStackTrace();
                     }
@@ -254,10 +264,14 @@ public class CustomerDetailActivity extends PacifyrAppCompactActivity {
             AQuery aq = new AQuery(CustomerDetailActivity.this);
             cb.header("Content-Type", "application/json");
             //cb.header("AccessToken",token);
-            cb.header("AccessToken",token);
-            url = GLOBAL_URL+"session/pacifyr/all?userId="+custListUser.getId()+"&skip="+skip+"&limit="+limit;
-            
-            aq.ajax(url,JSONObject.class, cb);
+            cb.header("AccessToken", token);
+            if (!isCallActive) {
+                url = GLOBAL_URL + "session/pacifyr/all?userId=" + custListUser.getId() + "&skip=" + skip + "&limit=" + limit;
+            } else {
+                url = GLOBAL_URL + "session/pacifyr/all?userId=" + custListUser.getId() + "&skip=" + skip + "&limit=" + limit + "&type=session_started";
+            }
+
+            aq.ajax(url, JSONObject.class, cb);
         }
         catch (Exception e) {
             hideProgress();
@@ -267,14 +281,14 @@ public class CustomerDetailActivity extends PacifyrAppCompactActivity {
     private void setAdapter() {
         try {
 
-            emptyFlay.setVisibility(View.VISIBLE);
-            emptyDtxv.setText("Loading ..");
-            if(isValid(mPastSessions)) {
-                pastsessions_list= mPastSessions.getResultsList();
-                if(isValid(pastsessions_list)) {
-                  //  final long total_count= mPastSessions.getTotal_count();
-                    emptyFlay.setVisibility(View.GONE);
-                    adapter=new ListCustomerSessionAdapter(CustomerDetailActivity.this,pastsessions_list);
+           /* emptyFlay.setVisibility(View.VISIBLE);
+            emptyDtxv.setText("Loading ..");*/
+            if (isValid(mPastSessions)) {
+                pastsessions_list = mPastSessions.getResultsList();
+                if (isValid(pastsessions_list)) {
+                    //  final long total_count= mPastSessions.getTotal_count();
+//                    emptyFlay.setVisibility(View.GONE);
+                    adapter = new ListCustomerSessionAdapter(CustomerDetailActivity.this, pastsessions_list);
                     pacifyrListRcv.setItemAnimator(new DefaultItemAnimator());
                     pacifyrListRcv.setAdapter(adapter);
 
@@ -322,12 +336,12 @@ public class CustomerDetailActivity extends PacifyrAppCompactActivity {
                     adapter =new ListCustomerSessionAdapter(CustomerDetailActivity.this);
                     pacifyrListRcv.setItemAnimator(new DefaultItemAnimator());
                     pacifyrListRcv.setAdapter(adapter);
-                    emptyFlay.setVisibility(View.VISIBLE);
+//                    emptyFlay.setVisibility(View.VISIBLE);
 
-                    if(flag==0)
+                   /* if(flag==0)
                         emptyDtxv.setText("Loading ..");
                     else
-                        defSetText(emptyDtxv,"No items in your feed");
+                        defSetText(emptyDtxv,"No items in your feed");*/
 
                 }
             }
@@ -336,12 +350,12 @@ public class CustomerDetailActivity extends PacifyrAppCompactActivity {
                 adapter =new ListCustomerSessionAdapter(CustomerDetailActivity.this);
                 pacifyrListRcv.setItemAnimator(new DefaultItemAnimator());
                 pacifyrListRcv.setAdapter(adapter);
-                emptyFlay.setVisibility(View.VISIBLE);
+//                emptyFlay.setVisibility(View.VISIBLE);
 
-                if(flag==0)
+               /* if(flag==0)
                     emptyDtxv.setText("Loading ..");
                 else
-                    defSetText(emptyDtxv,"No items in your feed");
+                    defSetText(emptyDtxv,"No items in your feed");*/
             }
             flag++;
 
@@ -446,12 +460,12 @@ public class CustomerDetailActivity extends PacifyrAppCompactActivity {
     public void onCustomerNotifyEvent(CustomerNotifyEvent event) {
         if(event.isSuccess)
         {
-            if (isValid(swipeLay)) {
+           /* if (isValid(swipeLay)) {
                 if (swipeLay.isRefreshing()) {
                     swipeLay.setRefreshing(false);
 
                 }
-            }
+            }*/
             LogUtils.LOGD("jithish", "FF onNotifyEvent");
             if (event.isPaged) {
                 if (isValid(mPastSessionsPaged)) {
@@ -487,12 +501,12 @@ public class CustomerDetailActivity extends PacifyrAppCompactActivity {
 
     @Override
     public void onBackPressed() {
-        finish();
+
         if (isCallActive) {
             Intent i = new Intent(CustomerDetailActivity.this, VideoActivity.class);
             i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(i);
         }
-
+        finish();
     }
 }

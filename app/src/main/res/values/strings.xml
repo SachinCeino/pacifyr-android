@@ -70,7 +70,7 @@
     <string name="CRISIS_INFO">CRISIS INFO</string>
     <string name="crisis_info">crisis info</string>
 
-    <string name="signout_message">Do you want to log out?</string>
+    <string name="signout_message">Are you sure you want to logout ?</string>
 
 
     <string name="suicide_header">National Suicide Prevention Lifeline</string>
@@ -201,7 +201,7 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="sorry_could_not_complete_action">Sorry, could not complete this action. Please try later</string>
     <string name="invalid_coupon_code">Invalid coupon code</string>
     <string name="waiting_for_confirmation">Waiting for confirmation</string>
-    <string name="no_prescription">Prescription has not been added by provider</string>
+    <string name="no_prescription">Prescription has not been added by the provider</string>
     <string name="prescription">Prescription</string>
     <string name="change_emotion">Change Emotion</string>
     <string name="no_appointments">No appointments available</string>
@@ -226,6 +226,11 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="cancelled_reason">Reason for Cancellation</string>
     <string name="account_was_deleted">Account was deleted</string>
     <string name="please_continue_or_cancel_payment">Please continue or cancel the payment process. Press OK to go to payment page.</string>
+    <string name="Please_enter_verification_code">Please enter verification code</string>
+    <string name="Please_enter_your_phone_number">Please enter your phone number</string>
+    <string name="Invalid_phone_number_format">Invalid phone number format. Check the phone number you entered and the country code</string>
+    <string name="State_you_are_licensed_to_practise">State</string>
+    <string name="prepaid">" (Prepaid)"</string>
 
 
 </resources>

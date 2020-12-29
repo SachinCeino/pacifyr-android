@@ -57,20 +57,20 @@
     <string name="login_fb">continue with facebook</string>
     <string name="log_out">LogOut</string>
     <string name="prompt_name">Name</string>
-    <string name="year_of_birth">Year of birth</string>
+    <string name="year_of_birth">Date of birth</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_collage">Enter your college/University</string>
     <string name="prompt_amont">Enter amount</string>
     <string name="title_activity_login">Sign in</string>
     <string name="prompt_password">Password</string>
     <string name="prompt_phone">Phone number</string>
-    <string name="signup_fb">Sign up via facebook</string>
+    <string name="signup_fb">Register via facebook</string>
     <string name="e_phonenumber">Enter your phone number </string>
     <string name="e_con_code">Enter confirmation code</string>
     <string name="phone">Phone number</string>
     <string name="comments">Add a comment.</string>
     <string name="otp_hint">Please enter the verification code that was sent to </string>
-    <string name="create_account">create account</string>
+    <string name="create_account">Create account</string>
     <string name="verify_phone">Verify phone number</string>
     <string name="submit">Submit</string>
     <string name="send">Send</string>
@@ -79,7 +79,7 @@
     <string name="agree_terms_alert">Please accept our Terms of use and Privacy policy</string>
     <string name="term_of_use">OMHealthCare Terms of Use</string>
     <string name="terms_of_use">Terms of Use</string>
-    <string name="send_confirmcode">send confirmation code </string>
+    <string name="send_confirmcode">Send confirmation code </string>
     <string name="didnt_get_code">Did not receive the verification code? Make sure the number entered is correct or tap on resend</string>
     <string name="action_sign_in">Sign in or Register</string>
     <string name="action_sign_in_short">Sign in</string>
@@ -369,5 +369,6 @@
 
     <string name="main_font_medium">Avenir-Medium.ttf</string>
     <string name="free_pacifyr">freePacifyr</string>
+    <string name="please_login_to_continue">Session expired. Please login to continue.</string>
 
 </resources>

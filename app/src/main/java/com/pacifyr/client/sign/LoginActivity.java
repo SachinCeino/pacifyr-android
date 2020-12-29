@@ -6,13 +6,17 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.androidquery.AQuery;
@@ -38,6 +42,7 @@ import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.home.DashboardActivity;
 import com.pacifyr.client.model.ItemData;
+import com.pacifyr.client.network.Auth;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.quickblox.chat.utils.qb.callback.QbEntityCallbackImpl;
@@ -99,9 +104,19 @@ public class LoginActivity extends PacifyrActivity {
     private String qbID;
     private Context context;
     private MainTextView sms_text_login;
+    private TextView TextView_phone_error;
+    private LinearLayout LinearLayout_phone;
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Auth.foreground("");
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Auth.foreground(this.getClass().getName());
         setContentView(R.layout.activity_login_user);
         try {
             fbLogout();
@@ -112,6 +127,8 @@ public class LoginActivity extends PacifyrActivity {
             context = LoginActivity.this;
             prefM = PrefManager.getInstance(context);
             sms_text_login = findViewById(R.id.sms_text_login);
+            TextView_phone_error = findViewById(R.id.TextView_phone_error);
+            LinearLayout_phone = findViewById(R.id.LinearLayout_phone);
 
             spinner = findViewById(R.id.spinner);
             phoneCedit = findViewById(R.id.phone_cedit);
@@ -238,13 +255,33 @@ public class LoginActivity extends PacifyrActivity {
                 }
             });
 
+            phoneCedit.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                    TextView_phone_error.setVisibility(View.GONE);
+                    makeViewBackgroundBlack(LinearLayout_phone);
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    TextView_phone_error.setVisibility(View.GONE);
+                    makeViewBackgroundBlack(LinearLayout_phone);
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    TextView_phone_error.setVisibility(View.GONE);
+                    makeViewBackgroundBlack(LinearLayout_phone);
+                }
+            });
+
             loginRlay = findViewById(R.id.login_rlay);
             loginRlay.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     //  validRegister();
                     countryData = (ItemData) spinner.getSelectedItem();
-                    if (isValid(countryData.getCode())
+                   /* if (isValid(countryData.getCode())
                         &&countryData.getCode().equals("+91"))
                     {
                         if (phoneCedit.getText().length()<10)
@@ -252,7 +289,8 @@ public class LoginActivity extends PacifyrActivity {
                             phoneCedit.setError("10 digit number required");
                             return;
                         }
-                    }
+                    }*/
+
                     phoneVerifyWeb();
 
                 }
@@ -260,6 +298,18 @@ public class LoginActivity extends PacifyrActivity {
 
             sms_text_login.setText(getResources().getString(R.string.app_name) + " " + getResources().getString(R.string.sms_text_login));
 
+            spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                    selectRemoteConfigUrl(i);
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView) {
+
+                }
+            });
+            selectRemoteConfigUrl(spinner.getSelectedItemPosition());
 
         }
         catch (Exception e)
@@ -271,7 +321,20 @@ public class LoginActivity extends PacifyrActivity {
 
     }
 
+    public void  makeViewBackgroundBlack(View mView)
+    {
+        mView.setBackground(getResources().getDrawable(R.drawable.edittext_black_curve));
+    }
 
+    public void  makeViewBackgroundRed(View mView)
+    {
+        mView.setBackground(getResources().getDrawable(R.drawable.edittext_red_curve));
+    }
+
+    private void makeAlertMessageInTextView(TextView textView_name_error, String error) {
+        textView_name_error.setText(error);
+        textView_name_error.setVisibility(View.VISIBLE);
+    }
     @Override
     protected View getSnackbarAnchorView() {
         return findViewById(R.id.percent_rlay);
@@ -324,6 +387,26 @@ public class LoginActivity extends PacifyrActivity {
             Toast.makeText(LoginActivity.this,e.getMessage(),Toast.LENGTH_LONG);
             //  LogUtils.LOGD("sign","lA onCreate exception "+e.getMessage());
         }
+    }
+
+    public boolean isValidMobile(CustomEditText phone_tv, String error) {
+        if (phone_tv != null) {
+            if (isValid(phone_tv.getText() + "")) {
+                if (isValidMobile(phone_tv.getText().toString())) {
+                    makeViewBackgroundBlack(LinearLayout_phone);
+                    return true;
+                }
+                else {
+                    error=getResources().getString(R.string.Invalid_phone_number_format);
+                }
+            }
+        }
+        makeViewBackgroundRed(LinearLayout_phone);
+        makeAlertMessageInTextView(TextView_phone_error,error);
+        return false;
+
+        //String phone=phone_tv.getText().toString();
+        //return android.util.Patterns.PHONE.matcher(phone).matches();
     }
 
     public void backpress(View view) {

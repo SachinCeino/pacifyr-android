@@ -18,6 +18,7 @@ import androidx.multidex.MultiDex;
 
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
+import com.pacifyrapp.utilitylibrary.Dialog;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.facebook.login.LoginManager;
 import com.pacifyr.client.fragment.EarningsFragment;
@@ -238,9 +239,9 @@ public class PacifyrDashboardActivity extends PacifyrAppCompactActivity {
                 @Override
                 public void onClick(View v) {
                     hideRightLayActionbar();
-                    setAlertStatusInBlue("Logout", "Do you want to Sign out?", new View.OnClickListener() {
+                    setAlertStatusInBlue("Logout", "Do you want to Sign out?", new Dialog.onClick() {
                         @Override
-                        public void onClick(View v) {
+                        public void onAction(Dialog d) {
                             try {
                                 hideStatus();
                                 LoginManager mLoginManager = LoginManager.getInstance();

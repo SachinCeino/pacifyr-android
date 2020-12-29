@@ -48,6 +48,7 @@ public class PrefManager {
     public static final String EMOTION_IMAGE = "emotionImgae";
     public static final String EMOTION_NAME = "emotionName";
     public static final String COMPANY_LOGO = "companyLogo";
+    public static final String LOGINTIME_STAMP = "LOGINTIME_STAMP";
     public static final String IS_ONLINE = "isOnline";
     public static final String IS_CHAT_SUBSCRIPTION = "isChatEnable";
     public static final String ACCESSTOKEN = "AccessToken";
@@ -783,5 +784,16 @@ public class PrefManager {
 
     public String getCompanyLogo(){
         return getSharedString(COMPANY_LOGO, null);
+    }
+
+    public void saveLoginTimeStamp(String  timeStamp)
+    {
+        putSharedString(LOGINTIME_STAMP,timeStamp);
+
+    }
+
+    public long getLoginTimeStamp()
+    {
+        return Long.parseLong(getSharedString(LOGINTIME_STAMP,null));
     }
 }

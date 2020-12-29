@@ -308,6 +308,10 @@ public abstract class BaseConversationFragment extends BaseToolBarFragment imple
                                 new NetworkService().sendCardAddedNotification(getCallPacifyr().getId(), FREE_MINUTES_OVER, new AjaxCallback<JSONObject>() {
                                     @Override
                                     public void callback(String url, JSONObject json, AjaxStatus status) {
+                                        /*
+                                         *this must be the first line of any httpCallBacks
+                                         */
+//                                        Auth.httpStatusFilter(getActivity(),status.getCode());
                                         if (json != null) {
                                             freeMinuteAlert0 = true;
                                         }
@@ -322,6 +326,10 @@ public abstract class BaseConversationFragment extends BaseToolBarFragment imple
                                 new NetworkService().sendCardAddedNotification(getCallPacifyr().getId(), FREE_MINUTES_5, new AjaxCallback<JSONObject>() {
                                     @Override
                                     public void callback(String url, JSONObject json, AjaxStatus status) {
+                                        /*
+                                         *this must be the first line of any httpCallBacks
+                                         */
+//                                        Auth.httpStatusFilter(getActivity(),status.getCode());
                                         if (json != null) {
                                             freeMinuteAlert5 = true;
                                         }
@@ -336,6 +344,10 @@ public abstract class BaseConversationFragment extends BaseToolBarFragment imple
                                 new NetworkService().sendCardAddedNotification(getCallPacifyr().getId(), FREE_MINUTES_10, new AjaxCallback<JSONObject>() {
                                     @Override
                                     public void callback(String url, JSONObject json, AjaxStatus status) {
+                                        /*
+                                         *this must be the first line of any httpCallBacks
+                                         */
+//                                        Auth.httpStatusFilter(getActivity(),status.getCode());
                                         if (json != null) {
                                             freeMinuteAlert10 = true;
                                         }

@@ -28,13 +28,14 @@
                     android:layout_below="@+id/online_switch_llay"
                     android:layout_marginBottom="5dp"
                     android:padding="5dp"
+                    android:layout_above="@+id/grid_balls"
                     android:id="@+id/missed_chat_rlay">
 
                     <ImageView
                         android:id="@+id/image_logo"
                         android:layout_centerHorizontal="true"
-                        android:layout_width="100dp"
-                        android:layout_height="50dp"
+                        android:layout_width="@dimen/company_logo_w"
+                        android:layout_height="@dimen/company_logo_h"
                         android:scaleType="centerInside"
                         android:layout_marginBottom="5dp" />
 
@@ -49,7 +50,7 @@
                         android:layout_marginLeft="30dp"
                         android:layout_alignParentLeft="true"
                         android:id="@+id/unread_chat_ctxv"
-                        android:text="un read" />
+                        android:text="" />
 
                     <com.pacifyr.client.customview.MainTextView
                         android:layout_width="wrap_content"

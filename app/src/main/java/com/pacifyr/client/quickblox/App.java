@@ -8,12 +8,17 @@ import android.util.Log;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.multidex.MultiDex;
 
-import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
+import com.pacifyr.client.R;
+import com.pacifyr.client.application.RemoteConfig;
+import com.pacifyr.client.network.Auth;
 import com.pacifyr.client.quickblox.chat.models.SampleConfigs;
 import com.pacifyr.client.quickblox.chat.utils.Consts;
 import com.pacifyr.client.quickblox.chat.utils.configs.ConfigUtils;
 import com.pacifyr.client.quickblox.services.Call_Service;
 import com.pacifyr.client.quickblox.util.QBResRequestExecutor;
+import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
 import com.quickblox.auth.session.QBSettings;
 import com.quickblox.sample.core.CoreApp;
 import com.quickblox.sample.core.utils.ActivityLifecycle;
@@ -30,6 +35,7 @@ public class App extends CoreApp {
     private static String TAG = App.class.getSimpleName();
     private static App instance;
     private QBResRequestExecutor qbResRequestExecutor;
+    private FirebaseRemoteConfig mFirebaseRemoteConfig;
 
 
     public static App getInstance() {
@@ -57,10 +63,29 @@ public class App extends CoreApp {
             Log.e(TAG, "Exception " + Call_Service.class.getSimpleName() + " cannot be started");
             e.printStackTrace();
         }
+
+        Auth.scanUpdates(this);
         /**/
     }
 
-    private void initApplication(){
+    private void initRemoteConfig() {
+        mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
+        FirebaseRemoteConfigSettings configSettings = new FirebaseRemoteConfigSettings.Builder()
+                .setMinimumFetchIntervalInSeconds(RemoteConfig.REMOTE_FETCH_INTERVAL_SECONDS)
+                .setFetchTimeoutInSeconds(RemoteConfig.REMOTE_FETCH_TIMEOUT_SECONDS)
+                .build();
+        mFirebaseRemoteConfig.setDefaultsAsync(R.xml.remote_config_defaults);
+        mFirebaseRemoteConfig.setConfigSettingsAsync(configSettings);
+    }
+
+    public FirebaseRemoteConfig getRemoteConfig() {
+        if (mFirebaseRemoteConfig == null) {
+            initRemoteConfig();
+        }
+        return mFirebaseRemoteConfig;
+    }
+
+    private void initApplication() {
         instance = this;
     }
 

@@ -43,12 +43,14 @@ import com.pacifyr.client.event.CallDetailEvent;
 import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.fragment.schedule.ScheduleBottomSheetFragment;
 import com.pacifyr.client.home.ConnectToSinglePacifyrActivity;
+import com.pacifyr.client.network.Auth;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.quickblox.activities.CallActivity;
 import com.pacifyr.client.quickblox.chat.utils.chat.ChatHelper;
 import com.pacifyr.client.quickblox.chat.utils.qb.QbDialogHolder;
 import com.pacifyr.client.quickblox.db.DbHelper;
+import com.pacifyr.client.sign.LoginPhoneActivity;
 import com.pacifyr.client.sign.SignActivity;
 import com.pacifyr.client.twilio.VideoActivity;
 import com.pacifyr.client.utils.AmazonSNSTokenHandler;
@@ -1124,6 +1126,7 @@ public abstract class PacifyrAppCompactActivity  extends PacifyrActivity {
                                     getPrefManager().saveBaseToken(basetoken);
                                     hideProgress();
 
+                                    Auth.scanUpdates(PacifyrAppCompactActivity.this);
                                     new Handler().postDelayed(new Runnable() {
                                         @Override
                                         public void run() {

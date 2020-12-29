@@ -62,7 +62,7 @@
     <string name="CRISIS_INFO">CRISIS INFO</string>
     <string name="crisis_info">Crisis Info</string>
 
-    <string name="signout_message">Do you want to Sign out?</string>
+    <string name="signout_message">Are you sure you want to logout ?</string>
 
 
     <string name="suicide_header">National Suicide Prevention Lifeline</string>
