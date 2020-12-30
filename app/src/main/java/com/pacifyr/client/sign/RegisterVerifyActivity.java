@@ -96,7 +96,12 @@ public class RegisterVerifyActivity extends PacifyrActivity {
             mAuth = FirebaseAuth.getInstance();
 
             otpsendText.setText(phoneText+" "+phoneRegisterSub);
-
+            pinview.setPinViewEventListener(new Pinview.PinViewEventListener() {
+                @Override
+                public void onDataEntered(Pinview pinview, boolean fromUser) {
+                    hideKeyboard();
+                }
+            });
             createAccountRlay.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
