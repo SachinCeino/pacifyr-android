@@ -2659,7 +2659,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
 
             PrefManager prefM = PrefManager.getInstance(PacifyrActivity.this);
             String token = prefM.getAccessToken();
-
+            if (!isValid(token))return;
             String url = GLOBAL_URL + "user/profile/" + id;
             AjaxCallback cb = new AjaxCallback<JSONObject>() {
                 @Override
