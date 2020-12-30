@@ -375,20 +375,6 @@
                    swipedeck:max_visible="3"
                    swipedeck:render_above="true"
                    swipedeck:rotation_degrees="15" />
-
-            <com.pacifyr.client.customview.MainTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/no_pacifyr_ctxv"
-                android:visibility="gone"
-                android:layout_marginTop="50dp"
-                android:textColor="@color/colorPrimary"
-                android:textSize="@dimen/sp16"
-                android:gravity="center"
-                android:text="@string/no_pacifyr"/>
-
-
-
         </LinearLayout>
 
     </RelativeLayout>
@@ -415,5 +401,14 @@
 
     </RelativeLayout>
 
-
+    <com.pacifyr.client.customview.MainTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/no_pacifyr_ctxv"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/sp16"
+        android:gravity="center"
+        android:visibility="gone"
+        android:layout_centerInParent="true"
+        android:text="@string/no_pacifyr"/>
 </RelativeLayout>

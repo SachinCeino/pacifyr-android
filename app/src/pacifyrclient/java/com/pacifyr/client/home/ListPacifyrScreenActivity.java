@@ -212,6 +212,8 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
                 }
             else
                 {
+                    if(isValid(specialistAdapter))
+                        specialistAdapter.clear();
                     if (noPacifyrCtxv!=null)
                     noPacifyrCtxv.setVisibility(View.VISIBLE);
 
@@ -399,12 +401,11 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
                 if (!pacifyr_SearchView.isIconified()) {
                     pacifyr_SearchView.onActionViewCollapsed();
                 }
-
+                setSearchQuery("");
                 showAllFlag = getShowallCbox().isChecked();
                 if (isValid(specialistAdapter))
                 specialistAdapter.clearSelection();
                 specialistAdapter.setSelected(0);
-                webSearchPacifyrWOptions(customerEmotion);
                 return false;
             }
         });
@@ -677,7 +678,7 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
 
     public void webSearchPacifyrWOptions(String emotion) {
         try{
-
+            noPacifyrCtxv.setVisibility(View.GONE);
             pSearchPacifyrWOptionsResponse=null;
             setLoading("loading...");
             showProgress();
@@ -854,7 +855,7 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
 
            // String url = GLOBAL_URL + getRoleSearchMap().get(prefM.getCustomerRole());
             String url = GLOBAL_URL +"search/pacifyrs";
-
+            noPacifyrCtxv.setVisibility(View.GONE);
             AjaxCallback cb = new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, JSONObject json, AjaxStatus status) {
@@ -911,19 +912,18 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
     }
 
     private void setAdapterPacifyrSearchFRomSearchView(ArrayList<MUser> pacifyrList) {
-        if (isValid(specialistAdapter))
-        {
-            specialistAdapter.clearSelection();
-        }
         if(isValid(pacifyrList)) {
+            if (isValid(specialistAdapter))
+            {
+                specialistAdapter.clearSelection();
+            }
             noPacifyrCtxv.setVisibility(View.GONE);
             cardStack.setVisibility(View.VISIBLE);
             adapter = new SwipeDeckBrowsePacifyerAdapter(pacifyrList, ListPacifyrScreenActivity.this,emoSelected != null);
             cardStack.setAdapter(adapter);
 //            adapter.filter(getSearchQuery());
         }else {
-            cardStack.setVisibility(View.GONE);
-            noPacifyrCtxv.setVisibility(View.VISIBLE);
+            webSearchPacifyrWOptions(customerEmotion);
         }
     }
 
