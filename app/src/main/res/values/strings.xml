@@ -58,7 +58,7 @@
     <string name="request">Request</string>
     <string name="year">Year</string>
     <string name="payout">PAYOUT</string>
-    <string name="no_pacifyr">There are no Providers available for selected Category.</string>
+    <string name="no_pacifyr">No providers available.</string>
     <string name="educations">Education</string>
 
     <string name="policy_documents">policy documents</string>
@@ -126,7 +126,7 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="registration_failed">Registration failed</string>
     <string name="failed_register_message">Your mobile number is already registered. Please sign in</string>
     <string name="select_specialisation">Select a specialization</string>
-    <string name="no_wellness_experts_category">No Providers for the selected category.</string>
+    <string name="no_wellness_experts_category">No providers available.</string>
     <string name="please_try_again">Please try again</string>
     <string name="success">success</string>
     <string name="contact_us">SUPPORT</string>
