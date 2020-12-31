@@ -44,7 +44,12 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
 
@@ -70,7 +75,8 @@ public class MySessionsActivity extends PacifyrAppCompactActivity {
     private String accessToken,userid;
 
     int skip,limit;
-
+    String WeekStartDate,FirstDateOfMonth,fromDYear;
+    String WeekEndDate,lastMonthDate,toDYear;
     public static void start(Activity activity) {
         Intent intent = new Intent(activity, MySessionsActivity.class);
         activity.startActivity(intent);
@@ -99,19 +105,49 @@ public class MySessionsActivity extends PacifyrAppCompactActivity {
             DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
             final String fromDateWeek = formatter.print(startofWeek);
             final String fromDateMonth = formatter.print(startofMonth);
-            final String fromDateYear = formatter.print(startofYear);
-            final String toDate = formatter.print(now);
+            final String fromDateYear= String.valueOf(Calendar.getInstance().get(Calendar.YEAR)+"-01-01");
 
 
 
+/** getting last day of year**/
 
-            final String thisWeekUrl=GLOBAL_URL+"session/customer/all?userId="+userid+"&skip="+skip+"&limit="+limit+"&fromDate="+fromDateWeek+"&toDate="+toDate;
-            final String thisMonthUrl=GLOBAL_URL+"session/customer/all?userId="+userid+"&skip="+skip+"&limit="+limit+"&fromDate="+fromDateMonth+"&toDate="+toDate;
-            final String thisYearUrl=GLOBAL_URL+"session/customer/all?userId="+userid+"&skip="+skip+"&limit="+limit+"&fromDate="+fromDateYear+"&toDate="+toDate;
+            Calendar calyear = Calendar.getInstance();
+            calyear.set(Calendar.DAY_OF_YEAR, calyear.getActualMaximum(Calendar.DAY_OF_YEAR));
+            Date yend = calyear.getTime();
+            SimpleDateFormat dfyear = new SimpleDateFormat("yyyy-MM-dd");
+            toDYear = dfyear.format(yend);
 
-            final String weekStatUrl = GLOBAL_URL+"dashboard/customer/"+userid+"/sessionStatistics?fromDate="+fromDateWeek+"&toDate="+toDate;
-            final String monthStatUrl = GLOBAL_URL+"dashboard/customer/"+userid+"/sessionStatistics?fromDate="+fromDateMonth+"&toDate="+toDate;
-            final String yearStatUrl = GLOBAL_URL+"dashboard/customer/"+userid+"/sessionStatistics?fromDate="+fromDateYear+"&toDate="+toDate;
+            /** get first day and last day of current month**/
+            Calendar cal = Calendar.getInstance();
+            int res = cal.getActualMaximum(Calendar.DATE);
+            cal.set(Calendar.DATE,res);
+            Date date = cal.getTime();
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+            lastMonthDate = df.format(date);
+
+
+            int firstdayMonth = cal.getActualMinimum(Calendar.DATE);
+            cal.set(Calendar.DATE,firstdayMonth);
+            date = cal.getTime();
+            FirstDateOfMonth = df.format(date);
+
+            /** getting first day and last  day of week**/
+            // get Current Week of the year
+            Calendar calendar=Calendar.getInstance();
+            calendar.setFirstDayOfWeek(Calendar.SUNDAY);
+            calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+            DateFormat dff = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+            WeekStartDate = dff.format(calendar.getTime());
+            calendar.add(Calendar.DATE, 6);
+            WeekEndDate = dff.format(calendar.getTime());
+
+            final String thisWeekUrl=GLOBAL_URL+"session/customer/all?userId="+userid+"&skip="+skip+"&limit="+limit+"&fromDate="+WeekStartDate+"&toDate="+WeekEndDate;
+            final String thisMonthUrl=GLOBAL_URL+"session/customer/all?userId="+userid+"&skip="+skip+"&limit="+limit+"&fromDate="+FirstDateOfMonth+"&toDate="+lastMonthDate;
+            final String thisYearUrl=GLOBAL_URL+"session/customer/all?userId="+userid+"&skip="+skip+"&limit="+limit+"&fromDate="+fromDateYear+"&toDate="+toDYear;
+
+            final String weekStatUrl = GLOBAL_URL+"dashboard/customer/"+userid+"/sessionStatistics?fromDate="+WeekStartDate+"&toDate="+WeekEndDate;
+            final String monthStatUrl = GLOBAL_URL+"dashboard/customer/"+userid+"/sessionStatistics?fromDate="+FirstDateOfMonth+"&toDate="+lastMonthDate;
+            final String yearStatUrl = GLOBAL_URL+"dashboard/customer/"+userid+"/sessionStatistics?fromDate="+fromDateYear+"&toDate="+toDYear;
             getStatistics(weekStatUrl);
             callThisWeekSession(thisWeekUrl);
             SessionWeekCustomerAdapter adapter =new SessionWeekCustomerAdapter(MySessionsActivity.this,"week");
@@ -444,14 +480,20 @@ public class MySessionsActivity extends PacifyrAppCompactActivity {
     public void onWeekSetSessionEvent(WeekSetSessionEvent event) {
         try {
             if(event.getWeekType().equals("week")) {
+                WeekStartDate=event.getFromDWeek();
+                WeekEndDate=event.getToDWeek();
                 callThisWeekSession(event.getUrl());
                 getStatistics(event.getStatUrl());
             }
             else if(event.getWeekType().equals("month")){
+                FirstDateOfMonth=event.getFromDWeek();
+                lastMonthDate=event.getToDWeek();
                 callThisMonthSession(event.getUrl());
                 getStatistics(event.getStatUrl());
             }
             else if(event.getWeekType().equals("year")){
+                fromDYear=event.getFromDWeek();
+                toDYear=event.getToDWeek();
                 callThisYearSession(event.getUrl());
                 getStatistics(event.getStatUrl());
             }
