@@ -20,7 +20,8 @@ import com.pacifyr.client.sign.LoginActivity;
 import com.pacifyr.client.sign.SignActivity;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 
-import static com.pacifyr.client.quickblox.activities.CallActivity.isCallActive;
+import static com.pacifyr.client.twilio.VideoActivity.isCallActive;
+
 
 public class Auth {
     private static String TAG = Auth.class.getName();
