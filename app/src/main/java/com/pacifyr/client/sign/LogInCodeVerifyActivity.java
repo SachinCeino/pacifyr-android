@@ -108,7 +108,12 @@ public class LogInCodeVerifyActivity extends PacifyrActivity {
 
             bundle = getIntent().getExtras();
 
-
+            pin.setPinViewEventListener(new Pinview.PinViewEventListener() {
+                @Override
+                public void onDataEntered(Pinview pinview, boolean fromUser) {
+                   hideKeyboard();
+                }
+            });
             if (isValid(phonenumber)) {
                 setClicks();
 

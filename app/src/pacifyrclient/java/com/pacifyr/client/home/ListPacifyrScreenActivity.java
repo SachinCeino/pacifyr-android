@@ -358,7 +358,7 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
         });
 
         pacifyr_SearchView.setFocusable(false);
-        pacifyr_SearchView.setIconified(false);
+        pacifyr_SearchView.setIconified(true);
         pacifyr_SearchView.clearFocus();
         pacifyr_SearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -393,7 +393,12 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
                 return false;
             }
         });
-       
+        pacifyr_SearchView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                hideKeyboard();
+            }
+        });
 
         pacifyr_SearchView.setOnCloseListener(new SearchView.OnCloseListener() {
             @Override
@@ -406,6 +411,7 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
                 if (isValid(specialistAdapter))
                 specialistAdapter.clearSelection();
                 specialistAdapter.setSelected(0);
+                webSearchPacifyrWOptions(customerEmotion);
                 return false;
             }
         });
@@ -912,18 +918,19 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
     }
 
     private void setAdapterPacifyrSearchFRomSearchView(ArrayList<MUser> pacifyrList) {
+        if (isValid(specialistAdapter))
+        {
+            specialistAdapter.clearSelection();
+        }
         if(isValid(pacifyrList)) {
-            if (isValid(specialistAdapter))
-            {
-                specialistAdapter.clearSelection();
-            }
             noPacifyrCtxv.setVisibility(View.GONE);
             cardStack.setVisibility(View.VISIBLE);
             adapter = new SwipeDeckBrowsePacifyerAdapter(pacifyrList, ListPacifyrScreenActivity.this,emoSelected != null);
             cardStack.setAdapter(adapter);
 //            adapter.filter(getSearchQuery());
         }else {
-            webSearchPacifyrWOptions(customerEmotion);
+            cardStack.setVisibility(View.GONE);
+            noPacifyrCtxv.setVisibility(View.VISIBLE);
         }
     }
 

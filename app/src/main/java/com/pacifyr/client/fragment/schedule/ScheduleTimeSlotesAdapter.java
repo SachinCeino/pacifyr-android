@@ -97,7 +97,7 @@ public class ScheduleTimeSlotesAdapter extends RecyclerView.Adapter<ScheduleTime
                 holder.itemView.setBackgroundResource(R.drawable.grey_border_grey_solid_rectangle_sharp);
                 holder.img_cancel_slot.setVisibility(View.GONE);
             } else if (object.isClicked()) {
-                holder.itemView.setBackgroundResource(R.drawable.blue_background_white_border);
+                holder.itemView.setBackgroundResource(R.drawable.blue_background_white_border_clicked);
             } else {
 
                 holder.itemView.setBackgroundResource(R.drawable.black_border_white_back);

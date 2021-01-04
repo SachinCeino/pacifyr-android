@@ -20,6 +20,8 @@ import com.pacifyr.client.sign.LoginActivity;
 import com.pacifyr.client.sign.SignActivity;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 
+import static com.pacifyr.client.quickblox.activities.CallActivity.isCallActive;
+
 public class Auth {
     private static String TAG = Auth.class.getName();
     private static String ANDROID_ID;
@@ -35,19 +37,22 @@ public class Auth {
                         || VISIBLE_ACTIVITY.equals(SplashScreen.class.getName())) {
                     Log.d(TAG, "httpStatusFilter: login page already shown" + status);
                 } else {
-                    PrefManager.getInstance(c).clear();
-                    Intent intent = new Intent(c, SignActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-                            | Intent.FLAG_ACTIVITY_CLEAR_TOP
-                            | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    intent.putExtra("EXIT", true);
-                    c.startActivity(intent);
-                    if (toast != null) {
-                        toast.cancel();
-                    }
-                    toast = Toast.makeText(c, c.getString(R.string.please_login_to_continue), Toast.LENGTH_LONG);
-                    toast.show();
+                   if (!isCallActive)
+                   {
+                       PrefManager.getInstance(c).clear();
+                       Intent intent = new Intent(c, SignActivity.class);
+                       intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                               | Intent.FLAG_ACTIVITY_CLEAR_TOP
+                               | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                       intent.putExtra("EXIT", true);
+                       c.startActivity(intent);
+                       if (toast != null) {
+                           toast.cancel();
+                       }
+                       toast = Toast.makeText(c, c.getString(R.string.please_login_to_continue), Toast.LENGTH_LONG);
+                       toast.show();
 
+                   }
                 }
 
                 break;

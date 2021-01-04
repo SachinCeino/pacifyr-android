@@ -54,7 +54,7 @@
     <string name="request">Request</string>
     <string name="year">Year</string>
     <string name="payout">PAYOUT</string>
-    <string name="no_pacifyr">No providers available.</string>
+    <string name="no_pacifyr">There is no Provider available for selected Category.</string>
     <string name="educations">Education</string>
     <string name="user_type_error">This is a Provider account. Please use Pacifyr for counselors app to sign in</string>
     <string name="if_emergency2">If there is an emergency, please call 911 or rush to the nearest hospital.</string>
@@ -121,7 +121,7 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="video_call">VIDEO CALL</string>
     <string name="pref_wellness_experts">Preferred Providers</string>
     <string name="This_Week">This Week</string>
-    <string name="no_wellness_experts_category">No Providers available.</string>
+    <string name="no_wellness_experts_category">No Providers available for the selected category.</string>
 
     <string name="note_add_tilte">Add Notes</string>
 
