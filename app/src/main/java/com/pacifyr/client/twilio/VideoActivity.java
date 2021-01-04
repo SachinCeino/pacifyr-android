@@ -1255,6 +1255,10 @@ public class VideoActivity extends PacifyrActivity {
         configureAudio(false);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(sessionDeclainedReceiver);
         unregisterReceiver(mEarPhoneChanges);
+        if (isValid(audioManager))
+        {
+            audioManager=null;
+        }
         /*
          * Always disconnect from the room before leaving the Activity to
          * ensure any memory allocated to the Room resource is freed.
