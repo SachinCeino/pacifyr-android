@@ -20,6 +20,8 @@ import com.pacifyr.client.sign.LoginActivity;
 import com.pacifyr.client.sign.SignActivity;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 
+import static com.pacifyr.client.quickblox.activities.CallActivity.isCallActive;
+
 public class Auth {
     private static String TAG = Auth.class.getName();
     private static String ANDROID_ID;
@@ -48,6 +50,7 @@ public class Auth {
                     toast = Toast.makeText(c, c.getString(R.string.please_login_to_continue), Toast.LENGTH_LONG);
                     toast.show();
 
+                   }
                 }
 
                 break;

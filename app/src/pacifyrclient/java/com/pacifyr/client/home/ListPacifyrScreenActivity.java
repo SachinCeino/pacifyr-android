@@ -357,7 +357,7 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
         });
 
         pacifyr_SearchView.setFocusable(false);
-        pacifyr_SearchView.setIconified(false);
+        pacifyr_SearchView.setIconified(true);
         pacifyr_SearchView.clearFocus();
         pacifyr_SearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -392,7 +392,12 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
                 return false;
             }
         });
-       
+        pacifyr_SearchView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                hideKeyboard();
+            }
+        });
 
         pacifyr_SearchView.setOnCloseListener(new SearchView.OnCloseListener() {
             @Override
@@ -400,7 +405,7 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
                 if (!pacifyr_SearchView.isIconified()) {
                     pacifyr_SearchView.onActionViewCollapsed();
                 }
-
+                hideKeyboard();
                 showAllFlag = getShowallCbox().isChecked();
                 if (isValid(specialistAdapter))
                 specialistAdapter.clearSelection();

@@ -105,6 +105,8 @@ public class LoginActivity extends PacifyrActivity {
     private String qbID;
     private Context context;
     private MainTextView sms_text_login;
+    private TextView TextView_phone_error;
+    private LinearLayout LinearLayout_phone;
 
     private TextView TextView_phone_error;
     private LinearLayout LinearLayout_phone;

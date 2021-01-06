@@ -401,8 +401,13 @@
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:layout_centerHorizontal="true"
+<<<<<<< HEAD
                                             android:layout_marginStart="10dp"
                                             android:text="@string/_00_"
+=======
+                                            android:layout_marginLeft="10dp"
+                                            android:text="00 "
+>>>>>>> user_app_combined
                                             android:textColor="@color/white"
                                             android:textSize="13sp"
                                             android:textStyle="bold" />

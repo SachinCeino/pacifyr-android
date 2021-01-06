@@ -172,7 +172,7 @@ public class MySessionFragment extends BaseFragment {
         final String fromDateWeek = formatter.print(startofWeek);
         final String fromDateMonth = formatter.print(startofMonth);
         final String fromDateYear = formatter.print(startofYear);
-        fromDYear=fromDateYear;
+        fromDYear= String.valueOf(Calendar.getInstance().get(Calendar.YEAR)+"-01-01");
 
 /** getting last day of year**/
 

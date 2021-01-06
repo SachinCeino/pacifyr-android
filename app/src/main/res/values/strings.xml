@@ -58,7 +58,7 @@
     <string name="request">Request</string>
     <string name="year">Year</string>
     <string name="payout">PAYOUT</string>
-    <string name="no_pacifyr">There are no Providers available for selected Category.</string>
+    <string name="no_pacifyr">No providers available.</string>
     <string name="educations">Education</string>
 
     <string name="policy_documents">policy documents</string>
@@ -126,7 +126,7 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="registration_failed">Registration failed</string>
     <string name="failed_register_message">Your mobile number is already registered. Please sign in</string>
     <string name="select_specialisation">Select a specialization</string>
-    <string name="no_wellness_experts_category">No Providers for the selected category.</string>
+    <string name="no_wellness_experts_category">No providers available.</string>
     <string name="please_try_again">Please try again</string>
     <string name="success">success</string>
     <string name="contact_us">SUPPORT</string>
@@ -490,6 +490,11 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="call_back">Call Back</string>
     <string name="view_prescription">View Prescription</string>
     <string name="how_was_your_audio_or_video_call_experience">How was your audio or video call experience ?</string>
+    <string name="Please_enter_verification_code">Please enter verification code</string>
+    <string name="Please_enter_your_phone_number">Please enter your phone number</string>
+    <string name="Invalid_phone_number_format">Invalid phone number format. Check the phone number you entered and the country code</string>
+    <string name="State_you_are_licensed_to_practise">State</string>
+    <string name="prepaid">" (Prepaid)"</string>
 
     <string name="notes">Notes</string>
     <string name="please_review_and_accept_the_terms_and_agrements">Please review and accept the terms and agrements</string>

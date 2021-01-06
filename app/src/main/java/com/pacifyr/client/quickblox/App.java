@@ -83,6 +83,22 @@ public class App extends CoreApp {
         /**/
     }
 
+    private void initRemoteConfig() {
+        mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
+        FirebaseRemoteConfigSettings configSettings = new FirebaseRemoteConfigSettings.Builder()
+                .setMinimumFetchIntervalInSeconds(RemoteConfig.REMOTE_FETCH_INTERVAL_SECONDS)
+                .setFetchTimeoutInSeconds(RemoteConfig.REMOTE_FETCH_TIMEOUT_SECONDS)
+                .build();
+        mFirebaseRemoteConfig.setDefaultsAsync(R.xml.remote_config_defaults);
+        mFirebaseRemoteConfig.setConfigSettingsAsync(configSettings);
+    }
+
+    public FirebaseRemoteConfig getRemoteConfig() {
+        if (mFirebaseRemoteConfig == null) {
+            initRemoteConfig();
+        }
+        return mFirebaseRemoteConfig;
+    }
 
     private void initApplication() {
         instance = this;
