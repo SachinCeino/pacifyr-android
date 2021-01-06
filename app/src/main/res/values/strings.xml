@@ -225,11 +225,6 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="reason_for_rejection">Reason for rejection</string>
     <string name="cancelled_reason">Reason for Cancellation</string>
     <string name="account_was_deleted">Account was deleted</string>
-    <string name="Please_enter_verification_code">Please enter verification code</string>
-    <string name="Please_enter_your_phone_number">Please enter your phone number</string>
-    <string name="Invalid_phone_number_format">Invalid phone number format. Check the phone number you entered and the country code</string>
-    <string name="State_you_are_licensed_to_practise">State</string>
-    <string name="prepaid">" (Prepaid)"</string>
     <string name="prif_token_key">token</string>
     <string name="bundle_text_key">text</string>
     <string name="bundle_spurl_key">spurl</string>

@@ -11,6 +11,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -264,7 +265,7 @@ public class SplashScreen extends BaseAppCompactActivity {
         }, SPLASH_TIME_OUT);
     }
 
-        FirebaseRemoteConfig remConfig = ((App) getApplication()).getRemoteConfig();
+       /* FirebaseRemoteConfig remConfig = ((App) getApplication()).getRemoteConfig();
         remConfig.fetchAndActivate().addOnCompleteListener(this, new OnCompleteListener<Boolean>() {
             @Override
             public void onComplete(@NonNull Task<Boolean> task) {
@@ -280,7 +281,7 @@ public class SplashScreen extends BaseAppCompactActivity {
                 Log.d(TAG, "India url = " + indiaUrl);
                 Log.d(TAG, "Force Upgrade = " + forceUpgrade);
             }
-        });
+        });*/
 
 
 }

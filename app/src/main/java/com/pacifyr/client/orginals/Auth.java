@@ -50,14 +50,14 @@ public class Auth {
                     toast = Toast.makeText(c, c.getString(R.string.please_login_to_continue), Toast.LENGTH_LONG);
                     toast.show();
 
-                   }
                 }
 
                 break;
             default:
-                Log.d(TAG, "httpStatusFilter: "+status);
+                Log.d(TAG, "httpStatusFilter: " + status);
         }
     }
+
     public static void setActiveOnFDB(Context context) {
         if (!enableSessionManagement) {
             return;
