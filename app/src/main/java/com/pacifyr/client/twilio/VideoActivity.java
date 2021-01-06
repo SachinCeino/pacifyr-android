@@ -425,19 +425,23 @@ public class VideoActivity extends PacifyrActivity {
                         if (!isVideoCall)
                         {
                             audioManager.setSpeakerphoneOn(false);
+                            UpdateView();
                         }
                         else {
                             audioManager.setSpeakerphoneOn(true);
+                            UpdateView();
                         }
                         break;
                     case 1:
                         Log.d(TAG, "Headset is plugged");
                         isHeadeSetIsPlugged=true;
                         audioManager.setSpeakerphoneOn(false);
+                        UpdateView();
                         break;
                     default:
                         Log.d(TAG, "I have no idea what the headset state is");
                 }
+
             }
         }
     }
@@ -461,7 +465,7 @@ public class VideoActivity extends PacifyrActivity {
           connectActionFab = findViewById(R.id.connect_action_fab);
           switchCameraActionFab = findViewById(R.id.switch_camera_action_fab);
           localVideoActionFab = findViewById(R.id.local_video_action_fab);
-          muteActionFab = findViewById(R.id.mute_action_fab);
+          //muteActionFab = findViewById(R.id.mute_action_fab);
           button_hangup_call= findViewById(R.id.button_hangup_call);
           micToggleVideoCall = findViewById(R.id.toggle_mic);
           toggle_speaker = findViewById(R.id.toggle_speaker);
@@ -596,10 +600,10 @@ public class VideoActivity extends PacifyrActivity {
                           audioManager.setMicrophoneMute(true);
                       }
 
-                      int icon = isMute ?
+                     /* int icon = isMute ?
                               R.drawable.call_mic_on : R.drawable.call_mic_off;
                       muteActionFab.setImageDrawable(ContextCompat.getDrawable(
-                              VideoActivity.this, icon));
+                              VideoActivity.this, icon));*/
                   }
               }
           });
@@ -633,8 +637,8 @@ public class VideoActivity extends PacifyrActivity {
           toggle_speaker.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
               @Override
               public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                  if (isHeadeSetIsPlugged)
-                      return;
+                  /*if (isHeadeSetIsPlugged)
+                      return;*/
                   if (audioManager!=null)
                   {
                       boolean isSpeakerOn = audioManager.isSpeakerphoneOn();
@@ -647,10 +651,7 @@ public class VideoActivity extends PacifyrActivity {
                           audioManager.setSpeakerphoneOn(true);
                       }
 
-                      int icon = isSpeakerOn ?
-                              R.drawable.speaker_light_off : R.drawable.speaker_light;
-                      muteActionFab.setImageDrawable(ContextCompat.getDrawable(
-                              VideoActivity.this, icon));
+                      UpdateView();
                   }
               }
           });
@@ -793,6 +794,18 @@ public class VideoActivity extends PacifyrActivity {
       }
     }
 
+    private void UpdateView() {
+        boolean isSpeakerOn = audioManager.isSpeakerphoneOn();
+        int icon;
+        if (isSpeakerOn)
+        {
+            icon=R.drawable.speaker_light;
+        }
+        else {
+            icon=R.drawable.speaker_light_off;
+        }
+        toggle_speaker.setBackgroundResource(icon);
+    }
 
 
     private void hideToolBarAndButtons() {
@@ -1486,8 +1499,8 @@ public class VideoActivity extends PacifyrActivity {
         switchCameraActionFab.setOnClickListener(switchCameraClickListener());
         localVideoActionFab.show();
         localVideoActionFab.setOnClickListener(localVideoClickListener());
-        muteActionFab.show();
-        muteActionFab.setOnClickListener(muteClickListener());
+        //muteActionFab.show();
+       // muteActionFab.setOnClickListener(muteClickListener());
     }
 
     /*
@@ -2047,8 +2060,8 @@ public class VideoActivity extends PacifyrActivity {
                 localAudioTrack.enable(enable);
                 int icon = enable ?
                         R.drawable.ic_mic_white_24dp : R.drawable.ic_mic_off_black_24dp;
-                muteActionFab.setImageDrawable(ContextCompat.getDrawable(
-                        VideoActivity.this, icon));
+              //  muteActionFab.setImageDrawable(ContextCompat.getDrawable(
+                //        VideoActivity.this, icon));
             }
         };
     }
