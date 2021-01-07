@@ -1392,20 +1392,25 @@ public class VideoActivity extends PacifyrActivity {
                @Override
                public void onDisconnected(Room room, TwilioException e) {
                    Log.w("####","onDisconnected");
-                   localParticipant = null;
-                   isCallActive=false;
-                   if (isValid(ringtonePlayer))
-                       ringtonePlayer.stop();
-                   configureAudio(false);
-                 //  reconnectingProgressBar.setVisibility(View.GONE);
-                   VideoActivity.this.room = null;
-                   // Only reinitialize the UI if disconnect was not called from onDestroy()
-                   if (!disconnectedFromOnDestroy) {
-                       audioSwitch.deactivate();
-                       intializeUI();
-                       moveLocalVideoToPrimaryView();
-                       if (!hangUpCurrentFromClient)
-                       hangUpCurrentSessionMe();
+                   try {
+                       localParticipant = null;
+                       isCallActive=false;
+                       if (isValid(ringtonePlayer))
+                           ringtonePlayer.stop();
+                       configureAudio(false);
+                       //  reconnectingProgressBar.setVisibility(View.GONE);
+                       VideoActivity.this.room = null;
+                       // Only reinitialize the UI if disconnect was not called from onDestroy()
+                       if (!disconnectedFromOnDestroy) {
+                           audioSwitch.deactivate();
+                           intializeUI();
+                           moveLocalVideoToPrimaryView();
+                           if (!hangUpCurrentFromClient)
+                               hangUpCurrentSessionMe();
+                       }
+                   }catch (Exception eqq)
+                   {
+
                    }
                }
 
@@ -1462,29 +1467,34 @@ public class VideoActivity extends PacifyrActivity {
     }
 
     private void configureAudio(boolean enable) {
-        if (enable) {
-            previousAudioMode = audioManager.getMode();
-            // Request audio focus before making any device switch.
-            audioManager.requestAudioFocus(null, AudioManager.STREAM_VOICE_CALL,
-                    AudioManager.AUDIOFOCUS_GAIN_TRANSIENT);
-            /*
-             * Use MODE_IN_COMMUNICATION as the default audio mode. It is required
-             * to be in this mode when playout and/or recording starts for the best
-             * possible VoIP performance. Some devices have difficulties with
-             * speaker mode if this is not set.
-             */
-            audioManager.setMode(AudioManager.MODE_IN_COMMUNICATION);
-            /*
-             * Always disable microphone mute during a WebRTC call.
-             */
-            previousMicrophoneMute = audioManager.isMicrophoneMute();
-            audioManager.setMicrophoneMute(false);
-        } else {
-            audioManager.setMode(previousAudioMode);
-            audioManager.abandonAudioFocus(null);
-            audioManager.setMicrophoneMute(previousMicrophoneMute);
-        }
-        audioManager.setSpeakerphoneOn(true);
+      try {
+          if (enable) {
+              previousAudioMode = audioManager.getMode();
+              // Request audio focus before making any device switch.
+              audioManager.requestAudioFocus(null, AudioManager.STREAM_VOICE_CALL,
+                      AudioManager.AUDIOFOCUS_GAIN_TRANSIENT);
+              /*
+               * Use MODE_IN_COMMUNICATION as the default audio mode. It is required
+               * to be in this mode when playout and/or recording starts for the best
+               * possible VoIP performance. Some devices have difficulties with
+               * speaker mode if this is not set.
+               */
+              audioManager.setMode(AudioManager.MODE_IN_COMMUNICATION);
+              /*
+               * Always disable microphone mute during a WebRTC call.
+               */
+              previousMicrophoneMute = audioManager.isMicrophoneMute();
+              audioManager.setMicrophoneMute(false);
+          } else {
+              audioManager.setMode(previousAudioMode);
+              audioManager.abandonAudioFocus(null);
+              audioManager.setMicrophoneMute(previousMicrophoneMute);
+          }
+          audioManager.setSpeakerphoneOn(true);
+      }catch (Exception e)
+      {
+
+      }
     }
 
     /*
