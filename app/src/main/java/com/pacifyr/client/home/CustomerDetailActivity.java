@@ -92,7 +92,7 @@ public class CustomerDetailActivity extends PacifyrAppCompactActivity {
 
         Intent intent = new Intent(context, CustomerDetailActivity.class);
         CustomerDetailActivity.custListUser = user;
-       //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS | Intent.FLAG_ACTIVITY_NO_HISTORY);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
 
