@@ -175,8 +175,10 @@ public class VideoActivity extends PacifyrActivity {
     private String accessToken;
     private MUser pacifyerDetial;
     private boolean isVideoCall;
+    private boolean isAppointment;
     private String roomName;
     private String SessionId;
+    private String timeSlotBookingId;
 
     private Room room;
 
@@ -401,12 +403,15 @@ public class VideoActivity extends PacifyrActivity {
     }
 
 
-    public static void start(Context context,String accessToken,String roomName,MUser pacifyerDetial,boolean isVideoCall) {
+    public static void start(Context context,String accessToken,String roomName,MUser pacifyerDetial,boolean isVideoCall,boolean isAppointment,String timeSlotBookingId) {
         Intent intent = new Intent(context, VideoActivity.class);
         intent.putExtra("accessToken",accessToken);
         intent.putExtra("pacifyerDetial",pacifyerDetial);
         intent.putExtra("roomName",roomName);
         intent.putExtra("isVideoCall",isVideoCall);
+        intent.putExtra("isAppointment",isAppointment);
+       if (timeSlotBookingId!=null)
+           intent.putExtra("timeSlotBookingId",timeSlotBookingId);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
@@ -530,6 +535,12 @@ public class VideoActivity extends PacifyrActivity {
                   roomName = getIntent().getExtras().getString("roomName");
                   pacifyerDetial = (MUser) getIntent().getExtras().getSerializable("pacifyerDetial");
                   isVideoCall = getIntent().getExtras().getBoolean("isVideoCall");
+                  isAppointment = getIntent().getExtras().getBoolean("isAppointment");
+                  if (isValid(getIntent().getExtras().getString("timeSlotBookingId")))
+                  {
+                      timeSlotBookingId = getIntent().getExtras().getString("timeSlotBookingId");
+                  }
+
                   //SessionId=getIntent().getExtras().getString("SessionId");
               }
           }
@@ -1363,8 +1374,12 @@ public class VideoActivity extends PacifyrActivity {
                    localParticipant = room.getLocalParticipant();
                    if (isValid(connectionStatusLocal))
                    connectionStatusLocal.setText("Connecting...");
-                   if(!isValid(SessionId))
-                       startSessionWeb(roomName,accessToken,pacifyerDetial, isVideoCall);
+                   if(!isValid(SessionId)) {
+                       if (isAppointment)
+                           startSessionForAppointmentCallAfterConnectingTwilio(roomName, accessToken, pacifyerDetial, isVideoCall,timeSlotBookingId);
+                       else
+                           startSessionWeb(roomName, accessToken, pacifyerDetial, isVideoCall);
+                   }
                    for (RemoteParticipant remoteParticipant : room.getRemoteParticipants()) {
                        addRemoteParticipant(remoteParticipant);
                        break;
