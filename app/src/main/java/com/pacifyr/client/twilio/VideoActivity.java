@@ -2388,9 +2388,11 @@ public class VideoActivity extends PacifyrActivity {
             }
 
             if (isCallActive) {
-                Intent i = new Intent(VideoActivity.this, VideoActivity.class);
-                i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                startActivity(i);
+
+                    Intent intent = new Intent(this, VideoActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    getApplication().startActivity(intent);
+
             }
         } catch (Exception e) {
             e.printStackTrace();
