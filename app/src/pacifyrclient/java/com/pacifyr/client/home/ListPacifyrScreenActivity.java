@@ -408,9 +408,13 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
                 }
                 setSearchQuery("");
                 showAllFlag = getShowallCbox().isChecked();
-                if (isValid(specialistAdapter))
-                specialistAdapter.clearSelection();
-                specialistAdapter.setSelected(0);
+                try {
+                    if (isValid(specialistAdapter))
+                        specialistAdapter.clearSelection();
+                    specialistAdapter.setSelected(0);
+                }catch (Exception e){
+                Log.w("dsfsdfds","sdfsdf");
+                }
                 webSearchPacifyrWOptions(customerEmotion);
                 return false;
             }
