@@ -718,6 +718,7 @@ public class VideoActivity extends PacifyrActivity {
           ImageView_prescription.setOnClickListener(new View.OnClickListener() {
               @Override
               public void onClick(View view) {
+                  if (hasBillingStarted())
                   callPrescriptionData();
               }
           });
