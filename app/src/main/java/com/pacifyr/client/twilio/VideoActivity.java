@@ -2566,4 +2566,20 @@ public class VideoActivity extends PacifyrActivity {
                 super.onBackPressed();
             }
     }
+
+/**
+ * why this logic ?
+ *Faced in honour device. Client started the call. Counselor accepted.
+ *  Now client click the home button, the call screen closed.
+ *  Client had a tap to open option in dashboard.
+ *  In this stage when counselor click on start session button client is not getting setup payment pop up.
+ *  Also after ending the call the setup payment pop remained on the screen **/
+    @org.greenrobot.eventbus.Subscribe(threadMode = ThreadMode.MAIN)
+    public void onPaymentPopupReceived(Intent mIntent) {
+        try {
+            doPaymentSetup(mIntent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
