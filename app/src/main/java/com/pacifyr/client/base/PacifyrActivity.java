@@ -351,7 +351,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                doPaymentSetup(intent);
+                                EventBus.getDefault().post(intent);
                             }
                         });
                     }
@@ -539,7 +539,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
 
     };
 
-    private void doPaymentSetup(Intent intent) {
+    public void doPaymentSetup(Intent intent) {
         String type = intent.getStringExtra("type");
         String id = intent.getStringExtra("id");
         String message = intent.getStringExtra("message");
