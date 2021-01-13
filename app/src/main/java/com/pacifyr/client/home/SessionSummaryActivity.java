@@ -37,7 +37,7 @@ import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.model.MComments;
 import com.pacifyr.client.model.PrescriptionList;
 import com.pacifyr.client.model.interfaces.CommentClick;
-import com.pacifyr.client.network.Auth;
+import com.pacifyr.client.orginals.Auth;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.quickblox.App;

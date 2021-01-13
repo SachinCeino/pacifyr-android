@@ -19,8 +19,9 @@ import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.event.BusProvider;
 import com.pacifyr.client.event.EventLoadEmotion;
 import com.pacifyr.client.event.NotifyEvent;
-import com.pacifyr.client.model.ItemData;
+import com.pacifyr.client.model.Country;
 import com.pacifyr.client.model.MCustomerList;
+import com.pacifyr.client.orginals.Auth;
 import com.pacifyr.client.utility.EventMessage;
 import com.pacifyr.client.utils.LogUtils;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.LoginModel;
@@ -81,7 +82,7 @@ import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.CIRTIF
  * Created by ceino on 27/6/17.
  */
 
-public class NetworkService  extends IntentService {
+public class  NetworkService  extends IntentService {
 
      public static final String GLOBAL_URL = UtilityNetworkService.GLOBAL_URL;
     public static final String ACCESS_TOKEN_SERVER_URL = "http://testapp.pacifyr.net:8080/pacifyr/v1/twilio/generateToken";
@@ -158,7 +159,7 @@ public class NetworkService  extends IntentService {
     public static MPastSessions mPastSessions;
     public static MPastSessions mPastSessionsPaged;
 
-    public static ItemData countryData;
+    public static Country countryData;
     public static JSONObject editProfileObject=new JSONObject();
 
     private static final String SKIP_PARAM = "SKIP";
@@ -961,9 +962,12 @@ public class NetworkService  extends IntentService {
                  */
                 Auth.httpStatusFilter(getApplicationContext(),status.getCode());
                 try {
+                    ModelCustomerDashboard2 m=modelCustomerDashboard2;
                     modelCustomerDashboard2= GsonUtils.getInstance().gsonToModelCustomerDashboard2(json);
+
                     String js=status.getMessage();
                     //EventBus.getDefault().post(new EventMessage(getString(R.string.event_customer_dashboard)));
+                   if(!m.equals(modelCustomerDashboard2))
                     postEventOnMainThread(new NotifyEvent(true, false));//succes,notpaged
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -1062,9 +1066,6 @@ public class NetworkService  extends IntentService {
         return object != null;
 
     }
-
-
-
 
    /* private void handleActionProfile(String id){
 
@@ -1200,7 +1201,6 @@ public class NetworkService  extends IntentService {
             e.printStackTrace();
         }
     }
-
 
     public void sendPaymentFailedDueToSomeReasons(String toUserId, String type, String message, AjaxCallback cb) {
         try {

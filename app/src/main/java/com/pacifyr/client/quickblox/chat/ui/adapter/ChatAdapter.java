@@ -68,7 +68,7 @@ public class ChatAdapter extends BaseListAdapter<QBChatMessage> implements Stick
         if (convertView == null) {
             holder = new ViewHolder();
             convertView = inflater.inflate(R.layout.quickblox_list_item_chat_message, parent, false);
-
+            holder.messagetDayTextView=convertView.findViewById(R.id.day);
             holder.messageBodyTextView = convertView.findViewById(R.id.text_image_message);
             holder.messageAuthorTextView = convertView.findViewById(R.id.text_message_author);
             holder.messageContainerLayout = convertView.findViewById(R.id.layout_chat_message_container);
@@ -86,7 +86,9 @@ public class ChatAdapter extends BaseListAdapter<QBChatMessage> implements Stick
 
         if(chatMessage!=null)
         LogUtils.LOGD("jp", "ChatAdapter   getView getBody  "+chatMessage.getBody());
-
+if(1!=position){
+    holder.messagetDayTextView.setVisibility(View.GONE);
+}
         setIncomingOrOutgoingMessageAttributes(holder, chatMessage);
         setMessageBody(holder, chatMessage);
         setMessageInfo(chatMessage, holder);
@@ -321,6 +323,7 @@ public class ChatAdapter extends BaseListAdapter<QBChatMessage> implements Stick
 
     private static class ViewHolder {
         public TextView messageBodyTextView;
+        public TextView messagetDayTextView;
         public TextView messageAuthorTextView;
         public TextView messageInfoTextView;
         public LinearLayout messageContainerLayout;

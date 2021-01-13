@@ -8,11 +8,18 @@ import android.util.Log;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.multidex.MultiDex;
 
+
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 import com.pacifyr.client.R;
-import com.pacifyr.client.application.RemoteConfig;
-import com.pacifyr.client.network.Auth;
+
+
+import com.pacifyr.client.orginals.Auth;
+import com.pacifyr.client.orginals.DynamicLink;
+import com.pacifyr.client.orginals.RemoteConfig;
+import com.pacifyr.client.orginals.UserProperties;
+import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
+
 import com.pacifyr.client.quickblox.chat.models.SampleConfigs;
 import com.pacifyr.client.quickblox.chat.utils.Consts;
 import com.pacifyr.client.quickblox.chat.utils.configs.ConfigUtils;
@@ -49,11 +56,15 @@ public class App extends CoreApp {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
-        UtilityNetworkService.init(this);
+        RemoteConfig.init();
+
+        UtilityNetworkService.init(this);//before this ,Remote config int must be called
         initApplication();
+
             /*chat*/
         ActivityLifecycle.init(this);
 //        initSampleConfigs();
+
         QBSettings.getInstance().init(this, APP_ID, AUTH_KEY, AUTH_SECRET);
         QBSettings.getInstance().setAccountKey(ACCOUNT_KEY);
         try {
@@ -64,11 +75,15 @@ public class App extends CoreApp {
             e.printStackTrace();
         }
 
+
         Auth.scanUpdates(this);
+        UserProperties.setProperty(this);
+        RemoteConfig.init();
+
         /**/
     }
 
-    private void initRemoteConfig() {
+    /*private void initRemoteConfig() {
         mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
         FirebaseRemoteConfigSettings configSettings = new FirebaseRemoteConfigSettings.Builder()
                 .setMinimumFetchIntervalInSeconds(RemoteConfig.REMOTE_FETCH_INTERVAL_SECONDS)
@@ -76,14 +91,14 @@ public class App extends CoreApp {
                 .build();
         mFirebaseRemoteConfig.setDefaultsAsync(R.xml.remote_config_defaults);
         mFirebaseRemoteConfig.setConfigSettingsAsync(configSettings);
-    }
+    }*/
 
-    public FirebaseRemoteConfig getRemoteConfig() {
+    /*public FirebaseRemoteConfig getRemoteConfig() {
         if (mFirebaseRemoteConfig == null) {
             initRemoteConfig();
         }
         return mFirebaseRemoteConfig;
-    }
+    }*/
 
     private void initApplication() {
         instance = this;

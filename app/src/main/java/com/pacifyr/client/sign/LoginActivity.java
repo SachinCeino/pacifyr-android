@@ -41,8 +41,9 @@ import com.pacifyr.client.adapter.CountrySpinnerAdapter;
 import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.home.DashboardActivity;
-import com.pacifyr.client.model.ItemData;
-import com.pacifyr.client.network.Auth;
+import com.pacifyr.client.model.Country;
+
+import com.pacifyr.client.orginals.Auth;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.quickblox.chat.utils.qb.callback.QbEntityCallbackImpl;
@@ -113,6 +114,7 @@ public class LoginActivity extends PacifyrActivity {
         Auth.foreground("");
     }
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -154,44 +156,15 @@ public class LoginActivity extends PacifyrActivity {
             if (isValid(alreadyRegisteresPhone)) {
                 phoneCedit.setText(alreadyRegisteresPhone.substring(2));
             }
-            ArrayList<ItemData> list = new ArrayList<>();
-            list.add(new ItemData("+1", "US", R.drawable.flag_usa));
-
-            if (!getPackageName().equalsIgnoreCase("com.pacifyr.pam"))
-            {
-                list.add(new ItemData("+1", "Canada", R.drawable.canada2));
-                list.add(new ItemData("+91", "India", R.drawable.ic_india));
-                list.add(new ItemData("+971","UAE", R.drawable.flag_uae2));
-            }
+            CountrySpinnerAdapter adapter = new CountrySpinnerAdapter(this,
+                    R.layout.spinner_item, R.id.txt, Country.getAvailableCountryList());
+            spinner.setAdapter(adapter);
+            spinner.setSelection(Country.getIndex(this, Country.getAvailableCountryList()));
 
 
             /*list.add(new ItemData("+971","Kuwait", R.drawable.kuwait2));*/
 
-            CountrySpinnerAdapter adapter = new CountrySpinnerAdapter(this,
-                    R.layout.spinner_item, R.id.txt, list);
-            spinner.setAdapter(adapter);
 
-            String countryCode = prefM.getCountryCode();
-
-            if (!getPackageName().equalsIgnoreCase("com.pacifyr.pam"))
-            {
-                if(countryCode.equals("IN")){
-                    spinner.setSelection(2);
-                }else if (countryCode.equals("US")){
-                    spinner.setSelection(0);
-                }else if (countryCode.equals("Canada")){
-                    spinner.setSelection(1);
-                }
-                else if (countryCode.equals("AE")){
-                    spinner.setSelection(3);
-                }
-            }
-            else
-            {
-                if (countryCode.equals("US")){
-                    spinner.setSelection(0);
-                }
-            }
 
 
             loginButton.setReadPermissions(Arrays.asList("public_profile", "email", "user_birthday", "user_friends"));
@@ -280,7 +253,7 @@ public class LoginActivity extends PacifyrActivity {
                 @Override
                 public void onClick(View v) {
                     //  validRegister();
-                    countryData = (ItemData) spinner.getSelectedItem();
+                    countryData = (Country) spinner.getSelectedItem();
                    /* if (isValid(countryData.getCode())
                         &&countryData.getCode().equals("+91"))
                     {
@@ -363,7 +336,7 @@ public class LoginActivity extends PacifyrActivity {
             }
             hideProgress();
 
-            countryData = (ItemData) spinner.getSelectedItem();
+            countryData = (Country) spinner.getSelectedItem();
             String code = countryData.getCode();
             LogInCodeVerifyActivity. phonenumber =  code + phoneCedit.getText()+"";
             LogInCodeVerifyActivity.phoneVerifyTXT = code + phoneCedit.getText();
@@ -830,6 +803,7 @@ public class LoginActivity extends PacifyrActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         //callbackmanager2.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 

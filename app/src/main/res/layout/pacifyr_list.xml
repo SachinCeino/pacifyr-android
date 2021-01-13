@@ -6,6 +6,8 @@
     android:layout_height="wrap_content">
 
     <de.hdodenhof.circleimageview.CircleImageView
+        android:background="?android:attr/selectableItemBackgroundBorderless"
+        android:clickable="true"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:id="@+id/circle_image"/>

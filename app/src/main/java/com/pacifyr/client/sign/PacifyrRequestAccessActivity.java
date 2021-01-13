@@ -36,6 +36,7 @@ import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.pacifyr.client.base.PacifyrActivity;
+import com.pacifyr.client.model.Country;
 import com.pacifyrapp.utilitylibrary.CustomEditText;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
@@ -51,7 +52,6 @@ import com.pacifyr.client.adapter.ListCertificatesAdapter;
 import com.pacifyr.client.adapter.ListEducationAdapter;
 import com.pacifyr.client.adapter.ListFileAdapter;
 import com.pacifyr.client.adapter.RequestSpecialistAdapter;
-import com.pacifyr.client.model.ItemData;
 import com.pacifyr.client.model.ModelPacifyrCertificates;
 import com.pacifyr.client.model.ModelPacifyrDocuments;
 import com.pacifyr.client.model.PostPacifyrRequest;
@@ -86,7 +86,7 @@ import static com.pacifyr.client.network.NetworkService.GLOBAL_URL;
 
 public class PacifyrRequestAccessActivity extends PacifyrActivity implements RequestSpecialistAdapter.EmotionClickkListenerRequest{
 
-    public static ItemData countryData;
+    public static Country countryData;
 
 
     private Context context;
@@ -167,11 +167,11 @@ public class PacifyrRequestAccessActivity extends PacifyrActivity implements Req
             modelpostPacifyrRequest = new PostPacifyrRequest();
             spinner = findViewById(R.id.spinner);
 
-            ArrayList<ItemData> list = new ArrayList<>();
-            list.add(new ItemData("+1", "US", R.drawable.flag_usa));
-            list.add(new ItemData("+1", "Canada", R.drawable.canada2));
-            list.add(new ItemData("+91", "India", R.drawable.ic_india));
-            list.add(new ItemData("+971","UAE", R.drawable.flag_uae2));
+            ArrayList<Country> list = new ArrayList<>();
+            list.add(new Country("+1", "US", R.drawable.flag_usa));
+            list.add(new Country("+1", "Canada", R.drawable.canada2));
+            list.add(new Country("+91", "India", R.drawable.ic_india));
+            list.add(new Country("+971","UAE", R.drawable.flag_uae2));
             /*list.add(new ItemData("+971","Kuwait", R.drawable.kuwait2));*/
 
             CountrySpinnerAdapter adapter = new CountrySpinnerAdapter(this,
@@ -278,7 +278,7 @@ public class PacifyrRequestAccessActivity extends PacifyrActivity implements Req
 
     private void processRequest() {
         try {
-            countryData = (ItemData) spinner.getSelectedItem();
+            countryData = (Country) spinner.getSelectedItem();
             String[] splited = nameCedt.getText().toString().split("\\s+");
             if (containsWhitespace(nameCedt.getText().toString())) {
                 modelpostPacifyrRequest.setFirstName(splited[0]);

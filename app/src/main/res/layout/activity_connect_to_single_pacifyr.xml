@@ -13,6 +13,7 @@
     </include>
 
     <ImageView
+        android:visibility="gone"
         android:id="@+id/image_logo"
         android:layout_width="200dp"
         android:layout_height="80dp"
@@ -25,6 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="10dp"
+        android:layout_marginBottom="20dp"
         android:paddingTop="10dp"
         android:elevation="10dp"
         android:gravity="center_horizontal"
@@ -38,70 +40,94 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:gravity="center"
-            android:text="Get ready to feel better!"
+            android:padding="5dp"
+            android:text="@string/get_ready_to_feel_better"
             android:textColor="@color/grey_hex_a2"
             android:layout_marginBottom="7dp"
             android:textSize="18sp"
             android:textStyle="bold" />
 
         <View
+            android:layout_marginStart="55dp"
+            android:layout_marginEnd="55dp"
             android:layout_width="match_parent"
             android:layout_marginTop="20dp"
             android:id="@+id/view_line"
             android:layout_below="@+id/text_feel_ctxv"
             android:layout_height="4dp"
             android:background="@color/grey_dark"/>
+<LinearLayout
+    android:layout_marginStart="50dp"
+    android:layout_marginEnd="50dp"
+    android:layout_below="@+id/view_line"
+    android:layout_marginTop="-20dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
 
+        <LinearLayout
+            android:gravity="center|start"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content">
         <Button
+            android:foreground="?android:attr/selectableItemBackground"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_below="@+id/view_line"
-            android:layout_marginTop="-20dp"
             android:id="@+id/button1"
             android:text="1"
             android:clickable="false"
             android:textColor="@color/white"
-            android:layout_marginLeft="50dp"
             android:background="@drawable/circle_click_btn"/>
 
+</LinearLayout>
+        <LinearLayout
+            android:gravity="center"
+            android:layout_width="0dp"
+            android:layout_weight="1.5"
+            android:layout_height="wrap_content">
 
         <Button
+            android:foreground="?android:attr/selectableItemBackground"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_below="@+id/view_line"
-            android:layout_marginTop="-20dp"
             android:id="@+id/button2"
             android:text="2"
             android:textColor="@color/white"
             android:clickable="false"
-            android:layout_marginLeft="130dp"
             android:background="@drawable/circle_button"/>
-
+</LinearLayout>
+        <LinearLayout
+            android:gravity="center"
+            android:layout_width="0dp"
+            android:layout_weight="1.5"
+            android:layout_height="wrap_content">
         <Button
+            android:foreground="?android:attr/selectableItemBackground"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_below="@+id/view_line"
-            android:layout_marginTop="-20dp"
             android:id="@+id/button3"
             android:text="3"
             android:textColor="@color/white"
             android:clickable="false"
-            android:layout_marginLeft="210dp"
             android:background="@drawable/circle_button"/>
-
+</LinearLayout>
+<LinearLayout
+    android:gravity="center|end"
+    android:layout_width="0dp"
+    android:layout_weight="1"
+    android:layout_height="wrap_content">
         <Button
+            android:foreground="?android:attr/selectableItemBackground"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_below="@+id/view_line"
-            android:layout_marginTop="-20dp"
             android:id="@+id/button4"
             android:text="4"
             android:textColor="@color/white"
             android:clickable="false"
-            android:layout_marginLeft="290dp"
             android:background="@drawable/circle_button"/>
-
-
+</LinearLayout>
+</LinearLayout>
 
     </RelativeLayout>
     <FrameLayout
@@ -116,7 +142,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="visible"
-        android:layout_marginTop="-25dp"
+        android:layout_marginTop="-20dp"
         android:layout_below="@+id/top_rlay"
         android:id="@+id/select_feeling_rlay"
         android:background="#F0F3F5">
@@ -135,7 +161,7 @@
                 android:textSize="20sp"
                 android:textColor="@color/colorPrimary"
                 android:id="@+id/user_name_ctxv"
-                android:text="Hello"/>
+                android:text="@string/hello"/>
 
             <com.pacifyr.client.customview.MainTextView
                 android:layout_width="wrap_content"
@@ -155,14 +181,15 @@
                     android:id="@+id/sad_llay"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
+                    android:layout_marginStart="20dp"
                     android:gravity="center"
-                    android:layout_marginRight="0dp"
+                    android:layout_marginEnd="0dp"
                     android:orientation="vertical">
 
                     <com.pacifyrapp.utilitylibrary.DeviceFitImageView
                         android:id="@+id/sad_dimv"
                         android:layout_width="45dp"
+                        android:background="?android:attr/selectableItemBackground"
                         android:layout_height="45dp"
                         android:layout_gravity="center_horizontal"
                         android:src="@drawable/sad"
@@ -176,21 +203,22 @@
                         android:layout_marginTop="10dp"
                         android:textAlignment="center"
                         android:textColor="@color/grey_dark"
-                        android:text="A bit down" />
+                        android:text="@string/a_bit_down" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
+                    android:layout_marginStart="20dp"
                     android:gravity="center"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginEnd="10dp"
                     android:layout_toRightOf="@id/sad_llay"
                     android:orientation="vertical">
 
                     <com.pacifyrapp.utilitylibrary.DeviceFitImageView
                         android:id="@+id/happy_dimv"
                         android:layout_width="45dp"
+                        android:background="?android:attr/selectableItemBackground"
                         android:layout_height="45dp"
                         android:layout_gravity="center_horizontal"
                         android:src="@drawable/happy"
@@ -204,7 +232,7 @@
                         android:layout_marginTop="10dp"
                         android:textAlignment="center"
                         android:textColor="@color/grey_dark"
-                        android:text="Good" />
+                        android:text="@string/good" />
                 </LinearLayout>
             </RelativeLayout>
 
@@ -229,7 +257,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"
-        android:layout_marginTop="-25dp"
+        android:layout_marginTop="-20dp"
         android:layout_below="@+id/top_rlay"
         android:id="@+id/select_emotion_rlay"
         android:background="#F0F3F5">
@@ -246,13 +274,14 @@
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
                 android:textColor="@color/grey_dark"
-                android:text="Tell me more"/>
+                android:text="@string/tell_me_more"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <androidx.recyclerview.widget.RecyclerView
+                    android:overScrollMode="never"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
@@ -280,7 +309,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"
-        android:layout_marginTop="-25dp"
+        android:layout_marginTop="-20dp"
         android:layout_below="@+id/top_rlay"
         android:id="@+id/select_emotion_detail_rlay"
         android:background="#F0F3F5">
@@ -298,15 +327,14 @@
                 android:textSize="20sp"
                 android:id="@+id/why_feeling_ctxv"
                 android:textColor="@color/grey_dark"
-                android:text="Why are you feeling"
+                android:text="@string/why_are_you_feeling"
                 android:layout_marginBottom="20dp"/>
 
             <androidx.recyclerview.widget.RecyclerView
+                android:overScrollMode="never"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/emotion_detail_rcv"
-                android:scrollbars="vertical"
-                android:fadeScrollbars="false">
+                android:id="@+id/emotion_detail_rcv">
 
             </androidx.recyclerview.widget.RecyclerView>
 
@@ -316,7 +344,7 @@
                 android:id="@+id/more_button"
                 android:textColor="@color/colorPrimary"
                 android:background="@android:color/transparent"
-                android:text="More"/>
+                android:text="@string/more"/>
 
         </LinearLayout>
 
@@ -327,7 +355,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"
-        android:layout_marginTop="-25dp"
+        android:layout_marginTop="-20dp"
         android:layout_below="@+id/top_rlay"
         android:id="@+id/select_list_pacifyr_rlay"
         android:background="#F0F3F5">
@@ -383,7 +411,7 @@
                     android:id="@+id/status_indicator_ctxv"
                     android:textStyle="bold"
                     android:textSize="10sp"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
                     android:textColor="@color/grey_dark"
                     android:text="@string/offline"/>
 
@@ -424,7 +452,7 @@
                 <com.pacifyr.client.customview.MainTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="chat detail"
+                    android:text="@string/chat_detail"
                     android:id="@+id/chat_price_ctxv"
                     android:textColor="@color/white"
                     android:textAlignment="center"
@@ -437,8 +465,8 @@
             android:layout_height="match_parent"
             android:layout_centerHorizontal="true"
             android:orientation="horizontal"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
             android:layout_marginBottom="20dp"
             android:gravity="center_horizontal">
 
@@ -475,8 +503,8 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:padding="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
                 android:id="@+id/audiocall_rlay"
                 android:background="@drawable/primary_cirlce">
 
@@ -520,7 +548,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:padding="10dp"
-                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
                 android:id="@+id/schedule_rlay"
                 android:background="@drawable/blue_cirlce">
 

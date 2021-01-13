@@ -1,4 +1,4 @@
-package com.pacifyr.client.network;
+package com.pacifyr.client.orginals;
 
 import android.content.Context;
 import android.content.Intent;
@@ -27,7 +27,7 @@ public class Auth {
     private static String TAG = Auth.class.getName();
     private static String ANDROID_ID;
     private static String VISIBLE_ACTIVITY = "";
-    private static final boolean enableSessionManagement = false;
+    private static final boolean enableSessionManagement = true;
     private static Toast toast;
 
     public static void httpStatusFilter(Context c, int status) {
@@ -38,29 +38,27 @@ public class Auth {
                         || VISIBLE_ACTIVITY.equals(SplashScreen.class.getName())) {
                     Log.d(TAG, "httpStatusFilter: login page already shown" + status);
                 } else {
-                   if (!isCallActive)
-                   {
-                       PrefManager.getInstance(c).clear();
-                       Intent intent = new Intent(c, SignActivity.class);
-                       intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-                               | Intent.FLAG_ACTIVITY_CLEAR_TOP
-                               | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                       intent.putExtra("EXIT", true);
-                       c.startActivity(intent);
-                       if (toast != null) {
-                           toast.cancel();
-                       }
-                       toast = Toast.makeText(c, c.getString(R.string.please_login_to_continue), Toast.LENGTH_LONG);
-                       toast.show();
+                    PrefManager.getInstance(c).clear();
+                    Intent intent = new Intent(c, SignActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                            | Intent.FLAG_ACTIVITY_CLEAR_TOP
+                            | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    intent.putExtra("EXIT", true);
+                    c.startActivity(intent);
+                    if (toast != null) {
+                        toast.cancel();
+                    }
+                    toast = Toast.makeText(c, c.getString(R.string.please_login_to_continue), Toast.LENGTH_LONG);
+                    toast.show();
 
-                   }
                 }
 
                 break;
             default:
-                Log.d(TAG, "httpStatusFilter: "+status);
+                Log.d(TAG, "httpStatusFilter: " + status);
         }
     }
+
     public static void setActiveOnFDB(Context context) {
         if (!enableSessionManagement) {
             return;
@@ -117,6 +115,7 @@ public class Auth {
     /*
      *used to know is any of login activity on front
      */
+
     public static void foreground(String activity){
         VISIBLE_ACTIVITY=activity;
     }

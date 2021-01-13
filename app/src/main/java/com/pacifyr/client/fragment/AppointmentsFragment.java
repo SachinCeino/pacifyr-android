@@ -27,7 +27,7 @@ import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.fragment.schedule.AppointmentModel;
 import com.pacifyr.client.fragment.schedule.ScheduleBottomSheetFragment;
-import com.pacifyr.client.network.Auth;
+import com.pacifyr.client.orginals.Auth;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.utility.BaseFragment;

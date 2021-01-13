@@ -41,7 +41,7 @@ import com.pacifyr.client.home.PacifyrDashboardActivity;
 import com.pacifyr.client.home.SessionSummaryActivity;
 import com.pacifyr.client.model.CallStatus;
 import com.pacifyr.client.model.HttpStatus;
-import com.pacifyr.client.network.Auth;
+import com.pacifyr.client.orginals.Auth;
 import com.pacifyr.client.quickblox.App;
 import com.pacifyr.client.quickblox.db.QbUsersDbManager;
 import com.pacifyr.client.quickblox.fragments.AudioConversationFragment;

@@ -44,12 +44,14 @@ import com.pacifyr.client.R;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.AlertTypeEvent;
 import com.pacifyr.client.event.NotifyEvent;
-import com.pacifyr.client.network.Auth;
+import com.pacifyr.client.orginals.Auth;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.quickblox.activities.CallActivity;
+import com.pacifyr.client.quickblox.chat.interfaces.AttachmentClick;
 import com.pacifyr.client.quickblox.chat.ui.adapter.AttachmentPreviewAdapter;
 import com.pacifyr.client.quickblox.chat.ui.adapter.ChatAdapter;
 import com.pacifyr.client.quickblox.chat.ui.widget.AttachmentPreviewAdapterView;
+import com.pacifyr.client.quickblox.chat.ui.widget.BottomAttachDialog;
 import com.pacifyr.client.quickblox.chat.utils.chat.ChatHelper;
 import com.pacifyr.client.quickblox.chat.utils.qb.PaginationHistoryListener;
 import com.pacifyr.client.quickblox.chat.utils.qb.QbChatDialogMessageListenerImp;
@@ -83,6 +85,7 @@ import org.jivesoftware.smack.ConnectionListener;
 import org.jivesoftware.smack.SmackException;
 import org.jivesoftware.smack.XMPPException;
 import org.json.JSONObject;
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -100,7 +103,7 @@ import static com.pacifyr.client.twilio.VideoActivity.isCallActive;
 
 
 //com.pacifyr.pacifyrapp.quickblox.chat.ui.activity.BaseActivity
-public class ChatActivity extends PacifyrAppCompactActivity {
+public class ChatActivity extends PacifyrAppCompactActivity implements AttachmentClick {
     private static final String TAG = ChatActivity.class.getSimpleName();
     private static final int REQUEST_CODE_ATTACHMENT = 721;
     private static final int REQUEST_CODE_SELECT_PEOPLE = 752;
@@ -114,7 +117,7 @@ public class ChatActivity extends PacifyrAppCompactActivity {
     private ProgressBar progressBar;
     private ListView messagesListView;
     private EditText messageEditText;
-
+    private  BottomAttachDialog bottomSheet;
     private LinearLayout attachmentPreviewContainerLayout;
     private Snackbar snackbar;
 
@@ -129,7 +132,7 @@ public class ChatActivity extends PacifyrAppCompactActivity {
     public static MUser mPacifyr;
     private String myUserId;
     private ArrayList<String> opponentIds;
-    private AlertDialog choosePicker;
+    //private AlertDialog choosePicker;
 
     private String outputPath;
     private View sendButton;
@@ -506,30 +509,9 @@ public class ChatActivity extends PacifyrAppCompactActivity {
 
     String[] items = null;
     private void shoImagePickerAlert(View view) {
-        if (!isCallActive) {
-            items = new String[]{"Camera", "Gallery"};
-        } else {
-            items = new String[]{"Gallery"};
-        }
-        AlertDialog.Builder builder = new AlertDialog.Builder(ChatActivity.this);
-        builder.setItems(items, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if (items[which].equalsIgnoreCase("camera")) {
-                    new GligarPicker().requestCode(REQUESTCODE_CAMERA_IMAGE).disableCamera(false).cameraDirect(true).withActivity(ChatActivity.this).show();
-                } else if (items[which].equalsIgnoreCase("gallery")) {
-                    new GligarPicker().requestCode(REQUESTCODE_GALLERY_IMAGE).disableCamera(true).withActivity(ChatActivity.this).show();
-                }
 
-            }
-        });
-        builder.setTitle("Choose");
-        if (choosePicker != null && choosePicker.isShowing()) {
-            choosePicker.dismiss();
-        }
-        choosePicker = builder.create();
-        choosePicker.show();
-
+         bottomSheet = new BottomAttachDialog(isCallActive,this);
+        bottomSheet.show(getSupportFragmentManager(), "AttachBottomSheet");
     }
 
     public void showMessage(QBChatMessage message) {
@@ -577,6 +559,27 @@ public class ChatActivity extends PacifyrAppCompactActivity {
                 });
         AttachmentPreviewAdapterView previewAdapterView = _findViewById(R.id.adapter_view_attachment_preview);
         previewAdapterView.setAdapter(attachmentPreviewAdapter);
+    }
+
+    @Override
+    public void onClick(int pos) {
+    switch (pos){
+        case 0:
+        new GligarPicker().requestCode(REQUESTCODE_CAMERA_IMAGE).disableCamera(false).cameraDirect(true).withActivity(ChatActivity.this).show();
+        bottomSheet.dismiss();
+        break;
+        case 1:
+            new GligarPicker().requestCode(REQUESTCODE_GALLERY_IMAGE).disableCamera(true).withActivity(ChatActivity.this).show();
+            bottomSheet.dismiss();
+            break;
+        case 2:
+        //todo open docs list
+        bottomSheet.dismiss();
+        break;
+        case -1:
+            bottomSheet.dismiss();
+            break;
+}
     }
 
 
@@ -641,7 +644,7 @@ public class ChatActivity extends PacifyrAppCompactActivity {
         chatMessage.setMarkable(true);
 
         if (!QBDialogType.PRIVATE.equals(qbChatDialog.getType()) && !qbChatDialog.isJoined()){
-            Toaster.shortToast("You're still joining a group chat, please wait a bit");
+            Toaster.shortToast(R.string.toast_youstill_joining_group_chat);
             return;
         }
 
@@ -694,7 +697,7 @@ public class ChatActivity extends PacifyrAppCompactActivity {
                     if (sendButton != null) {
                         sendButton.setEnabled(true);
                     }
-                    Toaster.shortToast("Message not sent " + e.getMessage());
+                    Toaster.shortToast(getString(R.string.toast_msg_not_sent) + e.getMessage());
                 }
             });
 
@@ -704,7 +707,7 @@ public class ChatActivity extends PacifyrAppCompactActivity {
                 sendButton.setEnabled(true);
             }
             Log.w(TAG, e);
-            Toaster.shortToast("Message not sent " + e.getMessage());
+            Toaster.shortToast(getString(R.string.toast_msg_not_sent)  + e.getMessage());
         }
     }
 

@@ -23,7 +23,7 @@ import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.event.WeekSetSessionEvent;
 import com.pacifyr.client.home.DashboardActivity;
-import com.pacifyr.client.network.Auth;
+import com.pacifyr.client.orginals.Auth;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.quickblox.util.NestedScroll;

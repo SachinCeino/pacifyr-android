@@ -32,7 +32,6 @@ import com.google.firebase.auth.PhoneAuthProvider;
 import com.pacifyr.client.R;
 import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
-import com.pacifyr.client.network.Auth;
 import com.pacifyr.client.utils.FirebaseLogging;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 

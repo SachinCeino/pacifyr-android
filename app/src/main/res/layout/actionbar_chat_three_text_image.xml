@@ -44,7 +44,7 @@
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/user_cimv"
                 android:id="@+id/left_txv"
-                android:paddingLeft="10dp"
+                android:paddingStart="@dimen/dp10"
                 android:textSize="@dimen/sp18"
                 android:visibility="gone"
                 android:text=""
@@ -52,7 +52,19 @@
                 android:textColor="@color/_color_action_bar_text_color"
                 />
         </LinearLayout>
-
+        <com.pacifyr.client.customview.MainTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/left_llay"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="50dp"
+            android:paddingStart="@dimen/dp10"
+            android:textSize="@dimen/sp12"
+            android:visibility="visible"
+            android:text="Online"
+            android:layout_centerVertical="true"
+            android:textColor="@color/_color_action_bar_text_color"
+            />
         <com.pacifyr.client.customview.MainTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -32,6 +32,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
+
 import com.opensooq.supernova.gligar.GligarPicker;
 import com.pacifyr.client.R;
 import com.pacifyr.client.adapter.CountrySpinnerAdapter;
@@ -39,7 +40,8 @@ import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.home.DashboardActivity;
 import com.pacifyr.client.home.PacifyrDashboardActivity;
-import com.pacifyr.client.model.ItemData;
+
+import com.pacifyr.client.model.Country;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.utils.LogUtils;
@@ -146,38 +148,12 @@ public class SignUpActivity extends PacifyrActivity {
                 }
             });*/
 
-            ArrayList<ItemData> list=new ArrayList<>();
-            list.add(new ItemData("+1","US",R.drawable.flag_usa));
-            if (!getPackageName().equalsIgnoreCase("com.pacifyr.pam")) {
-                list.add(new ItemData("+1", "Canada", R.drawable.canada2));
-                list.add(new ItemData("+91", "India", R.drawable.ic_india));
-                list.add(new ItemData("+971", "UAE", R.drawable.flag_uae2));
-            }
-            /*list.add(new ItemData("+971","Kuwait", R.drawable.kuwait2));*/
+
             sp = findViewById(R.id.spinner);
-            CountrySpinnerAdapter adapter=new CountrySpinnerAdapter(this,
-                    R.layout.spinner_item,R.id.txt,list);
+            CountrySpinnerAdapter adapter = new CountrySpinnerAdapter(this,
+                    R.layout.spinner_item, R.id.txt, Country.getAvailableCountryList());
             sp.setAdapter(adapter);
-
-
-            String countryCode = prefM.getCountryCode();
-            if (!getPackageName().equalsIgnoreCase("com.pacifyr.pam")) {
-                if (countryCode.equals("IN")) {
-                    sp.setSelection(2);
-                } else if (countryCode.equals("US")) {
-                    sp.setSelection(0);
-                } else if (countryCode.equals("Canada")) {
-                    sp.setSelection(1);
-                } else if (countryCode.equals("AE")) {
-                    sp.setSelection(3);
-                }
-            }
-            else
-            {
-                if (countryCode.equals("US")){
-                    sp.setSelection(0);
-                }
-            }
+            sp.setSelection(Country.getIndex(this, Country.getAvailableCountryList()));
 
             /* enter_phone_ctxv = (MainTextView) findViewById(R.id.enter_phone_ctxv);*/
 
@@ -304,7 +280,7 @@ public class SignUpActivity extends PacifyrActivity {
             sp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    countryData = list.get(position);
+                    countryData = Country.getAvailableCountryList().get(position);
                     selectRemoteConfigUrl(position);
                 }
 
@@ -416,7 +392,7 @@ public class SignUpActivity extends PacifyrActivity {
         try{
             if(!isValidMobile(phoneCedit,getResources().getString(R.string.Please_enter_your_phone_number)))
                 return ;
-            countryData = (ItemData) sp.getSelectedItem();
+            countryData = (Country) sp.getSelectedItem();
             String code = countryData.getCode();
             RegisterVerifyActivity.phoneRegister = code+/* countryCodePicker.getSelectedCountryCode() +*/ phoneCedit.getText() + "";
             RegisterVerifyActivity.phoneRegisterSub = code+ /*countryCodePicker.getDefaultCountryCode() + " " +*/ phoneCedit.getText() + " ";
@@ -648,6 +624,7 @@ public class SignUpActivity extends PacifyrActivity {
                         String compID = user.getCompanyId();
                         if (mainLabel.equals("pacifyr")) {
                             Intent i = new Intent(SignUpActivity.this, PacifyrDashboardActivity.class);
+                            overridePendingTransition(R.anim.slide_out_left, R.anim.slide_in_left);
                             startActivity(i);
                             finish();
                         } else if (mainLabel.equals("customer")) {

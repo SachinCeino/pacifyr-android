@@ -9,7 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 
 import com.pacifyr.client.R;
-import com.pacifyr.client.model.ItemData;
+import com.pacifyr.client.model.Country;
 
 import java.util.ArrayList;
 
@@ -17,15 +17,15 @@ import java.util.ArrayList;
  * Created by ceino on 11/1/18.
  */
 
-public class CountrySpinnerAdapter extends ArrayAdapter<ItemData> {
+public class CountrySpinnerAdapter extends ArrayAdapter<Country> {
 
     public
 
     int groupid;
     Activity context;
-    ArrayList<ItemData> list;
+    ArrayList<Country> list;
     LayoutInflater inflater;
-    public CountrySpinnerAdapter(Activity context, int groupid, int id, ArrayList<ItemData>
+    public CountrySpinnerAdapter(Activity context, int groupid, int id, ArrayList<Country>
             list){
         super(context,id,list);
         this.list=list;
@@ -38,7 +38,7 @@ public class CountrySpinnerAdapter extends ArrayAdapter<ItemData> {
         final ImageView imageView=(ImageView)itemView.findViewById(R.id.img);
         imageView.setImageResource(list.get(position).getImageId());
         //TextView textView=(TextView)itemView.findViewById(R.id.txt);
-       // textView.setText(list.get(position).getText());
+        // textView.setText(list.get(position).getText());
         return itemView;
     }
 

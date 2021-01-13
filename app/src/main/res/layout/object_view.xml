@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="100dp"
+    android:layout_height="110dp"
+    android:background="@drawable/round_edge_background"
+    android:gravity="center"
+    android:padding="5dp">
+
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="2dp"
+        tools:src="@color/background_chat_color" />
+
+    <TextView
+        android:id="@+id/caption"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="@string/caption_of_image"
+        android:textAlignment="center"
+        android:textColor="#666"
+        android:textSize="12sp"/>
+
+</LinearLayout>

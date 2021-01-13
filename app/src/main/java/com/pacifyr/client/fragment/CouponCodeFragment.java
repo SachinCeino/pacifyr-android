@@ -18,7 +18,7 @@ import com.pacifyr.client.R;
 import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.home.DashboardActivity;
 import com.pacifyr.client.model.ApiResponse;
-import com.pacifyr.client.network.Auth;
+import com.pacifyr.client.orginals.Auth;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.utility.BaseFragment;
@@ -34,10 +34,16 @@ public class CouponCodeFragment extends BaseFragment {
 
     private RelativeLayout button_validate;
     private EditText edit_discount;
+    private String code="";
     public CouponCodeFragment() {
         // Required empty public constructor
     }
 
+    public static CouponCodeFragment setCoupen(String code){
+        CouponCodeFragment c=new CouponCodeFragment();
+        c.code=code;
+        return c;
+    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,6 +74,7 @@ public class CouponCodeFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
 
         edit_discount = view.findViewById(R.id.edit_discount_code);
+        if(!code.equals(""))edit_discount.setText(code);
         button_validate = view.findViewById(R.id.button_validate);
         button_validate.setOnClickListener(new View.OnClickListener() {
             @Override

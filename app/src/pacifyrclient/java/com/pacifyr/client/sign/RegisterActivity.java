@@ -70,7 +70,8 @@ import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.fragment.StatesDialog;
 import com.pacifyr.client.home.PacifyrDashboardActivity;
 import com.pacifyr.client.home.WelcomeTourActivity;
-import com.pacifyr.client.model.ItemData;
+import com.pacifyr.client.model.Country;
+
 import com.pacifyr.client.model.ModelPacifyrDocuments;
 import com.pacifyr.client.model.State;
 import com.pacifyr.client.network.GsonUtils;
@@ -289,28 +290,14 @@ public class RegisterActivity extends PacifyrActivity {
 
             context = RegisterActivity.this;
 
-            ArrayList<ItemData> list=new ArrayList<>();
-            list.add(new ItemData("+1","US",R.drawable.flag_usa));
-            list.add(new ItemData("+1","Canada",R.drawable.canada2));
-            list.add(new ItemData("+91","India",R.drawable.ic_india));
-            list.add(new ItemData("+971","UAE", R.drawable.flag_uae2));
 
             CountrySpinnerAdapter adapter=new CountrySpinnerAdapter(this,
-                    R.layout.spinner_item,R.id.txt,list);
+                    R.layout.spinner_item,R.id.txt, Country.getAvailableCountryList());
             spinner.setAdapter(adapter);
-
+            spinner.setSelection(Country.getIndex(this,Country.getAvailableCountryList()));
             String countryCode = prefM.getCountryCode();
 
-            if(countryCode.equals("IN")){
-                spinner.setSelection(2);
-            }else if (countryCode.equals("US")){
-                spinner.setSelection(0);
-            }else if (countryCode.equals("CA")){
-                spinner.setSelection(1);
-            }
-            else if (countryCode.equals("AE")){
-                spinner.setSelection(3);
-            }
+
 
             // loopView=(LoopView) findViewById(R.id.loop_view);
 
@@ -991,9 +978,9 @@ public class RegisterActivity extends PacifyrActivity {
                     }
 
                     if (isValidMobile(phoneCedt.getText().toString())) {
+                        countryData = (Country) spinner.getSelectedItem();
                         TextView_Phonelay_Error.setVisibility(View.GONE);
                         makEditTextBackgroundBlack(phoneCedt);
-                        countryData = (ItemData) spinner.getSelectedItem();
                         String code = countryData.getCode();
                         phoneRegister = code + phoneCedt.getText();
                         postRegisterModel.setLoginType("facebook");
@@ -1454,6 +1441,7 @@ public class RegisterActivity extends PacifyrActivity {
                             if (mainLabel.equals("pacifyr")) {
                                 getPrefManager(RegisterActivity.this).saveIsOnline("true");
                                 Intent i = new Intent(RegisterActivity.this, PacifyrDashboardActivity.class);
+                                overridePendingTransition(R.anim.slide_out_left, R.anim.slide_in_left);
                                 startActivity(i);
                                 finishAffinity();
                             } else if (mainLabel.equals("customer")) {
@@ -1546,6 +1534,7 @@ public class RegisterActivity extends PacifyrActivity {
                                         if (mainLabel.equals("pacifyr")) {
                                             getPrefManager(RegisterActivity.this).saveIsOnline("true");
                                             Intent i = new Intent(RegisterActivity.this, PacifyrDashboardActivity.class);
+                                            overridePendingTransition(R.anim.slide_out_left, R.anim.slide_in_left);
                                             startActivity(i);
                                             finishAffinity();
                                         } else if (mainLabel.equals("customer")) {

@@ -86,6 +86,7 @@ public class Utility {
 
 
 
+
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     public static boolean checkPermission(final Context context, String type) {
 

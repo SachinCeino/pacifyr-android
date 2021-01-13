@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/popup_element"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    app:layout_behavior="@string/bottom_sheet_behavior"
+    android:padding="15dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:id="@+id/attach_layout"
+        android:paddingBottom="30dp"
+        android:orientation="horizontal">
+
+        <com.pacifyr.client.quickblox.chat.ui.widget.ObjectView
+            android:id="@+id/cam"
+            android:layout_alignParentStart="true"
+            android:layout_width="wrap_content"
+            app:text="@string/text_camera"
+            app:image="@drawable/attach_camera"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|start" />
+
+        <com.pacifyr.client.quickblox.chat.ui.widget.ObjectView
+            android:id="@+id/gallery"
+            app:text="@string/text_gallery"
+            app:image="@drawable/attach_gallery"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_alignParentTop="true"
+            android:layout_gravity="center|center_horizontal" />
+
+        <com.pacifyr.client.quickblox.chat.ui.widget.ObjectView
+            android:id="@+id/doc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            app:text="@string/text_document"
+            app:image="@drawable/attach_document"
+            android:layout_gravity="center|end" />
+    </RelativeLayout>
+
+</LinearLayout>

@@ -30,7 +30,8 @@ import com.pacifyr.client.event.ChatEvent;
 import com.pacifyr.client.event.InternetConnectionEvent;
 import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.model.interfaces.CallChatEventListner;
-import com.pacifyr.client.network.Auth;
+import com.pacifyr.client.orginals.Auth;
+
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.quickblox.utils.Consts;

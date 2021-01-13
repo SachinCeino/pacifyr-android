@@ -1,12 +1,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="160dp"
     android:layout_height="30dp"
+    android:foreground="?android:attr/selectableItemBackground"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="center"
     android:id="@+id/comment_llay"
     android:background="#F0F3F5"
     android:clickable="true"
-    android:layout_margin="4dp"
+    android:layout_margin="6dp"
     android:orientation="vertical">
 
     <com.pacifyr.client.customview.MainTextView
