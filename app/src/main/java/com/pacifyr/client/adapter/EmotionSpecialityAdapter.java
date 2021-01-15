@@ -211,10 +211,12 @@ public class EmotionSpecialityAdapter extends RecyclerView.Adapter<EmotionSpecia
 
                     if(customerRole.equals("customer")){
                         employeeFlag = false;
+                        if(isValid(showallLlay))
                         showallLlay.setVisibility(View.GONE);
                     }
                     else if(customerRole.equals("employee")|| customerRole.equals("unpaidEmployee")){
                         employeeFlag = true;
+                        if(isValid(showallLlay))
                         showallLlay.setVisibility(View.VISIBLE);
                         if(customerRole.equals("unpaidEmployee")){
                             employeeFlag = false;
@@ -222,6 +224,7 @@ public class EmotionSpecialityAdapter extends RecyclerView.Adapter<EmotionSpecia
                     }
                     else if(customerRole.equals("paidMember")){
                         employeeFlag = false;
+                        if(isValid(showallLlay))
                         showallLlay.setVisibility(View.GONE);
                     }
 
