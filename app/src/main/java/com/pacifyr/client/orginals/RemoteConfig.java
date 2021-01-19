@@ -42,14 +42,14 @@ public class RemoteConfig {
 
     public static String _paytmMId="M_ID";
     public static String _paytmChannelId="paytm_channel";
-    public static String _paytmIndustryTypeId="paytm_channel";
-    public static String _paytmWebsite="paytm_channel";
+    public static String _paytmIndustryTypeId="paytm_industry";
+    public static String _paytmWebsite="paytm_website";
     public static String _paytmCallbackUrl="paytm_Callback";
 
     public static String _paytmMId_prod="M_ID_prod";
     public static String _paytmChannelId_prod="paytm_channel_prod";
-    public static String _paytmIndustryTypeId_prod="paytm_channel_prod";
-    public static String _paytmWebsite_prod="paytm_channel_prod";
+    public static String _paytmIndustryTypeId_prod="paytm_industrial_prod";
+    public static String _paytmWebsite_prod="paytm_paytm_website_prod";
     public static String _paytmCallbackUrl_prod="paytm_Callback_prod";
 
     public static String _termsOfUse="terms_of_use";
@@ -169,17 +169,18 @@ public class RemoteConfig {
         //stripe
         m.put(_stripeKey,"pk_live_GClqoTSF6tHpuUmqQET2nxsg");
 
-        //paytm test
+
+       //paytm test
        m.put(_paytmMId,"Pacify50992585761705");
-       m.put(_paytmCallbackUrl,"WAP");
        m.put(_paytmIndustryTypeId,"Retail");
        m.put(_paytmWebsite,"WEBSTAGING");
+       m.put(_paytmChannelId,"WAP");
        m.put(_paytmCallbackUrl,"https://securegw-stage.paytm.in/theia/paytmCallback?ORDER_ID=");
        //paytm _prod
        m.put(_paytmMId_prod,"Pacify79411204626683");
-       m.put(_paytmCallbackUrl_prod,"WAP");
        m.put(_paytmIndustryTypeId_prod,"ECommerce");
        m.put(_paytmWebsite_prod,"DEFAULT");
+       m.put(_paytmChannelId_prod,"WAP");
        m.put(_paytmCallbackUrl_prod,"https://securegw.paytm.in/theia/paytmCallback?ORDER_ID=");
 
        m.put(_termsOfUse,"");
@@ -215,7 +216,7 @@ public class RemoteConfig {
         if(defultVal.containsKey(key)){
             FirebaseRemoteConfigValue val=defultVal.get(key);
             Log.w("RemoteConfigs","setDefaultConfigForKey:"+key+"|"+val);
-            return String.valueOf(val);
+            return val.asString();
         }
         return null;
     }
