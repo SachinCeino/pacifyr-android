@@ -8,18 +8,10 @@ import android.util.Log;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.multidex.MultiDex;
 
-
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
-import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
-import com.pacifyr.client.R;
-
-
 import com.pacifyr.client.orginals.Auth;
-import com.pacifyr.client.orginals.DynamicLink;
 import com.pacifyr.client.orginals.RemoteConfig;
 import com.pacifyr.client.orginals.UserProperties;
-import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
-
 import com.pacifyr.client.quickblox.chat.models.SampleConfigs;
 import com.pacifyr.client.quickblox.chat.utils.Consts;
 import com.pacifyr.client.quickblox.chat.utils.configs.ConfigUtils;
@@ -56,12 +48,14 @@ public class App extends CoreApp {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
-        RemoteConfig.init();
 
-        UtilityNetworkService.init(this);//before this ,Remote config int must be called
+
+        UtilityNetworkService uns = UtilityNetworkService.getInstance();//before this ,Remote config int must be called
+        uns.setRemoteConfigHelper(RemoteConfig.init());
+        UtilityNetworkService.init(this);
         initApplication();
 
-            /*chat*/
+        /*chat*/
         ActivityLifecycle.init(this);
 //        initSampleConfigs();
 

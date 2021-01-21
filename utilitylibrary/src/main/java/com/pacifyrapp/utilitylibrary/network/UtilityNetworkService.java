@@ -14,12 +14,35 @@ import com.pacifyrapp.utilitylibrary.LogUtilsutility;
 import com.pacifyrapp.utilitylibrary.ToastHandler;
 import com.pacifyrapp.utilitylibrary.event.BusProvider;
 import com.pacifyrapp.utilitylibrary.event.NotifyEvent;
+import com.pacifyrapp.utilitylibrary.interfaces.RemoteConfigInterface;
 import com.pacifyrapp.utilitylibrary.model.Users;
 
 import org.json.JSONObject;
 
-import static com.pacifyrapp.utilitylibrary.orginals.RemoteConfigs.*;
-import static com.pacifyrapp.utilitylibrary.orginals.RemoteConfigs.getDefaultConfigForKey;
+import static com.pacifyrapp.utilitylibrary.orginals.RemoteConfigHelper._appId;
+import static com.pacifyrapp.utilitylibrary.orginals.RemoteConfigHelper._appIdNonPamDev;
+import static com.pacifyrapp.utilitylibrary.orginals.RemoteConfigHelper._appIdPam;
+import static com.pacifyrapp.utilitylibrary.orginals.RemoteConfigHelper._authKey;
+import static com.pacifyrapp.utilitylibrary.orginals.RemoteConfigHelper._authKeyNonPamDev;
+import static com.pacifyrapp.utilitylibrary.orginals.RemoteConfigHelper._authKeyPam;
+import static com.pacifyrapp.utilitylibrary.orginals.RemoteConfigHelper._authSecret;
+import static com.pacifyrapp.utilitylibrary.orginals.RemoteConfigHelper._authSecretNonPamDev;
+import static com.pacifyrapp.utilitylibrary.orginals.RemoteConfigHelper._authSecretPam;
+import static com.pacifyrapp.utilitylibrary.orginals.RemoteConfigHelper._certificateKey;
+import static com.pacifyrapp.utilitylibrary.orginals.RemoteConfigHelper._certificateKeyDev;
+import static com.pacifyrapp.utilitylibrary.orginals.RemoteConfigHelper._devStripeKey;
+import static com.pacifyrapp.utilitylibrary.orginals.RemoteConfigHelper._globalImageUrl;
+import static com.pacifyrapp.utilitylibrary.orginals.RemoteConfigHelper._globalUrl;
+import static com.pacifyrapp.utilitylibrary.orginals.RemoteConfigHelper._pamAppIdProd;
+import static com.pacifyrapp.utilitylibrary.orginals.RemoteConfigHelper._pamAuthKeyProd;
+import static com.pacifyrapp.utilitylibrary.orginals.RemoteConfigHelper._pamAuthSecretProd;
+import static com.pacifyrapp.utilitylibrary.orginals.RemoteConfigHelper._pamGlobalImageUrl;
+import static com.pacifyrapp.utilitylibrary.orginals.RemoteConfigHelper._pamGlobalImageUrlNonPamDev;
+import static com.pacifyrapp.utilitylibrary.orginals.RemoteConfigHelper._pamGlobalImageUrlProd;
+import static com.pacifyrapp.utilitylibrary.orginals.RemoteConfigHelper._pamGlobalUrl;
+import static com.pacifyrapp.utilitylibrary.orginals.RemoteConfigHelper._pamGlobalUrlNonPamDev;
+import static com.pacifyrapp.utilitylibrary.orginals.RemoteConfigHelper._pamGlobalUrlProd;
+import static com.pacifyrapp.utilitylibrary.orginals.RemoteConfigHelper._stripeKey;
 
 
 /**
@@ -68,7 +91,7 @@ public class UtilityNetworkService extends IntentService {
     public static final String PACKAGE_PAM = "com.pacifyr.pam";
     public static final String OM_PLAYSTORE = "https://play.google.com/store/apps/details?id=com.ceino.pacifyr.omhealthcare";
     public static boolean isRelease = false;
-    public static boolean isProd = true;
+    public static boolean isProd = false;
     public static String ACCOUNT_KEY = "";
     public static String ACCOUNT_ID = "";
     public static String TURN_SERVER = "";
@@ -81,6 +104,8 @@ public class UtilityNetworkService extends IntentService {
     public static String STRIPE_PUBLISH_KEY = "";
     public static final String TOKEN_EXPIRY_TIME = "5184000000";
     public static final String TOKEN_REFRESH_TIME = "4320000000";
+    private static RemoteConfigInterface remoteConfigHelper;
+    private static UtilityNetworkService instance = null;
 
 
     /** Production*/
@@ -96,52 +121,63 @@ public class UtilityNetworkService extends IntentService {
     public static final String ACCOUNT_KEY = "xMeisck3BS_X6xbjYTQi";
     public static final String ACCOUNT_ID = "77234";
     public static final String CIRTIFICATE_KEY = "production";*/
-    /** dev*/
+
+    /**
+     * dev
+     */
+
+    public static UtilityNetworkService getInstance() {
+        if (instance == null) {
+            instance = new UtilityNetworkService();
+        }
+        return instance;
+    }
 
     // Should call this method on Application onCreate();
     public static void init(Context context) {
+
         ACCOUNT_KEY = "xMeisck3BS_X6xbjYTQi";
         ACCOUNT_ID = "77234";
         TURN_SERVER = "turnserver.quickblox.com";
         CIRTIFICATE_KEY = "development";
         if (context.getPackageName().equalsIgnoreCase(PACKAGE_PAM)) {
             if (isProd) {
-                GLOBAL_URL =getDefaultConfigForKey(_pamGlobalUrlProd);// "http://pam.pacifyr.net:8080/pacifyr/v1/";
-                GLOBAL_IMAGE_URL =getDefaultConfigForKey(_pamGlobalImageUrlProd);// "https://pam-prod.storage.googleapis.com/";
-                STRIPE_PUBLISH_KEY = getDefaultConfigForKey(_stripeKey);//"pk_live_GClqoTSF6tHpuUmqQET2nxsg";
-                CIRTIFICATE_KEY = getDefaultConfigForKey(_certificateKey);// "production";
-                APP_ID = getDefaultConfigForKey(_pamAppIdProd);//"79939";
-                AUTH_KEY = getDefaultConfigForKey(_pamAuthKeyProd);//"fVKU-SnfR-PV6FV";
-                AUTH_SECRET = getDefaultConfigForKey(_pamAuthSecretProd);//"eFYX-M4yjuCQTcK";
+                GLOBAL_URL = remoteConfigHelper.getDefaultValue(_pamGlobalUrlProd);// "http://pam.pacifyr.net:8080/pacifyr/v1/";
+                GLOBAL_IMAGE_URL = remoteConfigHelper.getDefaultValue(_pamGlobalImageUrlProd);// "https://pam-prod.storage.googleapis.com/";
+                STRIPE_PUBLISH_KEY = remoteConfigHelper.getDefaultValue(_stripeKey);//"pk_live_GClqoTSF6tHpuUmqQET2nxsg";
+                CIRTIFICATE_KEY = remoteConfigHelper.getDefaultValue(_certificateKey);// "production";
+                APP_ID = remoteConfigHelper.getDefaultValue(_pamAppIdProd);//"79939";
+                AUTH_KEY = remoteConfigHelper.getDefaultValue(_pamAuthKeyProd);//"fVKU-SnfR-PV6FV";
+                AUTH_SECRET = remoteConfigHelper.getDefaultValue(_pamAuthSecretProd);//"eFYX-M4yjuCQTcK";
             } else {
-                GLOBAL_URL =getDefaultConfigForKey(_pamGlobalUrl);// "http://pam_test.pacifyr.net:8080/pacifyr/v1/";
-                GLOBAL_IMAGE_URL = getDefaultConfigForKey(_pamGlobalImageUrl);//"https://pacifyrtest.storage.googleapis.com/";
-                STRIPE_PUBLISH_KEY = getDefaultConfigForKey(_devStripeKey);//"pk_test_FAVrlQ9hMG3RELCIcWUJpdZf";
-                CIRTIFICATE_KEY = getDefaultConfigForKey(_certificateKeyDev);// "development";
-                APP_ID = getDefaultConfigForKey(_appIdPam);//"78571";
-                AUTH_KEY = getDefaultConfigForKey(_authKeyPam);//"6ZSW67fV5vcUOc7";
-                AUTH_SECRET = getDefaultConfigForKey(_authSecretPam);//"7mQzMYGczcznz6z";
+                GLOBAL_URL = remoteConfigHelper.getDefaultValue(_pamGlobalUrl);// "http://pam_test.pacifyr.net:8080/pacifyr/v1/";
+                GLOBAL_IMAGE_URL = remoteConfigHelper.getDefaultValue(_pamGlobalImageUrl);//"https://pacifyrtest.storage.googleapis.com/";
+                STRIPE_PUBLISH_KEY = remoteConfigHelper.getDefaultValue(_devStripeKey);//"pk_test_FAVrlQ9hMG3RELCIcWUJpdZf";
+                CIRTIFICATE_KEY = remoteConfigHelper.getDefaultValue(_certificateKeyDev);// "development";
+                APP_ID = remoteConfigHelper.getDefaultValue(_appIdPam);//"78571";
+                AUTH_KEY = remoteConfigHelper.getDefaultValue(_authKeyPam);//"6ZSW67fV5vcUOc7";
+                AUTH_SECRET = remoteConfigHelper.getDefaultValue(_authSecretPam);//"7mQzMYGczcznz6z";
             }
 
         } else {
             if (isProd) {
-                GLOBAL_URL =getDefaultConfigForKey(_globalUrl); //"https://app.pacifyr.net/pacifyr/v1/";
-                GLOBAL_IMAGE_URL =getDefaultConfigForKey(_globalImageUrl);// "https://pacifyrprod.storage.googleapis.com/";
-                STRIPE_PUBLISH_KEY = getDefaultConfigForKey(_stripeKey);//"pk_live_GClqoTSF6tHpuUmqQET2nxsg";
-                CIRTIFICATE_KEY = getDefaultConfigForKey(_certificateKey);// "production";
+                GLOBAL_URL = remoteConfigHelper.getDefaultValue(_globalUrl); //"https://app.pacifyr.net/pacifyr/v1/";
+                GLOBAL_IMAGE_URL = remoteConfigHelper.getDefaultValue(_globalImageUrl);// "https://pacifyrprod.storage.googleapis.com/";
+                STRIPE_PUBLISH_KEY = remoteConfigHelper.getDefaultValue(_stripeKey);//"pk_live_GClqoTSF6tHpuUmqQET2nxsg";
+                CIRTIFICATE_KEY = remoteConfigHelper.getDefaultValue(_certificateKey);// "production";
 
-                APP_ID = getDefaultConfigForKey(_appId);//"61574";
-                AUTH_KEY = getDefaultConfigForKey(_authKey);//"2qzAw4EjRen6JeC";
-                AUTH_SECRET = getDefaultConfigForKey(_authSecret);//"jjpWMb9HRUVnTj7";
+                APP_ID = remoteConfigHelper.getDefaultValue(_appId);//"61574";
+                AUTH_KEY = remoteConfigHelper.getDefaultValue(_authKey);//"2qzAw4EjRen6JeC";
+                AUTH_SECRET = remoteConfigHelper.getDefaultValue(_authSecret);//"jjpWMb9HRUVnTj7";
             } else {
-                GLOBAL_URL = getDefaultConfigForKey(_pamGlobalUrlNonPamDev);//"http://testapp.pacifyr.net:8080/pacifyr/v1/";
-                GLOBAL_IMAGE_URL =getDefaultConfigForKey(_pamGlobalImageUrlNonPamDev);// "https://pacifyrtest.storage.googleapis.com/";
-                STRIPE_PUBLISH_KEY = getDefaultConfigForKey(_devStripeKey);//"pk_test_FAVrlQ9hMG3RELCIcWUJpdZf";
-                CIRTIFICATE_KEY = getDefaultConfigForKey(_certificateKeyDev);//"development";
+                GLOBAL_URL = remoteConfigHelper.getDefaultValue(_pamGlobalUrlNonPamDev);//"http://testapp.pacifyr.net:8080/pacifyr/v1/";
+                GLOBAL_IMAGE_URL = remoteConfigHelper.getDefaultValue(_pamGlobalImageUrlNonPamDev);// "https://pacifyrtest.storage.googleapis.com/";
+                STRIPE_PUBLISH_KEY = remoteConfigHelper.getDefaultValue(_devStripeKey);//"pk_test_FAVrlQ9hMG3RELCIcWUJpdZf";
+                CIRTIFICATE_KEY = remoteConfigHelper.getDefaultValue(_certificateKeyDev);//"development";
 
-                APP_ID = getDefaultConfigForKey(_appIdNonPamDev);//"60603";
-                AUTH_KEY = getDefaultConfigForKey(_authKeyNonPamDev);//"RMyP9v64ke8ccet";
-                AUTH_SECRET = getDefaultConfigForKey(_authSecretNonPamDev);//"6TAfArmeSzME8su";
+                APP_ID = remoteConfigHelper.getDefaultValue(_appIdNonPamDev);//"60603";
+                AUTH_KEY = remoteConfigHelper.getDefaultValue(_authKeyNonPamDev);//"RMyP9v64ke8ccet";
+                AUTH_SECRET = remoteConfigHelper.getDefaultValue(_authSecretNonPamDev);//"6TAfArmeSzME8su";
             }
 
         }
@@ -512,5 +548,13 @@ public class UtilityNetworkService extends IntentService {
             }
         });
 
+    }
+
+    public RemoteConfigInterface getRemoteConfigHelper() {
+        return remoteConfigHelper;
+    }
+
+    public void setRemoteConfigHelper(RemoteConfigInterface remoteConfigHelper) {
+        UtilityNetworkService.remoteConfigHelper = remoteConfigHelper;
     }
 }

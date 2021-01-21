@@ -17,26 +17,24 @@ import com.pacifyr.client.fragment.PrescriptionListFragment;
 import com.pacifyr.client.home.DashboardActivity;
 import com.pacifyr.client.home.ListPacifyrScreenActivity;
 import com.pacifyr.client.home.MissedandDeclinedActivity;
-import com.pacifyrapp.utilitylibrary.orginals.RemoteConfigs;
-import com.pacifyrapp.utilitylibrary.orginals.RemoteConfigs.*;
+import com.pacifyrapp.utilitylibrary.interfaces.RemoteConfigInterface;
+import com.pacifyrapp.utilitylibrary.orginals.RemoteConfigHelper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.pacifyrapp.utilitylibrary.orginals.RemoteConfigs._devStripeKey;
+public class RemoteConfig implements RemoteConfigInterface {
+    public static String TAG = RemoteConfig.class.getName();
 
-public class RemoteConfig {
-    public static String TAG=RemoteConfig.class.getName();
-
-    public static String _appType="app_type";
-    public static String _forceUpgrade="forced_upgrade";
-    public static String _globalUrl="url_global";
-    public static String _globalImageUrl="url_image";
-    public static String _certificateKey="key_certificate";
-    public static String _appId="id_app";
-    public static String _authKey="key_auth";
-    public static String _authSecret="secret_auth";
+    public static String _appType = "app_type";
+    public static String _forceUpgrade = "forced_upgrade";
+    public static String _globalUrl = "url_global";
+    public static String _globalImageUrl = "url_image";
+    public static String _certificateKey = "key_certificate";
+    public static String _appId = "id_app";
+    public static String _authKey = "key_auth";
+    public static String _authSecret = "secret_auth";
 
     public static String _stripeKey="key_stripe";
 
@@ -67,35 +65,40 @@ public class RemoteConfig {
     public static String _pamGlobalUrl="url_global_pam";
     public static String _pamGlobalImageUrl="url_image_pam";
     public static String _appIdPam="id_app_pam";
-    public static String _authKeyPam="key_auth_pam";
-    public static String _authSecretPam="secret_auth_pam";
-    public static String _pamStripeKey="key_stripe_pam";
-    public static String _certificateKeyDev="development";
-    public static String _pamGlobalUrlNonPamDev="url_global_nonpam_dev";
-    public static String _pamGlobalImageUrlNonPamDev="url_image_nonpam_dev";
-    public static String _pamStripeKeyNonPamDev="key_stripe_nonpam_dev";
-    public static String _appIdNonPamDev="id_app_nonpam_dev";
-    public static String _authKeyNonPamDev="key_auth_nonpam_dev";
-    public static String _authSecretNonPamDev="secret_auth_nonpam_dev";
+    public static String _authKeyPam = "key_auth_pam";
+    public static String _authSecretPam = "secret_auth_pam";
+    public static String _pamStripeKey = "key_stripe_pam";
+    public static String _certificateKeyDev = "development";
+    public static String _pamGlobalUrlNonPamDev = "url_global_nonpam_dev";
+    public static String _pamGlobalImageUrlNonPamDev = "url_image_nonpam_dev";
+    public static String _pamStripeKeyNonPamDev = "key_stripe_nonpam_dev";
+    public static String _appIdNonPamDev = "id_app_nonpam_dev";
+    public static String _authKeyNonPamDev = "key_auth_nonpam_dev";
+    public static String _authSecretNonPamDev = "secret_auth_nonpam_dev";
+    public static String _devStripeKey = "stripe_dev";
+    private static RemoteConfig instance;
 
     static FirebaseRemoteConfig mConfig;
-    public static FirebaseRemoteConfig Config(){
-        if(mConfig==null) mConfig = FirebaseRemoteConfig.getInstance();
-        Log.w("Config","FirebaseRemoteConfig");
-        RemoteConfigs.setmFirebaseRConfig(mConfig,generateDefault());
+
+    public static FirebaseRemoteConfig Config() {
+        if (mConfig == null) mConfig = FirebaseRemoteConfig.getInstance();
+        Log.w("Config", "FirebaseRemoteConfig");
+        RemoteConfigHelper.setmFirebaseRConfig(mConfig, generateDefault());
         return mConfig;
     }
-    public static void init(){
-        Log.w("Config","FirebaseRemoteConfiginit");
 
+    public static RemoteConfig init() {
+        Log.w("Config", "FirebaseRemoteConfiginit");
         FirebaseRemoteConfigSettings configSettings = new FirebaseRemoteConfigSettings.Builder()
                 .setMinimumFetchIntervalInSeconds(3600)
 
                 .build();
         Config().setConfigSettingsAsync(configSettings);
         Config().setDefaultsAsync(generateDefault());
-
-
+        if (instance == null) {
+            instance = new RemoteConfig();
+        }
+        return instance;
     }
 
    public static String getAppType(){
@@ -120,7 +123,7 @@ public class RemoteConfig {
                            // After config data is successfully fetched, it must be activated before newly fetched
                            // values are returned.
                            Config().activate();
-                           RemoteConfigs.setmFirebaseRConfig(mConfig,generateDefault());
+                           RemoteConfigHelper.setmFirebaseRConfig(mConfig, generateDefault());
                        } else {
                            Log.d(TAG, "Config params not updated: " );
                        }
@@ -213,13 +216,28 @@ public class RemoteConfig {
             if(null==defultVal||defultVal.isEmpty()) {
                 defultVal=mConfig.getAll();}
         }
-        if(defultVal.containsKey(key)){
-            FirebaseRemoteConfigValue val=defultVal.get(key);
-            Log.w("RemoteConfigs","setDefaultConfigForKey:"+key+"|"+val);
+        if (defultVal.containsKey(key)) {
+            FirebaseRemoteConfigValue val = defultVal.get(key);
+            Log.w("RemoteConfigs", "setDefaultConfigForKey:" + key + "|" + val);
             return val.asString();
         }
         return null;
     }
-   public static ArrayList<String> Screens =new ArrayList<>();
 
+    public static ArrayList<String> Screens = new ArrayList<>();
+
+    @Override //For UtilityNetworkService.java in UtilityLibrary
+    public String getDefaultValue(String key) {
+        if (null != mConfig) {
+            if (null == defultVal || defultVal.isEmpty()) {
+                defultVal = mConfig.getAll();
+            }
+        }
+        if (defultVal.containsKey(key)) {
+            FirebaseRemoteConfigValue val = defultVal.get(key);
+            Log.w("RemoteConfigs", "setDefaultConfigForKey:" + key + "|" + val);
+            return val.asString();
+        }
+        return null;
+    }
 }

@@ -2,7 +2,6 @@ package com.pacifyr.client.orginals;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.net.Network;
 import android.net.Uri;
 import android.util.Log;
 
@@ -12,11 +11,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
 import com.google.firebase.dynamiclinks.PendingDynamicLinkData;
-import com.pacifyr.client.activity.SplashScreen;
-import com.pacifyr.client.activity.TermsOfUseActivity;
-import com.pacifyr.client.home.PolicyDocumentActivity;
-import com.pacifyr.client.sign.SignActivity;
-import com.pacifyr.client.utils.Constants;
+import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 
 public class DynamicLink {
     public static String TAG=DynamicLink.class.getName();
@@ -50,6 +45,22 @@ public class DynamicLink {
                         if (pendingDynamicLinkData != null) {
 
                             TheLink = pendingDynamicLinkData.getLink();
+                            if (TheLink != null) {
+                                Log.d(TAG, "deep link " + TheLink);
+                                String link = TheLink.toString();
+                                if (link.contains("/")) {
+                                    String[] splits = link.split("/");
+                                    if (splits != null && splits.length > 0) {
+                                        if (splits[splits.length - 2] != null && splits[splits.length - 2].equalsIgnoreCase("clientcoupon")) {
+                                            String code = splits[splits.length - 1];
+                                            Log.d(TAG, "deep link code " + code);
+                                            if (code != null) {
+                                                PrefManager.getInstance(activity).putString(PrefManager.COUPON_CODE, code);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
 
                         }else{
                            //do something
@@ -89,7 +100,7 @@ public class DynamicLink {
                 }
 
 
-            default:;
+            default:
         }
     }
 
