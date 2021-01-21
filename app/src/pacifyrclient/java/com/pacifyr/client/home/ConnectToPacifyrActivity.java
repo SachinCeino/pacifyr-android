@@ -53,6 +53,7 @@ import com.pacifyrapp.utilitylibrary.model.pacifyr.MListNegativeEmotions;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MListPositiveEmotions;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.RespSearchPacifyrWOption;
+import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.squareup.otto.Subscribe;
 
@@ -159,7 +160,7 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
         setContentView(R.layout.activity_connect_to_pacifyr);
        // checker = new PermissionsChecker(ConnectToPacifyrActivity.this);
        // permissionCheck();
-
+        UtilityNetworkService.init(this);
        // ToastHandler.newInstance(ConnectToPacifyrActivity.this).mustShowToast("Works under Progress");
         Bundle extras = getIntent().getExtras();
         pacifyrName = extras.getString("display");
