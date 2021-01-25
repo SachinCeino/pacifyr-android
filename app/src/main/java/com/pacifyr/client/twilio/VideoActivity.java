@@ -2276,9 +2276,6 @@ public class VideoActivity extends PacifyrActivity {
                     missedSessionWeb(SessionId);
                 }
             }
-            Intent intent = new Intent(getApplicationContext(), DashboardActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
             finish();
         }
         catch (Exception e)
