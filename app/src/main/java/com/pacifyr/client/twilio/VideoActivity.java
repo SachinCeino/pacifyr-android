@@ -989,7 +989,7 @@ public class VideoActivity extends PacifyrActivity {
 
                                 if (isValid(mPrescriptionList.getResults().get(0)) && isValid(mPrescriptionList.getResults().get(0).getText()))
                                 {
-                                    if (mPrescriptionList.getResults().get(0).getSessionId().equals(sessionid))
+                                    if (mPrescriptionList.getResults().get(0).getSessionId().equals(SessionId))
                                     {
                                         String mPrescriptionFile=mPrescriptionList.getResults().get(0).getText();
                                         if(isValid(mPrescriptionFile))
