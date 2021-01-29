@@ -711,4 +711,56 @@
         <!--            </FrameLayout>-->
     </com.pacifyr.client.utils.PagerEnabledSlidingPaneLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:visibility="gone"
+        android:id="@+id/LinearLayout_Active_Session"
+        android:background="@color/white"
+        android:layout_marginTop="50dp">
+        <com.pacifyr.client.customview.MainTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/active_session"
+            android:textSize="19sp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:layout_gravity="center_vertical"
+            >
+
+        </com.pacifyr.client.customview.MainTextView>
+
+        <com.pacifyr.client.customview.MainTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/Join"
+            android:textSize="19sp"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:padding="5dp"
+            android:id="@+id/JoinCall"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/blue_border_blue_solid_rectangle_sharp"
+            >
+
+        </com.pacifyr.client.customview.MainTextView>
+        <com.pacifyr.client.customview.MainTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/Chat"
+            android:textSize="19sp"
+            android:padding="5dp"
+            android:id="@+id/JoinChat"
+            android:textColor="@color/white"
+            android:layout_marginLeft="20dp"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/blue_border_blue_solid_rectangle_sharp"
+            >
+
+        </com.pacifyr.client.customview.MainTextView>
+    </LinearLayout>
+
 </RelativeLayout>

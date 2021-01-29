@@ -1846,7 +1846,52 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
 
     }
 
+    public void rejoinToTwilioRoom(MUser pacifyerDetial, boolean isVideoCall,boolean isAppointment,String timeSlotBookingId,String roomName,String sessionId) {
+        try{
+            String url = NetworkService.ACCESS_TOKEN_SERVER_URL;
+            String token = getPrefManager().getAccessToken();
 
+            AjaxCallback cb = new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject jsonObject, AjaxStatus status) {
+
+
+                    try {
+                        if (isValid(jsonObject))
+                        {
+                            TwilioAccessToken mTwilioAccessToken=GsonUtils.getInstance().gsonToTwilioAccessToken(jsonObject);
+                            if (isValid(mTwilioAccessToken) && mTwilioAccessToken.getStatus().equals("success") &&isValid(mTwilioAccessToken.getMessage())) {
+                                VideoActivity.start(getApplicationContext(),mTwilioAccessToken.getMessage(),roomName,pacifyerDetial,isVideoCall,isAppointment,timeSlotBookingId,true,sessionId);
+                            }
+                            else
+                            {
+                                finish();
+                            }
+                        }
+                        else
+                        {
+                            finish();
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            };
+
+            AQuery aq = new AQuery(getApplicationContext());
+            cb.header("Content-Type", "application/json");
+            cb.header("AccessToken", token);
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.putOpt("roomName", roomName);
+            aq.post(url, jsonObject, JSONObject.class, cb);
+
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+    }
 
     public void startSessionWeb(String roomName,String TwilioToken,final MUser pacifyer, final boolean isVideoCall) {
         try {

@@ -625,5 +625,8 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="text_gallery">Gallery</string>
     <string name="text_document">Document</string>
     <string name="caption_of_image">Caption of the Image</string>
+    <string name="active_session">Active session</string>
+    <string name="Join">Join</string>
+    <string name="Chat">Chat</string>
 
 </resources>

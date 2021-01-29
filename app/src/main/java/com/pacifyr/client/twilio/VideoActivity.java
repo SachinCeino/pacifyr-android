@@ -17,6 +17,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
+import android.os.HandlerThread;
 import android.os.Looper;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
@@ -105,8 +106,12 @@ import com.twilio.video.G722Codec;
 import com.twilio.video.H264Codec;
 import com.twilio.video.IsacCodec;
 import com.twilio.video.LocalAudioTrack;
+import com.twilio.video.LocalAudioTrackPublication;
+import com.twilio.video.LocalDataTrack;
+import com.twilio.video.LocalDataTrackPublication;
 import com.twilio.video.LocalParticipant;
 import com.twilio.video.LocalVideoTrack;
+import com.twilio.video.LocalVideoTrackPublication;
 import com.twilio.video.OpusCodec;
 import com.twilio.video.PcmaCodec;
 import com.twilio.video.PcmuCodec;
@@ -131,6 +136,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONObject;
 
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -144,7 +150,7 @@ import static com.pacifyr.client.utils.Constants.getCountryChecks;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.isProd;
 
-public class VideoActivity extends PacifyrActivity {
+public class VideoActivity extends PacifyrActivity implements LocalParticipant.Listener{
     private static final int CAMERA_MIC_PERMISSION_REQUEST_CODE = 1;
     private static final String TAG = "VideoActivity";
 
@@ -246,7 +252,12 @@ public class VideoActivity extends PacifyrActivity {
     private TextView TextView_call_type;
     private CountDownTimer OutGoingCallTimer =null;
     private boolean isProviderConnected=false;
-
+    private LocalDataTrack localDataTrack;
+    private LocalDataTrackPublication localDataTrackPublication;
+    private Handler dataTrackMessageThreadHandler;
+    // Dedicated thread and handler for messages received from a RemoteDataTrack
+    private static final String DATA_TRACK_MESSAGE_THREAD_NAME = "DataTrackMessages";
+    private final HandlerThread dataTrackMessageThread = new HandlerThread(DATA_TRACK_MESSAGE_THREAD_NAME);
     public EmpMinutesListener getEmpMinutesListener() {
         return empMinutesListener;
     }
@@ -416,9 +427,27 @@ public class VideoActivity extends PacifyrActivity {
         context.startActivity(intent);
     }
 
+    boolean isRejoining=false;
+    public static void start(Context context,String accessToken,String roomName,MUser pacifyerDetial,boolean isVideoCall,boolean isAppointment,String timeSlotBookingId,boolean isRejoining,String SessionId) {
+        Intent intent = new Intent(context, VideoActivity.class);
+        intent.putExtra("accessToken",accessToken);
+        intent.putExtra("pacifyerDetial",pacifyerDetial);
+        intent.putExtra("roomName",roomName);
+        intent.putExtra("isVideoCall",isVideoCall);
+        intent.putExtra("isAppointment",isAppointment);
+        intent.putExtra("isRejoining",isRejoining);
+        intent.putExtra("SessionId",SessionId);
+        if (timeSlotBookingId!=null)
+            intent.putExtra("timeSlotBookingId",timeSlotBookingId);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
+    }
+
     public static boolean isForeground = false;
     private EarPhoneChanges mEarPhoneChanges;
     private boolean isHeadeSetIsPlugged=false;
+
+
     private class EarPhoneChanges extends BroadcastReceiver {
         @Override public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equals(Intent.ACTION_HEADSET_PLUG)) {
@@ -514,7 +543,9 @@ public class VideoActivity extends PacifyrActivity {
            * Get shared preferences to read settings
            */
           preferences = PreferenceManager.getDefaultSharedPreferences(this);
-
+          localDataTrack = LocalDataTrack.create(getApplicationContext());
+          dataTrackMessageThread.start();
+          dataTrackMessageThreadHandler = new Handler(dataTrackMessageThread.getLooper());
           /*
            * Setup audio management and set the volume control stream
            */
@@ -540,8 +571,16 @@ public class VideoActivity extends PacifyrActivity {
                   {
                       timeSlotBookingId = getIntent().getExtras().getString("timeSlotBookingId");
                   }
+                  if (isValid(getIntent().getExtras().getString("SessionId")))
+                  {
+                      SessionId=getIntent().getExtras().getString("SessionId");
+                  }
+                  if (isValid(getIntent().getExtras().getBoolean("isRejoining")))
+                  {
+                      isRejoining=getIntent().getExtras().getBoolean("isRejoining");
+                  }
 
-                  //SessionId=getIntent().getExtras().getString("SessionId");
+
               }
           }
           if (isVideoCall){
@@ -580,12 +619,18 @@ public class VideoActivity extends PacifyrActivity {
               @Override
               public void onClick(View view) {
                   isCallActive=false;
+                  if (isValid(localDataTrack))
+                  {
+                      localDataTrack.send("stopcall");
+
+                  }
+
                     if (isValid(ringtonePlayer))
                         ringtonePlayer.stop();
                   if (SessionId != null) {
                       hangUpCurrentFromClient=true;
                       hangUpCurrentSessionMe();
-                      room.disconnect();
+
                   }
 
               }
@@ -879,7 +924,7 @@ public class VideoActivity extends PacifyrActivity {
 
             public void onFinish() {
                 if (room != null && room.getRemoteParticipants().size() == 0 || (room != null && room.getState() == Room.State.CONNECTING)) {
-                    room.disconnect();
+                   // room.disconnect();
                     missedSessionWeb(SessionId);
 
                 }
@@ -1288,11 +1333,13 @@ public class VideoActivity extends PacifyrActivity {
          * Always disconnect from the room before leaving the Activity to
          * ensure any memory allocated to the Room resource is freed.
          */
-        if (room != null && room.getState() != Room.State.DISCONNECTED) {
+        /*if (room != null && room.getState() != Room.State.DISCONNECTED) {
             room.disconnect();
-            disconnectedFromOnDestroy = true;
-        }
 
+        }*/
+        // Quit the data track message thread
+        dataTrackMessageThread.quit();
+        disconnectedFromOnDestroy = true;
         /*
          * Release the local audio and video tracks ensuring any memory allocated to audio
          * or video is freed.
@@ -1366,6 +1413,7 @@ public class VideoActivity extends PacifyrActivity {
                    .roomName(roomName)
                    .audioTracks(Collections.singletonList(localAudioTrack))
                    .videoTracks(Collections.singletonList(localVideoTrack))
+                   .dataTracks(Collections.singletonList(localDataTrack))
                    .build();
            // Connect to room
            room = Video.connect(this, connectOptions, new Room.Listener() {
@@ -1376,14 +1424,37 @@ public class VideoActivity extends PacifyrActivity {
                    if (isValid(connectionStatusLocal))
                    connectionStatusLocal.setText("Connecting...");
                    if(!isValid(SessionId)) {
-                       if (isAppointment)
-                           startSessionForAppointmentCallAfterConnectingTwilio(roomName, accessToken, pacifyerDetial, isVideoCall,timeSlotBookingId);
-                       else
-                           startSessionWeb(roomName, accessToken, pacifyerDetial, isVideoCall);
+                       if (isAppointment) {
+                           startSessionForAppointmentCallAfterConnectingTwilio(roomName, accessToken, pacifyerDetial, isVideoCall, timeSlotBookingId);
+                       }else{
+                           if (!isRejoining) {
+                               startSessionWeb(roomName, accessToken, pacifyerDetial, isVideoCall);
+                           }
+
+                       }
                    }
+
                    for (RemoteParticipant remoteParticipant : room.getRemoteParticipants()) {
                        addRemoteParticipant(remoteParticipant);
                        break;
+                   }
+
+                   LocalParticipant localParticipant = room.getLocalParticipant();
+                   localParticipant.publishTrack(localDataTrack);
+
+
+                   if (isRejoining) {
+                       isCallActive=true;
+                       if (isValid(connectionStatusLocal))
+                           connectionStatusLocal.setText("Connected");
+                       if (isValid(ringtonePlayer))
+                           ringtonePlayer.stop();
+                       startTimer();
+
+                       isProviderConnected=true;
+                       toggle_speaker.setClickable(true);
+                       toggle_camera.setClickable(true);
+                       micToggleVideoCall.setClickable(true);
                    }
                }
 
@@ -1397,12 +1468,12 @@ public class VideoActivity extends PacifyrActivity {
 
                @Override
                public void onReconnecting(@NonNull Room room, @NonNull TwilioException twilioException) {
-
+                   Log.w("####","onDisconnected");
                }
 
                @Override
                public void onReconnected(@NonNull Room room) {
-
+                   Log.w("####","onDisconnected");
                }
 
                @Override
@@ -1415,7 +1486,7 @@ public class VideoActivity extends PacifyrActivity {
                            ringtonePlayer.stop();
                        configureAudio(false);
                        //  reconnectingProgressBar.setVisibility(View.GONE);
-                       VideoActivity.this.room = null;
+                     //  VideoActivity.this.room = null;
                        // Only reinitialize the UI if disconnect was not called from onDestroy()
                        if (!disconnectedFromOnDestroy) {
                            audioSwitch.deactivate();
@@ -1458,12 +1529,7 @@ public class VideoActivity extends PacifyrActivity {
                public void onParticipantDisconnected(Room room, RemoteParticipant remoteParticipant) {
                    Log.w("####","onParticipantDisconnected");
                    removeRemoteParticipant(remoteParticipant);
-                   isCallActive=false;
-                   if (room != null && room.getState() != Room.State.DISCONNECTED) {
-                       room.disconnect();
-                       stopTimer();
-                       hangUpCurrentSessionMe();
-                   }
+
 
                }
 
@@ -1671,6 +1737,20 @@ public class VideoActivity extends PacifyrActivity {
              */
             if (remoteVideoTrackPublication.isTrackSubscribed()) {
                 addRemoteParticipantVideo(remoteVideoTrackPublication.getRemoteVideoTrack());
+            }
+
+
+        }
+
+        for (final RemoteDataTrackPublication remoteDataTrackPublication :
+                remoteParticipant.getRemoteDataTracks()) {
+            /*
+             * Data track messages are received on the thread that calls setListener. Post the
+             * invocation of setting the listener onto our dedicated data track message thread.
+             */
+            if (remoteDataTrackPublication.isTrackSubscribed()) {
+                dataTrackMessageThreadHandler.post(() -> addRemoteDataTrack(remoteParticipant,
+                        remoteDataTrackPublication.getRemoteDataTrack()));
             }
         }
 
@@ -1900,6 +1980,8 @@ public class VideoActivity extends PacifyrActivity {
                         remoteParticipant.getIdentity(),
                         remoteDataTrack.isEnabled(),
                         remoteDataTrack.getName()));
+                dataTrackMessageThreadHandler.post(() -> addRemoteDataTrack(remoteParticipant, remoteDataTrack));
+
             }
 
             @Override
@@ -1912,6 +1994,7 @@ public class VideoActivity extends PacifyrActivity {
                         remoteParticipant.getIdentity(),
                         remoteDataTrack.isEnabled(),
                         remoteDataTrack.getName()));
+
             }
 
             @Override
@@ -2002,8 +2085,80 @@ public class VideoActivity extends PacifyrActivity {
                                              RemoteVideoTrackPublication remoteVideoTrackPublication) {
                 Log.w("wdqfq","onVideoTrackDisabled");
             }
+
         };
     }
+
+
+    private void addRemoteDataTrack(RemoteParticipant remoteParticipant,
+                                    RemoteDataTrack remoteDataTrack) {
+        remoteDataTrack.setListener(remoteDataTrackListener());
+    }
+
+/**
+ * RemoteDataTrack.Listener
+ * Receiving messages from the DataTrack
+ **/
+
+
+private RemoteDataTrack.Listener remoteDataTrackListener() {
+    return new RemoteDataTrack.Listener() {
+        @Override
+        public void onMessage(RemoteDataTrack remoteDataTrack, ByteBuffer byteBuffer) {
+
+        }
+
+        @Override
+        public void onMessage(RemoteDataTrack remoteDataTrack, String message) {
+            Log.d(TAG, "onMessage: " + message);
+            if (message.equals("stopcall"))
+            {
+                isCallActive=false;
+                if (isValid(room))
+                    room.disconnect();
+                stopTimer();
+                hangUpCurrentSessionMe();
+            }
+
+        }
+    };
+}
+
+
+    @Override
+    public void onAudioTrackPublished(@NonNull LocalParticipant localParticipant, @NonNull LocalAudioTrackPublication localAudioTrackPublication) {
+
+    }
+
+    @Override
+    public void onAudioTrackPublicationFailed(@NonNull LocalParticipant localParticipant, @NonNull LocalAudioTrack localAudioTrack, @NonNull TwilioException twilioException) {
+
+    }
+
+    @Override
+    public void onVideoTrackPublished(@NonNull LocalParticipant localParticipant, @NonNull LocalVideoTrackPublication localVideoTrackPublication) {
+
+    }
+
+    @Override
+    public void onVideoTrackPublicationFailed(@NonNull LocalParticipant localParticipant, @NonNull LocalVideoTrack localVideoTrack, @NonNull TwilioException twilioException) {
+
+    }
+
+    @Override
+    public void onDataTrackPublished(@NonNull LocalParticipant localParticipant, @NonNull LocalDataTrackPublication localDataTrackPubl) {
+
+       localDataTrackPublication=localDataTrackPubl;
+        Log.w("dddd","dfd");
+
+    }
+
+    @Override
+    public void onDataTrackPublicationFailed(@NonNull LocalParticipant localParticipant, @NonNull LocalDataTrack localDataTrack, @NonNull TwilioException twilioException) {
+        Log.w("dddd","dfd");
+        Log.w("dddd","dfd");
+    }
+
 
 
     private DialogInterface.OnClickListener connectClickListener(final EditText roomEditText) {
@@ -2021,7 +2176,7 @@ public class VideoActivity extends PacifyrActivity {
              * Disconnect from room
              */
             if (room != null) {
-                room.disconnect();
+               // room.disconnect();
             }
             intializeUI();
         };
@@ -2276,14 +2431,19 @@ public class VideoActivity extends PacifyrActivity {
                     missedSessionWeb(SessionId);
                 }
             }
+            if (isValid(room))
+            {
+                room.disconnect();
+            }
             finish();
+            isCallActive = false;
+            BusProvider.getInstance().post(new CallStatus(isCallActive));
         }
         catch (Exception e)
         {
             LogUtils.LOGD("call","CA hangUpCurrentSessionMe Exception e "+ e.getMessage());
         }
-        isCallActive = false;
-        BusProvider.getInstance().post(new CallStatus(isCallActive));
+
         //jpppppppppppppppppp
 
     }
@@ -2439,6 +2599,18 @@ public class VideoActivity extends PacifyrActivity {
             SessionId= mTwilioCallEvent.getIdsession();
             webGetSessionDetail(SessionId);
         Log.w("WWWWW","onCallConnected");
+        }
+
+    }
+
+    @org.greenrobot.eventbus.Subscribe(threadMode = ThreadMode.MAIN)
+    public void onFinishVideoActivity(Object mObject) {
+        isCallActive=false;
+        if (isValid(mObject) &&mObject.equals("FINISH_VIDEO_ACTIVITY"))
+        {
+            room.disconnect();
+            finish();
+            Log.w("WWWWW","onCallConnected");
         }
 
     }

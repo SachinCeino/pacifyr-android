@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
@@ -60,6 +61,7 @@ import com.pacifyr.client.orginals.RemoteConfig;
 import com.pacifyr.client.quickblox.chat.ui.activity.DialogsActivity;
 import com.pacifyr.client.quickblox.services.CallService;
 import com.pacifyr.client.sign.CrisisActivity;
+import com.pacifyr.client.twilio.VideoActivity;
 import com.pacifyr.client.utility.PacifyrAppCompactActivity;
 import com.pacifyr.client.utils.AmazonSNSTokenHandler;
 import com.pacifyr.client.utils.Constants;
@@ -71,7 +73,9 @@ import com.pacifyr.client.utils.Utility;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.pacifyrapp.utilitylibrary.Dialog;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MRoleModel;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.MSessionDetailRoot;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelSessonsOfCustomer;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.quickblox.sample.core.utils.SharedPrefsHelper;
 import com.squareup.otto.Subscribe;
@@ -200,6 +204,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
                 }
             });
         }
+        checkIsThereAnyActiveSessionsAvailable();
 
         Bundle args =
                 FirebaseLogging.getConstantArgsLoggedIn(DashboardActivity.this);
@@ -212,6 +217,81 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
 
     }
 
+    private void checkIsThereAnyActiveSessionsAvailable() {
+        try {
+            PrefManager prefM = PrefManager.getInstance(DashboardActivity.this);
+            String token = prefM.getAccessToken();
+            String userid = prefM.getUserID();
+            String url = GLOBAL_URL + "session/customer/active";
+            setLoading();
+            showProgress();
+            AjaxCallback cb = new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject json, AjaxStatus status) {
+                    Auth.httpStatusFilter(getApplicationContext(), status.getCode());
+                    try {
+                        hideProgress();
+                        if (isValid(json)) {
+                            ModelSessonsOfCustomer model = GsonUtils.getInstance().gsonToModelSessonsOfCustomer(json);
+
+                            if (isValid(model) && isValid(model.getResultsList())&&isValid(model.getResultsList().get(0))) {
+                                MSessionDetailRoot mMSessionDetailRoot=model.getResultsList().get(0);
+                                if (isValid(mMSessionDetailRoot)&&isValid(mMSessionDetailRoot.getPacifyr()))
+                                {
+                                    LinearLayout_Active_Session.setVisibility(View.VISIBLE);
+                                    boolean isVideoCall=false;
+                                    if (mMSessionDetailRoot.getSessionType().equals("audio"))
+                                    {
+                                        isVideoCall=false;
+                                    }
+                                    else
+                                    {
+                                        isVideoCall=true;
+                                    }
+                                    boolean finalIsVideoCall = isVideoCall;
+                                    JoinCall.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+
+                                            rejoinToTwilioRoom(mMSessionDetailRoot.getPacifyr(),finalIsVideoCall,false,null,mMSessionDetailRoot.getTwilioRoomSID(),mMSessionDetailRoot.getId());
+
+                                        }
+                                    });
+
+                                    JoinChat.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            startChat(mMSessionDetailRoot.getPacifyr());
+                                        }
+                                    });
+                                }
+                                else {
+                                    LinearLayout_Active_Session.setVisibility(View.GONE);
+                                }
+                            }
+                            else {
+                                LinearLayout_Active_Session.setVisibility(View.GONE);
+                            }
+                        }
+                        else {
+                            LinearLayout_Active_Session.setVisibility(View.GONE);
+                        }
+
+                    } catch (Exception e) {
+                        hideProgress();
+                        e.printStackTrace();
+                    }
+                }
+            };
+            AQuery aq = new AQuery(DashboardActivity.this);
+            cb.header("Content-Type", "application/json");
+            cb.header("AccessToken", token);
+            aq.ajax(url, JSONObject.class, cb);
+        }catch (Exception e){
+            hideProgress();
+            e.printStackTrace();
+        }
+    }
 
     @Subscribe
     public void onCallStatusChanged(CallStatus callStatus) {
@@ -504,7 +584,8 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
 
 
     private String AppointMentId = null;
-
+    TextView JoinChat,JoinCall;
+    LinearLayout LinearLayout_Active_Session;
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -561,7 +642,9 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
         mLinearLayoutAppointments = findViewById(R.id.mLinearLayoutAppointments);
 
 
-
+        JoinCall=findViewById(R.id.JoinCall);
+        JoinChat=findViewById(R.id.JoinChat);
+        LinearLayout_Active_Session=findViewById(R.id.LinearLayout_Active_Session);
 
         //NetworkService.startActionCutomerDashboard(this);
         showFragment();
