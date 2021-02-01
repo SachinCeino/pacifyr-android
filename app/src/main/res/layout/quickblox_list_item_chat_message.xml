@@ -6,23 +6,11 @@
     style="@style/MessageContainerStyle"
     tools:gravity="right"
     tools:ignore="RtlHardcoded">
-    <TextView
-        android:id="@+id/day"
-        style="@style/MessageTextStyle"
-        android:text="TODAY"
-        android:gravity="center"
-        android:paddingStart="5sp"
-        android:paddingEnd="5sp"
-        android:layout_gravity="center_horizontal"
-        android:textColor="@color/graph_light"
-        android:paddingBottom="5sp"
-        android:paddingTop="5sp"
-        android:layout_margin="5dp" />
+
     <RelativeLayout
         android:id="@+id/layout_message_content_container"
         style="@style/MessageContentContainerStyle"
         tools:background="@drawable/outgoing_message_bg"
-        android:paddingBottom="5dp"
         >
 
         <TextView
@@ -53,36 +41,6 @@
             style="@style/MessageAuthorStyle"
             android:layout_alignParentTop="true"
             tools:text="User 2" />
-    <LinearLayout
-
-        android:layout_width="75dp"
-        android:layout_below="@+id/text_image_message"
-        android:layout_marginEnd="5dp"
-        android:layout_toEndOf="@+id/text_image_message"
-
-        android:layout_height="25dp">
-        <TextView
-            android:layout_width="wrap_content"
-            style="@style/MessageAuthorStyle"
-            android:textSize="12sp"
-            android:text="@string/_10_15_pm"
-            android:paddingStart="0sp"
-            android:paddingBottom="5sp"
-            android:paddingTop="5sp"
-            android:layout_alignParentEnd="true"
-
-            android:layout_height="wrap_content"/>
-        <ImageView
-            android:id="@+id/chat_read_status"
-            android:layout_width="10dp"
-            android:src="@drawable/ic_check"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="5dp"
-            android:paddingBottom="5sp"
-            android:paddingTop="5sp"
-            android:layout_gravity="center"
-            android:layout_height="wrap_content"/>
-    </LinearLayout>
     </RelativeLayout>
     <TextView
         android:id="@+id/text_message_info"
