@@ -60,7 +60,7 @@
             android:layout_marginStart="50dp"
             android:paddingStart="@dimen/dp10"
             android:textSize="@dimen/sp12"
-            android:visibility="visible"
+            android:visibility="gone"
             android:text="Online"
             android:layout_centerVertical="true"
             android:textColor="@color/_color_action_bar_text_color"
