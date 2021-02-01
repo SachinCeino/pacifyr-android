@@ -83,7 +83,7 @@
                     android:id="@+id/phone_cedit"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:hint="@string/phone"
+                    android:hint="Phone number"
                     android:inputType="phone"
                     android:background="@null"
                     android:theme="@style/OMEditTheme"

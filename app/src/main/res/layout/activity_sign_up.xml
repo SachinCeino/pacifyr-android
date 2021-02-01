@@ -75,7 +75,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:background="@null"
-                    android:hint="@string/phone"
+                    android:hint="Phone number"
                     android:inputType="phone"
                     android:maxLength="10"
                     android:maxLines="1"
