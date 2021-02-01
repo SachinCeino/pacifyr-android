@@ -1175,6 +1175,7 @@ public class RegisterActivity extends PacifyrActivity {
         if (text.equals(""))
         {
             makeAlertMessageInTextView(TextView_Year_Error,"Please enter date of birth");
+            makEditTextBackgroundRed(yearEdit);
             return false;
         }
         else
