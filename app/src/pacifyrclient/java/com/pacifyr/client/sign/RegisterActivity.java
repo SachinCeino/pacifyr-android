@@ -440,7 +440,7 @@ public class RegisterActivity extends PacifyrActivity {
                 public void onClick(View widget) {
 
                     Intent intent = new Intent(RegisterActivity.this,TermsOfUseActivity.class);
-                    if (isValid(countryData) && countryData.getCountry().equals("India") || countryData.getCountry().equals("Wakanda"))
+                    if (isValid(countryData) && countryData.getCountry().equals("IN") || countryData.getCountry().equals("Wakanda"))
                     intent.putExtra("spurl", Constants.getUrlTermsIndia(getApplicationContext()));
                     else
                         intent.putExtra("spurl", Constants.getUrlTerms(getApplicationContext()));
@@ -454,7 +454,7 @@ public class RegisterActivity extends PacifyrActivity {
                 @Override
                 public void onClick(View widget) {
                     Intent intent = new Intent(RegisterActivity.this,TermsOfUseActivity.class);
-                    if (isValid(countryData) && countryData.getCountry().equals("India") || countryData.getCountry().equals("Wakanda"))
+                    if (isValid(countryData) && countryData.getCountry().equals("IN") || countryData.getCountry().equals("Wakanda"))
                     intent.putExtra("spurl", Constants.getUrlPrivacyPolicyIndia(getApplicationContext()));
                     else
                         intent.putExtra("spurl", Constants.getUrlPrivacyPolicy(getApplicationContext()));
@@ -477,7 +477,7 @@ public class RegisterActivity extends PacifyrActivity {
                 }
             });
 
-            if (isValid(countryData) &&countryData.getCountry().equals("India"))
+            if (isValid(countryData) &&countryData.getCountry().equals("IN"))
             {
                 stateList = getResources().getStringArray(R.array.indian_states);
             }
@@ -485,11 +485,11 @@ public class RegisterActivity extends PacifyrActivity {
             {
                 stateList = getResources().getStringArray(R.array.us_states);
             }
-            else if (isValid(countryData) &&countryData.getCountry().equalsIgnoreCase("Canada"))
+            else if (isValid(countryData) &&countryData.getCountry().equalsIgnoreCase("CA"))
             {
                 stateList = getResources().getStringArray(R.array.Canada_states);
             }
-            else if (isValid(countryData) &&countryData.getCountry().equalsIgnoreCase("UAE"))
+            else if (isValid(countryData) &&countryData.getCountry().equalsIgnoreCase("AE"))
             {
                 stateList = getResources().getStringArray(R.array.UAE_states);
             }
