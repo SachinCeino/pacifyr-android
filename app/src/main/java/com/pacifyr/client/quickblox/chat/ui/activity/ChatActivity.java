@@ -510,7 +510,7 @@ public class ChatActivity extends PacifyrAppCompactActivity implements Attachmen
     String[] items = null;
     private void shoImagePickerAlert(View view) {
 
-         bottomSheet = new BottomAttachDialog(isCallActive,this);
+         bottomSheet = new BottomAttachDialog(isCallActive,this,false);
         bottomSheet.show(getSupportFragmentManager(), "AttachBottomSheet");
     }
 

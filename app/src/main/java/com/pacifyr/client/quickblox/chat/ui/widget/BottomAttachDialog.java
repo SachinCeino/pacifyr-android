@@ -13,10 +13,12 @@ import androidx.annotation.Nullable;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.pacifyr.client.R;
 import com.pacifyr.client.quickblox.chat.interfaces.AttachmentClick;
+import com.pacifyr.client.quickblox.chat.ui.activity.ChatActivity;
 
 public class BottomAttachDialog extends BottomSheetDialogFragment implements View.OnClickListener {
     private ObjectView cam, gallery, doc;
     private boolean isCallActive;
+    private boolean isShowDocumentUpload=true;
     private RelativeLayout relativeLayout;
     private AttachmentClick attachmentClick;
     private LinearLayout parent;
@@ -24,6 +26,12 @@ public class BottomAttachDialog extends BottomSheetDialogFragment implements Vie
     public BottomAttachDialog(boolean isCallActive, AttachmentClick attachmentClick) {
         this.isCallActive = isCallActive;
         this.attachmentClick = attachmentClick;
+    }
+
+    public BottomAttachDialog(boolean isCallActive, AttachmentClick attachmentClick, boolean isShowDocumentUpload) {
+        this.isCallActive = isCallActive;
+        this.attachmentClick = attachmentClick;
+        this.isShowDocumentUpload=isShowDocumentUpload;
     }
 
     @Override
@@ -51,7 +59,8 @@ public class BottomAttachDialog extends BottomSheetDialogFragment implements Vie
         gallery.setOnClickListener(this);
         doc.setOnClickListener(this);
         relativeLayout.setOnClickListener(this);
-
+        if (!isShowDocumentUpload)
+            doc.setVisibility(View.GONE);
 
         return v;
     }
