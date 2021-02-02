@@ -1445,6 +1445,10 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
 
                    if (isRejoining) {
                        isCallActive=true;
+                       if (isRejoining)
+                       {
+                           Toast.makeText(getApplicationContext(), getResources().getString(R.string.provider_will_join_shortly), Toast.LENGTH_SHORT).show();
+                       }
                        if (isValid(connectionStatusLocal))
                            connectionStatusLocal.setText("Connected");
                        if (isValid(ringtonePlayer))
