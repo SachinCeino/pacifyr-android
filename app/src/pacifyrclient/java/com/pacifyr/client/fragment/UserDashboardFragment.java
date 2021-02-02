@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -41,8 +42,10 @@ import com.pacifyr.client.utility.BaseFragment;
 import com.pacifyr.client.utility.EventMessage;
 import com.pacifyr.client.utils.Utility;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.MSessionDetailRoot;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelCustomerDashboard2;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelSessonsOfCustomer;
 import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.quickblox.chat.QBRestChatService;
@@ -123,6 +126,8 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
     public UserDashboardFragment() {
         // Required empty public constructor
     }
+    private LinearLayout LinearLayout_Active_Session;
+    TextView JoinChat,JoinCall;
 
     private void getPermissions() {
         Utility.checkPermission(getActivity(), "essential");
@@ -349,7 +354,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
         try {
 
             checkLastTimeLoginFiftyDaysExcceed();
-
+            checkIsThereAnyActiveSessionsAvailable();
 
         }
         catch (Exception e)
@@ -359,6 +364,83 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
         }
 
     }
+
+    private void checkIsThereAnyActiveSessionsAvailable() {
+        try {
+            PrefManager prefM = PrefManager.getInstance(getActivity());
+            String token = prefM.getAccessToken();
+            String userid = prefM.getUserID();
+            String url = GLOBAL_URL + "session/customer/active";
+            setLoading();
+            showProgress();
+            AjaxCallback cb = new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject json, AjaxStatus status) {
+                    Auth.httpStatusFilter(getActivity(), status.getCode());
+                    try {
+                        hideProgress();
+                        if (isValid(json)) {
+                            ModelSessonsOfCustomer model = GsonUtils.getInstance().gsonToModelSessonsOfCustomer(json);
+
+                            if (isValid(model) && isValid(model.getResultsList())&&isValid(model.getResultsList().get(0))) {
+                                MSessionDetailRoot mMSessionDetailRoot=model.getResultsList().get(0);
+                                if (isValid(mMSessionDetailRoot)&&isValid(mMSessionDetailRoot.getPacifyr()))
+                                {
+                                    LinearLayout_Active_Session.setVisibility(View.VISIBLE);
+                                    boolean isVideoCall=false;
+                                    if (mMSessionDetailRoot.getSessionType().equals("audio"))
+                                    {
+                                        isVideoCall=false;
+                                    }
+                                    else
+                                    {
+                                        isVideoCall=true;
+                                    }
+                                    boolean finalIsVideoCall = isVideoCall;
+                                    JoinCall.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+
+                                            ((DashboardActivity)getActivity()).rejoinToTwilioRoom(mMSessionDetailRoot.getPacifyr(),finalIsVideoCall,false,null,mMSessionDetailRoot.getTwilioRoomSID(),mMSessionDetailRoot.getId());
+
+                                        }
+                                    });
+
+                                    JoinChat.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            ((DashboardActivity)getActivity()).startChat(mMSessionDetailRoot.getPacifyr());
+                                        }
+                                    });
+                                }
+                                else {
+                                    LinearLayout_Active_Session.setVisibility(View.GONE);
+                                }
+                            }
+                            else {
+                                LinearLayout_Active_Session.setVisibility(View.GONE);
+                            }
+                        }
+                        else {
+                            LinearLayout_Active_Session.setVisibility(View.GONE);
+                        }
+
+                    } catch (Exception e) {
+                        hideProgress();
+                        e.printStackTrace();
+                    }
+                }
+            };
+            AQuery aq = new AQuery(getActivity());
+            cb.header("Content-Type", "application/json");
+            cb.header("AccessToken", token);
+            aq.ajax(url, JSONObject.class, cb);
+        }catch (Exception e){
+            hideProgress();
+            e.printStackTrace();
+        }
+    }
+
 
     private void getUnratedSessions() {
         AjaxCallback cb = new AjaxCallback<JSONObject>() {
@@ -847,6 +929,9 @@ boolean itIsFirstCallFrom=true;
         feelImageDimv = view.findViewById(R.id.feel_image_dimv);
         feelTitleCtxv = view.findViewById(R.id.feel_title_ctxv);
         unreadChatCtxv = view.findViewById(R.id.unread_chat_ctxv);
+        LinearLayout_Active_Session=view.findViewById(R.id.LinearLayout_Active_Session);
+        JoinCall=view.findViewById(R.id.JoinCall);
+        JoinChat=view.findViewById(R.id.JoinChat);
         defSetText(no_pacifyr_ctxv,"");
         setChatCountInfo();
     }
