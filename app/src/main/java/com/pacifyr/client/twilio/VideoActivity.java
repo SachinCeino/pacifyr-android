@@ -2609,7 +2609,6 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
 
     @org.greenrobot.eventbus.Subscribe(threadMode = ThreadMode.MAIN)
     public void onFinishVideoActivity(Object mObject) {
-        isCallActive=false;
         if (isValid(mObject) &&mObject.equals("FINISH_VIDEO_ACTIVITY"))
         {
             room.disconnect();
