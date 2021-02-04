@@ -765,6 +765,9 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
               public void onClick(View view) {
                   if (hasBillingStarted())
                   callPrescriptionData();
+                  else
+                      Toast.makeText(getApplicationContext(), getResources().getString(R.string.no_prescription), Toast.LENGTH_SHORT).show();
+
               }
           });
 
