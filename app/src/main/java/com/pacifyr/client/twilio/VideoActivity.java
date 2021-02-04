@@ -481,6 +481,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
     }
 
     private boolean hangUpCurrentFromClient=false;
+    private TextView Button_remind_counselor_audio,Button_remind_counselor_vidio;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -526,6 +527,8 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
           username_ctxv = findViewById(R.id.username_ctxv);
           layout_info_about_audio_call = findViewById(R.id.layout_info_about_audio_call);
           TextView_call_type= findViewById(R.id.TextView_call_type);
+          Button_remind_counselor_audio=findViewById(R.id.Button_remind_counselor_audio);
+          Button_remind_counselor_vidio=findViewById(R.id.Button_remind_counselor_vidio);
 
           this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN |
                           WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
@@ -847,11 +850,66 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
           /**out going call time after 30 seconds it will automatically end
            * marked as missed call **/
           startOutGoingCallTimer();
+
+          Button_remind_counselor_audio.setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View view) {
+
+                  callReminderCounslrAPI();
+              }
+          });
+          Button_remind_counselor_vidio.setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View view) {
+
+                  callReminderCounslrAPI();
+              }
+          });
       }
       catch (Exception e)
       {
           Log.w("www",String.valueOf(e));
       }
+    }
+
+    private void callReminderCounslrAPI() {
+
+        try {
+            setLoading();
+            showProgress();
+            PrefManager mPrefManager = PrefManager.getInstance(this);
+            String token = mPrefManager.getAccessToken();
+            String url = GLOBAL_URL + "session/"+SessionId+"/notify";
+
+            AjaxCallback cb = new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject json, AjaxStatus status) {
+                    try {
+                        hideProgress();
+                        hideStatus();
+                        Log.w("@@@",String.valueOf(json));
+                        if (isValid(json))
+                        {
+
+
+                        }
+
+
+                    } catch (Exception e) {
+                        hideProgress();
+                        e.printStackTrace();
+                    }
+                }
+            };
+            AQuery aq = new AQuery(getApplicationContext());
+            cb.header("Content-Type", "application/json");
+            cb.header("AccessToken", token);
+            aq.ajax(url, JSONObject.class, cb);
+        } catch (Exception ex) {
+            hideProgress();
+            ex.printStackTrace();
+            Log.w("@@@",String.valueOf(ex));
+        }
     }
 
     private void UpdateView() {
@@ -917,7 +975,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
 
 
     private void startOutGoingCallTimer() {
-        OutGoingCallTimer = new CountDownTimer(30000, 1000) {
+        OutGoingCallTimer = new CountDownTimer(300000, 1000) {//5 minuts waiting
 
             public void onTick(long millisUntilFinished) {
                 if (room != null && room.getRemoteParticipants().size()>0 && room.getState() == Room.State.CONNECTED) {
@@ -1424,7 +1482,13 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                public void onConnected(Room room) {
                    VideoActivity.this.room=room;
                    localParticipant = room.getLocalParticipant();
-                   if (isValid(connectionStatusLocal))
+                   setAlertOKStatusInWhite("",getResources().getString(R.string.provider_will_join_shortly),"Ok");
+                   if (isVideoCall)
+                       Button_remind_counselor_vidio.setVisibility(View.VISIBLE);
+                   else
+                       Button_remind_counselor_audio.setVisibility(View.VISIBLE);
+
+                     if (isValid(connectionStatusLocal))
                    connectionStatusLocal.setText("Connecting...");
                    if(!isValid(SessionId)) {
                        if (isAppointment) {
@@ -1444,18 +1508,13 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
 
                    LocalParticipant localParticipant = room.getLocalParticipant();
                    localParticipant.publishTrack(localDataTrack);
-
+                   if (isValid(ringtonePlayer))
+                       ringtonePlayer.stop();
 
                    if (isRejoining) {
                        isCallActive=true;
-                       if (isRejoining)
-                       {
-                           Toast.makeText(getApplicationContext(), getResources().getString(R.string.provider_will_join_shortly), Toast.LENGTH_SHORT).show();
-                       }
                        if (isValid(connectionStatusLocal))
                            connectionStatusLocal.setText("Connected");
-                       if (isValid(ringtonePlayer))
-                           ringtonePlayer.stop();
                        startTimer();
 
                        isProviderConnected=true;
@@ -1529,6 +1588,8 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                    toggle_speaker.setClickable(true);
                    toggle_camera.setClickable(true);
                    micToggleVideoCall.setClickable(true);
+                   Button_remind_counselor_vidio.setVisibility(View.GONE);
+                   Button_remind_counselor_audio.setVisibility(View.GONE);
 
                }
 
@@ -2568,17 +2629,9 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (isValid(intent)) {
-                isCallActive = false;
                 if (isValid(ringtonePlayer))
                     ringtonePlayer.stop();
-                if (isProd==false &&isRelease==false)
-                {
-                    ToastHandler.newInstance(getApplicationContext()).showToast("Provider is busy with another call");
-                }
-                else {
-                  showToast("Provider is busy with another call");
-                }
-                finish();
+                setAlertOKStatusInWhite("","Provider is busy and will be with you shortly","Ok");
             }
 
 

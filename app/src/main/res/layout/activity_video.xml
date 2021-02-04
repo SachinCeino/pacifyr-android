@@ -132,8 +132,19 @@
                     android:textColor="@color/white"
                     android:textSize="@dimen/sp18"
                     android:visibility="visible" />
-
-
+                <com.pacifyr.client.customview.MainTextView
+                    android:layout_width="wrap_content"
+                    android:id="@+id/Button_remind_counselor_audio"
+                    android:visibility="gone"
+                    android:background="@color/white"
+                    android:textSize="@dimen/sp12"
+                    android:singleLine="true"
+                    android:layout_marginTop="5dp"
+                    android:layout_centerVertical="true"
+                    android:padding="7dp"
+                    android:text="Remind counselor"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_height="wrap_content" />
             </LinearLayout>
 
 
@@ -263,7 +274,20 @@
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_size"
                     android:visibility="invisible" />
-
+                <com.pacifyr.client.customview.MainTextView
+                    android:layout_width="wrap_content"
+                    android:id="@+id/Button_remind_counselor_vidio"
+                    android:visibility="gone"
+                    android:layout_below="@+id/chronometer_timer_video_call"
+                    android:background="@color/white"
+                    android:textSize="@dimen/sp12"
+                    android:singleLine="true"
+                    android:layout_marginTop="5dp"
+                    android:layout_centerVertical="true"
+                    android:padding="7dp"
+                    android:text="Remind counselor"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_height="wrap_content" />
 
             </RelativeLayout>
 
