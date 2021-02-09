@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckedTextView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
@@ -23,12 +24,13 @@ import java.util.ArrayList;
 
 public class StatesDialog extends DialogFragment {
 
-    private MainTextView text_selected;
+    private MainTextView text_selected,close;
     private ListView list_states;
     private View submit;
     private StateSelectionListener stateSelectionListener;
     private StateAdapter adapter;
     ArrayList<State> mstateList;
+    private LinearLayout LinearLayout_NostatesAvailable;
 
     public StatesDialog(ArrayList<State> mstateList) {
         this.mstateList = mstateList;
@@ -62,9 +64,21 @@ public class StatesDialog extends DialogFragment {
         text_selected = view.findViewById(R.id.text_selected);
         list_states = view.findViewById(R.id.list_states);
         submit = view.findViewById(R.id.submit_ctxv);
+        close= view.findViewById(R.id.close);
+        LinearLayout_NostatesAvailable=view.findViewById(R.id.LinearLayout_NostatesAvailable);
 
-        adapter = new StateAdapter(getActivity());
-        list_states.setAdapter(adapter);
+        if (mstateList==null)
+        {
+            LinearLayout_NostatesAvailable.setVisibility(View.VISIBLE);
+
+        }else
+        {
+            LinearLayout_NostatesAvailable.setVisibility(View.GONE);
+            adapter = new StateAdapter(getActivity());
+            list_states.setAdapter(adapter);
+        }
+
+
 
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,6 +86,12 @@ public class StatesDialog extends DialogFragment {
                 if (getStateSelectionListener() != null) {
                     getStateSelectionListener().onSelected(adapter.getSelected());
                 }
+                getDialog().dismiss();
+            }
+        });
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 getDialog().dismiss();
             }
         });
