@@ -186,7 +186,7 @@ public class UploadActivity extends PacifyrActivity implements AddFileClickListn
                             } else if (options[item].equals("Choose from gallery")) {
                                 boolean checkPermission = Utility.checkPermission(UploadActivity.this, "gallery");
                                 if(checkPermission) {
-                                    new GligarPicker().requestCode(REQUESTCODE_GALLERY_IMAGE).disableCamera(true).withActivity(UploadActivity.this).show();
+                                    new GligarPicker().requestCode(REQUESTCODE_GALLERY_IMAGE).disableCamera(true).limit(1).withActivity(UploadActivity.this).show();
                                 }
                             }
                         }
