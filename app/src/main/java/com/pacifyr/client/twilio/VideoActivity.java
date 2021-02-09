@@ -975,7 +975,10 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
 
 
     private void startOutGoingCallTimer() {
-        OutGoingCallTimer = new CountDownTimer(300000, 1000) {//5 minuts waiting
+        long timerMilliSeconds =320000;//5 minuts
+        if (isAppointment)
+            timerMilliSeconds=630000;//10 minuts waiting for scheduled calls.
+        OutGoingCallTimer = new CountDownTimer(timerMilliSeconds, 1000) {
 
             public void onTick(long millisUntilFinished) {
                 if (room != null && room.getRemoteParticipants().size()>0 && room.getState() == Room.State.CONNECTED) {
@@ -985,7 +988,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
 
             public void onFinish() {
                 if (room != null && room.getRemoteParticipants().size() == 0 || (room != null && room.getState() == Room.State.CONNECTING)) {
-                   // room.disconnect();
+                     isCallActive=false;
                     missedSessionWeb(SessionId);
 
                 }
@@ -2201,6 +2204,10 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
                     room.disconnect();
                 stopTimer();
                 hangUpCurrentSessionMe();
+            }
+            else if (message.equals("Declined"))
+            {
+                setAlertOKStatusInWhite("","Provider is busy and will be with you shortly","Ok");
             }
 
         }
