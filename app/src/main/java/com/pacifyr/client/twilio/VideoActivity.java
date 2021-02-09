@@ -1482,7 +1482,13 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                public void onConnected(Room room) {
                    VideoActivity.this.room=room;
                    localParticipant = room.getLocalParticipant();
-                   setAlertOKStatusInWhite("",getResources().getString(R.string.provider_will_join_shortly),"Ok");
+                   setAlertPacifyrWillJoinShortly("",getResources().getString(R.string.provider_will_join_shortly),"Ok", new View.OnClickListener() {
+                       @Override
+                       public void onClick(View view) {
+                           hideStatus();
+                           hideProgress();
+                       }
+                   });
                    if (isVideoCall)
                        Button_remind_counselor_vidio.setVisibility(View.VISIBLE);
                    else
@@ -1508,8 +1514,15 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
 
                    LocalParticipant localParticipant = room.getLocalParticipant();
                    localParticipant.publishTrack(localDataTrack);
-                   if (isValid(ringtonePlayer))
-                       ringtonePlayer.stop();
+                   new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                       @Override
+                       public void run() {
+                           if (isValid(ringtonePlayer))
+                               ringtonePlayer.stop();
+                       }
+                   }, 10000);//10 seconds
+
+
 
                    if (isRejoining) {
                        isCallActive=true;
@@ -1582,6 +1595,8 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                    connectionStatusLocal.setText("Connected");
                    if (isValid(ringtonePlayer))
                        ringtonePlayer.stop();
+                   hideStatus();
+                   hideProgress();
                    startTimer();
                    addRemoteParticipant(remoteParticipant);
                    isProviderConnected=true;
