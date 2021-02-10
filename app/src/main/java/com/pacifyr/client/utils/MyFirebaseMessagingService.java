@@ -366,6 +366,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                                     }
 
                                 }
+                                else if (actual_type.equals("sessionDeclined"))
+                                {
+                                    Intent intent = new Intent(NotificationUtils.SESSION_DECLAINED);
+                                    intent.putExtra("message", message);
+                                    LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+                                }
                             }
                         }
 
