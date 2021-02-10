@@ -1188,6 +1188,13 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                     else {
                         try {
                             CallActivity.mSessionDetailRoot= GsonUtils.getInstance().gsonToMSessionDetailRoot(json);
+                            if (isValid(CallActivity.mSessionDetailRoot.isBilledSession())&&
+                                    CallActivity.mSessionDetailRoot.isBilledSession())
+                            {
+                                setBillingStarted(true);
+                                billingStatus.setVisibility(View.VISIBLE);
+
+                            }
                            /* if (isValid(getCallUser()))
                             {
                                 setEmotionViews();
@@ -1532,7 +1539,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                        if (isValid(connectionStatusLocal))
                            connectionStatusLocal.setText("Connected");
                        startTimer();
-
+                       webGetSessionDetail(SessionId);
                        isProviderConnected=true;
                        toggle_speaker.setClickable(true);
                        toggle_camera.setClickable(true);
@@ -1550,12 +1557,12 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
 
                @Override
                public void onReconnecting(@NonNull Room room, @NonNull TwilioException twilioException) {
-                   Log.w("####","onDisconnected");
+                   connectionStatusLocal.setText("Reconnecting..");
                }
 
                @Override
                public void onReconnected(@NonNull Room room) {
-                   Log.w("####","onDisconnected");
+                   connectionStatusLocal.setText("Connected");
                }
 
                @Override
@@ -1614,8 +1621,13 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                @Override
                public void onParticipantDisconnected(Room room, RemoteParticipant remoteParticipant) {
                    Log.w("####","onParticipantDisconnected");
+                   connectionStatusLocal.setText("Disconnected");
                    removeRemoteParticipant(remoteParticipant);
-
+                   try {
+                       setAlertOKStatusInWhite("", getResources().getString(R.string.participant_disconnected_please_wait), "OK");
+                   } catch (Exception e) {
+                       e.printStackTrace();
+                   }
 
                }
 
