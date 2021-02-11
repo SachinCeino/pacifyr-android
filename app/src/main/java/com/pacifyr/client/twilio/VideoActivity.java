@@ -414,13 +414,14 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
     }
 
 
-    public static void start(Context context,String accessToken,String roomName,MUser pacifyerDetial,boolean isVideoCall,boolean isAppointment,String timeSlotBookingId) {
+    public static void start(Context context,String accessToken,String roomName,MUser pacifyerDetial,boolean isVideoCall,boolean isAppointment,String timeSlotBookingId,String idsession) {
         Intent intent = new Intent(context, VideoActivity.class);
         intent.putExtra("accessToken",accessToken);
         intent.putExtra("pacifyerDetial",pacifyerDetial);
         intent.putExtra("roomName",roomName);
         intent.putExtra("isVideoCall",isVideoCall);
         intent.putExtra("isAppointment",isAppointment);
+        intent.putExtra("SessionId",idsession);
        if (timeSlotBookingId!=null)
            intent.putExtra("timeSlotBookingId",timeSlotBookingId);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -582,7 +583,6 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                   {
                       isRejoining=getIntent().getExtras().getBoolean("isRejoining");
                   }
-
 
               }
           }
@@ -845,6 +845,13 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                     ProfileScreenActivity.start(getApplicationContext(), mUser.getId(), false);*/
               }
           });
+
+          if (isValid(SessionId))
+          {
+              isCallActive=true;
+              webGetSessionDetail(SessionId);
+          }
+
           getCurrentUserProfileInfo();
 
           /**out going call time after 30 seconds it will automatically end
@@ -1506,7 +1513,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
 
                      if (isValid(connectionStatusLocal))
                    connectionStatusLocal.setText("Connecting...");
-                   if(!isValid(SessionId)) {
+                  /* if(!isValid(SessionId)) {
                        if (isAppointment) {
                            startSessionForAppointmentCallAfterConnectingTwilio(roomName, accessToken, pacifyerDetial, isVideoCall, timeSlotBookingId);
                        }else{
@@ -1515,7 +1522,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                            }
 
                        }
-                   }
+                   }*/
 
                    for (RemoteParticipant remoteParticipant : room.getRemoteParticipants()) {
                        addRemoteParticipant(remoteParticipant);
@@ -2687,11 +2694,11 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
 
     @org.greenrobot.eventbus.Subscribe(threadMode = ThreadMode.MAIN)
     public void onCallConnected(TwilioCallEvent mTwilioCallEvent) {
-        isCallActive=true;
+
         if (isValid(mTwilioCallEvent.getIdsession()))
         {
             SessionId= mTwilioCallEvent.getIdsession();
-            webGetSessionDetail(SessionId);
+
         Log.w("WWWWW","onCallConnected");
         }
 

@@ -1255,15 +1255,17 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
         return selectedUsers.size() == 1 && QbDialogHolder.getInstance().hasPrivateDialogWithUser(selectedUsers.get(0));
     }
 
-    public void startCall(String roomName,String TwilioToken ,boolean isVideoCall,final MUser pacifyer, long  qbID,String oppentid,String idsession) {
+    public void startCall(String roomName,String TwilioToken ,boolean isVideoCall,final MUser pacifyer, long  qbID,String oppentid,String idsession,boolean isAppointment,String timeSloteBookingId) {
 
-        TwilioCallEvent mTwilioCallEvent=new TwilioCallEvent();
+        VideoActivity.start(getApplicationContext(),TwilioToken,roomName,pacifyer,isVideoCall,isAppointment,timeSloteBookingId,idsession);
+
+       /* TwilioCallEvent mTwilioCallEvent=new TwilioCallEvent();
         mTwilioCallEvent.setCallConnected(true);
         mTwilioCallEvent.setIdsession(idsession);
         mTwilioCallEvent.setPacifyer(pacifyer);
         mTwilioCallEvent.setRoomName(roomName);
         mTwilioCallEvent.setVideoCall(isVideoCall);
-        EventBus.getDefault().post(mTwilioCallEvent);
+        EventBus.getDefault().post(mTwilioCallEvent);*/
         Log.w("WWWWW","startCall");
 
        /* if (isValid(pacifyer.getForwardToPacifyrId())&& isValid(pacifyer.getForwardToPacifyr()))
@@ -1846,7 +1848,14 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                         {
                             TwilioAccessToken mTwilioAccessToken=GsonUtils.getInstance().gsonToTwilioAccessToken(jsonObject);
                             if (isValid(mTwilioAccessToken) && mTwilioAccessToken.getStatus().equals("success") &&isValid(mTwilioAccessToken.getMessage())) {
-                                VideoActivity.start(getApplicationContext(),mTwilioAccessToken.getMessage(),roomName,pacifyerDetial,isVideoCall,isAppointment,timeSlotBookingId);
+
+                                    if (isAppointment) {
+                                        startSessionForAppointmentCallAfterConnectingTwilio(roomName, mTwilioAccessToken.getMessage(), pacifyerDetial, isVideoCall, timeSlotBookingId);
+                                    }else{
+                                        startSessionWeb(roomName, mTwilioAccessToken.getMessage(), pacifyerDetial, isVideoCall);
+
+                                    }
+
                             }
                             else
                             {
@@ -1970,7 +1979,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                                             startSessionTracking(session.getId());
                                         }
 
-                                        startCall(roomName,TwilioToken,isVideoCall,pacifyer,pacifyer.getQbid(), pacifyer.getId(),call_session_root.getSession().getId());
+                                        startCall(roomName,TwilioToken,isVideoCall,pacifyer,pacifyer.getQbid(), pacifyer.getId(),call_session_root.getSession().getId(),false,null);
                                     }
                                     else
                                     {
@@ -1996,7 +2005,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                                         String statusmsg= json.getString("status");
                                         if(statusmsg.equalsIgnoreCase("success")) {
                                             if (isValid(sessionid, "Please try later ,session expired ")) {
-                                                startCall(roomName,TwilioToken,isVideoCall, pacifyer, pacifyer.getQbid(), pacifyer.getId(), sessionid);
+                                                startCall(roomName,TwilioToken,isVideoCall, pacifyer, pacifyer.getQbid(), pacifyer.getId(), sessionid,false,null);
 //                                                startSessionTracking();
                                             }
                                         } /*else if (statusmsg.equalsIgnoreCase("error")) {
@@ -2026,7 +2035,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                                     String message = sessionobj.has("message") ? sessionobj.getString("message") : "Sorry, some error occurred";
                                     if(statusmsg.equalsIgnoreCase("success")) {
                                         if (isValid(sessionid, "Please try later session expired")) {
-                                            startCall(roomName,TwilioToken,isVideoCall, pacifyer, pacifyer.getQbid(), pacifyer.getId(), sessionid);
+                                            startCall(roomName,TwilioToken,isVideoCall, pacifyer, pacifyer.getQbid(), pacifyer.getId(), sessionid,false,null);
 //                                            startSessionTracking();
                                         }
                                     } /*else if (statusmsg.equalsIgnoreCase("error")) {
@@ -2130,7 +2139,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                                         if (session != null) {
                                             startSessionTracking(session.getId());
                                         }
-                                        startCall(roomName,TwilioToken,isVideoCall,pacifyer,pacifyer.getQbid(), pacifyer.getId(),call_session_root.getSession().getId());
+                                        startCall(roomName,TwilioToken,isVideoCall,pacifyer,pacifyer.getQbid(), pacifyer.getId(),call_session_root.getSession().getId(),true,timeSlotBookingId);
                                     }
                                     else
                                     {
@@ -2151,7 +2160,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                                         String statusmsg= json.getString("status");
                                         if(statusmsg.equalsIgnoreCase("success")) {
                                             if (isValid(sessionid, "Please try later ,session expired ")) {
-                                                startCall(roomName,TwilioToken,isVideoCall,pacifyer,pacifyer.getQbid(), pacifyer.getId(),sessionid);
+                                                startCall(roomName,TwilioToken,isVideoCall,pacifyer,pacifyer.getQbid(), pacifyer.getId(),sessionid,true,timeSlotBookingId);
 
 //                                                startSessionTracking();
                                             }
@@ -2173,7 +2182,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                                     String message = sessionobj.has("message") ? sessionobj.getString("message") : "Sorry, some error occurred";
                                     if(statusmsg.equalsIgnoreCase("success")) {
                                         if (isValid(sessionid, "Please try later session expired")) {
-                                            startCall(roomName,TwilioToken,isVideoCall,pacifyer,pacifyer.getQbid(), pacifyer.getId(),sessionid);
+                                            startCall(roomName,TwilioToken,isVideoCall,pacifyer,pacifyer.getQbid(), pacifyer.getId(),sessionid,true,timeSlotBookingId);
 
                                         }
                                     }
