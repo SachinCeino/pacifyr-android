@@ -30,10 +30,9 @@ import com.pacifyr.client.event.ChatEvent;
 import com.pacifyr.client.event.InternetConnectionEvent;
 import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.model.interfaces.CallChatEventListner;
-import com.pacifyr.client.orginals.Auth;
-
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
+import com.pacifyr.client.orginals.Auth;
 import com.pacifyr.client.quickblox.utils.Consts;
 import com.pacifyr.client.utility.EventMessage;
 import com.pacifyr.client.utility.PacifyrAppCompactActivity;
@@ -719,7 +718,9 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
             JSONObject jsonObject = new JSONObject();
             jsonObject.putOpt("initiatorId", userID);
             jsonObject.putOpt("companyId", companyID);
-            jsonObject.putOpt("includeChargeablePacifyrs", showAllFlag);
+            if (prefM.getCustomerRole().equals("employee")) {
+                jsonObject.putOpt("includeChargeablePacifyrs", showAllFlag);
+            }
             jsonObject.putOpt("country", prefM.getCountry());
 
             List<String> list = new ArrayList<String>();
@@ -829,9 +830,11 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
 
             JSONObject jsonObject = new JSONObject();
             jsonObject.putOpt("initiatorId", userID);
-            jsonObject.putOpt("companyId",companyID);
-            jsonObject.putOpt("includeChargeablePacifyrs",showAllFlag);
-            jsonObject.putOpt("country",prefM.getCountry());
+            jsonObject.putOpt("companyId", companyID);
+            if (prefM.getCustomerRole().equals("employee")) {
+                jsonObject.putOpt("includeChargeablePacifyrs", showAllFlag);
+            }
+            jsonObject.putOpt("country", prefM.getCountry());
 
             List<String> list = new ArrayList<String>();
             list.add(emotion);
@@ -839,7 +842,7 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
             for (int i = 0; i < list.size(); i++) {
                 array.put(list.get(i));
             }
-            jsonObject.putOpt("specialities",array);
+            jsonObject.putOpt("specialities", array);
             aq.post(url, jsonObject, JSONObject.class, cb);
         }
         catch (Exception ex)
@@ -908,9 +911,11 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
             JSONObject jsonObject = new JSONObject();
             jsonObject.putOpt("initiatorId", userID);
             if (isValid(companyID))
-            jsonObject.putOpt("companyId",companyID);
-            jsonObject.putOpt("includeChargeablePacifyrs",true);
-            jsonObject.putOpt("country",prefM.getCountry());
+                jsonObject.putOpt("companyId", companyID);
+            if (prefM.getCustomerRole().equals("employee")) {
+                jsonObject.putOpt("includeChargeablePacifyrs", showAllFlag);
+            }
+            jsonObject.putOpt("country", prefM.getCountry());
             if (searchQuery != null && !searchQuery.isEmpty()) {
                 jsonObject.putOpt("searchQuery", searchQuery);
             }
@@ -994,7 +999,11 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
         showProgress();
         modelSpecialist=null;
         try {
-            String url = GLOBAL_URL + "specialities/byCategory?category=all&includeChargeablePacifyrs="+param_showAllFlag;
+            String url = GLOBAL_URL + "specialities/byCategory?category=all";
+            if (isEmployee()) {
+                url += "&includeChargeablePacifyrs=" + param_showAllFlag;
+            }
+
 
             AjaxCallback cb = new AjaxCallback<JSONObject>() {
                 @Override
@@ -1003,7 +1012,7 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
                     Auth.httpStatusFilter(getApplicationContext(), status.getCode());
                     try {
                         String js = json.toString();
-                        modelSpecialist= GsonUtils.getInstance().gsonToModelSpecialist(json);
+                        modelSpecialist = GsonUtils.getInstance().gsonToModelSpecialist(json);
                         modelSpecialist.toString();
                         setAdapterSpecial();
 

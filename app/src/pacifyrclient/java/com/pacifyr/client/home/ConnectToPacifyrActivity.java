@@ -442,7 +442,10 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
     public void UpdateSpecialityAdapter(boolean param_showAllFlag) {
 
         try {
-            String url = GLOBAL_URL + "specialities/byCategory?category=all&includeChargeablePacifyrs="+param_showAllFlag;
+            String url = GLOBAL_URL + "specialities/byCategory?category=all";
+            if (isEmployee()) {
+                url = GLOBAL_URL + "specialities/byCategory?category=all&includeChargeablePacifyrs=" + param_showAllFlag;
+            }
 
             AjaxCallback cb = new AjaxCallback<JSONObject>() {
                 @Override
@@ -913,8 +916,10 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
 
             url = GLOBAL_URL + getRoleSearchMap().get(prefM.getCustomerRole());
             companyID = prefM.getCompanyId();
-            jsonObject.putOpt("companyId",companyID);
-            jsonObject.putOpt("includeChargeablePacifyrs", showAllFlag);
+            jsonObject.putOpt("companyId", companyID);
+            if (prefM.getCustomerRole().equals("employee")) {
+                jsonObject.putOpt("includeChargeablePacifyrs", showAllFlag);
+            }
             jsonObject.putOpt("initiatorId", userid);
             jsonObject.putOpt("country", prefM.getCountry());
             List<String> list = new ArrayList<String>();
@@ -924,7 +929,7 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
             for (int i = 0; i < list.size(); i++) {
                 array.put(list.get(i));
             }
-            jsonObject.putOpt("specialities",array);
+            jsonObject.putOpt("specialities", array);
             aq.post(url, jsonObject, JSONObject.class, cb);
             //aq.ajax(url,JSONObject.class, cb);
         }
@@ -1020,8 +1025,10 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
 
             url = GLOBAL_URL + getRoleSearchMap().get(prefM.getCustomerRole());
             companyID = prefM.getCompanyId();
-            jsonObject.putOpt("companyId",companyID);
-            jsonObject.putOpt("includeChargeablePacifyrs",showAllFlag);
+            jsonObject.putOpt("companyId", companyID);
+            if (prefM.getCustomerRole().equals("employee")) {
+                jsonObject.putOpt("includeChargeablePacifyrs", showAllFlag);
+            }
             jsonObject.putOpt("initiatorId", userid);
             jsonObject.putOpt("country", prefM.getCountry());
             List<String> list = new ArrayList<String>();
@@ -1031,7 +1038,7 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
             for (int i = 0; i < list.size(); i++) {
                 array.put(list.get(i));
             }
-            jsonObject.putOpt("specialities",array);
+            jsonObject.putOpt("specialities", array);
             aq.post(url, jsonObject, JSONObject.class, cb);
             //aq.ajax(url,JSONObject.class, cb);
         }
