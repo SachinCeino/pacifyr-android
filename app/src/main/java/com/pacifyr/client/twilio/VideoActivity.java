@@ -1499,13 +1499,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                public void onConnected(Room room) {
                    VideoActivity.this.room=room;
                    localParticipant = room.getLocalParticipant();
-                   setAlertPacifyrWillJoinShortly("",getResources().getString(R.string.provider_will_join_shortly),"Ok", new View.OnClickListener() {
-                       @Override
-                       public void onClick(View view) {
-                           hideStatus();
-                           hideProgress();
-                       }
-                   });
+
                    if (isVideoCall)
                        Button_remind_counselor_vidio.setVisibility(View.VISIBLE);
                    else
@@ -1536,6 +1530,13 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                        public void run() {
                            if (isValid(ringtonePlayer))
                                ringtonePlayer.stop();
+                           setAlertPacifyrWillJoinShortly("",getResources().getString(R.string.provider_will_join_shortly),"Ok", new View.OnClickListener() {
+                               @Override
+                               public void onClick(View view) {
+                                   hideStatus();
+                                   hideProgress();
+                               }
+                           });
                        }
                    }, 10000);//10 seconds
 
