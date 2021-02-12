@@ -854,9 +854,6 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
 
           getCurrentUserProfileInfo();
 
-          /**out going call time after 30 seconds it will automatically end
-           * marked as missed call **/
-          startOutGoingCallTimer();
 
           Button_remind_counselor_audio.setOnClickListener(new View.OnClickListener() {
               @Override
@@ -982,9 +979,9 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
 
 
     private void startOutGoingCallTimer() {
-        long timerMilliSeconds =320000;//5 minuts
+        long timerMilliSeconds =300000;//5 minuts
         if (isAppointment)
-            timerMilliSeconds=630000;//10 minuts waiting for scheduled calls.
+            timerMilliSeconds=600000;//10 minuts waiting for scheduled calls.
         OutGoingCallTimer = new CountDownTimer(timerMilliSeconds, 1000) {
 
             public void onTick(long millisUntilFinished) {
@@ -1540,7 +1537,9 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                        }
                    }, 10000);//10 seconds
 
-
+                   /**out going call time after 30 seconds it will automatically end
+                    * marked as missed call **/
+                   startOutGoingCallTimer();
 
                    if (isRejoining) {
                        isCallActive=true;
