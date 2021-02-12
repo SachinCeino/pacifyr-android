@@ -1525,8 +1525,8 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                    new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                        @Override
                        public void run() {
-                           if (isValid(ringtonePlayer))
-                               ringtonePlayer.stop();
+                               if (isValid(ringtonePlayer))
+                                   ringtonePlayer.stop();
                            setAlertPacifyrWillJoinShortly("",getResources().getString(R.string.provider_will_join_shortly),"Ok", new View.OnClickListener() {
                                @Override
                                public void onClick(View view) {
@@ -1542,6 +1542,8 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                    startOutGoingCallTimer();
 
                    if (isRejoining) {
+                       if (isValid(ringtonePlayer))
+                           ringtonePlayer.stop();
                        isCallActive=true;
                        if (isValid(connectionStatusLocal))
                            connectionStatusLocal.setText("Connected");
