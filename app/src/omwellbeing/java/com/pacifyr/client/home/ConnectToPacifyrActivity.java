@@ -826,7 +826,9 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
             url = GLOBAL_URL + getRoleSearchMap().get(prefM.getCustomerRole());
             companyID = prefM.getCompanyId();
             jsonObject.putOpt("companyId",companyID);
-            jsonObject.putOpt("includeChargeablePacifyrs", showAllFlag);
+            if(prefM.getCustomerRole().equals("employee")){
+                jsonObject.putOpt("includeChargeablePacifyrs",showAllFlag);
+            }
             jsonObject.putOpt("initiatorId", userid);
             jsonObject.putOpt("country", prefM.getCountry());
             List<String> list = new ArrayList<String>();
@@ -933,7 +935,9 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
             url = GLOBAL_URL + getRoleSearchMap().get(prefM.getCustomerRole());
             companyID = prefM.getCompanyId();
             jsonObject.putOpt("companyId",companyID);
-            jsonObject.putOpt("includeChargeablePacifyrs",showAllFlag);
+            if(prefM.getCustomerRole().equals("employee")){
+                jsonObject.putOpt("includeChargeablePacifyrs",showAllFlag);
+            }
             jsonObject.putOpt("initiatorId", userid);
             jsonObject.putOpt("country", prefM.getCountry());
             List<String> list = new ArrayList<String>();

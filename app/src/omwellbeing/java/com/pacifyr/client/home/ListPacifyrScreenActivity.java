@@ -617,7 +617,9 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
             JSONObject jsonObject = new JSONObject();
             jsonObject.putOpt("initiatorId", userID);
             jsonObject.putOpt("companyId", companyID);
-            jsonObject.putOpt("includeChargeablePacifyrs", showAllFlag);
+            if(prefM.getCustomerRole().equals("employee")){
+                jsonObject.putOpt("includeChargeablePacifyrs",showAllFlag);
+            }
             jsonObject.putOpt("country", prefM.getCountry());
 
             List<String> list = new ArrayList<String>();
@@ -727,7 +729,9 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
             JSONObject jsonObject = new JSONObject();
             jsonObject.putOpt("initiatorId", userID);
             jsonObject.putOpt("companyId",companyID);
-            jsonObject.putOpt("includeChargeablePacifyrs",showAllFlag);
+            if(prefM.getCustomerRole().equals("employee")){
+                jsonObject.putOpt("includeChargeablePacifyrs",showAllFlag);
+            }
             jsonObject.putOpt("country",prefM.getCountry());
 
             List<String> list = new ArrayList<String>();
@@ -808,7 +812,9 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
             JSONObject jsonObject = new JSONObject();
             jsonObject.putOpt("initiatorId", userID);
             jsonObject.putOpt("companyId",companyID);
-            jsonObject.putOpt("includeChargeablePacifyrs",showAllFlag);
+            if(prefM.getCustomerRole().equals("employee")){
+                jsonObject.putOpt("includeChargeablePacifyrs",showAllFlag);
+            }
             jsonObject.putOpt("country",prefM.getCountry());
             if (searchQuery != null && !searchQuery.isEmpty()) {
                 jsonObject.putOpt("searchQuery", searchQuery);
