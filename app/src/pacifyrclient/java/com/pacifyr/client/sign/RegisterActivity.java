@@ -16,6 +16,7 @@ import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.Html;
@@ -889,11 +890,14 @@ public class RegisterActivity extends PacifyrActivity {
         return null;
     }
 
+    long TIME = 1 * 1000;
     private void setClicks() {
+
         try {
             nextRlay.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    Utility.preventDoubleClickButtons(view);
                     validRegister();
                 }
             });

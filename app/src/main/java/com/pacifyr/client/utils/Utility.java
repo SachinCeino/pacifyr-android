@@ -1186,5 +1186,18 @@ public class Utility {
         });
     }
 
+    /** Preventing double click buttons **/
+    public static void preventDoubleClickButtons(final View view){
+        try {
+            view.setEnabled(false);
+            view.postDelayed(new Runnable() {
+                public void run() {
+                    view.setEnabled(true);
+                }
+            }, 1000);
+        }catch (Exception e)
+        {
 
+        }
+    }
 }
