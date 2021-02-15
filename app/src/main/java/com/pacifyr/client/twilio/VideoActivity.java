@@ -1395,9 +1395,9 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
          */
         LocalBroadcastManager.getInstance(this).unregisterReceiver(eventReceiver);
         isCallActive=false;
+        setVolumeControlStream(AudioManager.STREAM_VOICE_CALL);
         audioSwitch.stop();
         audioSwitch.deactivate();
-        setVolumeControlStream(savedVolumeControlStream);
         configureAudio(false);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(sessionDeclainedReceiver);
         unregisterReceiver(mEarPhoneChanges);
