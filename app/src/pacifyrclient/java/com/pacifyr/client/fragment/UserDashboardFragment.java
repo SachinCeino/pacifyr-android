@@ -2,6 +2,7 @@ package com.pacifyr.client.fragment;
 
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -13,14 +14,19 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.google.gson.Gson;
 import com.pacifyr.client.R;
 import com.pacifyr.client.customview.MainTextView;
@@ -36,6 +42,7 @@ import com.pacifyr.client.orginals.Auth;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.quickblox.chat.ui.activity.DialogsActivity;
+import com.pacifyr.client.quickblox.chat.utils.Consts;
 import com.pacifyr.client.quickblox.chat.utils.qb.QbDialogHolder;
 import com.pacifyr.client.quickblox.services.CallService;
 import com.pacifyr.client.utility.BaseFragment;
@@ -788,51 +795,50 @@ boolean itIsFirstCallFrom=true;
                         llayTop.setVisibility(View.VISIBLE);
                         llay_bottom.setVisibility(View.VISIBLE);
                         no_pacifyr_ctxv.setVisibility(View.GONE);
-                        switch (pfc.length) {
-                            case 0:
-                                Log.i("preffffffc1","p: "+pfc);
-                                pacifyr3Dimv.setVisibility(View.GONE);
-                                pacifyr2Dimv.setVisibility(View.GONE);
-                                pacifyr1Dimv.setVisibility(View.GONE);
-                                pacifyr4Dimv.setVisibility(View.GONE);
-                                llayTop.setVisibility(View.GONE);
-                                llay_bottom.setVisibility(View.GONE);
-                                no_pacifyr_ctxv.setVisibility(View.VISIBLE);
-                                defSetText(no_pacifyr_ctxv,getResources().getString(R.string.no_prefered_pacifyr));
-                                break;
 
-                            case 1:
-                                Log.i("preffffffc2","p: "+pfc);
-                                pacifyr3Dimv.setVisibility(View.GONE);
-                                pacifyr2Dimv.setVisibility(View.GONE);
-                                pacifyr4Dimv.setVisibility(View.GONE);
-                                Glide.with(getContext()).load( pfc[0].getImageUrl()).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).into(pacifyr1Dimv);
-                                break;
-                            case 2:
-                                Log.i("preffffffc5","p: "+pfc);
-                                pacifyr4Dimv.setVisibility(View.GONE);
-                                pacifyr3Dimv.setVisibility(View.GONE);
-                                Log.i("preffffffc51","p: "+ pfc[0].getImageUrl());
-                                Log.i("preffffffc52","p: "+pfc[1].getImageUrl());
-                                Glide.with(getActivity()).load( pfc[0].getImageUrl()).transition(DrawableTransitionOptions.withCrossFade()).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).into(pacifyr1Dimv);
-                                Glide.with(getActivity()).load( pfc[1].getImageUrl()).transition(DrawableTransitionOptions.withCrossFade()).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).into(pacifyr2Dimv);
-                                break;
-                            case 3:
-                                Log.i("preffffffc3","p: "+pfc);
-                                pacifyr4Dimv.setVisibility(View.GONE);
-                                Glide.with(getContext()).load( pfc[0].getImageUrl()).transition(DrawableTransitionOptions.withCrossFade()).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).into(pacifyr1Dimv);
-                                Glide.with(getContext()).load( pfc[1].getImageUrl()).transition(DrawableTransitionOptions.withCrossFade()).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).into(pacifyr2Dimv);
-                                Glide.with(getContext()).load( pfc[2].getImageUrl()).transition(DrawableTransitionOptions.withCrossFade()).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).into(pacifyr3Dimv);
-                                break;
-                            default:
-                                Log.i("preffffffc4","p: "+pfc);
-                                Glide.with(getContext()).load( pfc[0].getImageUrl()).transition(DrawableTransitionOptions.withCrossFade()).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).into(pacifyr1Dimv);
-                                Glide.with(getContext()).load( pfc[1].getImageUrl()).transition(DrawableTransitionOptions.withCrossFade()).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).into(pacifyr2Dimv);
-                                Glide.with(getContext()).load( pfc[2].getImageUrl()).transition(DrawableTransitionOptions.withCrossFade()).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).into(pacifyr3Dimv);
-                                Glide.with(getContext()).load( pfc[3].getImageUrl()).transition(DrawableTransitionOptions.withCrossFade()).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).into(pacifyr4Dimv);
-                                break;
+                        if (!isValid(pfc.length))
+                        {
+                            pacifyr3Dimv.setVisibility(View.GONE);
+                            pacifyr2Dimv.setVisibility(View.GONE);
+                            pacifyr1Dimv.setVisibility(View.GONE);
+                            pacifyr4Dimv.setVisibility(View.GONE);
+                            llayTop.setVisibility(View.GONE);
+                            llay_bottom.setVisibility(View.GONE);
+                            no_pacifyr_ctxv.setVisibility(View.VISIBLE);
+                            defSetText(no_pacifyr_ctxv,getResources().getString(R.string.no_prefered_pacifyr));
                         }
-
+                        else {
+                            pacifyr3Dimv.setVisibility(View.GONE);
+                            pacifyr2Dimv.setVisibility(View.GONE);
+                            pacifyr1Dimv.setVisibility(View.GONE);
+                            pacifyr4Dimv.setVisibility(View.GONE);
+                            for (int i=0;i<pfc.length;i++)
+                            {
+                                if (i==0)
+                                {
+                                    pacifyr1Dimv.setVisibility(View.VISIBLE);
+                                    showPrefferedPacifyrIntoGlideView(pfc[0].getImageUrl(),pacifyr1Dimv);
+                                }
+                                else if (i==1)
+                                {
+                                    pacifyr2Dimv.setVisibility(View.VISIBLE);
+                                    showPrefferedPacifyrIntoGlideView(pfc[1].getImageUrl(),pacifyr2Dimv);
+                                }
+                                else if (i==2)
+                                {
+                                    pacifyr3Dimv.setVisibility(View.VISIBLE);
+                                    showPrefferedPacifyrIntoGlideView(pfc[2].getImageUrl(),pacifyr3Dimv);
+                                }
+                                else if (i==3)
+                                {
+                                    pacifyr4Dimv.setVisibility(View.VISIBLE);
+                                    showPrefferedPacifyrIntoGlideView(pfc[3].getImageUrl(),pacifyr4Dimv);
+                                }
+                                else {
+                                    return;
+                                }
+                            }
+                        }
 
                     }
                     else {
@@ -855,6 +861,26 @@ boolean itIsFirstCallFrom=true;
             ex.printStackTrace();
             Log.d("ON RESUME;",ex.getMessage());
         }
+    }
+
+    private void showPrefferedPacifyrIntoGlideView(String imageURl,ImageView imageView) {
+
+        Glide.with(getActivity())
+                .load(imageURl)
+                .listener(new RequestListener<Drawable>() {
+
+                    @Override
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                        return false;
+                    }
+                })
+                .dontTransform()
+                .into(imageView);
     }
 
 

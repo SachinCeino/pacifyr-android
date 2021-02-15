@@ -144,6 +144,7 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 import kotlin.Unit;
 
+import static com.facebook.FacebookSdk.getApplicationContext;
 import static com.pacifyr.client.network.NetworkService.GLOBAL_IMAGE_URL;
 import static com.pacifyr.client.network.NetworkService.isRelease;
 import static com.pacifyr.client.utils.Constants.getCountryChecks;
@@ -1612,6 +1613,8 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                    Log.w("####","onParticipantConnected");
                    if (isValid(connectionStatusLocal))
                    connectionStatusLocal.setText("Connected");
+                   if (isValid(SessionId))
+                       customerconnectedSessionWeb(SessionId);
                    if (isValid(ringtonePlayer))
                        ringtonePlayer.stop();
                    hideStatus();
@@ -1685,6 +1688,53 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
 
       }
     }
+
+
+
+    public void customerconnectedSessionWeb( String sessionid) {
+        try {
+            com.pacifyr.client.utils.ToastHandler.newInstance(getApplicationContext()).showToast("connectedSessionWeb");
+            //    PacifyrActivity.call_session_detail_root=null;
+            LogUtils.LOGD("call", "connectedSessionWeb getAccessToken() "+getAccessToken());
+            if (!isValid(sessionid,"error Session id "+sessionid))
+                return;
+            if (!isValid(getAccessToken(),"Session Expired, Please Re login"))
+                return;
+
+            AjaxCallback<JSONObject> cb = new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject json, AjaxStatus status) {
+                    if (json == null) {
+                        com.pacifyr.client.utils.ToastHandler.newInstance(getApplicationContext()).showToast("Please Try again");
+                        LogUtils.LOGD("call", "connectedSessionWeb json null ");
+                    } else {
+                        if (json != null) try {
+
+                            LogUtils.LOGD("call", "connectedSessionWeb json  " + json);
+                            //   PacifyrActivity.call_session_detail_root= GsonUtils.getInstance().gsonToMConnectSessionRoot(json);
+                            LogUtils.LOGD("call", "connectedSessionWeb json  " + json);
+                        } catch (Exception e){
+                            com.pacifyr.client.utils.ToastHandler.newInstance(getApplicationContext()).showToast("Please Try again");
+                            LogUtils.LOGD("call", "connectedSessionWeb exception : " + e.getMessage());
+                        }
+                    }
+                }
+            };
+            AQuery aq = new AQuery(getApplicationContext());
+
+            cb.header("AccessToken", getAccessToken());
+            cb.header("Content-Type", "application/json");
+
+            JSONObject input = new JSONObject();
+            input.putOpt("id", sessionid);
+            aq.post(GLOBAL_URL + "session/connected", input, JSONObject.class, cb);
+        } catch (Exception e){
+            //  PacifyrActivity. call_session_detail_root=null;
+            LogUtils.LOGD("call", "connectedSessionWeb end exception : " + e.getMessage());
+        }
+    }
+
+
 
     /*
      * The initial state when there is no active room.
