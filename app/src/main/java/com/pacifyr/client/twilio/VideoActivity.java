@@ -1593,9 +1593,10 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                            audioSwitch.deactivate();
                            intializeUI();
                            moveLocalVideoToPrimaryView();
-                           if (!hangUpCurrentFromClient)
-                               hangUpCurrentSessionMe();
+                          /* if (!hangUpCurrentFromClient)
+                               hangUpCurrentSessionMe();*/
                        }
+                       finish();
                    }catch (Exception eqq)
                    {
 
