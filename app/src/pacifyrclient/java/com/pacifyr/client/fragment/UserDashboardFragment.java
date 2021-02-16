@@ -30,6 +30,7 @@ import com.bumptech.glide.request.target.Target;
 import com.google.gson.Gson;
 import com.pacifyr.client.R;
 import com.pacifyr.client.customview.MainTextView;
+import com.pacifyr.client.event.InternetConnectionEvent;
 import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.home.ConnectToPacifyrActivity;
 import com.pacifyr.client.home.ConnectToSinglePacifyrActivity;
@@ -63,6 +64,7 @@ import com.quickblox.sample.core.utils.SharedPrefsHelper;
 import com.squareup.otto.Subscribe;
 
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -347,11 +349,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
         cb.header("AccessToken", token);
         aq.ajax(url, JSONObject.class, cb);
     }
-    @Override
-    public void onStop() {
-        super.onStop();
-        isVisible=false;
-    }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -368,6 +366,35 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
         {
             e.printStackTrace();
             Log.d("ON RESUME;",e.getMessage());
+        }
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+        isVisible=false;
+    }
+
+    @org.greenrobot.eventbus.Subscribe(threadMode = ThreadMode.MAIN)
+    public void onNetworkChanged(InternetConnectionEvent event) {
+        try {
+            if (isValid(event) && ((DashboardActivity)getActivity()).isShowDialogs()) {
+                if (event.isConnected())
+                {
+                    checkIsThereAnyActiveSessionsAvailable();
+                }
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
     }
