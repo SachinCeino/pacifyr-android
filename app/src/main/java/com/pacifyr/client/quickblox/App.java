@@ -58,21 +58,15 @@ public class App extends CoreApp {
         /*chat*/
         ActivityLifecycle.init(this);
 //        initSampleConfigs();
-
-        QBSettings.getInstance().init(this, APP_ID, AUTH_KEY, AUTH_SECRET);
-        QBSettings.getInstance().setAccountKey(ACCOUNT_KEY);
-        try {
-            Intent intent = new Intent(this, Call_Service.class);
-            startService(intent);
-        } catch (Exception e) {
-            Log.e(TAG, "Exception " + Call_Service.class.getSimpleName() + " cannot be started");
-            e.printStackTrace();
-        }
-
-
         Auth.scanUpdates(this);
         UserProperties.setProperty(this);
         RemoteConfig.init();
+
+
+
+
+
+
 
         /**/
     }

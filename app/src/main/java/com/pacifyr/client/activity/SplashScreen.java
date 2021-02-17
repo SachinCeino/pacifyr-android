@@ -34,17 +34,25 @@ import com.pacifyr.client.orginals.DynamicLink;
 import com.pacifyr.client.orginals.RemoteConfig;
 import com.pacifyr.client.quickblox.App;
 import com.pacifyr.client.quickblox.services.CallService;
+import com.pacifyr.client.quickblox.services.Call_Service;
 import com.pacifyr.client.sign.PacifyrTermsPolicyActivity;
 import com.pacifyr.client.sign.SignActivity;
 import com.pacifyr.client.utils.Constants;
 import com.pacifyr.client.utils.Utility;
 import com.pacifyrapp.utilitylibrary.base.BaseAppCompactActivity;
+import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
+import com.quickblox.auth.session.QBSettings;
 import com.quickblox.sample.core.utils.SharedPrefsHelper;
 import com.quickblox.users.model.QBUser;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
+
+import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.ACCOUNT_KEY;
+import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.APP_ID;
+import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.AUTH_KEY;
+import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.AUTH_SECRET;
 
 public class SplashScreen extends BaseAppCompactActivity {
 
@@ -65,6 +73,20 @@ public class SplashScreen extends BaseAppCompactActivity {
         Auth.foreground(this.getClass().getName());
         FirebaseApp.initializeApp(this);
         RemoteConfig.Update(this);
+        UtilityNetworkService.init(this);
+       // Log.w("AUTH_SECRET",APP_ID+AUTH_KEY+AUTH_SECRET);
+        QBSettings.getInstance().init(this, APP_ID, AUTH_KEY, AUTH_SECRET);
+        QBSettings.getInstance().setAccountKey(ACCOUNT_KEY);
+        try {
+            Intent intent = new Intent(this, Call_Service.class);
+            startService(intent);
+        } catch (Exception e) {
+            Log.e(TAG, "Exception " + Call_Service.class.getSimpleName() + " cannot be started");
+            e.printStackTrace();
+        }
+
+
+
         PacifyrActivity.flexibleUpdatePopupShown = false;
         //  overridePendingTransition(0, 0);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
