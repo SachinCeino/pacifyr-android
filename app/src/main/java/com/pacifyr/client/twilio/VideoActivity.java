@@ -2273,6 +2273,11 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
             Log.d(TAG, "onMessage: " + message);
             if (message.equals("stopcall"))
             {
+                try {
+                    EventBus.getDefault().post("CLOSE_DIALOGUE_ACTIVITY");
+                }catch (Exception e){
+
+                }
                 isCallActive=false;
                 if (isValid(room))
                     room.disconnect();

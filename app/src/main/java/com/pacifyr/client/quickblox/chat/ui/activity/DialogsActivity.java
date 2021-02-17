@@ -41,6 +41,7 @@ import com.pacifyr.client.quickblox.chat.utils.qb.QbChatDialogMessageListenerImp
 import com.pacifyr.client.quickblox.chat.utils.qb.QbDialogHolder;
 import com.pacifyr.client.quickblox.chat.utils.qb.QbDialogUtils;
 import com.pacifyr.client.quickblox.chat.utils.qb.callback.QbEntityCallbackImpl;
+import com.pacifyr.client.twilio.VideoActivity;
 import com.pacifyr.client.utils.FirebaseLogging;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
@@ -70,6 +71,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import static com.pacifyr.client.network.NetworkService.GLOBAL_URL;
+import static com.pacifyr.client.twilio.VideoActivity.isCallActive;
 
 
 //com.pacifyr.pacifyrapp.quickblox.chat.ui.activity.BaseActivity
@@ -734,6 +736,11 @@ public class DialogsActivity extends PacifyrActivity implements DialogsManager.M
     @Override
     public void onBackPressed() {
         //super.onBackPressed();
+        if (isValid(isCallActive) && isCallActive) {
+            Intent i = new Intent(DialogsActivity.this, VideoActivity.class);
+            i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            startActivity(i);
+        }
         finish();
     }
 
@@ -775,5 +782,21 @@ public class DialogsActivity extends PacifyrActivity implements DialogsManager.M
         super.onStart();
         EventBus.getDefault().register(this);
         Auth.foreground(DialogsActivity.class.getSimpleName());
+    }
+
+    @org.greenrobot.eventbus.Subscribe(threadMode = ThreadMode.MAIN)
+    public void closeDialogueScreenWhenCallDroped(Object event) {
+        try {
+
+                if (isValid(event)&& event.equals("CLOSE_DIALOGUE_ACTIVITY"))
+                {
+                   finish();
+                }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 }
