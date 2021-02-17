@@ -96,6 +96,16 @@ public class CustomerDetailActivity extends PacifyrAppCompactActivity {
         context.startActivity(intent);
     }
 
+    private boolean restoreCall;
+    public static void start(Context context, MUser user,boolean restoreCall) {
+
+        Intent intent = new Intent(context, CustomerDetailActivity.class);
+        CustomerDetailActivity.custListUser = user;
+        intent.putExtra("restoreCall", restoreCall);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
+    }
+
     public static void start(Activity context, MUser user) {
 
         Intent intent = new Intent(context, CustomerDetailActivity.class);
@@ -132,6 +142,9 @@ public class CustomerDetailActivity extends PacifyrAppCompactActivity {
 //            swipeLay = findViewById(R.id.swipe_lay);
             nested_scroll = findViewById(R.id.nested_scroll);
 //            swipeLay.setVisibility(View.VISIBLE);
+            if (getIntent() != null && getIntent().getExtras() != null) {
+                restoreCall = getIntent().getExtras().getBoolean("restoreCall", false);
+            }
 
             layoutManager = new LinearLayoutManager(CustomerDetailActivity.this, LinearLayoutManager.VERTICAL, false);
             pacifyrListRcv.setLayoutManager(layoutManager);
@@ -447,7 +460,12 @@ public class CustomerDetailActivity extends PacifyrAppCompactActivity {
             backImv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                onBackPressed();
+                    if (restoreCall && isCallActive) {
+                        Intent i = new Intent(CustomerDetailActivity.this, VideoActivity.class);
+                        i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                        startActivity(i);
+                    }
+                    finish();
                 }
             });
         }
@@ -502,7 +520,7 @@ public class CustomerDetailActivity extends PacifyrAppCompactActivity {
     @Override
     public void onBackPressed() {
 
-        if (isCallActive) {
+        if (restoreCall) {
             Intent i = new Intent(CustomerDetailActivity.this, VideoActivity.class);
             i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(i);

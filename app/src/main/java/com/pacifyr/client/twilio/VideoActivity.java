@@ -779,7 +779,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
               @Override
               public void onClick(View view) {
                   if (isValid(pacifyerDetial)) {
-                      CustomerDetailActivity.start(getApplicationContext(), pacifyerDetial);
+                      CustomerDetailActivity.start(getApplicationContext(), pacifyerDetial,true);
                   }
               }
           });

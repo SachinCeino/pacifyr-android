@@ -1290,11 +1290,6 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
     public void onBackPressed() {
         //super.onBackPressed();
         finish();
-        if (isCallActive) {
-            Intent i = new Intent(LastSessionActivity.this, VideoActivity.class);
-            i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-            startActivity(i);
-        }
     }
 
     @Override
