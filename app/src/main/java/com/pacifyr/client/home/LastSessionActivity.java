@@ -212,7 +212,6 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
         context.startActivity(intent);
     }*/
 
-
     public static void start(Context context, String sessionID, boolean editable) {
         if (!isValidStatic(sessionID)) {
             Log.e(TAG, "Invalid session Id. Cannot start session summary activity");
@@ -240,6 +239,7 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
         }*/
         context.startActivity(intent);
     }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -470,7 +470,7 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
                 @Override
                 public void onClick(View view) {
                     if (isValid(mSessionDetailRoot.getPrescriptionFile()))
-                    loadPDF(mSessionDetailRoot.getPrescriptionFile(),getResources().getString(R.string.prescription));
+                    loadPDF(mSessionDetailRoot.getPrescriptionFile(),getResources().getString(R.string.prescription),false);
                     else
                         Toast.makeText(LastSessionActivity.this, getResources().getString(R.string.no_prescription), Toast.LENGTH_SHORT).show();
                 }

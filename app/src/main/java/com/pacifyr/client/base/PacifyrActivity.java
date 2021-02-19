@@ -4589,6 +4589,34 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                 });
     }
 
+    public void loadPDF(String url,String title,boolean restoreCall) {
+        setLoading();
+        showProgress();
+        FileLoader.with(PacifyrActivity.this)
+                .load(GLOBAL_IMAGE_URL+url, false) //2nd parameter is optioal, pass true to force load from network
+                .fromDirectory("test4", FileLoader.DIR_CACHE)
+                .asFile(new FileRequestListener<File>() {
+                    @Override
+                    public void onLoad(FileLoadRequest request, FileResponse<File> response) {
+                        hideProgress();
+                        File loadedFile = response.getBody();
+                        // do something with the file
+                        Log.d(TAG, "File downloaded ");
+                        PdfViewer.pdf = loadedFile;
+                        Intent intent = new Intent(PacifyrActivity.this, PdfViewer.class);
+                        intent.putExtra("title",title);
+                        intent.putExtra("restoreCall",restoreCall);
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onError(FileLoadRequest request, Throwable t) {
+                        hideProgress();
+                        Log.d(TAG, "File download failed ");
+                    }
+                });
+    }
+
     public void selectRemoteConfigUrl(int i) {
         if(isProd)
         {
