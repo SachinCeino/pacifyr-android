@@ -185,6 +185,7 @@ public class DialogsActivity extends PacifyrActivity implements DialogsManager.M
         super.onDestroy();
 
         unregisterQbChatListeners();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -773,7 +774,7 @@ public class DialogsActivity extends PacifyrActivity implements DialogsManager.M
     @Override
     protected void onStop() {
         super.onStop();
-        EventBus.getDefault().unregister(this);
+
         Auth.foreground("");
     }
 
@@ -783,6 +784,7 @@ public class DialogsActivity extends PacifyrActivity implements DialogsManager.M
         EventBus.getDefault().register(this);
         Auth.foreground(DialogsActivity.class.getSimpleName());
     }
+
 
     @org.greenrobot.eventbus.Subscribe(threadMode = ThreadMode.MAIN)
     public void closeDialogueScreenWhenCallDroped(Object event) {

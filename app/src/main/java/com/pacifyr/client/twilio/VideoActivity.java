@@ -623,6 +623,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
               @Override
               public void onClick(View view) {
                   isCallActive=false;
+                  EventBus.getDefault().post("CLOSE_DIALOGUE_ACTIVITY");
                   if (isValid(localDataTrack))
                   {
                       localDataTrack.send("stopcall");
