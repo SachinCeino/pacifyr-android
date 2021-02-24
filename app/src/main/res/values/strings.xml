@@ -630,7 +630,7 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="Chat">Chat</string>
     <string name="provider_will_join_shortly">You are in the room, provider will join shortly</string>
     <string name="no_states_available">States list not available.</string>
-    <string name="participant_disconnected_please_wait">Participant Disconnected will join shortly...</string>
+    <string name="participant_disconnected_please_wait">Participant disconnected will join shortly...</string>
 
 
 </resources>
