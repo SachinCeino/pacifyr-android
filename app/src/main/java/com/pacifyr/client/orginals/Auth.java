@@ -20,14 +20,12 @@ import com.pacifyr.client.sign.LoginActivity;
 import com.pacifyr.client.sign.SignActivity;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 
-import static com.pacifyr.client.twilio.VideoActivity.isCallActive;
-
 
 public class Auth {
     private static String TAG = Auth.class.getName();
     private static String ANDROID_ID;
     private static String VISIBLE_ACTIVITY = "";
-    private static final boolean enableSessionManagement = true;
+    private static final boolean enableSessionManagement = false;
     private static Toast toast;
 
     public static void httpStatusFilter(Context c, int status) {
