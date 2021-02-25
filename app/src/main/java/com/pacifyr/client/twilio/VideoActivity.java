@@ -145,6 +145,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import kotlin.Unit;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
+import static com.pacifyr.client.netconnectionlistener.ConnectionCheckBroadcast.CheckInternetConnection;
 import static com.pacifyr.client.network.NetworkService.GLOBAL_IMAGE_URL;
 import static com.pacifyr.client.network.NetworkService.isRelease;
 import static com.pacifyr.client.utils.Constants.getCountryChecks;
@@ -622,20 +623,26 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
           button_hangup_call.setOnClickListener(new View.OnClickListener() {
               @Override
               public void onClick(View view) {
-                  isCallActive=false;
-                  EventBus.getDefault().post("CLOSE_DIALOGUE_ACTIVITY");
-                  if (isValid(localDataTrack))
-                  {
-                      localDataTrack.send("stopcall");
+                  if (CheckInternetConnection(getApplicationContext())) {
+                      isCallActive = false;
+                      EventBus.getDefault().post("CLOSE_DIALOGUE_ACTIVITY");
+                      if (isValid(localDataTrack)) {
+                          localDataTrack.send("stopcall");
 
+                      }
+
+                      if (isValid(ringtonePlayer))
+                          ringtonePlayer.stop();
+                      if (SessionId != null) {
+                          hangUpCurrentFromClient = true;
+                          hangUpCurrentSessionMe();
+
+                      }
                   }
-
-                    if (isValid(ringtonePlayer))
-                        ringtonePlayer.stop();
-                  if (SessionId != null) {
-                      hangUpCurrentFromClient=true;
-                      hangUpCurrentSessionMe();
-
+                  else
+                  {
+                      final Toast toast = Toast.makeText(getApplicationContext(),getResources().getString(R.string.no_internet_connection_please_try_again_later), Toast.LENGTH_LONG);
+                      toast.show();
                   }
 
               }
