@@ -590,7 +590,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
           }
           if (isVideoCall){
               primaryVideoView.setVisibility(View.VISIBLE);
-              TextView_call_type.setText(getResources().getString(R.string.video_call));
+              TextView_call_type.setText(getResources().getString(R.string.pacifyr_video));
               toggle_speaker.setVisibility(View.GONE);
               toggle_camera.setVisibility(View.VISIBLE);
               audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
@@ -601,7 +601,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
           }
           else {
               primaryVideoView.setVisibility(View.GONE);
-              TextView_call_type.setText(getResources().getString(R.string.audio_call));
+              TextView_call_type.setText(getResources().getString(R.string.pacifyr_audio));
               toggle_speaker.setVisibility(View.VISIBLE);
               toggle_camera.setVisibility(View.GONE);
               audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
@@ -746,7 +746,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
               public void onClick(View v) {
                   Intent intent = new Intent(getApplicationContext(), ActivityChangeEmotionFromCall.class);
                   if (isValid(change_Emotion_name)) {
-                      intent.putExtra("emotion", change_Emotion_name);
+                      intent.putExtra("Emotion : ", change_Emotion_name);
                   }
                   intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                   startActivity(intent);
@@ -1053,7 +1053,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
             if(isValid(emotion.getTitle())) {
                 change_Emotion_name=emotion.getId();
                 emotion_ctxv.setVisibility(View.VISIBLE);
-                defSetText(emotion_ctxv,"Emotion: "+emotion.getTitle());
+                defSetText(emotion_ctxv,"Emotion : "+emotion.getTitle());
 
             }
 
@@ -1074,11 +1074,11 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
 
                 if (isValid(NetworkService.mCurrentUser)) {
                     if (isValid(NetworkService.mCurrentUser.getSelectedSpecialityCategory()))
-                        defSetText(reason_ctxv, "Cause: " + NetworkService.mCurrentUser.getSelectedSpecialityCategory());
+                        defSetText(reason_ctxv, "Cause : " + NetworkService.mCurrentUser.getSelectedSpecialityCategory());
                     else if (isValid(NetworkService.mCurrentUser.getSelectedSpeciality()))
-                        defSetText(reason_ctxv, "Cause: " + NetworkService.mCurrentUser.getSelectedSpeciality());
+                        defSetText(reason_ctxv, "Cause : " + NetworkService.mCurrentUser.getSelectedSpeciality());
                 } else {
-                    defSetText(reason_ctxv, "Cause: " + EmotionSpecialityAdapter.reason_forcall);
+                    defSetText(reason_ctxv, "Cause : " + EmotionSpecialityAdapter.reason_forcall);
                 }
 
 
@@ -2716,7 +2716,7 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
             if (isValid(event.getEmotion().getTitle())) {
                 emotion_ctxv.setVisibility(View.VISIBLE);
                 change_Emotion_name=event.getEmotion().getId();
-                defSetText(emotion_ctxv,"Emotion: "+event.getEmotion().getTitle());
+                defSetText(emotion_ctxv,"Emotion : "+event.getEmotion().getTitle());
 
 
             }
