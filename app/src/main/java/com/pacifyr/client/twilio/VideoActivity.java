@@ -1636,8 +1636,8 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                    toggle_speaker.setClickable(true);
                    toggle_camera.setClickable(true);
                    micToggleVideoCall.setClickable(true);
-                   Button_remind_counselor_vidio.setVisibility(View.GONE);
-                   Button_remind_counselor_audio.setVisibility(View.GONE);
+                  // Button_remind_counselor_vidio.setVisibility(View.GONE);
+                  // Button_remind_counselor_audio.setVisibility(View.GONE);
 
                }
 
