@@ -13,6 +13,7 @@ import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -140,6 +141,8 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import kotlin.Unit;
@@ -449,6 +452,8 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
     public static boolean isForeground = false;
     private EarPhoneChanges mEarPhoneChanges;
     private boolean isHeadeSetIsPlugged=false;
+
+    private MediaPlayer PlayerForNetOffBeep;
 
 
     private class EarPhoneChanges extends BroadcastReceiver {
@@ -1413,6 +1418,14 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
         {
             audioManager=null;
         }
+        if (isValid(PlayerForNetOffBeep))
+        {
+            PlayerForNetOffBeep.stop();
+        }
+        if (isValid(NetOffBeepTimer))
+        {
+            NetOffBeepTimer.cancel();
+        }
         /*
          * Always disconnect from the room before leaving the Activity to
          * ensure any memory allocated to the Room resource is freed.
@@ -1578,11 +1591,21 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                @Override
                public void onReconnecting(@NonNull Room room, @NonNull TwilioException twilioException) {
                    connectionStatusLocal.setText("Reconnecting...");
+                   playAudioWithDelay();
                }
 
                @Override
                public void onReconnected(@NonNull Room room) {
                    connectionStatusLocal.setText("Connected");
+                   if (isValid(PlayerForNetOffBeep))
+                   {
+                       PlayerForNetOffBeep.stop();
+                       if (isValid(NetOffBeepTimer))
+                       {
+                           NetOffBeepTimer.cancel();
+                       }
+
+                   }
                }
 
                @Override
@@ -1593,6 +1616,14 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                        isCallActive=false;
                        if (isValid(ringtonePlayer))
                            ringtonePlayer.stop();
+                       if (isValid(PlayerForNetOffBeep))
+                       {
+                           PlayerForNetOffBeep.stop();
+                           if (isValid(NetOffBeepTimer))
+                           {
+                               NetOffBeepTimer.cancel();
+                           }
+                       }
                        configureAudio(false);
                        //  reconnectingProgressBar.setVisibility(View.GONE);
                      //  VideoActivity.this.room = null;
@@ -1666,6 +1697,27 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
            Log.w("@@@",String.valueOf(e));
            Log.w("@@@",String.valueOf(e));
         }
+
+    }
+
+    private Timer NetOffBeepTimer = null;
+
+    public void playAudioWithDelay(){
+        NetOffBeepTimer = new Timer();
+        NetOffBeepTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                // use runOnUiThread(Runnable action)
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        PlayerForNetOffBeep= MediaPlayer.create(getApplicationContext(), R.raw.beep_net_reconnecting);
+                        PlayerForNetOffBeep.start();
+                        playAudioWithDelay();
+                    }
+                });
+            }
+        }, 1000);
 
     }
 
