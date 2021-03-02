@@ -1590,7 +1590,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
 
                @Override
                public void onReconnecting(@NonNull Room room, @NonNull TwilioException twilioException) {
-                   connectionStatusLocal.setText("Reconnecting...");
+                   connectionStatusLocal.setText("Reconnecting..");
                    playAudioWithDelay();
                }
 

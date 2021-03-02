@@ -1225,7 +1225,12 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                 }
                 if (showRating) {
                     showRating = false;
-                    SessionSummaryActivity.start(getApplicationContext(), billingSummary.getSessionId());
+                    if (isValid(billingSummary.getSession()) && isValid(billingSummary.getSession().getTimeSlotBookingId()))
+                    { //dont show session summary for scheduled call once provider completed from appointment then user get notified the session summmary
+                         }
+                    else {
+                        SessionSummaryActivity.start(getApplicationContext(), billingSummary.getSessionId());
+                    }
                 }
             }
         });

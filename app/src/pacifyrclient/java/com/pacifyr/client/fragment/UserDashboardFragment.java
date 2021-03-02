@@ -74,6 +74,8 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import me.leolin.shortcutbadger.ShortcutBadger;
@@ -83,6 +85,7 @@ import static com.pacifyr.client.base.PacifyrActivity.call_emotion;
 import static com.pacifyr.client.network.NetworkService.lastSession;
 import static com.pacifyr.client.network.NetworkService.modelAllEmotions;
 import static com.pacifyr.client.network.NetworkService.modelCustomerDashboard2;
+import static com.pacifyr.client.twilio.VideoActivity.isCallActive;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_IMAGE_URL;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.TOKEN_EXPIRY_TIME;
@@ -141,7 +144,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
     private void getPermissions() {
         Utility.checkPermission(getActivity(), "essential");
     }
-
+    Timer _TimerRefreshDashBoard=null;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -157,6 +160,26 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
             setMyAdapter();
         }
 
+        /**refresh dashboard every 5 seconds for checking available active sessions **/
+
+        _TimerRefreshDashBoard = new Timer();
+        _TimerRefreshDashBoard.scheduleAtFixedRate(new TimerTask() {
+
+                                  @Override
+                                  public void run() {
+                                      checkIsThereAnyActiveSessionsAvailable();
+                                  }
+
+                              },0,5000);
+
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (isValid(_TimerRefreshDashBoard)) {
+            _TimerRefreshDashBoard.cancel();
+        }
     }
 
     private void loginToQuickblox() {
@@ -401,6 +424,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
 
     private void checkIsThereAnyActiveSessionsAvailable() {
         try {
+            if (isCallActive)return;
             PrefManager prefM = PrefManager.getInstance(getActivity());
             String token = prefM.getAccessToken();
             String userid = prefM.getUserID();
@@ -1057,6 +1081,7 @@ boolean itIsFirstCallFrom=true;
                     swipeRefreshLayout.setRefreshing(false);
                     setLoading();
                     showProgress();
+                    checkIsThereAnyActiveSessionsAvailable();
                     handleActionCustomerDashboard();
                     setChatCountInfo();
                 } catch (Exception e) {
