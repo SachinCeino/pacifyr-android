@@ -1451,7 +1451,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
         }
         if (isValid(ringtonePlayer))
             ringtonePlayer.stop();
-
+        stopSessionTracking();
         cancelOutGoingCallTimer();
         EventBus.getDefault().unregister(this);
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
