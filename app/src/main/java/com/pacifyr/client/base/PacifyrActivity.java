@@ -1939,10 +1939,10 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
 
     }
 
-    public void startSessionWeb(String roomName,String TwilioToken,final MUser pacifyer, final boolean isVideoCall) {
+    public void startSessionWeb(String roomNam,String TwilioToken,final MUser pacifyer, final boolean isVideoCall) {
         try {
 
-
+            final String[] roomName = {roomNam};
 
             ToastHandler.newInstance(PacifyrActivity.this).showToast("startSessionWeb");
             call_session_root=null;
@@ -1965,99 +1965,105 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                             ToastHandler.newInstance(PacifyrActivity.this).mustShowToast("Please check network connection");
                             LogUtils.LOGD("call", "startSessionWeb json null ");
                         } else {
-                            if (json != null) try {
-                                LogUtils.LOGD("call", "startSessionWeb json  " + json);
-                                call_session_root= GsonUtils.getInstance().gsonToMSessionRoot(json);
-                                String sessionJson = null;
-                                if (json.has("session")) {
-                                    sessionJson = json.getString("session");
-                                }
-                                Session session = null;
-                                if (sessionJson != null) {
-                                    session = new Gson().fromJson(sessionJson, Session.class);
-                                }
-                                if(isValid(call_session_root))
-                                {
-                                    if(call_session_root.getStatus().equalsIgnoreCase("success"))
+                            if (json != null) {
+                                try {
+                                    LogUtils.LOGD("call", "startSessionWeb json  " + json);
+                                    call_session_root= GsonUtils.getInstance().gsonToMSessionRoot(json);
+                                    String sessionJson = null;
+                                    if (json.has("session")) {
+                                        sessionJson = json.getString("session");
+                                    }
+                                    Session session = null;
+                                    if (sessionJson != null) {
+                                        session = new Gson().fromJson(sessionJson, Session.class);
+                                    }
+                                    if (isValid(session)) {
+                                        roomName[0] =session.getTwilioRoomSID();
+                                    }
+                                    if(isValid(call_session_root))
                                     {
-                                        if (session != null) {
-                                            startSessionTracking(session.getId());
+
+                                        if(call_session_root.getStatus().equalsIgnoreCase("success"))
+                                        {
+                                            if (session != null) {
+                                                startSessionTracking(session.getId());
+                                            }
+
+                                            startCall(roomName[0],TwilioToken,isVideoCall,pacifyer,pacifyer.getQbid(), pacifyer.getId(),call_session_root.getSession().getId(),false,null);
+                                        }
+                                        else
+                                        {
+    //                                        stopSessionWeb(pacifyer);
+                                            if (json.has("message")) {
+                                                ToastHandler.newInstance(PacifyrActivity.this).mustShowToast(json.getString("message"));
+                                                finish();
+                                            }
+
+                                            //setAlertOKStatusInBlue("Connect call","Connect the call","OK");
+                                            //startCall(isVideoCall,pacifyer, pacifyer.getQbid(), pacifyer.getId(), sessionid);
+
+                                            //ToastHandler.newInstance(PacifyrActivity.this).mustShowToast(call_session_root.getMessage());
                                         }
 
-                                        startCall(roomName,TwilioToken,isVideoCall,pacifyer,pacifyer.getQbid(), pacifyer.getId(),call_session_root.getSession().getId(),false,null);
                                     }
-                                    else
-                                    {
-//                                        stopSessionWeb(pacifyer);
-                                        if (json.has("message")) {
-                                            ToastHandler.newInstance(PacifyrActivity.this).mustShowToast(json.getString("message"));
-                                            finish();
+                                    else {
+                                        try {
+
+                                            JSONObject sessionobj = json.getJSONObject("session");
+                                            String sessionid= sessionobj.getString("id");
+                                            String message = sessionobj.has("message") ? sessionobj.getString("message") : "Sorry, some error occurred";
+                                            String statusmsg= json.getString("status");
+                                            if(statusmsg.equalsIgnoreCase("success")) {
+                                                if (isValid(sessionid, "Please try later ,session expired ")) {
+                                                    startCall(roomName[0],TwilioToken,isVideoCall, pacifyer, pacifyer.getQbid(), pacifyer.getId(), sessionid,false,null);
+    //                                                startSessionTracking();
+                                                }
+                                            } /*else if (statusmsg.equalsIgnoreCase("error")) {
+                                                stopSessionWeb(pacifyer);
+                                                ToastHandler.newInstance(PacifyrActivity.this).mustShowToast(message);
+                                            } else {
+                                                stopSessionWeb(pacifyer);
+                                                //setAlertOKStatusInBlue("Connect call","Connect the call","OK");
+                                                //startCall(isVideoCall,pacifyer, pacifyer.getQbid(), pacifyer.getId(), sessionid);
+                                                //ToastHandler.newInstance(PacifyrActivity.this).mustShowToast(json.getString("message"));
+                                                ToastHandler.newInstance(PacifyrActivity.this).mustShowToast("Network error. Please try again");
+                                            }*/
+
+                                        }catch (Exception e)
+                                        {
+                                            ToastHandler.newInstance(PacifyrActivity.this).mustShowToast("Please check network connection");
+                                            // e.printStackTrace();
                                         }
-
-                                        //setAlertOKStatusInBlue("Connect call","Connect the call","OK");
-                                        //startCall(isVideoCall,pacifyer, pacifyer.getQbid(), pacifyer.getId(), sessionid);
-
-                                        //ToastHandler.newInstance(PacifyrActivity.this).mustShowToast(call_session_root.getMessage());
                                     }
 
-                                }
-                                else {
+                                } catch (Exception e){
                                     try {
-
+                                        LogUtils.LOGD("call", "startSessionWeb exception : " + e.getMessage());
                                         JSONObject sessionobj = json.getJSONObject("session");
                                         String sessionid= sessionobj.getString("id");
-                                        String message = sessionobj.has("message") ? sessionobj.getString("message") : "Sorry, some error occurred";
                                         String statusmsg= json.getString("status");
+                                        String message = sessionobj.has("message") ? sessionobj.getString("message") : "Sorry, some error occurred";
                                         if(statusmsg.equalsIgnoreCase("success")) {
-                                            if (isValid(sessionid, "Please try later ,session expired ")) {
-                                                startCall(roomName,TwilioToken,isVideoCall, pacifyer, pacifyer.getQbid(), pacifyer.getId(), sessionid,false,null);
-//                                                startSessionTracking();
+                                            if (isValid(sessionid, "Please try later session expired")) {
+                                                startCall(roomName[0],TwilioToken,isVideoCall, pacifyer, pacifyer.getQbid(), pacifyer.getId(), sessionid,false,null);
+    //                                            startSessionTracking();
                                             }
                                         } /*else if (statusmsg.equalsIgnoreCase("error")) {
                                             stopSessionWeb(pacifyer);
                                             ToastHandler.newInstance(PacifyrActivity.this).mustShowToast(message);
                                         } else {
                                             stopSessionWeb(pacifyer);
+                                            ToastHandler.newInstance(PacifyrActivity.this).mustShowToast("Network error. Please try again");
                                             //setAlertOKStatusInBlue("Connect call","Connect the call","OK");
                                             //startCall(isVideoCall,pacifyer, pacifyer.getQbid(), pacifyer.getId(), sessionid);
-                                            //ToastHandler.newInstance(PacifyrActivity.this).mustShowToast(json.getString("message"));
-                                            ToastHandler.newInstance(PacifyrActivity.this).mustShowToast("Network error. Please try again");
+                                            // ToastHandler.newInstance(PacifyrActivity.this).mustShowToast(json.getString("message"));
                                         }*/
 
-                                    }catch (Exception e)
+                                    }catch (Exception ex)
                                     {
                                         ToastHandler.newInstance(PacifyrActivity.this).mustShowToast("Please check network connection");
-                                        // e.printStackTrace();
+
                                     }
-                                }
-
-                            } catch (Exception e){
-                                try {
-                                    LogUtils.LOGD("call", "startSessionWeb exception : " + e.getMessage());
-                                    JSONObject sessionobj = json.getJSONObject("session");
-                                    String sessionid= sessionobj.getString("id");
-                                    String statusmsg= json.getString("status");
-                                    String message = sessionobj.has("message") ? sessionobj.getString("message") : "Sorry, some error occurred";
-                                    if(statusmsg.equalsIgnoreCase("success")) {
-                                        if (isValid(sessionid, "Please try later session expired")) {
-                                            startCall(roomName,TwilioToken,isVideoCall, pacifyer, pacifyer.getQbid(), pacifyer.getId(), sessionid,false,null);
-//                                            startSessionTracking();
-                                        }
-                                    } /*else if (statusmsg.equalsIgnoreCase("error")) {
-                                        stopSessionWeb(pacifyer);
-                                        ToastHandler.newInstance(PacifyrActivity.this).mustShowToast(message);
-                                    } else {
-                                        stopSessionWeb(pacifyer);
-                                        ToastHandler.newInstance(PacifyrActivity.this).mustShowToast("Network error. Please try again");
-                                        //setAlertOKStatusInBlue("Connect call","Connect the call","OK");
-                                        //startCall(isVideoCall,pacifyer, pacifyer.getQbid(), pacifyer.getId(), sessionid);
-                                        // ToastHandler.newInstance(PacifyrActivity.this).mustShowToast(json.getString("message"));
-                                    }*/
-
-                                }catch (Exception ex)
-                                {
-                                    ToastHandler.newInstance(PacifyrActivity.this).mustShowToast("Please check network connection");
-
                                 }
                             }
                         }
@@ -2075,7 +2081,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                 input.putOpt("pacifyrId", pacifyer.getId());
                 //     input.putOpt("deviceType", Constants.DEVICETYPE);
                 input.putOpt("sessionType", roomType);
-                input.putOpt("twilioRoomSID", roomName);
+                input.putOpt("twilioRoomSID", roomName[0]);
                 input.putOpt("appSource", Constants.getAppSource(getApplicationContext()));
                 if (isValid(EmotionSpecialityAdapter.reason_forcall))
                     input.putOpt("reasonForTheCall", EmotionSpecialityAdapter.reason_forcall);
@@ -2100,11 +2106,11 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
         createAccesTokenForTwilio(pacifyer,isVideoCall,true,timeSlotBookingId);
     }
 
-    public void startSessionForAppointmentCallAfterConnectingTwilio(String roomName,String TwilioToken,final MUser pacifyer, final boolean isVideoCall,String timeSlotBookingId){
+    public void startSessionForAppointmentCallAfterConnectingTwilio(String roomNam,String TwilioToken,final MUser pacifyer, final boolean isVideoCall,String timeSlotBookingId){
         try {
 
 
-
+            final String[] roomName = {roomNam};
             ToastHandler.newInstance(PacifyrActivity.this).showToast("startSessionWeb");
             call_session_root=null;
             call_session_detail_root=null;
@@ -2137,6 +2143,10 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                                 if (sessionJson != null) {
                                     session = new Gson().fromJson(sessionJson, Session.class);
                                 }
+                                if (isValid(session.getTwilioRoomSID()))
+                                {
+                                    roomName[0] =session.getTwilioRoomSID();
+                                }
                                 if(isValid(call_session_root))
                                 {
                                     if(call_session_root.getStatus().equalsIgnoreCase("success"))
@@ -2144,7 +2154,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                                         if (session != null) {
                                             startSessionTracking(session.getId());
                                         }
-                                        startCall(roomName,TwilioToken,isVideoCall,pacifyer,pacifyer.getQbid(), pacifyer.getId(),call_session_root.getSession().getId(),true,timeSlotBookingId);
+                                        startCall(roomName[0],TwilioToken,isVideoCall,pacifyer,pacifyer.getQbid(), pacifyer.getId(),call_session_root.getSession().getId(),true,timeSlotBookingId);
                                     }
                                     else
                                     {
@@ -2165,7 +2175,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                                         String statusmsg= json.getString("status");
                                         if(statusmsg.equalsIgnoreCase("success")) {
                                             if (isValid(sessionid, "Please try later ,session expired ")) {
-                                                startCall(roomName,TwilioToken,isVideoCall,pacifyer,pacifyer.getQbid(), pacifyer.getId(),sessionid,true,timeSlotBookingId);
+                                                startCall(roomName[0],TwilioToken,isVideoCall,pacifyer,pacifyer.getQbid(), pacifyer.getId(),sessionid,true,timeSlotBookingId);
 
 //                                                startSessionTracking();
                                             }
@@ -2187,7 +2197,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                                     String message = sessionobj.has("message") ? sessionobj.getString("message") : "Sorry, some error occurred";
                                     if(statusmsg.equalsIgnoreCase("success")) {
                                         if (isValid(sessionid, "Please try later session expired")) {
-                                            startCall(roomName,TwilioToken,isVideoCall,pacifyer,pacifyer.getQbid(), pacifyer.getId(),sessionid,true,timeSlotBookingId);
+                                            startCall(roomName[0],TwilioToken,isVideoCall,pacifyer,pacifyer.getQbid(), pacifyer.getId(),sessionid,true,timeSlotBookingId);
 
                                         }
                                     }
@@ -2212,7 +2222,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                 input.putOpt("pacifyrId", pacifyer.getId());
                 //     input.putOpt("deviceType", Constants.DEVICETYPE);
                 input.putOpt("timeSlotBookingId",timeSlotBookingId);
-                input.putOpt("twilioRoomSID", roomName);
+                input.putOpt("twilioRoomSID", roomName[0]);
                 input.putOpt("sessionType", roomType);
                 input.putOpt("appSource", Constants.getAppSource(getApplicationContext()));
                 if (isValid(EmotionSpecialityAdapter.reason_forcall))

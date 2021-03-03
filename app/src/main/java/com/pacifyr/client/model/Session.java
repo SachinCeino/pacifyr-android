@@ -104,7 +104,15 @@ public class Session {
     @Expose
     private Object scheduledSessionId;
     private String timeSlotBookingId;
+    private String twilioRoomSID;
 
+    public String getTwilioRoomSID() {
+        return twilioRoomSID;
+    }
+
+    public void setTwilioRoomSID(String twilioRoomSID) {
+        this.twilioRoomSID = twilioRoomSID;
+    }
     public String getTimeSlotBookingId() {
         return timeSlotBookingId;
     }
