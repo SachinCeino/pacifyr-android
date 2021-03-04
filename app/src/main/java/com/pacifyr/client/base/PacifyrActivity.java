@@ -1262,7 +1262,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
 
     public void startCall(String roomName,String TwilioToken ,boolean isVideoCall,final MUser pacifyer, long  qbID,String oppentid,String idsession,boolean isAppointment,String timeSloteBookingId) {
 
-        VideoActivity.start(getApplicationContext(),TwilioToken,roomName,pacifyer,isVideoCall,isAppointment,timeSloteBookingId,idsession);
+
 
        /* TwilioCallEvent mTwilioCallEvent=new TwilioCallEvent();
         mTwilioCallEvent.setCallConnected(true);
@@ -1855,10 +1855,11 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                             if (isValid(mTwilioAccessToken) && mTwilioAccessToken.getStatus().equals("success") &&isValid(mTwilioAccessToken.getMessage())) {
 
                                     if (isAppointment) {
-                                        startSessionForAppointmentCallAfterConnectingTwilio(roomName, mTwilioAccessToken.getMessage(), pacifyerDetial, isVideoCall, timeSlotBookingId);
+                                       // startSessionForAppointmentCallAfterConnectingTwilio(roomName, mTwilioAccessToken.getMessage(), pacifyerDetial, isVideoCall, timeSlotBookingId);
+                                        VideoActivity.start(getApplicationContext(),mTwilioAccessToken.getMessage(),roomName,pacifyerDetial,isVideoCall,isAppointment,timeSlotBookingId);
                                     }else{
-                                        startSessionWeb(roomName, mTwilioAccessToken.getMessage(), pacifyerDetial, isVideoCall);
-
+                                       // startSessionWeb(roomName, mTwilioAccessToken.getMessage(), pacifyerDetial, isVideoCall);
+                                        VideoActivity.start(getApplicationContext(),mTwilioAccessToken.getMessage(),roomName,pacifyerDetial,isVideoCall,isAppointment,null);
                                     }
 
                             }
@@ -1939,10 +1940,8 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
 
     }
 
-    public void startSessionWeb(String roomNam,String TwilioToken,final MUser pacifyer, final boolean isVideoCall) {
+    public void startSessionWeb(String roomName,String roomSID,final MUser pacifyer, final boolean isVideoCall) {
         try {
-
-            final String[] roomName = {roomNam};
 
             ToastHandler.newInstance(PacifyrActivity.this).showToast("startSessionWeb");
             call_session_root=null;
@@ -1977,9 +1976,6 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                                     if (sessionJson != null) {
                                         session = new Gson().fromJson(sessionJson, Session.class);
                                     }
-                                    if (isValid(session)) {
-                                        roomName[0] =session.getTwilioRoomSID();
-                                    }
                                     if(isValid(call_session_root))
                                     {
 
@@ -1988,15 +1984,20 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                                             if (session != null) {
                                                 startSessionTracking(session.getId());
                                             }
-
-                                            startCall(roomName[0],TwilioToken,isVideoCall,pacifyer,pacifyer.getQbid(), pacifyer.getId(),call_session_root.getSession().getId(),false,null);
+                                            TwilioCallEvent mTwilioCallEvent=new TwilioCallEvent();
+                                            mTwilioCallEvent.setIdsession(session.getId());
+                                            EventBus.getDefault().post(mTwilioCallEvent);
+                                            //startCall(roomName[0],TwilioToken,isVideoCall,pacifyer,pacifyer.getQbid(), pacifyer.getId(),call_session_root.getSession().getId(),false,null);
                                         }
                                         else
                                         {
     //                                        stopSessionWeb(pacifyer);
                                             if (json.has("message")) {
-                                                ToastHandler.newInstance(PacifyrActivity.this).mustShowToast(json.getString("message"));
-                                                finish();
+
+                                                TwilioCallEvent mTwilioCallEvent=new TwilioCallEvent();
+                                                mTwilioCallEvent.setError(json.getString("message"));
+                                                EventBus.getDefault().post(mTwilioCallEvent);
+
                                             }
 
                                             //setAlertOKStatusInBlue("Connect call","Connect the call","OK");
@@ -2015,7 +2016,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                                             String statusmsg= json.getString("status");
                                             if(statusmsg.equalsIgnoreCase("success")) {
                                                 if (isValid(sessionid, "Please try later ,session expired ")) {
-                                                    startCall(roomName[0],TwilioToken,isVideoCall, pacifyer, pacifyer.getQbid(), pacifyer.getId(), sessionid,false,null);
+                                                   // startCall(roomName[0],TwilioToken,isVideoCall, pacifyer, pacifyer.getQbid(), pacifyer.getId(), sessionid,false,null);
     //                                                startSessionTracking();
                                                 }
                                             } /*else if (statusmsg.equalsIgnoreCase("error")) {
@@ -2045,7 +2046,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                                         String message = sessionobj.has("message") ? sessionobj.getString("message") : "Sorry, some error occurred";
                                         if(statusmsg.equalsIgnoreCase("success")) {
                                             if (isValid(sessionid, "Please try later session expired")) {
-                                                startCall(roomName[0],TwilioToken,isVideoCall, pacifyer, pacifyer.getQbid(), pacifyer.getId(), sessionid,false,null);
+                                                //startCall(roomName[0],TwilioToken,isVideoCall, pacifyer, pacifyer.getQbid(), pacifyer.getId(), sessionid,false,null);
     //                                            startSessionTracking();
                                             }
                                         } /*else if (statusmsg.equalsIgnoreCase("error")) {
@@ -2081,7 +2082,8 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                 input.putOpt("pacifyrId", pacifyer.getId());
                 //     input.putOpt("deviceType", Constants.DEVICETYPE);
                 input.putOpt("sessionType", roomType);
-                input.putOpt("twilioRoomSID", roomName[0]);
+                input.putOpt("twilioRoomSID", roomSID);
+                input.putOpt("twilioRoomName", roomName);
                 input.putOpt("appSource", Constants.getAppSource(getApplicationContext()));
                 if (isValid(EmotionSpecialityAdapter.reason_forcall))
                     input.putOpt("reasonForTheCall", EmotionSpecialityAdapter.reason_forcall);

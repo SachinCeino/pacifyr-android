@@ -459,7 +459,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                                         @Override
                                         public void onClick(View view) {
 
-                                            ((DashboardActivity)getActivity()).rejoinToTwilioRoom(mMSessionDetailRoot.getPacifyr(),finalIsVideoCall,false,null,mMSessionDetailRoot.getTwilioRoomSID(),mMSessionDetailRoot.getId());
+                                            ((DashboardActivity)getActivity()).rejoinToTwilioRoom(mMSessionDetailRoot.getPacifyr(),finalIsVideoCall,false,null,mMSessionDetailRoot.getTwilioRoomName(),mMSessionDetailRoot.getId());
 
                                         }
                                     });

@@ -12,7 +12,15 @@ public class TwilioCallEvent {
     private String roomName;
     private MUser pacifyer;
     private String idsession;
+    private String error;
 
+    public String getError() {
+        return error;
+    }
+
+    public void setError(String error) {
+        this.error = error;
+    }
 
     public boolean isCallConnected() {
         return isCallConnected;

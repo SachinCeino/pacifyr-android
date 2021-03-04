@@ -69,6 +69,15 @@ public class MSessionDetailRoot
     private String aggregationSessionId;
     private  String  timeSlotBookingId;
     private  String twilioRoomSID;
+    private String twilioRoomName;
+
+    public String getTwilioRoomName() {
+        return twilioRoomName;
+    }
+
+    public void setTwilioRoomName(String twilioRoomName) {
+        this.twilioRoomName = twilioRoomName;
+    }
 
     public String getTwilioRoomSID() {
         return twilioRoomSID;

@@ -419,14 +419,13 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
     }
 
 
-    public static void start(Context context,String accessToken,String roomName,MUser pacifyerDetial,boolean isVideoCall,boolean isAppointment,String timeSlotBookingId,String idsession) {
+    public static void start(Context context,String accessToken,String roomName,MUser pacifyerDetial,boolean isVideoCall,boolean isAppointment,String timeSlotBookingId) {
         Intent intent = new Intent(context, VideoActivity.class);
         intent.putExtra("accessToken",accessToken);
         intent.putExtra("pacifyerDetial",pacifyerDetial);
         intent.putExtra("roomName",roomName);
         intent.putExtra("isVideoCall",isVideoCall);
         intent.putExtra("isAppointment",isAppointment);
-        intent.putExtra("SessionId",idsession);
        if (timeSlotBookingId!=null)
            intent.putExtra("timeSlotBookingId",timeSlotBookingId);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -859,14 +858,6 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                     ProfileScreenActivity.start(getApplicationContext(), mUser.getId(), false);*/
               }
           });
-
-          if (isValid(SessionId))
-          {
-              isCallActive=true;
-              webGetSessionDetail(SessionId);
-          }
-
-          getCurrentUserProfileInfo();
 
 
           Button_remind_counselor_audio.setOnClickListener(new View.OnClickListener() {
@@ -1518,6 +1509,12 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                public void onConnected(Room room) {
                    VideoActivity.this.room=room;
                    localParticipant = room.getLocalParticipant();
+                   String romm=roomName;
+                   String roomServer=room.getSid();
+                   Log.w("getTwilioRoomName",roomName);
+                   if (!isRejoining)
+                   startSessionWeb(roomName,room.getSid(), pacifyerDetial, isVideoCall);
+
 
                    if (isVideoCall)
                        Button_remind_counselor_vidio.setVisibility(View.VISIBLE);
@@ -2818,8 +2815,24 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
         if (isValid(mTwilioCallEvent.getIdsession()))
         {
             SessionId= mTwilioCallEvent.getIdsession();
+            if (isValid(SessionId))
+            {
+                isCallActive=true;
+                webGetSessionDetail(SessionId);
+            }
+
+            getCurrentUserProfileInfo();
 
         Log.w("WWWWW","onCallConnected");
+        }
+        else if (isValid(mTwilioCallEvent.getError()))
+        {
+            ToastHandler.newInstance(getApplicationContext()).mustShowToast(mTwilioCallEvent.getError());
+            if (isValid(room))
+            {
+                room.disconnect();
+            }
+            finish();
         }
 
     }
