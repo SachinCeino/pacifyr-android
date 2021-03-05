@@ -383,6 +383,8 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
 
             checkLastTimeLoginFiftyDaysExcceed();
             checkIsThereAnyActiveSessionsAvailable();
+            if (isCallActive)
+                LinearLayout_Active_Session.setVisibility(View.GONE);
 
         }
         catch (Exception e)

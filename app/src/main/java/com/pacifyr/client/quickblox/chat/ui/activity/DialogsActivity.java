@@ -781,8 +781,13 @@ public class DialogsActivity extends PacifyrActivity implements DialogsManager.M
     @Override
     protected void onStart() {
         super.onStart();
-        EventBus.getDefault().register(this);
-        Auth.foreground(DialogsActivity.class.getSimpleName());
+       try {
+           EventBus.getDefault().register(this);
+           Auth.foreground(DialogsActivity.class.getSimpleName());
+       }catch (Exception e)
+       {
+           Log.w("DialogsActivity",String.valueOf(e));
+       }
     }
 
 
