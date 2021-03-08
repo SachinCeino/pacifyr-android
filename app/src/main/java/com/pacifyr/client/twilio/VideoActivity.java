@@ -113,6 +113,9 @@ import com.twilio.video.LocalDataTrackPublication;
 import com.twilio.video.LocalParticipant;
 import com.twilio.video.LocalVideoTrack;
 import com.twilio.video.LocalVideoTrackPublication;
+import com.twilio.video.NetworkQualityConfiguration;
+import com.twilio.video.NetworkQualityLevel;
+import com.twilio.video.NetworkQualityVerbosity;
 import com.twilio.video.OpusCodec;
 import com.twilio.video.PcmaCodec;
 import com.twilio.video.PcmuCodec;
@@ -154,6 +157,7 @@ import static com.pacifyr.client.network.NetworkService.isRelease;
 import static com.pacifyr.client.utils.Constants.getCountryChecks;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.isProd;
+import static com.twilio.video.NetworkQualityLevel.NETWORK_QUALITY_LEVEL_ZERO;
 
 public class VideoActivity extends PacifyrActivity implements LocalParticipant.Listener{
     private static final int CAMERA_MIC_PERMISSION_REQUEST_CODE = 1;
@@ -1496,12 +1500,19 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
     private void connectToRoom(String roomName) {
         configureAudio(true);
        try {
+           NetworkQualityConfiguration configuration =
+                   new NetworkQualityConfiguration(
+                           NetworkQualityVerbosity.NETWORK_QUALITY_VERBOSITY_MINIMAL,
+                           NetworkQualityVerbosity.NETWORK_QUALITY_VERBOSITY_MINIMAL);
 
-        ConnectOptions connectOptions = new ConnectOptions.Builder(accessToken)
+
+           ConnectOptions connectOptions = new ConnectOptions.Builder(accessToken)
                    .roomName(roomName)
                    .audioTracks(Collections.singletonList(localAudioTrack))
                    .videoTracks(Collections.singletonList(localVideoTrack))
                    .dataTracks(Collections.singletonList(localDataTrack))
+                   .enableNetworkQuality(true)
+                   .networkQualityConfiguration(configuration)
                    .build();
            // Connect to room
            room = Video.connect(this, connectOptions, new Room.Listener() {
@@ -2303,6 +2314,27 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                 Log.w("wdqfq","onVideoTrackDisabled");
             }
 
+            @Override
+            public void onNetworkQualityLevelChanged(@NonNull RemoteParticipant remoteParticipant, @NonNull NetworkQualityLevel networkQualityLevel) {
+                Log.w("####",String.valueOf(networkQualityLevel));
+                if(networkQualityLevel.equals(NETWORK_QUALITY_LEVEL_ZERO))
+                {
+                    connectionStatusLocal.setText("Reconnecting..");
+                    playAudioWithDelay();
+                }
+                else {
+                    connectionStatusLocal.setText("Connected");
+                    if (isValid(PlayerForNetOffBeep))
+                    {
+                        PlayerForNetOffBeep.stop();
+                        if (isValid(NetOffBeepTimer))
+                        {
+                            NetOffBeepTimer.cancel();
+                        }
+
+                    }
+                }
+            }
         };
     }
 
@@ -2385,7 +2417,11 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
         Log.w("dddd","dfd");
     }
 
-
+    @Override
+    public void onNetworkQualityLevelChanged(@NonNull LocalParticipant localParticipant, @NonNull NetworkQualityLevel networkQualityLevel) {
+        Log.w("####",String.valueOf(networkQualityLevel));
+        Log.w("####",String.valueOf(networkQualityLevel));
+    }
 
     private DialogInterface.OnClickListener connectClickListener(final EditText roomEditText) {
         return (dialog, which) -> {
