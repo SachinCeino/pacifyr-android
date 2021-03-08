@@ -1608,11 +1608,11 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                    if (isValid(PlayerForNetOffBeep))
                    {
                        PlayerForNetOffBeep.stop();
-                       if (isValid(NetOffBeepTimer))
-                       {
-                           NetOffBeepTimer.cancel();
-                       }
 
+                   }
+                   if (isValid(NetOffBeepTimer))
+                   {
+                       NetOffBeepTimer.cancel();
                    }
                }
 
@@ -1627,10 +1627,10 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                        if (isValid(PlayerForNetOffBeep))
                        {
                            PlayerForNetOffBeep.stop();
-                           if (isValid(NetOffBeepTimer))
-                           {
-                               NetOffBeepTimer.cancel();
-                           }
+                       }
+                       if (isValid(NetOffBeepTimer))
+                       {
+                           NetOffBeepTimer.cancel();
                        }
                        configureAudio(false);
                        //  reconnectingProgressBar.setVisibility(View.GONE);
@@ -1675,9 +1675,16 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                    toggle_speaker.setClickable(true);
                    toggle_camera.setClickable(true);
                    micToggleVideoCall.setClickable(true);
-                  // Button_remind_counselor_vidio.setVisibility(View.GONE);
-                  // Button_remind_counselor_audio.setVisibility(View.GONE);
-
+                   Button_remind_counselor_vidio.setVisibility(View.GONE);
+                   Button_remind_counselor_audio.setVisibility(View.GONE);
+                   if (isValid(PlayerForNetOffBeep))
+                   {
+                       PlayerForNetOffBeep.stop();
+                   }
+                   if (isValid(NetOffBeepTimer))
+                   {
+                       NetOffBeepTimer.cancel();
+                   }
                }
 
                @Override
@@ -1690,7 +1697,18 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                    } catch (Exception e) {
                        e.printStackTrace();
                    }
-
+                   if (isValid(PlayerForNetOffBeep))
+                   {
+                       PlayerForNetOffBeep.stop();
+                   }
+                   if (isValid(NetOffBeepTimer))
+                   {
+                       NetOffBeepTimer.cancel();
+                   }
+                   if (isVideoCall)
+                       Button_remind_counselor_vidio.setVisibility(View.VISIBLE);
+                   else
+                       Button_remind_counselor_audio.setVisibility(View.VISIBLE);
                }
 
                @Override
@@ -2327,11 +2345,11 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                     if (isValid(PlayerForNetOffBeep))
                     {
                         PlayerForNetOffBeep.stop();
-                        if (isValid(NetOffBeepTimer))
-                        {
-                            NetOffBeepTimer.cancel();
-                        }
 
+                    }
+                    if (isValid(NetOffBeepTimer))
+                    {
+                        NetOffBeepTimer.cancel();
                     }
                 }
             }

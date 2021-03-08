@@ -193,7 +193,7 @@
                     style="@style/MatchWidth"
                     android:layout_below="@+id/TextView_call_type"
                     android:layout_marginTop="10dp"
-                    android:maxLength="13"
+
                     android:maxLines="1"
                     android:text="Ringing..."
                     android:textAppearance="?android:attr/textAppearanceSmall"
