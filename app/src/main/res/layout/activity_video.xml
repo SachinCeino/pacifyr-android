@@ -142,7 +142,7 @@
                     android:layout_marginTop="5dp"
                     android:layout_centerVertical="true"
                     android:padding="7dp"
-                    android:text="Remind counselor"
+                    android:text="Remind Provider"
                     android:textColor="@color/colorPrimary"
                     android:layout_height="wrap_content" />
             </LinearLayout>
