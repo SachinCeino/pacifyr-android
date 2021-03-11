@@ -1523,10 +1523,14 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                    String romm=roomName;
                    String roomServer=room.getSid();
                    Log.w("getTwilioRoomName",roomName);
-                   if (!isRejoining)
-                   startSessionWeb(roomName,room.getSid(), pacifyerDetial, isVideoCall);
-                   else
+                   if (!isRejoining){
+                       startSessionWeb(roomName,room.getSid(), pacifyerDetial, isVideoCall,timeSlotBookingId);
+
+                   }
+
+                   else {
                        getCurrentUserProfileInfo();
+                   }
 
 
                    if (isVideoCall)
