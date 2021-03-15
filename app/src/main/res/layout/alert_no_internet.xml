@@ -40,6 +40,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
+        android:weightSum="2"
         android:id="@+id/bot_llay"
         android:layout_below="@+id/desc_dtxv"
         android:background="@drawable/white_round_white"
@@ -50,11 +51,30 @@
 
         <com.pacifyr.client.customview.MainTextView
             android:id="@+id/ok_dtxv"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="60dp"
+            android:layout_weight="1"
             android:background="@color/transparent_white_13"
             android:gravity="center"
             android:text="No"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="@dimen/sp16"
+            jp:percentage_width="49" />
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/transparent_black_4"
+            android:layout_marginTop="3dp"></View>
+
+        <com.pacifyr.client.customview.MainTextView
+            android:id="@+id/cancel_dtxv"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="60dp"
+            android:background="@color/transparent_white_13"
+            android:gravity="center"
+            android:text="Cancel"
             android:textColor="@color/black"
             android:textStyle="bold"
             android:textSize="@dimen/sp16"

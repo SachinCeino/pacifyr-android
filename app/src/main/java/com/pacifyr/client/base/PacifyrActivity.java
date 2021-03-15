@@ -4266,6 +4266,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
         MainTextView title_dtxv = view.findViewById(com.pacifyrapp.utilitylibrary.R.id.title_dtxv);
         MainTextView desc_dtxv = view.findViewById(com.pacifyrapp.utilitylibrary.R.id.desc_dtxv);
         MainTextView ok_dtxv = view.findViewById(com.pacifyrapp.utilitylibrary.R.id.ok_dtxv);
+        MainTextView cancel_dtxv = view.findViewById(R.id.cancel_dtxv);
         if(isValid(title))
             defSetText(title_dtxv,title);
         else
@@ -4277,6 +4278,13 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
         hud_status2 = KProgressHUD.create(PacifyrActivity.this).setStyle(KProgressHUD.Style.SPIN_INDETERMINATE).setCustomView(view).setWindowColor(this.getResources().getColor(com.pacifyrapp.utilitylibrary.R.color.transparent)).setCancellable(false).setAnimationSpeed(2).setDimAmount(0.5f);
         showStatus2();
         ok_dtxv.setOnClickListener(oklistner);
+        cancel_dtxv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                hideProgress();
+                hideStatus2();
+            }
+        });
 
     }
 
