@@ -52,7 +52,7 @@ public class ChatAdapter extends BaseListAdapter<QBChatMessage> implements Stick
     private OnItemInfoExpandedListener onItemInfoExpandedListener;
     private PaginationHistoryListener paginationListener;
     private int previousGetCount = 0;
-
+    public static String iosImageUrlPAth="https://qbprod.s3.amazonaws.com/";
     public ChatAdapter(Context context, QBChatDialog chatDialog, List<QBChatMessage> chatMessages) {
         super(context, chatMessages);
         this.chatDialog = chatDialog;
@@ -101,7 +101,15 @@ if(1!=position){
                 if (hasAttachments(chatMessage)) {
                     Collection<QBAttachment> attachments = chatMessage.getAttachments();
                     QBAttachment attachment = attachments.iterator().next();
-                    AttachmentImageActivity.start(context, attachment.getUrl());
+
+                    if (attachment.getUrl()!=null)
+                    {
+                        AttachmentImageActivity.start(context, attachment.getUrl());
+                    }
+                    else if (attachment.getId()!=null)
+                    {
+                        AttachmentImageActivity.start(context, iosImageUrlPAth+attachment.getId());
+                    }
                 } else {
                     toggleItemInfo(holder, position);
                 }
@@ -207,6 +215,35 @@ if(1!=position){
                 LogUtils.LOGD("jp", "ChatAdapter Image chat  setMessageBody url  " + attachment.getUrl());
                 Glide.with(context)
                         .load(attachment.getUrl())
+                        .priority(Priority.HIGH)
+                        .listener(new RequestListener<Drawable>() {
+
+                            @Override
+                            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                                holder.attachmentImageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+                                holder.attachmentProgressBar.setVisibility(View.GONE);
+                                notifyDataSetChanged();
+                                return false;
+                            }
+
+                            @Override
+                            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                                holder.attachmentImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                                holder.attachmentProgressBar.setVisibility(View.GONE);
+                                notifyDataSetChanged();
+                                return false;
+                            }
+                        })
+
+                        .error(R.drawable.ic_error)
+                        .into(holder.attachmentImageView);
+            }
+            else if (attachment.getId() != null) {
+                holder.messageBodyTextView.setVisibility(View.GONE);
+                holder.attachmentImageView.setVisibility(View.VISIBLE);
+                holder.attachmentProgressBar.setVisibility(View.VISIBLE);
+                Glide.with(context)
+                        .load(iosImageUrlPAth+attachment.getId())
                         .priority(Priority.HIGH)
                         .listener(new RequestListener<Drawable>() {
 
