@@ -380,8 +380,8 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<RecyclerView.V
                         holder.mTextView_Completed.getLocationOnScreen(textLocation);
 
                         if (event.getRawX() <=  textLocation[0] + holder.mTextView_Completed.getTotalPaddingLeft()) {
-                            if (isValid(mObject.getPreVisitNote()))
-                                showPreVistNotPopUp(mObject.getPreVisitNote());
+                            if (isValid(mObject))
+                                showCompleteNotPopUp(mObject);
                             return true;
                         }
 
@@ -445,8 +445,41 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<RecyclerView.V
         final TextView title = myView.findViewById(R.id.title);
         final TextView message_edt = myView.findViewById(R.id.message_edt);
         final LinearLayout close_layout = myView.findViewById(R.id.close_layout);
+
+
         title.setText("Previsit notes");
         message_edt.setText(preVisitNote.toString());
+        AlertDialog.Builder alert = new AlertDialog.Builder(mContext);
+        alert.setView(myView);
+        // disallow cancel of AlertDialog on click of back button and outside touch
+        alert.setCancelable(false);
+        AlertDialog dialog = alert.create();
+        dialog.show();
+        close_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+    }
+
+    private void showCompleteNotPopUp(AppointmentModel.Result mObject) {
+        View myView = LayoutInflater.from(mContext).inflate(R.layout.reasons_and_notes_popup, null);
+        final TextView title = myView.findViewById(R.id.title);
+        final TextView message_edt = myView.findViewById(R.id.message_edt);
+        final LinearLayout close_layout = myView.findViewById(R.id.close_layout);
+        StringBuffer stringBuffer=new StringBuffer();
+        if (isValid(mObject.getVisitNoteInternal()) && !mObject.getVisitNoteInternal().equals(""))
+        {
+            stringBuffer.append("Internal visit notes : "+mObject.getVisitNoteInternal()+"\n\n");
+        }
+
+        if (isValid(mObject.getVisitNote()) && !mObject.getVisitNote().equals(""))
+        {
+            stringBuffer.append("Visit notes : "+mObject.getVisitNote());
+        }
+        title.setText("Notes");
+        message_edt.setText(stringBuffer);
         AlertDialog.Builder alert = new AlertDialog.Builder(mContext);
         alert.setView(myView);
         // disallow cancel of AlertDialog on click of back button and outside touch
