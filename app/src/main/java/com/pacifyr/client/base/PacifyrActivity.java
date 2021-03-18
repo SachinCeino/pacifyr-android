@@ -233,13 +233,13 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                         }
                     }
                 });
-            } else if (type != null && type.equals("rating")) {
+            } /*else if (type != null && type.equals("rating")) {
                 if (billSummary != null && billSummary.isShowing()) {
                     showRating = true;
                 } else {
                     SessionSummaryActivity.start(PacifyrActivity.this, id);
                 }
-            }
+            }*/
         }
     };
 
@@ -1223,7 +1223,8 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                 if (billSummary != null) {
                     billSummary.dismiss();
                 }
-                if (showRating) {
+                SessionSummaryActivity.start(getApplicationContext(), billingSummary.getSessionId());
+                /*if (showRating) {
                     showRating = false;
                     if (isValid(billingSummary.getSession()) && isValid(billingSummary.getSession().getTimeSlotBookingId()))
                     { //dont show session summary for scheduled call once provider completed from appointment then user get notified the session summmary
@@ -1231,7 +1232,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                     else {
                         SessionSummaryActivity.start(getApplicationContext(), billingSummary.getSessionId());
                     }
-                }
+                }*/
             }
         });
         android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(PacifyrActivity.this);
