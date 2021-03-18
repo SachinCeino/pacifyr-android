@@ -115,7 +115,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
         _PrefManager = PrefManager.getInstance(getContext());
 
         NetworkService.startActionCutomerDashboard(getActivity());
-        ShortcutBadger.applyCount(getActivity(), _PrefManager.getBadgeValue());
+       // ShortcutBadger.applyCount(getActivity(), _PrefManager.getBadgeValue());
         getPermissions();
 
     }
@@ -517,13 +517,13 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                             _UnRead_Chat_CoutLayout.setText(_unReadCount + " unread messages");
                             _Badge_Count+=_unReadCount;
                             _PrefManager.saveBadgeValue(_Badge_Count);
-                            ShortcutBadger.applyCount(getActivity(), _PrefManager.getBadgeValue());
+                           // ShortcutBadger.applyCount(getActivity(), _PrefManager.getBadgeValue());
 
                         }else {
                             _isClicked_OnChat=true;
                             _UnRead_Chat_CoutLayout.setVisibility(View.GONE);
                             _PrefManager.saveBadgeValue(_Badge_Count);
-                            ShortcutBadger.applyCount(getActivity(), 0);
+                           // ShortcutBadger.applyCount(getActivity(), 0);
                         }
                     }
 

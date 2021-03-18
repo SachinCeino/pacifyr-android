@@ -153,7 +153,7 @@ public class PacifyrDashboardFragment extends BaseFragment implements SwipeRefre
 
 
 
-        ShortcutBadger.applyCount(getActivity(), badgeCount); //for 1.1.4+
+       //ShortcutBadger.applyCount(getActivity(), badgeCount); //for 1.1.4+
         // ShortcutBadger.with(getApplicationContext()).count(badgeCount); //for 1.1.3
 
     }
@@ -449,7 +449,7 @@ public class PacifyrDashboardFragment extends BaseFragment implements SwipeRefre
     public void onResume() {
         super.onResume();
         handleActionPacifyrDashboard();
-        ShortcutBadger.applyCount(getActivity(), badgeCount);
+       // ShortcutBadger.applyCount(getActivity(), badgeCount);
 
        /* pref = getActivity().getSharedPreferences("mybadgeValue",Context.MODE_PRIVATE);
         SharedPreferences.Editor edt = pref.edit();

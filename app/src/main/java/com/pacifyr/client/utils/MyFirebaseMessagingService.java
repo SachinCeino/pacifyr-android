@@ -1,6 +1,7 @@
 package com.pacifyr.client.utils;
 
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
@@ -38,6 +39,7 @@ import org.json.JSONObject;
 
 import me.leolin.shortcutbadger.ShortcutBadger;
 
+import static androidx.core.app.NotificationCompat.BADGE_ICON_SMALL;
 import static com.pacifyr.client.receiver.NotificationUtils.isAppIsInBackground;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
@@ -45,6 +47,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private static final String TAG = "MyFirebaseMsgService";
     private static boolean isCall = false;
     String typeId = null;
+    private PrefManager prefM;
 
     @Override
     public void onNewToken(@NonNull String s) {
@@ -107,7 +110,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         // TODO(developer): Handle FCM messages here.
         // Not getting messages here? See why this may be: https://goo.gl/39bRNJ
         Log.d(TAG, "From: " + remoteMessage.getFrom());
-
+        prefM = PrefManager.getInstance(getApplicationContext());
         String data = remoteMessage.getData().toString();
         Log.d("@@@@/noti", "From: " + remoteMessage.toString());
         // Check if message contains a data payload.
@@ -408,7 +411,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private void showNotification(Context context, String qsid, String message, String actualType) {
 
         /**Unreadchat push notification Badge implmentation **/
-
+        prefM.saveBadgeValue(prefM.getBadgeValue());
         Intent cIntent = null;
         PendingIntent pendingIntent = null;
         if (actualType.equals("chat"))
@@ -416,7 +419,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             PrefManager prefM=PrefManager.getInstance(context);
             prefM.saveBadgeValue(prefM.getBadgeValue()+1);
             int badgeCount = prefM.getBadgeValue();
-            ShortcutBadger.applyCount(context, badgeCount);
+          //  ShortcutBadger.applyCount(context, badgeCount);
 
             cIntent = new Intent(context, DialogsActivity.class);
             TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
@@ -464,6 +467,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setContentTitle(getResources().getString(R.string.app_name))
                 .setContentIntent(pendingIntent)
                 .setSound(notificationSound)
+                .setBadgeIconType(BADGE_ICON_SMALL)
+                .setNumber(prefM.getBadgeValue())
                 .setAutoCancel(true);
 
 
