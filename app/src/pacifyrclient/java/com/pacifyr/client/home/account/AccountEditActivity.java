@@ -1031,11 +1031,16 @@ public class AccountEditActivity extends PacifyrAppCompactActivity {
                         @Override
                         public void run() {
                             edit_image = null;
-                            hideStatus();
-                            postEventOnMainThread(new NotifyEvent(true));
-                            finish();
 
 
+                            try {
+                                hideStatus();
+                                postEventOnMainThread(new NotifyEvent(true));
+                                finish();
+                            }catch (Exception e)
+                            {
+
+                            }
 
                         }
                     }, 1200);

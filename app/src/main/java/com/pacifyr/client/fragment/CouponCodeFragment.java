@@ -23,6 +23,7 @@ import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.utility.BaseFragment;
 import com.pacifyr.client.utils.FirebaseLogging;
+import com.pacifyr.client.utils.Utility;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -79,6 +80,7 @@ public class CouponCodeFragment extends BaseFragment {
         button_validate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Utility.preventDoubleClickButtons(v);
                 if (edit_discount.getText().length() == 0) {
                     edit_discount.setError(getString(R.string.please_enter_a_valid_coupon_code));
                     edit_discount.requestFocus();
@@ -143,8 +145,13 @@ public class CouponCodeFragment extends BaseFragment {
                                                         showIOSDialogOK("Success", apiResponse.getMessage(), "ok", new iOSDialogClickListener() {
                                                             @Override
                                                             public void onClick(iOSDialog dialog) {
-                                                                dialog.dismiss();
-                                                                ((DashboardActivity)getActivity()).showFragment(new UserDashboardFragment());
+                                                              try {
+                                                                  dialog.dismiss();
+                                                                  ((DashboardActivity)getActivity()).showFragment(new UserDashboardFragment());
+                                                              }catch (Exception e)
+                                                              {
+
+                                                              }
                                                             }
                                                         });
 

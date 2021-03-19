@@ -381,7 +381,7 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<RecyclerView.V
 
                         if (event.getRawX() <=  textLocation[0] + holder.mTextView_Completed.getTotalPaddingLeft()) {
                             if (isValid(mObject))
-                                showCompleteNotPopUp(mObject);
+                                showPreVistNotPopUp(mObject.getPreVisitNote());
                             return true;
                         }
 
