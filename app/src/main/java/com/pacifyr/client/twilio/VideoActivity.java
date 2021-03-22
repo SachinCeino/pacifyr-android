@@ -79,6 +79,7 @@ import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.quickblox.activities.CallActivity;
 import com.pacifyr.client.quickblox.activities.SettingsActivity;
 import com.pacifyr.client.quickblox.chat.ui.activity.AttachmentImageActivity;
+import com.pacifyr.client.quickblox.chat.ui.activity.ChatActivity;
 import com.pacifyr.client.quickblox.utils.PermissionsChecker;
 import com.pacifyr.client.quickblox.utils.RingtonePlayer;
 import com.pacifyr.client.receiver.NotificationUtils;
@@ -3007,7 +3008,7 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
                 getApplication().startActivity(new Intent(this, getClass())
                         .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
             maximizePicInPicView();
-
+            EventBus.getDefault().post(ChatActivity.CLOSE_CHATSCREEN);
         }
     }
 

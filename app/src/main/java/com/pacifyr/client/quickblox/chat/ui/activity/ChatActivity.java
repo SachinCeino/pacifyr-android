@@ -81,6 +81,8 @@ import com.quickblox.users.QBUsers;
 import com.quickblox.users.model.QBUser;
 import com.squareup.picasso.Picasso;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.ThreadMode;
 import org.jivesoftware.smack.ConnectionListener;
 import org.jivesoftware.smack.SmackException;
 import org.jivesoftware.smack.XMPPException;
@@ -143,6 +145,7 @@ public class ChatActivity extends PacifyrAppCompactActivity implements Attachmen
     private QBUser currentUser;
     private TextView typingStatus;
     private TextView TextView_noMessages;
+    public static final String CLOSE_CHATSCREEN="closeChatScreen";
 
 
     public static void startForResult(Activity activity, int code, QBChatDialog dialogId,MUser mPaci) {
@@ -1129,6 +1132,25 @@ public class ChatActivity extends PacifyrAppCompactActivity implements Attachmen
     protected void onDestroy() {
         super.onDestroy();
         mPacifyr=null;
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @org.greenrobot.eventbus.Subscribe(threadMode = ThreadMode.MAIN)
+    public void onNetworkChanged(Object event) {
+        try {
+            if (isValid(event)&&event.equals(CLOSE_CHATSCREEN)) {
+               finish();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override
