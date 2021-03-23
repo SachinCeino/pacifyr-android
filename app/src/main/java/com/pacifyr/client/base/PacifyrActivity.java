@@ -1154,6 +1154,35 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
     }
 
 
+    public void setAllreadySessionIsTherNotAbleToCall(String title, String desc, String ok, View.OnClickListener onClickListener) {
+        try {
+            if (!isShowDialogs()) {
+                return;
+            }
+            //View.OnClickListener oklistner
+            View view = LayoutInflater.from(this).inflate(R.layout.alert_white_ok, null, false);
+            MainTextView title_dtxv = view.findViewById(com.pacifyrapp.utilitylibrary.R.id.title_dtxv);
+            MainTextView desc_dtxv = view.findViewById(com.pacifyrapp.utilitylibrary.R.id.desc_dtxv);
+            MainTextView ok_dtxv = view.findViewById(com.pacifyrapp.utilitylibrary.R.id.ok_dtxv);
+
+            if (isValid(title))
+                defSetText(title_dtxv, title);
+            else
+                title_dtxv.setVisibility(View.GONE);
+            defSetText(desc_dtxv, desc);
+            ok_dtxv.setText(ok);
+            hideStatus();
+            hud_status = KProgressHUD.create(this).setStyle(KProgressHUD.Style.SPIN_INDETERMINATE).setCustomView(view).setWindowColor(this.getResources().getColor(com.pacifyrapp.utilitylibrary.R.color.transparent)).setCancellable(false).setAnimationSpeed(2).setDimAmount(0.5f);
+            showStatus();
+            //setAlertOKStatusInWhite("Register Failed", "Your mobile number is already registered", "Ok");
+            ok_dtxv.setOnClickListener(onClickListener);
+        }
+        catch (Exception exc)
+        {
+            exc.printStackTrace();
+        }
+    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {

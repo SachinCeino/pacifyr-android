@@ -231,6 +231,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
     private VideoRenderer localVideoView;
     private boolean disconnectedFromOnDestroy;
     private boolean enableAutomaticSubscription;
+    private boolean ErrorConnectingProvider=false;
 
     //Call HangUp
     private ImageButton button_hangup_call;
@@ -1564,7 +1565,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                        public void run() {
                                if (isValid(ringtonePlayer))
                                    ringtonePlayer.stop();
-                               if(!isProviderConnected) {
+                               if(!isProviderConnected&&!ErrorConnectingProvider) {
                                    setAlertPacifyrWillJoinShortly("", getResources().getString(R.string.provider_will_join_shortly), "Ok", new View.OnClickListener() {
                                        @Override
                                        public void onClick(View view) {
@@ -2888,12 +2889,31 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
         }
         else if (isValid(mTwilioCallEvent.getError()))
         {
-            ToastHandler.newInstance(getApplicationContext()).mustShowToast(mTwilioCallEvent.getError());
-            if (isValid(room))
-            {
-                room.disconnect();
-            }
-            finish();
+            ErrorConnectingProvider=true;
+            setAllreadySessionIsTherNotAbleToCall("", mTwilioCallEvent.getError(), "Ok", new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    hideStatus();
+                    hideProgress();
+                    if (isValid(room))
+                    {
+                        room.disconnect();
+                    }
+                    finish();
+                }
+            });
+            new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    hideStatus();
+                    hideProgress();
+                    if (isValid(room))
+                    {
+                        room.disconnect();
+                    }
+                    finish();
+                }
+            }, 10000);
         }
 
     }
