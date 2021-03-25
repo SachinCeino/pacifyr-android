@@ -2,6 +2,7 @@ package com.pacifyr.client.quickblox.chat.ui.activity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -207,7 +208,13 @@ public class ChatActivity extends PacifyrAppCompactActivity implements Attachmen
 
         qbChatDialog = (QBChatDialog) getIntent().getSerializableExtra(EXTRA_DIALOG_ID);
         TextView_noMessages=findViewById(R.id.TextView_noMessages);
-
+        try {
+            NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+            notificationManager.cancelAll();
+        }catch (Exception e)
+        {
+            Log.w("#########",String.valueOf(e));
+        }
        if (ChatHelper.getCurrentUser() != null) {
             currentUser = ChatHelper.getCurrentUser();
         } else {
