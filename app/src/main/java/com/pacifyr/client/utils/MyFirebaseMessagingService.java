@@ -410,16 +410,25 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private void showNotification(Context context, String qsid, String message, String actualType) {
 
-        /**Unreadchat push notification Badge implmentation **/
-        prefM.saveBadgeValue(prefM.getBadgeValue());
+        PrefManager prefM=PrefManager.getInstance(context);
+        int count=0;
+        if (prefM.getBadgeValue()!=0)
+        {
+            count=prefM.getBadgeValue()+1;
+            prefM.saveBadgeValue(count);
+        }
+        else
+        {
+            count=1;
+            prefM.saveBadgeValue(count);
+        }
+
+
+
         Intent cIntent = null;
         PendingIntent pendingIntent = null;
         if (actualType.equals("chat"))
         {
-            PrefManager prefM=PrefManager.getInstance(context);
-            prefM.saveBadgeValue(prefM.getBadgeValue()+1);
-            int badgeCount = prefM.getBadgeValue();
-          //  ShortcutBadger.applyCount(context, badgeCount);
 
             cIntent = new Intent(context, DialogsActivity.class);
             TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
