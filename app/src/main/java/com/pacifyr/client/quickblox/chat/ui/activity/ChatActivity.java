@@ -199,7 +199,7 @@ public class ChatActivity extends PacifyrAppCompactActivity implements Attachmen
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.quickblox_activit_chat);
-
+        EventBus.getDefault().register(this);
         showNotificationPopups(false);
         myUserId = PrefManager.getInstance(this).getUserID();
         typingStatus = findViewById(R.id.tv_typing_status);
@@ -1145,7 +1145,7 @@ public class ChatActivity extends PacifyrAppCompactActivity implements Attachmen
     @Override
     protected void onStart() {
         super.onStart();
-        EventBus.getDefault().register(this);
+
     }
 
     @org.greenrobot.eventbus.Subscribe(threadMode = ThreadMode.MAIN)
