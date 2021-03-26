@@ -1560,22 +1560,24 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
 
                    LocalParticipant localParticipant = room.getLocalParticipant();
                    localParticipant.publishTrack(localDataTrack);
-                   new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                   if (isValid(ringtonePlayer))
+                       ringtonePlayer.stop();
+                   if(!isProviderConnected&&!ErrorConnectingProvider) {
+                       setAlertPacifyrWillJoinShortly("", getResources().getString(R.string.provider_will_join_shortly), "Ok", new View.OnClickListener() {
+                           @Override
+                           public void onClick(View view) {
+                               hideStatus();
+                               hideProgress();
+                           }
+                       });
+                   }
+
+                  /* new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                        @Override
                        public void run() {
-                               if (isValid(ringtonePlayer))
-                                   ringtonePlayer.stop();
-                               if(!isProviderConnected&&!ErrorConnectingProvider) {
-                                   setAlertPacifyrWillJoinShortly("", getResources().getString(R.string.provider_will_join_shortly), "Ok", new View.OnClickListener() {
-                                       @Override
-                                       public void onClick(View view) {
-                                           hideStatus();
-                                           hideProgress();
-                                       }
-                                   });
-                               }
+
                        }
-                   }, 10000);//10 seconds
+                   }, 10000);//10 seconds*/
 
                    /**out going call time after 30 seconds it will automatically end
                     * marked as missed call **/
