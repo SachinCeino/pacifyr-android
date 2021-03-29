@@ -1115,8 +1115,8 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
             } else {
                 rightTxv.setVisibility(View.INVISIBLE);
                 rightLlay.setVisibility(View.INVISIBLE);
-                leftLlay.setVisibility(View.VISIBLE);
-                backImv.setVisibility(View.VISIBLE);
+                leftLlay.setVisibility(View.INVISIBLE);
+                backImv.setVisibility(View.INVISIBLE);
                 backImv.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
