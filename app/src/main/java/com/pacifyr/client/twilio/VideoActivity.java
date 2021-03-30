@@ -1562,7 +1562,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                    localParticipant.publishTrack(localDataTrack);
                    if (isValid(ringtonePlayer))
                        ringtonePlayer.stop();
-                   if(!isProviderConnected&&!ErrorConnectingProvider) {
+                   if(!isProviderConnected&&!ErrorConnectingProvider&&!isRejoining) {
                        setAlertPacifyrWillJoinShortly("", getResources().getString(R.string.provider_will_join_shortly), "Ok", new View.OnClickListener() {
                            @Override
                            public void onClick(View view) {
