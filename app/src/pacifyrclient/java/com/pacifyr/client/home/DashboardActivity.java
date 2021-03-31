@@ -28,6 +28,9 @@ import androidx.multidex.MultiDex;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
+import com.gdacciaro.iOSDialog.iOSDialog;
+import com.gdacciaro.iOSDialog.iOSDialogClickListener;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.pacifyr.client.Payment.PaymentFragment;
 import com.pacifyr.client.R;
@@ -39,6 +42,7 @@ import com.pacifyr.client.event.CallEvent;
 import com.pacifyr.client.event.ChatEvent;
 import com.pacifyr.client.event.InternetConnectionEvent;
 import com.pacifyr.client.event.NotifyEvent;
+import com.pacifyr.client.event.RateSessionEvent;
 import com.pacifyr.client.fragment.AppointmentsFragment;
 import com.pacifyr.client.fragment.AppointmentsTabViewFragment;
 import com.pacifyr.client.fragment.CouponCodeFragment;
@@ -51,9 +55,11 @@ import com.pacifyr.client.fragment.WelcomeTourFragment;
 import com.pacifyr.client.home.account.AccountEditActivity;
 import com.pacifyr.client.home.account.AccountFragment;
 import com.pacifyr.client.model.CallStatus;
+import com.pacifyr.client.model.Session;
 import com.pacifyr.client.model.interfaces.CallChatEventListner;
 import com.pacifyr.client.netconnectionlistener.CheckNetworkJob;
 import com.pacifyr.client.netconnectionlistener.ConnectionCheckBroadcast;
+import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.orginals.Auth;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.orginals.DynamicLink;
@@ -83,6 +89,7 @@ import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.ThreadMode;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -1021,6 +1028,66 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
         }
 
     }
+
+
+    @org.greenrobot.eventbus.Subscribe(threadMode = ThreadMode.MAIN)
+    public void onNewSessionRatingCame(RateSessionEvent event) {
+        try {
+            if (isValid(event) && isShowDialogs()) {
+                if (isValid(event.getmSessionId()))
+                {
+                    iOSDialogClickListener listener = new iOSDialogClickListener() {
+                        @Override
+                        public void onClick(iOSDialog dialog) {
+                            dialog.dismiss();
+                            getUnratedSessions();
+                        }
+                    };
+                    showIOSDialogOK("",event.getmMessage(),"OK",listener);
+                }
+                else
+                {
+                    hideProgress();
+                    hideStatus2();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void getUnratedSessions() {
+        AjaxCallback cb = new AjaxCallback<JSONObject>() {
+            @Override
+            public void callback(String url, JSONObject json, AjaxStatus status) {
+                /*
+                 *this must be the first line of any httpCallBacks
+                 */
+                Auth.httpStatusFilter(DashboardActivity.this,status.getCode());
+                try {
+                    if (json != null) {
+                        JSONArray results = json.getJSONArray("results");
+                        if (results != null && results.length() > 0) {
+                            Session session = new Gson().fromJson(results.getJSONObject(0).toString(), Session.class);
+                            if (session != null) {
+                                SessionSummaryActivity.start(DashboardActivity.this, session.getId());
+                            } else {
+                                Log.d(TAG, " Unrated : Session object not available");
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Log.d(TAG, " Unrated : " + e.getMessage());
+                    // hideProgress();
+                }
+            }
+        };
+        new NetworkService().unratedSessions(cb);
+    }
+
+
 
     @Override
     protected void onStop() {

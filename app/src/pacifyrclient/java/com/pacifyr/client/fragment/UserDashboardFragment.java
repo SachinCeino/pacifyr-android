@@ -584,7 +584,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
         } else {
             //feel_err_text.setVisibility(View.VISIBLE);
         }
-        getUnratedSessions();
+        ((DashboardActivity)getActivity()).getUnratedSessions();
         setChatCountInfo();
         if (prefM != null && prefM.getCompanyLogo() != null) {
             Glide.with(getActivity())

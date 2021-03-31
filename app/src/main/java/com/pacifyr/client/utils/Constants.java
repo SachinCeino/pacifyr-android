@@ -9,6 +9,7 @@ import java.util.ArrayList;
 public class Constants {
 
     public static final String KEY_REALTIME_LOGGING = "realtime_logging";
+    public static final String CHANNEL_ID_DEFAULT = "pacifyr_general_notifications";
 
     public static String getPacifyrVideoTutorialLink(Context context) {
         return context.getResources().getString(R.string.tutorial_VideoLink);

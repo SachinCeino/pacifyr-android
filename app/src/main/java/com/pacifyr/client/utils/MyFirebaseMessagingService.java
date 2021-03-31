@@ -24,6 +24,8 @@ import com.pacifyr.client.R;
 import com.pacifyr.client.activity.SplashScreen;
 import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.event.CallEvent;
+import com.pacifyr.client.event.InternetConnectionEvent;
+import com.pacifyr.client.event.RateSessionEvent;
 import com.pacifyr.client.home.DashboardActivity;
 import com.pacifyr.client.orginals.DynamicLink;
 import com.pacifyr.client.quickblox.activities.CallActivity;
@@ -34,6 +36,7 @@ import com.pacifyr.client.receiver.NotificationUtils;
 import com.pacifyr.client.receiver.PacifyrReceiver;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -198,11 +201,15 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                         startActivity(i);
                     }*/
 
-                    if (actual_type != null && (actual_type.equals("billing") || actual_type.equals("rating"))) {
+                    if (actual_type != null && (actual_type.equals("billing") )) {
                         Intent callIntent = new Intent(CallEvent.CALL_EVENT);
                         callIntent.putExtra("type", actual_type);
                         callIntent.putExtra("id", _id);
                         LocalBroadcastManager.getInstance(context).sendBroadcast(callIntent);
+                    }
+                    else if (actual_type != null && actual_type.equals("rating")){
+
+                        EventBus.getDefault().post(new RateSessionEvent(_id,message));
                     }
 
                     LogUtils.LOGD("app_rec", "PR  onReceive message " + message);

@@ -225,6 +225,13 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                             BillingSummary billingSummary = null;
                             if (json != null) {
                                 billingSummary = new Gson().fromJson(json.toString(), BillingSummary.class);
+                                if (dialog != null) {
+                                    try {
+                                        dialog.dismiss();
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                }
                                 showBillingSummary(billingSummary);
                             }
 
