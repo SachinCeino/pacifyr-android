@@ -491,7 +491,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Notification notification = builder.build();
         NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         //notification.flags = Notification.DEFAULT_LIGHTS | Notification.FLAG_AUTO_CANCEL;
-        final int mNotificationId = (int) System.currentTimeMillis();
+        final int mNotificationId = 1;
         mNotificationManager.notify(mNotificationId, notification);
 
        /* if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
