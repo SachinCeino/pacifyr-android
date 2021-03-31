@@ -269,6 +269,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
     // Dedicated thread and handler for messages received from a RemoteDataTrack
     private static final String DATA_TRACK_MESSAGE_THREAD_NAME = "DataTrackMessages";
     private final HandlerThread dataTrackMessageThread = new HandlerThread(DATA_TRACK_MESSAGE_THREAD_NAME);
+    private boolean isFromProviderStopCall=false;
     public EmpMinutesListener getEmpMinutesListener() {
         return empMinutesListener;
     }
@@ -2395,11 +2396,13 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
                 }catch (Exception e){
 
                 }
+
                 isCallActive=false;
+                isFromProviderStopCall=true;
+                hangUpCurrentSessionMe();
                 if (isValid(room))
                     room.disconnect();
                 stopTimer();
-                hangUpCurrentSessionMe();
             }
             else if (message.equals("Declined"))
             {
@@ -2714,6 +2717,7 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
 
             if (isProviderConnected) {
                 if (SessionId != null) {
+                    if (!isFromProviderStopCall)
                     stopSessionWeb(SessionId);
                 }
             } else {
@@ -2737,6 +2741,9 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
         //jpppppppppppppppppp
 
     }
+
+
+
 
     private boolean isOpponentConnected() {
         return isValid(room) && isValid(room.getRemoteParticipants()) && room.getRemoteParticipants().size() > 1;
