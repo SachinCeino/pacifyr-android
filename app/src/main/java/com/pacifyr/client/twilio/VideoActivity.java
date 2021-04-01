@@ -76,6 +76,7 @@ import com.pacifyr.client.model.CallStatus;
 import com.pacifyr.client.model.PrescriptionList;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
+import com.pacifyr.client.orginals.Auth;
 import com.pacifyr.client.quickblox.activities.CallActivity;
 import com.pacifyr.client.quickblox.activities.SettingsActivity;
 import com.pacifyr.client.quickblox.chat.ui.activity.AttachmentImageActivity;
@@ -2976,9 +2977,26 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
             input.putOpt("id", sessionid);
             Log.d(TAG, "session/missed");
             aq.post(GLOBAL_URL + "session/missed", input, JSONObject.class, cb);
+
+            sendCliendEndCallNotificationToOpponent();
         } catch (Exception e) {
             LogUtils.LOGD("call", "missedSessionWeb end exception : " + e.getMessage());
         }
+    }
+
+    private void sendCliendEndCallNotificationToOpponent() {
+        new NetworkService().sendCliendEndCallNotificationTo(CallActivity.mSessionDetailRoot.getPacifyr().getId(), "sessionDeclined", new AjaxCallback<JSONObject>() {
+            @Override
+            public void callback(String url, JSONObject json, AjaxStatus status) {
+                /*
+                 *this must be the first line of any httpCallBacks
+                 */
+                Auth.httpStatusFilter(getApplicationContext(),status.getCode());
+                if (json != null) {
+                    Log.w("PAYTMLOG", "sendCardAddedNotification responce" + json.toString());
+                }
+            }
+        });
     }
 
     private View getCurrentView() {

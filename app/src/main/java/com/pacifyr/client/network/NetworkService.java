@@ -1202,6 +1202,29 @@ public class  NetworkService  extends IntentService {
         }
     }
 
+
+    public void sendCliendEndCallNotificationTo(String toUserId, String type, AjaxCallback cb) {
+        try {
+            PrefManager prefM = PrefManager.getInstance(this);
+            String token = prefM.getAccessToken();
+            String userID = prefM.getUserID();
+            String url = GLOBAL_URL + "notification/";
+            AQuery aq = new AQuery(this);
+            cb.header("Content-Type", "application/json");
+            cb.header("AccessToken", token);
+            JSONObject params = new JSONObject();
+            params.putOpt("toUserId", toUserId);
+            params.putOpt("fromUserId", userID);
+            params.putOpt("type", type);
+            if (isValid(sessionid))
+                params.putOpt("sessionId", sessionid);
+            aq.post(url, params, JSONObject.class, cb);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void sendPaymentFailedDueToSomeReasons(String toUserId, String type, String message, AjaxCallback cb) {
         try {
             PrefManager prefM = PrefManager.getInstance(this);
