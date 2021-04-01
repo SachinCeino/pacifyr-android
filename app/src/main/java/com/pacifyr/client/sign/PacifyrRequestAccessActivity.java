@@ -168,10 +168,10 @@ public class PacifyrRequestAccessActivity extends PacifyrActivity implements Req
             spinner = findViewById(R.id.spinner);
 
             ArrayList<Country> list = new ArrayList<>();
-            list.add(new Country("+1", "US", R.drawable.flag_usa));
-            list.add(new Country("+1", "Canada", R.drawable.canada2));
-            list.add(new Country("+91", "India", R.drawable.ic_india));
-            list.add(new Country("+971","UAE", R.drawable.flag_uae2));
+            list.add(new Country("+1", "US", R.drawable.flag_usa,"US"));
+            list.add(new Country("+1", "Canada", R.drawable.canada2,"CA"));
+            list.add(new Country("+91", "India", R.drawable.ic_india,"IN"));
+            list.add(new Country("+971", "UAE", R.drawable.flag_uae2,"UAE"));
             /*list.add(new ItemData("+971","Kuwait", R.drawable.kuwait2));*/
 
             CountrySpinnerAdapter adapter = new CountrySpinnerAdapter(this,

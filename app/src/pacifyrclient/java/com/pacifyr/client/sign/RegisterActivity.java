@@ -478,19 +478,19 @@ public class RegisterActivity extends PacifyrActivity {
                 }
             });
 
-            if (isValid(countryData) &&countryData.getCountry().equals("IN"))
+            if (isValid(countryData) &&countryData.getCountryCode().equals("IN"))
             {
                 stateList = getResources().getStringArray(R.array.indian_states);
             }
-            else if (isValid(countryData) &&countryData.getCountry().equalsIgnoreCase("US"))
+            else if (isValid(countryData) &&countryData.getCountryCode().equalsIgnoreCase("US"))
             {
                 stateList = getResources().getStringArray(R.array.us_states);
             }
-            else if (isValid(countryData) &&countryData.getCountry().equalsIgnoreCase("CA"))
+            else if (isValid(countryData) &&countryData.getCountryCode().equalsIgnoreCase("CA"))
             {
                 stateList = getResources().getStringArray(R.array.Canada_states);
             }
-            else if (isValid(countryData) &&countryData.getCountry().equalsIgnoreCase("AE"))
+            else if (isValid(countryData) &&countryData.getCountryCode().equalsIgnoreCase("AE"))
             {
                 stateList = getResources().getStringArray(R.array.UAE_states);
             }
