@@ -107,7 +107,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
     private static final String TAG = DashboardActivity.class.getSimpleName();
     boolean showingFirst = true;
     private Context context;
-
+    public static boolean sessioSummaryPageShown=false;
     PagerEnabledSlidingPaneLayout mSlidingPaneLayout;
     boolean onceBackpressed =false;
     private PagerEnabledSlidingPaneLayout slidingPane;
@@ -1036,20 +1036,11 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
             if (isValid(event) && isShowDialogs()) {
                 if (isValid(event.getmSessionId()))
                 {
-                    iOSDialogClickListener listener = new iOSDialogClickListener() {
-                        @Override
-                        public void onClick(iOSDialog dialog) {
-                            dialog.dismiss();
-                            getUnratedSessions();
-                        }
-                    };
-                    showIOSDialogOK("",event.getmMessage(),"OK",listener);
+
+                  getUnratedSessions();
+
                 }
-                else
-                {
-                    hideProgress();
-                    hideStatus2();
-                }
+
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -1071,7 +1062,11 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
                         if (results != null && results.length() > 0) {
                             Session session = new Gson().fromJson(results.getJSONObject(0).toString(), Session.class);
                             if (session != null) {
+                                if (sessioSummaryPageShown)
+                                    return;
                                 SessionSummaryActivity.start(DashboardActivity.this, session.getId());
+                                sessioSummaryPageShown=true;
+
                             } else {
                                 Log.d(TAG, " Unrated : Session object not available");
                             }

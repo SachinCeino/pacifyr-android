@@ -1259,7 +1259,9 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                 if (billSummary != null) {
                     billSummary.dismiss();
                 }
-                SessionSummaryActivity.start(getApplicationContext(), billingSummary.getSessionId());
+
+                //SessionSummaryActivity.start(getApplicationContext(), billingSummary.getSessionId());
+                getUnrated(billingSummary.getSessionId());
                 /*if (showRating) {
                     showRating = false;
                     if (isValid(billingSummary.getSession()) && isValid(billingSummary.getSession().getTimeSlotBookingId()))
@@ -1285,6 +1287,39 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
      }
 
     */
+
+    public void getUnrated(String sessionId) {
+        AjaxCallback cb = new AjaxCallback<JSONObject>() {
+            @Override
+            public void callback(String url, JSONObject json, AjaxStatus status) {
+                /*
+                 *this must be the first line of any httpCallBacks
+                 */
+                Auth.httpStatusFilter(PacifyrActivity.this,status.getCode());
+                try {
+                    if (json != null) {
+                        JSONArray results = json.getJSONArray("results");
+                        if (results != null && results.length() > 0) {
+                            Session session = new Gson().fromJson(results.getJSONObject(0).toString(), Session.class);
+                            if (session != null) {
+                                SessionSummaryActivity.start(PacifyrActivity.this, session.getId());
+
+                            } else {
+                                Log.d(TAG, " Unrated : Session object not available");
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Log.d(TAG, " Unrated : " + e.getMessage());
+                    // hideProgress();
+                }
+            }
+        };
+        new NetworkService().unratedSessions(cb);
+    }
+
+
     public String getUserName() {
         return getUserFirstName() + " " + getUserLastName();
 

@@ -967,7 +967,7 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
                         hideProgress();
                     }
                 }, 1000);
-
+                DashboardActivity.sessioSummaryPageShown=false;
                 if (isPacifyer())
                     PacifyrDashboardActivity.start(SessionSummaryActivity.this);
                 else
@@ -1185,6 +1185,7 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
     @Override
     public void onBackPressed() {
         //  super.onBackPressed();
+        DashboardActivity.sessioSummaryPageShown=false;
         Toast.makeText(SessionSummaryActivity.this, "Please submit your feedback", Toast.LENGTH_SHORT).show();
     }
 

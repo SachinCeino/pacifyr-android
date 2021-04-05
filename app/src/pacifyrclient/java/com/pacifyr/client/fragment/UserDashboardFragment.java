@@ -27,11 +27,14 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.gdacciaro.iOSDialog.iOSDialog;
+import com.gdacciaro.iOSDialog.iOSDialogClickListener;
 import com.google.gson.Gson;
 import com.pacifyr.client.R;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.InternetConnectionEvent;
 import com.pacifyr.client.event.NotifyEvent;
+import com.pacifyr.client.event.RateSessionEvent;
 import com.pacifyr.client.home.ConnectToPacifyrActivity;
 import com.pacifyr.client.home.ConnectToSinglePacifyrActivity;
 import com.pacifyr.client.home.DashboardActivity;
@@ -415,6 +418,22 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                 if (event.isConnected())
                 {
                     checkIsThereAnyActiveSessionsAvailable();
+                }
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @org.greenrobot.eventbus.Subscribe(threadMode = ThreadMode.MAIN)
+    public void onNewSessionRatingCame(RateSessionEvent event) {
+        try {
+            if (isValid(event) ) {
+                if (isValid(event.getmSessionId()))
+                {
+                    getUnratedSessions();
                 }
 
             }
