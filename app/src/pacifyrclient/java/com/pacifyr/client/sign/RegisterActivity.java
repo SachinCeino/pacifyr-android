@@ -441,7 +441,7 @@ public class RegisterActivity extends PacifyrActivity {
                 public void onClick(View widget) {
 
                     Intent intent = new Intent(RegisterActivity.this,TermsOfUseActivity.class);
-                    if (isValid(countryData) && countryData.getCountry().equals("IN") || countryData.getCountry().equals("Wakanda"))
+                    if (isValid(countryData) && countryData.getCountry().equals("India") || countryData.getCountry().equals("Wakanda"))
                     intent.putExtra("spurl", Constants.getUrlTermsIndia(getApplicationContext()));
                     else
                         intent.putExtra("spurl", Constants.getUrlTerms(getApplicationContext()));
@@ -455,7 +455,7 @@ public class RegisterActivity extends PacifyrActivity {
                 @Override
                 public void onClick(View widget) {
                     Intent intent = new Intent(RegisterActivity.this,TermsOfUseActivity.class);
-                    if (isValid(countryData) && countryData.getCountry().equals("IN") || countryData.getCountry().equals("Wakanda"))
+                    if (isValid(countryData) && countryData.getCountry().equals("India") || countryData.getCountry().equals("Wakanda"))
                     intent.putExtra("spurl", Constants.getUrlPrivacyPolicyIndia(getApplicationContext()));
                     else
                         intent.putExtra("spurl", Constants.getUrlPrivacyPolicy(getApplicationContext()));
