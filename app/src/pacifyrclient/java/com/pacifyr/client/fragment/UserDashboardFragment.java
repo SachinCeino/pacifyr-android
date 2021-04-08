@@ -433,7 +433,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
             if (isValid(event) ) {
                 if (isValid(event.getmSessionId()))
                 {
-                    getUnratedSessions();
+                  //  getUnratedSessions();
                 }
 
             }

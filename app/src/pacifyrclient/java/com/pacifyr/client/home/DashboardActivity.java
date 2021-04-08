@@ -1037,7 +1037,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
                 if (isValid(event.getmSessionId()))
                 {
 
-                  getUnratedSessions();
+                 // getUnratedSessions();
 
                 }
 
