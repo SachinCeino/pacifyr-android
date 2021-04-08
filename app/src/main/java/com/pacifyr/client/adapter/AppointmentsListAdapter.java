@@ -22,6 +22,7 @@ import com.pacifyr.client.R;
 import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.fragment.schedule.AppointmentModel;
 import com.pacifyr.client.home.ProfileScreenActivity;
+import com.pacifyr.client.netconnectionlistener.ConnectionCheckBroadcast;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.utils.Utility;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MSessionDetailRoot;
@@ -216,6 +217,10 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<RecyclerView.V
                             holder.videocall_rlay.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
+                                    if (!ConnectionCheckBroadcast.CheckInternetConnection(mContext)) {
+                                        Toast.makeText(mContext, "No Internet available", Toast.LENGTH_SHORT).show();
+                                        return;
+                                    }
                                     ((PacifyrActivity)mContext).startSessionWebforAppoinmetCall(mObject.getPacifyr(), true,mObject.getId());
                                 }
                             });
@@ -223,6 +228,10 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<RecyclerView.V
                             holder.audiocall_rlay.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
+                                    if (!ConnectionCheckBroadcast.CheckInternetConnection(mContext)) {
+                                        Toast.makeText(mContext, "No Internet available", Toast.LENGTH_SHORT).show();
+                                        return;
+                                    }
                                     ((PacifyrActivity)mContext).startSessionWebforAppoinmetCall(mObject.getPacifyr(), false,mObject.getId());
 
                                 }
@@ -231,6 +240,10 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<RecyclerView.V
                             holder.chat_rlay.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
+                                    if (!ConnectionCheckBroadcast.CheckInternetConnection(mContext)) {
+                                        Toast.makeText(mContext, "No Internet available", Toast.LENGTH_SHORT).show();
+                                        return;
+                                    }
                                     ((PacifyrActivity)mContext).startChat(mObject.getPacifyr());
                                 }
                             });

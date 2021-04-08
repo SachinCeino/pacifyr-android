@@ -27,6 +27,7 @@ import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.fragment.schedule.AppointmentModel;
 import com.pacifyr.client.fragment.schedule.ScheduleBottomSheetFragment;
+import com.pacifyr.client.netconnectionlistener.ConnectionCheckBroadcast;
 import com.pacifyr.client.orginals.Auth;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
@@ -424,7 +425,10 @@ public class AppointmentsFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        getAppointmentsList();
+        if (ConnectionCheckBroadcast.CheckInternetConnection(getActivity()))
+         getAppointmentsList();
+        else
+            return;
     }
 
     @Override
