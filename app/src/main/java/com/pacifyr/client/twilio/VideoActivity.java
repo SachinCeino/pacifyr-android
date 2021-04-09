@@ -650,6 +650,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                           hangUpCurrentSessionMe();
 
                       }
+                      
                   }
                   else
                   {
