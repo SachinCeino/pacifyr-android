@@ -1008,7 +1008,13 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
             public void onFinish() {
                 if (room != null && room.getRemoteParticipants().size() == 0 || (room != null && room.getState() == Room.State.CONNECTING)) {
                      isCallActive=false;
-                    missedSessionWeb(SessionId);
+                    if (SessionId != null&&!sessionDeclainedByProvider) {
+                        missedSessionWeb(SessionId);
+                    }
+                    else if (SessionId != null&&sessionDeclainedByProvider)
+                    {
+                        stopSessionWeb(SessionId);
+                    }
 
                 }
             }
