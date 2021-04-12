@@ -279,6 +279,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
         this.empMinutesListener = empMinutesListener;
     }
     private RingtonePlayer ringtonePlayer;
+    private boolean sessionDeclainedByProvider=false;
     private BroadcastReceiver eventReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -650,7 +651,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                           hangUpCurrentSessionMe();
 
                       }
-                      
+
                   }
                   else
                   {
@@ -2723,8 +2724,12 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
                     stopSessionWeb(SessionId);
                 }
             } else {
-                if (SessionId != null) {
+                if (SessionId != null&&!sessionDeclainedByProvider) {
                     missedSessionWeb(SessionId);
+                }
+                else if (SessionId != null&&sessionDeclainedByProvider)
+                {
+                    stopSessionWeb(SessionId);
                 }
             }
             if (isValid(room))
@@ -2863,6 +2868,7 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
                 if (isValid(ringtonePlayer))
                     ringtonePlayer.stop();
                 setAlertOKStatusInWhite("","Provider is busy and will be with you shortly","Ok");
+                sessionDeclainedByProvider=true;
             }
 
 
