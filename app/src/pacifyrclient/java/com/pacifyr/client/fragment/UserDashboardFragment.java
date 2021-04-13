@@ -1,5 +1,6 @@
 package com.pacifyr.client.fragment;
 
+import android.content.Intent;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.drawable.Drawable;
@@ -13,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -83,6 +85,7 @@ import java.util.TimerTask;
 import de.hdodenhof.circleimageview.CircleImageView;
 import me.leolin.shortcutbadger.ShortcutBadger;
 
+import static com.facebook.FacebookSdk.getApplicationContext;
 import static com.pacifyr.client.R.id.last_session_rlay;
 import static com.pacifyr.client.base.PacifyrActivity.call_emotion;
 import static com.pacifyr.client.network.NetworkService.lastSession;
@@ -479,8 +482,8 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                                     JoinCall.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View view) {
+                                            checkActiveSessions(true);
 
-                                            ((DashboardActivity)getActivity()).rejoinToTwilioRoom(mMSessionDetailRoot.getPacifyr(),finalIsVideoCall,false,null,mMSessionDetailRoot.getTwilioRoomName(),mMSessionDetailRoot.getId());
 
                                         }
                                     });
@@ -488,7 +491,8 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                                     JoinChat.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View view) {
-                                            ((DashboardActivity)getActivity()).startChat(mMSessionDetailRoot.getPacifyr());
+                                            checkActiveSessions(false);
+
                                         }
                                     });
                                 }
@@ -520,6 +524,82 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
         }
     }
 
+
+
+    private void checkActiveSessions(boolean isCall) {
+        try {
+
+            PrefManager prefM = PrefManager.getInstance(getActivity());
+            String token = prefM.getAccessToken();
+            String userid = prefM.getUserID();
+            String url = GLOBAL_URL + "session/customer/active";
+            setLoading();
+            showProgress();
+            AjaxCallback cb = new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject json, AjaxStatus status) {
+                    Auth.httpStatusFilter(getActivity(), status.getCode());
+                    try {
+                        hideProgress();
+                        if (isValid(json)) {
+                            ModelSessonsOfCustomer model = GsonUtils.getInstance().gsonToModelSessonsOfCustomer(json);
+
+                            if (isValid(model) && isValid(model.getResultsList())&&isValid(model.getResultsList().get(0))) {
+                                MSessionDetailRoot mMSessionDetailRoot=model.getResultsList().get(0);
+                                if (isValid(mMSessionDetailRoot)&&isValid(mMSessionDetailRoot.getPacifyr()))
+                                {
+                                    LinearLayout_Active_Session.setVisibility(View.VISIBLE);
+                                    boolean isVideoCall=false;
+                                    if (mMSessionDetailRoot.getSessionType().equals("audio"))
+                                    {
+                                        isVideoCall=false;
+                                    }
+                                    else
+                                    {
+                                        isVideoCall=true;
+                                    }
+                                    boolean finalIsVideoCall = isVideoCall;
+                                   if (isCall)
+                                   {
+                                       ((DashboardActivity)getActivity()).rejoinToTwilioRoom(mMSessionDetailRoot.getPacifyr(),finalIsVideoCall,false,null,mMSessionDetailRoot.getTwilioRoomName(),mMSessionDetailRoot.getId());
+
+                                   }
+                                   else {
+                                       ((DashboardActivity)getActivity()).startChat(mMSessionDetailRoot.getPacifyr());
+                                   }
+                                }
+                                else {
+                                    LinearLayout_Active_Session.setVisibility(View.GONE);
+                                    Toast.makeText(getActivity(), "No active sessions available", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                            else {
+                                LinearLayout_Active_Session.setVisibility(View.GONE);
+                                Toast.makeText(getActivity(), "No active sessions available", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                        else {
+                            LinearLayout_Active_Session.setVisibility(View.GONE);
+                            Toast.makeText(getActivity(), "No active sessions available", Toast.LENGTH_SHORT).show();
+                        }
+
+                    } catch (Exception e) {
+                        hideProgress();
+                        e.printStackTrace();
+                    }
+                }
+            };
+            AQuery aq = new AQuery(getActivity());
+            cb.header("Content-Type", "application/json");
+            cb.header("AccessToken", token);
+            aq.ajax(url, JSONObject.class, cb);
+        }catch (Exception e){
+            hideProgress();
+            e.printStackTrace();
+        }
+
+
+    }
 
     private void getUnratedSessions() {
         AjaxCallback cb = new AjaxCallback<JSONObject>() {
