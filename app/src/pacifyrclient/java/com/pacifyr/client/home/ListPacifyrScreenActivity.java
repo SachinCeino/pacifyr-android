@@ -210,12 +210,12 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
                         specialistAdapter.setSelected(0);
                     }
                 }
-            else
+                else
                 {
                     if(isValid(specialistAdapter))
                         specialistAdapter.clear();
                     if (noPacifyrCtxv!=null)
-                    noPacifyrCtxv.setVisibility(View.VISIBLE);
+                        noPacifyrCtxv.setVisibility(View.VISIBLE);
 
                     if (cardStack!=null)
                         cardStack.setVisibility(View.GONE);
@@ -413,7 +413,7 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
                         specialistAdapter.clearSelection();
                     specialistAdapter.setSelected(0);
                 }catch (Exception e){
-                Log.w("dsfsdfds","sdfsdf");
+                    Log.w("dsfsdfds", "sdfsdf");
                 }
                 webSearchPacifyrWOptions(customerEmotion);
                 return false;
@@ -502,6 +502,7 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
                 adapter = new SwipeDeckBrowsePacifyerAdapter(list, ListPacifyrScreenActivity.this, emoSelected != null);
                 cardStack.setAdapter(adapter);
                 cardStack.setVisibility(View.VISIBLE);
+
 
             }else {
                 cardStack.setVisibility(View.GONE);
@@ -777,73 +778,115 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
 
     private void webCheckOnlineOffline(String emotion) {
 
-        try{
+        try {
 
-            String url = GLOBAL_URL + getRoleSearchMap().get(prefM.getCustomerRole());
+            if (isValid(searchQuery) && isValid(customerEmotion)) {
 
-            AjaxCallback cb = new AjaxCallback<JSONObject>() {
-                @Override
-                public void callback(String url, JSONObject json, AjaxStatus status) {
-                    Auth.httpStatusFilter(getApplicationContext(), status.getCode());
-                    try {
-
-                        RespSearchPacifyrWOption mRespSearchPacifyrWOption=GsonUtils.getInstance().gsonToRespSearchPacifyrWOption(json);
-
-                        if (isValid(mRespSearchPacifyrWOption.getResultsList()) &&isValid(adapter))
-                        {
-                            if (isValid(pSearchPacifyrWOptionsResponse.getResultsList()))
-                            {
-
-                                for (int i=0;i<mRespSearchPacifyrWOption.getResultsList().size();i++)
-                                {
-                                    for (int j=0;j<pSearchPacifyrWOptionsResponse.getResultsList().size();j++)
-                                    {
-                                        if (mRespSearchPacifyrWOption.getResultsList().get(i).getId().equals(pSearchPacifyrWOptionsResponse.getResultsList().get(j).getId()))
-                                        {
-
-                                            if (mRespSearchPacifyrWOption.getResultsList().get(i).getOnline()!=pSearchPacifyrWOptionsResponse.getResultsList().get(j).getOnline())
-                                            {
-                                                pSearchPacifyrWOptionsResponse.getResultsList().get(j).setOnline(mRespSearchPacifyrWOption.getResultsList().get(i).getOnline());
-                                                adapter.notifyDataSetChanged();
-                                                adapter.notifyDataSetInvalidated();
-                                                cardStack.setSelection(card_position+1);
-
-                                            }
-
-                                        }
-                                    }
+                String url = GLOBAL_URL + "search/pacifyrs";
+                noPacifyrCtxv.setVisibility(View.GONE);
+                AjaxCallback cb = new AjaxCallback<JSONObject>() {
+                    @Override
+                    public void callback(String url, JSONObject json, AjaxStatus status) {
+                        Auth.httpStatusFilter(getApplicationContext(), status.getCode());
+                        try {
+                            hideProgress();
+                            RespSearchPacifyrWOption mSearchResult = GsonUtils.getInstance().gsonToRespSearchPacifyrWOption(json);
+                            if (isValid(mSearchResult)) {
+                                if (isValid(mSearchResult.getResultsList())) {
+                                    pacifyrList = mSearchResult.getResultsList();
+                                    adapter.onDataRefresh(pacifyrList);
+                                    cardStack.setSelection(card_position + 1);
 
                                 }
+
                             }
 
-
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
-                    } catch (Exception e) {
-                        e.printStackTrace();
                     }
+                };
+
+                AQuery aq = new AQuery(ListPacifyrScreenActivity.this);
+                cb.header("Content-Type", "application/json");
+                cb.header("AccessToken", accessToken);
+
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.putOpt("initiatorId", userID);
+                if (isValid(companyID))
+                    jsonObject.putOpt("companyId", companyID);
+                if (prefM.getCustomerRole().equals("employee")) {
+                    jsonObject.putOpt("includeChargeablePacifyrs", showAllFlag);
                 }
-            };
+                jsonObject.putOpt("country", prefM.getCountry());
+                if (searchQuery != null && !searchQuery.isEmpty()) {
+                    jsonObject.putOpt("searchQuery", searchQuery);
+                }
+                aq.post(url, jsonObject, JSONObject.class, cb);
 
-            AQuery aq = new AQuery(ListPacifyrScreenActivity.this);
-            cb.header("Content-Type", "application/json");
-            cb.header("AccessToken", accessToken);
+            } else {
 
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.putOpt("initiatorId", userID);
-            jsonObject.putOpt("companyId", companyID);
-            if (prefM.getCustomerRole().equals("employee")) {
-                jsonObject.putOpt("includeChargeablePacifyrs", showAllFlag);
+                String url = GLOBAL_URL + getRoleSearchMap().get(prefM.getCustomerRole());
+                AjaxCallback cb = new AjaxCallback<JSONObject>() {
+                    @Override
+                    public void callback(String url, JSONObject json, AjaxStatus status) {
+                        Auth.httpStatusFilter(getApplicationContext(), status.getCode());
+                        try {
+
+                            RespSearchPacifyrWOption mRespSearchPacifyrWOption = GsonUtils.getInstance().gsonToRespSearchPacifyrWOption(json);
+
+                            if (isValid(mRespSearchPacifyrWOption.getResultsList()) && isValid(adapter)) {
+                                if (isValid(pSearchPacifyrWOptionsResponse.getResultsList())) {
+                                    adapter.onDataRefresh(mRespSearchPacifyrWOption.getResultsList());
+                                    cardStack.setSelection(card_position + 1);
+                                    for (int i = 0; i < mRespSearchPacifyrWOption.getResultsList().size(); i++) {
+                                        for (int j = 0; j < pSearchPacifyrWOptionsResponse.getResultsList().size(); j++) {
+                                            if (mRespSearchPacifyrWOption.getResultsList().get(i).getId().equals(pSearchPacifyrWOptionsResponse.getResultsList().get(j).getId())) {
+
+                                                if (mRespSearchPacifyrWOption.getResultsList().get(i).getOnline() != pSearchPacifyrWOptionsResponse.getResultsList().get(j).getOnline()) {
+                                                    pSearchPacifyrWOptionsResponse.getResultsList().get(j).setOnline(mRespSearchPacifyrWOption.getResultsList().get(i).getOnline());
+                                                    adapter.notifyDataSetChanged();
+                                                    adapter.notifyDataSetInvalidated();
+                                                    cardStack.setSelection(card_position + 1);
+
+
+                                                }
+
+                                            }
+                                        }
+
+                                    }
+                                }
+
+
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                };
+
+                AQuery aq = new AQuery(ListPacifyrScreenActivity.this);
+                cb.header("Content-Type", "application/json");
+                cb.header("AccessToken", accessToken);
+
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.putOpt("initiatorId", userID);
+                jsonObject.putOpt("companyId", companyID);
+                if (prefM.getCustomerRole().equals("employee")) {
+                    jsonObject.putOpt("includeChargeablePacifyrs", showAllFlag);
+                }
+                jsonObject.putOpt("country", prefM.getCountry());
+
+                List<String> list = new ArrayList<String>();
+                list.add(emotion);
+                JSONArray array = new JSONArray();
+                for (int i = 0; i < list.size(); i++) {
+                    array.put(list.get(i));
+                }
+                jsonObject.putOpt("specialities", array);
+                aq.post(url, jsonObject, JSONObject.class, cb);
             }
-            jsonObject.putOpt("country", prefM.getCountry());
-
-            List<String> list = new ArrayList<String>();
-            list.add(emotion);
-            JSONArray array = new JSONArray();
-            for (int i = 0; i < list.size(); i++) {
-                array.put(list.get(i));
-            }
-            jsonObject.putOpt("specialities", array);
-            aq.post(url, jsonObject, JSONObject.class, cb);
         }
         catch (Exception ex)
         {
@@ -867,7 +910,7 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
     public void webSearchPacifyrFromSearchView(String emotion) {
         try{
 
-           // String url = GLOBAL_URL + getRoleSearchMap().get(prefM.getCustomerRole());
+            // String url = GLOBAL_URL + getRoleSearchMap().get(prefM.getCustomerRole());
             String url = GLOBAL_URL +"search/pacifyrs";
             noPacifyrCtxv.setVisibility(View.GONE);
             AjaxCallback cb = new AjaxCallback<JSONObject>() {
@@ -879,11 +922,11 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
                         RespSearchPacifyrWOption  mSearchResult= GsonUtils.getInstance().gsonToRespSearchPacifyrWOption(json);
                         if (isValid(mSearchResult))
                         {
-                            if (isValid(mSearchResult.getResultsList()))
-                            {
-                                pacifyrList=mSearchResult.getResultsList();
-                                if (isValid(pacifyrList))
-                                {
+                            if (isValid(mSearchResult.getResultsList())) {
+                                pacifyrList = mSearchResult.getResultsList();
+                                adapter.onDataRefresh(pacifyrList);
+
+                                if (isValid(pacifyrList)) {
                                     setAdapterPacifyrSearchFRomSearchView(pacifyrList);
                                 }
                             }
@@ -935,7 +978,7 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
         if(isValid(pacifyrList)) {
             noPacifyrCtxv.setVisibility(View.GONE);
             cardStack.setVisibility(View.VISIBLE);
-            adapter = new SwipeDeckBrowsePacifyerAdapter(pacifyrList, ListPacifyrScreenActivity.this,emoSelected != null);
+            adapter = new SwipeDeckBrowsePacifyerAdapter(pacifyrList, ListPacifyrScreenActivity.this, emoSelected != null);
             cardStack.setAdapter(adapter);
 //            adapter.filter(getSearchQuery());
         }else {
