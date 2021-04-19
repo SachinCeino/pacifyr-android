@@ -12,6 +12,9 @@
     <dimen name="dash_icon_text_marginbottom">24dp</dimen>
     <dimen name="company_logo_h">70dp</dimen>
     <dimen name="company_logo_w">130dp</dimen>
+    <dimen name="swipe_card_avatar_dia">65dp</dimen>
+    <dimen name="swipe_card_name_sp">20dp</dimen>
+    <dimen name="swipe_card_desc_sp">16dp</dimen>
     <!-- Per the design guidelines, navigation drawers should be between 240dp and 320dp:
          https://developer.android.com/design/patterns/navigation-drawer.html -->
 
