@@ -23,6 +23,10 @@
     <dimen name="dp4">4dp</dimen>
     <dimen name="dp5">5dp</dimen>
     <dimen name="dp2">2dp</dimen>
+    <dimen name="swipe_card_avatar_dia">65dp</dimen>
+    <dimen name="swipe_card_name_sp">20dp</dimen>
+    <dimen name="swipe_card_desc_sp">16dp</dimen>
+
     <!-- Per the design guidelines, navigation drawers should be between 240dp and 320dp:
          https://developer.android.com/design/patterns/navigation-drawer.html -->
 

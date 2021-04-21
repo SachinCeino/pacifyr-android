@@ -19,20 +19,17 @@ import com.androidquery.callback.AjaxStatus;
 import com.gdacciaro.iOSDialog.iOSDialog;
 import com.gdacciaro.iOSDialog.iOSDialogBuilder;
 import com.gdacciaro.iOSDialog.iOSDialogClickListener;
-import com.google.android.material.snackbar.Snackbar;
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.pacifyr.client.R;
 import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.CallEvent;
 import com.pacifyr.client.event.ChatEvent;
-import com.pacifyr.client.home.ConnectToPacifyrActivity;
 import com.pacifyr.client.home.ConnectToSinglePacifyrActivity;
 import com.pacifyr.client.home.ListPacifyrScreenActivity;
 import com.pacifyr.client.home.PaymentActivity;
 import com.pacifyr.client.home.ProfileScreenActivity;
 import com.pacifyr.client.network.NetworkService;
-import com.pacifyr.client.quickblox.activities.CallActivity;
 import com.pacifyr.client.utils.LogUtils;
 import com.pacifyr.client.utils.Utility;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.Certification;
@@ -61,9 +58,9 @@ import static com.pacifyr.client.twilio.VideoActivity.isCallActive;
 public class SwipeDeckBrowsePacifyerAdapter extends BaseAdapter {
 
     //private List<String> data;
-   // public static List<RespSearchPacifyrWOption.Results> searchResults;
+    // public static List<RespSearchPacifyrWOption.Results> searchResults;
     public static List<MUser> searchResults;
-    private Context context;
+    private final Context context;
 
     public String imgURL;
     public String namePacifyr;
@@ -80,19 +77,20 @@ public class SwipeDeckBrowsePacifyerAdapter extends BaseAdapter {
 
     private PrefManager prefM;
 
-    private ArrayList<String> myList=new ArrayList();
-    private ArrayList<Certification> certificateList= new ArrayList<>();
-    private ArrayList<ModelUserProfile.Education> educationsList= new ArrayList<>();
+    private final ArrayList<String> myList = new ArrayList();
+    private final ArrayList<Certification> certificateList = new ArrayList<>();
+    private final ArrayList<ModelUserProfile.Education> educationsList = new ArrayList<>();
     private boolean isChatSubscriptionRequired;
     private int priceForChat;
     private MainTextView chat_price_ctxv;
     private int type = 0;
-    private List<MUser> tempPAcifyrSearchList;
+    private final List<MUser> tempPAcifyrSearchList;
 
-    private  RelativeLayout schedule_rlay;
+    private RelativeLayout schedule_rlay;
+
     public SwipeDeckBrowsePacifyerAdapter(ArrayList<MUser> resultsList, Context context, boolean emoSelected) {
         searchResults = resultsList;
-        tempPAcifyrSearchList=new ArrayList<MUser>();
+        tempPAcifyrSearchList = new ArrayList<MUser>();
         this.context = context;
         if (PacifyrActivity.call_emotion != null && EmotionSpecialityAdapter.reason_forcall != null && emoSelected) {
             type = 1;
@@ -105,6 +103,26 @@ public class SwipeDeckBrowsePacifyerAdapter extends BaseAdapter {
         if (searchResults != null) {
             searchResults.clear();
             notifyDataSetChanged();
+        }
+    }
+
+    public void onNewData(ArrayList<MUser> resultsList) {
+        if (isValid(resultsList) & searchResults != null) {
+            searchResults.addAll(resultsList);
+            notifyDataSetChanged();
+        }
+    }
+
+    public void onDataRefresh(ArrayList<MUser> resultsList) {
+        if (isValid(resultsList) && isValid(searchResults)) {
+            for (int i = 0; i < searchResults.size(); i++) {
+                for (MUser nUser : resultsList) {
+                    if (nUser.getId().equalsIgnoreCase(searchResults.get(i).getId())) {
+                        searchResults.get(i).setOnline(nUser.getOnline());
+                    }
+                }
+            }
+            notifyDataSetInvalidated();
         }
     }
 

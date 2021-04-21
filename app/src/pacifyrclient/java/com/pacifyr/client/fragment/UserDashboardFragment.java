@@ -1,6 +1,5 @@
 package com.pacifyr.client.fragment;
 
-import android.content.Intent;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.drawable.Drawable;
@@ -29,8 +28,6 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
-import com.gdacciaro.iOSDialog.iOSDialog;
-import com.gdacciaro.iOSDialog.iOSDialogClickListener;
 import com.google.gson.Gson;
 import com.pacifyr.client.R;
 import com.pacifyr.client.customview.MainTextView;
@@ -44,11 +41,10 @@ import com.pacifyr.client.home.LastSessionActivity;
 import com.pacifyr.client.home.MySessionsActivity;
 import com.pacifyr.client.home.SessionSummaryActivity;
 import com.pacifyr.client.model.Session;
-import com.pacifyr.client.orginals.Auth;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
+import com.pacifyr.client.orginals.Auth;
 import com.pacifyr.client.quickblox.chat.ui.activity.DialogsActivity;
-import com.pacifyr.client.quickblox.chat.utils.Consts;
 import com.pacifyr.client.quickblox.chat.utils.qb.QbDialogHolder;
 import com.pacifyr.client.quickblox.services.CallService;
 import com.pacifyr.client.utility.BaseFragment;
@@ -68,7 +64,6 @@ import com.quickblox.core.exception.QBResponseException;
 import com.quickblox.sample.core.utils.SharedPrefsHelper;
 import com.squareup.otto.Subscribe;
 
-
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONArray;
@@ -83,9 +78,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import me.leolin.shortcutbadger.ShortcutBadger;
 
-import static com.facebook.FacebookSdk.getApplicationContext;
 import static com.pacifyr.client.R.id.last_session_rlay;
 import static com.pacifyr.client.base.PacifyrActivity.call_emotion;
 import static com.pacifyr.client.network.NetworkService.lastSession;
@@ -470,14 +463,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                                 {
                                     LinearLayout_Active_Session.setVisibility(View.VISIBLE);
                                     boolean isVideoCall=false;
-                                    if (mMSessionDetailRoot.getSessionType().equals("audio"))
-                                    {
-                                        isVideoCall=false;
-                                    }
-                                    else
-                                    {
-                                        isVideoCall=true;
-                                    }
+                                    isVideoCall = !mMSessionDetailRoot.getSessionType().equals("audio");
                                     boolean finalIsVideoCall = isVideoCall;
                                     JoinCall.setOnClickListener(new View.OnClickListener() {
                                         @Override
@@ -550,14 +536,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                                 {
                                     LinearLayout_Active_Session.setVisibility(View.VISIBLE);
                                     boolean isVideoCall=false;
-                                    if (mMSessionDetailRoot.getSessionType().equals("audio"))
-                                    {
-                                        isVideoCall=false;
-                                    }
-                                    else
-                                    {
-                                        isVideoCall=true;
-                                    }
+                                    isVideoCall = !mMSessionDetailRoot.getSessionType().equals("audio");
                                     boolean finalIsVideoCall = isVideoCall;
                                    if (isCall)
                                    {
@@ -570,17 +549,17 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                                 }
                                 else {
                                     LinearLayout_Active_Session.setVisibility(View.GONE);
-                                    Toast.makeText(getActivity(), "No active sessions available", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getActivity(), getString(R.string.no_active_session), Toast.LENGTH_SHORT).show();
                                 }
                             }
                             else {
                                 LinearLayout_Active_Session.setVisibility(View.GONE);
-                                Toast.makeText(getActivity(), "No active sessions available", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getActivity(), getString(R.string.no_active_session), Toast.LENGTH_SHORT).show();
                             }
                         }
                         else {
                             LinearLayout_Active_Session.setVisibility(View.GONE);
-                            Toast.makeText(getActivity(), "No active sessions available", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), getString(R.string.no_active_session), Toast.LENGTH_SHORT).show();
                         }
 
                     } catch (Exception e) {
