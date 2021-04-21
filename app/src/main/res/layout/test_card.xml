@@ -2,7 +2,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    xmlns:app="http://schemas.android.com/tools"
     android:background="@drawable/white_round_square"
     android:layout_height="wrap_content">
 
@@ -29,17 +28,16 @@
                 android:orientation="vertical">
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:layout_width="75dp"
-                    android:layout_height="75dp"
+                    android:layout_width="@dimen/swipe_card_avatar_dia"
+                    android:layout_height="@dimen/swipe_card_avatar_dia"
                     android:id="@+id/img_prof"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/placeholder_user"/>
+                    android:src="@drawable/placeholder_user" />
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:layout_marginLeft="5dp"
                     android:layout_marginTop="5dp">
 
                     <ImageView
@@ -49,14 +47,14 @@
                         android:src="@drawable/offline"/>
 
                     <com.pacifyr.client.customview.MainTextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:id="@+id/indicator_ctxv"
                         android:textStyle="bold"
                         android:textSize="12sp"
                         android:layout_marginLeft="5dp"
                         android:textColor="@color/grey_dark"
-                        android:text="@string/offline"/>
+                        android:text="@string/offline" />
 
                 </LinearLayout>
 
@@ -80,7 +78,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/tv_name"
-                        android:textSize="20sp"
+                        android:textSize="@dimen/swipe_card_name_sp"
                         android:textStyle="bold"
                         android:maxLines="2"
                         android:ellipsize="end"
@@ -193,11 +191,12 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:maxLines="3"
-            android:textSize="16sp"
+            android:ellipsize="end"
+            android:maxLines="@integer/swipe_card_desc_lines"
+            android:textSize="@dimen/swipe_card_desc_sp"
             android:padding="2dp"
             android:id="@+id/description_ctxv"
-            android:textColor="@color/grey_dark_text"/>
+            android:textColor="@color/grey_dark_text" />
 
         <com.pacifyr.client.customview.MainTextView
             android:layout_width="wrap_content"
