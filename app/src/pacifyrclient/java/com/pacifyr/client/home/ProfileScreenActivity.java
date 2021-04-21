@@ -65,6 +65,8 @@ import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -164,7 +166,8 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
         isFromConnectPacifyr=false;
         context.startActivity(intent);
     }
-
+    private Timer trackTimer_user_update;
+    private TimerTask trackTimerTask_user_update;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -206,7 +209,15 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
                     }
                 }, delay, period);*/
 
-                handleActionProfile(userID);
+                trackTimer_user_update = new Timer();
+                trackTimerTask_user_update = new TimerTask() {
+                    @Override
+                    public void run() {
+                        handleActionProfile(userID);
+                    }
+                };
+                trackTimer_user_update.scheduleAtFixedRate(trackTimerTask_user_update, 0, 5000);
+
 
                 if(isFromConnectPacifyr) {
                     connect_pacifyr_ctxv.setVisibility(View.GONE);
@@ -766,6 +777,29 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
         catch (Exception exc)
         {
             exc.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        try {
+            trackTimer_user_update.cancel();
+            trackTimerTask_user_update.cancel();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        try {
+            trackTimer_user_update.cancel();
+            trackTimerTask_user_update.cancel();
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
