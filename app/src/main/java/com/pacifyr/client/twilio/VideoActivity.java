@@ -70,7 +70,6 @@ import com.pacifyr.client.event.PicInPic;
 import com.pacifyr.client.event.TwilioCallEvent;
 import com.pacifyr.client.fragment.PrescriptionWhileCallFragment;
 import com.pacifyr.client.home.CustomerDetailActivity;
-import com.pacifyr.client.home.DashboardActivity;
 import com.pacifyr.client.interfaces.EmpMinutesListener;
 import com.pacifyr.client.model.CallStatus;
 import com.pacifyr.client.model.PrescriptionList;
@@ -152,7 +151,6 @@ import java.util.TimerTask;
 import de.hdodenhof.circleimageview.CircleImageView;
 import kotlin.Unit;
 
-import static com.facebook.FacebookSdk.getApplicationContext;
 import static com.pacifyr.client.netconnectionlistener.ConnectionCheckBroadcast.CheckInternetConnection;
 import static com.pacifyr.client.network.NetworkService.GLOBAL_IMAGE_URL;
 import static com.pacifyr.client.network.NetworkService.isRelease;
@@ -279,8 +277,8 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
         this.empMinutesListener = empMinutesListener;
     }
     private RingtonePlayer ringtonePlayer;
-    private boolean sessionDeclainedByProvider=false;
-    private BroadcastReceiver eventReceiver = new BroadcastReceiver() {
+    private boolean sessionDeclainedByProvider = false;
+    private final BroadcastReceiver eventReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             // Get extra data included in the Intent
@@ -303,7 +301,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
         }
     };
 
-    private EmpMinutesListener mEmpMinutesListener = new EmpMinutesListener() {
+    private final EmpMinutesListener mEmpMinutesListener = new EmpMinutesListener() {
         @Override
         public void onMinutesLeft(long minutes) {
            /* setAlertStatusInBlue2("Warning", "Your monthly free sessions is expiring soon. Please enter your Credit Card to continue service.",
@@ -496,400 +494,21 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
         }
     }
 
-    private boolean hangUpCurrentFromClient=false;
-    private TextView Button_remind_counselor_audio,Button_remind_counselor_vidio;
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_video);
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-      try {
-          EventBus.getDefault().register(this);
-
-          mEarPhoneChanges = new EarPhoneChanges();
-          IntentFilter filter = new IntentFilter(Intent.ACTION_HEADSET_PLUG);
-          registerReceiver(mEarPhoneChanges, filter);
-          primaryVideoView = findViewById(R.id.primary_video_view);
-          thumbnailVideoView = findViewById(R.id.thumbnail_video_view);
-          reconnectingProgressBar = findViewById(R.id.reconnecting_progress_bar);
-
-          connectActionFab = findViewById(R.id.connect_action_fab);
-          switchCameraActionFab = findViewById(R.id.switch_camera_action_fab);
-          localVideoActionFab = findViewById(R.id.local_video_action_fab);
-          //muteActionFab = findViewById(R.id.mute_action_fab);
-          button_hangup_call= findViewById(R.id.button_hangup_call);
-          micToggleVideoCall = findViewById(R.id.toggle_mic);
-          toggle_speaker = findViewById(R.id.toggle_speaker);
-          toggle_camera=findViewById(R.id.toggle_camera);
-          billingStatus = findViewById(R.id.billing_status);
-          text_remaining_minutes = findViewById(R.id.text_remaining_minutes);
-          text_remaining_minutes.setVisibility(View.GONE);
-          timerChronometer = findViewById(R.id.chronometer_timer_video_call);
-          chronometer_timer_audio_call = findViewById(R.id.chronometer_timer_audio_call);
-          ImageView_prescription = findViewById(R.id.ImageView_prescription);
-          userDimv = findViewById(R.id.user_dimv);
-          LinearLayout_chat= findViewById(R.id.LinearLayout_chat);
-          certificate_View= findViewById(R.id.certificate_View);
-          more_rlay= findViewById(R.id.more_rlay);
-          ImageView_emotion=findViewById(R.id.ImageView_emotion);
-          toggle_Max_Min = findViewById(R.id.toggle_Max_Min);
-          emotion_rlay = findViewById(R.id.emotion_rlay);
-          emotion_dimv = findViewById(R.id.emotion_dimv);
-          reason_ctxv = findViewById(R.id.reason_ctxv);
-          emotion_ctxv = findViewById(R.id.emotion_ctxv);
-          ImageView_chat = findViewById(R.id.ImageView_chat);
-          call_overlay = findViewById(R.id.call_overlay);
-          connectionStatusLocal = findViewById(R.id.connectionStatusLocal);
-          username_ctxv = findViewById(R.id.username_ctxv);
-          layout_info_about_audio_call = findViewById(R.id.layout_info_about_audio_call);
-          TextView_call_type= findViewById(R.id.TextView_call_type);
-          Button_remind_counselor_audio=findViewById(R.id.Button_remind_counselor_audio);
-          Button_remind_counselor_vidio=findViewById(R.id.Button_remind_counselor_vidio);
-
-          this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN |
-                          WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
-                          WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
-                          WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON,
-                  WindowManager.LayoutParams.FLAG_FULLSCREEN |
-                          WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
-                          WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
-                          WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON |
-                          WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-
-          //  ringtonePlayer = new RingtonePlayer(this, R.raw.beep);
-          checker = new PermissionsChecker(VideoActivity.this);
-          /*
-           * Get shared preferences to read settings
-           */
-          preferences = PreferenceManager.getDefaultSharedPreferences(this);
-          localDataTrack = LocalDataTrack.create(getApplicationContext());
-          dataTrackMessageThread.start();
-          dataTrackMessageThreadHandler = new Handler(dataTrackMessageThread.getLooper());
-          /*
-           * Setup audio management and set the volume control stream
-           */
-          audioSwitch = new AudioSwitch(getApplicationContext());
-          audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-          savedVolumeControlStream = getVolumeControlStream();
-          setVolumeControlStream(AudioManager.STREAM_VOICE_CALL);
-          new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-              @Override
-              public void run() {
-                  ringtonePlayer = new RingtonePlayer(VideoActivity.this, R.raw.beep);
-                  ringtonePlayer.play(true);
-              }
-          }, 1000);
-          if (isValid(getIntent())) {
-              if (isValid(getIntent().getExtras())) {
-                  accessToken = getIntent().getExtras().getString("accessToken");
-                  roomName = getIntent().getExtras().getString("roomName");
-                  pacifyerDetial = (MUser) getIntent().getExtras().getSerializable("pacifyerDetial");
-                  isVideoCall = getIntent().getExtras().getBoolean("isVideoCall");
-                  isAppointment = getIntent().getExtras().getBoolean("isAppointment");
-                  if (isValid(getIntent().getExtras().getString("timeSlotBookingId")))
-                  {
-                      timeSlotBookingId = getIntent().getExtras().getString("timeSlotBookingId");
-                  }
-                  if (isValid(getIntent().getExtras().getString("SessionId")))
-                  {
-                      SessionId=getIntent().getExtras().getString("SessionId");
-                  }
-                  if (isValid(getIntent().getExtras().getBoolean("isRejoining")))
-                  {
-                      isRejoining=getIntent().getExtras().getBoolean("isRejoining");
-                  }
-
-              }
-          }
-          if (isVideoCall){
-              primaryVideoView.setVisibility(View.VISIBLE);
-              TextView_call_type.setText(getResources().getString(R.string.pacifyr_video));
-              toggle_speaker.setVisibility(View.GONE);
-              toggle_camera.setVisibility(View.VISIBLE);
-              audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-              if (!isHeadeSetIsPlugged)
-              audioManager.setSpeakerphoneOn(true);
-              else
-                  audioManager.setSpeakerphoneOn(false);
-          }
-          else {
-              primaryVideoView.setVisibility(View.GONE);
-              TextView_call_type.setText(getResources().getString(R.string.pacifyr_audio));
-              toggle_speaker.setVisibility(View.VISIBLE);
-              toggle_camera.setVisibility(View.GONE);
-              audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-              audioManager.setSpeakerphoneOn(false);
-          }
-          /*
-           * Check camera and microphone permissions. Needed in Android M.
-           */
-          if (!checkPermissionForCameraAndMicrophone()) {
-              requestPermissionForCameraAndMicrophone();
-          } else {
-              createAudioAndVideoTracks();
-
-          }
-
-          intializeUI();
-          connectToRoom(roomName);
-
-          button_hangup_call.setOnClickListener(new View.OnClickListener() {
-              @Override
-              public void onClick(View view) {
-                  if (CheckInternetConnection(getApplicationContext())) {
-                      isCallActive = false;
-                      EventBus.getDefault().post("CLOSE_DIALOGUE_ACTIVITY");
-                      if (isValid(localDataTrack)) {
-                          localDataTrack.send("stopcall");
-
-                      }
-
-                      if (isValid(ringtonePlayer))
-                          ringtonePlayer.stop();
-                      if (SessionId != null) {
-                          hangUpCurrentFromClient = true;
-                          hangUpCurrentSessionMe();
-
-                      }
-
-                  }
-                  else
-                  {
-                      final Toast toast = Toast.makeText(getApplicationContext(),getResources().getString(R.string.no_internet_connection_please_try_again_later), Toast.LENGTH_LONG);
-                      toast.show();
-                  }
-
-              }
-          });
-
-          toggle_speaker.setClickable(false);
-          toggle_camera.setClickable(false);
-          micToggleVideoCall.setClickable(false);
-
-          micToggleVideoCall.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-              @Override
-              public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                  if (!isProviderConnected)return;
-                  if (audioManager!=null)
-                  {
-                      boolean isMute = audioManager.isMicrophoneMute();
-                      if (isMute)
-                      {
-                          audioManager.setMicrophoneMute(false);
-                      }
-                      else
-                      {
-                          audioManager.setMicrophoneMute(true);
-                      }
-
-                     /* int icon = isMute ?
-                              R.drawable.call_mic_on : R.drawable.call_mic_off;
-                      muteActionFab.setImageDrawable(ContextCompat.getDrawable(
-                              VideoActivity.this, icon));*/
-                  }
-              }
-          });
-
-          toggle_Max_Min.setOnClickListener(new View.OnClickListener() {
-              @Override
-              public void onClick(View view) {
-                  if (!isProviderConnected)return;
-                  if (call_overlay.getOrientation() == LinearLayout.HORIZONTAL) {
-                      call_overlay.setOrientation(LinearLayout.VERTICAL);
-                      emotion_rlay.setVisibility(View.VISIBLE);
-                      ImageView_emotion.setVisibility(View.GONE);
-                      call_overlay.setBackgroundColor(Color.TRANSPARENT);
-                      toggle_Max_Min.setImageDrawable(getResources().getDrawable(R.drawable.minimize_));
-                  }
-                  else
-                  {
-                      call_overlay.setOrientation(LinearLayout.HORIZONTAL);
-                      toggle_Max_Min.setImageDrawable(getResources().getDrawable(R.drawable.maximize_));
-                      emotion_rlay.setVisibility(View.INVISIBLE);
-                      ImageView_emotion.setVisibility(View.VISIBLE);
-                      call_overlay.setBackground(getResources().getDrawable(R.drawable.call_overlay_background));
-                  }
-              }
-          });
-                if (!isVideoCall)
-                {
-                    audioManager.setSpeakerphoneOn(false);
-                }
-
-          toggle_speaker.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-              @Override
-              public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                  /*if (isHeadeSetIsPlugged)
-                      return;*/
-                  if (audioManager!=null)
-                  {
-                      boolean isSpeakerOn = audioManager.isSpeakerphoneOn();
-                      if (isSpeakerOn)
-                      {
-                          audioManager.setSpeakerphoneOn(false);
-                      }
-                      else
-                      {
-                          audioManager.setSpeakerphoneOn(true);
-                      }
-
-                      UpdateView();
-                  }
-              }
-          });
+    private boolean hangUpCurrentFromClient = false;
+    private TextView Button_remind_counselor_audio, Button_remind_counselor_vidio;
+    private final BroadcastReceiver sessionDeclainedReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (isValid(intent)) {
+                if (isValid(ringtonePlayer))
+                    ringtonePlayer.stop();
+                setAlertOKStatusInWhite("", "Provider is busy and will be with you shortly", "Ok");
+                sessionDeclainedByProvider = true;
+            }
 
 
-          toggle_camera.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-              @Override
-              public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                  if (cameraCapturerCompat != null) {
-                      CameraSource cameraSource = cameraCapturerCompat.getCameraSource();
-                      cameraCapturerCompat.switchCamera();
-                      if (thumbnailVideoView.getVisibility() == View.VISIBLE) {
-                          thumbnailVideoView.setMirror(cameraSource == CameraSource.BACK_CAMERA);
-                      } else {
-                          primaryVideoView.setMirror(cameraSource == CameraSource.BACK_CAMERA);
-                      }
-                  }
-
-              }
-          });
-
-          emotion_rlay.setOnClickListener(new View.OnClickListener() {
-              @Override
-              public void onClick(View v) {
-                  Intent intent = new Intent(getApplicationContext(), ActivityChangeEmotionFromCall.class);
-                  if (isValid(change_Emotion_name)) {
-                      intent.putExtra("Emotion : ", change_Emotion_name);
-                  }
-                  intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                  startActivity(intent);
-
-              }
-          });
-
-          ImageView_emotion.setOnClickListener(new View.OnClickListener() {
-              @Override
-              public void onClick(View view) {
-                  emotion_rlay.performClick();
-              }
-          });
-
-
-          ImageView_chat.setOnClickListener(new View.OnClickListener() {
-              @Override
-              public void onClick(View view) {
-                  if (checkPermissions()) {
-                      if (isValid(pacifyerDetial))
-                          startChat(pacifyerDetial);
-                  }
-              }
-          });
-
-          ImageView_prescription.setOnClickListener(new View.OnClickListener() {
-              @Override
-              public void onClick(View view) {
-                  if (hasBillingStarted())
-                  callPrescriptionData();
-                  else
-                      Toast.makeText(getApplicationContext(), getResources().getString(R.string.no_prescription), Toast.LENGTH_SHORT).show();
-
-              }
-          });
-
-          more_rlay.setOnClickListener(new View.OnClickListener() {
-              @Override
-              public void onClick(View view) {
-                  if (isValid(pacifyerDetial)) {
-                      CustomerDetailActivity.start(getApplicationContext(), pacifyerDetial,true);
-                  }
-              }
-          });
-
-          certificate_View.setVisibility(View.VISIBLE);
-          certificate_View.setOnClickListener(new View.OnClickListener() {
-              @Override
-              public void onClick(View view) {
-                  if (isValid(NetworkService.mCurrentUser) && isValidSize(NetworkService.mCurrentUser.getCertificationList())) {
-                      if (isValid(NetworkService.mCurrentUser.getCertificationList().get(0)) && isValidSize(NetworkService.mCurrentUser.getCertificationList().get(0).getDocuments())
-                              && isValid(NetworkService.mCurrentUser.getCertificationList().get(0).getDocuments().get(0))
-                              && isValid(NetworkService.mCurrentUser.getCertificationList().get(0).getDocuments().get(0))) {
-                          String fileName=NetworkService.mCurrentUser.getCertificationList().get(0).getDocuments().get(0).toString();
-                          if (isValid(fileName)) {
-                           /* Intent i=new Intent(getActivity(), TermsOfUseActivity.class);
-                            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            i.putExtra("spurl",GLOBAL_IMAGE_URL+fileName);
-                            getActivity().startActivity(i);*/
-                              if (fileName.contains(".pdf")) {
-                                  loadPDF(NetworkService.mCurrentUser.getCertificationList().get(0).getDocuments().get(0).toString(),getResources().getString(R.string.kyc_document));
-                              } else if (fileName.toLowerCase().contains(".jpg") || fileName.toLowerCase().contains(".jpeg") || fileName.toLowerCase().contains(".png")) {
-                                  AttachmentImageActivity.start(VideoActivity.this, GLOBAL_IMAGE_URL + fileName, true);
-                              } else {
-                                  Toast.makeText(VideoActivity.this, "Unknown document format. Cannot open", Toast.LENGTH_LONG).show();
-                              }
-
-                          } else {
-                              Toast.makeText(VideoActivity.this, getResources().getString(R.string.No_identity_document_available), Toast.LENGTH_LONG).show();
-                          }
-                      } else {
-                          Toast.makeText(VideoActivity.this, getResources().getString(R.string.No_identity_document_available), Toast.LENGTH_LONG).show();
-                      }
-                  }
-                  else {
-                      Toast.makeText(VideoActivity.this, getResources().getString(R.string.No_identity_document_available), Toast.LENGTH_LONG).show();
-                  }
-              }
-          });
-
-          if (!isVideoCall)
-          {
-              layout_info_about_audio_call.setVisibility(View.VISIBLE);
-              if (isValid(pacifyerDetial))
-              {
-                  if (isValid(pacifyerDetial.getFirstName()))
-                  {
-                      username_ctxv.setText(pacifyerDetial.getFirstName());
-                  }
-                  if (isValid(pacifyerDetial.getImageUrl()))
-                  {
-                      String image = pacifyerDetial.getImageUrl();
-                      if(isValid(image)) {
-                          Picasso.with(getApplicationContext()).load(image).placeholder(R.drawable.placeholder_image).into(userDimv);
-                      }
-                  }
-              }
-          }
-
-          userDimv.setOnClickListener(new View.OnClickListener() {
-              @Override
-              public void onClick(View v) {
-               /* MUser mUser = getCallUser();
-                if (isValid(mUser) && isValid(mUser.getId()))
-                    ProfileScreenActivity.start(getApplicationContext(), mUser.getId(), false);*/
-              }
-          });
-
-
-          Button_remind_counselor_audio.setOnClickListener(new View.OnClickListener() {
-              @Override
-              public void onClick(View view) {
-
-                  callReminderCounslrAPI();
-              }
-          });
-          Button_remind_counselor_vidio.setOnClickListener(new View.OnClickListener() {
-              @Override
-              public void onClick(View view) {
-
-                  callReminderCounslrAPI();
-              }
-          });
-      }
-      catch (Exception e)
-      {
-          Log.w("www",String.valueOf(e));
-      }
-    }
+        }
+    };
 
     private void callReminderCounslrAPI() {
 
@@ -1508,242 +1127,362 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                 (CameraSource.BACK_CAMERA);
     }
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_video);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        try {
+            EventBus.getDefault().register(this);
 
-    private void connectToRoom(String roomName) {
-        configureAudio(true);
-       try {
-           NetworkQualityConfiguration configuration =
-                   new NetworkQualityConfiguration(
-                           NetworkQualityVerbosity.NETWORK_QUALITY_VERBOSITY_MINIMAL,
-                           NetworkQualityVerbosity.NETWORK_QUALITY_VERBOSITY_MINIMAL);
+            mEarPhoneChanges = new EarPhoneChanges();
+            IntentFilter filter = new IntentFilter(Intent.ACTION_HEADSET_PLUG);
+            registerReceiver(mEarPhoneChanges, filter);
+            primaryVideoView = findViewById(R.id.primary_video_view);
+            thumbnailVideoView = findViewById(R.id.thumbnail_video_view);
+            reconnectingProgressBar = findViewById(R.id.reconnecting_progress_bar);
+
+            connectActionFab = findViewById(R.id.connect_action_fab);
+            switchCameraActionFab = findViewById(R.id.switch_camera_action_fab);
+            localVideoActionFab = findViewById(R.id.local_video_action_fab);
+            //muteActionFab = findViewById(R.id.mute_action_fab);
+            button_hangup_call = findViewById(R.id.button_hangup_call);
+            micToggleVideoCall = findViewById(R.id.toggle_mic);
+            toggle_speaker = findViewById(R.id.toggle_speaker);
+            toggle_camera = findViewById(R.id.toggle_camera);
+            billingStatus = findViewById(R.id.billing_status);
+            text_remaining_minutes = findViewById(R.id.text_remaining_minutes);
+            text_remaining_minutes.setVisibility(View.GONE);
+            timerChronometer = findViewById(R.id.chronometer_timer_video_call);
+            chronometer_timer_audio_call = findViewById(R.id.chronometer_timer_audio_call);
+            ImageView_prescription = findViewById(R.id.ImageView_prescription);
+            userDimv = findViewById(R.id.user_dimv);
+            LinearLayout_chat = findViewById(R.id.LinearLayout_chat);
+            certificate_View = findViewById(R.id.certificate_View);
+            more_rlay = findViewById(R.id.more_rlay);
+            ImageView_emotion = findViewById(R.id.ImageView_emotion);
+            toggle_Max_Min = findViewById(R.id.toggle_Max_Min);
+            emotion_rlay = findViewById(R.id.emotion_rlay);
+            emotion_dimv = findViewById(R.id.emotion_dimv);
+            reason_ctxv = findViewById(R.id.reason_ctxv);
+            emotion_ctxv = findViewById(R.id.emotion_ctxv);
+            ImageView_chat = findViewById(R.id.ImageView_chat);
+            call_overlay = findViewById(R.id.call_overlay);
+            connectionStatusLocal = findViewById(R.id.connectionStatusLocal);
+            username_ctxv = findViewById(R.id.username_ctxv);
+            layout_info_about_audio_call = findViewById(R.id.layout_info_about_audio_call);
+            TextView_call_type = findViewById(R.id.TextView_call_type);
+            Button_remind_counselor_audio = findViewById(R.id.Button_remind_counselor_audio);
+            Button_remind_counselor_vidio = findViewById(R.id.Button_remind_counselor_vidio);
+
+            this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN |
+                            WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
+                            WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
+                            WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON,
+                    WindowManager.LayoutParams.FLAG_FULLSCREEN |
+                            WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
+                            WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
+                            WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON |
+                            WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
+            //  ringtonePlayer = new RingtonePlayer(this, R.raw.beep);
+            checker = new PermissionsChecker(VideoActivity.this);
+            /*
+             * Get shared preferences to read settings
+             */
+            preferences = PreferenceManager.getDefaultSharedPreferences(this);
+            localDataTrack = LocalDataTrack.create(getApplicationContext());
+            dataTrackMessageThread.start();
+            dataTrackMessageThreadHandler = new Handler(dataTrackMessageThread.getLooper());
+            /*
+             * Setup audio management and set the volume control stream
+             */
+            audioSwitch = new AudioSwitch(getApplicationContext());
+            audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+            savedVolumeControlStream = getVolumeControlStream();
+            setVolumeControlStream(AudioManager.STREAM_VOICE_CALL);
+            new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    ringtonePlayer = new RingtonePlayer(VideoActivity.this, R.raw.beep);
+                    ringtonePlayer.play(true);
+                }
+            }, 1000);
+            if (isValid(getIntent())) {
+                if (isValid(getIntent().getExtras())) {
+                    accessToken = getIntent().getExtras().getString("accessToken");
+                    roomName = getIntent().getExtras().getString("roomName");
+                    pacifyerDetial = (MUser) getIntent().getExtras().getSerializable("pacifyerDetial");
+                    isVideoCall = getIntent().getExtras().getBoolean("isVideoCall");
+                    isAppointment = getIntent().getExtras().getBoolean("isAppointment");
+                    if (isValid(getIntent().getExtras().getString("timeSlotBookingId"))) {
+                        timeSlotBookingId = getIntent().getExtras().getString("timeSlotBookingId");
+                    }
+                    if (isValid(getIntent().getExtras().getString("SessionId"))) {
+                        SessionId = getIntent().getExtras().getString("SessionId");
+                    }
+                    if (isValid(getIntent().getExtras().getBoolean("isRejoining"))) {
+                        isRejoining = getIntent().getExtras().getBoolean("isRejoining");
+                    }
+
+                }
+            }
+            if (isVideoCall) {
+                primaryVideoView.setVisibility(View.VISIBLE);
+                TextView_call_type.setText(getResources().getString(R.string.pacifyr_video));
+                toggle_speaker.setVisibility(View.GONE);
+                toggle_camera.setVisibility(View.VISIBLE);
+                audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+                audioManager.setSpeakerphoneOn(!isHeadeSetIsPlugged);
+            } else {
+                primaryVideoView.setVisibility(View.GONE);
+                TextView_call_type.setText(getResources().getString(R.string.pacifyr_audio));
+                toggle_speaker.setVisibility(View.VISIBLE);
+                toggle_camera.setVisibility(View.GONE);
+                audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+                audioManager.setSpeakerphoneOn(false);
+            }
+            /*
+             * Check camera and microphone permissions. Needed in Android M.
+             */
+            if (!checkPermissionForCameraAndMicrophone()) {
+                requestPermissionForCameraAndMicrophone();
+            } else {
+                createAudioAndVideoTracks();
+
+            }
+
+            intializeUI();
+            connectToRoom(roomName);
+
+            button_hangup_call.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (CheckInternetConnection(getApplicationContext())) {
+                        isCallActive = false;
+                        EventBus.getDefault().post("CLOSE_DIALOGUE_ACTIVITY");
+                        if (isValid(localDataTrack)) {
+                            localDataTrack.send("stopcall");
+
+                        }
+
+                        if (isValid(ringtonePlayer))
+                            ringtonePlayer.stop();
+                        if (SessionId != null) {
+                            hangUpCurrentFromClient = true;
+                            hangUpCurrentSessionMe();
+
+                        }
+
+                    } else {
+                        final Toast toast = Toast.makeText(getApplicationContext(), getResources().getString(R.string.no_internet_connection_please_try_again_later), Toast.LENGTH_LONG);
+                        toast.show();
+                    }
+
+                }
+            });
+
+            toggle_speaker.setClickable(false);
+            toggle_camera.setClickable(false);
+            micToggleVideoCall.setClickable(false);
+
+            micToggleVideoCall.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (!isProviderConnected) return;
+                    if (audioManager != null) {
+                        boolean isMute = audioManager.isMicrophoneMute();
+                        audioManager.setMicrophoneMute(!isMute);
+
+                     /* int icon = isMute ?
+                              R.drawable.call_mic_on : R.drawable.call_mic_off;
+                      muteActionFab.setImageDrawable(ContextCompat.getDrawable(
+                              VideoActivity.this, icon));*/
+                    }
+                }
+            });
+
+            toggle_Max_Min.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (!isProviderConnected) return;
+                    if (call_overlay.getOrientation() == LinearLayout.HORIZONTAL) {
+                        call_overlay.setOrientation(LinearLayout.VERTICAL);
+                        emotion_rlay.setVisibility(View.VISIBLE);
+                        ImageView_emotion.setVisibility(View.GONE);
+                        call_overlay.setBackgroundColor(Color.TRANSPARENT);
+                        toggle_Max_Min.setImageDrawable(getResources().getDrawable(R.drawable.minimize_));
+                    } else {
+                        call_overlay.setOrientation(LinearLayout.HORIZONTAL);
+                        toggle_Max_Min.setImageDrawable(getResources().getDrawable(R.drawable.maximize_));
+                        emotion_rlay.setVisibility(View.INVISIBLE);
+                        ImageView_emotion.setVisibility(View.VISIBLE);
+                        call_overlay.setBackground(getResources().getDrawable(R.drawable.call_overlay_background));
+                    }
+                }
+            });
+            if (!isVideoCall) {
+                audioManager.setSpeakerphoneOn(false);
+            }
+
+            toggle_speaker.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                  /*if (isHeadeSetIsPlugged)
+                      return;*/
+                    if (audioManager != null) {
+                        boolean isSpeakerOn = audioManager.isSpeakerphoneOn();
+                        audioManager.setSpeakerphoneOn(!isSpeakerOn);
+
+                        UpdateView();
+                    }
+                }
+            });
 
 
-           ConnectOptions connectOptions = new ConnectOptions.Builder(accessToken)
-                   .roomName(roomName)
-                   .audioTracks(Collections.singletonList(localAudioTrack))
-                   .videoTracks(Collections.singletonList(localVideoTrack))
-                   .dataTracks(Collections.singletonList(localDataTrack))
-                   .enableNetworkQuality(true)
-                   .networkQualityConfiguration(configuration)
-                   .build();
-           // Connect to room
-           room = Video.connect(this, connectOptions, new Room.Listener() {
-               @Override
-               public void onConnected(Room room) {
-                   VideoActivity.this.room=room;
-                   localParticipant = room.getLocalParticipant();
-                   String romm=roomName;
-                   String roomServer=room.getSid();
-                   Log.w("getTwilioRoomName",roomName);
-                   if (!isRejoining){
-                       startSessionWeb(roomName,room.getSid(), pacifyerDetial, isVideoCall,timeSlotBookingId);
+            toggle_camera.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (cameraCapturerCompat != null) {
+                        CameraSource cameraSource = cameraCapturerCompat.getCameraSource();
+                        cameraCapturerCompat.switchCamera();
+                        if (thumbnailVideoView.getVisibility() == View.VISIBLE) {
+                            thumbnailVideoView.setMirror(cameraSource == CameraSource.BACK_CAMERA);
+                        } else {
+                            primaryVideoView.setMirror(cameraSource == CameraSource.BACK_CAMERA);
+                        }
+                    }
 
-                   }
+                }
+            });
 
-                   else {
-                       getCurrentUserProfileInfo();
-                   }
+            emotion_rlay.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getApplicationContext(), ActivityChangeEmotionFromCall.class);
+                    if (isValid(change_Emotion_name)) {
+                        intent.putExtra("Emotion : ", change_Emotion_name);
+                    }
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+
+                }
+            });
+
+            ImageView_emotion.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    emotion_rlay.performClick();
+                }
+            });
 
 
-                   if (isVideoCall)
-                       Button_remind_counselor_vidio.setVisibility(View.VISIBLE);
-                   else
-                       Button_remind_counselor_audio.setVisibility(View.VISIBLE);
+            ImageView_chat.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (checkPermissions()) {
+                        if (isValid(pacifyerDetial))
+                            startChat(pacifyerDetial);
+                    }
+                }
+            });
 
-                     if (isValid(connectionStatusLocal))
-                   connectionStatusLocal.setText("Connecting...");
-                  /* if(!isValid(SessionId)) {
-                       if (isAppointment) {
-                           startSessionForAppointmentCallAfterConnectingTwilio(roomName, accessToken, pacifyerDetial, isVideoCall, timeSlotBookingId);
-                       }else{
-                           if (!isRejoining) {
-                               startSessionWeb(roomName, accessToken, pacifyerDetial, isVideoCall);
-                           }
+            ImageView_prescription.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (hasBillingStarted())
+                        callPrescriptionData();
+                    else
+                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.no_prescription), Toast.LENGTH_SHORT).show();
 
-                       }
-                   }*/
+                }
+            });
 
-                   for (RemoteParticipant remoteParticipant : room.getRemoteParticipants()) {
-                       addRemoteParticipant(remoteParticipant);
-                       break;
-                   }
+            more_rlay.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (isValid(pacifyerDetial)) {
+                        CustomerDetailActivity.start(getApplicationContext(), pacifyerDetial, true);
+                    }
+                }
+            });
 
-                   LocalParticipant localParticipant = room.getLocalParticipant();
-                   localParticipant.publishTrack(localDataTrack);
-                   if (isValid(ringtonePlayer))
-                       ringtonePlayer.stop();
-                   if(!isProviderConnected&&!ErrorConnectingProvider&&!isRejoining) {
-                       setAlertPacifyrWillJoinShortly("", getResources().getString(R.string.provider_will_join_shortly), "Ok", new View.OnClickListener() {
-                           @Override
-                           public void onClick(View view) {
-                               hideStatus();
-                               hideProgress();
-                           }
-                       });
-                   }
+            certificate_View.setVisibility(View.VISIBLE);
+            certificate_View.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (isValid(NetworkService.mCurrentUser) && isValidSize(NetworkService.mCurrentUser.getCertificationList())) {
+                        if (isValid(NetworkService.mCurrentUser.getCertificationList().get(0)) && isValidSize(NetworkService.mCurrentUser.getCertificationList().get(0).getDocuments())
+                                && isValid(NetworkService.mCurrentUser.getCertificationList().get(0).getDocuments().get(0))
+                                && isValid(NetworkService.mCurrentUser.getCertificationList().get(0).getDocuments().get(0))) {
+                            String fileName = NetworkService.mCurrentUser.getCertificationList().get(0).getDocuments().get(0).toString();
+                            if (isValid(fileName)) {
+                           /* Intent i=new Intent(getActivity(), TermsOfUseActivity.class);
+                            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            i.putExtra("spurl",GLOBAL_IMAGE_URL+fileName);
+                            getActivity().startActivity(i);*/
+                                if (fileName.contains(".pdf")) {
+                                    loadPDF(NetworkService.mCurrentUser.getCertificationList().get(0).getDocuments().get(0).toString(), getResources().getString(R.string.kyc_document));
+                                } else if (fileName.toLowerCase().contains(".jpg") || fileName.toLowerCase().contains(".jpeg") || fileName.toLowerCase().contains(".png")) {
+                                    AttachmentImageActivity.start(VideoActivity.this, GLOBAL_IMAGE_URL + fileName, true);
+                                } else {
+                                    Toast.makeText(VideoActivity.this, "Unknown document format. Cannot open", Toast.LENGTH_LONG).show();
+                                }
 
-                  /* new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-                       @Override
-                       public void run() {
+                            } else {
+                                Toast.makeText(VideoActivity.this, getResources().getString(R.string.No_identity_document_available), Toast.LENGTH_LONG).show();
+                            }
+                        } else {
+                            Toast.makeText(VideoActivity.this, getResources().getString(R.string.No_identity_document_available), Toast.LENGTH_LONG).show();
+                        }
+                    } else {
+                        Toast.makeText(VideoActivity.this, getResources().getString(R.string.No_identity_document_available), Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
 
-                       }
-                   }, 10000);//10 seconds*/
+            if (!isVideoCall) {
+                layout_info_about_audio_call.setVisibility(View.VISIBLE);
+                if (isValid(pacifyerDetial)) {
+                    if (isValid(pacifyerDetial.getFirstName())) {
+                        username_ctxv.setText(pacifyerDetial.getFirstName());
+                    }
+                    if (isValid(pacifyerDetial.getImageUrl())) {
+                        String image = pacifyerDetial.getImageUrl();
+                        if (isValid(image)) {
+                            Picasso.with(getApplicationContext()).load(image).placeholder(R.drawable.placeholder_image).into(userDimv);
+                        }
+                    }
+                }
+            }
 
-                   /**out going call time after 30 seconds it will automatically end
-                    * marked as missed call **/
-                   startOutGoingCallTimer();
+            userDimv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+               /* MUser mUser = getCallUser();
+                if (isValid(mUser) && isValid(mUser.getId()))
+                    ProfileScreenActivity.start(getApplicationContext(), mUser.getId(), false);*/
+                }
+            });
 
-                   if (isRejoining) {
-                       if (isValid(ringtonePlayer))
-                           ringtonePlayer.stop();
-                       isCallActive=true;
-                       if (isValid(connectionStatusLocal))
-                           connectionStatusLocal.setText("Connected");
-                       startTimer();
-                       webGetSessionDetail(SessionId);
-                       isProviderConnected=true;
-                       toggle_speaker.setClickable(true);
-                       toggle_camera.setClickable(true);
-                       micToggleVideoCall.setClickable(true);
-                   }
-               }
 
-               @Override
-               public void onConnectFailure(Room room, TwilioException e) {
-                   audioSwitch.deactivate();
-                   intializeUI();
-                   if (isValid(ringtonePlayer))
-                       ringtonePlayer.stop();
-               }
+            Button_remind_counselor_audio.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
 
-               @Override
-               public void onReconnecting(@NonNull Room room, @NonNull TwilioException twilioException) {
-                   connectionStatusLocal.setText("Reconnecting..");
-                   playAudioWithDelay();
-               }
+                    callReminderCounslrAPI();
+                }
+            });
+            Button_remind_counselor_vidio.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
 
-               @Override
-               public void onReconnected(@NonNull Room room) {
-                   connectionStatusLocal.setText("Connected");
-                   if (isValid(PlayerForNetOffBeep))
-                   {
-                       PlayerForNetOffBeep.stop();
-
-                   }
-                   if (isValid(NetOffBeepTimer))
-                   {
-                       NetOffBeepTimer.cancel();
-                   }
-               }
-
-               @Override
-               public void onDisconnected(Room room, TwilioException e) {
-                   Log.w("####","onDisconnected");
-                   try {
-                       localParticipant = null;
-                       isCallActive=false;
-                       if (isValid(ringtonePlayer))
-                           ringtonePlayer.stop();
-                       if (isValid(PlayerForNetOffBeep))
-                       {
-                           PlayerForNetOffBeep.stop();
-                       }
-                       if (isValid(NetOffBeepTimer))
-                       {
-                           NetOffBeepTimer.cancel();
-                       }
-                       configureAudio(false);
-                       //  reconnectingProgressBar.setVisibility(View.GONE);
-                     //  VideoActivity.this.room = null;
-                       // Only reinitialize the UI if disconnect was not called from onDestroy()
-                       if (!disconnectedFromOnDestroy) {
-                           audioSwitch.deactivate();
-                           intializeUI();
-                           moveLocalVideoToPrimaryView();
-                          /* if (!hangUpCurrentFromClient)
-                               hangUpCurrentSessionMe();*/
-                       }
-                       finish();
-                   }catch (Exception eqq)
-                   {
-
-                   }
-               }
-
-               @Override
-               public void onRecordingStarted(Room room) {
-               }
-
-               @Override
-               public void onRecordingStopped(Room room) {
-               }
-
-               @Override
-               public void onParticipantConnected(Room room, RemoteParticipant remoteParticipant) {
-                   Log.w("####","onParticipantConnected");
-                   if (isValid(connectionStatusLocal))
-                   connectionStatusLocal.setText("Connected");
-                   if (isValid(SessionId))
-                       customerconnectedSessionWeb(SessionId);
-                   if (isValid(ringtonePlayer))
-                       ringtonePlayer.stop();
-                   hideStatus();
-                   hideProgress();
-                   startTimer();
-                   addRemoteParticipant(remoteParticipant);
-                   isProviderConnected=true;
-                   toggle_speaker.setClickable(true);
-                   toggle_camera.setClickable(true);
-                   micToggleVideoCall.setClickable(true);
-                   Button_remind_counselor_vidio.setVisibility(View.GONE);
-                   Button_remind_counselor_audio.setVisibility(View.GONE);
-                   if (isValid(PlayerForNetOffBeep))
-                   {
-                       PlayerForNetOffBeep.stop();
-                   }
-                   if (isValid(NetOffBeepTimer))
-                   {
-                       NetOffBeepTimer.cancel();
-                   }
-               }
-
-               @Override
-               public void onParticipantDisconnected(Room room, RemoteParticipant remoteParticipant) {
-                   Log.w("####","onParticipantDisconnected");
-                   connectionStatusLocal.setText("Disconnected");
-                   removeRemoteParticipant(remoteParticipant);
-                   try {
-                       setAlertOKStatusInWhite("", getResources().getString(R.string.participant_disconnected_please_wait), "OK");
-                   } catch (Exception e) {
-                       e.printStackTrace();
-                   }
-                   if (isValid(PlayerForNetOffBeep))
-                   {
-                       PlayerForNetOffBeep.stop();
-                   }
-                   if (isValid(NetOffBeepTimer))
-                   {
-                       NetOffBeepTimer.cancel();
-                   }
-                   if (isVideoCall)
-                       Button_remind_counselor_vidio.setVisibility(View.VISIBLE);
-                   else
-                       Button_remind_counselor_audio.setVisibility(View.VISIBLE);
-               }
-
-               @Override
-               public void onDominantSpeakerChanged(@NonNull Room room, @Nullable RemoteParticipant remoteParticipant) {
-
-               }
-
-           });
-
-       }
-       catch(Exception e){
-           Log.w("@@@",String.valueOf(e));
-           Log.w("@@@",String.valueOf(e));
+                    callReminderCounslrAPI();
+                }
+            });
+        } catch (Exception e) {
+            Log.w("www", String.valueOf(e));
         }
-
     }
 
     private Timer NetOffBeepTimer = null;
@@ -2856,9 +2595,9 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
 
             if (isCallActive) {
 
-                    Intent intent = new Intent(this, VideoActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    getApplication().startActivity(intent);
+                Intent intent = new Intent(this, VideoActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_NEW_TASK);
+                getApplication().startActivity(intent);
 
             }
         } catch (Exception e) {
@@ -2866,20 +2605,222 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
         }
     }
 
-
-    private BroadcastReceiver sessionDeclainedReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (isValid(intent)) {
-                if (isValid(ringtonePlayer))
-                    ringtonePlayer.stop();
-                setAlertOKStatusInWhite("","Provider is busy and will be with you shortly","Ok");
-                sessionDeclainedByProvider=true;
-            }
+    private void connectToRoom(String roomName) {
+        configureAudio(true);
+        try {
+            NetworkQualityConfiguration configuration =
+                    new NetworkQualityConfiguration(
+                            NetworkQualityVerbosity.NETWORK_QUALITY_VERBOSITY_MINIMAL,
+                            NetworkQualityVerbosity.NETWORK_QUALITY_VERBOSITY_MINIMAL);
 
 
+            ConnectOptions connectOptions = new ConnectOptions.Builder(accessToken)
+                    .roomName(roomName)
+                    .audioTracks(Collections.singletonList(localAudioTrack))
+                    .videoTracks(Collections.singletonList(localVideoTrack))
+                    .dataTracks(Collections.singletonList(localDataTrack))
+                    .enableNetworkQuality(true)
+                    .networkQualityConfiguration(configuration)
+                    .build();
+            // Connect to room
+            room = Video.connect(this, connectOptions, new Room.Listener() {
+                @Override
+                public void onConnected(Room room) {
+                    VideoActivity.this.room = room;
+                    localParticipant = room.getLocalParticipant();
+                    String romm = roomName;
+                    String roomServer = room.getSid();
+                    Log.w("getTwilioRoomName", roomName);
+                    if (!isRejoining) {
+                        startSessionWeb(roomName, room.getSid(), pacifyerDetial, isVideoCall, timeSlotBookingId);
+
+                    } else {
+                        getCurrentUserProfileInfo();
+                    }
+
+
+                    if (isVideoCall)
+                        Button_remind_counselor_vidio.setVisibility(View.VISIBLE);
+                    else
+                        Button_remind_counselor_audio.setVisibility(View.VISIBLE);
+
+                    if (isValid(connectionStatusLocal))
+                        connectionStatusLocal.setText("Connecting...");
+                  /* if(!isValid(SessionId)) {
+                       if (isAppointment) {
+                           startSessionForAppointmentCallAfterConnectingTwilio(roomName, accessToken, pacifyerDetial, isVideoCall, timeSlotBookingId);
+                       }else{
+                           if (!isRejoining) {
+                               startSessionWeb(roomName, accessToken, pacifyerDetial, isVideoCall);
+                           }
+
+                       }
+                   }*/
+
+                    for (RemoteParticipant remoteParticipant : room.getRemoteParticipants()) {
+                        addRemoteParticipant(remoteParticipant);
+                        break;
+                    }
+
+                    LocalParticipant localParticipant = room.getLocalParticipant();
+                    localParticipant.publishTrack(localDataTrack);
+                    if (isValid(ringtonePlayer))
+                        ringtonePlayer.stop();
+
+
+                  /* new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                       @Override
+                       public void run() {
+
+                       }
+                   }, 10000);//10 seconds*/
+
+                    /**out going call time after 30 seconds it will automatically end
+                     * marked as missed call **/
+                    startOutGoingCallTimer();
+
+                    if (isRejoining) {
+                        if (isValid(ringtonePlayer))
+                            ringtonePlayer.stop();
+                        isCallActive = true;
+                        if (isValid(connectionStatusLocal))
+                            connectionStatusLocal.setText("Connected");
+                        startTimer();
+                        webGetSessionDetail(SessionId);
+                        isProviderConnected = true;
+                        toggle_speaker.setClickable(true);
+                        toggle_camera.setClickable(true);
+                        micToggleVideoCall.setClickable(true);
+                    }
+                }
+
+                @Override
+                public void onConnectFailure(Room room, TwilioException e) {
+                    audioSwitch.deactivate();
+                    intializeUI();
+                    if (isValid(ringtonePlayer))
+                        ringtonePlayer.stop();
+                }
+
+                @Override
+                public void onReconnecting(@NonNull Room room, @NonNull TwilioException twilioException) {
+                    connectionStatusLocal.setText("Reconnecting..");
+                    playAudioWithDelay();
+                }
+
+                @Override
+                public void onReconnected(@NonNull Room room) {
+                    connectionStatusLocal.setText("Connected");
+                    if (isValid(PlayerForNetOffBeep)) {
+                        PlayerForNetOffBeep.stop();
+
+                    }
+                    if (isValid(NetOffBeepTimer)) {
+                        NetOffBeepTimer.cancel();
+                    }
+                }
+
+                @Override
+                public void onDisconnected(Room room, TwilioException e) {
+                    Log.w("####", "onDisconnected");
+                    try {
+                        localParticipant = null;
+                        isCallActive = false;
+                        if (isValid(ringtonePlayer))
+                            ringtonePlayer.stop();
+                        if (isValid(PlayerForNetOffBeep)) {
+                            PlayerForNetOffBeep.stop();
+                        }
+                        if (isValid(NetOffBeepTimer)) {
+                            NetOffBeepTimer.cancel();
+                        }
+                        configureAudio(false);
+                        //  reconnectingProgressBar.setVisibility(View.GONE);
+                        //  VideoActivity.this.room = null;
+                        // Only reinitialize the UI if disconnect was not called from onDestroy()
+                        if (!disconnectedFromOnDestroy) {
+                            audioSwitch.deactivate();
+                            intializeUI();
+                            moveLocalVideoToPrimaryView();
+                          /* if (!hangUpCurrentFromClient)
+                               hangUpCurrentSessionMe();*/
+                        }
+                        finish();
+                    } catch (Exception eqq) {
+
+                    }
+                }
+
+                @Override
+                public void onRecordingStarted(Room room) {
+                }
+
+                @Override
+                public void onRecordingStopped(Room room) {
+                }
+
+                @Override
+                public void onParticipantConnected(Room room, RemoteParticipant remoteParticipant) {
+                    Log.w("####", "onParticipantConnected");
+                    if (isValid(connectionStatusLocal))
+                        connectionStatusLocal.setText("Connected");
+                    if (isValid(SessionId))
+                        customerconnectedSessionWeb(SessionId);
+                    if (isValid(ringtonePlayer))
+                        ringtonePlayer.stop();
+                    hideStatus();
+                    hideProgress();
+                    startTimer();
+                    addRemoteParticipant(remoteParticipant);
+                    isProviderConnected = true;
+                    toggle_speaker.setClickable(true);
+                    toggle_camera.setClickable(true);
+                    micToggleVideoCall.setClickable(true);
+                    Button_remind_counselor_vidio.setVisibility(View.GONE);
+                    Button_remind_counselor_audio.setVisibility(View.GONE);
+                    if (isValid(PlayerForNetOffBeep)) {
+                        PlayerForNetOffBeep.stop();
+                    }
+                    if (isValid(NetOffBeepTimer)) {
+                        NetOffBeepTimer.cancel();
+                    }
+                }
+
+                @Override
+                public void onParticipantDisconnected(Room room, RemoteParticipant remoteParticipant) {
+                    Log.w("####", "onParticipantDisconnected");
+                    connectionStatusLocal.setText("Disconnected");
+                    removeRemoteParticipant(remoteParticipant);
+                    try {
+                        setAlertOKStatusInWhite("", getResources().getString(R.string.participant_disconnected_please_wait), "OK");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    if (isValid(PlayerForNetOffBeep)) {
+                        PlayerForNetOffBeep.stop();
+                    }
+                    if (isValid(NetOffBeepTimer)) {
+                        NetOffBeepTimer.cancel();
+                    }
+                    if (isVideoCall)
+                        Button_remind_counselor_vidio.setVisibility(View.VISIBLE);
+                    else
+                        Button_remind_counselor_audio.setVisibility(View.VISIBLE);
+                }
+
+                @Override
+                public void onDominantSpeakerChanged(@NonNull Room room, @Nullable RemoteParticipant remoteParticipant) {
+
+                }
+
+            });
+
+        } catch (Exception e) {
+            Log.w("@@@", String.valueOf(e));
+            Log.w("@@@", String.valueOf(e));
         }
-    };
+
+    }
 
 
     @Override
@@ -2897,18 +2838,25 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
     @org.greenrobot.eventbus.Subscribe(threadMode = ThreadMode.MAIN)
     public void onCallConnected(TwilioCallEvent mTwilioCallEvent) {
 
-        if (isValid(mTwilioCallEvent.getIdsession()))
-        {
-            SessionId= mTwilioCallEvent.getIdsession();
-            if (isValid(SessionId))
-            {
-                isCallActive=true;
+        if (isValid(mTwilioCallEvent.getIdsession())) {
+            SessionId = mTwilioCallEvent.getIdsession();
+            if (isValid(SessionId)) {
+                isCallActive = true;
                 webGetSessionDetail(SessionId);
             }
 
             getCurrentUserProfileInfo();
+            if (!isProviderConnected && !ErrorConnectingProvider && !isRejoining) {
+                setAlertPacifyrWillJoinShortly("", getResources().getString(R.string.provider_will_join_shortly), "Ok", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        hideStatus();
+                        hideProgress();
+                    }
+                });
+            }
 
-        Log.w("WWWWW","onCallConnected");
+            Log.w("WWWWW", "onCallConnected");
         }
         else if (isValid(mTwilioCallEvent.getError()))
         {
