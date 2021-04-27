@@ -182,9 +182,10 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
             Vp8Codec.NAME, H264Codec.NAME, Vp9Codec.NAME
     };
 
-    private static final String[] AUDIO_CODEC_NAMES = new String[] {
+    private static final String[] AUDIO_CODEC_NAMES = new String[]{
             IsacCodec.NAME, OpusCodec.NAME, PcmaCodec.NAME, PcmuCodec.NAME, G722Codec.NAME
     };
+    private static final long PARTICIPANT_DISCONNECTED_DELAY = 2000;
 
 
     private String accessToken;
@@ -2792,7 +2793,19 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
                     connectionStatusLocal.setText("Disconnected");
                     removeRemoteParticipant(remoteParticipant);
                     try {
-                        setAlertOKStatusInWhite("", getResources().getString(R.string.participant_disconnected_please_wait), "OK");
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        if (VideoActivity.this != null || !VideoActivity.this.isFinishing()) {
+                                            setAlertOKStatusInWhite("", getResources().getString(R.string.participant_disconnected_please_wait), "OK");
+                                        }
+                                    }
+                                });
+                            }
+                        }, PARTICIPANT_DISCONNECTED_DELAY);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
