@@ -5,7 +5,7 @@
     <uses-permission android:name="android.permission.CAMERA" />
 
     <application
-        android:requestLegacyExternalStorage="true"
+        android:requestLegacyExternalStorage="false"
         android:supportsRtl="true">
 
         <activity
