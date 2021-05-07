@@ -288,16 +288,17 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
                     }
 
                 }*/
-                else if (txtv_next.getText().equals("Proceed to pay")) {
+                else if (txtv_next.getText().equals("Proceed to pay") ||
+                        txtv_next.getText().equals(getString(R.string.continue_btn_text))) {
                     if (isValid(SlotForNextClick)) {
-                    //for Indian customers
+                        //for Indian customers
                         callSlotBookApi(SlotForNextClick);
                     }
 
                 } else if (txtv_next.getText().equals("Done")) {
 
 
-                    if (prefM.getCountry().equals("India")||prefM.getCountry().equals("Wakanda")) {
+                    if (prefM.getCountry().equals("India") || prefM.getCountry().equals("Wakanda")) {
                         callSlotBookApiAfterPaymentSuccess(SlotForNextClick);
                     }
                     else {
@@ -507,7 +508,11 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
       //  appointment_date_and_time.setText(Utility.getDateFormatOne(TempScheduleData.getDate() + "") + ", " + Utility.convertTime(slotForNextClick.getStartTime()));
 
       //  if (prefM.getCountry().equals("India") || prefM.getCountry().equals("Wakanda"))
+        if (Integer.parseInt(pacifyer_obj.getPrice()) > 0) {
             txtv_next.setText("Proceed to pay");
+        } else {
+            txtv_next.setText(getString(R.string.continue_btn_text));
+        }
       //  else
        //     txtv_next.setText("Confirm");
 
@@ -687,13 +692,7 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
             // enteredDate will be null if date="287686";
         }
         Date currentDate = new Date();
-        if (enteredDate.after(currentDate)) {
-            setBefore(false);
-
-        } else {
-            setBefore(true);
-
-        }
+        setBefore(!enteredDate.after(currentDate));
 
 
     }
@@ -1015,11 +1014,7 @@ Log.w("WWW","onCreate");
                 long currentMill = getMilliSecondsTime(getCurrentTime());
                 long servermilli = getMilliSecondsTime(mSlotesData.get(i).getStartTime());
 
-                if (servermilli > currentMill) {
-                    mSlotesData.get(i).setHideSlote(false);
-                } else {
-                    mSlotesData.get(i).setHideSlote(true);
-                }
+                mSlotesData.get(i).setHideSlote(servermilli <= currentMill);
                /* Log.w("@@@currentMill", String.valueOf(currentMill));
                 Log.w("@@@servermilli", String.valueOf(servermilli));*/
 
@@ -1319,10 +1314,17 @@ Log.w("WWW","onCreate");
                                                     if (isValid(paytmOrderId)) {
 
                                                         bookingRequestPaymentId = paytmOrderId;
-                                                        String bookingTempId=paytmOrderId;
-                                                        if (errorCount != 0)
-                                                            bookingTempId = bookingTempId + "_" + errorCount;
-                                                        ((PacifyrActivity) getActivity()).generateCheckSum(false,bookingTempId, Integer.parseInt(pacifyer_obj.getPrice()));
+
+                                                        int price = Integer.parseInt(pacifyer_obj.getPrice());
+
+                                                        if (price == 0) { //EAP counselors have price set as 0. Continue with booking
+                                                            EventBus.getDefault().post("SCHEDULE_PAY");
+                                                        } else {
+                                                            String bookingTempId = paytmOrderId;
+                                                            if (errorCount != 0)
+                                                                bookingTempId = bookingTempId + "_" + errorCount;
+                                                            ((PacifyrActivity) getActivity()).generateCheckSum(false, bookingTempId, price);
+                                                        }
 
 
                                                     }
