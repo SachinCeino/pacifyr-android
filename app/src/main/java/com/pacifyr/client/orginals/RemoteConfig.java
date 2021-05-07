@@ -21,6 +21,7 @@ import com.pacifyrapp.utilitylibrary.interfaces.RemoteConfigInterface;
 import com.pacifyrapp.utilitylibrary.orginals.RemoteConfigHelper;
 
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -104,13 +105,17 @@ public class RemoteConfig implements RemoteConfigInterface {
    public static String getAppType(){
         return Config().getString(_appType);
    }
-   public static String getDynamicLinkMap(String link){
-        for(String name: Screens){
-            String l=Config().getString(name);
-            if(l.contains(link))
-                return name;
-        }
-        return DashboardActivity.class.getName();
+   public static String getDynamicLinkMap(String link) {
+       try {
+           for (String name : Screens) {
+               String l = Config().getString(name);
+               if (l.contains(link))
+                   return name;
+           }
+       } catch (ConcurrentModificationException ce) {
+           ce.printStackTrace();
+       }
+       return DashboardActivity.class.getName();
    }
    public static void Update(Activity activity){
        Config().fetch(0)
