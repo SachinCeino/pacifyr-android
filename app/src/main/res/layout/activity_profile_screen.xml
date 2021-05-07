@@ -253,7 +253,7 @@
                         android:textStyle="bold"
                         android:textSize="13sp"
                         android:textColor="@color/education_title"
-                        android:text="SNAP SHOT"/>
+                        android:text="BIO"/>
 
 
                     <com.pacifyr.client.customview.MainTextView
