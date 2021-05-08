@@ -90,7 +90,7 @@ public class UtilityNetworkService extends IntentService {
     public static final String termOfUsersUrl = "https://pacifyr.com/TermsUsers.html";
     public static final String PACKAGE_PAM = "com.pacifyr.pam";
     public static final String OM_PLAYSTORE = "https://play.google.com/store/apps/details?id=com.ceino.pacifyr.omhealthcare";
-    public static boolean isRelease = false;
+    public static boolean isRelease = true;
     public static boolean isProd = true;
     public static String ACCOUNT_KEY = "";
     public static String ACCOUNT_ID = "";
@@ -183,6 +183,54 @@ public class UtilityNetworkService extends IntentService {
         }
     }
 
+    public static void initFallback(Context context) {
+
+        ACCOUNT_KEY = "xMeisck3BS_X6xbjYTQi";
+        ACCOUNT_ID = "77234";
+        TURN_SERVER = "turnserver.quickblox.com";
+        CIRTIFICATE_KEY = "development";
+        if (context.getPackageName().equalsIgnoreCase(PACKAGE_PAM)) {
+            if (isProd) {
+                GLOBAL_URL = "http://pam.pacifyr.net:8080/pacifyr/v1/";
+                GLOBAL_IMAGE_URL = "https://pam-prod.storage.googleapis.com/";
+                STRIPE_PUBLISH_KEY = "pk_live_GClqoTSF6tHpuUmqQET2nxsg";
+                CIRTIFICATE_KEY = "production";
+                APP_ID = "79939";
+                AUTH_KEY = "fVKU-SnfR-PV6FV";
+                AUTH_SECRET = "eFYX-M4yjuCQTcK";
+            } else {
+                GLOBAL_URL = "http://pam_test.pacifyr.net:8080/pacifyr/v1/";
+                GLOBAL_IMAGE_URL = "https://pacifyrtest.storage.googleapis.com/";
+                STRIPE_PUBLISH_KEY = "pk_test_FAVrlQ9hMG3RELCIcWUJpdZf";
+                CIRTIFICATE_KEY = "development";
+                APP_ID = "78571";
+                AUTH_KEY = "6ZSW67fV5vcUOc7";
+                AUTH_SECRET = "7mQzMYGczcznz6z";
+            }
+
+        } else {
+            if (isProd) {
+                GLOBAL_URL = "https://app.pacifyr.net/pacifyr/v1/";
+                GLOBAL_IMAGE_URL = "https://pacifyrprod.storage.googleapis.com/";
+                STRIPE_PUBLISH_KEY = "pk_live_GClqoTSF6tHpuUmqQET2nxsg";
+                CIRTIFICATE_KEY = "production";
+
+                APP_ID = "61574";
+                AUTH_KEY = "2qzAw4EjRen6JeC";
+                AUTH_SECRET = "jjpWMb9HRUVnTj7";
+            } else {
+                GLOBAL_URL = "http://testapp.pacifyr.net:8080/pacifyr/v1/";
+                GLOBAL_IMAGE_URL = "https://pacifyrtest.storage.googleapis.com/";
+                STRIPE_PUBLISH_KEY = "pk_test_FAVrlQ9hMG3RELCIcWUJpdZf";
+                CIRTIFICATE_KEY = "development";
+
+                APP_ID = "60603";
+                AUTH_KEY = "RMyP9v64ke8ccet";
+                AUTH_SECRET = "6TAfArmeSzME8su";
+            }
+
+        }
+    }
 
 
     public static final String pacifyrStripeUrl = "https://pacifyr.com/stripe.html";
@@ -190,7 +238,7 @@ public class UtilityNetworkService extends IntentService {
     public static final String PHARMACY_URL = "https://americaspharmacysource.com";
 
 
-    public static final  String root_file_path = Environment.getExternalStorageDirectory().getAbsolutePath() +
+    public static final String root_file_path = Environment.getExternalStorageDirectory().getAbsolutePath() +
             "/Pacifyr";
 
 
