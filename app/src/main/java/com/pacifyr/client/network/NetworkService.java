@@ -272,7 +272,11 @@ public class  NetworkService  extends IntentService {
     public static void webListEmotions(Context context) {
         Intent intent = new Intent(context, NetworkService.class);
         intent.setAction(ACTION_GET_LIST_EMOTIONS);
-        context.startService(intent);
+        try {
+            context.startService(intent);
+        } catch (IllegalStateException ie) {
+            ie.printStackTrace();
+        }
     }
     public static void webListAlllEmployees(Context context) {
         Intent intent = new Intent(context, NetworkService.class);

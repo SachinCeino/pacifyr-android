@@ -1,9 +1,7 @@
 package com.pacifyr.client.quickblox;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.StrictMode;
-import android.util.Log;
 
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.multidex.MultiDex;
@@ -15,23 +13,16 @@ import com.pacifyr.client.orginals.UserProperties;
 import com.pacifyr.client.quickblox.chat.models.SampleConfigs;
 import com.pacifyr.client.quickblox.chat.utils.Consts;
 import com.pacifyr.client.quickblox.chat.utils.configs.ConfigUtils;
-import com.pacifyr.client.quickblox.services.Call_Service;
 import com.pacifyr.client.quickblox.util.QBResRequestExecutor;
 import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
-import com.quickblox.auth.session.QBSettings;
 import com.quickblox.sample.core.CoreApp;
 import com.quickblox.sample.core.utils.ActivityLifecycle;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 
-import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.ACCOUNT_KEY;
-import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.APP_ID;
-import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.AUTH_KEY;
-import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.AUTH_SECRET;
-
 public class App extends CoreApp {
-    private static String TAG = App.class.getSimpleName();
+    private static final String TAG = App.class.getSimpleName();
     private static App instance;
     private QBResRequestExecutor qbResRequestExecutor;
     private FirebaseRemoteConfig mFirebaseRemoteConfig;
@@ -61,6 +52,7 @@ public class App extends CoreApp {
         Auth.scanUpdates(this);
         UserProperties.setProperty(this);
         RemoteConfig.init();
+        UtilityNetworkService.initFallback(this);
 
 
 
