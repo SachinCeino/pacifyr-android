@@ -17,6 +17,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.Html;
@@ -659,7 +660,19 @@ public class RegisterActivity extends PacifyrActivity {
                 {
                     boolean checkPermission = Utility.checkPermission(RegisterActivity.this, "gallery");
                     if(checkPermission) {
-                        new GligarPicker().requestCode(REQUESTCODE_GALLERY_IMAGE).disableCamera(true).limit(1).withActivity(RegisterActivity.this).show();
+                        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                        intent.addCategory(Intent.CATEGORY_OPENABLE);
+                        intent.setType("image/*");
+                        Uri pickerInitialUri=null;
+                        // Optionally, specify a URI for the file that should appear in the
+                        // system file picker when it loads.
+                        if (pickerInitialUri != null) {
+                            intent.putExtra(DocumentsContract.EXTRA_INITIAL_URI, pickerInitialUri);
+                        }
+
+                        startActivityForResult(intent, REQUESTCODE_GALLERY_IMAGE);
+
+                        //  new GligarPicker().requestCode(REQUESTCODE_GALLERY_IMAGE).disableCamera(true).limit(1).withActivity(RegisterActivity.this).show();
                     }
                 }
                 else if (options[item].equals("Cancel")) {
@@ -676,14 +689,23 @@ public class RegisterActivity extends PacifyrActivity {
             LogUtils.LOGD("jithish", "HA  rq " + requestCode);
             //LogUtils.LOGD("jithish", "HA rvc" + CameraFragment.  REQUEST_VIDEO_CAPTURE);
             if (resultCode != 0) {
-                if (requestCode == REQUESTCODE_CAMERA_IMAGE || requestCode == REQUESTCODE_GALLERY_IMAGE) {
+                if (requestCode == REQUESTCODE_CAMERA_IMAGE) {
                     String[] pathsList = data.getExtras().getStringArray(GligarPicker.IMAGES_RESULT);
                     if (isValid(pathsList)) {
                         for (String url : pathsList) {
                             resizeImage(url);
                         }
                     }
-                } else if (requestCode == GALLERY) {
+                }
+                if (requestCode == REQUESTCODE_GALLERY_IMAGE) {
+                    String dataStr = data.getDataString();
+                    Uri pathsList = data.getData();
+                    if (isValid(pathsList)) {
+                        resizeImage(pathsList.toString());
+
+                    }
+                }
+                else if (requestCode == GALLERY) {
                     onActivityProfileEditGallery(data);
                 } else if (requestCode == CAMERA) {
                     LogUtils.LOGD("jithish", "HA on camera");

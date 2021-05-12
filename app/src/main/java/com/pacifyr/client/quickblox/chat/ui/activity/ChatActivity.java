@@ -13,6 +13,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.os.SystemClock;
+import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -381,12 +382,20 @@ public class ChatActivity extends PacifyrAppCompactActivity implements Attachmen
                         SelectUsersActivity.EXTRA_QB_USERS);
 
                 updateDialog(selectedUsers);
-            } else if (requestCode == REQUESTCODE_CAMERA_IMAGE || requestCode == REQUESTCODE_GALLERY_IMAGE) {
+            } else if (requestCode == REQUESTCODE_CAMERA_IMAGE) {
                 String[] pathsList = data.getExtras().getStringArray(GligarPicker.IMAGES_RESULT);
                 if (isValid(pathsList)) {
                     for (String url : pathsList) {
                         resizeImage(url);
                     }
+                }
+            }
+            else if (requestCode == REQUESTCODE_GALLERY_IMAGE) {
+                String dataStr = data.getDataString();
+                Uri pathsList = data.getData();
+                if (isValid(pathsList)) {
+                    resizeImage(pathsList.toString());
+
                 }
             }
         }
@@ -579,7 +588,19 @@ public class ChatActivity extends PacifyrAppCompactActivity implements Attachmen
         bottomSheet.dismiss();
         break;
         case 1:
-            new GligarPicker().requestCode(REQUESTCODE_GALLERY_IMAGE).disableCamera(true).withActivity(ChatActivity.this).show();
+            Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
+            intent.setType("image/*");
+            Uri pickerInitialUri=null;
+            // Optionally, specify a URI for the file that should appear in the
+            // system file picker when it loads.
+            if (pickerInitialUri != null) {
+                intent.putExtra(DocumentsContract.EXTRA_INITIAL_URI, pickerInitialUri);
+            }
+
+            startActivityForResult(intent, REQUESTCODE_GALLERY_IMAGE);
+
+            // new GligarPicker().requestCode(REQUESTCODE_GALLERY_IMAGE).disableCamera(true).withActivity(ChatActivity.this).show();
             bottomSheet.dismiss();
             break;
         case 2:

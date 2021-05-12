@@ -13,6 +13,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.DocumentsContract;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -186,7 +187,18 @@ public class UploadActivity extends PacifyrActivity implements AddFileClickListn
                             } else if (options[item].equals("Choose from gallery")) {
                                 boolean checkPermission = Utility.checkPermission(UploadActivity.this, "gallery");
                                 if(checkPermission) {
-                                    new GligarPicker().requestCode(REQUESTCODE_GALLERY_IMAGE).disableCamera(true).limit(1).withActivity(UploadActivity.this).show();
+                                    Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                                    intent.addCategory(Intent.CATEGORY_OPENABLE);
+                                    intent.setType("image/*");
+                                    Uri pickerInitialUri=null;
+                                    // Optionally, specify a URI for the file that should appear in the
+                                    // system file picker when it loads.
+                                    if (pickerInitialUri != null) {
+                                        intent.putExtra(DocumentsContract.EXTRA_INITIAL_URI, pickerInitialUri);
+                                    }
+
+                                    startActivityForResult(intent, REQUESTCODE_GALLERY_IMAGE);
+                                    //new GligarPicker().requestCode(REQUESTCODE_GALLERY_IMAGE).disableCamera(true).limit(1).withActivity(UploadActivity.this).show();
                                 }
                             }
                         }
@@ -236,14 +248,23 @@ public class UploadActivity extends PacifyrActivity implements AddFileClickListn
                     imagePicker.submit(data);
                 }*/
 
-                if (requestCode == REQUESTCODE_CAMERA_IMAGE || requestCode == REQUESTCODE_GALLERY_IMAGE) {
+                if (requestCode == REQUESTCODE_CAMERA_IMAGE ) {
                     String[] pathsList = data.getExtras().getStringArray(GligarPicker.IMAGES_RESULT);
                     if (isValid(pathsList)) {
                         for (String url : pathsList) {
                             resizeImage(url);
                         }
                     }
-                } else if (requestCode == SELECT_PDF_FILE) {
+                }
+                if ( requestCode == REQUESTCODE_GALLERY_IMAGE) {
+                    String dataStr = data.getDataString();
+                    Uri pathsList = data.getData();
+                    if (isValid(pathsList)) {
+                        resizeImage(pathsList.toString());
+
+                    }
+                }
+                else if (requestCode == SELECT_PDF_FILE) {
                     if (resultCode == Activity.RESULT_OK && data != null) {
                         pacifyrDocuments = new ModelPacifyrDocuments();
                         Uri uri = data.getData();
