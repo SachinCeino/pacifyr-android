@@ -131,7 +131,7 @@ public class AddCreditCardActivity extends PacifyrAppCompactActivity {
                             // Send token to your server
                             String type = token.getType();
                             genaratedToken=token;
-                            Toast.makeText(AddCreditCardActivity.this, token.getId(), Toast.LENGTH_LONG).show();
+                           // Toast.makeText(AddCreditCardActivity.this, token.getId(), Toast.LENGTH_LONG).show();
                             hideProgress();
                             saveCardDetails();
                         }

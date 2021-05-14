@@ -296,16 +296,7 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
                     }
 
                 } else if (txtv_next.getText().equals("Done")) {
-
-
-                    if (prefM.getCountry().equals("India") || prefM.getCountry().equals("Wakanda")) {
-                        callSlotBookApiAfterPaymentSuccess(SlotForNextClick);
-                    }
-                    else {
-                        EventBus.getDefault().post("NEWSCHEDULE");
-                        dismiss();
-                    }
-
+                    callSlotBookApiAfterPaymentSuccess(SlotForNextClick);
                 }
             }
         });
@@ -1542,14 +1533,14 @@ Log.w("WWW","onCreate");
 
                                         if (status.equals("success"))
                                         {
-                                            setStatus("Successfully booked", R.color.md_green_400);
+                                            setStatus(messsage, R.color.md_green_400);
                                             showStatus();
                                             new Handler().postDelayed(new Runnable() {
                                                 @Override
                                                 public void run() {
 
                                                     hideStatus();
-                                                    dismiss();
+                                                    EventBus.getDefault().post("SCHEDULE_PAY");
                                                 }
                                             }, 2000);
 
