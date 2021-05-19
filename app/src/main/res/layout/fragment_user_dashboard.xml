@@ -39,6 +39,8 @@
                         android:scaleType="centerInside"
                         android:layout_marginBottom="5dp" />
 
+
+
                     <com.pacifyr.client.customview.MainTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

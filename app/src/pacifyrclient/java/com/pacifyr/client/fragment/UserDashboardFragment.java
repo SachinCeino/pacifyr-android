@@ -1,5 +1,6 @@
 package com.pacifyr.client.fragment;
 
+import android.content.Intent;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.drawable.Drawable;
@@ -15,7 +16,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.androidquery.AQuery;
@@ -28,8 +31,15 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.gson.Gson;
 import com.pacifyr.client.R;
+import com.pacifyr.client.activity.TermsOfUseActivity;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.InternetConnectionEvent;
 import com.pacifyr.client.event.NotifyEvent;
@@ -47,6 +57,7 @@ import com.pacifyr.client.orginals.Auth;
 import com.pacifyr.client.quickblox.chat.ui.activity.DialogsActivity;
 import com.pacifyr.client.quickblox.chat.utils.qb.QbDialogHolder;
 import com.pacifyr.client.quickblox.services.CallService;
+import com.pacifyr.client.sign.SignActivity;
 import com.pacifyr.client.utility.BaseFragment;
 import com.pacifyr.client.utility.EventMessage;
 import com.pacifyr.client.utils.Utility;
@@ -70,7 +81,9 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -80,6 +93,7 @@ import java.util.TimerTask;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.pacifyr.client.R.id.last_session_rlay;
+import static com.pacifyr.client.R.id.privacy_cbox;
 import static com.pacifyr.client.base.PacifyrActivity.call_emotion;
 import static com.pacifyr.client.network.NetworkService.lastSession;
 import static com.pacifyr.client.network.NetworkService.modelAllEmotions;
@@ -139,6 +153,9 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
     }
     private LinearLayout LinearLayout_Active_Session;
     TextView JoinChat,JoinCall;
+    private ImageView bannerLogo,ActionButtonJoin;
+    private TextView bannerTitle,TextViewHideBanner;
+    private RelativeLayout bannerLayout;
 
     private void getPermissions() {
         Utility.checkPermission(getActivity(), "essential");
@@ -197,6 +214,15 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
         View view=inflater.inflate(R.layout.fragment_user_dashboard,container,false);
         intializeViews(view);
         //NetworkService.startActionCutomerDashboard(getContext());
+
+
+        bannerLogo=view.findViewById(R.id.bannerLogo);
+        bannerTitle=view.findViewById(R.id.bannerTitle);
+        ActionButtonJoin=view.findViewById(R.id.ActionButtonJoin);
+        bannerLayout=view.findViewById(R.id.bannerLayout);
+        TextViewHideBanner=view.findViewById(R.id.TextViewHideBanner);
+
+
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setColorScheme(android.R.color.holo_blue_bright,
                 android.R.color.holo_green_light,
@@ -347,7 +373,94 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
         }
 
         //NetworkService.webListEmotions(getActivity());
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("banners")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d(TAG, document.getId() + " => " + document.getData());
+
+                               try {
+                                    Log.d(TAG, document.get("endDate").toString() );
+                                Log.d(TAG, document.get("imageUrl").toString() );
+                                Log.d(TAG, document.get("startDate").toString() );
+                                Log.d(TAG, document.get("text").toString() );
+                                Log.d(TAG, document.get("url").toString() );
+                                bannerTitle.setText(document.get("text").toString());
+                                String bannerUrl=document.get("imageUrl").toString();
+                                String webinarUrl=document.get("url").toString();
+                                Timestamp startDate = document.getTimestamp("startDate");
+                                Timestamp endDate = document.getTimestamp("endDate");
+
+
+                               boolean flag=false;
+                               if (isValid(startDate) && isValid(endDate))
+                               {
+                                   flag=checkCurrentDateIsInBetWeenTheseTwoDates(startDate,endDate);
+                               }
+                               if (flag)
+                               {
+                                   bannerLayout.setVisibility(View.VISIBLE);
+                               }
+                               else {
+                                   bannerLayout.setVisibility(View.GONE);
+                                   return;
+                               }
+                                if (isValid(bannerUrl))
+                                showPrefferedPacifyrIntoGlideView(bannerUrl,bannerLogo);
+
+                                ActionButtonJoin.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        Intent i=new Intent(getActivity(), TermsOfUseActivity.class);
+                                        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        i.putExtra("title", "");
+                                        i.putExtra("spurl", webinarUrl);
+                                        startActivity(i);
+                                    }
+                                });
+
+                                TextViewHideBanner.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        bannerLayout.setVisibility(View.GONE);
+                                    }
+                                });
+                               }catch (Exception e)
+                               {
+                                   Log.w(TAG, "Error getting documents.", task.getException());
+                               }
+                            }
+                        } else {
+                            Log.w(TAG, "Error getting documents.", task.getException());
+                        }
+                    }
+                });
+
+
         return view;
+    }
+
+    private boolean checkCurrentDateIsInBetWeenTheseTwoDates(Timestamp startDate, Timestamp endDate) {
+
+        long startDateInMilli= startDate.getSeconds();
+        long endDateInMilli= endDate.getSeconds();
+
+        Date date=Calendar.getInstance().getTime();
+        Timestamp m=new Timestamp(date);
+        long currentDateInMilli=m.getSeconds();
+        if (currentDateInMilli>startDateInMilli &&currentDateInMilli<endDateInMilli)
+        {
+            return true;
+        }
+        else {
+            return false;
+        }
+
     }
 
     private void callAllEmotions() {
