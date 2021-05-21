@@ -86,6 +86,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -374,6 +375,14 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
 
         //NetworkService.webListEmotions(getActivity());
 
+        return view;
+    }
+
+    private void setUpBanner() {
+        if (!getSharedBoolean("showBanner",true))
+        {
+            return;
+        }
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("banners")
                 .get()
@@ -384,56 +393,69 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
 
-                               try {
+                                try {
                                     Log.d(TAG, document.get("endDate").toString() );
-                                Log.d(TAG, document.get("imageUrl").toString() );
-                                Log.d(TAG, document.get("startDate").toString() );
-                                Log.d(TAG, document.get("text").toString() );
-                                Log.d(TAG, document.get("url").toString() );
-                                bannerTitle.setText(document.get("text").toString());
-                                String bannerUrl=document.get("imageUrl").toString();
-                                String webinarUrl=document.get("url").toString();
-                                Timestamp startDate = document.getTimestamp("startDate");
-                                Timestamp endDate = document.getTimestamp("endDate");
+                                    Log.d(TAG, document.get("imageUrl").toString() );
+                                    Log.d(TAG, document.get("startDate").toString() );
+                                    Log.d(TAG, document.get("text").toString() );
+                                    Log.d(TAG, document.get("url").toString() );
+                                    bannerTitle.setText(document.get("text").toString());
+                                    String bannerUrl=document.get("imageUrl").toString();
+                                    String webinarUrl=document.get("url").toString();
+                                    List<String> countrys = (List<String>) document.get("country");
+
+                                    if (isValid(countrys))
+                                    {
+
+                                        if (countrys.contains(getPrefManager().getCountry().toString()))
+                                        {
+                                            Timestamp startDate = document.getTimestamp("startDate");
+                                            Timestamp endDate = document.getTimestamp("endDate");
 
 
-                               boolean flag=false;
-                               if (isValid(startDate) && isValid(endDate))
-                               {
-                                   flag=checkCurrentDateIsInBetWeenTheseTwoDates(startDate,endDate);
-                               }
-                               if (flag)
-                               {
-                                   bannerLayout.setVisibility(View.VISIBLE);
-                               }
-                               else {
-                                   bannerLayout.setVisibility(View.GONE);
-                                   return;
-                               }
-                                if (isValid(bannerUrl))
-                                showPrefferedPacifyrIntoGlideView(bannerUrl,bannerLogo);
+                                            boolean flag=false;
+                                            if (isValid(startDate) && isValid(endDate))
+                                            {
+                                                flag=checkCurrentDateIsInBetWeenTheseTwoDates(startDate,endDate);
+                                            }
+                                            if (flag)
+                                            {
+                                                if (LinearLayout_Active_Session.getVisibility()==View.GONE)
+                                                    bannerLayout.setVisibility(View.VISIBLE);
+                                            }
+                                            else {
+                                                bannerLayout.setVisibility(View.INVISIBLE);
+                                                return;
+                                            }
+                                            if (isValid(bannerUrl))
+                                                showPrefferedPacifyrIntoGlideView(bannerUrl,bannerLogo);
 
-                                ActionButtonJoin.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
-                                        Intent i=new Intent(getActivity(), TermsOfUseActivity.class);
-                                        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                        i.putExtra("title", "");
-                                        i.putExtra("spurl", webinarUrl);
-                                        startActivity(i);
+                                            ActionButtonJoin.setOnClickListener(new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View view) {
+                                                    Intent i=new Intent(getActivity(), TermsOfUseActivity.class);
+                                                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                    i.putExtra("title", "");
+                                                    i.putExtra("spurl", webinarUrl);
+                                                    startActivity(i);
+                                                }
+                                            });
+
+                                            TextViewHideBanner.setOnClickListener(new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View view) {
+                                                    bannerLayout.setVisibility(View.INVISIBLE);
+                                                    getPrefManager().putSharedBoolean("showBanner",false);
+                                                }
+                                            });
+                                            getPrefManager().putSharedBoolean("showBanner",true);
+                                        }
                                     }
-                                });
 
-                                TextViewHideBanner.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
-                                        bannerLayout.setVisibility(View.GONE);
-                                    }
-                                });
-                               }catch (Exception e)
-                               {
-                                   Log.w(TAG, "Error getting documents.", task.getException());
-                               }
+                                }catch (Exception e)
+                                {
+                                    Log.w(TAG, "Error getting documents.", task.getException());
+                                }
                             }
                         } else {
                             Log.w(TAG, "Error getting documents.", task.getException());
@@ -441,8 +463,6 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                     }
                 });
 
-
-        return view;
     }
 
     private boolean checkCurrentDateIsInBetWeenTheseTwoDates(Timestamp startDate, Timestamp endDate) {
@@ -497,7 +517,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
             checkIsThereAnyActiveSessionsAvailable();
             if (isCallActive)
                 LinearLayout_Active_Session.setVisibility(View.GONE);
-
+            setUpBanner();
         }
         catch (Exception e)
         {
@@ -575,6 +595,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                                 if (isValid(mMSessionDetailRoot)&&isValid(mMSessionDetailRoot.getPacifyr()))
                                 {
                                     LinearLayout_Active_Session.setVisibility(View.VISIBLE);
+                                    bannerLayout.setVisibility(View.INVISIBLE);
                                     boolean isVideoCall=false;
                                     isVideoCall = !mMSessionDetailRoot.getSessionType().equals("audio");
                                     boolean finalIsVideoCall = isVideoCall;
