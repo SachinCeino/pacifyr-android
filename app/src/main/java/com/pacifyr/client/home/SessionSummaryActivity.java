@@ -316,10 +316,50 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
         mTextView_View_pres.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (isValid(mSessionDetailRoot.getPrescriptionFile()))
-                    loadPDF(mSessionDetailRoot.getPrescriptionFile(),getResources().getString(R.string.prescription));
-                else
-                    callPrescriptionData();
+
+                try {
+                    setLoading("Loading...");
+                    showProgress();
+                    if (!isValid(mSessionId, "Network Interupted")) {
+                        handlerFinish("Network Interupted");
+                        return;
+                    }
+                    AjaxCallback<JSONObject> cb = new AjaxCallback<JSONObject>() {
+                        @Override
+                        public void callback(String url, JSONObject json, AjaxStatus status) {
+                            hideProgress();
+                            Auth.httpStatusFilter(getApplicationContext(), status.getCode());
+                            LogUtils.LOGD("session", " SSA webGetSessionDetail callback result" + json + " " + status.getMessage());
+                            if (!isValid(json, "Network Interupted")) {
+                                handlerFinish("Network Interupted");
+                            } else {
+                                mSessionDetailRoot = GsonUtils.getInstance().gsonToMSessionDetailRoot(json);
+                                if (isValid(mSessionDetailRoot.getPrescriptionFile())) {
+
+                                    loadPDF(mSessionDetailRoot.getPrescriptionFile(), getResources().getString(R.string.prescription));
+                                }
+                                else {
+                                    Intent intent = new Intent(SessionSummaryActivity.this, PrescriptionViewActivity.class);
+                                    intent.putExtra("text", "");
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    startActivity(intent);
+                                }
+
+                            }
+                        }
+                    };
+                    AQuery aq = new AQuery(getApplicationContext());
+                    cb.header("Content-Type", "application/json");
+                    cb.header("AccessToken", getAccessToken());
+                    String url = "session/" + mSessionId;
+                    aq.ajax(GLOBAL_URL + url, JSONObject.class, cb);
+                } catch (Exception e) {
+                    hideProgress();
+                    LogUtils.LOGD("session", "SSA webGetSessionDetail exce " + e.getMessage());
+                    handlerFinish("Network Interupted");
+                }
+
+                   // callPrescriptionData();
             }
         });
     }
@@ -355,10 +395,7 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
                                         String mPrescriptionFile=mPrescriptionList.getResults().get(0).getText();
                                         if(isValid(mPrescriptionFile))
                                         {
-                                           Intent intent =  new Intent(SessionSummaryActivity.this, PrescriptionViewActivity.class);
-                                           intent.putExtra("text",mPrescriptionFile);
-                                           intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                           startActivity(intent);
+
 
                                         }
                                         else

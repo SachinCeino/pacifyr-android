@@ -19,6 +19,7 @@ import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.home.DashboardActivity;
 import com.pacifyr.client.model.ModelResources;
+import com.pacifyr.client.model.ResourceMain;
 import com.pacifyr.client.orginals.Auth;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.utility.BaseFragment;
@@ -28,12 +29,13 @@ import com.squareup.otto.Subscribe;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
 
 public class ResourcesFragment extends BaseFragment {
 
-    ArrayList<ModelResources.Results> resourcesList;
+    List<ResourceMain.Result> resourcesList;
 
 
     private MainTextView paymentMethodCtxv;
@@ -78,7 +80,7 @@ public class ResourcesFragment extends BaseFragment {
             if (getActivity().getPackageName().equals("com.pacifyr.leadersup")) {
                 url = GLOBAL_URL + "resources/leadersup";
             } else {
-                url = GLOBAL_URL + "resources";
+                url = GLOBAL_URL + "resources/bySpeciality";
             }
                 AjaxCallback cb = new AjaxCallback<JSONObject>() {
                     @Override
@@ -86,7 +88,7 @@ public class ResourcesFragment extends BaseFragment {
                         Auth.httpStatusFilter(getContext(), status.getCode());
                         try {
                             hideProgress();
-                            resourcesList = GsonUtils.getInstance().gsonToModelResources(json).getResultsList();
+                            resourcesList = GsonUtils.getInstance().gsonToModelResources(json).getResults();
                             if (isValid(resourcesList)) {
                                 setResourcesAdapter();
                             }

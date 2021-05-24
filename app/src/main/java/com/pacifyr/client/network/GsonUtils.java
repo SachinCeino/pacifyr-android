@@ -20,7 +20,9 @@ import com.pacifyr.client.model.ModelResources;
 import com.pacifyr.client.model.ModelSpecialityByCategory;
 import com.pacifyr.client.model.ModelSpecialityByEmotion;
 import com.pacifyr.client.model.PrescriptionList;
+import com.pacifyr.client.model.PreviousPrescription;
 import com.pacifyr.client.model.QRSuccess;
+import com.pacifyr.client.model.ResourceMain;
 import com.pacifyr.client.model.SchedulePayment;
 import com.pacifyr.client.model.UserDetailsModel;
 import com.pacifyr.client.model.UserProfile;
@@ -841,13 +843,13 @@ public class GsonUtils<T> {
     }
 
 
-    public ModelResources gsonToModelResources(JSONObject json) {
+    public ResourceMain gsonToModelResources(JSONObject json) {
 
-        ModelResources model = null;
+        ResourceMain model = null;
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             String jsonString =  json.toString();
-            model = gson.fromJson(jsonString, ModelResources.class);
+            model = gson.fromJson(jsonString, ResourceMain.class);
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -1019,6 +1021,18 @@ public class GsonUtils<T> {
             e.printStackTrace();
         }
         return users;
+    }
+    public PreviousPrescription gsonToPreviousPrescription(JSONObject json) {
+
+        PreviousPrescription model = null;
+        try {
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            String jsonString = json.toString();
+            model = gson.fromJson(jsonString, PreviousPrescription.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return model;
     }
 }
 

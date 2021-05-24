@@ -3,16 +3,27 @@ package com.pacifyr.client.activity;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.androidquery.AQuery;
+import com.androidquery.callback.AjaxCallback;
+import com.androidquery.callback.AjaxStatus;
 import com.pacifyr.client.R;
 import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
+import com.pacifyr.client.model.PreviousPrescription;
+import com.pacifyr.client.network.GsonUtils;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
+import com.pacifyrapp.utilitylibrary.utils.PrefManager;
+
+import org.json.JSONObject;
+
+import static com.pacifyr.client.network.NetworkService.GLOBAL_URL;
 
 public class PrescriptionViewActivity extends PacifyrActivity {
 
@@ -28,16 +39,68 @@ public class PrescriptionViewActivity extends PacifyrActivity {
         message_edt = findViewById(R.id.message_edt);
         message_edt.setMovementMethod(new ScrollingMovementMethod());
         Bundle bundle = getIntent().getExtras();
-        if( bundle!= null){
+        if( bundle!= null && isValid(bundle.getString("text"))){
             text=bundle.getString("text");
         }
         message_edt.setText(text);
         message_edt.setSelected(true);
         onSetActionBar();
 
+        if (isValid(sessionid))
+            getPreviouslyAddedPrescription();
 
 
     }
+
+    private void getPreviouslyAddedPrescription() {
+        try {
+            setLoading();
+            showProgress();
+            PrefManager mPrefManager = PrefManager.getInstance(getApplicationContext());
+            String token = mPrefManager.getAccessToken();
+            String url = GLOBAL_URL + "prescription/session/"+sessionid;
+
+            AjaxCallback cb = new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject json, AjaxStatus status) {
+                    try {
+                        hideProgress();
+                        hideStatus();
+                        Log.w("@@@",String.valueOf(json));
+                        if (isValid(json))
+                        {
+                            PreviousPrescription mPreviousPrescription = GsonUtils.getInstance().gsonToPreviousPrescription(json);
+                            if (isValid(mPreviousPrescription))
+                            {
+                                if (isValid(mPreviousPrescription.getPrescription().getText()))
+                                {
+                                    message_edt.setText(mPreviousPrescription.getPrescription().getText());
+                                }
+                            }
+
+
+                        }
+
+
+
+                    } catch (Exception e) {
+
+                        hideProgress();
+                        e.printStackTrace();
+                    }
+                }
+            };
+            AQuery aq = new AQuery(getApplicationContext());
+            cb.header("Content-Type", "application/json");
+            cb.header("AccessToken", token);
+            aq.ajax(url, JSONObject.class, cb);
+        } catch (Exception ex) {
+            hideProgress();
+            ex.printStackTrace();
+            Log.w("@@@",String.valueOf(ex));
+        }
+    }
+
 
     @Override
     public void onPause() {

@@ -8,56 +8,48 @@
     android:id="@+id/top_llay"
     android:layout_height="wrap_content"
     android:orientation="vertical">
-
-    <androidx.cardview.widget.CardView
+    <RelativeLayout
         android:layout_width="match_parent"
-        card_view:cardCornerRadius="2dp"
-        card_view:contentPadding="10dp"
-        card_view:cardBackgroundColor="@color/white"
-        android:id="@+id/top_card_view"
-        android:layout_height="wrap_content">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:gravity="center_vertical"
+        android:padding="10dp"
+        android:orientation="horizontal">
+        <com.pacifyr.client.customview.MainTextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_toRightOf="@+id/customer_cimv"
-            android:layout_marginLeft="0dp">
+            android:text="Title"
+            android:id="@+id/TextViewTitle"
+            android:gravity="center_vertical"
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:layout_marginLeft="5dp">
+        </com.pacifyr.client.customview.MainTextView>
+        <com.pacifyr.client.customview.MainTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="All"
+            android:id="@+id/TextViewAll"
+            android:textSize="15sp"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold"
+            android:gravity="center_vertical"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:layout_marginRight="5dp">
+        </com.pacifyr.client.customview.MainTextView>
+    </RelativeLayout>
 
-            <ImageView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:id="@+id/resources_imv" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="right"
-                android:text=""
-                android:textColor="@color/grey_dark_text"
-                android:layout_toRightOf="@id/resources_imv"
-                android:id="@+id/date_txv"/>
-
-            <TextView
-                android:id="@+id/header_txv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:gravity="left"
-                android:layout_below="@+id/date_txv"
-                android:layout_toRightOf="@id/resources_imv"
-                android:text=""
-                android:textColor="@color/blue_text_dark"
-                android:textSize="15sp"
-                android:textStyle="bold" />
-        </RelativeLayout>
-
-    </androidx.cardview.widget.CardView>
-
-
-    <View
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/RecyclerViewResources"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@android:color/darker_gray" />
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"
+        android:nestedScrollingEnabled="false"
+        android:layout_marginBottom="15dp">
+
+    </androidx.recyclerview.widget.RecyclerView>
 
 </LinearLayout>

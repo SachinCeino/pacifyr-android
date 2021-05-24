@@ -9,15 +9,18 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.pacifyr.client.R;
 import com.pacifyr.client.activity.TermsOfUseActivity;
 import com.pacifyr.client.model.ModelResources;
+import com.pacifyr.client.model.ResourceMain;
 import com.pacifyr.client.network.NetworkService;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by ceino on 18/5/18.
@@ -25,10 +28,10 @@ import java.util.ArrayList;
 
 public class ResourcesListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
 
-    ArrayList<ModelResources.Results> resourcesList;
+    List<ResourceMain.Result> resourcesList;
     Context mContext;
 
-    public ResourcesListAdapter(ArrayList<ModelResources.Results> fileList, Context context) {
+    public ResourcesListAdapter(List<ResourceMain.Result> fileList, Context context) {
         this.resourcesList=fileList;
         this.mContext=context;
     }
@@ -40,16 +43,64 @@ public class ResourcesListAdapter extends RecyclerView.Adapter<RecyclerView.View
         return viewHolder;
     }
 
-    private ModelResources.Results getItem(int position){
+    private ResourceMain.Result getItem(int position){
         return resourcesList.get(position);
     }
 
+    public Boolean isValid(String text) {
+        if (text != null) return !text.trim().equalsIgnoreCase("");
+        return false;
+
+    }
+
+    public Boolean isValid(List list) {
+        if (list != null) return list.size() > 0;
+        return false;
+
+    }
+
+    public Boolean isValid(List list,int pos) {
+        if (isValid(list))
+            return list.size() >= pos;
+        return false;
+
+    }
+    public Boolean isValidPos(List list,int pos) {
+        if (isValid(list))
+            return list.size() >= pos;
+        return false;
+
+    }
+    public Boolean isValidNotNull(List list) {
+        return list != null;
+
+    }
+
+    public Boolean isValidSize(List list) {
+        if (list != null) return list.size() > 0;
+        return false;
+
+    }
+
+    public Boolean isValid(Object object) {
+        return object != null;
+
+    }
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         ViewHolder viewHolder = (ViewHolder) holder;
-        final ModelResources.Results item = getItem(position);
+        final ResourceMain.Result item = getItem(position);
 
-        viewHolder.resourcesDate.setText(item.getCreatedAt());
+        if (item!=null)
+        {
+            viewHolder.TextViewTitle.setText(item.getSpeciality());
+            if (isValid(item.getResources())){
+                setUpResourceAdapter(viewHolder,item.getResources());
+            }
+        }
+
+
+       /* viewHolder.resourcesDate.setText(item.getCreatedAt());
         viewHolder.resourcesTitle.setText(item.getTitle());
         Picasso.with(mContext).load(NetworkService.GLOBAL_IMAGE_URL + item.getImage())
                 .placeholder(R.drawable.placeholder).into(viewHolder.resourcesImv);
@@ -62,6 +113,15 @@ public class ResourcesListAdapter extends RecyclerView.Adapter<RecyclerView.View
                 mContext.startActivity(i);
             }
         });
+*/
+    }
+
+    private void setUpResourceAdapter(ViewHolder viewHolder, List<ResourceMain.Resource> resources) {
+
+        ResourcesSubListAdapter mResourcesSubListAdapter=new ResourcesSubListAdapter(mContext,resources);
+        LinearLayoutManager mLinearLayoutManager=new LinearLayoutManager(mContext,LinearLayoutManager.HORIZONTAL,false);
+        viewHolder.RecyclerViewResources.setLayoutManager(mLinearLayoutManager);
+        viewHolder.RecyclerViewResources.setAdapter(mResourcesSubListAdapter);
 
     }
 
@@ -72,18 +132,18 @@ public class ResourcesListAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        private ImageView resourcesImv;
-        private TextView resourcesTitle;
-        private TextView resourcesDate;
+        private RecyclerView RecyclerViewResources;
+        private TextView TextViewAll;
+        private TextView TextViewTitle;
 
         LinearLayout linearLayout;
 
         public ViewHolder(View itemView) {
             super(itemView);
             linearLayout = itemView.findViewById(R.id.top_llay);
-            resourcesImv = itemView.findViewById(R.id.resources_imv);
-            resourcesTitle = itemView.findViewById(R.id.header_txv);
-            resourcesDate = itemView.findViewById(R.id.date_txv);
+            RecyclerViewResources = itemView.findViewById(R.id.RecyclerViewResources);
+            TextViewAll = itemView.findViewById(R.id.TextViewAll);
+            TextViewTitle = itemView.findViewById(R.id.TextViewTitle);
         }
     }
 }
