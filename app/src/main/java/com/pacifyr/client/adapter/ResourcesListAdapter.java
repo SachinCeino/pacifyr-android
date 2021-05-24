@@ -1,7 +1,9 @@
 package com.pacifyr.client.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,12 +15,16 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.pacifyr.client.R;
+import com.pacifyr.client.activity.ResourceAllActivity;
 import com.pacifyr.client.activity.TermsOfUseActivity;
+
+import com.pacifyr.client.home.DashboardActivity;
 import com.pacifyr.client.model.ModelResources;
 import com.pacifyr.client.model.ResourceMain;
 import com.pacifyr.client.network.NetworkService;
 import com.squareup.picasso.Picasso;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -97,6 +103,14 @@ public class ResourcesListAdapter extends RecyclerView.Adapter<RecyclerView.View
             if (isValid(item.getResources())){
                 setUpResourceAdapter(viewHolder,item.getResources());
             }
+            viewHolder.TextViewAll.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent mIntent=new Intent(mContext, ResourceAllActivity.class);
+                    mIntent.putExtra("object",(Serializable)item);
+                    mContext.startActivity(mIntent);
+                }
+            });
         }
 
 

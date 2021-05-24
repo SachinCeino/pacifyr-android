@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/white">
+    <include layout="@layout/actionbar_grey"
+        android:id="@+id/include"
+        android:layout_height="50dp"
+        android:layout_width="match_parent"></include>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:id="@+id/searchLayout"
+        android:orientation="horizontal"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="15dp"
+        android:layout_below="@+id/include"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/resource_search_background"
+        >
+        <androidx.appcompat.widget.SearchView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:queryHint="Article, video, presentation"
+            app:searchHintIcon="@drawable/searchresource"
+            app:defaultQueryHint="Article, video, presentation"
+            android:background="@android:color/transparent"
+            app:searchIcon="@drawable/searchresource"></androidx.appcompat.widget.SearchView>
+    </LinearLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="15dp"
+        android:layout_below="@+id/searchLayout"
+        android:layout_marginRight="10dp"
+        android:id="@+id/RecyclerViewCategory"></androidx.recyclerview.widget.RecyclerView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="15dp"
+        android:layout_below="@+id/RecyclerViewCategory"
+        android:layout_marginRight="10dp"
+        android:id="@+id/RecyclerViewList"></androidx.recyclerview.widget.RecyclerView>
+
+    <com.pacifyr.client.customview.MainTextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/emptyLayout"
+        android:text="No data available"
+        android:textSize="19sp"
+        android:visibility="gone"
+        android:layout_below="@+id/RecyclerViewCategory"
+        android:gravity="center">
+
+    </com.pacifyr.client.customview.MainTextView>
+</RelativeLayout>
