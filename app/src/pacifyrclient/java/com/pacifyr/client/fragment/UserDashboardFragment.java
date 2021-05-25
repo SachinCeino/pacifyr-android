@@ -154,7 +154,8 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
     }
     private LinearLayout LinearLayout_Active_Session;
     TextView JoinChat,JoinCall;
-    private ImageView bannerLogo,ActionButtonJoin;
+    private ImageView bannerLogo;
+    LinearLayout ActionButtonJoin;
     private TextView bannerTitle,TextViewHideBanner;
     private RelativeLayout bannerLayout;
 
