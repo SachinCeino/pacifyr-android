@@ -407,7 +407,8 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                                     if (isValid(countrys))
                                     {
 
-                                        if (countrys.contains(getPrefManager().getCountry().toString()))
+                                        if (countrys.contains(getPrefManager().getCountry().toString()) ||
+                                                getPrefManager().getCountry().equals("Wakanda"))
                                         {
                                             Timestamp startDate = document.getTimestamp("startDate");
                                             Timestamp endDate = document.getTimestamp("endDate");
@@ -626,6 +627,11 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                         }
                         else {
                             LinearLayout_Active_Session.setVisibility(View.GONE);
+                        }
+
+                        if (LinearLayout_Active_Session.getVisibility()==View.GONE && bannerLayout.getVisibility()==View.INVISIBLE)
+                        {
+                            setUpBanner();
                         }
 
                     } catch (Exception e) {
