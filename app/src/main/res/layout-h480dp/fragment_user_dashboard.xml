@@ -10,20 +10,21 @@
         android:id="@+id/user_swipe_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fillViewport="true">
+            android:layout_height="match_parent">
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center">
+
                 <androidx.percentlayout.widget.PercentRelativeLayout
+                    android:id="@+id/percent_layout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:paddingTop="35dp"
                     android:background="@color/white"
                     android:orientation="vertical">
 
@@ -50,7 +51,7 @@
                             android:layout_marginRight="5dp"
                             android:layout_below="@+id/image_logo"
                             android:id="@+id/bannerLayout"
-                            android:visibility="invisible"
+                            android:visibility="gone"
                             >
                             <androidx.cardview.widget.CardView
                                 android:layout_width="match_parent"
@@ -711,23 +712,26 @@
 
 
                 </androidx.percentlayout.widget.PercentRelativeLayout>
+
                 <RelativeLayout
                     android:id="@+id/connect_btn_rlay"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
-                    android:layout_centerInParent="true"
                     android:layout_marginTop="30dp"
-                    android:layout_marginBottom="10dp">
+                    android:layout_below="@id/percent_layout"
+                    android:paddingBottom="5dp">
 
                     <com.pacifyr.client.customview.MainTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@drawable/round_square_for_round_cuttons"
                         android:padding="10dp"
+                        android:layout_centerInParent="true"
                         android:text="@string/Connect_to_Wellness_Experts"
                         android:textColor="@color/connect_wellness_expert_color"
                         android:textSize="14sp"
+                        android:layout_marginBottom="5dp"
                         android:textStyle="bold" />
 
                 </RelativeLayout>

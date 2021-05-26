@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -18,7 +19,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.cardview.widget.CardView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.androidquery.AQuery;
@@ -57,7 +57,6 @@ import com.pacifyr.client.orginals.Auth;
 import com.pacifyr.client.quickblox.chat.ui.activity.DialogsActivity;
 import com.pacifyr.client.quickblox.chat.utils.qb.QbDialogHolder;
 import com.pacifyr.client.quickblox.services.CallService;
-import com.pacifyr.client.sign.SignActivity;
 import com.pacifyr.client.utility.BaseFragment;
 import com.pacifyr.client.utility.EventMessage;
 import com.pacifyr.client.utils.Utility;
@@ -93,8 +92,8 @@ import java.util.TimerTask;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static com.pacifyr.client.R.id.grid_balls;
 import static com.pacifyr.client.R.id.last_session_rlay;
-import static com.pacifyr.client.R.id.privacy_cbox;
 import static com.pacifyr.client.base.PacifyrActivity.call_emotion;
 import static com.pacifyr.client.network.NetworkService.lastSession;
 import static com.pacifyr.client.network.NetworkService.modelAllEmotions;
@@ -408,25 +407,26 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                                     if (isValid(countrys))
                                     {
 
-                                        if (countrys.contains(getPrefManager().getCountry().toString()) ||
-                                                getPrefManager().getCountry().equals("Wakanda"))
-                                        {
+                                        if (countrys.contains(getPrefManager().getCountry()) ||
+                                                getPrefManager().getCountry().equals("Wakanda")) {
                                             Timestamp startDate = document.getTimestamp("startDate");
                                             Timestamp endDate = document.getTimestamp("endDate");
 
 
-                                            boolean flag=false;
-                                            if (isValid(startDate) && isValid(endDate))
-                                            {
-                                                flag=checkCurrentDateIsInBetWeenTheseTwoDates(startDate,endDate);
+                                            boolean flag = false;
+                                            if (isValid(startDate) && isValid(endDate)) {
+                                                flag = checkCurrentDateIsInBetWeenTheseTwoDates(startDate, endDate);
                                             }
-                                            if (flag)
-                                            {
-                                                if (LinearLayout_Active_Session.getVisibility()==View.GONE)
+                                            if (flag) {
+                                                if (LinearLayout_Active_Session.getVisibility() == View.GONE) {
                                                     bannerLayout.setVisibility(View.VISIBLE);
+                                                    adjustGridBalls();
+                                                }
+
                                             }
                                             else {
-                                                bannerLayout.setVisibility(View.INVISIBLE);
+                                                bannerLayout.setVisibility(View.GONE);
+                                                adjustGridBalls();
                                                 return;
                                             }
                                             if (isValid(bannerUrl))
@@ -446,8 +446,9 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                                             TextViewHideBanner.setOnClickListener(new View.OnClickListener() {
                                                 @Override
                                                 public void onClick(View view) {
-                                                    bannerLayout.setVisibility(View.INVISIBLE);
-                                                    getPrefManager().putSharedBoolean("showBanner",false);
+                                                    bannerLayout.setVisibility(View.GONE);
+                                                    adjustGridBalls();
+                                                    getPrefManager().putSharedBoolean("showBanner", false);
                                                 }
                                             });
                                             getPrefManager().putSharedBoolean("showBanner",true);
@@ -467,21 +468,44 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
 
     }
 
+    private void adjustGridBalls() {
+        // do this adjustment for only h480dp layout
+        if (!getString(R.string.density).equalsIgnoreCase("480")) {
+            return;
+        }
+        GridLayout gridBalls = getView().findViewById(grid_balls);
+        if (bannerLayout.getVisibility() == View.VISIBLE) {
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            params.addRule(RelativeLayout.BELOW, R.id.missed_chat_rlay);
+            gridBalls.setLayoutParams(params);
+
+            RelativeLayout.LayoutParams params2 = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            params2.addRule(RelativeLayout.BELOW, R.id.percent_layout);
+            params2.topMargin = 10;
+            connect_btn_rlay.setLayoutParams(params2);
+
+
+        } else {
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            params.addRule(RelativeLayout.BELOW, R.id.missed_chat_rlay);
+            gridBalls.setLayoutParams(params);
+
+            RelativeLayout.LayoutParams params2 = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            params2.addRule(RelativeLayout.BELOW, R.id.percent_layout);
+            params2.topMargin = 50;
+            connect_btn_rlay.setLayoutParams(params2);
+        }
+    }
+
     private boolean checkCurrentDateIsInBetWeenTheseTwoDates(Timestamp startDate, Timestamp endDate) {
 
-        long startDateInMilli= startDate.getSeconds();
-        long endDateInMilli= endDate.getSeconds();
+        long startDateInMilli = startDate.getSeconds();
+        long endDateInMilli = endDate.getSeconds();
 
-        Date date=Calendar.getInstance().getTime();
-        Timestamp m=new Timestamp(date);
-        long currentDateInMilli=m.getSeconds();
-        if (currentDateInMilli>startDateInMilli &&currentDateInMilli<endDateInMilli)
-        {
-            return true;
-        }
-        else {
-            return false;
-        }
+        Date date = Calendar.getInstance().getTime();
+        Timestamp m = new Timestamp(date);
+        long currentDateInMilli = m.getSeconds();
+        return currentDateInMilli > startDateInMilli && currentDateInMilli < endDateInMilli;
 
     }
 
@@ -594,11 +618,11 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
 
                             if (isValid(model) && isValid(model.getResultsList())&&isValid(model.getResultsList().get(0))) {
                                 MSessionDetailRoot mMSessionDetailRoot=model.getResultsList().get(0);
-                                if (isValid(mMSessionDetailRoot)&&isValid(mMSessionDetailRoot.getPacifyr()))
-                                {
+                                if (isValid(mMSessionDetailRoot)&&isValid(mMSessionDetailRoot.getPacifyr())) {
                                     LinearLayout_Active_Session.setVisibility(View.VISIBLE);
-                                    bannerLayout.setVisibility(View.INVISIBLE);
-                                    boolean isVideoCall=false;
+                                    bannerLayout.setVisibility(View.GONE);
+                                    adjustGridBalls();
+                                    boolean isVideoCall = false;
                                     isVideoCall = !mMSessionDetailRoot.getSessionType().equals("audio");
                                     boolean finalIsVideoCall = isVideoCall;
                                     JoinCall.setOnClickListener(new View.OnClickListener() {
@@ -630,8 +654,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                             LinearLayout_Active_Session.setVisibility(View.GONE);
                         }
 
-                        if (LinearLayout_Active_Session.getVisibility()==View.GONE && bannerLayout.getVisibility()==View.INVISIBLE)
-                        {
+                        if (LinearLayout_Active_Session.getVisibility() == View.GONE && bannerLayout.getVisibility() == View.GONE) {
                             setUpBanner();
                         }
 
