@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -481,11 +482,9 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                                             ActionButtonJoin.setOnClickListener(new View.OnClickListener() {
                                                 @Override
                                                 public void onClick(View view) {
-                                                    Intent i=new Intent(getActivity(), TermsOfUseActivity.class);
-                                                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                                    i.putExtra("title", "");
-                                                    i.putExtra("spurl", webinarUrl);
-                                                    startActivity(i);
+                                                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(webinarUrl));
+                                                    browserIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                    startActivity(browserIntent);
                                                 }
                                             });
 
