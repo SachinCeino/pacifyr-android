@@ -375,14 +375,30 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
 
         //NetworkService.webListEmotions(getActivity());
 
+
+        TextViewHideBanner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (TextViewHideBanner.getText().equals("Hide"))
+                {
+                    bannerLayout.setVisibility(View.GONE);
+                    TextViewHideBanner.setText("Show");
+                    getPrefManager().putSharedBoolean("showBanner",false);
+                }
+                else {
+                    bannerLayout.setVisibility(View.VISIBLE);
+                    adjustGridBalls();
+                    TextViewHideBanner.setText("Hide");
+                    getPrefManager().putSharedBoolean("showBanner",true);
+                }
+            }
+        });
         return view;
     }
 
+
     private void setUpBanner() {
-        if (!getSharedBoolean("showBanner",true))
-        {
-            return;
-        }
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("banners")
                 .get()
@@ -419,13 +435,43 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                                             }
                                             if (flag) {
                                                 if (LinearLayout_Active_Session.getVisibility() == View.GONE) {
-                                                    bannerLayout.setVisibility(View.VISIBLE);
-                                                    adjustGridBalls();
+
+
+                                                        if (getPrefManager().getSharedBoolean("isFirstTimeLogin",true)){
+                                                            bannerLayout.setVisibility(View.VISIBLE);
+                                                            TextViewHideBanner.setText("Hide");
+                                                            TextViewHideBanner.setVisibility(View.VISIBLE);
+                                                            adjustGridBalls();
+                                                            getPrefManager().putSharedBoolean("isFirstTimeLogin",false);
+                                                            getPrefManager().putSharedBoolean("showBanner",true);
+                                                        }
+                                                        else {
+                                                            if (!getPrefManager().getSharedBoolean("showBanner",false)) {
+
+
+                                                                    bannerLayout.setVisibility(View.GONE);
+                                                                    TextViewHideBanner.setText("Show");
+                                                                    TextViewHideBanner.setVisibility(View.VISIBLE);
+                                                                    adjustGridBalls();
+
+
+
+                                                            }
+                                                            else {
+                                                                bannerLayout.setVisibility(View.VISIBLE);
+                                                                TextViewHideBanner.setText("Hide");
+                                                                TextViewHideBanner.setVisibility(View.VISIBLE);
+                                                                adjustGridBalls();
+                                                            }
+                                                        }
+
+
                                                 }
 
                                             }
                                             else {
                                                 bannerLayout.setVisibility(View.GONE);
+                                                TextViewHideBanner.setVisibility(View.GONE);
                                                 adjustGridBalls();
                                                 return;
                                             }
@@ -443,15 +489,6 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                                                 }
                                             });
 
-                                            TextViewHideBanner.setOnClickListener(new View.OnClickListener() {
-                                                @Override
-                                                public void onClick(View view) {
-                                                    bannerLayout.setVisibility(View.GONE);
-                                                    adjustGridBalls();
-                                                    getPrefManager().putSharedBoolean("showBanner", false);
-                                                }
-                                            });
-                                            getPrefManager().putSharedBoolean("showBanner",true);
                                         }
                                     }
 
@@ -467,6 +504,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                 });
 
     }
+
 
     private void adjustGridBalls() {
         // do this adjustment for only h480dp layout
@@ -654,7 +692,8 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                             LinearLayout_Active_Session.setVisibility(View.GONE);
                         }
 
-                        if (LinearLayout_Active_Session.getVisibility() == View.GONE && bannerLayout.getVisibility() == View.GONE) {
+                        if (LinearLayout_Active_Session.getVisibility() == View.GONE &&
+                                bannerLayout.getVisibility() == View.GONE) {
                             setUpBanner();
                         }
 

@@ -52,6 +52,7 @@
                             android:layout_below="@+id/image_logo"
                             android:id="@+id/bannerLayout"
                             android:visibility="gone"
+
                             >
                             <androidx.cardview.widget.CardView
                                 android:layout_width="match_parent"
@@ -61,7 +62,7 @@
                                 android:layout_marginLeft="15dp"
                                 android:layout_marginRight="15dp"
                                 android:id="@+id/bannerCard"
-                                android:layout_above="@id/TextViewHideBanner"
+
                                 >
                                 <RelativeLayout
                                     android:layout_width="match_parent"
@@ -128,26 +129,27 @@
                                     </LinearLayout>
                                 </RelativeLayout>
                             </androidx.cardview.widget.CardView>
-                            <com.pacifyr.client.customview.MainTextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:id="@+id/TextViewHideBanner"
-                                android:text="Hide"
-                                android:textSize="12sp"
-                                android:layout_marginTop="5dp"
-                                android:layout_alignParentBottom="true"
-                                android:layout_centerHorizontal="true"
-                                android:textColor="@color/grey_dark_text">
 
-                            </com.pacifyr.client.customview.MainTextView>
                         </RelativeLayout>
+                        <com.pacifyr.client.customview.MainTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/TextViewHideBanner"
+                            android:text="Hide"
+                            android:layout_below="@+id/bannerLayout"
+                            android:textSize="12sp"
+                            android:visibility="gone"
+                            android:layout_marginTop="5dp"
+                            android:layout_centerInParent="true"
+                            android:textColor="@color/grey_dark_text">
 
+                        </com.pacifyr.client.customview.MainTextView>
 
                         <com.pacifyr.client.customview.MainTextView
                             android:id="@+id/unread_chat_ctxv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/bannerLayout"
+                            android:layout_below="@+id/TextViewHideBanner"
                             android:layout_alignParentStart="true"
                             android:layout_gravity="center"
                             android:layout_marginStart="30dp"

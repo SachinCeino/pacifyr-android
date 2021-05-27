@@ -601,7 +601,7 @@ private static String TAG=LoginPhoneActivity.class.getName();
                          * after 50days need to refresh the token**/
                         long mTimeStamp = System.currentTimeMillis();
                         prefM.saveLoginTimeStamp(String.valueOf(mTimeStamp));
-
+                        prefM.putSharedBoolean("isFirstTimeLogin",true);
                         String qbID = qbUser.getId().toString();
                         prefM.saveQBID(qbID);
                         editProfileObject=new JSONObject();
