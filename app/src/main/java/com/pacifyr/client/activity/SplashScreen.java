@@ -75,11 +75,17 @@ public class SplashScreen extends BaseAppCompactActivity {
         RemoteConfig.Update(this);
         UtilityNetworkService.init(this);
        // Log.w("AUTH_SECRET",APP_ID+AUTH_KEY+AUTH_SECRET);
-        QBSettings.getInstance().init(this, APP_ID, AUTH_KEY, AUTH_SECRET);
-        QBSettings.getInstance().setAccountKey(ACCOUNT_KEY);
+
+
         try {
-            Intent intent = new Intent(this, Call_Service.class);
-            startService(intent);
+            if (isValid(APP_ID) &&  isValid(AUTH_KEY) && isValid(AUTH_SECRET))
+            {
+                QBSettings.getInstance().init(this, APP_ID, AUTH_KEY, AUTH_SECRET);
+                QBSettings.getInstance().setAccountKey(ACCOUNT_KEY);
+                Intent intent = new Intent(this, Call_Service.class);
+                startService(intent);
+            }
+
         } catch (Exception e) {
             Log.e(TAG, "Exception " + Call_Service.class.getSimpleName() + " cannot be started");
             e.printStackTrace();

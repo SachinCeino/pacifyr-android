@@ -462,8 +462,15 @@ private static String TAG=LoginPhoneActivity.class.getName();
 
         }
 
-        QBSettings.getInstance().init(LoginPhoneActivity.this, APP_ID, AUTH_KEY, AUTH_SECRET);
-        QBSettings.getInstance().setAccountKey(ACCOUNT_KEY);
+        if (isValid(APP_ID) &&  isValid(AUTH_KEY) && isValid(AUTH_SECRET))
+        {
+            QBSettings.getInstance().init(LoginPhoneActivity.this, APP_ID, AUTH_KEY, AUTH_SECRET);
+            QBSettings.getInstance().setAccountKey(ACCOUNT_KEY);
+        }
+        else {
+            return;
+        }
+
         QBAuth.createSession().performAsync(new QBEntityCallback<QBSession>() {
             @Override
             public void onSuccess(QBSession qbSession, Bundle bundle) {

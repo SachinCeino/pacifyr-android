@@ -490,9 +490,16 @@ public class LoginActivity extends PacifyrActivity {
             {
                 user.setFullName(loginModel.getUser().getFirstName());
             }
+            if (isValid(APP_ID) &&  isValid(AUTH_KEY) && isValid(AUTH_SECRET))
+            {
+                QBSettings.getInstance().init(LoginActivity.this, APP_ID, AUTH_KEY, AUTH_SECRET);
+                QBSettings.getInstance().setAccountKey(ACCOUNT_KEY);
+            }
+            else
+            {
+                return;
+            }
 
-            QBSettings.getInstance().init(LoginActivity.this, APP_ID, AUTH_KEY, AUTH_SECRET);
-            QBSettings.getInstance().setAccountKey(ACCOUNT_KEY);
             QBAuth.createSession().performAsync(new QbEntityCallbackImpl<QBSession>() {
                 @Override
                 public void onSuccess(QBSession result, Bundle bundle) {
@@ -639,8 +646,14 @@ public class LoginActivity extends PacifyrActivity {
 
     private void quickbloxNewLogin(final QBUser qbUser) {
         try {
-            QBSettings.getInstance().init(LoginActivity.this, APP_ID, AUTH_KEY, AUTH_SECRET);
-            QBSettings.getInstance().setAccountKey(ACCOUNT_KEY);
+            if (isValid(APP_ID) &&  isValid(AUTH_KEY) && isValid(AUTH_SECRET)){
+                QBSettings.getInstance().init(LoginActivity.this, APP_ID, AUTH_KEY, AUTH_SECRET);
+                QBSettings.getInstance().setAccountKey(ACCOUNT_KEY);
+            }
+            else {
+                return;
+            }
+
             //create a quickblox application session
             QBAuth.createSession().performAsync(new QBEntityCallback<QBSession>() {
                 @Override

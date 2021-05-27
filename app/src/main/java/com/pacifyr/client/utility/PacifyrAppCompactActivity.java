@@ -1102,8 +1102,15 @@ public abstract class PacifyrAppCompactActivity  extends PacifyrActivity {
             String mail = PrefManager.getInstance(PacifyrAppCompactActivity.this).getEmail();
             final QBUser user = new QBUser(userID, userID);
             user.setEmail(mail);
-            QBSettings.getInstance().init(context, APP_ID, AUTH_KEY, AUTH_SECRET);
-            QBSettings.getInstance().setAccountKey(ACCOUNT_KEY);
+            if (isValid(APP_ID) &&  isValid(AUTH_KEY) && isValid(AUTH_SECRET))
+            {
+                QBSettings.getInstance().init(context, APP_ID, AUTH_KEY, AUTH_SECRET);
+                QBSettings.getInstance().setAccountKey(ACCOUNT_KEY);
+            }
+            else {
+                return;
+            }
+
             if( !QBAuth.getSession().isCanceled()) {
                 QBAuth.createSession().performAsync(new QBEntityCallback<QBSession>() {
                     @Override
