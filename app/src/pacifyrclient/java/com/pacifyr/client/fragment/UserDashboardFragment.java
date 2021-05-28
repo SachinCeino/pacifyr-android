@@ -658,6 +658,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                                 if (isValid(mMSessionDetailRoot)&&isValid(mMSessionDetailRoot.getPacifyr())) {
                                     LinearLayout_Active_Session.setVisibility(View.VISIBLE);
                                     bannerLayout.setVisibility(View.GONE);
+                                    TextViewHideBanner.setVisibility(View.GONE);
                                     adjustGridBalls();
                                     boolean isVideoCall = false;
                                     isVideoCall = !mMSessionDetailRoot.getSessionType().equals("audio");
