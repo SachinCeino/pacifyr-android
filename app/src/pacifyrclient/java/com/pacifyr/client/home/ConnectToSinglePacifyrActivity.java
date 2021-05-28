@@ -552,14 +552,8 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
                                         setAlertStartCall(pacifyer_obj , new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
-                                                if (checker.lacksPermissions(Consts.PERMISSIONS))
-                                                {
-                                                    startPermissionsActivity(false,ConnectToSinglePacifyrActivity.this);
-                                                }else {
-                                                    hideStatus();
-                                                    checkRoleRequest(pacifyer_obj, listner, true);
-                                                }
-
+                                                hideStatus();
+                                                checkRoleRequest(pacifyer_obj, listner, true);
                                             }
                                         });
 
@@ -575,16 +569,8 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
                                     setAlertStartCall(pacifyer_obj, new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
-
-                                            if (checker.lacksPermissions(Consts.PERMISSIONS))
-                                            {
-                                                startPermissionsActivity(false,ConnectToSinglePacifyrActivity.this);
-                                            }else {
-                                                hideStatus();
-                                                checkRoleRequest(pacifyer_obj, listner, true);
-                                            }
-
-
+                                            hideStatus();
+                                            checkRoleRequest(pacifyer_obj, listner, true);
                                         }
                                     });
 
@@ -634,15 +620,8 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
                                     setAlertStartCall(pacifyer_obj, new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
-                                            if (checker.lacksPermissions(Consts.PERMISSIONS[1]))
-                                            {
-                                                startPermissionsActivity(true,ConnectToSinglePacifyrActivity.this);
-                                            }else {
-
-                                                hideStatus();
-                                                checkRoleRequest(pacifyer_obj, listner, true);
-                                            }
-
+                                            hideStatus();
+                                            checkRoleRequest(pacifyer_obj, listner, true);
                                         }
                                     });
 
@@ -656,16 +635,8 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
                                     setAlertStartCall(pacifyer_obj, new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
-                                            if (checker.lacksPermissions(Consts.PERMISSIONS[1]))
-                                            {
-                                                startPermissionsActivity(true,ConnectToSinglePacifyrActivity.this);
-                                            }else {
-
-                                                hideStatus();
-                                                checkRoleRequest(pacifyer_obj, listner, false);
-                                            }
-
-
+                                            hideStatus();
+                                            checkRoleRequest(pacifyer_obj, listner, false);
                                         }
                                     });
 

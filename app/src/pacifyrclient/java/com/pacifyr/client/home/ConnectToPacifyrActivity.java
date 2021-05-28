@@ -684,16 +684,8 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
                             setAlertStartCall(event.mpacifyer, new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
-
-                                            if (checker.lacksPermissions(Consts.PERMISSIONS))
-                                            {
-                                                startPermissionsActivity(false,ConnectToPacifyrActivity.this);
-                                            }
-                                            else {
-                                                hideStatus();
-                                                checkRoleRequest(event.mpacifyer, listner, event.isVideoCall);
-                                            }
-
+                                            hideStatus();
+                                            checkRoleRequest(event.mpacifyer, listner, event.isVideoCall);
                                         }
                                     });
 
@@ -706,16 +698,8 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
                             setAlertStartCall(event.mpacifyer, new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
-
-                                            if (checker.lacksPermissions(Consts.PERMISSIONS))
-                                            {
-                                                startPermissionsActivity(false,ConnectToPacifyrActivity.this);
-                                            }
-                                            else {
-                                                hideStatus();
-                                                checkRoleRequest(event.mpacifyer, listner, event.isVideoCall);
-                                            }
-
+                                            hideStatus();
+                                            checkRoleRequest(event.mpacifyer, listner, event.isVideoCall);
                                         }
                                     });
 
@@ -736,13 +720,8 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
                             setAlertStartCall(event.mpacifyer, new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
-                                             if (checker.lacksPermissions(Consts.PERMISSIONS[1]))
-                                            {
-                                                startPermissionsActivity(true,ConnectToPacifyrActivity.this);
-                                            }else {
-                                                 hideStatus();
-                                                 checkRoleRequest(event.mpacifyer, listner, event.isVideoCall);
-                                             }
+                                            hideStatus();
+                                            checkRoleRequest(event.mpacifyer, listner, event.isVideoCall);
                                         }
                                     });
 
@@ -755,13 +734,8 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
                             setAlertStartCall(event.mpacifyer, new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
-                                            if (checker.lacksPermissions(Consts.PERMISSIONS[1]))
-                                            {
-                                                startPermissionsActivity(true,ConnectToPacifyrActivity.this);
-                                            }else {
-                                                hideStatus();
-                                                checkRoleRequest(event.mpacifyer, listner, event.isVideoCall);
-                                            }
+                                            hideStatus();
+                                            checkRoleRequest(event.mpacifyer, listner, event.isVideoCall);
                                         }
                                     });
 
