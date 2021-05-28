@@ -1,11 +1,10 @@
 package com.pacifyr.client.quickblox.chat.ui.activity;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.NotificationManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -46,9 +45,8 @@ import com.pacifyr.client.R;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.AlertTypeEvent;
 import com.pacifyr.client.event.NotifyEvent;
-import com.pacifyr.client.orginals.Auth;
 import com.pacifyr.client.network.NetworkService;
-import com.pacifyr.client.quickblox.activities.CallActivity;
+import com.pacifyr.client.orginals.Auth;
 import com.pacifyr.client.quickblox.chat.interfaces.AttachmentClick;
 import com.pacifyr.client.quickblox.chat.ui.adapter.AttachmentPreviewAdapter;
 import com.pacifyr.client.quickblox.chat.ui.adapter.ChatAdapter;
@@ -85,11 +83,11 @@ import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.ThreadMode;
+import org.jetbrains.annotations.NotNull;
 import org.jivesoftware.smack.ConnectionListener;
 import org.jivesoftware.smack.SmackException;
 import org.jivesoftware.smack.XMPPException;
 import org.json.JSONObject;
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -147,7 +145,8 @@ public class ChatActivity extends PacifyrAppCompactActivity implements Attachmen
     private QBUser currentUser;
     private TextView typingStatus;
     private TextView TextView_noMessages;
-    public static final String CLOSE_CHATSCREEN="closeChatScreen";
+    public static final String CLOSE_CHATSCREEN = "closeChatScreen";
+    private View attachPendingView;
 
 
     public static void startForResult(Activity activity, int code, QBChatDialog dialogId,MUser mPaci) {
@@ -158,33 +157,30 @@ public class ChatActivity extends PacifyrAppCompactActivity implements Attachmen
         activity.startActivityForResult(intent, code);
     }
     public static void start(Context activity, QBChatDialog dialogId,MUser mPaci) {
-        if (Utility.checkPermission(activity, "write")) {
-            mPacifyr = null;
-            mPacifyr = mPaci;
-            Intent intent = new Intent(activity, ChatActivity.class);
-            intent.putExtra(ChatActivity.EXTRA_DIALOG_ID, dialogId);
-            activity.startActivity(intent);
-        }
+        mPacifyr = null;
+        mPacifyr = mPaci;
+        Intent intent = new Intent(activity, ChatActivity.class);
+        intent.putExtra(ChatActivity.EXTRA_DIALOG_ID, dialogId);
+        activity.startActivity(intent);
+
     }
     public static void startForResult(Activity activity, int code, QBChatDialog dialogId) {
-        if (Utility.checkPermission(activity, "write")) {
 
-            mPacifyr = null;
+        mPacifyr = null;
 
-            Intent intent = new Intent(activity, ChatActivity.class);
-            intent.putExtra(ChatActivity.EXTRA_DIALOG_ID, dialogId);
-            activity.startActivityForResult(intent, code);
-        }
+        Intent intent = new Intent(activity, ChatActivity.class);
+        intent.putExtra(ChatActivity.EXTRA_DIALOG_ID, dialogId);
+        activity.startActivityForResult(intent, code);
+
     }
     public static void start(Context activity, QBChatDialog dialogId) {
-        if (Utility.checkPermission(activity, "write")) {
 
-            mPacifyr = null;
+        mPacifyr = null;
 
-            Intent intent = new Intent(activity, ChatActivity.class);
-            intent.putExtra(ChatActivity.EXTRA_DIALOG_ID, dialogId);
-            activity.startActivity(intent);
-        }
+        Intent intent = new Intent(activity, ChatActivity.class);
+        intent.putExtra(ChatActivity.EXTRA_DIALOG_ID, dialogId);
+        activity.startActivity(intent);
+
     }
 
     @Override
@@ -214,9 +210,9 @@ public class ChatActivity extends PacifyrAppCompactActivity implements Attachmen
             notificationManager.cancelAll();
         }catch (Exception e)
         {
-            Log.w("#########",String.valueOf(e));
+            Log.w("#########", String.valueOf(e));
         }
-       if (ChatHelper.getCurrentUser() != null) {
+        if (ChatHelper.getCurrentUser() != null) {
             currentUser = ChatHelper.getCurrentUser();
         } else {
             finish();
@@ -224,31 +220,29 @@ public class ChatActivity extends PacifyrAppCompactActivity implements Attachmen
         if (!isValid(qbChatDialog))
             finish();
 
+        try {
             try {
-                try {
-                    qbChatDialog.initForChat(QBChatService.getInstance());
-                } catch (IllegalArgumentException ie) {
-                    ie.printStackTrace();
-                    Toast.makeText(ChatActivity.this, "Sorry, cannot chat with this user. Reason " + ie.getMessage(),
-                            Toast.LENGTH_LONG).show();
-                    finish();
-                    return;
-                }
-
-                chatMessageListener = new ChatMessageListener();
-
-                qbChatDialog.addMessageListener(chatMessageListener);
-                qbChatDialog.addIsTypingListener(new TypingStatusListener());
-
-                initChatConnectionListener();
-
-                initViews();
-                initChat();
+                qbChatDialog.initForChat(QBChatService.getInstance());
+            } catch (IllegalArgumentException ie) {
+                ie.printStackTrace();
+                Toast.makeText(ChatActivity.this, "Sorry, cannot chat with this user. Reason " + ie.getMessage(),
+                        Toast.LENGTH_LONG).show();
+                finish();
+                return;
             }
-            catch (Exception e)
-            {
-                Log.w("@@@",String.valueOf(e));
-            }
+
+            chatMessageListener = new ChatMessageListener();
+
+            qbChatDialog.addMessageListener(chatMessageListener);
+            qbChatDialog.addIsTypingListener(new TypingStatusListener());
+
+            initChatConnectionListener();
+
+            initViews();
+            initChat();
+        } catch (Exception e) {
+            Log.w("@@@", String.valueOf(e));
+        }
 
     }
 
@@ -523,13 +517,17 @@ public class ChatActivity extends PacifyrAppCompactActivity implements Attachmen
 
     public void onAttachmentsClick(View view) {
 //        new ImagePickHelper().pickAnImage(this, REQUEST_CODE_ATTACHMENT);
-        shoImagePickerAlert(view);
+        if (Utility.checkPermission(ChatActivity.this, "chat")) {
+            shoImagePickerAlert(view);
+        } else {
+            attachPendingView = view;
+        }
     }
 
     String[] items = null;
     private void shoImagePickerAlert(View view) {
 
-         bottomSheet = new BottomAttachDialog(isCallActive,this,false);
+        bottomSheet = new BottomAttachDialog(isCallActive, this, false);
         bottomSheet.show(getSupportFragmentManager(), "AttachBottomSheet");
     }
 
@@ -547,7 +545,7 @@ public class ChatActivity extends PacifyrAppCompactActivity implements Attachmen
 
     private void initViews() {
         onSetActionBar();
-       // actionBar.setDisplayHomeAsUpEnabled(true);
+        // actionBar.setDisplayHomeAsUpEnabled(true);
 
         messagesListView = _findViewById(R.id.list_chat_messages);
         messagesListView.setTranscriptMode(ListView.TRANSCRIPT_MODE_NORMAL);
@@ -582,35 +580,35 @@ public class ChatActivity extends PacifyrAppCompactActivity implements Attachmen
 
     @Override
     public void onClick(int pos) {
-    switch (pos){
-        case 0:
-        new GligarPicker().requestCode(REQUESTCODE_CAMERA_IMAGE).disableCamera(false).cameraDirect(true).withActivity(ChatActivity.this).show();
-        bottomSheet.dismiss();
-        break;
-        case 1:
-            Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-            intent.addCategory(Intent.CATEGORY_OPENABLE);
-            intent.setType("image/*");
-            Uri pickerInitialUri=null;
-            // Optionally, specify a URI for the file that should appear in the
-            // system file picker when it loads.
-            if (pickerInitialUri != null) {
-                intent.putExtra(DocumentsContract.EXTRA_INITIAL_URI, pickerInitialUri);
-            }
+        switch (pos) {
+            case 0:
+                new GligarPicker().requestCode(REQUESTCODE_CAMERA_IMAGE).disableCamera(false).cameraDirect(true).withActivity(ChatActivity.this).show();
+                bottomSheet.dismiss();
+                break;
+            case 1:
+                Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                intent.addCategory(Intent.CATEGORY_OPENABLE);
+                intent.setType("image/*");
+                Uri pickerInitialUri = null;
+                // Optionally, specify a URI for the file that should appear in the
+                // system file picker when it loads.
+                if (pickerInitialUri != null) {
+                    intent.putExtra(DocumentsContract.EXTRA_INITIAL_URI, pickerInitialUri);
+                }
 
-            startActivityForResult(intent, REQUESTCODE_GALLERY_IMAGE);
+                startActivityForResult(intent, REQUESTCODE_GALLERY_IMAGE);
 
-            // new GligarPicker().requestCode(REQUESTCODE_GALLERY_IMAGE).disableCamera(true).withActivity(ChatActivity.this).show();
-            bottomSheet.dismiss();
-            break;
-        case 2:
-        //todo open docs list
-        bottomSheet.dismiss();
-        break;
-        case -1:
-            bottomSheet.dismiss();
-            break;
-}
+                // new GligarPicker().requestCode(REQUESTCODE_GALLERY_IMAGE).disableCamera(true).withActivity(ChatActivity.this).show();
+                bottomSheet.dismiss();
+                break;
+            case 2:
+                //todo open docs list
+                bottomSheet.dismiss();
+                break;
+            case -1:
+                bottomSheet.dismiss();
+                break;
+        }
     }
 
 
@@ -1069,9 +1067,124 @@ public class ChatActivity extends PacifyrAppCompactActivity implements Attachmen
         };
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull @NotNull String[] permissions, @NonNull @NotNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == Utility.MY_PERMISSIONS_REQUEST_CHAT_PERMISSION) {
+            for (int grant : grantResults) {
+                if (grant == PackageManager.PERMISSION_DENIED) {
+                    return;
+                }
+            }
+            shoImagePickerAlert(attachPendingView);
+            attachPendingView = null;
+        }
+    }
+
+    @org.greenrobot.eventbus.Subscribe(threadMode = ThreadMode.MAIN)
+    public void onNetworkChanged(Object event) {
+        try {
+            if (isValid(event) && event.equals(CLOSE_CHATSCREEN)) {
+                finish();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mPacifyr = null;
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+    }
+
+    protected void onSetActionBar() {
+
+
+        actionBarTopLlay = findViewById(R.id.action_bar_top_llay);
+        bottomPanel = findViewById(R.id.bottom_panel);
+        leftLlay = findViewById(R.id.left_llay);
+        userCimv = findViewById(R.id.user_cimv);
+        leftTxv = findViewById(R.id.left_txv);
+        titleTxv = findViewById(R.id.title_txv);
+        rightLlay = findViewById(R.id.right_llay);
+        rightTxv = findViewById(R.id.right_txv);
+        rightImv = findViewById(R.id.right_imv);
+        rightImv.setVisibility(View.INVISIBLE);
+        rightTxv.setVisibility(View.VISIBLE);
+        rightLlay.setVisibility(View.VISIBLE);
+        leftTxv.setVisibility(View.VISIBLE);
+        userCimv.setVisibility(View.VISIBLE);
+        titleTxv.setVisibility(View.INVISIBLE);
+        leftLlay.setVisibility(View.VISIBLE);
+
+        rightTxv.setTextColor(getResources().getColor(R.color._color_action_bar_text_color));
+        rightTxv.setText("close");
+
+        //backImv.setBackgroundResource(R.drawable.leftmen);
+        leftLlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            /*    Intent intent = new Intent(ChatActivity.this, DashboardActivity.class);
+                startActivity(intent);
+                finish();*/
+                // onBackPressed();
+                // DashboardActivity.start(ConnectToPacifyrActivity.this);
+            }
+        });
+        rightLlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            /*    Intent intent = new Intent(ChatActivity.this, DashboardActivity.class);
+                startActivity(intent);
+                finish();*/
+                onBackPressed();
+             /*   if(isCustomer()){
+                    DashboardActivity.start(ChatActivity.this);
+                else
+                  onBackPressed();*/
+                // DashboardActivity.start(ConnectToPacifyrActivity.this);
+            }
+        });
+        setChatNameToActionBar();
+    }
+
+    @Override
+    public void onSetValues() throws Exception {
+
+    }
+
+    @Override
+    public void onNotifyEvent(NotifyEvent event) {
+
+    }
+
+    @Override
+    public void onAlertTypeEvent(AlertTypeEvent event) {
+
+    }
+
+    private LinearLayout actionBarTopLlay;
+    private RelativeLayout bottomPanel;
+    private LinearLayout leftLlay;
+    private CircleImageView userCimv;
+    private MainTextView leftTxv;
+    private MainTextView titleTxv;
+    private LinearLayout rightLlay;
+    private MainTextView rightTxv;
+    private DeviceFitImageView rightImv;
+
     /* @Override
-     public void onImagesChosen(List<ChosenImage> list) {
-         *//*Glide.with(ChatActivity.this).load(Uri.parse(list.get(0).getQueryUri()))
+         public void onImagesChosen(List<ChosenImage> list) {
+             *//*Glide.with(ChatActivity.this).load(Uri.parse(list.get(0).getQueryUri()))
                 .asBitmap().into(new Target<Bitmap>() {
             @Override
             public void onLoadStarted(Drawable placeholder) {
@@ -1156,120 +1269,15 @@ public class ChatActivity extends PacifyrAppCompactActivity implements Attachmen
         }
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mPacifyr=null;
-        EventBus.getDefault().unregister(this);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-    }
-
-    @org.greenrobot.eventbus.Subscribe(threadMode = ThreadMode.MAIN)
-    public void onNetworkChanged(Object event) {
-        try {
-            if (isValid(event)&&event.equals(CLOSE_CHATSCREEN)) {
-               finish();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    @Override
-    public void onSetValues() throws Exception {
-
-    }
-
-    @Override
-    public void onNotifyEvent(NotifyEvent event) {
-
-    }
-
-    @Override
-    public void onAlertTypeEvent(AlertTypeEvent event) {
-
-    }
-
-    private LinearLayout actionBarTopLlay;
-    private RelativeLayout bottomPanel;
-    private LinearLayout leftLlay;
-    private CircleImageView userCimv;
-    private MainTextView leftTxv;
-    private MainTextView titleTxv;
-    private LinearLayout rightLlay;
-    private MainTextView rightTxv;
-    private DeviceFitImageView rightImv;
-
-
-    protected void onSetActionBar() {
-
-
-        actionBarTopLlay = findViewById(R.id.action_bar_top_llay);
-        bottomPanel = findViewById(R.id.bottom_panel);
-        leftLlay = findViewById(R.id.left_llay);
-        userCimv = findViewById(R.id.user_cimv);
-        leftTxv = findViewById(R.id.left_txv);
-        titleTxv = findViewById(R.id.title_txv);
-        rightLlay = findViewById(R.id.right_llay);
-        rightTxv = findViewById(R.id.right_txv);
-        rightImv = findViewById(R.id.right_imv);
-        rightImv.setVisibility(View.INVISIBLE);
-        rightTxv.setVisibility(View.VISIBLE);
-        rightLlay.setVisibility(View.VISIBLE);
-        leftTxv.setVisibility(View.VISIBLE);
-        userCimv.setVisibility(View.VISIBLE);
-        titleTxv.setVisibility(View.INVISIBLE);
-        leftLlay.setVisibility(View.VISIBLE);
-
-        rightTxv.setTextColor(getResources().getColor(R.color._color_action_bar_text_color));
-        rightTxv.setText("close");
-
-        //backImv.setBackgroundResource(R.drawable.leftmen);
-        leftLlay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-            /*    Intent intent = new Intent(ChatActivity.this, DashboardActivity.class);
-                startActivity(intent);
-                finish();*/
-               // onBackPressed();
-                // DashboardActivity.start(ConnectToPacifyrActivity.this);
-            }
-        });
-        rightLlay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-            /*    Intent intent = new Intent(ChatActivity.this, DashboardActivity.class);
-                startActivity(intent);
-                finish();*/
-                onBackPressed();
-             /*   if(isCustomer()){
-                    DashboardActivity.start(ChatActivity.this);
-                else
-                  onBackPressed();*/
-                // DashboardActivity.start(ConnectToPacifyrActivity.this);
-            }
-        });
-        setChatNameToActionBar();
-    }
-
    /* @Override
     public void onBackPressed() {
         //super.onBackPressed();
         finish();
     }*/
 
-
-
-
     private class TypingStatusListener implements QBChatDialogTypingListener {
-        private ArrayList<String> currentTypingUserNames = new ArrayList<>();
-        private HashMap<Integer, Timer> usersTimerMap = new HashMap<>();
+        private final ArrayList<String> currentTypingUserNames = new ArrayList<>();
+        private final HashMap<Integer, Timer> usersTimerMap = new HashMap<>();
 
         @Override
         public void processUserIsTyping(final String dialogID, final Integer userID) {

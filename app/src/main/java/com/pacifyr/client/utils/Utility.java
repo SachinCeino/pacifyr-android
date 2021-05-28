@@ -74,6 +74,7 @@ public class Utility {
     private static final int MY_PERMISSIONS_REQUEST_ESSENTIAL = 130;
     public static final int MY_PERMISSIONS_REQUEST_LOCATION_PERMISSION = 131;
     private static final String TAG = Utility.class.getSimpleName();
+    public static final int MY_PERMISSIONS_REQUEST_CHAT_PERMISSION = 132;
     public static int colourcode = 2;
 
     public static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 123;
@@ -327,6 +328,35 @@ public class Utility {
                             @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
                             public void onClick(DialogInterface dialog, int which) {
                                 ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, MY_PERMISSIONS_REQUEST_LOCATION_PERMISSION);
+                            }
+                        });
+                        AlertDialog alert = alertBuilder.create();
+                        alert.show();
+
+                    } else {
+                        //LogUtils.LOGD("jithish","audiochecks..jjjjj....1");
+                        ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, MY_PERMISSIONS_REQUEST_LOCATION_PERMISSION);
+                    }
+                    return false;
+                } else {
+                    return true;
+                }
+
+            } else if (type.equals("chat")) {
+
+                if (ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
+                        || ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    if (ActivityCompat.shouldShowRequestPermissionRationale((Activity) context, Manifest.permission.CAMERA)
+                            || ActivityCompat.shouldShowRequestPermissionRationale((Activity) context, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(context);
+                        alertBuilder.setCancelable(true);
+                        alertBuilder.setTitle("Permission required");
+                        alertBuilder.setMessage("Camera & Storage permissions are required to proceed");
+                        alertBuilder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+                            public void onClick(DialogInterface dialog, int which) {
+                                ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.CAMERA,
+                                        Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_CHAT_PERMISSION);
                             }
                         });
                         AlertDialog alert = alertBuilder.create();
