@@ -15,7 +15,7 @@ public class BookingRequestPayment {
     private String createdAt;
     @SerializedName("cost")
     @Expose
-    private Integer cost;
+    private float cost;
     @SerializedName("id")
     @Expose
     private String id;
@@ -28,6 +28,14 @@ public class BookingRequestPayment {
     @SerializedName("updatedAt")
     @Expose
     private String updatedAt;
+
+    @SerializedName("freeMinutesUsed")
+    @Expose
+    private Integer freeMinutesUsed;
+
+    @SerializedName("charged")
+    @Expose
+    private Boolean charged;
 
     public String getTimeSlotId() {
         return timeSlotId;
@@ -45,16 +53,32 @@ public class BookingRequestPayment {
         this.createdAt = createdAt;
     }
 
-    public Integer getCost() {
+    public float getCost() {
         return cost;
     }
 
-    public void setCost(Integer cost) {
+    public void setCost(float cost) {
         this.cost = cost;
     }
 
     public String getId() {
         return id;
+    }
+
+    public Integer getFreeMinutesUsed() {
+        return freeMinutesUsed;
+    }
+
+    public void setFreeMinutesUsed(Integer freeMinutesUsed) {
+        this.freeMinutesUsed = freeMinutesUsed;
+    }
+
+    public Boolean getCharged() {
+        return charged;
+    }
+
+    public void setCharged(Boolean charged) {
+        this.charged = charged;
     }
 
     public void setId(String id) {
