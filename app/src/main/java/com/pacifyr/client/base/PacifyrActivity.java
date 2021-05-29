@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.IntentSender;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -37,6 +38,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AlertDialog;
@@ -71,7 +73,7 @@ import com.krishna.fileloader.request.FileLoadRequest;
 import com.pacifyr.client.Payment.AlertAddCreditCardActivity;
 import com.pacifyr.client.R;
 import com.pacifyr.client.adapter.EmotionSpecialityAdapter;
-
+import com.pacifyr.client.classes.PendingCall;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.BusProvider;
 import com.pacifyr.client.event.CallEvent;
@@ -87,10 +89,9 @@ import com.pacifyr.client.model.AppoinmentNotification;
 import com.pacifyr.client.model.BillingSummary;
 import com.pacifyr.client.model.Session;
 import com.pacifyr.client.model.interfaces.AvailableMinuteListner;
-import com.pacifyr.client.orginals.Auth;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
-import com.pacifyr.client.orginals.RemoteConfig;
+import com.pacifyr.client.orginals.Auth;
 import com.pacifyr.client.paytmpayment.Paytm;
 import com.pacifyr.client.paytmpayment.TransactionResponce;
 import com.pacifyr.client.quickblox.App;
@@ -147,6 +148,7 @@ import com.stripe.android.model.Card;
 import com.stripe.android.model.Token;
 
 import org.greenrobot.eventbus.EventBus;
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -185,7 +187,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
 
     public static final int APP_UPDATE_REQUEST_CODE = 121;
     private static final int HIGH_PRIORITY_APP_UPDATE = 5;
-    private static Integer DAYS_FOR_FLEXIBLE_APP_UPDATE = 5;
+    private static final Integer DAYS_FOR_FLEXIBLE_APP_UPDATE = 5;
     private static final String TAG = PacifyrActivity.class.getSimpleName();
     public SharedPrefsHelper sharedPrefsHelper;
     private ProgressDialog progressDialog;
@@ -194,7 +196,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
     public PermissionsChecker checker;
     private android.app.AlertDialog billSummary;
     private android.app.AlertDialog PaymentPopup;
-    private boolean showRating = false;
+    private final boolean showRating = false;
 
     String responce_message;
     String transaction_date;
@@ -203,7 +205,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
     public static int errorCount=0;
 
 
-    private BroadcastReceiver eventReceiver = new BroadcastReceiver() {
+    private final BroadcastReceiver eventReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             // Get extra data included in the Intent
@@ -251,15 +253,14 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
     };
 
     private boolean showNotification = true;
-    private BroadcastReceiver notificationReceiver = new BroadcastReceiver() {
+    private final BroadcastReceiver notificationReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent != null && intent.hasExtra("message")) {
                 String message = intent.getExtras().getString("message");
-                String type=intent.getExtras().getString("type");
+                String type = intent.getExtras().getString("type");
                 if (message != null && message != "" && showNotification) {
-                    if (type.equals("booking"))
-                    {
+                    if (type.equals("booking")) {
                         showIOSDialogOK("Message", message, "Close", new iOSDialogClickListener() {
                             @Override
                             public void onClick(iOSDialog dialog) {
@@ -300,7 +301,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
         }
     };
 
-    private BroadcastReceiver generalNotificationReceiver = new BroadcastReceiver() {
+    private final BroadcastReceiver generalNotificationReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent != null && intent.hasExtra("title") && intent.hasExtra("body")) {
@@ -317,23 +318,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
     private boolean inProgress;
 
     private boolean settingUpPayment = false;
-
-    public boolean isSettingUpPayment() {
-        return settingUpPayment;
-    }
-
-    public void showNotificationPopups(boolean val) {
-        this.showNotification = val;
-    }
-
-
-    /* public String getProfileName() {
-         return getProfileFName() + " " + getProfileLName();
-
-     }*/
-    // public static  String call_emotionid=null;
-    public static MEmotion call_emotion = null;
-    private BroadcastReceiver waringToAddPayTmPaymentReceiver = new BroadcastReceiver() {
+    private final BroadcastReceiver waringToAddPayTmPaymentReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             // Get extra data included in the Intent
@@ -370,12 +355,26 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
         }
     };
 
+    public boolean isSettingUpPayment() {
+        return settingUpPayment;
+    }
 
-    private BroadcastReceiver poupForAppoinmetCall = new BroadcastReceiver() {
+    public void showNotificationPopups(boolean val) {
+        this.showNotification = val;
+    }
+
+
+    /* public String getProfileName() {
+         return getProfileFName() + " " + getProfileLName();
+
+     }*/
+    // public static  String call_emotionid=null;
+    public static MEmotion call_emotion = null;
+    private final BroadcastReceiver poupForAppoinmetCall = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
 
-            if (intent != null && intent.hasExtra("typeId") ) {
+            if (intent != null && intent.hasExtra("typeId")) {
                 String typeId = intent.getExtras().getString("typeId");
 
                 if (isValid(typeId)) {
@@ -385,6 +384,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
 
         }
     };
+    private PendingCall pendingCall;
 
 
     /*public void startCall(boolean isVideoCall, long  qbID) {
@@ -1408,10 +1408,10 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
 
     public void startChat(final MUser pacifyer)
     {
-            if (!Utility.checkPermission(PacifyrActivity.this, "write")) {
+           /* if (!Utility.checkPermission(PacifyrActivity.this, "write")) {
                 Log.d(TAG, "Write storage permission required!");
                 return;
-            }
+            }*/
             // setLoading("Creating Chat");
             setLoading();
             showProgress();
@@ -1868,12 +1868,12 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                             setAlertOKStatusInBlue("", "You have " + NetworkService.mCurrentUser.getAvailableMinutes() + " free minutes available", "OK", new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    createAccesTokenForTwilio(pacifyerDetial,isVideoCall,false,null);
+                                    startTwilioCall(isVideoCall, pacifyerDetial, false, null);
                                     hideStatus();
                                 }
                             });
                         } else {
-                            createAccesTokenForTwilio(pacifyerDetial,isVideoCall,false,null);
+                            startTwilioCall(isVideoCall, pacifyerDetial, false, null);
                         }
                         //  startSessionWeb
                     /*    if (isValid(result)) {
@@ -1894,12 +1894,25 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
 
 
             };
-            Ion.with(PacifyrActivity.this).load(url).setHeader("AccessToken",getAccessToken()).setHeader("enctype", "multipart/form-data").setMultipartParameter("data", json).asJsonObject().setCallback(futureCallback);
-        }
-        catch (Exception ex)
-        {
+            Ion.with(PacifyrActivity.this).load(url).setHeader("AccessToken", getAccessToken()).setHeader("enctype", "multipart/form-data").setMultipartParameter("data", json).asJsonObject().setCallback(futureCallback);
+        } catch (Exception ex) {
             hideProgress();
-            LogUtils.LOGD("session","PA updateProfileWeb exce " + ex.getMessage());
+            LogUtils.LOGD("session", "PA updateProfileWeb exce " + ex.getMessage());
+        }
+    }
+
+    public void startTwilioCall(boolean isVideoCall, MUser pacifyerDetial, boolean isAppointment, String timeSlotBookingId) {
+        boolean hasPermissions = false;
+        if (isVideoCall) {
+            hasPermissions = Utility.checkPermission(PacifyrActivity.this, "videocall");
+        } else {
+            hasPermissions = Utility.checkPermission(PacifyrActivity.this, "audiocall");
+        }
+        if (hasPermissions) {
+            createAccesTokenForTwilio(pacifyerDetial, isVideoCall, isAppointment, timeSlotBookingId);
+        } else {
+            hideStatus2();
+            pendingCall = new PendingCall(pacifyerDetial, isVideoCall, isAppointment, timeSlotBookingId);
         }
     }
 
@@ -1910,8 +1923,8 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
         } else return role.equals("employee");
     }
 
-    private void createAccesTokenForTwilio(MUser pacifyerDetial, boolean isVideoCall,boolean isAppointment,String timeSlotBookingId) {
-        try{
+    private void createAccesTokenForTwilio(MUser pacifyerDetial, boolean isVideoCall, boolean isAppointment, String timeSlotBookingId) {
+        try {
             String url = NetworkService.ACCESS_TOKEN_SERVER_URL;
             String token = getPrefManager().getAccessToken();
             String roomName= UUID.randomUUID().toString() ;
@@ -2179,7 +2192,8 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
 
 
     public void startSessionWebforAppoinmetCall(final MUser pacifyer, final boolean isVideoCall,String timeSlotBookingId) {
-        createAccesTokenForTwilio(pacifyer,isVideoCall,true,timeSlotBookingId);
+        startTwilioCall(isVideoCall, pacifyer, true, timeSlotBookingId);
+//        createAccesTokenForTwilio(pacifyer,isVideoCall,true,timeSlotBookingId);
     }
 
     public void startSessionForAppointmentCallAfterConnectingTwilio(String roomNam,String TwilioToken,final MUser pacifyer, final boolean isVideoCall,String timeSlotBookingId){
@@ -3831,17 +3845,43 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
             jsonObject.putOpt("mobileNo",prefM.getPhoneNumber());
             jsonObject.putOpt("txnAmount", paytm.getTxnAmount());
             jsonObject.putOpt("email", prefM.getEmail());
-            Log.w("PAYTMLOG","jsonObjectBeforeCreatingCheckSum-----"+jsonObject.toString());
+            Log.w("PAYTMLOG", "jsonObjectBeforeCreatingCheckSum-----" + jsonObject.toString());
             aq.post(url, jsonObject, JSONObject.class, cb);
 
-        }catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
 
-
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull @NotNull String[] permissions, @NonNull @NotNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == Utility.MY_PERMISSIONS_REQUEST_AUDIO_CALL_PERMISSION) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (isValid(pendingCall)) {
+                    startTwilioCall(pendingCall.isVideoCall(), pendingCall.getPacifyr(), pendingCall.isAppointment(),
+                            pendingCall.getTimeSlotBookingId());
+                }
+            }
+        } else if (requestCode == Utility.MY_PERMISSIONS_REQUEST_VIDEO_CALL_PERMISSION) {
+            boolean allPermissionsGranted = false;
+            for (int granted : grantResults) {
+                if (granted != PackageManager.PERMISSION_GRANTED) {
+                    allPermissionsGranted = false;
+                    break;
+                } else {
+                    allPermissionsGranted = true;
+                }
+            }
+            if (allPermissionsGranted) {
+                if (isValid(pendingCall)) {
+                    startTwilioCall(pendingCall.isVideoCall(), pendingCall.getPacifyr(), pendingCall.isAppointment(),
+                            pendingCall.getTimeSlotBookingId());
+                }
+            }
+        }
+    }
 
     public void initializePaytmPayment(String checksumHash, Paytm paytm, String sessionid) {
 

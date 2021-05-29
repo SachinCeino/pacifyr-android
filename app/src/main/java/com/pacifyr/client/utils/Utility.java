@@ -75,6 +75,8 @@ public class Utility {
     public static final int MY_PERMISSIONS_REQUEST_LOCATION_PERMISSION = 131;
     private static final String TAG = Utility.class.getSimpleName();
     public static final int MY_PERMISSIONS_REQUEST_CHAT_PERMISSION = 132;
+    public static final int MY_PERMISSIONS_REQUEST_AUDIO_CALL_PERMISSION = 133;
+    public static final int MY_PERMISSIONS_REQUEST_VIDEO_CALL_PERMISSION = 134;
     public static int colourcode = 2;
 
     public static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 123;
@@ -286,7 +288,83 @@ public class Utility {
                 }
 
 
-            }else if(type.equals("readphone")) {
+            } else if (type.equals("videocall")) {
+
+                //LogUtils.LOGD("jithish","audiochecks......");
+
+                if (ContextCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED
+                        || ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                    if (ActivityCompat.shouldShowRequestPermissionRationale((Activity) context, Manifest.permission.RECORD_AUDIO)
+                            || ActivityCompat.shouldShowRequestPermissionRationale((Activity) context, Manifest.permission.CAMERA)) {
+                        final AlertDialog.Builder alertBuilder = new AlertDialog.Builder(context);
+                        View view = LayoutInflater.from(context).inflate(R.layout.layout_view_dialog, null);
+                        alertBuilder.setView(view);
+                        Button positive = view.findViewById(R.id.button_dialog_positive);
+                        TextView title = view.findViewById(R.id.text_dialog_title);
+                        TextView message = view.findViewById(R.id.text_dialog_message);
+                        title.setText("Permission Required");
+                        message.setText("Audio and video recording permissions are required for making calls");
+                        alertBuilder.setCancelable(true);
+                        final AlertDialog alert = alertBuilder.create();
+                        alert.show();
+                        positive.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.RECORD_AUDIO,
+                                        Manifest.permission.CAMERA}, MY_PERMISSIONS_REQUEST_VIDEO_CALL_PERMISSION);
+                                if (alert != null)
+                                    alert.dismiss();
+                            }
+                        });
+
+                    } else {
+                        //LogUtils.LOGD("jithish","audiochecks......1");
+                        ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.RECORD_AUDIO,
+                                Manifest.permission.CAMERA}, MY_PERMISSIONS_REQUEST_VIDEO_CALL_PERMISSION);
+                    }
+                    return false;
+                } else {
+                    return true;
+                }
+
+
+            } else if (type.equals("audiocall")) {
+
+                //LogUtils.LOGD("jithish","audiochecks......");
+
+                if (ContextCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+                    if (ActivityCompat.shouldShowRequestPermissionRationale((Activity) context, Manifest.permission.RECORD_AUDIO)) {
+                        final AlertDialog.Builder alertBuilder = new AlertDialog.Builder(context);
+                        View view = LayoutInflater.from(context).inflate(R.layout.layout_view_dialog, null);
+                        alertBuilder.setView(view);
+                        Button positive = view.findViewById(R.id.button_dialog_positive);
+                        TextView title = view.findViewById(R.id.text_dialog_title);
+                        TextView message = view.findViewById(R.id.text_dialog_message);
+                        title.setText("Permission Required");
+                        message.setText("Audio recording permission is required for making audio calls");
+                        alertBuilder.setCancelable(true);
+                        final AlertDialog alert = alertBuilder.create();
+                        alert.show();
+                        positive.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.RECORD_AUDIO}, MY_PERMISSIONS_REQUEST_AUDIO_CALL_PERMISSION);
+                                if (alert != null)
+                                    alert.dismiss();
+                            }
+                        });
+
+                    } else {
+                        //LogUtils.LOGD("jithish","audiochecks......1");
+                        ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.RECORD_AUDIO}, MY_PERMISSIONS_REQUEST_AUDIO_CALL_PERMISSION);
+                    }
+                    return false;
+                } else {
+                    return true;
+                }
+
+
+            } else if (type.equals("readphone")) {
 
                 //LogUtils.LOGD("jithish","audiochecks......");
 

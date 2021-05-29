@@ -77,7 +77,7 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
     public DeviceFitImageView sadDimv;
     public DeviceFitImageView happyDimv;
 
-    private boolean isClick=false;
+    private final boolean isClick = false;
     private String type;
 
     public RelativeLayout selectFeelingRlay;
@@ -674,7 +674,19 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
                 return;
                event_call=event;
                 if( event_call.isVideoCall) {
-                    if (checker.lacksPermissions(Consts.PERMISSIONS)) {
+                    if (isLoggedInChat()) {
+
+                        setAlertStartCall(event.mpacifyer, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                hideStatus();
+                                checkRoleRequest(event.mpacifyer, listner, event.isVideoCall);
+                            }
+                        });
+
+                        //callRequestWeb(pacifyer_obj, listner, true);
+                    }
+                    /*if (checker.lacksPermissions(Consts.PERMISSIONS)) {
                         event_call=event;
 
                         startPermissionsActivity(false,ConnectToPacifyrActivity.this);
@@ -703,14 +715,26 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
                                         }
                                     });
 
-                            /*
+                            *//*
                             //callRequestWeb(event.mpacifyer, listner, event.isVideoCall);
-                            checkRoleRequest(event.mpacifyer, listner, event.isVideoCall);*/
+                            checkRoleRequest(event.mpacifyer, listner, event.isVideoCall);*//*
                         }
-                    }
+                    }*/
                 }
                 else {
-                    if (checker.lacksPermissions(Consts.PERMISSIONS[1])) {
+                    if (isLoggedInChat()) {
+
+                        setAlertStartCall(event.mpacifyer, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                hideStatus();
+                                checkRoleRequest(event.mpacifyer, listner, event.isVideoCall);
+                            }
+                        });
+
+                        //callRequestWeb(pacifyer_obj, listner, true);
+                    }
+                    /*if (checker.lacksPermissions(Consts.PERMISSIONS[1])) {
                         event_call=event;
 
                         startPermissionsActivity(true,ConnectToPacifyrActivity.this);
@@ -743,7 +767,7 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
                             //callRequestWeb(event.mpacifyer, listner, event.isVideoCall);
 //                            checkRoleRequest(event.mpacifyer, listner, event.isVideoCall);
                         }
-                    }
+                    }*/
                 }
 
         }catch (Exception e)

@@ -85,6 +85,7 @@ import com.pacifyr.client.quickblox.utils.RingtonePlayer;
 import com.pacifyr.client.receiver.NotificationUtils;
 import com.pacifyr.client.utils.FirebaseLogging;
 import com.pacifyr.client.utils.LogUtils;
+import com.pacifyr.client.utils.Utility;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.pacifyrapp.utilitylibrary.ToastHandler;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MEmotion;
@@ -716,6 +717,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
 
         }catch (Exception e)
         {
+            e.printStackTrace();
             reason_ctxv.setVisibility(View.GONE);
         }
     }
@@ -867,6 +869,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
             String url = "session/"+sessionId;
             aq.ajax(NetworkService.GLOBAL_URL + url, JSONObject.class, cb);
         } catch (Exception e){
+            e.printStackTrace();
             hideProgress();
             LogUtils.LOGD("session","PACA webGetSessionDetail exce " + e.getMessage());
             finish();
@@ -989,16 +992,18 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
          * If the local video track was released when the app was put in the background, recreate.
          */
         if (localVideoTrack == null && checkPermissionForCameraAndMicrophone()) {
-            localVideoTrack = LocalVideoTrack.create(this,
-                    true,
-                    cameraCapturerCompat.getVideoCapturer(),
-                    LOCAL_VIDEO_TRACK_NAME);
-            localVideoTrack.addRenderer(localVideoView);
-            
-            if (localParticipant != null) {
-                localParticipant.publishTrack(localVideoTrack);
-                if (!newEncodingParameters.equals(encodingParameters)) {
-                    localParticipant.setEncodingParameters(newEncodingParameters);
+            if (isVideoCall) {
+                localVideoTrack = LocalVideoTrack.create(this,
+                        true,
+                        cameraCapturerCompat.getVideoCapturer(),
+                        LOCAL_VIDEO_TRACK_NAME);
+                localVideoTrack.addRenderer(localVideoView);
+
+                if (localParticipant != null) {
+                    localParticipant.publishTrack(localVideoTrack);
+                    if (!newEncodingParameters.equals(encodingParameters)) {
+                        localParticipant.setEncodingParameters(newEncodingParameters);
+                    }
                 }
             }
         }
@@ -1095,10 +1100,15 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
     }
 
     private boolean checkPermissionForCameraAndMicrophone() {
-        int resultCamera = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
+        /*int resultCamera = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
         int resultMic = ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO);
         return resultCamera == PackageManager.PERMISSION_GRANTED &&
-                resultMic == PackageManager.PERMISSION_GRANTED;
+                resultMic == PackageManager.PERMISSION_GRANTED;*/
+        if (isVideoCall) {
+            return Utility.checkPermission(VideoActivity.this, "videocall");
+        } else {
+            return Utility.checkPermission(VideoActivity.this, "audiocall");
+        }
     }
 
     private void requestPermissionForCameraAndMicrophone() {
@@ -1120,15 +1130,17 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
         // Share your microphone
         localAudioTrack = LocalAudioTrack.create(this, true, LOCAL_AUDIO_TRACK_NAME);
 
-        // Share your camera
-        cameraCapturerCompat = new CameraCapturerCompat(this, getAvailableCameraSource());
-        localVideoTrack = LocalVideoTrack.create(this,
-                true,
-                cameraCapturerCompat.getVideoCapturer(),
-                LOCAL_VIDEO_TRACK_NAME);
-        primaryVideoView.setMirror(true);
-        localVideoTrack.addRenderer(primaryVideoView);
-        localVideoView = primaryVideoView;
+        if (isVideoCall) {
+            // Share your camera
+            cameraCapturerCompat = new CameraCapturerCompat(this, getAvailableCameraSource());
+            localVideoTrack = LocalVideoTrack.create(this,
+                    true,
+                    cameraCapturerCompat.getVideoCapturer(),
+                    LOCAL_VIDEO_TRACK_NAME);
+            primaryVideoView.setMirror(true);
+            localVideoTrack.addRenderer(primaryVideoView);
+            localVideoView = primaryVideoView;
+        }
     }
 
     private CameraSource getAvailableCameraSource() {
@@ -1507,6 +1519,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                 }
             });
         } catch (Exception e) {
+            e.printStackTrace();
             Log.w("www", String.valueOf(e));
         }
     }
@@ -1559,7 +1572,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
           audioManager.setSpeakerphoneOn(true);
       }catch (Exception e)
       {
-
+          e.printStackTrace();
       }
     }
 
@@ -1588,6 +1601,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                             //   PacifyrActivity.call_session_detail_root= GsonUtils.getInstance().gsonToMConnectSessionRoot(json);
                             LogUtils.LOGD("call", "connectedSessionWeb json  " + json);
                         } catch (Exception e){
+                            e.printStackTrace();
                             com.pacifyr.client.utils.ToastHandler.newInstance(getApplicationContext()).showToast("Please Try again");
                             LogUtils.LOGD("call", "connectedSessionWeb exception : " + e.getMessage());
                         }
@@ -1603,6 +1617,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
             input.putOpt("id", sessionid);
             aq.post(GLOBAL_URL + "session/connected", input, JSONObject.class, cb);
         } catch (Exception e){
+            e.printStackTrace();
             //  PacifyrActivity. call_session_detail_root=null;
             LogUtils.LOGD("call", "connectedSessionWeb end exception : " + e.getMessage());
         }
@@ -1818,7 +1833,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
             }
             catch (Exception e)
             {
-
+                e.printStackTrace();
             }
     }
 
@@ -2168,7 +2183,7 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
                 try {
                     EventBus.getDefault().post("CLOSE_DIALOGUE_ACTIVITY");
                 }catch (Exception e){
-
+                    e.printStackTrace();
                 }
 
                 isCallActive=false;
@@ -2366,6 +2381,7 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
 
             };
         } catch (Exception e) {
+            e.printStackTrace();
             Log.d("session", "BCF setAvaiableTimer exception = " + e.getMessage());
         }
     }
@@ -2520,7 +2536,8 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
         }
         catch (Exception e)
         {
-            LogUtils.LOGD("call","CA hangUpCurrentSessionMe Exception e "+ e.getMessage());
+            e.printStackTrace();
+            LogUtils.LOGD("call", "CA hangUpCurrentSessionMe Exception e " + e.getMessage());
         }
 
         //jpppppppppppppppppp
@@ -2541,7 +2558,8 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
             mUser= CallActivity.mSessionDetailRoot.getPacifyr();
         }catch (Exception e)
         {
-            mUser=null;
+            e.printStackTrace();
+            mUser = null;
         }
         return mUser;
     }
@@ -2554,7 +2572,8 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
             mUser= CallActivity.mSessionDetailRoot.getUser();
         }catch (Exception e)
         {
-            mUser=null;
+            e.printStackTrace();
+            mUser = null;
         }
         return mUser;
     }
@@ -2579,6 +2598,7 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
             }
         }catch (Exception e)
         {
+            e.printStackTrace();
             Log.d("session", "CA onCallTimerEvent exception = " + e.getMessage());
         }
 
@@ -2598,12 +2618,14 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
                     isCustomer=false;
 
             } catch (Exception t) {
-                isCustomer=false;
+                isCustomer = false;
+                t.printStackTrace();
                 //  LogUtils.LOGD("session","SSA getMSessionRating list exce " + t.getMessage());
             }
         }catch (Exception e)
         {
-            isCustomer=false;
+            isCustomer = false;
+            e.printStackTrace();
         }
         return isCustomer;
     }
@@ -2647,14 +2669,25 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
                             NetworkQualityVerbosity.NETWORK_QUALITY_VERBOSITY_MINIMAL);
 
 
-            ConnectOptions connectOptions = new ConnectOptions.Builder(accessToken)
-                    .roomName(roomName)
-                    .audioTracks(Collections.singletonList(localAudioTrack))
-                    .videoTracks(Collections.singletonList(localVideoTrack))
-                    .dataTracks(Collections.singletonList(localDataTrack))
-                    .enableNetworkQuality(true)
-                    .networkQualityConfiguration(configuration)
-                    .build();
+            ConnectOptions connectOptions = null;
+            if (isVideoCall) {
+                connectOptions = new ConnectOptions.Builder(accessToken)
+                        .roomName(roomName)
+                        .audioTracks(Collections.singletonList(localAudioTrack))
+                        .videoTracks(Collections.singletonList(localVideoTrack))
+                        .dataTracks(Collections.singletonList(localDataTrack))
+                        .enableNetworkQuality(true)
+                        .networkQualityConfiguration(configuration)
+                        .build();
+            } else {
+                connectOptions = new ConnectOptions.Builder(accessToken)
+                        .roomName(roomName)
+                        .audioTracks(Collections.singletonList(localAudioTrack))
+                        .dataTracks(Collections.singletonList(localDataTrack))
+                        .enableNetworkQuality(true)
+                        .networkQualityConfiguration(configuration)
+                        .build();
+            }
             // Connect to room
             room = Video.connect(this, connectOptions, new Room.Listener() {
                 @Override
@@ -2819,7 +2852,7 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
                                 FirebaseLogging.EVENT_CALL_STARTED,
                                 args);
                     } catch (Exception eqq) {
-
+                        eqq.printStackTrace();
                     }
                 }
 
@@ -2919,6 +2952,7 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
         } catch (Exception e) {
             Log.w("@@@", String.valueOf(e));
             Log.w("@@@", String.valueOf(e));
+            e.printStackTrace();
         }
 
     }
@@ -3046,6 +3080,7 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
 
                             LogUtils.LOGD("call", "missedSessionWeb json  " + json);
                         } catch (Exception e) {
+                            e.printStackTrace();
                             ToastHandler.newInstance(getApplicationContext()).showToast("Please Try again");
                             LogUtils.LOGD("call", "missedSessionWeb exception : " + e.getMessage());
                         }
@@ -3065,6 +3100,7 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
 
             sendCliendEndCallNotificationToOpponent();
         } catch (Exception e) {
+            e.printStackTrace();
             LogUtils.LOGD("call", "missedSessionWeb end exception : " + e.getMessage());
         }
     }

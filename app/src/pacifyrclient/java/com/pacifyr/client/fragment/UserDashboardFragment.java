@@ -40,7 +40,6 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.gson.Gson;
 import com.pacifyr.client.R;
-import com.pacifyr.client.activity.TermsOfUseActivity;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.InternetConnectionEvent;
 import com.pacifyr.client.event.NotifyEvent;
@@ -174,7 +173,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
         {
           //  modelCustomerDashboard2=null;
             NetworkService.startActionCutomerDashboard(getActivity());
-            getPermissions();
+//            getPermissions();
             setMyAdapter();
         }
 

@@ -78,7 +78,7 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
     public DeviceFitImageView sadDimv;
     public DeviceFitImageView happyDimv;
 
-    private boolean isClick=false;
+    private final boolean isClick = false;
     private String type;
 
     public RelativeLayout selectFeelingRlay;
@@ -541,7 +541,19 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
                         }
 
                        else {
-                            if (checker.lacksPermissions(Consts.PERMISSIONS)) {
+                            if (isLoggedInChat()) {
+
+                                setAlertStartCall(pacifyer_obj, new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        hideStatus();
+                                        checkRoleRequest(pacifyer_obj, listner, true);
+                                    }
+                                });
+
+                                //callRequestWeb(pacifyer_obj, listner, true);
+                            }
+                            /*if (checker.lacksPermissions(Consts.PERMISSIONS)) {
 
                                 startPermissionsActivity(false,ConnectToSinglePacifyrActivity.this);
 
@@ -576,7 +588,8 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
 
                                     //callRequestWeb(pacifyer_obj, listner, true);
                                 }
-                            }
+                            }*/
+
 
                         }
                     }
@@ -611,7 +624,18 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
                             }
                         }
                         else {
-                            if (checker.lacksPermissions(Consts.PERMISSIONS[1])) {
+                            if (isLoggedInChat()) {
+
+                                setAlertStartCall(pacifyer_obj, new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        hideStatus();
+                                        checkRoleRequest(pacifyer_obj, listner, false);
+                                    }
+                                });
+
+                            }
+                            /*if (checker.lacksPermissions(Consts.PERMISSIONS[1])) {
 
                                 startPermissionsActivity(true,ConnectToSinglePacifyrActivity.this);
 
@@ -642,7 +666,7 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
 
                                     //callRequestWeb(pacifyer_obj, listner, true);
                                 }
-                            }
+                            }*/
                         }
 
 
