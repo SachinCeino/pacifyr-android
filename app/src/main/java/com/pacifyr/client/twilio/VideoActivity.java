@@ -1004,6 +1004,15 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
         }
         encodingParameters = newEncodingParameters;
 
+        Bundle args =
+                FirebaseLogging.getConstantArgsLoggedIn(VideoActivity.this);
+
+        args.putString(FirebaseLogging.EC, VideoActivity.class.getSimpleName());
+
+        FirebaseLogging.sendLog(VideoActivity.this,
+                FirebaseLogging.EVENT_ON_SCREEN,
+                args);
+
     }
 
     private EncodingParameters getEncodingParameters() {
@@ -1235,6 +1244,14 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                 toggle_camera.setVisibility(View.VISIBLE);
                 audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
                 audioManager.setSpeakerphoneOn(!isHeadeSetIsPlugged);
+                Bundle args =
+                        FirebaseLogging.getConstantArgsLoggedIn(getApplicationContext());
+                if (getCallPacifyr() != null) {
+                    args.putString(FirebaseLogging.EC, getCallPacifyr().getId());
+                }
+                FirebaseLogging.sendLog(getApplicationContext(),
+                        FirebaseLogging.EVENT_VIDEOCALL_STARTED,
+                        args);
             } else {
                 primaryVideoView.setVisibility(View.GONE);
                 TextView_call_type.setText(getResources().getString(R.string.pacifyr_audio));
@@ -1242,6 +1259,14 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                 toggle_camera.setVisibility(View.GONE);
                 audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
                 audioManager.setSpeakerphoneOn(false);
+                Bundle args =
+                        FirebaseLogging.getConstantArgsLoggedIn(getApplicationContext());
+                if (getCallPacifyr() != null) {
+                    args.putString(FirebaseLogging.EC, getCallPacifyr().getId());
+                }
+                FirebaseLogging.sendLog(getApplicationContext(),
+                        FirebaseLogging.EVENT_AUDIOCALL_STARTED,
+                        args);
             }
             /*
              * Check camera and microphone permissions. Needed in Android M.
@@ -2158,6 +2183,13 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
                 setAlertOKStatusInWhite("","Provider is busy and will be with you shortly","Ok");
             }
 
+            Bundle args =
+                    FirebaseLogging.getConstantArgsLoggedIn(VideoActivity.this);
+            args.putString(FirebaseLogging.EC, "remoteDataTrackListener onMessage");
+
+            FirebaseLogging.sendLog(VideoActivity.this,
+                    FirebaseLogging.EVENT_CALL_STARTED,
+                    args);
         }
     };
 }
@@ -2692,6 +2724,14 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
                         toggle_speaker.setClickable(true);
                         toggle_camera.setClickable(true);
                         micToggleVideoCall.setClickable(true);
+
+                        Bundle args =
+                                FirebaseLogging.getConstantArgsLoggedIn(VideoActivity.this);
+                        args.putString(FirebaseLogging.EC, "Room onConnected");
+
+                        FirebaseLogging.sendLog(VideoActivity.this,
+                                FirebaseLogging.EVENT_CALL_STARTED,
+                                args);
                     }
                 }
 
@@ -2701,12 +2741,27 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
                     intializeUI();
                     if (isValid(ringtonePlayer))
                         ringtonePlayer.stop();
+
+                    Bundle args =
+                            FirebaseLogging.getConstantArgsLoggedIn(VideoActivity.this);
+                    args.putString(FirebaseLogging.EC, "Room onConnectFailure");
+
+                    FirebaseLogging.sendLog(VideoActivity.this,
+                            FirebaseLogging.EVENT_CALL_STARTED,
+                            args);
                 }
 
                 @Override
                 public void onReconnecting(@NonNull Room room, @NonNull TwilioException twilioException) {
                     connectionStatusLocal.setText("Reconnecting..");
                     playAudioWithDelay();
+                    Bundle args =
+                            FirebaseLogging.getConstantArgsLoggedIn(VideoActivity.this);
+                    args.putString(FirebaseLogging.EC, "Room onReconnecting");
+
+                    FirebaseLogging.sendLog(VideoActivity.this,
+                            FirebaseLogging.EVENT_CALL_STARTED,
+                            args);
                 }
 
                 @Override
@@ -2719,6 +2774,14 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
                     if (isValid(NetOffBeepTimer)) {
                         NetOffBeepTimer.cancel();
                     }
+
+                    Bundle args =
+                            FirebaseLogging.getConstantArgsLoggedIn(VideoActivity.this);
+                    args.putString(FirebaseLogging.EC, "Room onReconnected");
+
+                    FirebaseLogging.sendLog(VideoActivity.this,
+                            FirebaseLogging.EVENT_CALL_STARTED,
+                            args);
                 }
 
                 @Override
@@ -2747,6 +2810,14 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
                                hangUpCurrentSessionMe();*/
                         }
                         finish();
+
+                        Bundle args =
+                                FirebaseLogging.getConstantArgsLoggedIn(VideoActivity.this);
+                        args.putString(FirebaseLogging.EC, "Room onDisconnected");
+
+                        FirebaseLogging.sendLog(VideoActivity.this,
+                                FirebaseLogging.EVENT_CALL_STARTED,
+                                args);
                     } catch (Exception eqq) {
 
                     }
@@ -2785,6 +2856,14 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
                     if (isValid(NetOffBeepTimer)) {
                         NetOffBeepTimer.cancel();
                     }
+
+                    Bundle args =
+                            FirebaseLogging.getConstantArgsLoggedIn(VideoActivity.this);
+                    args.putString(FirebaseLogging.EC, "Room onParticipantConnected");
+
+                    FirebaseLogging.sendLog(VideoActivity.this,
+                            FirebaseLogging.EVENT_CALL_STARTED,
+                            args);
                 }
 
                 @Override
@@ -2819,6 +2898,15 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
                         Button_remind_counselor_vidio.setVisibility(View.VISIBLE);
                     else
                         Button_remind_counselor_audio.setVisibility(View.VISIBLE);
+
+
+                    Bundle args =
+                            FirebaseLogging.getConstantArgsLoggedIn(VideoActivity.this);
+                    args.putString(FirebaseLogging.EC, "Room onParticipantDisconnected");
+
+                    FirebaseLogging.sendLog(VideoActivity.this,
+                            FirebaseLogging.EVENT_CALL_STARTED,
+                            args);
                 }
 
                 @Override
@@ -2870,6 +2958,13 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
             }
 
             Log.w("WWWWW", "onCallConnected");
+            Bundle args =
+                    FirebaseLogging.getConstantArgsLoggedIn(VideoActivity.this);
+            args.putString(FirebaseLogging.EC, "onCallConnected");
+
+            FirebaseLogging.sendLog(VideoActivity.this,
+                    FirebaseLogging.EVENT_CALL_STARTED,
+                    args);
         }
         else if (isValid(mTwilioCallEvent.getError()))
         {
@@ -2898,6 +2993,14 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
                     finish();
                 }
             }, 10000);
+
+            Bundle args =
+                    FirebaseLogging.getConstantArgsLoggedIn(VideoActivity.this);
+            args.putString(FirebaseLogging.EC, "onCallConnected Error"+mTwilioCallEvent.getError()+"");
+
+            FirebaseLogging.sendLog(VideoActivity.this,
+                    FirebaseLogging.EVENT_CALL_STARTED,
+                    args);
         }
 
     }
@@ -2932,6 +3035,14 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
                         LogUtils.LOGD("call", "missedSessionWeb json null ");
                     } else {
                         if (json != null) try {
+
+                            Bundle args =
+                                    FirebaseLogging.getConstantArgsLoggedIn(VideoActivity.this);
+                            args.putString(FirebaseLogging.EC, "missedSessionWeb");
+
+                            FirebaseLogging.sendLog(VideoActivity.this,
+                                    FirebaseLogging.EVENT_CALL_STARTED,
+                                    args);
 
                             LogUtils.LOGD("call", "missedSessionWeb json  " + json);
                         } catch (Exception e) {

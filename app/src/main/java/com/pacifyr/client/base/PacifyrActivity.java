@@ -2521,6 +2521,13 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                         LogUtils.LOGD("call", "stopSessionWeb json null ");
                     } else {
                         try {
+                            Bundle args =
+                                    FirebaseLogging.getConstantArgsLoggedIn(PacifyrActivity.this);
+                            args.putString(FirebaseLogging.EC, "stopSessionWeb");
+
+                            FirebaseLogging.sendLog(PacifyrActivity.this,
+                                    FirebaseLogging.EVENT_CALL_STARTED,
+                                    args);
                             LogUtils.LOGD("call", "stopSessionWeb json  " + json);
                         } catch (Exception e){
                             //ToastHandler.newInstance(PacifyrActivity.this).showToast("Please Try again");
