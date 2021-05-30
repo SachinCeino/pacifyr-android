@@ -1,5 +1,6 @@
 package com.pacifyr.client.utils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -7,14 +8,18 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.core.content.pm.PackageInfoCompat;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -47,12 +52,11 @@ public class FirebaseLogging {
     public static final String EVENT_ON_SCREEN = "on_screen";
     public static final String EVENT_AUTO_APPLY_COUPON_CODE = "auto_apply_coupon_code";
     public static final String EVENT_APPLY_COUPON_CODE = "apply_coupon_code";
-    public static final String EVENT_CALL_STARTED ="Call_started" ;
+    public static final String EVENT_CALL_STARTED = "Call_started";
     public static String FIREBASE_LOG_USERS_TRACKED_TABLE = "device_users_tracked";
-    private static String FIREBASE_LOG_TABLE = "device_logs";
-
-
-    private static String TAG = FirebaseLogging.class.getSimpleName();
+    private static final String FIREBASE_LOG_TABLE = "device_logs";
+    private static final String TAG = FirebaseLogging.class.getSimpleName();
+    public static String FIREBASE_CONFIG_TABLE = "Config";
 
 
     public static Bundle getConstantArgsLoggedIn(Context context) {
@@ -126,7 +130,18 @@ public class FirebaseLogging {
                 }
                 DatabaseReference myRef = database.getReference(FIREBASE_LOG_TABLE);
                 DatabaseReference childRef = myRef.child(userId).push();
-                childRef.setValue(params);
+                childRef.setValue(params).addOnFailureListener((Activity) context, new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull @NotNull Exception e) {
+                        Log.d(TAG, "save log failed..." + e.getMessage());
+                        e.printStackTrace();
+                    }
+                }).addOnSuccessListener((Activity) context, new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Log.d(TAG, "saved log..");
+                    }
+                });
             }
 
         }

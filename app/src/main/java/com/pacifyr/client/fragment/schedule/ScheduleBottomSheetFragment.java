@@ -44,6 +44,7 @@ import com.pacifyr.client.model.SchedulePayment;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.quickblox.chat.utils.Consts;
+import com.pacifyr.client.utils.FirebaseLogging;
 import com.pacifyr.client.utils.LogUtils;
 import com.pacifyr.client.utils.Utility;
 import com.pacifyrapp.utilitylibrary.CustomFontTextView;
@@ -301,6 +302,14 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
             }
         });
 
+        Bundle args =
+                FirebaseLogging.getConstantArgsLoggedIn(getActivity());
+
+        args.putString(FirebaseLogging.EC, ScheduleBottomSheetFragment.class.getSimpleName());
+
+        FirebaseLogging.sendLog(getActivity(),
+                FirebaseLogging.EVENT_ON_SCREEN,
+                args);
 
         return view;
     }

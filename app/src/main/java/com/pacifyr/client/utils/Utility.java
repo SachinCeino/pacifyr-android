@@ -32,12 +32,11 @@ import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
 import com.google.firebase.dynamiclinks.PendingDynamicLinkData;
 import com.pacifyr.client.R;
@@ -45,6 +44,8 @@ import com.pacifyr.client.activity.SplashScreen;
 import com.pacifyr.client.home.DashboardActivity;
 import com.pacifyr.client.model.HttpStatus;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
@@ -1254,8 +1255,25 @@ public class Utility {
         }
         FirebaseDatabase database = FirebaseDatabase.getInstance();
 
-        DatabaseReference userRef = database.getReference(FirebaseLogging.FIREBASE_LOG_USERS_TRACKED_TABLE);
-        Query userQuery = userRef.child("userId");
+        DatabaseReference device_config = database.getReference(FirebaseLogging.FIREBASE_CONFIG_TABLE);
+        device_config.child("log_events").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                Log.d(TAG, "onDataChange" + ":" + snapshot.getValue());
+
+                if (snapshot != null && snapshot.getValue() != null && snapshot.getValue().equals("yes")) {
+                    PrefManager.getInstance(context).putSharedInteger(Constants.KEY_REALTIME_LOGGING, 1);
+                } else {
+                    PrefManager.getInstance(context).putSharedInteger(Constants.KEY_REALTIME_LOGGING, -1);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+            }
+        });
+        /*Query userQuery = userRef.child("userId");
         userQuery.limitToFirst(1);
         userQuery.addChildEventListener(new ChildEventListener() {
             @Override
@@ -1291,7 +1309,7 @@ public class Utility {
             }
             // TODO: implement the ChildEventListener methods as documented above
             // ...
-        });
+        });*/
     }
 
     /** Preventing double click buttons **/
