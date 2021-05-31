@@ -443,7 +443,8 @@ public class Utility {
 
                     } else {
                         //LogUtils.LOGD("jithish","audiochecks..jjjjj....1");
-                        ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, MY_PERMISSIONS_REQUEST_LOCATION_PERMISSION);
+                        ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.CAMERA,
+                                Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_CHAT_PERMISSION);
                     }
                     return false;
                 } else {
