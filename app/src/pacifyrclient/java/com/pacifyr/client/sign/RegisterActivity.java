@@ -1639,81 +1639,83 @@ public class RegisterActivity extends PacifyrActivity {
 
     private void quickbloxNewLogin() {
         try {
-            QBSettings.getInstance().init(RegisterActivity.this, APP_ID, AUTH_KEY, AUTH_SECRET);
-            QBSettings.getInstance().setAccountKey(ACCOUNT_KEY);
-            //create a quickblox application session
-            QBAuth.createSession().performAsync(new QBEntityCallback<QBSession>() {
-                @Override
-                public void onSuccess(QBSession qbSession, Bundle bundle) {
-                    final String userid=appUserID;
-                    String emailID=Remail;
-                    String fullName=Rfullname;
+            if (isValid(APP_ID) &&  isValid(AUTH_KEY) && isValid(AUTH_SECRET)) {
+                QBSettings.getInstance().init(RegisterActivity.this, APP_ID, AUTH_KEY, AUTH_SECRET);
+                QBSettings.getInstance().setAccountKey(ACCOUNT_KEY);
+                //create a quickblox application session
+                QBAuth.createSession().performAsync(new QBEntityCallback<QBSession>() {
+                    @Override
+                    public void onSuccess(QBSession qbSession, Bundle bundle) {
+                        final String userid = appUserID;
+                        String emailID = Remail;
+                        String fullName = Rfullname;
 
-                    // Register new user
-                    final QBUser qbUser = new QBUser(userid, userid);
-                    qbUser.setEmail(emailID);
-                    qbUser.setFullName(fullName);
+                        // Register new user
+                        final QBUser qbUser = new QBUser(userid, userid);
+                        qbUser.setEmail(emailID);
+                        qbUser.setFullName(fullName);
 
-                    QBUsers.signUp(qbUser).performAsync(new QBEntityCallback<QBUser>() {
-                        @Override
-                        public void onSuccess(QBUser qbUser, Bundle bundle) {
-                            saveUserDetailsToPrefM();
-                            qbID=qbUser.getId().toString();
-                            saveUserData(qbUser);
-                            startLoginService(qbUser);
-                            getPrefManager(RegisterActivity.this).saveQBID(qbID);
-                            updateQBUserID();
-                            quickBoxSignIn(userid);
-                        }
-
-                        @Override
-                        public void onError(QBResponseException responseException) {
-                            responseException.printStackTrace();
-                            Toast.makeText(context,responseException.getMessage(),Toast.LENGTH_LONG).show();
-                            hideProgress();
-                            LoginManager mLoginManager = LoginManager.getInstance();
-                            mLoginManager.logOut();
-                            prefM.clear();
-                            startActivity(new Intent(context,SignActivity.class));
-
-                            Bundle args =
-                                    FirebaseLogging.getConstantArgsLoggedOut(RegisterActivity.this);
-                            if (responseException != null && responseException.getMessage() != null) {
-                                args.putString(FirebaseLogging.EC,
-                                        "QuickBlox login fail : " + responseException.getMessage());
-                            }
-                            FirebaseLogging.sendLog(RegisterActivity.this,
-                                    FirebaseLogging.EVENT_SIGNUP_FAIL, args);
-                        }
-                    });
-
-                }
-
-                @Override
-                public void onError(QBResponseException e) {
-                    e.printStackTrace();
-                    if (e.getHttpStatusCode() == 422 && e.getMessage().toLowerCase().contains("bad timestamp")) {
-                        iOSDialogClickListener listener = new iOSDialogClickListener() {
+                        QBUsers.signUp(qbUser).performAsync(new QBEntityCallback<QBUser>() {
                             @Override
-                            public void onClick(iOSDialog dialog) {
-                                dialog.dismiss();
-                                prefM.clearSharedAll();
-                                fbLogout();
-                                startActivity(new Intent(android.provider.Settings.ACTION_DATE_SETTINGS));
-                                finish();
+                            public void onSuccess(QBUser qbUser, Bundle bundle) {
+                                saveUserDetailsToPrefM();
+                                qbID = qbUser.getId().toString();
+                                saveUserData(qbUser);
+                                startLoginService(qbUser);
+                                getPrefManager(RegisterActivity.this).saveQBID(qbID);
+                                updateQBUserID();
+                                quickBoxSignIn(userid);
                             }
-                        };
-                        showIOSDialogOK("", "Your device date & time is not correct. Please correct it and try sign in.", "Settings", listener);
 
-                    } else {
-                        Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
-                        hideProgress();
-                        fbLogout();
-                        prefM.clear();
-                        startActivity(new Intent(context, SignActivity.class));
+                            @Override
+                            public void onError(QBResponseException responseException) {
+                                responseException.printStackTrace();
+                                Toast.makeText(context, responseException.getMessage(), Toast.LENGTH_LONG).show();
+                                hideProgress();
+                                LoginManager mLoginManager = LoginManager.getInstance();
+                                mLoginManager.logOut();
+                                prefM.clear();
+                                startActivity(new Intent(context, SignActivity.class));
+
+                                Bundle args =
+                                        FirebaseLogging.getConstantArgsLoggedOut(RegisterActivity.this);
+                                if (responseException != null && responseException.getMessage() != null) {
+                                    args.putString(FirebaseLogging.EC,
+                                            "QuickBlox login fail : " + responseException.getMessage());
+                                }
+                                FirebaseLogging.sendLog(RegisterActivity.this,
+                                        FirebaseLogging.EVENT_SIGNUP_FAIL, args);
+                            }
+                        });
+
                     }
-                }
-            });
+
+                    @Override
+                    public void onError(QBResponseException e) {
+                        e.printStackTrace();
+                        if (e.getHttpStatusCode() == 422 && e.getMessage().toLowerCase().contains("bad timestamp")) {
+                            iOSDialogClickListener listener = new iOSDialogClickListener() {
+                                @Override
+                                public void onClick(iOSDialog dialog) {
+                                    dialog.dismiss();
+                                    prefM.clearSharedAll();
+                                    fbLogout();
+                                    startActivity(new Intent(android.provider.Settings.ACTION_DATE_SETTINGS));
+                                    finish();
+                                }
+                            };
+                            showIOSDialogOK("", "Your device date & time is not correct. Please correct it and try sign in.", "Settings", listener);
+
+                        } else {
+                            Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
+                            hideProgress();
+                            fbLogout();
+                            prefM.clear();
+                            startActivity(new Intent(context, SignActivity.class));
+                        }
+                    }
+                });
+            }
 
         }
         catch (Exception exc)
@@ -1724,6 +1726,12 @@ public class RegisterActivity extends PacifyrActivity {
             fbLogout();
             prefM.clear();
             startActivity(new Intent(context,SignActivity.class));
+
+            Bundle args =
+                    FirebaseLogging.getConstantArgsLoggedOut(RegisterActivity.this);
+            args.putString(FirebaseLogging.EC, "Tried to Register from " +"quickbloxNewLogin");
+            FirebaseLogging.sendLog(RegisterActivity.this,
+                    FirebaseLogging.EVENT_LOGIN_FAIL, args);
 
         }
 

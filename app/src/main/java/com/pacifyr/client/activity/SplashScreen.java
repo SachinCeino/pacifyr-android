@@ -37,7 +37,9 @@ import com.pacifyr.client.quickblox.services.CallService;
 import com.pacifyr.client.quickblox.services.Call_Service;
 import com.pacifyr.client.sign.PacifyrTermsPolicyActivity;
 import com.pacifyr.client.sign.SignActivity;
+import com.pacifyr.client.twilio.VideoActivity;
 import com.pacifyr.client.utils.Constants;
+import com.pacifyr.client.utils.FirebaseLogging;
 import com.pacifyr.client.utils.Utility;
 import com.pacifyrapp.utilitylibrary.base.BaseAppCompactActivity;
 import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
@@ -87,6 +89,14 @@ public class SplashScreen extends BaseAppCompactActivity {
             }
 
         } catch (Exception e) {
+            Bundle args =
+                    FirebaseLogging.getConstantArgsLoggedIn(SplashScreen.this);
+            args.putString(FirebaseLogging.EC, "OnCreate TryCatch--"+String.valueOf(e));
+
+            FirebaseLogging.sendLog(SplashScreen.this,
+                    FirebaseLogging.EVENT_QUICKBLOX_ISSUE,
+                    args);
+
             Log.e(TAG, "Exception " + Call_Service.class.getSimpleName() + " cannot be started");
             e.printStackTrace();
         }

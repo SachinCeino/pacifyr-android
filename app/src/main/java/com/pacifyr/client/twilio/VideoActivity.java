@@ -1257,11 +1257,11 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                 audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
                 audioManager.setSpeakerphoneOn(!isHeadeSetIsPlugged);
                 Bundle args =
-                        FirebaseLogging.getConstantArgsLoggedIn(getApplicationContext());
+                        FirebaseLogging.getConstantArgsLoggedIn(VideoActivity.this);
                 if (getCallPacifyr() != null) {
                     args.putString(FirebaseLogging.EC, getCallPacifyr().getId());
                 }
-                FirebaseLogging.sendLog(getApplicationContext(),
+                FirebaseLogging.sendLog(VideoActivity.this,
                         FirebaseLogging.EVENT_VIDEOCALL_STARTED,
                         args);
             } else {
@@ -1272,11 +1272,11 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                 audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
                 audioManager.setSpeakerphoneOn(false);
                 Bundle args =
-                        FirebaseLogging.getConstantArgsLoggedIn(getApplicationContext());
+                        FirebaseLogging.getConstantArgsLoggedIn(VideoActivity.this);
                 if (getCallPacifyr() != null) {
                     args.putString(FirebaseLogging.EC, getCallPacifyr().getId());
                 }
-                FirebaseLogging.sendLog(getApplicationContext(),
+                FirebaseLogging.sendLog(VideoActivity.this,
                         FirebaseLogging.EVENT_AUDIOCALL_STARTED,
                         args);
             }
@@ -1518,9 +1518,15 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                     callReminderCounslrAPI();
                 }
             });
-        } catch (Exception e) {
+       } catch (Exception e) {
             e.printStackTrace();
-            Log.w("www", String.valueOf(e));
+            Bundle args =
+                    FirebaseLogging.getConstantArgsLoggedIn(VideoActivity.this);
+            args.putString(FirebaseLogging.EC, "OnCreate TryCatch--"+String.valueOf(e));
+
+            FirebaseLogging.sendLog(VideoActivity.this,
+                    FirebaseLogging.EVENT_CALL_STARTED,
+                    args);
         }
     }
 

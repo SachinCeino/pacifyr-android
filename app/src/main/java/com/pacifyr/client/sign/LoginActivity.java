@@ -37,6 +37,7 @@ import com.gdacciaro.iOSDialog.iOSDialogClickListener;
 import com.google.gson.JsonObject;
 import com.koushikdutta.ion.Ion;
 import com.pacifyr.client.R;
+import com.pacifyr.client.activity.SplashScreen;
 import com.pacifyr.client.adapter.CountrySpinnerAdapter;
 import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
@@ -47,6 +48,7 @@ import com.pacifyr.client.orginals.Auth;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.quickblox.chat.utils.qb.callback.QbEntityCallbackImpl;
+import com.pacifyr.client.quickblox.services.Call_Service;
 import com.pacifyr.client.utils.FirebaseLogging;
 import com.pacifyrapp.utilitylibrary.CustomEditText;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
@@ -495,10 +497,6 @@ public class LoginActivity extends PacifyrActivity {
                 QBSettings.getInstance().init(LoginActivity.this, APP_ID, AUTH_KEY, AUTH_SECRET);
                 QBSettings.getInstance().setAccountKey(ACCOUNT_KEY);
             }
-            else
-            {
-                return;
-            }
 
             QBAuth.createSession().performAsync(new QbEntityCallbackImpl<QBSession>() {
                 @Override
@@ -640,6 +638,17 @@ public class LoginActivity extends PacifyrActivity {
             prefM.clear();
             e.printStackTrace();
             Toast.makeText(LoginActivity.this,e.getMessage(),Toast.LENGTH_LONG);
+
+            Bundle args =
+                    FirebaseLogging.getConstantArgsLoggedIn(LoginActivity.this);
+            args.putString(FirebaseLogging.EC, "LoginActivity"+String.valueOf(e));
+
+            FirebaseLogging.sendLog(LoginActivity.this,
+                    FirebaseLogging.EVENT_LOGIN_FAIL,
+                    args);
+
+            e.printStackTrace();
+
         }
     }
 

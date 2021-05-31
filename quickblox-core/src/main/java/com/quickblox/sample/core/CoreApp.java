@@ -39,15 +39,20 @@ public class CoreApp extends MultiDexApplication {
     }
 
     public void initCredentials(){
-        if (qbConfigs != null) {
-            QBSettings.getInstance().init(getApplicationContext(), qbConfigs.getAppId(), qbConfigs.getAuthKey(), qbConfigs.getAuthSecret());
-            QBSettings.getInstance().setAccountKey(qbConfigs.getAccountKey());
-            Log.d(TAG, "CoreApp QB initCredentials  qbConfigs.getAppId() " + qbConfigs.getAppId());
-            if (!TextUtils.isEmpty(qbConfigs.getApiDomain()) && !TextUtils.isEmpty(qbConfigs.getChatDomain())) {
-                QBSettings.getInstance().setEndpoints(qbConfigs.getApiDomain(), qbConfigs.getChatDomain(), ServiceZone.PRODUCTION);
-                QBSettings.getInstance().setZone(ServiceZone.PRODUCTION);
-            }
-        }
+       try {
+           if (qbConfigs != null) {
+               QBSettings.getInstance().init(getApplicationContext(), qbConfigs.getAppId(), qbConfigs.getAuthKey(), qbConfigs.getAuthSecret());
+               QBSettings.getInstance().setAccountKey(qbConfigs.getAccountKey());
+               Log.d(TAG, "CoreApp QB initCredentials  qbConfigs.getAppId() " + qbConfigs.getAppId());
+               if (!TextUtils.isEmpty(qbConfigs.getApiDomain()) && !TextUtils.isEmpty(qbConfigs.getChatDomain())) {
+                   QBSettings.getInstance().setEndpoints(qbConfigs.getApiDomain(), qbConfigs.getChatDomain(), ServiceZone.PRODUCTION);
+                   QBSettings.getInstance().setZone(ServiceZone.PRODUCTION);
+               }
+           }
+       }catch (Exception e)
+       {
+
+       }
     }
 
     public QbConfigs getQbConfigs(){
