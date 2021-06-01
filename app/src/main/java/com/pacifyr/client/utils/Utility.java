@@ -1327,4 +1327,15 @@ public class Utility {
 
         }
     }
+
+    public static String getPaymentLabel(Context applicationContext, String country) {
+        if (country.equals("US"))
+        {
+            return applicationContext.getResources().getString(R.string.payment_label_us);
+        }
+        else
+        {
+            return applicationContext.getResources().getString(R.string.payment_label_others);
+        }
+    }
 }
