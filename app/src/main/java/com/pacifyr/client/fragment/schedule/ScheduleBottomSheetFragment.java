@@ -1444,10 +1444,10 @@ Log.w("WWW","onCreate");
                                 callSlotBookApiAfterStripeSuccess(singleSlote);
                             }
                             else{
-                                ((PacifyrActivity)getActivity()).showIOSDialogOK("","A payment method needs to be set up.","Set up Payment",listener);
+                                ((PacifyrActivity)getActivity()).showIOSDialogOK("","A payment method needs to be set up.",Utility.getPaymentLabel(getActivity(),prefM.getCountry()),listener);
                             }
                         }else{
-                            ((PacifyrActivity)getActivity()).showIOSDialogOK("","A payment method needs to be set up.","Set up Payment",listener);
+                            ((PacifyrActivity)getActivity()).showIOSDialogOK("","A payment method needs to be set up.",Utility.getPaymentLabel(getActivity(),prefM.getCountry()),listener);
                         }
                     } catch (Exception e) {
 

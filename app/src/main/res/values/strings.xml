@@ -302,6 +302,9 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="oklabel_setup_pay">Set up Payment</string>
     <string name="subtitle_pls_try_again">Please try again</string>
     <string name="oklabel_ok">OK</string>
+    <string name="payment_label_others">Make payment</string>
+    <string name="payment_label_us">Set up payment</string>
+
     <string name="subtitle_subscribe_chat">Subscribed to Chat</string>
     <string name="dis_free_min_available">" free minutes available"</string>
     <string name="toast_pls_check_net_conn">Please check network connection</string>

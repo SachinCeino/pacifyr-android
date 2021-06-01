@@ -856,11 +856,11 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
                             }
                             else{
                                 saveCardExist(false);
-                                showIOSDialogOK("","A payment method needs to be set up.","Set up Payment");
+                                showIOSDialogOK("","A payment method needs to be set up.",Utility.getPaymentLabel(ProfileScreenActivity.this,getPrefManager().getCountry()));
                             }
                         }else{
                             saveCardExist(false);
-                            showIOSDialogOK("","A payment method needs to be set up.","Set up Payment");
+                            showIOSDialogOK("","A payment method needs to be set up.",Utility.getPaymentLabel(ProfileScreenActivity.this,getPrefManager().getCountry()));
                         }
                     } catch (Exception e) {
                         //  e.printStackTrace();

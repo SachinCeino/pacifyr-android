@@ -647,12 +647,12 @@ public class SwipeDeckConnectPacifyrAdapter extends BaseAdapter {
                             else{
                                 //saveCardExist(false);
                                 prefM.saveCardExist(false);
-                                showIOSDialogOK("","A payment method needs to be set up.","Set up Payment",listener);
+                                showIOSDialogOK("","A payment method needs to be set up.",Utility.getPaymentLabel(context,prefM.getCountry()),listener);
                             }
                         }else{
                             /*saveCardExist(false);*/
                             prefM.saveCardExist(false);
-                            showIOSDialogOK("","A payment method needs to be set up.","Set up Payment",listener);
+                            showIOSDialogOK("","A payment method needs to be set up.",Utility.getPaymentLabel(context,prefM.getCountry()),listener);
                         }
                     } catch (Exception e) {
                         e.printStackTrace();

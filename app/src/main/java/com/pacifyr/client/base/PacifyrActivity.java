@@ -557,7 +557,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                 id != null && !id.isEmpty()) {
             if (getCountryChecks().contains(getPrefManager().getCountry())) {
 
-                showIOSDialogOKCancel("", message, "Set up Payment", new iOSDialogClickListener() {
+                showIOSDialogOKCancel("", message, Utility.getPaymentLabel(PacifyrActivity.this,getPrefManager().getCountry()), new iOSDialogClickListener() {
                     @Override
                     public void onClick(iOSDialog dialog) {
                         dialog.dismiss();
@@ -1678,11 +1678,11 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                             }
                             else{
                                 saveCardExist(false);
-                                showIOSDialogOK("","A payment method needs to be set up.","Set up Payment",listener);
+                                showIOSDialogOK("","A payment method needs to be set up.",Utility.getPaymentLabel(PacifyrActivity.this,getPrefManager().getCountry()),listener);
                             }
                         }else{
                             saveCardExist(false);
-                            showIOSDialogOK("","A payment method needs to be set up.","Set up Payment",listener);
+                            showIOSDialogOK("","A payment method needs to be set up.",Utility.getPaymentLabel(PacifyrActivity.this,getPrefManager().getCountry()),listener);
                         }
                     } catch (Exception e) {
                         //  e.printStackTrace();
