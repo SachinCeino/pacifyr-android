@@ -69,7 +69,7 @@ public class Session {
     private String userId;
     @SerializedName("creditCardCharges")
     @Expose
-    private Integer creditCardCharges;
+    private Double creditCardCharges;
     @SerializedName("connected")
     @Expose
     private Boolean connected;
@@ -281,11 +281,11 @@ public class Session {
         this.userId = userId;
     }
 
-    public Integer getCreditCardCharges() {
+    public Double getCreditCardCharges() {
         return creditCardCharges;
     }
 
-    public void setCreditCardCharges(Integer creditCardCharges) {
+    public void setCreditCardCharges(Double creditCardCharges) {
         this.creditCardCharges = creditCardCharges;
     }
 
