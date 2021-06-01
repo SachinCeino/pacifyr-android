@@ -646,7 +646,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
             AjaxCallback cb = new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, JSONObject json, AjaxStatus status) {
-                    Auth.httpStatusFilter(getActivity(), status.getCode());
+                   // Auth.httpStatusFilter(getActivity(), status.getCode());
                     try {
                         hideProgress();
                         if (isValid(json)) {
