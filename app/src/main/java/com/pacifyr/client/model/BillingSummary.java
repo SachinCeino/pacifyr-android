@@ -40,7 +40,7 @@ public class BillingSummary {
     private String updatedAt;
     @SerializedName("creditCardCharges")
     @Expose
-    private Integer creditCardCharges;
+    private Double creditCardCharges;
 
 
     public String getDuration() {
@@ -131,11 +131,11 @@ public class BillingSummary {
         this.updatedAt = updatedAt;
     }
 
-    public Integer getCreditCardCharges() {
+    public Double getCreditCardCharges() {
         return creditCardCharges;
     }
 
-    public void setCreditCardCharges(Integer creditCardCharges) {
+    public void setCreditCardCharges(Double creditCardCharges) {
         this.creditCardCharges = creditCardCharges;
     }
 
