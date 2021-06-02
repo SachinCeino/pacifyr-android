@@ -19,14 +19,15 @@
               android:layout_margin="15dp"
               android:background="@drawable/resource_search_background"
               >
-              <androidx.appcompat.widget.SearchView
+              <SearchView
                   android:layout_width="match_parent"
                   android:layout_height="match_parent"
+                  android:id="@+id/SearchView_Resource"
                   app:queryHint="Article, video, presentation"
                   app:searchHintIcon="@drawable/searchresource"
                   app:defaultQueryHint="Article, video, presentation"
                   android:background="@android:color/transparent"
-                  app:searchIcon="@drawable/searchresource"></androidx.appcompat.widget.SearchView>
+                  app:searchIcon="@drawable/searchresource"></SearchView>
           </LinearLayout>
           <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
@@ -126,6 +127,17 @@
               android:layout_marginTop="10dp"
               android:id="@+id/resources_list_rcv"></androidx.recyclerview.widget.RecyclerView>
 
+          <com.pacifyr.client.customview.MainTextView
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:layout_below="@+id/cardViewBanner"
+              android:text="No result available !"
+              android:gravity="center"
+              android:id="@+id/emptyLayout"
+              android:visibility="gone"
+              >
+
+          </com.pacifyr.client.customview.MainTextView>
       </RelativeLayout>
 
   </androidx.core.widget.NestedScrollView>

@@ -1,17 +1,18 @@
 package com.pacifyr.client.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.pacifyr.client.R;
+import com.pacifyr.client.activity.TermsOfUseActivity;
 import com.pacifyr.client.model.ResourceMain;
 import com.pacifyr.client.network.NetworkService;
 import com.squareup.picasso.Picasso;
@@ -32,10 +33,38 @@ public class ResourcesSubListAdapter extends RecyclerView.Adapter<RecyclerView.V
         this.mContext=mContext;
     }
 
+
+    @Override
+    public int getItemViewType(int position) {
+        int pos=0;
+        String type = resourcesList.get(position).getType();
+        if (type.equals("video"))
+        {
+            pos = 1;
+
+        }else{
+
+            pos =0;
+
+        }
+
+        return pos;
+    }
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_resources_sub_items, parent, false);
-        ViewHolder viewHolder = new ViewHolder(v);
+        RecyclerView.ViewHolder viewHolder=null;
+        View itemView = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.list_resources_sub_items_articles, parent, false);
+
+        if (viewType == 1) {
+            itemView = LayoutInflater.from(parent.getContext()).inflate(
+                    R.layout.list_resources_sub_items_video, parent, false);
+            viewHolder = new ViewHolderVideo(itemView);
+        } else {
+            viewHolder = new ViewHolderArticle(itemView);
+        }
+
         return viewHolder;
     }
 
@@ -84,9 +113,26 @@ public class ResourcesSubListAdapter extends RecyclerView.Adapter<RecyclerView.V
     }
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
-        ViewHolder viewHolder = (ViewHolder) holder;
+
         final ResourceMain.Resource item = getItem(position);
 
+        if (holder instanceof ViewHolderVideo)
+        {
+            ViewHolderVideo viewHolder = (ViewHolderVideo) holder;
+            setUpViewHolderVideo(viewHolder,item);
+        }
+        else
+        {
+            ViewHolderArticle viewHolder = (ViewHolderArticle) holder;
+            setUpViewHolderArticle(viewHolder,item);
+
+        }
+
+
+
+    }
+
+    private void setUpViewHolderArticle(ViewHolderArticle viewHolder, ResourceMain.Resource item) {
         if (isValid(item))
         {
             if (isValid(item.getImage()))
@@ -107,6 +153,51 @@ public class ResourcesSubListAdapter extends RecyclerView.Adapter<RecyclerView.V
                 viewHolder.TextViewTitle.setText(item.getTitle()+"");
             }
 
+            viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i=new Intent(mContext, TermsOfUseActivity.class);
+                    i.putExtra("spurl", item.getUrl());
+                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    mContext.startActivity(i);
+                }
+            });
+
+        }
+    }
+
+    private void setUpViewHolderVideo(ViewHolderVideo viewHolder, ResourceMain.Resource item) {
+        if (isValid(item))
+        {
+            if (isValid(item.getImage()))
+            {
+                Picasso.with(mContext).load(NetworkService.GLOBAL_IMAGE_URL + item.getImage())
+                        .placeholder(R.drawable.placeholder).into(viewHolder.ImageViewImage);
+
+
+            }
+
+            if (isValid(item.getAuthor()))
+            {
+                viewHolder.TextViewAuther.setText(item.getAuthor()+"");
+            }
+
+            if (isValid(item.getTitle()))
+            {
+                viewHolder.TextViewTitle.setText(item.getTitle()+"");
+            }
+
+            viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (item.getVideo()==null) {
+                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(item.getUrl()));
+                        browserIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        mContext.startActivity(browserIntent);
+                    }
+                }
+            });
+
         }
 
     }
@@ -116,14 +207,25 @@ public class ResourcesSubListAdapter extends RecyclerView.Adapter<RecyclerView.V
         return resourcesList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    private class ViewHolderVideo extends RecyclerView.ViewHolder {
+        private ImageView ImageViewImage;
+        private TextView TextViewAuther;
+        private TextView TextViewTitle;
+        public ViewHolderVideo(View itemView) {
+            super(itemView);
+            ImageViewImage = itemView.findViewById(R.id.ImageViewImage);
+            TextViewAuther = itemView.findViewById(R.id.TextViewAuther);
+            TextViewTitle = itemView.findViewById(R.id.TextViewTitle);
+        }
 
+    }
+
+    private class ViewHolderArticle extends RecyclerView.ViewHolder {
         private ImageView ImageViewImage;
         private TextView TextViewAuther;
         private TextView TextViewTitle;
 
-
-        public ViewHolder(View itemView) {
+        public ViewHolderArticle(View itemView) {
             super(itemView);
             ImageViewImage = itemView.findViewById(R.id.ImageViewImage);
             TextViewAuther = itemView.findViewById(R.id.TextViewAuther);

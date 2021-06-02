@@ -2,9 +2,12 @@ package com.pacifyr.client.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
+import android.widget.TextView;
 
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -23,6 +26,7 @@ import com.pacifyr.client.model.ResourceMain;
 import com.pacifyr.client.orginals.Auth;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.utility.BaseFragment;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.squareup.otto.Subscribe;
 
@@ -90,12 +94,21 @@ public class ResourcesFragment extends BaseFragment {
                             hideProgress();
                             resourcesList = GsonUtils.getInstance().gsonToModelResources(json).getResults();
                             if (isValid(resourcesList)) {
+                                emptyLayout.setVisibility(View.GONE);
+                                resourcesRcv.setVisibility(View.VISIBLE);
                                 setResourcesAdapter();
+                            }
+                            else
+                            {
+                                emptyLayout.setVisibility(View.VISIBLE);
+                                resourcesRcv.setVisibility(View.GONE);
                             }
 
                         } catch (Exception e) {
                             hideProgress();
                             e.printStackTrace();
+                            emptyLayout.setVisibility(View.VISIBLE);
+                            resourcesRcv.setVisibility(View.GONE);
                         }
                     }
                 };
@@ -107,6 +120,8 @@ public class ResourcesFragment extends BaseFragment {
         catch (Exception ex)
         {
             hideProgress();
+            emptyLayout.setVisibility(View.VISIBLE);
+            resourcesRcv.setVisibility(View.GONE);
             ex.printStackTrace();
         }
     }
@@ -137,6 +152,15 @@ public class ResourcesFragment extends BaseFragment {
     }
 
 
+    private SearchView SearchView_Resource;
+    private String searchQuery="";
+    public String getSearchQuery() {
+        return searchQuery;
+    }
+    public void setSearchQuery(String searchQuery) {
+        this.searchQuery = searchQuery;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -146,12 +170,15 @@ public class ResourcesFragment extends BaseFragment {
 
 
     private RecyclerView resourcesRcv;
+    private TextView emptyLayout;
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         resourcesRcv = view.findViewById(R.id.resources_list_rcv);
+        SearchView_Resource= view.findViewById(R.id.SearchView_Resource);
+        emptyLayout= view.findViewById(R.id.emptyLayout);
         
         if(isValid(resourcesList)){
             setResourcesAdapter();
@@ -163,6 +190,92 @@ public class ResourcesFragment extends BaseFragment {
 
             }
         });
+
+        SearchView_Resource.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+
+
+
+                setSearchQuery(query);
+                if (isValid(getSearchQuery()) ) {
+                    loadSearchResources(query);
+                }
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
+        SearchView_Resource.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                if (!SearchView_Resource.isIconified()) {
+                    SearchView_Resource.onActionViewCollapsed();
+                }
+                setSearchQuery("");
+
+                try {
+                    loadResources();
+                }catch (Exception e){
+                    Log.w("dsfsdfds", "sdfsdf");
+                }
+
+                return false;
+            }
+        });
+
+    }
+
+    private void loadSearchResources(String query) {
+
+        try {
+            setLoading();
+            showProgress();
+            prefM = PrefManager.getInstance(getContext());
+            String token = prefM.getAccessToken();
+            String url = "";
+            url = GLOBAL_URL + "resources/bySpeciality?searchText="+query;
+
+            AjaxCallback cb = new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject json, AjaxStatus status) {
+                    Auth.httpStatusFilter(getContext(), status.getCode());
+                    try {
+                        hideProgress();
+                        resourcesList = GsonUtils.getInstance().gsonToModelResources(json).getResults();
+                        if (isValid(resourcesList)) {
+                            emptyLayout.setVisibility(View.GONE);
+                            resourcesRcv.setVisibility(View.VISIBLE);
+                            setResourcesAdapter();
+                        }
+                        else
+                        {
+                            emptyLayout.setVisibility(View.VISIBLE);
+                            resourcesRcv.setVisibility(View.GONE);
+                        }
+
+                    } catch (Exception e) {
+                        hideProgress();
+                        emptyLayout.setVisibility(View.VISIBLE);
+                        resourcesRcv.setVisibility(View.GONE);
+                        e.printStackTrace();
+                    }
+                }
+            };
+            AQuery aq = new AQuery(getContext());
+            cb.header("Content-Type", "application/json");
+            cb.header("AccessToken", token);
+            aq.ajax(url, JSONObject.class, cb);
+        }
+        catch (Exception ex)
+        {
+            hideProgress();
+            ex.printStackTrace();
+        }
     }
 
     @Override

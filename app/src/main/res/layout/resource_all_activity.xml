@@ -20,14 +20,15 @@
         android:layout_marginRight="10dp"
         android:background="@drawable/resource_search_background"
         >
-        <androidx.appcompat.widget.SearchView
+        <SearchView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:queryHint="Article, video, presentation"
             app:searchHintIcon="@drawable/searchresource"
+            android:id="@+id/SearchView_Resource"
             app:defaultQueryHint="Article, video, presentation"
             android:background="@android:color/transparent"
-            app:searchIcon="@drawable/searchresource"></androidx.appcompat.widget.SearchView>
+            app:searchIcon="@drawable/searchresource"></SearchView>
     </LinearLayout>
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"

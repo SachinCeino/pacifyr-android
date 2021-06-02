@@ -17,6 +17,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -69,6 +70,16 @@ public class ResourceAllActivity extends PacifyrActivity {
     List<ResourceSpecialityList.Result> resourcesList;
     ArrayList<ResourceCategory> categoryList=new ArrayList<>();
     private TextView emptyLayout;
+    String param;
+    private SearchView SearchView_Resource;
+    private String searchQuery="";
+    public String getSearchQuery() {
+        return searchQuery;
+    }
+    public void setSearchQuery(String searchQuery) {
+        this.searchQuery = searchQuery;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -82,6 +93,7 @@ public class ResourceAllActivity extends PacifyrActivity {
         categoryList.add(new ResourceCategory("Articles",false));
         categoryList.add(new ResourceCategory("Videos",false));
         categoryList.add(new ResourceCategory("Presentations",false));
+        SearchView_Resource= findViewById(R.id.SearchView_Resource);
         setUpTopListCategoryRecyclerView();
 
 
@@ -90,11 +102,91 @@ public class ResourceAllActivity extends PacifyrActivity {
         }
 
         if (isValid(object)) {
-            String param = "article/video/presentation";
+            param = "article/video/presentation";
+            param = GLOBAL_URL + "resources/all?speciality="+object.getSpeciality();
             getWebCategories(object.getSpeciality(), param);
         }
 
 
+        SearchView_Resource.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+
+
+
+                setSearchQuery(query);
+                if (isValid(getSearchQuery()) ) {
+                    loadSearchResources(query);
+                }
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
+        SearchView_Resource.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                if (!SearchView_Resource.isIconified()) {
+                    SearchView_Resource.onActionViewCollapsed();
+                }
+                setSearchQuery("");
+
+                try {
+                    getWebCategories(object.getSpeciality(), param);
+                }catch (Exception e){
+                    Log.w("dsfsdfds", "sdfsdf");
+                }
+
+                return false;
+            }
+        });
+    }
+
+    private void loadSearchResources(String query) {
+
+        try {
+            setLoading();
+            showProgress();
+            String token = getPrefManager().getAccessToken();
+            String url = param+"&searchText="+query;
+
+            AjaxCallback cb = new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject json, AjaxStatus status) {
+                    Auth.httpStatusFilter(getApplicationContext(), status.getCode());
+                    try {
+                        hideProgress();
+                        resourcesList = GsonUtils.getInstance().gsonToModelResourcesSpecialitiesList(json).getResults();
+                        if (isValid(resourcesList)) {
+                            emptyLayout.setVisibility(View.GONE);
+                            RecyclerViewList.setVisibility(View.VISIBLE);
+                            setResourcesAdapter();
+                        }
+                        else {
+                            emptyLayout.setVisibility(View.VISIBLE);
+                            RecyclerViewList.setVisibility(View.GONE);
+                        }
+
+                    } catch (Exception e) {
+                        hideProgress();
+                        e.printStackTrace();
+                    }
+                }
+            };
+            AQuery aq = new AQuery(getApplicationContext());
+            cb.header("Content-Type", "application/json");
+            cb.header("AccessToken", token);
+            aq.ajax(url, JSONObject.class, cb);
+        }
+        catch (Exception ex)
+        {
+            hideProgress();
+            ex.printStackTrace();
+        }
 
     }
 
@@ -104,8 +196,7 @@ public class ResourceAllActivity extends PacifyrActivity {
             setLoading();
             showProgress();
             String token = getPrefManager().getAccessToken();
-            String url = "";
-            url = GLOBAL_URL + "resources/all?speciality="+speciality+"&type="+parameter;
+            String url = parameter;
 
             AjaxCallback cb = new AjaxCallback<JSONObject>() {
                 @Override
@@ -156,13 +247,39 @@ public class ResourceAllActivity extends PacifyrActivity {
         ResourcesCategoryListAdapter resourcesAdapter = new ResourcesCategoryListAdapter(categoryList, getApplicationContext(), new ResourcesCategoryListAdapter.ItemClickedListenr() {
             @Override
             public void onItemClicked(int position) {
-                String param = categoryList.get(position).getTitle();
-                if (param.equals("Articles"))
-                    param="article";
-                if (param.equals("Videos"))
-                    param="video";
-                if (param.equals("Presentations"))
-                    param="presentation";
+                param = categoryList.get(position).getTitle();
+                if (param.equals("Articles")){
+                    if (isValid(getSearchQuery()))
+                        param=GLOBAL_URL + "resources/all?speciality="+object.getSpeciality()+"&type=article";
+                    else
+                    param=GLOBAL_URL + "resources/all?speciality="+object.getSpeciality()+"&type=article";
+
+                }
+
+                else if (param.equals("Videos")) {
+
+                    if (isValid(getSearchQuery()))
+                        param = GLOBAL_URL + "resources/all?speciality=" + object.getSpeciality() + "&type=video";
+                    else
+                        param = GLOBAL_URL + "resources/all?speciality=" + object.getSpeciality() + "&type=video";
+                }
+                else if (param.equals("Presentations"))
+                {
+                    if (isValid(getSearchQuery()))
+                        param = GLOBAL_URL + "resources/all?speciality=" + object.getSpeciality() + "&type=presentation";
+                    else
+                        param=GLOBAL_URL + "resources/all?speciality="+object.getSpeciality()+"&type=presentation";
+                }
+
+                else
+                {
+                    param = GLOBAL_URL + "resources/all?speciality="+object.getSpeciality();
+                }
+
+
+                if (isValid(getSearchQuery()))
+                    loadSearchResources(getSearchQuery());
+                else
                 getWebCategories(object.getSpeciality(), param);
             }
         });
