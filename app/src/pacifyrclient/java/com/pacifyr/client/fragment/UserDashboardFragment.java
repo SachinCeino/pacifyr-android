@@ -154,7 +154,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
     private LinearLayout LinearLayout_Active_Session;
     TextView JoinChat,JoinCall;
     private ImageView bannerLogo;
-    LinearLayout ActionButtonJoin;
+    LinearLayout ActionButtonJoin,bannerLogoll;
     private TextView bannerTitle,TextViewHideBanner;
     private RelativeLayout bannerLayout;
 
@@ -221,6 +221,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
         bannerTitle=view.findViewById(R.id.bannerTitle);
         ActionButtonJoin=view.findViewById(R.id.ActionButtonJoin);
         bannerLayout=view.findViewById(R.id.bannerLayout);
+        bannerLogoll=view.findViewById(R.id.bannerLogoll);
         TextViewHideBanner=view.findViewById(R.id.TextViewHideBanner);
 
 
@@ -415,9 +416,42 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                                     Log.d(TAG, document.get("startDate").toString() );
                                     Log.d(TAG, document.get("text").toString() );
                                     Log.d(TAG, document.get("url").toString() );
-                                    bannerTitle.setText(document.get("text").toString());
                                     String bannerUrl=document.get("imageUrl").toString();
                                     String webinarUrl=document.get("url").toString();
+                                    if (isValid(document.get("text").toString()))
+                                    {
+                                        bannerTitle.setText(document.get("text").toString());
+                                        bannerTitle.setVisibility(View.VISIBLE);
+                                    }
+                                    else {
+                                        bannerTitle.setVisibility(View.GONE);
+                                    }
+                                    if (isValid(bannerUrl)){
+                                        bannerLogoll.setVisibility(View.VISIBLE);
+                                        showPrefferedPacifyrIntoGlideView(bannerUrl,bannerLogo);
+                                    }
+                                    else{
+                                        bannerLogoll.setVisibility(View.GONE);
+                                    }
+
+
+                                    if (isValid(webinarUrl))
+                                    {
+                                        ActionButtonJoin.setVisibility(View.VISIBLE);
+                                    }else {
+                                        ActionButtonJoin.setVisibility(View.GONE);
+                                    }
+
+                                    ActionButtonJoin.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(webinarUrl));
+                                            browserIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                            startActivity(browserIntent);
+                                        }
+                                    });
+
+
                                     List<String> countrys = (List<String>) document.get("country");
 
                                     if (isValid(countrys))
@@ -475,17 +509,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                                                 adjustGridBalls();
                                                 return;
                                             }
-                                            if (isValid(bannerUrl))
-                                                showPrefferedPacifyrIntoGlideView(bannerUrl,bannerLogo);
 
-                                            ActionButtonJoin.setOnClickListener(new View.OnClickListener() {
-                                                @Override
-                                                public void onClick(View view) {
-                                                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(webinarUrl));
-                                                    browserIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                                    startActivity(browserIntent);
-                                                }
-                                            });
 
                                         }
                                     }

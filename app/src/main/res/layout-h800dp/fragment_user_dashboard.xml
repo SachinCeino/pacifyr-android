@@ -70,6 +70,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:id="@+id/bannerLogoll"
+                                        android:visibility="gone"
                                         android:padding="10dp">
                                         <androidx.cardview.widget.CardView
                                             android:layout_width="wrap_content"
@@ -92,6 +93,7 @@
                                         android:layout_gravity="center"
                                         android:layout_toRightOf="@+id/bannerLogoll"
                                         android:text=""
+                                        android:visibility="gone"
                                         android:textColor="@color/black"
                                         android:layout_margin="10dp"
                                         android:textSize="12sp" />
@@ -105,6 +107,7 @@
                                         android:layout_margin="10dp"
                                         android:id="@+id/ActionButtonJoin"
                                         android:padding="5dp"
+                                        android:visibility="gone"
                                         android:background="@drawable/blue_background_curve">
                                         <com.pacifyr.client.customview.MainTextView
                                             android:layout_width="wrap_content"
