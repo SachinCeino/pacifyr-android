@@ -415,11 +415,11 @@ public class LogInCodeVerifyActivity extends PacifyrActivity {
                                                         intent.putExtra("token", idToken[0]);
                                                     startActivity(intent);
                                                 }
-                                                /*Bundle args =
+                                                Bundle args =
                                                         FirebaseLogging.getConstantArgsLoggedOut(LogInCodeVerifyActivity.this);
                                                 args.putString(FirebaseLogging.EC, phonenumber + "");
                                                 FirebaseLogging.sendLog(LogInCodeVerifyActivity.this,
-                                                        FirebaseLogging.EVENT_LOGIN_OTP_VERIFIED, args);*/
+                                                        FirebaseLogging.EVENT_LOGIN_OTP_VERIFIED, args);
                                             } else {
                                                 // Handle error -> task.getException();
                                             }

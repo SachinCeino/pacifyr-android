@@ -213,6 +213,12 @@ private static String TAG=LoginPhoneActivity.class.getName();
                                     }, 3000);*/
                                 }else{
                                     signInCreatedUser();
+                                    Bundle args =
+                                            FirebaseLogging.getConstantArgsLoggedOut(LoginPhoneActivity.this);
+                                    args.putString(FirebaseLogging.EC,
+                                            phoneNo + " tried Login. Status code:" + status.getCode());
+                                    FirebaseLogging.sendLog(LoginPhoneActivity.this,
+                                            FirebaseLogging.EVENT_LOGIN_SUCCESS, args);
                                 }
                             } else {
                                 hideProgress();
@@ -486,7 +492,12 @@ private static String TAG=LoginPhoneActivity.class.getName();
                                 startLoginService(qbUser);
                                 saveValuesToPrefM(context,modelPhoneLogin);
                                 loginTheUser(qbUser);
-
+                            Bundle args =
+                                    FirebaseLogging.getConstantArgsLoggedIn(LoginPhoneActivity.this);
+                            args.putString(FirebaseLogging.EC,
+                                    FirebaseLogging.EVENT_QUICKBLOX_LOGIN_SUCCESS + "onSuccess");
+                            FirebaseLogging.sendLog(LoginPhoneActivity.this,
+                                    FirebaseLogging.EVENT_LOGIN_SUCCESS, args);
                            }
                            catch (Exception e) {
                                 hideProgress();
@@ -499,6 +510,13 @@ private static String TAG=LoginPhoneActivity.class.getName();
                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                startActivity(intent);
                                 finish();
+
+                               Bundle args =
+                                       FirebaseLogging.getConstantArgsLoggedOut(LoginPhoneActivity.this);
+                               args.putString(FirebaseLogging.EC,
+                                       FirebaseLogging.EVENT_QUICKBLOX_LOGIN_FAIL + "Exception"+e);
+                               FirebaseLogging.sendLog(LoginPhoneActivity.this,
+                                       FirebaseLogging.EVENT_LOGIN_FAIL, args);
                         }
                     }
 
@@ -531,11 +549,12 @@ private static String TAG=LoginPhoneActivity.class.getName();
                             });
                         }
 
-                        /*Toaster.longToast("User signInUser failed!"+ responseException.getMessage());
-                        Toast.makeText(LoginPhoneActivity.this, "User signInUser failed!" + responseException.getMessage(),
-                                Toast.LENGTH_LONG).show();*/
-                        /*startActivity(new Intent(LoginPhoneActivity.this,SignActivity.class));
-                        finish();*/
+                        Bundle args =
+                                FirebaseLogging.getConstantArgsLoggedOut(LoginPhoneActivity.this);
+                        args.putString(FirebaseLogging.EC,
+                                FirebaseLogging.EVENT_QUICKBLOX_LOGIN_FAIL + "QBResponseException"+String.valueOf(responseException));
+                        FirebaseLogging.sendLog(LoginPhoneActivity.this,
+                                FirebaseLogging.EVENT_LOGIN_FAIL, args);
                     }
                 });
             }
@@ -565,6 +584,14 @@ private static String TAG=LoginPhoneActivity.class.getName();
                     startActivity(intent);
                     finish();
                 }
+
+
+                Bundle args =
+                        FirebaseLogging.getConstantArgsLoggedOut(LoginPhoneActivity.this);
+                args.putString(FirebaseLogging.EC,
+                        FirebaseLogging.EVENT_QUICKBLOX_LOGIN_FAIL + "onError"+String.valueOf(e));
+                FirebaseLogging.sendLog(LoginPhoneActivity.this,
+                        FirebaseLogging.EVENT_LOGIN_FAIL, args);
             }
         });
 

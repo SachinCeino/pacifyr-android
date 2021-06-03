@@ -54,6 +54,8 @@ public class FirebaseLogging {
     public static final String EVENT_APPLY_COUPON_CODE = "apply_coupon_code";
     public static final String EVENT_CALL_STARTED = "Call_started";
     public static final String EVENT_QUICKBLOX_ISSUE = "quickBlox_isuue";
+    public static final String EVENT_QUICKBLOX_LOGIN_SUCCESS = "quickBlox_success";
+    public static final String EVENT_QUICKBLOX_LOGIN_FAIL = "quickBlox_fail";
     public static String FIREBASE_LOG_USERS_TRACKED_TABLE = "device_users_tracked";
     private static final String FIREBASE_LOG_TABLE = "device_logs";
     private static final String TAG = FirebaseLogging.class.getSimpleName();
