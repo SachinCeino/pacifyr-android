@@ -295,6 +295,26 @@ public class SwipeDeckBrowsePacifyerAdapter extends BaseAdapter {
                 chat_rlay.setVisibility(View.VISIBLE);
 
 
+
+                    if (!isOnline)
+                    {
+                       /**disable video,audio call functionalities ***/
+                        videocall_rlay.setBackground(context.getResources().getDrawable(R.drawable.grey_circle_disable_indicator));
+                        videocall_rlay.setClickable(false);
+                        audiocall_rlay.setBackground(context.getResources().getDrawable(R.drawable.grey_circle_disable_indicator));
+                        audiocall_rlay.setClickable(false);
+
+                    }
+                    else {
+                        /**enable video,audio call functionalities ***/
+                        videocall_rlay.setBackground(context.getResources().getDrawable(R.drawable.blue_cirlce));
+                        videocall_rlay.setClickable(true);
+                        audiocall_rlay.setBackground(context.getResources().getDrawable(R.drawable.blue_cirlce));
+                        audiocall_rlay.setClickable(true);
+                    }
+
+
+
                 schedule_rlay=v.findViewById(R.id.schedule_rlay);
 
                 schedule_rlay.setOnClickListener(new View.OnClickListener() {
@@ -326,28 +346,6 @@ public class SwipeDeckBrowsePacifyerAdapter extends BaseAdapter {
                                     hideProgress();
                                 }
                             }, 1000);
-
-                        } else {
-                            boolean isOnline = pacifyer.getOnline();
-                            String reason = "";
-                            if (isOnline) {
-                                if (!pacifyer.getCurrentlyAvailable()) {
-                                    reason = "in a session";
-                                }
-                            } else {
-                                reason = "offline";
-                            }
-                            if (!reason.equals(""))
-                            {
-                                ((ListPacifyrScreenActivity) (context)).showIOSDialogOKCancel("", pacifyer.getFirstName()+ " is currently "+reason+". You can either chat with "+pacifyer.getFirstName()+" or try again later.", "Chat", new iOSDialogClickListener() {
-                                    @Override
-                                    public void onClick(iOSDialog dialog) {
-                                        dialog.dismiss();
-                                        ((ListPacifyrScreenActivity) (context)).callchatEventListner.onChatEventClick((new ChatEvent(pacifyer, false)));
-                                    }
-                                }, "Ok");
-
-                            }
 
                         }
 
@@ -385,27 +383,6 @@ public class SwipeDeckBrowsePacifyerAdapter extends BaseAdapter {
                                 }
                             }, 1000);
 
-                        } else {
-                            boolean isOnline = pacifyer.getOnline();
-                            String reason = "";
-                            if (isOnline) {
-                                if (!pacifyer.getCurrentlyAvailable()) {
-                                    reason = "in a session";
-                                }
-                            } else {
-                                reason = "offline";
-                            }
-                            if (!reason.equals(""))
-                            {
-                                ((ListPacifyrScreenActivity) (context)).showIOSDialogOKCancel("", pacifyer.getFirstName()+ " is currently "+reason+". You can either chat with "+pacifyer.getFirstName()+" or try again later.", "Chat", new iOSDialogClickListener() {
-                                    @Override
-                                    public void onClick(iOSDialog dialog) {
-                                        dialog.dismiss();
-                                        ((ListPacifyrScreenActivity) (context)).callchatEventListner.onChatEventClick((new ChatEvent(pacifyer, false)));
-                                    }
-                                }, "Ok");
-
-                            }
                         }
 
                         //  Toast.makeText(context,"Video call",Toast.LENGTH_SHORT).show();
@@ -505,8 +482,8 @@ public class SwipeDeckBrowsePacifyerAdapter extends BaseAdapter {
                 connectCtxv.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
-                        if (pacifyer.isReadyToCall())
+                        ConnectToSinglePacifyrActivity.start(context, searchResults.get(position));
+                       /* if (pacifyer.isReadyToCall())
                             ConnectToSinglePacifyrActivity.start(context, searchResults.get(position));
                         else {
                            if (pacifyer.getOnline() && isValid(isCallActive) && isCallActive)
@@ -536,7 +513,7 @@ public class SwipeDeckBrowsePacifyerAdapter extends BaseAdapter {
 
                                }
                            }
-                        }
+                        }*/
 
 
                     }

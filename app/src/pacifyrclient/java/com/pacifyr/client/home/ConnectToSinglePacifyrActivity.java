@@ -465,10 +465,22 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
                                     status_indicator_dimv.setImageDrawable(getResources().getDrawable(R.drawable.online));
                                     status_indicator_ctxv.setText("In-Session");
                                 }
+
+                                /**enable video,audio call functionalities ***/
+                                videocall_rlay.setBackground(ConnectToSinglePacifyrActivity.this.getResources().getDrawable(R.drawable.blue_cirlce));
+                                videocall_rlay.setClickable(true);
+                                audiocall_rlay.setBackground(ConnectToSinglePacifyrActivity.this.getResources().getDrawable(R.drawable.blue_cirlce));
+                                audiocall_rlay.setClickable(true);
+
                             }
                             else{
                                 status_indicator_dimv.setImageDrawable(getResources().getDrawable(R.drawable.offline));
                                 status_indicator_ctxv.setText("OFFLINE");
+                                /**disable video,audio call functionalities ***/
+                                videocall_rlay.setBackground(ConnectToSinglePacifyrActivity.this.getResources().getDrawable(R.drawable.grey_circle_disable_indicator));
+                                videocall_rlay.setClickable(false);
+                                audiocall_rlay.setBackground(ConnectToSinglePacifyrActivity.this.getResources().getDrawable(R.drawable.grey_circle_disable_indicator));
+                                audiocall_rlay.setClickable(false);
                             }
 
                             chatSubsCall(pacifyer_obj);
@@ -508,6 +520,23 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
                     defSetText(pac_rate_ctxv,"Employer Designated Pacifyr");
                 }
 
+                boolean isOnline=pacifyer_obj.getOnline();
+                if (!isOnline)
+                {
+                    /**disable video,audio call functionalities ***/
+                    videocall_rlay.setBackground(ConnectToSinglePacifyrActivity.this.getResources().getDrawable(R.drawable.grey_circle_disable_indicator));
+                    videocall_rlay.setClickable(false);
+                    audiocall_rlay.setBackground(ConnectToSinglePacifyrActivity.this.getResources().getDrawable(R.drawable.grey_circle_disable_indicator));
+                    audiocall_rlay.setClickable(false);
+
+                }
+                else {
+                    /**enable video,audio call functionalities ***/
+                    videocall_rlay.setBackground(ConnectToSinglePacifyrActivity.this.getResources().getDrawable(R.drawable.blue_cirlce));
+                    videocall_rlay.setClickable(true);
+                    audiocall_rlay.setBackground(ConnectToSinglePacifyrActivity.this.getResources().getDrawable(R.drawable.blue_cirlce));
+                    audiocall_rlay.setClickable(true);
+                }
                 videocall_rlay.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -515,33 +544,7 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
                         if (isValid(isCallActive) && isCallActive)
                             return;
 
-                        boolean isOnline = pacifyer_obj.getOnline();
-                        String reason = "";
-                        if (isOnline) {
-                            if (!pacifyer_obj.getCurrentlyAvailable()) {
-                                reason = "in a session";
-                            }
-                        } else {
-                            reason = "offline";
-                        }
-                        if(!pacifyer_obj.isReadyToCall()) {
-
-                            if (!reason.equals(""))
-                            {
-                                showIOSDialogOKCancel("", pacifyer_obj.getFirstName()+ " is currently "+reason+". You can either chat with "+pacifyer_obj.getFirstName()+" or try again later.", "Chat", new iOSDialogClickListener() {
-                                    @Override
-                                    public void onClick(iOSDialog dialog) {
-                                        dialog.dismiss();
-                                        startChat(pacifyer_obj);
-                                    }
-                                }, "Ok");
-
-                            }
-
-                        }
-
-                       else {
-                            if (isLoggedInChat()) {
+                        if (isLoggedInChat()) {
 
                                 setAlertStartCall(pacifyer_obj, new View.OnClickListener() {
                                     @Override
@@ -551,47 +554,9 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
                                     }
                                 });
 
-                                //callRequestWeb(pacifyer_obj, listner, true);
                             }
-                            /*if (checker.lacksPermissions(Consts.PERMISSIONS)) {
-
-                                startPermissionsActivity(false,ConnectToSinglePacifyrActivity.this);
-
-                                if (checker.lacksPermissions(Consts.PERMISSIONS)) {
-
-                                    if(isLoggedInChat()) {
-
-                                        setAlertStartCall(pacifyer_obj , new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View v) {
-                                                hideStatus();
-                                                checkRoleRequest(pacifyer_obj, listner, true);
-                                            }
-                                        });
-
-                                        //callRequestWeb(pacifyer_obj, listner, true);
-                                    }
-
-                                }
-
-                            }
-                            else {
-                                if(isLoggedInChat()) {
-
-                                    setAlertStartCall(pacifyer_obj, new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-                                            hideStatus();
-                                            checkRoleRequest(pacifyer_obj, listner, true);
-                                        }
-                                    });
-
-                                    //callRequestWeb(pacifyer_obj, listner, true);
-                                }
-                            }*/
 
 
-                        }
                     }
                 });
 
@@ -601,29 +566,7 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
                         if (isValid(isCallActive) && isCallActive)
                             return;
 
-                        if(!pacifyer_obj.isReadyToCall()) {
-                            boolean isOnline = pacifyer_obj.getOnline();
-                            String reason = "";
-                            if (isOnline) {
-                                if (!pacifyer_obj.getCurrentlyAvailable()) {
-                                    reason = "in a session";
-                                }
-                            } else {
-                                reason = "offline";
-                            }
-                            if (!reason.equals(""))
-                            {
-                                showIOSDialogOKCancel("", pacifyer_obj.getFirstName()+ " is currently "+reason+". You can either chat with "+pacifyer_obj.getFirstName()+" or try again later.", "Chat", new iOSDialogClickListener() {
-                                    @Override
-                                    public void onClick(iOSDialog dialog) {
-                                        dialog.dismiss();
-                                        startChat(pacifyer_obj);
-                                    }
-                                }, "Ok");
 
-                            }
-                        }
-                        else {
                             if (isLoggedInChat()) {
 
                                 setAlertStartCall(pacifyer_obj, new View.OnClickListener() {
@@ -635,40 +578,6 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
                                 });
 
                             }
-                            /*if (checker.lacksPermissions(Consts.PERMISSIONS[1])) {
-
-                                startPermissionsActivity(true,ConnectToSinglePacifyrActivity.this);
-
-                                if(isLoggedInChat()) {
-
-                                    setAlertStartCall(pacifyer_obj, new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-                                            hideStatus();
-                                            checkRoleRequest(pacifyer_obj, listner, true);
-                                        }
-                                    });
-
-                                    //callRequestWeb(pacifyer_obj, listner, true);
-                                }
-                            }
-                            else {
-
-                                if(isLoggedInChat()) {
-
-                                    setAlertStartCall(pacifyer_obj, new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-                                            hideStatus();
-                                            checkRoleRequest(pacifyer_obj, listner, false);
-                                        }
-                                    });
-
-                                    //callRequestWeb(pacifyer_obj, listner, true);
-                                }
-                            }*/
-                        }
-
 
 
                     }
@@ -729,7 +638,7 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
 
 
                 });
-                boolean isOnline=pacifyer_obj.getOnline();
+
                 if(isOnline){
                     status_indicator_dimv.setImageDrawable(getResources().getDrawable(R.drawable.online));
                     status_indicator_ctxv.setText("ONLINE");
