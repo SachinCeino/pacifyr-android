@@ -56,6 +56,9 @@ public class FirebaseLogging {
     public static final String EVENT_QUICKBLOX_ISSUE = "quickBlox_isuue";
     public static final String EVENT_QUICKBLOX_LOGIN_SUCCESS = "quickBlox_success";
     public static final String EVENT_QUICKBLOX_LOGIN_FAIL = "quickBlox_fail";
+    public static final String EVENT_CHAT_MSG_RECEIVED = "chat_msg_received";
+    public static final String EVENT_CHAT_MSG_SEND_FAILED = "chat_msg_send_failed";
+    public static final String EVENT_CHAT_MSG_SEND_SUCCESS = "chat_msg_send_success";
     public static String FIREBASE_LOG_USERS_TRACKED_TABLE = "device_users_tracked";
     private static final String FIREBASE_LOG_TABLE = "device_logs";
     private static final String TAG = FirebaseLogging.class.getSimpleName();

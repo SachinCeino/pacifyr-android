@@ -719,6 +719,12 @@ public class ChatActivity extends PacifyrAppCompactActivity implements Attachmen
                     } else {
                         messageEditText.setText("");
                     }
+
+                    Bundle args =
+                            FirebaseLogging.getConstantArgsLoggedIn(ChatActivity.this);
+                    args.putString(FirebaseLogging.EC, "Msg from " + qbChatDialog.getUserId() + " to " + qbChatDialog.getRecipientId());
+                    FirebaseLogging.sendLog(ChatActivity.this,
+                            FirebaseLogging.EVENT_CHAT_MSG_SEND_SUCCESS, args);
                 }
 
                 @Override
@@ -726,7 +732,14 @@ public class ChatActivity extends PacifyrAppCompactActivity implements Attachmen
                     if (sendButton != null) {
                         sendButton.setEnabled(true);
                     }
-                    Toaster.shortToast(getString(R.string.toast_msg_not_sent) + e.getMessage());
+//                    Toaster.shortToast(getString(R.string.toast_msg_not_sent) + e.getMessage());
+                    Toast.makeText(ChatActivity.this, getString(R.string.msg_send_failed), Toast.LENGTH_LONG).show();
+                    Bundle args =
+                            FirebaseLogging.getConstantArgsLoggedIn(ChatActivity.this);
+                    args.putString(FirebaseLogging.EC, "Msg from " + qbChatDialog.getUserId() + " to " + qbChatDialog.getRecipientId()
+                            + " : Exception :" + e.getMessage());
+                    FirebaseLogging.sendLog(ChatActivity.this,
+                            FirebaseLogging.EVENT_CHAT_MSG_SEND_FAILED, args);
                 }
             });
 
@@ -736,7 +749,14 @@ public class ChatActivity extends PacifyrAppCompactActivity implements Attachmen
                 sendButton.setEnabled(true);
             }
             Log.w(TAG, e);
-            Toaster.shortToast(getString(R.string.toast_msg_not_sent)  + e.getMessage());
+            Toast.makeText(ChatActivity.this, getString(R.string.msg_send_failed), Toast.LENGTH_LONG).show();
+
+            Bundle args =
+                    FirebaseLogging.getConstantArgsLoggedIn(ChatActivity.this);
+            args.putString(FirebaseLogging.EC, "Msg from " + qbChatDialog.getUserId() + " to " + qbChatDialog.getRecipientId()
+                    + " : Exception :" + e.getMessage());
+            FirebaseLogging.sendLog(ChatActivity.this,
+                    FirebaseLogging.EVENT_CHAT_MSG_SEND_FAILED, args);
         }
     }
 
