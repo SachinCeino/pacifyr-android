@@ -33,7 +33,12 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
 
@@ -56,6 +61,11 @@ public class RatingDetailActivity extends PacifyrAppCompactActivity {
     private String weekStat,monthStat,yearStat;
     public String thisWeekUrl,thisMonthUrl,thisYearUrl;
 
+
+    String WeekStartDate,fromDYear;
+    String WeekEndDate;
+    String YearEndDate,FirstDateOfMonth,LastDateMonth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,16 +80,57 @@ public class RatingDetailActivity extends PacifyrAppCompactActivity {
             token = prefM.getAccessToken();
             userid = prefM.getUserID();
 
+            Calendar calendar = Calendar.getInstance();
+            int dayIsundaorNot=calendar.get(Calendar.DAY_OF_WEEK);
+
+            LocalDate now1 = new LocalDate();
             LocalDate now = new LocalDate();
-            LocalDate startofWeek = now.withDayOfWeek(DateTimeConstants.MONDAY);
-            LocalDate startofMonth = now.withDayOfMonth(DateTimeConstants.JANUARY);
+
+            if (dayIsundaorNot==Calendar.SUNDAY){
+                now1.withDayOfWeek(DateTimeConstants.SATURDAY);
+            }
+            else
+            {
+                now = now1.withDayOfWeek(DateTimeConstants.SATURDAY);
+            }
+
             LocalDate startofYear = now.withDayOfYear(DateTimeConstants.JANUARY);
 
             DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
-            String fromDateWeek = formatter.print(startofWeek);
-            String fromDateMonth = formatter.print(startofMonth);
-            String fromDateYear = formatter.print(startofYear);
-            String toDate = formatter.print(now);
+            final String fromDateYear = formatter.print(startofYear);
+            fromDYear=fromDateYear;
+
+
+/** getting last day of month**/
+            Calendar cal = Calendar.getInstance();
+            int res = cal.getActualMaximum(Calendar.DATE);
+            cal.set(Calendar.DATE,res);
+            Date date = cal.getTime();
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+            LastDateMonth = df.format(date);
+
+            int firstdayMonth = cal.getActualMinimum(Calendar.DATE);
+            cal.set(Calendar.DATE,firstdayMonth);
+            date = cal.getTime();
+            FirstDateOfMonth = df.format(date);
+
+            /** getting last day of year**/
+
+            Calendar calyear = Calendar.getInstance();
+            calyear.set(Calendar.DAY_OF_YEAR, calyear.getActualMaximum(Calendar.DAY_OF_YEAR));
+            Date yend = calyear.getTime();
+            YearEndDate = df.format(yend);
+
+
+            /** getting first day and last  day of week**/
+            // get Current Week of the year
+            Calendar calendarweeak=Calendar.getInstance();
+            calendarweeak.setFirstDayOfWeek(Calendar.SUNDAY);
+            calendarweeak.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+            DateFormat dff = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+            WeekStartDate = dff.format(calendarweeak.getTime());
+            calendarweeak.add(Calendar.DATE, 6);
+            WeekEndDate = dff.format(calendarweeak.getTime());
 
             if(ratingType.equals("fiveStar")) {
 
@@ -87,20 +138,20 @@ public class RatingDetailActivity extends PacifyrAppCompactActivity {
                 monthStat = "fiveStar";
                 yearStat = "fiveStar";
 
-                thisWeekUrl = GLOBAL_URL + "session/pacifyr/rated?userId=" + userid + "&fromDate=" + fromDateWeek + "&toDate=" + toDate+"&rating=5";
+                thisWeekUrl = GLOBAL_URL + "session/pacifyr/rated?userId=" + userid + "&fromDate=" + WeekStartDate + "&toDate=" + WeekEndDate+"&rating=5";
 
-                thisMonthUrl = GLOBAL_URL+"session/pacifyr/rated?userId="+userid+"&fromDate="+fromDateMonth+"&toDate="+toDate+"&rating=5";
+                thisMonthUrl = GLOBAL_URL+"session/pacifyr/rated?userId="+userid+"&fromDate="+FirstDateOfMonth+"&toDate="+LastDateMonth+"&rating=5";
 
-                thisYearUrl = GLOBAL_URL+"session/pacifyr/rated?userId="+userid+"&fromDate="+fromDateYear+"&toDate="+toDate+"&rating=5";
+                thisYearUrl = GLOBAL_URL+"session/pacifyr/rated?userId="+userid+"&fromDate="+fromDateYear+"&toDate="+YearEndDate+"&rating=5";
             }
             else{
 
-                thisWeekUrl = GLOBAL_URL + "session/pacifyr/rated?userId=" + userid + "&fromDate=" + fromDateWeek + "&toDate=" + toDate;
-                thisMonthUrl = GLOBAL_URL+"session/pacifyr/rated?userId="+userid+"&fromDate="+fromDateMonth+"&toDate="+toDate;
-                thisYearUrl = GLOBAL_URL+"session/pacifyr/rated?userId="+userid+"&fromDate="+fromDateYear+"&toDate="+toDate;
-                weekStat = GLOBAL_URL+"dashboard/pacifyr/"+userid+"/ratingStatistics?fromDate="+fromDateWeek+"&toDate="+toDate;
-                monthStat = GLOBAL_URL+"dashboard/pacifyr/"+userid+"/ratingStatistics?fromDate="+fromDateMonth+"&toDate="+toDate;
-                yearStat = GLOBAL_URL+"dashboard/pacifyr/"+userid+"/ratingStatistics?fromDate="+fromDateYear+"&toDate="+toDate;
+                thisWeekUrl = GLOBAL_URL + "session/pacifyr/rated?userId=" + userid + "&fromDate=" + WeekStartDate + "&toDate=" + WeekEndDate;
+                thisMonthUrl = GLOBAL_URL+"session/pacifyr/rated?userId="+userid+"&fromDate="+FirstDateOfMonth+"&toDate="+LastDateMonth;
+                thisYearUrl = GLOBAL_URL+"session/pacifyr/rated?userId="+userid+"&fromDate="+fromDateYear+"&toDate="+YearEndDate;
+                weekStat = GLOBAL_URL+"dashboard/pacifyr/"+userid+"/ratingStatistics?fromDate="+WeekStartDate+"&toDate="+WeekEndDate;
+                monthStat = GLOBAL_URL+"dashboard/pacifyr/"+userid+"/ratingStatistics?fromDate="+FirstDateOfMonth+"&toDate="+LastDateMonth;
+                yearStat = GLOBAL_URL+"dashboard/pacifyr/"+userid+"/ratingStatistics?fromDate="+fromDateYear+"&toDate="+YearEndDate;
 
             }
             setLoading();
@@ -400,7 +451,7 @@ public class RatingDetailActivity extends PacifyrAppCompactActivity {
             backImv.setVisibility(View.VISIBLE);
             titleTxv.setVisibility(View.VISIBLE);
             leftLlay.setVisibility(View.VISIBLE);
-            defSetText(titleTxv,"my rating");
+            defSetText(titleTxv,"MY RATINGS");
             backImv.setImageDrawable(getResources().getDrawable(R.drawable.backarrow));
             //backImv.setBackgroundResource(R.drawable.leftmen);
             leftLlay.setOnClickListener(new View.OnClickListener() {

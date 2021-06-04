@@ -3,6 +3,7 @@ package com.pacifyr.client.adapter;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,12 +20,16 @@ import com.pacifyr.client.event.BusProvider;
 import com.pacifyr.client.event.WeekSetEvent;
 
 import org.joda.time.DateTimeConstants;
+import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
 
@@ -158,7 +163,11 @@ public class SortWeekAdapter extends RecyclerView.Adapter<SortWeekAdapter.MyView
 
     private void createYearList() {
         try {
-            LocalDate currentDate = new LocalDate();
+            Calendar cal = Calendar.getInstance();
+            int res = cal.getActualMaximum(Calendar.DATE);
+            cal.set(Calendar.DATE,res);
+            Date date = cal.getTime();
+            LocalDate currentDate = new LocalDate(date);
             LocalDate startofCurrentYear = currentDate.withDayOfYear(DateTimeConstants.JANUARY);
 
             DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
@@ -171,9 +180,18 @@ public class SortWeekAdapter extends RecyclerView.Adapter<SortWeekAdapter.MyView
             String displayFrom = displayFormatter.print(startofCurrentYear);
             String displayTo = displayFormatter.print(currentDate);
 
-            String yearStat = GLOBAL_URL + "dashboard/pacifyr/" + userid + "/sessionStatistics?fromDate=" + fromDate + "&toDate=" + toDate;
-            String thisYearUrl = GLOBAL_URL + "session/pacifyr/all?userId=" + userid + "&fromDate=" + fromDate + "&toDate=" + toDate;
+            String yearStat;// = GLOBAL_URL + "dashboard/pacifyr/" + userid + "/ratingStatistics?fromDate=" + fromDate + "&toDate=" + toDate;
+            String thisYearUrl;// = GLOBAL_URL + "session/pacifyr/rated?userId=" + userid + "&fromDate=" + fromDate + "&toDate=" + toDate;
 
+            if(ratingType.equals("fiveStar")){
+
+                yearStat = "fiveStar";
+                thisYearUrl = GLOBAL_URL + "session/pacifyr/rated?userId=" + userid + "&fromDate=" + fromDate + "&toDate=" + toDate+"&rating=5";
+
+            }else {
+                yearStat = GLOBAL_URL + "dashboard/pacifyr/" + userid + "/ratingStatistics?fromDate=" + fromDate + "&toDate=" + toDate;
+                thisYearUrl = GLOBAL_URL + "session/pacifyr/rated?userId=" + userid + "&fromDate=" + fromDate + "&toDate=" + toDate;
+            }
             modelRatingDateDetail.setFromDate(fromDate);
             modelRatingDateDetail.setToDate(toDate);
             modelRatingDateDetail.setRatingUrl(thisYearUrl);
@@ -185,18 +203,16 @@ public class SortWeekAdapter extends RecyclerView.Adapter<SortWeekAdapter.MyView
             LocalDate startofSecndYear = startofCurrentYear.minusYears(1);
             //LocalDate secondTo = startofSecndYear.withDayOfYear(DateTimeConstants.JANUARY);
             LocalDate endOfSecondYear = startofCurrentYear.minusDays(1);
-
-
             for(int i=0;i<11;i++)
             {
                 modelRatingDateDetail = new ModelRatingDateDetail();
                 String fromDateMonth = formatter.print(startofSecndYear);
                 String toDate2 = formatter.print(endOfSecondYear);
 
-                String thisWeekUrl2 = GLOBAL_URL + "session/pacifyr/all?userId=" + userid + "&fromDate="
-                        + fromDateMonth + "&toDate=" + toDate2;
+                String thisWeekUrl2 = GLOBAL_URL + "session/pacifyr/rated?userId=" + userid + "&fromDate=" + fromDateMonth + "&toDate=" + toDate2;
                 String  weekStatUrl2 = GLOBAL_URL+"dashboard/pacifyr/"+userid+
-                        "/sessionStatistics?fromDate="+fromDateMonth+"&toDate="+toDate2;
+                        "/ratingStatistics?fromDate="+fromDateMonth+"&toDate="+toDate2;
+
 
                 displayFrom = displayFormatter.print(startofSecndYear);
                 displayTo = displayFormatter.print(endOfSecondYear);
@@ -219,12 +235,19 @@ public class SortWeekAdapter extends RecyclerView.Adapter<SortWeekAdapter.MyView
         {
             e.printStackTrace();
         }
+
+
+
     }
 
     private void createMonthList() {
 
         try {
-            LocalDate now = new LocalDate();
+            Calendar cal = Calendar.getInstance();
+            int res = cal.getActualMaximum(Calendar.DATE);
+            cal.set(Calendar.DATE,res);
+            Date date = cal.getTime();
+            LocalDate now = new LocalDate(date);
             LocalDate startofMonth = now.withDayOfMonth(DateTimeConstants.JANUARY);
             DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
             DateTimeFormatter displayFormatter = DateTimeFormat.forPattern("MMM");
@@ -253,7 +276,6 @@ public class SortWeekAdapter extends RecyclerView.Adapter<SortWeekAdapter.MyView
 
             LocalDate startofSecndMonth = startofMonth.minusMonths(1);
             LocalDate secondTo = startofSecndMonth.dayOfMonth().withMaximumValue();
-
             for(int i=0;i<11;i++)
             {
                 modelRatingDateDetail = new ModelRatingDateDetail();
@@ -290,35 +312,93 @@ public class SortWeekAdapter extends RecyclerView.Adapter<SortWeekAdapter.MyView
         }
         catch (Exception ex)
         {ex.printStackTrace();}
+
+
+
     }
 
     private void createWeekList() {
 
         try {
-            LocalDate now1 = new LocalDate();
-            LocalDate backNow = now1.minusDays(7);
-            LocalDate startofWeek = backNow.withDayOfWeek(DateTimeConstants.SUNDAY);
-            LocalDate now = now1.withDayOfWeek(DateTimeConstants.SATURDAY);
-            DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
+            Date c = Calendar.getInstance().getTime();
+            Calendar calendar = Calendar.getInstance();
+            System.out.println("Current time =>" + c);
 
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+            String formattedDate = df.format(c);
+
+            LocalDate now1 = new LocalDate(formattedDate);
+            LocalDate backNow=null;
+            LocalDate startofWeek=null;
+
+            LocalDate now = null;
+            int dayIsundaorNot=calendar.get(Calendar.DAY_OF_WEEK);
+            if (dayIsundaorNot==Calendar.SUNDAY){
+
+                startofWeek = now1.withDayOfWeek(DateTimeConstants.SUNDAY);
+                SimpleDateFormat df1 = new SimpleDateFormat("yyyy-MM-dd");
+                String formattedDate1 = df1.format(c);
+                now= new LocalDate(formattedDate1);
+
+            }
+            else
+            {
+                backNow= now1.minusDays(7);
+                startofWeek = backNow.withDayOfWeek(DateTimeConstants.SUNDAY);
+                now = now1.withDayOfWeek(DateTimeConstants.SATURDAY);
+            }
+
+
+            DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
+            formatter.withZone(DateTimeZone.getDefault());
             DateTimeFormatter displayFormatter = DateTimeFormat.forPattern("MMM dd");
+            displayFormatter.withZone(DateTimeZone.getDefault());
+            String fromDateWeek = formatter.print(startofWeek);
+            String displayFrom = displayFormatter.print(startofWeek);
+            String displayTo =null;
+            String toDate =null;
+
+            if (dayIsundaorNot==Calendar.SUNDAY){
+
+                displayTo = displayFormatter.print(now.plusDays(6));
+                toDate=formatter.print(now.plusDays(6));
+            }
+            else
+            {
+                displayTo = displayFormatter.print(now);
+                toDate= formatter.print(now);
+            }
+
+
             DateTimeFormatter displaymonth = DateTimeFormat.forPattern("MMM");
             DateTimeFormatter displayFormatterdateonly = DateTimeFormat.forPattern("- dd");
 
-
-            String fromDateWeek = formatter.print(startofWeek);
-            String displayFrom = displayFormatter.print(startofWeek);
-            String displayTo = displayFormatter.print(now);
-            String toDate = formatter.print(now);
-
             String start_day_month= displaymonth.print(startofWeek);
-            String end_day_month= displaymonth.print(now);
+            String end_day_month= displaymonth.print(now.plusDays(7));
             displayFrom = displayFormatter.print(startofWeek);
-            if(start_day_month.equalsIgnoreCase(end_day_month))
-                displayTo = displayFormatterdateonly.print(now);
-            else
-                displayTo = displayFormatter.print(now);
+            if(start_day_month.equalsIgnoreCase(end_day_month)) {
 
+                if (dayIsundaorNot==Calendar.SUNDAY){
+
+                    displayTo = displayFormatterdateonly.print(now.plusDays(6));
+                }
+                else
+                {
+                    displayTo = displayFormatterdateonly.print(now);
+                }
+            }
+            else {
+                if (dayIsundaorNot==Calendar.SUNDAY){
+
+                    displayTo = displayFormatter.print(now.plusDays(6));
+                }
+                else
+                {
+                    displayTo = displayFormatter.print(now);
+                }
+
+
+            }
 
             String weekStatUrl;
             String thisWeekUrl;
@@ -366,11 +446,14 @@ public class SortWeekAdapter extends RecyclerView.Adapter<SortWeekAdapter.MyView
 
                     weekStatUrl2 = GLOBAL_URL + "dashboard/pacifyr/" + userid + "/ratingStatistics?fromDate=" + fromDateWeek2 + "&toDate=" + toDate2;
                 }
+                start_day_month= displaymonth.print(startofSecndWeek);
+                end_day_month= displaymonth.print(secondTo);
                 displayFrom = displayFormatter.print(startofSecndWeek);
                 if(start_day_month.equalsIgnoreCase(end_day_month))
-                displayTo = displayFormatterdateonly.print(secondTo);
+                    displayTo = displayFormatterdateonly.print(secondTo);
                 else
-                displayTo = displayFormatter.print(secondTo);
+                    displayTo = displayFormatter.print(secondTo);
+
 
                 modelRatingDateDetail.setFromDateDisplay(displayFrom);
                 modelRatingDateDetail.setToDateDisplay(displayTo);
@@ -385,6 +468,7 @@ public class SortWeekAdapter extends RecyclerView.Adapter<SortWeekAdapter.MyView
             }
             modelWeekList.get(0).setSelect(true);
             Collections.reverse(modelWeekList);
+            modelWeekList.size();
 
         }
         catch (Exception ex)

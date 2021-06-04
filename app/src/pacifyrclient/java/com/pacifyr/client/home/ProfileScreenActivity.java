@@ -627,6 +627,15 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
             if (isValid(pacifyerDetial.getNumberOfReviews()))
             {
                 ratingCtxv.setText(pacifyerDetial.getNumberOfReviews() + " Reviews");
+                ratingCtxv.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        Intent i= new Intent(ProfileScreenActivity.this,RatingDetailActivity.class);
+                        i.putExtra("type","fiveStar");
+                        startActivity(i);
+                    }
+                });
             }
 
             if (isValid(pacifyerDetial.getWebsiteURL())) {
