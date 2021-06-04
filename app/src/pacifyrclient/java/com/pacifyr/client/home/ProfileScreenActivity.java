@@ -631,9 +631,7 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
                     @Override
                     public void onClick(View view) {
 
-                        Intent i= new Intent(ProfileScreenActivity.this,RatingDetailActivity.class);
-                        i.putExtra("type","fiveStar");
-                        startActivity(i);
+                        ReviewListingActivity.start(ProfileScreenActivity.this,pacifyerDetial.getId());
                     }
                 });
             }

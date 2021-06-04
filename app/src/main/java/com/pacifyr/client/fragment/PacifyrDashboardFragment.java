@@ -61,7 +61,6 @@ import java.util.Set;
 import java.util.TimeZone;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import me.leolin.shortcutbadger.ShortcutBadger;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 import static com.pacifyr.client.adapter.CustomerListAdapter.custListUser;
@@ -784,7 +783,7 @@ public class PacifyrDashboardFragment extends BaseFragment implements SwipeRefre
                             zeroReviewCtxv.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    ReviewListingActivity.start(getContext());
+                                   /// ReviewListingActivity.start(getContext(), pacifyerDetial.getId());
                                 }
                             });
                         }

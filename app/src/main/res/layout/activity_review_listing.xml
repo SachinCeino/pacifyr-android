@@ -9,7 +9,7 @@
         android:layout_width="match_parent">
     </include>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/include"
@@ -22,6 +22,14 @@
             android:background="@color/white"
             android:id="@+id/review_list_rcv"/>
 
-    </LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/EmptyLayout"
+            android:text="No reviews available"
+            android:gravity="center"
+            android:visibility="gone"
+            android:textSize="16sp"></TextView>
+    </RelativeLayout>
 
 </RelativeLayout>

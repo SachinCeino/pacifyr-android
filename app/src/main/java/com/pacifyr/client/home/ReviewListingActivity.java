@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -39,9 +40,13 @@ public class ReviewListingActivity extends PacifyrAppCompactActivity {
     RecyclerView reviewListRcv;
     ReviewListAdapter reviewListAdapter;
     RecyclerView.LayoutManager layoutManager;
+    String mPacifyrId;
+    TextView EmptyLayout;
 
-    public static void start(Context context) {
+    public static void start(Context context, String mPacifyrId) {
         Intent intent = new Intent(context, ReviewListingActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra("mPacifyrId",mPacifyrId);
         context.startActivity(intent);
     }
 
@@ -50,7 +55,14 @@ public class ReviewListingActivity extends PacifyrAppCompactActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_review_listing);
         reviewListRcv = findViewById(R.id.review_list_rcv);
+        EmptyLayout =findViewById(R.id.EmptyLayout);
         onSetActionBar();
+
+        if (isValid(getIntent()) && isValid(getIntent().getExtras())
+        && isValid(getIntent().getExtras().get("mPacifyrId")))
+        {
+            mPacifyrId=getIntent().getExtras().get("mPacifyrId").toString();
+        }
 
         callApi();
 
@@ -58,9 +70,11 @@ public class ReviewListingActivity extends PacifyrAppCompactActivity {
 
     private void callApi() {
         try{
+            if (!isValid(mPacifyrId))
+                return;
             setLoading();
             showProgress();
-            url = GLOBAL_URL+"rating/getAllReviews/"+getPrefManager().getUserID();
+            url = GLOBAL_URL+"rating/getAllReviews/"+mPacifyrId;
             AjaxCallback cb = new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, JSONObject json, AjaxStatus status) {
@@ -69,14 +83,20 @@ public class ReviewListingActivity extends PacifyrAppCompactActivity {
                         MReviews reviews = GsonUtils.getInstance().gsonToMReviews(json);
                         reviewsList = reviews.getResultsList();
                         if(isValid(reviewsList)) {
+                            EmptyLayout.setVisibility(View.GONE);
                             reviewListAdapter = new ReviewListAdapter(ReviewListingActivity.this,reviewsList);
                             layoutManager = new LinearLayoutManager(ReviewListingActivity.this);
                             reviewListRcv.setLayoutManager(layoutManager);
                             reviewListRcv.setAdapter(reviewListAdapter);
                         }
+                        else
+                        {
+                            EmptyLayout.setVisibility(View.VISIBLE);
+                        }
 
                     } catch (Exception e) {
                         hideProgress();
+                        EmptyLayout.setVisibility(View.VISIBLE);
                         e.printStackTrace();
                     }
                 }
@@ -90,6 +110,7 @@ public class ReviewListingActivity extends PacifyrAppCompactActivity {
         catch (Exception e)
         {
             e.printStackTrace();
+            EmptyLayout.setVisibility(View.VISIBLE);
             Log.d("API CALL",e.getMessage());
         }
     }
@@ -121,7 +142,7 @@ public class ReviewListingActivity extends PacifyrAppCompactActivity {
         backImv.setVisibility(View.VISIBLE);
         titleTxv.setVisibility(View.VISIBLE);
         leftLlay.setVisibility(View.VISIBLE);
-        defSetText(titleTxv,"Review");
+        defSetText(titleTxv,"REVIEWS");
         titleTxv.setTextColor(getResources().getColor(R.color.white));
         backImv.setVisibility(View.VISIBLE);
         leftTxv.setVisibility(View.GONE);
