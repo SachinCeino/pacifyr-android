@@ -426,7 +426,7 @@ public class SwipeDeckConnectPacifyrAdapter extends BaseAdapter {
                 if (isValidhtml(imgURL))
                     Picasso.with(context).load(imgURL).placeholder(R.drawable.placeholder_user).into(img_prof);
 
-                img_prof.setOnClickListener(new View.OnClickListener() {
+                v.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         ProfileScreenActivity.start(context, searchResults.get(position).getId(), true);
