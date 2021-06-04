@@ -113,7 +113,8 @@ public class NegativeEmotionsAdapter extends RecyclerView.Adapter<NegativeEmotio
                     activity.findViewById(R.id.button3).setBackgroundResource(R.drawable.circle_click_btn);
                     activity.findViewById(R.id.button2).setBackgroundResource(R.drawable.circle_button);
                     MainTextView whyFellCtxv = activity.findViewById(R.id.why_feeling_ctxv);
-                    whyFellCtxv.setText("Why are you feeling " + list.get(position).getTitle() + "?");
+                  //  whyFellCtxv.setText("Why are you feeling " + list.get(position).getTitle() + "?");
+                    whyFellCtxv.setText(context.getResources().getString(R.string.How_can_we_help_you_today));
                     Button b1 = activity.findViewById(R.id.button1);
                     Button b2 = activity.findViewById(R.id.button2);
                     Button b3 = activity.findViewById(R.id.button3);
