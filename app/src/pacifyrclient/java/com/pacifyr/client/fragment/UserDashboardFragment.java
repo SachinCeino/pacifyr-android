@@ -408,16 +408,22 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, document.getId() + " => " + document.getData());
 
                                 try {
-                                    Log.d(TAG, document.get("endDate").toString() );
-                                    Log.d(TAG, document.get("imageUrl").toString() );
-                                    Log.d(TAG, document.get("startDate").toString() );
-                                    Log.d(TAG, document.get("text").toString() );
-                                    Log.d(TAG, document.get("url").toString() );
-                                    String bannerUrl=document.get("imageUrl").toString();
-                                    String webinarUrl=document.get("url").toString();
+
+                                    String bannerUrl = null;
+                                    if (isValid(document.get("imageUrl")))
+                                    {
+                                        bannerUrl=document.get("imageUrl").toString();
+                                    }
+
+                                    String webinarUrl=null;
+                                    if (isValid(document.get("url")))
+                                    {
+                                        webinarUrl=document.get("url").toString();
+                                    }
+
+
                                     if (isValid(document.get("text").toString()))
                                     {
                                         bannerTitle.setText(document.get("text").toString());
@@ -442,10 +448,11 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                                         ActionButtonJoin.setVisibility(View.GONE);
                                     }
 
+                                    String finalWebinarUrl = webinarUrl;
                                     ActionButtonJoin.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View view) {
-                                            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(webinarUrl));
+                                            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(finalWebinarUrl));
                                             browserIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                             startActivity(browserIntent);
                                         }
