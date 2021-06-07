@@ -177,17 +177,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
             setMyAdapter();
         }
 
-        /**refresh dashboard every 5 seconds for checking available active sessions **/
 
-        _TimerRefreshDashBoard = new Timer();
-        _TimerRefreshDashBoard.scheduleAtFixedRate(new TimerTask() {
-
-                                  @Override
-                                  public void run() {
-                                      checkIsThereAnyActiveSessionsAvailable();
-                                  }
-
-                              },0,5000);
 
     }
 
@@ -196,6 +186,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
         super.onDestroy();
         if (isValid(_TimerRefreshDashBoard)) {
             _TimerRefreshDashBoard.cancel();
+            Log.w("TIMERRUNNING","NO");
         }
     }
 
@@ -607,7 +598,18 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
         try {
 
             checkLastTimeLoginFiftyDaysExcceed();
-            checkIsThereAnyActiveSessionsAvailable();
+            /**refresh dashboard every 5 seconds for checking available active sessions **/
+
+            _TimerRefreshDashBoard = new Timer();
+            _TimerRefreshDashBoard.scheduleAtFixedRate(new TimerTask() {
+
+                @Override
+                public void run() {
+                    checkIsThereAnyActiveSessionsAvailable();
+                    Log.w("TIMERRUNNING","YES");
+                }
+
+            },0,5000);
             if (isCallActive)
                 LinearLayout_Active_Session.setVisibility(View.GONE);
             setUpBanner();
@@ -631,6 +633,19 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
         super.onStop();
         EventBus.getDefault().unregister(this);
         isVisible=false;
+        if (isValid(_TimerRefreshDashBoard)) {
+            _TimerRefreshDashBoard.cancel();
+            Log.w("TIMERRUNNING","NO");
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (isValid(_TimerRefreshDashBoard)) {
+            _TimerRefreshDashBoard.cancel();
+            Log.w("TIMERRUNNING","NO");
+        }
     }
 
     @org.greenrobot.eventbus.Subscribe(threadMode = ThreadMode.MAIN)
