@@ -117,6 +117,7 @@
                                             android:layout_height="wrap_content"
                                             android:layout_gravity="center"
                                             android:text="Join webinar"
+                                            android:id="@+id/TextView_buttonText"
                                             android:textColor="@color/white"
                                             android:textSize="12sp" />
                                         <ImageView

@@ -155,7 +155,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
     TextView JoinChat,JoinCall;
     private ImageView bannerLogo;
     LinearLayout ActionButtonJoin,bannerLogoll;
-    private TextView bannerTitle,TextViewHideBanner;
+    private TextView bannerTitle,TextViewHideBanner,TextView_buttonText;
     private RelativeLayout bannerLayout;
 
     private void getPermissions() {
@@ -214,6 +214,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
         bannerLayout=view.findViewById(R.id.bannerLayout);
         bannerLogoll=view.findViewById(R.id.bannerLogoll);
         TextViewHideBanner=view.findViewById(R.id.TextViewHideBanner);
+        TextView_buttonText=view.findViewById(R.id.TextView_buttonText);
 
 
         swipeRefreshLayout.setOnRefreshListener(this);
@@ -403,9 +404,18 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                                 try {
 
                                     String bannerUrl = null;
+                                    String buttonText=null;
                                     if (isValid(document.get("imageUrl")))
                                     {
                                         bannerUrl=document.get("imageUrl").toString();
+                                    }
+                                    if(isValid(document.get("buttonText")))
+                                    {
+                                        buttonText=document.get("buttonText").toString();
+                                    }
+                                    if (isValid(buttonText))
+                                    {
+                                        TextView_buttonText.setText(buttonText);
                                     }
 
                                     String webinarUrl=null;
@@ -438,6 +448,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                                     }else {
                                         ActionButtonJoin.setVisibility(View.GONE);
                                     }
+
 
                                     String finalWebinarUrl = webinarUrl;
                                     ActionButtonJoin.setOnClickListener(new View.OnClickListener() {
