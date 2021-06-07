@@ -7,7 +7,7 @@
     android:visibility="visible"
     android:id="@+id/top_llay"
     android:layout_height="230dp"
-    android:layout_margin="15dp"
+    android:layout_margin="10dp"
     app:cardCornerRadius="6dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">

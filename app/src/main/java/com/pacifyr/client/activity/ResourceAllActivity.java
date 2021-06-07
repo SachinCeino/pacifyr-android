@@ -108,6 +108,22 @@ public class ResourceAllActivity extends PacifyrActivity {
         }
 
 
+        SearchView_Resource.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SearchView_Resource.setIconified(false);
+            }
+        });
+        SearchView_Resource.setFocusable(false);
+        SearchView_Resource.setIconified(true);
+        SearchView_Resource.clearFocus();
+        SearchView_Resource.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                hideKeyboard();
+            }
+        });
+
         SearchView_Resource.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {

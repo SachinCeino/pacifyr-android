@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.SearchView;
 import android.widget.TextView;
 
@@ -191,6 +192,21 @@ public class ResourcesFragment extends BaseFragment {
             }
         });
 
+        SearchView_Resource.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SearchView_Resource.setIconified(false);
+            }
+        });
+        SearchView_Resource.setFocusable(false);
+        SearchView_Resource.setIconified(true);
+        SearchView_Resource.clearFocus();
+        SearchView_Resource.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                hideKeyboard();
+            }
+        });
         SearchView_Resource.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -229,6 +245,16 @@ public class ResourcesFragment extends BaseFragment {
         });
 
     }
+
+    public void hideKeyboard() {
+        // Check if no view has focus:
+        View view = getActivity().getCurrentFocus();
+        if(view != null) {
+            InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        }
+    }
+
 
     private void loadSearchResources(String query) {
 
