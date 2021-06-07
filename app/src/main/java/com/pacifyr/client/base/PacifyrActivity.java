@@ -1,10 +1,13 @@
 package com.pacifyr.client.base;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.PendingIntent;
 import android.app.PictureInPictureParams;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -30,6 +33,7 @@ import android.util.Log;
 import android.util.Rational;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -1228,10 +1232,9 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
         String time = Utility.getDate(billingSummary.getSession().getCreatedAt(), true);
         View view = LayoutInflater.from(PacifyrActivity.this).inflate(R.layout.layout_bill_summary, null);
         TextView ok = view.findViewById(R.id.button_ok);
-        TextView text_provider = view.findViewById(R.id.text_provider);
         TextView text_date = view.findViewById(R.id.text_date);
-        TextView text_start_date = view.findViewById(R.id.text_start_date);
-        TextView text_duration = view.findViewById(R.id.text_duration);
+        TextView text_time = view.findViewById(R.id.text_time);
+        TextView text_provider = view.findViewById(R.id.text_provider);
         TextView text_amount_charged = view.findViewById(R.id.text_amount_charged);
         PrefManager prefM = PrefManager.getInstance(getApplicationContext());
         String country = prefM.getCountry();
@@ -1243,9 +1246,21 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
         }
         try {
             text_provider.setText(billingSummary.getSession().getPacifyr().getFirstName());
-            text_date.setText(date.substring(0, date.indexOf(' ')));
-            text_start_date.setText(time);
-            text_duration.setText(billingSummary.getSession().getDuration());
+           // text_date.setText(date.substring(0, date.indexOf(' ')));
+            Calendar c = Calendar.getInstance();
+            SimpleDateFormat targetFormat;
+            if (getPrefManager().getCountry().equals("India")) {
+                targetFormat = new SimpleDateFormat("dd-MM-yyyy'  'hh:mm a", Locale.ENGLISH);
+            } else {
+                targetFormat = new SimpleDateFormat("MM-dd-yyyy'  'hh:mm a", Locale.ENGLISH);
+            }
+            String strDate = targetFormat.format(c.getTime());
+            strDate.replace("AM", "am").replace("PM","pm");
+
+
+            String[] separated = strDate.split(" ");
+            text_date.setText(separated[0].toLowerCase()+"");
+            text_time.setText(separated[2].toLowerCase()+" "+separated[3].toLowerCase()+"");
             if (isValid(billingSummary.getSession()) && isValid(billingSummary.getSession().getTimeSlotBookingId()))
             text_amount_charged.setText(sign + billingSummary.getSessionCost() +getResources().getString(R.string.prepaid));
             else
@@ -1274,7 +1289,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
             }
         });
         android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(PacifyrActivity.this);
-        builder.setTitle("Bill Summary");
+        builder.setTitle("Payment summary");
         builder.setView(view);
         builder.setCancelable(false);
         billSummary = builder.create();
@@ -4089,6 +4104,8 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                             TextView transactionId = view.findViewById(R.id.transactionId);
                             TextView text_date = view.findViewById(R.id.text_date);
                             TextView text_amount_charged = view.findViewById(R.id.text_amount_charged);
+                            TextView text_time= view.findViewById(R.id.text_time);
+                            TextView textViewCopyTransaction= view.findViewById(R.id.textViewCopyTransaction);
                             try {
                                 transactionId.setText(object.getTransactionId());
                                 Calendar c = Calendar.getInstance();
@@ -4100,7 +4117,11 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                                 }
                                 String strDate = targetFormat.format(c.getTime());
                                 strDate.replace("AM", "am").replace("PM","pm");
-                                text_date.setText(strDate.toLowerCase());
+
+
+                                String[] separated = strDate.split(" ");
+                                text_date.setText(separated[0].toLowerCase()+"");
+                                text_time.setText(separated[2].toLowerCase()+" "+separated[3].toLowerCase()+"");
 
                                 PrefManager prefM = PrefManager.getInstance(getApplicationContext());
                                 String country = prefM.getCountry();
@@ -4150,8 +4171,32 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                                             args);
                                 }
                             });
+
+                            textViewCopyTransaction.setOnTouchListener(new View.OnTouchListener() {
+                                @SuppressLint("ClickableViewAccessibility")
+                                @Override
+                                public boolean onTouch(View v, MotionEvent event) {
+                                    if (event.getAction() == MotionEvent.ACTION_UP) {
+                                        int[] textLocation = new int[2];
+                                        textViewCopyTransaction.getLocationOnScreen(textLocation);
+
+                                        if(event.getRawX() >= textViewCopyTransaction.getRight() - textViewCopyTransaction.getTotalPaddingRight()) {
+                                            /** copy transaction id to clipboard **/
+
+                                            ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                                            ClipData clip = ClipData.newPlainText("transactionId", transactionId.getText());
+                                            clipboard.setPrimaryClip(clip);
+                                            Toast.makeText(PacifyrActivity.this, "Copied", Toast.LENGTH_SHORT).show();
+                                              return true;
+                                        }
+
+                                    }
+                                    return true;
+                                }
+                            });
+
                             android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(PacifyrActivity.this);
-                            builder.setTitle("Payment " + object.getTransactionStatus());
+                            builder.setTitle("Payment summary");
                             builder.setView(view);
                             builder.setCancelable(false);
                             PaymentPopup = builder.create();
@@ -4174,8 +4219,10 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                             View view = LayoutInflater.from(PacifyrActivity.this).inflate(R.layout.layout_paytm_payment_report, null);
                             TextView ok = view.findViewById(R.id.button_ok);
                             TextView transactionId = view.findViewById(R.id.transactionId);
+                            TextView textViewCopyTransaction= view.findViewById(R.id.textViewCopyTransaction);
                             TextView text_date = view.findViewById(R.id.text_date);
                             TextView text_amount_charged = view.findViewById(R.id.text_amount_charged);
+                            TextView text_time= view.findViewById(R.id.text_time);
                             try {
                                 transactionId.setText(object.getTransactionId());
 
@@ -4188,7 +4235,10 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                                 }
                                 String strDate = targetFormat.format(c.getTime());
                                 strDate.replace("AM", "am").replace("PM","pm");
-                                text_date.setText(strDate.toLowerCase());
+
+                                String[] separated = strDate.split(" ");
+                                text_date.setText(separated[0].toLowerCase()+"");
+                                text_time.setText(separated[2].toLowerCase()+" "+separated[3].toLowerCase()+"");
 
                                 PrefManager prefM = PrefManager.getInstance(getApplicationContext());
                                 String country = prefM.getCountry();
@@ -4238,8 +4288,32 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
 
                                 }
                             });
+
+                            textViewCopyTransaction.setOnTouchListener(new View.OnTouchListener() {
+                                @SuppressLint("ClickableViewAccessibility")
+                                @Override
+                                public boolean onTouch(View v, MotionEvent event) {
+                                    if (event.getAction() == MotionEvent.ACTION_UP) {
+                                        int[] textLocation = new int[2];
+                                        textViewCopyTransaction.getLocationOnScreen(textLocation);
+
+                                        if(event.getRawX() >= textViewCopyTransaction.getRight() - textViewCopyTransaction.getTotalPaddingRight()) {
+                                            /** copy transaction id to clipboard **/
+
+                                            ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                                            ClipData clip = ClipData.newPlainText("transactionId", transactionId.getText());
+                                            clipboard.setPrimaryClip(clip);
+                                            Toast.makeText(PacifyrActivity.this, "Copied", Toast.LENGTH_SHORT).show();
+                                            return true;
+                                        }
+
+                                    }
+                                    return true;
+                                }
+                            });
+
                             android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(PacifyrActivity.this);
-                            builder.setTitle("Payment " + object.getTransactionStatus());
+                            builder.setTitle("Payment summary");
                             builder.setView(view);
                             builder.setCancelable(false);
                             PaymentPopup = builder.create();

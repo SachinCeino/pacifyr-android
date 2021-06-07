@@ -15,28 +15,38 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:weightSum="2">
             <TextView
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:id="@+id/textViewCopyTransaction"
                 android:ems="10"
+                android:textStyle="bold"
                 android:layout_gravity="center"
-                android:gravity="left"
+                android:gravity="center_vertical"
+                android:textSize="12sp"
+                android:textColor="#9EAFB6"
+                android:drawableRight="@drawable/transacation_clipboard_copy"
+                android:drawableEnd="@drawable/transacation_clipboard_copy"
+                android:drawablePadding="5dp"
+                android:textAllCaps="true"
                 android:padding="5dp"
-                android:textSize="15sp"
-                android:textColor="@color/black"
-                android:text="transactionID" />
+                android:text="Transaction ID" />
             <TextView
                 android:id="@+id/transactionId"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_gravity="center"
                 android:gravity="left"
                 android:text=""
-                android:padding="5dp"
+                android:layout_marginTop="5dp"
+                android:background="#EDEDED"
+                android:textColor="#5F6C71"
+                android:padding="10dp"
+                android:textSize="12sp"
                 android:textStyle="bold" />
 
         </LinearLayout>
@@ -44,27 +54,60 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="5dp"
-            android:weightSum="2">
+            android:layout_marginTop="5dp">
+
             <TextView
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="10"
-                android:layout_gravity="center"
+                android:layout_gravity="left"
                 android:gravity="left"
                 android:padding="5dp"
-                android:textSize="15sp"
-                android:textColor="@color/black"
-                android:text="Date" />
+                android:text="Date"
+                android:textStyle="bold"
+                android:textAllCaps="true"
+                android:textColor="#9EAFB6"
+                android:textSize="12sp" />
+
             <TextView
                 android:id="@+id/text_date"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_gravity="center"
-                android:gravity="left"
+                android:layout_gravity="right"
+                android:gravity="right"
                 android:text=""
+                android:textSize="12sp"
+                android:textAllCaps="false"
+                android:padding="5dp"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:gravity="left"
+                android:padding="5dp"
+                android:textAllCaps="true"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:textColor="#9EAFB6"
+                android:text="Time" />
+            <TextView
+                android:id="@+id/text_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:layout_gravity="right"
+                android:gravity="right"
+                android:text=""
+                android:textColor="@color/black"
                 android:textAllCaps="false"
                 android:padding="5dp"
                 android:textStyle="bold" />
@@ -75,27 +118,27 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="5dp"
-            android:weightSum="2">
+            android:layout_marginTop="5dp">
             <TextView
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="10"
-                android:layout_gravity="center"
+                android:textAllCaps="true"
+                android:layout_gravity="left"
                 android:gravity="left"
                 android:padding="5dp"
-                android:textSize="15sp"
-                android:textColor="@color/black"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:textColor="#9EAFB6"
                 android:text="Amount Charged" />
             <TextView
                 android:id="@+id/text_amount_charged"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_gravity="center"
-                android:gravity="left"
+                android:layout_gravity="right"
+                android:gravity="right"
+                android:textColor="@color/black"
                 android:text=""
+                android:textSize="12sp"
                 android:padding="5dp"
                 android:textStyle="bold" />
 
