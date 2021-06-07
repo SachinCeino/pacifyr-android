@@ -167,7 +167,7 @@ public class CodeVerifyActivity extends BaseAppCompactActivity {
 
                     Bundle args =
                             FirebaseLogging.getConstantArgsLoggedOut(CodeVerifyActivity.this);
-                    args.putString(FirebaseLogging.EC, phonenumber + "onVerificationFailed"+String.valueOf(e));
+                    args.putString(FirebaseLogging.EC, phonenumber + "onVerificationFailed"+e.getMessage());
                     FirebaseLogging.sendLog(CodeVerifyActivity.this,
                             FirebaseLogging.EVENT_LOGIN_OTP_VERIFICATION_FAIL, args);
                 }

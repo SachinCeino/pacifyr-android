@@ -240,7 +240,7 @@ public class RegisterVerifyActivity extends PacifyrActivity {
 
                     Bundle args =
                             FirebaseLogging.getConstantArgsLoggedOut(RegisterVerifyActivity.this);
-                    args.putString(FirebaseLogging.EC, phoneRegister + "onVerificationFailed"+String.valueOf(e));
+                    args.putString(FirebaseLogging.EC, phoneRegister + "onVerificationFailed"+e.getMessage());
                     FirebaseLogging.sendLog(RegisterVerifyActivity.this,
                             FirebaseLogging.EVENT_LOGIN_OTP_VERIFICATION_FAIL, args);
                 }

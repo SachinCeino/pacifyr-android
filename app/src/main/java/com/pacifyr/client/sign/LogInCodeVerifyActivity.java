@@ -296,7 +296,7 @@ public class LogInCodeVerifyActivity extends PacifyrActivity {
 
                     Bundle args =
                             FirebaseLogging.getConstantArgsLoggedOut(LogInCodeVerifyActivity.this);
-                    args.putString(FirebaseLogging.EC, phonenumber + "onVerificationFailed"+e);
+                    args.putString(FirebaseLogging.EC, phonenumber + "onVerificationFailed"+e.getMessage());
                     FirebaseLogging.sendLog(LogInCodeVerifyActivity.this,
                             FirebaseLogging.EVENT_LOGIN_OTP_VERIFICATION_FAIL, args);
                 }
