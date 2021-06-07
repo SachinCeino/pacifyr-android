@@ -236,6 +236,12 @@ public class LogInCodeVerifyActivity extends PacifyrActivity {
 
                     Toast.makeText(getApplicationContext(), "Success : Verification complete", Toast.LENGTH_LONG).show();
 
+                    Bundle args =
+                            FirebaseLogging.getConstantArgsLoggedOut(LogInCodeVerifyActivity.this);
+                    args.putString(FirebaseLogging.EC, phonenumber + "onVerificationCompleted");
+                    FirebaseLogging.sendLog(LogInCodeVerifyActivity.this,
+                            FirebaseLogging.EVENT_LOGIN_OTP_SENT, args);
+
                 }
 
                 @Override
@@ -287,6 +293,12 @@ public class LogInCodeVerifyActivity extends PacifyrActivity {
                     // [START_EXCLUDE]
                   //  updateUI(STATE_VERIFY_FAILED);
                     // [END_EXCLUDE]
+
+                    Bundle args =
+                            FirebaseLogging.getConstantArgsLoggedOut(LogInCodeVerifyActivity.this);
+                    args.putString(FirebaseLogging.EC, phonenumber + "onVerificationFailed"+e);
+                    FirebaseLogging.sendLog(LogInCodeVerifyActivity.this,
+                            FirebaseLogging.EVENT_LOGIN_OTP_VERIFICATION_FAIL, args);
                 }
 
                 @Override
@@ -306,6 +318,12 @@ public class LogInCodeVerifyActivity extends PacifyrActivity {
                     // Update UI
                  //   updateUI(STATE_CODE_SENT);
                     // [END_EXCLUDE]
+
+                    Bundle args =
+                            FirebaseLogging.getConstantArgsLoggedOut(LogInCodeVerifyActivity.this);
+                    args.putString(FirebaseLogging.EC, phonenumber + "onCodeSent");
+                    FirebaseLogging.sendLog(LogInCodeVerifyActivity.this,
+                            FirebaseLogging.EVENT_LOGIN_OTP_SENT, args);
                 }
             };
             // [END phone_auth_callbacks]

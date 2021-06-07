@@ -37,6 +37,7 @@ import com.pacifyr.client.R;
 import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.NotifyEvent;
+import com.pacifyr.client.utils.FirebaseLogging;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.squareup.otto.Subscribe;
 
@@ -173,6 +174,7 @@ public class RegisterVerifyActivity extends PacifyrActivity {
 
                                                 }
                                             }, 900);
+
                                         }
                                     }
                                 } catch (Exception e) {
@@ -193,13 +195,11 @@ public class RegisterVerifyActivity extends PacifyrActivity {
                     }
 
 
-                   /* final Handler handler = new Handler();
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-
-                        }
-                    }, 5000);*/
+                    Bundle args =
+                            FirebaseLogging.getConstantArgsLoggedOut(RegisterVerifyActivity.this);
+                    args.putString(FirebaseLogging.EC, phoneRegister + "onVerificationCompleted");
+                    FirebaseLogging.sendLog(RegisterVerifyActivity.this,
+                            FirebaseLogging.EVENT_LOGIN_OTP_SENT, args);
                 }
 
                 @Override
@@ -237,6 +237,12 @@ public class RegisterVerifyActivity extends PacifyrActivity {
                             }
                         });
                     }
+
+                    Bundle args =
+                            FirebaseLogging.getConstantArgsLoggedOut(RegisterVerifyActivity.this);
+                    args.putString(FirebaseLogging.EC, phoneRegister + "onVerificationFailed"+String.valueOf(e));
+                    FirebaseLogging.sendLog(RegisterVerifyActivity.this,
+                            FirebaseLogging.EVENT_LOGIN_OTP_VERIFICATION_FAIL, args);
                 }
 
                 @Override
@@ -246,6 +252,11 @@ public class RegisterVerifyActivity extends PacifyrActivity {
                     mResendToken = token;
                     hideProgress();
                     Toast.makeText(getApplicationContext(), "Verification code sent", Toast.LENGTH_LONG).show();
+                    Bundle args =
+                            FirebaseLogging.getConstantArgsLoggedOut(RegisterVerifyActivity.this);
+                    args.putString(FirebaseLogging.EC, phoneRegister + "onCodeSent");
+                    FirebaseLogging.sendLog(RegisterVerifyActivity.this,
+                            FirebaseLogging.EVENT_LOGIN_OTP_SENT, args);
                 }
             };
 
@@ -299,9 +310,19 @@ public class RegisterVerifyActivity extends PacifyrActivity {
                                 startActivity(intent);
                                 finish();
                             }*/
+                            Bundle args =
+                                    FirebaseLogging.getConstantArgsLoggedOut(RegisterVerifyActivity.this);
+                            args.putString(FirebaseLogging.EC, phoneRegister + "onComplete");
+                            FirebaseLogging.sendLog(RegisterVerifyActivity.this,
+                                    FirebaseLogging.EVENT_LOGIN_OTP_VERIFIED, args);
                         } else {
                             // Sign in failed, display a message and update the UI
                             Log.w("LOG", "signInWithCredential:failure", task.getException());
+                            Bundle args =
+                                    FirebaseLogging.getConstantArgsLoggedOut(RegisterVerifyActivity.this);
+                            args.putString(FirebaseLogging.EC, phoneRegister + "Error"+task.getException().toString());
+                            FirebaseLogging.sendLog(RegisterVerifyActivity.this,
+                                    FirebaseLogging.EVENT_LOGIN_OTP_VERIFICATION_FAIL, args);
                             if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
                                 //otpRecieveEditText.setError("Invalid code.");
                                 //Toast.makeText(RegisterVerifyActivity.this,"Invalid code ",Toast.LENGTH_LONG).show();

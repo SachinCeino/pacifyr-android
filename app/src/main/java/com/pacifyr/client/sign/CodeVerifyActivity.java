@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.pacifyr.client.utils.FirebaseLogging;
 import com.pacifyrapp.utilitylibrary.CustomEditText;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyrapp.utilitylibrary.base.BaseAppCompactActivity;
@@ -126,6 +127,13 @@ public class CodeVerifyActivity extends BaseAppCompactActivity {
 
                     Toast.makeText(getApplicationContext(), "Success : Verification complete", Toast.LENGTH_LONG).show();
 
+
+                    Bundle args =
+                            FirebaseLogging.getConstantArgsLoggedOut(CodeVerifyActivity.this);
+                    args.putString(FirebaseLogging.EC, phonenumber + "onVerificationCompleted");
+                    FirebaseLogging.sendLog(CodeVerifyActivity.this,
+                            FirebaseLogging.EVENT_LOGIN_OTP_SENT, args);
+
                 }
 
                 @Override
@@ -155,6 +163,13 @@ public class CodeVerifyActivity extends BaseAppCompactActivity {
                     // [START_EXCLUDE]
                     //  updateUI(STATE_VERIFY_FAILED);
                     // [END_EXCLUDE]
+
+
+                    Bundle args =
+                            FirebaseLogging.getConstantArgsLoggedOut(CodeVerifyActivity.this);
+                    args.putString(FirebaseLogging.EC, phonenumber + "onVerificationFailed"+String.valueOf(e));
+                    FirebaseLogging.sendLog(CodeVerifyActivity.this,
+                            FirebaseLogging.EVENT_LOGIN_OTP_VERIFICATION_FAIL, args);
                 }
 
                 @Override
@@ -174,6 +189,12 @@ public class CodeVerifyActivity extends BaseAppCompactActivity {
                     // Update UI
                     //   updateUI(STATE_CODE_SENT);
                     // [END_EXCLUDE]
+
+                    Bundle args =
+                            FirebaseLogging.getConstantArgsLoggedOut(CodeVerifyActivity.this);
+                    args.putString(FirebaseLogging.EC, phonenumber + "onCodeSent");
+                    FirebaseLogging.sendLog(CodeVerifyActivity.this,
+                            FirebaseLogging.EVENT_LOGIN_OTP_SENT, args);
                 }
             };
             // [END phone_auth_callbacks]
@@ -265,9 +286,11 @@ public class CodeVerifyActivity extends BaseAppCompactActivity {
                                 startActivity(intent);
                                 finish();
                             }
-                            // [START_EXCLUDE]
-                            //   updateUI(STATE_SIGNIN_SUCCESS, user);
-                            // [END_EXCLUDE]
+                            Bundle args =
+                                    FirebaseLogging.getConstantArgsLoggedOut(CodeVerifyActivity.this);
+                            args.putString(FirebaseLogging.EC, phonenumber + "onComplete");
+                            FirebaseLogging.sendLog(CodeVerifyActivity.this,
+                                    FirebaseLogging.EVENT_LOGIN_OTP_VERIFIED, args);
                         } else {
                             // Sign in failed, display a message and update the UI
                             Log.w("jithish", "signInWithCredential:failure", task.getException());
@@ -281,6 +304,11 @@ public class CodeVerifyActivity extends BaseAppCompactActivity {
                             // Update UI
                             // updateUI(STATE_SIGNIN_FAILED);
                             // [END_EXCLUDE]
+                            Bundle args =
+                                    FirebaseLogging.getConstantArgsLoggedOut(CodeVerifyActivity.this);
+                            args.putString(FirebaseLogging.EC, phonenumber + "Error"+task.getException().toString());
+                            FirebaseLogging.sendLog(CodeVerifyActivity.this,
+                                    FirebaseLogging.EVENT_LOGIN_OTP_VERIFICATION_FAIL, args);
                         }
                     }
                 });
