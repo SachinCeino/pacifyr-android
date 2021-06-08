@@ -10,6 +10,7 @@ import android.widget.RatingBar;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.pacifyr.client.customview.MainTextView;
+import com.pacifyr.client.utils.Utility;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MReviews;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 import com.pacifyr.client.R;
@@ -57,11 +58,7 @@ public class ReviewListAdapter extends RecyclerView.Adapter<ReviewListAdapter.My
             try {
                 holder.ratingBar.setRating(Float.parseFloat(result.getRating()));
                 holder.qualityCtxv.setText(result.getComment());
-
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.mmm'Z'");
-                Date parsedTime = sdf.parse(result.getUpdatedAt());
-                SimpleDateFormat sdf2 = new SimpleDateFormat("dd-MM-yyyy'  'hh:mm a");
-                holder.timeCtxv.setText(sdf2.format(parsedTime));
+                holder.timeCtxv.setText(Utility.ConvertUpdatedDateToTime(result.getUpdatedAt()));
             }
             catch (Exception e)
             {

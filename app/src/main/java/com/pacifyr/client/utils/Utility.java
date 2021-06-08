@@ -1338,4 +1338,27 @@ public class Utility {
             return applicationContext.getResources().getString(R.string.payment_label_others);
         }
     }
+
+    public static String ConvertUpdatedDateToTime(String time)
+    {
+        Date formattedDate = null;
+        String dateat = "";
+        try {
+            // SimpleDateFormat sdf=new SimpleDateFormat();
+            SimpleDateFormat targetFormat = new SimpleDateFormat("MM-dd-yyyy'  'hh:mm a", Locale.ENGLISH);
+
+            SimpleDateFormat recivedFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+
+            recivedFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+
+            formattedDate = recivedFormat.parse(time);
+
+            dateat = targetFormat.format(formattedDate).toLowerCase();
+            //daty=targetFormat.parse(dateat);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return dateat;
+    }
+
 }
