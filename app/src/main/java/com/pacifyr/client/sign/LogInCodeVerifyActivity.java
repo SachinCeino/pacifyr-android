@@ -435,11 +435,20 @@ public class LogInCodeVerifyActivity extends PacifyrActivity {
                                                 }
                                                 Bundle args =
                                                         FirebaseLogging.getConstantArgsLoggedOut(LogInCodeVerifyActivity.this);
-                                                args.putString(FirebaseLogging.EC, phonenumber + "");
+                                                args.putString(FirebaseLogging.EC, phonenumber + " Got Id Token");
                                                 FirebaseLogging.sendLog(LogInCodeVerifyActivity.this,
                                                         FirebaseLogging.EVENT_LOGIN_OTP_VERIFIED, args);
                                             } else {
                                                 // Handle error -> task.getException();
+                                                String err = "";
+                                                if (isValid(task) && isValid(task.getException())) {
+                                                    err = task.getException().getMessage();
+                                                }
+                                                Bundle args =
+                                                        FirebaseLogging.getConstantArgsLoggedOut(LogInCodeVerifyActivity.this);
+                                                args.putString(FirebaseLogging.EC, phonenumber + ", Err : Id Token fetch failed " + err);
+                                                FirebaseLogging.sendLog(LogInCodeVerifyActivity.this,
+                                                        FirebaseLogging.EVENT_LOGIN_OTP_VERIFICATION_FAIL, args);
                                             }
                                         }
                                     });
