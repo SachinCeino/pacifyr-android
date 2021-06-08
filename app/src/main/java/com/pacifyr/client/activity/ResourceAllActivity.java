@@ -15,6 +15,7 @@ import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.SearchView;
@@ -73,6 +74,7 @@ public class ResourceAllActivity extends PacifyrActivity {
     String param;
     private SearchView SearchView_Resource;
     private String searchQuery="";
+    private EditText EditText_search;
     public String getSearchQuery() {
         return searchQuery;
     }
@@ -94,6 +96,7 @@ public class ResourceAllActivity extends PacifyrActivity {
         categoryList.add(new ResourceCategory("Videos",false));
         categoryList.add(new ResourceCategory("Presentations",false));
         SearchView_Resource= findViewById(R.id.SearchView_Resource);
+        EditText_search=findViewById(R.id.EditText_search);
         setUpTopListCategoryRecyclerView();
 
 
@@ -108,19 +111,25 @@ public class ResourceAllActivity extends PacifyrActivity {
         }
 
 
-        SearchView_Resource.setOnClickListener(new View.OnClickListener() {
+        EditText_search.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+                SearchView_Resource.setIconifiedByDefault(true);
+                SearchView_Resource.setFocusable(true);
                 SearchView_Resource.setIconified(false);
             }
         });
-        SearchView_Resource.setFocusable(false);
-        SearchView_Resource.setIconified(true);
-        SearchView_Resource.clearFocus();
-        SearchView_Resource.setOnClickListener(new View.OnClickListener() {
+
+        SearchView_Resource.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void onClick(View view) {
-                hideKeyboard();
+            public void onFocusChange(View view, boolean b) {
+                EditText_search.setVisibility(View.GONE);
+            }
+        });
+        SearchView_Resource.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                EditText_search.setVisibility(View.GONE);
             }
         });
 
@@ -148,6 +157,7 @@ public class ResourceAllActivity extends PacifyrActivity {
             public boolean onClose() {
                 if (!SearchView_Resource.isIconified()) {
                     SearchView_Resource.onActionViewCollapsed();
+                    EditText_search.setVisibility(View.VISIBLE);
                 }
                 setSearchQuery("");
 

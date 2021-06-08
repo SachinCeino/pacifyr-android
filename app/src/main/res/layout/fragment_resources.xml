@@ -11,7 +11,7 @@
       <RelativeLayout
           android:layout_width="match_parent"
           android:layout_height="wrap_content">
-          <LinearLayout
+          <RelativeLayout
               android:layout_width="match_parent"
               android:layout_height="50dp"
               android:id="@+id/searchLayout"
@@ -25,12 +25,19 @@
                   android:layout_height="51dp"
                   android:inputType="textCapSentences"
                   android:background="@android:color/transparent"
-                  android:iconifiedByDefault="true"
                   android:imeOptions="actionSearch"
-                  android:focusable="false"
                   android:queryHint="Article, video, presentation"
                   />
-          </LinearLayout>
+              <EditText
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:background="@android:color/transparent"
+                  android:hint="Article, video, presentation"
+                  android:layout_marginLeft="50dp"
+                  android:focusable="false"
+                  android:id="@+id/EditText_search"
+                  ></EditText>
+          </RelativeLayout>
           <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="230dp"

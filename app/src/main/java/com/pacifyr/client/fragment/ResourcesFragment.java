@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.SearchView;
 import android.widget.TextView;
 
@@ -155,6 +156,7 @@ public class ResourcesFragment extends BaseFragment {
 
     private SearchView SearchView_Resource;
     private String searchQuery="";
+    private EditText EditText_search;
     public String getSearchQuery() {
         return searchQuery;
     }
@@ -180,6 +182,7 @@ public class ResourcesFragment extends BaseFragment {
         resourcesRcv = view.findViewById(R.id.resources_list_rcv);
         SearchView_Resource= view.findViewById(R.id.SearchView_Resource);
         emptyLayout= view.findViewById(R.id.emptyLayout);
+        EditText_search=view.findViewById(R.id.EditText_search);
         
         if(isValid(resourcesList)){
             setResourcesAdapter();
@@ -192,19 +195,25 @@ public class ResourcesFragment extends BaseFragment {
             }
         });
 
-        SearchView_Resource.setOnClickListener(new View.OnClickListener() {
+
+        EditText_search.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+                SearchView_Resource.setIconifiedByDefault(true);
+                SearchView_Resource.setFocusable(true);
                 SearchView_Resource.setIconified(false);
             }
         });
-        SearchView_Resource.setFocusable(false);
-        SearchView_Resource.setIconified(true);
-        SearchView_Resource.clearFocus();
-        SearchView_Resource.setOnClickListener(new View.OnClickListener() {
+        SearchView_Resource.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void onClick(View view) {
-                hideKeyboard();
+            public void onFocusChange(View view, boolean b) {
+                EditText_search.setVisibility(View.GONE);
+            }
+        });
+        SearchView_Resource.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                EditText_search.setVisibility(View.GONE);
             }
         });
         SearchView_Resource.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -224,6 +233,7 @@ public class ResourcesFragment extends BaseFragment {
             public boolean onQueryTextChange(String newText) {
                 return false;
             }
+
         });
 
         SearchView_Resource.setOnCloseListener(new SearchView.OnCloseListener() {
@@ -231,6 +241,7 @@ public class ResourcesFragment extends BaseFragment {
             public boolean onClose() {
                 if (!SearchView_Resource.isIconified()) {
                     SearchView_Resource.onActionViewCollapsed();
+                    EditText_search.setVisibility(View.VISIBLE);
                 }
                 setSearchQuery("");
 
