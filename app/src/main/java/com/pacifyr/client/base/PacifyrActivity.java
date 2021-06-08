@@ -1296,6 +1296,12 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
         billSummary.show();
     }
 
+    private String getOnlyTime(String endTime) {
+        String[] separated = endTime.split(" ");
+
+       return separated[2].toLowerCase()+" "+separated[3].toLowerCase()+"";
+    }
+
     /* public String getProfileFName() {
          return getSharedString(PrefManager.FNAME, "");
 
@@ -1883,8 +1889,8 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                             setAlertOKStatusInBlue("", "You have " + NetworkService.mCurrentUser.getAvailableMinutes() + " free minutes available", "OK", new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    startTwilioCall(isVideoCall, pacifyerDetial, false, null);
                                     hideStatus();
+                                    startTwilioCall(isVideoCall, pacifyerDetial, false, null);
                                 }
                             });
                         } else {
@@ -4106,6 +4112,8 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                             TextView text_amount_charged = view.findViewById(R.id.text_amount_charged);
                             TextView text_time= view.findViewById(R.id.text_time);
                             TextView textViewCopyTransaction= view.findViewById(R.id.textViewCopyTransaction);
+                            TextView title = view.findViewById(R.id.title);
+                            title.setText("Payment Summary");
                             try {
                                 transactionId.setText(object.getTransactionId());
                                 Calendar c = Calendar.getInstance();
@@ -4223,6 +4231,8 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                             TextView text_date = view.findViewById(R.id.text_date);
                             TextView text_amount_charged = view.findViewById(R.id.text_amount_charged);
                             TextView text_time= view.findViewById(R.id.text_time);
+                            TextView title = view.findViewById(R.id.title);
+                            title.setText("Payment Summary");
                             try {
                                 transactionId.setText(object.getTransactionId());
 

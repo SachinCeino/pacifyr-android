@@ -7,11 +7,22 @@
     android:paddingRight="16dp"
     android:paddingTop="16dp">
 
-
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text=""
+        android:id="@+id/title"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:textSize="16sp" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/layout_bill_table"
+        android:layout_below="@+id/title"
         android:orientation="vertical">
 
         <LinearLayout
@@ -97,9 +108,40 @@
                 android:textSize="12sp"
                 android:textStyle="bold"
                 android:textColor="#9EAFB6"
-                android:text="Time" />
+                android:text="Session start time" />
             <TextView
-                android:id="@+id/text_time"
+                android:id="@+id/text_session_start_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:layout_gravity="right"
+                android:gravity="right"
+                android:text=""
+                android:textColor="@color/black"
+                android:textAllCaps="false"
+                android:padding="5dp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:gravity="left"
+                android:padding="5dp"
+                android:textAllCaps="true"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:textColor="#9EAFB6"
+                android:text="Session end time" />
+            <TextView
+                android:id="@+id/text_session_end_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="12sp"
