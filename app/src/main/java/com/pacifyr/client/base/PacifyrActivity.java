@@ -1233,9 +1233,16 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
         View view = LayoutInflater.from(PacifyrActivity.this).inflate(R.layout.layout_bill_summary, null);
         TextView ok = view.findViewById(R.id.button_ok);
         TextView text_date = view.findViewById(R.id.text_date);
-        TextView text_time = view.findViewById(R.id.text_time);
+        TextView text_session_start_time = view.findViewById(R.id.text_session_start_time);
+        TextView text_session_end_time = view.findViewById(R.id.text_session_end_time);
         TextView text_provider = view.findViewById(R.id.text_provider);
         TextView text_amount_charged = view.findViewById(R.id.text_amount_charged);
+        TextView title = view.findViewById(R.id.title);
+        title.setText("Billing Summary");
+
+
+
+
         PrefManager prefM = PrefManager.getInstance(getApplicationContext());
         String country = prefM.getCountry();
         String sign = "$";
@@ -1256,11 +1263,15 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
             }
             String strDate = targetFormat.format(c.getTime());
             strDate.replace("AM", "am").replace("PM","pm");
+            text_date.setText(date.substring(0, date.indexOf(' ')));
 
 
-            String[] separated = strDate.split(" ");
-            text_date.setText(separated[0].toLowerCase()+"");
-            text_time.setText(separated[2].toLowerCase()+" "+separated[3].toLowerCase()+"");
+            String startTime=Utility.getStartFormatDate(billingSummary.getStartTime(), getApplicationContext());
+            String endTime=Utility.getStartFormatDate(billingSummary.getEndTime(), getApplicationContext());
+            text_session_start_time.setText(getOnlyTime(startTime));
+            text_session_end_time.setText(getOnlyTime(endTime));
+
+
             if (isValid(billingSummary.getSession()) && isValid(billingSummary.getSession().getTimeSlotBookingId()))
             text_amount_charged.setText(sign + billingSummary.getSessionCost() +getResources().getString(R.string.prepaid));
             else
