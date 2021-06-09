@@ -43,6 +43,7 @@
               android:layout_height="230dp"
               android:layout_below="@+id/searchLayout"
               android:id="@+id/cardViewBanner"
+              android:visibility="gone"
               xmlns:app="http://schemas.android.com/apk/res-auto"
               android:layout_margin="15dp"
               app:cardCornerRadius="6dp"
@@ -50,7 +51,7 @@
               <ImageView
                   android:layout_width="match_parent"
                   android:layout_height="match_parent"
-                  android:id="@+id/ImageViewImage"
+                  android:id="@+id/Today_Image"
                   android:adjustViewBounds="true"
                   android:scaleType="centerCrop"
                   android:src="@drawable/resourcebanner">
@@ -79,7 +80,7 @@
                       android:textAllCaps="true"
                       android:textColor="@color/white"
                       android:textSize="@dimen/sp13"
-                      android:id="@+id/toptitle"
+                      android:id="@+id/Today_Title"
                       >
 
                   </com.pacifyr.client.customview.MainTextView>
@@ -87,13 +88,30 @@
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:layout_alignParentLeft="true"
-                      android:layout_below="@+id/toptitle"
+                      android:layout_below="@+id/Today_Title"
                       android:text="5 min read"
                       android:textColor="@color/white"
                       android:textSize="@dimen/sp11"
+                      android:id="@+id/Today_ArticleIcon"
                       android:drawablePadding="3dp"
+                      android:visibility="gone"
                       android:drawableLeft="@drawable/article"
                       android:drawableStart="@drawable/article">
+
+                  </com.pacifyr.client.customview.MainTextView>
+                  <com.pacifyr.client.customview.MainTextView
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_alignParentLeft="true"
+                      android:layout_below="@+id/Today_Title"
+                      android:text="2.33"
+                      android:visibility="gone"
+                      android:textColor="@color/white"
+                      android:textSize="@dimen/sp11"
+                      android:id="@+id/Today_videoIcon"
+                      android:drawablePadding="3dp"
+                      android:drawableLeft="@drawable/resources_video"
+                      android:drawableStart="@drawable/resources_video">
 
                   </com.pacifyr.client.customview.MainTextView>
 
@@ -102,9 +120,9 @@
                       android:layout_height="wrap_content"
                       android:layout_alignParentLeft="true"
                       android:text="Article by Anthony W."
-                      android:id="@+id/TextViewAuther"
+                      android:id="@+id/today_TextViewAuther"
                       android:textColor="@color/white"
-                      android:layout_above="@id/TextViewTitle"
+                      android:layout_above="@id/Today_Description"
                       android:textSize="@dimen/sp11"
                       >
 
@@ -115,7 +133,7 @@
                       android:layout_alignParentLeft="true"
                       android:layout_alignParentBottom="true"
                       android:text="On Slowing Down Time, Procrastination, and Mindfulness"
-                      android:id="@+id/TextViewTitle"
+                      android:id="@+id/Today_Description"
                       android:textColor="@color/white"
                       android:textStyle="bold"
                       android:textSize="@dimen/sp14"

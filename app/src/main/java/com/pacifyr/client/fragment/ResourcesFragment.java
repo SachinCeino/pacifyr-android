@@ -1,6 +1,8 @@
 package com.pacifyr.client.fragment;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -8,9 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.TextView;
 
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,18 +23,22 @@ import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.pacifyr.client.R;
+import com.pacifyr.client.activity.TermsOfUseActivity;
 import com.pacifyr.client.adapter.ResourcesListAdapter;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.home.DashboardActivity;
 import com.pacifyr.client.model.ModelResources;
 import com.pacifyr.client.model.ResourceMain;
+import com.pacifyr.client.model.ResourceTodayHighlight;
+import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.orginals.Auth;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.utility.BaseFragment;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.squareup.otto.Subscribe;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
 
@@ -42,6 +50,7 @@ import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL
 public class ResourcesFragment extends BaseFragment {
 
     List<ResourceMain.Result> resourcesList;
+    List<ResourceTodayHighlight.Result> mResourceTodayHighlight;
 
 
     private MainTextView paymentMethodCtxv;
@@ -66,6 +75,7 @@ public class ResourcesFragment extends BaseFragment {
 
         return fragment;
     }
+    private ImageView Today_Image;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -74,6 +84,105 @@ public class ResourcesFragment extends BaseFragment {
 
 
 
+
+    }
+
+    private void getHighLitedResource() {
+
+        try {
+            prefM = PrefManager.getInstance(getContext());
+            String token = prefM.getAccessToken();
+            String url = GLOBAL_URL + "resources/highlight";
+            AjaxCallback cb = new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject json, AjaxStatus status) {
+                    Auth.httpStatusFilter(getContext(), status.getCode());
+                    try {
+                        if (isValid(json)) {
+                            mResourceTodayHighlight = GsonUtils.getInstance().gsonToResourceTodayHighlight(json).getResults();
+                            if (isValid(mResourceTodayHighlight) && isValid(mResourceTodayHighlight.get(0)))
+                            {
+                                ResourceTodayHighlight.Result mObject=mResourceTodayHighlight.get(0);
+                                if (isValid(mObject))
+                                {
+                                    if (isValid(mObject.getImage()))
+                                    {
+                                        Picasso.with(getActivity()).load(NetworkService.GLOBAL_IMAGE_URL + mObject.getImage())
+                                                .placeholder(R.drawable.placeholder).into(Today_Image);
+                                    }
+                                    if (isValid(mObject.getAuthor()))
+                                    {
+                                        today_TextViewAuther.setText(mObject.getAuthor()+"");
+                                    }
+                                    if (isValid(mObject.getTitle()))
+                                    {
+                                        Today_Description.setText(mObject.getTitle()+"");
+                                    }
+
+                                    cardViewBanner.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            if (mObject.getType().equals("article"))
+                                            {
+                                                Today_ArticleIcon.setVisibility(View.VISIBLE);
+                                                Intent i=new Intent(getActivity(), TermsOfUseActivity.class);
+                                                i.putExtra("spurl", mObject.getUrl());
+                                                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                startActivity(i);
+                                            }
+                                            else if (mObject.getType().equals("video"))
+                                            {
+                                                Today_videoIcon.setVisibility(View.VISIBLE);
+                                                if (mObject.getVideo()==null) {
+                                                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(mObject.getUrl()));
+                                                    browserIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                    startActivity(browserIntent);
+                                                }
+                                            }
+                                            else
+                                            {
+                                                Today_ArticleIcon.setVisibility(View.VISIBLE);
+                                                Intent i=new Intent(getActivity(), TermsOfUseActivity.class);
+                                                i.putExtra("spurl", mObject.getUrl());
+                                                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                startActivity(i);
+                                            }
+                                        }
+                                    });
+                                    if (mObject.getType().equals("article"))
+                                    {
+                                        Today_ArticleIcon.setVisibility(View.VISIBLE);
+                                    }
+                                    else if (mObject.getType().equals("video"))
+                                    {
+                                        Today_videoIcon.setVisibility(View.VISIBLE);
+                                    }
+                                    else
+                                    {
+                                        Today_ArticleIcon.setVisibility(View.VISIBLE);
+                                    }
+                                    cardViewBanner.setVisibility(View.VISIBLE);
+                                }
+                            }
+                        }
+
+
+                    } catch (Exception e) {
+                        hideProgress();
+                        e.printStackTrace();
+                    }
+                }
+            };
+            AQuery aq = new AQuery(getContext());
+            cb.header("Content-Type", "application/json");
+            cb.header("AccessToken", token);
+            aq.ajax(url, JSONObject.class, cb);
+        }
+        catch (Exception ex)
+        {
+            hideProgress();
+            ex.printStackTrace();
+        }
     }
 
     private void loadResources() {
@@ -173,7 +282,8 @@ public class ResourcesFragment extends BaseFragment {
 
 
     private RecyclerView resourcesRcv;
-    private TextView emptyLayout;
+    private TextView emptyLayout,Today_Title,today_TextViewAuther,Today_Description,Today_ArticleIcon,Today_videoIcon;
+    private CardView cardViewBanner;
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -183,6 +293,13 @@ public class ResourcesFragment extends BaseFragment {
         SearchView_Resource= view.findViewById(R.id.SearchView_Resource);
         emptyLayout= view.findViewById(R.id.emptyLayout);
         EditText_search=view.findViewById(R.id.EditText_search);
+        Today_Image=view.findViewById(R.id.Today_Image);
+        Today_Title=view.findViewById(R.id.Today_Title);
+        today_TextViewAuther=view.findViewById(R.id.today_TextViewAuther);
+        Today_Description=view.findViewById(R.id.Today_Description);
+        Today_ArticleIcon=view.findViewById(R.id.Today_ArticleIcon);
+        Today_videoIcon=view.findViewById(R.id.Today_videoIcon);
+        cardViewBanner=view.findViewById(R.id.cardViewBanner);
         
         if(isValid(resourcesList)){
             setResourcesAdapter();
@@ -255,6 +372,7 @@ public class ResourcesFragment extends BaseFragment {
             }
         });
 
+        getHighLitedResource();
     }
 
     public void hideKeyboard() {
@@ -319,6 +437,7 @@ public class ResourcesFragment extends BaseFragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         loadResources();
+
     }
 
     @Override

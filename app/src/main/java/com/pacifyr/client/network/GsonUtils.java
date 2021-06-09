@@ -24,6 +24,7 @@ import com.pacifyr.client.model.PreviousPrescription;
 import com.pacifyr.client.model.QRSuccess;
 import com.pacifyr.client.model.ResourceMain;
 import com.pacifyr.client.model.ResourceSpecialityList;
+import com.pacifyr.client.model.ResourceTodayHighlight;
 import com.pacifyr.client.model.SchedulePayment;
 import com.pacifyr.client.model.UserDetailsModel;
 import com.pacifyr.client.model.UserProfile;
@@ -851,6 +852,19 @@ public class GsonUtils<T> {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             String jsonString =  json.toString();
             model = gson.fromJson(jsonString, ResourceMain.class);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return model;
+    }
+
+    public ResourceTodayHighlight gsonToResourceTodayHighlight(JSONObject json) {
+
+        ResourceTodayHighlight model = null;
+        try {
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            String jsonString =  json.toString();
+            model = gson.fromJson(jsonString, ResourceTodayHighlight.class);
         } catch (Exception e){
             e.printStackTrace();
         }
