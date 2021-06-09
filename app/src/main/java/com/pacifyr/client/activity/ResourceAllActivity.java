@@ -108,6 +108,9 @@ public class ResourceAllActivity extends PacifyrActivity {
             param = "article/video/presentation";
             param = GLOBAL_URL + "resources/all?speciality="+object.getSpeciality();
             getWebCategories(object.getSpeciality(), param);
+            titleTxv.setText(object.getSpeciality());
+            titleTxv.setAllCaps(true);
+            leftLlay.setVisibility(View.VISIBLE);
         }
 
 
@@ -367,8 +370,6 @@ public class ResourceAllActivity extends PacifyrActivity {
         titleTxv.setVisibility(View.VISIBLE);
         Typeface type = Typeface.createFromAsset(getAssets(),getResources().getString(R.string.avantica_bold_header));
         titleTxv.setTypeface(type);
-        titleTxv.setText(getResources().getString(R.string.resources));
-        leftLlay.setVisibility(View.VISIBLE);
         leftLlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
