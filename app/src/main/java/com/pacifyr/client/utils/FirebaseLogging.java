@@ -23,6 +23,8 @@ import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.UUID;
+
 /**
  * Created by Sachin Thampan on 28/10/19.
  */
@@ -120,37 +122,43 @@ public class FirebaseLogging {
 
         String userId = args.getString("userId");
 
-        if (userId != null) {
-            FirebaseDatabase database = FirebaseDatabase.getInstance();
+        if (userId == null || userId.isEmpty()) {
+            if (PrefManager.getInstance(context).getSharedString("UUID", null) != null) {
+                userId = PrefManager.getInstance(context).getSharedString("UUID", null);
+            } else {
+                userId = "TEMP-" + UUID.randomUUID();
+                PrefManager.getInstance(context).putSharedString("UUID", userId);
+            }
+        }
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
 
-            int realtimeLogging = PrefManager.getInstance(context).getSharedInteger(Constants.KEY_REALTIME_LOGGING, -1);
-            if (realtimeLogging == 1) {
-                String params = null;
-                JSONObject ev = new JSONObject();
-                try {
-                    ev.put(event, args);
-                    ev.put("timeStamp", Utility.getTimeStamp());
-                    params = new Gson().toJson(ev);
-                } catch (JSONException e) {
+        int realtimeLogging = PrefManager.getInstance(context).getSharedInteger(Constants.KEY_REALTIME_LOGGING, 1);
+        if (realtimeLogging == 1) {
+            String params = null;
+            JSONObject ev = new JSONObject();
+            try {
+                ev.put(event, args);
+                ev.put("timeStamp", Utility.getTimeStamp());
+                params = new Gson().toJson(ev);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            DatabaseReference myRef = database.getReference(FIREBASE_LOG_TABLE);
+            DatabaseReference childRef = myRef.child(userId).push();
+            childRef.setValue(params).addOnFailureListener((Activity) context, new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull @NotNull Exception e) {
+                    Log.d(TAG, "save log failed..." + e.getMessage());
                     e.printStackTrace();
                 }
-                DatabaseReference myRef = database.getReference(FIREBASE_LOG_TABLE);
-                DatabaseReference childRef = myRef.child(userId).push();
-                childRef.setValue(params).addOnFailureListener((Activity) context, new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull @NotNull Exception e) {
-                        Log.d(TAG, "save log failed..." + e.getMessage());
-                        e.printStackTrace();
-                    }
-                }).addOnSuccessListener((Activity) context, new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        Log.d(TAG, "saved log..");
-                    }
-                });
-            }
-
+            }).addOnSuccessListener((Activity) context, new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void unused) {
+                    Log.d(TAG, "saved log..");
+                }
+            });
         }
+
     }
 
     public static long getAppVersionCode(Context context) {
