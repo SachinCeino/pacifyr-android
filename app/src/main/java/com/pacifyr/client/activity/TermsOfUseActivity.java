@@ -203,6 +203,7 @@ public class TermsOfUseActivity extends PacifyrActivity {
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setSupportZoom(true);
         webView.getSettings().setBuiltInZoomControls(true);
+        webView.getSettings().setDomStorageEnabled(true);
         webView.loadUrl(url);
 
     }
