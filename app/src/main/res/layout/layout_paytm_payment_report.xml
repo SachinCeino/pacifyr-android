@@ -170,9 +170,9 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/view_separator"
             android:layout_centerHorizontal="true"
-            android:background="@drawable/button_white"
+            android:background="@drawable/blue_border_blue_solid_rectangle_sharp"
             android:text="OK"
-            android:textColor="@color/om_blue" />
+            android:textColor="@color/white" />
 
     </LinearLayout>
 

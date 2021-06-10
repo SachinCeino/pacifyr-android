@@ -376,7 +376,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                 if (TextViewHideBanner.getText().equals("Hide"))
                 {
                     bannerLayout.setVisibility(View.GONE);
-                    TextViewHideBanner.setText("Show");
+                    TextViewHideBanner.setText("Show Banner");
                     getPrefManager().putSharedBoolean("showBanner",false);
                 }
                 else {
@@ -493,7 +493,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
 
 
                                                                     bannerLayout.setVisibility(View.GONE);
-                                                                    TextViewHideBanner.setText("Show");
+                                                                    TextViewHideBanner.setText("Show Banner");
                                                                     TextViewHideBanner.setVisibility(View.VISIBLE);
                                                                     adjustGridBalls();
 
@@ -514,7 +514,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                                             }
                                             else {
                                                 bannerLayout.setVisibility(View.GONE);
-                                                TextViewHideBanner.setVisibility(View.GONE);
+                                                TextViewHideBanner.setVisibility(View.INVISIBLE);
                                                 adjustGridBalls();
                                                 return;
                                             }
@@ -714,7 +714,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                                 if (isValid(mMSessionDetailRoot)&&isValid(mMSessionDetailRoot.getPacifyr())) {
                                     LinearLayout_Active_Session.setVisibility(View.VISIBLE);
                                     bannerLayout.setVisibility(View.GONE);
-                                    TextViewHideBanner.setVisibility(View.GONE);
+                                    TextViewHideBanner.setVisibility(View.INVISIBLE);
                                     adjustGridBalls();
                                     boolean isVideoCall = false;
                                     isVideoCall = !mMSessionDetailRoot.getSessionType().equals("audio");
