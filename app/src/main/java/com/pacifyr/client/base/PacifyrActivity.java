@@ -1238,7 +1238,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
         TextView text_provider = view.findViewById(R.id.text_provider);
         TextView text_amount_charged = view.findViewById(R.id.text_amount_charged);
         TextView title = view.findViewById(R.id.title);
-        title.setText("Billing Summary");
+        title.setText(getResources().getString(R.string.billing_summary));
 
 
 
@@ -1300,7 +1300,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
             }
         });
         android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(PacifyrActivity.this);
-        builder.setTitle("Payment summary");
+        //builder.setTitle("Payment summary");
         builder.setView(view);
         builder.setCancelable(false);
         billSummary = builder.create();
@@ -4124,7 +4124,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                             TextView text_time= view.findViewById(R.id.text_time);
                             TextView textViewCopyTransaction= view.findViewById(R.id.textViewCopyTransaction);
                             TextView title = view.findViewById(R.id.title);
-                            title.setText("Payment Summary");
+                            title.setText(getResources().getString(R.string.payment_summary));
                             try {
                                 transactionId.setText(object.getTransactionId());
                                 Calendar c = Calendar.getInstance();
@@ -4215,7 +4215,6 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                             });
 
                             android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(PacifyrActivity.this);
-                            builder.setTitle("Payment summary");
                             builder.setView(view);
                             builder.setCancelable(false);
                             PaymentPopup = builder.create();
@@ -4243,7 +4242,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                             TextView text_amount_charged = view.findViewById(R.id.text_amount_charged);
                             TextView text_time= view.findViewById(R.id.text_time);
                             TextView title = view.findViewById(R.id.title);
-                            title.setText("Payment Summary");
+                            title.setText(getResources().getString(R.string.payment_summary));
                             try {
                                 transactionId.setText(object.getTransactionId());
 
@@ -4334,7 +4333,6 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                             });
 
                             android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(PacifyrActivity.this);
-                            builder.setTitle("Payment summary");
                             builder.setView(view);
                             builder.setCancelable(false);
                             PaymentPopup = builder.create();

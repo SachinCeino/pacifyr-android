@@ -172,6 +172,7 @@
             android:layout_centerHorizontal="true"
             android:background="@drawable/blue_border_blue_solid_rectangle_sharp"
             android:text="OK"
+            android:layout_marginBottom="10dp"
             android:textColor="@color/white" />
 
     </LinearLayout>
