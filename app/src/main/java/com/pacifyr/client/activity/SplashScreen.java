@@ -169,7 +169,7 @@ public class SplashScreen extends BaseAppCompactActivity {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            CharSequence name = "om_healthcare";
+            CharSequence name = context.getResources().getString(R.string.app_name);
             String description = "general_notifications";
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
             NotificationChannel channel = new NotificationChannel(Constants.getChannelId(context), name, importance);

@@ -1,5 +1,6 @@
 package com.pacifyr.client.Payment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
@@ -10,6 +11,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
@@ -17,6 +20,9 @@ import com.pacifyr.client.R;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.AlertTypeEvent;
 import com.pacifyr.client.event.NotifyEvent;
+import com.pacifyr.client.quickblox.chat.ui.activity.ChatActivity;
+import com.pacifyr.client.receiver.NotificationUtils;
+import com.pacifyr.client.twilio.VideoActivity;
 import com.pacifyr.client.utility.PacifyrAppCompactActivity;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
@@ -31,6 +37,7 @@ import org.json.JSONObject;
 import java.io.Serializable;
 
 import static com.pacifyr.client.network.NetworkService.GLOBAL_URL;
+import static com.pacifyr.client.twilio.VideoActivity.isCallActive;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.STRIPE_PUBLISH_KEY;
 
 /**
@@ -48,7 +55,8 @@ public class AlertAddCreditCardActivity extends PacifyrAppCompactActivity {
 	private String userid,userToken;
 	private PrefManager prefM;
 	public static final int REQUEST_CODE_ADD_CARD = 12;
-	private CardAddListener cardAddListener;
+	public static final int REQUEST_CODE_STRIPE_CARD = 4646;
+	public CardAddListener cardAddListener;
 
 	public CardAddListener getCardAddListener() {
 		return cardAddListener;
@@ -106,9 +114,14 @@ public class AlertAddCreditCardActivity extends PacifyrAppCompactActivity {
 							@Override
 							public void run() {
 								hideStatus();
-								if (cardAddListener != null) {
-									cardAddListener.onAdded(true);
-								}
+								Intent intent = new Intent(NotificationUtils.STRIPCARD_ADDED_WHILE_CALL);
+								intent.putExtra("CardAdded", true);
+								LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
+								/*if (isValid(isCallActive) && isCallActive) {
+									Intent i = new Intent(AlertAddCreditCardActivity.this, VideoActivity.class);
+									i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+									startActivity(i);
+								}*/
 								finish();
 								/*Intent i= new Intent(AlertAddCreditCardActivity.this,DashboardActivity.class);
 								startActivity(i);*/
@@ -125,6 +138,10 @@ public class AlertAddCreditCardActivity extends PacifyrAppCompactActivity {
 								hideStatus();
 							}
 						}, 2000);
+
+						Intent intent = new Intent(NotificationUtils.STRIPCARD_ADDED_WHILE_CALL);
+						intent.putExtra("CardAdded", false);
+						LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -254,6 +271,14 @@ public class AlertAddCreditCardActivity extends PacifyrAppCompactActivity {
 				if (cardAddListener != null) {
 					cardAddListener.onAdded(false);
 				}
+				Intent intent = new Intent(NotificationUtils.STRIPCARD_ADDED_WHILE_CALL);
+				intent.putExtra("CardAdded", false);
+				LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
+				/*if (isValid(isCallActive) && isCallActive) {
+					Intent i = new Intent(AlertAddCreditCardActivity.this, VideoActivity.class);
+					i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+					startActivity(i);
+				}*/
 				finish();
 			}
 		});
@@ -386,6 +411,15 @@ public class AlertAddCreditCardActivity extends PacifyrAppCompactActivity {
 		if (cardAddListener != null) {
 			cardAddListener.onAdded(false);
 		}
+		Intent intent = new Intent(NotificationUtils.STRIPCARD_ADDED_WHILE_CALL);
+		intent.putExtra("CardAdded", false);
+		LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
+		/*if (isValid(isCallActive) && isCallActive) {
+			Intent i = new Intent(AlertAddCreditCardActivity.this, VideoActivity.class);
+			i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+			startActivity(i);
+		}*/
+		finish();
 	}
 
 	public interface CardAddListener extends Serializable {

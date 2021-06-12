@@ -641,6 +641,7 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="How_can_we_help_you_today">How can we help you today?</string>
     <string name="billing_summary">Billing Summary</string>
     <string name="payment_summary">Payment Summary</string>
+    <string name="successfully_done_payment">Successfully done payment</string>
 
 
 </resources>
