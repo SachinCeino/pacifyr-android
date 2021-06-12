@@ -26,6 +26,7 @@ import com.pacifyr.client.twilio.VideoActivity;
 import com.pacifyr.client.utility.PacifyrAppCompactActivity;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
+import com.quickblox.users.model.QBUser;
 import com.squareup.otto.Subscribe;
 import com.stripe.android.Stripe;
 import com.stripe.android.TokenCallback;
@@ -35,6 +36,7 @@ import com.stripe.android.model.Token;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import static com.pacifyr.client.network.NetworkService.GLOBAL_URL;
 import static com.pacifyr.client.twilio.VideoActivity.isCallActive;
@@ -114,17 +116,10 @@ public class AlertAddCreditCardActivity extends PacifyrAppCompactActivity {
 							@Override
 							public void run() {
 								hideStatus();
-								Intent intent = new Intent(NotificationUtils.STRIPCARD_ADDED_WHILE_CALL);
-								intent.putExtra("CardAdded", true);
-								LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
-								/*if (isValid(isCallActive) && isCallActive) {
-									Intent i = new Intent(AlertAddCreditCardActivity.this, VideoActivity.class);
-									i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-									startActivity(i);
-								}*/
+								Intent intent = new Intent();
+								intent.putExtra("CardAdded", false);
+								setResult(RESULT_OK, intent);
 								finish();
-								/*Intent i= new Intent(AlertAddCreditCardActivity.this,DashboardActivity.class);
-								startActivity(i);*/
 							}
 						}, 2000);
 
@@ -139,9 +134,10 @@ public class AlertAddCreditCardActivity extends PacifyrAppCompactActivity {
 							}
 						}, 2000);
 
-						Intent intent = new Intent(NotificationUtils.STRIPCARD_ADDED_WHILE_CALL);
+						Intent intent = new Intent();
 						intent.putExtra("CardAdded", false);
-						LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
+						setResult(RESULT_CANCELED, intent);
+						finish();
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -271,15 +267,11 @@ public class AlertAddCreditCardActivity extends PacifyrAppCompactActivity {
 				if (cardAddListener != null) {
 					cardAddListener.onAdded(false);
 				}
-				Intent intent = new Intent(NotificationUtils.STRIPCARD_ADDED_WHILE_CALL);
+				Intent intent = new Intent();
 				intent.putExtra("CardAdded", false);
-				LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
-				/*if (isValid(isCallActive) && isCallActive) {
-					Intent i = new Intent(AlertAddCreditCardActivity.this, VideoActivity.class);
-					i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-					startActivity(i);
-				}*/
+				setResult(RESULT_CANCELED, intent);
 				finish();
+
 			}
 		});
 	}
@@ -411,14 +403,9 @@ public class AlertAddCreditCardActivity extends PacifyrAppCompactActivity {
 		if (cardAddListener != null) {
 			cardAddListener.onAdded(false);
 		}
-		Intent intent = new Intent(NotificationUtils.STRIPCARD_ADDED_WHILE_CALL);
+		Intent intent = new Intent();
 		intent.putExtra("CardAdded", false);
-		LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
-		/*if (isValid(isCallActive) && isCallActive) {
-			Intent i = new Intent(AlertAddCreditCardActivity.this, VideoActivity.class);
-			i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-			startActivity(i);
-		}*/
+		setResult(RESULT_CANCELED, intent);
 		finish();
 	}
 

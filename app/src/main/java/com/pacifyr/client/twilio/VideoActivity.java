@@ -58,6 +58,7 @@ import com.gdacciaro.iOSDialog.iOSDialog;
 import com.gdacciaro.iOSDialog.iOSDialogClickListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.pacifyr.client.Payment.AlertAddCreditCardActivity;
 import com.pacifyr.client.R;
 import com.pacifyr.client.activity.ActivityChangeEmotionFromCall;
 import com.pacifyr.client.adapter.EmotionSpecialityAdapter;
@@ -155,6 +156,7 @@ import kotlin.Unit;
 import static com.pacifyr.client.netconnectionlistener.ConnectionCheckBroadcast.CheckInternetConnection;
 import static com.pacifyr.client.network.NetworkService.GLOBAL_IMAGE_URL;
 import static com.pacifyr.client.network.NetworkService.isRelease;
+import static com.pacifyr.client.receiver.NotificationUtils.STRIPCARD_ADDED_WHILE_CALL;
 import static com.pacifyr.client.utils.Constants.getCountryChecks;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.isProd;
@@ -506,6 +508,19 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                     ringtonePlayer.stop();
                 setAlertOKStatusInWhite("", "Provider is busy and will be with you shortly", "Ok");
                 sessionDeclainedByProvider = true;
+            }
+
+
+        }
+    };
+
+    private final BroadcastReceiver stripeCardAddWhileCall = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (isValid(intent)) {
+                Intent mintent = new Intent(VideoActivity.this,
+                        AlertAddCreditCardActivity.class);
+                startActivityForResult(mintent, AlertAddCreditCardActivity.REQUEST_CODE_ADD_CARD);
             }
 
 
@@ -980,6 +995,8 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
         super.onResume();
         isForeground = true;
         LocalBroadcastManager.getInstance(this).registerReceiver(eventReceiver, new IntentFilter(CallEvent.CALL_EVENT));
+        LocalBroadcastManager.getInstance(this).registerReceiver(stripeCardAddWhileCall, new IntentFilter(STRIPCARD_ADDED_WHILE_CALL));
+
         audioCodec = getAudioCodecPreference(PREF_AUDIO_CODEC,
                 PREF_AUDIO_CODEC_DEFAULT);
         videoCodec = getVideoCodecPreference(PREF_VIDEO_CODEC,
@@ -1054,6 +1071,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
         audioSwitch.deactivate();
         configureAudio(false);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(sessionDeclainedReceiver);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(stripeCardAddWhileCall);
         unregisterReceiver(mEarPhoneChanges);
         if (isValid(audioManager))
         {

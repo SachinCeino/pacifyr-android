@@ -174,6 +174,7 @@ import java.util.UUID;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static com.pacifyr.client.Payment.AlertAddCreditCardActivity.REQUEST_CODE_STRIPE_CARD;
 import static com.pacifyr.client.network.NetworkService.mCurrentUser;
 import static com.pacifyr.client.network.NetworkService.modelAllEmotions;
 import static com.pacifyr.client.twilio.VideoActivity.isCallActive;
@@ -208,6 +209,10 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
 
     public static int errorCount=0;
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
 
     private final BroadcastReceiver eventReceiver = new BroadcastReceiver() {
         @Override
@@ -390,26 +395,6 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
     };
 
 
-    private final BroadcastReceiver stripeCardAddedWhileCall = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-
-            if (intent != null && intent.hasExtra("CardAdded")) {
-                boolean CardAdded = intent.getExtras().getBoolean("CardAdded");
-
-                if (CardAdded) {
-
-                    ShowTransactionSuccesResultToUSer(getResources().getString(R.string.successfully_done_payment));
-
-                }
-                else
-                {
-                    ShowTransactionFaileToUSer("Add payment failed");
-                }
-            }
-
-        }
-    };
     private PendingCall pendingCall;
 
 
@@ -544,9 +529,9 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                 public void onClick(View view) {
                     hideProgress();
                     hideStatus2();
-                    Intent intent = new Intent(PacifyrActivity.this,
-                            AlertAddCreditCardActivity.class);
-                    startActivityForResult(intent, AlertAddCreditCardActivity.REQUEST_CODE_STRIPE_CARD);
+                    Intent intent = new Intent(NotificationUtils.STRIPCARD_ADDED_WHILE_CALL);
+                    LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
+
                 }
             }, new View.OnClickListener() {
                 @Override
@@ -643,7 +628,8 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                                 hideStatus2();
                                 Intent intent = new Intent(PacifyrActivity.this,
                                         AlertAddCreditCardActivity.class);
-                                startActivity(intent);
+                                startActivityForResult(intent, REQUEST_CODE_STRIPE_CARD);
+
                             }
                         }, new View.OnClickListener() {
                             @Override
@@ -672,8 +658,6 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
         LocalBroadcastManager.getInstance(this).registerReceiver(waringToAddPayTmPaymentReceiver, new IntentFilter(NotificationUtils.PAYTM_PAYMENT_EVENT));
         LocalBroadcastManager.getInstance(this).registerReceiver(poupForAppoinmetCall, new IntentFilter(NotificationUtils.APPOINTMENT_EVENT));
 
-        LocalBroadcastManager.getInstance(this).registerReceiver(stripeCardAddedWhileCall, new IntentFilter(NotificationUtils.STRIPCARD_ADDED_WHILE_CALL));
-
     }
 
     @Override
@@ -685,7 +669,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(notificationReceiver);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(waringToAddPayTmPaymentReceiver);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(poupForAppoinmetCall);
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(stripeCardAddedWhileCall);
+
     }
 
     @Override
@@ -840,6 +824,35 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                 .setSubtitle(subTitle)
                 .setBoldPositiveLabel(false)
                 .setCancelable(true)
+                .setPositiveListener(okLabel, listener)
+                .build();
+        try {
+            dialog.show();
+        }
+        catch (Exception e)
+        {
+            Log.w("###",String.valueOf(e));
+        }
+
+    }
+
+    public void showIOSDialogOK(String title, String subTitle, String okLabel, iOSDialogClickListener listener,boolean isCancelable)
+    {
+        if (!isShowDialogs()) {
+            return;
+        }
+        if (dialog != null) {
+            try {
+                dialog.dismiss();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        dialog = new iOSDialogBuilder(PacifyrActivity.this)
+                .setTitle(title)
+                .setSubtitle(subTitle)
+                .setBoldPositiveLabel(false)
+                .setCancelable(isCancelable)
                 .setPositiveListener(okLabel, listener)
                 .build();
         try {
@@ -1249,6 +1262,15 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                 // If the update is cancelled or fails,
                 // you can request to start the update again.
 //                checkForAppUpdate(PacifyrActivity.this, APP_UPDATE_REQUEST_CODE);
+            }
+        }
+        else if (requestCode == REQUEST_CODE_STRIPE_CARD)
+        {
+            if (resultCode == RESULT_OK) {
+                ShowTransactionSuccesResultToUSer(getResources().getString(R.string.successfully_done_payment));
+            }
+            else {
+                ShowTransactionFaileToUSer("Add payment failed");
             }
         }
     }
@@ -4429,7 +4451,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                                     dialog.dismiss();
                                 }
                             };
-                            showIOSDialogOK("Success", message, "OK", listener);
+                            showIOSDialogOK("Success", message, "OK", listener,false);
                         }
                     });
                 }
@@ -4476,7 +4498,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                                     dialog.dismiss();
                                 }
                             };
-                            showIOSDialogOK("Success", message, "OK", listener);
+                            showIOSDialogOK("Success", message, "OK", listener,false);
                         }
                     });
                 }
@@ -4526,7 +4548,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                                     dialog.dismiss();
                                 }
                             };
-                            showIOSDialogOK("Error", message, "OK", listener);
+                            showIOSDialogOK("Error", message, "OK", listener,false);
                         }
                     });
                 }
@@ -4571,7 +4593,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                                     dialog.dismiss();
                                 }
                             };
-                            showIOSDialogOK("Error", message, "OK", listener);
+                            showIOSDialogOK("Error", message, "OK", listener,false);
                         }
                     });
                 }
