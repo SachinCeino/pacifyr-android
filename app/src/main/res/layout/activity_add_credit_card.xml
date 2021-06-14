@@ -18,100 +18,97 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="25dp">
+        android:padding="10dp">
 
-        <com.pacifyr.client.customview.MainTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/card_number"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:textSize="20sp"/>
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:inputType="number"
-            android:layout_margin="20dp"
-            android:maxLength="16"
-            android:theme="@style/OMEditTheme"
-            android:id="@+id/card_number_edt"
-            android:hint="Card number"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-           <!-- <com.aigestudio.wheelpicker.widgets.WheelMonthPicker
-                android:layout_width="50dp"
+            android:orientation="vertical"
+            android:layout_margin="20dp">
+            <com.pacifyr.client.customview.MainTextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:wheel_curved="true"
-                app:wheel_visible_item_count="2"
-                android:hint=""/>
-
-
-            <com.aigestudio.wheelpicker.widgets.WheelYearPicker
-                android:layout_width="50dp"
+                android:text="@string/card_number"
+                android:textColor="@color/grey_dark_text"
+                android:textStyle="bold"
+                android:textSize="16sp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:wheel_curved="true"
-                app:wheel_visible_item_count="2"
-                android:hint=""/>-->
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:gravity="center">
+                    <ImageView
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:src="@drawable/svg_creditcard"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="3dp"
+                        >
+                    </ImageView>
+                </LinearLayout>
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="number"
+                    android:layout_gravity="center_vertical"
+                    android:maxLength="16"
+                    android:id="@+id/card_number_edt"
+                    android:hint="Card number"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="3">
 
             <EditText
-                android:layout_width="40dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:id="@+id/card_month_edt"
                 android:inputType="number"
                 android:layout_gravity="center"
                 android:maxLength="2"
-                android:theme="@style/OMEditTheme"
-                android:hint="MM"/>
+                android:hint="Exp Month"/>
 
             <EditText
-                android:layout_width="40dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_gravity="center"
                 android:id="@+id/card_year_edt"
                 android:inputType="number"
                 android:maxLength="2"
-                android:theme="@style/OMEditTheme"
-                android:hint="YY"/>
+                android:hint="Exp Year"/>
 
             <EditText
-                android:layout_width="51dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:id="@+id/card_cvv_edt"
                 android:inputType="number"
                 android:maxLength="3"
-                android:theme="@style/OMEditTheme"
                 android:hint="CVV"/>
 
 
         </LinearLayout>
-
-        <!-- <com.pacifyr.client.customview.MainTextView
-             android:id="@+id/country_txv"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:textSize="25sp"
-             android:textColor="@color/black"
-             android:layout_marginTop="25dp"
-             android:text="Country" />
-
-
-         <EditText
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content"
-             android:layout_gravity="center"
-             android:id="@+id/country_edt"
-             android:layout_marginTop="15dp"
-             android:hint="USA"/>-->
-
 
 
         <RelativeLayout

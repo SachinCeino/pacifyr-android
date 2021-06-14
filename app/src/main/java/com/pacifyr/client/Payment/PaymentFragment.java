@@ -3,6 +3,7 @@ package com.pacifyr.client.Payment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,12 +20,16 @@ import com.pacifyr.client.adapter.ListSavedCardAdapter;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.home.DashboardActivity;
+import com.pacifyr.client.model.SubscriptionSavedCard;
+import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.orginals.Auth;
 import com.pacifyr.client.utility.BaseFragment;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.squareup.otto.Subscribe;
 
 import org.json.JSONArray;
+
+import java.util.List;
 
 import static com.pacifyr.client.network.NetworkService.GLOBAL_URL;
 
@@ -47,6 +52,7 @@ public class PaymentFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         ((DashboardActivity) getActivity()).changeActionBarTitleForFragments(getResources().getString(R.string.nav_payment_title));
+        getSavedCard();
     }
 
     public static PaymentFragment newInstance(String param1, String param2) {
@@ -59,7 +65,6 @@ public class PaymentFragment extends BaseFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        getSavedCard();
 
     }
 
@@ -88,16 +93,20 @@ public class PaymentFragment extends BaseFragment {
                     if(isValid(json)) {
                         String jsonString = json.toString();
                         int l=jsonString.length();
-                        if(l>3) {
+                        List<SubscriptionSavedCard> mListCards= GsonUtils.getInstance().gsonToModelSubscriptionSavedCardModel(json);
+                        Log.w("BRUCELEEE","getSavedCard"+ jsonString);
+                        if (isValidSize(mListCards))
+                        {
                             credictCardCtxv.setVisibility(View.GONE);
                             cardRcv.setVisibility(View.VISIBLE);
-                            listSavedCardAdapter = new ListSavedCardAdapter(getActivity(), json);
+                            listSavedCardAdapter = new ListSavedCardAdapter(getActivity(), mListCards);
                             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
                             cardRcv.setLayoutManager(mLayoutManager);
                             cardRcv.setItemAnimator(new DefaultItemAnimator());
                             cardRcv.setAdapter(listSavedCardAdapter);
                             //String message=json.getString("message");
                         }
+
                         else{
                             credictCardCtxv.setVisibility(View.VISIBLE);
                             cardRcv.setVisibility(View.GONE);

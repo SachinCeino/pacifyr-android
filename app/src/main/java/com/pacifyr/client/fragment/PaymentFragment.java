@@ -84,7 +84,7 @@ public class PaymentFragment extends BaseFragment {
                         if(l>3) {
                             credictCardCtxv.setVisibility(View.GONE);
                             cardRcv.setVisibility(View.VISIBLE);
-                            listSavedCardAdapter = new ListSavedCardAdapter(getActivity(), json);
+                           // listSavedCardAdapter = new ListSavedCardAdapter(getActivity(), json);
                             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
                             cardRcv.setLayoutManager(mLayoutManager);
                             cardRcv.setItemAnimator(new DefaultItemAnimator());

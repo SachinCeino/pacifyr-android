@@ -26,6 +26,7 @@ import com.pacifyr.client.model.ResourceMain;
 import com.pacifyr.client.model.ResourceSpecialityList;
 import com.pacifyr.client.model.ResourceTodayHighlight;
 import com.pacifyr.client.model.SchedulePayment;
+import com.pacifyr.client.model.SubscriptionSavedCard;
 import com.pacifyr.client.model.UserDetailsModel;
 import com.pacifyr.client.model.UserProfile;
 import com.pacifyr.client.paytmpayment.TransactionResponce;
@@ -1058,6 +1059,19 @@ public class GsonUtils<T> {
             String jsonString = json.toString();
             model = gson.fromJson(jsonString, PreviousPrescription.class);
         } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return model;
+    }
+
+    public List<SubscriptionSavedCard> gsonToModelSubscriptionSavedCardModel(JSONArray jsonArray) {
+
+        List<SubscriptionSavedCard> model = null;
+        try {
+            Type listType = new TypeToken<List<SubscriptionSavedCard>>(){}.getType();
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            model= gson.fromJson(jsonArray.toString(), listType);
+        } catch (Exception e){
             e.printStackTrace();
         }
         return model;

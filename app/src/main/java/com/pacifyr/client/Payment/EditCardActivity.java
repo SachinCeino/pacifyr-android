@@ -5,6 +5,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
+import com.pacifyr.client.model.SubscriptionSavedCard;
 import com.pacifyrapp.utilitylibrary.CustomEditText;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
@@ -35,9 +37,8 @@ import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.STRIPE
 
 public class EditCardActivity extends PacifyrAppCompactActivity {
 
-    private CustomEditText cardCedt;
-    private CustomEditText expDateCedt;
-    private CustomEditText cvvCedt;
+    private EditText EditText_cardNumber;
+    private EditText EditText_cardMonhEdt,EditText_cardYearEdt,EditText_cardCvvEdt;
     private String cardNumber;
     private String month;
     private String year;
@@ -46,20 +47,50 @@ public class EditCardActivity extends PacifyrAppCompactActivity {
     private PrefManager prefM;
     private String userid,token;
 
+    SubscriptionSavedCard object;
+    RelativeLayout save_rlay;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_card);
         onSetActionBar();
-        Bundle b=getIntent().getExtras();
-        String exp = b.getString("expiry");
-        String number = b.getString("number");
 
-        cardCedt = findViewById(R.id.card_cedt);
-        expDateCedt = findViewById(R.id.exp_date_cedt);
-        cvvCedt = findViewById(R.id.cvv_cedt);
-        cardCedt.setText("****"+number);
-        expDateCedt.setText(exp);
+
+           if ( isValid(getIntent()) && isValid(getIntent().getExtras())
+           && isValid(getIntent().getExtras().getSerializable("object")))
+           {
+               object= (SubscriptionSavedCard) getIntent().getExtras().getSerializable("object");
+           }
+
+        EditText_cardMonhEdt = (EditText) findViewById(R.id.card_month_edt);
+        EditText_cardYearEdt = (EditText) findViewById(R.id.card_year_edt);
+        EditText_cardCvvEdt = (EditText) findViewById(R.id.cvv_cedt);
+        save_rlay=findViewById(R.id.save_rlay);
+
+        EditText_cardNumber = (EditText) findViewById(R.id.card_cedt);
+
+        if (isValid(object))
+        {
+            if (isValid(object.getCardLast4()))
+                EditText_cardNumber.setText("****"+object.getCardLast4());
+            if (isValid(object.getCardExpiryMonth()))
+                EditText_cardMonhEdt.setText(object.getCardExpiryMonth()+"");
+            if (isValid(object.getCardExpiryYear()))
+                EditText_cardYearEdt.setText(object.getCardExpiryYear()+"");
+            EditText_cardCvvEdt.setText("***");
+
+        }
+
+
+
+        save_rlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ValidateAndSubmitEditedCard();
+            }
+        });
+
+
 
 
     }
@@ -91,10 +122,10 @@ public class EditCardActivity extends PacifyrAppCompactActivity {
         backImv.setVisibility(View.VISIBLE);
         titleTxv.setVisibility(View.VISIBLE);
         leftLlay.setVisibility(View.VISIBLE);
-        defSetText(titleTxv,"edit card");
+        defSetText(titleTxv,"EDIT CARD");
         Typeface type = Typeface.createFromAsset(getAssets(),getResources().getString(R.string.avantica_bold_header));
         titleTxv.setTypeface(type);
-        rightTxv.setText("done");
+        rightTxv.setText("Done");
         rightTxv.setTextColor(getResources().getColor(R.color._color_action_bar_text_color));
         titleTxv.setTextColor(getResources().getColor(R.color._color_action_bar_text_color));
         //backImv.setBackgroundResource(R.drawable.leftmen);
@@ -109,48 +140,49 @@ public class EditCardActivity extends PacifyrAppCompactActivity {
             @Override
             public void onClick(View v) {
 
-                cardNumber = cardCedt.getEditableText().toString();
-                String ex = expDateCedt.getEditableText().toString();
-                cvv = cvvCedt.getEditableText().toString();
-                month = ex.substring(0, 2);
-                year = ex.substring(3, 7);
-
-                if(isValidCard()) {
-                    setLoading();
-                    showProgress();
-
-                    Card card = new Card(cardNumber, Integer.parseInt(month), Integer.parseInt(year), cvv);
-                    if (!card.validateCard()) {
-                        Toast.makeText(EditCardActivity.this, "Invalid Card", Toast.LENGTH_LONG
-                        ).show();
-                        hideProgress();
-                    } else {
-                        Stripe stripe = new Stripe(EditCardActivity.this, STRIPE_PUBLISH_KEY);
-                        stripe.createToken(
-                                card,
-                                new TokenCallback() {
-                                    public void onSuccess(Token token) {
-                                        // Send token to your server
-                                        String type = token.getType();
-                                        genaratedToken = token;
-                                        //Toast.makeText(EditCardActivity.this, token.getId(), Toast.LENGTH_LONG).show();
-                                        deletOldCard();
-                                    }
-
-                                    public void onError(Exception error) {
-                                        // Show localized error message
-                                        Toast.makeText(EditCardActivity.this,
-                                                error.getMessage(),
-                                                Toast.LENGTH_LONG
-                                        ).show();
-                                        hideProgress();
-                                    }
-                                }
-                        );
-                    }
-                }
+               ValidateAndSubmitEditedCard();
             }
         });
+    }
+
+    private void ValidateAndSubmitEditedCard() {
+        cardNumber = EditText_cardNumber.getEditableText().toString();
+        cvv = EditText_cardCvvEdt.getEditableText().toString();
+        month = EditText_cardMonhEdt.getEditableText().toString();
+        year = EditText_cardYearEdt.getEditableText().toString();
+
+        if(isValidCard()) {
+            setLoading();
+            showProgress();
+
+            Card card = new Card(cardNumber, Integer.parseInt(month), Integer.parseInt(year), cvv);
+            if (!card.validateCard()) {
+                hideProgress();
+            } else {
+                Stripe stripe = new Stripe(EditCardActivity.this, STRIPE_PUBLISH_KEY);
+                stripe.createToken(
+                        card,
+                        new TokenCallback() {
+                            public void onSuccess(Token token) {
+                                // Send token to your server
+                                String type = token.getType();
+                                genaratedToken = token;
+                                //Toast.makeText(EditCardActivity.this, token.getId(), Toast.LENGTH_LONG).show();
+                                deletOldCard();
+                            }
+
+                            public void onError(Exception error) {
+                                // Show localized error message
+                                Toast.makeText(EditCardActivity.this,
+                                        error.getMessage(),
+                                        Toast.LENGTH_LONG
+                                ).show();
+                                hideProgress();
+                            }
+                        }
+                );
+            }
+        }
     }
 
     private boolean isValidCard() {
@@ -158,27 +190,27 @@ public class EditCardActivity extends PacifyrAppCompactActivity {
         if(!isValid(cardNumber))
         {
             //Toast.makeText(EditCardActivity.this, cardNo, Toast.LENGTH_LONG).show();
-            cardCedt.setError("Please enter valid card number");
+            EditText_cardNumber.setError("Enter valid card number");
             ret = false;
         }
         if(!isValid(month))
         {
             //Toast.makeText(EditCardActivity.this, month, Toast.LENGTH_LONG).show();
-            expDateCedt.setError("Please enter valid Expiry Date");
+            EditText_cardMonhEdt.setError("Enter valid month");
             ret = false;
 
         }
         if(!isValid(year))
         {
             //Toast.makeText(EditCardActivity.this, year, Toast.LENGTH_LONG).show();
-            expDateCedt.setError("Please enter valid Expiry Date");
+            EditText_cardYearEdt.setError("Enter valid year");
             ret = false;
 
         }
         if(!isValid(cvv))
         {
             //Toast.makeText(EditCardActivity.this, cvv, Toast.LENGTH_LONG).show();
-            cvvCedt.setError("Please enter valid cvv");
+            EditText_cardCvvEdt.setError("Enter valid cvv");
             ret = false;
 
         }
@@ -237,8 +269,7 @@ public class EditCardActivity extends PacifyrAppCompactActivity {
                             @Override
                             public void run() {
                                 hideStatus();
-                                Intent i= new Intent(EditCardActivity.this,DashboardActivity.class);
-                                startActivity(i);
+                                finish();
                             }
                         }, 2000);
 

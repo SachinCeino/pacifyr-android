@@ -79,27 +79,27 @@ public class AddCreditCardActivity extends PacifyrAppCompactActivity {
         if(!isValid(cardNo))
         {
             //Toast.makeText(AddCreditCardActivity.this, cardNo, Toast.LENGTH_LONG).show();
-            cardNumber.setError("Please enter valid card number");
+            cardNumber.setError("Enter valid card number");
             ret = false;
         }
         if(!isValid(month))
         {
             //Toast.makeText(AddCreditCardActivity.this, month, Toast.LENGTH_LONG).show();
-            cardMonhEdt.setError("Please enter valid month");
+            cardMonhEdt.setError("Enter valid month");
             ret = false;
 
         }
         if(!isValid(year))
         {
             //Toast.makeText(AddCreditCardActivity.this, year, Toast.LENGTH_LONG).show();
-            cardYearEdt.setError("Please enter valid year");
+            cardYearEdt.setError("Enter valid year");
             ret = false;
 
         }
         if(!isValid(cvv))
         {
             //Toast.makeText(AddCreditCardActivity.this, cvv, Toast.LENGTH_LONG).show();
-            cardCvvEdt.setError("Please enter valid cvv");
+            cardCvvEdt.setError("Enter valid cvv");
             ret = false;
 
         }
@@ -347,7 +347,7 @@ public class AddCreditCardActivity extends PacifyrAppCompactActivity {
         backImv.setVisibility(View.VISIBLE);
         titleTxv.setVisibility(View.VISIBLE);
         leftLlay.setVisibility(View.VISIBLE);
-        defSetText(titleTxv,"add credit card");
+        defSetText(titleTxv,"ADD CREDIT CARD");
         //titleTxv.setText("Add Credit Card");
         titleTxv.setTextColor(getResources().getColor(R.color._color_action_bar_text_color));
         //backImv.setBackgroundResource(R.drawable.leftmen);
