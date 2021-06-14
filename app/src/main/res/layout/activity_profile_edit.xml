@@ -62,7 +62,6 @@
                 android:layout_marginRight="20dp"
                 android:layout_marginTop="20dp"
                 android:id="@+id/mail_card"
-                android:visibility="gone"
                 card_view:cardCornerRadius="5dp"
                 card_view:contentPadding="5dp"
                 android:layout_width="match_parent"
@@ -81,7 +80,7 @@
                         android:id="@+id/mail_llay"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-
+                        android:padding="5dp"
                         android:layout_below="@+id/line1"
                         android:layout_toRightOf="@+id/avatar_dimv"
                         android:background="@color/white"
@@ -96,18 +95,19 @@
                             app:height_percentage="8"
                             app:parameter="fixed_ratio"
                             app:width_percentage="8" />
-                        <com.pacifyrapp.utilitylibrary.CustomEditText
+                        <EditText
                             android:id="@+id/mail_cedt"
-                            android:textColorHighlight="@color/text_Color_High_light"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:gravity="start"
                             android:text=""
+                            android:textColorHighlight="@color/text_Color_High_light"
                             android:layout_width="match_parent"
                             android:hint="Email"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/sp16"
-                            app:percentage_height="8" />
+                            android:textColor="@color/education_desc"
+                            android:textStyle="bold"
+                            android:textSize="12sp"
+                             />
 
                     </LinearLayout>
 

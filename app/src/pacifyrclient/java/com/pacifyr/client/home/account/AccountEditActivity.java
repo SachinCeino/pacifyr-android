@@ -105,7 +105,7 @@ public class AccountEditActivity extends PacifyrAppCompactActivity {
     private CustomEditText profileNameCedt;
     private CardView mailCard;
     private LinearLayout mailLlay;
-    private CustomEditText mailCedt;
+    private EditText mailCedt;
     private LinearLayout pnumberLlay;
     private CustomEditText pnumberCedt;
     private CardView aboutmeCard;
@@ -713,6 +713,8 @@ public class AccountEditActivity extends PacifyrAppCompactActivity {
 
             if(!isValid(profileNameCedt,"Please enter name"))
                 return ;
+            if(!isValidEmail(mailCedt,"Please enter email address"))
+                return ;
           //  if(!isValidEmail(mailCedt,"Please enter a valid email"))
           //      return ;
          /*   if (!isValidYear(yearEdit.getText().toString(),"You must be 18 years or older to use Pacifyr"))
@@ -727,6 +729,7 @@ public class AccountEditActivity extends PacifyrAppCompactActivity {
            // postRegisterModel.setEmail(mailCedt.getText()+"");
             postRegisterModel.setDescription(aboutmeCedt.getText()+"");
             postRegisterModel.setLastName("");
+            postRegisterModel.setEmail(mailCedt.getText().toString());
        //     postRegisterModel.setLoginType("manual");
            // postRegisterModel.setPhoneNumber(phoneRegister);
 
