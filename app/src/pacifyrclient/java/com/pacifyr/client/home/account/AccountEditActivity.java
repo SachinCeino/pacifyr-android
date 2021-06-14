@@ -70,6 +70,7 @@ import com.quickblox.users.model.QBUser;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
@@ -697,7 +698,22 @@ public class AccountEditActivity extends PacifyrAppCompactActivity {
                 @Override
                 public void onClick(View v) {
 
-                    updateSubmit();
+                    if(!isValidEmail(mailCedt,"Please enter email address"))
+                        return ;
+                    if(!isValid(profileNameCedt,"Please enter name"))
+                        return ;
+
+                    if (mailCedt.getText().toString().equals(NetworkService.mCurrentUser.getEmail()))
+                    {
+                        //no changes in email
+                        updateSubmit();
+                    }
+                    else
+                    {
+                        //changes in email address so need to update in email address so need to call new api
+                        UpdateEmailAddress(mailCedt.getText().toString());
+                    }
+
 
 
                     //finish();
@@ -708,13 +724,90 @@ public class AccountEditActivity extends PacifyrAppCompactActivity {
             LogUtils.LOGD("session","AEA onSetActionBar exce " + e.getMessage());
         }
     }
+
+    private void UpdateEmailAddress(String email) {
+
+        try {
+
+            setLoading("loading...");
+            showProgress();
+            String url = NetworkService.GLOBAL_URL + "user/changeEmail";
+
+            AjaxCallback cb = new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject json, AjaxStatus statuss) {
+                    try {
+                        String js = json.toString();
+                        String message="";
+                        String status="";
+                        hideProgress();
+                        //{"message":"Succesfully updated email.","status":"success"}
+                        if (isValid(json)) {
+                            if (json.has("message")) {
+                                try {
+                                    message = json.getString("message");
+                                } catch (JSONException e1) {
+                                    e1.printStackTrace();
+                                }
+                            }
+
+                            if (json.has("status")) {
+                                try {
+                                    status = json.getString("status");
+                                } catch (JSONException e1) {
+                                    e1.printStackTrace();
+                                }
+                            }
+
+                            if (status.equals("success"))
+                            {
+                                updateSubmit();
+                            }
+                            else
+                            {
+                                hideStatus2();
+                                setStatus(message, R.color.red);
+                                showStatus();
+                                final Handler handler = new Handler();
+                                handler.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        hideStatus();
+                                    }
+                                }, 2000);
+                            }
+
+
+
+                        }
+
+                         else {
+                            Toast.makeText(getApplicationContext(), getString(R.string.sorry_could_not_complete_action), Toast.LENGTH_LONG).show();
+
+                        }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        hideProgress();
+                    }
+                }
+            };
+
+            AQuery aq = new AQuery(getApplicationContext());
+            cb.header("Content-Type", "application/json");
+            cb.header("AccessToken", getPrefManager().getAccessToken());
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.putOpt("email", email);
+            aq.post(url, jsonObject, JSONObject.class, cb);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+    }
+
     private void updateSubmit() {
         try{
 
-            if(!isValid(profileNameCedt,"Please enter name"))
-                return ;
-            if(!isValidEmail(mailCedt,"Please enter email address"))
-                return ;
           //  if(!isValidEmail(mailCedt,"Please enter a valid email"))
           //      return ;
          /*   if (!isValidYear(yearEdit.getText().toString(),"You must be 18 years or older to use Pacifyr"))
@@ -729,7 +822,6 @@ public class AccountEditActivity extends PacifyrAppCompactActivity {
            // postRegisterModel.setEmail(mailCedt.getText()+"");
             postRegisterModel.setDescription(aboutmeCedt.getText()+"");
             postRegisterModel.setLastName("");
-            postRegisterModel.setEmail(mailCedt.getText().toString());
        //     postRegisterModel.setLoginType("manual");
            // postRegisterModel.setPhoneNumber(phoneRegister);
 
