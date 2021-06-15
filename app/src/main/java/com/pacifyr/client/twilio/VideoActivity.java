@@ -2,6 +2,7 @@ package com.pacifyr.client.twilio;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.app.PictureInPictureParams;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -12,6 +13,10 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Color;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Build;
@@ -20,6 +25,7 @@ import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
+import android.os.PowerManager;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -465,7 +471,10 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
 
     private MediaPlayer PlayerForNetOffBeep;
 
-
+    SensorManager sensorManager;
+    Sensor proximitySensor;
+    private PowerManager mPowerManager;
+    private PowerManager.WakeLock mWakeLock;
     private class EarPhoneChanges extends BroadcastReceiver {
         @Override public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equals(Intent.ACTION_HEADSET_PLUG)) {
@@ -478,6 +487,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                         {
                             audioManager.setSpeakerphoneOn(false);
                             UpdateView();
+
                         }
                         else {
                             audioManager.setSpeakerphoneOn(true);
@@ -1035,6 +1045,24 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                 FirebaseLogging.EVENT_ON_SCREEN,
                 args);
 
+        try {
+           if(!isVideoCall)
+           {
+               if (proximitySensor == null) {
+                   //Toast.makeText(this, "No proximity sensor found in device.", Toast.LENGTH_SHORT).show();
+               } else {
+                   // registering our sensor with sensor manager.
+                   sensorManager.registerListener(proximitySensorEventListener,
+                           proximitySensor,
+                           SensorManager.SENSOR_DELAY_NORMAL);
+               }
+
+           }
+
+        }catch (Exception e)
+        {
+
+        }
     }
 
     private EncodingParameters getEncodingParameters() {
@@ -1227,6 +1255,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
 
             //  ringtonePlayer = new RingtonePlayer(this, R.raw.beep);
             checker = new PermissionsChecker(VideoActivity.this);
+            mPowerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
             /*
              * Get shared preferences to read settings
              */
@@ -1546,6 +1575,56 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                     FirebaseLogging.EVENT_CALL_STARTED,
                     args);
         }
+
+
+        // calling sensor service.
+        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        // from sensor service we are // calling proximity sensor
+        proximitySensor = sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
+        // handling the case if the proximity // sensor is not present in users device.
+
+    }
+
+    // calling the sensor event class to detect
+    // the change in data when sensor starts working.
+    SensorEventListener proximitySensorEventListener = new SensorEventListener() {
+        @Override
+        public void onAccuracyChanged(Sensor sensor, int accuracy) {
+            // method to check accuracy changed in sensor.
+        }
+
+        @Override
+        public void onSensorChanged(SensorEvent event) {
+            if (event.sensor.getType() == Sensor.TYPE_PROXIMITY) {
+                if (event.values[0] == 0) {
+                    //Toast.makeText(VideoActivity.this, "Near", Toast.LENGTH_SHORT).show();
+                    if (!isHeadeSetIsPlugged && !audioManager.isSpeakerphoneOn())
+                    turnOffScreen();
+                } else {
+                   // Toast.makeText(VideoActivity.this, "Away", Toast.LENGTH_SHORT).show();
+                    if (!isHeadeSetIsPlugged && !audioManager.isSpeakerphoneOn())
+                    turnOnScreen();
+                }
+            }
+        }
+    };
+
+
+    @SuppressLint("InvalidWakeLockTag")
+    public void turnOnScreen(){
+        // turn on screen
+        Log.v("ProximityActivity", "ON!");
+        mWakeLock = mPowerManager.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, "tag");
+        mWakeLock.acquire();
+    }
+
+    @SuppressLint("InvalidWakeLockTag")
+    @TargetApi(21) //Suppress lint error for PROXIMITY_SCREEN_OFF_WAKE_LOCK
+    public void turnOffScreen(){
+        // turn off screen
+        Log.v("ProximityActivity", "OFF!");
+        mWakeLock = mPowerManager.newWakeLock(PowerManager.PROXIMITY_SCREEN_OFF_WAKE_LOCK, "tag");
+        mWakeLock.acquire();
     }
 
     private Timer NetOffBeepTimer = null;
@@ -2992,6 +3071,16 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
     @Override
     protected void onStop() {
         super.onStop();
+        try {
+            if (!isVideoCall) {
+                if (isValid(proximitySensorEventListener) && isValid(sensorManager)) {
+                    sensorManager.unregisterListener(proximitySensorEventListener);
+                }
+            }
+        }catch (Exception e)
+        {
+
+        }
     }
 
     @org.greenrobot.eventbus.Subscribe(threadMode = ThreadMode.MAIN)
