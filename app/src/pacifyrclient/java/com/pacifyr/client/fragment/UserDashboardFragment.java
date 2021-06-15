@@ -200,6 +200,8 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
         }
     }
 
+    private LinearLayout session_llay;
+    private TextView Text_appointmentTime,MyLastSessionTitle;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -216,6 +218,9 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
         bannerLogoll=view.findViewById(R.id.bannerLogoll);
         TextViewHideBanner=view.findViewById(R.id.TextViewHideBanner);
         TextView_buttonText=view.findViewById(R.id.TextView_buttonText);
+        session_llay=view.findViewById(R.id.session_llay);
+        Text_appointmentTime=view.findViewById(R.id.Text_appointmentTime);
+        MyLastSessionTitle=view.findViewById(R.id.MyLastSessionTitle);
 
 
         swipeRefreshLayout.setOnRefreshListener(this);
@@ -243,14 +248,21 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
             public void onClick(View v) {
 
                 try {
-                    if (isValid(lastSession)&&isValid(lastSession.getId()))
+                    if (isValid(modelCustomerDashboard2.getNextAppointment()))
                     {
-                        String sessionID = lastSession.getId();
-                        LastSessionActivity.start(getActivity(), sessionID, true);
+                        ((DashboardActivity)getActivity()).showFragment(new AppointmentsTabViewFragment());
                     }
                     else {
-                        ConnectToPacifyrActivity.start(getActivity());
+                        if (isValid(lastSession)&&isValid(lastSession.getId()))
+                        {
+                            String sessionID = lastSession.getId();
+                            LastSessionActivity.start(getActivity(), sessionID, true);
+                        }
+                        else {
+                            ConnectToPacifyrActivity.start(getActivity());
+                        }
                     }
+
 
                 }
                 catch (Exception ex)
@@ -260,6 +272,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
 
             }
         });
+
         feelRlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -1132,11 +1145,10 @@ boolean itIsFirstCallFrom=true;
 
 
                     lastSsnPacfyrCtxv.setText(lastSession.getPacifyr().getFirstName() + " " + lastSession.getPacifyr().getLastName());
-                    Glide.with(getContext()).load(lastSession.getPacifyr().getImageUrl()).transition(DrawableTransitionOptions.withCrossFade()).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).into(lastSessionDimv);
+                    Glide.with(getContext()).load(GLOBAL_IMAGE_URL+lastSession.getPacifyr().getImage()).transition(DrawableTransitionOptions.withCrossFade()).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).into(lastSessionDimv);
 
 
-                    String duration = lastSession.getDuration();
-                    lastSessionMinuteTxv.setText(duration);
+
                     String type = lastSession.getSessionType();
                     if (type.equals("audio")){
                         videoCamImg.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.connectaudio1));
@@ -1144,10 +1156,39 @@ boolean itIsFirstCallFrom=true;
                     else if(type.equals("video")){
                         videoCamImg.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.ic_video_cam_blue));
                     }
-                    lastSessionMinuteTxv.setVisibility(View.VISIBLE);
-                    videoCamImg.setVisibility(View.VISIBLE);
-                    daysTxv.setVisibility(View.VISIBLE);
+
                     defSetText(daysTxv,lastSession.getDaysSincePosted());
+
+                    if (isValid(modelCustomerDashboard2.getNextAppointment()))
+                    {
+                       try {
+                           lastSessionMinuteTxv.setVisibility(View.GONE);
+                           videoCamImg.setVisibility(View.GONE);
+                           daysTxv.setVisibility(View.GONE);
+                           Text_appointmentTime.setVisibility(View.VISIBLE);
+                           String appointMentTime=modelCustomerDashboard2.getNextAppointment().getStartTimeGMT();
+                           String time = Utility.getStartFormatDate(appointMentTime,getActivity());
+                           Text_appointmentTime.setText(time+"");
+                           MyLastSessionTitle.setText(getResources().getString(R.string.next_appointment));
+                           if (isValid(modelCustomerDashboard2.getNextAppointment().getPacifyr())
+                           && isValid(modelCustomerDashboard2.getNextAppointment().getPacifyr().getImage()))
+                           Glide.with(getContext()).load(GLOBAL_IMAGE_URL+modelCustomerDashboard2.getNextAppointment().getPacifyr().getImage()).transition(DrawableTransitionOptions.withCrossFade()).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).into(lastSessionDimv);
+
+                       }catch (Exception e)
+                       {
+
+                       }
+                    }
+                    else {
+                        String duration = lastSession.getDuration();
+                        lastSessionMinuteTxv.setText(duration);
+                        lastSessionMinuteTxv.setVisibility(View.VISIBLE);
+                        videoCamImg.setVisibility(View.VISIBLE);
+                        daysTxv.setVisibility(View.VISIBLE);
+                        Text_appointmentTime.setVisibility(View.GONE);
+                        MyLastSessionTitle.setText(getResources().getString(R.string.my_last_session));
+
+                    }
 
                 }
                 else {
