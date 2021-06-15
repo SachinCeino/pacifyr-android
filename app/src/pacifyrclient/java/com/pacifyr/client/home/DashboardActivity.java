@@ -40,6 +40,7 @@ import com.pacifyr.client.event.ActionbarEvent;
 import com.pacifyr.client.event.AlertTypeEvent;
 import com.pacifyr.client.event.CallEvent;
 import com.pacifyr.client.event.ChatEvent;
+import com.pacifyr.client.event.ConnectEvent;
 import com.pacifyr.client.event.InternetConnectionEvent;
 import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.event.RateSessionEvent;
@@ -334,6 +335,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
     private MainTextView rightTxv;
     private DeviceFitImageView rightImv;
     private LinearLayout mLinearLayoutPrescription;
+    private TextView connectProviderActioBar;
 
     public void onSetActionBar() {
         actionBarTopLlay = findViewById(R.id.action_bar_top_llay);
@@ -354,6 +356,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
         titleTxv.setVisibility(View.VISIBLE);
         leftLlay.setVisibility(View.VISIBLE);
         defSetText(titleTxv, getResources().getString(R.string.mydashboard));
+        connectProviderActioBar=findViewById(R.id.connectProviderActioBar);
         Typeface type = Typeface.createFromAsset(getAssets(), getResources().getString(R.string.avantica_bold_header));
         titleTxv.setTypeface(type);
         titleTxv.setTextColor(getResources().getColor(R.color._color_action_bar_text_color));
@@ -366,6 +369,14 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
             }
         });
         showRightLayActionbar();
+        connectProviderActioBar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                /**actionbar connectprovider from dashboard actionbar event **/
+                EventBus.getDefault().post(new ConnectEvent(true));
+            }
+        });
+
     }
     public void closePane(boolean close){
         if(close){
@@ -1119,6 +1130,13 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
                 applyCouponCode(DashboardActivity.this, couponCode);
             }
         }
+    }
+
+    public void showConnectButton() {
+        connectProviderActioBar.setVisibility(View.VISIBLE);
+    }
+    public void hideConnectButton() {
+        connectProviderActioBar.setVisibility(View.GONE);
     }
 }
 

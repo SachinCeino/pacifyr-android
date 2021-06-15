@@ -115,5 +115,21 @@
                  android:layout_alignParentEnd="true" />-->
 
         </LinearLayout>
+
+        <com.pacifyr.client.customview.MainTextView
+            android:layout_width="wrap_content"
+            android:id="@+id/connectProviderActioBar"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:paddingEnd="5dp"
+            android:text="Connect"
+            android:visibility="gone"
+            android:layout_marginRight="5dp"
+            android:textStyle="bold"
+            android:textColor="@color/_color_action_bar_text_color"
+            android:layout_centerHorizontal="true"
+            android:layout_height="wrap_content">
+
+        </com.pacifyr.client.customview.MainTextView>
     </RelativeLayout>
 </LinearLayout>

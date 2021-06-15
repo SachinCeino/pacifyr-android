@@ -41,6 +41,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.gson.Gson;
 import com.pacifyr.client.R;
 import com.pacifyr.client.customview.MainTextView;
+import com.pacifyr.client.event.ConnectEvent;
 import com.pacifyr.client.event.InternetConnectionEvent;
 import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.event.RateSessionEvent;
@@ -605,6 +606,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
         super.onResume();
         isVisible=true;
         ((DashboardActivity) getActivity()).changeActionBarTitleForFragments(getResources().getString(R.string.nav_mydashbord_title));
+        ((DashboardActivity) getActivity()).showConnectButton();
 
         try {
 
@@ -643,6 +645,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
     public void onStop() {
         super.onStop();
         EventBus.getDefault().unregister(this);
+        ((DashboardActivity) getActivity()).hideConnectButton();
         isVisible=false;
         if (isValid(_TimerRefreshDashBoard)) {
             _TimerRefreshDashBoard.cancel();
@@ -1428,5 +1431,20 @@ boolean itIsFirstCallFrom=true;
                 }
             }
         }, 2000);
+    }
+
+/**actionbar connectprovider from dashboard actionbar event **/
+
+    @org.greenrobot.eventbus.Subscribe(threadMode = ThreadMode.MAIN)
+    public void onConnectProviderClicked(ConnectEvent event) {
+        try {
+            if (isValid(event) && event.isConnect()) {
+
+                ConnectToPacifyrActivity.start(getActivity());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 }
