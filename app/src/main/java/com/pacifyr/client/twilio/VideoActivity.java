@@ -1142,6 +1142,17 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
         cancelOutGoingCallTimer();
         EventBus.getDefault().unregister(this);
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
+        try {
+            if (!isVideoCall) {
+                if (isValid(proximitySensorEventListener) && isValid(sensorManager)) {
+                    sensorManager.unregisterListener(proximitySensorEventListener);
+                }
+            }
+        }catch (Exception e)
+        {
+
+        }
         super.onDestroy();
     }
 
@@ -1597,12 +1608,12 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
         public void onSensorChanged(SensorEvent event) {
             if (event.sensor.getType() == Sensor.TYPE_PROXIMITY) {
                 if (event.values[0] == 0) {
-                    //Toast.makeText(VideoActivity.this, "Near", Toast.LENGTH_SHORT).show();
-                    if (!isHeadeSetIsPlugged && !audioManager.isSpeakerphoneOn())
+                   // Toast.makeText(VideoActivity.this, "Near", Toast.LENGTH_SHORT).show();
+                    if (!isHeadeSetIsPlugged && isValid(audioManager)&&!audioManager.isSpeakerphoneOn())
                     turnOffScreen();
                 } else {
-                   // Toast.makeText(VideoActivity.this, "Away", Toast.LENGTH_SHORT).show();
-                    if (!isHeadeSetIsPlugged && !audioManager.isSpeakerphoneOn())
+                    //Toast.makeText(VideoActivity.this, "Away", Toast.LENGTH_SHORT).show();
+                    if (!isHeadeSetIsPlugged && isValid(audioManager)&&!audioManager.isSpeakerphoneOn())
                     turnOnScreen();
                 }
             }
