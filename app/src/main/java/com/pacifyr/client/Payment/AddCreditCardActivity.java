@@ -60,10 +60,6 @@ public class AddCreditCardActivity extends PacifyrAppCompactActivity {
                 if(isValidCard()) {
                     performCardSave();
                 }
-                else{
-                    Toast.makeText(AddCreditCardActivity.this, "Invalid Card", Toast.LENGTH_LONG).show();
-
-                }
             }
         });
 

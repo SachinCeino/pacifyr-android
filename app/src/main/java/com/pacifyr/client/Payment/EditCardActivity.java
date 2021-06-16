@@ -82,7 +82,7 @@ public class EditCardActivity extends PacifyrAppCompactActivity {
         }
 
 
-
+        save_rlay.setVisibility(View.GONE);
         save_rlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -150,14 +150,13 @@ public class EditCardActivity extends PacifyrAppCompactActivity {
         cvv = EditText_cardCvvEdt.getEditableText().toString();
         month = EditText_cardMonhEdt.getEditableText().toString();
         year = EditText_cardYearEdt.getEditableText().toString();
-
+        setLoading("loading...");
+        showProgress();
         if(isValidCard()) {
-            setLoading();
-            showProgress();
-
             Card card = new Card(cardNumber, Integer.parseInt(month), Integer.parseInt(year), cvv);
             if (!card.validateCard()) {
                 hideProgress();
+                Toast.makeText(EditCardActivity.this, "Invalid card details", Toast.LENGTH_LONG).show();
             } else {
                 Stripe stripe = new Stripe(EditCardActivity.this, STRIPE_PUBLISH_KEY);
                 stripe.createToken(
@@ -168,16 +167,17 @@ public class EditCardActivity extends PacifyrAppCompactActivity {
                                 String type = token.getType();
                                 genaratedToken = token;
                                 //Toast.makeText(EditCardActivity.this, token.getId(), Toast.LENGTH_LONG).show();
+                                hideProgress();
                                 deletOldCard();
                             }
 
                             public void onError(Exception error) {
                                 // Show localized error message
+                                hideProgress();
                                 Toast.makeText(EditCardActivity.this,
                                         error.getMessage(),
                                         Toast.LENGTH_LONG
                                 ).show();
-                                hideProgress();
                             }
                         }
                 );
@@ -219,6 +219,8 @@ public class EditCardActivity extends PacifyrAppCompactActivity {
 
     private void deletOldCard() {
         try {
+            setLoading("loading...");
+            showProgress();
             prefM = PrefManager.getInstance(EditCardActivity.this);
             token = prefM.getAccessToken();
             userid = prefM.getUserID();
@@ -227,12 +229,14 @@ public class EditCardActivity extends PacifyrAppCompactActivity {
                 @Override
                 public void callback(String url, JSONObject json, AjaxStatus status) {
                     try {
+                        hideProgress();
                         //String message=json.getString("message");
                         String my=json.toString();
                         String  st=status.getMessage();
                         saveCardDetails();
 
                     } catch (Exception e) {
+                        hideProgress();
                         e.printStackTrace();
                     }
                 }
@@ -244,6 +248,7 @@ public class EditCardActivity extends PacifyrAppCompactActivity {
         }
         catch (Exception ex)
         {
+            hideProgress();
             ex.printStackTrace();
         }
     }
@@ -252,7 +257,8 @@ public class EditCardActivity extends PacifyrAppCompactActivity {
         prefM= PrefManager.getInstance(EditCardActivity.this);
         token=prefM.getAccessToken();
         userid=prefM.getUserID();
-
+        setLoading("loading...");
+        showProgress();
         String url = NetworkService.GLOBAL_URL+"payment/saveCard";
         AjaxCallback cb = new AjaxCallback<JSONObject>() {
             @Override
@@ -262,7 +268,7 @@ public class EditCardActivity extends PacifyrAppCompactActivity {
                     String my=json.toString();
                     if(message.equals("Card added")){
                         hideProgress();
-                        setStatus("Successfully added your card", R.color.md_green_400);
+                        setStatus(getResources().getString(R.string.successfully_updated_your_card), R.color.md_green_400);
                         showStatus();
                         final Handler handler = new Handler();
                         handler.postDelayed(new Runnable() {
@@ -286,6 +292,7 @@ public class EditCardActivity extends PacifyrAppCompactActivity {
                         }, 2000);
                     }
                 } catch (Exception e) {
+                    hideStatus();
                     e.printStackTrace();
                 }
             }
