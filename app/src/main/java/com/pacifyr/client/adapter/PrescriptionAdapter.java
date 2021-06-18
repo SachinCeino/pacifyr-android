@@ -137,7 +137,7 @@ public class PrescriptionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 holder.mTextView_View_pres.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
+                        Utility.preventDoubleClickButtons(view);
                         if (isValid(object.getPrescriptionFile()))
                             ((PacifyrActivity)context).loadPDF(object.getPrescriptionFile(),context.getResources().getString(R.string.prescription));
                         else
