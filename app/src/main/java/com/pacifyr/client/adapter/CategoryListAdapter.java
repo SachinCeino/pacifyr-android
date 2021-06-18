@@ -217,7 +217,7 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView title, year, genre;
         public CircleImageView circleImageView;
-        public MainTextView pac_name;
+        public TextView pac_name;
 
         public MyViewHolder(View view) {
             super(view);
