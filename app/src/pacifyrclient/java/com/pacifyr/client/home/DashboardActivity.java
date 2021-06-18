@@ -665,7 +665,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
                 showFragment(new UserDashboardFragment());
             }
         });
-        detailLlay.setOnClickListener(new View.OnClickListener() {
+        account_rlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
