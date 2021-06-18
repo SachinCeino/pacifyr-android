@@ -648,6 +648,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
             @Override
             public void onPanelOpened(View panel) {
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+                hideSoftKeyboard();
             }
 
             @Override

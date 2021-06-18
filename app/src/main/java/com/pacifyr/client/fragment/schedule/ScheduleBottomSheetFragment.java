@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -40,6 +41,7 @@ import com.pacifyr.client.R;
 import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.home.PaymentActivity;
+import com.pacifyr.client.model.BillingSummary;
 import com.pacifyr.client.model.SchedulePayment;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
@@ -1501,6 +1503,8 @@ Log.w("WWW","onCreate");
                                     String jsonS = json.toString();
                                     String status = null;
                                     String messsage= null;
+                                    String amount= null;
+                                    String transactionId= null;
                                     Log.w("QQQQ", jsonS);
 
                                     if (json.has("status"))
@@ -1542,17 +1546,7 @@ Log.w("WWW","onCreate");
 
                                         if (status.equals("success"))
                                         {
-                                            setStatus(messsage, R.color.md_green_400);
-                                            showStatus();
-                                            new Handler().postDelayed(new Runnable() {
-                                                @Override
-                                                public void run() {
-
-                                                    hideStatus();
-                                                    EventBus.getDefault().post("SCHEDULE_PAY");
-                                                }
-                                            }, 2000);
-
+                                                 showBillingSummary(messsage);
                                         }
                                         else {
                                             setStatus(messsage, R.color.md_red_A700);
@@ -1625,7 +1619,32 @@ Log.w("WWW","onCreate");
     }
 
 
+    private void showBillingSummary(String messsage) {
 
+
+        ViewGroup viewGroup = getActivity().findViewById(android.R.id.content);
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.layout_bill_summary_for_appointment_booking, viewGroup, false);
+        TextView ok = view.findViewById(R.id.button_ok);
+
+        TextView TextView_message = view.findViewById(R.id.TextView_message);
+        TextView title = view.findViewById(R.id.title);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setView(view);
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+
+        TextView_message.setText(messsage);
+        title.setText(getResources().getString(R.string.payment_summary));
+
+        ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+                EventBus.getDefault().post("SCHEDULE_PAY");
+            }
+        });
+
+    }
 
     private void callSlotBookApiForUS(Slot singleSlote) {
 
