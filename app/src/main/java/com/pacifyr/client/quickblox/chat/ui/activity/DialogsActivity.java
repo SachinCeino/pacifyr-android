@@ -32,8 +32,8 @@ import com.pacifyr.client.R;
 import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.InternetConnectionEvent;
-import com.pacifyr.client.orginals.Auth;
 import com.pacifyr.client.network.GsonUtils;
+import com.pacifyr.client.orginals.Auth;
 import com.pacifyr.client.quickblox.chat.managers.DialogsManager;
 import com.pacifyr.client.quickblox.chat.ui.adapter.DialogsAdapter;
 import com.pacifyr.client.quickblox.chat.utils.chat.ChatHelper;
@@ -45,6 +45,7 @@ import com.pacifyr.client.twilio.VideoActivity;
 import com.pacifyr.client.utils.FirebaseLogging;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
+import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.quickblox.chat.QBChatService;
 import com.quickblox.chat.QBIncomingMessagesManager;
 import com.quickblox.chat.QBSystemMessagesManager;
@@ -502,6 +503,32 @@ public class DialogsActivity extends PacifyrActivity implements DialogsManager.M
 
         if (ChatHelper.getInstance().isLogged()) {
             getChatDialogs(clearDialogHolder);
+        } else {
+            Log.e(TAG, "Chat not logged in..");
+            SharedPrefsHelper sharedPrefsHelper = SharedPrefsHelper.getInstance();
+            if (sharedPrefsHelper.hasQbUser()) {
+                QBUser qbUser = sharedPrefsHelper.getQbUser();
+                if (qbUser.getPassword() == null) {
+                    qbUser.setPassword(PrefManager.getInstance(getApplicationContext()).getUserID());
+                }
+                if (qbUser.getLogin() == null) {
+                    qbUser.setLogin(PrefManager.getInstance(getApplicationContext()).getUserID());
+                }
+                QBChatService.getInstance().login(qbUser, new QBEntityCallback() {
+                    @Override
+                    public void onSuccess(Object o, Bundle bundle) {
+                        Log.d(TAG, "QB chat login success");
+                        getChatDialogs(clearDialogHolder);
+                    }
+
+                    @Override
+                    public void onError(QBResponseException e) {
+                        Log.e(TAG, "QB chat login error " + e.getMessage());
+                    }
+                });
+            } else {
+                Log.e(TAG, "No QB user found...");
+            }
         }
        /* SharedPrefsHelper sharedPrefsHelper = SharedPrefsHelper.getInstance();
         if (sharedPrefsHelper.hasQbUser()) {
