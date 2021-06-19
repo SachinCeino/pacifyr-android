@@ -1291,8 +1291,10 @@ Log.w("WWW","onCreate");
                                     String messsage;
                                     String paytmOrderId = null;
                                     Log.w("QQQQ", jsonS);
+                                    float cost=0;
 
                                     SchedulePayment mSchedulePayment=GsonUtils.getInstance().gsonToSchedulePayment(json);
+
 
 
                                     if (isValid(mSchedulePayment)) {
@@ -1306,6 +1308,10 @@ Log.w("WWW","onCreate");
                                                 /**Call Paytm Activity from here **/
 
 
+                                                if (isValid(mSchedulePayment.getBookingRequestPayment().getCost()))
+                                                {
+                                                    cost= mSchedulePayment.getBookingRequestPayment().getCost();
+                                                }
 
                                                 if (isValid(mSchedulePayment.getBookingRequestPayment() )&& isValid(mSchedulePayment.getBookingRequestPayment().getId()))
                                                 {
@@ -1317,15 +1323,32 @@ Log.w("WWW","onCreate");
 
                                                         bookingRequestPaymentId = paytmOrderId;
 
-                                                        int price = Integer.parseInt(pacifyer_obj.getPrice());
+                                                        if (Math.round(cost) <= 0) { //EAP counselors have price set as 0. Continue with booking
 
-                                                        if (price == 0) { //EAP counselors have price set as 0. Continue with booking
-                                                            EventBus.getDefault().post("SCHEDULE_PAY");
+                                                            ((PacifyrActivity)getActivity()).setAlertStatusInWhiteNoInternet("", getResources().getString(R.string.You_will_not_charged_) , "Yes","No", new View.OnClickListener() {
+                                                                @Override
+                                                                public void onClick(View v) {
+                                                                    ((PacifyrActivity) getActivity()).hideProgress();
+                                                                    ((PacifyrActivity) getActivity()).hideStatus2();
+                                                                    EventBus.getDefault().post("SCHEDULE_PAY");
+                                                                }
+                                                            });
+
                                                         } else {
                                                             String bookingTempId = paytmOrderId;
                                                             if (errorCount != 0)
                                                                 bookingTempId = bookingTempId + "_" + errorCount;
-                                                            ((PacifyrActivity) getActivity()).generateCheckSum(false, bookingTempId, price);
+                                                            String finalBookingTempId = bookingTempId;
+                                                            float finalCost = cost;
+                                                            ((PacifyrActivity)getActivity()).setAlertStatusInWhiteNoInternet("","You will be charged amount "+Utility.getPriceSign(getActivity())+ Math.round(cost)+" for this session. Do you want to continue?" , "Yes","No", new View.OnClickListener() {
+                                                                @Override
+                                                                public void onClick(View v) {
+                                                                    ((PacifyrActivity) getActivity()).hideProgress();
+                                                                    ((PacifyrActivity) getActivity()).hideStatus2();
+                                                                    ((PacifyrActivity) getActivity()).generateCheckSum(false, finalBookingTempId, Math.round(finalCost));
+                                                                }
+                                                            });
+
                                                         }
 
 
@@ -1337,10 +1360,32 @@ Log.w("WWW","onCreate");
                                                 }
                                                 else {
 
-
                                                     if (isValid(paytmOrderId)) {
                                                         bookingRequestPaymentId = paytmOrderId;
-                                                        checkIfCardIsAddedOrNot(singleSlote);
+                                                        if (Math.round(cost) <= 0) { //EAP counselors have price set as 0. Continue with booking
+
+                                                            ((PacifyrActivity)getActivity()).setAlertStatusInWhiteNoInternet("", getResources().getString(R.string.You_will_not_charged_) , "Yes","No", new View.OnClickListener() {
+                                                                @Override
+                                                                public void onClick(View v) {
+                                                                    ((PacifyrActivity) getActivity()).hideProgress();
+                                                                    ((PacifyrActivity) getActivity()).hideStatus2();
+                                                                    callSlotBookApiAfterStripeSuccess(singleSlote);
+                                                                }
+                                                            });
+
+                                                        } else {
+                                                            ((PacifyrActivity)getActivity()).setAlertStatusInWhiteNoInternet("","You will be charged amount $"+ Math.round(cost)+" for this session. Do you want to continue?" , "Yes","No", new View.OnClickListener() {
+                                                                @Override
+                                                                public void onClick(View v) {
+                                                                    ((PacifyrActivity) getActivity()).hideProgress();
+                                                                    ((PacifyrActivity) getActivity()).hideStatus2();
+                                                                    checkIfCardIsAddedOrNot(singleSlote);
+                                                                }
+                                                            });
+
+                                                        }
+
+
                                                     }
                                                     else
                                                     {

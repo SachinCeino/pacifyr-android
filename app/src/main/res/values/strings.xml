@@ -644,6 +644,8 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="successfully_done_payment">Successfully done payment</string>
     <string name="next_appointment">NEXT SESSION</string>
     <string name="successfully_updated_your_card">Successfully updated your card</string>
+    <string name="You_will_not_charged_">You will not be charged for this session as you have free minutes left in your account. Do you want to continue?</string>
+    <string name="You_will_be_charged_amount">You will be charged amount ($/₹)xx for this session. Do you want to continue?</string>
 
 
 </resources>
