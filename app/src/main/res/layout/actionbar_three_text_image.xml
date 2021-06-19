@@ -126,7 +126,7 @@
             android:visibility="gone"
             android:layout_marginRight="5dp"
             android:textStyle="bold"
-            android:textColor="@color/_color_action_bar_text_color"
+            android:textColor="@color/blue_pacifyr"
             android:layout_centerHorizontal="true"
             android:layout_height="wrap_content">
 
