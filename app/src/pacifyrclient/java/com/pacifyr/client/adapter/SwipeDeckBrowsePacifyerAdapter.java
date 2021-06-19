@@ -52,7 +52,6 @@ import java.util.Locale;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.pacifyr.client.network.NetworkService.GLOBAL_IMAGE_URL;
-import static com.pacifyr.client.twilio.VideoActivity.isCallActive;
 
 
 public class SwipeDeckBrowsePacifyerAdapter extends BaseAdapter {
@@ -478,7 +477,7 @@ public class SwipeDeckBrowsePacifyerAdapter extends BaseAdapter {
             } else {
                 chat_price_ctxv.setVisibility(View.GONE);
                 MainTextView connectCtxv = v.findViewById(R.id.connect_pacifyr_ctxv);
-                connectCtxv.setText("Connect to " + searchResults.get(position).getFirstName());
+                connectCtxv.setText("Connect to " + searchResults.get(position).getFirstName() + " " + searchResults.get(position).getLastName());
                 connectCtxv.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

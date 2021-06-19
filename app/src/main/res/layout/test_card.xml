@@ -208,9 +208,12 @@
             android:id="@+id/connect_pacifyr_ctxv"
             android:layout_centerInParent="true"
             android:textSize="13sp"
-               android:layout_marginBottom="3dp"
+            android:layout_marginBottom="3dp"
+            android:gravity="center"
+            android:maxEms="15"
+            android:maxLines="1"
             android:background="@drawable/round_square_for_round_cuttons"
-            android:textColor="@color/connect_wellness_expert_color"/>
+            android:textColor="@color/connect_wellness_expert_color" />
 
     </RelativeLayout>
 
