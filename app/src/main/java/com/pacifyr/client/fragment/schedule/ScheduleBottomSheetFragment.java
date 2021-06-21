@@ -1671,7 +1671,8 @@ Log.w("WWW","onCreate");
     private void showBillingSummary(String messsage) {
 
 
-        ViewGroup viewGroup = getActivity().findViewById(android.R.id.content);
+       try {
+            ViewGroup viewGroup = getActivity().findViewById(android.R.id.content);
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.layout_bill_summary_for_appointment_booking, viewGroup, false);
         TextView ok = view.findViewById(R.id.button_ok);
 
@@ -1719,6 +1720,10 @@ Log.w("WWW","onCreate");
                 return true;
             }
         });
+       }catch (Exception e)
+       {
+
+       }
 
     }
 
