@@ -1,5 +1,8 @@
 package com.pacifyr.client.fragment.schedule;
 
+import android.annotation.SuppressLint;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -7,6 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -1671,14 +1675,18 @@ Log.w("WWW","onCreate");
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.layout_bill_summary_for_appointment_booking, viewGroup, false);
         TextView ok = view.findViewById(R.id.button_ok);
 
-        TextView TextView_message = view.findViewById(R.id.TextView_message);
+        TextView textViewCopyTransaction = view.findViewById(R.id.textViewCopyTransaction);
+        TextView TextView_amount_charged= view.findViewById(R.id.TextView_amount_charged);
+        TextView transactionId= view.findViewById(R.id.transactionId);
         TextView title = view.findViewById(R.id.title);
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setView(view);
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
 
-        TextView_message.setText(messsage);
+        String[] list = messsage.split("\n");
+        transactionId.setText(list[2].substring(list[2].lastIndexOf(":") + 1));
+        TextView_amount_charged.setText(list[1].substring(list[1].lastIndexOf(":") + 1));
         title.setText(getResources().getString(R.string.payment_summary));
 
         ok.setOnClickListener(new View.OnClickListener() {
@@ -1686,6 +1694,29 @@ Log.w("WWW","onCreate");
             public void onClick(View v) {
                 alertDialog.dismiss();
                 EventBus.getDefault().post("SCHEDULE_PAY");
+            }
+        });
+
+        textViewCopyTransaction.setOnTouchListener(new View.OnTouchListener() {
+            @SuppressLint("ClickableViewAccessibility")
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    int[] textLocation = new int[2];
+                    textViewCopyTransaction.getLocationOnScreen(textLocation);
+
+                    if(event.getRawX() >= textViewCopyTransaction.getRight() - textViewCopyTransaction.getTotalPaddingRight()) {
+                        /** copy transaction id to clipboard **/
+
+                        ClipboardManager clipboard = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+                        ClipData clip = ClipData.newPlainText("transactionId", transactionId.getText());
+                        clipboard.setPrimaryClip(clip);
+                        Toast.makeText(getActivity(), "Copied", Toast.LENGTH_SHORT).show();
+                        return true;
+                    }
+
+                }
+                return true;
             }
         });
 
