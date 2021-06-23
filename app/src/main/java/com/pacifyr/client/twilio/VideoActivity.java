@@ -241,6 +241,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
     private boolean disconnectedFromOnDestroy;
     private boolean enableAutomaticSubscription;
     private boolean ErrorConnectingProvider=false;
+    private boolean isScreenActive=true;
 
     //Call HangUp
     private ImageButton button_hangup_call;
@@ -583,9 +584,11 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
         if (isSpeakerOn)
         {
             icon=R.drawable.speaker_light;
+            isScreenActive=false;
         }
         else {
             icon=R.drawable.speaker_light_off;
+            isScreenActive=true;
         }
         toggle_speaker.setBackgroundResource(icon);
     }
@@ -835,6 +838,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
         fragmentTransaction.add(R.id.fragment_container, fragment);
         fragmentTransaction.addToBackStack("");
         fragmentTransaction.commit();
+        isScreenActive=false;
     }
 
 
@@ -1054,7 +1058,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                    // registering our sensor with sensor manager.
                    sensorManager.registerListener(proximitySensorEventListener,
                            proximitySensor,
-                           SensorManager.SENSOR_DELAY_NORMAL);
+                           SensorManager.SENSOR_DELAY_FASTEST);
                }
 
            }
@@ -1063,6 +1067,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
         {
 
         }
+        isScreenActive=true;
     }
 
     private EncodingParameters getEncodingParameters() {
@@ -1085,6 +1090,17 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
          * camera can be used by other applications while this app is in the background.
          */
         super.onPause();
+        isScreenActive=false;
+        try {
+            if (!isVideoCall) {
+                if (isValid(proximitySensorEventListener) && isValid(sensorManager)) {
+                    sensorManager.unregisterListener(proximitySensorEventListener);
+                }
+            }
+        }catch (Exception e)
+        {
+
+        }
     }
 
     @Override
@@ -1142,17 +1158,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
         cancelOutGoingCallTimer();
         EventBus.getDefault().unregister(this);
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-
-        try {
-            if (!isVideoCall) {
-                if (isValid(proximitySensorEventListener) && isValid(sensorManager)) {
-                    sensorManager.unregisterListener(proximitySensorEventListener);
-                }
-            }
-        }catch (Exception e)
-        {
-
-        }
+        isScreenActive=false;
         super.onDestroy();
     }
 
@@ -1428,6 +1434,13 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                       return;*/
                     if (audioManager != null) {
                         boolean isSpeakerOn = audioManager.isSpeakerphoneOn();
+                        if (isSpeakerOn)
+                        {
+                            isScreenActive=false;
+                        }
+                        else {
+                            isScreenActive=true;
+                        }
                         audioManager.setSpeakerphoneOn(!isSpeakerOn);
 
                         UpdateView();
@@ -1461,7 +1474,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                     }
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
-
+                    isScreenActive=false;
                 }
             });
 
@@ -1606,17 +1619,20 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
 
         @Override
         public void onSensorChanged(SensorEvent event) {
-            if (event.sensor.getType() == Sensor.TYPE_PROXIMITY) {
-                if (event.values[0] == 0) {
-                   // Toast.makeText(VideoActivity.this, "Near", Toast.LENGTH_SHORT).show();
-                    if (!isHeadeSetIsPlugged && isValid(audioManager)&&!audioManager.isSpeakerphoneOn())
-                    turnOffScreen();
-                } else {
-                    //Toast.makeText(VideoActivity.this, "Away", Toast.LENGTH_SHORT).show();
-                    if (!isHeadeSetIsPlugged && isValid(audioManager)&&!audioManager.isSpeakerphoneOn())
-                    turnOnScreen();
+            if(!isScreenActive)
+                return;
+                if (event.sensor.getType() == Sensor.TYPE_PROXIMITY) {
+                    if (event.values[0] <= 0) {
+                        //Toast.makeText(VideoActivity.this, "Near", Toast.LENGTH_SHORT).show();
+                        if (!isHeadeSetIsPlugged && isValid(audioManager) && !audioManager.isSpeakerphoneOn())
+                            turnOffScreen();
+                    } else {
+                        //Toast.makeText(VideoActivity.this, "Away", Toast.LENGTH_SHORT).show();
+                        if (!isHeadeSetIsPlugged && isValid(audioManager) && !audioManager.isSpeakerphoneOn())
+                            turnOnScreen();
+                    }
                 }
-            }
+
         }
     };
 
@@ -1625,17 +1641,27 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
     public void turnOnScreen(){
         // turn on screen
         Log.v("ProximityActivity", "ON!");
-        mWakeLock = mPowerManager.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, "tag");
-        mWakeLock.acquire();
+        if(!isScreenActive)
+            return;
+        if (mWakeLock != null && mWakeLock.isHeld()) {
+            mWakeLock.release();
+
+        } else {
+        }
     }
 
     @SuppressLint("InvalidWakeLockTag")
     @TargetApi(21) //Suppress lint error for PROXIMITY_SCREEN_OFF_WAKE_LOCK
     public void turnOffScreen(){
-        // turn off screen
-        Log.v("ProximityActivity", "OFF!");
-        mWakeLock = mPowerManager.newWakeLock(PowerManager.PROXIMITY_SCREEN_OFF_WAKE_LOCK, "tag");
-        mWakeLock.acquire();
+        if(!isScreenActive)
+            return;
+        if (mWakeLock == null) {
+            mWakeLock = mPowerManager.newWakeLock(PowerManager.PROXIMITY_SCREEN_OFF_WAKE_LOCK, "incall");
+        }
+        if (!mWakeLock.isHeld()) {
+            mWakeLock.acquire();
+        } else {
+        }
     }
 
     private Timer NetOffBeepTimer = null;
@@ -3306,11 +3332,14 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
 
     public void onPictureInPicture(PicInPic picInPic) {
         if (picInPic.isEnabled()) {
+            isScreenActive=false;
             hideToolBarAndButtons();
         } else {
+            isScreenActive=true;
             showToolBarAndButtons();
         }
     }
+
 
 
     @Override
@@ -3318,6 +3347,7 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
         Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
 
             if (currentFragment instanceof PrescriptionWhileCallFragment) {
+                isScreenActive=true;
                 super.onBackPressed();
             }
     }
