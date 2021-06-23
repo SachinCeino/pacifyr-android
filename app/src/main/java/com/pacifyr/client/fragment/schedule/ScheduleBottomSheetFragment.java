@@ -1680,6 +1680,10 @@ Log.w("WWW","onCreate");
         TextView TextView_amount_charged= view.findViewById(R.id.TextView_amount_charged);
         TextView transactionId= view.findViewById(R.id.transactionId);
         TextView title = view.findViewById(R.id.title);
+       TextView text_date = view.findViewById(R.id.text_date);
+           TextView text_time = view.findViewById(R.id.text_time);
+
+
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setView(view);
         AlertDialog alertDialog = builder.create();
@@ -1689,6 +1693,16 @@ Log.w("WWW","onCreate");
         transactionId.setText(list[2].substring(list[2].lastIndexOf(":") + 1));
         TextView_amount_charged.setText(list[1].substring(list[1].lastIndexOf(":") + 1));
         title.setText(getResources().getString(R.string.payment_summary));
+
+           Date c = Calendar.getInstance().getTime();
+           SimpleDateFormat targetFormat = new SimpleDateFormat("MM-dd-yyyy'  'hh:mm a", Locale.ENGLISH);
+           String strDate = targetFormat.format(c.getTime());
+           strDate.replace("AM", "am").replace("PM","pm");
+
+
+           String[] separated = strDate.split(" ");
+           text_date.setText(separated[0].toLowerCase()+"");
+           text_time.setText(separated[2].toLowerCase()+" "+separated[3].toLowerCase()+"");
 
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
