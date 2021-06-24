@@ -24,6 +24,7 @@ import com.pacifyr.client.quickblox.chat.ui.activity.ChatActivity;
 import com.pacifyr.client.receiver.NotificationUtils;
 import com.pacifyr.client.twilio.VideoActivity;
 import com.pacifyr.client.utility.PacifyrAppCompactActivity;
+import com.pacifyr.client.utils.Constants;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.quickblox.users.model.QBUser;
@@ -33,6 +34,7 @@ import com.stripe.android.TokenCallback;
 import com.stripe.android.model.Card;
 import com.stripe.android.model.Token;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONObject;
 
 import java.io.Serializable;
@@ -116,6 +118,7 @@ public class AlertAddCreditCardActivity extends PacifyrAppCompactActivity {
 							@Override
 							public void run() {
 								hideStatus();
+								EventBus.getDefault().post(Constants.PAYMENT_DONE);
 								Intent intent = new Intent();
 								intent.putExtra("CardAdded", false);
 								setResult(RESULT_OK, intent);
