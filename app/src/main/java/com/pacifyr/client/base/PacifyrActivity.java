@@ -4727,8 +4727,8 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
         }
     }
 
+    private boolean appointmentDialogueIsShown=false;
     public void showAppointmentReminderPopup(AppoinmentNotification mAppointmentModel) {
-
         // create an alert builder
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         // set the custom layout
@@ -4760,12 +4760,16 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
         spanTxt2.append(Html.fromHtml("<font size=14 color=" + getResources().getColor(com.pacifyrapp.utilitylibrary.R.color.black) + "><b>" + " MY APPOINTMENTS" + "<b></font>"));
         TextView_initiateCallInfo.setText(spanTxt2, TextView.BufferType.SPANNABLE);
         // create and show the alert dialog
+        if (appointmentDialogueIsShown)
+            return;
         AlertDialog dialog = builder.create();
         dialog.show();
+        appointmentDialogueIsShown=true;
         Button_Dismiss.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 dialog.dismiss();
+                appointmentDialogueIsShown=false;
             }
         });
 
@@ -4797,24 +4801,30 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                 audiocall_rlay.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        startSessionWebforAppoinmetCall(mAppointmentModel.getPacifyr(), false,mAppointmentModel.getId());
+
                         dialog.dismiss();
+                        startSessionWebforAppoinmetCall(mAppointmentModel.getPacifyr(), false,mAppointmentModel.getId());
+
                     }
                 });
 
                 videocall_rlay.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        startSessionWebforAppoinmetCall(mAppointmentModel.getPacifyr(), true,mAppointmentModel.getId());
                         dialog.dismiss();
+                        startSessionWebforAppoinmetCall(mAppointmentModel.getPacifyr(), true,mAppointmentModel.getId());
+                        appointmentDialogueIsShown=false;
+
                     }
                 });
 
                 chat_rlay.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        startChat(mAppointmentModel.getPacifyr());
                         dialog.dismiss();
+                        startChat(mAppointmentModel.getPacifyr());
+                        appointmentDialogueIsShown=false;
+
                     }
                 });
 

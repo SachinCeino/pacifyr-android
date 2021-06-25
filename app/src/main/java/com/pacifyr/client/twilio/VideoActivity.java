@@ -301,9 +301,10 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
             if (type != null && type.equals("billing")) {
                 billingStatus.setVisibility(View.VISIBLE);
                 setBillingStarted(true);
-                if (isEmployee() && !isEmplyeeDonePaymentWithFreeMinuts) {
+
+                if (!isEmplyeeDonePaymentWithFreeMinuts) {
                     if (isValid(empMinutesListener))
-                    setEmpMinutesListener(empMinutesListener);
+                        setEmpMinutesListener(empMinutesListener);
                     checkEmpAvailableMinutes();
                 }
                 else
@@ -324,8 +325,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
 
 
     public void checkEmpAvailableMinutes() {
-        boolean cardExist = isCardExist();
-        if (!cardExist && isEmployee()) {
+
             if (NetworkService.mCurrentUser == null) {
                 return;
             }
@@ -405,7 +405,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                     countDownTimer.cancel();
                 countDownTimer.start();
             }
-        }
+
     }
 
 
@@ -1613,7 +1613,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                                        public void onClick(View v) {
                                            hideProgress();
                                            hideStatus2();
-                                           ShowTransactionFaileToUSer("Add payment cancelled");
+                                           //ShowTransactionFaileToUSer("Add payment cancelled");
                                        }
                                    });
                        } else {
@@ -1623,19 +1623,19 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                                    dialog.dismiss();
 
 
-                                   new NetworkService().sendPaymentFailedDueToSomeReasons(CallActivity.mSessionDetailRoot.getPacifyr().getId(), "paymentFailure", "Transaction cancelled", new AjaxCallback<JSONObject>() {
+                                  /* new NetworkService().sendPaymentFailedDueToSomeReasons(CallActivity.mSessionDetailRoot.getPacifyr().getId(), "paymentFailure", "Transaction cancelled", new AjaxCallback<JSONObject>() {
                                        @Override
                                        public void callback(String url, JSONObject json, AjaxStatus status) {
-                                           /*
+                                           *//*
                                             *this must be the first line of any httpCallBacks
-                                            */
+                                            *//*
                                            Auth.httpStatusFilter(getApplicationContext(), status.getCode());
                                            if (json != null) {
                                                Log.w("@@@", "sendCardAddedNotificationFail messages" + json.toString());
                                            }
                                        }
                                    });
-
+*/
                                    Bundle args =
                                            FirebaseLogging.getConstantArgsLoggedIn(VideoActivity.this);
                                    args.putString(FirebaseLogging.EC, "Payment setup cancelled");
@@ -3507,7 +3507,7 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
     @org.greenrobot.eventbus.Subscribe(threadMode = ThreadMode.MAIN)
     public void onPaymentDone(String event) {
         try {
-            if(isValid(event) && isValid(event.equals(Constants.PAYMENT_DONE)))
+            if(isValid(event) && event.equals(Constants.PAYMENT_DONE))
             {
                 isEmplyeeDonePaymentWithFreeMinuts=true;
                 if (isValid(countDownTimer))
