@@ -69,6 +69,8 @@ import com.pacifyr.client.quickblox.chat.ui.activity.DialogsActivity;
 import com.pacifyr.client.quickblox.services.CallService;
 import com.pacifyr.client.sign.CrisisActivity;
 import com.pacifyr.client.twilio.VideoActivity;
+import com.pacifyr.client.twiliochat.TwilioConversationActivity;
+import com.pacifyr.client.twiliochat.TwilioCoversationListActivity;
 import com.pacifyr.client.utility.PacifyrAppCompactActivity;
 import com.pacifyr.client.utils.AmazonSNSTokenHandler;
 import com.pacifyr.client.utils.Constants;
@@ -731,9 +733,10 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
                 closePane(true);
                 //isFromSlideMenu true for subscription check validation
                 boolean isFromSlideMenu=true;
-                DialogsActivity.start(context,isFromSlideMenu);
+                TwilioCoversationListActivity.start(context,isFromSlideMenu);
                 /*showFragment(new PacifyrMessageFragment());*/
                 //defSetText(titleTxv,"");
+
             }
         });
 

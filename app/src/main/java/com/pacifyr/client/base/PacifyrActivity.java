@@ -113,6 +113,8 @@ import com.pacifyr.client.receiver.NotificationUtils;
 import com.pacifyr.client.sign.SignActivity;
 import com.pacifyr.client.twilio.TwilioAccessToken;
 import com.pacifyr.client.twilio.VideoActivity;
+import com.pacifyr.client.twiliochat.TwilioConversationActivity;
+import com.pacifyr.client.twiliochat.TwilioConversationCreate;
 import com.pacifyr.client.utility.PdfViewer;
 import com.pacifyr.client.utils.Constants;
 import com.pacifyr.client.utils.FirebaseLogging;
@@ -1497,12 +1499,13 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
 
     public void startChat(final MUser pacifyer)
     {
+        startTwilioChat(pacifyer);
            /* if (!Utility.checkPermission(PacifyrActivity.this, "write")) {
                 Log.d(TAG, "Write storage permission required!");
                 return;
             }*/
             // setLoading("Creating Chat");
-            setLoading();
+         /*   setLoading();
             showProgress();
 
             QBPagedRequestBuilder pagedRequestBuilder = new QBPagedRequestBuilder();
@@ -1561,8 +1564,55 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                     showErrorSnackbar(0, e, null);
                 }
             });
+*/
+
+    }
+    public void startTwilioChat(final MUser pacifyer){
+        setLoading();
+        showProgress();
+
+        PrefManager prefM= PrefManager.getInstance(PacifyrActivity.this);
+        String userToken=prefM.getAccessToken();
+        String userid=prefM.getUserID();
+        String url = NetworkService.GLOBAL_URL+"messages/create";
+        AjaxCallback cb = new AjaxCallback<JSONObject>() {
+            @Override
+            public void callback(String url, JSONObject json, AjaxStatus status) {
+                try {
+                    hideProgress();
+                    Log.d("TWILIO", "Response from server: " + json);
+                    Gson gson = new Gson();
+                    if (isValid(json))
+                    {
+                        TwilioConversationCreate mTwilioConversationCreate = gson.fromJson(json.toString(), TwilioConversationCreate.class);
+                        if (isValid(mTwilioConversationCreate) && isValid(mTwilioConversationCreate.getTwilioConversationId()))
+                        {
+                            TwilioConversationActivity.start(PacifyrActivity.this,mTwilioConversationCreate);
+                        }
+
+                    }
 
 
+                } catch (Exception e) {
+                    hideProgress();
+                    e.printStackTrace();
+                }
+            }
+        };
+        AQuery aq = new AQuery(PacifyrActivity.this);
+        cb.header("Content-Type", "application/json");
+        cb.header("AccessToken",userToken);
+        try {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.putOpt("userId", userid);
+            jsonObject.putOpt("pacifyrId", pacifyer.getId());
+            aq.post(url, jsonObject, JSONObject.class, cb);
+        }
+        catch (Exception ex)
+        {
+            hideProgress();
+            ex.printStackTrace();
+        }
     }
 
 
