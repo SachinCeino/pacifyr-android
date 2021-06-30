@@ -15,7 +15,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.pacifyr.client.R;
 import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
+import com.pacifyr.client.home.ProfileScreenActivity;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
+import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.twilio.conversations.Conversation;
 
 import org.jetbrains.annotations.Nullable;
@@ -64,6 +66,7 @@ public class TwilioConversationActivity extends PacifyrActivity implements Quick
     private DeviceFitImageView rightImv;
 
     public final static String TAG = "TwilioConversations";
+    private String  userId;
 
     // Update this identity for each individual user, for instance after they login
     private String identity = "CONVERSATIONS_USER";
@@ -78,6 +81,9 @@ public class TwilioConversationActivity extends PacifyrActivity implements Quick
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.twilio_conversation_activity);
+
+        PrefManager prefM = PrefManager.getInstance(this);
+         userId = prefM.getUserID();
 
         onSetActionBar();
         if (isValid(getIntent()) && isValid(getIntent().getExtras()) && isValid(getIntent().getExtras().getSerializable("object")))
@@ -96,7 +102,7 @@ public class TwilioConversationActivity extends PacifyrActivity implements Quick
         layoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(layoutManager);
 
-        messagesAdapter = new TwilioMessagesAdapter(quickstartConversationsManager);
+        messagesAdapter = new TwilioMessagesAdapter(quickstartConversationsManager, userId);
         recyclerView.setAdapter(messagesAdapter);
 
         writeMessageEditText = findViewById(R.id.writeMessageEditText);

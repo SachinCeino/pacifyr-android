@@ -1,6 +1,7 @@
 package com.pacifyr.client.twiliochat;
 
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -11,21 +12,38 @@ import com.pacifyr.client.R;
 import com.twilio.conversations.Message;
 
 public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAdapter.ViewHolder> {
-
+    private static final int VIEW_TYPE_MESSAGE_SENT = 1;
+    private static final int VIEW_TYPE_MESSAGE_RECEIVED = 2;
 
     QuickstartConversationsManager quickstartConversationsManager;
+    String userId;
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        final TextView messageTextView;
+        final TextView messageText;
 
-        ViewHolder(TextView textView) {
-            super(textView);
-            messageTextView = textView;
+        ViewHolder(View itemView) {
+            super(itemView);
+            messageText = (TextView) itemView.findViewById(R.id.tv_message);
+
         }
     }
 
-    TwilioMessagesAdapter(QuickstartConversationsManager quickstartConversationsManager) {
+    TwilioMessagesAdapter(QuickstartConversationsManager quickstartConversationsManager, String userId) {
     this.quickstartConversationsManager=quickstartConversationsManager;
+    this.userId=userId;
+    }
+    @Override
+    public int getItemViewType(int position) {
+
+        Message message = quickstartConversationsManager.getMessages().get(position);
+
+        if (message.getAuthor().equals(userId)) {
+            // If the current user is the sender of the message
+            return VIEW_TYPE_MESSAGE_SENT;
+        } else {
+            // If some other user sent the message
+            return VIEW_TYPE_MESSAGE_RECEIVED;
+        }
     }
 
     @NonNull
@@ -33,16 +51,29 @@ public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAd
     public TwilioMessagesAdapter
             .ViewHolder onCreateViewHolder(ViewGroup parent,
                                            int viewType) {
-        TextView messageTextView = (TextView) LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.message_text_view, parent, false);
-        return new ViewHolder(messageTextView);
+        View view;
+        if (viewType == VIEW_TYPE_MESSAGE_SENT) {
+            view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.adapter_message_send, parent, false);
+            return new ViewHolder(view);
+        } else if (viewType == VIEW_TYPE_MESSAGE_RECEIVED) {
+            view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.adapter_message_receive, parent, false);
+            return new ViewHolder(view);
+        }
+
+        return null;
+        /*TextView messageTextView = (TextView) LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.adapter_message_send, parent, false);
+        return new ViewHolder(messageTextView);*/
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Message message = quickstartConversationsManager.getMessages().get(position);
-        String messageText = String.format("%s: %s", message.getAuthor(), message.getMessageBody());
-        holder.messageTextView.setText(messageText);
+       // String messageText = String.format("%s: %s", message.getAuthor(), message.getMessageBody());
+        String messageText = message.getMessageBody();
+        holder.messageText.setText(messageText);
     }
 
     @Override
