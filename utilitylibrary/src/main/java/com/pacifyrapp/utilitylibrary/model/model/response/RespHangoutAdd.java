@@ -1,7 +1,7 @@
 package com.pacifyrapp.utilitylibrary.model.model.response;
 
 /**
- * Created by ceino on 28/3/17.
+
  */
 
 public class RespHangoutAdd

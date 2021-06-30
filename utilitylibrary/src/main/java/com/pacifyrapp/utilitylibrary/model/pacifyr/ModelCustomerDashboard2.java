@@ -6,8 +6,7 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 
 /**
- * Created by Samsad on 24/July/2017.
- * samsad@ceinotech.com
+ * Created by developer on 24/July/2017.
  */
 
 public class ModelCustomerDashboard2

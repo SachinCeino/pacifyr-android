@@ -31,7 +31,7 @@ import static com.pacifyr.client.network.NetworkService.GLOBAL_IMAGE_URL;
 
 
 /**
- * Created by ceino on 18/9/17.
+
  */
 
 public class CustomerListAdapter extends  RecyclerView.Adapter<CustomerListAdapter.ViewHolder>{

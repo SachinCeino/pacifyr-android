@@ -1,7 +1,7 @@
 package com.pacifyr.client.classes;
 
 /**
- * Created by ceino on 29/8/17.
+
  */
 
 import android.graphics.Typeface;

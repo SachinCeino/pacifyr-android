@@ -4,8 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
- * Created by Samsad on 20/July/2017.
- * samsad@ceinotech.com
+
  */
 
 public class ModelSearchPacifyr

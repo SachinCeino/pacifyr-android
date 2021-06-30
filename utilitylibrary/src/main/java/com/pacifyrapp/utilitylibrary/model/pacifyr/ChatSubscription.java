@@ -3,7 +3,7 @@ package com.pacifyrapp.utilitylibrary.model.pacifyr;
 import java.io.Serializable;
 
 /**
- * Created by ceino on 7/3/18.
+
  */
 
 public class ChatSubscription implements Serializable

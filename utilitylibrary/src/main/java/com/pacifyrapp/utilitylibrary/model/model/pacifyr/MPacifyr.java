@@ -3,7 +3,7 @@ package com.pacifyrapp.utilitylibrary.model.model.pacifyr;
 import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
 
 /**
- * Created by ceino on 16/3/18.
+
  */
 
 public class MPacifyr {

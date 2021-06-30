@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
- * Created by Mani-Ceino on 12/15/2017.
+
  */
 
 public class MSessionRating

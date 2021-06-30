@@ -79,7 +79,7 @@ import static com.pacifyr.client.base.PacifyrActivity.sessionid;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.CIRTIFICATE_KEY;
 
 /**
- * Created by ceino on 27/6/17.
+
  */
 
 public class  NetworkService  extends IntentService {

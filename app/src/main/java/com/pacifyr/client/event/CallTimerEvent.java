@@ -1,7 +1,7 @@
 package com.pacifyr.client.event;
 
 /**
- * Created by Mani-Ceino on 1/17/2018.
+
  */
 
 public class CallTimerEvent {

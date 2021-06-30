@@ -1,7 +1,7 @@
 package com.pacifyrapp.utilitylibrary.model.pacifyr;
 
 /**
- * Created by ceino on 19/2/18.
+
  */
 
 public class ModelFacebook

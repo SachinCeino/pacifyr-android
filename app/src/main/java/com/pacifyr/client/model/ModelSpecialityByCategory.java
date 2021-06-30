@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
- * Created by ceino on 27/12/17.
+
  */
 
 public class ModelSpecialityByCategory {

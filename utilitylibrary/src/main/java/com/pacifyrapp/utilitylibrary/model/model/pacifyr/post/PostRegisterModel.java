@@ -1,7 +1,7 @@
 package com.pacifyrapp.utilitylibrary.model.model.pacifyr.post;
 
 /**
- * Created by ceino on 27/6/17.
+ * Created by developer on 27/6/17.
  */
 
 public class PostRegisterModel {

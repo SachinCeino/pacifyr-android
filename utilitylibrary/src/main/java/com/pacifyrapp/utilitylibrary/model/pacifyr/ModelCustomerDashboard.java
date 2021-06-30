@@ -1,8 +1,7 @@
 package com.pacifyrapp.utilitylibrary.model.pacifyr;
 
 /**
- * Created by Samsad on 24/July/2017.
- * samsad@ceinotech.com
+
  */
 
 public class ModelCustomerDashboard

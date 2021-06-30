@@ -8,7 +8,7 @@ import android.view.ViewConfiguration;
 import androidx.core.view.MotionEventCompat;
 
 /**
- * Created by ceino on 3/2/15.
+
  */
 //SlidingPaneLayout
 public class PagerEnabledSlidingPaneLayout extends WrappingSlidingPaneLayout {

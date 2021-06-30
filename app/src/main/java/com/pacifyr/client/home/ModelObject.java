@@ -3,7 +3,7 @@ package com.pacifyr.client.home;
 import com.pacifyr.client.R;
 
 /**
- * Created by ceino on 16/11/17.
+ * Created by developer on 16/11/17.
  */
 
 public enum ModelObject {

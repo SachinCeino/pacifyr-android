@@ -1,8 +1,7 @@
 package com.pacifyr.client.utils;
 
 /**
- * Created by Samsad on 08/August/2017.
- * samsad@ceinotech.com
+
  */
         import android.content.Context;
         import android.util.AttributeSet;
@@ -10,7 +9,7 @@ package com.pacifyr.client.utils;
         import android.widget.ListView;
 
 /**
- * Created by Mani-Ceino on 3/8/2017.
+
  */
 
 public class ExpandableHeightListView extends ListView {

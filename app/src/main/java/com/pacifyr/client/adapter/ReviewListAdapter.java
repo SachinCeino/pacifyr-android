@@ -21,7 +21,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Created by ceino on 15/2/18.
+
  */
 
 public class ReviewListAdapter extends RecyclerView.Adapter<ReviewListAdapter.MyViewHolder>{

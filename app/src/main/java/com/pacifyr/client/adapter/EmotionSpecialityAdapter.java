@@ -42,7 +42,7 @@ import static com.pacifyr.client.network.NetworkService.mCurrentUser;
 import static com.pacifyr.client.network.NetworkService.modelCustomerDashboard2;
 
 /**
- * Created by ceino on 19/12/17.
+
  */
 
 public class EmotionSpecialityAdapter extends RecyclerView.Adapter<EmotionSpecialityAdapter.MyViewHolder>{

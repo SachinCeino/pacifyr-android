@@ -4,7 +4,7 @@ import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelUserProfile;
 
 /**
- * Created by Mani-Ceino on 12/28/2017.
+
  */
 
 public interface AvailableMinuteListner

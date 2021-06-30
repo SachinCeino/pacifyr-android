@@ -1,7 +1,7 @@
 package com.pacifyrapp.utilitylibrary;
 
 /**
- * Created by ceino on 15/1/15.
+
  */
 
 import android.content.Context;

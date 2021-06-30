@@ -7,7 +7,7 @@ import com.pacifyr.client.model.User;
 import java.io.Serializable;
 
 /**
- * Created by ceino on 11/1/18.
+
  */
 
 public class Slot implements Serializable{

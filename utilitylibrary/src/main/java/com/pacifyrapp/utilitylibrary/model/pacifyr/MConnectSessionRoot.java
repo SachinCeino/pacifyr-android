@@ -1,7 +1,7 @@
 package com.pacifyrapp.utilitylibrary.model.pacifyr;
 
 /**
- * Created by Mani-Ceino on 12/21/2017.
+ * Created by developer on 12/21/2017.
  */
 
 public class MConnectSessionRoot {

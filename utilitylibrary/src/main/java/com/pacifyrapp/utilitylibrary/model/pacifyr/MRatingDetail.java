@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
- * Created by ceino on 22/1/18.
+ * Created by developer on 22/1/18.
  */
 public class MRatingDetail
 {

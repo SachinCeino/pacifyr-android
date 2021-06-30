@@ -1,7 +1,7 @@
 package com.pacifyr.client.network;
 
 /**
- * Created by ceino on 27/6/17.
+ * Created by developer on 27/6/17.
  */
 
 import com.google.gson.Gson;

@@ -1,7 +1,7 @@
 package com.pacifyrapp.utilitylibrary.model.model.pacifyr;
 
 /**
- * Created by ceino on 28/6/17.
+
  */
 
 public class LoginModel

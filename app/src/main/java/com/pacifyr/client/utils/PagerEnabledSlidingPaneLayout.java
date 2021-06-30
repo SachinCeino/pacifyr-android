@@ -1,8 +1,7 @@
 package com.pacifyr.client.utils;
 
 /**
- * Created by Samsad on 08/August/2017.
- * samsad@ceinotech.com
+
  */
 
 import android.content.Context;
@@ -14,7 +13,7 @@ import androidx.core.view.MotionEventCompat;
 
 
 /**
- * Created by ceino on 3/2/15.
+
  */
 //SlidingPaneLayout
 public class PagerEnabledSlidingPaneLayout extends WrappingSlidingPaneLayout {

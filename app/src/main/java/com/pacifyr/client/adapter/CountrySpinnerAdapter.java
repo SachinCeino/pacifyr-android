@@ -14,7 +14,7 @@ import com.pacifyr.client.model.Country;
 import java.util.ArrayList;
 
 /**
- * Created by ceino on 11/1/18.
+
  */
 
 public class CountrySpinnerAdapter extends ArrayAdapter<Country> {

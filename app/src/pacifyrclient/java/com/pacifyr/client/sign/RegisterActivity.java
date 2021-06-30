@@ -130,7 +130,7 @@ import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL
 //import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.termOfUseUrl;
 
 /**
- * Created by ceino on 11/7/17.
+ * Created by developer on 11/7/17.
  */
 
 public class RegisterActivity extends PacifyrActivity {

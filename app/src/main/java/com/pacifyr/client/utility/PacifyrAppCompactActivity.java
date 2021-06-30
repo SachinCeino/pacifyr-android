@@ -105,7 +105,7 @@ import org.apache.http.impl.client.DefaultHttpClient;*/
 
 
 /**
- * Created by ceino on 12/6/17.
+ * Created by developer on 12/6/17.
  */
 
 public abstract class PacifyrAppCompactActivity  extends PacifyrActivity {

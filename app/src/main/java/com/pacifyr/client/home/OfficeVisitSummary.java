@@ -48,7 +48,7 @@ import static com.pacifyr.client.network.NetworkService.GLOBAL_URL;
 import static com.pacifyr.client.network.NetworkService.modelAllEmotions;
 
 /**
- * Created by Mani-Ceino on 12/22/2017.
+ * Created by developer on 12/22/2017.
  */
 
 public class OfficeVisitSummary extends PacifyrAppCompactActivity {

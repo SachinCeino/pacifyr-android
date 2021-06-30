@@ -3,7 +3,7 @@ package com.pacifyrapp.utilitylibrary.model.pacifyr;
 import java.io.Serializable;
 
 /**
- * Created by Mani-Ceino on 12/21/2017.
+ * Created by developer on 12/21/2017.
  */
 
 public class MEmotion implements Serializable {

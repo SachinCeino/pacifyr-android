@@ -4,7 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
- * Created by ceino on 17/4/18.
+
  */
 
 public class ModelPacifyrCertificates implements Parcelable{

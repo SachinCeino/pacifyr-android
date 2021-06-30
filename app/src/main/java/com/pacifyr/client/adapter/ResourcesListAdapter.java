@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by ceino on 18/5/18.
+
  */
 
 public class ResourcesListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {

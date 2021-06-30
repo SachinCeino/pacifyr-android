@@ -3,7 +3,7 @@ package com.pacifyr.client.event;
 import java.util.Date;
 
 /**
- * Created by ceino on 21/3/17.
+
  */
 
 public class AlertTypeEvent {

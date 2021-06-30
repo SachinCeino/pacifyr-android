@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 
 /**
- * Created by ceino on 11/1/18.
+
  */
 
 public class ScheduleData implements Serializable{

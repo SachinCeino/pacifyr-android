@@ -6,7 +6,7 @@ import androidx.multidex.MultiDex;
 import androidx.multidex.MultiDexApplication;
 
 /**
- * Created by ceino on 21/6/17.
+
  */
 
 public class PacifyrApplication extends MultiDexApplication {

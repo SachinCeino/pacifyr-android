@@ -3,8 +3,7 @@ package com.pacifyrapp.utilitylibrary.model.model.pacifyr;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MRoleModel;
 
 /**
- * Created by Samsad on 11/August/2017.
- * samsad@ceinotech.com
+
  */
 
 public class MUserProfile

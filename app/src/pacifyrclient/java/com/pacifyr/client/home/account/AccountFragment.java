@@ -44,7 +44,7 @@ import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL
 
 
 /**
- * Created by Mani-Ceino on 12/29/2017.
+
  */
 
 public class AccountFragment extends BaseFragment {

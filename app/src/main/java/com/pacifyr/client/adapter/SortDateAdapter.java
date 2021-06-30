@@ -15,7 +15,7 @@ import com.pacifyr.client.R;
 import java.util.List;
 
 /**
- * Created by ceino on 25/1/18.
+
  */
 
 public class SortDateAdapter extends RecyclerView.Adapter<SortDateAdapter.MyViewHolder>{

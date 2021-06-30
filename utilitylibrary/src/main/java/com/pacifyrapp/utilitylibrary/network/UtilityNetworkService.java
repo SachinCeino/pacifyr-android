@@ -46,7 +46,7 @@ import static com.pacifyrapp.utilitylibrary.orginals.RemoteConfigHelper._stripeK
 
 
 /**
- * Created by ceino on 5/12/16.
+
  */
 
 public class UtilityNetworkService extends IntentService {

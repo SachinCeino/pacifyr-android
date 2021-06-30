@@ -18,7 +18,7 @@ import com.pacifyr.client.model.ModelEvent;
 import java.util.List;
 
 /**
- * Created by ceino on 14/12/17.
+
  */
 
 public class CurrentOpeningAdapter extends RecyclerView.Adapter<CurrentOpeningAdapter.MyViewHolder> {

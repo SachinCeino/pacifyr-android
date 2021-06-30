@@ -3,7 +3,7 @@ package com.pacifyr.client.event;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 
 /**
- * Created by Mani-Ceino on 1/3/2018.
+ * Created by developer on 1/3/2018.
  */
 
 public class ConnectEvent {

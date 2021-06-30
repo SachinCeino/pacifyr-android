@@ -10,7 +10,7 @@ import android.widget.Toast;
 public class LogUtilsutility {
 
 	//groupid: 585c8b9a5d5a4b0b60a8e981
-	 private static final String LOG_PREFIX = "ceino";
+	 private static final String LOG_PREFIX = "pacifyr";
 	    private static final int LOG_PREFIX_LENGTH = LOG_PREFIX.length();
 	    private static final int MAX_LOG_TAG_LENGTH = 23;
 

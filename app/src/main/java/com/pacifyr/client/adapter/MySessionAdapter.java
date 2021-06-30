@@ -44,7 +44,7 @@ import static com.pacifyr.client.network.NetworkService.GLOBAL_IMAGE_URL;
 import static com.pacifyr.client.network.NetworkService.modelAllEmotions;
 
 /**
- * Created by ceino on 14/12/17.
+
  */
 
 public class MySessionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{

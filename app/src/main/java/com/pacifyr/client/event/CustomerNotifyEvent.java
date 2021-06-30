@@ -3,7 +3,7 @@ package com.pacifyr.client.event;
 import com.androidquery.callback.AjaxStatus;
 
 /**
- * Created by ceino on 12/10/15.
+
  */
 public class CustomerNotifyEvent {
 

@@ -12,7 +12,7 @@ import org.json.JSONObject;
 
 
 /**
- * Created by ceino on 12/9/15.
+
  */
 public class GsonUtils<T> {
     static GsonUtils gson;

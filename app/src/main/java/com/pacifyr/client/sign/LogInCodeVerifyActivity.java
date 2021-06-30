@@ -39,7 +39,7 @@ import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Created by ceino on 11/7/17.
+ * Created by developer on 11/7/17.
  */
 
 public class LogInCodeVerifyActivity extends PacifyrActivity {

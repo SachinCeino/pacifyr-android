@@ -92,7 +92,7 @@ import static com.pacifyr.client.sign.RegisterActivity.documentFileList;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
 
 /**
- * Created by Mani-Ceino on 1/2/2018.
+
  */
 
 public class AccountEditActivity extends PacifyrAppCompactActivity {

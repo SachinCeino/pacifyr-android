@@ -36,7 +36,7 @@ import java.util.ArrayList;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_IMAGE_URL;
 
 /**
- * Created by ceino on 18/5/18.
+
  */
 
 public class ListFileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {

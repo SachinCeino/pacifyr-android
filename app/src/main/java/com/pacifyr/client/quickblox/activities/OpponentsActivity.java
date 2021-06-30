@@ -162,9 +162,6 @@ public class OpponentsActivity extends BaseActivity {
     {
         ArrayList<QBUser> usr=new ArrayList<>();
         QBUser users=new QBUser();
-        users.setEmail("jithish@ceino.com");
-        users.setFullName("jithishp");
-        users.setLogin("jithishceino");
         usr.add(users);
         return usr;
     }

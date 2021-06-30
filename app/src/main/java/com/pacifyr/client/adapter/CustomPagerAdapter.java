@@ -1,7 +1,7 @@
 package com.pacifyr.client.adapter;
 
 /**
- * Created by ceino on 16/11/17.
+
  */
 
 import android.content.Context;

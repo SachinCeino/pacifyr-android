@@ -185,7 +185,7 @@ import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.STRIPE
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.isProd;
 
 /**
- * Created by Mani-Ceino on 12/4/2017.
+
  */
 
 public abstract class PacifyrActivity extends BaseAppCompactActivity {

@@ -1,7 +1,7 @@
 package com.pacifyrapp.utilitylibrary.model.model.pacifyr;
 
 /**
- * Created by Mani-Ceino on 12/14/2017.
+
  */
 
 public class MRoleModel {

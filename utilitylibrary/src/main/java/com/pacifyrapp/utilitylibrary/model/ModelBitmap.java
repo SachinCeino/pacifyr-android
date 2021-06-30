@@ -3,7 +3,7 @@ package com.pacifyrapp.utilitylibrary.model;
 import android.graphics.Bitmap;
 
 /**
- * Created by ceino on 17/2/17.
+ * Created by developer on 17/2/17.
  */
 
 public class ModelBitmap {
