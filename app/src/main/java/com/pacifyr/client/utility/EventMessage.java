@@ -1,7 +1,7 @@
 package com.pacifyr.client.utility;
 
 /**
- * Created by ceino on 27/6/17.
+
  */
 public class EventMessage {
     private String notification;

@@ -1,7 +1,7 @@
 package com.pacifyr.client.retrofit;
 
 /**
- * Created by ceino on 19/6/17.
+
  */
 
 public class ResponseMessage

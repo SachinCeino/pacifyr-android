@@ -3,7 +3,7 @@ package com.pacifyrapp.utilitylibrary.model.model.pacifyr;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MSessionRoot;
 
 /**
- * Created by Mani-Ceino on 12/21/2017.
+
  */
 
 public class MConnectSessionRoot {

@@ -45,7 +45,7 @@ import static com.pacifyr.client.twilio.VideoActivity.isCallActive;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.STRIPE_PUBLISH_KEY;
 
 /**
- * Created by Mani-Ceino on 1/17/2018.
+
  */
 
 public class AlertAddCreditCardActivity extends PacifyrAppCompactActivity {

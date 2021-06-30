@@ -3,7 +3,7 @@ package com.pacifyrapp.utilitylibrary.model.model;
 import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
 
 /**
- * Created by ceino on 7/6/17.
+
  */
 
 public class MLoginRoot {

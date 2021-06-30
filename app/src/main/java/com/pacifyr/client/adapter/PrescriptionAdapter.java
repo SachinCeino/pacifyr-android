@@ -40,7 +40,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_IMAGE_URL;
 
 /**
- * Created by ceino on 14/12/17.
+
  */
 
 public class PrescriptionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{

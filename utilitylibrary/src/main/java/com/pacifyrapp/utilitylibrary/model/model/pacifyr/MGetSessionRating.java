@@ -1,8 +1,7 @@
 package com.pacifyrapp.utilitylibrary.model.model.pacifyr;
 
 /**
- * Created by Samsad on 11/August/2017.
- * samsad@ceinotech.com
+
  */
 
 public class MGetSessionRating

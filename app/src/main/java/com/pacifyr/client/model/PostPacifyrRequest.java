@@ -6,7 +6,7 @@ import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelSpecialist;
 import java.util.ArrayList;
 
 /**
- * Created by ceino on 17/5/18.
+
  */
 
 public class PostPacifyrRequest {

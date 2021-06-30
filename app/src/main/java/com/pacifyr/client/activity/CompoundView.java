@@ -11,7 +11,7 @@ import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.pacifyr.client.R;
 
 /**
- * Created by ceino on 13/9/17.
+
  */
 
 public class CompoundView extends RelativeLayout {

@@ -1,7 +1,7 @@
 package com.pacifyrapp.utilitylibrary.model.pacifyr;
 
 /**
- * Created by ceino on 25/1/18.
+
  */
 
 public class ModelRatingDateDetail {

@@ -1,7 +1,7 @@
 package com.pacifyr.client.event;
 
 /**
- * Created by ceino on 30/1/18.
+
  */
 
 public class WeekEarningsClickEvent {

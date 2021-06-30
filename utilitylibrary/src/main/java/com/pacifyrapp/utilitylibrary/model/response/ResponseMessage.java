@@ -1,7 +1,7 @@
 package com.pacifyrapp.utilitylibrary.model.response;
 
 /**
- * Created by ceino on 19/6/17.
+
  */
 
 public class ResponseMessage

@@ -3,8 +3,8 @@ package com.pacifyrapp.utilitylibrary.model.model.pacifyr;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MLastSession;
 
 /**
- * Created by Samsad on 24/July/2017.
- * samsad@ceinotech.com
+ * Created by developer on 24/July/2017.
+
  */
 
 public class ModelCustomerDashboard2

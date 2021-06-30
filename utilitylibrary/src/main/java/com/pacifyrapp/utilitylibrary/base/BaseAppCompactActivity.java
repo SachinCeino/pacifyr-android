@@ -46,7 +46,7 @@ import java.util.concurrent.TimeUnit;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
- * Created by ceino on 28/12/16.
+ * Created by developer on 28/12/16.
  */
 
 public class BaseAppCompactActivity extends CoreBaseActivity {

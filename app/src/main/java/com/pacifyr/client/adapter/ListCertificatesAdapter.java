@@ -14,7 +14,7 @@ import com.pacifyr.client.model.ModelPacifyrCertificates;
 import java.util.ArrayList;
 
 /**
- * Created by ceino on 17/4/18.
+
  */
 
 public class ListCertificatesAdapter extends RecyclerView.Adapter<ListCertificatesAdapter.ViewHolder> {

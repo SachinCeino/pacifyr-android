@@ -1,7 +1,7 @@
 package com.pacifyr.client.event;
 
 /**
- * Created by Mani-Ceino on 1/18/2018.
+ * Created by developer on 1/18/2018.
  */
 
 public class RateSessionEvent {

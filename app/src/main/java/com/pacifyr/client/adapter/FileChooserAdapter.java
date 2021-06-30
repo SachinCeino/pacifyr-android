@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_IMAGE_URL;
 
 /**
- * Created by ceino on 16/5/18.
+
  */
 
 public class FileChooserAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {

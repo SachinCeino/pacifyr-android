@@ -3,7 +3,7 @@ package com.pacifyrapp.utilitylibrary.model.pacifyr.post;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 
 /**
- * Created by ceino on 27/6/17.
+
  */
 
 public class PRegistrationModel {

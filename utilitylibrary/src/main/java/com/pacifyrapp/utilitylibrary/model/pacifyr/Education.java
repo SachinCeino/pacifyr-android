@@ -6,7 +6,7 @@ import android.os.Parcelable;
 import java.io.Serializable;
 
 /**
- * Created by ceino on 8/3/18.
+
  */
 
 public class Education implements Parcelable, Serializable

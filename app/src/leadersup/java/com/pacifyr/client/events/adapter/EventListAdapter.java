@@ -36,7 +36,7 @@ import java.util.List;
 import static com.pacifyr.client.network.NetworkService.GLOBAL_IMAGE_URL;
 
 /**
- * Created by ceino on 14/12/17.
+
  */
 
 public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.MyViewHolder> {

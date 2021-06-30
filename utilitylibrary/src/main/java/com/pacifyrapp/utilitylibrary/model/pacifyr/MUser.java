@@ -10,7 +10,7 @@ import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
 import java.io.Serializable;
 
 /**
- * Created by Mani-Ceino on 12/14/2017.
+
  */
 
 public class MUser implements Serializable{

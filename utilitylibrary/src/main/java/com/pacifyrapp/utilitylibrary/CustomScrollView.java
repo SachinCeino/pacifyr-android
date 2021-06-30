@@ -7,7 +7,7 @@ import android.util.AttributeSet;
 import android.widget.ScrollView;
 
 /**
- * Created by ceino on 1/3/17.
+
  */
 
 public class CustomScrollView  extends ScrollView {

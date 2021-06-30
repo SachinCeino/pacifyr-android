@@ -25,7 +25,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * Created by ceino on 18/5/18.
+
  */
 
 public class ResourcesListMainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {

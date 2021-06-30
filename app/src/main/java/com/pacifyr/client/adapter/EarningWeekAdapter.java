@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 /**
- * Created by ceino on 25/1/18.
+ * Created by developer on 25/1/18.
  */
 
 public class EarningWeekAdapter extends RecyclerView.Adapter<EarningWeekAdapter.MyViewHolder>{

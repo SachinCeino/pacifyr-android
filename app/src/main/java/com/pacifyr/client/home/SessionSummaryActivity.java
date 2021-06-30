@@ -74,7 +74,7 @@ import static com.pacifyr.client.network.NetworkService.modelListPosEmotions;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_IMAGE_URL;
 
 /**
- * Created by Mani-Ceino on 12/14/2017.
+
  */
 
 public class SessionSummaryActivity extends PacifyrAppCompactActivity {

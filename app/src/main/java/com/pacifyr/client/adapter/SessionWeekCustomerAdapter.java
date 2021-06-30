@@ -37,7 +37,7 @@ import static com.pacifyr.client.home.DashboardActivity.CreatedYear;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
 
 /**
- * Created by ceino on 25/1/18.
+ * Created by developer on 25/1/18.
  */
 
 public class SessionWeekCustomerAdapter extends RecyclerView.Adapter<SessionWeekCustomerAdapter.MyViewHolder>{

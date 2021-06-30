@@ -1,8 +1,8 @@
 package com.pacifyrapp.utilitylibrary.model.model.pacifyr.post;
 
 /**
- * Created by Samsad on 11/August/2017.
- * samsad@ceinotech.com
+ * Created by developer on 11/August/2017.
+
  */
 
 public class PostRatePacifyr

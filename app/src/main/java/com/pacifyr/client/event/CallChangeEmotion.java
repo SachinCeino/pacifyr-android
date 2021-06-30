@@ -3,7 +3,7 @@ package com.pacifyr.client.event;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MEmotion;
 
 /**
- * Created by ceino on 7/4/17.
+ * Created by developer on 7/4/17.
  */
 
 public class CallChangeEmotion {

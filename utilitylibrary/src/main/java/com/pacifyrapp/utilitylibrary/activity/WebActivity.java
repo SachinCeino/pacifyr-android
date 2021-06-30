@@ -20,7 +20,7 @@ import com.pacifyrapp.utilitylibrary.R;
 import com.pacifyrapp.utilitylibrary.base.BaseAppCompactActivity;
 
 /**
- * Created by ceino on 23/7/15.
+
  */
 public class WebActivity extends BaseAppCompactActivity {
     String url;

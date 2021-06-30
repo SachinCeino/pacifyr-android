@@ -5,7 +5,7 @@ import com.pacifyrapp.utilitylibrary.model.pacifyr.Certification;
 import java.util.ArrayList;
 
 /**
- * Created by ceino on 27/6/17.
+
  */
 
 public class PostRegisterModel {

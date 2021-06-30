@@ -2,7 +2,7 @@ package com.pacifyr.client.adapter;
 
 /**
  * Created by Samsad on 19/July/2017.
- * samsad@ceinotech.com
+
  */
 
 import android.content.Context;

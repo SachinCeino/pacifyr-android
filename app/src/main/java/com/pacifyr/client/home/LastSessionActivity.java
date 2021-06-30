@@ -72,7 +72,7 @@ import static com.pacifyr.client.twilio.VideoActivity.isCallActive;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_IMAGE_URL;
 
 /**
- * Created by Mani-Ceino on 12/22/2017.
+ * Created by developer on 12/22/2017.
  */
 
 public class LastSessionActivity extends PacifyrAppCompactActivity {

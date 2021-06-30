@@ -8,7 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
 
 /**
- * Created by ceino on 29/5/18.
+
  */
 
 public class ApiClient {

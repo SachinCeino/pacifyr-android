@@ -9,7 +9,7 @@ import com.pacifyrapp.utilitylibrary.R;
 import java.util.List;
 
 /**
- * Created by ceino on 9/2/17.
+
  */
 
 public class BaseUtils {

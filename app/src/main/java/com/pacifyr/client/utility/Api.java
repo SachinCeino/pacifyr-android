@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import static com.pacifyr.client.network.NetworkService.GLOBAL_IMAGE_URL;
 
 /**
- * Created by ceino on 14/6/17.
+
  */
 
 @SuppressWarnings("ALL")

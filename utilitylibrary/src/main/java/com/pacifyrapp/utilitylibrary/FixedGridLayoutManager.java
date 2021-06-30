@@ -16,7 +16,7 @@ import java.util.HashSet;
 import java.util.List;
 
 /**
- * Created by ceino on 17/5/17.
+
  */
 
 public class FixedGridLayoutManager extends RecyclerView.LayoutManager {

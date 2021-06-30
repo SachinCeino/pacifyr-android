@@ -14,7 +14,7 @@ import com.pacifyr.client.R;
 import java.util.ArrayList;
 
 /**
- * Created by ceino on 17/4/18.
+ * Created by developer on 17/4/18.
  */
 
 public class ListEducationAdapter  extends RecyclerView.Adapter<ListEducationAdapter.EducationViewHolder> {

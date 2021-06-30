@@ -1,7 +1,7 @@
 package com.pacifyrapp.utilitylibrary.model.model.pacifyr;
 
 /**
- * Created by ceino on 7/3/18.
+
  */
 
 public class ChatSubscription

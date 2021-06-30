@@ -33,7 +33,7 @@ import org.json.JSONObject;
 import static com.pacifyr.client.receiver.NotificationUtils.isAppIsInBackground;
 
 /**
- * Created by ceino on 21/6/17.
+ * Created by developer on 21/6/17.
  */
 
 public class PacifyrReceiver extends WakefulBroadcastReceiver {

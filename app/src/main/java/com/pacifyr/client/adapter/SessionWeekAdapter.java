@@ -28,7 +28,7 @@ import java.util.Collections;
 
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
 /**
- * Created by ceino on 25/1/18.
+
  */
 
 public class SessionWeekAdapter extends RecyclerView.Adapter<SessionWeekAdapter.MyViewHolder>{

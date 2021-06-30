@@ -1,7 +1,7 @@
 package com.pacifyrapp.utilitylibrary.model.model.pacifyr;
 
 /**
- * Created by Mani-Ceino on 12/13/2017.
+
  */
 
 public class UserCallInfo {

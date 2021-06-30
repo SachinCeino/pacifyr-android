@@ -34,7 +34,7 @@ import static com.pacifyr.client.network.NetworkService.modelAllEmotions;
 
 
 /**
- * Created by ceino on 10/1/18.
+
  */
 
 /*public class PacifyrSessionAdapter {

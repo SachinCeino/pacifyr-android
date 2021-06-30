@@ -23,7 +23,7 @@ import java.util.List;
 //import com.pacifyr.pacifyrapp.Payment.EditCardActivity;
 
 /**
- * Created by ceino on 8/12/17.
+
  */
 
 public class ListSavedCardAdapter extends RecyclerView.Adapter<ListSavedCardAdapter.ViewHolder> {

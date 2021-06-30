@@ -4,7 +4,7 @@ import com.pacifyr.client.event.CallEvent;
 import com.pacifyr.client.event.ChatEvent;
 
 /**
- * Created by Mani-Ceino on 2/9/2018.
+
  */
 
 public interface   CallChatEventListner {

@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * Created by ceino on 8/3/18.
+
  */
 
 public class Certification implements Serializable

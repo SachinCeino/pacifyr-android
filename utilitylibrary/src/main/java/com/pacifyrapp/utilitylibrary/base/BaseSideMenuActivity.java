@@ -12,7 +12,7 @@ import com.pacifyrapp.utilitylibrary.R;
 
 
 /**
- * Created by ceino on 27/1/17.
+
  */
 
 public class BaseSideMenuActivity extends BaseAppCompactActivity {

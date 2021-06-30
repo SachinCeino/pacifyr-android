@@ -4,7 +4,7 @@ import com.androidquery.callback.AjaxStatus;
 import com.pacifyr.client.model.ModelSpecialityByEmotion;
 
 /**
- * Created by ceino on 12/10/15.
+ * Created by developer on 12/10/15.
  */
 public class NotifyEvent {
 

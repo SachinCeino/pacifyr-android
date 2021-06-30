@@ -20,7 +20,7 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 /**
- * Created by ceino on 18/5/18.
+
  */
 
 public class ResourcesSubListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {

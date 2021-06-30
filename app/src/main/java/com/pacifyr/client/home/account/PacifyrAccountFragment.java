@@ -38,7 +38,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 
 /**
- * Created by Mani-Ceino on 12/29/2017.
+ * Created by developer on 12/29/2017.
  */
 
 public class PacifyrAccountFragment extends BaseFragment {

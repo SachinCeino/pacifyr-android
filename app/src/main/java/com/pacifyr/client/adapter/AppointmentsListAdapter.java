@@ -34,7 +34,7 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
- * Created by ceino on 18/5/18.
+
  */
 
 public class AppointmentsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {

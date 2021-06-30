@@ -4,7 +4,7 @@ package com.pacifyr.client.event;
 import com.squareup.otto.Bus;
 
 /**
- * Created by ceino on 6/1/15.
+
  */
 public final class BusProvider {
     private static final Bus BUS = new Bus();

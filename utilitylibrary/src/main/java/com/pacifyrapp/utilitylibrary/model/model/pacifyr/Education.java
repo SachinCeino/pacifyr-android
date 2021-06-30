@@ -4,7 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
- * Created by ceino on 8/3/18.
+
  */
 
 public class Education implements Parcelable

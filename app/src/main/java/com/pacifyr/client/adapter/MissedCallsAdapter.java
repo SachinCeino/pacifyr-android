@@ -27,7 +27,7 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
- * Created by ceino on 14/12/17.
+
  */
 
 public class MissedCallsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{

@@ -34,7 +34,7 @@ import java.util.Date;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
 
 /**
- * Created by ceino on 25/1/18.
+
  */
 
 public class SortWeekAdapter extends RecyclerView.Adapter<SortWeekAdapter.MyViewHolder>{
