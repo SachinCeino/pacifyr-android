@@ -90,6 +90,7 @@ import com.pacifyr.client.quickblox.chat.ui.activity.ChatActivity;
 import com.pacifyr.client.quickblox.utils.PermissionsChecker;
 import com.pacifyr.client.quickblox.utils.RingtonePlayer;
 import com.pacifyr.client.receiver.NotificationUtils;
+import com.pacifyr.client.utils.Constants;
 import com.pacifyr.client.utils.FirebaseLogging;
 import com.pacifyr.client.utils.LogUtils;
 import com.pacifyr.client.utils.Utility;
@@ -159,6 +160,7 @@ import java.util.TimerTask;
 import de.hdodenhof.circleimageview.CircleImageView;
 import kotlin.Unit;
 
+import static com.pacifyr.client.Payment.AlertAddCreditCardActivity.REQUEST_CODE_STRIPE_CARD;
 import static com.pacifyr.client.netconnectionlistener.ConnectionCheckBroadcast.CheckInternetConnection;
 import static com.pacifyr.client.network.NetworkService.GLOBAL_IMAGE_URL;
 import static com.pacifyr.client.network.NetworkService.isRelease;
@@ -241,7 +243,8 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
     private boolean disconnectedFromOnDestroy;
     private boolean enableAutomaticSubscription;
     private boolean ErrorConnectingProvider=false;
-    private boolean isScreenActive=true;
+    private boolean isScreenActive = true;
+    private boolean isEmplyeeDonePaymentWithFreeMinuts = false;
 
     //Call HangUp
     private ImageButton button_hangup_call;
@@ -298,9 +301,15 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
             if (type != null && type.equals("billing")) {
                 billingStatus.setVisibility(View.VISIBLE);
                 setBillingStarted(true);
-                if (isEmployee()) {
-                    setEmpMinutesListener(empMinutesListener);
+
+                if (!isEmplyeeDonePaymentWithFreeMinuts) {
+                    if (isValid(empMinutesListener))
+                        setEmpMinutesListener(empMinutesListener);
                     checkEmpAvailableMinutes();
+                } else {
+                    if (isValid(countDownTimer)) {
+                        countDownTimer.cancel();
+                    }
                 }
                 try {
                     stopTimer();
@@ -312,55 +321,8 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
         }
     };
 
-    private final EmpMinutesListener mEmpMinutesListener = new EmpMinutesListener() {
-        @Override
-        public void onMinutesLeft(long minutes) {
-           /* setAlertStatusInBlue2("Warning", "Your monthly free sessions is expiring soon. Please enter your Credit Card to continue service.",
-                    "Add Card", "Cancel", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            setAlertAddCardInBlue2();
-                        }
-                    });*/
-
-             showIOSDialogOKCancel("Warning", "Your monthly free sessions is expiring soon. Please enter your Credit Card to continue service.", "Add Card", new iOSDialogClickListener() {
-                    @Override
-                    public void onClick(iOSDialog dialog) {
-                        //Toast.makeText(PacifyrActivity.this,"Clicked!",Toast.LENGTH_LONG).show();
-                        dialog.dismiss();
-                        setAlertAddCardInBlue2();
-
-                    }
-                }, "Cancel");
-
-        }
-
-        @Override
-        public void expired() {
-            try {
-
-                isCallActive=false;
-                Toast.makeText(getApplicationContext(), "Your monthly free sessions has expired. Please enter your Credit Card to continue.", Toast.LENGTH_LONG).show();
-                hangUpCurrentSessionMe();
-
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        @Override
-        public void tick(long minutes) {
-            text_remaining_minutes.setText(minutes + " free minutes remaining");
-            text_remaining_minutes.setVisibility(View.VISIBLE);
-
-        }
-    };
-
-
     public void checkEmpAvailableMinutes() {
-        boolean cardExist = isCardExist();
-        if (!cardExist && isEmployee()) {
+
             if (NetworkService.mCurrentUser == null) {
                 return;
             }
@@ -371,6 +333,10 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                 countDownTimer = new CountDownTimer(freeMillis, ONE_MINUTE) {
                     @Override
                     public void onTick(long millisUntilFinished) {
+                        if (isEmplyeeDonePaymentWithFreeMinuts) {
+                            cancel();
+                            return;
+                        }
                         long minutesLeft = millisUntilFinished / (60 * 1000);
 
                         if (empMinutesListener != null) {
@@ -379,6 +345,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                         if (minutesLeft <= 0 && !freeMinuteAlert0) {
                             if (empMinutesListener != null) {
                                 empMinutesListener.expired();
+                                countDownTimer.cancel();
                             }
                             if (getCallPacifyr() != null) {
                                 new NetworkService().sendCardAddedNotification(getCallPacifyr().getId(), FREE_MINUTES_OVER, new AjaxCallback<JSONObject>() {
@@ -431,9 +398,11 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                         }
                     }
                 };
+                if (countDownTimer != null)
+                    countDownTimer.cancel();
                 countDownTimer.start();
             }
-        }
+
     }
 
 
@@ -476,6 +445,8 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
     Sensor proximitySensor;
     private PowerManager mPowerManager;
     private PowerManager.WakeLock mWakeLock;
+
+
     private class EarPhoneChanges extends BroadcastReceiver {
         @Override public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equals(Intent.ACTION_HEADSET_PLUG)) {
@@ -865,11 +836,12 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                         try {
                             CallActivity.mSessionDetailRoot= GsonUtils.getInstance().gsonToMSessionDetailRoot(json);
                             if (isValid(CallActivity.mSessionDetailRoot.isBilledSession())&&
-                                    CallActivity.mSessionDetailRoot.isBilledSession())
-                            {
+                                    CallActivity.mSessionDetailRoot.isBilledSession()) {
                                 setBillingStarted(true);
                                 billingStatus.setVisibility(View.VISIBLE);
-
+                                if (countDownTimer != null) {
+                                    countDownTimer.cancel();
+                                }
                             }
                            /* if (isValid(getCallUser()))
                             {
@@ -1119,16 +1091,19 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
         unregisterReceiver(mEarPhoneChanges);
         if (isValid(audioManager))
         {
-            audioManager=null;
+            audioManager = null;
         }
-        if (isValid(PlayerForNetOffBeep))
-        {
+        if (isValid(PlayerForNetOffBeep)) {
             PlayerForNetOffBeep.stop();
         }
-        if (isValid(NetOffBeepTimer))
-        {
+        if (isValid(NetOffBeepTimer)) {
             NetOffBeepTimer.cancel();
         }
+        if (countDownTimer != null) {
+            countDownTimer.cancel();
+        }
+        empMinutesListener = null;
+        countDownTimer = null;
         /*
          * Always disconnect from the room before leaving the Activity to
          * ensure any memory allocated to the Room resource is freed.
@@ -1434,13 +1409,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                       return;*/
                     if (audioManager != null) {
                         boolean isSpeakerOn = audioManager.isSpeakerphoneOn();
-                        if (isSpeakerOn)
-                        {
-                            isScreenActive=false;
-                        }
-                        else {
-                            isScreenActive=true;
-                        }
+                        isScreenActive = !isSpeakerOn;
                         audioManager.setSpeakerphoneOn(!isSpeakerOn);
 
                         UpdateView();
@@ -1593,7 +1562,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
             e.printStackTrace();
             Bundle args =
                     FirebaseLogging.getConstantArgsLoggedIn(VideoActivity.this);
-            args.putString(FirebaseLogging.EC, "OnCreate TryCatch--"+String.valueOf(e));
+            args.putString(FirebaseLogging.EC, "OnCreate TryCatch--" + e);
 
             FirebaseLogging.sendLog(VideoActivity.this,
                     FirebaseLogging.EVENT_CALL_STARTED,
@@ -1606,6 +1575,174 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
         // from sensor service we are // calling proximity sensor
         proximitySensor = sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
         // handling the case if the proximity // sensor is not present in users device.
+
+        try {
+            empMinutesListener = new EmpMinutesListener() {
+                @Override
+                public void onMinutesLeft(long minutes) {
+
+                    if (minutes == 5) {
+                        if (getPrefManager().getCountry().equalsIgnoreCase("US")) {
+
+                            setAlertStatusInBlue2("Warning", "Your monthly free sessions is expiring soon. Please enter your Credit Card to continue service.", "Add Card", "Cancel",
+                                    new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            hideProgress();
+                                            hideStatus2();
+                                            Intent intent = new Intent(VideoActivity.this,
+                                                    AlertAddCreditCardActivity.class);
+                                            startActivityForResult(intent, REQUEST_CODE_STRIPE_CARD);
+
+                                        }
+                                    }, new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            hideProgress();
+                                            hideStatus2();
+                                            //ShowTransactionFaileToUSer("Add payment cancelled");
+                                        }
+                                    });
+                            makeAbeepSoundWhileShowingPopUp();
+                        } else {
+                            showIOSDialogOKCancel("Warning", "Your monthly free sessions is expiring soon. Please enter your payment to continue service.", Utility.getPaymentLabel(VideoActivity.this, getPrefManager().getCountry()), new iOSDialogClickListener() {
+                                @Override
+                                public void onClick(iOSDialog dialog) {
+                                    dialog.dismiss();
+
+
+                                  /* new NetworkService().sendPaymentFailedDueToSomeReasons(CallActivity.mSessionDetailRoot.getPacifyr().getId(), "paymentFailure", "Transaction cancelled", new AjaxCallback<JSONObject>() {
+                                       @Override
+                                       public void callback(String url, JSONObject json, AjaxStatus status) {
+                                           *//*
+                                     *this must be the first line of any httpCallBacks
+                                     *//*
+                                           Auth.httpStatusFilter(getApplicationContext(), status.getCode());
+                                           if (json != null) {
+                                               Log.w("@@@", "sendCardAddedNotificationFail messages" + json.toString());
+                                           }
+                                       }
+                                   });
+*/
+                                    Bundle args =
+                                            FirebaseLogging.getConstantArgsLoggedIn(VideoActivity.this);
+                                    args.putString(FirebaseLogging.EC, "Payment setup cancelled");
+                                    FirebaseLogging.sendLog(VideoActivity.this,
+                                            FirebaseLogging.EVENT_CLIENT_PAYMENT_FAILED,
+                                            args);
+                                    dialog.dismiss();
+                                }
+                            }, new iOSDialogClickListener() {
+                                @Override
+                                public void onClick(iOSDialog dialog) {
+
+                                    dialog.dismiss();
+                                    //Toast.makeText(PacifyrActivity.this,"Clicked!",Toast.LENGTH_LONG).show();
+                                    if (isValid(SessionId)) {
+
+                                        if (isValid(CallActivity.mSessionDetailRoot) && isValid(CallActivity.mSessionDetailRoot.getPacifyr()) &&
+                                                isValid(CallActivity.mSessionDetailRoot.getPacifyr().getPrice())) {
+                                            String tempSessionId = SessionId;
+                                            if (errorCount != 0)
+                                                tempSessionId = tempSessionId + "_" + errorCount;
+                                            generateCheckSum(true, tempSessionId, Integer.parseInt(CallActivity.mSessionDetailRoot.getPacifyr().getPrice()));
+                                        }
+
+
+                                    } else {
+                                        Toast.makeText(getApplicationContext(), "Session id not valid !", Toast.LENGTH_SHORT).show();
+                                    }
+
+                                }
+                            });
+                            makeAbeepSoundWhileShowingPopUp();
+                        }
+                    }
+
+
+            /*setAlertStatusInBlue2("Warning", "Your monthly free sessions is expiring soon. Please enter your Credit Card to continue service.",
+                    "Add Card", "Cancel", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            setAlertAddCardInBlue2();
+                        }
+                    });*/
+                }
+
+                @Override
+                public void expired() {
+                    try {
+                        Toast.makeText(VideoActivity.this, "expired", Toast.LENGTH_LONG).show();
+                        if (getPrefManager().getCountry().equalsIgnoreCase("US")) {
+
+                            setAlertStatusInBlue2("Warning", "Your monthly free sessions has expired. Please enter your Credit Card to continue.", "Add Card", "Cancel",
+                                    new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            hideProgress();
+                                            hideStatus2();
+                                            Intent intent = new Intent(VideoActivity.this,
+                                                    AlertAddCreditCardActivity.class);
+                                            startActivityForResult(intent, REQUEST_CODE_STRIPE_CARD);
+
+                                        }
+                                    }, new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            hideProgress();
+                                            hideStatus2();
+                                            button_hangup_call.performClick();
+                                        }
+                                    });
+                            makeAbeepSoundWhileShowingPopUp();
+                        } else {
+                            showIOSDialogOKCancel("Warning", "Your monthly free sessions has expired. Please enter your payment to continue.", Utility.getPaymentLabel(VideoActivity.this, getPrefManager().getCountry()), new iOSDialogClickListener() {
+                                @Override
+                                public void onClick(iOSDialog dialog) {
+                                    dialog.dismiss();
+                                    button_hangup_call.performClick();
+                                }
+                            }, new iOSDialogClickListener() {
+                                @Override
+                                public void onClick(iOSDialog dialog) {
+
+                                    dialog.dismiss();
+                                    //Toast.makeText(PacifyrActivity.this,"Clicked!",Toast.LENGTH_LONG).show();
+                                    if (isValid(SessionId)) {
+
+                                        if (isValid(CallActivity.mSessionDetailRoot) && isValid(CallActivity.mSessionDetailRoot.getPacifyr()) &&
+                                                isValid(CallActivity.mSessionDetailRoot.getPacifyr().getPrice())) {
+                                            String tempSessionId = SessionId;
+                                            if (errorCount != 0)
+                                                tempSessionId = tempSessionId + "_" + errorCount;
+                                            generateCheckSum(true, tempSessionId, Integer.parseInt(CallActivity.mSessionDetailRoot.getPacifyr().getPrice()));
+                                        }
+
+
+                                    } else {
+                                        Toast.makeText(getApplicationContext(), "Session id not valid !", Toast.LENGTH_SHORT).show();
+                                    }
+
+                                }
+                            });
+                            makeAbeepSoundWhileShowingPopUp();
+                        }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
+
+                @Override
+                public void tick(long minutes) {
+                    text_remaining_minutes.setText(minutes + " free minutes remaining");
+                    text_remaining_minutes.setVisibility(View.VISIBLE);
+                }
+            };
+        } catch (Exception e) {
+            Log.w("DDD", e.toString());
+        }
 
     }
 
@@ -2510,6 +2647,7 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
                                 // AlertAddCreditCardActivity.start(getActivity());
                             }
                         });
+                        makeAbeepSoundWhileShowingPopUp();
                     }
 
                 }
@@ -2544,9 +2682,7 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
             }
         }
 
-        if (countDownTimer != null) {
-            countDownTimer.cancel();
-        }
+
     }
 
 
@@ -3318,6 +3454,7 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
                                 }
                             }
                         });
+                        makeAbeepSoundWhileShowingPopUp();
                     }
                 }, 1000);
             } else {
@@ -3341,24 +3478,42 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
     }
 
 
-
     @Override
     public void onBackPressed() {
         Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
 
-            if (currentFragment instanceof PrescriptionWhileCallFragment) {
-                isScreenActive=true;
-                super.onBackPressed();
-            }
+        if (currentFragment instanceof PrescriptionWhileCallFragment) {
+            isScreenActive = true;
+            super.onBackPressed();
+        }
     }
 
-/**
- * why this logic ?
- *Faced in honour device. Client started the call. Counselor accepted.
- *  Now client click the home button, the call screen closed.
- *  Client had a tap to open option in dashboard.
- *  In this stage when counselor click on start session button client is not getting setup payment pop up.
- *  Also after ending the call the setup payment pop remained on the screen **/
+    /**
+     * why this logic ?
+     * if employee has free minuts then added payment while call
+     * need to cancel the free minuts check timer
+     **/
+    @org.greenrobot.eventbus.Subscribe(threadMode = ThreadMode.MAIN)
+    public void onPaymentDone(String event) {
+        try {
+            if (isValid(event) && event.equals(Constants.PAYMENT_DONE)) {
+                isEmplyeeDonePaymentWithFreeMinuts = true;
+                if (isValid(countDownTimer))
+                    countDownTimer.cancel();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * why this logic ?
+     * Faced in honour device. Client started the call. Counselor accepted.
+     * Now client click the home button, the call screen closed.
+     * Client had a tap to open option in dashboard.
+     * In this stage when counselor click on start session button client is not getting setup payment pop up.
+     * Also after ending the call the setup payment pop remained on the screen
+     **/
     @org.greenrobot.eventbus.Subscribe(threadMode = ThreadMode.MAIN)
     public void onPaymentPopupReceived(Intent mIntent) {
         try {
@@ -3367,4 +3522,6 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
             e.printStackTrace();
         }
     }
+
+
 }
