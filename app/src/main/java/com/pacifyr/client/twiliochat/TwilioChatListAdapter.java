@@ -32,13 +32,15 @@ public class TwilioChatListAdapter extends RecyclerView.Adapter<TwilioChatListAd
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        final TextView mName;
+        final TextView mName,tvLastMsg,tvUnreadCount;
         CircleImageView mImage;
 
         ViewHolder(View itemView) {
             super(itemView);
-            mName = itemView.findViewById(R.id.mName);
-            mImage=itemView.findViewById(R.id.mImage);;
+            mName = itemView.findViewById(R.id.mtv_name);
+            tvLastMsg = itemView.findViewById(R.id.mtv_last_message);
+            mImage=itemView.findViewById(R.id.mImage);
+            tvUnreadCount=itemView.findViewById(R.id.mtv_unread_count);
         }
     }
 
@@ -54,6 +56,9 @@ public class TwilioChatListAdapter extends RecyclerView.Adapter<TwilioChatListAd
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+        holder.tvUnreadCount.setVisibility(View.INVISIBLE);
+        holder.tvLastMsg.setVisibility(View.GONE);
+
         TwilioConversationCreate object=results.get(position);
         if (isValid(object) && isValid(object.getPacifyr()))
         {

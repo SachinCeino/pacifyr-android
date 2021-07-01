@@ -76,5 +76,11 @@
     <color name="text_Color_High_light">#93ECE4</color>
     <color name="selection_color">#00acee</color>
 
+    //Chat
+    <color name="color_chat_receiver_bg">#e0e0e0</color>
+    <color name="color_chat_sent_bg">#31a5fc</color>
+    <color name="color_border_line">#dfdfdf</color>
+
+
 
 </resources>

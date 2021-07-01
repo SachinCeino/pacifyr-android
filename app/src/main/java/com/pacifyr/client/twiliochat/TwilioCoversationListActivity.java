@@ -190,7 +190,7 @@ public class TwilioCoversationListActivity extends PacifyrActivity implements Qu
             leftTxv.setVisibility(View.INVISIBLE);
             backImv.setVisibility(View.VISIBLE);
             titleTxv.setVisibility(View.VISIBLE);
-            titleTxv.setText(getResources().getString(R.string.message_list));
+            titleTxv.setText(getResources().getString(R.string.messages));
             leftLlay.setVisibility(View.VISIBLE);
             leftLlay.setOnClickListener(new View.OnClickListener() {
                 @Override
