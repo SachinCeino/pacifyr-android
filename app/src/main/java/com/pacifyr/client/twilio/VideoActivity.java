@@ -1616,6 +1616,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                                            //ShowTransactionFaileToUSer("Add payment cancelled");
                                        }
                                    });
+                           makeAbeepSoundWhileShowingPopUp();
                        } else {
                            showIOSDialogOKCancel("Warning", "Your monthly free sessions is expiring soon. Please enter your payment to continue service.", Utility.getPaymentLabel(VideoActivity.this, getPrefManager().getCountry()), new iOSDialogClickListener() {
                                @Override
@@ -1667,7 +1668,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
 
                                }
                            });
-
+                           makeAbeepSoundWhileShowingPopUp();
                        }
                    }
 
@@ -1706,6 +1707,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                                           button_hangup_call.performClick();
                                        }
                                    });
+                           makeAbeepSoundWhileShowingPopUp();
                        }
                        else {
                            showIOSDialogOKCancel("Warning", "Your monthly free sessions has expired. Please enter your payment to continue.", Utility.getPaymentLabel(VideoActivity.this,getPrefManager().getCountry()), new iOSDialogClickListener() {
@@ -1737,7 +1739,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
 
                                }
                            });
-
+                           makeAbeepSoundWhileShowingPopUp();
                        }
 
                    } catch (Exception e) {
@@ -2659,6 +2661,7 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
                                 // AlertAddCreditCardActivity.start(getActivity());
                             }
                         });
+                        makeAbeepSoundWhileShowingPopUp();
                     }
 
                 }
@@ -3465,6 +3468,7 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
                                 }
                             }
                         });
+                        makeAbeepSoundWhileShowingPopUp();
                     }
                 }, 1000);
             } else {

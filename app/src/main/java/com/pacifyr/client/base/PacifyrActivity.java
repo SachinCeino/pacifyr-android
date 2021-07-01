@@ -109,6 +109,7 @@ import com.pacifyr.client.quickblox.services.CallService;
 import com.pacifyr.client.quickblox.util.QBResRequestExecutor;
 import com.pacifyr.client.quickblox.utils.Consts;
 import com.pacifyr.client.quickblox.utils.PermissionsChecker;
+import com.pacifyr.client.quickblox.utils.RingtonePlayer;
 import com.pacifyr.client.receiver.NotificationUtils;
 import com.pacifyr.client.sign.SignActivity;
 import com.pacifyr.client.twilio.TwilioAccessToken;
@@ -329,6 +330,19 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
     private boolean inProgress;
 
     private boolean settingUpPayment = false;
+
+    public void makeAbeepSoundWhileShowingPopUp()
+    {
+       try {
+            if (isCallActive) {
+                RingtonePlayer ringtonePlayer = new RingtonePlayer(PacifyrActivity.this, R.raw.beep_for_popup);
+                ringtonePlayer.play(false);
+            }
+       }catch (Exception e)
+       {
+
+       }
+    }
     private final BroadcastReceiver waringToAddPayTmPaymentReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -497,6 +511,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                     updateProfileStartCallWeb(pacifyerDetial, isVideoCall);
                 }
             });
+            makeAbeepSoundWhileShowingPopUp();
         }
 
         /*  @Override
@@ -543,7 +558,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                     ShowTransactionFaileToUSer("Add payment cancelled");
                 }
             });
-
+            makeAbeepSoundWhileShowingPopUp();
 
         }
 
@@ -620,6 +635,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
 
                     }
                 });
+                makeAbeepSoundWhileShowingPopUp();
 
             } else if (getPrefManager().getCountry().equalsIgnoreCase("US")) {
                 setAlertStatusInBlue2("Add Card", message, "Ok", "Cancel",
@@ -641,6 +657,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                                 ShowTransactionFaileToUSer("Add payment cancelled");
                             }
                         });
+                makeAbeepSoundWhileShowingPopUp();
             }
         }
     }
@@ -807,6 +824,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                     }
                 })
                 .build().show();
+        makeAbeepSoundWhileShowingPopUp();
     }
 
     public void showIOSDialogOK(String title, String subTitle, String okLabel, iOSDialogClickListener listener)
@@ -830,6 +848,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                 .build();
         try {
             dialog.show();
+            makeAbeepSoundWhileShowingPopUp();
         }
         catch (Exception e)
         {
@@ -859,6 +878,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                 .build();
         try {
             dialog.show();
+            makeAbeepSoundWhileShowingPopUp();
         }
         catch (Exception e)
         {
@@ -915,6 +935,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                 })
                 .build();
         dialog.show();
+        makeAbeepSoundWhileShowingPopUp();
     }
 
 
@@ -1175,6 +1196,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                     hideProgress();
                 }
             });
+            makeAbeepSoundWhileShowingPopUp();
         }
         catch (Exception exc)
         {
@@ -1205,6 +1227,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
             showStatus();
             //setAlertOKStatusInWhite("Register Failed", "Your mobile number is already registered", "Ok");
             ok_dtxv.setOnClickListener(onClickListener);
+            makeAbeepSoundWhileShowingPopUp();
         }
         catch (Exception exc)
         {
@@ -1364,6 +1387,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
         builder.setCancelable(false);
         billSummary = builder.create();
         billSummary.show();
+        makeAbeepSoundWhileShowingPopUp();
     }
 
     private String getOnlyTime(String endTime) {
@@ -4327,6 +4351,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                             builder.setCancelable(false);
                             PaymentPopup = builder.create();
                             PaymentPopup.show();
+                            makeAbeepSoundWhileShowingPopUp();
                         }
                     });
                 }
@@ -4445,6 +4470,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                             builder.setCancelable(false);
                             PaymentPopup = builder.create();
                             PaymentPopup.show();
+                            makeAbeepSoundWhileShowingPopUp();
                         }
                     });
                 }
@@ -4554,6 +4580,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                     });
                 }
             }, 2000);
+
             return;
         }
 
