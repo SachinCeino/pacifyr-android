@@ -4183,7 +4183,26 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
         if (PaymentPopup != null && PaymentPopup.isShowing()) {
             PaymentPopup.dismiss();
         }
+            /** send Notification to the Provider that user Done the Payment Success fully and able to start Session now.
+             * type "cardSetup**/
 
+                    EventBus.getDefault().post("SCHEDULE_PAY");
+                    if (isValid(CallActivity.mSessionDetailRoot) &&
+                            isValid(CallActivity.mSessionDetailRoot.getPacifyr()) &&
+                            isValid(CallActivity.mSessionDetailRoot.getPacifyr().getId()))
+                        new NetworkService().sendCardAddedNotificationAfterPaytmSuccess(CallActivity.mSessionDetailRoot.getPacifyr().getId(), "cardSetup", new AjaxCallback<JSONObject>() {
+                            @Override
+                            public void callback(String url, JSONObject json, AjaxStatus status) {
+                                /*
+                                 *this must be the first line of any httpCallBacks
+                                 */
+            //                                                Auth.httpStatusFilter(getApplicationContext(),status.getCode());
+                                BusProvider.getInstance().post(Utility.checkStatusCode(status.getCode())); // for call related apis
+                                if (json != null) {
+                                    Log.w("PAYTMLOG", "sendCardAddedNotification responce" + json.toString());
+                                }
+                            }
+                        });
 
         if (!isShowDialogs()) {
             if (isCallActive)
@@ -4238,26 +4257,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                                     if (PaymentPopup != null) {
                                         PaymentPopup.dismiss();
                                     }
-                                    /** send Notification to the Provider that user Done the Payment Success fully and able to start Session now.
-                                     * type "cardSetup**/
 
-                                    EventBus.getDefault().post("SCHEDULE_PAY");
-                                    if (isValid(CallActivity.mSessionDetailRoot) &&
-                                            isValid(CallActivity.mSessionDetailRoot.getPacifyr()) &&
-                                            isValid(CallActivity.mSessionDetailRoot.getPacifyr().getId()))
-                                        new NetworkService().sendCardAddedNotificationAfterPaytmSuccess(CallActivity.mSessionDetailRoot.getPacifyr().getId(), "cardSetup", new AjaxCallback<JSONObject>() {
-                                            @Override
-                                            public void callback(String url, JSONObject json, AjaxStatus status) {
-                                                /*
-                                                 *this must be the first line of any httpCallBacks
-                                                 */
-//                                                Auth.httpStatusFilter(getApplicationContext(),status.getCode());
-                                                BusProvider.getInstance().post(Utility.checkStatusCode(status.getCode())); // for call related apis
-                                                if (json != null) {
-                                                    Log.w("PAYTMLOG", "sendCardAddedNotification responce" + json.toString());
-                                                }
-                                            }
-                                        });
                                    // else
                                        // Toast.makeText(PacifyrActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
 
@@ -4357,24 +4357,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                                     if (PaymentPopup != null) {
                                         PaymentPopup.dismiss();
                                     }
-                                    /** send Notification to the Provider that user Done the Payment Success fully and able to start Session now.
-                                     * type "cardSetup**/
-                                    EventBus.getDefault().post("SCHEDULE_PAY");
-                                    if (isValid(CallActivity.mSessionDetailRoot) &&
-                                            isValid(CallActivity.mSessionDetailRoot.getPacifyr()) &&
-                                            isValid(CallActivity.mSessionDetailRoot.getPacifyr().getId()))
-                                        new NetworkService().sendCardAddedNotificationAfterPaytmSuccess(CallActivity.mSessionDetailRoot.getPacifyr().getId(), "cardSetup", new AjaxCallback<JSONObject>() {
-                                            @Override
-                                            public void callback(String url, JSONObject json, AjaxStatus status) {
-                                                /*
-                                                 *this must be the first line of any httpCallBacks
-                                                 */
-                                                Auth.httpStatusFilter(getApplicationContext(),status.getCode());
-                                                if (json != null) {
-                                                    Log.w("PAYTMLOG", "sendCardAddedNotification responce" + json.toString());
-                                                }
-                                            }
-                                        });
+
                                   //  else
                                       //  Toast.makeText(PacifyrActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
 
@@ -4433,6 +4416,23 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
     public void ShowTransactionSuccesResultToUSer(String message) {
 
         errorCount=0;
+        if (isValid(CallActivity.mSessionDetailRoot) &&
+                isValid(CallActivity.mSessionDetailRoot.getPacifyr()) &&
+                isValid(CallActivity.mSessionDetailRoot.getPacifyr().getId()))
+            new NetworkService().sendCardAddedNotificationAfterPaytmSuccess(CallActivity.mSessionDetailRoot.getPacifyr().getId(), "cardSetup", new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject json, AjaxStatus status) {
+                    /*
+                     *this must be the first line of any httpCallBacks
+                     */
+//                                                Auth.httpStatusFilter(getApplicationContext(),status.getCode());
+                    BusProvider.getInstance().post(Utility.checkStatusCode(status.getCode())); // for call related apis
+                    if (json != null) {
+                        Log.w("PAYTMLOG", "sendCardAddedNotification responce" + json.toString());
+                    }
+                }
+            });
+
         if (!isShowDialogs()) {
             if (Build.VERSION.SDK_INT != Build.VERSION_CODES.M) {
                 if (isCallActive)
@@ -4449,22 +4449,6 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                                 @Override
                                 public void onClick(iOSDialog dialog) {
 
-                                    if (isValid(CallActivity.mSessionDetailRoot) &&
-                                            isValid(CallActivity.mSessionDetailRoot.getPacifyr()) &&
-                                            isValid(CallActivity.mSessionDetailRoot.getPacifyr().getId()))
-                                        new NetworkService().sendCardAddedNotificationAfterPaytmSuccess(CallActivity.mSessionDetailRoot.getPacifyr().getId(), "cardSetup", new AjaxCallback<JSONObject>() {
-                                            @Override
-                                            public void callback(String url, JSONObject json, AjaxStatus status) {
-                                                /*
-                                                 *this must be the first line of any httpCallBacks
-                                                 */
-//                                                Auth.httpStatusFilter(getApplicationContext(),status.getCode());
-                                                BusProvider.getInstance().post(Utility.checkStatusCode(status.getCode())); // for call related apis
-                                                if (json != null) {
-                                                    Log.w("PAYTMLOG", "sendCardAddedNotification responce" + json.toString());
-                                                }
-                                            }
-                                        });
                                     Bundle args =
                                             FirebaseLogging.getConstantArgsLoggedIn(PacifyrActivity.this);
                                     args.putString(FirebaseLogging.EC, message + "");
@@ -4495,23 +4479,6 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                             iOSDialogClickListener listener = new iOSDialogClickListener() {
                                 @Override
                                 public void onClick(iOSDialog dialog) {
-
-                                    if (isValid(CallActivity.mSessionDetailRoot) &&
-                                            isValid(CallActivity.mSessionDetailRoot.getPacifyr()) &&
-                                            isValid(CallActivity.mSessionDetailRoot.getPacifyr().getId()))
-                                        new NetworkService().sendCardAddedNotificationAfterPaytmSuccess(CallActivity.mSessionDetailRoot.getPacifyr().getId(), "cardSetup", new AjaxCallback<JSONObject>() {
-                                            @Override
-                                            public void callback(String url, JSONObject json, AjaxStatus status) {
-                                                /*
-                                                 *this must be the first line of any httpCallBacks
-                                                 */
-//                                                Auth.httpStatusFilter(getApplicationContext(),status.getCode());
-                                                BusProvider.getInstance().post(Utility.checkStatusCode(status.getCode())); // for call related apis
-                                                if (json != null) {
-                                                    Log.w("PAYTMLOG", "sendCardAddedNotification responce" + json.toString());
-                                                }
-                                            }
-                                        });
                                     Bundle args =
                                             FirebaseLogging.getConstantArgsLoggedIn(PacifyrActivity.this);
                                     args.putString(FirebaseLogging.EC, message + "");

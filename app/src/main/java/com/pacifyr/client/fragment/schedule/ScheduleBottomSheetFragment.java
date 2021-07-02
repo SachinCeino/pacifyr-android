@@ -303,7 +303,7 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
                     }
 
                 } else if (txtv_next.getText().equals("Done")) {
-                    callSlotBookApiAfterPaymentSuccess(SlotForNextClick);
+                   dismiss();
                 }
             }
         });
@@ -411,7 +411,7 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
                                                     public void run() {
 
                                                         hideStatus();
-                                                        dismiss();
+
                                                     }
                                                 }, 4000);
 
@@ -1890,6 +1890,7 @@ Log.w("WWW","onCreate");
                         + pacifyer_obj.getLastName() + " " +
                         "has been submitted and you will be " +
                         "notified once the time slot is confirmed.");
+                callSlotBookApiAfterPaymentSuccess(SlotForNextClick);
             }
 
 
