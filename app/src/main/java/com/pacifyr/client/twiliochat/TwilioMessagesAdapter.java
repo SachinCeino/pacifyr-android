@@ -9,6 +9,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.pacifyr.client.R;
+import com.pacifyr.client.customview.MainTextView;
+import com.pacifyr.client.utils.Utility;
 import com.twilio.conversations.Message;
 
 public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAdapter.ViewHolder> {
@@ -19,11 +21,13 @@ public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAd
     String userId;
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        final TextView messageText;
+        final MainTextView messageText,tvTimeRight,tvTimeBottom;
 
         ViewHolder(View itemView) {
             super(itemView);
-            messageText = (TextView) itemView.findViewById(R.id.tv_message);
+            messageText = (MainTextView) itemView.findViewById(R.id.tv_message);
+            tvTimeRight = (MainTextView) itemView.findViewById(R.id.tv_time_right);
+            tvTimeBottom = (MainTextView) itemView.findViewById(R.id.tv_time_bottom);
 
         }
     }
@@ -74,6 +78,23 @@ public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAd
        // String messageText = String.format("%s: %s", message.getAuthor(), message.getMessageBody());
         String messageText = message.getMessageBody();
         holder.messageText.setText(messageText);
+
+        //Time
+        if(messageText.length() > 15){
+            holder.tvTimeRight.setVisibility(View.GONE);
+            holder.tvTimeBottom.setVisibility(View.VISIBLE);
+        }else {
+            holder.tvTimeBottom.setVisibility(View.GONE);
+            holder.tvTimeRight.setVisibility(View.VISIBLE);
+        }
+        ///////////Both time will be same/////
+        String time= Utility.getDate(message.getDateCreated(),true);
+        holder.tvTimeRight.setText(time);
+        holder.tvTimeBottom.setText(time);
+
+        ///////////////////////////
+
+
     }
 
     @Override

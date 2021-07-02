@@ -459,6 +459,7 @@ public class Utility {
         return true;
     }
 
+
     public static String getPriceSign(Context context) {
 
         PrefManager prefM = PrefManager.getInstance(context);

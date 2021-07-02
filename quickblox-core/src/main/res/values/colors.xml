@@ -35,4 +35,7 @@
     <color name="random_color_9">#166642</color>
     <color name="random_color_10">#bdbdbd</color>
 
+    //Chat
+    <color name="color_text_time_sent">#F1F1F1</color>
+
 </resources>

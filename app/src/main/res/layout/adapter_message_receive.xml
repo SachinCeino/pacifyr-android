@@ -21,13 +21,39 @@
             style="@style/MessageTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:paddingStart="8dp"
+            android:paddingTop="8dp"
+            android:paddingEnd="5dp"
+            android:paddingBottom="5dp"
+            app:layout_constraintBottom_toTopOf="@+id/tv_time_bottom"
+            app:layout_constraintEnd_toStartOf="@+id/tv_time_right"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Hi hello"
-            android:textColor="@android:color/black">
+            android:textColor="@android:color/black"/>
 
-        </com.pacifyr.client.customview.MainTextView>
+        <com.pacifyr.client.customview.MainTextView
+            android:id="@+id/tv_time_right"
+            style="@style/ChatReceiveTimeTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="5dp"
+            tools:text="2:20 AM"
+            android:textSize="@dimen/sp10"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <com.pacifyr.client.customview.MainTextView
+            android:id="@+id/tv_time_bottom"
+            style="@style/ChatReceiveTimeTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="2dp"
+            tools:text="2:20 AM"
+            android:textSize="@dimen/sp10"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/tv_message" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

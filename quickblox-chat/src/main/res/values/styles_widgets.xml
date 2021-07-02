@@ -109,4 +109,14 @@
         <item name="android:layout_weight">1</item>
     </style>
 
+    <style name="ChatTimeTextStyle" parent="WrapContent">
+        <item name="android:textColor">@color/color_text_time_sent</item>
+        <item name="android:textSize">@dimen/chat_message_time_text_size</item>
+    </style>
+
+    <style name="ChatReceiveTimeTextStyle" parent="WrapContent">
+        <item name="android:textColor">@color/text_color_dark_grey</item>
+        <item name="android:textSize">@dimen/chat_message_time_text_size</item>
+    </style>
+
 </resources>

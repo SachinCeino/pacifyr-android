@@ -21,6 +21,7 @@ import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.home.ProfileScreenActivity;
 import com.pacifyr.client.quickblox.chat.ui.activity.ChatActivity;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.squareup.picasso.Picasso;
 import com.twilio.conversations.Conversation;
@@ -215,10 +216,15 @@ public class TwilioConversationActivity extends PacifyrActivity implements Quick
      * Set user data / toolbar name and pic
      */
     private void loadUserData(){
-        String imgUrl ="", name="";
-        if(mTwilioConversationCreate.getPacifyr() != null){
-            name = ""+mTwilioConversationCreate.getPacifyr().getFirstName();
-            imgUrl = ""+GLOBAL_IMAGE_URL+mTwilioConversationCreate.getPacifyr().getImage();
+        MUser pacifyr = mTwilioConversationCreate.getPacifyr();
+        String imgUrl =null, name="";
+        if(isValid(pacifyr)){
+            name = ""+pacifyr.getFirstName();
+
+            if(isValid(pacifyr.getImage())){
+                imgUrl = ""+GLOBAL_IMAGE_URL+mTwilioConversationCreate.getPacifyr().getImage();
+            }
+
         }else {
             Log.e("ERROR","getPacifyr data null");
         }

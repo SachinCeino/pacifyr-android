@@ -58,7 +58,6 @@ public class TwilioChatListAdapter extends RecyclerView.Adapter<TwilioChatListAd
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.tvUnreadCount.setVisibility(View.INVISIBLE);
 
-
         TwilioConversationCreate object=results.get(position);
         if (isValid(object) && isValid(object.getPacifyr()))
         {
@@ -79,21 +78,23 @@ public class TwilioChatListAdapter extends RecyclerView.Adapter<TwilioChatListAd
                 }
             }
 
+            String imgUrl = null;
             if (isValid(object.getPacifyr().getImage()))
             {
-                final String imgUrl=GLOBAL_IMAGE_URL+object.getPacifyr().getImage();
-                Picasso.with(mContext).load(imgUrl).placeholder(R.drawable.placeholder_user).into(holder.mImage);
+                 imgUrl= GLOBAL_IMAGE_URL+object.getPacifyr().getImage();
 
-                holder.itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if (isValid(object) && isValid(object.getTwilioConversationId()))
-                        {
-                            TwilioConversationActivity.start(mContext,object);
-                        }
-                    }
-                });
             }
+            Picasso.with(mContext).load(imgUrl).placeholder(R.drawable.placeholder_user).into(holder.mImage);
+
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (isValid(object) && isValid(object.getTwilioConversationId()))
+                    {
+                        TwilioConversationActivity.start(mContext,object);
+                    }
+                }
+            });
         }
 
     }
