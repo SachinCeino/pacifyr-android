@@ -57,12 +57,28 @@ public class TwilioChatListAdapter extends RecyclerView.Adapter<TwilioChatListAd
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.tvUnreadCount.setVisibility(View.INVISIBLE);
-        holder.tvLastMsg.setVisibility(View.GONE);
+
 
         TwilioConversationCreate object=results.get(position);
         if (isValid(object) && isValid(object.getPacifyr()))
         {
             holder.mName.setText(object.getPacifyr().getFirstName());
+
+            if(isValid(object.getLastMessage())){
+                 holder.tvLastMsg.setVisibility(View.VISIBLE);
+                holder.tvLastMsg.setText(object.getLastMessage());
+            }else {
+                holder.tvLastMsg.setVisibility(View.GONE);
+            }
+
+            if(isValid(object.getUnreadStatus())){
+                int count = object.getUnreadStatus().get(0).getUnreadCount();
+                if(count > 0){
+                    holder.tvUnreadCount.setVisibility(View.VISIBLE);
+                    holder.tvUnreadCount.setText(String.valueOf(count));
+                }
+            }
+
             if (isValid(object.getPacifyr().getImage()))
             {
                 final String imgUrl=GLOBAL_IMAGE_URL+object.getPacifyr().getImage();

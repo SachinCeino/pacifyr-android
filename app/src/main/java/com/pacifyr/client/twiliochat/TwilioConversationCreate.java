@@ -13,7 +13,7 @@ public class TwilioConversationCreate implements Serializable {
     private Integer totalMessageCount;
     @SerializedName("lastMessage")
     @Expose
-    private Object lastMessage;
+    private String lastMessage;
     @SerializedName("type")
     @Expose
     private Object type;
@@ -63,11 +63,11 @@ public class TwilioConversationCreate implements Serializable {
         this.totalMessageCount = totalMessageCount;
     }
 
-    public Object getLastMessage() {
+    public String getLastMessage() {
         return lastMessage;
     }
 
-    public void setLastMessage(Object lastMessage) {
+    public void setLastMessage(String lastMessage) {
         this.lastMessage = lastMessage;
     }
 
