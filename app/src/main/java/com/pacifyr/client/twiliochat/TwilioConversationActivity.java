@@ -14,6 +14,7 @@ import android.widget.RelativeLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.kaopiz.kprogresshud.KProgressHUD;
 import com.pacifyr.client.R;
 import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
@@ -34,7 +35,6 @@ import static com.pacifyr.client.network.NetworkService.GLOBAL_IMAGE_URL;
 
 
 public class TwilioConversationActivity extends PacifyrActivity implements QuickstartConversationsManagerListener {
-
 
     String ActionbarTitle="";
 
@@ -98,11 +98,15 @@ public class TwilioConversationActivity extends PacifyrActivity implements Quick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.twilio_conversation_activity);
 
+        setLoadingWait();
+        showProgress();
+
         initVar();
         onSetActionBar();
         initView();
         loadData();
         intiListener();
+
 
 
 
@@ -147,7 +151,7 @@ public class TwilioConversationActivity extends PacifyrActivity implements Quick
         // quickstartConversationsManager.initializeWithAccessToken(this, getString(R.string.test_access_token));
 
         // Token Method 2 - retrieve the access token from a web server or Twilio Function
-        retrieveTokenFromServer();
+       // retrieveTokenFromServer();
 
     }
 
@@ -155,19 +159,26 @@ public class TwilioConversationActivity extends PacifyrActivity implements Quick
         quickstartConversationsManager = new QuickstartConversationsManager();
         prefM = PrefManager.getInstance(this);
         layoutManager = new LinearLayoutManager(this);
+
     }
 
     private void initView(){
         recyclerView = findViewById(R.id.messagesRecyclerView);
         writeMessageEditText = findViewById(R.id.writeMessageEditText);
         sendChatMessageButton = findViewById(R.id.sendChatMessageButton);
+
     }
 
 
     private void loadData(){
+
         getUserData();
+
         //Set ConversationsManager Listener
         quickstartConversationsManager.setListener(this);
+        // Token Method 2 - retrieve the access token from a web server or Twilio Function
+        retrieveTokenFromServer();
+
         loadUserData();
         loadChatList();
 
@@ -197,14 +208,20 @@ public class TwilioConversationActivity extends PacifyrActivity implements Quick
         userId = prefM.getUserID();
         messagesAdapter = new TwilioMessagesAdapter(quickstartConversationsManager, userId);
         recyclerView.setAdapter(messagesAdapter);
+
     }
 
     /**
      * Set user data / toolbar name and pic
      */
     private void loadUserData(){
-        String name = ""+mTwilioConversationCreate.getPacifyr().getFirstName();
-        String imgUrl = ""+GLOBAL_IMAGE_URL+mTwilioConversationCreate.getPacifyr().getImage();
+        String imgUrl ="", name="";
+        if(mTwilioConversationCreate.getPacifyr() != null){
+            name = ""+mTwilioConversationCreate.getPacifyr().getFirstName();
+            imgUrl = ""+GLOBAL_IMAGE_URL+mTwilioConversationCreate.getPacifyr().getImage();
+        }else {
+            Log.e("ERROR","getPacifyr data null");
+        }
         leftTxv.setText(name);
         //Image
         Picasso.with(TwilioConversationActivity.this).load(imgUrl).placeholder(R.drawable.placeholder_user).into(userCimv);
@@ -289,6 +306,8 @@ public class TwilioConversationActivity extends PacifyrActivity implements Quick
     }
 
 
+
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -297,6 +316,7 @@ public class TwilioConversationActivity extends PacifyrActivity implements Quick
 
     @Override
     public void receivedNewMessage() {
+        Log.w(TAG,"receivedNewMessage________");
         if (isValid(messagesAdapter))
             messagesAdapter.notifyDataSetChanged();
 
@@ -304,6 +324,7 @@ public class TwilioConversationActivity extends PacifyrActivity implements Quick
 
     @Override
     public void messageSentCallback() {
+        Log.w(TAG,"messagesAdapter________");
         if (isValid(messagesAdapter))
             messagesAdapter.notifyDataSetChanged();
 
@@ -311,6 +332,8 @@ public class TwilioConversationActivity extends PacifyrActivity implements Quick
 
     @Override
     public void reloadMessages() {
+        hideProgress();
+        Log.w(TAG,"reloadMessages________");
     if (isValid(messagesAdapter))
         messagesAdapter.notifyDataSetChanged();
 

@@ -66,8 +66,7 @@ public class TwilioChatListAdapter extends RecyclerView.Adapter<TwilioChatListAd
             if (isValid(object.getPacifyr().getImage()))
             {
                 final String imgUrl=GLOBAL_IMAGE_URL+object.getPacifyr().getImage();
-                //String imgUrl=
-                Picasso.with(mContext).load(imgUrl).into(holder.mImage);
+                Picasso.with(mContext).load(imgUrl).placeholder(R.drawable.placeholder_user).into(holder.mImage);
 
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
