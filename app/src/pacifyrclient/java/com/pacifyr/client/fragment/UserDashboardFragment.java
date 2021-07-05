@@ -73,6 +73,7 @@ import com.quickblox.chat.model.QBChatDialog;
 import com.quickblox.core.QBEntityCallback;
 import com.quickblox.core.exception.QBResponseException;
 import com.quickblox.sample.core.utils.SharedPrefsHelper;
+import com.quickblox.sample.core.utils.Toaster;
 import com.squareup.otto.Subscribe;
 
 import org.greenrobot.eventbus.EventBus;
@@ -706,7 +707,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
         }
 
     }
-
+    MSessionDetailRoot mMSessionDetailRoot=null;
     private void checkIsThereAnyActiveSessionsAvailable() {
         try {
             if (isCallActive)return;
@@ -726,7 +727,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                             ModelSessonsOfCustomer model = GsonUtils.getInstance().gsonToModelSessonsOfCustomer(json);
 
                             if (isValid(model) && isValid(model.getResultsList())&&isValid(model.getResultsList().get(0))) {
-                                MSessionDetailRoot mMSessionDetailRoot=model.getResultsList().get(0);
+                                mMSessionDetailRoot=model.getResultsList().get(0);
                                 if (isValid(mMSessionDetailRoot)&&isValid(mMSessionDetailRoot.getPacifyr())) {
                                     LinearLayout_Active_Session.setVisibility(View.VISIBLE);
                                     bannerLayout.setVisibility(View.GONE);
@@ -758,10 +759,36 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                             }
                             else {
                                 LinearLayout_Active_Session.setVisibility(View.GONE);
+                                if (isValid(mMSessionDetailRoot))
+                                {
+                                    if (!mMSessionDetailRoot.isBilledSession())
+                                    {
+                                        getActivity().runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                Toaster.shortToast("Thank you for the call. You are not billed as service was not provided");
+                                            }
+                                        });
+
+                                    }
+                                    mMSessionDetailRoot=null;
+                                }
                             }
                         }
                         else {
                             LinearLayout_Active_Session.setVisibility(View.GONE);
+                            if (isValid(mMSessionDetailRoot))
+                            {
+                                if (!mMSessionDetailRoot.isBilledSession())
+                                {
+                                    getActivity().runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            Toaster.shortToast("Thank you for the call. You are not billed as service was not provided");
+                                        }
+                                    });                                }
+                                mMSessionDetailRoot=null;
+                            }
                         }
 
                         if (LinearLayout_Active_Session.getVisibility() == View.GONE &&
