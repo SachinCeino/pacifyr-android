@@ -488,6 +488,21 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
             if (isValid(intent)) {
                 if (isValid(ringtonePlayer))
                     ringtonePlayer.stop();
+                setAlertOKStatusInWhite("", "Provider can't answer the call", "Ok");
+                sessionDeclainedByProvider = true;
+                hangUpCurrentSessionMe();
+            }
+
+
+        }
+    };
+
+    private final BroadcastReceiver sessionDeclainedWaitng = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (isValid(intent)) {
+                if (isValid(ringtonePlayer))
+                    ringtonePlayer.stop();
                 setAlertOKStatusInWhite("", "Provider is busy and will be with you shortly", "Ok");
                 sessionDeclainedByProvider = true;
             }
@@ -1087,6 +1102,8 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
         audioSwitch.deactivate();
         configureAudio(false);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(sessionDeclainedReceiver);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(sessionDeclainedWaitng);
+
         LocalBroadcastManager.getInstance(this).unregisterReceiver(stripeCardAddWhileCall);
         unregisterReceiver(mEarPhoneChanges);
         if (isValid(audioManager))
@@ -3237,6 +3254,9 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
     @Override
     protected void onStart() {
         super.onStart();
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(sessionDeclainedWaitng, new IntentFilter(NotificationUtils.SESSION_DECLAINED_WAITING));
+
         LocalBroadcastManager.getInstance(this).registerReceiver(sessionDeclainedReceiver, new IntentFilter(NotificationUtils.SESSION_DECLAINED));
 
     }

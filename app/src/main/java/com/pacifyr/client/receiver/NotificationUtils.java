@@ -31,6 +31,7 @@ public class NotificationUtils {
     public static final String NOTIFY_INTENT_GENERAL = "notify_event_general";
     public static final String APPOINTMENT_EVENT="appointment_event";
     public static final String SESSION_DECLAINED="sessionDeclined";
+    public static final String SESSION_DECLAINED_WAITING="sessionDeclined_waiting";
     private String TAG = NotificationUtils.class.getSimpleName();
 
     private Context mContext;

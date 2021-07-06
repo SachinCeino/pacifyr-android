@@ -313,6 +313,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                                     intent.putExtra("message", message);
                                     LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
                                 }
+                                else if (actual_type.equals("sessionWaiting"))
+                                {
+                                    Intent intent = new Intent(NotificationUtils.SESSION_DECLAINED_WAITING);
+                                    //intent.putExtra("message", message);
+                                    LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+                                }
 
                                 else if (actual_type.equalsIgnoreCase("chat")
                                         ||actual_type.equalsIgnoreCase("confirmBooking")
@@ -380,6 +386,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                                 {
                                     Intent intent = new Intent(NotificationUtils.SESSION_DECLAINED);
                                     intent.putExtra("message", message);
+                                    LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+                                }
+                                else if (actual_type.equals("sessionWaiting"))
+                                {
+                                    Intent intent = new Intent(NotificationUtils.SESSION_DECLAINED_WAITING);
+                                    //intent.putExtra("message", message);
                                     LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
                                 }
                             }
