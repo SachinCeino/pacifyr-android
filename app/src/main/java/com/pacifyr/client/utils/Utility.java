@@ -52,6 +52,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -926,6 +927,8 @@ public class Utility {
 
         return millis;
     }
+
+
 
     public static File saveFileInCache(Context context, Bitmap imageBitmap, String fileName) {
         File cacheFile = getTempFile(context, fileName);

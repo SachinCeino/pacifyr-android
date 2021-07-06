@@ -9,12 +9,23 @@
     tools:ignore="RtlSymmetry">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/shape_bg_send_bubble"
+        android:paddingEnd="@dimen/dp10"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:paddingEnd="@dimen/dp10">
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/iv_image"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/dp2"
+            android:padding="@dimen/dp3"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <com.pacifyr.client.customview.MainTextView
             android:id="@+id/tv_message"
@@ -30,6 +41,7 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Hi hello" />
 
+
         <com.pacifyr.client.customview.MainTextView
             android:id="@+id/tv_time_right"
             style="@style/ChatTimeTextStyle"
@@ -37,10 +49,10 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="5dp"
-            tools:text="2:20 AM"
             android:textSize="@dimen/sp10"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="2:20 AM" />
 
         <com.pacifyr.client.customview.MainTextView
             android:id="@+id/tv_time_bottom"
@@ -49,10 +61,10 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="5dp"
             android:layout_marginBottom="5dp"
-            tools:text="2:20 AM"
             android:textSize="@dimen/sp10"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/tv_message" />
+            app:layout_constraintEnd_toEndOf="@+id/tv_message"
+            tools:text="2:20 AM" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

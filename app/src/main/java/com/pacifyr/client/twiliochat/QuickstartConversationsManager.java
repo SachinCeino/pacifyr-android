@@ -17,12 +17,16 @@ import com.twilio.conversations.ConversationsClientListener;
 import com.twilio.conversations.ErrorInfo;
 import com.twilio.conversations.Message;
 import com.twilio.conversations.Participant;
+import com.twilio.conversations.ProgressListener;
 import com.twilio.conversations.StatusListener;
 import com.twilio.conversations.User;
 
 import org.jetbrains.annotations.Nullable;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -147,6 +151,40 @@ class QuickstartConversationsManager {
                 }
             });
         }
+    }
+
+    void sendMedia(String file) throws FileNotFoundException {
+        conversation.sendMessage(
+                Message.options()
+                        .withMedia(new FileInputStream(file), "image/jpg")
+                        .withMediaFileName("file.jpg")
+                        .withMediaProgressListener(new ProgressListener() {
+                            @Override
+                            public void onStarted() {
+                                Log.d("sendMedia","Upload started");
+                            }
+
+                            @Override
+                            public void onProgress(long bytes) {
+                                Log.d("sendMedia","Uploaded " + bytes + " bytes");
+                            }
+
+                            @Override
+                            public void onCompleted(String mediaSid) {
+                                Log.d("sendMedia","Upload completed");
+                            }
+                        }),
+                new CallbackListener<Message>() {
+                    @Override
+                    public void onSuccess(Message msg) {
+                        Log.d("sendMedia","Successfully sent MEDIA message");
+                    }
+
+                    @Override
+                    public void onError(ErrorInfo error) {
+                        Log.e("sendMedia","Error sending MEDIA message");
+                    }
+                });
     }
 
 
