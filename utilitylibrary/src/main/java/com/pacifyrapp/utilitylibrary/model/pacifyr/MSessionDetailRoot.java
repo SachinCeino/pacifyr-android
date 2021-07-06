@@ -32,6 +32,7 @@ public class MSessionDetailRoot
     private String customerRating;
 
     private String reasonForTheCall;
+    private String billingStartTime;
 
     private MSessionRating[] sessionRatings;
 
@@ -70,6 +71,14 @@ public class MSessionDetailRoot
     private  String  timeSlotBookingId;
     private  String twilioRoomSID;
     private String twilioRoomName;
+
+    public String getBillingStartTime() {
+        return billingStartTime;
+    }
+
+    public void setBillingStartTime(String billingStartTime) {
+        this.billingStartTime = billingStartTime;
+    }
 
     public String getTwilioRoomName() {
         return twilioRoomName;

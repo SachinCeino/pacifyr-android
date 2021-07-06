@@ -49,6 +49,7 @@ import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -839,6 +840,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                 return;
             }
             AjaxCallback<JSONObject> cb = new AjaxCallback<JSONObject>() {
+                @RequiresApi(api = Build.VERSION_CODES.N)
                 @Override
                 public void callback(String url, JSONObject json, AjaxStatus status) {
                     hideProgress();
@@ -856,6 +858,15 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                                 billingStatus.setVisibility(View.VISIBLE);
                                 if (countDownTimer != null) {
                                     countDownTimer.cancel();
+                                }
+
+                                if (isValid(CallActivity.mSessionDetailRoot.getBillingStartTime()))
+                                {
+                                    long billingSatrtedSeconds=Utility.converToSecondsForJoin(CallActivity.mSessionDetailRoot.getBillingStartTime());
+                                    long currentTimeInSeconds=(Utility.getCurrentDateinMilliSeconds());
+
+                                    long difference= Math.toIntExact(currentTimeInSeconds - billingSatrtedSeconds);
+                                    startTimerWhileJoining(difference);
                                 }
                             }
                            /* if (isValid(getCallUser()))
@@ -2767,6 +2778,71 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
         }
     }
 
+
+    public void startTimerWhileJoining(long difference) {
+        if (!isStarted) {
+
+            if (isVideoCall) {
+                timerChronometer.setVisibility(View.VISIBLE);
+                timerChronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
+
+                    @Override
+                    public void onChronometerTick(Chronometer chronometer) {
+                        long time = SystemClock.elapsedRealtime() - chronometer.getBase();
+                        int h = (int) (time / 3600000);
+                        int m = (int) (time - h * 3600000) / 60000;
+                        int s = (int) (time - h * 3600000 - m * 60000) / 1000;
+                        String t = (h < 10 ? "0" + h : h) + ":" + (m < 10 ? "0" + m : m) + ":" + (s < 10 ? "0" + s : s);
+                        chronometer.setText(t);
+                    }
+                });
+
+                timerChronometer.setBase(SystemClock.elapsedRealtime()-difference);
+                timerChronometer.start();
+               /* if (isCustomer())
+                    if (!isCardExist()) {
+                        if (isValid(NetworkService.mCurrentUser)) {
+                            long time = NetworkService.mCurrentUser.getAvailableMinutes();
+                            setAvaiableTimer((time * 60) - 15);
+
+                        }
+
+
+                    }*/
+                isStarted = true;
+            }
+            else {
+                chronometer_timer_audio_call.setVisibility(View.VISIBLE);
+                chronometer_timer_audio_call.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
+
+                    @Override
+                    public void onChronometerTick(Chronometer chronometer) {
+                        long time = SystemClock.elapsedRealtime() - chronometer.getBase();
+                        int h = (int) (time / 3600000);
+                        int m = (int) (time - h * 3600000) / 60000;
+                        int s = (int) (time - h * 3600000 - m * 60000) / 1000;
+                        String t = (h < 10 ? "0" + h : h) + ":" + (m < 10 ? "0" + m : m) + ":" + (s < 10 ? "0" + s : s);
+                        chronometer.setText(t);
+                    }
+                });
+
+                chronometer_timer_audio_call.setBase(SystemClock.elapsedRealtime()-difference);
+                chronometer_timer_audio_call.start();
+                /*if (isCustomer())
+                    if (!isCardExist()) {
+                        if (isValid(NetworkService.mCurrentUser)) {
+                            long time = NetworkService.mCurrentUser.getAvailableMinutes();
+                            setAvaiableTimer((time * 60) - 15);
+
+                        }
+
+
+                    }*/
+                isStarted = true;
+            }
+        }
+    }
+
     public void hangUpCurrentSessionMe() {
         Log.d(TAG, "hangUpCurrentSessionMe");
         Bundle args =
@@ -3044,7 +3120,6 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
                         isCallActive = true;
                         if (isValid(connectionStatusLocal))
                             connectionStatusLocal.setText("Connected");
-                        startTimer();
                         webGetSessionDetail(SessionId);
                         isProviderConnected = true;
                         toggle_speaker.setClickable(true);

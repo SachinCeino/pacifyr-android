@@ -721,6 +721,28 @@ public class Utility {
     }
 
 
+    public static long converToSecondsForJoin(String data) {
+        long millis = 0;
+
+        try {
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+            format.setTimeZone(TimeZone.getTimeZone("GMT"));
+            Date date = null;
+            try {
+                date = format.parse(data);
+                millis= date.getTime();
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return millis;
+        //return (millis / 1000) % 60;
+    }
+
     public static long converToMilliSeconds(String date) {
         long millis = 0;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
