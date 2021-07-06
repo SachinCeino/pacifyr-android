@@ -203,6 +203,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
 
     private LinearLayout session_llay;
     private TextView Text_appointmentTime,MyLastSessionTitle;
+    private RelativeLayout appointMentBackground;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -222,6 +223,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
         session_llay=view.findViewById(R.id.session_llay);
         Text_appointmentTime=view.findViewById(R.id.Text_appointmentTime);
         MyLastSessionTitle=view.findViewById(R.id.MyLastSessionTitle);
+        appointMentBackground=view.findViewById(R.id.appointMentBackground);
 
 
         swipeRefreshLayout.setOnRefreshListener(this);
@@ -1197,6 +1199,7 @@ boolean itIsFirstCallFrom=true;
                            String time = Utility.getStartFormatDate(appointMentTime,getActivity());
                            Text_appointmentTime.setText(time+"");
                            MyLastSessionTitle.setText(getResources().getString(R.string.next_appointment));
+                           appointMentBackground.setBackground(getResources().getDrawable(R.drawable.solid_circle_red));
                            if (isValid(modelCustomerDashboard2.getNextAppointment().getPacifyr())
                            && isValid(modelCustomerDashboard2.getNextAppointment().getPacifyr().getImage()))
                            Glide.with(getContext()).load(GLOBAL_IMAGE_URL+modelCustomerDashboard2.getNextAppointment().getPacifyr().getImage()).transition(DrawableTransitionOptions.withCrossFade()).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).into(lastSessionDimv);
@@ -1214,6 +1217,7 @@ boolean itIsFirstCallFrom=true;
                         daysTxv.setVisibility(View.VISIBLE);
                         Text_appointmentTime.setVisibility(View.GONE);
                         MyLastSessionTitle.setText(getResources().getString(R.string.my_last_session));
+                        appointMentBackground.setBackground(getResources().getDrawable(R.drawable.solid_circle));
 
                     }
 
