@@ -36,6 +36,7 @@ import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.home.ProfileScreenActivity;
 import com.pacifyr.client.quickblox.App;
 import com.pacifyr.client.quickblox.chat.interfaces.AttachmentClick;
+import com.pacifyr.client.quickblox.chat.ui.activity.AttachmentImageActivity;
 import com.pacifyr.client.quickblox.chat.ui.activity.ChatActivity;
 import com.pacifyr.client.quickblox.chat.ui.activity.SelectUsersActivity;
 import com.pacifyr.client.quickblox.chat.ui.widget.BottomAttachDialog;
@@ -71,6 +72,7 @@ public class TwilioConversationActivity extends
         PacifyrActivity implements QuickstartConversationsManagerListener, AttachmentClick {
 
     String ActionbarTitle="";
+
 
     @Override
     public void onPause() {
@@ -130,6 +132,7 @@ public class TwilioConversationActivity extends
     private PrefManager prefM;
     private LinearLayoutManager layoutManager;
     private  BottomAttachDialog bottomSheet;
+    private static final String EXTRA_URL = "url";
 
     private static final int PICK_IMAGE = 130;
     Uri imageUri;
@@ -154,14 +157,14 @@ public class TwilioConversationActivity extends
         quickstartConversationsManager = new QuickstartConversationsManager();
         prefM = PrefManager.getInstance(this);
         layoutManager = new LinearLayoutManager(this);
-
+        bottomSheet = new BottomAttachDialog(isCallActive, this, false);
     }
 
     private void initView(){
         recyclerView = findViewById(R.id.messagesRecyclerView);
         writeMessageEditText = findViewById(R.id.writeMessageEditText);
         sendChatMessageButton = findViewById(R.id.sendChatMessageButton);
-        bottomSheet = new BottomAttachDialog(isCallActive, this, false);
+
 
     }
 
@@ -202,7 +205,8 @@ public class TwilioConversationActivity extends
         recyclerView.setLayoutManager(layoutManager);
 
         userId = prefM.getUserID();
-        messagesAdapter = new TwilioMessagesAdapter(quickstartConversationsManager, userId);
+        messagesAdapter = new TwilioMessagesAdapter(quickstartConversationsManager, userId,this);
+        recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(messagesAdapter);
 
     }
@@ -251,14 +255,13 @@ public class TwilioConversationActivity extends
         });
     }
 
+
+    /**
+     * List scroll to bottom
+     */
     private void pageScrollToBottom(){
         recyclerView.smoothScrollToPosition(messagesAdapter.getItemCount()+1);
 
-    }
-
-    public void openGallery(View view) {
-        Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
-        startActivityForResult(gallery, PICK_IMAGE);
     }
 
 
@@ -299,39 +302,17 @@ public class TwilioConversationActivity extends
 
 
                 }
-            } else if (resultCode == RESULT_OK && requestCode == PICK_IMAGE){
-                 Uri uri = data.getData();
-
-                 String[] filePathColumn = { MediaStore.Images.Media.DATA };
-                 Cursor cursor = getContentResolver().query(uri,filePathColumn, null, null, null);
-                 cursor.moveToFirst();
-                 int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                 String picturePath = cursor.getString(columnIndex);
-
-                 Log.w("file_name","imageUri: "+picturePath);
-
-                 try {
-                     quickstartConversationsManager.sendMedia(picturePath);
-                 } catch (FileNotFoundException e) {
-                     e.printStackTrace();
-                 }
-                 /*imageUri = data.getData();
-                 String path = imageUri.getPath(); // "/mnt/sdcard/FileName.mp3"
-                 try {
-                     File file = new File(new URI(path));
-                     String ttt =file.getAbsolutePath();
-                     Log.w("file_name","imageUri: "+ttt);
-                 } catch (URISyntaxException e) {
-                     e.printStackTrace();
-                 }*/
-
-
-                 //imageView.setImageURI(imageUri);
-             }
+            }
         }
     }
 
 
+    public static void start(Context context, String url) {
+        Intent intent = new Intent(context, AttachmentImageActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra(EXTRA_URL, url);
+        context.startActivity(intent);
+    }
 
     private void resizeImage(String url) {
 
@@ -349,7 +330,7 @@ public class TwilioConversationActivity extends
             @Override
             public void onResourceReady(@NonNull Drawable resource, @androidx.annotation.Nullable Transition<? super Drawable> transition) {
                 if (resource instanceof BitmapDrawable) {
-                    String fileName = "tmp_" + System.currentTimeMillis() + ".jpg";
+
                     File file = Utility.saveFileInCache(TwilioConversationActivity.this, ((BitmapDrawable) resource).getBitmap(), "tmp_" + System.currentTimeMillis() + ".jpg");
                     if (file != null) {
 
@@ -513,7 +494,7 @@ public class TwilioConversationActivity extends
         hideProgress();
         Log.w(TAG,"reloadMessages________");
     if (isValid(messagesAdapter))
-        messagesAdapter.notifyDataSetChanged();
+        messagesAdapter.notifyItemInserted(messagesAdapter.getItemCount());
 
         }
 

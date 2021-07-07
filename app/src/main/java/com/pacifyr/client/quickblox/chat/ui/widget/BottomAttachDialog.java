@@ -13,7 +13,6 @@ import androidx.annotation.Nullable;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.pacifyr.client.R;
 import com.pacifyr.client.quickblox.chat.interfaces.AttachmentClick;
-import com.pacifyr.client.quickblox.chat.ui.activity.ChatActivity;
 
 public class BottomAttachDialog extends BottomSheetDialogFragment implements View.OnClickListener {
     private ObjectView cam, gallery, doc;

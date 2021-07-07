@@ -1,5 +1,7 @@
 package com.pacifyr.client.twiliochat;
 
+import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +24,7 @@ import com.twilio.conversations.Message;
 public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAdapter.ViewHolder> {
     private static final int VIEW_TYPE_MESSAGE_SENT = 1;
     private static final int VIEW_TYPE_MESSAGE_RECEIVED = 2;
-
+    Context context;
     QuickstartConversationsManager quickstartConversationsManager;
     String userId;
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -38,11 +40,14 @@ public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAd
             ivImage =  itemView.findViewById(R.id.iv_image);
 
         }
+
+
     }
 
-    TwilioMessagesAdapter(QuickstartConversationsManager quickstartConversationsManager, String userId) {
+    TwilioMessagesAdapter(QuickstartConversationsManager quickstartConversationsManager, String userId, Context context) {
     this.quickstartConversationsManager=quickstartConversationsManager;
     this.userId=userId;
+    this.context=context;
     }
     @Override
     public int getItemViewType(int position) {
@@ -82,23 +87,38 @@ public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAd
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+        holder.setIsRecyclable(false);
+        Log.d("TAG", "re run");
         holder.ivImage.setVisibility(View.GONE);
         Message message = quickstartConversationsManager.getMessages().get(position);
        // String messageText = String.format("%s: %s", message.getAuthor(), message.getMessageBody());
         String messageText = message.getMessageBody();
         holder.messageText.setText(messageText);
+
         if (message.hasMedia()) {
             holder.ivImage.setVisibility(View.VISIBLE);
+            final String[] url = {null};
             message.getMediaContentTemporaryUrl(new CallbackListener<String>() {
                 @Override
                 public void onSuccess(String mediaContentUrl) {
+                    url[0] = mediaContentUrl;
 
-
-                    //Log.d("TAG", mediaContentUrl);
+                    Log.d("TAG", mediaContentUrl);
                     Glide.with(App.getInstance())
                             .load(mediaContentUrl)
-                            .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                            .skipMemoryCache(false)
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
                             .into(holder.ivImage);
+                }
+            });
+
+            holder.ivImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(url.length != 0){
+                        TwilioConversationActivity.start(context,url[0]);
+                    }
+
                 }
             });
         }
