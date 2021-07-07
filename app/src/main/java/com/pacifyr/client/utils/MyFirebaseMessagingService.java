@@ -177,11 +177,15 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
                 try {
                     String message = null;
+                    String text = null;
                     String _id = null;
                     String actual_type = null;
 
                     if (remoteMessage.getData().containsKey("message")) {
                         message = remoteMessage.getData().get("message") + "";
+                    }
+                    if (remoteMessage.getData().containsKey("text")) {
+                        text = remoteMessage.getData().get("text") + "";
                     }
                     if (remoteMessage.getData().containsKey("id")) {
                         _id = remoteMessage.getData().get("id");
@@ -316,7 +320,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                                 else if (actual_type.equals("sessionWaiting"))
                                 {
                                     Intent intent = new Intent(NotificationUtils.SESSION_DECLAINED_WAITING);
-                                    //intent.putExtra("message", message);
+                                    intent.putExtra("message", message);
                                     LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
                                 }
 

@@ -489,9 +489,24 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
             if (isValid(intent)) {
                 if (isValid(ringtonePlayer))
                     ringtonePlayer.stop();
-                setAlertOKStatusInWhite("", "Provider can't answer the call", "Ok");
+                String message=null;
+                if(isValid(intent.getExtras())&&isValid(intent.getExtras().get("message")))
+                {
+                    message=intent.getExtras().get("message").toString();
+                }
+                else {
+                    message="Provider can't answer the call";
+                }
                 sessionDeclainedByProvider = true;
-                hangUpCurrentSessionMe();
+                setAlertPacifyrWillJoinShortly("", message, "Ok", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        hideStatus();
+                        hideProgress();
+                        hangUpCurrentSessionMe();
+                    }
+                });
+
             }
 
 
@@ -504,7 +519,15 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
             if (isValid(intent)) {
                 if (isValid(ringtonePlayer))
                     ringtonePlayer.stop();
-                setAlertOKStatusInWhite("", "Provider is busy and will be with you shortly", "Ok");
+                String message=null;
+                if(isValid(intent.getExtras())&&isValid(intent.getExtras().get("message")))
+                {
+                    message=intent.getExtras().get("message").toString();
+                }
+                else {
+                    message="Provider is busy and will be with you shortly";
+                }
+                setAlertOKStatusInWhite("",message, "Ok");
                 sessionDeclainedByProvider = true;
             }
 
