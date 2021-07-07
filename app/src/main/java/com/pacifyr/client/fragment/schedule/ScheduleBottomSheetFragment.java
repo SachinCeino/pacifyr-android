@@ -411,7 +411,8 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
                                                     public void run() {
 
                                                         hideStatus();
-
+                                                        if (isValid(USPAYMENT_MESSAGE_SUMMARY))
+                                                        showBillingSummary(USPAYMENT_MESSAGE_SUMMARY);
                                                     }
                                                 }, 4000);
 
@@ -1519,6 +1520,7 @@ Log.w("WWW","onCreate");
 
     }
 
+    String USPAYMENT_MESSAGE_SUMMARY= null;
     private void callSlotBookApiAfterStripeSuccess(Slot singleSlote) {
 
         if (isValid(singleSlote)) {
@@ -1595,7 +1597,8 @@ Log.w("WWW","onCreate");
 
                                         if (status.equals("success"))
                                         {
-                                                 showBillingSummary(messsage);
+                                            USPAYMENT_MESSAGE_SUMMARY=messsage;
+                                            EventBus.getDefault().post("SCHEDULE_PAY");
                                         }
                                         else {
                                             setStatus(messsage, R.color.md_red_A700);
@@ -1708,7 +1711,7 @@ Log.w("WWW","onCreate");
             @Override
             public void onClick(View v) {
                 alertDialog.dismiss();
-                EventBus.getDefault().post("SCHEDULE_PAY");
+
             }
         });
 
