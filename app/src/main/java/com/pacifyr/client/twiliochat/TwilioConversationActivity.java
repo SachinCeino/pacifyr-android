@@ -252,12 +252,8 @@ public class TwilioConversationActivity extends
     }
 
     private void pageScrollToBottom(){
-        recyclerView.post(new Runnable() {
-            @Override
-            public void run() {
-                recyclerView.smoothScrollToPosition(messagesAdapter.getItemCount());
-            }
-        });
+        recyclerView.smoothScrollToPosition(messagesAdapter.getItemCount()+1);
+
     }
 
     public void openGallery(View view) {
