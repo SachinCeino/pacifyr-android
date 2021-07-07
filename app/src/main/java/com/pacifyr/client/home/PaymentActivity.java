@@ -16,6 +16,7 @@ import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.pacifyr.client.customview.MainTextView;
+import com.pacifyr.client.event.RateSessionEvent;
 import com.pacifyr.client.model.SubscriptionSavedCard;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
@@ -28,11 +29,16 @@ import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.utility.PacifyrAppCompactActivity;
 import com.squareup.otto.Subscribe;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONArray;
 
 import java.util.List;
 
+import static com.pacifyr.client.fragment.schedule.ScheduleBottomSheetFragment.isCardAddedFromAppointment;
 import static com.pacifyr.client.network.NetworkService.GLOBAL_URL;
+import static com.pacifyr.client.utils.Constants.PAYMENT_CARD_ADDED;
+import static com.pacifyr.client.utils.Constants.PAYMENT_CARD_ADDED_FINISH;
 
 public class PaymentActivity extends PacifyrAppCompactActivity {
 
@@ -43,6 +49,7 @@ public class PaymentActivity extends PacifyrAppCompactActivity {
     private PrefManager prefM;
     private String userToken,userid;
     private ListSavedCardAdapter listSavedCardAdapter;
+    private boolean isFromBooking=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,12 +62,18 @@ public class PaymentActivity extends PacifyrAppCompactActivity {
         credictCardCtxv = findViewById(R.id.credict_card_ctxv);
         cardRcv = findViewById(R.id.card_rcv);
 
+        if (isValid(getIntent())&&isValid(getIntent().getExtras()) && isValid(getIntent().getExtras().getBoolean("isFromBooking")))
+        {
+            isFromBooking=getIntent().getExtras().getBoolean("isFromBooking");
+        }
+
 
 
         credictCardCtxv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i=new Intent(PaymentActivity.this,AddCreditCardActivity.class);
+                i.putExtra("isFromBooking",isFromBooking);
                 startActivity(i);
             }
         });
@@ -193,5 +206,33 @@ public class PaymentActivity extends PacifyrAppCompactActivity {
         catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @org.greenrobot.eventbus.Subscribe(threadMode = ThreadMode.MAIN)
+    public void onCardAddedForAppointment(String event) {
+        try {
+           if (isValid(event) && event.equals(PAYMENT_CARD_ADDED))
+           {
+               isCardAddedFromAppointment=true;
+               finish();
+           }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 }

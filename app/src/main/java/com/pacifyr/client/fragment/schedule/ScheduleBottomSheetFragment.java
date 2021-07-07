@@ -81,6 +81,8 @@ import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 import static com.pacifyr.client.base.PacifyrActivity.errorCount;
 import static com.pacifyr.client.network.NetworkService.GLOBAL_IMAGE_URL;
+import static com.pacifyr.client.utils.Constants.PAYMENT_CARD_ADDED;
+import static com.pacifyr.client.utils.Constants.PAYMENT_CARD_ADDED_FINISH;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
 
 public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
@@ -869,6 +871,18 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
         Log.w("WWW","onStart");
         EventBus.getDefault().register(this);
     }
+    public static boolean isCardAddedFromAppointment=false;
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.w("WWW","onResume");
+        if (isCardAddedFromAppointment)
+        {
+            isCardAddedFromAppointment=false;
+            checkIfCardIsAddedOrNot(SlotForNextClick);
+        }
+    }
+
 
     @Override
     public void onStop() {
@@ -896,12 +910,6 @@ Log.w("WWW","onCreate");
         Log.w("WWW","onDestroy");
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        Log.w("WWW","onResume");
-
-    }
 
     @Override
     public void onPause() {
@@ -1482,6 +1490,7 @@ Log.w("WWW","onCreate");
                             @Override
                             public void onClick(iOSDialog dialog) {
                                 Intent i = new Intent(getActivity(), PaymentActivity.class);
+                                i.putExtra("isFromBooking",true);
                                 startActivity(i);
                                 dialog.dismiss();
                             }
@@ -1902,7 +1911,6 @@ Log.w("WWW","onCreate");
             e.printStackTrace();
         }
     }
-
 
     public void hideProgress() {
         try {
