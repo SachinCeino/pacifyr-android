@@ -1353,7 +1353,7 @@ Log.w("WWW","onCreate");
                                                                 bookingTempId = bookingTempId + "_" + errorCount;
                                                             String finalBookingTempId = bookingTempId;
                                                             float finalCost = cost;
-                                                            ((PacifyrActivity)getActivity()).setAlertStatusInWhiteNoInternet("","You will be charged amount "+Utility.getPriceSign(getActivity())+ Math.round(cost)+" for this session. Do you want to continue?" , "Yes","No", new View.OnClickListener() {
+                                                            ((PacifyrActivity)getActivity()).setAlertStatusInWhiteNoInternet("","You will be charged amount "+Utility.getPriceSign(getActivity())+ cost+" for this session. Do you want to continue?" , "Yes","No", new View.OnClickListener() {
                                                                 @Override
                                                                 public void onClick(View v) {
                                                                     ((PacifyrActivity) getActivity()).hideProgress();
@@ -1387,7 +1387,7 @@ Log.w("WWW","onCreate");
                                                             });
 
                                                         } else {
-                                                            ((PacifyrActivity)getActivity()).setAlertStatusInWhiteNoInternet("","You will be charged amount $"+ Math.round(cost)+" for this session. Do you want to continue?" , "Yes","No", new View.OnClickListener() {
+                                                            ((PacifyrActivity)getActivity()).setAlertStatusInWhiteNoInternet("","You will be charged amount $"+ String.valueOf(cost)+" for this session. Do you want to continue?" , "Yes","No", new View.OnClickListener() {
                                                                 @Override
                                                                 public void onClick(View v) {
                                                                     ((PacifyrActivity) getActivity()).hideProgress();
