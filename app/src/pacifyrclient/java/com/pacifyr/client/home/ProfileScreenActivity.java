@@ -71,6 +71,7 @@ import java.util.TimerTask;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.pacifyr.client.twilio.VideoActivity.isCallActive;
+import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_IMAGE_URL;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
 
 public class ProfileScreenActivity extends PacifyrAppCompactActivity {
@@ -598,10 +599,10 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
             if (isValid(pacifyerDetial.getQbid()))
                 qbID=pacifyerDetial.getQbid();
             hideProgress();
-            if(isValid(pacifyerDetial.getImageUrl())) {
-                imgUrl = pacifyerDetial.getImageUrl();
-                if (isValidhtml(imgUrl))
-                    Picasso.with(this).load(imgUrl).placeholder(R.drawable.placeholder_user).into(profileCimv);
+            if(isValid(pacifyerDetial.getImage())) {
+                imgUrl = pacifyerDetial.getImage();
+                if (isValid(imgUrl))
+                    Picasso.with(this).load(GLOBAL_IMAGE_URL+imgUrl).placeholder(R.drawable.placeholder_user).into(profileCimv);
             }
             if (isValid(pacifyerDetial.getDescription()))
                 snapshotCtxv.setText(pacifyerDetial.getDescription());
@@ -1031,79 +1032,6 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
 
 
     //Used this function when profile response is changed and got exception
-    private void updateProfile(JSONObject user) {
-        try {
-
-            if (isValid(pacifyerDetial.getQbid()))
-                qbID=pacifyerDetial.getQbid();
-            hideProgress();
-
-             String imgUrl =  user.getString("image");
-            profileRating.setRating(Float.valueOf(user.getString("rating")));
-            profileNameCtxv.setText(user.getString("firstName") + user.getString("lastName"));
-            ratingCtxv.setText(user.getString("numberOfReviews") + " Reviews");
-
-            if (isValid(imgUrl))
-                if(imgUrl.contains("http")||imgUrl.contains("https"))
-                    imgUrl=imgUrl;
-                else
-                    imgUrl= UtilityNetworkService.GLOBAL_IMAGE_URL + imgUrl;
-
-            if (isValidhtml(imgUrl))
-                Picasso.with(this).load(imgUrl).placeholder(R.drawable.placeholder_user).into(profileCimv);
-
-            if (isValid(user.getString("description"))) {
-                snapshotCtxv.setText(user.getString("description"));
-            }
-            else {
-                snapshotCard.setVisibility(View.GONE);
-            }
-
-            if (isValid(user.getString("websiteURL"))) {
-                websiteCtxv.setText(user.getString("websiteURL"));
-            }
-            else {
-                blogCard.setVisibility(View.GONE);
-            }
-            myList = new ArrayList<String>();
-            JSONArray specialArray=user.getJSONArray("specialities");
-            for (int i=0;i<specialArray.length();i++)
-            {
-                String data = specialArray.getString(i);
-                myList.add(data);
-            }
-            if (isValid(myList)) {
-                //Speciality adapter
-                SpecialRecyclerView = findViewById(R.id.special_rcv);
-                SpecialLayoutManager = new LinearLayoutManager(this);
-                SpecialRecyclerView.setLayoutManager(SpecialLayoutManager);
-                SpecialAdapter = new SpecilaListProfileAdapter(myList, ProfileScreenActivity.this);
-                SpecialRecyclerView.setAdapter(SpecialAdapter);
-            } else {
-                specialityCard.setVisibility(View.GONE);
-            }
-
-
-            // educationsList = pacifyerDetial.getEducationList();
-            JSONArray eduArray=user.getJSONArray("education");
-            if (isValid(eduArray)) {
-                //education adapter
-                EducationRecyclerView = findViewById(R.id.education_rcv);
-                EducationLayoutManager = new LinearLayoutManager(this);
-                EducationRecyclerView.setLayoutManager(EducationLayoutManager);
-                // EducationAdapter = new EducationProfileAdapter(eduArray, ProfileScreenActivity.this);
-                EducationRecyclerView.setAdapter(EducationAdapter);
-            } else {
-                educationCard.setVisibility(View.GONE);
-            }
-
-
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-    }
 
 
     private void callChatSubScription(String pacifyrID) {
