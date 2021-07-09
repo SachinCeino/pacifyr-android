@@ -22,18 +22,23 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.androidquery.AQuery;
+import com.androidquery.callback.AjaxCallback;
+import com.androidquery.callback.AjaxStatus;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.FutureTarget;
 import com.bumptech.glide.request.Request;
 import com.bumptech.glide.request.target.SizeReadyCallback;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
+import com.google.gson.Gson;
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.opensooq.supernova.gligar.GligarPicker;
 import com.pacifyr.client.R;
 import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.home.ProfileScreenActivity;
+import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.quickblox.App;
 import com.pacifyr.client.quickblox.chat.interfaces.AttachmentClick;
 import com.pacifyr.client.quickblox.chat.ui.activity.AttachmentImageActivity;
@@ -52,6 +57,7 @@ import com.twilio.conversations.Message;
 import com.twilio.conversations.ProgressListener;
 
 import org.jetbrains.annotations.Nullable;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -65,6 +71,7 @@ import java.util.concurrent.ExecutionException;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.pacifyr.client.network.NetworkService.GLOBAL_IMAGE_URL;
+import static com.pacifyr.client.network.NetworkService.GLOBAL_URL;
 import static com.pacifyr.client.twilio.VideoActivity.isCallActive;
 
 
@@ -136,6 +143,15 @@ public class TwilioConversationActivity extends
 
     private static final int PICK_IMAGE = 130;
     Uri imageUri;
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        DEFAULT_CONVERSATION_NAME = "general";
+        if(quickstartConversationsManager != null){
+            quickstartConversationsManager.leaveFromChat();
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -265,11 +281,17 @@ public class TwilioConversationActivity extends
     }
 
 
+    /**
+     * Show bottom sheet for select attach type
+     */
     private void shoImagePickerAlert(View view) {
 
         bottomSheet.show(getSupportFragmentManager(), "AttachBottomSheet");
     }
 
+    /**
+     * Check Gallery permission and show image picker
+     */
     public void onAttachmentsClick(View view) {
         if (Utility.checkPermission(this, "chat")) {
             shoImagePickerAlert(view);
@@ -306,6 +328,50 @@ public class TwilioConversationActivity extends
         }
     }
 
+    /**
+     * Api call for all message read status
+     */
+    public void apiCallMessageRead(){
+
+        PrefManager prefM= PrefManager.getInstance(this);
+        String userToken=prefM.getAccessToken();
+        String userid=prefM.getUserID();
+        String conversationId = mTwilioConversationCreate.getTwilioConversationId();
+
+
+        String url = GLOBAL_URL+"twilio/webhooks/message.read";
+        AjaxCallback cb = new AjaxCallback<JSONObject>() {
+            @Override
+            public void callback(String url, JSONObject json, AjaxStatus status) {
+                try {
+                    String jsonS = json.toString();
+                    Log.w(TAG, "Messeaage read: "+jsonS);
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+
+            AQuery aq = new AQuery(TwilioConversationActivity.this);
+            cb.header("Content-Type", "application/json");
+            cb.header("AccessToken",userToken);
+
+        try {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.putOpt("twilioConversationId",conversationId);
+            jsonObject.putOpt("userId",userid);
+            aq.post(url,jsonObject, JSONObject.class, cb);
+        }
+        catch (Exception ex)
+        {
+            //hideProgress();
+            ex.printStackTrace();
+        }
+    }
+
 
     public static void start(Context context, String url) {
         Intent intent = new Intent(context, AttachmentImageActivity.class);
@@ -314,6 +380,9 @@ public class TwilioConversationActivity extends
         context.startActivity(intent);
     }
 
+    /**
+     * Resize Image for upload
+     */
     private void resizeImage(String url) {
 
         Glide.with(this).load(url).override(1200, 1200).into(new Target<Drawable>() {
@@ -477,6 +546,7 @@ public class TwilioConversationActivity extends
         if (isValid(messagesAdapter)) {
             messagesAdapter.notifyItemInserted(messagesAdapter.getItemCount() + 1);
             pageScrollToBottom();
+            apiCallMessageRead();
         }
     }
 
@@ -495,7 +565,7 @@ public class TwilioConversationActivity extends
         Log.w(TAG,"reloadMessages________");
     if (isValid(messagesAdapter))
         messagesAdapter.notifyItemInserted(messagesAdapter.getItemCount());
-
+        apiCallMessageRead();
         }
 
     @Override

@@ -22,12 +22,12 @@ import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 
 import org.jetbrains.annotations.Nullable;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -43,6 +43,8 @@ public class TwilioCoversationListActivity extends PacifyrActivity implements Qu
     @Override
     public void onPause() {
         super.onPause();
+        if(mLinearLayoutManager != null)
+        currentVisiblePosition = mLinearLayoutManager.findFirstCompletelyVisibleItemPosition();
 
     }
     @Override
@@ -66,6 +68,9 @@ public class TwilioCoversationListActivity extends PacifyrActivity implements Qu
     private TextView mEmptyLayout;
     private RecyclerView RecyclerView_chatParticipants;
     private TwilioChatListAdapter mTwilioChatListAdapter;
+    int currentVisiblePosition = 0;
+    private List<TwilioConversationCreate> results = new ArrayList<>();
+    private LinearLayoutManager mLinearLayoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,8 +80,9 @@ public class TwilioCoversationListActivity extends PacifyrActivity implements Qu
         RecyclerView_chatParticipants=findViewById(R.id.RecyclerView_chatParticipants);
 
         onSetActionBar();
-        getConversationParticipantsList();
+
         //retrieveTokenFromServer();
+        setUpParticipantsListAdapter();
 
     }
 
@@ -87,7 +93,7 @@ public class TwilioCoversationListActivity extends PacifyrActivity implements Qu
 
         PrefManager prefM= PrefManager.getInstance(TwilioCoversationListActivity.this);
         String userToken=prefM.getAccessToken();
-        String userid=prefM.getUserID();
+       // String userid=prefM.getUserID();
         String url = NetworkService.GLOBAL_URL+"messages/customer?skip=0&limit=25";
         AjaxCallback cb = new AjaxCallback<JSONObject>() {
             @Override
@@ -102,7 +108,10 @@ public class TwilioCoversationListActivity extends PacifyrActivity implements Qu
                         if (isValid(mTwilioChatParticipants) && isValidSize(mTwilioChatParticipants.getResults()))
                         {
                             mEmptyLayout.setVisibility(View.GONE);
-                            setUpParticipantsListAdapter(mTwilioChatParticipants.getResults());
+                            results.clear();
+                            results.addAll(mTwilioChatParticipants.getResults());
+                            mTwilioChatListAdapter.notifyDataSetChanged();
+                            //setUpParticipantsListAdapter(mTwilioChatParticipants.getResults());
                         }
                         else
                         {
@@ -133,13 +142,27 @@ public class TwilioCoversationListActivity extends PacifyrActivity implements Qu
         }
     }
 
-    private void setUpParticipantsListAdapter(List<TwilioConversationCreate> results) {
-        mTwilioChatListAdapter=new TwilioChatListAdapter(getApplicationContext(),results);
-        LinearLayoutManager mLinearLayoutManager=new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.VERTICAL,false);
+    private void setUpParticipantsListAdapter() {
+        mTwilioChatListAdapter=new TwilioChatListAdapter(this,results);
+         mLinearLayoutManager=new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.VERTICAL,false);
         RecyclerView_chatParticipants.setLayoutManager(mLinearLayoutManager);
         RecyclerView_chatParticipants.setAdapter(mTwilioChatListAdapter);
 
+    }
 
+    public void clearUnreadCount(TwilioConversationCreate item){
+        if (isValid(item.getTwilioConversationId()))
+        {
+            TwilioConversationActivity.start(this,item);
+
+            for (int i=0 ; i < results.size();i++){
+                if(results.get(i).getId().equals(item.getId())){
+                    results.get(i).getUnreadStatus().get(0).setUnreadCount(0);
+                    mTwilioChatListAdapter.notifyItemChanged(i);
+                }
+            }
+
+        }
     }
 
 
@@ -211,21 +234,28 @@ public class TwilioCoversationListActivity extends PacifyrActivity implements Qu
     @Override
     protected void onResume() {
         super.onResume();
+        getConversationParticipantsList();
+        if(mLinearLayoutManager != null){
+            mLinearLayoutManager.scrollToPosition(currentVisiblePosition);
+            currentVisiblePosition = 0;
+        }
 
     }
 
     @Override
     public void receivedNewMessage() {
-
+        Log.w("TAG","receivedNewMessage________");
     }
 
     @Override
     public void messageSentCallback() {
-
+        Log.w("TAG","messageSentCallback________");
     }
 
     @Override
     public void reloadMessages() {
-
+        Log.w("TAG","reloadMessages________");
     }
+
+
 }

@@ -138,7 +138,13 @@ class QuickstartConversationsManager {
 
     }
 
+    void leaveFromChat(){
+        if(conversation!= null)
+        conversation.removeListener(mDefaultConversationListener);
+    }
+
     void sendMessage(String messageBody) {
+
         if (conversation != null) {
             Message.Options options = Message.options().withBody(messageBody);
             Log.d("TWILIO","Message created");
@@ -190,6 +196,7 @@ class QuickstartConversationsManager {
 
     private void loadChannels() {
         if (conversationsClient == null || conversationsClient.getMyConversations() == null) {
+
             return;
         }
         conversationsClient.getConversation(DEFAULT_CONVERSATION_NAME, new CallbackListener<Conversation>() {
@@ -266,6 +273,8 @@ class QuickstartConversationsManager {
         });
     }
 
+
+
     private void loadPreviousMessages(final Conversation conversation) {
         conversation.getLastMessages(100,
                 new CallbackListener<List<Message>>() {
@@ -278,6 +287,7 @@ class QuickstartConversationsManager {
                     }
                 });
     }
+
 
     private final ConversationsClientListener mConversationsClientListener =
             new ConversationsClientListener() {

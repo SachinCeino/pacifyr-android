@@ -25,10 +25,13 @@ public class TwilioChatListAdapter extends RecyclerView.Adapter<TwilioChatListAd
     private Context mContext;
     private List<TwilioConversationCreate> results;
 
+
+
     public TwilioChatListAdapter(Context mContext, List<TwilioConversationCreate> results) {
         this.mContext=mContext;
         this.results=results;
     }
+
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -86,12 +89,19 @@ public class TwilioChatListAdapter extends RecyclerView.Adapter<TwilioChatListAd
             }
             Picasso.with(mContext).load(imgUrl).placeholder(R.drawable.placeholder_user).into(holder.mImage);
 
+            /*holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    listener.onItemClick(results.get(position));
+                }
+            });*/
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (isValid(object) && isValid(object.getTwilioConversationId()))
                     {
-                        TwilioConversationActivity.start(mContext,object);
+                        //TwilioConversationActivity.start(mContext,object);
+                        ((TwilioCoversationListActivity) mContext).clearUnreadCount(object);
                     }
                 }
             });
@@ -131,5 +141,5 @@ public class TwilioChatListAdapter extends RecyclerView.Adapter<TwilioChatListAd
         return false;
 
     }
-
 }
+
