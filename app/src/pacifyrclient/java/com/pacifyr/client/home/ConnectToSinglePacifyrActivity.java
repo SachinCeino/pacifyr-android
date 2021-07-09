@@ -546,6 +546,8 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
 
                         if (isLoggedInChat()) {
 
+                            if (!isOnline)
+                                return;
                                 setAlertStartCall(pacifyer_obj, new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
@@ -568,7 +570,8 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
 
 
                             if (isLoggedInChat()) {
-
+                                if (!isOnline)
+                                    return;
                                 setAlertStartCall(pacifyer_obj, new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
