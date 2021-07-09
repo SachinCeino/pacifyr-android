@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.signature.ObjectKey;
 import com.pacifyr.client.R;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.quickblox.App;
@@ -87,7 +88,7 @@ public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAd
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.setIsRecyclable(false);
+       // holder.setIsRecyclable(false);
         Log.d("TAG", "re run");
         holder.ivImage.setVisibility(View.GONE);
         Message message = quickstartConversationsManager.getMessages().get(position);
@@ -98,19 +99,23 @@ public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAd
         if (message.hasMedia()) {
             holder.ivImage.setVisibility(View.VISIBLE);
             final String[] url = {null};
-            message.getMediaContentTemporaryUrl(new CallbackListener<String>() {
-                @Override
-                public void onSuccess(String mediaContentUrl) {
-                    url[0] = mediaContentUrl;
 
-                    Log.d("TAG", mediaContentUrl);
-                    Glide.with(App.getInstance())
-                            .load(mediaContentUrl)
-                            .skipMemoryCache(false)
-                            .diskCacheStrategy(DiskCacheStrategy.ALL)
-                            .into(holder.ivImage);
-                }
-            });
+                message.getMediaContentTemporaryUrl(new CallbackListener<String>() {
+                    @Override
+                    public void onSuccess(String mediaContentUrl) {
+                        url[0] = mediaContentUrl;
+                        if(holder.ivImage.getDrawable() == null) {
+                            Log.d("TAG", mediaContentUrl);
+                            Glide.with(App.getInstance())
+                                    .load(mediaContentUrl)
+                                    .skipMemoryCache(false)
+                                    .signature(new ObjectKey(mediaContentUrl))
+                                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                                    .into(holder.ivImage);
+
+                        }
+                        }
+                });
 
             holder.ivImage.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -121,7 +126,10 @@ public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAd
 
                 }
             });
+            Log.d("TAG", "mediaContentUrl"+message.getMediaFileName());
         }
+
+
 
         //Time
         if(messageText.length() > 15 || message.hasMedia()){
