@@ -192,9 +192,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="end"
-            android:maxLines="@integer/swipe_card_desc_lines"
             android:textSize="@dimen/swipe_card_desc_sp"
             android:padding="2dp"
+            android:lines="3"
             android:id="@+id/description_ctxv"
             android:textColor="@color/grey_dark_text" />
 
