@@ -1,7 +1,10 @@
 package com.pacifyr.client.twiliochat;
 
+import android.content.ClipData;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -9,6 +12,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -19,6 +23,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -56,6 +61,7 @@ import com.twilio.conversations.Conversation;
 import com.twilio.conversations.Message;
 import com.twilio.conversations.ProgressListener;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.json.JSONObject;
 
@@ -70,9 +76,11 @@ import java.util.concurrent.ExecutionException;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static android.content.Intent.EXTRA_ALLOW_MULTIPLE;
 import static com.pacifyr.client.network.NetworkService.GLOBAL_IMAGE_URL;
 import static com.pacifyr.client.network.NetworkService.GLOBAL_URL;
 import static com.pacifyr.client.twilio.VideoActivity.isCallActive;
+import static com.pacifyr.client.utils.Utility.MY_PERMISSIONS_REQUEST_CHAT_PERMISSION;
 
 
 public class TwilioConversationActivity extends
@@ -143,6 +151,7 @@ public class TwilioConversationActivity extends
 
     private static final int PICK_IMAGE = 130;
     Uri imageUri;
+    View attachPendingView;
 
     @Override
     protected void onDestroy() {
@@ -296,8 +305,69 @@ public class TwilioConversationActivity extends
         if (Utility.checkPermission(this, "chat")) {
             shoImagePickerAlert(view);
         } else {
-           // attachPendingView = view;
+            Log.w("requestCode","attachPendingView: ");
+            attachPendingView = view;
         }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull @NotNull String[] permissions, @NonNull @NotNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        Log.w("requestCode","requestCode: "+requestCode);
+
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_CHAT_PERMISSION: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length == 2
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED &&
+                        grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+                    shoImagePickerAlert(attachPendingView);
+
+                } else {
+                    permissionDenied();
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }
+                return;
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
+    }
+
+    /**
+     * When User denied storage or gallery permission, will show the Alert dialog
+     */
+    private void permissionDenied(){
+        //If User was asked permission before and denied
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+
+        alertDialogBuilder.setTitle("Permission needed");
+        alertDialogBuilder.setMessage("Storage permission needed for accessing photos");
+        alertDialogBuilder.setPositiveButton("Open Setting", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Intent intent = new Intent();
+                intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                Uri uri = Uri.fromParts("package", TwilioConversationActivity.this.getPackageName(),
+                        null);
+                intent.setData(uri);
+                TwilioConversationActivity.this.startActivity(intent);
+            }
+        });
+        alertDialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Log.d(TAG, "onClick: Cancelling");
+            }
+        });
+
+        AlertDialog dialog = alertDialogBuilder.create();
+        dialog.show();
     }
 
     @Override
@@ -313,8 +383,26 @@ public class TwilioConversationActivity extends
                 }
             }
             else if (requestCode == REQUESTCODE_GALLERY_IMAGE) {
-                String dataStr = data.getDataString();
-                Uri pathsList = data.getData();
+               // String dataStr = data.getDataString();
+
+
+                 if (isValid(data.getClipData())) {
+                     ClipData mClipData = data.getClipData();
+                     for (int i = 0; i < mClipData.getItemCount(); i++) {
+                         ClipData.Item item = mClipData.getItemAt(i);
+                         Uri uri = item.getUri();
+                         // display your images
+                         resizeImage(uri.toString());
+                     }
+                 } else if (isValid(data.getData())) {
+                     Uri uri = data.getData();
+                     // display your image
+                     resizeImage(uri.toString());
+                 }
+
+
+
+                /*Uri pathsList = data.getData();
                 if (isValid(pathsList)) {
 
                     //Log.w("file_name","imageUri: "+pathsList[0].);
@@ -323,7 +411,7 @@ public class TwilioConversationActivity extends
 
 
 
-                }
+                }*/
             }
         }
     }
@@ -579,6 +667,7 @@ public class TwilioConversationActivity extends
                 Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
                 intent.addCategory(Intent.CATEGORY_OPENABLE);
                 intent.setType("image/*");
+                intent.putExtra(EXTRA_ALLOW_MULTIPLE, true);
                 Uri pickerInitialUri = null;
                 // Optionally, specify a URI for the file that should appear in the
                 // system file picker when it loads.
