@@ -3094,6 +3094,8 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
 
                     } else {
                         getCurrentUserProfileInfo();
+                        if (!hasBillingStarted())
+                        startTimer();
                     }
 
 
