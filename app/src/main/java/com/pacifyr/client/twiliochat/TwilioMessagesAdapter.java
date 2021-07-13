@@ -28,9 +28,10 @@ public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAd
     Context context;
     QuickstartConversationsManager quickstartConversationsManager;
     String userId;
+    String lastMsgDate="";
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        final MainTextView messageText,tvTimeRight,tvTimeBottom;
+        final MainTextView messageText,tvTimeRight,tvTimeBottom,tvDate;
         final ImageView ivImage;
 
         ViewHolder(View itemView) {
@@ -39,6 +40,7 @@ public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAd
             tvTimeRight = (MainTextView) itemView.findViewById(R.id.tv_time_right);
             tvTimeBottom = (MainTextView) itemView.findViewById(R.id.tv_time_bottom);
             ivImage =  itemView.findViewById(R.id.iv_image);
+            tvDate =  itemView.findViewById(R.id.tv_date);
 
         }
 
@@ -91,8 +93,23 @@ public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAd
        // holder.setIsRecyclable(false);
         Log.d("TAG", "re run");
         holder.ivImage.setVisibility(View.GONE);
+        holder.tvDate.setVisibility(View.GONE);
+
+
         Message message = quickstartConversationsManager.getMessages().get(position);
-       // String messageText = String.format("%s: %s", message.getAuthor(), message.getMessageBody());
+
+        //Date
+        String date = Utility.getDate(message.getDateCreated(),false);
+        holder.tvDate.setText(date);
+        if(lastMsgDate.isEmpty() || !lastMsgDate.equals(date)){
+            holder.tvDate.setVisibility(View.VISIBLE);
+            lastMsgDate = date;
+        }else {
+            holder.tvDate.setVisibility(View.GONE);
+        }
+        //---------------------//
+
+
         String messageText = message.getMessageBody();
         holder.messageText.setText(messageText);
 
@@ -145,7 +162,6 @@ public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAd
         holder.tvTimeBottom.setText(time);
 
         ///////////////////////////
-
 
     }
 

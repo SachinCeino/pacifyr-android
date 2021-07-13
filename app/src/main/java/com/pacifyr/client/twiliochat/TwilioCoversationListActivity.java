@@ -257,5 +257,10 @@ public class TwilioCoversationListActivity extends PacifyrActivity implements Qu
         Log.w("TAG","reloadMessages________");
     }
 
+    @Override
+    public void messageTyping(Boolean visible) {
+
+    }
+
 
 }

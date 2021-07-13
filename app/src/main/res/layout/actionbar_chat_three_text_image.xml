@@ -2,14 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/action_bar_top_llay"
     android:layout_height="match_parent"
     android:background="@drawable/gray_actionbar_background"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
 
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/bottom_panel"
@@ -39,18 +39,39 @@
                 android:layout_centerHorizontal="true"
                 android:layout_alignParentStart="true" />
 
-            <com.pacifyr.client.customview.MainTextView
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/user_cimv"
-                android:id="@+id/left_txv"
-                android:paddingStart="@dimen/dp10"
-                android:textSize="@dimen/sp18"
-                android:visibility="gone"
-                android:text=""
-                android:layout_centerVertical="true"
-                android:textColor="@color/_color_action_bar_text_color"
-                />
+                android:orientation="vertical"
+                android:layout_toRightOf="@+id/user_cimv">
+
+                <com.pacifyr.client.customview.MainTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/left_txv"
+                    android:paddingStart="@dimen/dp10"
+                    android:paddingEnd="@dimen/sp10"
+                    android:textSize="@dimen/sp18"
+                    android:visibility="gone"
+                    tools:text="User name"
+                    android:textColor="@color/_color_action_bar_text_color"
+                    />
+
+                <com.pacifyr.client.customview.MainTextView
+                    android:id="@+id/tv_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/dp10"
+                    android:paddingEnd="@dimen/sp10"
+                    android:textSize="@dimen/sp11"
+                    android:visibility="gone"
+                    android:text="@string/typing"
+                    android:textColor="@color/_color_action_bar_text_color"
+                    />
+
+            </LinearLayout>
+
+
         </LinearLayout>
         <com.pacifyr.client.customview.MainTextView
             android:layout_width="wrap_content"

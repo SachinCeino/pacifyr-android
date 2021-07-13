@@ -13,6 +13,9 @@ import android.os.Bundle;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.provider.Settings;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -87,6 +90,7 @@ public class TwilioConversationActivity extends
         PacifyrActivity implements QuickstartConversationsManagerListener, AttachmentClick {
 
     String ActionbarTitle="";
+    private boolean typingStarted;
 
 
     @Override
@@ -121,7 +125,7 @@ public class TwilioConversationActivity extends
     private RelativeLayout bottomPanel;
     private LinearLayout leftLlay;
     private DeviceFitImageView backImv;
-    private MainTextView leftTxv;
+    private MainTextView leftTxv,tvStatus;
     private MainTextView titleTxv;
     private LinearLayout rightLlay;
     private MainTextView rightTxv;
@@ -140,8 +144,6 @@ public class TwilioConversationActivity extends
     private QuickstartConversationsManager quickstartConversationsManager;
 
     public static String DEFAULT_CONVERSATION_NAME = "general";
-    private CircleImageView civUserPic;
-    private MainTextView tvUserName;
     private RecyclerView recyclerView;
     private ImageButton sendChatMessageButton;
     private PrefManager prefM;
@@ -189,6 +191,7 @@ public class TwilioConversationActivity extends
         recyclerView = findViewById(R.id.messagesRecyclerView);
         writeMessageEditText = findViewById(R.id.writeMessageEditText);
         sendChatMessageButton = findViewById(R.id.sendChatMessageButton);
+        tvStatus = findViewById(R.id.tv_status);
 
 
     }
@@ -277,6 +280,44 @@ public class TwilioConversationActivity extends
                 }
 
             }
+        });
+
+        writeMessageEditText.addTextChangedListener(new TextWatcher() {
+
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            public void afterTextChanged(Editable s) {
+
+                quickstartConversationsManager.messageTyping();
+
+               /* if (!TextUtils.isEmpty(s.toString()) && s.toString().trim().length() == 1) {
+
+                    //Log.i(TAG, “typing started event…”);
+
+                    typingStarted = true;
+
+                    quickstartConversationsManager.messageTyping();
+
+                    //send typing started status
+
+                } else if (s.toString().trim().length() == 0 && typingStarted) {
+
+                    //Log.i(TAG, “typing stopped event…”);
+
+                    typingStarted = false;
+
+                    //send typing stopped status
+
+                }*/
+
+            }
+
         });
     }
 
@@ -460,6 +501,18 @@ public class TwilioConversationActivity extends
         }
     }
 
+    /**
+     * Show typing indicator on title bar
+     */
+    private void showTyping(Boolean visible){
+        if(visible){
+            tvStatus.setVisibility(View.VISIBLE);
+        }else {
+            tvStatus.setVisibility(View.GONE);
+        }
+
+    }
+
 
     public static void start(Context context, String url) {
         Intent intent = new Intent(context, AttachmentImageActivity.class);
@@ -627,6 +680,15 @@ public class TwilioConversationActivity extends
         super.onResume();
 
     }
+
+    @Override
+    public void messageTyping(Boolean visible) {
+        Log.w(TAG,"messageTyping________");
+        if (isValid(messagesAdapter)) {
+            showTyping(visible);
+        }
+    }
+
 
     @Override
     public void receivedNewMessage() {

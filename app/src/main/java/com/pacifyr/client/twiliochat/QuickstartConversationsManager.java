@@ -38,6 +38,7 @@ interface QuickstartConversationsManagerListener {
     void receivedNewMessage();
     void messageSentCallback();
     void reloadMessages();
+    void messageTyping(Boolean visible);
 }
 
 interface TokenResponseListener {
@@ -141,6 +142,13 @@ class QuickstartConversationsManager {
     void leaveFromChat(){
         if(conversation!= null)
         conversation.removeListener(mDefaultConversationListener);
+    }
+
+    void messageTyping(){
+        if (conversation != null) {
+            Log.d("TWILIO", "Msg typing........Clint: " );
+            conversation.typing();
+        }
     }
 
     void sendMessage(String messageBody) {
@@ -249,7 +257,7 @@ class QuickstartConversationsManager {
     private void joinConversation(final Conversation conversation) {
         Log.d("TWILIO", "Joining Conversation: " + conversation.getUniqueName());
         if (conversation.getStatus() == Conversation.ConversationStatus.JOINED) {
-
+            conversation.typing();
             QuickstartConversationsManager.this.conversation = conversation;
             Log.d("TWILIO", "Already joined default conversation");
             QuickstartConversationsManager.this.conversation.addListener(mDefaultConversationListener);
@@ -450,11 +458,17 @@ class QuickstartConversationsManager {
         @Override
         public void onTypingStarted(Conversation conversation, Participant participant) {
             Log.d("TWILIO", "Started Typing: " + participant.getIdentity());
+            if (conversationsManagerListener != null) {
+                conversationsManagerListener.messageTyping(true);
+            }
         }
 
         @Override
         public void onTypingEnded(Conversation conversation, Participant participant) {
             Log.d("TWILIO", "Ended Typing: " + participant.getIdentity());
+            if (conversationsManagerListener != null) {
+                conversationsManagerListener.messageTyping(false);
+            }
         }
 
         @Override
