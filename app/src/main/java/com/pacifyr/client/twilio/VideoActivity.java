@@ -3088,6 +3088,7 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
                     localParticipant = room.getLocalParticipant();
                     String romm = roomName;
                     String roomServer = room.getSid();
+                    makeAbeepSoundWhileShowingPopUp();
                     Log.w("getTwilioRoomName", roomName);
                     if (!isRejoining) {
                         startSessionWeb(roomName, room.getSid(), pacifyerDetial, isVideoCall, timeSlotBookingId);
@@ -3266,6 +3267,7 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
                         customerconnectedSessionWeb(SessionId);
                     if (isValid(ringtonePlayer))
                         ringtonePlayer.stop();
+                    makeAbeepSoundWhileShowingPopUp();
                     hideStatus();
                     hideProgress();
                     startTimer();

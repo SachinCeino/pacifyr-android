@@ -930,7 +930,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                 })
                 .build();
         dialog.show();
-        makeAbeepSoundWhileShowingPopUp();
+       // makeAbeepSoundWhileShowingPopUp();
     }
 
 
