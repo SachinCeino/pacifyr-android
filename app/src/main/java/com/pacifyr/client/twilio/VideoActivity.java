@@ -498,7 +498,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                     message="Provider can't answer the call";
                 }
                 sessionDeclainedByProvider = true;
-                setAlertPacifyrWillJoinShortly("", "Provider is busy and will be with you shortly", "Ok", new View.OnClickListener() {
+                setAlertPacifyrWillJoinShortly("", message, "Ok", new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         hideStatus();
@@ -527,8 +527,8 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                 else {
                     message="Provider is busy and will be with you shortly";
                 }
-                setAlertOKStatusInWhite("","Provider is busy and will be with you shortly", "Ok");
-                sessionDeclainedByProvider = true;
+                setAlertOKStatusInWhite("",message, "Ok");
+
             }
 
 
