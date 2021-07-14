@@ -19,6 +19,7 @@ import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.telephony.TelephonyManager;
 import android.text.format.DateFormat;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -608,6 +609,44 @@ public class Utility {
             }
         }
         catch (Exception e) { }
+        return null;
+    }
+
+    public static boolean isYesterday(Date d) {
+        return DateUtils.isToday(d.getTime() + DateUtils.DAY_IN_MILLIS);
+    }
+
+    public static String getFormattedDate(Context context,String input) {
+
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        format.setTimeZone(TimeZone.getTimeZone("GMT"));
+
+
+        SimpleDateFormat outFormat = new SimpleDateFormat("dd-MMM-yyyy");
+
+        outFormat.setTimeZone(TimeZone.getDefault());
+
+        Date date = null;
+        String dayname="";
+
+        try {
+            date = format.parse(input);
+            System.out.println("Date ->" + date);
+
+            if(DateUtils.isToday(date.getTime())){
+                dayname = context.getResources().getString(R.string.today);
+            }else if(DateUtils.isToday(date.getTime() + DateUtils.DAY_IN_MILLIS)){
+                dayname = context.getResources().getString(R.string.yesterday);
+            }else {
+                dayname = outFormat.format(date).toLowerCase();
+            }
+
+
+            return dayname;
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 

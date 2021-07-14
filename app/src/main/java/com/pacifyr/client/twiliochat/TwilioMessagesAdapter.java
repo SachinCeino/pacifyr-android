@@ -22,11 +22,13 @@ import com.quickblox.sample.core.utils.ResourceUtils;
 import com.twilio.conversations.CallbackListener;
 import com.twilio.conversations.Message;
 
+import java.util.ArrayList;
+
 public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAdapter.ViewHolder> {
     private static final int VIEW_TYPE_MESSAGE_SENT = 1;
     private static final int VIEW_TYPE_MESSAGE_RECEIVED = 2;
     Context context;
-    QuickstartConversationsManager quickstartConversationsManager;
+    ArrayList<Message> messageList;
     String userId;
     String lastMsgDate="";
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -47,15 +49,15 @@ public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAd
 
     }
 
-    TwilioMessagesAdapter(QuickstartConversationsManager quickstartConversationsManager, String userId, Context context) {
-    this.quickstartConversationsManager=quickstartConversationsManager;
+    TwilioMessagesAdapter(ArrayList<Message> messageList, String userId, Context context) {
+    this.messageList=messageList;
     this.userId=userId;
     this.context=context;
     }
     @Override
     public int getItemViewType(int position) {
 
-        Message message = quickstartConversationsManager.getMessages().get(position);
+        Message message =  messageList.get(position);
 
         if (message.getAuthor().equals(userId)) {
             // If the current user is the sender of the message
@@ -96,10 +98,11 @@ public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAd
         holder.tvDate.setVisibility(View.GONE);
 
 
-        Message message = quickstartConversationsManager.getMessages().get(position);
+
+        Message message = messageList.get(position);
 
         //Date
-        String date = Utility.getDate(message.getDateCreated(),false);
+        String date = Utility.getFormattedDate(context,message.getDateCreated());
         holder.tvDate.setText(date);
         if(lastMsgDate.isEmpty() || !lastMsgDate.equals(date)){
             holder.tvDate.setVisibility(View.VISIBLE);
@@ -167,6 +170,6 @@ public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAd
 
     @Override
     public int getItemCount() {
-        return quickstartConversationsManager.getMessages().size();
+        return messageList.size();
     }
 }

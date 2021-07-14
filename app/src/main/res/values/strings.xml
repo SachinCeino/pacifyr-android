@@ -652,6 +652,8 @@ Yor call is routed to the nearest crisis center.</string>
 
     <string name="write_message">Write message</string>
     <string name="typing">Typing...</string>
+    <string name="today">Today</string>
+    <string name="yesterday">Yesterday</string>
 
 
 </resources>

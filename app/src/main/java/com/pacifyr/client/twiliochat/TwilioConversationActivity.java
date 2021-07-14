@@ -5,23 +5,18 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.DocumentsContract;
-import android.provider.MediaStore;
 import android.provider.Settings;
 import android.text.Editable;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
@@ -34,48 +29,33 @@ import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.FutureTarget;
 import com.bumptech.glide.request.Request;
 import com.bumptech.glide.request.target.SizeReadyCallback;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
-import com.google.gson.Gson;
-import com.kaopiz.kprogresshud.KProgressHUD;
 import com.opensooq.supernova.gligar.GligarPicker;
 import com.pacifyr.client.R;
 import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
-import com.pacifyr.client.home.ProfileScreenActivity;
-import com.pacifyr.client.network.NetworkService;
-import com.pacifyr.client.quickblox.App;
 import com.pacifyr.client.quickblox.chat.interfaces.AttachmentClick;
 import com.pacifyr.client.quickblox.chat.ui.activity.AttachmentImageActivity;
-import com.pacifyr.client.quickblox.chat.ui.activity.ChatActivity;
-import com.pacifyr.client.quickblox.chat.ui.activity.SelectUsersActivity;
 import com.pacifyr.client.quickblox.chat.ui.widget.BottomAttachDialog;
 import com.pacifyr.client.utils.Utility;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
-import com.quickblox.users.model.QBUser;
 import com.squareup.picasso.Picasso;
-import com.twilio.conversations.CallbackListener;
-import com.twilio.conversations.Conversation;
 import com.twilio.conversations.Message;
-import com.twilio.conversations.ProgressListener;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.Serializable;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -154,6 +134,7 @@ public class TwilioConversationActivity extends
     private static final int PICK_IMAGE = 130;
     Uri imageUri;
     View attachPendingView;
+    private ArrayList<Message> messageList;
 
     @Override
     protected void onDestroy() {
@@ -181,6 +162,7 @@ public class TwilioConversationActivity extends
     }
 
     private void initVar(){
+        messageList = new ArrayList<>();
         quickstartConversationsManager = new QuickstartConversationsManager();
         prefM = PrefManager.getInstance(this);
         layoutManager = new LinearLayoutManager(this);
@@ -220,6 +202,8 @@ public class TwilioConversationActivity extends
             mTwilioConversationCreate= (TwilioConversationCreate) getIntent().getExtras().getSerializable("object");
             if (isValid(mTwilioConversationCreate)&& isValid(mTwilioConversationCreate.getTwilioConversationId()))
                 DEFAULT_CONVERSATION_NAME=mTwilioConversationCreate.getTwilioConversationId();
+
+            Log.w("getTwilioConversationId","getTwilioConversationId: "+DEFAULT_CONVERSATION_NAME );
         }
 
     }
@@ -233,7 +217,7 @@ public class TwilioConversationActivity extends
         recyclerView.setLayoutManager(layoutManager);
 
         userId = prefM.getUserID();
-        messagesAdapter = new TwilioMessagesAdapter(quickstartConversationsManager, userId,this);
+        messagesAdapter = new TwilioMessagesAdapter(messageList, userId,this);
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(messagesAdapter);
 
@@ -691,9 +675,10 @@ public class TwilioConversationActivity extends
 
 
     @Override
-    public void receivedNewMessage() {
+    public void receivedNewMessage(Message message) {
         Log.w(TAG,"receivedNewMessage________");
         if (isValid(messagesAdapter)) {
+            messageList.add(message);
             messagesAdapter.notifyItemInserted(messagesAdapter.getItemCount() + 1);
             pageScrollToBottom();
             apiCallMessageRead();
@@ -710,10 +695,12 @@ public class TwilioConversationActivity extends
     }
 
     @Override
-    public void reloadMessages() {
+    public void reloadMessages(List<Message> result) {
         hideProgress();
         Log.w(TAG,"reloadMessages________");
     if (isValid(messagesAdapter))
+        messageList.clear();
+        messageList.addAll(result);
         messagesAdapter.notifyItemInserted(messagesAdapter.getItemCount());
         apiCallMessageRead();
         }

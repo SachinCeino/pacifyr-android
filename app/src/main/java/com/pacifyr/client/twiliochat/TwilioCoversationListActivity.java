@@ -3,7 +3,6 @@ package com.pacifyr.client.twiliochat;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -23,6 +22,7 @@ import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
+import com.twilio.conversations.Message;
 
 import org.jetbrains.annotations.Nullable;
 import org.json.JSONObject;
@@ -243,7 +243,7 @@ public class TwilioCoversationListActivity extends PacifyrActivity implements Qu
     }
 
     @Override
-    public void receivedNewMessage() {
+    public void receivedNewMessage(Message message) {
         Log.w("TAG","receivedNewMessage________");
     }
 
@@ -253,7 +253,7 @@ public class TwilioCoversationListActivity extends PacifyrActivity implements Qu
     }
 
     @Override
-    public void reloadMessages() {
+    public void reloadMessages(List<Message> result) {
         Log.w("TAG","reloadMessages________");
     }
 

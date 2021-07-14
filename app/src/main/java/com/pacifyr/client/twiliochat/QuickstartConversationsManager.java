@@ -24,7 +24,6 @@ import com.twilio.conversations.User;
 import org.jetbrains.annotations.Nullable;
 import org.json.JSONObject;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -35,9 +34,9 @@ import static com.pacifyr.client.orginals.Auth.getDeviceId;
 import static com.pacifyr.client.twiliochat.TwilioConversationActivity.DEFAULT_CONVERSATION_NAME;
 
 interface QuickstartConversationsManagerListener {
-    void receivedNewMessage();
+    void receivedNewMessage(Message message);
     void messageSentCallback();
-    void reloadMessages();
+    void reloadMessages(List<Message> result);
     void messageTyping(Boolean visible);
 }
 
@@ -129,6 +128,7 @@ class QuickstartConversationsManager {
         try {
             JSONObject jsonObject = new JSONObject();
             jsonObject.putOpt("deviceId", getDeviceId(context));
+            jsonObject.putOpt("pushCredentialName", "android-test-client");
             jsonObject.putOpt("deviceType", "android");
             aq.post(url, jsonObject, JSONObject.class, cb);
         }
@@ -290,7 +290,7 @@ class QuickstartConversationsManager {
                     public void onSuccess(List<Message> result) {
                         messages.addAll(result);
                         if (conversationsManagerListener != null) {
-                            conversationsManagerListener.reloadMessages();
+                            conversationsManagerListener.reloadMessages(result);
                         }
                     }
                 });
@@ -426,7 +426,7 @@ class QuickstartConversationsManager {
             Log.d("TWILIO", "Message added");
             messages.add(message);
             if (conversationsManagerListener != null) {
-                conversationsManagerListener.receivedNewMessage();
+                conversationsManagerListener.receivedNewMessage(message);
             }
         }
 
