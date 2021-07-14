@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,7 +17,6 @@ import com.pacifyr.client.R;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.quickblox.App;
 import com.pacifyr.client.utils.Utility;
-import com.quickblox.sample.core.utils.ResourceUtils;
 import com.twilio.conversations.CallbackListener;
 import com.twilio.conversations.Message;
 
@@ -30,7 +28,7 @@ public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAd
     Context context;
     ArrayList<Message> messageList;
     String userId;
-    String lastMsgDate="";
+    String nextMsgDate ="";
     class ViewHolder extends RecyclerView.ViewHolder {
 
         final MainTextView messageText,tvTimeRight,tvTimeBottom,tvDate;
@@ -101,14 +99,22 @@ public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAd
 
         Message message = messageList.get(position);
 
-        //Date
+
+        /////// Date //////////
         String date = Utility.getFormattedDate(context,message.getDateCreated());
         holder.tvDate.setText(date);
-        if(lastMsgDate.isEmpty() || !lastMsgDate.equals(date)){
+        //Check last item
+        if(0 == position){
             holder.tvDate.setVisibility(View.VISIBLE);
-            lastMsgDate = date;
-        }else {
-            holder.tvDate.setVisibility(View.GONE);
+        } else {
+            nextMsgDate = Utility.getFormattedDate(context,messageList.get(position - 1).getDateCreated());
+
+            if(nextMsgDate.isEmpty() || !nextMsgDate.equals(date)){
+                holder.tvDate.setVisibility(View.VISIBLE);
+                nextMsgDate = date;
+            }else {
+                holder.tvDate.setVisibility(View.GONE);
+            }
         }
         //---------------------//
 
