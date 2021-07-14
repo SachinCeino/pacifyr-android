@@ -612,10 +612,6 @@ public class Utility {
         return null;
     }
 
-    public static boolean isYesterday(Date d) {
-        return DateUtils.isToday(d.getTime() + DateUtils.DAY_IN_MILLIS);
-    }
-
     public static String getFormattedDate(Context context,String input) {
 
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");

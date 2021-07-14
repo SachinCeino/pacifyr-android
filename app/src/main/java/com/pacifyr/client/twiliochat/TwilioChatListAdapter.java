@@ -89,18 +89,11 @@ public class TwilioChatListAdapter extends RecyclerView.Adapter<TwilioChatListAd
             }
             Picasso.with(mContext).load(imgUrl).placeholder(R.drawable.placeholder_user).into(holder.mImage);
 
-            /*holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    listener.onItemClick(results.get(position));
-                }
-            });*/
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (isValid(object) && isValid(object.getTwilioConversationId()))
                     {
-                        //TwilioConversationActivity.start(mContext,object);
                         ((TwilioCoversationListActivity) mContext).clearUnreadCount(object);
                     }
                 }
