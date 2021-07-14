@@ -1172,12 +1172,6 @@ boolean itIsFirstCallFrom=true;
                     /*lastSessionDimv.setVisibility(View.VISIBLE);
                     lastSessionRlay.setVisibility(View.VISIBLE);*/
 
-
-                    lastSsnPacfyrCtxv.setText(lastSession.getPacifyr().getFirstName() + " " + lastSession.getPacifyr().getLastName());
-                    Glide.with(getContext()).load(GLOBAL_IMAGE_URL+lastSession.getPacifyr().getImage()).transition(DrawableTransitionOptions.withCrossFade()).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).into(lastSessionDimv);
-
-
-
                     String type = lastSession.getSessionType();
                     if (type.equals("audio")){
                         videoCamImg.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.connectaudio1));
@@ -1201,9 +1195,10 @@ boolean itIsFirstCallFrom=true;
                            MyLastSessionTitle.setText(getResources().getString(R.string.next_appointment));
                            appointMentBackground.setBackground(getResources().getDrawable(R.drawable.solid_circle_red));
                            if (isValid(modelCustomerDashboard2.getNextAppointment().getPacifyr())
-                           && isValid(modelCustomerDashboard2.getNextAppointment().getPacifyr().getImage()))
-                           Glide.with(getContext()).load(GLOBAL_IMAGE_URL+modelCustomerDashboard2.getNextAppointment().getPacifyr().getImage()).transition(DrawableTransitionOptions.withCrossFade()).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).into(lastSessionDimv);
-
+                           && isValid(modelCustomerDashboard2.getNextAppointment().getPacifyr().getImage())) {
+                               Glide.with(getContext()).load(GLOBAL_IMAGE_URL + modelCustomerDashboard2.getNextAppointment().getPacifyr().getImage()).transition(DrawableTransitionOptions.withCrossFade()).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).into(lastSessionDimv);
+                               lastSsnPacfyrCtxv.setText(modelCustomerDashboard2.getNextAppointment().getPacifyr().getFirstName() + " " + modelCustomerDashboard2.getNextAppointment().getPacifyr().getLastName());
+                           }
                        }catch (Exception e)
                        {
 
@@ -1218,6 +1213,8 @@ boolean itIsFirstCallFrom=true;
                         Text_appointmentTime.setVisibility(View.GONE);
                         MyLastSessionTitle.setText(getResources().getString(R.string.my_last_session));
                         appointMentBackground.setBackground(getResources().getDrawable(R.drawable.solid_circle));
+                        lastSsnPacfyrCtxv.setText(lastSession.getPacifyr().getFirstName() + " " + lastSession.getPacifyr().getLastName());
+                        Glide.with(getContext()).load(GLOBAL_IMAGE_URL+lastSession.getPacifyr().getImage()).transition(DrawableTransitionOptions.withCrossFade()).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).into(lastSessionDimv);
 
                     }
 
