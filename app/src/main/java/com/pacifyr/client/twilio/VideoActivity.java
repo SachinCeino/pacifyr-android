@@ -891,6 +891,10 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                                     long difference= Math.toIntExact(currentTimeInSeconds - billingSatrtedSeconds);
                                     startTimerWhileJoining(difference);
                                 }
+
+                            }
+                            else {
+                                startTimer();
                             }
                            /* if (isValid(getCallUser()))
                             {
@@ -3095,8 +3099,6 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
 
                     } else {
                         getCurrentUserProfileInfo();
-                        if (!hasBillingStarted())
-                        startTimer();
                     }
 
 
