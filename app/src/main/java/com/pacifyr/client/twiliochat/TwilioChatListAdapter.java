@@ -106,7 +106,7 @@ public class TwilioChatListAdapter extends RecyclerView.Adapter<TwilioChatListAd
                 public void onClick(View view) {
                     if (isValid(object) && isValid(object.getTwilioConversationId()))
                     {
-                        ((TwilioCoversationListActivity) mContext).clearUnreadCount(object);
+                        ((TwilioCoversationListActivity) mContext).clearUnreadCount(object,position);
                     }
                 }
             });

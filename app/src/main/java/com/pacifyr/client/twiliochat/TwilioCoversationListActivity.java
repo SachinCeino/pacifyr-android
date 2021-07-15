@@ -72,6 +72,7 @@ public class TwilioCoversationListActivity extends PacifyrActivity implements Qu
     private List<TwilioConversationCreate> results = new ArrayList<>();
     private LinearLayoutManager mLinearLayoutManager;
     private String userid ="";
+    private PrefManager prefM;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +80,9 @@ public class TwilioCoversationListActivity extends PacifyrActivity implements Qu
         setContentView(R.layout.twilio_conversation_list_activity);
         mEmptyLayout=findViewById(R.id.mEmptyLayout);
         RecyclerView_chatParticipants=findViewById(R.id.RecyclerView_chatParticipants);
+
+        prefM = PrefManager.getInstance(TwilioCoversationListActivity.this);
+        userid=prefM.getUserID();
 
         onSetActionBar();
 
@@ -92,9 +96,8 @@ public class TwilioCoversationListActivity extends PacifyrActivity implements Qu
         setLoading();
         showProgress();
 
-        PrefManager prefM= PrefManager.getInstance(TwilioCoversationListActivity.this);
         String userToken=prefM.getAccessToken();
-        userid=prefM.getUserID();
+
         String url = NetworkService.GLOBAL_URL+"messages/customer?skip=0&limit=25";
         AjaxCallback cb = new AjaxCallback<JSONObject>() {
             @Override
@@ -151,17 +154,13 @@ public class TwilioCoversationListActivity extends PacifyrActivity implements Qu
 
     }
 
-    public void clearUnreadCount(TwilioConversationCreate item){
+    public void clearUnreadCount(TwilioConversationCreate item, int position){
         if (isValid(item.getTwilioConversationId()))
         {
-            TwilioConversationActivity.start(this,item);
+            results.get(position).getUnreadStatus().clear();
+            mTwilioChatListAdapter.notifyItemChanged(position);
 
-            for (int i=0 ; i < results.size();i++){
-                if(results.get(i).getId().equals(item.getId())){
-                    results.get(i).getUnreadStatus().get(0).setUnreadCount(0);
-                    mTwilioChatListAdapter.notifyItemChanged(i);
-                }
-            }
+            TwilioConversationActivity.start(this,item);
 
         }
     }
