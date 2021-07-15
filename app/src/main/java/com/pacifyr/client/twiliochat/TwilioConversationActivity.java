@@ -69,9 +69,6 @@ import static com.pacifyr.client.utils.Utility.MY_PERMISSIONS_REQUEST_CHAT_PERMI
 public class TwilioConversationActivity extends
         PacifyrActivity implements QuickstartConversationsManagerListener, AttachmentClick {
 
-    String ActionbarTitle="";
-    private boolean typingStarted;
-
 
     @Override
     public void onPause() {
@@ -279,26 +276,6 @@ public class TwilioConversationActivity extends
             public void afterTextChanged(Editable s) {
 
                 quickstartConversationsManager.messageTyping();
-
-               /* if (!TextUtils.isEmpty(s.toString()) && s.toString().trim().length() == 1) {
-
-                    //Log.i(TAG, “typing started event…”);
-
-                    typingStarted = true;
-
-                    quickstartConversationsManager.messageTyping();
-
-                    //send typing started status
-
-                } else if (s.toString().trim().length() == 0 && typingStarted) {
-
-                    //Log.i(TAG, “typing stopped event…”);
-
-                    typingStarted = false;
-
-                    //send typing stopped status
-
-                }*/
 
             }
 
