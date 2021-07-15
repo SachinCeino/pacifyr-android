@@ -1,43 +1,77 @@
 package com.pacifyr.client.twiliochat;
 
+import android.content.ClipData;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.DocumentsContract;
+import android.provider.Settings;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.kaopiz.kprogresshud.KProgressHUD;
+import com.androidquery.AQuery;
+import com.androidquery.callback.AjaxCallback;
+import com.androidquery.callback.AjaxStatus;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.Request;
+import com.bumptech.glide.request.target.SizeReadyCallback;
+import com.bumptech.glide.request.target.Target;
+import com.bumptech.glide.request.transition.Transition;
+import com.opensooq.supernova.gligar.GligarPicker;
 import com.pacifyr.client.R;
 import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
-import com.pacifyr.client.home.ProfileScreenActivity;
-import com.pacifyr.client.quickblox.chat.ui.activity.ChatActivity;
+import com.pacifyr.client.quickblox.chat.interfaces.AttachmentClick;
+import com.pacifyr.client.quickblox.chat.ui.activity.AttachmentImageActivity;
+import com.pacifyr.client.quickblox.chat.ui.widget.BottomAttachDialog;
+import com.pacifyr.client.utils.Utility;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.squareup.picasso.Picasso;
-import com.twilio.conversations.Conversation;
+import com.twilio.conversations.Message;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static android.content.Intent.EXTRA_ALLOW_MULTIPLE;
 import static com.pacifyr.client.network.NetworkService.GLOBAL_IMAGE_URL;
+import static com.pacifyr.client.network.NetworkService.GLOBAL_URL;
+import static com.pacifyr.client.twilio.VideoActivity.isCallActive;
+import static com.pacifyr.client.utils.Utility.MY_PERMISSIONS_REQUEST_CHAT_PERMISSION;
 
 
-public class TwilioConversationActivity extends PacifyrActivity implements QuickstartConversationsManagerListener {
+public class TwilioConversationActivity extends
+        PacifyrActivity implements QuickstartConversationsManagerListener, AttachmentClick {
 
     String ActionbarTitle="";
+    private boolean typingStarted;
+
 
     @Override
     public void onPause() {
@@ -64,11 +98,14 @@ public class TwilioConversationActivity extends PacifyrActivity implements Quick
 
     private int retryCount = 0;
 
+    private static final int REQUESTCODE_CAMERA_IMAGE = 101;
+    private static final int REQUESTCODE_GALLERY_IMAGE = 102;
+
     private LinearLayout actionBarTopLlay;
     private RelativeLayout bottomPanel;
     private LinearLayout leftLlay;
     private DeviceFitImageView backImv;
-    private MainTextView leftTxv;
+    private MainTextView leftTxv,tvStatus;
     private MainTextView titleTxv;
     private LinearLayout rightLlay;
     private MainTextView rightTxv;
@@ -87,12 +124,26 @@ public class TwilioConversationActivity extends PacifyrActivity implements Quick
     private QuickstartConversationsManager quickstartConversationsManager;
 
     public static String DEFAULT_CONVERSATION_NAME = "general";
-    private CircleImageView civUserPic;
-    private MainTextView tvUserName;
     private RecyclerView recyclerView;
     private ImageButton sendChatMessageButton;
     private PrefManager prefM;
     private LinearLayoutManager layoutManager;
+    private  BottomAttachDialog bottomSheet;
+    private static final String EXTRA_URL = "url";
+
+    private static final int PICK_IMAGE = 130;
+    Uri imageUri;
+    View attachPendingView;
+    private ArrayList<Message> messageList;
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        DEFAULT_CONVERSATION_NAME = "general";
+        if(quickstartConversationsManager != null){
+            quickstartConversationsManager.leaveFromChat();
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,65 +159,22 @@ public class TwilioConversationActivity extends PacifyrActivity implements Quick
         loadData();
         intiListener();
 
-
-
-
-
-        /*if (isValid(getIntent()) && isValid(getIntent().getExtras()) && isValid(getIntent().getExtras().getSerializable("object")))
-        {
-            mTwilioConversationCreate= (TwilioConversationCreate) getIntent().getExtras().getSerializable("object");
-            if (isValid(mTwilioConversationCreate)&& isValid(mTwilioConversationCreate.getTwilioConversationId()))
-                DEFAULT_CONVERSATION_NAME=mTwilioConversationCreate.getTwilioConversationId();
-        }
-        quickstartConversationsManager.setListener(this);
-*/
-
-
-
-/*
-        // for a chat app, show latest messages at the bottom
-        layoutManager.setStackFromEnd(true);
-        recyclerView.setLayoutManager(layoutManager);
-
-        userId = prefM.getUserID();
-        messagesAdapter = new TwilioMessagesAdapter(quickstartConversationsManager, userId);
-        recyclerView.setAdapter(messagesAdapter);*/
-
-
-
-
-
-        sendChatMessageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String messageBody = writeMessageEditText.getText().toString();
-                if (messageBody.length() > 0) {
-                    quickstartConversationsManager.sendMessage(messageBody);
-                    writeMessageEditText.setText("");
-                }
-
-            }
-        });
-
-        // Token Method 1 - supplied from strings.xml as the test_access_token
-        // quickstartConversationsManager.initializeWithAccessToken(this, getString(R.string.test_access_token));
-
-        // Token Method 2 - retrieve the access token from a web server or Twilio Function
-       // retrieveTokenFromServer();
-
     }
 
     private void initVar(){
+        messageList = new ArrayList<>();
         quickstartConversationsManager = new QuickstartConversationsManager();
         prefM = PrefManager.getInstance(this);
         layoutManager = new LinearLayoutManager(this);
-
+        bottomSheet = new BottomAttachDialog(isCallActive, this, false);
     }
 
     private void initView(){
         recyclerView = findViewById(R.id.messagesRecyclerView);
         writeMessageEditText = findViewById(R.id.writeMessageEditText);
         sendChatMessageButton = findViewById(R.id.sendChatMessageButton);
+        tvStatus = findViewById(R.id.tv_status);
+
 
     }
 
@@ -194,6 +202,8 @@ public class TwilioConversationActivity extends PacifyrActivity implements Quick
             mTwilioConversationCreate= (TwilioConversationCreate) getIntent().getExtras().getSerializable("object");
             if (isValid(mTwilioConversationCreate)&& isValid(mTwilioConversationCreate.getTwilioConversationId()))
                 DEFAULT_CONVERSATION_NAME=mTwilioConversationCreate.getTwilioConversationId();
+
+            Log.w("getTwilioConversationId","getTwilioConversationId: "+DEFAULT_CONVERSATION_NAME );
         }
 
     }
@@ -207,7 +217,8 @@ public class TwilioConversationActivity extends PacifyrActivity implements Quick
         recyclerView.setLayoutManager(layoutManager);
 
         userId = prefM.getUserID();
-        messagesAdapter = new TwilioMessagesAdapter(quickstartConversationsManager, userId);
+        messagesAdapter = new TwilioMessagesAdapter(messageList, userId,this);
+        recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(messagesAdapter);
 
     }
@@ -241,8 +252,342 @@ public class TwilioConversationActivity extends PacifyrActivity implements Quick
 
             }
         });
+
+        sendChatMessageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String messageBody = writeMessageEditText.getText().toString();
+                if (messageBody.length() > 0) {
+                    quickstartConversationsManager.sendMessage(messageBody);
+                    writeMessageEditText.setText("");
+
+                }
+
+            }
+        });
+
+        writeMessageEditText.addTextChangedListener(new TextWatcher() {
+
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            public void afterTextChanged(Editable s) {
+
+                quickstartConversationsManager.messageTyping();
+
+               /* if (!TextUtils.isEmpty(s.toString()) && s.toString().trim().length() == 1) {
+
+                    //Log.i(TAG, “typing started event…”);
+
+                    typingStarted = true;
+
+                    quickstartConversationsManager.messageTyping();
+
+                    //send typing started status
+
+                } else if (s.toString().trim().length() == 0 && typingStarted) {
+
+                    //Log.i(TAG, “typing stopped event…”);
+
+                    typingStarted = false;
+
+                    //send typing stopped status
+
+                }*/
+
+            }
+
+        });
     }
 
+
+    /**
+     * List scroll to bottom
+     */
+    private void pageScrollToBottom(){
+        recyclerView.smoothScrollToPosition(messagesAdapter.getItemCount()+1);
+
+    }
+
+
+    /**
+     * Show bottom sheet for select attach type
+     */
+    private void shoImagePickerAlert(View view) {
+
+        bottomSheet.show(getSupportFragmentManager(), "AttachBottomSheet");
+    }
+
+    /**
+     * Check Gallery permission and show image picker
+     */
+    public void onAttachmentsClick(View view) {
+        if (Utility.checkPermission(this, "chat")) {
+            shoImagePickerAlert(view);
+        } else {
+            Log.w("requestCode","attachPendingView: ");
+            attachPendingView = view;
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull @NotNull String[] permissions, @NonNull @NotNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        Log.w("requestCode","requestCode: "+requestCode);
+
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_CHAT_PERMISSION: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length == 2
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED &&
+                        grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+                    shoImagePickerAlert(attachPendingView);
+
+                } else {
+                    permissionDenied();
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }
+                return;
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
+    }
+
+    /**
+     * When User denied storage or gallery permission, will show the Alert dialog
+     */
+    private void permissionDenied(){
+        //If User was asked permission before and denied
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+
+        alertDialogBuilder.setTitle("Permission needed");
+        alertDialogBuilder.setMessage("Storage permission needed for accessing photos");
+        alertDialogBuilder.setPositiveButton("Open Setting", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Intent intent = new Intent();
+                intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                Uri uri = Uri.fromParts("package", TwilioConversationActivity.this.getPackageName(),
+                        null);
+                intent.setData(uri);
+                TwilioConversationActivity.this.startActivity(intent);
+            }
+        });
+        alertDialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Log.d(TAG, "onClick: Cancelling");
+            }
+        });
+
+        AlertDialog dialog = alertDialogBuilder.create();
+        dialog.show();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+             if (requestCode == REQUESTCODE_CAMERA_IMAGE) {
+                String[] pathsList = data.getExtras().getStringArray(GligarPicker.IMAGES_RESULT);
+                if (isValid(pathsList)) {
+                    for (String url : pathsList) {
+                        resizeImage(url);
+                    }
+                }
+            }
+            else if (requestCode == REQUESTCODE_GALLERY_IMAGE) {
+               // String dataStr = data.getDataString();
+
+
+                 if (isValid(data.getClipData())) {
+                     ClipData mClipData = data.getClipData();
+                     for (int i = 0; i < mClipData.getItemCount(); i++) {
+                         ClipData.Item item = mClipData.getItemAt(i);
+                         Uri uri = item.getUri();
+                         // display your images
+                         resizeImage(uri.toString());
+                     }
+                 } else if (isValid(data.getData())) {
+                     Uri uri = data.getData();
+                     // display your image
+                     resizeImage(uri.toString());
+                 }
+
+
+
+                /*Uri pathsList = data.getData();
+                if (isValid(pathsList)) {
+
+                    //Log.w("file_name","imageUri: "+pathsList[0].);
+
+                    resizeImage(pathsList.toString());
+
+
+
+                }*/
+            }
+        }
+    }
+
+    /**
+     * Api call for all message read status
+     */
+    public void apiCallMessageRead(){
+
+        PrefManager prefM= PrefManager.getInstance(this);
+        String userToken=prefM.getAccessToken();
+        String userid=prefM.getUserID();
+        String conversationId = mTwilioConversationCreate.getTwilioConversationId();
+
+
+        String url = GLOBAL_URL+"twilio/webhooks/message.read";
+        AjaxCallback cb = new AjaxCallback<JSONObject>() {
+            @Override
+            public void callback(String url, JSONObject json, AjaxStatus status) {
+                try {
+                    String jsonS = json.toString();
+                    Log.w(TAG, "Messeaage read: "+jsonS);
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+
+            AQuery aq = new AQuery(TwilioConversationActivity.this);
+            cb.header("Content-Type", "application/json");
+            cb.header("AccessToken",userToken);
+
+        try {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.putOpt("twilioConversationId",conversationId);
+            jsonObject.putOpt("userId",userid);
+            aq.post(url,jsonObject, JSONObject.class, cb);
+        }
+        catch (Exception ex)
+        {
+            //hideProgress();
+            ex.printStackTrace();
+        }
+    }
+
+    /**
+     * Show typing indicator on title bar
+     */
+    private void showTyping(Boolean visible){
+        if(visible){
+            tvStatus.setVisibility(View.VISIBLE);
+        }else {
+            tvStatus.setVisibility(View.GONE);
+        }
+
+    }
+
+
+    public static void start(Context context, String url) {
+        Intent intent = new Intent(context, AttachmentImageActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra(EXTRA_URL, url);
+        context.startActivity(intent);
+    }
+
+    /**
+     * Resize Image for upload
+     */
+    private void resizeImage(String url) {
+
+        Glide.with(this).load(url).override(1200, 1200).into(new Target<Drawable>() {
+            @Override
+            public void onLoadStarted(@androidx.annotation.Nullable Drawable placeholder) {
+
+            }
+
+            @Override
+            public void onLoadFailed(@androidx.annotation.Nullable Drawable errorDrawable) {
+
+            }
+
+            @Override
+            public void onResourceReady(@NonNull Drawable resource, @androidx.annotation.Nullable Transition<? super Drawable> transition) {
+                if (resource instanceof BitmapDrawable) {
+
+                    File file = Utility.saveFileInCache(TwilioConversationActivity.this, ((BitmapDrawable) resource).getBitmap(), "tmp_" + System.currentTimeMillis() + ".jpg");
+                    if (file != null) {
+
+                        Uri contentUri = Uri.fromFile(file);
+
+                        Log.w("file_name","imageUri: "+contentUri.getPath());
+
+
+                        try {
+                            quickstartConversationsManager.sendMedia(contentUri.getPath());
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        }
+                        //attachmentPreviewAdapter.add(file);
+                        long fileSizeInBytes = file.length();
+                        long fileSizeInKB = fileSizeInBytes / 1024;
+                        Log.d(TAG, "File size : " + fileSizeInKB + " KB");
+                    }
+                }
+            }
+
+            @Override
+            public void onLoadCleared(@androidx.annotation.Nullable Drawable placeholder) {
+
+            }
+
+            @Override
+            public void getSize(@NonNull SizeReadyCallback cb) {
+
+            }
+
+            @Override
+            public void removeCallback(@NonNull SizeReadyCallback cb) {
+
+            }
+
+            @androidx.annotation.Nullable
+            @Override
+            public Request getRequest() {
+                return null;
+            }
+
+            @Override
+            public void setRequest(@androidx.annotation.Nullable Request request) {
+
+            }
+
+            @Override
+            public void onStart() {
+
+            }
+
+            @Override
+            public void onStop() {
+
+            }
+
+            @Override
+            public void onDestroy() {
+
+            }
+        });
+    }
 
 
     private void retrieveTokenFromServer() {
@@ -321,27 +666,76 @@ public class TwilioConversationActivity extends PacifyrActivity implements Quick
     }
 
     @Override
-    public void receivedNewMessage() {
-        Log.w(TAG,"receivedNewMessage________");
-        if (isValid(messagesAdapter))
-            messagesAdapter.notifyDataSetChanged();
+    public void messageTyping(Boolean visible) {
+        Log.w(TAG,"messageTyping________");
+        if (isValid(messagesAdapter)) {
+            showTyping(visible);
+        }
+    }
 
+
+    @Override
+    public void receivedNewMessage(Message message) {
+        Log.w(TAG,"receivedNewMessage________");
+        if (isValid(messagesAdapter)) {
+            messageList.add(message);
+            messagesAdapter.notifyItemInserted(messagesAdapter.getItemCount() + 1);
+            pageScrollToBottom();
+            apiCallMessageRead();
+        }
     }
 
     @Override
     public void messageSentCallback() {
         Log.w(TAG,"messagesAdapter________");
-        if (isValid(messagesAdapter))
-            messagesAdapter.notifyDataSetChanged();
+        //f (isValid(messagesAdapter))
+           // messagesAdapter.notifyItemInserted(messagesAdapter.getItemCount()+1);
+        //pageScrollToBottom();
 
     }
 
     @Override
-    public void reloadMessages() {
+    public void reloadMessages(List<Message> result) {
         hideProgress();
         Log.w(TAG,"reloadMessages________");
     if (isValid(messagesAdapter))
-        messagesAdapter.notifyDataSetChanged();
-
+        messageList.clear();
+        messageList.addAll(result);
+        messagesAdapter.notifyItemInserted(messagesAdapter.getItemCount());
+        apiCallMessageRead();
         }
+
+    @Override
+    public void onClick(int pos) {
+        switch (pos) {
+            case 0:
+                new GligarPicker().requestCode(REQUESTCODE_CAMERA_IMAGE).disableCamera(false).cameraDirect(true).withActivity(this).show();
+                bottomSheet.dismiss();
+                break;
+            case 1:
+                Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                intent.addCategory(Intent.CATEGORY_OPENABLE);
+                intent.setType("image/*");
+                intent.putExtra(EXTRA_ALLOW_MULTIPLE, true);
+                Uri pickerInitialUri = null;
+                // Optionally, specify a URI for the file that should appear in the
+                // system file picker when it loads.
+                if (pickerInitialUri != null) {
+                    intent.putExtra(DocumentsContract.EXTRA_INITIAL_URI, pickerInitialUri);
+                }
+
+                startActivityForResult(intent, REQUESTCODE_GALLERY_IMAGE);
+
+                // new GligarPicker().requestCode(REQUESTCODE_GALLERY_IMAGE).disableCamera(true).withActivity(ChatActivity.this).show();
+                bottomSheet.dismiss();
+                break;
+            case 2:
+                //todo open docs list
+                bottomSheet.dismiss();
+                break;
+            case -1:
+                bottomSheet.dismiss();
+                break;
+        }
+    }
 }

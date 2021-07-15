@@ -20,5 +20,5 @@
         android:layout_below="@+id/include"
         android:gravity="center"
         android:visibility="gone"
-        android:text="No data available"></com.pacifyr.client.customview.MainTextView>
+        android:text="@string/no_messages_text"/>
 </RelativeLayout>

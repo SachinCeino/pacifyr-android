@@ -17,12 +17,15 @@ import com.twilio.conversations.ConversationsClientListener;
 import com.twilio.conversations.ErrorInfo;
 import com.twilio.conversations.Message;
 import com.twilio.conversations.Participant;
+import com.twilio.conversations.ProgressListener;
 import com.twilio.conversations.StatusListener;
 import com.twilio.conversations.User;
 
 import org.jetbrains.annotations.Nullable;
 import org.json.JSONObject;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,9 +34,10 @@ import static com.pacifyr.client.orginals.Auth.getDeviceId;
 import static com.pacifyr.client.twiliochat.TwilioConversationActivity.DEFAULT_CONVERSATION_NAME;
 
 interface QuickstartConversationsManagerListener {
-    void receivedNewMessage();
+    void receivedNewMessage(Message message);
     void messageSentCallback();
-    void reloadMessages();
+    void reloadMessages(List<Message> result);
+    void messageTyping(Boolean visible);
 }
 
 interface TokenResponseListener {
@@ -124,6 +128,7 @@ class QuickstartConversationsManager {
         try {
             JSONObject jsonObject = new JSONObject();
             jsonObject.putOpt("deviceId", getDeviceId(context));
+            jsonObject.putOpt("pushCredentialName", "android-test-client");
             jsonObject.putOpt("deviceType", "android");
             aq.post(url, jsonObject, JSONObject.class, cb);
         }
@@ -134,7 +139,20 @@ class QuickstartConversationsManager {
 
     }
 
+    void leaveFromChat(){
+        if(conversation!= null)
+        conversation.removeListener(mDefaultConversationListener);
+    }
+
+    void messageTyping(){
+        if (conversation != null) {
+            Log.d("TWILIO", "Msg typing........Clint: " );
+            conversation.typing();
+        }
+    }
+
     void sendMessage(String messageBody) {
+
         if (conversation != null) {
             Message.Options options = Message.options().withBody(messageBody);
             Log.d("TWILIO","Message created");
@@ -149,9 +167,44 @@ class QuickstartConversationsManager {
         }
     }
 
+    void sendMedia(String file) throws FileNotFoundException {
+        conversation.sendMessage(
+                Message.options()
+                        .withMedia(new FileInputStream(file), "image/jpg")
+                        .withMediaFileName("file.jpg")
+                        .withMediaProgressListener(new ProgressListener() {
+                            @Override
+                            public void onStarted() {
+                                Log.d("sendMedia","Upload started");
+                            }
+
+                            @Override
+                            public void onProgress(long bytes) {
+                                Log.d("sendMedia","Uploaded " + bytes + " bytes");
+                            }
+
+                            @Override
+                            public void onCompleted(String mediaSid) {
+                                Log.d("sendMedia","Upload completed");
+                            }
+                        }),
+                new CallbackListener<Message>() {
+                    @Override
+                    public void onSuccess(Message msg) {
+                        Log.d("sendMedia","Successfully sent MEDIA message");
+                    }
+
+                    @Override
+                    public void onError(ErrorInfo error) {
+                        Log.e("sendMedia","Error sending MEDIA message");
+                    }
+                });
+    }
+
 
     private void loadChannels() {
         if (conversationsClient == null || conversationsClient.getMyConversations() == null) {
+
             return;
         }
         conversationsClient.getConversation(DEFAULT_CONVERSATION_NAME, new CallbackListener<Conversation>() {
@@ -204,7 +257,7 @@ class QuickstartConversationsManager {
     private void joinConversation(final Conversation conversation) {
         Log.d("TWILIO", "Joining Conversation: " + conversation.getUniqueName());
         if (conversation.getStatus() == Conversation.ConversationStatus.JOINED) {
-
+            conversation.typing();
             QuickstartConversationsManager.this.conversation = conversation;
             Log.d("TWILIO", "Already joined default conversation");
             QuickstartConversationsManager.this.conversation.addListener(mDefaultConversationListener);
@@ -228,6 +281,8 @@ class QuickstartConversationsManager {
         });
     }
 
+
+
     private void loadPreviousMessages(final Conversation conversation) {
         conversation.getLastMessages(100,
                 new CallbackListener<List<Message>>() {
@@ -235,11 +290,12 @@ class QuickstartConversationsManager {
                     public void onSuccess(List<Message> result) {
                         messages.addAll(result);
                         if (conversationsManagerListener != null) {
-                            conversationsManagerListener.reloadMessages();
+                            conversationsManagerListener.reloadMessages(result);
                         }
                     }
                 });
     }
+
 
     private final ConversationsClientListener mConversationsClientListener =
             new ConversationsClientListener() {
@@ -370,7 +426,7 @@ class QuickstartConversationsManager {
             Log.d("TWILIO", "Message added");
             messages.add(message);
             if (conversationsManagerListener != null) {
-                conversationsManagerListener.receivedNewMessage();
+                conversationsManagerListener.receivedNewMessage(message);
             }
         }
 
@@ -402,11 +458,17 @@ class QuickstartConversationsManager {
         @Override
         public void onTypingStarted(Conversation conversation, Participant participant) {
             Log.d("TWILIO", "Started Typing: " + participant.getIdentity());
+            if (conversationsManagerListener != null) {
+                conversationsManagerListener.messageTyping(true);
+            }
         }
 
         @Override
         public void onTypingEnded(Conversation conversation, Participant participant) {
             Log.d("TWILIO", "Ended Typing: " + participant.getIdentity());
+            if (conversationsManagerListener != null) {
+                conversationsManagerListener.messageTyping(false);
+            }
         }
 
         @Override

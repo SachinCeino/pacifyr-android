@@ -19,6 +19,7 @@ import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.telephony.TelephonyManager;
 import android.text.format.DateFormat;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,6 +53,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -425,6 +427,7 @@ public class Utility {
 
                 if (ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
                         || ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+
                     if (ActivityCompat.shouldShowRequestPermissionRationale((Activity) context, Manifest.permission.CAMERA)
                             || ActivityCompat.shouldShowRequestPermissionRationale((Activity) context, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(context);
@@ -434,8 +437,9 @@ public class Utility {
                         alertBuilder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
                             public void onClick(DialogInterface dialog, int which) {
-                                ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.CAMERA,
-                                        Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_CHAT_PERMISSION);
+                                ActivityCompat.requestPermissions((Activity) context, new String[]{
+                                        Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.CAMERA
+                                        }, MY_PERMISSIONS_REQUEST_CHAT_PERMISSION);
                             }
                         });
                         AlertDialog alert = alertBuilder.create();
@@ -443,8 +447,9 @@ public class Utility {
 
                     } else {
                         //LogUtils.LOGD("jithish","audiochecks..jjjjj....1");
-                        ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.CAMERA,
-                                Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_CHAT_PERMISSION);
+                        ActivityCompat.requestPermissions((Activity) context, new String[]{
+                                Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.CAMERA},
+                                MY_PERMISSIONS_REQUEST_CHAT_PERMISSION);
                     }
                     return false;
                 } else {
@@ -604,6 +609,40 @@ public class Utility {
             }
         }
         catch (Exception e) { }
+        return null;
+    }
+
+    public static String getFormattedDate(Context context,String input) {
+
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        format.setTimeZone(TimeZone.getTimeZone("GMT"));
+
+
+        SimpleDateFormat outFormat = new SimpleDateFormat("dd-MMM-yyyy");
+
+        outFormat.setTimeZone(TimeZone.getDefault());
+
+        Date date = null;
+        String dayname="";
+
+        try {
+            date = format.parse(input);
+            System.out.println("Date ->" + date);
+
+            if(DateUtils.isToday(date.getTime())){
+                dayname = context.getResources().getString(R.string.today);
+            }else if(DateUtils.isToday(date.getTime() + DateUtils.DAY_IN_MILLIS)){
+                dayname = context.getResources().getString(R.string.yesterday);
+            }else {
+                dayname = outFormat.format(date).toLowerCase();
+            }
+
+
+            return dayname;
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 
@@ -926,6 +965,8 @@ public class Utility {
 
         return millis;
     }
+
+
 
     public static File saveFileInCache(Context context, Bitmap imageBitmap, String fileName) {
         File cacheFile = getTempFile(context, fileName);

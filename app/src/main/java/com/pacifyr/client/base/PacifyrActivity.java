@@ -5080,7 +5080,6 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
         boolean forceUpgrade = false;//((App) getApplication()).getRemoteConfig().getBoolean(RemoteConfig.KEY_FORCE_UPGRADE);
         return (code > 0 && (availableVersionCode - code) >= 2) || forceUpgrade;
     }
-
 }
 
 

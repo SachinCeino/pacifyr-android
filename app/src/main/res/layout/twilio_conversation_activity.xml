@@ -71,7 +71,7 @@
             android:layout_width="35sp"
             android:layout_height="35dp"
             android:layout_gravity="center_vertical"
-
+            android:onClick="onAttachmentsClick"
             android:src="@drawable/ic_action_attachment"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
