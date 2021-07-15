@@ -71,6 +71,7 @@ public class TwilioCoversationListActivity extends PacifyrActivity implements Qu
     int currentVisiblePosition = 0;
     private List<TwilioConversationCreate> results = new ArrayList<>();
     private LinearLayoutManager mLinearLayoutManager;
+    private String userid ="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,7 +94,7 @@ public class TwilioCoversationListActivity extends PacifyrActivity implements Qu
 
         PrefManager prefM= PrefManager.getInstance(TwilioCoversationListActivity.this);
         String userToken=prefM.getAccessToken();
-       // String userid=prefM.getUserID();
+        userid=prefM.getUserID();
         String url = NetworkService.GLOBAL_URL+"messages/customer?skip=0&limit=25";
         AjaxCallback cb = new AjaxCallback<JSONObject>() {
             @Override
@@ -143,7 +144,7 @@ public class TwilioCoversationListActivity extends PacifyrActivity implements Qu
     }
 
     private void setUpParticipantsListAdapter() {
-        mTwilioChatListAdapter=new TwilioChatListAdapter(this,results);
+        mTwilioChatListAdapter=new TwilioChatListAdapter(this,results,userid);
          mLinearLayoutManager=new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.VERTICAL,false);
         RecyclerView_chatParticipants.setLayoutManager(mLinearLayoutManager);
         RecyclerView_chatParticipants.setAdapter(mTwilioChatListAdapter);

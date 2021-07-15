@@ -24,12 +24,14 @@ public class TwilioChatListAdapter extends RecyclerView.Adapter<TwilioChatListAd
 
     private Context mContext;
     private List<TwilioConversationCreate> results;
+    private String userId;
 
 
 
-    public TwilioChatListAdapter(Context mContext, List<TwilioConversationCreate> results) {
+    public TwilioChatListAdapter(Context mContext, List<TwilioConversationCreate> results, String userId) {
         this.mContext=mContext;
         this.results=results;
+        this.userId=userId;
     }
 
 
@@ -74,10 +76,20 @@ public class TwilioChatListAdapter extends RecyclerView.Adapter<TwilioChatListAd
             }
 
             if(isValid(object.getUnreadStatus())){
-                int count = object.getUnreadStatus().get(0).getUnreadCount();
-                if(count > 0){
+                List<TwilioConversationCreate.Unreadstatus> unreadList = object.getUnreadStatus();
+
+                int unreadCount= 0;
+                for (int i= 0; i<unreadList.size(); i++){
+                    if (unreadList.get(i).getUserId().equals(userId)){
+                        unreadCount = unreadList.get(i).getUnreadCount();
+                        break;
+                    }
+                }
+
+
+                if(unreadCount > 0){
                     holder.tvUnreadCount.setVisibility(View.VISIBLE);
-                    holder.tvUnreadCount.setText(String.valueOf(count));
+                    holder.tvUnreadCount.setText(String.valueOf(unreadCount));
                 }
             }
 
