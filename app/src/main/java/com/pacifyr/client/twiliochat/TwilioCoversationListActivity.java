@@ -262,5 +262,15 @@ public class TwilioCoversationListActivity extends PacifyrActivity implements Qu
 
     }
 
+    @Override
+    public void uploadProgress(Boolean visible) {
+
+    }
+
+    @Override
+    public void setProgressValue(long value) {
+
+    }
+
 
 }

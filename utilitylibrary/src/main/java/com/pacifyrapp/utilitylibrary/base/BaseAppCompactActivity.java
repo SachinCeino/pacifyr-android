@@ -131,6 +131,14 @@ public class BaseAppCompactActivity extends CoreBaseActivity {
 
     }
 
+    public void setProgressBar() {
+        hideProgress();
+        if(isValid(hud_progress))
+            hud_progress=null;
+        hud_progress = KProgressHUD.create(this).setStyle(KProgressHUD.Style.ANNULAR_DETERMINATE).setLabel("Please wait").setAnimationSpeed(2).setCancellable(true).setMaxProgress(100).setDimAmount(0.5f);
+
+    }
+
     public void setLoading(String message) {
         hideProgress();
         if(isValid(hud_progress))
@@ -142,6 +150,16 @@ public class BaseAppCompactActivity extends CoreBaseActivity {
     public void hideProgress() {
         try {
             if(isValid(hud_progress)) if(hud_progress.isShowing()) hud_progress.dismiss();
+        }catch (Exception e)
+        {
+
+        }
+    }
+
+    public void setProgressValue(int progressValue) {
+        try {
+            //hideProgress();
+            if(isValid(hud_progress)) if(hud_progress.isShowing()) hud_progress.setProgress(progressValue);
         }catch (Exception e)
         {
 

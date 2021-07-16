@@ -1,5 +1,6 @@
 package com.pacifyr.client.twiliochat;
 
+import android.app.ProgressDialog;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -33,6 +34,10 @@ import com.bumptech.glide.request.Request;
 import com.bumptech.glide.request.target.SizeReadyCallback;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
+import com.krishna.fileloader.FileLoader;
+import com.krishna.fileloader.listener.FileRequestListener;
+import com.krishna.fileloader.pojo.FileResponse;
+import com.krishna.fileloader.request.FileLoadRequest;
 import com.opensooq.supernova.gligar.GligarPicker;
 import com.pacifyr.client.R;
 import com.pacifyr.client.base.PacifyrActivity;
@@ -40,9 +45,11 @@ import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.quickblox.chat.interfaces.AttachmentClick;
 import com.pacifyr.client.quickblox.chat.ui.activity.AttachmentImageActivity;
 import com.pacifyr.client.quickblox.chat.ui.widget.BottomAttachDialog;
+import com.pacifyr.client.utility.PdfViewer;
 import com.pacifyr.client.utils.Utility;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
+import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.squareup.picasso.Picasso;
 import com.twilio.conversations.Message;
@@ -52,6 +59,7 @@ import org.jetbrains.annotations.Nullable;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -97,6 +105,7 @@ public class TwilioConversationActivity extends
 
     private static final int REQUESTCODE_CAMERA_IMAGE = 101;
     private static final int REQUESTCODE_GALLERY_IMAGE = 102;
+    private static final int REQUESTCODE_FILE = 103;
 
     private LinearLayout actionBarTopLlay;
     private RelativeLayout bottomPanel;
@@ -132,6 +141,7 @@ public class TwilioConversationActivity extends
     Uri imageUri;
     View attachPendingView;
     private ArrayList<Message> messageList;
+    private ProgressDialog progressdialog;
 
     @Override
     protected void onDestroy() {
@@ -163,7 +173,7 @@ public class TwilioConversationActivity extends
         quickstartConversationsManager = new QuickstartConversationsManager();
         prefM = PrefManager.getInstance(this);
         layoutManager = new LinearLayoutManager(this);
-        bottomSheet = new BottomAttachDialog(isCallActive, this, false);
+        bottomSheet = new BottomAttachDialog(isCallActive, this, true);
     }
 
     private void initView(){
@@ -172,6 +182,7 @@ public class TwilioConversationActivity extends
         sendChatMessageButton = findViewById(R.id.sendChatMessageButton);
         tvStatus = findViewById(R.id.tv_status);
 
+       // initProgressDialog();
 
     }
 
@@ -242,14 +253,17 @@ public class TwilioConversationActivity extends
     }
 
     private void intiListener(){
+
+        //back button click
         rightTxv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
 
+
             }
         });
-
+        //Chat send Button click
         sendChatMessageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -259,10 +273,10 @@ public class TwilioConversationActivity extends
                     writeMessageEditText.setText("");
 
                 }
-
             }
         });
 
+        //Text change listener
         writeMessageEditText.addTextChangedListener(new TextWatcher() {
 
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -274,9 +288,7 @@ public class TwilioConversationActivity extends
             }
 
             public void afterTextChanged(Editable s) {
-
                 quickstartConversationsManager.messageTyping();
-
             }
 
         });
@@ -401,20 +413,34 @@ public class TwilioConversationActivity extends
                      // display your image
                      resizeImage(uri.toString());
                  }
+            } else if(requestCode ==  REQUESTCODE_FILE){
 
+                 if (isValid(data.getClipData())) {
+                     ClipData mClipData = data.getClipData();
+                     for (int i = 0; i < mClipData.getItemCount(); i++) {
+                         ClipData.Item item = mClipData.getItemAt(i);
+                         Uri uri = item.getUri();
 
+                         File f = new File(uri.getPath());
+                         long fileSizeInBytes = f.length();
 
-                /*Uri pathsList = data.getData();
-                if (isValid(pathsList)) {
-
-                    //Log.w("file_name","imageUri: "+pathsList[0].);
-
-                    resizeImage(pathsList.toString());
-
-
-
-                }*/
-            }
+                        try {
+                            FileInputStream fileInputStream = new FileInputStream(this.getContentResolver().openFileDescriptor(uri, "r").getFileDescriptor());
+                            quickstartConversationsManager.sendMedia(fileInputStream, "FILE", fileSizeInBytes);
+                        } catch (FileNotFoundException e) {
+                        }
+                     }
+                 } else if (isValid(data.getData())) {
+                     Uri uri = data.getData();
+                     File f = new File(uri.getPath());
+                     long fileSizeInBytes = f.length();
+                     try {
+                         FileInputStream fileInputStream = new FileInputStream(this.getContentResolver().openFileDescriptor(uri, "r").getFileDescriptor());
+                         quickstartConversationsManager.sendMedia(fileInputStream, "FILE", fileSizeInBytes);
+                     } catch (FileNotFoundException e) {
+                     }
+                 }
+             }
         }
     }
 
@@ -474,6 +500,36 @@ public class TwilioConversationActivity extends
 
     }
 
+    public void pdfReaderIntent(String url,String title){
+
+        setLoading();
+        showProgress();
+        FileLoader.with(this)
+                .load(url, false) //2nd parameter is optioal, pass true to force load from network
+                .fromDirectory("test4", FileLoader.DIR_CACHE)
+                .asFile(new FileRequestListener<File>() {
+                    @Override
+                    public void onLoad(FileLoadRequest request, FileResponse<File> response) {
+                        hideProgress();
+                        File loadedFile = response.getBody();
+                        // do something with the file
+                        Log.d(TAG, "File downloaded ");
+                        PdfViewer.pdf = loadedFile;
+                        Intent intent = new Intent(TwilioConversationActivity.this, PdfViewer.class);
+                        intent.putExtra("title",title);
+                        intent.putExtra("restoreCall",true);
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onError(FileLoadRequest request, Throwable t) {
+                        hideProgress();
+                        Log.d(TAG, "File download failed ");
+                    }
+                });
+    }
+
+
 
     public static void start(Context context, String url) {
         Intent intent = new Intent(context, AttachmentImageActivity.class);
@@ -508,17 +564,20 @@ public class TwilioConversationActivity extends
                         Uri contentUri = Uri.fromFile(file);
 
                         Log.w("file_name","imageUri: "+contentUri.getPath());
-
+                        long fileSizeInBytes = file.length();
 
                         try {
-                            quickstartConversationsManager.sendMedia(contentUri.getPath());
+                            FileInputStream fileInputStream = new FileInputStream(
+                                    TwilioConversationActivity.this.getContentResolver()
+                                            .openFileDescriptor(contentUri, "r").getFileDescriptor());
+                            quickstartConversationsManager.sendMedia(fileInputStream,"IMAGE",fileSizeInBytes);
                         } catch (FileNotFoundException e) {
                             e.printStackTrace();
                         }
                         //attachmentPreviewAdapter.add(file);
-                        long fileSizeInBytes = file.length();
-                        long fileSizeInKB = fileSizeInBytes / 1024;
-                        Log.d(TAG, "File size : " + fileSizeInKB + " KB");
+                        //long fileSizeInBytes = file.length();
+                        //long fileSizeInKB = fileSizeInBytes / 1024;
+                        //Log.d(TAG, "File size : " + fileSizeInKB + " KB");
                     }
                 }
             }
@@ -634,6 +693,28 @@ public class TwilioConversationActivity extends
     }
 
 
+    /**
+     * Show/Hide progress dialog
+     */
+    private void visibilityProgressDialog(Boolean isVisibility){
+            if(isVisibility){
+                setProgressBar();
+                showProgress();
+            } else{
+                hideProgress();
+            }
+
+    }
+
+    /**
+     * Set progress value
+     */
+    private void setValueProgressDialog(long value) {
+        int toInt = (int)value;
+        setProgressValue(toInt);
+    }
+
+
 
 
     @Override
@@ -648,6 +729,16 @@ public class TwilioConversationActivity extends
         if (isValid(messagesAdapter)) {
             showTyping(visible);
         }
+    }
+
+    @Override
+    public void uploadProgress(Boolean visible) {
+        visibilityProgressDialog(visible);
+    }
+
+    @Override
+    public void setProgressValue(long value) {
+        setValueProgressDialog(value);
     }
 
 
@@ -707,7 +798,18 @@ public class TwilioConversationActivity extends
                 bottomSheet.dismiss();
                 break;
             case 2:
-                //todo open docs list
+                Intent intentFile = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                intentFile.addCategory(Intent.CATEGORY_OPENABLE);
+                intentFile.setType("application/pdf");
+                intentFile.putExtra(EXTRA_ALLOW_MULTIPLE, true);
+                Uri filePickerInitialUri = null;
+                // Optionally, specify a URI for the file that should appear in the
+                // system file picker when it loads.
+                if (filePickerInitialUri != null) {
+                    intentFile.putExtra(DocumentsContract.EXTRA_INITIAL_URI, filePickerInitialUri);
+                }
+
+                startActivityForResult(intentFile, REQUESTCODE_FILE);
                 bottomSheet.dismiss();
                 break;
             case -1:

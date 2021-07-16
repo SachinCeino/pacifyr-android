@@ -38,6 +38,8 @@ interface QuickstartConversationsManagerListener {
     void messageSentCallback();
     void reloadMessages(List<Message> result);
     void messageTyping(Boolean visible);
+    void uploadProgress(Boolean visible);
+    void setProgressValue(long value);
 }
 
 interface TokenResponseListener {
@@ -167,25 +169,41 @@ class QuickstartConversationsManager {
         }
     }
 
-    void sendMedia(String file) throws FileNotFoundException {
+
+    void sendMedia(FileInputStream file, String type, long fileSizeInBytes) throws FileNotFoundException {
+        String mimeType = "", fileName = "";
+        fileName = String.valueOf(System.currentTimeMillis());
+        switch (type){
+            case "FILE": mimeType = "application/pdf"; fileName += "_file.pdf"; break;
+            case "IMAGE": mimeType = "image/jpg"; fileName += "_image.jpg"; break;
+
+        }
+
+
         conversation.sendMessage(
                 Message.options()
-                        .withMedia(new FileInputStream(file), "image/jpg")
-                        .withMediaFileName("file.jpg")
+                        .withMedia(file, mimeType)
+                        .withMediaFileName(fileName)
                         .withMediaProgressListener(new ProgressListener() {
                             @Override
                             public void onStarted() {
                                 Log.d("sendMedia","Upload started");
+                                conversationsManagerListener.uploadProgress(true);
                             }
 
                             @Override
                             public void onProgress(long bytes) {
+                                int b = (int)bytes;
+                                int total = (int)fileSizeInBytes;
+                                long percentage = (b * 100)/total;
                                 Log.d("sendMedia","Uploaded " + bytes + " bytes");
+                                conversationsManagerListener.setProgressValue(percentage);
                             }
 
                             @Override
                             public void onCompleted(String mediaSid) {
                                 Log.d("sendMedia","Upload completed");
+                                conversationsManagerListener.uploadProgress(false);
                             }
                         }),
                 new CallbackListener<Message>() {
@@ -200,7 +218,6 @@ class QuickstartConversationsManager {
                     }
                 });
     }
-
 
     private void loadChannels() {
         if (conversationsClient == null || conversationsClient.getMyConversations() == null) {
