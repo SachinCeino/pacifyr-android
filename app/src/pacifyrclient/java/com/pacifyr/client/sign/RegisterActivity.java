@@ -1661,7 +1661,7 @@ public class RegisterActivity extends PacifyrActivity {
                                 saveUserDetailsToPrefM();
                                 qbID = qbUser.getId().toString();
                                 saveUserData(qbUser);
-                                startLoginService(qbUser);
+                                //startLoginService(qbUser);
                                 getPrefManager(RegisterActivity.this).saveQBID(qbID);
                                 updateQBUserID();
                                 quickBoxSignIn(userid);

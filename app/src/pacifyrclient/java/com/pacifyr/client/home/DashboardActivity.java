@@ -880,6 +880,15 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
         if (realTimeLogging == 0) {
             Utility.getRealTimeLogging(DashboardActivity.this);
         }
+
+       try {
+           SharedPrefsHelper sharedPrefsHelper = SharedPrefsHelper.getInstance();
+           if (isValid(sharedPrefsHelper)&& isValid(sharedPrefsHelper.getQbUser()))
+               startLoginService(sharedPrefsHelper.getQbUser());
+       }catch (Exception e)
+       {
+           Log.w("QBUSErExceptin",e);
+       }
     }
 
     private void Browser(String screeName,boolean isLink){
