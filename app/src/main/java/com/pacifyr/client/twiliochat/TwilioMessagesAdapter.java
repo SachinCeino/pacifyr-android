@@ -174,6 +174,7 @@ public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAd
 
                             Glide.with(context)
                                     .load(mediaContentUrl)
+
                                     .listener(new RequestListener<Drawable>() {
                                         @Override
                                         public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
@@ -188,6 +189,7 @@ public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAd
                                         }
                                     })
                                     .skipMemoryCache(false)
+                                    .signature(new ObjectKey(mediaContentUrl))
                                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                                     .into(holder.ivImage);
 

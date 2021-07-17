@@ -10,6 +10,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.ParcelFileDescriptor;
 import android.provider.DocumentsContract;
 import android.provider.Settings;
 import android.text.Editable;
@@ -141,7 +142,6 @@ public class TwilioConversationActivity extends
     Uri imageUri;
     View attachPendingView;
     private ArrayList<Message> messageList;
-    private ProgressDialog progressdialog;
 
     @Override
     protected void onDestroy() {
@@ -182,7 +182,7 @@ public class TwilioConversationActivity extends
         sendChatMessageButton = findViewById(R.id.sendChatMessageButton);
         tvStatus = findViewById(R.id.tv_status);
 
-       // initProgressDialog();
+
 
     }
 
@@ -421,21 +421,21 @@ public class TwilioConversationActivity extends
                          ClipData.Item item = mClipData.getItemAt(i);
                          Uri uri = item.getUri();
 
-                         File f = new File(uri.getPath());
-                         long fileSizeInBytes = f.length();
-
                         try {
-                            FileInputStream fileInputStream = new FileInputStream(this.getContentResolver().openFileDescriptor(uri, "r").getFileDescriptor());
+                            ParcelFileDescriptor fd = this.getContentResolver().openFileDescriptor(uri, "r");
+                            Long fileSizeInBytes = fd.getStatSize();
+                            FileInputStream fileInputStream = new FileInputStream(fd.getFileDescriptor());
                             quickstartConversationsManager.sendMedia(fileInputStream, "FILE", fileSizeInBytes);
                         } catch (FileNotFoundException e) {
                         }
                      }
                  } else if (isValid(data.getData())) {
                      Uri uri = data.getData();
-                     File f = new File(uri.getPath());
-                     long fileSizeInBytes = f.length();
+
                      try {
-                         FileInputStream fileInputStream = new FileInputStream(this.getContentResolver().openFileDescriptor(uri, "r").getFileDescriptor());
+                         ParcelFileDescriptor fd = this.getContentResolver().openFileDescriptor(uri, "r");
+                         Long fileSizeInBytes = fd.getStatSize();
+                         FileInputStream fileInputStream = new FileInputStream(fd.getFileDescriptor());
                          quickstartConversationsManager.sendMedia(fileInputStream, "FILE", fileSizeInBytes);
                      } catch (FileNotFoundException e) {
                      }
