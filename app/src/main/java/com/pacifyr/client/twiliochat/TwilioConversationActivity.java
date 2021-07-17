@@ -784,7 +784,7 @@ public class TwilioConversationActivity extends
                 Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
                 intent.addCategory(Intent.CATEGORY_OPENABLE);
                 intent.setType("image/*");
-                intent.putExtra(EXTRA_ALLOW_MULTIPLE, true);
+                //intent.putExtra(EXTRA_ALLOW_MULTIPLE, true);
                 Uri pickerInitialUri = null;
                 // Optionally, specify a URI for the file that should appear in the
                 // system file picker when it loads.
@@ -801,7 +801,7 @@ public class TwilioConversationActivity extends
                 Intent intentFile = new Intent(Intent.ACTION_OPEN_DOCUMENT);
                 intentFile.addCategory(Intent.CATEGORY_OPENABLE);
                 intentFile.setType("application/pdf");
-                intentFile.putExtra(EXTRA_ALLOW_MULTIPLE, true);
+                //intentFile.putExtra(EXTRA_ALLOW_MULTIPLE, true);
                 Uri filePickerInitialUri = null;
                 // Optionally, specify a URI for the file that should appear in the
                 // system file picker when it loads.
