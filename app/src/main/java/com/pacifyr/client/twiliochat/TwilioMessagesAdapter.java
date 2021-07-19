@@ -22,6 +22,7 @@ import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.signature.ObjectKey;
 import com.pacifyr.client.R;
 import com.pacifyr.client.customview.MainTextView;
+import com.pacifyr.client.model.MessageMediaModel;
 import com.pacifyr.client.quickblox.App;
 import com.pacifyr.client.utils.Utility;
 import com.twilio.conversations.CallbackListener;
@@ -33,7 +34,7 @@ public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAd
     private static final int VIEW_TYPE_MESSAGE_SENT = 1;
     private static final int VIEW_TYPE_MESSAGE_RECEIVED = 2;
     Context context;
-    ArrayList<Message> messageList;
+    ArrayList<MessageMediaModel> messageList;
     String userId;
     String nextMsgDate ="";
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -56,7 +57,7 @@ public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAd
 
     }
 
-    TwilioMessagesAdapter(ArrayList<Message> messageList, String userId, Context context) {
+    TwilioMessagesAdapter(ArrayList<MessageMediaModel> messageList, String userId, Context context) {
     this.messageList=messageList;
     this.userId=userId;
     this.context=context;
@@ -64,7 +65,7 @@ public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAd
     @Override
     public int getItemViewType(int position) {
 
-        Message message =  messageList.get(position);
+        Message message =  messageList.get(position).message;
 
         if (message.getAuthor().equals(userId)) {
             // If the current user is the sender of the message
@@ -105,7 +106,7 @@ public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAd
 
 
 
-        Message message = messageList.get(position);
+        Message message = messageList.get(position).message;
 
 
         /////// Date //////////
@@ -115,7 +116,7 @@ public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAd
         if(0 == position){
             holder.tvDate.setVisibility(View.VISIBLE);
         } else {
-            nextMsgDate = Utility.getFormattedDate(context,messageList.get(position - 1).getDateCreated());
+            nextMsgDate = Utility.getFormattedDate(context,messageList.get(position - 1).message.getDateCreated());
 
             if(nextMsgDate.isEmpty() || !nextMsgDate.equals(date)){
                 holder.tvDate.setVisibility(View.VISIBLE);
@@ -135,9 +136,62 @@ public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAd
             holder.ivImage.setVisibility(View.VISIBLE);
 
 
-            final String[] url = {null};
+            String mediaUrl = messageList.get(position).mediaUrl;
+            holder.progressMessage.setVisibility(View.VISIBLE);
+            if(!mediaUrl.isEmpty()){
+                Object imgUrl;
+                int w , h;
+                if(message.getMediaType().equals("application/pdf")) {
+                    w = 100;
+                    h = 100;
+                    imgUrl = R.drawable.pdfdoc3;
+                }else {
+                    w = 0;
+                    h = 350;
+                    imgUrl = mediaUrl;
+                }
 
 
+                Glide.with(context)
+                        .load(imgUrl)
+
+                        .listener(new RequestListener<Drawable>() {
+                            @Override
+                            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                                holder.progressMessage.setVisibility(View.GONE);
+                                return false;
+                            }
+
+                            @Override
+                            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                                holder.progressMessage.setVisibility(View.GONE);
+                                return false;
+                            }
+                        })
+                        .skipMemoryCache(false)
+                        .override(w,h)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .into(holder.ivImage);
+
+
+            } else {
+                Log.w("relod_callback","relod_callback... ");
+                final String[] url = {null};
+                holder.progressMessage.setVisibility(View.VISIBLE);
+                message.getMediaContentTemporaryUrl(new CallbackListener<String>() {
+                    @Override
+                    public void onSuccess(String mediaContentUrl) {
+
+                        messageList.get(position).mediaUrl = mediaContentUrl;
+                        notifyItemChanged(position);
+
+                    }
+                });
+
+        }
+
+
+                /*final String[] url = {null};
                 holder.progressMessage.setVisibility(View.VISIBLE);
                 message.getMediaContentTemporaryUrl(new CallbackListener<String>() {
                     @Override
@@ -169,7 +223,7 @@ public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAd
 
                         }else{
 
-                        if(holder.ivImage.getDrawable() == null) {
+
                             Log.d("TAG", mediaContentUrl);
 
                             Glide.with(context)
@@ -192,24 +246,20 @@ public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAd
                                     .signature(new ObjectKey(mediaContentUrl))
                                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                                     .into(holder.ivImage);
-
-                        }else {
-                            holder.progressMessage.setVisibility(View.GONE);
-                        }
                         }
                     }
-                });
+                });*/
 
             holder.ivImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 
-                        if (url.length != 0) {
+                        if (!mediaUrl.isEmpty()) {
                             if(message.getMediaType().equals("application/pdf")) {
-                                ((TwilioConversationActivity) context).pdfReaderIntent(url[0], message.getMediaFileName());
+                                ((TwilioConversationActivity) context).pdfReaderIntent(mediaUrl, message.getMediaFileName());
 
                             } else {
-                                TwilioConversationActivity.start(context, url[0]);
+                                TwilioConversationActivity.start(context, mediaUrl);
                             }
 
                         }

@@ -20,6 +20,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.MediaController;
 import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
@@ -43,6 +44,7 @@ import com.opensooq.supernova.gligar.GligarPicker;
 import com.pacifyr.client.R;
 import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
+import com.pacifyr.client.model.MessageMediaModel;
 import com.pacifyr.client.quickblox.chat.interfaces.AttachmentClick;
 import com.pacifyr.client.quickblox.chat.ui.activity.AttachmentImageActivity;
 import com.pacifyr.client.quickblox.chat.ui.widget.BottomAttachDialog;
@@ -141,7 +143,7 @@ public class TwilioConversationActivity extends
     private static final int PICK_IMAGE = 130;
     Uri imageUri;
     View attachPendingView;
-    private ArrayList<Message> messageList;
+    private ArrayList<MessageMediaModel> messageList;
 
     @Override
     protected void onDestroy() {
@@ -745,8 +747,10 @@ public class TwilioConversationActivity extends
     @Override
     public void receivedNewMessage(Message message) {
         Log.w(TAG,"receivedNewMessage________");
+
+
         if (isValid(messagesAdapter)) {
-            messageList.add(message);
+            messageList.add(new MessageMediaModel(message,""));
             messagesAdapter.notifyItemInserted(messagesAdapter.getItemCount() + 1);
             pageScrollToBottom();
             apiCallMessageRead();
@@ -766,9 +770,12 @@ public class TwilioConversationActivity extends
     public void reloadMessages(List<Message> result) {
         hideProgress();
         Log.w(TAG,"reloadMessages________");
-    if (isValid(messagesAdapter))
+    if (isValid(messagesAdapter) && isValid(result))
         messageList.clear();
-        messageList.addAll(result);
+        for (int i=0; i< result.size();i++){
+            messageList.add(new MessageMediaModel(result.get(i),""));
+        }
+        //messageList.addAll(result);
         messagesAdapter.notifyItemInserted(messagesAdapter.getItemCount());
         apiCallMessageRead();
         }

@@ -41,6 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/dp2"
             android:padding="@dimen/dp3"
+            android:adjustViewBounds="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
