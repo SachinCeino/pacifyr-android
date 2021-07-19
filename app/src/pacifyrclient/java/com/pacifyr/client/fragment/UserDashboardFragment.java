@@ -253,7 +253,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                 try {
                     if (isValid(modelCustomerDashboard2.getNextAppointment()))
                     {
-                        ((DashboardActivity)getActivity()).showFragment(new AppointmentsTabViewFragment());
+                        ((DashboardActivity)getActivity()).showAppointmentPage();
                     }
                     else {
                         if (isValid(lastSession)&&isValid(lastSession.getId()))

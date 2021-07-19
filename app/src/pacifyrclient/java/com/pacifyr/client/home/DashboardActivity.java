@@ -823,9 +823,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
             @Override
             public void onClick(View v) {
 
-                hideRightLayActionbar();
-                showFragment(new AppointmentsTabViewFragment());
-                defSetText(titleTxv, getResources().getString(R.string.appointments));
+                showAppointmentPage();
             }
         });
 
@@ -891,6 +889,12 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
        }
     }
 
+    public void showAppointmentPage()
+    {
+        hideRightLayActionbar();
+        showFragment(new AppointmentsTabViewFragment());
+        defSetText(titleTxv, getResources().getString(R.string.appointments));
+    }
     private void Browser(String screeName,boolean isLink){
         switch (screeName){
             case "PrescriptionListFragment":
