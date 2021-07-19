@@ -19,7 +19,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Matrix;
+import android.media.AudioManager;
 import android.media.ExifInterface;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -562,8 +564,8 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
     public void makeAbeepSoundWhileShowingPopUp() {
         try {
             if (isCallActive) {
-                RingtonePlayer ringtonePlayer = new RingtonePlayer(PacifyrActivity.this, R.raw.beep_for_popup);
-                ringtonePlayer.play(false);
+                MediaPlayer mp1 = MediaPlayer.create(PacifyrActivity.this, R.raw.beepforpopup);
+                mp1.start();
             }
         } catch (Exception e) {
 
