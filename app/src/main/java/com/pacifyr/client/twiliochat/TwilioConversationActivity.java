@@ -769,15 +769,16 @@ public class TwilioConversationActivity extends
     @Override
     public void reloadMessages(List<Message> result) {
         hideProgress();
-        Log.w(TAG,"reloadMessages________");
-    if (isValid(messagesAdapter) && isValid(result))
-        messageList.clear();
-        for (int i=0; i< result.size();i++){
-            messageList.add(new MessageMediaModel(result.get(i),""));
+        Log.w(TAG, "reloadMessages________");
+        if (isValid(messagesAdapter) && isValid(result)){
+            messageList.clear();
+        for (int i = 0; i < result.size(); i++) {
+            messageList.add(new MessageMediaModel(result.get(i), ""));
         }
         //messageList.addAll(result);
         messagesAdapter.notifyItemInserted(messagesAdapter.getItemCount());
         apiCallMessageRead();
+    }
         }
 
     @Override

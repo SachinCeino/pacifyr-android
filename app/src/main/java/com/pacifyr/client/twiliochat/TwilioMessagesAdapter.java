@@ -29,6 +29,7 @@ import com.twilio.conversations.CallbackListener;
 import com.twilio.conversations.Message;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAdapter.ViewHolder> {
     private static final int VIEW_TYPE_MESSAGE_SENT = 1;
@@ -37,6 +38,7 @@ public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAd
     ArrayList<MessageMediaModel> messageList;
     String userId;
     String nextMsgDate ="";
+    HashMap<Integer,Boolean> operations = new HashMap<>();
     class ViewHolder extends RecyclerView.ViewHolder {
 
         final MainTextView messageText,tvTimeRight,tvTimeBottom,tvDate;
@@ -98,97 +100,105 @@ public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAd
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-       // holder.setIsRecyclable(false);
-        Log.d("TAG", "re run");
-        holder.ivImage.setVisibility(View.GONE);
-        holder.tvDate.setVisibility(View.GONE);
-        holder.progressMessage.setVisibility(View.GONE);
+        if(operations.containsValue(position)){
+            //Do nothing..
+        }
+      else {
+            //Do operations...
+            operations.put(position, true);
 
 
+            // holder.setIsRecyclable(false);
+            Log.d("TAG", "re run");
+            holder.ivImage.setVisibility(View.GONE);
+            holder.tvDate.setVisibility(View.GONE);
+            holder.progressMessage.setVisibility(View.GONE);
 
-        Message message = messageList.get(position).message;
+
+            Message message = messageList.get(position).message;
 
 
-        /////// Date //////////
-        String date = Utility.getFormattedDate(context,message.getDateCreated());
-        holder.tvDate.setText(date);
-        //Check last item
-        if(0 == position){
-            holder.tvDate.setVisibility(View.VISIBLE);
-        } else {
-            nextMsgDate = Utility.getFormattedDate(context,messageList.get(position - 1).message.getDateCreated());
-
-            if(nextMsgDate.isEmpty() || !nextMsgDate.equals(date)){
+            /////// Date //////////
+            String date = Utility.getFormattedDate(context, message.getDateCreated());
+            holder.tvDate.setText(date);
+            //Check last item
+            if (0 == position) {
                 holder.tvDate.setVisibility(View.VISIBLE);
-                nextMsgDate = date;
-            }else {
-                holder.tvDate.setVisibility(View.GONE);
-            }
-        }
-        //---------------------//
-
-
-        String messageText = message.getMessageBody();
-        holder.messageText.setText(messageText);
-
-        if (message.hasMedia()) {
-
-            holder.ivImage.setVisibility(View.VISIBLE);
-
-
-            String mediaUrl = messageList.get(position).mediaUrl;
-            holder.progressMessage.setVisibility(View.VISIBLE);
-            if(!mediaUrl.isEmpty()){
-                Object imgUrl;
-                int w , h;
-                if(message.getMediaType().equals("application/pdf")) {
-                    w = 100;
-                    h = 100;
-                    imgUrl = R.drawable.pdfdoc3;
-                }else {
-                    w = 0;
-                    h = 350;
-                    imgUrl = mediaUrl;
-                }
-
-
-                Glide.with(context)
-                        .load(imgUrl)
-
-                        .listener(new RequestListener<Drawable>() {
-                            @Override
-                            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                                holder.progressMessage.setVisibility(View.GONE);
-                                return false;
-                            }
-
-                            @Override
-                            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                                holder.progressMessage.setVisibility(View.GONE);
-                                return false;
-                            }
-                        })
-                        .skipMemoryCache(false)
-                        .override(w,h)
-                        .diskCacheStrategy(DiskCacheStrategy.ALL)
-                        .into(holder.ivImage);
-
-
             } else {
-                Log.w("relod_callback","relod_callback... ");
-                final String[] url = {null};
+                nextMsgDate = Utility.getFormattedDate(context, messageList.get(position - 1).message.getDateCreated());
+
+                if (nextMsgDate.isEmpty() || !nextMsgDate.equals(date)) {
+                    holder.tvDate.setVisibility(View.VISIBLE);
+                    nextMsgDate = date;
+                } else {
+                    holder.tvDate.setVisibility(View.GONE);
+                }
+            }
+            //---------------------//
+
+
+            String messageText = message.getMessageBody();
+            holder.messageText.setText(messageText);
+
+            if (message.hasMedia()) {
+
+                holder.ivImage.setVisibility(View.VISIBLE);
+
+
+                String mediaUrl = messageList.get(position).mediaUrl;
                 holder.progressMessage.setVisibility(View.VISIBLE);
-                message.getMediaContentTemporaryUrl(new CallbackListener<String>() {
-                    @Override
-                    public void onSuccess(String mediaContentUrl) {
-
-                        messageList.get(position).mediaUrl = mediaContentUrl;
-                        notifyItemChanged(position);
-
+                if (!mediaUrl.isEmpty()) {
+                    Object imgUrl;
+                    int w, h;
+                    if (message.getMediaType().equals("application/pdf")) {
+                        w = 100;
+                        h = 100;
+                        imgUrl = R.drawable.pdfdoc3;
+                        holder.ivImage.setAdjustViewBounds(false);
+                    } else {
+                        w = 0;
+                        h = 350;
+                        imgUrl = mediaUrl;
+                        holder.ivImage.setAdjustViewBounds(true);
                     }
-                });
 
-        }
+
+                    Glide.with(context)
+                            .load(imgUrl)
+                            .listener(new RequestListener<Drawable>() {
+                                @Override
+                                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                                    holder.progressMessage.setVisibility(View.GONE);
+                                    return false;
+                                }
+
+                                @Override
+                                public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                                    holder.progressMessage.setVisibility(View.GONE);
+                                    return false;
+                                }
+                            }).override(w, h)
+                            .fitCenter()
+                            .skipMemoryCache(false)
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .into(holder.ivImage);
+
+
+                } else {
+                    Log.w("relod_callback", "relod_callback... ");
+                    final String[] url = {null};
+                    holder.progressMessage.setVisibility(View.VISIBLE);
+                    message.getMediaContentTemporaryUrl(new CallbackListener<String>() {
+                        @Override
+                        public void onSuccess(String mediaContentUrl) {
+
+                            messageList.get(position).mediaUrl = mediaContentUrl;
+                            notifyItemChanged(position);
+
+                        }
+                    });
+
+                }
 
 
                 /*final String[] url = {null};
@@ -250,12 +260,12 @@ public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAd
                     }
                 });*/
 
-            holder.ivImage.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
+                holder.ivImage.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
 
                         if (!mediaUrl.isEmpty()) {
-                            if(message.getMediaType().equals("application/pdf")) {
+                            if (message.getMediaType().equals("application/pdf")) {
                                 ((TwilioConversationActivity) context).pdfReaderIntent(mediaUrl, message.getMediaFileName());
 
                             } else {
@@ -264,28 +274,27 @@ public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAd
 
                         }
 
-                }
-            });
-            Log.d("TAG", "mediaContentUrl"+message.getMediaFileName());
+                    }
+                });
+                Log.d("TAG", "mediaContentUrl" + message.getMediaFileName());
+            }
+
+
+            //Time
+            if (messageText.length() > 15 || message.hasMedia()) {
+                holder.tvTimeRight.setVisibility(View.GONE);
+                holder.tvTimeBottom.setVisibility(View.VISIBLE);
+            } else {
+                holder.tvTimeBottom.setVisibility(View.GONE);
+                holder.tvTimeRight.setVisibility(View.VISIBLE);
+            }
+            ///////////Both time will be same/////
+            String time = Utility.getDate(message.getDateCreated(), true);
+            holder.tvTimeRight.setText(time);
+            holder.tvTimeBottom.setText(time);
+
+            ///////////////////////////
         }
-
-
-
-        //Time
-        if(messageText.length() > 15 || message.hasMedia()){
-            holder.tvTimeRight.setVisibility(View.GONE);
-            holder.tvTimeBottom.setVisibility(View.VISIBLE);
-        }else {
-            holder.tvTimeBottom.setVisibility(View.GONE);
-            holder.tvTimeRight.setVisibility(View.VISIBLE);
-        }
-        ///////////Both time will be same/////
-        String time= Utility.getDate(message.getDateCreated(),true);
-        holder.tvTimeRight.setText(time);
-        holder.tvTimeBottom.setText(time);
-
-        ///////////////////////////
-
     }
 
     @Override
