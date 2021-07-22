@@ -613,7 +613,7 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="android_studio_android_com">android.studio@android.com</string>
     <string name="test_pacifyr">Test pacifyr</string>
     <string name="no_messages_">No Messages!</string>
-    <string name="no_messages_text">No Messages</string>
+    <string name="no_messages_text">No messages</string>
     <string name="current_week">current-week</string>
     <string name="loading">Loading...</string>
     <string name="no_slots_available">No slots available</string>
