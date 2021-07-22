@@ -1,5 +1,6 @@
 package com.pacifyr.client.twiliochat;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.ClipData;
 import android.content.Context;
@@ -25,6 +26,7 @@ import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -144,6 +146,7 @@ public class TwilioConversationActivity extends
     Uri imageUri;
     View attachPendingView;
     private ArrayList<MessageMediaModel> messageList;
+    private Boolean permission;
 
     @Override
     protected void onDestroy() {
@@ -318,12 +321,24 @@ public class TwilioConversationActivity extends
      * Check Gallery permission and show image picker
      */
     public void onAttachmentsClick(View view) {
-        if (Utility.checkPermission(this, "chat")) {
+        //Check permission
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
+                || ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+
+            permission = Utility.checkPermission(this, "chat");
+            attachPendingView = view;
+        } else {
+            //Show Image Picker Alert
+            shoImagePickerAlert(view);
+        }
+
+
+        /*if (Utility.checkPermission(this, "chat")) {
             shoImagePickerAlert(view);
         } else {
             Log.w("requestCode","attachPendingView: ");
             attachPendingView = view;
-        }
+        }*/
     }
 
     @Override
