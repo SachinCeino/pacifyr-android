@@ -538,6 +538,57 @@ public class TwilioConversationActivity extends
     }
 
     /**
+     * Api call for send media message
+     * @param type
+     */
+    public void apiCallMediaMessageSend(String type){
+
+        String userToken=prefM.getAccessToken();
+        String userid=prefM.getUserID();
+        String conversationId = mTwilioConversationCreate.getTwilioConversationId();
+
+        String message;
+        if(type.equals("IMAGE") ){
+            message = "Image";
+        } else{  message= "File";}
+
+        String url = GLOBAL_URL+"twilio/webhooks/mediaMessage.sent";
+        AjaxCallback cb = new AjaxCallback<JSONObject>() {
+            @Override
+            public void callback(String url, JSONObject json, AjaxStatus status) {
+                try {
+                    String jsonS = json.toString();
+                    Log.w(TAG, "Media Message send: "+jsonS);
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+
+
+
+        AQuery aq = new AQuery(TwilioConversationActivity.this);
+        cb.header("Content-Type", "application/json");
+        cb.header("AccessToken",userToken);
+
+        try {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.putOpt("twilioConversationId",conversationId);
+            jsonObject.putOpt("userId",userid);
+            jsonObject.putOpt("message",message);
+            aq.post(url,jsonObject, JSONObject.class, cb);
+        }
+        catch (Exception ex)
+        {
+            //hideProgress();
+            ex.printStackTrace();
+        }
+    }
+
+    /**
      * Show typing indicator on title bar
      */
     private void showTyping(Boolean visible){
@@ -694,6 +745,10 @@ public class TwilioConversationActivity extends
         delayhandler.postDelayed(run, 1000);
 
     }
+
+    /**
+     * Create queue for send media message
+     */
     void runUploadLop(){
 
         if(Utility.isValid(uploadDataList)){
@@ -872,6 +927,19 @@ public class TwilioConversationActivity extends
         EventBus.getDefault().unregister(this);
     }
 
+
+    @Override
+    public void sendMediaSuccess(String type) {
+        uploading = false;
+        apiCallMediaMessageSend(type);
+    }
+
+    @Override
+    public void sendMediaError(String error) {
+        uploading = false;
+        Snackbar.make(findViewById(android.R.id.content), getString(R.string.error_sending_media_message), Snackbar.LENGTH_SHORT);
+    }
+
     @Override
     public void messageTyping(Boolean visible) {
         Log.w(TAG,"messageTyping________");
@@ -882,7 +950,7 @@ public class TwilioConversationActivity extends
 
     @Override
     public void uploadProgress(Boolean visible) {
-        uploading = visible;
+        //uploading = visible;
 
         visibilityProgressDialog(visible);
     }

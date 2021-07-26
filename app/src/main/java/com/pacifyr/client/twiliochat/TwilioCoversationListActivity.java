@@ -329,6 +329,16 @@ public class TwilioCoversationListActivity extends PacifyrActivity implements Qu
     }
 
     @Override
+    public void sendMediaSuccess(String type) {
+
+    }
+
+    @Override
+    public void sendMediaError(String error) {
+
+    }
+
+    @Override
     public void setProgressValue(long value) {
 
     }

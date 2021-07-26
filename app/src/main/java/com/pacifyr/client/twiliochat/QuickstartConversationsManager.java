@@ -41,6 +41,8 @@ interface QuickstartConversationsManagerListener {
     void reloadMessages(List<Message> result);
     void messageTyping(Boolean visible);
     void uploadProgress(Boolean visible);
+    void sendMediaSuccess(String type);
+    void sendMediaError(String error);
     void setProgressValue(long value);
 }
 
@@ -219,6 +221,7 @@ class QuickstartConversationsManager {
                 new CallbackListener<Message>() {
                     @Override
                     public void onSuccess(Message msg) {
+                        conversationsManagerListener.sendMediaSuccess(type);
                         Log.d("sendMedia","Successfully sent MEDIA message");
                         try {
                             if(fd != null){
@@ -235,6 +238,7 @@ class QuickstartConversationsManager {
 
                     @Override
                     public void onError(ErrorInfo error) {
+                        conversationsManagerListener.sendMediaError(error.getMessage());
                         Log.e("sendMedia","Error sending MEDIA message");
                         try {
                             if(fd != null){

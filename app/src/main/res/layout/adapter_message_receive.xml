@@ -29,6 +29,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/shape_bg_receive_bubble"
         android:paddingStart="@dimen/dp10"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_date">
 
