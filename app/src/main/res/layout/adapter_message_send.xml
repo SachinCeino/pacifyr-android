@@ -37,7 +37,7 @@
 
         <ImageView
             android:id="@+id/iv_image"
-            android:layout_width="200dp"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/dp2"
             android:padding="@dimen/dp3"
@@ -83,6 +83,15 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/tv_message"
             tools:text="2:20 AM" />
+
+        <ProgressBar
+            android:id="@+id/progress_message"
+            style="@style/CenterProgressBarStyle"
+            android:theme="@style/AppTheme.BlueAccent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/tv_message"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

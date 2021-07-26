@@ -1,5 +1,7 @@
 package com.pacifyr.client.twiliochat;
 
+import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -9,6 +11,8 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.ParcelFileDescriptor;
 import android.provider.DocumentsContract;
 import android.provider.Settings;
 import android.text.Editable;
@@ -18,10 +22,13 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.MediaController;
 import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -33,25 +40,41 @@ import com.bumptech.glide.request.Request;
 import com.bumptech.glide.request.target.SizeReadyCallback;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
+import com.google.android.material.snackbar.Snackbar;
+import com.krishna.fileloader.FileLoader;
+import com.krishna.fileloader.listener.FileRequestListener;
+import com.krishna.fileloader.pojo.FileResponse;
+import com.krishna.fileloader.request.FileLoadRequest;
 import com.opensooq.supernova.gligar.GligarPicker;
 import com.pacifyr.client.R;
 import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
+import com.pacifyr.client.event.InternetConnectionEvent;
+import com.pacifyr.client.model.MessageMediaModel;
+import com.pacifyr.client.model.PermissionModel;
+import com.pacifyr.client.model.UploadData;
+import com.pacifyr.client.netconnectionlistener.ConnectionCheckBroadcast;
 import com.pacifyr.client.quickblox.chat.interfaces.AttachmentClick;
 import com.pacifyr.client.quickblox.chat.ui.activity.AttachmentImageActivity;
 import com.pacifyr.client.quickblox.chat.ui.widget.BottomAttachDialog;
+import com.pacifyr.client.utility.PdfViewer;
 import com.pacifyr.client.utils.Utility;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
+import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
+import com.quickblox.sample.core.utils.ErrorUtils;
 import com.squareup.picasso.Picasso;
 import com.twilio.conversations.Message;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.ThreadMode;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -97,6 +120,7 @@ public class TwilioConversationActivity extends
 
     private static final int REQUESTCODE_CAMERA_IMAGE = 101;
     private static final int REQUESTCODE_GALLERY_IMAGE = 102;
+    private static final int REQUESTCODE_FILE = 103;
 
     private LinearLayout actionBarTopLlay;
     private RelativeLayout bottomPanel;
@@ -131,7 +155,15 @@ public class TwilioConversationActivity extends
     private static final int PICK_IMAGE = 130;
     Uri imageUri;
     View attachPendingView;
-    private ArrayList<Message> messageList;
+    private ArrayList<MessageMediaModel> messageList;
+    private PermissionModel permissionModel;
+    //Upload pending
+    private Handler delayhandler;
+    private Runnable run;
+    private int uploadPos= 0;
+    private Boolean uploading = false;
+    private ArrayList<UploadData> uploadDataList =new ArrayList<>();
+    private Snackbar snackBar;
 
     @Override
     protected void onDestroy() {
@@ -163,7 +195,7 @@ public class TwilioConversationActivity extends
         quickstartConversationsManager = new QuickstartConversationsManager();
         prefM = PrefManager.getInstance(this);
         layoutManager = new LinearLayoutManager(this);
-        bottomSheet = new BottomAttachDialog(isCallActive, this, false);
+        bottomSheet = new BottomAttachDialog(isCallActive, this, true);
     }
 
     private void initView(){
@@ -171,6 +203,7 @@ public class TwilioConversationActivity extends
         writeMessageEditText = findViewById(R.id.writeMessageEditText);
         sendChatMessageButton = findViewById(R.id.sendChatMessageButton);
         tvStatus = findViewById(R.id.tv_status);
+
 
 
     }
@@ -242,14 +275,17 @@ public class TwilioConversationActivity extends
     }
 
     private void intiListener(){
+
+        //back button click
         rightTxv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
 
+
             }
         });
-
+        //Chat send Button click
         sendChatMessageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -259,10 +295,10 @@ public class TwilioConversationActivity extends
                     writeMessageEditText.setText("");
 
                 }
-
             }
         });
 
+        //Text change listener
         writeMessageEditText.addTextChangedListener(new TextWatcher() {
 
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -274,9 +310,7 @@ public class TwilioConversationActivity extends
             }
 
             public void afterTextChanged(Editable s) {
-
                 quickstartConversationsManager.messageTyping();
-
             }
 
         });
@@ -304,12 +338,19 @@ public class TwilioConversationActivity extends
      * Check Gallery permission and show image picker
      */
     public void onAttachmentsClick(View view) {
-        if (Utility.checkPermission(this, "chat")) {
+        permissionModel = Utility.checkDevicePermission(this, "chat");
+        attachPendingView = view;
+        if(permissionModel.allPermission){
+            //Show Image Picker Alert
+            shoImagePickerAlert(view);
+        }
+
+        /*if (Utility.checkPermission(this, "chat")) {
             shoImagePickerAlert(view);
         } else {
             Log.w("requestCode","attachPendingView: ");
             attachPendingView = view;
-        }
+        }*/
     }
 
     @Override
@@ -329,7 +370,16 @@ public class TwilioConversationActivity extends
                     shoImagePickerAlert(attachPendingView);
 
                 } else {
-                    permissionDenied();
+                    boolean allPermissionsGranted = true;
+                    for(String permission: permissions){
+                        if(!ActivityCompat.shouldShowRequestPermissionRationale(this,permission)){
+                            allPermissionsGranted = false;
+                        }
+                    }
+                    if(!allPermissionsGranted && !permissionModel.popup){
+                        permissionDenied();
+                    }
+
                     // permission denied, boo! Disable the
                     // functionality that depends on this permission.
                 }
@@ -380,41 +430,66 @@ public class TwilioConversationActivity extends
                 String[] pathsList = data.getExtras().getStringArray(GligarPicker.IMAGES_RESULT);
                 if (isValid(pathsList)) {
                     for (String url : pathsList) {
-                        resizeImage(url);
+                        Uri uri =  Uri.fromFile(new File(url));
+                        uploadDataList.add(new UploadData(uri,"IMAGE"));
+                        //resizeImage(url);
                     }
+                    runUploadTimer();
                 }
             }
-            else if (requestCode == REQUESTCODE_GALLERY_IMAGE) {
-               // String dataStr = data.getDataString();
+             else if (requestCode == REQUESTCODE_GALLERY_IMAGE) {
+                 // String dataStr = data.getDataString();
 
+                 uploadDataList.clear();
+                 uploading = false;
+                 uploadPos = 0;
 
                  if (isValid(data.getClipData())) {
                      ClipData mClipData = data.getClipData();
+
                      for (int i = 0; i < mClipData.getItemCount(); i++) {
                          ClipData.Item item = mClipData.getItemAt(i);
                          Uri uri = item.getUri();
-                         // display your images
-                         resizeImage(uri.toString());
+
+                         uploadDataList.add(new UploadData(uri,"IMAGE"));
+
+                         //resizeImage(uri.toString());
+                     }
+                     runUploadTimer();
+
+                 } else if (isValid(data.getData())) {
+
+                     Uri uri = data.getData();
+                     uploadDataList.add(new UploadData(uri,"IMAGE"));
+                     // display your image
+                     //resizeImage(uri.toString());
+                     runUploadTimer();
+                 }
+
+             } else if(requestCode ==  REQUESTCODE_FILE){
+
+                 uploadDataList.clear();
+                 uploading = false;
+                 uploadPos = 0;
+
+                 if (isValid(data.getClipData())) {
+                     ClipData mClipData = data.getClipData();
+
+
+                     for (int i = 0; i < mClipData.getItemCount(); i++) {
+                         ClipData.Item item = mClipData.getItemAt(i);
+                         Uri uri = item.getUri();
+
+                         uploadDataList.add(new UploadData(uri,"FILE"));
+                         runUploadTimer();
                      }
                  } else if (isValid(data.getData())) {
                      Uri uri = data.getData();
-                     // display your image
-                     resizeImage(uri.toString());
+
+                     uploadDataList.add(new UploadData(uri,"FILE"));
+                     runUploadTimer();
                  }
-
-
-
-                /*Uri pathsList = data.getData();
-                if (isValid(pathsList)) {
-
-                    //Log.w("file_name","imageUri: "+pathsList[0].);
-
-                    resizeImage(pathsList.toString());
-
-
-
-                }*/
-            }
+             }
         }
     }
 
@@ -463,6 +538,57 @@ public class TwilioConversationActivity extends
     }
 
     /**
+     * Api call for send media message
+     * @param type
+     */
+    public void apiCallMediaMessageSend(String type){
+
+        String userToken=prefM.getAccessToken();
+        String userid=prefM.getUserID();
+        String conversationId = mTwilioConversationCreate.getTwilioConversationId();
+
+        String message;
+        if(type.equals("IMAGE") ){
+            message = "Image";
+        } else{  message= "File";}
+
+        String url = GLOBAL_URL+"twilio/webhooks/mediaMessage.sent";
+        AjaxCallback cb = new AjaxCallback<JSONObject>() {
+            @Override
+            public void callback(String url, JSONObject json, AjaxStatus status) {
+                try {
+                    String jsonS = json.toString();
+                    Log.w(TAG, "Media Message send: "+jsonS);
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+
+
+
+        AQuery aq = new AQuery(TwilioConversationActivity.this);
+        cb.header("Content-Type", "application/json");
+        cb.header("AccessToken",userToken);
+
+        try {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.putOpt("twilioConversationId",conversationId);
+            jsonObject.putOpt("userId",userid);
+            jsonObject.putOpt("message",message);
+            aq.post(url,jsonObject, JSONObject.class, cb);
+        }
+        catch (Exception ex)
+        {
+            //hideProgress();
+            ex.printStackTrace();
+        }
+    }
+
+    /**
      * Show typing indicator on title bar
      */
     private void showTyping(Boolean visible){
@@ -473,6 +599,36 @@ public class TwilioConversationActivity extends
         }
 
     }
+
+    public void pdfReaderIntent(String url,String title){
+
+        setLoading();
+        showProgress();
+        FileLoader.with(this)
+                .load(url, false) //2nd parameter is optioal, pass true to force load from network
+                .fromDirectory("test4", FileLoader.DIR_CACHE)
+                .asFile(new FileRequestListener<File>() {
+                    @Override
+                    public void onLoad(FileLoadRequest request, FileResponse<File> response) {
+                        hideProgress();
+                        File loadedFile = response.getBody();
+                        // do something with the file
+                        Log.d(TAG, "File downloaded ");
+                        PdfViewer.pdf = loadedFile;
+                        Intent intent = new Intent(TwilioConversationActivity.this, PdfViewer.class);
+                        intent.putExtra("title",title);
+                        intent.putExtra("restoreCall",true);
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onError(FileLoadRequest request, Throwable t) {
+                        hideProgress();
+                        Log.d(TAG, "File download failed ");
+                    }
+                });
+    }
+
 
 
     public static void start(Context context, String url) {
@@ -508,17 +664,27 @@ public class TwilioConversationActivity extends
                         Uri contentUri = Uri.fromFile(file);
 
                         Log.w("file_name","imageUri: "+contentUri.getPath());
-
+                        long fileSizeInBytes = file.length();
 
                         try {
-                            quickstartConversationsManager.sendMedia(contentUri.getPath());
+                           /* FileInputStream fileInputStream = new FileInputStream(
+                                    TwilioConversationActivity.this.getContentResolver()
+                                            .openFileDescriptor(contentUri, "r").getFileDescriptor());*/
+
+                            ParcelFileDescriptor fd = TwilioConversationActivity.this.getContentResolver().openFileDescriptor(contentUri, "r");
+                            // Long fileSizeInBytes = fd.getStatSize();
+                            FileInputStream fileInputStream = new FileInputStream(fd.getFileDescriptor());
+
+                            quickstartConversationsManager.sendMedia(fileInputStream,fd,
+                                    "IMAGE", fileSizeInBytes);
+
                         } catch (FileNotFoundException e) {
                             e.printStackTrace();
                         }
                         //attachmentPreviewAdapter.add(file);
-                        long fileSizeInBytes = file.length();
-                        long fileSizeInKB = fileSizeInBytes / 1024;
-                        Log.d(TAG, "File size : " + fileSizeInKB + " KB");
+                        //long fileSizeInBytes = file.length();
+                        //long fileSizeInKB = fileSizeInBytes / 1024;
+                        //Log.d(TAG, "File size : " + fileSizeInKB + " KB");
                     }
                 }
             }
@@ -564,6 +730,61 @@ public class TwilioConversationActivity extends
 
             }
         });
+    }
+
+    private void runUploadTimer(){
+
+        delayhandler = new Handler();
+        run = new Runnable() {
+            @Override
+            public void run() {
+                runUploadLop();
+
+            }
+        };
+        delayhandler.postDelayed(run, 1000);
+
+    }
+
+    /**
+     * Create queue for send media message
+     */
+    void runUploadLop(){
+
+        if(Utility.isValid(uploadDataList)){
+            if(uploadPos  < uploadDataList.size()){
+                if(!uploading ) {
+                    uploading = true;
+
+
+                    UploadData uploadData = uploadDataList.get(uploadPos);
+
+                    switch (uploadData.type) {
+                        case "IMAGE":
+                            resizeImage(uploadData.uri.toString());
+                            break;
+                        case "FILE": {
+                            try {
+
+                                ParcelFileDescriptor fd = this.getContentResolver().openFileDescriptor(uploadData.uri, "r");
+                                Long fileSizeInBytes = fd.getStatSize();
+                                FileInputStream fileInputStream = new FileInputStream(fd.getFileDescriptor());
+                                quickstartConversationsManager.sendMedia(fileInputStream, fd, "FILE", fileSizeInBytes);
+                            } catch (FileNotFoundException e) {
+                            }
+
+                            break;
+                        }
+                    }
+
+                    uploadPos += 1;
+
+                }
+                delayhandler.postDelayed(run, 1000);
+
+            }
+        }
+
     }
 
 
@@ -634,12 +855,89 @@ public class TwilioConversationActivity extends
     }
 
 
+    /**
+     * Show/Hide progress dialog
+     */
+    private void visibilityProgressDialog(Boolean isVisibility){
+            if(isVisibility){
+                setProgressBar();
+                showProgress();
+            } else{
+                hideProgress();
+            }
 
+    }
+
+    /**
+     * Set progress value
+     */
+    private void setValueProgressDialog(long value) {
+        int toInt = (int)value;
+        setProgressValue(toInt);
+    }
+
+    @org.greenrobot.eventbus.Subscribe(threadMode = ThreadMode.MAIN)
+    public void onNetworkChanged(InternetConnectionEvent event) {
+        try {
+            if (isValid(event) && isShowDialogs()) {
+                if (!event.isConnected())
+                {
+                    showHideNoInternet(true);
+                }
+                else
+                {
+                    showHideNoInternet(false);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    /**
+     * Show no internet message in Snackbar
+     */
+    private void showHideNoInternet(Boolean visible){
+        if(visible){
+            snackBar = Snackbar.make(findViewById(android.R.id.content), getString(R.string.no_internet_connection), Snackbar.LENGTH_INDEFINITE);
+            snackBar.show();
+        } else if(snackBar != null && snackBar.isShown()){
+            snackBar.dismiss();
+        }
+
+    }
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
 
     @Override
     protected void onResume() {
         super.onResume();
 
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
+
+    @Override
+    public void sendMediaSuccess(String type) {
+        uploading = false;
+        apiCallMediaMessageSend(type);
+    }
+
+    @Override
+    public void sendMediaError(String error) {
+        uploading = false;
+        Snackbar.make(findViewById(android.R.id.content), getString(R.string.error_sending_media_message), Snackbar.LENGTH_SHORT);
     }
 
     @Override
@@ -650,12 +948,26 @@ public class TwilioConversationActivity extends
         }
     }
 
+    @Override
+    public void uploadProgress(Boolean visible) {
+        //uploading = visible;
+
+        visibilityProgressDialog(visible);
+    }
+
+    @Override
+    public void setProgressValue(long value) {
+        setValueProgressDialog(value);
+    }
+
 
     @Override
     public void receivedNewMessage(Message message) {
         Log.w(TAG,"receivedNewMessage________");
+
+
         if (isValid(messagesAdapter)) {
-            messageList.add(message);
+            messageList.add(new MessageMediaModel(message,""));
             messagesAdapter.notifyItemInserted(messagesAdapter.getItemCount() + 1);
             pageScrollToBottom();
             apiCallMessageRead();
@@ -674,12 +986,16 @@ public class TwilioConversationActivity extends
     @Override
     public void reloadMessages(List<Message> result) {
         hideProgress();
-        Log.w(TAG,"reloadMessages________");
-    if (isValid(messagesAdapter))
-        messageList.clear();
-        messageList.addAll(result);
+        Log.w(TAG, "reloadMessages________");
+        if (isValid(messagesAdapter) && isValid(result)){
+            messageList.clear();
+        for (int i = 0; i < result.size(); i++) {
+            messageList.add(new MessageMediaModel(result.get(i), ""));
+        }
+        //messageList.addAll(result);
         messagesAdapter.notifyItemInserted(messagesAdapter.getItemCount());
         apiCallMessageRead();
+    }
         }
 
     @Override
@@ -707,7 +1023,18 @@ public class TwilioConversationActivity extends
                 bottomSheet.dismiss();
                 break;
             case 2:
-                //todo open docs list
+                Intent intentFile = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                intentFile.addCategory(Intent.CATEGORY_OPENABLE);
+                intentFile.setType("application/pdf");
+                intentFile.putExtra(EXTRA_ALLOW_MULTIPLE, true);
+                Uri filePickerInitialUri = null;
+                // Optionally, specify a URI for the file that should appear in the
+                // system file picker when it loads.
+                if (filePickerInitialUri != null) {
+                    intentFile.putExtra(DocumentsContract.EXTRA_INITIAL_URI, filePickerInitialUri);
+                }
+
+                startActivityForResult(intentFile, REQUESTCODE_FILE);
                 bottomSheet.dismiss();
                 break;
             case -1:

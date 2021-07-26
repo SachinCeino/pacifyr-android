@@ -1,6 +1,7 @@
 package com.pacifyr.client.twiliochat;
 
 import android.content.Context;
+import android.os.ParcelFileDescriptor;
 import android.util.Log;
 
 import com.androidquery.AQuery;
@@ -26,6 +27,7 @@ import org.json.JSONObject;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,6 +40,10 @@ interface QuickstartConversationsManagerListener {
     void messageSentCallback();
     void reloadMessages(List<Message> result);
     void messageTyping(Boolean visible);
+    void uploadProgress(Boolean visible);
+    void sendMediaSuccess(String type);
+    void sendMediaError(String error);
+    void setProgressValue(long value);
 }
 
 interface TokenResponseListener {
@@ -167,40 +173,87 @@ class QuickstartConversationsManager {
         }
     }
 
-    void sendMedia(String file) throws FileNotFoundException {
+
+    void sendMedia(FileInputStream file, ParcelFileDescriptor fd, String type, long fileSizeInBytes)
+            throws FileNotFoundException {
+        String mimeType = "", fileName = "";
+        fileName = String.valueOf(System.currentTimeMillis());
+        switch (type){
+            case "FILE": mimeType = "application/pdf"; fileName += "_file.pdf"; break;
+            case "IMAGE": mimeType = "image/jpg"; fileName += "_image.jpg"; break;
+
+        }
+
+
         conversation.sendMessage(
                 Message.options()
-                        .withMedia(new FileInputStream(file), "image/jpg")
-                        .withMediaFileName("file.jpg")
+                        .withMedia(file, mimeType)
+                        .withMediaFileName(fileName)
                         .withMediaProgressListener(new ProgressListener() {
                             @Override
                             public void onStarted() {
                                 Log.d("sendMedia","Upload started");
+                                if (conversationsManagerListener != null) {
+                                    conversationsManagerListener.uploadProgress(true);
+                                    conversationsManagerListener.setProgressValue(0);
+                                }
                             }
 
                             @Override
                             public void onProgress(long bytes) {
+                                int b = (int)bytes;
+                                int total = (int)fileSizeInBytes;
+                                long percentage = (b * 100)/total;
                                 Log.d("sendMedia","Uploaded " + bytes + " bytes");
+                                conversationsManagerListener.setProgressValue(percentage);
                             }
 
                             @Override
                             public void onCompleted(String mediaSid) {
                                 Log.d("sendMedia","Upload completed");
+                                if (conversationsManagerListener != null) {
+                                    conversationsManagerListener.setProgressValue(100);
+                                    conversationsManagerListener.uploadProgress(false);
+
+                                }
                             }
                         }),
                 new CallbackListener<Message>() {
                     @Override
                     public void onSuccess(Message msg) {
+                        conversationsManagerListener.sendMediaSuccess(type);
                         Log.d("sendMedia","Successfully sent MEDIA message");
+                        try {
+                            if(fd != null){
+                                fd.close();
+                            }
+
+                            if(file != null){
+                                file.close();
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
 
                     @Override
                     public void onError(ErrorInfo error) {
+                        conversationsManagerListener.sendMediaError(error.getMessage());
                         Log.e("sendMedia","Error sending MEDIA message");
+                        try {
+                            if(fd != null){
+                                fd.close();
+                            }
+
+                            if(file != null){
+                                file.close();
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
                 });
     }
-
 
     private void loadChannels() {
         if (conversationsClient == null || conversationsClient.getMyConversations() == null) {
@@ -284,7 +337,7 @@ class QuickstartConversationsManager {
 
 
     private void loadPreviousMessages(final Conversation conversation) {
-        conversation.getLastMessages(100,
+        conversation.getLastMessages(50,
                 new CallbackListener<List<Message>>() {
                     @Override
                     public void onSuccess(List<Message> result) {

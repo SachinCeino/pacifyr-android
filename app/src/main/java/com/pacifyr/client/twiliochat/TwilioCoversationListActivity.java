@@ -19,11 +19,15 @@ import com.google.gson.Gson;
 import com.pacifyr.client.R;
 import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
+import com.pacifyr.client.event.InternetConnectionEvent;
+import com.pacifyr.client.netconnectionlistener.ConnectionCheckBroadcast;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.twilio.conversations.Message;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.ThreadMode;
 import org.jetbrains.annotations.Nullable;
 import org.json.JSONObject;
 
@@ -32,6 +36,7 @@ import java.util.List;
 
 
 public class TwilioCoversationListActivity extends PacifyrActivity implements QuickstartConversationsManagerListener{
+
 
 
     String ActionbarTitle="";
@@ -155,14 +160,21 @@ public class TwilioCoversationListActivity extends PacifyrActivity implements Qu
     }
 
     public void clearUnreadCount(TwilioConversationCreate item, int position){
-        if (isValid(item.getTwilioConversationId()))
-        {
-            results.get(position).getUnreadStatus().clear();
-            mTwilioChatListAdapter.notifyItemChanged(position);
+        if (ConnectionCheckBroadcast.CheckInternetConnection(this)) {
+            if (isValid(item.getTwilioConversationId()))
+            {
+                results.get(position).getUnreadStatus().clear();
+                mTwilioChatListAdapter.notifyItemChanged(position);
 
-            TwilioConversationActivity.start(this,item);
+                TwilioConversationActivity.start(this,item);
 
+            }
+
+        }else {
+
+            noInternetDialog();
         }
+
     }
 
 
@@ -230,16 +242,65 @@ public class TwilioCoversationListActivity extends PacifyrActivity implements Qu
         }
     }
 
+    private void noInternetDialog(){
+        setAlertStatusInWhiteNoInternet("No Internet connection!", "Please turn on internet connection to continue.", "Exit", "Ok", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hideProgress();
+                hideStatus2();
+                finishAffinity();
+            }
+        });
+    }
+
+    @org.greenrobot.eventbus.Subscribe(threadMode = ThreadMode.MAIN)
+    public void onNetworkChanged(InternetConnectionEvent event) {
+        try {
+            if (isValid(event) && isShowDialogs()) {
+                if (!event.isConnected())
+                {
+                    noInternetDialog();
+                }
+                else
+                {
+                    hideProgress();
+                    hideStatus2();
+                    onResume();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
 
     @Override
     protected void onResume() {
         super.onResume();
-        getConversationParticipantsList();
+        if (ConnectionCheckBroadcast.CheckInternetConnection(this)) {
+            getConversationParticipantsList();
+        } else {
+            noInternetDialog();
+
+        }
         if(mLinearLayoutManager != null){
             mLinearLayoutManager.scrollToPosition(currentVisiblePosition);
             currentVisiblePosition = 0;
         }
 
+    }
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -259,6 +320,26 @@ public class TwilioCoversationListActivity extends PacifyrActivity implements Qu
 
     @Override
     public void messageTyping(Boolean visible) {
+
+    }
+
+    @Override
+    public void uploadProgress(Boolean visible) {
+
+    }
+
+    @Override
+    public void sendMediaSuccess(String type) {
+
+    }
+
+    @Override
+    public void sendMediaError(String error) {
+
+    }
+
+    @Override
+    public void setProgressValue(long value) {
 
     }
 
