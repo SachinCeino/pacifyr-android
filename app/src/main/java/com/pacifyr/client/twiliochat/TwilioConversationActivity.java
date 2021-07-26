@@ -40,6 +40,7 @@ import com.bumptech.glide.request.Request;
 import com.bumptech.glide.request.target.SizeReadyCallback;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
+import com.google.android.material.snackbar.Snackbar;
 import com.krishna.fileloader.FileLoader;
 import com.krishna.fileloader.listener.FileRequestListener;
 import com.krishna.fileloader.pojo.FileResponse;
@@ -48,9 +49,11 @@ import com.opensooq.supernova.gligar.GligarPicker;
 import com.pacifyr.client.R;
 import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
+import com.pacifyr.client.event.InternetConnectionEvent;
 import com.pacifyr.client.model.MessageMediaModel;
 import com.pacifyr.client.model.PermissionModel;
 import com.pacifyr.client.model.UploadData;
+import com.pacifyr.client.netconnectionlistener.ConnectionCheckBroadcast;
 import com.pacifyr.client.quickblox.chat.interfaces.AttachmentClick;
 import com.pacifyr.client.quickblox.chat.ui.activity.AttachmentImageActivity;
 import com.pacifyr.client.quickblox.chat.ui.widget.BottomAttachDialog;
@@ -60,9 +63,12 @@ import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
+import com.quickblox.sample.core.utils.ErrorUtils;
 import com.squareup.picasso.Picasso;
 import com.twilio.conversations.Message;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.ThreadMode;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.json.JSONObject;
@@ -157,6 +163,7 @@ public class TwilioConversationActivity extends
     private int uploadPos= 0;
     private Boolean uploading = false;
     private ArrayList<UploadData> uploadDataList =new ArrayList<>();
+    private Snackbar snackBar;
 
     @Override
     protected void onDestroy() {
@@ -814,13 +821,55 @@ public class TwilioConversationActivity extends
         setProgressValue(toInt);
     }
 
+    @org.greenrobot.eventbus.Subscribe(threadMode = ThreadMode.MAIN)
+    public void onNetworkChanged(InternetConnectionEvent event) {
+        try {
+            if (isValid(event) && isShowDialogs()) {
+                if (!event.isConnected())
+                {
+                    showHideNoInternet(true);
+                }
+                else
+                {
+                    showHideNoInternet(false);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    /**
+     * Show no internet message in Snackbar
+     */
+    private void showHideNoInternet(Boolean visible){
+        if(visible){
+            snackBar = Snackbar.make(findViewById(android.R.id.content), getString(R.string.no_internet_connection), Snackbar.LENGTH_INDEFINITE);
+            snackBar.show();
+        } else if(snackBar != null && snackBar.isShown()){
+            snackBar.dismiss();
+        }
+
+    }
 
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
 
     @Override
     protected void onResume() {
         super.onResume();
 
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
