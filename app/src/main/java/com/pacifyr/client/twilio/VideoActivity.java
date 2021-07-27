@@ -33,6 +33,7 @@ import android.util.Rational;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Chronometer;
@@ -1358,6 +1359,32 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                 FirebaseLogging.sendLog(VideoActivity.this,
                         FirebaseLogging.EVENT_VIDEOCALL_STARTED,
                         args);
+
+                thumbnailVideoView.setOnTouchListener(new View.OnTouchListener() {
+                    float dX, dY;
+                    @Override
+                    public boolean onTouch(View view, MotionEvent event) {
+                        switch (event.getAction()) {
+                            //this is your code
+                            case MotionEvent.ACTION_DOWN:
+                                dX = view.getX() - event.getRawX();
+                                dY = view.getY() - event.getRawY();
+                                break;
+                            case MotionEvent.ACTION_MOVE:
+                                view.animate()
+                                        .x(event.getRawX() + dX)
+                                        .y(event.getRawY() + dY)
+                                        .setDuration(0)
+                                        .start();
+                                break;
+                            default:
+                                return false;
+                        }
+                        return true;
+                    }
+                });
+
+
             } else {
                 primaryVideoView.setVisibility(View.GONE);
                 TextView_call_type.setText(getResources().getString(R.string.pacifyr_audio));
