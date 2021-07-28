@@ -83,7 +83,7 @@ public class Call_Service extends Service implements QBRTCClientSessionCallbacks
             // If you use create session with user data,
             // then the user will be logged in automatically
             prefManager = PrefManager.getInstance(Call_Service.this);
-            //createSession();
+            createSession();
 
             QBRTCClient.getInstance(this).prepareToProcessCalls();
             QBRTCClient.getInstance(Call_Service.this).addSessionCallbacksListener(this);
