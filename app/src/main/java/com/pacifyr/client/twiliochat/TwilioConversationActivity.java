@@ -57,6 +57,7 @@ import com.pacifyr.client.netconnectionlistener.ConnectionCheckBroadcast;
 import com.pacifyr.client.quickblox.chat.interfaces.AttachmentClick;
 import com.pacifyr.client.quickblox.chat.ui.activity.AttachmentImageActivity;
 import com.pacifyr.client.quickblox.chat.ui.widget.BottomAttachDialog;
+import com.pacifyr.client.twilio.VideoActivity;
 import com.pacifyr.client.utility.PdfViewer;
 import com.pacifyr.client.utils.Utility;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
@@ -113,6 +114,11 @@ public class TwilioConversationActivity extends
     @Override
     // Detect when the back button is pressed
     public void onBackPressed() {
+        if (isCallActive) {
+            Intent i = new Intent(TwilioConversationActivity.this, VideoActivity.class);
+            i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            startActivity(i);
+        }
         finish();
     }
 
@@ -636,7 +642,7 @@ public class TwilioConversationActivity extends
                         PdfViewer.pdf = loadedFile;
                         Intent intent = new Intent(TwilioConversationActivity.this, PdfViewer.class);
                         intent.putExtra("title",title);
-                        intent.putExtra("restoreCall",true);
+                        intent.putExtra("restoreCall",false);
                         startActivity(intent);
                     }
 
