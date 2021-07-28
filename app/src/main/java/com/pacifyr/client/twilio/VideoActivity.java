@@ -896,7 +896,9 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
 
                             }
                             else {
-                                startTimer();
+                                if (isProviderConnected) {
+                                    startTimer();
+                                }
                             }
                            /* if (isValid(getCallUser()))
                             {
