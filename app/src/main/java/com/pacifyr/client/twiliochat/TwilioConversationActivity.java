@@ -926,7 +926,8 @@ public class TwilioConversationActivity extends
      */
     private void showHideNoInternet(Boolean visible){
         if(visible){
-            snackBar = Snackbar.make(findViewById(android.R.id.content), getString(R.string.no_internet_connection), Snackbar.LENGTH_INDEFINITE);
+            View view = findViewById(R.id.cl_root);
+            snackBar = Snackbar.make(view, getString(R.string.no_internet_connection), Snackbar.LENGTH_INDEFINITE);
             snackBar.show();
         } else if(snackBar != null && snackBar.isShown()){
             snackBar.dismiss();

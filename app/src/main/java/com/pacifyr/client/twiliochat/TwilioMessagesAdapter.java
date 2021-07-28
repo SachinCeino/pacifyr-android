@@ -100,13 +100,6 @@ public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAd
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        if(operations.containsValue(position)){
-            //Do nothing..
-        }
-      else {
-            //Do operations...
-            operations.put(position, true);
-
 
             // holder.setIsRecyclable(false);
             Log.d("TAG", "re run");
@@ -200,66 +193,6 @@ public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAd
 
                 }
 
-
-                /*final String[] url = {null};
-                holder.progressMessage.setVisibility(View.VISIBLE);
-                message.getMediaContentTemporaryUrl(new CallbackListener<String>() {
-                    @Override
-                    public void onSuccess(String mediaContentUrl) {
-
-                        url[0] = mediaContentUrl;
-
-                        if(message.getMediaType().equals("application/pdf")){
-
-                            Glide.with(context)
-                                    .load(R.drawable.ic_pdf)
-                                    .listener(new RequestListener<Drawable>() {
-                                        @Override
-                                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                                            holder.progressMessage.setVisibility(View.GONE);
-                                            return false;
-                                        }
-
-                                        @Override
-                                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                                            holder.progressMessage.setVisibility(View.GONE);
-                                            return false;
-                                        }
-                                    })
-                                    .skipMemoryCache(false)
-                                    .override(100,100)
-                                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                                    .into(holder.ivImage);
-
-                        }else{
-
-
-                            Log.d("TAG", mediaContentUrl);
-
-                            Glide.with(context)
-                                    .load(mediaContentUrl)
-
-                                    .listener(new RequestListener<Drawable>() {
-                                        @Override
-                                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                                            holder.progressMessage.setVisibility(View.GONE);
-                                            return false;
-                                        }
-
-                                        @Override
-                                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                                            holder.progressMessage.setVisibility(View.GONE);
-                                            return false;
-                                        }
-                                    })
-                                    .skipMemoryCache(false)
-                                    .signature(new ObjectKey(mediaContentUrl))
-                                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                                    .into(holder.ivImage);
-                        }
-                    }
-                });*/
-
                 holder.ivImage.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -294,7 +227,7 @@ public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAd
             holder.tvTimeBottom.setText(time);
 
             ///////////////////////////
-        }
+
     }
 
     @Override
