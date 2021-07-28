@@ -216,7 +216,14 @@ public class TwilioConversationActivity extends
         //Set ConversationsManager Listener
         quickstartConversationsManager.setListener(this);
         // Token Method 2 - retrieve the access token from a web server or Twilio Function
-        retrieveTokenFromServer();
+        if (isValid(prefM.getTWILIOAccessToken()))
+        {
+            quickstartConversationsManager.initializeWithAccessToken(getApplicationContext(),prefM.getTWILIOAccessToken());
+        }
+        else {
+            retrieveTokenFromServer();
+        }
+
 
         loadUserData();
         loadChatList();
@@ -233,6 +240,14 @@ public class TwilioConversationActivity extends
             if (isValid(mTwilioConversationCreate)&& isValid(mTwilioConversationCreate.getTwilioConversationId()))
                 DEFAULT_CONVERSATION_NAME=mTwilioConversationCreate.getTwilioConversationId();
 
+            Log.w("getTwilioConversationId","getTwilioConversationId: "+DEFAULT_CONVERSATION_NAME );
+        }
+
+        /**from notification pending intent **/
+
+        if (isValid(getIntent()) && isValid(getIntent().getExtras()) && isValid(getIntent().getExtras().getString("conversation_sid")))
+        {
+            DEFAULT_CONVERSATION_NAME=getIntent().getExtras().getString("conversation_sid");
             Log.w("getTwilioConversationId","getTwilioConversationId: "+DEFAULT_CONVERSATION_NAME );
         }
 
@@ -257,21 +272,25 @@ public class TwilioConversationActivity extends
      * Set user data / toolbar name and pic
      */
     private void loadUserData(){
-        MUser pacifyr = mTwilioConversationCreate.getPacifyr();
-        String imgUrl =null, name="";
-        if(isValid(pacifyr)){
-            name = ""+pacifyr.getFirstName();
+        if (isValid(mTwilioConversationCreate))
+        {
+            MUser pacifyr = mTwilioConversationCreate.getPacifyr();
+            String imgUrl =null, name="";
+            if(isValid(pacifyr)){
+                name = ""+pacifyr.getFirstName();
 
-            if(isValid(pacifyr.getImage())){
-                imgUrl = ""+GLOBAL_IMAGE_URL+mTwilioConversationCreate.getPacifyr().getImage();
+                if(isValid(pacifyr.getImage())){
+                    imgUrl = ""+GLOBAL_IMAGE_URL+mTwilioConversationCreate.getPacifyr().getImage();
+                }
+
+            }else {
+                Log.e("ERROR","getPacifyr data null");
             }
-
-        }else {
-            Log.e("ERROR","getPacifyr data null");
+            leftTxv.setText(name);
+            //Image
+            Picasso.with(TwilioConversationActivity.this).load(imgUrl).placeholder(R.drawable.placeholder_user).into(userCimv);
         }
-        leftTxv.setText(name);
-        //Image
-        Picasso.with(TwilioConversationActivity.this).load(imgUrl).placeholder(R.drawable.placeholder_user).into(userCimv);
+
     }
 
     private void intiListener(){
@@ -501,7 +520,7 @@ public class TwilioConversationActivity extends
         PrefManager prefM= PrefManager.getInstance(this);
         String userToken=prefM.getAccessToken();
         String userid=prefM.getUserID();
-        String conversationId = mTwilioConversationCreate.getTwilioConversationId();
+       // String conversationId = mTwilioConversationCreate.getTwilioConversationId();
 
 
         String url = GLOBAL_URL+"twilio/webhooks/message.read";
@@ -526,7 +545,7 @@ public class TwilioConversationActivity extends
 
         try {
             JSONObject jsonObject = new JSONObject();
-            jsonObject.putOpt("twilioConversationId",conversationId);
+            jsonObject.putOpt("twilioConversationId",DEFAULT_CONVERSATION_NAME);
             jsonObject.putOpt("userId",userid);
             aq.post(url,jsonObject, JSONObject.class, cb);
         }
@@ -793,6 +812,7 @@ public class TwilioConversationActivity extends
             @Override
             public void receivedTokenResponse(boolean success, @Nullable Exception exception, String token) {
                 if (success) {
+                    prefM.saveTwilioAccessToken(token);
                     quickstartConversationsManager.initializeWithAccessToken(getApplicationContext(),token);
                     runOnUiThread(new Runnable() {
                         @Override

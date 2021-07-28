@@ -34,6 +34,8 @@ import com.pacifyr.client.quickblox.services.CallService;
 import com.pacifyr.client.quickblox.utils.WebRtcSessionManager;
 import com.pacifyr.client.receiver.NotificationUtils;
 import com.pacifyr.client.receiver.PacifyrReceiver;
+import com.pacifyr.client.twiliochat.TwilioConversationActivity;
+import com.pacifyr.client.twiliochat.TwilioCoversationListActivity;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 
 import org.greenrobot.eventbus.EventBus;
@@ -110,6 +112,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         // messages. For more see: https://firebase.google.com/docs/cloud-messaging/concept-options
         // [END_EXCLUDE]
 
+        //{author=VINEESH PROVIDER, message_index=79, message_sid=IM9f6b2b703ce04b2e8c0892849ad88ef9, twi_message_type=twilio.conversations.new_message, conversation_sid=CHebc610cca1024fb3a0b4d8dcde547995, twi_message_id=RUae803f11a10835b93fb1f1567ee337d6, twi_body=VINEESH PROVIDER: Hhvv, conversation_title=60daf972a8c03f049816a93e}
+
         // TODO(developer): Handle FCM messages here.
         // Not getting messages here? See why this may be: https://goo.gl/39bRNJ
         Log.d(TAG, "From: " + remoteMessage.getFrom());
@@ -148,13 +152,20 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             if (remoteMessage.getNotification().getTitle() != null) {
                 title = remoteMessage.getNotification().getTitle();
             }
-
             if (remoteMessage.getNotification().getBody() != null) {
                 body = remoteMessage.getNotification().getBody();
             }
             if (remoteMessage.getData().containsKey("type")) {
                 type = remoteMessage.getData().get("type");
             }
+
+            if (remoteMessage.getData().containsKey("twi_message_type")) {
+                type = remoteMessage.getData().get("twi_message_type");
+            }
+            if (remoteMessage.getData().containsKey("twi_body")) {
+                body = remoteMessage.getData().get("twi_body");
+            }
+
             if (type != null && type.equalsIgnoreCase("chat")) {
                 return;
             }
@@ -179,6 +190,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     String message = null;
                     String _id = null;
                     String actual_type = null;
+                    String conversation_sid=null;
 
                     if (remoteMessage.getData().containsKey("message")) {
                         message = remoteMessage.getData().get("message") + "";
@@ -191,6 +203,15 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     }
                     if (remoteMessage.getData().containsKey("typeId")) {
                         typeId = remoteMessage.getData().get("typeId");
+                    }
+                    if (remoteMessage.getData().containsKey("twi_message_type")) {
+                        actual_type = remoteMessage.getData().get("twi_message_type");
+                    }
+                    if (remoteMessage.getData().containsKey("twi_body")) {
+                        message = remoteMessage.getData().get("twi_body");
+                    }
+                    if (remoteMessage.getData().containsKey("conversation_sid")) {
+                        conversation_sid = remoteMessage.getData().get("conversation_sid");
                     }
 
                     /*if (actual_type.equals("reminder") && isValid(typeId))
@@ -239,7 +260,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
                                         } else {
 
-                                            showNotification(context, _id, message, actual_type);
+                                            showNotification(context, _id, message, actual_type,conversation_sid);
 
                                             new Handler().postDelayed(new Runnable() {
                                                 @Override
@@ -254,7 +275,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                                 } else {
 
                                     isCall = false;
-                                    showNotification(context, _id, message, actual_type);
+                                    showNotification(context, _id, message, actual_type,conversation_sid);
                                 }
                             } else {
 
@@ -415,7 +436,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     }
 
-    private void showNotification(Context context, String qsid, String message, String actualType) {
+    private void showNotification(Context context, String qsid, String message, String actualType,String conversation_sid) {
 
         PrefManager prefM=PrefManager.getInstance(context);
         int count=0;
@@ -434,10 +455,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         Intent cIntent = null;
         PendingIntent pendingIntent = null;
-        if (actualType.equals("chat"))
+        if (actualType.equals("twilio.conversations.new_message"))
         {
 
-            cIntent = new Intent(context, DialogsActivity.class);
+            cIntent = new Intent(context, TwilioConversationActivity.class);
+            cIntent.putExtra("conversation_sid", conversation_sid);
             TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
             stackBuilder.addNextIntentWithParentStack(cIntent);
             pendingIntent =

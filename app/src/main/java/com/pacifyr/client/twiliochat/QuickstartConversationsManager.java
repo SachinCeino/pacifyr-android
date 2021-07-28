@@ -89,6 +89,8 @@ class QuickstartConversationsManager {
                     public void receivedAccessToken(@Nullable String token,
                                                     @Nullable Exception exception) {
                         if (token != null) {
+                            PrefManager prefManager=new PrefManager(context);
+                            prefManager.saveTwilioAccessToken(token);
                             ConversationsClient.Properties props = ConversationsClient.Properties.newBuilder().createProperties();
                             ConversationsClient.create(context, token, props, mConversationsClientCallback);
                            // listener.receivedTokenResponse(true,null,token);
@@ -436,6 +438,21 @@ class QuickstartConversationsManager {
                 @Override
                 public void onTokenExpired() {
                     Log.w("####","onTokenExpired");
+                    retrieveToken(context, new AccessTokenListener() {
+                        @Override
+                        public void receivedAccessToken(@Nullable String token, @Nullable Exception exception) {
+                            if (token != null) {
+                                PrefManager prefManager=new PrefManager(context);
+                                prefManager.saveTwilioAccessToken(token);
+                                conversationsClient.updateToken(token, new StatusListener() {
+                                    @Override
+                                    public void onSuccess() {
+                                        Log.d("TWILIO", "Refreshed access token.");
+                                    }
+                                });
+                            }
+                        }
+                    });
                 }
 
                 @Override
@@ -444,6 +461,8 @@ class QuickstartConversationsManager {
                         @Override
                         public void receivedAccessToken(@Nullable String token, @Nullable Exception exception) {
                             if (token != null) {
+                                PrefManager prefManager=new PrefManager(context);
+                                prefManager.saveTwilioAccessToken(token);
                                 conversationsClient.updateToken(token, new StatusListener() {
                                     @Override
                                     public void onSuccess() {

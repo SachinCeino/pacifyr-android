@@ -52,6 +52,7 @@ public class PrefManager {
     public static final String IS_ONLINE = "isOnline";
     public static final String IS_CHAT_SUBSCRIPTION = "isChatEnable";
     public static final String ACCESSTOKEN = "AccessToken";
+    public static final String TWILIOACCESSTOKEN = "TWILIOACCESSTOKEN";
     public static final String MLOGINROOT = "MLOGINROOT";
     public static final String JSON_KEY = "JSON_KEY";
     public static final String SESSION_ID = "SESSION_ID";
@@ -381,6 +382,21 @@ public class PrefManager {
     public void saveAccessToken(String accesstoken)
     {
         putSharedString(ACCESSTOKEN,accesstoken);
+        Log.w("QQQQ",accesstoken);
+        Log.w("QQQQ",accesstoken);
+
+    }
+
+    public String getTWILIOAccessToken()
+    {
+        Log.w("@@@ACC",getSharedString(TWILIOACCESSTOKEN,""));
+        return getSharedString(TWILIOACCESSTOKEN,"");
+
+    }
+
+    public void saveTwilioAccessToken(String accesstoken)
+    {
+        putSharedString(TWILIOACCESSTOKEN,accesstoken);
         Log.w("QQQQ",accesstoken);
         Log.w("QQQQ",accesstoken);
 
