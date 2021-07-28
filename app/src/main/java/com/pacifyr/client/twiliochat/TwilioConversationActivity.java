@@ -41,6 +41,7 @@ import com.bumptech.glide.request.target.SizeReadyCallback;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.gson.Gson;
 import com.krishna.fileloader.FileLoader;
 import com.krishna.fileloader.listener.FileRequestListener;
 import com.krishna.fileloader.pojo.FileResponse;
@@ -50,10 +51,12 @@ import com.pacifyr.client.R;
 import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.InternetConnectionEvent;
+import com.pacifyr.client.home.DashboardActivity;
 import com.pacifyr.client.model.MessageMediaModel;
 import com.pacifyr.client.model.PermissionModel;
 import com.pacifyr.client.model.UploadData;
 import com.pacifyr.client.netconnectionlistener.ConnectionCheckBroadcast;
+import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.quickblox.chat.interfaces.AttachmentClick;
 import com.pacifyr.client.quickblox.chat.ui.activity.AttachmentImageActivity;
 import com.pacifyr.client.quickblox.chat.ui.widget.BottomAttachDialog;
@@ -257,6 +260,39 @@ public class TwilioConversationActivity extends
             Log.w("getTwilioConversationId","getTwilioConversationId: "+DEFAULT_CONVERSATION_NAME );
         }
 
+        if (isValid(DEFAULT_CONVERSATION_NAME) && !isValid(mTwilioConversationCreate))
+        {
+            getConversationDetailAPI();
+        }
+    }
+
+    private void getConversationDetailAPI() {
+        try {
+            PrefManager prefM = PrefManager.getInstance(TwilioConversationActivity.this);
+            String token = prefM.getAccessToken();
+            String userid = prefM.getUserID();
+            String url = GLOBAL_URL + "messages/conversation/" + DEFAULT_CONVERSATION_NAME;
+            AjaxCallback cb = new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject json, AjaxStatus status) {
+                    try {
+                        Gson gson = new Gson();
+                        mTwilioConversationCreate= gson.fromJson(json.toString(), TwilioConversationCreate.class);
+                        loadUserData();
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            };
+            AQuery aq = new AQuery(TwilioConversationActivity.this);
+            cb.header("Content-Type", "application/json");
+            cb.header("AccessToken", token);
+            aq.ajax(url, JSONObject.class, cb);
+        }catch (Exception e){
+
+            e.printStackTrace();
+        }
     }
 
     /**
