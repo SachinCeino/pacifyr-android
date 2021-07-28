@@ -178,31 +178,6 @@ public class TwilioCoversationListActivity extends PacifyrActivity implements Qu
     }
 
 
-    private void retrieveTokenFromServer() {
-        quickstartConversationsManager.retrieveAccessTokenFromServer(TwilioCoversationListActivity.this, "", new TokenResponseListener() {
-            @Override
-            public void receivedTokenResponse(boolean success, @Nullable Exception exception, String token) {
-                if (success) {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-
-                        }
-                    });
-                }
-                else {
-                    String errorMessage = getString(R.string.error_retrieving_access_token);
-                    if (exception != null) {
-                        errorMessage = errorMessage + " " + exception.getLocalizedMessage();
-                    }
-                   /* Toast.makeText(MainActivity.this,
-                            errorMessage,
-                            Toast.LENGTH_LONG)
-                            .show();*/
-                }
-            }
-        });
-    }
 
     @Override
     protected View getSnackbarAnchorView() {

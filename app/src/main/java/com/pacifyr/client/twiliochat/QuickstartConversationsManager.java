@@ -7,6 +7,7 @@ import android.util.Log;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
 import com.pacifyr.client.utils.Constants;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
@@ -88,6 +89,8 @@ class QuickstartConversationsManager {
                     public void receivedAccessToken(@Nullable String token,
                                                     @Nullable Exception exception) {
                         if (token != null) {
+                            PrefManager prefManager=new PrefManager(context);
+                            prefManager.saveTwilioAccessToken(token);
                             ConversationsClient.Properties props = ConversationsClient.Properties.newBuilder().createProperties();
                             ConversationsClient.create(context, token, props, mConversationsClientCallback);
                            // listener.receivedTokenResponse(true,null,token);
@@ -435,6 +438,21 @@ class QuickstartConversationsManager {
                 @Override
                 public void onTokenExpired() {
                     Log.w("####","onTokenExpired");
+                    retrieveToken(context, new AccessTokenListener() {
+                        @Override
+                        public void receivedAccessToken(@Nullable String token, @Nullable Exception exception) {
+                            if (token != null) {
+                                PrefManager prefManager=new PrefManager(context);
+                                prefManager.saveTwilioAccessToken(token);
+                                conversationsClient.updateToken(token, new StatusListener() {
+                                    @Override
+                                    public void onSuccess() {
+                                        Log.d("TWILIO", "Refreshed access token.");
+                                    }
+                                });
+                            }
+                        }
+                    });
                 }
 
                 @Override
@@ -443,6 +461,8 @@ class QuickstartConversationsManager {
                         @Override
                         public void receivedAccessToken(@Nullable String token, @Nullable Exception exception) {
                             if (token != null) {
+                                PrefManager prefManager=new PrefManager(context);
+                                prefManager.saveTwilioAccessToken(token);
                                 conversationsClient.updateToken(token, new StatusListener() {
                                     @Override
                                     public void onSuccess() {
@@ -462,6 +482,17 @@ class QuickstartConversationsManager {
                     QuickstartConversationsManager.this.conversationsClient = conversationsClient;
                     conversationsClient.addListener(QuickstartConversationsManager.this.mConversationsClientListener);
                     Log.d("TWILIO", "Success creating Twilio Conversations Client");
+                    String token = PrefManager.getInstance(context).getSharedString(PrefManager.FCM_TOKEN, null);
+                    if (token != null && !token.isEmpty()) {
+                        conversationsClient.registerFCMToken(new ConversationsClient.FCMToken(token), new StatusListener() {
+                            @Override
+                            public void onSuccess() {
+                                Log.w("BGBGBGBG","registerFCMToken");
+                                Log.w("BGBGBGBG","registerFCMToken");
+                            }
+                        });
+                    }
+
                 }
 
                 @Override
