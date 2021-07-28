@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical">
+
+    <include layout="@layout/actionbar_grey"
+        android:id="@+id/include"
+        android:layout_height="50dp"
+        android:layout_width="match_parent"></include>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/LinearLayout_year"
+        android:id="@+id/uploadDocLayout"
+        android:orientation="vertical"
+        android:padding="20dp"
+        android:layout_marginTop="10dp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/RelativeLayout_UploadDoc"
+            android:minHeight="40dp"
+            android:gravity="center_vertical"
+            android:background="@drawable/edittext_black_curve"
+            android:orientation="vertical">
+            <EditText
+                android:id="@+id/upload_docs_ctxv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:drawablePadding="3dp"
+                android:hint="@string/upload_kyc_documents"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black"
+                android:padding="5dp"
+                android:textSize="18sp"
+                android:focusable="false"
+                />
+
+            <com.pacifyr.client.customview.MainTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/upload"
+                android:padding="5dp"
+                android:id="@+id/TextView_Upload"
+                android:layout_marginRight="10dp"
+                android:textColor="@color/colorPrimary"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:gravity="center_horizontal"
+                ></com.pacifyr.client.customview.MainTextView>
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/upload_instruction_txv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/RelativeLayout_UploadDoc"
+            android:layout_marginEnd="8dp"
+            android:text="@string/document_upload_instruction"
+            android:textSize="8sp"
+            tools:ignore="RtlCompat" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/file_list_rcv"
+            android:layout_below="@+id/upload_instruction_txv"
+            android:layout_marginTop="10dp"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_below="@+id/hint_llay"
+        android:id="@+id/next_llay"
+        android:orientation="vertical"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="35dp"
+        android:layout_marginRight="35dp"
+        android:gravity="center_horizontal"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_gravity="center"
+            android:id="@+id/next_rlay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/blue_round_square"
+            android:padding="10dp">
+
+            <com.pacifyr.client.customview.MainTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/submit"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/next_ctxv"
+                android:textSize="20sp"
+                android:textColor="@color/white" />
+
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

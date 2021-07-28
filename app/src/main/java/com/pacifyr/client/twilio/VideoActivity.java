@@ -69,6 +69,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.pacifyr.client.Payment.AlertAddCreditCardActivity;
 import com.pacifyr.client.R;
 import com.pacifyr.client.activity.ActivityChangeEmotionFromCall;
+import com.pacifyr.client.activity.IdentityDocumnetActivity;
 import com.pacifyr.client.adapter.EmotionSpecialityAdapter;
 import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.event.BusProvider;
@@ -1571,16 +1572,38 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
             certificate_View.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (isValid(NetworkService.mCurrentUser) && isValidSize(NetworkService.mCurrentUser.getCertificationList())) {
+
+                    if (isValid(getPrefManager().getUserID())) {
+                        setLoadingWait();
+                        showProgress();
+                        new NetworkService().incomingVideoCallUserEmotion(getPrefManager().getUserID(), new AjaxCallback<JSONObject>() {
+                            @Override
+                            public void callback(String url, JSONObject json, AjaxStatus status) {
+                                MEmotion emotion = null;
+                                String image = null;
+                                hideProgress();
+                                if (isValid(json)) {
+                                    NetworkService.mCurrentUser = GsonUtils.getInstance().gsonToModelUserProfile(json);
+                                    if (isValid(NetworkService.mCurrentUser)) {
+                                        Intent intent=new Intent(getApplicationContext(), IdentityDocumnetActivity.class);
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        startActivity(intent);
+                                    }
+                                }
+                            }
+                        });
+                    }
+
+                 /*   if (isValid(NetworkService.mCurrentUser) && isValidSize(NetworkService.mCurrentUser.getCertificationList())) {
                         if (isValid(NetworkService.mCurrentUser.getCertificationList().get(0)) && isValidSize(NetworkService.mCurrentUser.getCertificationList().get(0).getDocuments())
                                 && isValid(NetworkService.mCurrentUser.getCertificationList().get(0).getDocuments().get(0))
                                 && isValid(NetworkService.mCurrentUser.getCertificationList().get(0).getDocuments().get(0))) {
                             String fileName = NetworkService.mCurrentUser.getCertificationList().get(0).getDocuments().get(0).toString();
                             if (isValid(fileName)) {
-                           /* Intent i=new Intent(getActivity(), TermsOfUseActivity.class);
+                           *//* Intent i=new Intent(getActivity(), TermsOfUseActivity.class);
                             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             i.putExtra("spurl",GLOBAL_IMAGE_URL+fileName);
-                            getActivity().startActivity(i);*/
+                            getActivity().startActivity(i);*//*
                                 if (fileName.contains(".pdf")) {
                                     loadPDF(NetworkService.mCurrentUser.getCertificationList().get(0).getDocuments().get(0).toString(), getResources().getString(R.string.kyc_document));
                                 } else if (fileName.toLowerCase().contains(".jpg") || fileName.toLowerCase().contains(".jpeg") || fileName.toLowerCase().contains(".png")) {
@@ -1597,7 +1620,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                         }
                     } else {
                         Toast.makeText(VideoActivity.this, getResources().getString(R.string.No_identity_document_available), Toast.LENGTH_LONG).show();
-                    }
+                    }*/
                 }
             });
 
