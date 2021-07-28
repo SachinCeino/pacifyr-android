@@ -7,6 +7,7 @@ import android.util.Log;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
 import com.pacifyr.client.utils.Constants;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
@@ -462,6 +463,17 @@ class QuickstartConversationsManager {
                     QuickstartConversationsManager.this.conversationsClient = conversationsClient;
                     conversationsClient.addListener(QuickstartConversationsManager.this.mConversationsClientListener);
                     Log.d("TWILIO", "Success creating Twilio Conversations Client");
+                    String token = PrefManager.getInstance(context).getSharedString(PrefManager.FCM_TOKEN, null);
+                    if (token != null && !token.isEmpty()) {
+                        conversationsClient.registerFCMToken(new ConversationsClient.FCMToken(token), new StatusListener() {
+                            @Override
+                            public void onSuccess() {
+                                Log.w("BGBGBGBG","registerFCMToken");
+                                Log.w("BGBGBGBG","registerFCMToken");
+                            }
+                        });
+                    }
+
                 }
 
                 @Override
