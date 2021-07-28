@@ -16,7 +16,7 @@
         android:background="@drawable/shape_round_gray"
         android:padding="5dp"
         android:textColor="@color/white"
-        android:textSize="@dimen/sp10"
+        android:textSize="@dimen/sp13"
         app:layout_constraintBottom_toTopOf="@+id/constraintLayout2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

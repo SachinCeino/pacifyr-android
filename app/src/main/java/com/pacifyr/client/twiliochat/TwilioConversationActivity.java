@@ -418,8 +418,8 @@ public class TwilioConversationActivity extends
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
 
         alertDialogBuilder.setTitle("Permission needed");
-        alertDialogBuilder.setMessage("Storage permission needed for accessing photos");
-        alertDialogBuilder.setPositiveButton("Open Setting", new DialogInterface.OnClickListener() {
+        alertDialogBuilder.setMessage("Camera & Storage permissions are required to proceed");
+        alertDialogBuilder.setPositiveButton("Open Settings", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 Intent intent = new Intent();
