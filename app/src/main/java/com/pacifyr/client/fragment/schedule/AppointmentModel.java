@@ -77,6 +77,18 @@ public class AppointmentModel implements Serializable {
         @Expose
         private Boolean cancelled;
 
+        @SerializedName("status")
+        @Expose
+        private String status;
+
+        public String getStatus() {
+            return status;
+        }
+
+        public void setStatus(String status) {
+            this.status = status;
+        }
+
         public Boolean getRejected() {
             return rejected;
         }
@@ -109,6 +121,29 @@ public class AppointmentModel implements Serializable {
         @SerializedName("isCompleted")
         @Expose
         private Boolean isCompleted;
+        @SerializedName("statusText")
+        @Expose
+        private String statusText;
+
+        @SerializedName("transactionId")
+        @Expose
+        private String transactionId;
+
+        public String getTransactionId() {
+            return transactionId;
+        }
+
+        public void setTransactionId(String transactionId) {
+            this.transactionId = transactionId;
+        }
+
+        public String getStatusText() {
+            return statusText;
+        }
+
+        public void setStatusText(String statusText) {
+            this.statusText = statusText;
+        }
 
         public Object getCancelReason() {
             return cancelReason;
