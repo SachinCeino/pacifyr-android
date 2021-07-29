@@ -172,6 +172,7 @@ public class TwilioConversationActivity extends
     private ArrayList<UploadData> uploadDataList =new ArrayList<>();
     private Snackbar snackBar;
     private ConstraintLayout clRoot;
+    private Boolean isRunningReadApi = false;
 
     @Override
     protected void onDestroy() {
@@ -542,6 +543,7 @@ public class TwilioConversationActivity extends
             public void callback(String url, JSONObject json, AjaxStatus status) {
                 try {
                     String jsonS = json.toString();
+                    isRunningReadApi = false;
                     Log.w(TAG, "Messeaage read: "+jsonS);
 
 
@@ -1004,7 +1006,19 @@ public class TwilioConversationActivity extends
             messageList.add(new MessageMediaModel(message,""));
             messagesAdapter.notifyItemInserted(messagesAdapter.getItemCount() + 1);
             pageScrollToBottom();
-            apiCallMessageRead();
+
+
+            if(!isRunningReadApi){
+                isRunningReadApi = true;
+                final Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        // Do something after 2s = 2000ms
+                        apiCallMessageRead();
+                    }
+                }, 2000);
+            }
         }
     }
 
