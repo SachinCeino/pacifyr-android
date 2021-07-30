@@ -38,7 +38,6 @@ public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAd
     ArrayList<MessageMediaModel> messageList;
     String userId;
     String nextMsgDate ="";
-    HashMap<Integer,Boolean> operations = new HashMap<>();
     class ViewHolder extends RecyclerView.ViewHolder {
 
         final MainTextView messageText,tvTimeRight,tvTimeBottom,tvDate;
@@ -100,15 +99,8 @@ public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAd
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        if(operations.containsValue(position)){
-            //Do nothing..
-        }
-      else {
-            //Do operations...
-            operations.put(position, true);
 
-
-            // holder.setIsRecyclable(false);
+            //holder.setIsRecyclable(false);
             Log.d("TAG", "re run");
             holder.ivImage.setVisibility(View.GONE);
             holder.tvDate.setVisibility(View.GONE);
@@ -141,13 +133,10 @@ public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAd
             holder.messageText.setText(messageText);
 
             if (message.hasMedia()) {
-
-                holder.ivImage.setVisibility(View.VISIBLE);
-
-
                 String mediaUrl = messageList.get(position).mediaUrl;
+                holder.ivImage.setVisibility(View.VISIBLE);
                 holder.progressMessage.setVisibility(View.VISIBLE);
-                if (!mediaUrl.isEmpty()) {
+                if (Utility.isValid(mediaUrl)) {
                     Object imgUrl;
                     int w, h;
                     if (message.getMediaType().equals("application/pdf")) {
@@ -162,7 +151,6 @@ public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAd
                         holder.ivImage.setAdjustViewBounds(true);
                     }
 
-
                     Glide.with(context)
                             .load(imgUrl)
                             .listener(new RequestListener<Drawable>() {
@@ -174,6 +162,7 @@ public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAd
 
                                 @Override
                                 public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+
                                     holder.progressMessage.setVisibility(View.GONE);
                                     return false;
                                 }
@@ -186,8 +175,9 @@ public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAd
 
                 } else {
                     Log.w("relod_callback", "relod_callback... ");
-                    final String[] url = {null};
-                    holder.progressMessage.setVisibility(View.VISIBLE);
+
+                    Glide.with(holder.ivImage).clear(holder.ivImage);
+
                     message.getMediaContentTemporaryUrl(new CallbackListener<String>() {
                         @Override
                         public void onSuccess(String mediaContentUrl) {
@@ -199,66 +189,6 @@ public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAd
                     });
 
                 }
-
-
-                /*final String[] url = {null};
-                holder.progressMessage.setVisibility(View.VISIBLE);
-                message.getMediaContentTemporaryUrl(new CallbackListener<String>() {
-                    @Override
-                    public void onSuccess(String mediaContentUrl) {
-
-                        url[0] = mediaContentUrl;
-
-                        if(message.getMediaType().equals("application/pdf")){
-
-                            Glide.with(context)
-                                    .load(R.drawable.ic_pdf)
-                                    .listener(new RequestListener<Drawable>() {
-                                        @Override
-                                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                                            holder.progressMessage.setVisibility(View.GONE);
-                                            return false;
-                                        }
-
-                                        @Override
-                                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                                            holder.progressMessage.setVisibility(View.GONE);
-                                            return false;
-                                        }
-                                    })
-                                    .skipMemoryCache(false)
-                                    .override(100,100)
-                                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                                    .into(holder.ivImage);
-
-                        }else{
-
-
-                            Log.d("TAG", mediaContentUrl);
-
-                            Glide.with(context)
-                                    .load(mediaContentUrl)
-
-                                    .listener(new RequestListener<Drawable>() {
-                                        @Override
-                                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                                            holder.progressMessage.setVisibility(View.GONE);
-                                            return false;
-                                        }
-
-                                        @Override
-                                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                                            holder.progressMessage.setVisibility(View.GONE);
-                                            return false;
-                                        }
-                                    })
-                                    .skipMemoryCache(false)
-                                    .signature(new ObjectKey(mediaContentUrl))
-                                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                                    .into(holder.ivImage);
-                        }
-                    }
-                });*/
 
                 holder.ivImage.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -294,7 +224,7 @@ public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAd
             holder.tvTimeBottom.setText(time);
 
             ///////////////////////////
-        }
+
     }
 
     @Override

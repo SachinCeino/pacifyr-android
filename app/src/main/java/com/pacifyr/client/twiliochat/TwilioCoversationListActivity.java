@@ -101,7 +101,10 @@ public class TwilioCoversationListActivity extends PacifyrActivity implements Qu
         setLoading();
         showProgress();
 
+
+
         String userToken=prefM.getAccessToken();
+
 
         String url = NetworkService.GLOBAL_URL+"messages/customer?skip=0&limit=25";
         AjaxCallback cb = new AjaxCallback<JSONObject>() {
@@ -110,6 +113,7 @@ public class TwilioCoversationListActivity extends PacifyrActivity implements Qu
                 try {
                     hideProgress();
                     Log.d("TWILIO", "Response from server: " + json);
+                    Log.d("TWILIO", "Rqust user list userToken: " + userToken+ "url: " +url);
                     Gson gson = new Gson();
                     if (isValid(json))
                     {
@@ -142,6 +146,7 @@ public class TwilioCoversationListActivity extends PacifyrActivity implements Qu
         cb.header("AccessToken",userToken);
         try {
             aq.ajax(url, JSONObject.class, cb);
+
         }
         catch (Exception ex)
         {

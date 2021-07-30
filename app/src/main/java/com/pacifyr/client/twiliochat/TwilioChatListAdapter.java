@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.pacifyr.client.R;
@@ -66,6 +67,7 @@ public class TwilioChatListAdapter extends RecyclerView.Adapter<TwilioChatListAd
         TwilioConversationCreate object=results.get(position);
         if (isValid(object) && isValid(object.getPacifyr()))
         {
+            holder.mName.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
             holder.mName.setText(object.getPacifyr().getFirstName());
 
             if(isValid(object.getLastMessage())){
@@ -110,6 +112,10 @@ public class TwilioChatListAdapter extends RecyclerView.Adapter<TwilioChatListAd
                     }
                 }
             });
+        }else if (isValid(object) && !isValid(object.getPacifyr())) {
+            holder.mName.setTextColor(ContextCompat.getColor(mContext, R.color.red_missed_txt));
+            holder.mName.setText(R.string.deleted_user);
+
         }
 
     }
