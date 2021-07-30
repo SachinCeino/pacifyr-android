@@ -53,6 +53,7 @@ public class TwilioConversationCreate implements Serializable {
     @SerializedName("updatedAt")
     @Expose
     private String updatedAt;
+
     private final static long serialVersionUID = 6291081706746180834L;
 
     public Integer getTotalMessageCount() {

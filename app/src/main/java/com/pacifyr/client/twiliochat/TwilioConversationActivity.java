@@ -27,6 +27,7 @@ import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -173,6 +174,8 @@ public class TwilioConversationActivity extends
     private Boolean uploading = false;
     private ArrayList<UploadData> uploadDataList =new ArrayList<>();
     private Snackbar snackBar;
+    private ConstraintLayout clRoot;
+    private Boolean isRunningReadApi = false;
 
     @Override
     protected void onDestroy() {
@@ -212,6 +215,7 @@ public class TwilioConversationActivity extends
         writeMessageEditText = findViewById(R.id.writeMessageEditText);
         sendChatMessageButton = findViewById(R.id.sendChatMessageButton);
         tvStatus = findViewById(R.id.tv_status);
+        clRoot = findViewById(R.id.footer);
 
 
 
@@ -323,6 +327,10 @@ public class TwilioConversationActivity extends
 
                 if(isValid(pacifyr.getImage())){
                     imgUrl = ""+GLOBAL_IMAGE_URL+mTwilioConversationCreate.getPacifyr().getImage();
+                }
+
+                if(isValid(pacifyr.getDisabled()) && pacifyr.getDisabled()){
+                    clRoot.setVisibility(View.GONE);
                 }
 
             }else {
@@ -571,6 +579,7 @@ public class TwilioConversationActivity extends
             public void callback(String url, JSONObject json, AjaxStatus status) {
                 try {
                     String jsonS = json.toString();
+                    isRunningReadApi = false;
                     Log.w(TAG, "Messeaage read: "+jsonS);
 
 
@@ -962,7 +971,8 @@ public class TwilioConversationActivity extends
      */
     private void showHideNoInternet(Boolean visible){
         if(visible){
-            snackBar = Snackbar.make(findViewById(android.R.id.content), getString(R.string.no_internet_connection), Snackbar.LENGTH_INDEFINITE);
+            View view = findViewById(R.id.cl_root);
+            snackBar = Snackbar.make(view, getString(R.string.no_internet_connection), Snackbar.LENGTH_INDEFINITE);
             snackBar.show();
         } else if(snackBar != null && snackBar.isShown()){
             snackBar.dismiss();
@@ -1032,7 +1042,19 @@ public class TwilioConversationActivity extends
             messageList.add(new MessageMediaModel(message,""));
             messagesAdapter.notifyItemInserted(messagesAdapter.getItemCount() + 1);
             pageScrollToBottom();
-            apiCallMessageRead();
+
+
+            if(!isRunningReadApi){
+                isRunningReadApi = true;
+                final Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        // Do something after 2s = 2000ms
+                        apiCallMessageRead();
+                    }
+                }, 2000);
+            }
         }
     }
 

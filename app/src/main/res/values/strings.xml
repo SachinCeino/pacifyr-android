@@ -656,6 +656,7 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="yesterday">Yesterday</string>
 
     <string name="error_sending_media_message">Error sending MEDIA message</string>
+    <string name="deleted_user">Deleted User</string>
 
 
 </resources>
