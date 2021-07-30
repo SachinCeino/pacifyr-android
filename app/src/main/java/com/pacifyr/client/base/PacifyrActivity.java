@@ -296,6 +296,19 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                             }
                         }, "Close");
                     }
+
+                    else if(type.equals("twilio.conversations.new_message")){
+                        String conversation_sid = intent.getExtras().getString("conversation_sid");
+                        showIOSDialogOKCancel("Message", message, "View", new iOSDialogClickListener() {
+                            @Override
+                            public void onClick(iOSDialog dialog) {
+                                dialog.dismiss();
+                                Intent intent1 = new Intent(PacifyrActivity.this, TwilioConversationActivity.class);
+                                intent1.putExtra("conversation_sid",conversation_sid);
+                                startActivity(intent1);
+                            }
+                        }, "Close");
+                    }
                     else
                     {
                         showIOSDialogOKCancel("Message", message, "View", new iOSDialogClickListener() {

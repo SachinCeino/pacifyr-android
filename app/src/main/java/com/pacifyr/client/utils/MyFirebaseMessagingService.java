@@ -338,10 +338,13 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                                 else if (actual_type.equalsIgnoreCase("chat")
                                         ||actual_type.equalsIgnoreCase("confirmBooking")
                                         || actual_type.equalsIgnoreCase("rejectBooking")
-                                        || actual_type.equalsIgnoreCase("reminder")) {
+                                        || actual_type.equalsIgnoreCase("reminder")
+                                        || actual_type.equalsIgnoreCase("twilio.conversations.new_message")) {
                                     Intent intent = new Intent(NotificationUtils.NOTIFY_INTENT);
                                     intent.putExtra("type", actual_type);
                                     intent.putExtra("message", message);
+                                    if (isValid(conversation_sid))
+                                        intent.putExtra("conversation_sid", conversation_sid);
                                     LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
                                 }
 
