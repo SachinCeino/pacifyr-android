@@ -36,27 +36,12 @@ import static com.pacifyr.client.network.NetworkService.GLOBAL_URL;
 import static com.pacifyr.client.orginals.Auth.getDeviceId;
 import static com.pacifyr.client.twiliochat.TwilioConversationActivity.DEFAULT_CONVERSATION_NAME;
 
-interface QuickstartConversationsManagerListener {
-    void receivedNewMessage(Message message);
-    void messageSentCallback();
-    void reloadMessages(List<Message> result);
-    void messageTyping(Boolean visible);
-    void uploadProgress(Boolean visible);
-    void sendMediaSuccess(String type);
-    void sendMediaError(String error);
-    void setProgressValue(long value);
-}
-
-interface TokenResponseListener {
-    void receivedTokenResponse(boolean success, @Nullable Exception exception, String token);
-}
-
 interface AccessTokenListener {
     void receivedAccessToken(@Nullable String token, @Nullable Exception exception);
 }
 
 
-class QuickstartConversationsManager {
+public class QuickstartConversationsManager {
 
     // This is the unique name of the conversation  we are using
 
@@ -75,8 +60,8 @@ class QuickstartConversationsManager {
         String token;
     }
 
-    void retrieveAccessTokenFromServer(final Context context, String identity,
-                                       final TokenResponseListener listener) {
+    public void retrieveAccessTokenFromServer(final Context context, String identity,
+                                              final TokenResponseListener listener) {
 
         // Set the chat token URL in your strings.xml file
         this.context=context;
@@ -103,7 +88,7 @@ class QuickstartConversationsManager {
         }).start();
     }
 
-    void initializeWithAccessToken(final Context context, final String token) {
+    public void initializeWithAccessToken(final Context context, final String token) {
 
         ConversationsClient.Properties props = ConversationsClient.Properties.newBuilder().createProperties();
         ConversationsClient.create(context, token, props, mConversationsClientCallback);

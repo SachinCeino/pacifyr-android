@@ -69,6 +69,9 @@ import com.pacifyr.client.quickblox.chat.ui.activity.DialogsActivity;
 import com.pacifyr.client.quickblox.services.CallService;
 import com.pacifyr.client.sign.CrisisActivity;
 import com.pacifyr.client.twilio.VideoActivity;
+import com.pacifyr.client.twiliochat.QuickstartConversationsManager;
+import com.pacifyr.client.twiliochat.QuickstartConversationsManagerListener;
+import com.pacifyr.client.twiliochat.TokenResponseListener;
 import com.pacifyr.client.twiliochat.TwilioConversationActivity;
 import com.pacifyr.client.twiliochat.TwilioCoversationListActivity;
 import com.pacifyr.client.utility.PacifyrAppCompactActivity;
@@ -89,12 +92,16 @@ import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.quickblox.sample.core.utils.SharedPrefsHelper;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
+import com.twilio.conversations.Message;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.ThreadMode;
+import org.jetbrains.annotations.Nullable;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -105,7 +112,7 @@ import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL
 //import com.github.javiersantos.appupdater.AppUpdater;
 
 
-public class DashboardActivity extends PacifyrAppCompactActivity{
+public class DashboardActivity extends PacifyrAppCompactActivity implements QuickstartConversationsManagerListener {
 
     private static final String TAG = DashboardActivity.class.getSimpleName();
     boolean showingFirst = true;
@@ -187,7 +194,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
 
 //    AppUpdater appUpdater;
 
-
+    private QuickstartConversationsManager quickstartConversationsManager;
     @Override
     protected void onResume() {
         super.onResume();
@@ -883,7 +890,44 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
         if (realTimeLogging == 0) {
             Utility.getRealTimeLogging(DashboardActivity.this);
         }
+
+
+        if (!isValid(getPrefManager().getTWILIOAccessToken()))
+        {
+            quickstartConversationsManager = new QuickstartConversationsManager();
+            retrieveTokenFromServer();
+        }
+
+
+
     }
+
+
+    private void retrieveTokenFromServer() {
+        quickstartConversationsManager.retrieveAccessTokenFromServer(this, "identity", new TokenResponseListener() {
+            @Override
+            public void receivedTokenResponse(boolean success, @Nullable Exception exception, String token) {
+                if (success) {
+                    getPrefManager().saveTwilioAccessToken(token);
+                    quickstartConversationsManager.initializeWithAccessToken(getApplicationContext(),token);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+
+                        }
+                    });
+                }
+                else {
+                    String errorMessage = getString(R.string.error_retrieving_access_token);
+                    if (exception != null) {
+                        errorMessage = errorMessage + " " + exception.getLocalizedMessage();
+                    }
+
+                }
+            }
+        });
+    }
+
 
     private void Browser(String screeName,boolean isLink){
         switch (screeName){
@@ -1141,6 +1185,46 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
     }
     public void hideConnectButton() {
         connectProviderActioBar.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void receivedNewMessage(Message message) {
+
+    }
+
+    @Override
+    public void messageSentCallback() {
+
+    }
+
+    @Override
+    public void reloadMessages(List<Message> result) {
+
+    }
+
+    @Override
+    public void messageTyping(Boolean visible) {
+
+    }
+
+    @Override
+    public void uploadProgress(Boolean visible) {
+
+    }
+
+    @Override
+    public void sendMediaSuccess(String type) {
+
+    }
+
+    @Override
+    public void sendMediaError(String error) {
+
+    }
+
+    @Override
+    public void setProgressValue(long value) {
+
     }
 }
 
