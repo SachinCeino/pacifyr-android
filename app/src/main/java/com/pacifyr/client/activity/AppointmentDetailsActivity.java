@@ -105,6 +105,8 @@ public class AppointmentDetailsActivity extends PacifyrActivity {
                         String time = Utility.getStartFormatDate(t,getApplicationContext());
                         TextView_date.setText(time);
                     }
+                    if (isValid(mObject.getPreVisitNote()))
+                        TextView_Notes.setText(mObject.getPreVisitNote().toString());
 
                     if (scheduleIsPassed(mObject.getStartTimeGMT())) {
                         if (AppointMentCalUIForAppointMentTime(mObject.getStartTimeGMT()) == true && mObject.getConfirmed() ==true)
@@ -119,8 +121,8 @@ public class AppointmentDetailsActivity extends PacifyrActivity {
                                     TextView_refundAmount.setText("Refund amount "+Utility.getPriceSign(getApplicationContext())+"" +mObject.getPacifyr().getPrice());
                                 if (isValid(mObject.getTransactionId()))
                                     TextView_TransactionId.setText("Transaction Id: "+mObject.getTransactionId());
-                                if (isValid(mObject.getPreVisitNote()))
-                                    TextView_Notes.setText(mObject.getPreVisitNote().toString());
+                                if (isValid(mObject.getRejectReason()))
+                                    TextView_Notes.setText(mObject.getRejectReason().toString());
                             }
 
 
@@ -133,8 +135,8 @@ public class AppointmentDetailsActivity extends PacifyrActivity {
                                     TextView_refundAmount.setText("Refund amount "+Utility.getPriceSign(getApplicationContext())+"" +mObject.getPacifyr().getPrice());
                                 if (isValid(mObject.getTransactionId()))
                                     TextView_TransactionId.setText("Transaction Id: "+mObject.getTransactionId());
-                                if (isValid(mObject.getPreVisitNote()))
-                                    TextView_Notes.setText(mObject.getPreVisitNote().toString());
+                                if (isValid(mObject.getCancelReason()))
+                                    TextView_Notes.setText(mObject.getCancelReason().toString());
                             }
                             else if (isValid(mObject.getConfirmed())&&mObject.getConfirmed()
                                     && isValid(mObject.getCompleted())&&mObject.getCompleted())
@@ -167,8 +169,8 @@ public class AppointmentDetailsActivity extends PacifyrActivity {
                                     TextView_refundAmount.setText("Refund amount "+Utility.getPriceSign(getApplicationContext())+"" +mObject.getPacifyr().getPrice());
                                 if (isValid(mObject.getTransactionId()))
                                     TextView_TransactionId.setText("Transaction Id: "+mObject.getTransactionId());
-                                if (isValid(mObject.getPreVisitNote()))
-                                    TextView_Notes.setText(mObject.getPreVisitNote().toString());
+                                if (isValid(mObject.getRejectReason()))
+                                    TextView_Notes.setText(mObject.getRejectReason().toString());
                             }
                             else
                             {
@@ -196,8 +198,8 @@ public class AppointmentDetailsActivity extends PacifyrActivity {
                                     TextView_refundAmount.setText("Refund amount "+Utility.getPriceSign(getApplicationContext())+"" +mObject.getPacifyr().getPrice());
                                 if (isValid(mObject.getTransactionId()))
                                     TextView_TransactionId.setText("Transaction Id: "+mObject.getTransactionId());
-                                if (isValid(mObject.getPreVisitNote()))
-                                    TextView_Notes.setText(mObject.getPreVisitNote().toString());
+                                if (isValid(mObject.getRejectReason()))
+                                    TextView_Notes.setText(mObject.getRejectReason().toString());
                             }
 
 
@@ -210,16 +212,15 @@ public class AppointmentDetailsActivity extends PacifyrActivity {
                                     TextView_refundAmount.setText("Refund amount "+Utility.getPriceSign(getApplicationContext())+"" +mObject.getPacifyr().getPrice());
                                 if (isValid(mObject.getTransactionId()))
                                     TextView_TransactionId.setText("Transaction Id: "+mObject.getTransactionId());
-                                if (isValid(mObject.getPreVisitNote()))
-                                    TextView_Notes.setText(mObject.getPreVisitNote().toString());
+                                if (isValid(mObject.getCancelReason()))
+                                    TextView_Notes.setText(mObject.getCancelReason().toString());
                             }
                         }
 
 
                     }
 
-                    if (isValid(mObject.getPreVisitNote()))
-                        TextView_Notes.setText(mObject.getPreVisitNote().toString());
+
                             if (mObject.getStatus().equals("pending"))
                             {
                                 LinearLayout_callLayout.setVisibility(View.GONE);
