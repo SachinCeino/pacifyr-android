@@ -191,6 +191,34 @@ public class AppointmentDetailsActivity extends PacifyrActivity {
 
 
                         }
+                        else {
+                            if (mObject.getRejected())
+                            {
+                                LinearLayout_callLayout.setVisibility(View.GONE);
+                                LinearLayout_rejectReason.setVisibility(View.VISIBLE);
+                                TextView_status.setTextColor(getResources().getColor(R.color.red));
+                                if (isValid(mObject.getPacifyr().getPrice()))
+                                    TextView_refundAmount.setText("Refund amount "+Utility.getPriceSign(getApplicationContext())+"" +mObject.getPacifyr().getPrice());
+                                if (isValid(mObject.getTransactionId()))
+                                    TextView_TransactionId.setText("Transaction Id: "+mObject.getTransactionId());
+                                if (isValid(mObject.getPreVisitNote()))
+                                    TextView_Notes.setText(mObject.getPreVisitNote().toString());
+                            }
+
+
+                            else if(isValid(mObject.getCancelled()) && mObject.getCancelled()==true)
+                            {
+                                LinearLayout_callLayout.setVisibility(View.GONE);
+                                LinearLayout_rejectReason.setVisibility(View.VISIBLE);
+                                TextView_status.setTextColor(getResources().getColor(R.color.red));
+                                if (isValid(mObject.getPacifyr().getPrice()))
+                                    TextView_refundAmount.setText("Refund amount "+Utility.getPriceSign(getApplicationContext())+"" +mObject.getPacifyr().getPrice());
+                                if (isValid(mObject.getTransactionId()))
+                                    TextView_TransactionId.setText("Transaction Id: "+mObject.getTransactionId());
+                                if (isValid(mObject.getPreVisitNote()))
+                                    TextView_Notes.setText(mObject.getPreVisitNote().toString());
+                            }
+                        }
 
 
                     }
