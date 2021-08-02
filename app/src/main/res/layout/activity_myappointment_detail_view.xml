@@ -247,7 +247,7 @@
                         android:background="@drawable/blue_cirlce"
                         android:gravity="center"
                         android:padding="10dp"
-                        android:visibility="visible">
+                        android:visibility="gone">
 
                         <com.pacifyrapp.utilitylibrary.DeviceFitImageView
                             android:id="@+id/start_chat_cimv"
