@@ -195,7 +195,8 @@ public class AppointmentDetailsActivity extends PacifyrActivity {
 
                     }
 
-
+                    if (isValid(mObject.getPreVisitNote()))
+                        TextView_Notes.setText(mObject.getPreVisitNote().toString());
                             if (mObject.getStatus().equals("pending"))
                             {
                                 LinearLayout_callLayout.setVisibility(View.GONE);
