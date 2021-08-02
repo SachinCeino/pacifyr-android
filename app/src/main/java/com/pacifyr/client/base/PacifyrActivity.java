@@ -181,6 +181,7 @@ import static com.pacifyr.client.Payment.AlertAddCreditCardActivity.REQUEST_CODE
 import static com.pacifyr.client.network.NetworkService.mCurrentUser;
 import static com.pacifyr.client.network.NetworkService.modelAllEmotions;
 import static com.pacifyr.client.twilio.VideoActivity.isCallActive;
+import static com.pacifyr.client.twiliochat.TwilioConversationActivity.DEFAULT_CONVERSATION_NAME;
 import static com.pacifyr.client.utils.Constants.getCountryChecks;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_IMAGE_URL;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
@@ -299,6 +300,13 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
 
                     else if(type.equals("twilio.conversations.new_message")){
                         String conversation_sid = intent.getExtras().getString("conversation_sid");
+
+                        if(isValid(DEFAULT_CONVERSATION_NAME) && isValid(conversation_sid)
+                                && conversation_sid.equals(DEFAULT_CONVERSATION_NAME)){
+
+                            return;
+                        }
+
                         showIOSDialogOKCancel("Message", message, "View", new iOSDialogClickListener() {
                             @Override
                             public void onClick(iOSDialog dialog) {

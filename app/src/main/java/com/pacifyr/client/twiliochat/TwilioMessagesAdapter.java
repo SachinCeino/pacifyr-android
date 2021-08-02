@@ -207,6 +207,8 @@ public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAd
                     }
                 });
                 Log.d("TAG", "mediaContentUrl" + message.getMediaFileName());
+            } else {
+                holder.ivImage.setVisibility(View.GONE);
             }
 
 
