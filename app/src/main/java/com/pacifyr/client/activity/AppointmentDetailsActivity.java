@@ -78,8 +78,19 @@ public class AppointmentDetailsActivity extends PacifyrActivity {
             TextView_name.setText(mObject.getPacifyr().getFirstName()
                     + " " + mObject.getPacifyr().getLastName());
 
-            if (isValid(mObject.getStatus()))
-                TextView_status.setText(mObject.getStatus());
+            if (isValid(mObject.getStatus())) {
+                char[] words = mObject.getStatus().toCharArray();
+                StringBuilder sb = new StringBuilder();
+                for (int i=0;i<words.length;i++)
+                {
+                    if (i==0) {
+                        sb.append(Character.toUpperCase(words[0]));
+                    }
+                    sb.append(words[i]);
+                }
+
+                TextView_status.setText(sb);
+            }
 
             try {
                 if (isValid(mObject.getPacifyr().getSpecialities())) {
