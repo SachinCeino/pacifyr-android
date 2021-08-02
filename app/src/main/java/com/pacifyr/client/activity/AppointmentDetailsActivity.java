@@ -79,17 +79,12 @@ public class AppointmentDetailsActivity extends PacifyrActivity {
                     + " " + mObject.getPacifyr().getLastName());
 
             if (isValid(mObject.getStatus())) {
-                char[] words = mObject.getStatus().toCharArray();
-                StringBuilder sb = new StringBuilder();
-                for (int i=0;i<words.length;i++)
-                {
-                    if (i==0) {
-                        sb.append(Character.toUpperCase(words[0]));
-                    }
-                    sb.append(words[i]);
-                }
+                String retStr = mObject.getStatus();
+                try { // We can face index out of bound exception if the string is null
+                    retStr = mObject.getStatus().substring(0, 1).toUpperCase() + mObject.getStatus().substring(1);
+                }catch (Exception e){}
 
-                TextView_status.setText(sb);
+                TextView_status.setText(retStr);
             }
 
             try {
@@ -182,7 +177,7 @@ public class AppointmentDetailsActivity extends PacifyrActivity {
                                         && isValid(mObject.getCompleted())&&mObject.getCompleted())
                                 {
                                     LinearLayout_callLayout.setVisibility(View.GONE);
-                                    LinearLayout_rejectReason.setVisibility(View.VISIBLE);
+                                    LinearLayout_rejectReason.setVisibility(View.GONE);
                                 }
                                 if (isValid(mObject.getPreVisitNote()))
                                     TextView_Notes.setText(mObject.getPreVisitNote().toString());
