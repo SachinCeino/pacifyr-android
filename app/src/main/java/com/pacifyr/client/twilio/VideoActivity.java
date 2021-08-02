@@ -28,6 +28,7 @@ import android.os.Looper;
 import android.os.PowerManager;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.Rational;
 import android.view.Menu;
@@ -1363,24 +1364,48 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                 FirebaseLogging.sendLog(VideoActivity.this,
                         FirebaseLogging.EVENT_VIDEOCALL_STARTED,
                         args);
+                DisplayMetrics displaymetrics = new DisplayMetrics();
+                getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+                int screenHight = displaymetrics.heightPixels;
+                int screenWidth = displaymetrics.widthPixels;
 
                 thumbnailVideoView.setOnTouchListener(new View.OnTouchListener() {
                     float dX, dY;
+                    float newX, newY;
+                    int lastAction;
                     @Override
                     public boolean onTouch(View view, MotionEvent event) {
-                        switch (event.getAction()) {
-                            //this is your code
+                        switch (event.getActionMasked()) {
                             case MotionEvent.ACTION_DOWN:
+
                                 dX = view.getX() - event.getRawX();
                                 dY = view.getY() - event.getRawY();
+                                lastAction = MotionEvent.ACTION_DOWN;
                                 break;
+
                             case MotionEvent.ACTION_MOVE:
-                                view.animate()
-                                        .x(event.getRawX() + dX)
-                                        .y(event.getRawY() + dY)
-                                        .setDuration(0)
-                                        .start();
+
+                                newX = event.getRawX() + dX;
+                                newY = event.getRawY() + dY;
+
+                                // check if the view out of screen
+                                if ((newX <= 0 || newX >= screenWidth-view.getWidth()) || (newY <= 0 || newY >= screenHight-view.getHeight()))
+                                {
+                                    lastAction = MotionEvent.ACTION_MOVE;
+                                    break;
+                                }
+
+                                view.setX(newX);
+                                view.setY(newY);
+
+                                lastAction = MotionEvent.ACTION_MOVE;
+
                                 break;
+
+                            case MotionEvent.ACTION_UP:
+                                if (lastAction == MotionEvent.ACTION_DOWN)
+                                break;
+
                             default:
                                 return false;
                         }
