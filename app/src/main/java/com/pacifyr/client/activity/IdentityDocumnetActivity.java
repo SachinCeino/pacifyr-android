@@ -127,7 +127,7 @@ public class IdentityDocumnetActivity extends PacifyrActivity {
                }
                else
                {
-                   Toast.makeText(IdentityDocumnetActivity.this, "No document available ", Toast.LENGTH_SHORT).show();
+                   Toast.makeText(IdentityDocumnetActivity.this, "No ID uploaded", Toast.LENGTH_SHORT).show();
                }
             }
         });
@@ -346,8 +346,6 @@ public class IdentityDocumnetActivity extends PacifyrActivity {
            leftTxv.setVisibility(View.INVISIBLE);
            backImv.setVisibility(View.VISIBLE);
            titleTxv.setVisibility(View.VISIBLE);
-           Typeface type = Typeface.createFromAsset(getAssets(),getResources().getString(R.string.avantica_bold_header));
-           titleTxv.setTypeface(type);
            titleTxv.setText(getResources().getString(R.string.identity_document));
            leftLlay.setVisibility(View.VISIBLE);
            leftLlay.setOnClickListener(new View.OnClickListener() {
