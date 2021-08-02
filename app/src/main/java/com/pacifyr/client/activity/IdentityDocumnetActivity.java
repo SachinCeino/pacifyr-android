@@ -51,6 +51,8 @@ import com.pacifyrapp.utilitylibrary.model.pacifyr.Certification;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.post.PostRegisterModel;
 import com.squareup.picasso.Picasso;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONObject;
 
 import java.io.File;
@@ -58,6 +60,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.pacifyr.client.sign.RegisterActivity.documentFileList;
+import static com.pacifyr.client.twilio.VideoActivity.isCallActive;
+import static com.pacifyr.client.utils.Constants.CLOSECHILDACTIIVTY;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
 
 public class IdentityDocumnetActivity extends PacifyrActivity {
@@ -238,14 +242,36 @@ public class IdentityDocumnetActivity extends PacifyrActivity {
     protected void onDestroy() {
         super.onDestroy();
         documentFileList=null;
+        EventBus.getDefault().unregister(this);
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @org.greenrobot.eventbus.Subscribe(threadMode = ThreadMode.MAIN)
+    public void onCloseActivity(Object event) {
+        try {
+            if (isValid(event) && event.equals(CLOSECHILDACTIIVTY)) {
+                finish();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
 
     @Override
     // Detect when the back button is pressed
     public void onBackPressed() {
-        Intent i = new Intent(IdentityDocumnetActivity.this, VideoActivity.class);
-        i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-        startActivity(i);
+        if (isCallActive) {
+            Intent i = new Intent(IdentityDocumnetActivity.this, VideoActivity.class);
+            i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            startActivity(i);
+        }
         finish();
 
     }
@@ -328,9 +354,12 @@ public class IdentityDocumnetActivity extends PacifyrActivity {
                @Override
                public void onClick(View v) {
 
-                   Intent i = new Intent(IdentityDocumnetActivity.this, VideoActivity.class);
-                   i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                   startActivity(i);
+                   if (isCallActive)
+                   {
+                       Intent i = new Intent(IdentityDocumnetActivity.this, VideoActivity.class);
+                       i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                       startActivity(i);
+                   }
                    finish();
 
                }

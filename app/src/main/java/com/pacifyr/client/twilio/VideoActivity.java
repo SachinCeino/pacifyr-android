@@ -1193,6 +1193,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
         EventBus.getDefault().unregister(this);
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         isScreenActive=false;
+        EventBus.getDefault().post(Constants.CLOSECHILDACTIIVTY);
         super.onDestroy();
     }
 

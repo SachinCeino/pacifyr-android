@@ -14,6 +14,7 @@ public class Constants {
     public static final String PAYMENT_CARD_ADDED ="PAYMENT_CARD_ADDED" ;
     public static final String PAYMENT_CARD_ADDED_FINISH ="PAYMENT_CARD_ADDED_FINISH" ;
     public static final String TWILIO_CHAT_TOKEN_URL = "twilio/chat/generateToken";
+    public static final Object CLOSECHILDACTIIVTY ="CLOSECHILDACTIIVTY" ;
 
     public static String getPacifyrVideoTutorialLink(Context context) {
         return context.getResources().getString(R.string.tutorial_VideoLink);
