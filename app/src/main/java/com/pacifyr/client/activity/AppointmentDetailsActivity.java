@@ -117,9 +117,19 @@ public class AppointmentDetailsActivity extends PacifyrActivity {
                                 LinearLayout_callLayout.setVisibility(View.GONE);
                                 LinearLayout_rejectReason.setVisibility(View.VISIBLE);
                                 TextView_status.setTextColor(getResources().getColor(R.color.red));
-                                if (isValid(mObject.getPacifyr().getPrice()))
-                                    TextView_refundAmount.setText("Refund amount "+Utility.getPriceSign(getApplicationContext())+"" +mObject.getPacifyr().getPrice());
-                                if (isValid(mObject.getTransactionId()))
+
+                                if (isValid(mObject.getRefunds()) && isValid(mObject.getRefunds().get(0)))
+                                {
+                                    if (isValid(mObject.getRefunds().get(0).getAmount()))
+                                        TextView_refundAmount.setText("Refund amount "+Utility.getPriceSign(getApplicationContext())+"" +mObject.getRefunds().get(0).getAmount());
+
+                                }
+                                else {
+                                    if (isValid(mObject.getPacifyr().getPrice()))
+                                        TextView_refundAmount.setText("Refund amount "+Utility.getPriceSign(getApplicationContext())+"" +mObject.getPacifyr().getPrice());
+
+                                }
+                                   if (isValid(mObject.getTransactionId()))
                                     TextView_TransactionId.setText("Transaction Id: "+mObject.getTransactionId());
                                 if (isValid(mObject.getRejectReason()))
                                     TextView_Notes.setText(mObject.getRejectReason().toString());
@@ -131,9 +141,19 @@ public class AppointmentDetailsActivity extends PacifyrActivity {
                                 LinearLayout_callLayout.setVisibility(View.GONE);
                                 LinearLayout_rejectReason.setVisibility(View.VISIBLE);
                                 TextView_status.setTextColor(getResources().getColor(R.color.red));
-                                if (isValid(mObject.getPacifyr().getPrice()))
-                                    TextView_refundAmount.setText("Refund amount "+Utility.getPriceSign(getApplicationContext())+"" +mObject.getPacifyr().getPrice());
-                                if (isValid(mObject.getTransactionId()))
+
+                                if (isValid(mObject.getRefunds()) && isValid(mObject.getRefunds().get(0)))
+                                {
+                                    if (isValid(mObject.getRefunds().get(0).getAmount()))
+                                        TextView_refundAmount.setText("Refund amount "+Utility.getPriceSign(getApplicationContext())+"" +mObject.getRefunds().get(0).getAmount());
+
+                                }
+                                else {
+                                    if (isValid(mObject.getPacifyr().getPrice()))
+                                        TextView_refundAmount.setText("Refund amount "+Utility.getPriceSign(getApplicationContext())+"" +mObject.getPacifyr().getPrice());
+
+                                }
+                                   if (isValid(mObject.getTransactionId()))
                                     TextView_TransactionId.setText("Transaction Id: "+mObject.getTransactionId());
                                 if (isValid(mObject.getCancelReason()))
                                     TextView_Notes.setText(mObject.getCancelReason().toString());
@@ -165,9 +185,19 @@ public class AppointmentDetailsActivity extends PacifyrActivity {
                                 LinearLayout_callLayout.setVisibility(View.GONE);
                                 LinearLayout_rejectReason.setVisibility(View.VISIBLE);
                                 TextView_status.setTextColor(getResources().getColor(R.color.red));
-                                if (isValid(mObject.getPacifyr().getPrice()))
-                                    TextView_refundAmount.setText("Refund amount "+Utility.getPriceSign(getApplicationContext())+"" +mObject.getPacifyr().getPrice());
-                                if (isValid(mObject.getTransactionId()))
+
+                                if (isValid(mObject.getRefunds()) && isValid(mObject.getRefunds().get(0)))
+                                {
+                                    if (isValid(mObject.getRefunds().get(0).getAmount()))
+                                        TextView_refundAmount.setText("Refund amount "+Utility.getPriceSign(getApplicationContext())+"" +mObject.getRefunds().get(0).getAmount());
+
+                                }
+                                else {
+                                    if (isValid(mObject.getPacifyr().getPrice()))
+                                        TextView_refundAmount.setText("Refund amount "+Utility.getPriceSign(getApplicationContext())+"" +mObject.getPacifyr().getPrice());
+
+                                }
+                                 if (isValid(mObject.getTransactionId()))
                                     TextView_TransactionId.setText("Transaction Id: "+mObject.getTransactionId());
                                 if (isValid(mObject.getRejectReason()))
                                     TextView_Notes.setText(mObject.getRejectReason().toString());
@@ -194,8 +224,18 @@ public class AppointmentDetailsActivity extends PacifyrActivity {
                                 LinearLayout_callLayout.setVisibility(View.GONE);
                                 LinearLayout_rejectReason.setVisibility(View.VISIBLE);
                                 TextView_status.setTextColor(getResources().getColor(R.color.red));
-                                if (isValid(mObject.getPacifyr().getPrice()))
-                                    TextView_refundAmount.setText("Refund amount "+Utility.getPriceSign(getApplicationContext())+"" +mObject.getPacifyr().getPrice());
+                                if (isValid(mObject.getRefunds()) && isValid(mObject.getRefunds().get(0)))
+                                {
+                                    if (isValid(mObject.getRefunds().get(0).getAmount()))
+                                        TextView_refundAmount.setText("Refund amount "+Utility.getPriceSign(getApplicationContext())+"" +mObject.getRefunds().get(0).getAmount());
+
+                                }
+                                else {
+                                    if (isValid(mObject.getPacifyr().getPrice()))
+                                        TextView_refundAmount.setText("Refund amount "+Utility.getPriceSign(getApplicationContext())+"" +mObject.getPacifyr().getPrice());
+
+                                }
+
                                 if (isValid(mObject.getTransactionId()))
                                     TextView_TransactionId.setText("Transaction Id: "+mObject.getTransactionId());
                                 if (isValid(mObject.getRejectReason()))
@@ -208,8 +248,19 @@ public class AppointmentDetailsActivity extends PacifyrActivity {
                                 LinearLayout_callLayout.setVisibility(View.GONE);
                                 LinearLayout_rejectReason.setVisibility(View.VISIBLE);
                                 TextView_status.setTextColor(getResources().getColor(R.color.red));
-                                if (isValid(mObject.getPacifyr().getPrice()))
-                                    TextView_refundAmount.setText("Refund amount "+Utility.getPriceSign(getApplicationContext())+"" +mObject.getPacifyr().getPrice());
+
+                                if (isValid(mObject.getRefunds()) && isValid(mObject.getRefunds().get(0)))
+                                {
+                                    if (isValid(mObject.getRefunds().get(0).getAmount()))
+                                        TextView_refundAmount.setText("Refund amount "+Utility.getPriceSign(getApplicationContext())+"" +mObject.getRefunds().get(0).getAmount());
+
+                                }
+                                else {
+                                    if (isValid(mObject.getPacifyr().getPrice()))
+                                        TextView_refundAmount.setText("Refund amount "+Utility.getPriceSign(getApplicationContext())+"" +mObject.getPacifyr().getPrice());
+
+                                }
+
                                 if (isValid(mObject.getTransactionId()))
                                     TextView_TransactionId.setText("Transaction Id: "+mObject.getTransactionId());
                                 if (isValid(mObject.getCancelReason()))
@@ -226,9 +277,19 @@ public class AppointmentDetailsActivity extends PacifyrActivity {
                             LinearLayout_callLayout.setVisibility(View.GONE);
                             LinearLayout_rejectReason.setVisibility(View.VISIBLE);
                             TextView_status.setTextColor(getResources().getColor(R.color.red));
-                            if (isValid(mObject.getPacifyr().getPrice()))
-                                TextView_refundAmount.setText("Refund amount "+Utility.getPriceSign(getApplicationContext())+"" +mObject.getPacifyr().getPrice());
-                            if (isValid(mObject.getTransactionId()))
+
+                            if (isValid(mObject.getRefunds()) && isValid(mObject.getRefunds().get(0)))
+                            {
+                                if (isValid(mObject.getRefunds().get(0).getAmount()))
+                                    TextView_refundAmount.setText("Refund amount "+Utility.getPriceSign(getApplicationContext())+"" +mObject.getRefunds().get(0).getAmount());
+
+                            }
+                            else {
+                                if (isValid(mObject.getPacifyr().getPrice()))
+                                    TextView_refundAmount.setText("Refund amount "+Utility.getPriceSign(getApplicationContext())+"" +mObject.getPacifyr().getPrice());
+
+                            }
+                              if (isValid(mObject.getTransactionId()))
                                 TextView_TransactionId.setText("Transaction Id: "+mObject.getTransactionId());
                             if (isValid(mObject.getRejectReason()))
                                 TextView_Notes.setText(mObject.getRejectReason().toString());
@@ -240,9 +301,19 @@ public class AppointmentDetailsActivity extends PacifyrActivity {
                             LinearLayout_callLayout.setVisibility(View.GONE);
                             LinearLayout_rejectReason.setVisibility(View.VISIBLE);
                             TextView_status.setTextColor(getResources().getColor(R.color.red));
-                            if (isValid(mObject.getPacifyr().getPrice()))
-                                TextView_refundAmount.setText("Refund amount "+Utility.getPriceSign(getApplicationContext())+"" +mObject.getPacifyr().getPrice());
-                            if (isValid(mObject.getTransactionId()))
+                            if (isValid(mObject.getRefunds()) && isValid(mObject.getRefunds().get(0)))
+                            {
+                                if (isValid(mObject.getRefunds().get(0).getAmount()))
+                                    TextView_refundAmount.setText("Refund amount "+Utility.getPriceSign(getApplicationContext())+"" +mObject.getRefunds().get(0).getAmount());
+
+                            }
+                            else {
+                                if (isValid(mObject.getPacifyr().getPrice()))
+                                    TextView_refundAmount.setText("Refund amount "+Utility.getPriceSign(getApplicationContext())+"" +mObject.getPacifyr().getPrice());
+
+                            }
+
+                           if (isValid(mObject.getTransactionId()))
                                 TextView_TransactionId.setText("Transaction Id: "+mObject.getTransactionId());
                             if (isValid(mObject.getCancelReason()))
                                 TextView_Notes.setText(mObject.getCancelReason().toString());
