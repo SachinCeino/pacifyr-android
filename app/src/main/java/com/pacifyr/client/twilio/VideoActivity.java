@@ -984,6 +984,9 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
     @Override
     protected void onResume() {
         super.onResume();
+        //Enable chat button
+        if(isValid(ImageView_chat)){ImageView_chat.setEnabled(true);}
+
         isForeground = true;
         LocalBroadcastManager.getInstance(this).registerReceiver(eventReceiver, new IntentFilter(CallEvent.CALL_EVENT));
         LocalBroadcastManager.getInstance(this).registerReceiver(stripeCardAddWhileCall, new IntentFilter(STRIPCARD_ADDED_WHILE_CALL));
@@ -1471,9 +1474,14 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
             ImageView_chat.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    //Disable chat button
+                    ImageView_chat.setEnabled(false);
+
                     if (checkPermissions()) {
                         if (isValid(pacifyerDetial))
                             startChat(pacifyerDetial);
+                    } else {
+                        ImageView_chat.setEnabled(true);
                     }
                 }
             });
