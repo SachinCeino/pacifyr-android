@@ -67,7 +67,7 @@ public class ResourcesFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         ((DashboardActivity) getActivity()).changeActionBarTitleForFragments(getResources().getString(R.string.nav_resources_title));
-
+        ((DashboardActivity)getActivity()).showAddButton();
     }
 
     public static ResourcesFragment newInstance(String param1, String param2) {
@@ -437,12 +437,12 @@ public class ResourcesFragment extends BaseFragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         loadResources();
-
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
+        ((DashboardActivity)getActivity()).hideAddButton();
 
     }
 

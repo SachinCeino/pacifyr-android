@@ -373,7 +373,15 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
             @Override
             public void onClick(View view) {
                 /**actionbar connectprovider from dashboard actionbar event **/
+                if (connectProviderActioBar.getText().equals("Connect"))
                 EventBus.getDefault().post(new ConnectEvent(true));
+                if (connectProviderActioBar.getText().equals("Add"))
+                {
+                    Intent i=new Intent(getApplicationContext(), TermsOfUseActivity.class);
+                    i.putExtra("spurl", Constants.ADD_RESOURCES_LINK);
+                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(i);
+                }
             }
         });
 
@@ -1148,10 +1156,22 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
 
     public void showConnectButton() {
         connectProviderActioBar.setVisibility(View.VISIBLE);
+        connectProviderActioBar.setText("Connect");
     }
     public void hideConnectButton() {
         connectProviderActioBar.setVisibility(View.GONE);
     }
+
+    public void showAddButton() {
+        connectProviderActioBar.setVisibility(View.VISIBLE);
+        connectProviderActioBar.setText("Add");
+    }
+    public void hideAddButton() {
+        connectProviderActioBar.setText("Connect");
+        connectProviderActioBar.setVisibility(View.INVISIBLE);
+    }
+
+
 }
 
 
