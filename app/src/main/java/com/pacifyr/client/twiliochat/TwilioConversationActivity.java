@@ -349,9 +349,7 @@ public class TwilioConversationActivity extends
         rightTxv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
-
-
+                onBackPressed();
             }
         });
         //Chat send Button click

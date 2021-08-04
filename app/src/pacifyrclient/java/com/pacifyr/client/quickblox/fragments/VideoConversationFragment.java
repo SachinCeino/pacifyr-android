@@ -653,10 +653,15 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
         ImageView_chat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                ImageView_chat.setEnabled(false);
+
                 if (isValid(call_particpants_list) &&isValid( call_particpants_list.get(1))){
                     MUser customer=call_particpants_list.get(1);
                     if(isValid(customer))
                         ((PacifyrActivity) getActivity()).startChat(customer);
+                } else {
+                    ImageView_chat.setEnabled(true);
                 }
             }
         });
@@ -993,6 +998,8 @@ public class VideoConversationFragment extends BaseConversationFragment implemen
     @Override
     public void onResume() {
         super.onResume();
+        if(isValid(ImageView_chat)){ImageView_chat.setEnabled(true);}
+
         Log.d(TAG, "onResume");
         // If user changed camera state few times and last state was CameraState.ENABLED_FROM_USER
         // than we turn on cam, else we nothing change

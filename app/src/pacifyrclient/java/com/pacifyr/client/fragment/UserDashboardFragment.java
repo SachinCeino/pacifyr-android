@@ -52,12 +52,15 @@ import com.pacifyr.client.home.LastSessionActivity;
 import com.pacifyr.client.home.MySessionsActivity;
 import com.pacifyr.client.home.SessionSummaryActivity;
 import com.pacifyr.client.model.Session;
+import com.pacifyr.client.model.UnreadCountModel;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.orginals.Auth;
 import com.pacifyr.client.quickblox.chat.ui.activity.DialogsActivity;
 import com.pacifyr.client.quickblox.chat.utils.qb.QbDialogHolder;
 import com.pacifyr.client.quickblox.services.CallService;
+import com.pacifyr.client.twiliochat.TwilioChatParticipants;
+import com.pacifyr.client.twiliochat.TwilioCoversationListActivity;
 import com.pacifyr.client.utility.BaseFragment;
 import com.pacifyr.client.utility.EventMessage;
 import com.pacifyr.client.utils.Utility;
@@ -234,7 +237,8 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
         unreadChatCtxv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogsActivity.start(getActivity());
+                //DialogsActivity.start(getActivity());
+                TwilioCoversationListActivity.start(getActivity(),false);
                 unreadCount=0;
                 /*showFragment(new PacifyrMessageFragment(/));*/
                 //defSetText(titleTxv, "Messages");
@@ -938,7 +942,8 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
             //feel_err_text.setVisibility(View.VISIBLE);
         }
         ((DashboardActivity)getActivity()).getUnratedSessions();
-        setChatCountInfo();
+        //setChatCountInfo();
+        getChatUnreadCount();
         if (prefM != null && prefM.getCompanyLogo() != null) {
             Glide.with(getActivity())
                     .load(UtilityNetworkService.GLOBAL_IMAGE_URL + prefM.getCompanyLogo())
@@ -1393,7 +1398,76 @@ boolean itIsFirstCallFrom=true;
         JoinCall=view.findViewById(R.id.JoinCall);
         JoinChat=view.findViewById(R.id.JoinChat);
         defSetText(no_pacifyr_ctxv,"");
-        setChatCountInfo();
+        //setChatCountInfo();
+        getChatUnreadCount();
+    }
+
+    public void getChatUnreadCount(){
+        //setLoading();
+        //showProgress();
+
+
+
+        String userToken=prefM.getAccessToken();
+
+
+        String url = NetworkService.GLOBAL_URL+"messages/unreadCount";
+        AjaxCallback cb = new AjaxCallback<JSONObject>() {
+            @Override
+            public void callback(String url, JSONObject json, AjaxStatus status) {
+                try {
+                   // hideProgress();
+                    Log.d("TWILIO", "Response from server: " + json);
+                    Log.d("TWILIO", "unreadCount userToken: " + userToken+ "url: " +url);
+                    Gson gson = new Gson();
+                    if (isValid(json))
+                    {
+                        UnreadCountModel unreadCountModel = gson.fromJson(json.toString(), UnreadCountModel.class);
+
+                        if (isValid(unreadCountModel) && unreadCountModel.status.equals("success"))
+                        {
+                            unreadCount=unreadCountModel.count;
+                            badgeCount = 0;
+                            if (isValid(unreadCount)){
+                                if(unreadCount > 0)
+                                {
+                                    unreadChatCtxv.setVisibility(View.VISIBLE);
+                                    unreadChatCtxv.setText(unreadCount + " unread messages");
+                                    badgeCount+=unreadCount;
+                                    prefM.saveBadgeValue(badgeCount);
+                                    // ShortcutBadger.applyCount(getActivity(), prefM.getBadgeValue());
+
+                                }else {
+                                    isClickedOnChat=true;
+                                    unreadChatCtxv.setVisibility(View.GONE);
+                                    prefM.saveBadgeValue(badgeCount);
+                                    // ShortcutBadger.applyCount(getActivity(), 0);
+                                }
+                            }
+                        }
+
+                    }
+
+
+                } catch (Exception e) {
+                   // hideProgress();
+                    e.printStackTrace();
+
+                }
+            }
+        };
+        AQuery aq = new AQuery(getActivity());
+        cb.header("Content-Type", "application/json");
+        cb.header("AccessToken",userToken);
+        try {
+            aq.ajax(url, JSONObject.class, cb);
+
+        }
+        catch (Exception ex)
+        {
+            //hideProgress();
+            ex.printStackTrace();
+        }
     }
 
     private void setChatCountInfo() {
@@ -1466,7 +1540,8 @@ boolean itIsFirstCallFrom=true;
                     showProgress();
                     checkIsThereAnyActiveSessionsAvailable();
                     handleActionCustomerDashboard();
-                    setChatCountInfo();
+                    //setChatCountInfo();
+                    getChatUnreadCount();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
