@@ -617,8 +617,8 @@ public class TwilioConversationActivity extends
 
         String message;
         if(type.equals("IMAGE") ){
-            message = "Image";
-        } else{  message= "File";}
+            message = "Sent an image";
+        } else{  message= "Sent a file";}
 
         String url = GLOBAL_URL+"twilio/webhooks/mediaMessage.sent";
         AjaxCallback cb = new AjaxCallback<JSONObject>() {
@@ -627,6 +627,8 @@ public class TwilioConversationActivity extends
                 try {
                     String jsonS = json.toString();
                     Log.w(TAG, "Media Message send: "+jsonS);
+                    Log.w(TAG, "Media Message url: "+url +", twilioConversationId:" +
+                            ""+conversationId+", userId:"+userId+", message:"+message+", userToken: "+userToken);
 
 
                 } catch (Exception e) {
