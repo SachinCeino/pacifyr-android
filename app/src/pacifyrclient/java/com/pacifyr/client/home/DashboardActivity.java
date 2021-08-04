@@ -813,13 +813,6 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
                     @Override
                     public void onAction(Dialog d) {
                         hideStatus();
-                            /*PrefManager prefM= PrefManager.getInstance(getActivity());
-                            prefM.clearSharedAll();*/
-                        NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                        if (mNotificationManager != null) {
-                            mNotificationManager.cancelAll();
-                        }
-                        deleteInstallationWeb();
                         try {
                             if (TwilioMainConversationsClient.getInstance()!=null)
                             {
@@ -830,12 +823,23 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
                                         Log.w("EEEE","www");
                                     }
                                 });
+                                TwilioMainConversationsClient.mConversationsClient=null;
                             }
                         }
                         catch (Exception e)
                         {
+                            TwilioMainConversationsClient.mConversationsClient=null;
                             Log.w("EEEE",e.toString());
                         }
+
+                            /*PrefManager prefM= PrefManager.getInstance(getActivity());
+                            prefM.clearSharedAll();*/
+                        NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                        if (mNotificationManager != null) {
+                            mNotificationManager.cancelAll();
+                        }
+                        deleteInstallationWeb();
+
                     }
                 });
                 //Toast.makeText(getActivity(),"Logout",Toast.LENGTH_LONG).show();
