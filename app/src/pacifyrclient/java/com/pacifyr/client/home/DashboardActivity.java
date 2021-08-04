@@ -74,6 +74,7 @@ import com.pacifyr.client.twiliochat.QuickstartConversationsManagerListener;
 import com.pacifyr.client.twiliochat.TokenResponseListener;
 import com.pacifyr.client.twiliochat.TwilioConversationActivity;
 import com.pacifyr.client.twiliochat.TwilioCoversationListActivity;
+import com.pacifyr.client.twiliochat.TwilioMainConversationsClient;
 import com.pacifyr.client.utility.PacifyrAppCompactActivity;
 import com.pacifyr.client.utils.AmazonSNSTokenHandler;
 import com.pacifyr.client.utils.Constants;
@@ -92,7 +93,9 @@ import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.quickblox.sample.core.utils.SharedPrefsHelper;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
+import com.twilio.conversations.ConversationsClient;
 import com.twilio.conversations.Message;
+import com.twilio.conversations.StatusListener;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.ThreadMode;
@@ -817,12 +820,22 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
                             mNotificationManager.cancelAll();
                         }
                         deleteInstallationWeb();
-                           /* LoginManager mLoginManager = LoginManager.getInstance();
-                            if(isValid(mLoginManager))
-                                mLoginManager.logOut();
-                            Intent i = new Intent(getActivity(), SignActivity.class);
-                            startActivity(i);
-                            finish();*/
+                        try {
+                            if (TwilioMainConversationsClient.getInstance()!=null)
+                            {
+                                String token = PrefManager.getInstance(context).getSharedString(PrefManager.FCM_TOKEN, null);
+                                TwilioMainConversationsClient.getInstance().unregisterFCMToken(new ConversationsClient.FCMToken(token), new StatusListener() {
+                                    @Override
+                                    public void onSuccess() {
+                                        Log.w("EEEE","www");
+                                    }
+                                });
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            Log.w("EEEE",e.toString());
+                        }
                     }
                 });
                 //Toast.makeText(getActivity(),"Logout",Toast.LENGTH_LONG).show();

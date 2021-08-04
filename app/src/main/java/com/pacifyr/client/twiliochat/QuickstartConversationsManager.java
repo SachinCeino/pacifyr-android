@@ -76,8 +76,7 @@ public class QuickstartConversationsManager {
                         if (token != null) {
                             PrefManager prefManager=new PrefManager(context);
                             prefManager.saveTwilioAccessToken(token);
-                            ConversationsClient.Properties props = ConversationsClient.Properties.newBuilder().createProperties();
-                            ConversationsClient.create(context, token, props, mConversationsClientCallback);
+                            initializeWithAccessToken(context,token);
                            // listener.receivedTokenResponse(true,null,token);
                         } else {
                             listener.receivedTokenResponse(false, exception, "");
@@ -90,8 +89,16 @@ public class QuickstartConversationsManager {
 
     public void initializeWithAccessToken(final Context context, final String token) {
 
-        ConversationsClient.Properties props = ConversationsClient.Properties.newBuilder().createProperties();
-        ConversationsClient.create(context, token, props, mConversationsClientCallback);
+        if (TwilioMainConversationsClient.getInstance()!=null)
+        {
+            TwilioMainConversationsClient.getInstance().addListener(QuickstartConversationsManager.this.mConversationsClientListener);
+
+        }
+        else {
+            ConversationsClient.Properties props = ConversationsClient.Properties.newBuilder().createProperties();
+            ConversationsClient.create(context, token, props, mConversationsClientCallback);
+        }
+
     }
 
     private void retrieveToken(Context context, AccessTokenListener listener) {
@@ -244,11 +251,11 @@ public class QuickstartConversationsManager {
     }
 
     private void loadChannels() {
-        if (conversationsClient == null || conversationsClient.getMyConversations() == null) {
+        if (TwilioMainConversationsClient.getInstance() == null || TwilioMainConversationsClient.getInstance().getMyConversations() == null) {
 
             return;
         }
-        conversationsClient.getConversation(DEFAULT_CONVERSATION_NAME, new CallbackListener<Conversation>() {
+        TwilioMainConversationsClient.getInstance().getConversation(DEFAULT_CONVERSATION_NAME, new CallbackListener<Conversation>() {
             @Override
             public void onSuccess(Conversation conversation) {
                 if (conversation != null) {
@@ -276,8 +283,11 @@ public class QuickstartConversationsManager {
 
     public void createConversation(String DEFAULT_CONVERSATION_NAME) {
         Log.d("TWILIO", "Creating Conversation: " + DEFAULT_CONVERSATION_NAME);
+        if (TwilioMainConversationsClient.getInstance() == null) {
 
-        conversationsClient.createConversation(DEFAULT_CONVERSATION_NAME,
+            return;
+        }
+        TwilioMainConversationsClient.getInstance().createConversation(DEFAULT_CONVERSATION_NAME,
                 new CallbackListener<Conversation>() {
                     @Override
                     public void onSuccess(Conversation conversation) {
@@ -429,7 +439,7 @@ public class QuickstartConversationsManager {
                             if (token != null) {
                                 PrefManager prefManager=new PrefManager(context);
                                 prefManager.saveTwilioAccessToken(token);
-                                conversationsClient.updateToken(token, new StatusListener() {
+                                TwilioMainConversationsClient.getInstance().updateToken(token, new StatusListener() {
                                     @Override
                                     public void onSuccess() {
                                         Log.d("TWILIO", "Refreshed access token.");
@@ -448,7 +458,7 @@ public class QuickstartConversationsManager {
                             if (token != null) {
                                 PrefManager prefManager=new PrefManager(context);
                                 prefManager.saveTwilioAccessToken(token);
-                                conversationsClient.updateToken(token, new StatusListener() {
+                                TwilioMainConversationsClient.getInstance().updateToken(token, new StatusListener() {
                                     @Override
                                     public void onSuccess() {
                                         Log.d("TWILIO", "Refreshed access token.");
@@ -464,12 +474,12 @@ public class QuickstartConversationsManager {
             new CallbackListener<ConversationsClient>() {
                 @Override
                 public void onSuccess(ConversationsClient conversationsClient) {
-                    QuickstartConversationsManager.this.conversationsClient = conversationsClient;
-                    conversationsClient.addListener(QuickstartConversationsManager.this.mConversationsClientListener);
+                    TwilioMainConversationsClient.mConversationsClient = conversationsClient;
+                    TwilioMainConversationsClient.getInstance().addListener(QuickstartConversationsManager.this.mConversationsClientListener);
                     Log.d("TWILIO", "Success creating Twilio Conversations Client");
                     String token = PrefManager.getInstance(context).getSharedString(PrefManager.FCM_TOKEN, null);
                     if (token != null && !token.isEmpty()) {
-                        conversationsClient.registerFCMToken(new ConversationsClient.FCMToken(token), new StatusListener() {
+                        TwilioMainConversationsClient.getInstance().registerFCMToken(new ConversationsClient.FCMToken(token), new StatusListener() {
                             @Override
                             public void onSuccess() {
                                 Log.w("BGBGBGBG","registerFCMToken");
