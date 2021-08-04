@@ -339,12 +339,19 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                                         ||actual_type.equalsIgnoreCase("confirmBooking")
                                         || actual_type.equalsIgnoreCase("rejectBooking")
                                         || actual_type.equalsIgnoreCase("reminder")
+                                        || actual_type.equalsIgnoreCase("twilioChat")
                                         || actual_type.equalsIgnoreCase("twilio.conversations.new_message")) {
                                     Intent intent = new Intent(NotificationUtils.NOTIFY_INTENT);
                                     intent.putExtra("type", actual_type);
                                     intent.putExtra("message", message);
-                                    if (isValid(conversation_sid))
-                                        intent.putExtra("conversation_sid", conversation_sid);
+                                    if(actual_type.equals("twilioChat")){
+                                        conversation_sid = _id;
+                                    }
+
+                                    if (isValid(conversation_sid)){
+                                        intent.putExtra("conversation_sid", conversation_sid);}
+
+
                                     LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
                                 }
 
@@ -458,7 +465,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         Intent cIntent = null;
         PendingIntent pendingIntent = null;
-        if (actualType.equals("twilio.conversations.new_message"))
+        if (actualType.equals("twilio.conversations.new_message") ||actualType.equals("twilioChat"))
         {
 
             cIntent = new Intent(context, TwilioConversationActivity.class);
