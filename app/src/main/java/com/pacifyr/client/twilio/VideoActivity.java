@@ -1323,13 +1323,13 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
             audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
             savedVolumeControlStream = getVolumeControlStream();
             setVolumeControlStream(AudioManager.STREAM_VOICE_CALL);
-            new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+           /* new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     ringtonePlayer = new RingtonePlayer(VideoActivity.this, R.raw.beep);
                     ringtonePlayer.play(true);
                 }
-            }, 1000);
+            }, 1000);*/
             if (isValid(getIntent())) {
                 if (isValid(getIntent().getExtras())) {
                     accessToken = getIntent().getExtras().getString("accessToken");
