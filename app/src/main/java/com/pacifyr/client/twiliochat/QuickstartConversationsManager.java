@@ -468,6 +468,7 @@ public class QuickstartConversationsManager {
                     conversationsClient.addListener(QuickstartConversationsManager.this.mConversationsClientListener);
                     Log.d("TWILIO", "Success creating Twilio Conversations Client");
                     String token = PrefManager.getInstance(context).getSharedString(PrefManager.FCM_TOKEN, null);
+
                     if (token != null && !token.isEmpty()) {
                         conversationsClient.registerFCMToken(new ConversationsClient.FCMToken(token), new StatusListener() {
                             @Override
