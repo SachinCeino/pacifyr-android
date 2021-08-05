@@ -30,6 +30,7 @@ import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.gdacciaro.iOSDialog.iOSDialog;
 import com.gdacciaro.iOSDialog.iOSDialogClickListener;
+import com.google.firebase.installations.FirebaseInstallations;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.pacifyr.client.Payment.PaymentFragment;
@@ -75,6 +76,7 @@ import com.pacifyr.client.twiliochat.TokenResponseListener;
 import com.pacifyr.client.twiliochat.TwilioConversationActivity;
 import com.pacifyr.client.twiliochat.TwilioCoversationListActivity;
 import com.pacifyr.client.twiliochat.TwilioMainConversationsClient;
+import com.pacifyr.client.utility.FCMMasterToken;
 import com.pacifyr.client.utility.PacifyrAppCompactActivity;
 import com.pacifyr.client.utils.AmazonSNSTokenHandler;
 import com.pacifyr.client.utils.Constants;
@@ -816,7 +818,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
                         try {
                             if (TwilioMainConversationsClient.getInstance()!=null)
                             {
-                                String token = PrefManager.getInstance(context).getSharedString(PrefManager.FCM_TOKEN, null);
+                                String token = FCMMasterToken.getFCMTokenFromUTility(context);
                                 TwilioMainConversationsClient.getInstance().unregisterFCMToken(new ConversationsClient.FCMToken(token), new StatusListener() {
                                     @Override
                                     public void onSuccess() {
@@ -856,7 +858,36 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
             }
         });
 
-        new AmazonSNSTokenHandler(context).register();
+
+        if (!isValid(FCMMasterToken.getFCMTokenFromUTility(context)))
+        {
+            FirebaseInstallations.getInstance().getToken(true).addOnCompleteListener(task -> {
+                // get token
+                String tok = task.getResult().getToken();
+                Log.w("FIREBASETOKEN_dash", tok);
+                PrefManager.getInstance(context).putSharedString(PrefManager.FCM_TOKEN,tok);
+                new FCMMasterToken(context,tok);
+                new AmazonSNSTokenHandler(context).register();
+                if (!isValid(getPrefManager().getTWILIOAccessToken()))
+                {
+                    quickstartConversationsManager = new QuickstartConversationsManager();
+                    retrieveTokenFromServer();
+                }
+
+            });
+
+
+        }
+        else
+        {
+            new AmazonSNSTokenHandler(context).register();
+            if (!isValid(getPrefManager().getTWILIOAccessToken()))
+            {
+                quickstartConversationsManager = new QuickstartConversationsManager();
+                retrieveTokenFromServer();
+            }
+
+        }
         loginToQuickblox();
 
         /**
@@ -909,11 +940,6 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
         }
 
 
-        if (!isValid(getPrefManager().getTWILIOAccessToken()))
-        {
-            quickstartConversationsManager = new QuickstartConversationsManager();
-            retrieveTokenFromServer();
-        }
 
 
 
