@@ -299,10 +299,14 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                     }
 
                     else if(type.equals("twilio.conversations.new_message") || type.equals("twilioChat") ){
-                        String conversation_sid;
 
-                            conversation_sid = intent.getExtras().getString("conversation_sid");
 
+                        String conversation_sid = intent.getExtras().getString("conversation_sid");
+                        if(isValid(DEFAULT_CONVERSATION_NAME) && isValid(conversation_sid)
+                                && conversation_sid.equals(DEFAULT_CONVERSATION_NAME)){
+
+                            return;
+                        }
 
                         showIOSDialogOKCancel("Message", message, "View", new iOSDialogClickListener() {
                             @Override
