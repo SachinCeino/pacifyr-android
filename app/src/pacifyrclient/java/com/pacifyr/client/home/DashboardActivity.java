@@ -375,13 +375,13 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
                 /**actionbar connectprovider from dashboard actionbar event **/
                 if (connectProviderActioBar.getText().equals("Connect"))
                 EventBus.getDefault().post(new ConnectEvent(true));
-                if (connectProviderActioBar.getText().equals("Add"))
+                /*if (connectProviderActioBar.getText().equals("Add"))
                 {
                     Intent i=new Intent(getApplicationContext(), TermsOfUseActivity.class);
                     i.putExtra("spurl", Constants.ADD_RESOURCES_LINK);
                     i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(i);
-                }
+                }*/
             }
         });
 
