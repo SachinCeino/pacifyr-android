@@ -36,6 +36,7 @@ import com.pacifyr.client.receiver.NotificationUtils;
 import com.pacifyr.client.receiver.PacifyrReceiver;
 import com.pacifyr.client.twiliochat.TwilioConversationActivity;
 import com.pacifyr.client.twiliochat.TwilioCoversationListActivity;
+import com.pacifyr.client.utility.FCMMasterToken;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 
 import org.greenrobot.eventbus.EventBus;
@@ -58,6 +59,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     public void onNewToken(@NonNull String s) {
         super.onNewToken(s);
         PrefManager.getInstance(getApplicationContext()).putSharedString(PrefManager.FCM_TOKEN, s);
+        new FCMMasterToken(getApplicationContext(),s);
         sendRegistrationToServer(s);
     }
 

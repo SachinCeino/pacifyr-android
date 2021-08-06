@@ -91,6 +91,7 @@ import static android.content.Intent.EXTRA_ALLOW_MULTIPLE;
 import static com.pacifyr.client.network.NetworkService.GLOBAL_IMAGE_URL;
 import static com.pacifyr.client.network.NetworkService.GLOBAL_URL;
 import static com.pacifyr.client.twilio.VideoActivity.isCallActive;
+import static com.pacifyr.client.utils.Constants.CLOSE_CHAT_ACTIVITY;
 import static com.pacifyr.client.utils.Utility.MY_PERMISSIONS_REQUEST_CHAT_PERMISSION;
 
 
@@ -125,7 +126,17 @@ public class TwilioConversationActivity extends
         }
         finish();
     }
+    @org.greenrobot.eventbus.Subscribe(threadMode = ThreadMode.MAIN)
+    public void onNetworkChanged(Object event) {
+        try {
+            if (isValid(event) && event.equals(CLOSE_CHAT_ACTIVITY)) {
+                finish();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
+    }
     private int retryCount = 0;
 
     private static final int REQUESTCODE_CAMERA_IMAGE = 101;
@@ -184,13 +195,14 @@ public class TwilioConversationActivity extends
         if(quickstartConversationsManager != null){
             quickstartConversationsManager.leaveFromChat();
         }
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.twilio_conversation_activity);
-
+        EventBus.getDefault().register(this);
         setLoadingWait();
         showProgress();
 
@@ -989,7 +1001,7 @@ public class TwilioConversationActivity extends
     @Override
     protected void onStart() {
         super.onStart();
-        EventBus.getDefault().register(this);
+
     }
 
     @Override
@@ -1001,7 +1013,7 @@ public class TwilioConversationActivity extends
     @Override
     public void onStop() {
         super.onStop();
-        EventBus.getDefault().unregister(this);
+
     }
 
 
