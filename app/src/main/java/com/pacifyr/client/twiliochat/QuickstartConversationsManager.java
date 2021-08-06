@@ -88,8 +88,8 @@ public class QuickstartConversationsManager {
         }).start();
     }
 
-    public void initializeWithAccessToken(final Context context, final String token) {
-
+    public void initializeWithAccessToken(final Context context1, final String token) {
+        context=context1;
         if (TwilioMainConversationsClient.getInstance()!=null)
         {
             TwilioMainConversationsClient.getInstance().addListener(QuickstartConversationsManager.this.mConversationsClientListener);

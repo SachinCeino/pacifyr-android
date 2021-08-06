@@ -145,7 +145,7 @@ public class ChatActivity extends PacifyrAppCompactActivity implements Attachmen
     private QBUser currentUser;
     private TextView typingStatus;
     private TextView TextView_noMessages;
-    public static final String CLOSE_CHATSCREEN = "closeChatScreen";
+
     private View attachPendingView;
 
 
@@ -1101,17 +1101,7 @@ public class ChatActivity extends PacifyrAppCompactActivity implements Attachmen
         }
     }
 
-    @org.greenrobot.eventbus.Subscribe(threadMode = ThreadMode.MAIN)
-    public void onNetworkChanged(Object event) {
-        try {
-            if (isValid(event) && event.equals(CLOSE_CHATSCREEN)) {
-                finish();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
-    }
 
     @Override
     protected void onDestroy() {
