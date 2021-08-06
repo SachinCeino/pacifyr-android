@@ -336,7 +336,7 @@ public class QuickstartConversationsManager {
 
 
     private void loadPreviousMessages(final Conversation conversation) {
-        conversation.getLastMessages(50,
+        conversation.getLastMessages(200,
                 new CallbackListener<List<Message>>() {
                     @Override
                     public void onSuccess(List<Message> result) {
