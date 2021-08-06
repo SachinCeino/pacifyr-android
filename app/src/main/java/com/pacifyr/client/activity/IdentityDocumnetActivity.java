@@ -77,6 +77,7 @@ public class IdentityDocumnetActivity extends PacifyrActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_identity);
+        EventBus.getDefault().register(this);
         onSetActionBar();
         TextView_Upload=findViewById(R.id.TextView_Upload);
         file_list_rcv = findViewById(R.id.file_list_rcv);
@@ -248,7 +249,7 @@ public class IdentityDocumnetActivity extends PacifyrActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        EventBus.getDefault().register(this);
+
     }
 
     @org.greenrobot.eventbus.Subscribe(threadMode = ThreadMode.MAIN)
