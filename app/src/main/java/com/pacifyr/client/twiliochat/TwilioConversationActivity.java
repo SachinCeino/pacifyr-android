@@ -389,7 +389,12 @@ public class TwilioConversationActivity extends
             }
 
             public void afterTextChanged(Editable s) {
-                quickstartConversationsManager.messageTyping();
+                if(writeMessageEditText.getText().length() == 1 && s.toString().equals(" ")){
+                    writeMessageEditText.setText("");
+                } else {
+                    quickstartConversationsManager.messageTyping();
+                }
+
             }
 
         });

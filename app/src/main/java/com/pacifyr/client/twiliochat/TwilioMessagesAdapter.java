@@ -104,6 +104,8 @@ public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAd
             Log.d("TAG", "re run");
             holder.ivImage.setVisibility(View.GONE);
             holder.tvDate.setVisibility(View.GONE);
+            holder.tvTimeRight.setVisibility(View.GONE);
+            holder.tvTimeBottom.setVisibility(View.GONE);
             holder.progressMessage.setVisibility(View.GONE);
 
 
@@ -145,8 +147,8 @@ public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAd
                         imgUrl = R.drawable.pdfdoc3;
                         holder.ivImage.setAdjustViewBounds(false);
                     } else {
-                        w = 0;
-                        h = 350;
+                        w = 250;
+                        h = 180;
                         imgUrl = mediaUrl;
                         holder.ivImage.setAdjustViewBounds(true);
                     }
@@ -167,7 +169,6 @@ public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAd
                                     return false;
                                 }
                             }).override(w, h)
-                            .fitCenter()
                             .skipMemoryCache(false)
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
                             .into(holder.ivImage);
@@ -209,6 +210,7 @@ public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAd
                 Log.d("TAG", "mediaContentUrl" + message.getMediaFileName());
             } else {
                 holder.ivImage.setVisibility(View.GONE);
+                Glide.with(holder.ivImage).clear(holder.ivImage);
             }
 
 
