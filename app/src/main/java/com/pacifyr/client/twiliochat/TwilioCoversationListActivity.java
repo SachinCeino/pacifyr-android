@@ -1,7 +1,9 @@
 package com.pacifyr.client.twiliochat;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -9,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,6 +25,7 @@ import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.InternetConnectionEvent;
 import com.pacifyr.client.netconnectionlistener.ConnectionCheckBroadcast;
 import com.pacifyr.client.network.NetworkService;
+import com.pacifyr.client.receiver.NotificationUtils;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.twilio.conversations.Message;
@@ -35,7 +39,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class TwilioCoversationListActivity extends PacifyrActivity implements QuickstartConversationsManagerListener{
+public class TwilioCoversationListActivity extends PacifyrActivity {
 
 
 
@@ -259,6 +263,7 @@ public class TwilioCoversationListActivity extends PacifyrActivity implements Qu
     protected void onStart() {
         super.onStart();
         EventBus.getDefault().register(this);
+        LocalBroadcastManager.getInstance(this).registerReceiver(notificationReceiver, new IntentFilter(NotificationUtils.NOTIFY_INTENT));
     }
 
 
@@ -281,11 +286,30 @@ public class TwilioCoversationListActivity extends PacifyrActivity implements Qu
     public void onStop() {
         super.onStop();
         EventBus.getDefault().unregister(this);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(notificationReceiver);
     }
 
-    @Override
+    private final BroadcastReceiver notificationReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent != null && intent.hasExtra("message")) {
+                String message = intent.getExtras().getString("message");
+                String type = intent.getExtras().getString("type");
+                if (message != null && message != "") {
+                    if(type.equals("twilio.conversations.new_message") || type.equals("twilioChat") ){
+                        getConversationParticipantsList();
+                    }
+
+                }
+            }
+        }
+    };
+
+
+
+   /* @Override
     public void receivedNewMessage(Message message) {
-        Log.w("TAG","receivedNewMessage________");
+        Log.w("TAG","receivedNewMessage_List page_______");
     }
 
     @Override
@@ -321,7 +345,9 @@ public class TwilioCoversationListActivity extends PacifyrActivity implements Qu
     @Override
     public void setProgressValue(long value) {
 
-    }
+    }*/
+
+
 
 
 }
