@@ -187,10 +187,14 @@ public class TwilioConversationActivity extends
     private Snackbar snackBar;
     private ConstraintLayout clRoot;
     private Boolean isRunningReadApi = false;
+    private Context context;
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if(isValid(context)) {
+            hideProgress();
+        }
         DEFAULT_CONVERSATION_NAME = "general";
         if(quickstartConversationsManager != null){
             quickstartConversationsManager.leaveFromChat();
@@ -202,9 +206,13 @@ public class TwilioConversationActivity extends
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.twilio_conversation_activity);
+        context = this;
         EventBus.getDefault().register(this);
         setLoadingWait();
-        showProgress();
+        if(isValid(context)){
+            showProgress();
+        }
+
 
         initVar();
         onSetActionBar();
@@ -947,12 +955,14 @@ public class TwilioConversationActivity extends
      * Show/Hide progress dialog
      */
     private void visibilityProgressDialog(Boolean isVisibility){
-            if(isVisibility){
+        if(isValid(context)) {
+            if (isVisibility) {
                 setProgressBar();
                 showProgress();
-            } else{
+            } else {
                 hideProgress();
             }
+        }
 
     }
 
@@ -960,8 +970,10 @@ public class TwilioConversationActivity extends
      * Set progress value
      */
     private void setValueProgressDialog(long value) {
-        int toInt = (int)value;
-        setProgressValue(toInt);
+        if(isValid(context)) {
+            int toInt = (int) value;
+            setProgressValue(toInt);
+        }
     }
 
     @org.greenrobot.eventbus.Subscribe(threadMode = ThreadMode.MAIN)
@@ -1040,13 +1052,17 @@ public class TwilioConversationActivity extends
     @Override
     public void uploadProgress(Boolean visible) {
         //uploading = visible;
+        if(isValid(context)){
+            visibilityProgressDialog(visible);
+        }
 
-        visibilityProgressDialog(visible);
     }
 
     @Override
     public void setProgressValue(long value) {
-        setValueProgressDialog(value);
+        if(isValid(context)) {
+            setValueProgressDialog(value);
+        }
     }
 
 
