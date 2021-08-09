@@ -124,6 +124,7 @@ public class TwilioCoversationListActivity extends PacifyrActivity {
                         TwilioChatParticipants mTwilioChatParticipants = gson.fromJson(json.toString(), TwilioChatParticipants.class);
                         if (isValid(mTwilioChatParticipants) && isValidSize(mTwilioChatParticipants.getResults()))
                         {
+                            RecyclerView_chatParticipants.getRecycledViewPool().clear();
                             mEmptyLayout.setVisibility(View.GONE);
                             results.clear();
                             results.addAll(mTwilioChatParticipants.getResults());
