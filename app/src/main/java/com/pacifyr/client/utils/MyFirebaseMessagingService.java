@@ -469,6 +469,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         PendingIntent pendingIntent = null;
         if (actualType.equals("twilio.conversations.new_message") ||actualType.equals("twilioChat"))
         {
+            if (actualType.equals("twilioChat"))
+                conversation_sid =qsid;
 
             cIntent = new Intent(context, TwilioConversationActivity.class);
             cIntent.putExtra("conversation_sid", conversation_sid);
