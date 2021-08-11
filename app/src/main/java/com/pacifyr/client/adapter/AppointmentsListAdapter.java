@@ -466,6 +466,9 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     }
 
+
+
+
     private void showPreVistNotPopUp(Object preVisitNote) {
         View myView = LayoutInflater.from(mContext).inflate(R.layout.reasons_and_notes_popup, null);
         final TextView title = myView.findViewById(R.id.title);

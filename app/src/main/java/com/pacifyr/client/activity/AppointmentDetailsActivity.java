@@ -18,12 +18,14 @@ import com.pacifyr.client.R;
 import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.fragment.schedule.AppointmentModel;
+import com.pacifyr.client.model.AppoinmentNotification;
 import com.pacifyr.client.model.PreviousPrescription;
 import com.pacifyr.client.netconnectionlistener.ConnectionCheckBroadcast;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.utils.Utility;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
+import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.squareup.picasso.Picasso;
 
@@ -44,6 +46,7 @@ public class AppointmentDetailsActivity extends PacifyrActivity {
     LinearLayout LinearLayout_rejectReason,LinearLayout_callLayout;
     RelativeLayout videocall_rlay,audiocall_rlay,chat_rlay;
     AppointmentModel.Result mObject;
+    RelativeLayout RelativeLayout_Loading;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -51,11 +54,52 @@ public class AppointmentDetailsActivity extends PacifyrActivity {
         setContentView(R.layout.activity_myappointment_detail_view);
 
         onSetActionBar();
+
         initViews();
         getIntentValues();
 
 
 
+    }
+
+    public void webGetAppointmentDetail(String appointMentId) {
+
+        try {
+            setLoading();
+            showProgress();
+            String url = UtilityNetworkService.GLOBAL_URL + "schedule/getAppointment/"+appointMentId;
+
+            AjaxCallback cb = new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject json, AjaxStatus status) {
+                    try {
+                        hideProgress();
+                        if (isValid(json))
+                        {
+                            Log.w("APPOINMETNOTI",String.valueOf(json));
+                            AppointmentModel.Result mObject = GsonUtils.getInstance().gsonToAppoinmentDetails(json);
+                            if (isValid(mObject))
+                            {
+                                RelativeLayout_Loading.setVisibility(View.GONE);
+                                initValues();
+                            }
+                        }
+
+
+                    } catch (Exception e) {
+                        hideProgress();
+                        e.printStackTrace();
+                    }
+                }
+            };
+            AQuery aq = new AQuery(getApplicationContext());
+            cb.header("Content-Type", "application/json");
+            cb.header("AccessToken", getAccessToken());
+            aq.ajax(url, JSONObject.class, cb);
+        } catch (Exception ex) {
+            hideProgress();
+            ex.printStackTrace();
+        }
     }
 
     private void getIntentValues() {
@@ -65,7 +109,8 @@ public class AppointmentDetailsActivity extends PacifyrActivity {
         }
 
         if (isValid(mObject)) {
-            initValues();
+            webGetAppointmentDetail(mObject.getId());
+
         }
     }
 
@@ -414,6 +459,7 @@ public class AppointmentDetailsActivity extends PacifyrActivity {
         videocall_rlay=findViewById(R.id.videocall_rlay);
         audiocall_rlay=findViewById(R.id.audiocall_rlay);
         chat_rlay=findViewById(R.id.chat_rlay);
+        RelativeLayout_Loading=findViewById(R.id.RelativeLayout_Loading);
     }
 
 

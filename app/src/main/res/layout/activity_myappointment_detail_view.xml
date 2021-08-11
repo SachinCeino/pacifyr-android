@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -12,7 +12,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_below="@+id/include">
         <de.hdodenhof.circleimageview.CircleImageView
                 android:layout_width="100dp"
                 android:layout_centerHorizontal="true"
@@ -269,4 +270,24 @@
         </LinearLayout>
 
     </RelativeLayout>
-</LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:layout_below="@+id/include"
+        android:id="@+id/RelativeLayout_Loading"
+        android:background="@color/white">
+        <com.pacifyr.client.customview.MainTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Loading..."
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textSize="19sp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:layout_marginTop="10dp">
+
+        </com.pacifyr.client.customview.MainTextView>
+    </RelativeLayout>
+</RelativeLayout>
