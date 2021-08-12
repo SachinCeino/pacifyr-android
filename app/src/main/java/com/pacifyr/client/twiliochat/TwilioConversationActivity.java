@@ -208,8 +208,9 @@ public class TwilioConversationActivity extends
         setContentView(R.layout.twilio_conversation_activity);
         context = this;
         EventBus.getDefault().register(this);
-        setLoadingWait();
+
         if(isValid(context)){
+            setLoadingWait();
             showProgress();
         }
 
@@ -1073,11 +1074,11 @@ public class TwilioConversationActivity extends
 
         if (isValid(messagesAdapter)) {
             messageList.add(new MessageMediaModel(message,""));
-            messagesAdapter.notifyItemInserted(messagesAdapter.getItemCount() + 1);
+            messagesAdapter.notifyItemInserted(messagesAdapter.getItemCount());
             pageScrollToBottom();
 
 
-            if(!isRunningReadApi){
+            if(message.hasMedia() && !isRunningReadApi){
                 isRunningReadApi = true;
                 final Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
@@ -1086,7 +1087,9 @@ public class TwilioConversationActivity extends
                         // Do something after 2s = 2000ms
                         apiCallMessageRead();
                     }
-                }, 2000);
+                }, 1000);
+            } else {
+                apiCallMessageRead();
             }
         }
     }

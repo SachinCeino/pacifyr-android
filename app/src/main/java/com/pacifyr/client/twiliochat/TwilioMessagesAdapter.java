@@ -7,10 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -41,7 +43,7 @@ public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAd
     class ViewHolder extends RecyclerView.ViewHolder {
 
         final MainTextView messageText,tvTimeRight,tvTimeBottom,tvDate;
-        final ImageView ivImage;
+        final ImageView ivImage,ivFile;
         final ProgressBar progressMessage;
 
         ViewHolder(View itemView) {
@@ -50,6 +52,7 @@ public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAd
             tvTimeRight = (MainTextView) itemView.findViewById(R.id.tv_time_right);
             tvTimeBottom = (MainTextView) itemView.findViewById(R.id.tv_time_bottom);
             ivImage =  itemView.findViewById(R.id.iv_image);
+            ivFile =  itemView.findViewById(R.id.iv_file);
             tvDate =  itemView.findViewById(R.id.tv_date);
             progressMessage =  itemView.findViewById(R.id.progress_message);
 
@@ -103,6 +106,7 @@ public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAd
             //holder.setIsRecyclable(false);
             Log.d("TAG", "re run");
             holder.ivImage.setVisibility(View.GONE);
+            holder.ivFile.setVisibility(View.GONE);
             holder.tvDate.setVisibility(View.GONE);
             holder.tvTimeRight.setVisibility(View.GONE);
             holder.tvTimeBottom.setVisibility(View.GONE);
@@ -135,9 +139,128 @@ public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAd
             holder.messageText.setText(messageText);
 
             if (message.hasMedia()) {
-                String mediaUrl = messageList.get(position).mediaUrl;
-                holder.ivImage.setVisibility(View.VISIBLE);
                 holder.progressMessage.setVisibility(View.VISIBLE);
+                String mediaUrl = messageList.get(position).mediaUrl;
+                //Set view
+                if (message.getMediaType().equals("application/pdf")) {
+                    holder.ivImage.setVisibility(View.GONE);
+                    holder.ivFile.setVisibility(View.VISIBLE);
+                } else {
+                    holder.ivFile.setVisibility(View.GONE);
+                    holder.ivImage.setVisibility(View.VISIBLE);
+                }
+
+
+                if (Utility.isValid(mediaUrl)) {
+
+                    if (message.getMediaType().equals("application/pdf")) {
+                        holder.progressMessage.setVisibility(View.GONE);
+
+                        holder.ivFile.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+
+                                if (!mediaUrl.isEmpty()) {
+                                    ((TwilioConversationActivity) context).pdfReaderIntent(mediaUrl, message.getMediaFileName());
+                                }
+
+                            }
+                        });
+                    }else {
+
+                        Glide.with(context)
+                                .load(mediaUrl)
+                                .listener(new RequestListener<Drawable>() {
+                                    @Override
+                                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                                        holder.progressMessage.setVisibility(View.GONE);
+                                        return false;
+                                    }
+
+                                    @Override
+                                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+
+                                        holder.progressMessage.setVisibility(View.GONE);
+                                        return false;
+                                    }
+                                })
+                                //.override(w, h)
+                                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                                .into(holder.ivImage);
+
+                        holder.ivImage.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+
+                                if (!mediaUrl.isEmpty()) {
+                                    if (message.getMediaType().equals("application/pdf")) {
+                                        ((TwilioConversationActivity) context).pdfReaderIntent(mediaUrl, message.getMediaFileName());
+
+                                    } else {
+                                        TwilioConversationActivity.start(context, mediaUrl);
+                                    }
+
+                                }
+
+                            }
+                        });
+                    }
+
+                } else {
+                    Glide.with(holder.ivImage).clear(holder.ivImage);
+
+                    message.getMediaContentTemporaryUrl(new CallbackListener<String>() {
+                        @Override
+                        public void onSuccess(String mediaContentUrl) {
+
+                            messageList.get(position).mediaUrl = mediaContentUrl;
+                            notifyItemChanged(position);
+
+                        }
+                    });
+                }
+
+
+               /* if (message.getMediaType().equals("application/pdf")) {
+                    holder.ivImage.setVisibility(View.GONE);
+                    holder.ivFile.setVisibility(View.VISIBLE);
+
+
+
+                    if (Utility.isValid(mediaUrl)) {
+                        holder.progressMessage.setVisibility(View.GONE);
+
+                        holder.ivFile.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+
+                                if (!mediaUrl.isEmpty()) { ((TwilioConversationActivity) context).pdfReaderIntent(mediaUrl, message.getMediaFileName());
+                                }
+
+                            }
+                        });
+                    } else {
+                        message.getMediaContentTemporaryUrl(new CallbackListener<String>() {
+                            @Override
+                            public void onSuccess(String mediaContentUrl) {
+
+                                messageList.get(position).mediaUrl = mediaContentUrl;
+                                notifyItemChanged(position);
+
+                            }
+                        });
+                    }
+                } else {
+                    holder.ivFile.setVisibility(View.GONE);
+                    holder.ivImage.setVisibility(View.VISIBLE);
+
+                    if (Utility.isValid(mediaUrl)) {
+
+                    }
+                }*/
+
+
+/*
                 if (Utility.isValid(mediaUrl)) {
                     Object imgUrl;
                     int w, h;
@@ -145,12 +268,19 @@ public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAd
                         w = 100;
                         h = 100;
                         imgUrl = R.drawable.pdfdoc3;
-                        holder.ivImage.setAdjustViewBounds(false);
+                        //holder.ivImage.setAdjustViewBounds(false);
+                        holder.ivImage.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                        ConstraintLayout.LayoutParams layoutParams = new ConstraintLayout.LayoutParams(100, 100);
+                        holder.ivImage.setLayoutParams(layoutParams);
+
                     } else {
                         w = 250;
                         h = 180;
                         imgUrl = mediaUrl;
-                        holder.ivImage.setAdjustViewBounds(true);
+                        holder.ivImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                        ConstraintLayout.LayoutParams layoutParams = new ConstraintLayout.LayoutParams(250, 180);
+                        holder.ivImage.setLayoutParams(layoutParams);
+                        //holder.ivImage.setAdjustViewBounds(true);
                     }
 
                     Glide.with(context)
@@ -168,8 +298,8 @@ public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAd
                                     holder.progressMessage.setVisibility(View.GONE);
                                     return false;
                                 }
-                            }).override(w, h)
-                            .skipMemoryCache(false)
+                            })
+                            .override(w, h)
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
                             .into(holder.ivImage);
 
@@ -206,7 +336,7 @@ public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAd
                         }
 
                     }
-                });
+                });*/
                 Log.d("TAG", "mediaContentUrl" + message.getMediaFileName());
             } else {
                 holder.ivImage.setVisibility(View.GONE);

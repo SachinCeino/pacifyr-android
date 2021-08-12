@@ -44,6 +44,17 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <ImageView
+            android:id="@+id/iv_file"
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:adjustViewBounds="true"
+            android:padding="@dimen/dp3"
+            android:src="@drawable/pdfdoc3"
+            app:layout_constraintBottom_toTopOf="@+id/tv_time_bottom"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <com.pacifyr.client.customview.MainTextView
             android:id="@+id/tv_message"
             style="@style/MessageTextStyle"
