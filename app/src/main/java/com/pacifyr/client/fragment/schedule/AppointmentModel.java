@@ -323,7 +323,7 @@ public class AppointmentModel implements Serializable {
         private String createdAt;
         @SerializedName("amount")
         @Expose
-        private Integer amount;
+        private float amount;
         @SerializedName("chargeId")
         @Expose
         private String chargeId;
@@ -355,11 +355,11 @@ public class AppointmentModel implements Serializable {
             this.createdAt = createdAt;
         }
 
-        public Integer getAmount() {
+        public float getAmount() {
             return amount;
         }
 
-        public void setAmount(Integer amount) {
+        public void setAmount(float amount) {
             this.amount = amount;
         }
 
