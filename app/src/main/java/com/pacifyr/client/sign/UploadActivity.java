@@ -63,6 +63,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.pacifyr.client.sign.RegisterActivity.documentFileList;
+import static com.pacifyr.client.twilio.VideoActivity.isCallActive;
 
 public class UploadActivity extends PacifyrActivity implements AddFileClickListner {
 
@@ -157,7 +158,12 @@ public class UploadActivity extends PacifyrActivity implements AddFileClickListn
             int hasFilePerm = pm.checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE, getPackageName());
             if (hasCamPerm == PackageManager.PERMISSION_GRANTED) {
                 if(hasFilePerm == PackageManager.PERMISSION_GRANTED) {
-                    final CharSequence[] options = {"Select PDF", "Take photo", "Choose from gallery"};
+                    final CharSequence[] options ;
+                    if (isCallActive)
+                        options = new CharSequence[]{"Select PDF", "Choose from gallery"};
+                    else
+                        options = new CharSequence[]{"Select PDF", "Take photo", "Choose from gallery"};
+
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setTitle("Choose file");
                     builder.setItems(options, new DialogInterface.OnClickListener() {
