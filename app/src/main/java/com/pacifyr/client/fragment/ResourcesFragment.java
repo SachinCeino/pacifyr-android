@@ -28,6 +28,7 @@ import com.pacifyr.client.adapter.ResourcesListAdapter;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.home.DashboardActivity;
+import com.pacifyr.client.home.MainVideoPlayerActivity;
 import com.pacifyr.client.model.ModelResources;
 import com.pacifyr.client.model.ResourceMain;
 import com.pacifyr.client.model.ResourceTodayHighlight;
@@ -133,11 +134,22 @@ public class ResourcesFragment extends BaseFragment {
                                             else if (mObject.getType().equals("video"))
                                             {
                                                 Today_videoIcon.setVisibility(View.VISIBLE);
-                                                if (mObject.getVideo()==null) {
+
+                                                if (mObject.getUrl().contains("https://pacifyrprod.")){
+                                                    Intent intent=new Intent(getActivity(), MainVideoPlayerActivity.class);
+                                                    intent.putExtra("URL",mObject.getUrl());
+                                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                    startActivity(intent);
+                                                }
+                                                else
+                                                {
                                                     Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(mObject.getUrl()));
                                                     browserIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                                     startActivity(browserIntent);
+
                                                 }
+
+
                                             }
                                             else
                                             {

@@ -257,7 +257,11 @@ public class AppointmentDetailsActivity extends PacifyrActivity {
                                     LinearLayout_rejectReason.setVisibility(View.GONE);
                                 }
                                 if (isValid(mObject.getPreVisitNote()))
-                                    TextView_Notes.setText(mObject.getPreVisitNote().toString());
+                                {
+                                    if (mObject.getCancelled()==false)
+                                        TextView_Notes.setText(mObject.getPreVisitNote().toString());
+                                }
+
                             }
 
 
