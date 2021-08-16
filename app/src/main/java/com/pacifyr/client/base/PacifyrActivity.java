@@ -48,6 +48,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.aigestudio.wheelpicker.WheelPicker;
@@ -88,6 +90,7 @@ import com.pacifyr.client.event.TwilioCallEvent;
 import com.pacifyr.client.fragment.AppointmentsTabViewFragment;
 import com.pacifyr.client.fragment.UserDashboardFragment;
 import com.pacifyr.client.home.DashboardActivity;
+import com.pacifyr.client.home.MyDialogFragment;
 import com.pacifyr.client.home.PaymentActivity;
 import com.pacifyr.client.home.SessionSummaryActivity;
 import com.pacifyr.client.model.ApiResponse;
@@ -4721,105 +4724,24 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
 
     public void showAppointmentReminderPopup(AppoinmentNotification mAppointmentModel) {
 
-        // create an alert builder
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        // set the custom layout
-        final View customLayout = getLayoutInflater().inflate(R.layout.appoinment_call_popup_from_notification, null);
+        MyDialogFragment dialogFragment = MyDialogFragment.newInstance();
 
-        TextView textView_intro=customLayout.findViewById(R.id.textView_intro);
-        TextView mTextView_PacifyrName=customLayout.findViewById(R.id.mTextView_PacifyrName);
-        CircleImageView pacifyr_profileImage=customLayout.findViewById(R.id.pacifyr_profileImage);
-        TextView mTextView_ScheduleTime=customLayout.findViewById(R.id.mTextView_ScheduleTime);
-        TextView TextView_initiateCallInfo =customLayout.findViewById(R.id.TextView_initiateCallInfo);
-        Button Button_Dismiss  =customLayout.findViewById(R.id.Button_Dismiss);
-        RelativeLayout audiocall_rlay = customLayout.findViewById(R.id.audiocall_rlay);
-        RelativeLayout videocall_rlay = customLayout.findViewById(R.id.videocall_rlay);
-        RelativeLayout chat_rlay = customLayout.findViewById(R.id.chat_rlay);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("object", mAppointmentModel);
 
-        builder.setView(customLayout);
+        dialogFragment.setArguments(bundle);
 
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        getSupportFragmentManager().executePendingTransactions();
+        Fragment prev = getSupportFragmentManager().findFragmentByTag("dialog");
+        if (prev != null) {
 
-        SpannableStringBuilder spanTxt = new SpannableStringBuilder("Please visit your profile page and upload your identity document (PAN/Aadhaar/EPIC/DL) if you have not done so.\n\n");
-        spanTxt.append(Html.fromHtml("<font color=" + getResources().getColor(com.pacifyrapp.utilitylibrary.R.color.black) + "><b>" + "Steps to follow:" + "</b></font>"));
-        spanTxt.append("\n\n1. Click on the Audio or Video button to connect to the Provider.\n");
-        spanTxt.append("2. Introduction by yourself and the Provider.\n");
-        spanTxt.append("3. You will receive a ");
-        spanTxt.append(Html.fromHtml("<font size=14 color=" + getResources().getColor(com.pacifyrapp.utilitylibrary.R.color.black) + "><b>" + " Session Started" + "<b></font>"));
-        spanTxt.append(" message.");
-        textView_intro.setText(spanTxt, TextView.BufferType.SPANNABLE);
-
-        SpannableStringBuilder spanTxt2 = new SpannableStringBuilder("If you click on dismiss you can initiate this call from ");
-        spanTxt2.append(Html.fromHtml("<font size=14 color=" + getResources().getColor(com.pacifyrapp.utilitylibrary.R.color.black) + "><b>" + " MY APPOINTMENTS" + "<b></font>"));
-        TextView_initiateCallInfo.setText(spanTxt2, TextView.BufferType.SPANNABLE);
-        // create and show the alert dialog
-        AlertDialog dialog = builder.create();
-        dialog.show();
-        Button_Dismiss.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
-
-        if (isValid(mAppointmentModel))
-        {
-            if (isValid(mAppointmentModel.getPacifyr()))
-            {
-                isValid(mAppointmentModel.getPacifyr().getFirstName());
-                {
-                    mTextView_PacifyrName.setText(mAppointmentModel.getPacifyr().getFirstName());
-                    if (isValid(mAppointmentModel.getPacifyr().getLastName()))
-                    {
-                        mTextView_PacifyrName.append(" "+mAppointmentModel.getPacifyr().getLastName()+"");
-                    }
-                }
-
-                if (isValid(mAppointmentModel.getPacifyr().getImage()))
-                {
-                    String imgUrl= mAppointmentModel.getPacifyr().getImage();
-                    if (isValid(imgUrl))
-                        imgUrl= UtilityNetworkService.GLOBAL_IMAGE_URL + imgUrl;
-
-                    if (isValidhtml(imgUrl))
-                        Picasso.with(this).load(imgUrl).placeholder(R.drawable.placeholder_user).into(pacifyr_profileImage);
-
-                }
-
-
-                audiocall_rlay.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        startSessionWebforAppoinmetCall(mAppointmentModel.getPacifyr(), false,mAppointmentModel.getId());
-                        dialog.dismiss();
-                    }
-                });
-
-                videocall_rlay.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        startSessionWebforAppoinmetCall(mAppointmentModel.getPacifyr(), true,mAppointmentModel.getId());
-                        dialog.dismiss();
-                    }
-                });
-
-                chat_rlay.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        startChat(mAppointmentModel.getPacifyr());
-                        dialog.dismiss();
-                    }
-                });
-
-            }
-
-
-            if (isValid(mAppointmentModel.getStartTimeGMT()))
-            {
-                String mDisplayDateAndTime = Utility.getStartFormatDate(mAppointmentModel.getStartTimeGMT(),PacifyrActivity.this);
-                mTextView_ScheduleTime.setText(mDisplayDateAndTime+"");
-            }
-
+        }else {
+            ft.addToBackStack(null);
+            dialogFragment.show(ft, "dialog");
         }
+
+
 
     }
 

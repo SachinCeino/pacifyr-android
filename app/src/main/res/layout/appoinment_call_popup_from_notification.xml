@@ -15,9 +15,10 @@
         <com.pacifyr.client.customview.MainTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"
+            android:paddingLeft="20dp"
+            android:paddingTop="10dp"
             android:gravity="left"
-            android:layout_marginLeft="10dp"
+            android:paddingBottom="10dp"
             android:text="Pacifyr Appointment"
             android:textSize="20sp"
             android:textStyle="bold"
@@ -39,7 +40,6 @@
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:id="@+id/LinearContainer"
-            android:layout_marginLeft="10dp"
             android:layout_below="@+id/textView_intro"
             android:weightSum="2">
 
@@ -96,7 +96,7 @@
                     android:id="@+id/call_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
+                    android:gravity="left"
                     android:layout_marginTop="10dp"
                     android:orientation="horizontal"
                     >
@@ -118,14 +118,14 @@
                             app:aspect_ratio="1"
                             app:height_percentage="9"
                             app:parameter="aspect_width"
-                            app:width_percentage="8" />
+                            app:width_percentage="7" />
 
                     </RelativeLayout>
                     <RelativeLayout
                         android:id="@+id/audiocall_rlay"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="15dp"
+                        android:layout_marginLeft="8dp"
                         android:background="@drawable/blue_cirlce"
                         android:gravity="center"
                         android:padding="10dp">
@@ -140,7 +140,7 @@
                             app:aspect_ratio="1"
                             app:height_percentage="9"
                             app:parameter="aspect_width"
-                            app:width_percentage="8" />
+                            app:width_percentage="7" />
 
                     </RelativeLayout>
 
@@ -148,7 +148,7 @@
                         android:id="@+id/chat_rlay"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="15dp"
+                        android:layout_marginLeft="8dp"
                         android:background="@drawable/blue_cirlce"
                         android:gravity="center"
                         android:padding="10dp"
@@ -164,7 +164,7 @@
                             app:aspect_ratio="1"
                             app:height_percentage="9"
                             app:parameter="aspect_width"
-                            app:width_percentage="8" />
+                            app:width_percentage="7" />
 
                     </RelativeLayout>
 
