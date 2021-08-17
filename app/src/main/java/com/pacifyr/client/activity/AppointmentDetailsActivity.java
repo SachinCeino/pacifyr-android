@@ -167,15 +167,16 @@ public class AppointmentDetailsActivity extends PacifyrActivity {
                                 {
                                     if (isValid(mObject.getRefunds().get(0).getAmount()))
                                         TextView_refundAmount.setText("Refund amount "+Utility.getPriceSign(getApplicationContext())+"" +mObject.getRefunds().get(0).getAmount());
-
+                                    if (isValid(mObject.getRefunds().get(0).getRefundId()))
+                                        TextView_TransactionId.setText("Transaction Id: "+mObject.getRefunds().get(0).getRefundId());
                                 }
                                 else {
                                     if (isValid(mObject.getPacifyr().getPrice()))
-                                        TextView_refundAmount.setText("Refund amount "+Utility.getPriceSign(getApplicationContext())+"" +mObject.getPacifyr().getPrice());
-
+                                        TextView_refundAmount.setText("Deducted amount "+Utility.getPriceSign(getApplicationContext())+"" +mObject.getPacifyr().getPrice());
+                                    if (isValid(mObject.getTransactionId()))
+                                        TextView_TransactionId.setText("Transaction Id: "+mObject.getTransactionId());
                                 }
-                                   if (isValid(mObject.getTransactionId()))
-                                    TextView_TransactionId.setText("Transaction Id: "+mObject.getTransactionId());
+
                                 if (isValid(mObject.getRejectReason()))
                                     TextView_Notes.setText(mObject.getRejectReason().toString());
                             }
@@ -191,15 +192,16 @@ public class AppointmentDetailsActivity extends PacifyrActivity {
                                 {
                                     if (isValid(mObject.getRefunds().get(0).getAmount()))
                                         TextView_refundAmount.setText("Refund amount "+Utility.getPriceSign(getApplicationContext())+"" +mObject.getRefunds().get(0).getAmount());
-
+                                    if (isValid(mObject.getRefunds().get(0).getRefundId()))
+                                        TextView_TransactionId.setText("Transaction Id: "+mObject.getRefunds().get(0).getRefundId());
                                 }
                                 else {
                                     if (isValid(mObject.getPacifyr().getPrice()))
-                                        TextView_refundAmount.setText("Refund amount "+Utility.getPriceSign(getApplicationContext())+"" +mObject.getPacifyr().getPrice());
-
+                                        TextView_refundAmount.setText("Deducted amount "+Utility.getPriceSign(getApplicationContext())+"" +mObject.getPacifyr().getPrice());
+                                    if (isValid(mObject.getTransactionId()))
+                                        TextView_TransactionId.setText("Transaction Id: "+mObject.getTransactionId());
                                 }
-                                   if (isValid(mObject.getTransactionId()))
-                                    TextView_TransactionId.setText("Transaction Id: "+mObject.getTransactionId());
+
                                 if (isValid(mObject.getCancelReason()))
                                     TextView_Notes.setText(mObject.getCancelReason().toString());
                             }
@@ -235,15 +237,16 @@ public class AppointmentDetailsActivity extends PacifyrActivity {
                                 {
                                     if (isValid(mObject.getRefunds().get(0).getAmount()))
                                         TextView_refundAmount.setText("Refund amount "+Utility.getPriceSign(getApplicationContext())+"" +mObject.getRefunds().get(0).getAmount());
-
+                                    if (isValid(mObject.getRefunds().get(0).getRefundId()))
+                                        TextView_TransactionId.setText("Transaction Id: "+mObject.getRefunds().get(0).getRefundId());
                                 }
                                 else {
                                     if (isValid(mObject.getPacifyr().getPrice()))
-                                        TextView_refundAmount.setText("Refund amount "+Utility.getPriceSign(getApplicationContext())+"" +mObject.getPacifyr().getPrice());
-
+                                        TextView_refundAmount.setText("Deducted amount "+Utility.getPriceSign(getApplicationContext())+"" +mObject.getPacifyr().getPrice());
+                                    if (isValid(mObject.getTransactionId()))
+                                        TextView_TransactionId.setText("Transaction Id: "+mObject.getTransactionId());
                                 }
-                                 if (isValid(mObject.getTransactionId()))
-                                    TextView_TransactionId.setText("Transaction Id: "+mObject.getTransactionId());
+
                                 if (isValid(mObject.getRejectReason()))
                                     TextView_Notes.setText(mObject.getRejectReason().toString());
                             }
@@ -277,16 +280,17 @@ public class AppointmentDetailsActivity extends PacifyrActivity {
                                 {
                                     if (isValid(mObject.getRefunds().get(0).getAmount()))
                                         TextView_refundAmount.setText("Refund amount "+Utility.getPriceSign(getApplicationContext())+"" +mObject.getRefunds().get(0).getAmount());
-
+                                    if (isValid(mObject.getRefunds().get(0).getRefundId()))
+                                        TextView_TransactionId.setText("Transaction Id: "+mObject.getRefunds().get(0).getRefundId());
                                 }
                                 else {
                                     if (isValid(mObject.getPacifyr().getPrice()))
-                                        TextView_refundAmount.setText("Refund amount "+Utility.getPriceSign(getApplicationContext())+"" +mObject.getPacifyr().getPrice());
-
+                                        TextView_refundAmount.setText("Deducted amount "+Utility.getPriceSign(getApplicationContext())+"" +mObject.getPacifyr().getPrice());
+                                    if (isValid(mObject.getTransactionId()))
+                                        TextView_TransactionId.setText("Transaction Id: "+mObject.getTransactionId());
                                 }
 
-                                if (isValid(mObject.getTransactionId()))
-                                    TextView_TransactionId.setText("Transaction Id: "+mObject.getTransactionId());
+
                                 if (isValid(mObject.getRejectReason()))
                                     TextView_Notes.setText(mObject.getRejectReason().toString());
                             }
@@ -302,16 +306,17 @@ public class AppointmentDetailsActivity extends PacifyrActivity {
                                 {
                                     if (isValid(mObject.getRefunds().get(0).getAmount()))
                                         TextView_refundAmount.setText("Refund amount "+Utility.getPriceSign(getApplicationContext())+"" +mObject.getRefunds().get(0).getAmount());
-
+                                    if (isValid(mObject.getRefunds().get(0).getRefundId()))
+                                        TextView_TransactionId.setText("Transaction Id: "+mObject.getRefunds().get(0).getRefundId());
                                 }
                                 else {
                                     if (isValid(mObject.getPacifyr().getPrice()))
-                                        TextView_refundAmount.setText("Refund amount "+Utility.getPriceSign(getApplicationContext())+"" +mObject.getPacifyr().getPrice());
-
+                                        TextView_refundAmount.setText("Deducted amount "+Utility.getPriceSign(getApplicationContext())+"" +mObject.getPacifyr().getPrice());
+                                    if (isValid(mObject.getTransactionId()))
+                                        TextView_TransactionId.setText("Transaction Id: "+mObject.getTransactionId());
                                 }
 
-                                if (isValid(mObject.getTransactionId()))
-                                    TextView_TransactionId.setText("Transaction Id: "+mObject.getTransactionId());
+
                                 if (isValid(mObject.getCancelReason()))
                                     TextView_Notes.setText(mObject.getCancelReason().toString());
                             }
@@ -331,15 +336,16 @@ public class AppointmentDetailsActivity extends PacifyrActivity {
                             {
                                 if (isValid(mObject.getRefunds().get(0).getAmount()))
                                     TextView_refundAmount.setText("Refund amount "+Utility.getPriceSign(getApplicationContext())+"" +mObject.getRefunds().get(0).getAmount());
-
+                                if (isValid(mObject.getRefunds().get(0).getRefundId()))
+                                    TextView_TransactionId.setText("Transaction Id: "+mObject.getRefunds().get(0).getRefundId());
                             }
                             else {
                                 if (isValid(mObject.getPacifyr().getPrice()))
-                                    TextView_refundAmount.setText("Refund amount "+Utility.getPriceSign(getApplicationContext())+"" +mObject.getPacifyr().getPrice());
-
+                                    TextView_refundAmount.setText("Deducted amount "+Utility.getPriceSign(getApplicationContext())+"" +mObject.getPacifyr().getPrice());
+                                if (isValid(mObject.getTransactionId()))
+                                    TextView_TransactionId.setText("Transaction Id: "+mObject.getTransactionId());
                             }
-                              if (isValid(mObject.getTransactionId()))
-                                TextView_TransactionId.setText("Transaction Id: "+mObject.getTransactionId());
+
                             if (isValid(mObject.getRejectReason()))
                                 TextView_Notes.setText(mObject.getRejectReason().toString());
                         }
@@ -354,16 +360,17 @@ public class AppointmentDetailsActivity extends PacifyrActivity {
                             {
                                 if (isValid(mObject.getRefunds().get(0).getAmount()))
                                     TextView_refundAmount.setText("Refund amount "+Utility.getPriceSign(getApplicationContext())+"" +mObject.getRefunds().get(0).getAmount());
-
+                                if (isValid(mObject.getRefunds().get(0).getRefundId()))
+                                    TextView_TransactionId.setText("Transaction Id: "+mObject.getRefunds().get(0).getRefundId());
                             }
                             else {
                                 if (isValid(mObject.getPacifyr().getPrice()))
-                                    TextView_refundAmount.setText("Refund amount "+Utility.getPriceSign(getApplicationContext())+"" +mObject.getPacifyr().getPrice());
-
+                                    TextView_refundAmount.setText("Deducted amount "+Utility.getPriceSign(getApplicationContext())+"" +mObject.getPacifyr().getPrice());
+                                if (isValid(mObject.getTransactionId()))
+                                    TextView_TransactionId.setText("Transaction Id: "+mObject.getTransactionId());
                             }
 
-                           if (isValid(mObject.getTransactionId()))
-                                TextView_TransactionId.setText("Transaction Id: "+mObject.getTransactionId());
+
                             if (isValid(mObject.getCancelReason()))
                                 TextView_Notes.setText(mObject.getCancelReason().toString());
                         }
@@ -426,7 +433,6 @@ public class AppointmentDetailsActivity extends PacifyrActivity {
         long mcurrentMilliSeconds =900000+ Utility.getCurrentDateinMilliSeconds();
         long mServerMilliSeconds = Utility.getLocalTimeFromUtc(date);
         return mcurrentMilliSeconds >= mServerMilliSeconds;
-
     }
     public boolean scheduleIsFullyPassed(String date) {
         //add 15 minuts more
