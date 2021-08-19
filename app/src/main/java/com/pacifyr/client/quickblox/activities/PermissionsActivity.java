@@ -9,10 +9,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import com.pacifyr.client.R;
 import com.pacifyr.client.quickblox.utils.PermissionsChecker;
-import com.quickblox.sample.core.utils.Toaster;
-import com.quickblox.sample.groupchatwebrtc.R;
-
+import com.pacifyr.client.utils.Toaster;
 
 public class PermissionsActivity extends AppCompatActivity {
 

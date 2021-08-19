@@ -35,12 +35,9 @@ import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.fragment.schedule.ScheduleBottomSheetFragment;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
-import com.pacifyr.client.quickblox.activities.CallActivity;
 import com.pacifyr.client.quickblox.activities.PermissionsActivity;
-import com.pacifyr.client.quickblox.chat.ui.activity.ChatActivity;
-import com.pacifyr.client.quickblox.db.QbUsersDbManager;
 import com.pacifyr.client.quickblox.utils.Consts;
-import com.pacifyr.client.quickblox.utils.WebRtcSessionManager;
+
 import com.pacifyr.client.twilio.VideoActivity;
 import com.pacifyr.client.utility.EventMessage;
 import com.pacifyr.client.utility.PacifyrAppCompactActivity;
@@ -53,8 +50,7 @@ import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelUserProfile;
 import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
-import com.quickblox.chat.QBChatService;
-import com.quickblox.users.model.QBUser;
+
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
 
@@ -127,17 +123,16 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
     private CircleImageView startVideoCimv;
     private CircleImageView startAudioCimv;
     private CircleImageView startChatCimv;
-    private QBChatService chatService;
+
 
     private LinearLayout chatLlay;
     private MainTextView chatPriceCtxv;
 
   //  private PermissionsChecker checker;
-    private QBUser currentUser;
+
   //  private ArrayList<QBUser> currentOpponentsList;
-    private QbUsersDbManager dbManager;
     private boolean isRunForCall;
-    private WebRtcSessionManager webRtcSessionManager;
+
 
     private static boolean isFromConnectPacifyr=false;
     private boolean isChatSubscriptionRequired;
@@ -279,7 +274,7 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
 
                                 startPermissionsActivity(false,ProfileScreenActivity.this);
 
-                                if(isLoggedInChat()) {
+
 
                                     setAlertStartCall(mpacifyerDetial , new View.OnClickListener() {
                                         @Override
@@ -290,11 +285,11 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
                                     });
 
                                     //callRequestWeb(pacifyer_obj, listner, true);
-                                }
+
 
                             }
                             else {
-                                if(isLoggedInChat()) {
+
 
                                     setAlertStartCall(mpacifyerDetial, new View.OnClickListener() {
                                         @Override
@@ -305,7 +300,7 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
                                     });
 
                                     //callRequestWeb(pacifyer_obj, listner, true);
-                                }
+
                             }
                         }
 
@@ -351,7 +346,7 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
 
                                 startPermissionsActivity(true,ProfileScreenActivity.this);
 
-                                if(isLoggedInChat()) {
+
 
                                     setAlertStartCall(mpacifyerDetial
                                             , new View.OnClickListener() {
@@ -363,11 +358,11 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
                                             });
 
                                     //callRequestWeb(pacifyer_obj, listner, true);
-                                }
+
                             }
                             else {
 
-                                if(isLoggedInChat()) {
+
 
                                     setAlertStartCall(mpacifyerDetial, new View.OnClickListener() {
                                         @Override
@@ -378,7 +373,7 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
                                     });
 
                                     //callRequestWeb(pacifyer_obj, listner, true);
-                                }
+
                             }
 
                         }
@@ -536,9 +531,7 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
             isRunForCall = extras.getBoolean(Consts.EXTRA_IS_STARTED_FOR_CALL);
         }*/
 
-        currentUser = sharedPrefsHelper.getQbUser();
-        dbManager = QbUsersDbManager.getInstance(ProfileScreenActivity.this);
-        webRtcSessionManager = WebRtcSessionManager.getInstance(ProfileScreenActivity.this);
+
     }
 
 

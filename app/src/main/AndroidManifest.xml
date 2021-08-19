@@ -294,16 +294,7 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan"
             android:theme="@style/CustomNoActionBarTheme2" />
-        <activity
-            android:name="com.pacifyr.client.quickblox.activities.CallActivity"
-            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
-            android:launchMode="singleInstance"
-            android:resizeableActivity="true"
-            android:screenOrientation="portrait"
-            android:showOnLockScreen="true"
-            android:excludeFromRecents="true"
-            android:supportsPictureInPicture="true"
-            android:theme="@style/BaseAppTheme" />
+
         <activity
             android:name="com.pacifyr.client.quickblox.activities.OpponentsActivity"
             android:configChanges="keyboardHidden|screenSize|orientation"

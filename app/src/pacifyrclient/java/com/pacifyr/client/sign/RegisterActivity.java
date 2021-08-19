@@ -79,9 +79,6 @@ import com.pacifyr.client.model.State;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.quickblox.App;
-import com.pacifyr.client.quickblox.chat.utils.qb.callback.QbEntityCallbackImpl;
-import com.pacifyr.client.quickblox.util.QBResRequestExecutor;
-import com.pacifyr.client.quickblox.utils.QBEntityCallbackImpl;
 import com.pacifyr.client.utils.Constants;
 import com.pacifyr.client.utils.FirebaseLogging;
 import com.pacifyr.client.utils.LogUtils;
@@ -96,14 +93,6 @@ import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelUserProfile;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.post.PRegistrationModel;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.post.PostRegisterModel;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
-import com.quickblox.auth.QBAuth;
-import com.quickblox.auth.session.QBSession;
-import com.quickblox.auth.session.QBSettings;
-import com.quickblox.chat.QBChatService;
-import com.quickblox.core.QBEntityCallback;
-import com.quickblox.core.exception.QBResponseException;
-import com.quickblox.users.QBUsers;
-import com.quickblox.users.model.QBUser;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
@@ -170,7 +159,6 @@ public class RegisterActivity extends PacifyrActivity {
     public final String S3BUCKET = "qbprod";
 
     public static String appUserID;
-    public static QBUser user;
     SharedPreferences sharedPreferences;
     public static final String MY_PREFS_NAME = "MyPrefsFile";
 
@@ -179,7 +167,6 @@ public class RegisterActivity extends PacifyrActivity {
     private RelativeLayout logoRlay;
     private ImageView logoBlue;
     private RelativeLayout hintLlay;
-    public QBChatService chatService;
     private CustomEditText nameEdt;
     private CustomEditText emailEdt;
     private LinearLayout nextLlay;
@@ -1352,26 +1339,6 @@ public class RegisterActivity extends PacifyrActivity {
         }
     }
 
-    private void updateQBUserID() {
-        try {
-            if(isValid(qbID)) {
-                if (isValid(appUserID)) {
-                    String url = GLOBAL_URL + "user/editprofile/" + appUserID;
-                    if(isValid(edit_image))
-                        updateProfileWithImage();
-                    else
-                        updateProfileWeb();
-
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-            ex.printStackTrace();
-            Toast.makeText(RegisterActivity.this,ex.getMessage(),Toast.LENGTH_LONG).show();
-
-        }
-    }
 
     private void updateProfileWithImage() {
         try {
@@ -1639,84 +1606,7 @@ public class RegisterActivity extends PacifyrActivity {
 
     private void quickbloxNewLogin() {
         try {
-            if (isValid(APP_ID) &&  isValid(AUTH_KEY) && isValid(AUTH_SECRET)) {
-                QBSettings.getInstance().init(RegisterActivity.this, APP_ID, AUTH_KEY, AUTH_SECRET);
-                QBSettings.getInstance().setAccountKey(ACCOUNT_KEY);
-                //create a quickblox application session
-                QBAuth.createSession().performAsync(new QBEntityCallback<QBSession>() {
-                    @Override
-                    public void onSuccess(QBSession qbSession, Bundle bundle) {
-                        final String userid = appUserID;
-                        String emailID = Remail;
-                        String fullName = Rfullname;
-
-                        // Register new user
-                        final QBUser qbUser = new QBUser(userid, userid);
-                        qbUser.setEmail(emailID);
-                        qbUser.setFullName(fullName);
-
-                        QBUsers.signUp(qbUser).performAsync(new QBEntityCallback<QBUser>() {
-                            @Override
-                            public void onSuccess(QBUser qbUser, Bundle bundle) {
-                                saveUserDetailsToPrefM();
-                                qbID = qbUser.getId().toString();
-                                saveUserData(qbUser);
-                                startLoginService(qbUser);
-                                getPrefManager(RegisterActivity.this).saveQBID(qbID);
-                                updateQBUserID();
-                                quickBoxSignIn(userid);
-                            }
-
-                            @Override
-                            public void onError(QBResponseException responseException) {
-                                responseException.printStackTrace();
-                                Toast.makeText(context, responseException.getMessage(), Toast.LENGTH_LONG).show();
-                                hideProgress();
-                                LoginManager mLoginManager = LoginManager.getInstance();
-                                mLoginManager.logOut();
-                                prefM.clear();
-                                startActivity(new Intent(context, SignActivity.class));
-
-                                Bundle args =
-                                        FirebaseLogging.getConstantArgsLoggedOut(RegisterActivity.this);
-                                if (responseException != null && responseException.getMessage() != null) {
-                                    args.putString(FirebaseLogging.EC,
-                                            "QuickBlox login fail : " + responseException.getMessage());
-                                }
-                                FirebaseLogging.sendLog(RegisterActivity.this,
-                                        FirebaseLogging.EVENT_SIGNUP_FAIL, args);
-                            }
-                        });
-
-                    }
-
-                    @Override
-                    public void onError(QBResponseException e) {
-                        e.printStackTrace();
-                        if (e.getHttpStatusCode() == 422 && e.getMessage().toLowerCase().contains("bad timestamp")) {
-                            iOSDialogClickListener listener = new iOSDialogClickListener() {
-                                @Override
-                                public void onClick(iOSDialog dialog) {
-                                    dialog.dismiss();
-                                    prefM.clearSharedAll();
-                                    fbLogout();
-                                    startActivity(new Intent(android.provider.Settings.ACTION_DATE_SETTINGS));
-                                    finish();
-                                }
-                            };
-                            showIOSDialogOK("", "Your device date & time is not correct. Please correct it and try sign in.", "Settings", listener);
-
-                        } else {
-                            Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
-                            hideProgress();
-                            fbLogout();
-                            prefM.clear();
-                            startActivity(new Intent(context, SignActivity.class));
-                        }
-                    }
-                });
-            }
-
+            saveUserDetailsToPrefM();
         }
         catch (Exception exc)
         {
@@ -1737,34 +1627,6 @@ public class RegisterActivity extends PacifyrActivity {
 
     }
 
-    private void quickBoxSignIn(final String userId) {
-        QBSettings.getInstance().init(RegisterActivity.this, APP_ID, AUTH_KEY, AUTH_SECRET);
-        QBSettings.getInstance().setAccountKey(ACCOUNT_KEY);
-        QBAuth.createSession().performAsync(new QBEntityCallbackImpl<QBSession>() {
-            @Override
-            public void onSuccess(QBSession result, Bundle params) {
-                super.onSuccess(result, params);
-                QBResRequestExecutor requestExecutor = App.getInstance().getQbResRequestExecutor();
-                QBUser qbUser = new QBUser(userId, userId);
-                requestExecutor.signInUser(qbUser, new QbEntityCallbackImpl<QBUser>() {
-                    @Override
-                    public void onSuccess(QBUser result, Bundle bundle) {
-                        super.onSuccess(result, bundle);
-                    }
-
-                    @Override
-                    public void onError(QBResponseException e) {
-                        super.onError(e);
-                    }
-                });
-            }
-
-            @Override
-            public void onError(QBResponseException responseException) {
-                super.onError(responseException);
-            }
-        });
-    }
 
 
     private void setFileAdapter() {

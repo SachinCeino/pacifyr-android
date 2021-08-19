@@ -27,7 +27,6 @@ import com.pacifyr.client.event.CustomerNotifyEvent;
 import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
-import com.pacifyr.client.quickblox.activities.CallActivity;
 import com.pacifyr.client.twilio.VideoActivity;
 import com.pacifyr.client.quickblox.util.NestedScroll;
 import com.pacifyr.client.utility.PacifyrAppCompactActivity;

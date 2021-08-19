@@ -24,26 +24,15 @@ import com.pacifyr.client.R;
 import com.pacifyr.client.activity.SplashScreen;
 import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.event.CallEvent;
-import com.pacifyr.client.event.InternetConnectionEvent;
 import com.pacifyr.client.event.RateSessionEvent;
 import com.pacifyr.client.home.DashboardActivity;
-import com.pacifyr.client.orginals.DynamicLink;
-import com.pacifyr.client.quickblox.activities.CallActivity;
-import com.pacifyr.client.quickblox.chat.ui.activity.DialogsActivity;
-import com.pacifyr.client.quickblox.services.CallService;
-import com.pacifyr.client.quickblox.utils.WebRtcSessionManager;
 import com.pacifyr.client.receiver.NotificationUtils;
-import com.pacifyr.client.receiver.PacifyrReceiver;
 import com.pacifyr.client.twiliochat.TwilioConversationActivity;
-import com.pacifyr.client.twiliochat.TwilioCoversationListActivity;
 import com.pacifyr.client.utility.FCMMasterToken;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
-
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import me.leolin.shortcutbadger.ShortcutBadger;
 
 import static androidx.core.app.NotificationCompat.BADGE_ICON_SMALL;
 import static com.pacifyr.client.receiver.NotificationUtils.isAppIsInBackground;
@@ -249,20 +238,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                             if (isAppIsInBackground(context)) {
                                 if (actual_type.equalsIgnoreCase("session")) {
                                     isCall = true;
-                                    LogUtils.LOGD("app_reca", " app live  notification session " + WebRtcSessionManager.currentSession);
-                                    if (WebRtcSessionManager.currentSession == null) {
-                                        LogUtils.LOGD("app_reca", " app live  notification session " + WebRtcSessionManager.tempSession);
-
-                                        if (WebRtcSessionManager.tempSession != null) {
-                                            PacifyrActivity.sessionid = _id;
-                                            WebRtcSessionManager.currentSession = WebRtcSessionManager.tempSession;
-                                            WebRtcSessionManager.tempSession = null;
-                                            CallActivity.start(context, true);
-                                            ToastHandler.newInstance(context).showToast("call data recevied from backend 1");
-
-                                        } else {
-
-                                            showNotification(context, _id, message, actual_type,conversation_sid);
+                                     showNotification(context, _id, message, actual_type,conversation_sid);
 
                                             new Handler().postDelayed(new Runnable() {
                                                 @Override
@@ -272,8 +248,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                                             }, 10000);
 
 
-                                        }
-                                    }
+
+
                                 } else {
 
                                     isCall = false;
@@ -285,27 +261,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                                 isCall = false;
                                 if (actual_type.equalsIgnoreCase("session")) {
                                     isCall = true;
-                                    LogUtils.LOGD("app_recb", " app live  notification session " + WebRtcSessionManager.tempSession);
-                                    if (WebRtcSessionManager.currentSession == null) {
-                                        LogUtils.LOGD("app_recbbb1", " app live  notification session " + WebRtcSessionManager.currentSession);
-                                        if (WebRtcSessionManager.tempSession != null) {
-                                            LogUtils.LOGD("app_recb", " app live  notification session " + WebRtcSessionManager.tempSession);
-                                            LogUtils.LOGD("app_recb", " app live notification Call ");
-                                            PacifyrActivity.sessionid = _id;
-                                            WebRtcSessionManager.currentSession = WebRtcSessionManager.tempSession;
-                                            WebRtcSessionManager.tempSession = null;
-                                            ToastHandler.newInstance(context).showToast("call data recevied from backend 1");
-                                            CallActivity.start(context, true);
-                                        } else {
-
                                             new Handler().postDelayed(new Runnable() {
                                                 @Override
                                                 public void run() {
                                                     LogUtils.LOGD("app_recb", "app live notification tempseesionid cleaed");
                                                 }
                                             }, 10000);
-                                        }
-                                    }
+
+
                                 } else if (actual_type.equalsIgnoreCase("chat")
                                         ||actual_type.equalsIgnoreCase("confirmBooking") || actual_type.equalsIgnoreCase("rejectBooking")) {
                                     Intent intent = new Intent(NotificationUtils.NOTIFY_INTENT);
@@ -363,19 +326,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                                 isCall = false;
                                 if (actual_type.equalsIgnoreCase("session")) {
                                     isCall = true;
-                                    LogUtils.LOGD("app_recc", " app live  notification session " + WebRtcSessionManager.tempSession);
-                                    if (WebRtcSessionManager.currentSession == null) {
-                                        if (WebRtcSessionManager.tempSession != null) {
-
-                                            LogUtils.LOGD("app_rec", " app live notification Call ");
-                                            PacifyrActivity.sessionid = _id;
-                                            WebRtcSessionManager.currentSession = WebRtcSessionManager.tempSession;
-                                            WebRtcSessionManager.tempSession = null;
-                                            ToastHandler.newInstance(context).showToast("call data recevied from backend 1");
-                                            CallActivity.start(context, true);
-                                        } else {
-
-                                            //  showNotification(context,_id,message,actual_type);
+                                          //  showNotification(context,_id,message,actual_type);
                                             new Handler().postDelayed(new Runnable() {
                                                 @Override
                                                 public void run() {
@@ -383,22 +334,15 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                                                 }
                                             }, 10000);
                                         }
-                                    }
-                                }
+
+
 
 
                             } else {
                                 isCall = false;
                                 if (actual_type.equalsIgnoreCase("session")) {
                                     isCall = true;
-                                    if (WebRtcSessionManager.tempSession != null) {
-                                        LogUtils.LOGD("app_recd", " app live notification Call ");
-                                        PacifyrActivity.sessionid = _id;
-                                        WebRtcSessionManager.currentSession = WebRtcSessionManager.tempSession;
-                                        WebRtcSessionManager.tempSession = null;
-                                        ToastHandler.newInstance(context).showToast("call data recevied from backend 2 ");
-                                        CallActivity.start(context, true);
-                                    } else {
+
 
                                         new Handler().postDelayed(new Runnable() {
                                             @Override
@@ -406,7 +350,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                                                 LogUtils.LOGD("app_recd", "app live notification tempseesionid cleaed");
                                             }
                                         }, 5000);
-                                    }
+
 
                                 }
                                 else if (actual_type.equals("sessionDeclined"))
@@ -420,10 +364,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
                     }
 
-                    if (!isAppIsInBackground(context)) {
-                        Intent background = new Intent(context, CallService.class);
-                        context.startService(background);
-                    }
                     LogUtils.LOGD("app_rec", "PR  onReceive End ");
                 } catch (Exception e) {
                     LogUtils.LOGD("app_rec", "notification" + " exception: " + e.getMessage());
@@ -440,7 +380,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     /**
      * Create and show a simple notification containing the received FCM message.
      *
-     * @param messageBody FCM message body received.
+
      */
     public Boolean isValid(String text) {
         if (text != null) return !text.trim().equalsIgnoreCase("");
@@ -540,10 +480,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 public void run() {
 
                     try {
-                        if (PacifyrReceiver.notificationManager != null) {
-                            PacifyrReceiver.notificationManager.cancel(PacifyrReceiver.notificationIdInt);
-                            PacifyrReceiver.notificationManager = null;
-                        }
+
                         //setScreenLockOff();
                     } catch (Exception e) {
 

@@ -68,7 +68,6 @@ import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
-import com.quickblox.sample.core.utils.ErrorUtils;
 import com.squareup.picasso.Picasso;
 import com.twilio.conversations.Message;
 

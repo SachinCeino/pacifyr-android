@@ -39,7 +39,6 @@ import com.pacifyr.client.model.interfaces.CommentClick;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.quickblox.App;
-import com.pacifyr.client.quickblox.activities.CallActivity;
 import com.pacifyr.client.twilio.VideoActivity;
 import com.pacifyr.client.utility.PacifyrAppCompactActivity;
 import com.pacifyr.client.utils.LogUtils;

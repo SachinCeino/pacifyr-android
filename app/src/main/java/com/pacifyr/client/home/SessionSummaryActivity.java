@@ -552,19 +552,19 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
                                 startPermissionsActivity(false);
                                 if (!checker.lacksPermissions(Consts.PERMISSIONS)) {
                                     if (isValid(ProfileScreenActivity.mpacifyerDetial.getQbid()))
-                                        if (isLoggedInChat()) {
+
                                             callRequestWeb(ProfileScreenActivity.mpacifyerDetial, listner, true);
-                                        }
+
                                     //ToastHandler.newInstance(ConnectToPacifyrActivity.this).mustShowToast("These Permissions are required to make call");
                                 }
                             } else {
                                 if (isValid(ProfileScreenActivity.mpacifyerDetial.getQbid()))
-                                    if (isLoggedInChat()) {
+
 
                                         callRequestWeb(ProfileScreenActivity.mpacifyerDetial, listner, true);
 
                                         //startCall(true,qbID);
-                                    }
+
                             }
                           /*  if (isValid(ProfileScreenActivity.mpacifyerDetial.getQbid()))
 
