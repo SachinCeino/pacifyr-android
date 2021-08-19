@@ -56,8 +56,6 @@ import com.pacifyrapp.utilitylibrary.model.pacifyr.post.PRegistrationModel;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.post.PostRegisterModel;
 import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
-import com.quickblox.core.exception.QBResponseException;
-import com.quickblox.users.model.QBUser;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -590,101 +588,50 @@ public class SignUpActivity extends PacifyrActivity {
     private void createQBUser( ) {
         try {
 
-            //final QBUser user,
-            final String userID = userModel.getId();
-            final QBUser user = new QBUser(userID, userID);
-            if(isValid(userModel.getEmail())){
-                String mail = userModel.getEmail();
-                user.setEmail(mail);
+            try {
+                hideProgress();
+                setStatus("Registration Succesfull", R.color.md_green_400);
+                showStatus();
+                saveUserDataToPrefM();
+                NetworkService.editProfileObject = new JSONObject();
+                NetworkService.editProfileObject.putOpt("qbid", Long.valueOf(qbID));
+                //NetworkService.editProfileObject.putOpt("online", true);
+                NetworkService.startActionEditProfile(SignUpActivity.this);
+
+                MUser user = registrationModel.getUser();
+                String compID = user.getCompanyId();
+                if (mainLabel.equals("pacifyr")) {
+                    Intent i = new Intent(SignUpActivity.this, PacifyrDashboardActivity.class);
+                    overridePendingTransition(R.anim.slide_out_left, R.anim.slide_in_left);
+                    startActivity(i);
+                    finish();
+                } else if (mainLabel.equals("customer")) {
+                    //    Intent i = new Intent(SignUpActivity.this, DashboardActivity.class);
+                    if (label.equalsIgnoreCase("employee")) {
+                        prefM.saveCustomerRole("employee");
+                        prefM.saveCompanyID(compID);
+                        //PrefManager.getInstance(SignUpActivity.this).saveCompanyID(companyId);
+                        DashboardActivity.start(SignUpActivity.this);
+                        finishAffinity();
+                    } else if (label.equalsIgnoreCase("customer")) {
+                        //  ConnectToPacifyrActivity.start(SignUpActivity.this);
+                        prefM.saveCustomerRole("customer");
+                        DashboardActivity.start(SignUpActivity.this);
+                        finishAffinity();
+                    } else if (label.equalsIgnoreCase("paidMember")) {
+                        //  ConnectToPacifyrActivity.start(SignUpActivity.this);
+                        prefM.saveCustomerRole("paidMember");
+                        DashboardActivity.start(SignUpActivity.this);
+                        finishAffinity();
+                    }
+                }
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                prefM.clear();
+                fbLogout();
             }
-            setLoading();
-            showProgress();
-            requestExecutor.signUpNewUser(user, new com.pacifyr.client.quickblox.utils.QBEntityCallbackImpl<QBUser>() {
-                @Override
-                public void onSuccess(QBUser qbUser, Bundle params) {
 
-                    try {
-                        hideProgress();
-                        setStatus("Registration Succesfull", R.color.md_green_400);
-                        showStatus();
-
-                        qbID = qbUser.getId().toString();
-                        saveUserDataToPrefM();
-
-                        saveUserData(qbUser);
-                        startLoginService(qbUser);
-
-
-                        NetworkService.editProfileObject = new JSONObject();
-                        NetworkService.editProfileObject.putOpt("qbid", Long.valueOf(qbID));
-                        //NetworkService.editProfileObject.putOpt("online", true);
-                        NetworkService.startActionEditProfile(SignUpActivity.this);
-
-                        MUser user = registrationModel.getUser();
-                        String compID = user.getCompanyId();
-                        if (mainLabel.equals("pacifyr")) {
-                            Intent i = new Intent(SignUpActivity.this, PacifyrDashboardActivity.class);
-                            overridePendingTransition(R.anim.slide_out_left, R.anim.slide_in_left);
-                            startActivity(i);
-                            finish();
-                        } else if (mainLabel.equals("customer")) {
-                            //    Intent i = new Intent(SignUpActivity.this, DashboardActivity.class);
-                            if (label.equalsIgnoreCase("employee")) {
-                                prefM.saveCustomerRole("employee");
-                                prefM.saveCompanyID(compID);
-                                //PrefManager.getInstance(SignUpActivity.this).saveCompanyID(companyId);
-                                DashboardActivity.start(SignUpActivity.this);
-                                finishAffinity();
-                            } else if (label.equalsIgnoreCase("customer")) {
-                                //  ConnectToPacifyrActivity.start(SignUpActivity.this);
-                                prefM.saveCustomerRole("customer");
-                                DashboardActivity.start(SignUpActivity.this);
-                                finishAffinity();
-                            } else if (label.equalsIgnoreCase("paidMember")) {
-                                //  ConnectToPacifyrActivity.start(SignUpActivity.this);
-                                prefM.saveCustomerRole("paidMember");
-                                DashboardActivity.start(SignUpActivity.this);
-                                finishAffinity();
-                            }
-                        }
-
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                        prefM.clear();
-                        fbLogout();
-                    }
-                }
-
-                @Override
-                public void onError(QBResponseException responseException) {
-                    try {
-                        //  hideProgressDialog();
-                        responseException.printStackTrace();
-                        // Toaster.longToast(com.quickblox.sample.groupchatwebrtc.R.string.sign_up_error);
-                        setStatus("Network intrupted. Please Try again", R.color.endcall);
-                        prefM.clear();
-                        fbLogout();
-                        showStatus();
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                hideProgress();
-                                hideStatus();
-                                startActivity(new Intent(context, SignActivity.class));
-                                finish();
-                            }
-                        }, 3000);
-                    }
-                    catch (Exception e)
-                    {
-                        hideProgress();
-                        e.printStackTrace();
-                        prefM.clear();
-                        fbLogout();
-                        startActivity(new Intent(context, SignActivity.class));
-                    }
-                }
-            });
         }
         catch (Exception e){
             hideProgress();

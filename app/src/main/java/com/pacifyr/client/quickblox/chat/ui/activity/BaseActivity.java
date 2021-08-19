@@ -3,15 +3,10 @@ package com.pacifyr.client.quickblox.chat.ui.activity;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.view.View;
-
-import androidx.annotation.StringRes;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.material.snackbar.Snackbar;
-import com.quickblox.sample.core.ui.activity.CoreBaseActivity;
-import com.quickblox.sample.core.utils.ErrorUtils;
-
-public abstract class BaseActivity extends CoreBaseActivity {
+public abstract class BaseActivity extends AppCompatActivity {
     private static final String TAG = BaseActivity.class.getSimpleName();
 
     protected ActionBar actionBar;
@@ -31,10 +26,5 @@ public abstract class BaseActivity extends CoreBaseActivity {
 
     protected abstract View getSnackbarAnchorView();
 
-    protected Snackbar showErrorSnackbar(@StringRes int resId, Exception e,
-                                         View.OnClickListener clickListener) {
-        return ErrorUtils.showSnackbar(getSnackbarAnchorView(), resId, e,
-                com.quickblox.sample.core.R.string.dlg_retry, clickListener);
-    }
 
 }

@@ -19,9 +19,8 @@ import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
-import com.pacifyr.client.quickblox.activities.CallActivity;
+import com.pacifyr.client.R;
 import com.pacifyr.client.twilio.VideoActivity;
-import com.quickblox.sample.chat.R;
 
 import static com.pacifyr.client.twilio.VideoActivity.isCallActive;
 
@@ -97,14 +96,14 @@ public class AttachmentImageActivity extends BaseActivity {
 
     @Override
     protected View getSnackbarAnchorView() {
-        return _findViewById(R.id.layout_root);
+        return findViewById(R.id.layout_root);
     }
 
     private void initUI() {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
-        imageView = _findViewById(R.id.image_full_view);
-        progressBar = _findViewById(R.id.progress_bar_show_image);
+        imageView = findViewById(R.id.image_full_view);
+        progressBar = findViewById(R.id.progress_bar_show_image);
     }
 
     private void loadImage() {

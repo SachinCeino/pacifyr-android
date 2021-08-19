@@ -63,10 +63,6 @@ import com.pacifyrapp.utilitylibrary.model.pacifyr.Certification;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelUserProfile;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.post.PostRegisterModel;
 import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
-import com.quickblox.core.QBEntityCallback;
-import com.quickblox.core.exception.QBResponseException;
-import com.quickblox.users.QBUsers;
-import com.quickblox.users.model.QBUser;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
 
@@ -1081,10 +1077,7 @@ public class AccountEditActivity extends PacifyrAppCompactActivity {
                         getPrefManager().saveMail(NetworkService.mCurrentUser.getEmail());
 
                         getPrefManager().saveUserUserLastName(NetworkService.mCurrentUser.getLastName());
-                        if(isValid(NetworkService.mCurrentUser))
-                            updateQuickbloxUser();
-                        else
-                        {
+
                             setStatus("Updated Profile");
                             showStatus();
                             new Handler().postDelayed(new Runnable() {
@@ -1099,7 +1092,7 @@ public class AccountEditActivity extends PacifyrAppCompactActivity {
 
                                 }
                             }, 1200);
-                        }
+
 
                     }catch (Exception e)
                     {
@@ -1123,87 +1116,6 @@ public class AccountEditActivity extends PacifyrAppCompactActivity {
     }
 
 
-    private void updateQuickbloxUser() {
-     //   setLoading("Quickblox update");
-        setLoading("");
-        showProgress();
-        try{
-            QBUser user = new QBUser();
-            user.setId(Integer.valueOf(getPrefManager().getQBID()));
-            if(isValid(NetworkService.mCurrentUser.getImageUrl())) {
-                user.setCustomData(NetworkService.mCurrentUser.getImageUrl());
-               // ToastHandler.newInstance(AccountEditActivity.this).mustShowToast("uimage url "+NetworkService.mCurrentUser.getImageUrl());
-            }
-
-            user.setFullName(NetworkService.mCurrentUser.getName());
-            user.setEmail(NetworkService.mCurrentUser.getEmail());
-            QBUsers.updateUser(user).performAsync(new QBEntityCallback<QBUser>(){
-                @Override
-                public void onSuccess(QBUser user, Bundle args) {
-              hideProgress();
-                    setStatus("Updated Profile ");
-                    showStatus();
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            edit_image = null;
-
-
-                            try {
-                                hideStatus();
-                                postEventOnMainThread(new NotifyEvent(true));
-                                finish();
-                            }catch (Exception e)
-                            {
-
-                            }
-
-                        }
-                    }, 1200);
-                }
-
-                @Override
-                public void onError(QBResponseException errors) {
-             hideProgress();
-                    //setStatus("Updated Error Profile"+errors);
-                    setStatus("Updated  Profile");
-                    showStatus();
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            edit_image = null;
-                            hideStatus();
-                            postEventOnMainThread(new NotifyEvent(true));
-                            finish();
-
-
-
-                        }
-                    }, 1200);
-
-                }
-            });
-
-        }catch (Exception e)
-        {
-            hideProgress();
-           // setStatus("Updated Exception Profile"+e.getMessage());
-            setStatus("Updated  Profile");
-            showStatus();
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    edit_image = null;
-                    hideStatus();
-                    postEventOnMainThread(new NotifyEvent(true));
-                    finish();
-
-
-
-                }
-            }, 1200);
-        }
-    }
     @Subscribe
     public void onNotifyEvent(NotifyEvent event) {
         try {

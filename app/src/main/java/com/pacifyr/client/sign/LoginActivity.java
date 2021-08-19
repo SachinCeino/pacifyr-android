@@ -47,8 +47,6 @@ import com.pacifyr.client.model.Country;
 import com.pacifyr.client.orginals.Auth;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
-import com.pacifyr.client.quickblox.chat.utils.qb.callback.QbEntityCallbackImpl;
-import com.pacifyr.client.quickblox.services.Call_Service;
 import com.pacifyr.client.utils.FirebaseLogging;
 import com.pacifyrapp.utilitylibrary.CustomEditText;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
@@ -59,13 +57,6 @@ import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelFacebook;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.post.PostRegisterModel;
 import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
-import com.quickblox.auth.QBAuth;
-import com.quickblox.auth.session.QBSession;
-import com.quickblox.auth.session.QBSettings;
-import com.quickblox.core.QBEntityCallback;
-import com.quickblox.core.exception.QBResponseException;
-import com.quickblox.users.QBUsers;
-import com.quickblox.users.model.QBUser;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -485,151 +476,80 @@ public class LoginActivity extends PacifyrActivity {
             showProgress();
             final String userID = loginModel.getUser().getId();
             String mail = loginModel.getUser().getEmail();
-            // Register new user
-            final QBUser user = new QBUser(userID, userID);
-            user.setEmail(mail);
-            if (isValid(loginModel.getUser().getFirstName()))
-            {
-                user.setFullName(loginModel.getUser().getFirstName());
-            }
-            if (isValid(APP_ID) &&  isValid(AUTH_KEY) && isValid(AUTH_SECRET))
-            {
-                QBSettings.getInstance().init(LoginActivity.this, APP_ID, AUTH_KEY, AUTH_SECRET);
-                QBSettings.getInstance().setAccountKey(ACCOUNT_KEY);
-            }
 
-            QBAuth.createSession().performAsync(new QbEntityCallbackImpl<QBSession>() {
-                @Override
-                public void onSuccess(QBSession result, Bundle bundle) {
-                    super.onSuccess(result, bundle);
-                    requestExecutor.signInUser(user, new com.pacifyr.client.quickblox.utils.QBEntityCallbackImpl<QBUser>() {
+            try {
+
+                MRoleModel roleModel = userModel.getRoleModel();
+                label = roleModel.getLabel();
+                main_label = roleModel.getMainLabel();
+                companyId = userModel.getCompanyId();
+                prefM.saveCompanyID(companyId);
+
+                if (main_label.equals("pacifyr")) {
+                    hideProgress();
+                    setStatus("Login Failed. Please Try again", R.color.md_red_400);
+                    showStatus();
+                    fbLogout();
+                    prefM.clearSharedAll();
+                    prefM.clear();
+                    new Handler().postDelayed(new Runnable() {
                         @Override
-                        public void onSuccess(QBUser qbUser, Bundle params) {
-
-                            try {
-
-                                MRoleModel roleModel = userModel.getRoleModel();
-                                label = roleModel.getLabel();
-                                main_label = roleModel.getMainLabel();
-                                companyId = userModel.getCompanyId();
-                                prefM.saveCompanyID(companyId);
-                                qbID = qbUser.getId().toString();
-
-                                if (main_label.equals("pacifyr")) {
-                                    hideProgress();
-                                    setStatus("Login Failed. Please Try again", R.color.md_red_400);
-                                    showStatus();
-                                    fbLogout();
-                                    prefM.clearSharedAll();
-                                    prefM.clear();
-                                    new Handler().postDelayed(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            hideProgress();
-                                            hideStatus();
-                                            Intent i = new Intent(LoginActivity.this, SignActivity.class);
-                                            startActivity(i);
-                                            finish();
-                                        }
-                                    }, 3000);
-                                    Bundle args =
-                                            FirebaseLogging.getConstantArgsLoggedOut(LoginActivity.this);
-                                    args.putString(FirebaseLogging.EC, "Tried to login from " +
-                                            "Councelor account" +
-                                            " " +
-                                            "Account");
-                                    FirebaseLogging.sendLog(LoginActivity.this,
-                                            FirebaseLogging.EVENT_LOGIN_FAIL, args);
-                                } else if (main_label.equals("customer")) {
-                                    saveToPrefM();
-
-                                    saveUserData(qbUser);
-                                    startLoginService(qbUser);
-
-                                    NetworkService.editProfileObject = new JSONObject();
-                                    NetworkService.editProfileObject.putOpt("qbid", Long.valueOf(qbID));
-                                    //NetworkService.editProfileObject.putOpt("online", true);
-                                    NetworkService.startActionEditProfile(LoginActivity.this);
-                                    Boolean flag = userModel.isTermsAccepted();
-                                    hideProgress();
-                                    setStatus("Login Successful", R.color.md_green_400);
-                                    showStatus();
-
-                                    if (label.equalsIgnoreCase("employee")) {
-                                        saveCustomerData(LoginActivity.this, "employee");
-
-                                    } else if (label.equalsIgnoreCase("unpaidEmployee")) {
-                                        saveCustomerData(LoginActivity.this, "unpaidEmployee");
-
-                                    } else if (label.equalsIgnoreCase("customer")) {
-                                        saveCustomerData(LoginActivity.this, "customer");
-
-                                    } else if (label.equalsIgnoreCase("paidMember")) {
-                                        saveCustomerData(LoginActivity.this, "paidMember");
-                                    }
-
-                                    Bundle args =
-                                            FirebaseLogging.getConstantArgsLoggedIn(LoginActivity.this);
-
-                                    if (postRegisterModel != null)
-                                        args.putString(FirebaseLogging.EVENT_LOGIN_TYPE,
-                                                postRegisterModel.getLoginType());
-                                    FirebaseLogging.sendLog(LoginActivity.this,
-                                            FirebaseLogging.EVENT_LOGIN_SUCCESS, args);
-                                }
-
-                            } catch (Exception ex) {
-                                ex.printStackTrace();
-                                fbLogout();
-                                prefM.clear();
-                                Toast.makeText(LoginActivity.this, ex.getMessage(), Toast.LENGTH_LONG);
-                            }
-
-                 /* if (deleteCurrentUser) {
-                    removeAllUserData(result);
-                   } else {
-                    startOpponentsActivity();
-                   }*/
+                        public void run() {
+                            hideProgress();
+                            hideStatus();
+                            Intent i = new Intent(LoginActivity.this, SignActivity.class);
+                            startActivity(i);
+                            finish();
                         }
+                    }, 3000);
+                    Bundle args =
+                            FirebaseLogging.getConstantArgsLoggedOut(LoginActivity.this);
+                    args.putString(FirebaseLogging.EC, "Tried to login from " +
+                            "Councelor account" +
+                            " " +
+                            "Account");
+                    FirebaseLogging.sendLog(LoginActivity.this,
+                            FirebaseLogging.EVENT_LOGIN_FAIL, args);
+                } else if (main_label.equals("customer")) {
+                    saveToPrefM();
+                    NetworkService.editProfileObject = new JSONObject();
+                    NetworkService.editProfileObject.putOpt("qbid", Long.valueOf(qbID));
+                    //NetworkService.editProfileObject.putOpt("online", true);
+                    NetworkService.startActionEditProfile(LoginActivity.this);
+                    Boolean flag = userModel.isTermsAccepted();
+                    hideProgress();
+                    setStatus("Login Successful", R.color.md_green_400);
+                    showStatus();
 
-                        @Override
-                        public void onError(QBResponseException responseException) {
-                            if (responseException.getHttpStatusCode() == 401) {
-                                quickbloxNewLogin(user);
-                            } else {
-                                String res = responseException.getMessage();
-                                Toast.makeText(LoginActivity.this, responseException.getMessage(), Toast.LENGTH_LONG);
-                                //  hideProgressDialog();
-                                // Toaster.longToast(com.quickblox.sample.groupchatwebrtc.R.string.sign_up_error);
-                                setStatus("Login Failed. Please Try again", R.color.endcall);
-                                showStatus();
-                                prefM.clearSharedAll();
-                                prefM.clear();
-                                new Handler().postDelayed(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        hideProgress();
-                                        hideStatus();
-                                        Intent i = new Intent(LoginActivity.this, SignActivity.class);
-                                        startActivity(i);
-                                        finish();
-                                    }
-                                }, 3000);
-                                Bundle args =
-                                        FirebaseLogging.getConstantArgsLoggedOut(LoginActivity.this);
-                                args.putString(FirebaseLogging.EC, responseException.getMessage());
-                                FirebaseLogging.sendLog(LoginActivity.this,
-                                        FirebaseLogging.EVENT_LOGIN_FAIL, args);
-                            }
-                        }
-                    });
+                    if (label.equalsIgnoreCase("employee")) {
+                        saveCustomerData(LoginActivity.this, "employee");
+
+                    } else if (label.equalsIgnoreCase("unpaidEmployee")) {
+                        saveCustomerData(LoginActivity.this, "unpaidEmployee");
+
+                    } else if (label.equalsIgnoreCase("customer")) {
+                        saveCustomerData(LoginActivity.this, "customer");
+
+                    } else if (label.equalsIgnoreCase("paidMember")) {
+                        saveCustomerData(LoginActivity.this, "paidMember");
+                    }
+
+                    Bundle args =
+                            FirebaseLogging.getConstantArgsLoggedIn(LoginActivity.this);
+
+                    if (postRegisterModel != null)
+                        args.putString(FirebaseLogging.EVENT_LOGIN_TYPE,
+                                postRegisterModel.getLoginType());
+                    FirebaseLogging.sendLog(LoginActivity.this,
+                            FirebaseLogging.EVENT_LOGIN_SUCCESS, args);
                 }
 
-                @Override
-                public void onError(QBResponseException e) {
-                    super.onError(e);
-                }
-            });
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                fbLogout();
+                prefM.clear();
+                Toast.makeText(LoginActivity.this, ex.getMessage(), Toast.LENGTH_LONG);
+            }
 
 
         }
@@ -653,144 +573,7 @@ public class LoginActivity extends PacifyrActivity {
     }
 
 
-    private void quickbloxNewLogin(final QBUser qbUser) {
-        try {
-            if (isValid(APP_ID) &&  isValid(AUTH_KEY) && isValid(AUTH_SECRET)){
-                QBSettings.getInstance().init(LoginActivity.this, APP_ID, AUTH_KEY, AUTH_SECRET);
-                QBSettings.getInstance().setAccountKey(ACCOUNT_KEY);
-            }
-            else {
-                return;
-            }
 
-            //create a quickblox application session
-            QBAuth.createSession().performAsync(new QBEntityCallback<QBSession>() {
-                @Override
-                public void onSuccess(QBSession qbSession, Bundle bundle) {
-                    // Register new user
-
-                    QBUsers.signUp(qbUser).performAsync(new QBEntityCallback<QBUser>() {
-                        @Override
-                        public void onSuccess(QBUser qbUser, Bundle bundle) {
-
-                            saveUserData(qbUser);
-                            startLoginService(qbUser);
-                            getPrefManager(LoginActivity.this).saveQBID(qbUser.getId().toString());
-                            saveToPrefM();
-                            updateProfileWeb(qbUser);
-                        }
-
-                        @Override
-                        public void onError(QBResponseException responseException) {
-                            responseException.printStackTrace();
-                            Toast.makeText(context, responseException.getMessage(), Toast.LENGTH_LONG).show();
-                            hideProgress();
-                            LoginManager mLoginManager = LoginManager.getInstance();
-                            mLoginManager.logOut();
-                            prefM.clear();
-                            startActivity(new Intent(context, SignActivity.class));
-                        }
-                    });
-
-                }
-
-                @Override
-                public void onError(QBResponseException e) {
-                    e.printStackTrace();
-                    if (e.getHttpStatusCode() == 422 && e.getMessage().toLowerCase().contains("bad timestamp")) {
-                        iOSDialogClickListener listener = new iOSDialogClickListener() {
-                            @Override
-                            public void onClick(iOSDialog dialog) {
-                                dialog.dismiss();
-                                prefM.clearSharedAll();
-                                fbLogout();
-                                startActivity(new Intent(android.provider.Settings.ACTION_DATE_SETTINGS));
-                                finish();
-                            }
-                        };
-                        showIOSDialogOK("", "Your device date & time is not correct. Please correct it and try sign in.", "Settings", listener);
-
-                    } else {
-                        Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
-                        hideProgress();
-                        fbLogout();
-                        prefM.clear();
-                        startActivity(new Intent(context, SignActivity.class));
-                    }
-                }
-            });
-
-        } catch (Exception exc) {
-            hideProgress();
-            exc.printStackTrace();
-            Toast.makeText(context, exc.getMessage(), Toast.LENGTH_LONG).show();
-            fbLogout();
-            prefM.clear();
-            startActivity(new Intent(context, SignActivity.class));
-
-        }
-
-    }
-
-    private void updateProfileWeb(QBUser qbUser) {
-        try {
-            String url = GLOBAL_URL + "user/editprofile/" + qbUser.getLogin();
-            com.koushikdutta.async.future.FutureCallback<JsonObject> futureCallback = new com.koushikdutta.async.future.FutureCallback<JsonObject>() {
-                @Override
-                public void onCompleted(Exception e, JsonObject result) {
-                    try {
-                        if (isValid(result)) {
-
-                            final JSONObject jsonObject = new JSONObject(result.toString());
-                            //String js = result.toString();
-                            String phone = jsonObject.getString("phoneNumber");
-                            //String messag= json.getString("message");
-                            //String logstat = status.getMessage();
-                            if (isValid(phone)) {
-                                hideProgress();
-                                setStatus("User registered Successfully", R.color.md_green_400);
-                                showStatus();
-
-                                final Handler handler = new Handler();
-                                handler.postDelayed(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                       /* Intent i = new Intent(RegisterActivity.this, WelcomeTourActivity.class);
-                                        startActivity(i);
-                                        finish();*/
-                                        hideStatus();
-                                        signInCreatedUser();
-
-                                    }
-                                }, 2000);
-
-                            } else/* if (logstat.equals("error"))*/ {
-                                Toast.makeText(LoginActivity.this, "Error :" + e.getMessage(), Toast.LENGTH_LONG).show();
-                            }
-                        }
-                    } catch (Exception eee) {
-                        hideProgress();
-                        Toast.makeText(LoginActivity.this, "Error :" + eee.getMessage(), Toast.LENGTH_LONG).show();
-                        eee.printStackTrace();
-                    }
-                }
-            };
-            //AQuery aq = new AQuery(RegisterActivity.this);
-            //cb.header("AccessToken", accessToken);
-            //cb.header("enctype", "multipart/form-data");
-            JSONObject postDataParams = new JSONObject();
-            postDataParams.putOpt("qbid", Long.valueOf(qbUser.getId().toString()));
-            String json = postDataParams.toString();
-            HashMap<String, JSONObject> map = new HashMap<String, JSONObject>();
-            map.put("data", postDataParams);
-            Ion.with(context).load(url).setHeader("AccessToken", prefM.getAccessToken()).setHeader("enctype", "multipart/form-data").setMultipartParameter("data", json).asJsonObject().setCallback(futureCallback);
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            Toast.makeText(context, ex.getMessage(), Toast.LENGTH_LONG).show();
-
-        }
-    }
 
 
     private void saveCustomerData(Context context,String role) {
@@ -813,7 +596,6 @@ public class LoginActivity extends PacifyrActivity {
         prefM.saveCompanyID(userModel.getCompanyId());
         if (isValid(userModel.getPhoneNumber()))
             prefM.savePhoneNumber(userModel.getPhoneNumber());
-        prefM.saveQBID(qbID);
 
         if(isValid(FName)){
             prefM.savefbName(FName);

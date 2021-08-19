@@ -66,10 +66,7 @@ import com.pacifyr.client.orginals.Auth;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.orginals.DynamicLink;
 import com.pacifyr.client.orginals.RemoteConfig;
-import com.pacifyr.client.quickblox.chat.ui.activity.DialogsActivity;
-import com.pacifyr.client.quickblox.services.CallService;
 import com.pacifyr.client.sign.CrisisActivity;
-import com.pacifyr.client.twilio.VideoActivity;
 import com.pacifyr.client.twiliochat.QuickstartConversationsManager;
 import com.pacifyr.client.twiliochat.QuickstartConversationsManagerListener;
 import com.pacifyr.client.twiliochat.TokenResponseListener;
@@ -92,7 +89,6 @@ import com.pacifyrapp.utilitylibrary.model.pacifyr.MSessionDetailRoot;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelSessonsOfCustomer;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
-import com.quickblox.sample.core.utils.SharedPrefsHelper;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
 import com.twilio.conversations.ConversationsClient;
@@ -262,13 +258,6 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
 
     public static String CreatedDay = "";
 
-
-    private void loginToQuickblox() {
-        SharedPrefsHelper sharedPrefsHelper = SharedPrefsHelper.getInstance();
-        if (sharedPrefsHelper.hasQbUser()) {
-            CallService.start(DashboardActivity.this, sharedPrefsHelper.getQbUser());
-        }
-    }
 
 
 
@@ -888,7 +877,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
             }
 
         }
-        loginToQuickblox();
+
 
         /**
          * network connectivity check JobScheduler

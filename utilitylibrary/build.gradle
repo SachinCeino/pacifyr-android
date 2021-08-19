@@ -27,9 +27,7 @@ android {
 
     buildTypes {
         repositories {
-            maven {
-                url "https://github.com/QuickBlox/quickblox-android-sdk-releases/raw/master/"
-            }
+
             maven {
                 url "http://dl.bintray.com/ahmedrizwan/maven"
             }
@@ -163,9 +161,7 @@ dependencies {
     implementation 'io.github.francoiscampbell:circlelayout:0.3.0'
     implementation 'androidx.appcompat:appcompat:1.0.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation project(':quickblox-core')
-    implementation project(':quickblox-videochat-webrtc')
-    implementation project(':quickblox-chat')
+
 
     // implementation 'com.github.blackfizz:eazegraph:1.2.2@aar'
     // implementation 'com.github.blackfizz:eazegraph:1.2.5l@aar'

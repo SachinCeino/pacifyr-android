@@ -547,8 +547,6 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
                         if (isValid(isCallActive) && isCallActive)
                             return;
 
-                        if (isLoggedInChat()) {
-
                                 setAlertStartCall(pacifyer_obj, new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
@@ -560,7 +558,7 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
                             }
 
 
-                    }
+
                 });
 
                 audiocall_rlay.setOnClickListener(new View.OnClickListener() {
@@ -570,8 +568,6 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
                             return;
 
 
-                            if (isLoggedInChat()) {
-
                                 setAlertStartCall(pacifyer_obj, new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
@@ -580,7 +576,7 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
                                     }
                                 });
 
-                            }
+
 
 
                     }

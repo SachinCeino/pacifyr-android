@@ -34,7 +34,8 @@ import com.pacifyr.client.event.BusProvider;
 import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
-import com.pacifyr.client.quickblox.activities.CallActivity;
+
+import com.pacifyr.client.twilio.VideoActivity;
 import com.pacifyr.client.utils.LogUtils;
 import com.pacifyr.client.utils.ToastHandler;
 import com.pacifyrapp.utilitylibrary.CustomEditText;
@@ -715,7 +716,7 @@ public abstract class BaseFragment extends Fragment {
         MUser mUser=null;
         try{
 
-            mUser= CallActivity.mSessionDetailRoot.getUser();
+            mUser= VideoActivity.mSessionDetailRoot.getUser();
         }catch (Exception e)
         {
 
@@ -752,7 +753,7 @@ public abstract class BaseFragment extends Fragment {
         MUser mUser=null;
         try{
 
-            mUser= CallActivity.mSessionDetailRoot.getPacifyr();
+            mUser= VideoActivity.mSessionDetailRoot.getPacifyr();
         }catch (Exception e)
         {
             mUser=null;
@@ -974,7 +975,6 @@ public abstract class BaseFragment extends Fragment {
             AjaxCallback<JSONObject> cb = new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, JSONObject json, AjaxStatus status) {
-                    CallActivity.isConnected=true;
                     if (json == null) {
                         ToastHandler.newInstance(getApplicationContext()).showToast("Please Try again");
                         LogUtils.LOGD("call", "connectedSessionWeb json null ");

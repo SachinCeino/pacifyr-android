@@ -34,7 +34,6 @@ import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.home.account.AccountEditActivity;
 import com.pacifyr.client.home.account.PacifyrAccountFragment;
 import com.pacifyr.client.model.interfaces.CallChatEventListner;
-import com.pacifyr.client.quickblox.chat.ui.activity.DialogsActivity;
 import com.pacifyr.client.utility.PacifyrAppCompactActivity;
 import com.pacifyr.client.utils.LogUtils;
 import com.pacifyr.client.utils.PagerEnabledSlidingPaneLayout;
@@ -211,7 +210,6 @@ public class PacifyrDashboardActivity extends PacifyrAppCompactActivity {
                 @Override
                 public void onClick(View v) {
                     hideRightLayActionbar();
-                    DialogsActivity.start(PacifyrDashboardActivity.this);
               /*  showFragment(new PacifyrMessageFragment(/));*/
                     defSetText(titleTxv, "Messages");
                 }

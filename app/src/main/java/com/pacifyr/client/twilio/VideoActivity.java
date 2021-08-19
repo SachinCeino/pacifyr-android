@@ -69,6 +69,7 @@ import com.pacifyr.client.R;
 import com.pacifyr.client.activity.ActivityChangeEmotionFromCall;
 import com.pacifyr.client.adapter.EmotionSpecialityAdapter;
 import com.pacifyr.client.base.PacifyrActivity;
+import com.pacifyr.client.classes.PendingCall;
 import com.pacifyr.client.event.BusProvider;
 import com.pacifyr.client.event.CallChangeEmotion;
 import com.pacifyr.client.event.CallEvent;
@@ -83,23 +84,21 @@ import com.pacifyr.client.model.PrescriptionList;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.orginals.Auth;
-import com.pacifyr.client.quickblox.activities.CallActivity;
-import com.pacifyr.client.quickblox.activities.SettingsActivity;
 import com.pacifyr.client.quickblox.chat.ui.activity.AttachmentImageActivity;
-import com.pacifyr.client.quickblox.chat.ui.activity.ChatActivity;
 import com.pacifyr.client.quickblox.utils.PermissionsChecker;
 import com.pacifyr.client.quickblox.utils.RingtonePlayer;
 import com.pacifyr.client.receiver.NotificationUtils;
 import com.pacifyr.client.utils.Constants;
 import com.pacifyr.client.utils.FirebaseLogging;
 import com.pacifyr.client.utils.LogUtils;
+import com.pacifyr.client.utils.Toaster;
 import com.pacifyr.client.utils.Utility;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.pacifyrapp.utilitylibrary.ToastHandler;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MEmotion;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.MSessionDetailRoot;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
-import com.quickblox.sample.core.utils.Toaster;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
 import com.twilio.audioswitch.AudioDevice;
@@ -197,6 +196,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
             IsacCodec.NAME, OpusCodec.NAME, PcmaCodec.NAME, PcmuCodec.NAME, G722Codec.NAME
     };
     private static final long PARTICIPANT_DISCONNECTED_DELAY = 2000;
+    public static MSessionDetailRoot mSessionDetailRoot;
 
 
     private String accessToken;
@@ -838,9 +838,9 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                     }
                     else {
                         try {
-                            CallActivity.mSessionDetailRoot= GsonUtils.getInstance().gsonToMSessionDetailRoot(json);
-                            if (isValid(CallActivity.mSessionDetailRoot.isBilledSession())&&
-                                    CallActivity.mSessionDetailRoot.isBilledSession())
+                            mSessionDetailRoot= GsonUtils.getInstance().gsonToMSessionDetailRoot(json);
+                            if (isValid(mSessionDetailRoot.isBilledSession())&&
+                                    mSessionDetailRoot.isBilledSession())
                             {
                                 setBillingStarted(true);
                                 billingStatus.setVisibility(View.VISIBLE);
@@ -911,7 +911,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_settings:
-                startActivity(new Intent(this, SettingsActivity.class));
+
                 return true;
             case R.id.menu_audio_device:
                 showAudioDevices();
@@ -1661,12 +1661,12 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                                    //Toast.makeText(PacifyrActivity.this,"Clicked!",Toast.LENGTH_LONG).show();
                                    if (isValid(SessionId)) {
 
-                                       if (isValid(CallActivity.mSessionDetailRoot) && isValid(CallActivity.mSessionDetailRoot.getPacifyr()) &&
-                                               isValid(CallActivity.mSessionDetailRoot.getPacifyr().getPrice())) {
+                                       if (isValid(mSessionDetailRoot) && isValid(mSessionDetailRoot.getPacifyr()) &&
+                                               isValid(mSessionDetailRoot.getPacifyr().getPrice())) {
                                            String tempSessionId = SessionId;
                                            if (errorCount != 0)
                                                tempSessionId = tempSessionId + "_" + errorCount;
-                                           generateCheckSum(true, tempSessionId, Integer.parseInt(CallActivity.mSessionDetailRoot.getPacifyr().getPrice()));
+                                           generateCheckSum(true, tempSessionId, Integer.parseInt(mSessionDetailRoot.getPacifyr().getPrice()));
                                        }
 
 
@@ -1732,12 +1732,12 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                                    //Toast.makeText(PacifyrActivity.this,"Clicked!",Toast.LENGTH_LONG).show();
                                    if (isValid(SessionId)) {
 
-                                       if (isValid(CallActivity.mSessionDetailRoot) && isValid(CallActivity.mSessionDetailRoot.getPacifyr()) &&
-                                               isValid(CallActivity.mSessionDetailRoot.getPacifyr().getPrice())) {
+                                       if (isValid(mSessionDetailRoot) && isValid(mSessionDetailRoot.getPacifyr()) &&
+                                               isValid(mSessionDetailRoot.getPacifyr().getPrice())) {
                                            String tempSessionId = SessionId;
                                            if (errorCount != 0)
                                                tempSessionId = tempSessionId + "_" + errorCount;
-                                           generateCheckSum(true,tempSessionId, Integer.parseInt(CallActivity.mSessionDetailRoot.getPacifyr().getPrice()));
+                                           generateCheckSum(true,tempSessionId, Integer.parseInt(mSessionDetailRoot.getPacifyr().getPrice()));
                                        }
 
 
@@ -2853,7 +2853,7 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
         MUser mUser=null;
         try{
 
-            mUser= CallActivity.mSessionDetailRoot.getPacifyr();
+            mUser= mSessionDetailRoot.getPacifyr();
         }catch (Exception e)
         {
             e.printStackTrace();
@@ -2867,7 +2867,7 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
         MUser mUser=null;
         try{
 
-            mUser= CallActivity.mSessionDetailRoot.getUser();
+            mUser= mSessionDetailRoot.getUser();
         }catch (Exception e)
         {
             e.printStackTrace();
@@ -3414,7 +3414,7 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
     }
 
     private void sendCliendEndCallNotificationToOpponent() {
-        new NetworkService().sendCliendEndCallNotificationTo(CallActivity.mSessionDetailRoot.getPacifyr().getId(), "sessionDeclined", new AjaxCallback<JSONObject>() {
+        new NetworkService().sendCliendEndCallNotificationTo(mSessionDetailRoot.getPacifyr().getId(), "sessionDeclined", new AjaxCallback<JSONObject>() {
             @Override
             public void callback(String url, JSONObject json, AjaxStatus status) {
                 /*

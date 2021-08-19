@@ -63,12 +63,7 @@ import com.pacifyr.client.model.UnreadCountModel;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.orginals.Auth;
-import com.pacifyr.client.quickblox.chat.ui.activity.DialogsActivity;
-import com.pacifyr.client.quickblox.chat.utils.qb.QbDialogHolder;
-import com.pacifyr.client.quickblox.services.CallService;
 import com.pacifyr.client.receiver.NotificationUtils;
-import com.pacifyr.client.twiliochat.TwilioChatParticipants;
-import com.pacifyr.client.twiliochat.TwilioConversationActivity;
 import com.pacifyr.client.twiliochat.TwilioCoversationListActivity;
 import com.pacifyr.client.utility.BaseFragment;
 import com.pacifyr.client.utility.EventMessage;
@@ -80,11 +75,6 @@ import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelCustomerDashboard2;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelSessonsOfCustomer;
 import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
-import com.quickblox.chat.QBRestChatService;
-import com.quickblox.chat.model.QBChatDialog;
-import com.quickblox.core.QBEntityCallback;
-import com.quickblox.core.exception.QBResponseException;
-import com.quickblox.sample.core.utils.SharedPrefsHelper;
 import com.squareup.otto.Subscribe;
 
 import org.greenrobot.eventbus.EventBus;
@@ -201,15 +191,6 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
         if (isValid(_TimerRefreshDashBoard)) {
             _TimerRefreshDashBoard.cancel();
             Log.w("TIMERRUNNING","NO");
-        }
-    }
-
-    private void loginToQuickblox() {
-        SharedPrefsHelper sharedPrefsHelper = SharedPrefsHelper.getInstance();
-        if (sharedPrefsHelper.hasQbUser()) {
-            CallService.start(getActivity(), sharedPrefsHelper.getQbUser());
-            // startOpponentsActivity();
-            //return;
         }
     }
 
@@ -1483,58 +1464,6 @@ boolean itIsFirstCallFrom=true;
         }
     }
 
-    private void setChatCountInfo() {
-
-        try {
-            Collection<QBChatDialog> dialogList = (QbDialogHolder.getInstance().getDialogs().values());
-            ArrayList<QBChatDialog> list = new ArrayList<>(dialogList);
-            Set<String> dialogSet = new HashSet<String>();
-
-            Iterator<QBChatDialog> iterator = dialogList.iterator();
-            while (iterator.hasNext()) {
-                dialogSet.add(iterator.next().getDialogId());
-            }
-
-            QBRestChatService.getTotalUnreadMessagesCount(dialogSet,null).performAsync(new QBEntityCallback<Integer>() {
-                @Override
-                public void onSuccess(Integer integer, Bundle bundle) {
-
-                    unreadCount=integer;
-                    badgeCount = 0;
-                    if (isValid(unreadCount)){
-                        if(unreadCount>0)
-                        {
-                            unreadChatCtxv.setVisibility(View.VISIBLE);
-                            unreadChatCtxv.setText(unreadCount + " unread messages");
-                            badgeCount+=unreadCount;
-                            prefM.saveBadgeValue(badgeCount);
-                           // ShortcutBadger.applyCount(getActivity(), prefM.getBadgeValue());
-
-                        }else {
-                            isClickedOnChat=true;
-                            unreadChatCtxv.setVisibility(View.GONE);
-                            prefM.saveBadgeValue(badgeCount);
-                           // ShortcutBadger.applyCount(getActivity(), 0);
-                        }
-                    }
-
-                }
-
-                @Override
-                public void onError(QBResponseException e) {
-                    //Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_LONG).show();
-
-                }
-            });
-
-
-        }catch (Exception e)
-        {
-            Log.w("QQQ",String.valueOf(e));
-        }
-
-
-    }
 
     @org.greenrobot.eventbus.Subscribe(threadMode = ThreadMode.MAIN)
     public void messageEventFromService(EventMessage event){

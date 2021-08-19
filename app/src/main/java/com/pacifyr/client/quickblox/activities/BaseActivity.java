@@ -7,61 +7,29 @@ import android.view.KeyEvent;
 import android.view.View;
 
 import androidx.annotation.StringRes;
+import androidx.appcompat.app.AppCompatActivity;
+import com.pacifyr.client.utils.GooglePlayServicesHelper;
+import com.pacifyr.client.utils.SharedPrefsHelper;
 
-import com.pacifyr.client.quickblox.App;
-import com.pacifyr.client.quickblox.util.QBResRequestExecutor;
-import com.pacifyr.client.quickblox.utils.Consts;
-import com.quickblox.sample.core.gcm.GooglePlayServicesHelper;
-import com.quickblox.sample.core.ui.activity.CoreBaseActivity;
-import com.quickblox.sample.core.utils.ErrorUtils;
-import com.quickblox.sample.core.utils.SharedPrefsHelper;
-import com.quickblox.sample.groupchatwebrtc.R;
-
-/*import com.quickblox.sample.groupchatwebrtc.AppChatNotUSe;*/
-/*import com.quickblox.sample.groupchatwebrtc.util.QBResRequestExecutor;
-import com.quickblox.sample.groupchatwebrtc.utils.Consts;*/
 
 /**
  * QuickBlox team
  */
-public abstract class BaseActivity extends CoreBaseActivity {
+public abstract class BaseActivity extends AppCompatActivity {
 
     SharedPrefsHelper sharedPrefsHelper;
     private ProgressDialog progressDialog;
     protected GooglePlayServicesHelper googlePlayServicesHelper;
-    protected QBResRequestExecutor requestExecutor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        requestExecutor = App.getInstance().getQbResRequestExecutor();
         sharedPrefsHelper = SharedPrefsHelper.getInstance();
         googlePlayServicesHelper = new GooglePlayServicesHelper();
     }
 
-    public void initDefaultActionBar() {
-        String currentUserFullName = "";
-        String currentRoomName = sharedPrefsHelper.get(Consts.PREF_CURREN_ROOM_NAME, "");
 
-        if (sharedPrefsHelper.getQbUser() != null) {
-            currentUserFullName = sharedPrefsHelper.getQbUser().getFullName();
-        }
-
-        setActionBarTitle(currentRoomName);
-        setActionbarSubTitle(String.format(getString(R.string.subtitle_text_logged_in_as), currentUserFullName));
-    }
-
-
-    public void setActionbarSubTitle(String subTitle) {
-        if (actionBar != null)
-            actionBar.setSubtitle(subTitle);
-    }
-
-    public void removeActionbarSubTitle() {
-        if (actionBar != null)
-            actionBar.setSubtitle(null);
-    }
 
     void showProgressDialog(@StringRes int messageId) {
         if (progressDialog == null) {
@@ -89,14 +57,6 @@ public abstract class BaseActivity extends CoreBaseActivity {
     void hideProgressDialog() {
         if (progressDialog != null) {
             progressDialog.dismiss();
-        }
-    }
-
-    protected void showErrorSnackbar(@StringRes int resId, Exception e,
-                                     View.OnClickListener clickListener) {
-        if (getSnackbarAnchorView() != null) {
-            ErrorUtils.showSnackbar(getSnackbarAnchorView(), resId, e,
-                    com.quickblox.sample.core.R.string.dlg_retry, clickListener);
         }
     }
 
