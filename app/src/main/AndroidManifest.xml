@@ -315,28 +315,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/CustomNoActionBarTheme2" />
 
-        <!-- quickblox chat -->
-
-        <activity
-            android:name="com.pacifyr.client.quickblox.chat.ui.activity.SelectUsersActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/CustomNoActionBarTheme2" />
-        <activity
-            android:name="com.pacifyr.client.quickblox.chat.ui.activity.DialogsActivity"
-            android:screenOrientation="portrait"
-            android:parentActivityName="com.pacifyr.client.home.DashboardActivity"
-            android:theme="@style/CustomNoActionBarTheme2" />
-        <activity
-            android:name="com.pacifyr.client.quickblox.chat.ui.activity.ChatActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/CustomNoActionBarTheme2"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
-        <!-- android:theme="@style/ChatActivityTheme" -->
-        <activity
-            android:name="com.pacifyr.client.quickblox.chat.ui.activity.ChatInfoActivity"
-            android:label="@string/chat_info"
-            android:screenOrientation="portrait"
-            android:theme="@style/CustomNoActionBarTheme2" />
 
         <activity
             android:name=".home.CheckinActivity"
@@ -344,15 +322,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/CustomNoActionBarTheme2" />
 
-        <service
-            android:name="com.pacifyr.client.quickblox.chat.gcm.GcmChatPushListenerService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-            </intent-filter>
-        </service>
-        <service android:name="com.pacifyr.client.quickblox.services.CallService" />
-        <service android:name="com.pacifyr.client.quickblox.services.Call_Service" />
+
         <!-- <receiver
              android:name="com.google.android.gms.gcm.GcmReceiver"
              android:exported="true"
@@ -380,33 +350,8 @@
             </intent-filter>
         </receiver>-->
 
-        <service
-            android:name="com.pacifyr.client.quickblox.services.gcm.GcmPushListenerService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-            </intent-filter>
-        </service>
-        <service
-            android:name="com.quickblox.messages.services.gcm.QBGcmPushInstanceIDService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.google.android.gms.iid.InstanceID" />
-            </intent-filter>
-        </service>
 
-        <meta-data
-            android:name="com.quickblox.messages.TYPE"
-            android:value="GCM" />
-        <meta-data
-            android:name="com.quickblox.messages.SENDER_ID"
-            android:value="@string/sender_id" />
-        <meta-data
-            android:name="com.quickblox.messages.QB_ENVIRONMENT"
-            android:value="DEVELOPMENT" />
-        <meta-data
-            android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" />
+
 
         <activity
             android:name="com.pacifyr.client.home.ReviewListingActivity"
