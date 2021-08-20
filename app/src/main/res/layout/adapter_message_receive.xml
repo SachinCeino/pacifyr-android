@@ -17,6 +17,7 @@
         android:padding="5dp"
         android:textColor="@color/white"
         android:textSize="@dimen/sp13"
+        android:inputType="textCapWords"
         app:layout_constraintBottom_toTopOf="@+id/constraintLayout2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
