@@ -123,7 +123,15 @@ public class TwilioConversationActivity extends
             i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(i);
         }
-        finish();
+        else
+        {
+            if(isTaskRoot()){
+                startActivity(new Intent(TwilioConversationActivity.this,DashboardActivity.class));
+                finish();
+            }else{
+                finish();
+            }
+        }
     }
     @org.greenrobot.eventbus.Subscribe(threadMode = ThreadMode.MAIN)
     public void onNetworkChanged(Object event) {

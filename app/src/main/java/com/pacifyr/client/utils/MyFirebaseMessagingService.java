@@ -414,6 +414,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
             cIntent = new Intent(context, TwilioConversationActivity.class);
             cIntent.putExtra("conversation_sid", conversation_sid);
+            cIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
             stackBuilder.addNextIntentWithParentStack(cIntent);
             pendingIntent =
