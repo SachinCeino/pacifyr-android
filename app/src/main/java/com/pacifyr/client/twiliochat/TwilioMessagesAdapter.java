@@ -35,7 +35,9 @@ import java.util.HashMap;
 
 public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAdapter.ViewHolder> {
     private static final int VIEW_TYPE_MESSAGE_SENT = 1;
-    private static final int VIEW_TYPE_MESSAGE_RECEIVED = 2;
+    private static final int VIEW_TYPE_MESSAGE_SENT_IMAGE = 2;
+    private static final int VIEW_TYPE_MESSAGE_RECEIVED = 3;
+    private static final int VIEW_TYPE_MESSAGE_RECEIVED_IMAGE = 4;
     Context context;
     ArrayList<MessageMediaModel> messageList;
     String userId;
@@ -71,10 +73,14 @@ public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAd
 
         Message message =  messageList.get(position).message;
 
-        if (message.getAuthor().equals(userId)) {
+        if (message.getAuthor().equals(userId) && message.hasMedia()) {
             // If the current user is the sender of the message
+            return VIEW_TYPE_MESSAGE_SENT_IMAGE;
+        } else if(message.getAuthor().equals(userId)&& !message.hasMedia()) {
             return VIEW_TYPE_MESSAGE_SENT;
-        } else {
+        }else if(message.getAuthor().equals(userId)&& message.hasMedia()) {
+            return VIEW_TYPE_MESSAGE_SENT_IMAGE;
+        }else {
             // If some other user sent the message
             return VIEW_TYPE_MESSAGE_RECEIVED;
         }
@@ -93,6 +99,14 @@ public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAd
         } else if (viewType == VIEW_TYPE_MESSAGE_RECEIVED) {
             view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.adapter_message_receive, parent, false);
+            return new ViewHolder(view);
+        } else if (viewType == VIEW_TYPE_MESSAGE_SENT_IMAGE) {
+            view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.adapter_message_send_image, parent, false);
+            return new ViewHolder(view);
+        }else if (viewType == VIEW_TYPE_MESSAGE_RECEIVED_IMAGE) {
+            view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.adapter_message_receive_image, parent, false);
             return new ViewHolder(view);
         }
 
@@ -220,123 +234,6 @@ public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAd
                     });
                 }
 
-
-               /* if (message.getMediaType().equals("application/pdf")) {
-                    holder.ivImage.setVisibility(View.GONE);
-                    holder.ivFile.setVisibility(View.VISIBLE);
-
-
-
-                    if (Utility.isValid(mediaUrl)) {
-                        holder.progressMessage.setVisibility(View.GONE);
-
-                        holder.ivFile.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-
-                                if (!mediaUrl.isEmpty()) { ((TwilioConversationActivity) context).pdfReaderIntent(mediaUrl, message.getMediaFileName());
-                                }
-
-                            }
-                        });
-                    } else {
-                        message.getMediaContentTemporaryUrl(new CallbackListener<String>() {
-                            @Override
-                            public void onSuccess(String mediaContentUrl) {
-
-                                messageList.get(position).mediaUrl = mediaContentUrl;
-                                notifyItemChanged(position);
-
-                            }
-                        });
-                    }
-                } else {
-                    holder.ivFile.setVisibility(View.GONE);
-                    holder.ivImage.setVisibility(View.VISIBLE);
-
-                    if (Utility.isValid(mediaUrl)) {
-
-                    }
-                }*/
-
-
-/*
-                if (Utility.isValid(mediaUrl)) {
-                    Object imgUrl;
-                    int w, h;
-                    if (message.getMediaType().equals("application/pdf")) {
-                        w = 100;
-                        h = 100;
-                        imgUrl = R.drawable.pdfdoc3;
-                        //holder.ivImage.setAdjustViewBounds(false);
-                        holder.ivImage.setScaleType(ImageView.ScaleType.FIT_CENTER);
-                        ConstraintLayout.LayoutParams layoutParams = new ConstraintLayout.LayoutParams(100, 100);
-                        holder.ivImage.setLayoutParams(layoutParams);
-
-                    } else {
-                        w = 250;
-                        h = 180;
-                        imgUrl = mediaUrl;
-                        holder.ivImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                        ConstraintLayout.LayoutParams layoutParams = new ConstraintLayout.LayoutParams(250, 180);
-                        holder.ivImage.setLayoutParams(layoutParams);
-                        //holder.ivImage.setAdjustViewBounds(true);
-                    }
-
-                    Glide.with(context)
-                            .load(imgUrl)
-                            .listener(new RequestListener<Drawable>() {
-                                @Override
-                                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                                    holder.progressMessage.setVisibility(View.GONE);
-                                    return false;
-                                }
-
-                                @Override
-                                public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-
-                                    holder.progressMessage.setVisibility(View.GONE);
-                                    return false;
-                                }
-                            })
-                            .override(w, h)
-                            .diskCacheStrategy(DiskCacheStrategy.ALL)
-                            .into(holder.ivImage);
-
-
-                } else {
-                    Log.w("relod_callback", "relod_callback... ");
-
-                    Glide.with(holder.ivImage).clear(holder.ivImage);
-
-                    message.getMediaContentTemporaryUrl(new CallbackListener<String>() {
-                        @Override
-                        public void onSuccess(String mediaContentUrl) {
-
-                            messageList.get(position).mediaUrl = mediaContentUrl;
-                            notifyItemChanged(position);
-
-                        }
-                    });
-
-                }
-
-                holder.ivImage.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-
-                        if (!mediaUrl.isEmpty()) {
-                            if (message.getMediaType().equals("application/pdf")) {
-                                ((TwilioConversationActivity) context).pdfReaderIntent(mediaUrl, message.getMediaFileName());
-
-                            } else {
-                                TwilioConversationActivity.start(context, mediaUrl);
-                            }
-
-                        }
-
-                    }
-                });*/
                 Log.d("TAG", "mediaContentUrl" + message.getMediaFileName());
             } else {
                 holder.ivImage.setVisibility(View.GONE);

@@ -57,6 +57,7 @@
     <color name="white_background">#F0F3F5</color>
 
     <color name="grey">#c6c6c6</color>
+    <color name="grey_light_border">#c6c6c6</color>
 
     <color name="transparent1">#00000000</color>
 

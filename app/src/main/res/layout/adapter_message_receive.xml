@@ -43,7 +43,8 @@
             android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:visibility="gone"/>
 
         <ImageView
             android:id="@+id/iv_file"
@@ -54,7 +55,8 @@
             android:src="@drawable/pdfdoc3"
             app:layout_constraintBottom_toTopOf="@+id/tv_time_bottom"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:visibility="gone"/>
 
         <com.pacifyr.client.customview.MainTextView
             android:id="@+id/tv_message"

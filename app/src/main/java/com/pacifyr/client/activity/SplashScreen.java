@@ -47,7 +47,7 @@ public class SplashScreen extends BaseAppCompactActivity {
     String label;
     JSONObject userObject;
     private SharedPrefsHelper sharedPrefsHelper;
-    Intent mServiceIntent;
+    //Intent mServiceIntent;
     private ImageView image_splash;
     private boolean isNeedToOpenAppointments ;
     @Override
@@ -159,7 +159,7 @@ public class SplashScreen extends BaseAppCompactActivity {
     }
     @Override
     protected void onDestroy() {
-        stopService(mServiceIntent);
+        //stopService(mServiceIntent);
         Log.i("MAINACT", "onDestroy!");
         super.onDestroy();
 

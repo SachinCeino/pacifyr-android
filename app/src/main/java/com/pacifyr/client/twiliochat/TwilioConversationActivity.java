@@ -1081,7 +1081,8 @@ public class TwilioConversationActivity extends
 
         if (isValid(messagesAdapter)) {
             messageList.add(new MessageMediaModel(message,""));
-            messagesAdapter.notifyItemInserted(messagesAdapter.getItemCount());
+            messagesAdapter.notifyItemInserted(messagesAdapter.getItemCount()-1);
+            //messagesAdapter.notifyDataSetChanged();
             pageScrollToBottom();
 
 
