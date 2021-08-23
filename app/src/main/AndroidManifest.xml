@@ -177,11 +177,11 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden"
             android:theme="@style/CustomNoActionBarTheme2" />
-        <activity
+        <!--<activity
             android:name=".home.EmployerList"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden"
-            android:theme="@style/CustomNoActionBarTheme2" />
+            android:theme="@style/CustomNoActionBarTheme2" />-->
         <activity
             android:name="com.pacifyr.client.home.DashboardActivity"
             android:launchMode="singleTop"
@@ -316,11 +316,11 @@
             android:theme="@style/CustomNoActionBarTheme2" />
 
 
-        <activity
+        <!--<activity
             android:name=".home.CheckinActivity"
             android:label="@string/activity_checkin"
             android:screenOrientation="portrait"
-            android:theme="@style/CustomNoActionBarTheme2" />
+            android:theme="@style/CustomNoActionBarTheme2" />-->
 
 
         <!-- <receiver
@@ -385,7 +385,7 @@
             android:theme="@style/CustomNoActionBarTheme2" />
 
         <!--//Events-->
-        <activity
+        <!--<activity
             android:name=".events.activity.EventActivity"
             android:screenOrientation="portrait"
             android:theme="@style/CustomNoActionBarTheme2" />
@@ -396,11 +396,11 @@
             android:theme="@style/zxing_CaptureTheme"
             android:windowSoftInputMode="stateAlwaysHidden"></activity>
 
-        <!--//offers-->
+        &lt;!&ndash;//offers&ndash;&gt;
         <activity
             android:name=".events.activity.MyInterviewsActvity"
             android:screenOrientation="portrait"
-            android:theme="@style/CustomNoActionBarTheme2" />
+            android:theme="@style/CustomNoActionBarTheme2" />-->
 
         <activity
             android:name=".utility.PdfViewer"

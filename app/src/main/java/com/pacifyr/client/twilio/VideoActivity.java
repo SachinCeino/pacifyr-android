@@ -1477,12 +1477,12 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                     //Disable chat button
                     ImageView_chat.setEnabled(false);
 
-                    if (checkPermissions()) {
+                    //if (checkPermissions()) {
                         if (isValid(pacifyerDetial))
                             startChat(pacifyerDetial);
-                    } else {
+                    /*} else {
                         ImageView_chat.setEnabled(true);
-                    }
+                    }*/
                 }
             });
 
