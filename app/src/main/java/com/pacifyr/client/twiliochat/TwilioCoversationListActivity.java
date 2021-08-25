@@ -176,7 +176,7 @@ public class TwilioCoversationListActivity extends PacifyrActivity {
                 results.get(position).getUnreadStatus().clear();
                 mTwilioChatListAdapter.notifyItemChanged(position);
 
-                TwilioConversationActivity.start(this,item);
+                TwilioConversationActivity.startWithoutFlag(this,item);
 
             }
 

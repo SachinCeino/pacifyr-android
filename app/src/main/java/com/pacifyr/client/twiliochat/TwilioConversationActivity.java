@@ -110,6 +110,12 @@ public class TwilioConversationActivity extends
         intent.putExtra("object",(Serializable) mTwilioConversationCreate);
         context.startActivity(intent);
     }
+
+    public static void startWithoutFlag(Context context, TwilioConversationCreate mTwilioConversationCreate) {
+        Intent intent = new Intent(context, TwilioConversationActivity.class);
+        intent.putExtra("object",(Serializable) mTwilioConversationCreate);
+        context.startActivity(intent);
+    }
     public static void start(Context context, boolean isFromSlideMenu) {
         Intent intent = new Intent(context, TwilioConversationActivity.class);
         intent.putExtra("isFromSlideMenu",isFromSlideMenu);
