@@ -29,7 +29,7 @@ public class AttachmentImageActivity extends BaseActivity {
 
     private static final String EXTRA_URL = "url";
 
-    private ImageView imageView;
+    private ImageView imageView, back;
     private ProgressBar progressBar;
     private boolean restoreCall = false;
 
@@ -92,6 +92,7 @@ public class AttachmentImageActivity extends BaseActivity {
         setContentView(R.layout.activity_show_image);
         initUI();
         loadImage();
+        listeners();
     }
 
     @Override
@@ -100,8 +101,9 @@ public class AttachmentImageActivity extends BaseActivity {
     }
 
     private void initUI() {
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setDisplayShowTitleEnabled(false);
+        //actionBar.setDisplayHomeAsUpEnabled(true);
+       // actionBar.setDisplayShowTitleEnabled(false);
+        back = findViewById(R.id.back_imv);
         imageView = findViewById(R.id.image_full_view);
         progressBar = findViewById(R.id.progress_bar_show_image);
     }
@@ -135,6 +137,15 @@ public class AttachmentImageActivity extends BaseActivity {
                 })
                 .error(R.drawable.ic_error_white)
                 .into(imageView);
+    }
+
+    private void listeners(){
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 
 }

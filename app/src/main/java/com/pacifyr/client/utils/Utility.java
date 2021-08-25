@@ -686,7 +686,7 @@ public class Utility {
             }else if(DateUtils.isToday(date.getTime() + DateUtils.DAY_IN_MILLIS)){
                 dayname = context.getResources().getString(R.string.yesterday);
             }else {
-                dayname = outFormat.format(date).toLowerCase();
+                dayname = outFormat.format(date);
             }
 
 
