@@ -128,6 +128,7 @@ public class TwilioConversationActivity extends
             Intent i = new Intent(TwilioConversationActivity.this, VideoActivity.class);
             i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(i);
+            finish();
         }
         else
         {
