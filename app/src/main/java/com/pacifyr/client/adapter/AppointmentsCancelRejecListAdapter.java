@@ -153,6 +153,20 @@ public class AppointmentsCancelRejecListAdapter extends RecyclerView.Adapter<Rec
                     {
                         holder.TextView_cancelled.setVisibility(View.VISIBLE);
                         holder.TextView_Rejected.setVisibility(View.GONE);
+                        if (mObject.getStatusText().toString().equals(mContext.getResources().getString(R.string.cancelled_provider_not_respond)))
+                        {
+                            holder.TextView_cancelled.setText(" ");
+                            holder.mTextView_auto_cancel_status.setText(mContext.getResources().getString(R.string.cancelled_provider_message));
+                            holder.mTextView_auto_cancel_status.setVisibility(View.VISIBLE);
+                            holder.TextView_cancelled.setVisibility(View.VISIBLE);                        }
+                        if (mObject.getStatusText().toString().equals(mContext.getResources().getString(R.string.cancelled_provider_not_respond_two)))
+                        {
+                            holder.TextView_cancelled.setText(" ");
+                            holder.mTextView_auto_cancel_status.setText(mContext.getResources().getString(R.string.cancelled_provider_message_two));
+                            holder.mTextView_auto_cancel_status.setVisibility(View.VISIBLE);
+                            holder.TextView_cancelled.setVisibility(View.VISIBLE);
+                        }
+
                     }
 
                     if (isValid(mObject.getRejected()) && mObject.getRejected())
@@ -197,10 +211,23 @@ public class AppointmentsCancelRejecListAdapter extends RecyclerView.Adapter<Rec
                         holder.TextView_cancelled.getLocationOnScreen(textLocation);
 
                         if (event.getRawX() <=  textLocation[0] + holder.TextView_cancelled.getTotalPaddingLeft()) {
-                            if (isValid(mObject.getCancelReason()))
-                                showCancelledNotPopUp(mObject.getCancelReason());
-                            else
-                                showCancelledNotPopUp(mContext.getResources().getString(R.string.Cancelled_since_you_did_not_call_the_provider));
+                            if (isValid(mObject.getCancelReason())){
+                                showCancelledNotPopUp(mObject.getCancelReason());}
+                            else {
+                                if (mObject.getStatusText().toString().equals(mContext.getResources().getString(R.string.cancelled_provider_not_respond)))
+                                {
+                                    showCancelledNotPopUp(mContext.getResources().getString(R.string.cancelled_provider_message));
+                                }
+                                else if (mObject.getStatusText().toString().equals(mContext.getResources().getString(R.string.cancelled_provider_not_respond_two)))
+                                {
+                                    showCancelledNotPopUp(mContext.getResources().getString(R.string.cancelled_provider_message_two));
+                                }
+                                else
+                                {
+                                    showCancelledNotPopUp(mContext.getResources().getString(R.string.Cancelled_since_you_did_not_call_the_provider));
+                                }
+
+                            }
                             return true;
                         }
 
@@ -247,6 +274,7 @@ public class AppointmentsCancelRejecListAdapter extends RecyclerView.Adapter<Rec
         private TextView mTextView_PacifyrSpecialities;
         private TextView mTextView_ScheduleTime;
         private TextView TextView_Rejected,TextView_cancelled;
+        private TextView mTextView_auto_cancel_status;
 
 
 
@@ -259,6 +287,7 @@ public class AppointmentsCancelRejecListAdapter extends RecyclerView.Adapter<Rec
 
             TextView_Rejected = itemView.findViewById(R.id.TextView_Rejected);
             TextView_cancelled = itemView.findViewById(R.id.TextView_cancelled);
+            mTextView_auto_cancel_status = itemView.findViewById(R.id.mTextView_auto_cancel_status);
 
         }
     }

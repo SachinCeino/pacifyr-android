@@ -180,6 +180,19 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<RecyclerView.V
                                 holder.TextView_cancelled.setVisibility(View.VISIBLE);
                                 holder.ImageView_PrevistNote.setVisibility(View.GONE);
                                 holder.accepted_textView.setVisibility(View.GONE);
+                                if (mObject.getStatusText().toString().equals(mContext.getResources().getString(R.string.cancelled_provider_not_respond)))
+                                {
+                                    holder.TextView_cancelled.setText("");
+                                    holder.mTextView_auto_cancel_status.setText(mContext.getResources().getString(R.string.cancelled_provider_message));
+                                    holder.mTextView_auto_cancel_status.setVisibility(View.VISIBLE);
+                                }
+                                if (mObject.getStatusText().toString().equals(mContext.getResources().getString(R.string.cancelled_provider_not_respond_two)))
+                                {
+                                    holder.TextView_cancelled.setText("");
+                                    holder.mTextView_auto_cancel_status.setText(mContext.getResources().getString(R.string.cancelled_provider_message_two));
+                                    holder.mTextView_auto_cancel_status.setVisibility(View.VISIBLE);
+                                }
+
                             }
                             else if (isValid(mObject.getConfirmed())&&mObject.getConfirmed()
                                     && isValid(mObject.getCompleted())&&mObject.getCompleted())
@@ -270,7 +283,13 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<RecyclerView.V
                                 }
                                 else if (mObject.getCancelled()!=null && mObject.getCancelled())
                                 {
-
+                                    /*if (mObject.getStatusText().toString().equals(mContext.getResources().getString(R.string.cancelled_provider_not_respond)))
+                                    {
+                                        holder.TextView_cancelled.setText("");
+                                        holder.TextView_cancelled.setVisibility(View.VISIBLE);
+                                        holder.mTextView_auto_cancel_status.setText(mContext.getResources().getString(R.string.cancelled_provider_message));
+                                        holder.mTextView_auto_cancel_status.setVisibility(View.VISIBLE);
+                                    }*/
                                 }
                             }
                             else
@@ -306,6 +325,19 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<RecyclerView.V
                 holder.TextView_cancelled.setVisibility(View.VISIBLE);
                 holder.mainLayout.setBackgroundColor(mContext.getResources().getColor(R.color.appointment_no_click));
                 holder.ImageView_PrevistNote.setVisibility(View.GONE);
+
+                if (mObject.getStatusText().toString().equals(mContext.getResources().getString(R.string.cancelled_provider_not_respond)))
+                {
+                    holder.TextView_cancelled.setText("");
+                    holder.mTextView_auto_cancel_status.setText(mContext.getResources().getString(R.string.cancelled_provider_message));
+                    holder.mTextView_auto_cancel_status.setVisibility(View.VISIBLE);
+                }
+                if (mObject.getStatusText().toString().equals(mContext.getResources().getString(R.string.cancelled_provider_not_respond_two)))
+                {
+                    holder.TextView_cancelled.setText("");
+                    holder.mTextView_auto_cancel_status.setText(mContext.getResources().getString(R.string.cancelled_provider_message_two));
+                    holder.mTextView_auto_cancel_status.setVisibility(View.VISIBLE);
+                }
 
             }
             else if (isValid(mObject.getRejected())&&mObject.getRejected())
@@ -415,10 +447,26 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<RecyclerView.V
                         holder.TextView_cancelled.getLocationOnScreen(textLocation);
 
                         if (event.getRawX() <=  textLocation[0] + holder.TextView_cancelled.getTotalPaddingLeft()) {
-                            if (isValid(mObject.getCancelReason()))
+                            if (isValid(mObject.getCancelReason())){
                                 showCancelledNotPopUp(mObject.getCancelReason());
-                            else
-                                showCancelledNotPopUp(mContext.getResources().getString(R.string.Cancelled_since_you_did_not_call_the_provider));
+                            }
+
+                            else{
+                                if (mObject.getStatusText().toString().equals(mContext.getResources().getString(R.string.cancelled_provider_not_respond)))
+                                {
+                                    showCancelledNotPopUp(mContext.getResources().getString(R.string.cancelled_provider_message));
+                                }
+                                else if(mObject.getStatusText().toString().equals(mContext.getResources().getString(R.string.cancelled_provider_not_respond_two)))
+                                {
+                                    showCancelledNotPopUp(mContext.getResources().getString(R.string.cancelled_provider_message_two));
+                                }
+                                else
+                                {
+                                    showCancelledNotPopUp(mContext.getResources().getString(R.string.Cancelled_since_you_did_not_call_the_provider));
+                                }
+
+                            }
+
                             return true;
                         }
 
@@ -613,6 +661,7 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<RecyclerView.V
         private LinearLayout mainLayout,call_layout;
         private RelativeLayout videocall_rlay,audiocall_rlay,chat_rlay;
         private TextView accepted_textView,TextView_cancelled,mTextView_Completed;
+        private TextView mTextView_auto_cancel_status;
 
 
         public MyViewHolder(View itemView) {
@@ -633,6 +682,7 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<RecyclerView.V
             accepted_textView = itemView.findViewById(R.id.accepted_textView);
             TextView_cancelled = itemView.findViewById(R.id.TextView_cancelled);
             mTextView_Completed = itemView.findViewById(R.id.mTextView_Completed);
+            mTextView_auto_cancel_status= itemView.findViewById(R.id.mTextView_auto_cancel_status);
 
         }
     }
