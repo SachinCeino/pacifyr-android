@@ -193,6 +193,13 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<RecyclerView.V
                                     holder.mTextView_auto_cancel_status.setVisibility(View.VISIBLE);
                                 }
 
+                                if (mObject.getStatusText().toString().equals(mContext.getResources().getString(R.string.client_cancelled_the_appointment)))
+                                {
+                                    holder.TextView_cancelled.setText("");
+                                    holder.mTextView_auto_cancel_status.setText(mContext.getResources().getString(R.string.client_cancelled_the_appointment));
+                                    holder.mTextView_auto_cancel_status.setVisibility(View.VISIBLE);
+                                }
+
                             }
                             else if (isValid(mObject.getConfirmed())&&mObject.getConfirmed()
                                     && isValid(mObject.getCompleted())&&mObject.getCompleted())
@@ -338,7 +345,12 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<RecyclerView.V
                     holder.mTextView_auto_cancel_status.setText(mContext.getResources().getString(R.string.cancelled_provider_message_two));
                     holder.mTextView_auto_cancel_status.setVisibility(View.VISIBLE);
                 }
-
+                if (mObject.getStatusText().toString().equals(mContext.getResources().getString(R.string.client_cancelled_the_appointment)))
+                {
+                    holder.TextView_cancelled.setText("");
+                    holder.mTextView_auto_cancel_status.setText(mContext.getResources().getString(R.string.client_cancelled_the_appointment));
+                    holder.mTextView_auto_cancel_status.setVisibility(View.VISIBLE);
+                }
             }
             else if (isValid(mObject.getRejected())&&mObject.getRejected())
             {
