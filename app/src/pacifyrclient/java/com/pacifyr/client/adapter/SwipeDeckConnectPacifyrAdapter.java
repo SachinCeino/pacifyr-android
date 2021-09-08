@@ -182,7 +182,6 @@ public class SwipeDeckConnectPacifyrAdapter extends BaseAdapter {
                 ImageView indicatorDimv = v.findViewById(R.id.indicator_dimv);
                 TextView descriptionCtxv = v.findViewById(R.id.description_ctxv);
                 MainTextView indicatorCtxv = v.findViewById(R.id.indicator_ctxv);
-                indicatorCtxv.setTextSize(7f);
                 if (isOnline) {
                     indicatorDimv.setImageDrawable(context.getResources().getDrawable(R.drawable.online));
                     indicatorCtxv.setText("ONLINE");

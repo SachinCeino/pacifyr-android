@@ -783,7 +783,12 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
             if (isValid(searchQuery) && isValid(customerEmotion)) {
 
                 String url = GLOBAL_URL + "search/pacifyrs";
-                noPacifyrCtxv.setVisibility(View.GONE);
+
+                if (noPacifyrCtxv.getVisibility()==View.VISIBLE &&!getSearchQuery().equals(""))
+                    noPacifyrCtxv.setVisibility(View.VISIBLE);
+                else
+                    noPacifyrCtxv.setVisibility(View.GONE);
+
                 AjaxCallback cb = new AjaxCallback<JSONObject>() {
                     @Override
                     public void callback(String url, JSONObject json, AjaxStatus status) {

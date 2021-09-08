@@ -192,7 +192,7 @@ public class SwipeDeckBrowsePacifyerAdapter extends BaseAdapter {
             boolean isOnline=searchResults.get(position).getOnline();
             ImageView indicatorDimv = v.findViewById(R.id.indicator_dimv);
             TextView descriptionCtxv = v.findViewById(R.id.description_ctxv);
-            MainTextView indicatorCtxv = v.findViewById(R.id.indicator_ctxv);
+            TextView indicatorCtxv = v.findViewById(R.id.indicator_ctxv);
 
 
            /* RelativeLayout chat_rlay = (RelativeLayout) v.findViewById(R.id.chat_rlay);

@@ -171,7 +171,7 @@
             android:layout_centerInParent="true"
             android:textSize="13sp"
             android:visibility="gone"
-            android:background="@drawable/blue_round_square"
+            android:background="@drawable/connect_button_border"
             android:textColor="@color/white"/>
 
         <LinearLayout
