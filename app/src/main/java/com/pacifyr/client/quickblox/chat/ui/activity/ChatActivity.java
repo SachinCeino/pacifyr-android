@@ -61,6 +61,7 @@ import com.pacifyr.client.quickblox.chat.utils.qb.QbUsersHolder;
 import com.pacifyr.client.quickblox.chat.utils.qb.VerboseQbChatConnectionListener;
 import com.pacifyr.client.twilio.VideoActivity;
 import com.pacifyr.client.utility.PacifyrAppCompactActivity;
+import com.pacifyr.client.utils.Constants;
 import com.pacifyr.client.utils.FirebaseLogging;
 import com.pacifyr.client.utils.LogUtils;
 import com.pacifyr.client.utils.Utility;
@@ -102,6 +103,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.pacifyr.client.network.NetworkService.GLOBAL_IMAGE_URL;
 import static com.pacifyr.client.twilio.VideoActivity.isCallActive;
+import static com.pacifyr.client.utils.Constants.DestroySubScreenAfterEndCall;
 
 
 //com.pacifyr.pacifyrapp.quickblox.chat.ui.activity.BaseActivity
@@ -145,7 +147,6 @@ public class ChatActivity extends PacifyrAppCompactActivity implements Attachmen
     private QBUser currentUser;
     private TextView typingStatus;
     private TextView TextView_noMessages;
-    public static final String CLOSE_CHATSCREEN = "closeChatScreen";
     private View attachPendingView;
 
 
@@ -1102,10 +1103,13 @@ public class ChatActivity extends PacifyrAppCompactActivity implements Attachmen
     }
 
     @org.greenrobot.eventbus.Subscribe(threadMode = ThreadMode.MAIN)
-    public void onNetworkChanged(Object event) {
+    public void onDestroyActivity(String event) {
         try {
-            if (isValid(event) && event.equals(CLOSE_CHATSCREEN)) {
-                finish();
+            if (isValid(event)) {
+                if (event.equals(Constants.DestroySubScreenAfterEndCall))
+                {
+                    finish();
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();

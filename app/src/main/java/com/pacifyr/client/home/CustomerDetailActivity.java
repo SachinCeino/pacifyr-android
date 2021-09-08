@@ -31,6 +31,7 @@ import com.pacifyr.client.quickblox.activities.CallActivity;
 import com.pacifyr.client.twilio.VideoActivity;
 import com.pacifyr.client.quickblox.util.NestedScroll;
 import com.pacifyr.client.utility.PacifyrAppCompactActivity;
+import com.pacifyr.client.utils.Constants;
 import com.pacifyr.client.utils.LogUtils;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MEmotion;
@@ -40,6 +41,8 @@ import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -123,7 +126,7 @@ public class CustomerDetailActivity extends PacifyrAppCompactActivity {
             prefM = PrefManager.getInstance(CustomerDetailActivity.this);
             token = prefM.getAccessToken();
             userid = prefM.getUserID();
-            //&toDate=%@
+            EventBus.getDefault().register(this);
             onSetActionBar();
 
             topLlay = findViewById(R.id.top_llay);
@@ -527,4 +530,32 @@ public class CustomerDetailActivity extends PacifyrAppCompactActivity {
         }
         finish();
     }
+
+    @org.greenrobot.eventbus.Subscribe(threadMode = ThreadMode.MAIN)
+    public void onDestroyActivity(String event) {
+        try {
+            if (isValid(event)) {
+                if (event.equals(Constants.DestroySubScreenAfterEndCall))
+                {
+                    finish();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
 }

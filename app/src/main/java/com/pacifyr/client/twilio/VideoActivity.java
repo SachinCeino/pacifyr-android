@@ -1448,7 +1448,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                 public void onClick(View view) {
                     if (CheckInternetConnection(getApplicationContext())) {
                         isCallActive = false;
-                        EventBus.getDefault().post("CLOSE_DIALOGUE_ACTIVITY");
+                        EventBus.getDefault().post(Constants.DestroySubScreenAfterEndCall);
                         if (isValid(localDataTrack)) {
                             localDataTrack.send("stopcall");
 
@@ -3665,7 +3665,7 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
                 getApplication().startActivity(new Intent(this, getClass())
                         .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
             maximizePicInPicView();
-            EventBus.getDefault().post(ChatActivity.CLOSE_CHATSCREEN);
+            EventBus.getDefault().post(Constants.DestroySubScreenAfterEndCall);
         }
     }
 

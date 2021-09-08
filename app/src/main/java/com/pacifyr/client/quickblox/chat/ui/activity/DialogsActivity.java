@@ -42,6 +42,7 @@ import com.pacifyr.client.quickblox.chat.utils.qb.QbDialogHolder;
 import com.pacifyr.client.quickblox.chat.utils.qb.QbDialogUtils;
 import com.pacifyr.client.quickblox.chat.utils.qb.callback.QbEntityCallbackImpl;
 import com.pacifyr.client.twilio.VideoActivity;
+import com.pacifyr.client.utils.Constants;
 import com.pacifyr.client.utils.FirebaseLogging;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
@@ -117,7 +118,7 @@ public class DialogsActivity extends PacifyrActivity implements DialogsManager.M
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.quickblox_activity_dialogs);
-
+        EventBus.getDefault().register(this);
         googlePlayServicesHelper = new GooglePlayServicesHelper();
 
         pushBroadcastReceiver = new PushBroadcastReceiver();
@@ -809,7 +810,6 @@ public class DialogsActivity extends PacifyrActivity implements DialogsManager.M
     protected void onStart() {
         super.onStart();
        try {
-           EventBus.getDefault().register(this);
            Auth.foreground(DialogsActivity.class.getSimpleName());
        }catch (Exception e)
        {
@@ -819,15 +819,14 @@ public class DialogsActivity extends PacifyrActivity implements DialogsManager.M
 
 
     @org.greenrobot.eventbus.Subscribe(threadMode = ThreadMode.MAIN)
-    public void closeDialogueScreenWhenCallDroped(Object event) {
+    public void onDestroyActivity(String event) {
         try {
-
-                if (isValid(event)&& event.equals("CLOSE_DIALOGUE_ACTIVITY"))
+            if (isValid(event)) {
+                if (event.equals(Constants.DestroySubScreenAfterEndCall))
                 {
-                   finish();
+                    finish();
                 }
-
-
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
