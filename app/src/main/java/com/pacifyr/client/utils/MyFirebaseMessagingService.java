@@ -5,8 +5,10 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -20,6 +22,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+import com.pacifyr.client.BuildConfig;
 import com.pacifyr.client.R;
 import com.pacifyr.client.activity.SplashScreen;
 import com.pacifyr.client.base.PacifyrActivity;
@@ -308,6 +311,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                                     Intent intent = new Intent(NotificationUtils.APPOINTMENT_EVENT);
                                     intent.putExtra("typeId", typeId);
                                     LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+                                    MediaPlayer mp1 = MediaPlayer.create(context, R.raw.appointment_reminder);
+                                    mp1.start();
                                 }
                                 //{type=sessionDeclined, sound=default, message=Your call was declined by the provider "VINEESH PROVIDER "}
 
@@ -491,19 +496,26 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
         // cIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         Uri notificationSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context,Constants.getChannelId(context))
-                .setSmallIcon(R.drawable.ic_pacifyr_notification)
-                .setContentText(message)
-                .setStyle(new NotificationCompat.BigTextStyle()
-                        .bigText(message))
-                .setContentTitle(getResources().getString(R.string.app_name))
-                .setContentIntent(pendingIntent)
-                .setSound(notificationSound)
-                .setBadgeIconType(BADGE_ICON_SMALL)
-                .setNumber(prefM.getBadgeValue())
-                .setAutoCancel(true);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context,Constants.getChannelId(context));
+        builder.setSmallIcon(R.drawable.ic_pacifyr_notification);
+        builder.setContentText(message);
+        builder.setStyle(new NotificationCompat.BigTextStyle().bigText(message));
+        builder.setContentTitle(getResources().getString(R.string.app_name));
+        builder.setContentIntent(pendingIntent);
+        builder.setBadgeIconType(BADGE_ICON_SMALL);
+        builder.setNumber(prefM.getBadgeValue());
+        builder.setAutoCancel(true);
 
-
+            if (actualType.equals("reminder")&& isValid(typeId))
+            {
+                builder.setNotificationSilent();
+                MediaPlayer mp1 = MediaPlayer.create(context, R.raw.appointment_reminder);
+                mp1.start();
+            }
+            else
+            {
+                builder.setSound(notificationSound);
+            }
         Notification notification = builder.build();
         NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         //notification.flags = Notification.DEFAULT_LIGHTS | Notification.FLAG_AUTO_CANCEL;
