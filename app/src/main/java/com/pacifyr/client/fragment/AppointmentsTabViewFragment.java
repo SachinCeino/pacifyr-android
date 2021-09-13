@@ -78,7 +78,8 @@ public View onCreateView(LayoutInflater inflater, ViewGroup container,
         mTabLayout = root.findViewById(R.id.mTabLayout);
         mViewPager = root.findViewById(R.id.mViewPager);
 
-        mTabLayout.addTab(mTabLayout.newTab().setText("All"));
+        mTabLayout.addTab(mTabLayout.newTab().setText("Upcomming"));
+        mTabLayout.addTab(mTabLayout.newTab().setText("Past"));
         mTabLayout.addTab(mTabLayout.newTab().setText("Rejected/Cancelled"));
         mTabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
@@ -168,8 +169,11 @@ public class Pager extends FragmentStatePagerAdapter {
                 AppointmentsFragment tab1 = new AppointmentsFragment();
                 return tab1;
             case 1:
-                AppointmentsRejOrCancelledFragment tab2 = new AppointmentsRejOrCancelledFragment();
+                AppointmentsPastFragment tab2 = new AppointmentsPastFragment();
                 return tab2;
+            case 2:
+                AppointmentsRejOrCancelledFragment tab3 = new AppointmentsRejOrCancelledFragment();
+                return tab3;
             default:
                 return null;
         }
