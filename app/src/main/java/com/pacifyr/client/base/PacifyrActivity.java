@@ -4192,6 +4192,8 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
              * type "cardSetup**/
 
                     EventBus.getDefault().post("SCHEDULE_PAY");
+                    //freeminuts expired and payment done by userafter free minuts timer need stop
+                    EventBus.getDefault().post(Constants.PAYMENT_DONE);
                     if (isValid(CallActivity.mSessionDetailRoot) &&
                             isValid(CallActivity.mSessionDetailRoot.getPacifyr()) &&
                             isValid(CallActivity.mSessionDetailRoot.getPacifyr().getId()))
