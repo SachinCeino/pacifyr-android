@@ -1098,8 +1098,13 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
     @Override
     protected void onResume() {
         super.onResume();
-        if (morePacifyrsRlay!=null)
-        {morePacifyrsRlay.setVisibility(View.GONE);}
+        if (swipeDeck.getVisibility()==View.VISIBLE && listPacifyrRlay.getVisibility()==View.VISIBLE)
+        {
+            morePacifyrsRlay.setVisibility(View.VISIBLE);
+        }
+        else {
+            morePacifyrsRlay.setVisibility(View.GONE);
+        }
 
         trackTimer_check_online = new Timer();
 
