@@ -125,7 +125,7 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="payout_url">https://pacifyr.com/stripe_dev.html</string>
     <string name="sign_up">Register</string>
     <string name="registration_failed">Registration failed</string>
-    <string name="failed_register_message">Your mobile number is already registered. Please sign in</string>
+    <string name="failed_register_message">Your phone number is already registered. Please sign in.</string>
     <string name="select_specialisation">Select a specialization</string>
     <string name="no_wellness_experts_category">No providers available.</string>
     <string name="please_try_again">Please try again</string>
