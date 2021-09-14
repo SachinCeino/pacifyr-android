@@ -339,10 +339,11 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
                                     loadPDF(mSessionDetailRoot.getPrescriptionFile(), getResources().getString(R.string.prescription));
                                 }
                                 else {
-                                    Intent intent = new Intent(SessionSummaryActivity.this, PrescriptionViewActivity.class);
+                                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.no_prescription), Toast.LENGTH_SHORT).show();
+                                   /* Intent intent = new Intent(SessionSummaryActivity.this, PrescriptionViewActivity.class);
                                     intent.putExtra("text", "");
                                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    startActivity(intent);
+                                    startActivity(intent);*/
                                 }
 
                             }
