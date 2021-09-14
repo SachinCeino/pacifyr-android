@@ -766,7 +766,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
 
     public void callPrescriptionData() {
         try {
-            setLoading();
+            setLoading("Loading...");
             showProgress();
             PrefManager mPrefManager = PrefManager.getInstance(this);
             String token = mPrefManager.getAccessToken();
