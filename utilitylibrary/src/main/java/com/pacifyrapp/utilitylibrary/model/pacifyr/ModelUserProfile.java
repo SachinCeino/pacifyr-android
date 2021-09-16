@@ -78,7 +78,7 @@ public class ModelUserProfile
 
     private String phoneNumber;
 
-    private String walletBalance;
+    private int walletBalance;
 
     private String[] specialities;
 
@@ -324,12 +324,12 @@ public class ModelUserProfile
         this.phoneNumber = phoneNumber;
     }
 
-    public String getWalletBalance ()
+    public int getWalletBalance ()
     {
         return walletBalance;
     }
 
-    public void setWalletBalance (String walletBalance)
+    public void setWalletBalance (int walletBalance)
     {
         this.walletBalance = walletBalance;
     }

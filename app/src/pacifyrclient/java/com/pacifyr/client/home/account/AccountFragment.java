@@ -60,7 +60,8 @@ public class AccountFragment extends BaseFragment {
     private CardView aboutmeCard;
     private MainTextView aboutmeCtxv;
     private TextView TextView_Document;
-    private CardView CardView_Document_Field;
+    private CardView CardView_Document_Field,wallet_card;
+    private TextView TextView_walletBalence;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -114,8 +115,15 @@ public class AccountFragment extends BaseFragment {
             aboutmeCtxv = view.findViewById(R.id.aboutme_ctxv);
             TextView_Document = view.findViewById(R.id.TextView_Document);
             CardView_Document_Field = view.findViewById(R.id.CardView_Document_Field);
+            wallet_card= view.findViewById(R.id.wallet_card);
+            TextView_walletBalence= view.findViewById(R.id.TextView_walletBalence);
+            if (getPrefManager().getCountry().equals("US"))
+            {
+                wallet_card.setVisibility(View.VISIBLE);
+            }
 
             onSetValues(view);
+
 
 
         }catch (Exception e)
@@ -161,6 +169,11 @@ public class AccountFragment extends BaseFragment {
                             }
                         });
                     }
+
+                  if (isValid(NetworkService.mCurrentUser.getWalletBalance()))
+                {
+                    TextView_walletBalence.setText(NetworkService.mCurrentUser.getWalletBalance()+"");
+                }
 
             }
         }catch (Exception e)

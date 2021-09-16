@@ -331,6 +331,16 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                 return;
             }
             long freeMinutes = NetworkService.mCurrentUser.getAvailableMinutes();
+            long WalletBalance_minutes;
+            if (getPrefManager().getCountry().equals("US"))
+            {
+                if (isValid(NetworkService.mCurrentUser.getWalletBalance()))
+                {
+                    WalletBalance_minutes = (NetworkService.mCurrentUser.getWalletBalance() / Integer.parseInt(getCallPacifyr().getPrice())) * 60;
+                    freeMinutes=freeMinutes+WalletBalance_minutes;
+                }
+
+            }
             if (freeMinutes > 0) {
                 long freeMillis = freeMinutes * 60 * 1000;
                 final long ONE_MINUTE = 60 * 1000;
@@ -392,6 +402,16 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                             }
                         } else {
                             Log.d(TAG, minutesLeft + " minutes left");
+                            if (isVideoCall)
+                            {
+                                TextView_vidio_freeminuts_remine.setVisibility(View.VISIBLE);
+                                TextView_vidio_freeminuts_remine.setText("Wallet balance: "+minutesLeft+" minuts");
+                            }
+                            else
+                            {
+                                TextView_audio_freeminuts_remine.setVisibility(View.VISIBLE);
+                                TextView_audio_freeminuts_remine.setText("Wallet balance: "+minutesLeft+" minuts");
+                            }
                         }
                     }
 
@@ -449,6 +469,8 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
     Sensor proximitySensor;
     private PowerManager mPowerManager;
     private PowerManager.WakeLock mWakeLock;
+
+    private  TextView TextView_vidio_freeminuts_remine,TextView_audio_freeminuts_remine;
 
 
     private class EarPhoneChanges extends BroadcastReceiver {
@@ -1295,6 +1317,8 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
             TextView_call_type = findViewById(R.id.TextView_call_type);
             Button_remind_counselor_audio = findViewById(R.id.Button_remind_counselor_audio);
             Button_remind_counselor_vidio = findViewById(R.id.Button_remind_counselor_vidio);
+            TextView_vidio_freeminuts_remine= findViewById(R.id.TextView_vidio_freeminuts_remine);
+            TextView_audio_freeminuts_remine= findViewById(R.id.TextView_audio_freeminuts_remine);
 
             this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN |
                             WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
