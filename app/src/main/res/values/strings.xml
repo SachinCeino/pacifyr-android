@@ -652,9 +652,9 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="cancelled_provider_not_respond_two">Cancelled, counselor didn\'t accept the session.</string>
     <string name="cancelled_provider_message_two">Cancelled since the provider was unavailable.</string>
     <string name="client_cancelled_the_appointment">Client cancelled the appointment</string>
-
-
-
+    <string name="upcoming">Upcoming</string>
+    <string name="past">Past</string>
+    <string name="rejected_cancelled">Rejected/Cancelled</string>
 
 
 </resources>
