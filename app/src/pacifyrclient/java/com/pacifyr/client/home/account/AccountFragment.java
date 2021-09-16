@@ -172,7 +172,7 @@ public class AccountFragment extends BaseFragment {
 
                   if (isValid(NetworkService.mCurrentUser.getWalletBalance()))
                 {
-                    TextView_walletBalence.setText(NetworkService.mCurrentUser.getWalletBalance()+"");
+                    TextView_walletBalence.setText("$ "+NetworkService.mCurrentUser.getWalletBalance()+"");
                 }
 
             }

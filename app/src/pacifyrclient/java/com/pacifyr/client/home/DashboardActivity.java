@@ -96,6 +96,7 @@ import org.json.JSONObject;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static com.facebook.FacebookSdk.getApplicationContext;
 import static com.pacifyr.client.twilio.VideoActivity.isCallActive;
 import static com.pacifyr.client.utils.Constants.getCountryChecks;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
@@ -223,6 +224,48 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
                 FirebaseLogging.EVENT_ON_SCREEN,
                 args);
 
+        userDetailWeb(getUserID(), new AjaxCallback<JSONObject>() {
+            @Override
+            public void callback(String url, JSONObject json, AjaxStatus status) {
+                try {
+                    if (json != null) {
+                        NetworkService.mCurrentUser = GsonUtils.getInstance().gsonToModelUserProfile(json);
+
+                    } else {
+                        LogUtils.LOGD("base", "bAF userDetailWeb json null  : " + status.getMessage());
+                    }
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    LogUtils.LOGD("base", "bAF userDetailWeb callback exception : " + e.getMessage());
+                }
+            }
+        });
+    }
+
+
+    public void userDetailWeb(String id, AjaxCallback cb) {
+        try {
+            //showProgress();
+
+            PrefManager prefM = PrefManager.getInstance(getApplicationContext());
+            String token = prefM.getAccessToken();
+
+            String url = GLOBAL_URL + "user/profile/" + id;
+
+
+            AQuery aq = new AQuery(getApplicationContext());
+            //cb.header("Content-Type", "application/json");
+            cb.header("AccessToken", token);
+            aq.ajax(url, JSONObject.class, cb);
+
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+            LogUtils.LOGD("base", "bAF userDetailWeb  exception : " + ex.getMessage());
+        }
     }
 
 
