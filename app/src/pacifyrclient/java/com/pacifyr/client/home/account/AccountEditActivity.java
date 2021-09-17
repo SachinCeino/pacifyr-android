@@ -1,8 +1,13 @@
 package com.pacifyr.client.home.account;
 
+import android.Manifest;
+import android.accounts.Account;
+import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -13,6 +18,7 @@ import android.graphics.drawable.Drawable;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.DocumentsContract;
@@ -28,6 +34,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -89,6 +96,7 @@ import java.util.Map;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.pacifyr.client.sign.RegisterActivity.documentFileList;
+import static com.pacifyr.client.utils.Utility.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
 
 /**
@@ -259,23 +267,40 @@ public class AccountEditActivity extends PacifyrAppCompactActivity {
                 }
                 else if (options[item].equals("Choose from Gallery"))
                 {
-                    boolean checkPermission = Utility.checkPermission(AccountEditActivity.this, "gallery");
-                    if(checkPermission) {
-                        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-                        intent.addCategory(Intent.CATEGORY_OPENABLE);
-                        intent.setType("image/*");
-                        Uri pickerInitialUri=null;
-                        // Optionally, specify a URI for the file that should appear in the
-                        // system file picker when it loads.
-                        if (pickerInitialUri != null) {
-                            intent.putExtra(DocumentsContract.EXTRA_INITIAL_URI, pickerInitialUri);
+
+                    try {
+                        if (ActivityCompat.checkSelfPermission(AccountEditActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                            AlertDialog.Builder alertBuilder = new AlertDialog.Builder(AccountEditActivity.this);
+                            alertBuilder.setCancelable(true);
+                            alertBuilder.setTitle("Permission necessary");
+                            alertBuilder.setMessage("External storage permission is necessary");
+                            alertBuilder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+                                public void onClick(DialogInterface dialog, int which) {
+                                    ActivityCompat.requestPermissions(AccountEditActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUESTCODE_GALLERY_IMAGE);
+                                }
+                            });
+                            AlertDialog alert = alertBuilder.create();
+                            alert.show();
+
+
+                        } else {
+                            Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                            intent.addCategory(Intent.CATEGORY_OPENABLE);
+                            intent.setType("image/*");
+                            Uri pickerInitialUri=null;
+                            // Optionally, specify a URI for the file that should appear in the
+                            // system file picker when it loads.
+                            if (pickerInitialUri != null) {
+                                intent.putExtra(DocumentsContract.EXTRA_INITIAL_URI, pickerInitialUri);
+                            }
+
+                            startActivityForResult(intent, REQUESTCODE_GALLERY_IMAGE);
                         }
-
-                        startActivityForResult(intent, REQUESTCODE_GALLERY_IMAGE);
-
-                       // new GligarPicker().requestCode(REQUESTCODE_GALLERY_IMAGE).limit(1).disableCamera(true).withActivity(AccountEditActivity.this).show();
-
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
+
                 }
                 else if (options[item].equals("Cancel")) {
                     dialog.dismiss();
@@ -285,6 +310,31 @@ public class AccountEditActivity extends PacifyrAppCompactActivity {
         builder.show();
     }
 
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults)
+    {
+        switch (requestCode) {
+            case REQUESTCODE_GALLERY_IMAGE:
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                    intent.addCategory(Intent.CATEGORY_OPENABLE);
+                    intent.setType("image/*");
+                    Uri pickerInitialUri=null;
+                    // Optionally, specify a URI for the file that should appear in the
+                    // system file picker when it loads.
+                    if (pickerInitialUri != null) {
+                        intent.putExtra(DocumentsContract.EXTRA_INITIAL_URI, pickerInitialUri);
+                    }
+
+                    startActivityForResult(intent, REQUESTCODE_GALLERY_IMAGE);
+                } else {
+                    //do something like displaying a message that he didn`t allow the app to access gallery and you wont be able to let him select from gallery
+                }
+                break;
+        }
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // super.onActivityResult(requestCode, resultCode, data);
