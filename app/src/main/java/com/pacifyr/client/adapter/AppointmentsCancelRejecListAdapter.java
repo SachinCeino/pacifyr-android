@@ -3,6 +3,7 @@ package com.pacifyr.client.adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -248,6 +249,7 @@ public class AppointmentsCancelRejecListAdapter extends RecyclerView.Adapter<Rec
         final LinearLayout close_layout = myView.findViewById(R.id.close_layout);
         title.setText(mContext.getResources().getString(R.string.reason_for_rejection));
         message_edt.setText(rejectReason.toString());
+        message_edt.setMovementMethod(new ScrollingMovementMethod());
         AlertDialog.Builder alert = new AlertDialog.Builder(mContext);
         alert.setView(myView);
         // disallow cancel of AlertDialog on click of back button and outside touch
@@ -354,6 +356,7 @@ public class AppointmentsCancelRejecListAdapter extends RecyclerView.Adapter<Rec
         final LinearLayout close_layout = myView.findViewById(R.id.close_layout);
         title.setText(mContext.getResources().getString(R.string.cancelled_reason));
         message_edt.setText(preVisitNote.toString());
+        message_edt.setMovementMethod(new ScrollingMovementMethod());
         AlertDialog.Builder alert = new AlertDialog.Builder(mContext);
         alert.setView(myView);
         // disallow cancel of AlertDialog on click of back button and outside touch
