@@ -331,13 +331,13 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                 return;
             }
             long freeMinutes = NetworkService.mCurrentUser.getAvailableMinutes();
-            long WalletBalance_minutes;
+            float WalletBalance_minutes;
             if (getPrefManager().getCountry().equals("US"))
             {
                 if (isValid(NetworkService.mCurrentUser.getWalletBalance()))
                 {
-                    WalletBalance_minutes = (NetworkService.mCurrentUser.getWalletBalance() / Integer.parseInt(getCallPacifyr().getPrice())) * 60;
-                    freeMinutes=freeMinutes+WalletBalance_minutes;
+                    WalletBalance_minutes = (NetworkService.mCurrentUser.getWalletBalance() / Float.parseFloat(getCallPacifyr().getPrice())) * 60;
+                    freeMinutes= (long) (freeMinutes+WalletBalance_minutes);
                 }
 
             }
