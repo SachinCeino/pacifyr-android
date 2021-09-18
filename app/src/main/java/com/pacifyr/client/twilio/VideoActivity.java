@@ -1921,8 +1921,8 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
 
                 @Override
                 public void tick(long minutes) {
-                    text_remaining_minutes.setText(minutes + " free minutes remaining");
-                    text_remaining_minutes.setVisibility(View.VISIBLE);
+                   // text_remaining_minutes.setText(minutes + " free minutes remaining");
+                   // text_remaining_minutes.setVisibility(View.VISIBLE);
                 }
             };
         } catch (Exception e) {

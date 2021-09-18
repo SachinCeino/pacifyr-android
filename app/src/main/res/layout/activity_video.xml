@@ -271,6 +271,7 @@
                         android:layout_marginLeft="4dp"
                         android:layout_marginTop="5dp"
                         android:layout_below="@+id/l1"
+                        android:visibility="gone"
                         android:textColor="@color/blue_button_primary"
                         android:textSize="@dimen/also_on_call_text_size" />
                 </RelativeLayout>
