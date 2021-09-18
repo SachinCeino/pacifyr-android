@@ -336,8 +336,36 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
             {
                 if (isValid(NetworkService.mCurrentUser.getWalletBalance()))
                 {
-                    WalletBalance_minutes = (NetworkService.mCurrentUser.getWalletBalance() / Float.parseFloat(getCallPacifyr().getPrice())) * 60;
-                    freeMinutes= (long) (freeMinutes+WalletBalance_minutes);
+                    if (NetworkService.mCurrentUser.getWalletBalance()<Float.parseFloat(getCallPacifyr().getPrice()) )
+                    {
+
+                            //show payment alert that client dont have enough balance.
+                            setAlertStatusInBlue2("Warning", "You don't have enough wallet balance. Please enter your Credit Card to continue.", "Add Card", "Cancel",
+                                    new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            hideProgress();
+                                            hideStatus2();
+                                            Intent intent = new Intent(VideoActivity.this,
+                                                    AlertAddCreditCardActivity.class);
+                                            startActivityForResult(intent, REQUEST_CODE_STRIPE_CARD);
+
+                                        }
+                                    }, new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            hideProgress();
+                                            hideStatus2();
+                                            button_hangup_call.performClick();
+                                        }
+                                    });
+                            makeAbeepSoundWhileShowingPopUp();
+                            return;
+                    }
+                    else {
+                        WalletBalance_minutes = (NetworkService.mCurrentUser.getWalletBalance() / Float.parseFloat(getCallPacifyr().getPrice())) * 60;
+                        freeMinutes = (long) (freeMinutes + WalletBalance_minutes);
+                    }
                 }
 
             }
