@@ -425,7 +425,7 @@ public class MConnectSessionRoot {
 
         private String specialities;
 
-        private String walletBalance;
+        private Double walletBalance;
 
         private String createdAt;
 
@@ -605,12 +605,12 @@ public class MConnectSessionRoot {
             this.specialities = specialities;
         }
 
-        public String getWalletBalance ()
+        public Double getWalletBalance ()
         {
             return walletBalance;
         }
 
-        public void setWalletBalance (String walletBalance)
+        public void setWalletBalance (Double walletBalance)
         {
             this.walletBalance = walletBalance;
         }

@@ -43,7 +43,7 @@ public class User implements Serializable {
     private Object pin;
     @SerializedName("walletBalance")
     @Expose
-    private Integer walletBalance;
+    private Double walletBalance;
     @SerializedName("price")
     @Expose
     private Integer price;
@@ -247,11 +247,11 @@ public class User implements Serializable {
         this.pin = pin;
     }
 
-    public Integer getWalletBalance() {
+    public Double getWalletBalance() {
         return walletBalance;
     }
 
-    public void setWalletBalance(Integer walletBalance) {
+    public void setWalletBalance(Double walletBalance) {
         this.walletBalance = walletBalance;
     }
 

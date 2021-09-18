@@ -25,7 +25,7 @@ public class UserProfile {
     private String id;
     private long availableMinutes;
     private String phoneNumber;
-    private String walletBalance;
+    private Double walletBalance;
     private String[] specialities;
     private String createdAt;
     private String description;
@@ -254,11 +254,11 @@ public class UserProfile {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getWalletBalance() {
+    public Double getWalletBalance() {
         return walletBalance;
     }
 
-    public void setWalletBalance(String walletBalance) {
+    public void setWalletBalance(Double walletBalance) {
         this.walletBalance = walletBalance;
     }
 

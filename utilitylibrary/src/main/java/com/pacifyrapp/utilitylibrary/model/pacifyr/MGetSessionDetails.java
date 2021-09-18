@@ -22,7 +22,7 @@ public class MGetSessionDetails
 
     private String phoneNumber;
 
-    private String walletBalance;
+    private Double walletBalance;
 
     private Object specialities;
 
@@ -144,12 +144,12 @@ public class MGetSessionDetails
         this.phoneNumber = phoneNumber;
     }
 
-    public String getWalletBalance ()
+    public Double getWalletBalance ()
     {
         return walletBalance;
     }
 
-    public void setWalletBalance (String walletBalance)
+    public void setWalletBalance (Double walletBalance)
     {
         this.walletBalance = walletBalance;
     }
