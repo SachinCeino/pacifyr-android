@@ -117,10 +117,6 @@ public class AccountFragment extends BaseFragment {
             CardView_Document_Field = view.findViewById(R.id.CardView_Document_Field);
             wallet_card= view.findViewById(R.id.wallet_card);
             TextView_walletBalence= view.findViewById(R.id.TextView_walletBalence);
-            if (getPrefManager().getCountry().equals("US"))
-            {
-                wallet_card.setVisibility(View.VISIBLE);
-            }
 
             onSetValues(view);
 
@@ -170,9 +166,15 @@ public class AccountFragment extends BaseFragment {
                         });
                     }
 
-                  if (isValid(NetworkService.mCurrentUser.getWalletBalance()))
+                  if (getPrefManager().getCountry().equals("US") &&isValid(NetworkService.mCurrentUser.getWalletBalance()))
                 {
-                    TextView_walletBalence.setText("$ "+NetworkService.mCurrentUser.getWalletBalance()+"");
+
+                    if (NetworkService.mCurrentUser.getWalletBalance()!=0)
+                    {
+                        TextView_walletBalence.setText("$ "+NetworkService.mCurrentUser.getWalletBalance()+"");
+                        wallet_card.setVisibility(View.VISIBLE);
+                    }
+
                 }
 
             }

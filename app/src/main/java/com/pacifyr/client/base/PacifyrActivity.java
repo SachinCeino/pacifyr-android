@@ -4973,8 +4973,12 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
 
             if (isValid(NetworkService.mCurrentUser))
             {
-                text_wallet_balance.setVisibility(View.VISIBLE);
-                text_wallet_balance.setText("Your available credit is $ "+NetworkService.mCurrentUser.getWalletBalance()+"");
+                if (NetworkService.mCurrentUser.getWalletBalance()!=0)
+                {
+                    text_wallet_balance.setVisibility(View.VISIBLE);
+                    text_wallet_balance.setText("Your available credit is $ "+NetworkService.mCurrentUser.getWalletBalance()+"");
+                }
+
             }
 
         }
