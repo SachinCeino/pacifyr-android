@@ -160,7 +160,7 @@
             <com.pacifyr.client.customview.MainTextView
                 android:layout_width="wrap_content"
                 android:id="@+id/TextView_audio_freeminuts_remine"
-                android:textSize="@dimen/sp12"
+                android:textSize="@dimen/sp14"
                 android:singleLine="true"
                 android:layout_marginTop="5dp"
                 android:layout_centerVertical="true"
@@ -289,7 +289,7 @@
                     android:id="@+id/TextView_vidio_freeminuts_remine"
                     android:visibility="gone"
                     android:layout_below="@+id/chronometer_timer_video_call"
-                    android:textSize="@dimen/sp12"
+                    android:textSize="@dimen/sp14"
                     android:singleLine="true"
                     android:layout_marginTop="5dp"
                     android:layout_centerVertical="true"
