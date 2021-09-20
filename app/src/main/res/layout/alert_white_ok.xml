@@ -25,7 +25,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/title_dtxv"
-        android:maxLines="5"
         android:visibility="visible"
         android:layout_margin="10dp"
         android:padding="10dp"

@@ -111,6 +111,7 @@ public class AlertAddCreditCardActivity extends PacifyrAppCompactActivity {
 
 						setStatus("Successfully added your card", R.color.md_green_400);
 						showStatus();
+						saveCardExist(true);
 						final Handler handler = new Handler();
 						handler.postDelayed(new Runnable() {
 							@Override
