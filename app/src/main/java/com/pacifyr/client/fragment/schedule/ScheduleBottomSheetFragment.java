@@ -1799,7 +1799,7 @@ Log.w("WWW","onCreate");
                                                 confirmLayout.setVisibility(GONE);
                                                 txtv_next.setText("Done");
                                                 txtv_back.setVisibility(GONE);
-                                                confirmationMessageText.setText("Your request for an appointment with "+pacifyer_obj.getFirstName() + ""
+                                                confirmationMessageText.setText("Your request for an appointment with "+pacifyer_obj.getFirstName() + " "
                                                         + pacifyer_obj.getLastName()+" " +
                                                         "has been submitted and you will be " +
                                                         "notified once the time slot is confirmed.");
@@ -1898,7 +1898,7 @@ Log.w("WWW","onCreate");
                 confirmLayout.setVisibility(GONE);
                 txtv_next.setText("Done");
                 txtv_back.setVisibility(GONE);
-                confirmationMessageText.setText("Your request for an appointment with " + pacifyer_obj.getFirstName() + ""
+                confirmationMessageText.setText("Your request for an appointment with " + pacifyer_obj.getFirstName() + " "
                         + pacifyer_obj.getLastName() + " " +
                         "has been submitted and you will be " +
                         "notified once the time slot is confirmed.");
