@@ -477,7 +477,7 @@ public class SwipeDeckBrowsePacifyerAdapter extends BaseAdapter {
             } else {
                 chat_price_ctxv.setVisibility(View.GONE);
                 MainTextView connectCtxv = v.findViewById(R.id.connect_pacifyr_ctxv);
-                connectCtxv.setText("Connect to " + searchResults.get(position).getFirstName() + " " + searchResults.get(position).getLastName());
+                connectCtxv.setText("Connect to " + searchResults.get(position).getFirstName() + "");
                 connectCtxv.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
