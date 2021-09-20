@@ -376,6 +376,7 @@ public class AppointmentDetailsActivity extends PacifyrActivity {
                         }
                     }
 
+                    TextView_Notes.setMovementMethod(new ScrollingMovementMethod());
 
                             if (mObject.getStatus().equals("pending"))
                             {

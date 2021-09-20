@@ -3,6 +3,7 @@ package com.pacifyr.client.adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,6 +21,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.pacifyr.client.R;
+import com.pacifyr.client.activity.AppointmentDetailsActivity;
 import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.fragment.schedule.AppointmentModel;
 import com.pacifyr.client.network.NetworkService;
@@ -237,6 +239,17 @@ public class AppointmentsCancelRejecListAdapter extends RecyclerView.Adapter<Rec
                 }
             });
 
+
+
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    Intent intent=new Intent(mContext, AppointmentDetailsActivity.class);
+                    intent.putExtra("object",mObject);
+                    mContext.startActivity(intent);
+                }
+            });
         }
 
     }
