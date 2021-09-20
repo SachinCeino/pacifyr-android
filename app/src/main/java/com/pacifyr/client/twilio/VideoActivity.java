@@ -836,23 +836,41 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
 
                                 if (isValid(mPrescriptionList.getResults().get(0)) && isValid(mPrescriptionList.getResults().get(0).getText()))
                                 {
-                                   /* if (mPrescriptionList.getResults().get(0).getSessionId().equals(SessionId))
-                                    {*/
-                                        String mPrescriptionFile=mPrescriptionList.getResults().get(0).getText();
-                                        if(isValid(mPrescriptionFile))
-                                        {
-                                        showPrescriptionFragment(mPrescriptionFile);
+                                    if (isValid(timeSlotBookingId))
+                                    {
+                                        if (mPrescriptionList.getResults().get(0).getTimeSlotBookingId().equals(timeSlotBookingId)) {
+                                            String mPrescriptionFile = mPrescriptionList.getResults().get(0).getText();
+                                            if (isValid(mPrescriptionFile)) {
+                                                showPrescriptionFragment(mPrescriptionFile);
 
+                                            } else {
+                                                Toast.makeText(getApplicationContext(), getResources().getString(R.string.no_prescription), Toast.LENGTH_SHORT).show();
+                                            }
+
+                                        }
+                                        else {
+                                            Toast.makeText(getApplicationContext(), getResources().getString(R.string.no_prescription), Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                    else {
+                                        if (mPrescriptionList.getResults().get(0).getSessionId().equals(SessionId))
+                                        {
+                                            String mPrescriptionFile=mPrescriptionList.getResults().get(0).getText();
+                                            if(isValid(mPrescriptionFile))
+                                            {
+                                                showPrescriptionFragment(mPrescriptionFile);
+
+                                            }
+                                            else
+                                            {
+                                                Toast.makeText(getApplicationContext(), getResources().getString(R.string.no_prescription), Toast.LENGTH_SHORT).show();
+                                            }
                                         }
                                         else
                                         {
                                             Toast.makeText(getApplicationContext(), getResources().getString(R.string.no_prescription), Toast.LENGTH_SHORT).show();
                                         }
-                                  /*  }
-                                    else
-                                    {
-                                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.no_prescription), Toast.LENGTH_SHORT).show();
-                                    }*/
+                                    }
                                 }
                                 else
                                 {
