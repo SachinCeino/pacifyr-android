@@ -157,7 +157,7 @@ public class RegisterVerifyActivity extends PacifyrActivity {
 
                                         } else if (stat.equals("error")) {
 
-                                            Toast.makeText(RegisterVerifyActivity.this, "Mobile number not registered", Toast.LENGTH_LONG).show();
+                                           // Toast.makeText(RegisterVerifyActivity.this, "Mobile number not registered", Toast.LENGTH_LONG).show();
 
                                             new Handler().postDelayed(new Runnable() {
                                                 @Override
@@ -325,7 +325,7 @@ public class RegisterVerifyActivity extends PacifyrActivity {
 
                                             } else if (stat.equals("error")) {
 
-                                                Toast.makeText(RegisterVerifyActivity.this, "Mobile number not registered", Toast.LENGTH_LONG).show();
+                                                //Toast.makeText(RegisterVerifyActivity.this, "Mobile number not registered", Toast.LENGTH_LONG).show();
 
                                                 Intent intent = new Intent(RegisterVerifyActivity.this, RegisterActivity.class);
                                                 startActivity(intent);
