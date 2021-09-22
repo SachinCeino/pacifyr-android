@@ -297,6 +297,11 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
     }
     private RingtonePlayer ringtonePlayer;
     private boolean sessionDeclainedByProvider = false;
+
+    boolean is5MinutsPopupShown=false;
+    boolean is10MinutsPopupShown=false;
+    boolean isExpirePopupShown=false;
+
     private final BroadcastReceiver eventReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -304,9 +309,8 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
             String type = intent.getStringExtra("type");
             Log.d("receiver", "Got message: " + type);
             if (type != null && type.equals("billing")) {
-                billingStatus.setVisibility(View.VISIBLE);
                 setBillingStarted(true);
-
+                billingStatus.setVisibility(View.VISIBLE);
                 if (!isEmplyeeDonePaymentWithFreeMinuts) {
                     if (isValid(empMinutesListener))
                         setEmpMinutesListener(empMinutesListener);
@@ -371,6 +375,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                             }
                         }
                         if (minutesLeft <= 0 && !freeMinuteAlert0) {
+                            freeMinuteAlert0 = true;
                             if (empMinutesListener != null) {
                                 empMinutesListener.expired();
                                 countDownTimer.cancel();
@@ -378,47 +383,31 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
 
                             TextView_vidio_freeminuts_remine.setVisibility(View.GONE);
                             TextView_audio_freeminuts_remine.setVisibility(View.GONE);
-                            if (getCallPacifyr() != null &&!isCardExist()) {
-                                new NetworkService().sendCardAddedNotification(getCallPacifyr().getId(), FREE_MINUTES_OVER, new AjaxCallback<JSONObject>() {
-                                    @Override
-                                    public void callback(String url, JSONObject json, AjaxStatus status) {
-                                        if (json != null) {
-                                            freeMinuteAlert0 = true;
-                                        }
-                                    }
-                                });
-                            }
+
                         } else if (minutesLeft <= 5 && !freeMinuteAlert5) {
+                            freeMinuteAlert5 = true;
                             if (empMinutesListener != null) {
                                 empMinutesListener.onMinutesLeft(minutesLeft);
                             }
-                            if (getCallPacifyr() != null &&!isCardExist()) {
-                                new NetworkService().sendCardAddedNotification(getCallPacifyr().getId(), FREE_MINUTES_5, new AjaxCallback<JSONObject>() {
-                                    @Override
-                                    public void callback(String url, JSONObject json, AjaxStatus status) {
-                                        if (json != null) {
-                                            freeMinuteAlert5 = true;
-                                        }
-                                    }
-                                });
-                            }
+
                         } else if (minutesLeft <= 10 && !freeMinuteAlert10) {
+                            freeMinuteAlert10 = true;
                             if (empMinutesListener != null) {
                                 empMinutesListener.onMinutesLeft(minutesLeft);
                             }
-                            if (initial_time>=10) {
+                            /*if (initial_time>=10) {
                                 if (getCallPacifyr() != null && !isCardExist()) {
                                     new NetworkService().sendCardAddedNotification(getCallPacifyr().getId(), FREE_MINUTES_10, new AjaxCallback<JSONObject>() {
                                         @Override
                                         public void callback(String url, JSONObject json, AjaxStatus status) {
                                             if (json != null) {
-                                                freeMinuteAlert10 = true;
+
                                             }
 
                                         }
                                     });
                                 }
-                            }
+                            }*/
                         } else {
                             Log.d(TAG, minutesLeft + " minutes left");
 
@@ -1203,6 +1192,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
 
         }
         isScreenActive=true;
+        EventBus.getDefault().post(Constants.CLOSECHILDACTIIVTY);
     }
 
     private EncodingParameters getEncodingParameters() {
@@ -1821,30 +1811,61 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                 @Override
                 public void onMinutesLeft(long minutes) {
 
-                    if (minutes == 5 || minutes==10) {
+                    if (minutes <= 5 || minutes==10) {
+
+
+                        if (getCallPacifyr() != null &&!isCardExist()) {
+                            if (freeMinuteAlert5){
+                                if (is5MinutsPopupShown)
+                                    return;
+                                is5MinutsPopupShown=true;
+                                new NetworkService().sendCardAddedNotification(getCallPacifyr().getId(), FREE_MINUTES_5, new AjaxCallback<JSONObject>() {
+                                    @Override
+                                    public void callback(String url, JSONObject json, AjaxStatus status) {
+                                        if (json != null) {
+
+                                        }
+                                    }
+                                });
+                            }
+
+                            else if (freeMinuteAlert10){
+                                if (is10MinutsPopupShown)
+                                    return;
+                                is10MinutsPopupShown=true;
+                                new NetworkService().sendCardAddedNotification(getCallPacifyr().getId(), FREE_MINUTES_10, new AjaxCallback<JSONObject>() {
+                                    @Override
+                                    public void callback(String url, JSONObject json, AjaxStatus status) {
+                                        if (json != null) {
+
+                                        }
+                                    }
+                                });
+                            }
+
+                        }
+
                         if (getPrefManager().getCountry().equalsIgnoreCase("US") ) {
 
                             if (!isCardExist()) {
                                 Log.w("", String.valueOf(isCardExist()));
-                                setAlertStatusInBlue2("Warning", "Your monthly free sessions is expiring soon. Please enter your Credit Card to continue service.", "Add Card", "Cancel",
-                                        new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View view) {
-                                                hideProgress();
-                                                hideStatus2();
-                                                Intent intent = new Intent(VideoActivity.this,
-                                                        AlertAddCreditCardActivity.class);
-                                                startActivityForResult(intent, REQUEST_CODE_STRIPE_CARD);
 
-                                            }
-                                        }, new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View v) {
-                                                hideProgress();
-                                                hideStatus2();
-                                                //ShowTransactionFaileToUSer("Add payment cancelled");
-                                            }
-                                        });
+                                showIOSDialogOKCancel("Warning", "Your monthly free sessions is expiring soon. Please enter your payment to continue service.","Add Card", new iOSDialogClickListener() {
+                                    @Override
+                                    public void onClick(iOSDialog dialog) {
+                                        dialog.dismiss();
+
+                                    }
+                                }, new iOSDialogClickListener() {
+                                    @Override
+                                    public void onClick(iOSDialog dialog) {
+                                        dialog.dismiss();
+                                        Intent intent = new Intent(VideoActivity.this,
+                                                AlertAddCreditCardActivity.class);
+                                        startActivityForResult(intent, REQUEST_CODE_STRIPE_CARD);
+                                    }
+                                });
+
                                 makeAbeepSoundWhileShowingPopUp();
                             }
                         } else {
@@ -1854,19 +1875,15 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                                     dialog.dismiss();
 
 
-                                  /* new NetworkService().sendPaymentFailedDueToSomeReasons(CallActivity.mSessionDetailRoot.getPacifyr().getId(), "paymentFailure", "Transaction cancelled", new AjaxCallback<JSONObject>() {
+                                   new NetworkService().sendPaymentFailedDueToSomeReasons(CallActivity.mSessionDetailRoot.getPacifyr().getId(), "paymentFailure", "Transaction cancelled", new AjaxCallback<JSONObject>() {
                                        @Override
                                        public void callback(String url, JSONObject json, AjaxStatus status) {
-                                           *//*
-                                     *this must be the first line of any httpCallBacks
-                                     *//*
                                            Auth.httpStatusFilter(getApplicationContext(), status.getCode());
                                            if (json != null) {
                                                Log.w("@@@", "sendCardAddedNotificationFail messages" + json.toString());
                                            }
                                        }
                                    });
-*/
                                     Bundle args =
                                             FirebaseLogging.getConstantArgsLoggedIn(VideoActivity.this);
                                     args.putString(FirebaseLogging.EC, "Payment setup cancelled");
@@ -1915,29 +1932,19 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                 @Override
                 public void expired() {
                     try {
-                        Toast.makeText(VideoActivity.this, "expired", Toast.LENGTH_LONG).show();
+                       // Toast.makeText(VideoActivity.this, "expired", Toast.LENGTH_LONG).show();
+                        if (isExpirePopupShown)
+                            return;
+                        isExpirePopupShown=true;
                         if (getPrefManager().getCountry().equalsIgnoreCase("US")) {
 
                             if (!isCardExist())
                             {
-                                setAlertPacifyrWillJoinShortly("", "Your monthly free sessions has expired.", "Ok", new View.OnClickListener() {
+                                showIOSDialogOK("", getString(R.string.your_monthly_session_expired), getString(R.string.dlg_ok), false, new iOSDialogClickListener() {
                                     @Override
-                                    public void onClick(View view) {
-
+                                    public void onClick(iOSDialog dialog) {
+                                        dialog.dismiss();
                                         button_hangup_call.performClick();
-                                        new Handler().postDelayed(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                runOnUiThread(new Runnable() {
-                                                    @Override
-                                                    public void run() {
-                                                        hideStatus();
-                                                        hideProgress();
-                                                    }
-                                                });
-                                            }
-                                        }, 3000);
-
                                     }
                                 });
 
@@ -1953,19 +1960,42 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                                 }
                             }
                             else {
-                                setAlertPacifyrWillJoinShortly("", getResources().getString(R.string.you_have_finished_free_minuts), "Ok", new View.OnClickListener() {
+
+                                showIOSDialogOK("", getString(R.string.you_have_finished_free_minuts), getString(R.string.dlg_ok), false, new iOSDialogClickListener() {
                                     @Override
-                                    public void onClick(View view) {
-                                        hideStatus();
-                                        hideProgress();
+                                    public void onClick(iOSDialog dialog) {
+                                        dialog.dismiss();
+
                                     }
                                 });
+
                             }
 
 
                             makeAbeepSoundWhileShowingPopUp();
                         } else {
-                            showIOSDialogOKCancel("Warning", "Your monthly free sessions has expired. Please enter your payment to continue.", Utility.getPaymentLabel(VideoActivity.this, getPrefManager().getCountry()), new iOSDialogClickListener() {
+
+                            makeAbeepSoundWhileShowingPopUp();
+                            showIOSDialogOK("", getString(R.string.your_monthly_session_expired), getString(R.string.dlg_ok), false, new iOSDialogClickListener() {
+                                @Override
+                                public void onClick(iOSDialog dialog) {
+                                    dialog.dismiss();
+                                    button_hangup_call.performClick();
+                                }
+                            });
+                            if (getCallPacifyr() != null &&!isCardExist()) {
+
+                                new NetworkService().sendCardAddedNotification(getCallPacifyr().getId(), FREE_MINUTES_OVER, new AjaxCallback<JSONObject>() {
+                                    @Override
+                                    public void callback(String url, JSONObject json, AjaxStatus status) {
+                                        if (json != null) {
+
+                                        }
+                                    }
+                                });
+                            }
+
+                           /* showIOSDialogOKCancel("Warning", "Your monthly free sessions has expired. Please enter your payment to continue.", Utility.getPaymentLabel(VideoActivity.this, getPrefManager().getCountry()), new iOSDialogClickListener() {
                                 @Override
                                 public void onClick(iOSDialog dialog) {
                                     dialog.dismiss();
@@ -1993,8 +2023,8 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                                     }
 
                                 }
-                            });
-                            makeAbeepSoundWhileShowingPopUp();
+                            });*/
+
                         }
 
                     } catch (Exception e) {
