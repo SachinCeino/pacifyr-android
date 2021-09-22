@@ -257,6 +257,7 @@ public class AppointmentsPastFragment extends BaseFragment {
         mRecyclerViewAppointments = root.findViewById(R.id.mRecyclerViewAppointments);
         swiperefresh = root.findViewById(R.id.swiperefresh);
         emptyLayout=root.findViewById(R.id.emptyLayout);
+        emptyLayout.setText(getResources().getString(R.string.no_appointments_in_past));
         getAppointmentsList();
         return root;
     }

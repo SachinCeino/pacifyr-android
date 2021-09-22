@@ -656,6 +656,10 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="past">Past</string>
     <string name="rejected_cancelled">Rejected/Cancelled</string>
     <string name="you_have_finished_free_minuts">You have finished your free sessions for this month. Your credit card will be charged based on the provider\'s bill rate per minute. You will start getting your free sessions from 1st of next month.</string>
+    <string name="your_monthly_session_expired">Your monthly free sessions has expired.</string>
+    <string name="no_appointments_in_upconmming">You currently have no upcoming appointments.</string>
+    <string name="no_appointments_in_reject_cancell">You currently have no rejected/cancelled appointments.</string>
+    <string name="no_appointments_in_past">You currently have no past appointments.</string>
 
 
 </resources>

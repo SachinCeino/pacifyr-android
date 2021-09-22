@@ -151,6 +151,7 @@ public class AppointmentsRejOrCancelledFragment extends BaseFragment {
         mRecyclerViewAppointments = root.findViewById(R.id.mRecyclerViewAppointments);
         swiperefresh = root.findViewById(R.id.swiperefresh);
         emptyLayout=root.findViewById(R.id.emptyLayout);
+        emptyLayout.setText(getResources().getString(R.string.no_appointments_in_reject_cancell));
         getAppointmentsList();
         return root;
     }
