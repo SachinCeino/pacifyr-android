@@ -89,6 +89,7 @@ import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.event.TwilioCallEvent;
 import com.pacifyr.client.fragment.AppointmentsTabViewFragment;
 import com.pacifyr.client.fragment.UserDashboardFragment;
+import com.pacifyr.client.fragment.schedule.AppointmentModel;
 import com.pacifyr.client.home.DashboardActivity;
 import com.pacifyr.client.home.MyDialogFragment;
 import com.pacifyr.client.home.PaymentActivity;
@@ -1948,18 +1949,11 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
        // check Allready Provider Is In AppointmentCall or not
         if(!pacifyerDetial.getCurrentlyAvailable()) {
 
-                showIOSDialogOK("", getString(R.string.provider_is_in_insession_), getString(R.string.dlg_ok), false, new iOSDialogClickListener() {
-                    @Override
-                    public void onClick(iOSDialog dialog) {
-                        dialog.dismiss();
+             checkAppointMentIsthere(pacifyerDetial.getId());
 
-                    }
-                });
-
-                return;
         }
-
-        try {
+        else {
+                    try {
             //only for leaders up
             // EmotionSpecialityAdapter.reason_forcall= UserDashboardFragment.LeadersUpReasonFortheCall;
             PostRegisterModel postRegisterModel=null;
@@ -2030,6 +2024,86 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
         } catch (Exception ex) {
             hideProgress();
             LogUtils.LOGD("session", "PA updateProfileWeb exce " + ex.getMessage());
+        }
+
+        }
+
+    }
+
+    private void checkAppointMentIsthere(String id) {
+
+        try {
+            setLoading();
+
+
+            String url = GLOBAL_URL + "schedule/user/" + getPrefManager().getUserID() + "/bookings/upcoming";
+
+            AjaxCallback cb = new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject json, AjaxStatus status) {
+
+                    try {
+//                        hideProgress();
+                        hideStatus();
+
+                        boolean isavailable=false;
+                        if (isValid(json))
+                        {
+                            AppointmentModel mAppointmentModel = GsonUtils.getInstance().gsonToAppointmentModel(json);
+                            if (isValid(mAppointmentModel) && isValid(mAppointmentModel.getResults()))
+                            {
+                                for (int i=0;i<mAppointmentModel.getResults().size();i++)
+                                {
+                                    if (mAppointmentModel.getResults().get(i).getPacifyr().getId().equals(id))
+                                    {
+                                        isavailable=true;
+
+                                    }
+
+                                }
+                            }
+
+                        }
+
+                        if (isavailable)
+                        {
+                            showIOSDialogOK("", getString(R.string.provider_is_in_insession_same_client_apppointment), getString(R.string.dlg_ok), false, new iOSDialogClickListener() {
+                                            @Override
+                                            public void onClick(iOSDialog dialog) {
+                                                dialog.dismiss();
+                                                DashboardActivity.start(PacifyrActivity.this,true);
+                                            }
+                                        });
+                                        return;
+                        }
+                        else {
+                                    showIOSDialogOK("", getString(R.string.provider_is_in_insession_), getString(R.string.dlg_ok), false, new iOSDialogClickListener() {
+                                    @Override
+                                    public void onClick(iOSDialog dialog) {
+                                        dialog.dismiss();
+
+                                    }
+                                });
+                                return;
+                        }
+
+
+
+
+                    } catch (Exception e) {
+
+                        hideProgress();
+                        e.printStackTrace();
+                    }
+                }
+            };
+            AQuery aq = new AQuery(PacifyrActivity.this);
+            cb.header("Content-Type", "application/json");
+            cb.header("AccessToken", getPrefManager().getAccessToken());
+            aq.ajax(url, JSONObject.class, cb);
+        } catch (Exception ex) {
+            hideProgress();
+            ex.printStackTrace();
         }
     }
 
