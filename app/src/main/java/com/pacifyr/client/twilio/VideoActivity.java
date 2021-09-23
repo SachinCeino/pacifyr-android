@@ -2062,7 +2062,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
         try {
             LogUtils.LOGD("jithish", "HA  rq " + requestCode);
             //LogUtils.LOGD("jithish", "HA rvc" + CameraFragment.  REQUEST_VIDEO_CAPTURE);
-            if (resultCode != 0) {
+
                 if(requestCode == REQUEST_CODE_STRIPE_CARD) {
 
                     if (resultCode==RESULT_OK)
@@ -2071,8 +2071,12 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                         isEmplyeeDonePaymentWithFreeMinuts=true;
                         ShowTransactionSuccesResultToUSer(getResources().getString(R.string.successfully_done_payment));
                     }
+                    else if (resultCode==RESULT_CANCELED)
+                    {
+                        ShowTransactionFaileToUSer("Add payment failed");
+                    }
                 }
-            }
+
 
 
 
