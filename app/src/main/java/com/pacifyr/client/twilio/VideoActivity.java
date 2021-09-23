@@ -1811,6 +1811,9 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                 @Override
                 public void onMinutesLeft(long minutes) {
 
+                    if (isValid(timeSlotBookingId))
+                        return;
+
                     if (minutes <= 5 || minutes==10) {
 
 
@@ -1932,7 +1935,8 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                 @Override
                 public void expired() {
                     try {
-                       // Toast.makeText(VideoActivity.this, "expired", Toast.LENGTH_LONG).show();
+                        if (isValid(timeSlotBookingId))
+                            return;
                         if (isExpirePopupShown)
                             return;
                         isExpirePopupShown=true;
