@@ -366,12 +366,18 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                             if (isVideoCall)
                             {
                                 TextView_vidio_freeminuts_remine.setVisibility(View.VISIBLE);
-                                TextView_vidio_freeminuts_remine.setText("Wallet balance: "+minutesLeft+" minutes");
+                                if (getPrefManager().getCountry().equals("US"))
+                                    TextView_vidio_freeminuts_remine.setText("Wallet balance: "+minutesLeft+" minutes");
+                                else
+                                    TextView_vidio_freeminuts_remine.setText("Free minutes: "+minutesLeft+" minutes");
                             }
                             else
                             {
                                 TextView_audio_freeminuts_remine.setVisibility(View.VISIBLE);
-                                TextView_audio_freeminuts_remine.setText("Wallet balance: "+minutesLeft+" minutes");
+                                if (getPrefManager().getCountry().equals("US"))
+                                    TextView_audio_freeminuts_remine.setText("Wallet balance: "+minutesLeft+" minutes");
+                                else
+                                    TextView_audio_freeminuts_remine.setText("Free minutes: "+minutesLeft+" minutes");
                             }
                         }
                         if (minutesLeft <= 0 && !freeMinuteAlert0) {

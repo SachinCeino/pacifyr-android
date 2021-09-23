@@ -184,6 +184,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import static com.pacifyr.client.Payment.AlertAddCreditCardActivity.REQUEST_CODE_STRIPE_CARD;
 import static com.pacifyr.client.network.NetworkService.mCurrentUser;
 import static com.pacifyr.client.network.NetworkService.modelAllEmotions;
+import static com.pacifyr.client.network.NetworkService.modelCustomerDashboard2;
 import static com.pacifyr.client.twilio.VideoActivity.isCallActive;
 import static com.pacifyr.client.utils.Constants.getCountryChecks;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_IMAGE_URL;
@@ -1943,6 +1944,21 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
 
 
     private void updateProfileStartCallWeb( final MUser pacifyerDetial, final boolean isVideoCall) {
+
+       // check Allready Provider Is In AppointmentCall or not
+        if(!pacifyerDetial.getCurrentlyAvailable()) {
+
+                showIOSDialogOK("", getString(R.string.provider_is_in_insession_), getString(R.string.dlg_ok), false, new iOSDialogClickListener() {
+                    @Override
+                    public void onClick(iOSDialog dialog) {
+                        dialog.dismiss();
+
+                    }
+                });
+
+                return;
+        }
+
         try {
             //only for leaders up
             // EmotionSpecialityAdapter.reason_forcall= UserDashboardFragment.LeadersUpReasonFortheCall;
