@@ -1832,7 +1832,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                                     @Override
                                     public void callback(String url, JSONObject json, AjaxStatus status) {
                                         if (json != null) {
-
+                                            //Toast.makeText(VideoActivity.this, "FREE_MINUTES_5", Toast.LENGTH_SHORT).show();
                                         }
                                     }
                                 });
@@ -1846,7 +1846,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                                     @Override
                                     public void callback(String url, JSONObject json, AjaxStatus status) {
                                         if (json != null) {
-
+                                           // Toast.makeText(VideoActivity.this, "FREE_MINUTES_10", Toast.LENGTH_SHORT).show();
                                         }
                                     }
                                 });
@@ -1964,6 +1964,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                                         public void callback(String url, JSONObject json, AjaxStatus status) {
                                             if (json != null) {
                                                 freeMinuteAlert0 = true;
+                                               // Toast.makeText(VideoActivity.this, "FREE_MINUTES_OVER", Toast.LENGTH_SHORT).show();
                                             }
                                         }
                                     });
@@ -1999,7 +2000,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                                     @Override
                                     public void callback(String url, JSONObject json, AjaxStatus status) {
                                         if (json != null) {
-
+                                            //Toast.makeText(VideoActivity.this, "FREE_MINUTES_OVER", Toast.LENGTH_SHORT).show();
                                         }
                                     }
                                 });
