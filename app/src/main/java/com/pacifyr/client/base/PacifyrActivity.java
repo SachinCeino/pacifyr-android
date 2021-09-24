@@ -2030,7 +2030,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
 
     }
 
-    private void checkAppointMentIsthere(String id) {
+    public void checkAppointMentIsthere(String id) {
 
         try {
             setLoading();

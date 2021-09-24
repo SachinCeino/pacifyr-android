@@ -263,13 +263,15 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
 
                             if (!reason.equals(""))
                             {
-                                showIOSDialogOKCancel("", mpacifyerDetial.getFirstName()+ " is currently "+reason+". You can either chat with "+mpacifyerDetial.getFirstName()+" or try again later.", "Chat", new iOSDialogClickListener() {
-                                    @Override
-                                    public void onClick(iOSDialog dialog) {
-                                        dialog.dismiss();
-                                        startChat(mpacifyerDetial);
-                                    }
-                                }, "Ok");
+                                checkAppointMentIsthere(mpacifyerDetial.getId());
+                               /* showIOSDialogOKCancel("", mpacifyerDetial.getFirstName()+ " is currently "+reason+". You can either chat with "+mpacifyerDetial.getFirstName()+" or try again later.", "Chat", new iOSDialogClickListener() {
+                                        @Override
+                                        public void onClick(iOSDialog dialog) {
+                                            dialog.dismiss();
+                                            startChat(mpacifyerDetial);
+                                        }
+                                    }, "Ok");*/
+
                             }
 
 
@@ -334,13 +336,14 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
                             }
                             if (!reason.equals(""))
                             {
-                                showIOSDialogOKCancel("", mpacifyerDetial.getFirstName()+ " is currently "+reason+". You can either chat with "+mpacifyerDetial.getFirstName()+" or try again later.", "Chat", new iOSDialogClickListener() {
+                                checkAppointMentIsthere(mpacifyerDetial.getId());
+                               /* showIOSDialogOKCancel("", mpacifyerDetial.getFirstName()+ " is currently "+reason+". You can either chat with "+mpacifyerDetial.getFirstName()+" or try again later.", "Chat", new iOSDialogClickListener() {
                                         @Override
                                         public void onClick(iOSDialog dialog) {
                                             dialog.dismiss();
                                             startChat(mpacifyerDetial);
                                         }
-                                    }, "Ok");
+                                    }, "Ok");*/
 
                             }
 

@@ -661,7 +661,7 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="no_appointments_in_reject_cancell">You currently have no rejected/cancelled appointments.</string>
     <string name="no_appointments_in_past">You currently have no past appointments.</string>
     <string name="provider_is_in_insession_">The provider is currently in a session with another client</string>
-    <string name="provider_is_in_insession_same_client_apppointment">You have an appointment call to this counselor now. So please initiate scheduled call.</string>
+    <string name="provider_is_in_insession_same_client_apppointment">You have an appointment call with this counselor now. So please initiate scheduled call.</string>
 
 
 </resources>
