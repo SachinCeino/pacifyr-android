@@ -539,7 +539,7 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<RecyclerView.V
 
         title.setText("Previsit notes");
         message_edt.setText(preVisitNote.toString());
-        message_edt.setMovementMethod(new ScrollingMovementMethod());
+        //message_edt.setMovementMethod(new ScrollingMovementMethod());
         AlertDialog.Builder alert = new AlertDialog.Builder(mContext);
         alert.setView(myView);
         // disallow cancel of AlertDialog on click of back button and outside touch
@@ -571,7 +571,7 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<RecyclerView.V
         }
         title.setText("Notes");
         message_edt.setText(stringBuffer);
-        message_edt.setMovementMethod(new ScrollingMovementMethod());
+        //message_edt.setMovementMethod(new ScrollingMovementMethod());
         AlertDialog.Builder alert = new AlertDialog.Builder(mContext);
         alert.setView(myView);
         // disallow cancel of AlertDialog on click of back button and outside touch
@@ -593,7 +593,7 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<RecyclerView.V
         final LinearLayout close_layout = myView.findViewById(R.id.close_layout);
         title.setText(mContext.getResources().getString(R.string.cancelled_reason));
         message_edt.setText(preVisitNote.toString());
-        message_edt.setMovementMethod(new ScrollingMovementMethod());
+        //message_edt.setMovementMethod(new ScrollingMovementMethod());
         AlertDialog.Builder alert = new AlertDialog.Builder(mContext);
         alert.setView(myView);
         // disallow cancel of AlertDialog on click of back button and outside touch
@@ -615,7 +615,7 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<RecyclerView.V
         final LinearLayout close_layout = myView.findViewById(R.id.close_layout);
         title.setText("Visit notes");
         message_edt.setText(notes.toString());
-        message_edt.setMovementMethod(new ScrollingMovementMethod());
+       // message_edt.setMovementMethod(new ScrollingMovementMethod());
         AlertDialog.Builder alert = new AlertDialog.Builder(mContext);
         alert.setView(myView);
         // disallow cancel of AlertDialog on click of back button and outside touch
@@ -638,7 +638,7 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<RecyclerView.V
         final LinearLayout close_layout = myView.findViewById(R.id.close_layout);
         title.setText(mContext.getResources().getString(R.string.reason_for_rejection));
         message_edt.setText(rejectReason.toString());
-        message_edt.setMovementMethod(new ScrollingMovementMethod());
+        //message_edt.setMovementMethod(new ScrollingMovementMethod());
         AlertDialog.Builder alert = new AlertDialog.Builder(mContext);
         alert.setView(myView);
         // disallow cancel of AlertDialog on click of back button and outside touch
