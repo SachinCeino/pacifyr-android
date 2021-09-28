@@ -170,6 +170,14 @@ public class AppointmentsCancelRejecListAdapter extends RecyclerView.Adapter<Rec
                             holder.TextView_cancelled.setVisibility(View.GONE);
                         }
 
+                        if (mObject.getStatusText().toString().equals(mContext.getResources().getString(R.string.client_cancelled_the_appointment)))
+                        {
+                            holder.TextView_cancelled.setText(" ");
+                            holder.mTextView_auto_cancel_status.setText(mContext.getResources().getString(R.string.client_cancelled_the_appointment));
+                            holder.mTextView_auto_cancel_status.setVisibility(View.VISIBLE);
+                            holder.TextView_cancelled.setVisibility(View.GONE);
+                        }
+
                     }
 
                     if (isValid(mObject.getRejected()) && mObject.getRejected())
