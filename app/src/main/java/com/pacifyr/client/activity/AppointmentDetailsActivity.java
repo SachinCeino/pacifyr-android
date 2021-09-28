@@ -319,6 +319,8 @@ public class AppointmentDetailsActivity extends PacifyrActivity {
 
                                 if (isValid(mObject.getCancelReason()))
                                     TextView_Notes.setText(mObject.getCancelReason().toString());
+                                else if (isValid(mObject.getStatusText()))
+                                    TextView_Notes.setText(mObject.getStatusText().toString());
                             }
                         }
 

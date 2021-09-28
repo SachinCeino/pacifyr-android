@@ -161,13 +161,13 @@ public class AppointmentsCancelRejecListAdapter extends RecyclerView.Adapter<Rec
                             holder.TextView_cancelled.setText(" ");
                             holder.mTextView_auto_cancel_status.setText(mContext.getResources().getString(R.string.cancelled_provider_message));
                             holder.mTextView_auto_cancel_status.setVisibility(View.VISIBLE);
-                            holder.TextView_cancelled.setVisibility(View.VISIBLE);                        }
+                            holder.TextView_cancelled.setVisibility(View.GONE);                }
                         if (mObject.getStatusText().toString().equals(mContext.getResources().getString(R.string.cancelled_provider_not_respond_two)))
                         {
                             holder.TextView_cancelled.setText(" ");
                             holder.mTextView_auto_cancel_status.setText(mContext.getResources().getString(R.string.cancelled_provider_message_two));
                             holder.mTextView_auto_cancel_status.setVisibility(View.VISIBLE);
-                            holder.TextView_cancelled.setVisibility(View.VISIBLE);
+                            holder.TextView_cancelled.setVisibility(View.GONE);
                         }
 
                     }
@@ -248,6 +248,41 @@ public class AppointmentsCancelRejecListAdapter extends RecyclerView.Adapter<Rec
                     Intent intent=new Intent(mContext, AppointmentDetailsActivity.class);
                     intent.putExtra("object",mObject);
                     mContext.startActivity(intent);
+                }
+            });
+
+
+            holder.mTextView_auto_cancel_status.setOnTouchListener(new View.OnTouchListener() {
+                @SuppressLint("ClickableViewAccessibility")
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    if (event.getAction() == MotionEvent.ACTION_UP) {
+                        int[] textLocation = new int[2];
+                        holder.mTextView_auto_cancel_status.getLocationOnScreen(textLocation);
+
+                        if (event.getRawX() <=  textLocation[0] + holder.mTextView_auto_cancel_status.getTotalPaddingLeft()) {
+                            if (isValid(mObject.getCancelReason())){
+                                showCancelledNotPopUp(mObject.getCancelReason());}
+                            else {
+                                if (mObject.getStatusText().toString().equals(mContext.getResources().getString(R.string.cancelled_provider_not_respond)))
+                                {
+                                    showCancelledNotPopUp(mContext.getResources().getString(R.string.cancelled_provider_message));
+                                }
+                                else if (mObject.getStatusText().toString().equals(mContext.getResources().getString(R.string.cancelled_provider_not_respond_two)))
+                                {
+                                    showCancelledNotPopUp(mContext.getResources().getString(R.string.cancelled_provider_message_two));
+                                }
+                                else
+                                {
+                                    showCancelledNotPopUp(mContext.getResources().getString(R.string.Cancelled_since_you_did_not_call_the_provider));
+                                }
+
+                            }
+                            return true;
+                        }
+
+                    }
+                    return true;
                 }
             });
         }

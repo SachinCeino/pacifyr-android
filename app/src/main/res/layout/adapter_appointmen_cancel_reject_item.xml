@@ -106,6 +106,8 @@
                     android:gravity="center_vertical"
                     android:textStyle="bold"
                     android:textSize="12sp"
+                    android:drawableLeft="@drawable/svg_add_note_primary"
+                    android:drawableTint="@color/colorPrimary"
                     android:drawablePadding="3dp"
                     android:textColor="@color/colorPrimary"/>
                 <com.pacifyr.client.customview.MainTextView
