@@ -469,6 +469,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             cIntent = new Intent(context, DashboardActivity.class);
             cIntent.putExtra("typeId", typeId);
             cIntent.putExtra("type", "reminder");
+            cIntent.putExtra("isNeedToOpenAppointments", true);
             cIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP);
             cIntent.setAction(Long.toString(System.currentTimeMillis()));
 
