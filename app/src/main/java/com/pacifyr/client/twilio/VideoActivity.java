@@ -81,6 +81,7 @@ import com.pacifyr.client.event.PicInPic;
 import com.pacifyr.client.event.TwilioCallEvent;
 import com.pacifyr.client.fragment.PrescriptionWhileCallFragment;
 import com.pacifyr.client.home.CustomerDetailActivity;
+import com.pacifyr.client.home.LastSessionActivity;
 import com.pacifyr.client.interfaces.EmpMinutesListener;
 import com.pacifyr.client.model.CallStatus;
 import com.pacifyr.client.model.PrescriptionList;
@@ -97,6 +98,7 @@ import com.pacifyr.client.receiver.NotificationUtils;
 import com.pacifyr.client.utils.Constants;
 import com.pacifyr.client.utils.FirebaseLogging;
 import com.pacifyr.client.utils.LogUtils;
+import com.pacifyr.client.utils.SnackUtils;
 import com.pacifyr.client.utils.Utility;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.pacifyrapp.utilitylibrary.ToastHandler;
@@ -265,10 +267,12 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
     public CountDownTimer timer;
     private EmpMinutesListener empMinutesListener;
     private ImageView toggle_Max_Min,ImageView_emotion,ImageView_chat,ImageView_prescription;
-    private LinearLayout call_overlay,LinearLayout_chat,certificate_View,more_rlay;
+    private LinearLayout call_overlay,certificate_View,more_rlay;
+    private RelativeLayout LinearLayout_chat;
     private RelativeLayout emotion_rlay;
     private String change_Emotion_name;
     private DeviceFitImageView emotion_dimv;
+    private TextView messageCount;
     private CircleImageView userDimv;
     private static final String FREE_MINUTES_10 = "freeMinutes10";
     private static final String FREE_MINUTES_5 = "freeMinutes5";
@@ -1144,6 +1148,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
         isForeground = true;
         LocalBroadcastManager.getInstance(this).registerReceiver(eventReceiver, new IntentFilter(CallEvent.CALL_EVENT));
         LocalBroadcastManager.getInstance(this).registerReceiver(stripeCardAddWhileCall, new IntentFilter(STRIPCARD_ADDED_WHILE_CALL));
+        LocalBroadcastManager.getInstance(this).registerReceiver(notificationReceiver, new IntentFilter(NotificationUtils.NOTIFY_INTENT));
 
         audioCodec = getAudioCodecPreference(PREF_AUDIO_CODEC,
                 PREF_AUDIO_CODEC_DEFAULT);
@@ -1203,7 +1208,9 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
         }
         isScreenActive=true;
         EventBus.getDefault().post(Constants.CLOSECHILDACTIIVTY);
+
     }
+
 
     private EncodingParameters getEncodingParameters() {
         final int maxAudioBitrate = Integer.parseInt(
@@ -1402,6 +1409,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
             Button_remind_counselor_vidio = findViewById(R.id.Button_remind_counselor_vidio);
             TextView_vidio_freeminuts_remine= findViewById(R.id.TextView_vidio_freeminuts_remine);
             TextView_audio_freeminuts_remine= findViewById(R.id.TextView_audio_freeminuts_remine);
+            messageCount=findViewById(R.id.messageCount);
 
             this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN |
                             WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
@@ -1679,6 +1687,8 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                     if (checkPermissions()) {
                         if (isValid(pacifyerDetial))
                             startChat(pacifyerDetial);
+                        messageCountIncomming=0;
+                        messageCount.setVisibility(View.GONE);
                     }
                 }
             });
@@ -1973,7 +1983,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                                     @Override
                                     public void onClick(iOSDialog dialog) {
                                         dialog.dismiss();
-                                        ShowTransactionFaileToUSer("Add payment failed");
+                                        ShowTransactionFaileToUSer("Add payment cancelled");
                                     }
                                 }, new iOSDialogClickListener() {
                                     @Override
@@ -3659,6 +3669,7 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
                     sensorManager.unregisterListener(proximitySensorEventListener);
                 }
             }
+            LocalBroadcastManager.getInstance(this).unregisterReceiver(notificationReceiver);
         }catch (Exception e)
         {
 
@@ -3931,6 +3942,23 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
             e.printStackTrace();
         }
     }
-
+    private int messageCountIncomming=0;
+    private final BroadcastReceiver notificationReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent != null && intent.hasExtra("message")) {
+                String message = intent.getExtras().getString("message");
+                String type = intent.getExtras().getString("type");
+                if (message != null && message != "") {
+                    if (type.equals("chat")) {
+                        messageCountIncomming++;
+                        if (messageCountIncomming>=1)
+                        messageCount.setText(messageCountIncomming+"");
+                        messageCount.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+        }
+    };
 
 }

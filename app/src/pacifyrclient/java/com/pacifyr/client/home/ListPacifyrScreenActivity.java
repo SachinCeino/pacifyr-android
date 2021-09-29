@@ -1,8 +1,10 @@
 package com.pacifyr.client.home;
 
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.SearchView;
 
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -34,9 +37,11 @@ import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.orginals.Auth;
 import com.pacifyr.client.quickblox.utils.Consts;
+import com.pacifyr.client.receiver.NotificationUtils;
 import com.pacifyr.client.utility.EventMessage;
 import com.pacifyr.client.utility.PacifyrAppCompactActivity;
 import com.pacifyr.client.utils.LogUtils;
+import com.pacifyr.client.utils.SnackUtils;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.RespSearchPacifyrWOption;
@@ -242,6 +247,7 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
         userID = prefM.getUserID();
         setLoading();
         showProgress();
+
 
         if (getIntent().getExtras() != null && getIntent().getExtras().containsKey("emo_selected")) {
             emoSelected = getIntent().getExtras().getString("emo_selected");
@@ -752,7 +758,7 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
     protected void onResume() {
         super.onResume();
         try {
-
+            LocalBroadcastManager.getInstance(this).registerReceiver(notificationReceiver, new IntentFilter(NotificationUtils.NOTIFY_INTENT));
             trackTimer_check_online = new Timer();
             trackTimerTask_check_online = new TimerTask() {
                 @Override
@@ -1030,6 +1036,7 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
     @Override
     protected void onStop() {
         super.onStop();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(notificationReceiver);
         EventBus.getDefault().unregister(this);
     }
 
@@ -1083,5 +1090,18 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
         }
     }
 
-
+    private final BroadcastReceiver notificationReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent != null && intent.hasExtra("message")) {
+                String message = intent.getExtras().getString("message");
+                String type = intent.getExtras().getString("type");
+                if (message != null && message != "") {
+                    if (type.equals("chat")) {
+                        SnackUtils.show(actionBarTopLlay,message,ListPacifyrScreenActivity.this);
+                    }
+                }
+            }
+        }
+    };
 }

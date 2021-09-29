@@ -398,7 +398,7 @@
                         android:src="@drawable/overlay_kyc" />
                 </LinearLayout>
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/LinearLayout_chat"
@@ -409,7 +409,21 @@
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:src="@drawable/overlay_chat" />
-                </LinearLayout>
+                    <TextView
+                        android:layout_width="14dp"
+                        android:layout_height="14dp"
+                        android:id="@+id/messageCount"
+                        android:gravity="center"
+                        android:visibility="gone"
+                        android:background="@drawable/rounded_textview"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginLeft="25dp"
+                        android:textSize="10sp"
+                        android:textStyle="bold"
+                        android:text=""
+                        android:textColor="@color/white"
+                        ></TextView>
+                </RelativeLayout>
 
                 <LinearLayout
                     android:layout_width="wrap_content"

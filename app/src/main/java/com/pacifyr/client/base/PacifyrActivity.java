@@ -304,7 +304,9 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                     }
                     else
                     {
-                        showIOSDialogOKCancel("Message", message, "View", new iOSDialogClickListener() {
+                        if (!type.equals("chat"))
+                        {
+                            showIOSDialogOKCancel("Message", message, "View", new iOSDialogClickListener() {
                             @Override
                             public void onClick(iOSDialog dialog) {
                                 dialog.dismiss();
@@ -312,6 +314,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                                 startActivity(intent1);
                             }
                         }, "Close");
+                        }
                     }
 
                 }

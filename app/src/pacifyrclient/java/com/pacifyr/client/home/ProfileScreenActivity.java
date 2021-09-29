@@ -1,7 +1,9 @@
 package com.pacifyr.client.home;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -13,6 +15,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.widget.AppCompatRatingBar;
 import androidx.cardview.widget.CardView;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -41,10 +44,12 @@ import com.pacifyr.client.quickblox.chat.ui.activity.ChatActivity;
 import com.pacifyr.client.quickblox.db.QbUsersDbManager;
 import com.pacifyr.client.quickblox.utils.Consts;
 import com.pacifyr.client.quickblox.utils.WebRtcSessionManager;
+import com.pacifyr.client.receiver.NotificationUtils;
 import com.pacifyr.client.twilio.VideoActivity;
 import com.pacifyr.client.utility.EventMessage;
 import com.pacifyr.client.utility.PacifyrAppCompactActivity;
 import com.pacifyr.client.utils.LogUtils;
+import com.pacifyr.client.utils.SnackUtils;
 import com.pacifyr.client.utils.Utility;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.Certification;
@@ -486,10 +491,27 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
 
     }
 
+    private final BroadcastReceiver notificationReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent != null && intent.hasExtra("message")) {
+                String message = intent.getExtras().getString("message");
+                String type = intent.getExtras().getString("type");
+                if (message != null && message != "") {
+                    if (type.equals("chat")) {
+                        SnackUtils.show(actionBarTopLlay,message,ProfileScreenActivity.this);
+                    }
+                }
+            }
+        }
+    };
+
     @Override
     protected void onResume() {
         super.onResume();
         handleActionProfile(userID);
+        LocalBroadcastManager.getInstance(this).registerReceiver(notificationReceiver, new IntentFilter(NotificationUtils.NOTIFY_INTENT));
+
     }
 
     @Override
@@ -808,7 +830,7 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
         try {
             trackTimer_user_update.cancel();
             trackTimerTask_user_update.cancel();
-
+            LocalBroadcastManager.getInstance(this).unregisterReceiver(notificationReceiver);
         } catch (Exception e) {
             e.printStackTrace();
         }

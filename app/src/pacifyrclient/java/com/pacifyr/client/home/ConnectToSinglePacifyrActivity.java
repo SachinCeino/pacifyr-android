@@ -1,7 +1,9 @@
 package com.pacifyr.client.home;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -37,9 +40,11 @@ import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.quickblox.activities.PermissionsActivity;
 import com.pacifyr.client.quickblox.utils.Consts;
+import com.pacifyr.client.receiver.NotificationUtils;
 import com.pacifyr.client.utility.PacifyrAppCompactActivity;
 import com.pacifyr.client.utils.FirebaseLogging;
 import com.pacifyr.client.utils.LogUtils;
+import com.pacifyr.client.utils.SnackUtils;
 import com.pacifyr.client.utils.Utility;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.ChatSubscription;
@@ -155,6 +160,22 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
         NetworkService.isConnectSinglePacifyer=isConnectSinglePacifyer;
         context.startActivity(intent);
     }
+
+    private final BroadcastReceiver notificationReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent != null && intent.hasExtra("message")) {
+                String message = intent.getExtras().getString("message");
+                String type = intent.getExtras().getString("type");
+                if (message != null && message != "") {
+                    if (type.equals("chat")) {
+                        SnackUtils.show(actionBarTopLlay,message,ConnectToSinglePacifyrActivity.this);
+                    }
+                }
+            }
+        }
+    };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -399,7 +420,7 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
     protected void onResume() {
         super.onResume();
         try {
-
+            LocalBroadcastManager.getInstance(this).registerReceiver(notificationReceiver, new IntentFilter(NotificationUtils.NOTIFY_INTENT));
             /** refresh pacifyr object**/
             /**
              * here we are checking the pacifyrs are status online or offline  **/
@@ -1111,6 +1132,7 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
     protected void onStop() {
         super.onStop();
         EventBus.getDefault().unregister(this);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(notificationReceiver);
     }
 
     @Override

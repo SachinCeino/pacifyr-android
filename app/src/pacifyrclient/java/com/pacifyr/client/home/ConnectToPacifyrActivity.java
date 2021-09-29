@@ -1,8 +1,10 @@
 package com.pacifyr.client.home;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -44,9 +47,11 @@ import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.orginals.Auth;
 import com.pacifyr.client.quickblox.activities.PermissionsActivity;
 import com.pacifyr.client.quickblox.utils.Consts;
+import com.pacifyr.client.receiver.NotificationUtils;
 import com.pacifyr.client.utility.PacifyrAppCompactActivity;
 import com.pacifyr.client.utils.FirebaseLogging;
 import com.pacifyr.client.utils.LogUtils;
+import com.pacifyr.client.utils.SnackUtils;
 import com.pacifyr.client.utils.Utility;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MListNegativeEmotions;
@@ -1095,9 +1100,25 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
         trackTimerTask_check_online.cancel();
     }
 
+    private final BroadcastReceiver notificationReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent != null && intent.hasExtra("message")) {
+                String message = intent.getExtras().getString("message");
+                String type = intent.getExtras().getString("type");
+                if (message != null && message != "") {
+                    if (type.equals("chat")) {
+                        SnackUtils.show(actionBarTopLlay,message,ConnectToPacifyrActivity.this);
+                    }
+                }
+            }
+        }
+    };
+
     @Override
     protected void onResume() {
         super.onResume();
+        LocalBroadcastManager.getInstance(this).registerReceiver(notificationReceiver, new IntentFilter(NotificationUtils.NOTIFY_INTENT));
         if (swipeDeck.getVisibility()==View.VISIBLE && listPacifyrRlay.getVisibility()==View.VISIBLE)
         {
             morePacifyrsRlay.setVisibility(View.VISIBLE);
@@ -1184,6 +1205,7 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
         super.onStop();
         EventBus.getDefault().unregister(this);
         Auth.foreground("");
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(notificationReceiver);
     }
 
     @Override

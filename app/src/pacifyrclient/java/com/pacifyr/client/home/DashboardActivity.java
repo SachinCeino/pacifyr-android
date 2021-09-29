@@ -5,9 +5,11 @@ import android.app.Activity;
 import android.app.NotificationManager;
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.graphics.Typeface;
 import android.os.Build;
@@ -23,6 +25,7 @@ import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.multidex.MultiDex;
 
 import com.androidquery.AQuery;
@@ -35,6 +38,7 @@ import com.google.gson.JsonObject;
 import com.pacifyr.client.Payment.PaymentFragment;
 import com.pacifyr.client.R;
 import com.pacifyr.client.activity.TermsOfUseActivity;
+import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.ActionbarEvent;
 import com.pacifyr.client.event.AlertTypeEvent;
@@ -67,6 +71,7 @@ import com.pacifyr.client.orginals.DynamicLink;
 import com.pacifyr.client.orginals.RemoteConfig;
 import com.pacifyr.client.quickblox.chat.ui.activity.DialogsActivity;
 import com.pacifyr.client.quickblox.services.CallService;
+import com.pacifyr.client.receiver.NotificationUtils;
 import com.pacifyr.client.sign.CrisisActivity;
 import com.pacifyr.client.twilio.VideoActivity;
 import com.pacifyr.client.utility.PacifyrAppCompactActivity;
@@ -75,6 +80,7 @@ import com.pacifyr.client.utils.Constants;
 import com.pacifyr.client.utils.FirebaseLogging;
 import com.pacifyr.client.utils.LogUtils;
 import com.pacifyr.client.utils.PagerEnabledSlidingPaneLayout;
+import com.pacifyr.client.utils.SnackUtils;
 import com.pacifyr.client.utils.ToastHandler;
 import com.pacifyr.client.utils.Utility;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
@@ -242,6 +248,8 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
                 }
             }
         });
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(notificationReceiver, new IntentFilter(NotificationUtils.NOTIFY_INTENT));
     }
 
 
@@ -1165,6 +1173,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
         super.onStop();
         EventBus.getDefault().unregister(this);
         Auth.foreground("");
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(notificationReceiver);
     }
 
     @Override
@@ -1215,6 +1224,21 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
     }
 
 
+
+    private final BroadcastReceiver notificationReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent != null && intent.hasExtra("message")) {
+                String message = intent.getExtras().getString("message");
+                String type = intent.getExtras().getString("type");
+                if (message != null && message != "") {
+                    if (type.equals("chat")) {
+                        SnackUtils.show(actionBarTopLlay,message,DashboardActivity.this);
+                    }
+                }
+            }
+        }
+    };
 }
 
 
