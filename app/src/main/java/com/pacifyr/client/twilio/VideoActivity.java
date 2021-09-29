@@ -349,6 +349,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
 
             }
             if (freeMinutes > 0) {
+                freeMinutes=freeMinutes+1;
                 long freeMillis = freeMinutes * 60 * 1000;
                 long initial_time=freeMinutes;
                 final long ONE_MINUTE = 60 * 1000;
@@ -360,6 +361,8 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                             return;
                         }
                         long minutesLeft = millisUntilFinished / (60 * 1000);
+                        if (millisUntilFinished<=60000)
+                            minutesLeft=0;
 
                         if (empMinutesListener != null) {
                             empMinutesListener.tick(minutesLeft);
@@ -380,11 +383,12 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                                     TextView_audio_freeminuts_remine.setText("Free minutes: "+minutesLeft+" minutes");
                             }
                         }
-                        if (minutesLeft <= 0 && !freeMinuteAlert0) {
+                        if (minutesLeft == 0 && !freeMinuteAlert0) {
                             freeMinuteAlert0 = true;
                             if (empMinutesListener != null) {
-                                empMinutesListener.expired();
+                                empMinutesListener.onMinutesLeft(0);
                                 countDownTimer.cancel();
+
                             }
 
                             TextView_vidio_freeminuts_remine.setVisibility(View.GONE);
@@ -1820,7 +1824,113 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                     if (isValid(timeSlotBookingId))
                         return;
 
-                    if (minutes <= 5 || minutes==10) {
+                    if (minutes==0)
+                    {
+                        try {
+                            if (isValid(timeSlotBookingId))
+                                return;
+                            if (isExpirePopupShown)
+                                return;
+                            isExpirePopupShown=true;
+                            if (getPrefManager().getCountry().equalsIgnoreCase("US")) {
+
+                                if (!isCardExist())
+                                {
+                                    showIOSDialogOK("", getString(R.string.your_monthly_session_expired), getString(R.string.dlg_ok), false, new iOSDialogClickListener() {
+                                        @Override
+                                        public void onClick(iOSDialog dialog) {
+                                            dialog.dismiss();
+                                            button_hangup_call.performClick();
+                                        }
+                                    });
+
+                                    if (getCallPacifyr() != null) {
+                                        new NetworkService().sendCardAddedNotification(getCallPacifyr().getId(), FREE_MINUTES_OVER, new AjaxCallback<JSONObject>() {
+                                            @Override
+                                            public void callback(String url, JSONObject json, AjaxStatus status) {
+                                                if (json != null) {
+                                                    freeMinuteAlert0 = true;
+                                                    // Toast.makeText(VideoActivity.this, "FREE_MINUTES_OVER", Toast.LENGTH_SHORT).show();
+                                                }
+                                            }
+                                        });
+                                    }
+                                }
+                                else {
+
+                                    showIOSDialogOK("", getString(R.string.you_have_finished_free_minuts), getString(R.string.dlg_ok), false, new iOSDialogClickListener() {
+                                        @Override
+                                        public void onClick(iOSDialog dialog) {
+                                            dialog.dismiss();
+
+                                        }
+                                    });
+
+                                }
+
+
+                                makeAbeepSoundWhileShowingPopUp();
+                            } else {
+
+                                makeAbeepSoundWhileShowingPopUp();
+                                showIOSDialogOK("", getString(R.string.your_monthly_session_expired), getString(R.string.dlg_ok), false, new iOSDialogClickListener() {
+                                    @Override
+                                    public void onClick(iOSDialog dialog) {
+                                        dialog.dismiss();
+                                        button_hangup_call.performClick();
+                                    }
+                                });
+                                if (getCallPacifyr() != null &&!isCardExist()) {
+
+                                    new NetworkService().sendCardAddedNotification(getCallPacifyr().getId(), FREE_MINUTES_OVER, new AjaxCallback<JSONObject>() {
+                                        @Override
+                                        public void callback(String url, JSONObject json, AjaxStatus status) {
+                                            if (json != null) {
+                                                //Toast.makeText(VideoActivity.this, "FREE_MINUTES_OVER", Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+                                    });
+                                }
+
+                           /* showIOSDialogOKCancel("Warning", "Your monthly free sessions has expired. Please enter your payment to continue.", Utility.getPaymentLabel(VideoActivity.this, getPrefManager().getCountry()), new iOSDialogClickListener() {
+                                @Override
+                                public void onClick(iOSDialog dialog) {
+                                    dialog.dismiss();
+                                    button_hangup_call.performClick();
+                                }
+                            }, new iOSDialogClickListener() {
+                                @Override
+                                public void onClick(iOSDialog dialog) {
+
+                                    dialog.dismiss();
+                                    //Toast.makeText(PacifyrActivity.this,"Clicked!",Toast.LENGTH_LONG).show();
+                                    if (isValid(SessionId)) {
+
+                                        if (isValid(CallActivity.mSessionDetailRoot) && isValid(CallActivity.mSessionDetailRoot.getPacifyr()) &&
+                                                isValid(CallActivity.mSessionDetailRoot.getPacifyr().getPrice())) {
+                                            String tempSessionId = SessionId;
+                                            if (errorCount != 0)
+                                                tempSessionId = tempSessionId + "_" + errorCount;
+                                            generateCheckSum(true, tempSessionId, Integer.parseInt(CallActivity.mSessionDetailRoot.getPacifyr().getPrice()));
+                                        }
+
+
+                                    } else {
+                                        Toast.makeText(getApplicationContext(), "Session id not valid !", Toast.LENGTH_SHORT).show();
+                                    }
+
+                                }
+                            });*/
+
+                            }
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+
+                    else if (minutes <= 5 || minutes==10) {
 
 
                         if (getCallPacifyr() != null &&!isCardExist()) {
@@ -1863,7 +1973,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                                     @Override
                                     public void onClick(iOSDialog dialog) {
                                         dialog.dismiss();
-
+                                        ShowTransactionFaileToUSer("Add payment failed");
                                     }
                                 }, new iOSDialogClickListener() {
                                     @Override
@@ -1883,16 +1993,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                                 public void onClick(iOSDialog dialog) {
                                     dialog.dismiss();
 
-
-                                   new NetworkService().sendPaymentFailedDueToSomeReasons(CallActivity.mSessionDetailRoot.getPacifyr().getId(), "paymentFailure", "Transaction cancelled", new AjaxCallback<JSONObject>() {
-                                       @Override
-                                       public void callback(String url, JSONObject json, AjaxStatus status) {
-                                           Auth.httpStatusFilter(getApplicationContext(), status.getCode());
-                                           if (json != null) {
-                                               Log.w("@@@", "sendCardAddedNotificationFail messages" + json.toString());
-                                           }
-                                       }
-                                   });
+                                    ShowTransactionFaileToUSer("Add payment failed");
                                     Bundle args =
                                             FirebaseLogging.getConstantArgsLoggedIn(VideoActivity.this);
                                     args.putString(FirebaseLogging.EC, "Payment setup cancelled");
@@ -1940,107 +2041,6 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
 
                 @Override
                 public void expired() {
-                    try {
-                        if (isValid(timeSlotBookingId))
-                            return;
-                        if (isExpirePopupShown)
-                            return;
-                        isExpirePopupShown=true;
-                        if (getPrefManager().getCountry().equalsIgnoreCase("US")) {
-
-                            if (!isCardExist())
-                            {
-                                showIOSDialogOK("", getString(R.string.your_monthly_session_expired), getString(R.string.dlg_ok), false, new iOSDialogClickListener() {
-                                    @Override
-                                    public void onClick(iOSDialog dialog) {
-                                        dialog.dismiss();
-                                        button_hangup_call.performClick();
-                                    }
-                                });
-
-                                if (getCallPacifyr() != null) {
-                                    new NetworkService().sendCardAddedNotification(getCallPacifyr().getId(), FREE_MINUTES_OVER, new AjaxCallback<JSONObject>() {
-                                        @Override
-                                        public void callback(String url, JSONObject json, AjaxStatus status) {
-                                            if (json != null) {
-                                                freeMinuteAlert0 = true;
-                                               // Toast.makeText(VideoActivity.this, "FREE_MINUTES_OVER", Toast.LENGTH_SHORT).show();
-                                            }
-                                        }
-                                    });
-                                }
-                            }
-                            else {
-
-                                showIOSDialogOK("", getString(R.string.you_have_finished_free_minuts), getString(R.string.dlg_ok), false, new iOSDialogClickListener() {
-                                    @Override
-                                    public void onClick(iOSDialog dialog) {
-                                        dialog.dismiss();
-
-                                    }
-                                });
-
-                            }
-
-
-                            makeAbeepSoundWhileShowingPopUp();
-                        } else {
-
-                            makeAbeepSoundWhileShowingPopUp();
-                            showIOSDialogOK("", getString(R.string.your_monthly_session_expired), getString(R.string.dlg_ok), false, new iOSDialogClickListener() {
-                                @Override
-                                public void onClick(iOSDialog dialog) {
-                                    dialog.dismiss();
-                                    button_hangup_call.performClick();
-                                }
-                            });
-                            if (getCallPacifyr() != null &&!isCardExist()) {
-
-                                new NetworkService().sendCardAddedNotification(getCallPacifyr().getId(), FREE_MINUTES_OVER, new AjaxCallback<JSONObject>() {
-                                    @Override
-                                    public void callback(String url, JSONObject json, AjaxStatus status) {
-                                        if (json != null) {
-                                            //Toast.makeText(VideoActivity.this, "FREE_MINUTES_OVER", Toast.LENGTH_SHORT).show();
-                                        }
-                                    }
-                                });
-                            }
-
-                           /* showIOSDialogOKCancel("Warning", "Your monthly free sessions has expired. Please enter your payment to continue.", Utility.getPaymentLabel(VideoActivity.this, getPrefManager().getCountry()), new iOSDialogClickListener() {
-                                @Override
-                                public void onClick(iOSDialog dialog) {
-                                    dialog.dismiss();
-                                    button_hangup_call.performClick();
-                                }
-                            }, new iOSDialogClickListener() {
-                                @Override
-                                public void onClick(iOSDialog dialog) {
-
-                                    dialog.dismiss();
-                                    //Toast.makeText(PacifyrActivity.this,"Clicked!",Toast.LENGTH_LONG).show();
-                                    if (isValid(SessionId)) {
-
-                                        if (isValid(CallActivity.mSessionDetailRoot) && isValid(CallActivity.mSessionDetailRoot.getPacifyr()) &&
-                                                isValid(CallActivity.mSessionDetailRoot.getPacifyr().getPrice())) {
-                                            String tempSessionId = SessionId;
-                                            if (errorCount != 0)
-                                                tempSessionId = tempSessionId + "_" + errorCount;
-                                            generateCheckSum(true, tempSessionId, Integer.parseInt(CallActivity.mSessionDetailRoot.getPacifyr().getPrice()));
-                                        }
-
-
-                                    } else {
-                                        Toast.makeText(getApplicationContext(), "Session id not valid !", Toast.LENGTH_SHORT).show();
-                                    }
-
-                                }
-                            });*/
-
-                        }
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
 
                 }
 
