@@ -1258,7 +1258,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
         configureAudio(false);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(sessionDeclainedReceiver);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(sessionDeclainedWaitng);
-
+        EventBus.getDefault().post(Constants.DestroySubScreenAfterEndCall);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(stripeCardAddWhileCall);
         unregisterReceiver(mEarPhoneChanges);
         if (isValid(audioManager))
@@ -2003,7 +2003,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                                 public void onClick(iOSDialog dialog) {
                                     dialog.dismiss();
 
-                                    ShowTransactionFaileToUSer("Add payment failed");
+                                    ShowTransactionFaileToUSer("Add payment cancelled");
                                     Bundle args =
                                             FirebaseLogging.getConstantArgsLoggedIn(VideoActivity.this);
                                     args.putString(FirebaseLogging.EC, "Payment setup cancelled");

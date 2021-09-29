@@ -668,6 +668,31 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
         }
     }
 
+    public void setAlertStatusInBlue2(String title,String desc,String ok,String dismiss,View.OnClickListener oklistner,View.OnClickListener nolistner) {
+        View view = LayoutInflater.from(this).inflate(R.layout.alert_card_popup_payment, null, false);
+        TextView title_dtxv = view.findViewById(R.id.title_dtxv);
+        TextView desc_dtxv = view.findViewById(R.id.desc_dtxv);
+        TextView dismis_dtxv = view.findViewById(R.id.dismis_dtxv);
+        TextView ok_dtxv = view.findViewById(R.id.ok_dtxv);
+        if(isValid(title))
+            defSetText(title_dtxv,title);
+        else
+            title_dtxv.setVisibility(View.GONE);
+        defSetText(desc_dtxv,desc);
+
+        defSetText(dismis_dtxv,dismiss,"NO");
+        defSetText(ok_dtxv, ok, "Yes");
+
+        hideStatus();
+        hideStatus2();
+        hud_status2 = KProgressHUD.create(this).setStyle(KProgressHUD.Style.SPIN_INDETERMINATE).setCustomView(view).setWindowColor(this.getResources().getColor(com.pacifyrapp.utilitylibrary.R.color.transparent)).setCancellable(false).setAnimationSpeed(2).setDimAmount(0.5f);
+        showStatus2();
+        ok_dtxv.setOnClickListener(oklistner);
+        dismis_dtxv.setOnClickListener(nolistner);
+
+    }
+
+
     public static Timer trackTimer;
     public static TimerTask trackTimerTask;
     private boolean billingStarted = false;
