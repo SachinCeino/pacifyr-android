@@ -181,16 +181,23 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<RecyclerView.V
                                 holder.TextView_cancelled.setVisibility(View.VISIBLE);
                                 holder.ImageView_PrevistNote.setVisibility(View.GONE);
                                 holder.accepted_textView.setVisibility(View.GONE);
-                                if (mObject.getStatusText().toString().equals(mContext.getResources().getString(R.string.cancelled_provider_not_respond)))
+                                if (isValid(mObject.getStatusText()))
                                 {
                                     holder.TextView_cancelled.setText("");
-                                    holder.mTextView_auto_cancel_status.setText(mContext.getResources().getString(R.string.cancelled_provider_message));
+                                    holder.mTextView_auto_cancel_status.setText(mObject.getStatusText());
+                                    holder.mTextView_auto_cancel_status.setVisibility(View.VISIBLE);
+                                }
+
+                               /* if (mObject.getStatusText().toString().equals(mContext.getResources().getString(R.string.cancelled_provider_not_respond)))
+                                {
+                                    holder.TextView_cancelled.setText("");
+                                    holder.mTextView_auto_cancel_status.setText(mContext.getResources().getString(R.string.cancelled_provider_not_respond));
                                     holder.mTextView_auto_cancel_status.setVisibility(View.VISIBLE);
                                 }
                                 if (mObject.getStatusText().toString().equals(mContext.getResources().getString(R.string.cancelled_provider_not_respond_two)))
                                 {
                                     holder.TextView_cancelled.setText("");
-                                    holder.mTextView_auto_cancel_status.setText(mContext.getResources().getString(R.string.cancelled_provider_message_two));
+                                    holder.mTextView_auto_cancel_status.setText(mContext.getResources().getString(R.string.cancelled_provider_not_respond_two));
                                     holder.mTextView_auto_cancel_status.setVisibility(View.VISIBLE);
                                 }
 
@@ -199,7 +206,7 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<RecyclerView.V
                                     holder.TextView_cancelled.setText("");
                                     holder.mTextView_auto_cancel_status.setText(mContext.getResources().getString(R.string.client_cancelled_the_appointment));
                                     holder.mTextView_auto_cancel_status.setVisibility(View.VISIBLE);
-                                }
+                                }*/
 
                             }
                             else if (isValid(mObject.getConfirmed())&&mObject.getConfirmed()
@@ -279,7 +286,17 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<RecyclerView.V
                                 holder.mButton_Cancel.setVisibility(View.GONE);
                                 holder.ImageView_PrevistNote.setVisibility(View.GONE);
                                 holder.accepted_textView.setVisibility(View.GONE);
-                                if (mObject.getConfirmed()!=null && mObject.getConfirmed())
+
+                                if (mObject.getCancelled()!=null && mObject.getCancelled())
+                                {
+                                    if (isValid(mObject.getStatusText()))
+                                    {
+                                        holder.TextView_cancelled.setText("");
+                                        holder.mTextView_auto_cancel_status.setText(mObject.getStatusText());
+                                        holder.mTextView_auto_cancel_status.setVisibility(View.VISIBLE);
+                                    }
+                                }
+                                else if (mObject.getConfirmed()!=null && mObject.getConfirmed())
                                 {
                                     holder.ImageView_PrevistNote.setVisibility(View.VISIBLE);
                                     if (isValid(mObject.getConfirmed())&&mObject.getConfirmed()
@@ -288,16 +305,6 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<RecyclerView.V
                                         holder.ImageView_PrevistNote.setVisibility(View.GONE);
                                     }
 
-                                }
-                                else if (mObject.getCancelled()!=null && mObject.getCancelled())
-                                {
-                                    /*if (mObject.getStatusText().toString().equals(mContext.getResources().getString(R.string.cancelled_provider_not_respond)))
-                                    {
-                                        holder.TextView_cancelled.setText("");
-                                        holder.TextView_cancelled.setVisibility(View.VISIBLE);
-                                        holder.mTextView_auto_cancel_status.setText(mContext.getResources().getString(R.string.cancelled_provider_message));
-                                        holder.mTextView_auto_cancel_status.setVisibility(View.VISIBLE);
-                                    }*/
                                 }
                             }
                             else
@@ -334,16 +341,19 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<RecyclerView.V
                 holder.mainLayout.setBackgroundColor(mContext.getResources().getColor(R.color.appointment_no_click));
                 holder.ImageView_PrevistNote.setVisibility(View.GONE);
 
+                if (isValid(mObject.getStatusText()))
+                holder.mTextView_auto_cancel_status.setText(mObject.getStatusText());
+                /*holder.mTextView_auto_cancel_status.setVisibility(View.VISIBLE);
+
                 if (mObject.getStatusText().toString().equals(mContext.getResources().getString(R.string.cancelled_provider_not_respond)))
                 {
                     holder.TextView_cancelled.setText("");
-                    holder.mTextView_auto_cancel_status.setText(mContext.getResources().getString(R.string.cancelled_provider_message));
-                    holder.mTextView_auto_cancel_status.setVisibility(View.VISIBLE);
+
                 }
                 if (mObject.getStatusText().toString().equals(mContext.getResources().getString(R.string.cancelled_provider_not_respond_two)))
                 {
                     holder.TextView_cancelled.setText("");
-                    holder.mTextView_auto_cancel_status.setText(mContext.getResources().getString(R.string.cancelled_provider_message_two));
+                    holder.mTextView_auto_cancel_status.setText(mContext.getResources().getString(R.string.cancelled_provider_not_respond_two));
                     holder.mTextView_auto_cancel_status.setVisibility(View.VISIBLE);
                 }
                 if (mObject.getStatusText().toString().equals(mContext.getResources().getString(R.string.client_cancelled_the_appointment)))
@@ -351,7 +361,7 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<RecyclerView.V
                     holder.TextView_cancelled.setText("");
                     holder.mTextView_auto_cancel_status.setText(mContext.getResources().getString(R.string.client_cancelled_the_appointment));
                     holder.mTextView_auto_cancel_status.setVisibility(View.VISIBLE);
-                }
+                }*/
             }
             else if (isValid(mObject.getRejected())&&mObject.getRejected())
             {
@@ -465,7 +475,12 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<RecyclerView.V
                             }
 
                             else{
-                                if (mObject.getStatusText().toString().equals(mContext.getResources().getString(R.string.cancelled_provider_not_respond)))
+                                if (isValid(mObject.getStatusText()))
+                                {
+                                    showCancelledNotPopUp(mObject.getStatusText());
+                                }
+
+                                /*if (mObject.getStatusText().toString().equals(mContext.getResources().getString(R.string.cancelled_provider_not_respond)))
                                 {
                                     showCancelledNotPopUp(mContext.getResources().getString(R.string.cancelled_provider_message));
                                 }
@@ -476,7 +491,7 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<RecyclerView.V
                                 else
                                 {
                                     showCancelledNotPopUp(mContext.getResources().getString(R.string.Cancelled_since_you_did_not_call_the_provider));
-                                }
+                                }*/
 
                             }
 
