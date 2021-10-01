@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:id="@+id/ConstraintLayout_snackBR"
+    android:background="@android:color/transparent"
+    android:layout_height="match_parent">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="13sp"
+        android:minHeight="60dp"
+        android:maxLines="3"
+        android:ellipsize="end"
+        android:maxHeight="65dp"
+        android:text=""
+        android:id="@+id/TextView_snackBarMessage"
+        android:gravity="center_vertical"
+        android:padding="10dp"
+        android:textColor="@color/white"
+        android:layout_margin="15dp"
+        android:background="@drawable/snackbar_background"
+        tools:ignore="MissingConstraints"></TextView>
+</FrameLayout>

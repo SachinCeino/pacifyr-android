@@ -302,9 +302,18 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                             }
                         }, "Close");
                     }
+                    else if (type.equals("sessionWrapUp")
+                            ||type.equals("sessionExtensionAccepted"))
+                    {
+                       /* if (isCallActive && !getClass().getName().contains("VideoActivity"))
+                        {
+                            startActivity(new Intent(PacifyrActivity.this, VideoActivity.class)
+                                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
+                        }*/
+                    }
                     else
                     {
-                        if (!type.equals("chat"))
+                       /* if (!type.equals("chat"))
                         {
                             showIOSDialogOKCancel("Message", message, "View", new iOSDialogClickListener() {
                             @Override
@@ -314,7 +323,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                                 startActivity(intent1);
                             }
                         }, "Close");
-                        }
+                        }*/
                     }
 
                 }
@@ -631,7 +640,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                                 String tempSessionId = id;
                                 if (errorCount != 0)
                                     tempSessionId = tempSessionId + "_" + errorCount;
-                                generateCheckSum(true, tempSessionId, Integer.parseInt(CallActivity.mSessionDetailRoot.getPacifyr().getPrice()));
+                                generateCheckSum(true, tempSessionId, Integer.parseInt(CallActivity.mSessionDetailRoot.getPacifyr().getPrice()),false);
                             }
 
 
@@ -4004,7 +4013,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
      * @param sessionid
      * @param price**/
     boolean isFromCall =false ;
-    public void generateCheckSum(boolean isFromCallb ,String sessionid, int price) {
+    public void generateCheckSum(boolean isFromCallb ,String sessionid, int price,boolean isFromsessionExtension) {
         isFromCall = isFromCallb;
        /* if (ContextCompat.checkSelfPermission(PacifyrActivity.this, Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(PacifyrActivity.this, new String[]{Manifest.permission.READ_SMS, Manifest.permission.RECEIVE_SMS}, 101);
@@ -4043,7 +4052,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                                     {
                                         String paytmChecksum=json.getString("paytmChecksum");
                                         Log.w("PAYTMLOG","paytmChecksum-----"+paytmChecksum);
-                                        initializePaytmPayment(paytmChecksum, paytm,sessionid);
+                                        initializePaytmPayment(paytmChecksum, paytm,sessionid,isFromsessionExtension);
                                     }else {
                                         Log.w("PAYTMLOG","generateCheckSum-----"+"paytmChecksum not available !");
                                         return;
@@ -4117,7 +4126,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
         }
     }
 
-    public void initializePaytmPayment(String checksumHash, Paytm paytm, String sessionid) {
+    public void initializePaytmPayment(String checksumHash, Paytm paytm, String sessionid,boolean isFromsessionExtension) {
 
         //getting paytm test service 'TEST'
         //
@@ -4176,7 +4185,9 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                 if (isValid(inResponse))
                 {
                     Log.w("PAYTMLOG","Bundle inResponse-----"+inResponse.toString());
-                    ConfirmationFromSever(inResponse,checksumHash);
+
+                        ConfirmationFromSever(inResponse,checksumHash,isFromsessionExtension,sessionid);
+
                 }
                 settingUpPayment = false;
             }
@@ -4218,7 +4229,56 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
     }
 
 
-    public void ConfirmationFromSever(Bundle inResponse, String checksumHash) {
+    public void SessionExtendedPaymentSuccess(Bundle inResponse, String checksumHash,String sessionid) {
+
+        /**split values **/
+        txnAmount = inResponse.getString("TXNAMOUNT");
+        try{
+            String url = NetworkService.GLOBAL_URL+"session/"+sessionid+"/extend/paymentSucceeded";
+            PrefManager prefM = PrefManager.getInstance(PacifyrActivity.this);
+            String token = prefM.getAccessToken();
+            AjaxCallback cb = new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject json, AjaxStatus status) {
+                    try {
+                        String jsonS = json.toString();
+                        Log.w("@@@jsonS", jsonS);
+                        //generateCheckSum-----{"status":"success","paytmChecksum":"DK4aCSQEuEMr9OXcbskeXqHrFvDM9RCJhfJaG\/dGTeOIrGBm1BbthHxYckTC07z79Q\/2x9\/O21++coAskab5EdI7lKqoOgCP4KcSf6zOuJI="}
+
+                        if (isValid(json))
+                        {
+                            Log.w("PAYTMLOG2","generateCheckSum-----"+json);
+                        }
+                        else {
+                            Log.w("PAYTMLOG2","generateCheckSum-----"+"Json not valid");
+                            return;
+                        }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            };
+
+            AQuery aq = new AQuery(PacifyrActivity.this);
+            cb.header("Content-Type", "application/json");
+            cb.header("AccessToken", token);
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.putOpt("userId", prefM.getUserID());
+            jsonObject.putOpt("amount", txnAmount);
+            Log.w("PAYTMLOG","jsonObjectAfterPayTmSuccess-----"+jsonObject.toString());
+            aq.post(url, jsonObject, JSONObject.class, cb);
+
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+    }
+
+
+
+    public void ConfirmationFromSever(Bundle inResponse, String checksumHash,boolean isFromsessionExtension,String sessionID) {
 
         /**split values **/
 
@@ -4259,7 +4319,15 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                                     if (object.getIsChecksumValid() && object.getTransactionStatus().equals("success")) {
                                         // Transaction Succeeded
                                         Log.w("@@@","Payment setup failed.ShowTransactionSuccesResultToUSer");
-                                        ShowTransactionSuccesResultToUSer(object);
+                                        if (isFromsessionExtension)
+                                        {
+                                            SessionExtendedPaymentSuccess(inResponse,checksumHash,sessionID);
+                                            ShowExtendedTransactionSuccesResultToUSer(object);
+                                        }
+                                        else {
+                                            ShowTransactionSuccesResultToUSer(object);
+                                        }
+
                                     } else { // Transaction Failed
 
                                         ShowTransactionFaileToUSer(responce_message);
@@ -4298,6 +4366,224 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
         {
             e.printStackTrace();
         }
+
+    }
+
+    /** this is for extention schedule payment transaction result **/
+    public void ShowExtendedTransactionSuccesResultToUSer(TransactionResponce object) {
+
+        errorCount=0;
+        if (PaymentPopup != null && PaymentPopup.isShowing()) {
+            PaymentPopup.dismiss();
+        }
+        if (isValid(CallActivity.mSessionDetailRoot) &&
+                isValid(CallActivity.mSessionDetailRoot.getPacifyr()) &&
+                isValid(CallActivity.mSessionDetailRoot.getPacifyr().getId()))
+
+        if (!isShowDialogs()) {
+            if (isCallActive)
+                maximizePicInPicView();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            View view = LayoutInflater.from(PacifyrActivity.this).inflate(R.layout.layout_paytm_payment_report, null);
+                            TextView ok = view.findViewById(R.id.button_ok);
+                            TextView transactionId = view.findViewById(R.id.transactionId);
+                            TextView text_date = view.findViewById(R.id.text_date);
+                            TextView text_amount_charged = view.findViewById(R.id.text_amount_charged);
+                            TextView text_time= view.findViewById(R.id.text_time);
+                            TextView textViewCopyTransaction= view.findViewById(R.id.textViewCopyTransaction);
+                            TextView title = view.findViewById(R.id.title);
+                            title.setText(getResources().getString(R.string.payment_summary));
+                            try {
+                                transactionId.setText(object.getTransactionId());
+                                Calendar c = Calendar.getInstance();
+                                SimpleDateFormat targetFormat;
+                                if (getPrefManager().getCountry().equals("India")) {
+                                    targetFormat = new SimpleDateFormat("dd-MM-yyyy'  'hh:mm a", Locale.ENGLISH);
+                                } else {
+                                    targetFormat = new SimpleDateFormat("MM-dd-yyyy'  'hh:mm a", Locale.ENGLISH);
+                                }
+                                String strDate = targetFormat.format(c.getTime());
+                                strDate.replace("AM", "am").replace("PM","pm");
+
+
+                                String[] separated = strDate.split(" ");
+                                text_date.setText(separated[0].toLowerCase()+"");
+                                text_time.setText(separated[2].toLowerCase()+" "+separated[3].toLowerCase()+"");
+
+                                PrefManager prefM = PrefManager.getInstance(getApplicationContext());
+                                String country = prefM.getCountry();
+                                String sign = "$";
+                                if (country.equals("India")) {
+                                    sign = getApplicationContext().getResources().getString(R.string.rupee);
+                                } else {
+                                    sign = getApplicationContext().getResources().getString(R.string.dollar);
+                                }
+                                text_amount_charged.setText(sign + " " + Float.parseFloat(txnAmount));
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            ok.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    if (PaymentPopup != null) {
+                                        PaymentPopup.dismiss();
+                                    }
+
+                                    // else
+                                    // Toast.makeText(PacifyrActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
+
+                                    Bundle args =
+                                            FirebaseLogging.getConstantArgsLoggedIn(PacifyrActivity.this);
+                                    FirebaseLogging.sendLog(PacifyrActivity.this,
+                                            FirebaseLogging.EVENT_CLIENT_PAYMENT_DONE,
+                                            args);
+                                }
+                            });
+
+                            textViewCopyTransaction.setOnTouchListener(new View.OnTouchListener() {
+                                @SuppressLint("ClickableViewAccessibility")
+                                @Override
+                                public boolean onTouch(View v, MotionEvent event) {
+                                    if (event.getAction() == MotionEvent.ACTION_UP) {
+                                        int[] textLocation = new int[2];
+                                        textViewCopyTransaction.getLocationOnScreen(textLocation);
+
+                                        if(event.getRawX() >= textViewCopyTransaction.getRight() - textViewCopyTransaction.getTotalPaddingRight()) {
+                                            /** copy transaction id to clipboard **/
+
+                                            ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                                            ClipData clip = ClipData.newPlainText("transactionId", transactionId.getText());
+                                            clipboard.setPrimaryClip(clip);
+                                            Toast.makeText(PacifyrActivity.this, "Copied", Toast.LENGTH_SHORT).show();
+                                            return true;
+                                        }
+
+                                    }
+                                    return true;
+                                }
+                            });
+
+                            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(PacifyrActivity.this);
+                            builder.setView(view);
+                            builder.setCancelable(false);
+                            PaymentPopup = builder.create();
+                            PaymentPopup.show();
+                            makeAbeepSoundWhileShowingPopUp();
+                        }
+                    });
+                }
+            }, 2000);
+            return;
+        } else {
+
+            if (isCallActive)
+                bringCallActivityToFront();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            View view = LayoutInflater.from(PacifyrActivity.this).inflate(R.layout.layout_paytm_payment_report, null);
+                            TextView ok = view.findViewById(R.id.button_ok);
+                            TextView transactionId = view.findViewById(R.id.transactionId);
+                            TextView textViewCopyTransaction= view.findViewById(R.id.textViewCopyTransaction);
+                            TextView text_date = view.findViewById(R.id.text_date);
+                            TextView text_amount_charged = view.findViewById(R.id.text_amount_charged);
+                            TextView text_time= view.findViewById(R.id.text_time);
+                            TextView title = view.findViewById(R.id.title);
+                            title.setText(getResources().getString(R.string.payment_summary));
+                            try {
+                                transactionId.setText(object.getTransactionId());
+
+                                Calendar c = Calendar.getInstance();
+                                SimpleDateFormat targetFormat;
+                                if (getPrefManager().getCountry().equals("India")) {
+                                    targetFormat = new SimpleDateFormat("dd-MM-yyyy'  'hh:mm a", Locale.ENGLISH);
+                                } else {
+                                    targetFormat = new SimpleDateFormat("MM-dd-yyyy'  'hh:mm a", Locale.ENGLISH);
+                                }
+                                String strDate = targetFormat.format(c.getTime());
+                                strDate.replace("AM", "am").replace("PM","pm");
+
+                                String[] separated = strDate.split(" ");
+                                text_date.setText(separated[0].toLowerCase()+"");
+                                text_time.setText(separated[2].toLowerCase()+" "+separated[3].toLowerCase()+"");
+
+                                PrefManager prefM = PrefManager.getInstance(getApplicationContext());
+                                String country = prefM.getCountry();
+                                String sign = "$";
+                                if (country.equals("India")) {
+                                    sign = getApplicationContext().getResources().getString(R.string.rupee);
+                                } else {
+                                    sign = getApplicationContext().getResources().getString(R.string.dollar);
+                                }
+                                text_amount_charged.setText(sign + " " + Float.parseFloat(txnAmount));
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            ok.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    if (PaymentPopup != null) {
+                                        PaymentPopup.dismiss();
+                                    }
+
+                                    //  else
+                                    //  Toast.makeText(PacifyrActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
+
+                                    Bundle args =
+                                            FirebaseLogging.getConstantArgsLoggedIn(PacifyrActivity.this);
+                                    FirebaseLogging.sendLog(PacifyrActivity.this,
+                                            FirebaseLogging.EVENT_CLIENT_PAYMENT_DONE,
+                                            args);
+
+
+                                }
+                            });
+
+                            textViewCopyTransaction.setOnTouchListener(new View.OnTouchListener() {
+                                @SuppressLint("ClickableViewAccessibility")
+                                @Override
+                                public boolean onTouch(View v, MotionEvent event) {
+                                    if (event.getAction() == MotionEvent.ACTION_UP) {
+                                        int[] textLocation = new int[2];
+                                        textViewCopyTransaction.getLocationOnScreen(textLocation);
+
+                                        if(event.getRawX() >= textViewCopyTransaction.getRight() - textViewCopyTransaction.getTotalPaddingRight()) {
+                                            /** copy transaction id to clipboard **/
+
+                                            ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                                            ClipData clip = ClipData.newPlainText("transactionId", transactionId.getText());
+                                            clipboard.setPrimaryClip(clip);
+                                            Toast.makeText(PacifyrActivity.this, "Copied", Toast.LENGTH_SHORT).show();
+                                            return true;
+                                        }
+
+                                    }
+                                    return true;
+                                }
+                            });
+
+                            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(PacifyrActivity.this);
+                            builder.setView(view);
+                            builder.setCancelable(false);
+                            PaymentPopup = builder.create();
+                            PaymentPopup.show();
+                            makeAbeepSoundWhileShowingPopUp();
+                        }
+                    });
+                }
+            }, 2000);
+
+        }
+
+
 
     }
 

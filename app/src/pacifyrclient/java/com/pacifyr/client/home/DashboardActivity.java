@@ -1233,7 +1233,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
                 String type = intent.getExtras().getString("type");
                 if (message != null && message != "") {
                     if (type.equals("chat")) {
-                        SnackUtils.show(actionBarTopLlay,message,DashboardActivity.this);
+                        SnackUtils.show(actionBarTopLlay,message,DashboardActivity.this,getLayoutInflater());
                     }
                 }
             }

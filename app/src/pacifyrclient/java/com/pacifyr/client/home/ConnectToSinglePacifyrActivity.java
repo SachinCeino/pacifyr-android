@@ -169,7 +169,7 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
                 String type = intent.getExtras().getString("type");
                 if (message != null && message != "") {
                     if (type.equals("chat")) {
-                        SnackUtils.show(actionBarTopLlay,message,ConnectToSinglePacifyrActivity.this);
+                        SnackUtils.show(actionBarTopLlay,message,ConnectToSinglePacifyrActivity.this,getLayoutInflater());
                     }
                 }
             }

@@ -216,7 +216,7 @@ public class PolicyDocumentActivity extends PacifyrAppCompactActivity {
                 String type = intent.getExtras().getString("type");
                 if (message != null && message != "") {
                     if (type.equals("chat")) {
-                        SnackUtils.show(actionBarTopLlay,message,PolicyDocumentActivity.this);
+                        SnackUtils.show(actionBarTopLlay,message,PolicyDocumentActivity.this,getLayoutInflater());
                     }
                 }
             }

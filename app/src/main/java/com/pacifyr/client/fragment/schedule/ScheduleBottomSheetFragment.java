@@ -1358,7 +1358,7 @@ Log.w("WWW","onCreate");
                                                                 public void onClick(View v) {
                                                                     ((PacifyrActivity) getActivity()).hideProgress();
                                                                     ((PacifyrActivity) getActivity()).hideStatus2();
-                                                                    ((PacifyrActivity) getActivity()).generateCheckSum(false, finalBookingTempId, Math.round(finalCost));
+                                                                    ((PacifyrActivity) getActivity()).generateCheckSum(false, finalBookingTempId, Math.round(finalCost),false);
                                                                 }
                                                             });
 

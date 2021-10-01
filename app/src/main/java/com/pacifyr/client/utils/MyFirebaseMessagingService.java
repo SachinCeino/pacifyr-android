@@ -306,6 +306,21 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                                     intent.putExtra("id", _id);
                                     LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
                                 }
+
+                                else if (actual_type.equalsIgnoreCase("sessionWrapUp")) {
+                                    Intent intent = new Intent(NotificationUtils.NOTIFY_INTENT);
+                                    intent.putExtra("type", actual_type);
+                                    intent.putExtra("message", message);
+                                    LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+                                }
+                                else if (actual_type.equalsIgnoreCase("sessionExtensionAccepted")) {
+                                    Intent intent = new Intent(NotificationUtils.NOTIFY_INTENT);
+                                    intent.putExtra("type", actual_type);
+                                    intent.putExtra("message", message);
+                                    LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+                                }
+
+
                                 else if (actual_type.equals("reminder") && isValid(typeId))
                                 {
                                     Intent intent = new Intent(NotificationUtils.APPOINTMENT_EVENT);

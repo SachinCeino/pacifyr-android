@@ -92,6 +92,7 @@ import com.pacifyr.client.quickblox.activities.CallActivity;
 import com.pacifyr.client.quickblox.activities.SettingsActivity;
 import com.pacifyr.client.quickblox.chat.ui.activity.AttachmentImageActivity;
 import com.pacifyr.client.quickblox.chat.ui.activity.ChatActivity;
+import com.pacifyr.client.quickblox.chat.ui.activity.DialogsActivity;
 import com.pacifyr.client.quickblox.utils.PermissionsChecker;
 import com.pacifyr.client.quickblox.utils.RingtonePlayer;
 import com.pacifyr.client.receiver.NotificationUtils;
@@ -2025,7 +2026,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                                             String tempSessionId = SessionId;
                                             if (errorCount != 0)
                                                 tempSessionId = tempSessionId + "_" + errorCount;
-                                            generateCheckSum(true, tempSessionId, Integer.parseInt(CallActivity.mSessionDetailRoot.getPacifyr().getPrice()));
+                                            generateCheckSum(true, tempSessionId, Integer.parseInt(CallActivity.mSessionDetailRoot.getPacifyr().getPrice()),false);
                                         }
 
 
@@ -3956,9 +3957,90 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
                         messageCount.setText(messageCountIncomming+"");
                         messageCount.setVisibility(View.VISIBLE);
                     }
+                    else {
+                        if (!isShowDialogs()) {
+                            maximizePicInPicView();
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            showMessages(message,type);
+                                        }
+                                    });
+                                }
+                            }, 2000);
+                            return;
+                        } else {
+                            bringCallActivityToFront();
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            showMessages(message,type);
+                                        }
+                                    });
+                                }
+                            }, 2000);
+                        }
+                    }
+
+
+
                 }
             }
         }
     };
+
+    private void showMessages(String message, String type) {
+        if (type.equals("sessionWrapUp")) {
+            showIOSDialogOK("Message", message, "Ok", new iOSDialogClickListener() {
+                @Override
+                public void onClick(iOSDialog dialog) {
+                    dialog.dismiss();
+                }
+            });
+            new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    hideStatus();
+                    hideProgress();
+                    button_hangup_call.performClick();
+                }
+            }, 60000);
+        }
+        else if(type.equals("sessionExtensionAccepted"))
+        {
+            if (getPrefManager().getCountry().equals("US"))
+            {
+                showIOSDialogOK("Message", message, "Ok", new iOSDialogClickListener() {
+                    @Override
+                    public void onClick(iOSDialog dialog) {
+                        dialog.dismiss();
+                    }
+                });
+            }
+            else {
+                showIOSDialogOKCancel("Message", message, "Payment", new iOSDialogClickListener() {
+                    @Override
+                    public void onClick(iOSDialog dialog) {
+                        dialog.dismiss();
+
+                        if (isValid(CallActivity.mSessionDetailRoot) && isValid(CallActivity.mSessionDetailRoot.getPacifyr()) &&
+                                isValid(CallActivity.mSessionDetailRoot.getPacifyr().getPrice())) {
+                            String tempSessionId = SessionId;
+                            if (errorCount != 0)
+                                tempSessionId = tempSessionId + "_" + errorCount;
+                            generateCheckSum(true, tempSessionId, Integer.parseInt(CallActivity.mSessionDetailRoot.getPacifyr().getPrice()),true);
+                        }
+                    }
+                }, "Cancel");
+            }
+
+        }
+    }
 
 }

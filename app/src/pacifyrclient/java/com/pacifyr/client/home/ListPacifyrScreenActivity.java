@@ -1098,7 +1098,7 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
                 String type = intent.getExtras().getString("type");
                 if (message != null && message != "") {
                     if (type.equals("chat")) {
-                        SnackUtils.show(actionBarTopLlay,message,ListPacifyrScreenActivity.this);
+                        SnackUtils.show(actionBarTopLlay,message,ListPacifyrScreenActivity.this,getLayoutInflater());
                     }
                 }
             }

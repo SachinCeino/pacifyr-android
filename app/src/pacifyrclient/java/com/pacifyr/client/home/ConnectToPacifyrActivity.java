@@ -1108,7 +1108,7 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
                 String type = intent.getExtras().getString("type");
                 if (message != null && message != "") {
                     if (type.equals("chat")) {
-                        SnackUtils.show(actionBarTopLlay,message,ConnectToPacifyrActivity.this);
+                        SnackUtils.show(actionBarTopLlay,message,ConnectToPacifyrActivity.this,getLayoutInflater());
                     }
                 }
             }
