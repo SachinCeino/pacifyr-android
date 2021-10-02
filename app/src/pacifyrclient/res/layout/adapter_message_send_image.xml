@@ -43,6 +43,7 @@
             android:layout_marginEnd="@dimen/dp2"
             android:padding="@dimen/dp3"
             android:scaleType="centerCrop"
+            android:background="@drawable/shape_chat_image_curves"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

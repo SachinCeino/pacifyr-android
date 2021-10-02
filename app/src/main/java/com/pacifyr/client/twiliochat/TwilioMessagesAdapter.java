@@ -19,7 +19,10 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.signature.ObjectKey;
 import com.pacifyr.client.R;
@@ -184,6 +187,7 @@ public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAd
 
                         Glide.with(context)
                                 .load(mediaUrl)
+                                .transform(new CenterCrop(),new RoundedCorners(15))
                                 .listener(new RequestListener<Drawable>() {
                                     @Override
                                     public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
@@ -199,8 +203,9 @@ public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAd
                                     }
                                 })
                                 //.override(w, h)
-                                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                                //.diskCacheStrategy(DiskCacheStrategy.ALL)
                                 .into(holder.ivImage);
+                        holder.ivImage.setClipToOutline(true);
 
                         holder.ivImage.setOnClickListener(new View.OnClickListener() {
                             @Override
