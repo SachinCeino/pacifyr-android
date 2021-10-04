@@ -11,10 +11,10 @@
 
     <item
         android:state_checked="true"
-        android:drawable="@drawable/call_mic_on"
+        android:drawable="@drawable/mic_light"
         />
     <item
         android:state_checked="false"
-        android:drawable="@drawable/call_mic_off"
+        android:drawable="@drawable/mic_light_off"
         />
 </selector>

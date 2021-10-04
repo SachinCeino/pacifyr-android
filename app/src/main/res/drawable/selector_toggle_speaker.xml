@@ -10,9 +10,9 @@
 
     <item
         android:state_checked="true"
-        android:drawable="@drawable/call_speaker_off"
+        android:drawable="@drawable/speaker_light_off"
         />
     <item
-        android:drawable="@drawable/call_speaker_on"
+        android:drawable="@drawable/speaker_light"
         />
 </selector>
