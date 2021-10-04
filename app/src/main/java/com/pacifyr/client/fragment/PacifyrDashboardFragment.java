@@ -28,21 +28,14 @@ import com.pacifyr.client.home.CustomerListActivity;
 import com.pacifyr.client.home.EarningsActivity;
 import com.pacifyr.client.home.MissedandDeclinedActivity;
 import com.pacifyr.client.home.RatingDetailActivity;
-import com.pacifyr.client.home.ReviewListingActivity;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
-import com.pacifyr.client.quickblox.chat.ui.activity.DialogsActivity;
-import com.pacifyr.client.quickblox.chat.utils.qb.QbDialogHolder;
 import com.pacifyr.client.utility.BaseFragment;
 import com.pacifyr.client.utils.Utility;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelStatistics;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
-import com.quickblox.chat.QBRestChatService;
-import com.quickblox.chat.model.QBChatDialog;
-import com.quickblox.core.QBEntityCallback;
-import com.quickblox.core.exception.QBResponseException;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
 
@@ -281,7 +274,6 @@ public class PacifyrDashboardFragment extends BaseFragment implements SwipeRefre
              unreadChatCtxv.setOnClickListener(new View.OnClickListener() {
                  @Override
                  public void onClick(View v) {
-                     DialogsActivity.start(getActivity());
                      /*showFragment(new PacifyrMessageFragment(/));*/
                      //defSetText(titleTxv, "Messages");
 
@@ -667,29 +659,6 @@ public class PacifyrDashboardFragment extends BaseFragment implements SwipeRefre
                     exc.printStackTrace();
                 }
 
-                Collection<QBChatDialog> dialogList = (QbDialogHolder.getInstance().getDialogs().values());
-                ArrayList<QBChatDialog> list = new ArrayList<>(dialogList);
-                Set<String> dialogSet = new HashSet<String>();
-
-                Iterator<QBChatDialog> iterator = dialogList.iterator();
-                while (iterator.hasNext()) {
-                    dialogSet.add(iterator.next().getDialogId());
-                }
-
-                QBRestChatService.getTotalUnreadMessagesCount(dialogSet,null).performAsync(new QBEntityCallback<Integer>() {
-                    @Override
-                    public void onSuccess(Integer integer, Bundle bundle) {
-
-                        unreadCount=integer;
-                        //Toast.makeText(getApplicationContext(),Integer.toString(integer),Toast.LENGTH_LONG).show();
-                    }
-
-                    @Override
-                    public void onError(QBResponseException e) {
-                        //Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_LONG).show();
-
-                    }
-                });
 
 
                 badgeCount = 0;

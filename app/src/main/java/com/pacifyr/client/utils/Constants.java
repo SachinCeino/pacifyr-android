@@ -17,6 +17,9 @@ public class Constants {
     public static final Object CLOSECHILDACTIIVTY ="CLOSECHILDACTIIVTY" ;
     public static final String ADD_RESOURCES_LINK ="https://bpihsfbbrk5.typeform.com/to/fIPMYk3X" ;
     public static final String DestroySubScreenAfterEndCall = "DestroySubScreenAfterEndCall";
+    public static final String PAYMENT_DONE ="payment_done" ;
+    public static final String TWILIO_CHAT_TOKEN_URL = "twilio/chat/generateToken";
+    public static final Object CLOSE_CHAT_ACTIVITY ="close_chat_activity_from_call" ;
 
     public static String getPacifyrVideoTutorialLink(Context context) {
         return context.getResources().getString(R.string.tutorial_VideoLink);

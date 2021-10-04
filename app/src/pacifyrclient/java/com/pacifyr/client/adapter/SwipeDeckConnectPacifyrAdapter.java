@@ -37,11 +37,9 @@ import com.pacifyr.client.home.ListPacifyrScreenActivity;
 import com.pacifyr.client.home.PaymentActivity;
 import com.pacifyr.client.home.ProfileScreenActivity;
 import com.pacifyr.client.network.NetworkService;
-import com.pacifyr.client.quickblox.db.QbUsersDbManager;
-import com.pacifyr.client.quickblox.services.CallService;
 import com.pacifyr.client.quickblox.utils.PermissionsChecker;
-import com.pacifyr.client.quickblox.utils.WebRtcSessionManager;
 import com.pacifyr.client.utils.LogUtils;
+import com.pacifyr.client.utils.SharedPrefsHelper;
 import com.pacifyr.client.utils.Utility;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.Certification;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.ChatSubscription;
@@ -49,10 +47,6 @@ import com.pacifyrapp.utilitylibrary.model.pacifyr.Education;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelUserProfile;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
-import com.quickblox.chat.QBChatService;
-import com.quickblox.sample.core.utils.SharedPrefsHelper;
-import com.quickblox.sample.core.utils.Toaster;
-import com.quickblox.users.model.QBUser;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -89,13 +83,9 @@ public class SwipeDeckConnectPacifyrAdapter extends BaseAdapter {
     private String price;
 
     private PrefManager prefM;
-
-    private QBUser currentUser;
     private PermissionsChecker checker;
-    private QBChatService chatService;
-    private QbUsersDbManager dbManager;
+
     private boolean isRunForCall;
-    private WebRtcSessionManager webRtcSessionManager;
     //public Long qbID;
 
     public SharedPrefsHelper sharedPrefsHelper;
@@ -760,26 +750,8 @@ public class SwipeDeckConnectPacifyrAdapter extends BaseAdapter {
         });
 
     }
-    public boolean isLoggedInChat() {
-        if (!QBChatService.getInstance().isLoggedIn()) {
-            Toaster.shortToast(R.string.dlg_signal_error);
-            tryReLoginToChat();
-            return false;
-        }
-        return true;
-    }
 
-    public void tryReLoginToChat() {
-        if (sharedPrefsHelper.hasQbUser()) {
-            QBUser qbUser = sharedPrefsHelper.getQbUser();
-            CallService.start(context, qbUser);
-        }
-    }
 
-    /*public void showQuickblox() {
-        Intent i=new Intent(context, VideoChatActivity.class);
-        context. startActivity(i);
-    }*/
 
     public Boolean isValid(Object object) {
         return object != null;

@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -19,6 +20,7 @@ import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.telephony.TelephonyManager;
 import android.text.format.DateFormat;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,6 +45,7 @@ import com.pacifyr.client.R;
 import com.pacifyr.client.activity.SplashScreen;
 import com.pacifyr.client.home.DashboardActivity;
 import com.pacifyr.client.model.HttpStatus;
+import com.pacifyr.client.model.PermissionModel;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 
 import org.jetbrains.annotations.NotNull;
@@ -52,6 +55,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -113,7 +117,7 @@ public class Utility {
                         });
                         AlertDialog alert = alertBuilder.create();
                         alert.show();
-
+                        alert.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.BLACK);
                     } else {
                         ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
                     }
@@ -137,7 +141,7 @@ public class Utility {
                         });
                         AlertDialog alert = alertBuilder.create();
                         alert.show();
-
+                        alert.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.BLACK);
                     } else {
                         ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.CAMERA}, MY_PERMISSIONS_REQUEST_CAMERA);
                     }
@@ -162,7 +166,7 @@ public class Utility {
                         });
                         AlertDialog alert = alertBuilder.create();
                         alert.show();
-
+                        alert.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.BLACK);
                     } else {
                         ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.CALL_PHONE}, MY_PERMISSIONS_REQUEST_CALL);
                     }
@@ -187,7 +191,7 @@ public class Utility {
                         });
                         AlertDialog alert = alertBuilder.create();
                         alert.show();
-
+                        alert.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.BLACK);
                     } else {
                         ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
                     }
@@ -212,7 +216,7 @@ public class Utility {
                         });
                         AlertDialog alert = alertBuilder.create();
                         alert.show();
-
+                        alert.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.BLACK);
                     } else {
                         ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.READ_CONTACTS}, MY_PERMISSIONS_REQUEST_READ_CONTACTS);
                     }
@@ -240,7 +244,7 @@ public class Utility {
                         });
                         AlertDialog alert = alertBuilder.create();
                         alert.show();
-
+                        alert.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.BLACK);
                     } else {
                         //LogUtils.LOGD("jithish","audiochecks......1");
                         ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.RECORD_AUDIO}, MY_PERMISSIONS_REQUEST_RECORD_AUDIO);
@@ -270,6 +274,7 @@ public class Utility {
                         alertBuilder.setCancelable(true);
                         final AlertDialog alert = alertBuilder.create();
                         alert.show();
+
                         positive.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -383,7 +388,7 @@ public class Utility {
                         });
                         AlertDialog alert = alertBuilder.create();
                         alert.show();
-
+                        alert.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.BLACK);
                     } else {
                         //LogUtils.LOGD("jithish","audiochecks..jjjjj....1");
                         ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.READ_PHONE_STATE}, MY_PERMISSIONS_REQUEST_READ_AUDIO);
@@ -411,7 +416,7 @@ public class Utility {
                         });
                         AlertDialog alert = alertBuilder.create();
                         alert.show();
-
+                        alert.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.BLACK);
                     } else {
                         //LogUtils.LOGD("jithish","audiochecks..jjjjj....1");
                         ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, MY_PERMISSIONS_REQUEST_LOCATION_PERMISSION);
@@ -425,6 +430,7 @@ public class Utility {
 
                 if (ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
                         || ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+
                     if (ActivityCompat.shouldShowRequestPermissionRationale((Activity) context, Manifest.permission.CAMERA)
                             || ActivityCompat.shouldShowRequestPermissionRationale((Activity) context, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(context);
@@ -434,19 +440,23 @@ public class Utility {
                         alertBuilder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
                             public void onClick(DialogInterface dialog, int which) {
-                                ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.CAMERA,
-                                        Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_CHAT_PERMISSION);
+                                ActivityCompat.requestPermissions((Activity) context, new String[]{
+                                        Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.CAMERA
+                                        }, MY_PERMISSIONS_REQUEST_CHAT_PERMISSION);
                             }
                         });
                         AlertDialog alert = alertBuilder.create();
                         alert.show();
-
+                        alert.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.BLACK);
+                        return true;
                     } else {
-                        //LogUtils.LOGD("jithish","audiochecks..jjjjj....1");
-                        ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.CAMERA,
-                                Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_CHAT_PERMISSION);
+                       // LogUtils.LOGD("jithish","audiochecks..jjjjj....1");
+                        ActivityCompat.requestPermissions((Activity) context, new String[]{
+                                Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.CAMERA},
+                                MY_PERMISSIONS_REQUEST_CHAT_PERMISSION);
+                        return false;
                     }
-                    return false;
+
                 } else {
                     return true;
                 }
@@ -457,6 +467,54 @@ public class Utility {
 
         }
         return true;
+    }
+
+
+    public static PermissionModel checkDevicePermission(final Context context, String type) {
+        int currentAPIVersion = Build.VERSION.SDK_INT;
+        if (currentAPIVersion >= Build.VERSION_CODES.M) {
+            switch (type){
+                case "chat":{
+                    if (ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
+                            || ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+
+                        if (ActivityCompat.shouldShowRequestPermissionRationale((Activity) context, Manifest.permission.CAMERA)
+                                || ActivityCompat.shouldShowRequestPermissionRationale((Activity) context, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                            AlertDialog.Builder alertBuilder = new AlertDialog.Builder(context);
+                            alertBuilder.setCancelable(true);
+
+                            alertBuilder.setTitle("Permission required");
+                            alertBuilder.setMessage("Camera & Storage permissions are required to proceed");
+                            alertBuilder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+                                public void onClick(DialogInterface dialog, int which) {
+                                    ActivityCompat.requestPermissions((Activity) context, new String[]{
+                                            Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.CAMERA
+                                    }, MY_PERMISSIONS_REQUEST_CHAT_PERMISSION);
+                                }
+                            });
+                            AlertDialog alert = alertBuilder.create();
+                            alert.show();
+                            alert.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.BLACK);
+
+                            return new PermissionModel(true, false);
+
+                        } else {
+                            LogUtils.LOGD("jithish","audiochecks..jjjjj....1");
+                            ActivityCompat.requestPermissions((Activity) context, new String[]{
+                                            Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.CAMERA},
+                                    MY_PERMISSIONS_REQUEST_CHAT_PERMISSION);
+
+                            return new PermissionModel(false, false);
+                        }
+
+                    } else {
+                        return new PermissionModel(false, true);
+                    }
+                }
+            }
+        }
+        return new PermissionModel(false, true);
     }
 
     public static String getPriceSign(Context context) {
@@ -603,6 +661,40 @@ public class Utility {
             }
         }
         catch (Exception e) { }
+        return null;
+    }
+
+    public static String getFormattedDate(Context context,String input) {
+
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        format.setTimeZone(TimeZone.getTimeZone("GMT"));
+
+
+        SimpleDateFormat outFormat = new SimpleDateFormat("dd-MMM-yyyy");
+
+        outFormat.setTimeZone(TimeZone.getDefault());
+
+        Date date = null;
+        String dayname="";
+
+        try {
+            date = format.parse(input);
+            System.out.println("Date ->" + date);
+
+            if(DateUtils.isToday(date.getTime())){
+                dayname = context.getResources().getString(R.string.today);
+            }else if(DateUtils.isToday(date.getTime() + DateUtils.DAY_IN_MILLIS)){
+                dayname = context.getResources().getString(R.string.yesterday);
+            }else {
+                dayname = outFormat.format(date);
+            }
+
+
+            return dayname;
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 
@@ -947,6 +1039,8 @@ public class Utility {
 
         return millis;
     }
+
+
 
     public static File saveFileInCache(Context context, Bitmap imageBitmap, String fileName) {
         File cacheFile = getTempFile(context, fileName);

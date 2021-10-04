@@ -59,14 +59,6 @@ import com.pacifyrapp.utilitylibrary.model.pacifyr.post.PostRatePacifyrSession;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.post.PostStopSessionWithPacifyr;
 import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
-import com.quickblox.core.QBEntityCallback;
-import com.quickblox.core.exception.QBResponseException;
-import com.quickblox.core.helper.StringifyArrayList;
-import com.quickblox.messages.QBPushNotifications;
-import com.quickblox.messages.model.QBEnvironment;
-import com.quickblox.messages.model.QBEvent;
-import com.quickblox.messages.model.QBNotificationType;
-
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -1294,21 +1286,6 @@ public class  NetworkService  extends IntentService {
         try {
             PrefManager prefM = PrefManager.getInstance(this);
 
-            StringifyArrayList<Integer> userIds = new StringifyArrayList<Integer>();
-            userIds.add(Integer.valueOf((int) toUserId));
-
-            QBEvent event = new QBEvent();
-            event.setUserIds(userIds);
-            if (CIRTIFICATE_KEY.equals(QBEnvironment.DEVELOPMENT))
-            {
-                event.setEnvironment(QBEnvironment.DEVELOPMENT);
-            }
-            else {
-                event.setEnvironment(QBEnvironment.PRODUCTION);
-            }
-
-            event.setNotificationType(QBNotificationType.PUSH);
-
             JSONObject json = new JSONObject();
             try {
                 json.put("message", recepientName+" is calling you.");
@@ -1341,24 +1318,6 @@ public class  NetworkService  extends IntentService {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
-            event.setMessage(json.toString());
-
-
-            QBPushNotifications.createEvent(event).performAsync(new QBEntityCallback<QBEvent>() {
-                @Override
-                public void onSuccess(QBEvent qbEvent, Bundle args) {
-                    // sent
-                    Log.w("QQQQQQ","onSuccess");
-                }
-
-                @Override
-                public void onError(QBResponseException errors)
-                {
-
-                    Log.w("QQQQQQ","onError");
-                }
-            });
 
 
         } catch (Exception e) {

@@ -27,23 +27,15 @@ import com.pacifyr.client.R;
 import com.pacifyr.client.activity.SplashScreen;
 import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.event.CallEvent;
-import com.pacifyr.client.event.InternetConnectionEvent;
 import com.pacifyr.client.event.RateSessionEvent;
 import com.pacifyr.client.home.DashboardActivity;
-import com.pacifyr.client.orginals.DynamicLink;
-import com.pacifyr.client.quickblox.activities.CallActivity;
-import com.pacifyr.client.quickblox.chat.ui.activity.DialogsActivity;
-import com.pacifyr.client.quickblox.services.CallService;
-import com.pacifyr.client.quickblox.utils.WebRtcSessionManager;
 import com.pacifyr.client.receiver.NotificationUtils;
-import com.pacifyr.client.receiver.PacifyrReceiver;
+import com.pacifyr.client.twiliochat.TwilioConversationActivity;
+import com.pacifyr.client.utility.FCMMasterToken;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
-
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import me.leolin.shortcutbadger.ShortcutBadger;
 
 import static androidx.core.app.NotificationCompat.BADGE_ICON_SMALL;
 import static com.pacifyr.client.receiver.NotificationUtils.isAppIsInBackground;
@@ -59,6 +51,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     public void onNewToken(@NonNull String s) {
         super.onNewToken(s);
         PrefManager.getInstance(getApplicationContext()).putSharedString(PrefManager.FCM_TOKEN, s);
+        new FCMMasterToken(getApplicationContext(),s);
         sendRegistrationToServer(s);
     }
 
@@ -113,6 +106,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         // messages. For more see: https://firebase.google.com/docs/cloud-messaging/concept-options
         // [END_EXCLUDE]
 
+        //{author=VINEESH PROVIDER, message_index=79, message_sid=IM9f6b2b703ce04b2e8c0892849ad88ef9, twi_message_type=twilio.conversations.new_message, conversation_sid=CHebc610cca1024fb3a0b4d8dcde547995, twi_message_id=RUae803f11a10835b93fb1f1567ee337d6, twi_body=VINEESH PROVIDER: Hhvv, conversation_title=60daf972a8c03f049816a93e}
+
         // TODO(developer): Handle FCM messages here.
         // Not getting messages here? See why this may be: https://goo.gl/39bRNJ
         Log.d(TAG, "From: " + remoteMessage.getFrom());
@@ -151,13 +146,20 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             if (remoteMessage.getNotification().getTitle() != null) {
                 title = remoteMessage.getNotification().getTitle();
             }
-
             if (remoteMessage.getNotification().getBody() != null) {
                 body = remoteMessage.getNotification().getBody();
             }
             if (remoteMessage.getData().containsKey("type")) {
                 type = remoteMessage.getData().get("type");
             }
+
+            if (remoteMessage.getData().containsKey("twi_message_type")) {
+                type = remoteMessage.getData().get("twi_message_type");
+            }
+            if (remoteMessage.getData().containsKey("twi_body")) {
+                body = remoteMessage.getData().get("twi_body");
+            }
+
             if (type != null && type.equalsIgnoreCase("chat")) {
                 return;
             }
@@ -183,6 +185,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     String text = null;
                     String _id = null;
                     String actual_type = null;
+                    String conversation_sid=null;
 
                     if (remoteMessage.getData().containsKey("message")) {
                         message = remoteMessage.getData().get("message") + "";
@@ -198,6 +201,15 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     }
                     if (remoteMessage.getData().containsKey("typeId")) {
                         typeId = remoteMessage.getData().get("typeId");
+                    }
+                    if (remoteMessage.getData().containsKey("twi_message_type")) {
+                        actual_type = remoteMessage.getData().get("twi_message_type");
+                    }
+                    if (remoteMessage.getData().containsKey("twi_body")) {
+                        message = remoteMessage.getData().get("twi_body");
+                    }
+                    if (remoteMessage.getData().containsKey("conversation_sid")) {
+                        conversation_sid = remoteMessage.getData().get("conversation_sid");
                     }
 
                     /*if (actual_type.equals("reminder") && isValid(typeId))
@@ -233,20 +245,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                             if (isAppIsInBackground(context)) {
                                 if (actual_type.equalsIgnoreCase("session")) {
                                     isCall = true;
-                                    LogUtils.LOGD("app_reca", " app live  notification session " + WebRtcSessionManager.currentSession);
-                                    if (WebRtcSessionManager.currentSession == null) {
-                                        LogUtils.LOGD("app_reca", " app live  notification session " + WebRtcSessionManager.tempSession);
-
-                                        if (WebRtcSessionManager.tempSession != null) {
-                                            PacifyrActivity.sessionid = _id;
-                                            WebRtcSessionManager.currentSession = WebRtcSessionManager.tempSession;
-                                            WebRtcSessionManager.tempSession = null;
-                                            CallActivity.start(context, true);
-                                            ToastHandler.newInstance(context).showToast("call data recevied from backend 1");
-
-                                        } else {
-
-                                            showNotification(context, _id, message, actual_type);
+                                     showNotification(context, _id, message, actual_type,conversation_sid);
 
                                             new Handler().postDelayed(new Runnable() {
                                                 @Override
@@ -256,12 +255,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                                             }, 10000);
 
 
-                                        }
-                                    }
+
+
                                 } else {
 
                                     isCall = false;
-                                    showNotification(context, _id, message, actual_type);
+                                    showNotification(context, _id, message, actual_type,conversation_sid);
                                 }
                             } else {
 
@@ -269,27 +268,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                                 isCall = false;
                                 if (actual_type.equalsIgnoreCase("session")) {
                                     isCall = true;
-                                    LogUtils.LOGD("app_recb", " app live  notification session " + WebRtcSessionManager.tempSession);
-                                    if (WebRtcSessionManager.currentSession == null) {
-                                        LogUtils.LOGD("app_recbbb1", " app live  notification session " + WebRtcSessionManager.currentSession);
-                                        if (WebRtcSessionManager.tempSession != null) {
-                                            LogUtils.LOGD("app_recb", " app live  notification session " + WebRtcSessionManager.tempSession);
-                                            LogUtils.LOGD("app_recb", " app live notification Call ");
-                                            PacifyrActivity.sessionid = _id;
-                                            WebRtcSessionManager.currentSession = WebRtcSessionManager.tempSession;
-                                            WebRtcSessionManager.tempSession = null;
-                                            ToastHandler.newInstance(context).showToast("call data recevied from backend 1");
-                                            CallActivity.start(context, true);
-                                        } else {
-
                                             new Handler().postDelayed(new Runnable() {
                                                 @Override
                                                 public void run() {
                                                     LogUtils.LOGD("app_recb", "app live notification tempseesionid cleaed");
                                                 }
                                             }, 10000);
-                                        }
-                                    }
+
+
                                 } else if (actual_type.equalsIgnoreCase("chat")
                                         ||actual_type.equalsIgnoreCase("confirmBooking") || actual_type.equalsIgnoreCase("rejectBooking")) {
                                     Intent intent = new Intent(NotificationUtils.NOTIFY_INTENT);
@@ -347,10 +333,20 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                                 else if (actual_type.equalsIgnoreCase("chat")
                                         ||actual_type.equalsIgnoreCase("confirmBooking")
                                         || actual_type.equalsIgnoreCase("rejectBooking")
-                                        || actual_type.equalsIgnoreCase("reminder")) {
+                                        || actual_type.equalsIgnoreCase("reminder")
+                                        || actual_type.equalsIgnoreCase("twilioChat")
+                                        || actual_type.equalsIgnoreCase("twilio.conversations.new_message")) {
                                     Intent intent = new Intent(NotificationUtils.NOTIFY_INTENT);
                                     intent.putExtra("type", actual_type);
                                     intent.putExtra("message", message);
+                                    if(actual_type.equals("twilioChat")){
+                                        conversation_sid = _id;
+                                    }
+
+                                    if (isValid(conversation_sid)){
+                                        intent.putExtra("conversation_sid", conversation_sid);}
+
+
                                     LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
                                 }
 
@@ -360,19 +356,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                                 isCall = false;
                                 if (actual_type.equalsIgnoreCase("session")) {
                                     isCall = true;
-                                    LogUtils.LOGD("app_recc", " app live  notification session " + WebRtcSessionManager.tempSession);
-                                    if (WebRtcSessionManager.currentSession == null) {
-                                        if (WebRtcSessionManager.tempSession != null) {
-
-                                            LogUtils.LOGD("app_rec", " app live notification Call ");
-                                            PacifyrActivity.sessionid = _id;
-                                            WebRtcSessionManager.currentSession = WebRtcSessionManager.tempSession;
-                                            WebRtcSessionManager.tempSession = null;
-                                            ToastHandler.newInstance(context).showToast("call data recevied from backend 1");
-                                            CallActivity.start(context, true);
-                                        } else {
-
-                                            //  showNotification(context,_id,message,actual_type);
+                                          //  showNotification(context,_id,message,actual_type);
                                             new Handler().postDelayed(new Runnable() {
                                                 @Override
                                                 public void run() {
@@ -380,22 +364,15 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                                                 }
                                             }, 10000);
                                         }
-                                    }
-                                }
+
+
 
 
                             } else {
                                 isCall = false;
                                 if (actual_type.equalsIgnoreCase("session")) {
                                     isCall = true;
-                                    if (WebRtcSessionManager.tempSession != null) {
-                                        LogUtils.LOGD("app_recd", " app live notification Call ");
-                                        PacifyrActivity.sessionid = _id;
-                                        WebRtcSessionManager.currentSession = WebRtcSessionManager.tempSession;
-                                        WebRtcSessionManager.tempSession = null;
-                                        ToastHandler.newInstance(context).showToast("call data recevied from backend 2 ");
-                                        CallActivity.start(context, true);
-                                    } else {
+
 
                                         new Handler().postDelayed(new Runnable() {
                                             @Override
@@ -403,7 +380,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                                                 LogUtils.LOGD("app_recd", "app live notification tempseesionid cleaed");
                                             }
                                         }, 5000);
-                                    }
+
 
                                 }
                                 else if (actual_type.equals("sessionDeclined"))
@@ -423,10 +400,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
                     }
 
-                    if (!isAppIsInBackground(context)) {
-                        Intent background = new Intent(context, CallService.class);
-                        context.startService(background);
-                    }
                     LogUtils.LOGD("app_rec", "PR  onReceive End ");
                 } catch (Exception e) {
                     LogUtils.LOGD("app_rec", "notification" + " exception: " + e.getMessage());
@@ -443,7 +416,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     /**
      * Create and show a simple notification containing the received FCM message.
      *
-     * @param messageBody FCM message body received.
+
      */
     public Boolean isValid(String text) {
         if (text != null) return !text.trim().equalsIgnoreCase("");
@@ -451,7 +424,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     }
 
-    private void showNotification(Context context, String qsid, String message, String actualType) {
+    private void showNotification(Context context, String qsid, String message, String actualType,String conversation_sid) {
 
         PrefManager prefM=PrefManager.getInstance(context);
         int count=0;
@@ -470,10 +443,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         Intent cIntent = null;
         PendingIntent pendingIntent = null;
-        if (actualType.equals("chat"))
+        if (actualType.equals("twilio.conversations.new_message") ||actualType.equals("twilioChat"))
         {
+            if (actualType.equals("twilioChat"))
+                conversation_sid =qsid;
 
-            cIntent = new Intent(context, DialogsActivity.class);
+            cIntent = new Intent(context, TwilioConversationActivity.class);
+            cIntent.putExtra("conversation_sid", conversation_sid);
+            cIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
             stackBuilder.addNextIntentWithParentStack(cIntent);
             pendingIntent =
@@ -548,10 +525,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 public void run() {
 
                     try {
-                        if (PacifyrReceiver.notificationManager != null) {
-                            PacifyrReceiver.notificationManager.cancel(PacifyrReceiver.notificationIdInt);
-                            PacifyrReceiver.notificationManager = null;
-                        }
+
                         //setScreenLockOff();
                     } catch (Exception e) {
 

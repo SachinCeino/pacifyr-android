@@ -104,15 +104,7 @@ import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.orginals.Auth;
 import com.pacifyr.client.paytmpayment.Paytm;
 import com.pacifyr.client.paytmpayment.TransactionResponce;
-import com.pacifyr.client.quickblox.App;
-import com.pacifyr.client.quickblox.activities.CallActivity;
 import com.pacifyr.client.quickblox.activities.PermissionsActivity;
-import com.pacifyr.client.quickblox.chat.ui.activity.ChatActivity;
-import com.pacifyr.client.quickblox.chat.ui.activity.DialogsActivity;
-import com.pacifyr.client.quickblox.chat.utils.chat.ChatHelper;
-import com.pacifyr.client.quickblox.chat.utils.qb.QbDialogHolder;
-import com.pacifyr.client.quickblox.services.CallService;
-import com.pacifyr.client.quickblox.util.QBResRequestExecutor;
 import com.pacifyr.client.quickblox.utils.Consts;
 import com.pacifyr.client.quickblox.utils.PermissionsChecker;
 import com.pacifyr.client.quickblox.utils.RingtonePlayer;
@@ -120,10 +112,15 @@ import com.pacifyr.client.receiver.NotificationUtils;
 import com.pacifyr.client.sign.SignActivity;
 import com.pacifyr.client.twilio.TwilioAccessToken;
 import com.pacifyr.client.twilio.VideoActivity;
+import com.pacifyr.client.twiliochat.TwilioConversationActivity;
+import com.pacifyr.client.twiliochat.TwilioConversationCreate;
 import com.pacifyr.client.utility.PdfViewer;
 import com.pacifyr.client.utils.Constants;
 import com.pacifyr.client.utils.FirebaseLogging;
+import com.pacifyr.client.utils.GooglePlayServicesHelper;
 import com.pacifyr.client.utils.LogUtils;
+import com.pacifyr.client.utils.SharedPrefsHelper;
+import com.pacifyr.client.utils.Toaster;
 import com.pacifyr.client.utils.Utility;
 import com.pacifyrapp.utilitylibrary.CustomEditText;
 import com.pacifyrapp.utilitylibrary.CustomFontTextView;
@@ -142,23 +139,11 @@ import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.paytm.pgsdk.PaytmOrder;
 import com.paytm.pgsdk.PaytmPGService;
 import com.paytm.pgsdk.PaytmPaymentTransactionCallback;
-import com.quickblox.chat.QBChatService;
-import com.quickblox.chat.model.QBChatDialog;
-import com.quickblox.core.QBEntityCallback;
-import com.quickblox.core.exception.QBResponseException;
-import com.quickblox.core.request.QBPagedRequestBuilder;
-import com.quickblox.sample.core.gcm.GooglePlayServicesHelper;
-import com.quickblox.sample.core.utils.ErrorUtils;
-import com.quickblox.sample.core.utils.SharedPrefsHelper;
-import com.quickblox.sample.core.utils.Toaster;
-import com.quickblox.users.QBUsers;
-import com.quickblox.users.model.QBUser;
 import com.squareup.picasso.Picasso;
 import com.stripe.android.Stripe;
 import com.stripe.android.TokenCallback;
 import com.stripe.android.model.Card;
 import com.stripe.android.model.Token;
-
 import org.greenrobot.eventbus.EventBus;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -187,6 +172,7 @@ import static com.pacifyr.client.network.NetworkService.mCurrentUser;
 import static com.pacifyr.client.network.NetworkService.modelAllEmotions;
 import static com.pacifyr.client.network.NetworkService.modelCustomerDashboard2;
 import static com.pacifyr.client.twilio.VideoActivity.isCallActive;
+import static com.pacifyr.client.twiliochat.TwilioConversationActivity.DEFAULT_CONVERSATION_NAME;
 import static com.pacifyr.client.utils.Constants.getCountryChecks;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_IMAGE_URL;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
@@ -206,7 +192,6 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
     public SharedPrefsHelper sharedPrefsHelper;
     private ProgressDialog progressDialog;
     protected GooglePlayServicesHelper googlePlayServicesHelper;
-    protected QBResRequestExecutor requestExecutor;
     public PermissionsChecker checker;
     private android.app.AlertDialog billSummary;
     private android.app.AlertDialog PaymentPopup;
@@ -302,6 +287,18 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                             }
                         }, "Close");
                     }
+
+                    else if(type.equals("twilio.conversations.new_message") || type.equals("twilioChat") ){
+
+
+                        String conversation_sid = intent.getExtras().getString("conversation_sid");
+                        if(isValid(DEFAULT_CONVERSATION_NAME) && isValid(conversation_sid)
+                                && conversation_sid.equals(DEFAULT_CONVERSATION_NAME)){
+
+                            return;
+                        }
+
+                        showIOSDialogOKCancel("Message", message, "View", new iOSDialogClickListener() {
                     else if (type.equals("sessionWrapUp")
                             ||type.equals("sessionExtensionAccepted"))
                     {
@@ -319,11 +316,22 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                             @Override
                             public void onClick(iOSDialog dialog) {
                                 dialog.dismiss();
-                                Intent intent1 = new Intent(PacifyrActivity.this, DialogsActivity.class);
+                                Intent intent1 = new Intent(PacifyrActivity.this, TwilioConversationActivity.class);
+                                intent1.putExtra("conversation_sid",conversation_sid);
                                 startActivity(intent1);
                             }
                         }, "Close");
                         }*/
+                    }
+                    else
+                    {
+                        showIOSDialogOKCancel("Message", message, "View", new iOSDialogClickListener() {
+                            @Override
+                            public void onClick(iOSDialog dialog) {
+                                dialog.dismiss();
+
+                            }
+                        }, "Close");
                     }
 
                 }
@@ -606,7 +614,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                         dialog.dismiss();
 
 
-                        new NetworkService().sendPaymentFailedDueToSomeReasons(CallActivity.mSessionDetailRoot.getPacifyr().getId(), "paymentFailure", "Transaction cancelled", new AjaxCallback<JSONObject>() {
+                        new NetworkService().sendPaymentFailedDueToSomeReasons(VideoActivity.mSessionDetailRoot.getPacifyr().getId(), "paymentFailure", "Transaction cancelled", new AjaxCallback<JSONObject>() {
                             @Override
                             public void callback(String url, JSONObject json, AjaxStatus status) {
                                 /*
@@ -635,8 +643,8 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                         //Toast.makeText(PacifyrActivity.this,"Clicked!",Toast.LENGTH_LONG).show();
                         if (isValid(id)) {
 
-                            if (isValid(CallActivity.mSessionDetailRoot) && isValid(CallActivity.mSessionDetailRoot.getPacifyr()) &&
-                                    isValid(CallActivity.mSessionDetailRoot.getPacifyr().getPrice())) {
+                            if (isValid(VideoActivity.mSessionDetailRoot) && isValid(VideoActivity.mSessionDetailRoot.getPacifyr()) &&
+                                    isValid(VideoActivity.mSessionDetailRoot.getPacifyr().getPrice())) {
                                 String tempSessionId = id;
                                 if (errorCount != 0)
                                     tempSessionId = tempSessionId + "_" + errorCount;
@@ -740,13 +748,12 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
             setAlertSessionStop("Stop session","Previous sessson is not closed.","OK");
         }*/
 
-        requestExecutor = App.getInstance().getQbResRequestExecutor();
         sharedPrefsHelper = SharedPrefsHelper.getInstance();
         googlePlayServicesHelper = new GooglePlayServicesHelper();
 
         loadEmotions();
 
-        tryReLoginToChat();
+
     }
 
     private void loadEmotions() {
@@ -819,28 +826,6 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
     }
 
 
-    public void initDefaultActionBar() {
-        String currentUserFullName = "";
-        String currentRoomName = sharedPrefsHelper.get(Consts.PREF_CURREN_ROOM_NAME, "");
-
-        if (sharedPrefsHelper.getQbUser() != null) {
-            currentUserFullName = sharedPrefsHelper.getQbUser().getFullName();
-        }
-
-        setActionBarTitle(currentRoomName);
-        setActionbarSubTitle(String.format(getString(R.string.subtitle_text_logged_in_as), currentUserFullName));
-    }
-
-
-    public void setActionbarSubTitle(String subTitle) {
-        if (actionBar != null)
-            actionBar.setSubtitle(subTitle);
-    }
-
-    public void removeActionbarSubTitle() {
-        if (actionBar != null)
-            actionBar.setSubtitle(null);
-    }
     public Boolean isValidhtml(String text) {
         if (isValid(text)) return text.contains("http") || text.contains("https");
         return false;
@@ -1046,16 +1031,6 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
 
     protected abstract View getSnackbarAnchorView();
 
-    public void saveUserData(QBUser qbUser) {
-        SharedPrefsHelper sharedPrefsHelper = SharedPrefsHelper.getInstance();
-        // sharedPrefsHelper.save(Consts.PREF_CURREN_ROOM_NAME, qbUser.getTags().get(0));
-        sharedPrefsHelper.saveQbUser(qbUser);
-    }
-    public void startLoginService(QBUser qbUser) {
-        Intent tempIntent = new Intent(this, CallService.class);
-        PendingIntent pendingIntent = createPendingResult(Consts.EXTRA_LOGIN_RESULT_CODE, tempIntent, 0);
-        CallService.start(this, qbUser, pendingIntent);
-    }
 
     public void startPermissionsActivity(boolean checkOnlyAudio) {
         PermissionsActivity.startActivity(this, checkOnlyAudio, Consts.PERMISSIONS);
@@ -1064,21 +1039,8 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
     public void startPermissionsActivity(boolean checkOnlyAudio, Activity activity) {
         PermissionsActivity.startActivity(activity, checkOnlyAudio, Consts.PERMISSIONS);
     }
-    public boolean isLoggedInChat() {
-        if (!QBChatService.getInstance().isLoggedIn()) {
-            Toaster.shortToast(R.string.dlg_signal_error);
-            tryReLoginToChat();
-            return false;
-        }
-        return true;
-    }
 
-    public void tryReLoginToChat() {
-        if (sharedPrefsHelper.hasQbUser()) {
-            QBUser qbUser = sharedPrefsHelper.getQbUser();
-            CallService.start(this, qbUser);
-        }
-    }
+
     public String getAccessToken() {
         Log.w("@@@",getPrefManager().getAccessToken());
         return getPrefManager().getAccessToken();
@@ -1340,11 +1302,6 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
         }
     }
 
-    protected Snackbar returnshowErrorSnackbar(@StringRes int resId, Exception e,
-                                               View.OnClickListener clickListener) {
-        return ErrorUtils.showSnackbar(getSnackbarAnchorView(), resId, e,
-                com.quickblox.sample.core.R.string.dlg_retry, clickListener);
-    }
 
     private void showBillingSummary(final BillingSummary billingSummary) {
         if (billSummary != null && billSummary.isShowing()) {
@@ -1480,13 +1437,6 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
 
     }
 
-    private boolean isPrivateDialogExist(ArrayList<QBUser> allSelectedUsers) {
-        ArrayList<QBUser> selectedUsers = new ArrayList<>();
-        selectedUsers.addAll(allSelectedUsers);
-        selectedUsers.remove(ChatHelper.getCurrentUser());
-        return selectedUsers.size() == 1 && QbDialogHolder.getInstance().hasPrivateDialogWithUser(selectedUsers.get(0));
-    }
-
     public void startCall(String roomName,String TwilioToken ,boolean isVideoCall,final MUser pacifyer, long  qbID,String oppentid,String idsession,boolean isAppointment,String timeSloteBookingId) {
 
 
@@ -1563,12 +1513,13 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
 
     public void startChat(final MUser pacifyer)
     {
+        startTwilioChat(pacifyer);
            /* if (!Utility.checkPermission(PacifyrActivity.this, "write")) {
                 Log.d(TAG, "Write storage permission required!");
                 return;
             }*/
             // setLoading("Creating Chat");
-            setLoading();
+         /*   setLoading();
             showProgress();
 
             QBPagedRequestBuilder pagedRequestBuilder = new QBPagedRequestBuilder();
@@ -1627,8 +1578,56 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                     showErrorSnackbar(0, e, null);
                 }
             });
+*/
+
+    }
+    public void startTwilioChat(final MUser pacifyer){
+        setLoading();
+        showProgress();
+
+        PrefManager prefM= PrefManager.getInstance(PacifyrActivity.this);
+        String userToken=prefM.getAccessToken();
+        String userid=prefM.getUserID();
+        String url = NetworkService.GLOBAL_URL+"messages/create";
+        AjaxCallback cb = new AjaxCallback<JSONObject>() {
+            @Override
+            public void callback(String url, JSONObject json, AjaxStatus status) {
+                try {
+                    hideProgress();
+                    Log.d("TWILIO", "Response from server: " + json);
+                    Gson gson = new Gson();
+                    if (isValid(json))
+                    {
+                        TwilioConversationCreate mTwilioConversationCreate = gson.fromJson(json.toString(), TwilioConversationCreate.class);
+                        if (isValid(mTwilioConversationCreate) && isValid(mTwilioConversationCreate.getTwilioConversationId()))
+                        {
+
+                            TwilioConversationActivity.start(PacifyrActivity.this,mTwilioConversationCreate);
+                        }
+
+                    }
 
 
+                } catch (Exception e) {
+                    hideProgress();
+                    e.printStackTrace();
+                }
+            }
+        };
+        AQuery aq = new AQuery(PacifyrActivity.this);
+        cb.header("Content-Type", "application/json");
+        cb.header("AccessToken",userToken);
+        try {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.putOpt("userId", userid);
+            jsonObject.putOpt("pacifyrId", pacifyer.getId());
+            aq.post(url, jsonObject, JSONObject.class, cb);
+        }
+        catch (Exception ex)
+        {
+            hideProgress();
+            ex.printStackTrace();
+        }
     }
 
 
@@ -1669,46 +1668,6 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
     public static MSessionRoot call_session_root = null;
     // public static MConnectSessionRoot call_session_detail_root=null;
 
-    private void createChatDialog(final MUser pacifyer,final ArrayList<QBUser> selectedUsers) {
-        if (selectedUsers == null || selectedUsers.isEmpty()) {
-            Toast.makeText(PacifyrActivity.this, "Sorry cannot start chat with this user",
-                    Toast.LENGTH_LONG).show();
-            return;
-        }
-
-        setLoading("Creating Chat");
-        showProgress();
-
-        try {
-
-            ChatHelper.getInstance().createDialogWithSelectedUsers(selectedUsers,
-                    new QBEntityCallback<QBChatDialog>() {
-                        @Override
-                        public void onSuccess(QBChatDialog dialog, Bundle args) {
-                            hideProgress();
-                            //  isProcessingResultInProgress = false;
-                            // dialogsManager.sendSystemMessageAboutCreatingDialog(systemMessagesManager, dialog);
-                            //    ChatActivity.startForResult(this, DialogsActivity.REQUEST_DIALOG_ID_FOR_UPDATE, dialog);
-                            ChatActivity.start(PacifyrActivity.this, dialog, pacifyer);
-                            // ProgressDialogFragment.hide(getSupportFragmentManager());
-                        }
-
-                        @Override
-                        public void onError(QBResponseException e) {
-                            hideProgress();
-                            // isProcessingResultInProgress = false;
-                            //ProgressDialogFragment.hide(getSupportFragmentManager());
-                            showErrorSnackbar(com.quickblox.sample.chat.R.string.group_chat_join_error, e, null);
-                        }
-                    }
-            );
-        } catch (Exception e) {
-            hideProgress();
-            e.printStackTrace();
-            Toast.makeText(PacifyrActivity.this, "Sorry, cannot chat with this user",
-                    Toast.LENGTH_LONG).show();
-        }
-    }
 
     public static String sessionid = null;
 
@@ -3011,7 +2970,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
             AjaxCallback<JSONObject> cb = new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, JSONObject json, AjaxStatus status) {
-                    CallActivity.isMissed=true;
+
                     if (json == null) {
 
                         ToastHandler.newInstance(PacifyrActivity.this).showToast("Please Try again");
@@ -4817,6 +4776,15 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                 }
             }, 2000);
 
+                                    if (isValid(VideoActivity.mSessionDetailRoot) &&
+                                            isValid(VideoActivity.mSessionDetailRoot.getPacifyr()) &&
+                                            isValid(VideoActivity.mSessionDetailRoot.getPacifyr().getId()))
+                                        new NetworkService().sendCardAddedNotificationAfterPaytmSuccess(VideoActivity.mSessionDetailRoot.getPacifyr().getId(), "cardSetup", new AjaxCallback<JSONObject>() {
+                                            @Override
+                                            public void callback(String url, JSONObject json, AjaxStatus status) {
+                                                /*
+                                                 *this must be the first line of any httpCallBacks
+                                                 */
         }
 
 
@@ -4930,7 +4898,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                                 @Override
                                 public void onClick(iOSDialog dialog) {
 
-                                    new NetworkService().sendPaymentFailedDueToSomeReasons(CallActivity.mSessionDetailRoot.getPacifyr().getId(), "paymentFailure", message, new AjaxCallback<JSONObject>() {
+                                    new NetworkService().sendPaymentFailedDueToSomeReasons(VideoActivity.mSessionDetailRoot.getPacifyr().getId(), "paymentFailure", message, new AjaxCallback<JSONObject>() {
                                         @Override
                                         public void callback(String url, JSONObject json, AjaxStatus status) {
                                             /*
@@ -4973,9 +4941,9 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                             iOSDialogClickListener listener = new iOSDialogClickListener() {
                                 @Override
                                 public void onClick(iOSDialog dialog) {
-                                    if (isValid(CallActivity.mSessionDetailRoot)&&isValid(CallActivity.mSessionDetailRoot.getPacifyr()))
+                                    if (isValid(VideoActivity.mSessionDetailRoot)&&isValid(VideoActivity.mSessionDetailRoot.getPacifyr()))
 
-                                    new NetworkService().sendPaymentFailedDueToSomeReasons(CallActivity.mSessionDetailRoot.getPacifyr().getId(), "paymentFailure", message, new AjaxCallback<JSONObject>() {
+                                    new NetworkService().sendPaymentFailedDueToSomeReasons(VideoActivity.mSessionDetailRoot.getPacifyr().getId(), "paymentFailure", message, new AjaxCallback<JSONObject>() {
                                         @Override
                                         public void callback(String url, JSONObject json, AjaxStatus status) {
                                             /*

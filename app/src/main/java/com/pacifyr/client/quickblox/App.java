@@ -5,6 +5,7 @@ import android.os.StrictMode;
 
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.multidex.MultiDex;
+import androidx.multidex.MultiDexApplication;
 
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.pacifyr.client.orginals.Auth;
@@ -12,19 +13,14 @@ import com.pacifyr.client.orginals.RemoteConfig;
 import com.pacifyr.client.orginals.UserProperties;
 import com.pacifyr.client.quickblox.chat.models.SampleConfigs;
 import com.pacifyr.client.quickblox.chat.utils.Consts;
-import com.pacifyr.client.quickblox.chat.utils.configs.ConfigUtils;
-import com.pacifyr.client.quickblox.util.QBResRequestExecutor;
 import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
-import com.quickblox.sample.core.CoreApp;
-import com.quickblox.sample.core.utils.ActivityLifecycle;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 
-public class App extends CoreApp {
+public class App extends MultiDexApplication {
     private static final String TAG = App.class.getSimpleName();
     private static App instance;
-    private QBResRequestExecutor qbResRequestExecutor;
     private FirebaseRemoteConfig mFirebaseRemoteConfig;
 
 
@@ -47,7 +43,7 @@ public class App extends CoreApp {
         initApplication();
 
         /*chat*/
-        ActivityLifecycle.init(this);
+
 //        initSampleConfigs();
         Auth.scanUpdates(this);
         UserProperties.setProperty(this);
@@ -84,11 +80,7 @@ public class App extends CoreApp {
         instance = this;
     }
 
-    public synchronized QBResRequestExecutor getQbResRequestExecutor() {
-        return qbResRequestExecutor == null
-                ? qbResRequestExecutor = new QBResRequestExecutor()
-                : qbResRequestExecutor;
-    }
+
     private static Picasso sPicasso;
     public static Picasso getPicasso() {
         if (sPicasso == null) {
@@ -110,24 +102,4 @@ public class App extends CoreApp {
         return g_currentActivity;
     }
 
-
-
-
-
-
-    /*chat*/
-    private static SampleConfigs sampleConfigs;
-    private void initSampleConfigs() {
-        try {
-            sampleConfigs = ConfigUtils.getSampleConfigs(Consts.SAMPLE_CONFIG_FILE_NAME);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static SampleConfigs getSampleConfigs() {
-        return sampleConfigs;
-    }
-
-    /**/
 }

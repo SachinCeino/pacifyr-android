@@ -22,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.androidquery.AQuery;
@@ -36,7 +37,7 @@ import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
 import com.pacifyrapp.utilitylibrary.utils.BaseUtils;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
-import com.quickblox.sample.core.ui.activity.CoreBaseActivity;
+
 import com.squareup.picasso.Picasso;
 
 import java.util.Date;
@@ -49,7 +50,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by developer on 28/12/16.
  */
 
-public class BaseAppCompactActivity extends CoreBaseActivity {
+public class BaseAppCompactActivity extends AppCompatActivity {
 
 
 
@@ -131,6 +132,14 @@ public class BaseAppCompactActivity extends CoreBaseActivity {
 
     }
 
+    public void setProgressBar() {
+        hideProgress();
+        if(isValid(hud_progress))
+            hud_progress=null;
+        hud_progress = KProgressHUD.create(this).setStyle(KProgressHUD.Style.ANNULAR_DETERMINATE).setLabel("Please wait").setAnimationSpeed(2).setCancellable(true).setMaxProgress(100).setDimAmount(0.5f);
+
+    }
+
     public void setLoading(String message) {
         hideProgress();
         if(isValid(hud_progress))
@@ -142,6 +151,16 @@ public class BaseAppCompactActivity extends CoreBaseActivity {
     public void hideProgress() {
         try {
             if(isValid(hud_progress)) if(hud_progress.isShowing()) hud_progress.dismiss();
+        }catch (Exception e)
+        {
+
+        }
+    }
+
+    public void setProgressValue(int progressValue) {
+        try {
+            //hideProgress();
+            if(isValid(hud_progress)) if(hud_progress.isShowing()) hud_progress.setProgress(progressValue);
         }catch (Exception e)
         {
 

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/dp10"
+    tools:ignore="RtlSymmetry">
+
+    <com.pacifyr.client.customview.MainTextView
+        android:id="@+id/tv_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/shape_round_gray"
+        android:padding="5dp"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp13"
+        android:inputType="textCapWords"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="TODAY" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_bg_receive_bubble"
+        android:paddingStart="@dimen/dp10"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_date">
+
+        <ImageView
+            android:id="@+id/iv_image"
+            android:layout_width="250dp"
+            android:layout_height="180dp"
+            android:layout_marginStart="@dimen/dp2"
+            android:padding="@dimen/dp3"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:visibility="gone"/>
+
+        <ImageView
+            android:id="@+id/iv_file"
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:adjustViewBounds="true"
+            android:padding="@dimen/dp3"
+            android:src="@drawable/pdfdoc3"
+            app:layout_constraintBottom_toTopOf="@+id/tv_time_bottom"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:visibility="gone"/>
+
+        <com.pacifyr.client.customview.MainTextView
+            android:id="@+id/tv_message"
+            style="@style/MessageTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="8dp"
+            android:paddingTop="8dp"
+            android:paddingEnd="5dp"
+            android:paddingBottom="5dp"
+            android:textColor="@android:color/black"
+            app:layout_constraintBottom_toTopOf="@+id/tv_time_bottom"
+            app:layout_constraintEnd_toStartOf="@+id/tv_time_right"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Hi hello" />
+
+        <com.pacifyr.client.customview.MainTextView
+            android:id="@+id/tv_time_right"
+            style="@style/ChatReceiveTimeTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="5dp"
+            android:textSize="@dimen/sp10"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="2:20 AM" />
+
+        <com.pacifyr.client.customview.MainTextView
+            android:id="@+id/tv_time_bottom"
+            style="@style/ChatReceiveTimeTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="5dp"
+            android:textSize="@dimen/sp10"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/tv_message"
+            tools:text="2:20 AM" />
+
+        <ProgressBar
+            android:id="@+id/progress_message"
+            style="@style/CenterProgressBarStyle"
+            android:theme="@style/AppTheme.BlueAccent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/tv_message"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

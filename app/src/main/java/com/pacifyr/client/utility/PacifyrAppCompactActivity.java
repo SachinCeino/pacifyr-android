@@ -45,10 +45,6 @@ import com.pacifyr.client.fragment.schedule.ScheduleBottomSheetFragment;
 import com.pacifyr.client.orginals.Auth;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
-import com.pacifyr.client.quickblox.activities.CallActivity;
-import com.pacifyr.client.quickblox.chat.utils.chat.ChatHelper;
-import com.pacifyr.client.quickblox.chat.utils.qb.QbDialogHolder;
-import com.pacifyr.client.quickblox.db.DbHelper;
 import com.pacifyr.client.sign.SignActivity;
 import com.pacifyr.client.twilio.VideoActivity;
 import com.pacifyr.client.utils.AmazonSNSTokenHandler;
@@ -60,15 +56,6 @@ import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelUserProfile;
 import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
-import com.quickblox.auth.QBAuth;
-import com.quickblox.auth.session.BaseService;
-import com.quickblox.auth.session.QBSession;
-import com.quickblox.auth.session.QBSettings;
-import com.quickblox.chat.QBChatService;
-import com.quickblox.core.QBEntityCallback;
-import com.quickblox.core.exception.QBResponseException;
-import com.quickblox.sample.core.utils.SharedPrefsHelper;
-import com.quickblox.users.model.QBUser;
 import com.squareup.otto.Subscribe;
 
 import org.json.JSONException;
@@ -526,10 +513,6 @@ public abstract class PacifyrAppCompactActivity  extends PacifyrActivity {
                             deleteCache(getApplicationContext());
                             clearApplicationData();
 
-                            ChatHelper.getInstance().destroy();
-                            SharedPrefsHelper.getInstance().removeQbUser();
-                            QbDialogHolder.getInstance().clear();
-                            QBChatService.getInstance().destroy();
 
 
                             setStatus("You have been logged out",R.color.colorPrimary);
@@ -654,24 +637,6 @@ public abstract class PacifyrAppCompactActivity  extends PacifyrActivity {
         String android_id = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
         return android_id;
     }
-
-
-
-
-    /**
-     * Remove all users and groups from database.
-     */
-    public void removeAllDB()
-    {
-        // db.delete(String tableName, String whereClause, String[] whereArgs);
-        // If whereClause is null, it will delete all rows.
-        DbHelper dbHelper = new DbHelper(getApplicationContext());
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        db.delete(DbHelper.DB_TABLE_NAME, null, null);
-
-    }
-
-
 
 
 
@@ -1012,9 +977,9 @@ public abstract class PacifyrAppCompactActivity  extends PacifyrActivity {
                     }
                     else {
                         try {
-                            CallActivity.mSessionDetailRoot= GsonUtils.getInstance().gsonToMSessionDetailRoot(json);
+                            VideoActivity.mSessionDetailRoot= GsonUtils.getInstance().gsonToMSessionDetailRoot(json);
 
-                            PacifyrActivity.call_session_detail_root= CallActivity.mSessionDetailRoot;
+                            PacifyrActivity.call_session_detail_root= VideoActivity.mSessionDetailRoot;
                             postEventOnMainThread(new CallDetailEvent());
                         } catch (Exception e){
                             Bundle args =
@@ -1062,7 +1027,7 @@ public abstract class PacifyrAppCompactActivity  extends PacifyrActivity {
         MUser mUser=null;
         try{
 
-            mUser= CallActivity.mSessionDetailRoot.getUser();
+            mUser= VideoActivity.mSessionDetailRoot.getUser();
         }catch (Exception e)
         {
             mUser=null;
@@ -1072,7 +1037,7 @@ public abstract class PacifyrAppCompactActivity  extends PacifyrActivity {
     public MUser getCallUser() {
         MUser mUser=null;
         try{
-            mUser= CallActivity.mSessionDetailRoot.getUser();
+            mUser= VideoActivity.mSessionDetailRoot.getUser();
         }catch (Exception e)
         {
             mUser=null;
@@ -1094,100 +1059,30 @@ public abstract class PacifyrAppCompactActivity  extends PacifyrActivity {
 
     private void signInCreatedUser(final Context context ) {
         try {
-            //final QBUser user,
-            hideStatus();
-            showProgress();
-            String userid = getPrefManager().getUserID();
-            final String userID = PrefManager.getInstance(context).getUserID();
-            String mail = PrefManager.getInstance(PacifyrAppCompactActivity.this).getEmail();
-            final QBUser user = new QBUser(userID, userID);
-            user.setEmail(mail);
-            if (isValid(APP_ID) &&  isValid(AUTH_KEY) && isValid(AUTH_SECRET))
-            {
-                QBSettings.getInstance().init(context, APP_ID, AUTH_KEY, AUTH_SECRET);
-                QBSettings.getInstance().setAccountKey(ACCOUNT_KEY);
-            }
-            else {
-                return;
-            }
+            try {
 
-            if( !QBAuth.getSession().isCanceled()) {
-                QBAuth.createSession().performAsync(new QBEntityCallback<QBSession>() {
+                Auth.scanUpdates(PacifyrAppCompactActivity.this);
+                new Handler().postDelayed(new Runnable() {
                     @Override
-                    public void onSuccess(QBSession qbSession, Bundle bundle) {
-                        requestExecutor.signInUser(user, new com.pacifyr.client.quickblox.utils.QBEntityCallbackImpl<QBUser>() {
-                            @Override
-                            public void onSuccess(QBUser qbUser, Bundle params) {
-                                qbUser.setPassword(userID);
-                                Log.d("jp", "LPA signInCreatedUser getPassword " + qbUser.getPassword());
-                                saveUserData(qbUser);
-                                startLoginService(qbUser);
-                                try {
-                                    String basetoken = BaseService.getBaseService().getToken();
+                    public void run() {
+                        try {
+                            hideKeyboard();
 
-                                    String qbID = qbUser.getId().toString();
-                                    getPrefManager().saveQBID(qbUser.getId().toString());
-                                    getPrefManager().saveBaseToken(basetoken);
-                                    hideProgress();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            hideProgress();
 
-                                    Auth.scanUpdates(PacifyrAppCompactActivity.this);
-                                    new Handler().postDelayed(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            try {
-                                                hideKeyboard();
-                                                //ToastHandler.newInstance(context).showToast("Logged into qb");
-
-                                            } catch (Exception e) {
-                                                e.printStackTrace();
-                                                hideProgress();
-
-                                            }
-                                        }
-                                    }, 900);
-
-
-                                } catch (Exception e) {
-                                    hideProgress();
-                                    hideStatus();
-                                    /*Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
-                                    e.printStackTrace();
-                                    getPrefManager().clearSharedAll();
-                                    LoginManager mLoginManager = LoginManager.getInstance();
-                                    if (isValid(mLoginManager))
-                                        mLoginManager.logOut();
-                                    Intent intent = new Intent(context, SignActivity.class);
-                                    startActivity(intent);
-                                    finish();*/
-                                }
-                            }
-
-                            @Override
-                            public void onError(QBResponseException responseException) {
-                                //  hideProgressDialog();
-                                //Toaster.longToast("User signInUser failed!" + responseException.getMessage());
-
-                               /* Toast.makeText(context, "Session Expired...! Please login again." + responseException.getMessage(),
-                                        Toast.LENGTH_LONG).show();
-                                // responseException.printStackTrace();
-                                getPrefManager().clearSharedAll();
-                                //LoginManager.getInstance().logOut();
-                                LoginManager mLoginManager = LoginManager.getInstance();
-                                if (isValid(mLoginManager))
-                                    mLoginManager.logOut();
-                                Intent intent = new Intent(context, SignActivity.class);
-                                startActivity(intent);
-                                finish();*/
-                            }
-                        });
+                        }
                     }
+                }, 900);
 
-                    @Override
-                    public void onError(QBResponseException e) {
-                        e.printStackTrace();
-                    }
-                });
+
+            } catch (Exception e) {
+                hideProgress();
+                hideStatus();
+
             }
+
         }
         catch (Exception e)
         {

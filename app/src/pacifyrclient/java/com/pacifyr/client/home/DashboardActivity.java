@@ -33,6 +33,7 @@ import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.gdacciaro.iOSDialog.iOSDialog;
 import com.gdacciaro.iOSDialog.iOSDialogClickListener;
+import com.google.firebase.installations.FirebaseInstallations;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.pacifyr.client.Payment.PaymentFragment;
@@ -73,7 +74,13 @@ import com.pacifyr.client.quickblox.chat.ui.activity.DialogsActivity;
 import com.pacifyr.client.quickblox.services.CallService;
 import com.pacifyr.client.receiver.NotificationUtils;
 import com.pacifyr.client.sign.CrisisActivity;
-import com.pacifyr.client.twilio.VideoActivity;
+import com.pacifyr.client.twiliochat.QuickstartConversationsManager;
+import com.pacifyr.client.twiliochat.QuickstartConversationsManagerListener;
+import com.pacifyr.client.twiliochat.TokenResponseListener;
+import com.pacifyr.client.twiliochat.TwilioConversationActivity;
+import com.pacifyr.client.twiliochat.TwilioCoversationListActivity;
+import com.pacifyr.client.twiliochat.TwilioMainConversationsClient;
+import com.pacifyr.client.utility.FCMMasterToken;
 import com.pacifyr.client.utility.PacifyrAppCompactActivity;
 import com.pacifyr.client.utils.AmazonSNSTokenHandler;
 import com.pacifyr.client.utils.Constants;
@@ -90,15 +97,20 @@ import com.pacifyrapp.utilitylibrary.model.pacifyr.MSessionDetailRoot;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelSessonsOfCustomer;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
-import com.quickblox.sample.core.utils.SharedPrefsHelper;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
+import com.twilio.conversations.ConversationsClient;
+import com.twilio.conversations.Message;
+import com.twilio.conversations.StatusListener;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.ThreadMode;
+import org.jetbrains.annotations.Nullable;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -110,7 +122,7 @@ import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL
 //import com.github.javiersantos.appupdater.AppUpdater;
 
 
-public class DashboardActivity extends PacifyrAppCompactActivity{
+public class DashboardActivity extends PacifyrAppCompactActivity implements QuickstartConversationsManagerListener {
 
     private static final String TAG = DashboardActivity.class.getSimpleName();
     boolean showingFirst = true;
@@ -192,7 +204,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
 
 //    AppUpdater appUpdater;
 
-
+    private QuickstartConversationsManager quickstartConversationsManager;
     @Override
     protected void onResume() {
         super.onResume();
@@ -299,13 +311,6 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
 
     public static String CreatedDay = "";
 
-
-    private void loginToQuickblox() {
-        SharedPrefsHelper sharedPrefsHelper = SharedPrefsHelper.getInstance();
-        if (sharedPrefsHelper.hasQbUser()) {
-            CallService.start(DashboardActivity.this, sharedPrefsHelper.getQbUser());
-        }
-    }
 
 
 
@@ -790,9 +795,10 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
                 closePane(true);
                 //isFromSlideMenu true for subscription check validation
                 boolean isFromSlideMenu=true;
-                DialogsActivity.start(context,isFromSlideMenu);
+                TwilioCoversationListActivity.start(context,isFromSlideMenu);
                 /*showFragment(new PacifyrMessageFragment());*/
                 //defSetText(titleTxv,"");
+
             }
         });
 
@@ -859,6 +865,25 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
                     @Override
                     public void onAction(Dialog d) {
                         hideStatus();
+                        try {
+                            if (TwilioMainConversationsClient.getInstance()!=null)
+                            {
+                                String token = FCMMasterToken.getFCMTokenFromUTility(context);
+                                TwilioMainConversationsClient.getInstance().unregisterFCMToken(new ConversationsClient.FCMToken(token), new StatusListener() {
+                                    @Override
+                                    public void onSuccess() {
+                                        Log.w("EEEE","www");
+                                    }
+                                });
+                                TwilioMainConversationsClient.mConversationsClient=null;
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            TwilioMainConversationsClient.mConversationsClient=null;
+                            Log.w("EEEE",e.toString());
+                        }
+
                             /*PrefManager prefM= PrefManager.getInstance(getActivity());
                             prefM.clearSharedAll();*/
                         NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
@@ -866,12 +891,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
                             mNotificationManager.cancelAll();
                         }
                         deleteInstallationWeb();
-                           /* LoginManager mLoginManager = LoginManager.getInstance();
-                            if(isValid(mLoginManager))
-                                mLoginManager.logOut();
-                            Intent i = new Intent(getActivity(), SignActivity.class);
-                            startActivity(i);
-                            finish();*/
+
                     }
                 });
                 //Toast.makeText(getActivity(),"Logout",Toast.LENGTH_LONG).show();
@@ -886,8 +906,37 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
             }
         });
 
-        new AmazonSNSTokenHandler(context).register();
-        loginToQuickblox();
+
+        if (!isValid(FCMMasterToken.getFCMTokenFromUTility(context)))
+        {
+            FirebaseInstallations.getInstance().getToken(true).addOnCompleteListener(task -> {
+                // get token
+                String tok = task.getResult().getToken();
+                Log.w("FIREBASETOKEN_dash", tok);
+                PrefManager.getInstance(context).putSharedString(PrefManager.FCM_TOKEN,tok);
+                new FCMMasterToken(context,tok);
+                new AmazonSNSTokenHandler(context).register();
+                if (!isValid(getPrefManager().getTWILIOAccessToken()))
+                {
+                    quickstartConversationsManager = new QuickstartConversationsManager();
+                    retrieveTokenFromServer();
+                }
+
+            });
+
+
+        }
+        else
+        {
+            new AmazonSNSTokenHandler(context).register();
+            if (!isValid(getPrefManager().getTWILIOAccessToken()))
+            {
+                quickstartConversationsManager = new QuickstartConversationsManager();
+                retrieveTokenFromServer();
+            }
+
+        }
+
 
         /**
          * network connectivity check JobScheduler
@@ -938,15 +987,38 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
             Utility.getRealTimeLogging(DashboardActivity.this);
         }
 
-       try {
-           SharedPrefsHelper sharedPrefsHelper = SharedPrefsHelper.getInstance();
-           if (isValid(sharedPrefsHelper)&& isValid(sharedPrefsHelper.getQbUser()))
-               startLoginService(sharedPrefsHelper.getQbUser());
-       }catch (Exception e)
-       {
-           Log.w("QBUSErExceptin",e);
-       }
+
+
+
+
     }
+
+
+    private void retrieveTokenFromServer() {
+        quickstartConversationsManager.retrieveAccessTokenFromServer(this, "identity", new TokenResponseListener() {
+            @Override
+            public void receivedTokenResponse(boolean success, @Nullable Exception exception, String token) {
+                if (success) {
+                    getPrefManager().saveTwilioAccessToken(token);
+                    quickstartConversationsManager.initializeWithAccessToken(getApplicationContext(),token);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+
+                        }
+                    });
+                }
+                else {
+                    String errorMessage = getString(R.string.error_retrieving_access_token);
+                    if (exception != null) {
+                        errorMessage = errorMessage + " " + exception.getLocalizedMessage();
+                    }
+
+                }
+            }
+        });
+    }
+
 
     public void showAppointmentPage()
     {
@@ -1239,6 +1311,46 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
             }
         }
     };
+
+    @Override
+    public void receivedNewMessage(Message message) {
+
+    }
+
+    @Override
+    public void messageSentCallback() {
+
+    }
+
+    @Override
+    public void reloadMessages(List<Message> result) {
+
+    }
+
+    @Override
+    public void messageTyping(Boolean visible) {
+
+    }
+
+    @Override
+    public void uploadProgress(Boolean visible) {
+
+    }
+
+    @Override
+    public void sendMediaSuccess(String type) {
+
+    }
+
+    @Override
+    public void sendMediaError(String error) {
+
+    }
+
+    @Override
+    public void setProgressValue(long value) {
+
+    }
 }
 
 

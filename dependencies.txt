@@ -196,7 +196,7 @@ debugAndroidTestCompileClasspath - Resolved configuration for compilation for va
 |    \--- com.quickblox:quickblox-android-sdk-core:3.3.5 (*)
 +--- com.quickblox:quickblox-android-sdk-messages:3.3.5
 |    \--- com.quickblox:quickblox-android-sdk-core:3.3.5 (*)
-+--- project :quickblox-core
+
 +--- com.github.JesusM:HoloCircleSeekBar:v2.2.2
 +--- com.minimize.library:seekbar-compat:0.2.5
 |    \--- com.android.support:appcompat-v7:23.3.0 -> 26.1.0 (*)
@@ -380,7 +380,7 @@ debugAndroidTestRuntimeClasspath - Resolved configuration for runtime for varian
 |    |         +--- com.android.support:support-vector-drawable:26.1.0 (*)
 |    |         \--- com.android.support:support-core-ui:26.1.0 (*)
 |    +--- com.android.support:support-v4:26.1.0 (*)
-|    +--- project :quickblox-core
+
 |    |    +--- com.android.support:multidex:1.0.2 -> 1.0.3
 |    |    +--- com.android.support:design:26.1.0
 |    |    |    +--- com.android.support:support-v4:26.1.0 (*)
@@ -397,7 +397,7 @@ debugAndroidTestRuntimeClasspath - Resolved configuration for runtime for varian
 |    |    +--- com.navercorp.pulltorefresh:library:3.2.3
 |    |    +--- com.github.bumptech.glide:glide:3.6.1
 |    |    +--- de.hdodenhof:circleimageview:2.0.0 -> 2.2.0
-|    |    \--- project :quickblox-core (*)
+
 |    +--- project :quickblox-chat
 |    |    +--- project :quickblox-core (*)
 |    |    +--- com.github.orangegangsters:swipy:1.2.2 -> 1.2.3

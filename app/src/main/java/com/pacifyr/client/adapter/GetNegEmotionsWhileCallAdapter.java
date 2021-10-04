@@ -16,9 +16,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
-import com.pacifyr.client.home.DashboardActivity;
-import com.pacifyr.client.home.PacifyrDashboardActivity;
-import com.pacifyr.client.quickblox.activities.CallActivity;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MEmotion;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.post.PostRegisterModel;

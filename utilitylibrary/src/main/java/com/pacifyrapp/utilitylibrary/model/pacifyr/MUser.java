@@ -131,6 +131,17 @@ public class MUser implements Serializable{
     private boolean enableScheduling;
     private String learnMoreUrl;
     private String getStartedUrl;
+    private Boolean isDisabled;
+    public Boolean getDisabled() {
+        return isDisabled;
+    }
+
+    public void setDisabled(Boolean disabled) {
+        isDisabled = disabled;
+    }
+
+
+
 
     public boolean isEnableScheduling() {
         return enableScheduling;

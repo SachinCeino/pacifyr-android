@@ -8,25 +8,6 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-
-    <!-- &lt;!&ndash; Base application theme. &ndash;&gt;
-    <style name="AppTheme" parent="GoogleNavigationDrawerTheme">
-        &lt;!&ndash; Customize your theme here. &ndash;&gt;
-        <item name="colorPrimary">@color/light_blue_500</item>
-        <item name="colorAccent">@color/grey_1000</item>
-    </style>
-    &lt;!&ndash; Light version theme. &ndash;&gt;
-    <style name="AppTheme" parent="GoogleNavigationDrawerTheme.Light">
-        &lt;!&ndash; Customize your theme here. &ndash;&gt;
-        <item name="colorPrimary">@color/light_blue_500</item>
-        <item name="colorAccent">@color/grey_1000</item>
-    </style>
-    &lt;!&ndash; Light version with Black actionbar &ndash;&gt;
-    <style name="AppTheme" parent="GoogleNavigationDrawerTheme.Light.DarkActionBar">
-        &lt;!&ndash; Customize your theme here. &ndash;&gt;
-        <item name="colorPrimary">@color/light_blue_500</item>
-        <item name="colorAccent">@color/grey_1000</item>
-    </style>-->
     <style name="RatingBar" parent="Theme.AppCompat">
         <item name="colorControlNormal">@color/graph_light</item>
         <item name="colorControlActivated">@color/md_yellow_600</item>
@@ -59,6 +40,319 @@
         <item name="android:colorBackground">@color/grey_light</item>
         <item name="android:windowDisablePreview">true</item>
     </style>-->
+
+
+    <style parent="MatchWidth" name="HorizontalDividerStyle">
+
+        <item name="android:layout_height">1dp</item>
+
+        <item name="android:background">@color/divider_color</item>
+
+    </style>
+
+
+    <style parent="ListItem" name="ListHeaderStyle">
+
+        <item name="android:gravity">center_vertical</item>
+
+        <item name="android:paddingLeft">@dimen/list_item_side_margin</item>
+
+        <item name="android:textColor">@color/text_color_dark_grey</item>
+
+        <item name="android:textSize">14sp</item>
+
+    </style>
+
+    <!-- <item name="typeface">roboto_medium</item>-->
+
+
+
+    <style name="ListItemIconStyle">
+
+        <item name="android:layout_width">40dp</item>
+
+        <item name="android:layout_height">40dp</item>
+
+        <item name="android:layout_centerVertical">true</item>
+
+        <item name="android:layout_marginRight">@dimen/list_item_side_margin</item>
+
+        <item name="android:scaleType">centerInside</item>
+
+    </style>
+
+
+    <style parent="MatchWidth" name="ListDateHeaderStyle">
+
+        <item name="android:gravity">center</item>
+
+        <item name="android:textAllCaps">true</item>
+
+        <item name="android:textColor">@color/text_color_dark_grey</item>
+
+    </style>
+
+    <!-- <item name="typeface">roboto_medium</item>-->
+
+
+
+    <style parent="MatchWidth" name="DialogNameStyle">
+
+        <item name="android:textColor">@color/text_color_primary</item>
+
+        <item name="android:textSize">16sp</item>
+
+        <item name="android:singleLine">true</item>
+
+    </style>
+
+
+    <style parent="MatchWidth" name="DialogLastMessageStyle">
+
+        <item name="android:textColor">@color/text_color_dark_grey</item>
+
+        <item name="android:textSize">14sp</item>
+
+        <item name="android:maxLines">2</item>
+
+        <item name="android:ellipsize">end</item>
+
+    </style>
+
+
+    <style name="DialogUnreadCounterStyle">
+
+        <item name="android:layout_width">20dp</item>
+
+        <item name="android:layout_height">20dp</item>
+
+        <item name="android:layout_alignParentRight">true</item>
+
+        <item name="android:layout_centerVertical">true</item>
+
+        <item name="android:layout_marginLeft">@dimen/list_item_side_margin</item>
+
+        <item name="android:background">@drawable/shape_rectangle</item>
+
+        <item name="android:gravity">center</item>
+
+        <item name="android:textColor">@color/text_color_white</item>
+
+    </style>
+
+
+    <style parent="ListItemIconStyle" name="UserIconStyle">
+
+        <item name="android:layout_marginLeft">@dimen/list_item_side_margin</item>
+
+        <item name="android:padding">@dimen/padding_common</item>
+
+    </style>
+
+
+    <style parent="WeightWidth" name="UserTitleStyle">
+
+        <item name="android:layout_height">wrap_content</item>
+
+        <item name="android:textSize">20sp</item>
+
+    </style>
+
+
+    <style parent="WrapContent" name="UserCheckboxStyle">
+
+        <item name="android:layout_marginRight">@dimen/list_item_side_margin</item>
+
+        <item name="android:clickable">false</item>
+
+        <item name="android:gravity">right</item>
+
+    </style>
+
+
+    <style parent="MatchWidth" name="MessageContainerStyle">
+
+        <item name="android:orientation">vertical</item>
+
+        <item name="android:padding">@dimen/padding_common</item>
+
+    </style>
+
+
+    <style parent="WrapContent" name="MessageContentContainerStyle">
+
+        <item name="android:orientation">vertical</item>
+
+    </style>
+
+
+    <style parent="WrapContent" name="MessageAuthorStyle">
+
+        <item name="android:layout_marginLeft">@dimen/chat_message_username_margin</item>
+
+        <item name="android:layout_marginRight">@dimen/chat_message_username_margin</item>
+
+        <item name="android:gravity">left</item>
+
+        <item name="android:textColor">@color/text_color_dark_grey</item>
+
+        <item name="android:textSize">@dimen/chat_author_text_size</item>
+
+        <item name="android:textStyle">bold</item>
+
+    </style>
+
+    <!--<item name="typeface">roboto_bold</item>-->
+
+
+
+    <style parent="WrapContent" name="MessageTextStyle">
+
+        <item name="android:layout_marginLeft">@dimen/chat_message_content_margin</item>
+
+        <item name="android:layout_marginRight">@dimen/chat_message_content_margin</item>
+
+        <item name="android:maxWidth">250dp</item>
+
+        <item name="android:textColor">@color/text_color_white</item>
+
+        <item name="android:textSize">@dimen/chat_message_body_text_size</item>
+
+    </style>
+
+
+    <style parent="WrapContent" name="MessageInfoStyle">
+
+        <item name="android:paddingLeft">@dimen/padding_common</item>
+
+        <item name="android:paddingRight">@dimen/padding_common</item>
+
+        <item name="android:textColor">@color/text_color_dark_grey</item>
+
+        <item name="android:textSize">@dimen/chat_message_info_text_size</item>
+
+        <item name="android:visibility">gone</item>
+
+    </style>
+
+
+    <style name="WeightWidth">
+
+        <item name="android:layout_width">0dp</item>
+
+        <item name="android:layout_weight">1</item>
+
+    </style>
+
+
+    <style parent="WrapContent" name="ChatTimeTextStyle">
+
+        <item name="android:textColor">@color/color_text_time_sent</item>
+
+        <item name="android:textSize">@dimen/chat_message_time_text_size</item>
+
+    </style>
+
+
+    <style parent="WrapContent" name="ChatReceiveTimeTextStyle">
+
+        <item name="android:textColor">@color/text_color_dark_grey</item>
+
+        <item name="android:textSize">@dimen/chat_message_time_text_size</item>
+
+    </style>
+
+
+
+    <style parent="WrapContent" name="FabStyle">
+
+        <item name="android:layout_alignParentBottom">true</item>
+
+        <item name="android:layout_alignParentRight">true</item>
+
+        <item name="android:layout_marginBottom">@dimen/fab_margin_bottom</item>
+
+        <item name="android:layout_marginRight">@dimen/fab_margin_right</item>
+
+        <item name="android:layout_gravity">right|bottom</item>
+
+        <item name="borderWidth">0dp</item>
+
+        <item name="fabSize">normal</item>
+
+    </style>
+
+
+    <style parent="MatchParent" name="ListViewWithoutDividerStyle">
+
+        <item name="android:divider">@null</item>
+
+    </style>
+
+
+    <style parent="WrapContent" name="BorderlessImageButtonStyle">
+
+        <item name="android:background">@null</item>
+
+        <item name="android:padding">@dimen/padding_common</item>
+
+        <item name="android:scaleType">centerInside</item>
+
+    </style>
+
+
+    <style parent="@style/Widget.AppCompat.ProgressBar" name="CenterProgressBarStyle">
+
+        <item name="android:layout_width">wrap_content</item>
+
+        <item name="android:layout_height">wrap_content</item>
+
+        <item name="android:layout_gravity">center</item>
+
+        <item name="android:layout_centerInParent">true</item>
+
+    </style>
+
+
+    <style parent="WrapContent" name="SplashAppTitleStyle">
+
+        <item name="android:textColor">@color/text_color_black</item>
+
+        <item name="android:textSize">@dimen/splash_main_text_size</item>
+
+        <item name="android:gravity">center</item>
+
+        <item name="android:padding">@dimen/padding_common</item>
+
+    </style>
+
+    <!-- <style name="SplashAppVersionStyle" parent="WrapContent"><item name="android:textColor">@color/text_color_light_grey</item><item name="android:textSize">@dimen/splash_version_text_size</item><item name="typeface">roboto_light</item></style>-->
+
+
+
+    <style parent="WrapContent" name="SplashAppVersionStyle">
+
+        <item name="android:textColor">@color/text_color_light_grey</item>
+
+        <item name="android:textSize">@dimen/splash_version_text_size</item>
+
+    </style>
+
+
+    <style parent="WrapContent" name="SplashLogoStyle">
+
+        <item name="android:layout_alignParentBottom">true</item>
+
+        <item name="android:layout_centerHorizontal">true</item>
+
+        <item name="android:src">@drawable/qb_logo</item>
+
+    </style>
+    <style name="AppTheme.BlueAccent">
+
+    <item name="colorAccent">@color/color_blue_qb</item>
+
+</style>
 </resources>
 
 

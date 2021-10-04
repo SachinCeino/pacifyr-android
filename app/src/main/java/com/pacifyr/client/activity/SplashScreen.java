@@ -16,14 +16,8 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.analytics.FirebaseAnalytics;
-import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.pacifyr.client.R;
 import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.home.DashboardActivity;
@@ -32,29 +26,16 @@ import com.pacifyr.client.orginals.Auth;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.orginals.DynamicLink;
 import com.pacifyr.client.orginals.RemoteConfig;
-import com.pacifyr.client.quickblox.App;
-import com.pacifyr.client.quickblox.services.CallService;
-import com.pacifyr.client.quickblox.services.Call_Service;
 import com.pacifyr.client.sign.PacifyrTermsPolicyActivity;
 import com.pacifyr.client.sign.SignActivity;
-import com.pacifyr.client.twilio.VideoActivity;
 import com.pacifyr.client.utils.Constants;
-import com.pacifyr.client.utils.FirebaseLogging;
+import com.pacifyr.client.utils.SharedPrefsHelper;
 import com.pacifyr.client.utils.Utility;
 import com.pacifyrapp.utilitylibrary.base.BaseAppCompactActivity;
 import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
-import com.quickblox.auth.session.QBSettings;
-import com.quickblox.sample.core.utils.SharedPrefsHelper;
-import com.quickblox.users.model.QBUser;
 import com.squareup.picasso.Picasso;
-
 import org.json.JSONObject;
-
-import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.ACCOUNT_KEY;
-import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.APP_ID;
-import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.AUTH_KEY;
-import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.AUTH_SECRET;
 
 public class SplashScreen extends BaseAppCompactActivity {
 
@@ -66,8 +47,7 @@ public class SplashScreen extends BaseAppCompactActivity {
     String label;
     JSONObject userObject;
     private SharedPrefsHelper sharedPrefsHelper;
-    Intent mServiceIntent;
-    private CallService mSensorService;
+    //Intent mServiceIntent;
     private ImageView image_splash;
     private boolean isNeedToOpenAppointments ;
     @Override
@@ -77,30 +57,6 @@ public class SplashScreen extends BaseAppCompactActivity {
         RemoteConfig.Update(this);
         UtilityNetworkService.init(this);
        // Log.w("AUTH_SECRET",APP_ID+AUTH_KEY+AUTH_SECRET);
-
-
-        try {
-            if (isValid(APP_ID) &&  isValid(AUTH_KEY) && isValid(AUTH_SECRET))
-            {
-                QBSettings.getInstance().init(this, APP_ID, AUTH_KEY, AUTH_SECRET);
-                QBSettings.getInstance().setAccountKey(ACCOUNT_KEY);
-                Intent intent = new Intent(this, Call_Service.class);
-                startService(intent);
-            }
-
-        } catch (Exception e) {
-            Bundle args =
-                    FirebaseLogging.getConstantArgsLoggedIn(SplashScreen.this);
-            args.putString(FirebaseLogging.EC, "OnCreate TryCatch--"+String.valueOf(e));
-
-            FirebaseLogging.sendLog(SplashScreen.this,
-                    FirebaseLogging.EVENT_QUICKBLOX_ISSUE,
-                    args);
-
-            Log.e(TAG, "Exception " + Call_Service.class.getSimpleName() + " cannot be started");
-            e.printStackTrace();
-        }
-
 
 
         PacifyrActivity.flexibleUpdatePopupShown = false;
@@ -125,16 +81,9 @@ public class SplashScreen extends BaseAppCompactActivity {
         Utility.getRealTimeLogging(SplashScreen.this);
 
 
-
-        mSensorService = new CallService(SplashScreen.this);
-        mServiceIntent = new Intent(SplashScreen.this, mSensorService.getClass());
-
         /**place holder issue fix **/
         ColorDrawable mColorDrawable = new ColorDrawable(getResources().getColor(R.color.black));
         Picasso.with(this).load(R.drawable.splash).placeholder(mColorDrawable).into(image_splash);
-        if (!isMyServiceRunning(mSensorService.getClass())) {
-            startService(mServiceIntent);
-        }
 
         try {
             createNotificationChannel(this);
@@ -180,9 +129,7 @@ public class SplashScreen extends BaseAppCompactActivity {
             notificationManager.createNotificationChannel(channel);
         }
     }
-    protected void startLoginService(QBUser qbUser) {
-        CallService.start(this, qbUser);
-    }
+
     /*public void generateHashkey() {
         try {
             PackageInfo info = getPackageManager().getPackageInfo("com.pacifyr.pacifyrapp.activity", PackageManager.GET_SIGNATURES);
@@ -212,7 +159,7 @@ public class SplashScreen extends BaseAppCompactActivity {
     }
     @Override
     protected void onDestroy() {
-        stopService(mServiceIntent);
+        //stopService(mServiceIntent);
         Log.i("MAINACT", "onDestroy!");
         super.onDestroy();
 
@@ -239,11 +186,6 @@ public class SplashScreen extends BaseAppCompactActivity {
                             t.printStackTrace();
                         }
                         sharedPrefsHelper = SharedPrefsHelper.getInstance();
-                        if (sharedPrefsHelper.hasQbUser()) {
-                            startLoginService(sharedPrefsHelper.getQbUser());
-                            // startOpponentsActivity();
-                            //return;
-                        }
 
                         if (label.equals("pacifyr")) {
 
@@ -256,14 +198,11 @@ public class SplashScreen extends BaseAppCompactActivity {
                                     overridePendingTransition(R.anim.slide_out_left, R.anim.slide_in_left);
                                     startActivity(intent);
                                     finish();
-                                    Intent i = new Intent(SplashScreen.this, CallService.class);
-                                    startService(i);
+
                                 } else {
                                     Intent i = new Intent(SplashScreen.this, PacifyrTermsPolicyActivity.class);
                                     startActivity(i);
                                     finish();
-                                    Intent intent = new Intent(SplashScreen.this, CallService.class);
-                                    startService(intent);
                                 }
                             } catch (Exception e) {
                                 e.printStackTrace();

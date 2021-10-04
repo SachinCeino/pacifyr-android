@@ -11,9 +11,7 @@ buildscript {
         maven { url "https://jcenter.bintray.com/" }
         maven { url "https://repo.maven.apache.org/maven2" }
         maven { url "https://maven.google.com" }
-        maven {
-            url "https://github.com/QuickBlox/quickblox-android-sdk-releases/raw/master/"
-        }
+
 
     }
     dependencies {
@@ -38,9 +36,6 @@ allprojects {
         google()
         jcenter()
         mavenCentral()
-        maven {
-            url "https://github.com/QuickBlox/quickblox-android-sdk-releases/raw/master/"
-        }
         maven {
             url 'https://maven.google.com/'
         }

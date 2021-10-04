@@ -679,7 +679,6 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
                 return;
                event_call=event;
                 if( event_call.isVideoCall) {
-                    if (isLoggedInChat()) {
 
                         setAlertStartCall(event.mpacifyer, new View.OnClickListener() {
                             @Override
@@ -690,7 +689,7 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
                         });
 
                         //callRequestWeb(pacifyer_obj, listner, true);
-                    }
+
                     /*if (checker.lacksPermissions(Consts.PERMISSIONS)) {
                         event_call=event;
 
@@ -727,7 +726,7 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
                     }*/
                 }
                 else {
-                    if (isLoggedInChat()) {
+
 
                         setAlertStartCall(event.mpacifyer, new View.OnClickListener() {
                             @Override
@@ -738,7 +737,7 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
                         });
 
                         //callRequestWeb(pacifyer_obj, listner, true);
-                    }
+
                     /*if (checker.lacksPermissions(Consts.PERMISSIONS[1])) {
                         event_call=event;
 

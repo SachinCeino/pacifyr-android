@@ -19,9 +19,8 @@ import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
-import com.pacifyr.client.quickblox.activities.CallActivity;
+import com.pacifyr.client.R;
 import com.pacifyr.client.twilio.VideoActivity;
-import com.quickblox.sample.chat.R;
 
 import static com.pacifyr.client.twilio.VideoActivity.isCallActive;
 
@@ -30,7 +29,7 @@ public class AttachmentImageActivity extends BaseActivity {
 
     private static final String EXTRA_URL = "url";
 
-    private ImageView imageView;
+    private ImageView imageView, back;
     private ProgressBar progressBar;
     private boolean restoreCall = false;
 
@@ -93,18 +92,20 @@ public class AttachmentImageActivity extends BaseActivity {
         setContentView(R.layout.activity_show_image);
         initUI();
         loadImage();
+        listeners();
     }
 
     @Override
     protected View getSnackbarAnchorView() {
-        return _findViewById(R.id.layout_root);
+        return findViewById(R.id.layout_root);
     }
 
     private void initUI() {
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setDisplayShowTitleEnabled(false);
-        imageView = _findViewById(R.id.image_full_view);
-        progressBar = _findViewById(R.id.progress_bar_show_image);
+        //actionBar.setDisplayHomeAsUpEnabled(true);
+       // actionBar.setDisplayShowTitleEnabled(false);
+        back = findViewById(R.id.back_imv);
+        imageView = findViewById(R.id.image_full_view);
+        progressBar = findViewById(R.id.progress_bar_show_image);
     }
 
     private void loadImage() {
@@ -136,6 +137,15 @@ public class AttachmentImageActivity extends BaseActivity {
                 })
                 .error(R.drawable.ic_error_white)
                 .into(imageView);
+    }
+
+    private void listeners(){
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 
 }

@@ -73,6 +73,7 @@ import com.pacifyr.client.activity.ActivityChangeEmotionFromCall;
 import com.pacifyr.client.activity.IdentityDocumnetActivity;
 import com.pacifyr.client.adapter.EmotionSpecialityAdapter;
 import com.pacifyr.client.base.PacifyrActivity;
+import com.pacifyr.client.classes.PendingCall;
 import com.pacifyr.client.event.BusProvider;
 import com.pacifyr.client.event.CallChangeEmotion;
 import com.pacifyr.client.event.CallEvent;
@@ -88,8 +89,6 @@ import com.pacifyr.client.model.PrescriptionList;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.orginals.Auth;
-import com.pacifyr.client.quickblox.activities.CallActivity;
-import com.pacifyr.client.quickblox.activities.SettingsActivity;
 import com.pacifyr.client.quickblox.chat.ui.activity.AttachmentImageActivity;
 import com.pacifyr.client.quickblox.chat.ui.activity.ChatActivity;
 import com.pacifyr.client.quickblox.chat.ui.activity.DialogsActivity;
@@ -100,13 +99,14 @@ import com.pacifyr.client.utils.Constants;
 import com.pacifyr.client.utils.FirebaseLogging;
 import com.pacifyr.client.utils.LogUtils;
 import com.pacifyr.client.utils.SnackUtils;
+import com.pacifyr.client.utils.Toaster;
 import com.pacifyr.client.utils.Utility;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.pacifyrapp.utilitylibrary.ToastHandler;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MEmotion;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.MSessionDetailRoot;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
-import com.quickblox.sample.core.utils.Toaster;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
 import com.twilio.audioswitch.AudioDevice;
@@ -205,6 +205,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
             IsacCodec.NAME, OpusCodec.NAME, PcmaCodec.NAME, PcmuCodec.NAME, G722Codec.NAME
     };
     private static final long PARTICIPANT_DISCONNECTED_DELAY = 2000;
+    public static MSessionDetailRoot mSessionDetailRoot;
 
 
     private String accessToken;
@@ -253,7 +254,6 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
     private boolean ErrorConnectingProvider=false;
     private boolean isScreenActive = true;
     private boolean isEmplyeeDonePaymentWithFreeMinuts = false;
-
     //Call HangUp
     private ImageButton button_hangup_call;
     private ToggleButton micToggleVideoCall,toggle_speaker,toggle_camera;
@@ -361,10 +361,6 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                 countDownTimer = new CountDownTimer(freeMillis, ONE_MINUTE) {
                     @Override
                     public void onTick(long millisUntilFinished) {
-                        if (isEmplyeeDonePaymentWithFreeMinuts) {
-                            cancel();
-                            return;
-                        }
                         long minutesLeft = millisUntilFinished / (60 * 1000);
                         if (millisUntilFinished<=60000)
                             minutesLeft=0;
@@ -1073,7 +1069,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_settings:
-                startActivity(new Intent(this, SettingsActivity.class));
+
                 return true;
             case R.id.menu_audio_device:
                 showAudioDevices();
@@ -1146,6 +1142,9 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
     @Override
     protected void onResume() {
         super.onResume();
+        //Enable chat button
+        if(isValid(ImageView_chat)){ImageView_chat.setEnabled(true);}
+
         isForeground = true;
         LocalBroadcastManager.getInstance(this).registerReceiver(eventReceiver, new IntentFilter(CallEvent.CALL_EVENT));
         LocalBroadcastManager.getInstance(this).registerReceiver(stripeCardAddWhileCall, new IntentFilter(STRIPCARD_ADDED_WHILE_CALL));
@@ -1307,7 +1306,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
         EventBus.getDefault().unregister(this);
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         isScreenActive=false;
-        EventBus.getDefault().post(Constants.CLOSECHILDACTIIVTY);
+        EventBus.getDefault().post(Constants.CLOSE_CHAT_ACTIVITY);
         super.onDestroy();
     }
 
@@ -1685,12 +1684,18 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
             ImageView_chat.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (checkPermissions()) {
+                    //Disable chat button
+                    ImageView_chat.setEnabled(false);
+
+                    //if (checkPermissions()) {
                         if (isValid(pacifyerDetial))
                             startChat(pacifyerDetial);
                         messageCountIncomming=0;
                         messageCount.setVisibility(View.GONE);
                     }
+                    /*} else {
+                        ImageView_chat.setEnabled(true);
+                    }*/
                 }
             });
 
@@ -3247,7 +3252,7 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
         MUser mUser=null;
         try{
 
-            mUser= CallActivity.mSessionDetailRoot.getPacifyr();
+            mUser= mSessionDetailRoot.getPacifyr();
         }catch (Exception e)
         {
             e.printStackTrace();
@@ -3261,7 +3266,7 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
         MUser mUser=null;
         try{
 
-            mUser= CallActivity.mSessionDetailRoot.getUser();
+            mUser= mSessionDetailRoot.getUser();
         }catch (Exception e)
         {
             e.printStackTrace();
@@ -3813,7 +3818,7 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
     }
 
     private void sendCliendEndCallNotificationToOpponent() {
-        new NetworkService().sendCliendEndCallNotificationTo(CallActivity.mSessionDetailRoot.getPacifyr().getId(), "sessionDeclined", new AjaxCallback<JSONObject>() {
+        new NetworkService().sendCliendEndCallNotificationTo(mSessionDetailRoot.getPacifyr().getId(), "sessionDeclined", new AjaxCallback<JSONObject>() {
             @Override
             public void callback(String url, JSONObject json, AjaxStatus status) {
                 /*
@@ -3884,7 +3889,7 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
                 getApplication().startActivity(new Intent(this, getClass())
                         .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
             maximizePicInPicView();
-            EventBus.getDefault().post(Constants.DestroySubScreenAfterEndCall);
+            EventBus.getDefault().post(Constants.CLOSE_CHAT_ACTIVITY);
         }
     }
 

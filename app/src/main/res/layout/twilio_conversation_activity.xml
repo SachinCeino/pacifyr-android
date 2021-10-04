@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".twiliochat.TwilioConversationActivity"
+    android:background="@android:color/white"
+    android:id="@+id/cl_root">
+
+    <include
+        android:id="@+id/include"
+        layout="@layout/actionbar_chat_three_text_image"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!--<include
+        android:id="@+id/include"
+        layout="@layout/actionbar_grey"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>-->
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/messagesRecyclerView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_above="@id/footer"
+        android:layout_below="@+id/include"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:scrollbars="vertical"
+        android:overScrollMode="never"
+        app:layout_constraintBottom_toTopOf="@+id/footer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/include" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/color_border_line"
+        app:layout_constraintBottom_toBottomOf="@+id/messagesRecyclerView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/footer"
+        style="@style/MatchWidth"
+        android:layout_alignParentBottom="true"
+        android:background="?attr/colorPrimary"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/default_item_spacing"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingBottom="@dimen/default_item_spacing"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+
+
+        <ImageButton
+            android:id="@+id/button_chat_attachment"
+            style="@style/BorderlessImageButtonStyle"
+            android:layout_width="35sp"
+            android:layout_height="35dp"
+            android:layout_gravity="center_vertical"
+            android:onClick="onAttachmentsClick"
+            android:src="@drawable/ic_action_attachment"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/writeMessageEditText"
+            style="@style/WeightWidth"
+            android:layout_height="match_parent"
+            android:layout_margin="4dp"
+            android:background="@drawable/rounded_white"
+            android:hint="@string/chat_edit_text_hint"
+            android:inputType="textShortMessage|textCapSentences"
+            android:maxLength="1024"
+            android:padding="8sp"
+            android:textColorHighlight="@color/text_Color_High_light"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/sendChatMessageButton"
+            app:layout_constraintStart_toEndOf="@+id/button_chat_attachment"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/sendChatMessageButton"
+            style="@style/BorderlessImageButtonStyle"
+            android:layout_gravity="center_vertical"
+
+            android:src="@drawable/ic_send"
+            android:text="@string/chat_send"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

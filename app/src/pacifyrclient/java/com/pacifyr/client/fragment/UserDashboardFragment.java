@@ -1,6 +1,9 @@
 package com.pacifyr.client.fragment;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.drawable.Drawable;
@@ -20,6 +23,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.androidquery.AQuery;
@@ -32,6 +36,8 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.gdacciaro.iOSDialog.iOSDialog;
+import com.gdacciaro.iOSDialog.iOSDialogClickListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
@@ -40,6 +46,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.gson.Gson;
 import com.pacifyr.client.R;
+import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.ConnectEvent;
 import com.pacifyr.client.event.InternetConnectionEvent;
@@ -52,12 +59,12 @@ import com.pacifyr.client.home.LastSessionActivity;
 import com.pacifyr.client.home.MySessionsActivity;
 import com.pacifyr.client.home.SessionSummaryActivity;
 import com.pacifyr.client.model.Session;
+import com.pacifyr.client.model.UnreadCountModel;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.orginals.Auth;
-import com.pacifyr.client.quickblox.chat.ui.activity.DialogsActivity;
-import com.pacifyr.client.quickblox.chat.utils.qb.QbDialogHolder;
-import com.pacifyr.client.quickblox.services.CallService;
+import com.pacifyr.client.receiver.NotificationUtils;
+import com.pacifyr.client.twiliochat.TwilioCoversationListActivity;
 import com.pacifyr.client.utility.BaseFragment;
 import com.pacifyr.client.utility.EventMessage;
 import com.pacifyr.client.utils.Utility;
@@ -68,12 +75,6 @@ import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelCustomerDashboard2;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelSessonsOfCustomer;
 import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
-import com.quickblox.chat.QBRestChatService;
-import com.quickblox.chat.model.QBChatDialog;
-import com.quickblox.core.QBEntityCallback;
-import com.quickblox.core.exception.QBResponseException;
-import com.quickblox.sample.core.utils.SharedPrefsHelper;
-import com.quickblox.sample.core.utils.Toaster;
 import com.squareup.otto.Subscribe;
 
 import org.greenrobot.eventbus.EventBus;
@@ -101,6 +102,7 @@ import static com.pacifyr.client.network.NetworkService.lastSession;
 import static com.pacifyr.client.network.NetworkService.modelAllEmotions;
 import static com.pacifyr.client.network.NetworkService.modelCustomerDashboard2;
 import static com.pacifyr.client.twilio.VideoActivity.isCallActive;
+import static com.pacifyr.client.twiliochat.TwilioConversationActivity.DEFAULT_CONVERSATION_NAME;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_IMAGE_URL;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.TOKEN_EXPIRY_TIME;
@@ -192,15 +194,6 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
         }
     }
 
-    private void loginToQuickblox() {
-        SharedPrefsHelper sharedPrefsHelper = SharedPrefsHelper.getInstance();
-        if (sharedPrefsHelper.hasQbUser()) {
-            CallService.start(getActivity(), sharedPrefsHelper.getQbUser());
-            // startOpponentsActivity();
-            //return;
-        }
-    }
-
     private LinearLayout session_llay;
     private TextView Text_appointmentTime,MyLastSessionTitle;
     private RelativeLayout appointMentBackground;
@@ -237,7 +230,8 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
         unreadChatCtxv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogsActivity.start(getActivity());
+                //DialogsActivity.start(getActivity());
+                TwilioCoversationListActivity.start(getActivity(),false);
                 unreadCount=0;
                 /*showFragment(new PacifyrMessageFragment(/));*/
                 //defSetText(titleTxv, "Messages");
@@ -967,7 +961,8 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
             //feel_err_text.setVisibility(View.VISIBLE);
         }
         ((DashboardActivity)getActivity()).getUnratedSessions();
-        setChatCountInfo();
+        //setChatCountInfo();
+        getChatUnreadCount();
         if (prefM != null && prefM.getCompanyLogo() != null) {
             Glide.with(getActivity())
                     .load(UtilityNetworkService.GLOBAL_IMAGE_URL + prefM.getCompanyLogo())
@@ -1421,61 +1416,78 @@ boolean itIsFirstCallFrom=true;
         JoinCall=view.findViewById(R.id.JoinCall);
         JoinChat=view.findViewById(R.id.JoinChat);
         defSetText(no_pacifyr_ctxv,"");
-        setChatCountInfo();
+        //setChatCountInfo();
+        getChatUnreadCount();
     }
 
-    private void setChatCountInfo() {
+    public void getChatUnreadCount(){
+        //setLoading();
+        //showProgress();
 
-        try {
-            Collection<QBChatDialog> dialogList = (QbDialogHolder.getInstance().getDialogs().values());
-            ArrayList<QBChatDialog> list = new ArrayList<>(dialogList);
-            Set<String> dialogSet = new HashSet<String>();
 
-            Iterator<QBChatDialog> iterator = dialogList.iterator();
-            while (iterator.hasNext()) {
-                dialogSet.add(iterator.next().getDialogId());
-            }
 
-            QBRestChatService.getTotalUnreadMessagesCount(dialogSet,null).performAsync(new QBEntityCallback<Integer>() {
-                @Override
-                public void onSuccess(Integer integer, Bundle bundle) {
+        String userToken=prefM.getAccessToken();
 
-                    unreadCount=integer;
-                    badgeCount = 0;
-                    if (isValid(unreadCount)){
-                        if(unreadCount>0)
+
+        String url = NetworkService.GLOBAL_URL+"messages/unreadCount";
+        AjaxCallback cb = new AjaxCallback<JSONObject>() {
+            @Override
+            public void callback(String url, JSONObject json, AjaxStatus status) {
+                try {
+                   // hideProgress();
+                    Log.d("TWILIO", "Response from server: " + json);
+                    Log.d("TWILIO", "unreadCount userToken: " + userToken+ "url: " +url);
+                    Gson gson = new Gson();
+                    if (isValid(json))
+                    {
+                        UnreadCountModel unreadCountModel = gson.fromJson(json.toString(), UnreadCountModel.class);
+
+                        if (isValid(unreadCountModel) && unreadCountModel.status.equals("success"))
                         {
-                            unreadChatCtxv.setVisibility(View.VISIBLE);
-                            unreadChatCtxv.setText(unreadCount + " unread messages");
-                            badgeCount+=unreadCount;
-                            prefM.saveBadgeValue(badgeCount);
-                           // ShortcutBadger.applyCount(getActivity(), prefM.getBadgeValue());
+                            unreadCount=unreadCountModel.count;
+                            badgeCount = 0;
+                            if (isValid(unreadCount)){
+                                if(unreadCount > 0)
+                                {
+                                    unreadChatCtxv.setVisibility(View.VISIBLE);
+                                    unreadChatCtxv.setText(unreadCount + " unread messages");
+                                    badgeCount+=unreadCount;
+                                    prefM.saveBadgeValue(badgeCount);
+                                    // ShortcutBadger.applyCount(getActivity(), prefM.getBadgeValue());
 
-                        }else {
-                            isClickedOnChat=true;
-                            unreadChatCtxv.setVisibility(View.GONE);
-                            prefM.saveBadgeValue(badgeCount);
-                           // ShortcutBadger.applyCount(getActivity(), 0);
+                                }else {
+                                    isClickedOnChat=true;
+                                    unreadChatCtxv.setVisibility(View.GONE);
+                                    prefM.saveBadgeValue(badgeCount);
+                                    // ShortcutBadger.applyCount(getActivity(), 0);
+                                }
+                            }
                         }
+
                     }
 
+
+                } catch (Exception e) {
+                   // hideProgress();
+                    e.printStackTrace();
+
                 }
+            }
+        };
+        AQuery aq = new AQuery(getActivity());
+        cb.header("Content-Type", "application/json");
+        cb.header("AccessToken",userToken);
+        try {
+            aq.ajax(url, JSONObject.class, cb);
 
-                @Override
-                public void onError(QBResponseException e) {
-                    //Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_LONG).show();
-
-                }
-            });
-
-
-        }catch (Exception e)
-        {
-            Log.w("QQQ",String.valueOf(e));
         }
-
-
+        catch (Exception ex)
+        {
+            //hideProgress();
+            ex.printStackTrace();
+        }
     }
+
 
     @org.greenrobot.eventbus.Subscribe(threadMode = ThreadMode.MAIN)
     public void messageEventFromService(EventMessage event){
@@ -1484,17 +1496,37 @@ boolean itIsFirstCallFrom=true;
 
     }
 
+    private final BroadcastReceiver notificationReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent != null && intent.hasExtra("message")) {
+                String message = intent.getExtras().getString("message");
+                String type = intent.getExtras().getString("type");
+                if (message != null && message != "") {
+                    if(type.equals("twilio.conversations.new_message") || type.equals("twilioChat") ){
+                        getChatUnreadCount();
+                    }
+
+                }
+            }
+        }
+    };
+
+
+
     @Override
     public void onRefresh() {
         new Handler().postDelayed(new Runnable() {
             @Override public void run() {
                 try {
+                    Log.w("hai","onRefresh........");
                     swipeRefreshLayout.setRefreshing(false);
                     setLoading();
                     showProgress();
                     checkIsThereAnyActiveSessionsAvailable();
                     handleActionCustomerDashboard();
-                    setChatCountInfo();
+                    //setChatCountInfo();
+                    getChatUnreadCount();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

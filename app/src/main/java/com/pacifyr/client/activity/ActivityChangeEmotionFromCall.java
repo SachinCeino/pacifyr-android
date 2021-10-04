@@ -14,7 +14,6 @@ import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.pacifyr.client.customview.MainTextView;
-import com.pacifyr.client.quickblox.activities.CallActivity;
 import com.pacifyr.client.twilio.VideoActivity;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MListNegativeEmotions;

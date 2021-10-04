@@ -419,6 +419,9 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        if(isValid(chat_rlay))
+        chat_rlay.setEnabled(true);
+
         try {
             LocalBroadcastManager.getInstance(this).registerReceiver(notificationReceiver, new IntentFilter(NotificationUtils.NOTIFY_INTENT));
             /** refresh pacifyr object**/
@@ -580,7 +583,7 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
                             }
 
 
-                    }
+
                 });
 
                 audiocall_rlay.setOnClickListener(new View.OnClickListener() {
@@ -601,7 +604,7 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
                                     }
                                 });
 
-                            }
+
 
 
                     }
@@ -611,10 +614,13 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
              /*   if(pacifyer_obj.isChatEnabled())
                     chat_rlay.setVisibility(View.VISIBLE);*/
 
+
+
                 chat_rlay.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
 
+                        chat_rlay.setEnabled(false);
 
                         boolean isChatSubscriptionRequired = pacifyer_obj.isChatSubscriptionRequired();
                         int priceForChat = 0;

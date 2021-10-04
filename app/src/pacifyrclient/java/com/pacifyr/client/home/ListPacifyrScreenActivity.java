@@ -530,7 +530,7 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
 
                     startPermissionsActivity(false, ListPacifyrScreenActivity.this);
 
-                    if (isLoggedInChat()) {
+
 
                         setAlertStartCall(event.mpacifyer, new View.OnClickListener() {
                             @Override
@@ -541,9 +541,9 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
                         });
 
                         //callRequestWeb(pacifyer_obj, listner, true);
-                    }
+
                 } else {
-                    if (isLoggedInChat()) {
+
 
                         setAlertStartCall(event.mpacifyer, new View.OnClickListener() {
                             @Override
@@ -556,7 +556,7 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
                             /*
                             //callRequestWeb(event.mpacifyer, listner, event.isVideoCall);
                             checkRoleRequest(event.mpacifyer, listner, event.isVideoCall);*/
-                    }
+
                 }
             } else {
                 if (checker.lacksPermissions(Consts.PERMISSIONS[1])) {
@@ -564,7 +564,7 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
 
                     startPermissionsActivity(true, ListPacifyrScreenActivity.this);
 
-                    if (isLoggedInChat()) {
+
 
                         setAlertStartCall(event.mpacifyer, new View.OnClickListener() {
                             @Override
@@ -575,10 +575,10 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
                         });
 
                         //callRequestWeb(pacifyer_obj, listner, true);
-                    }
+
 
                 } else {
-                    if (isLoggedInChat()) {
+
                         setAlertStartCall(event.mpacifyer, new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -590,7 +590,7 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
 
                         //callRequestWeb(event.mpacifyer, listner, event.isVideoCall);
 //                            checkRoleRequest(event.mpacifyer, listner, event.isVideoCall);
-                    }
+
                 }
             }
 

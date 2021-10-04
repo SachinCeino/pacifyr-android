@@ -10,7 +10,6 @@ import androidx.annotation.Nullable;
 import com.pacifyr.client.R;
 import com.pacifyr.client.event.AlertTypeEvent;
 import com.pacifyr.client.event.NotifyEvent;
-import com.pacifyr.client.quickblox.activities.CallActivity;
 import com.pacifyr.client.twilio.VideoActivity;
 import com.pdfview.PDFView;
 
