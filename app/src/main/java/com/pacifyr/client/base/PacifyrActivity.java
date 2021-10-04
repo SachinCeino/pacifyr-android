@@ -288,17 +288,13 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                         }, "Close");
                     }
 
-                    else if(type.equals("twilio.conversations.new_message") || type.equals("twilioChat") ){
+                    else if(type.equals("twilio.conversations.new_message") || type.equals("twilioChat") ) {
 
 
-                        String conversation_sid = intent.getExtras().getString("conversation_sid");
-                        if(isValid(DEFAULT_CONVERSATION_NAME) && isValid(conversation_sid)
-                                && conversation_sid.equals(DEFAULT_CONVERSATION_NAME)){
+                       //twilio chat notification we are handling from each separate activities
+                    }
 
-                            return;
-                        }
 
-                        showIOSDialogOKCancel("Message", message, "View", new iOSDialogClickListener() {
                     else if (type.equals("sessionWrapUp")
                             ||type.equals("sessionExtensionAccepted"))
                     {
@@ -323,16 +319,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                         }, "Close");
                         }*/
                     }
-                    else
-                    {
-                        showIOSDialogOKCancel("Message", message, "View", new iOSDialogClickListener() {
-                            @Override
-                            public void onClick(iOSDialog dialog) {
-                                dialog.dismiss();
 
-                            }
-                        }, "Close");
-                    }
 
                 }
             }
@@ -648,7 +635,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                                 String tempSessionId = id;
                                 if (errorCount != 0)
                                     tempSessionId = tempSessionId + "_" + errorCount;
-                                generateCheckSum(true, tempSessionId, Integer.parseInt(CallActivity.mSessionDetailRoot.getPacifyr().getPrice()),false);
+                                generateCheckSum(true, tempSessionId, Integer.parseInt(VideoActivity.mSessionDetailRoot.getPacifyr().getPrice()),false);
                             }
 
 
@@ -1021,13 +1008,6 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
     }
 
     public static MSessionDetailRoot call_session_detail_root = null;
-    protected void showErrorSnackbar(@StringRes int resId, Exception e,
-                                     View.OnClickListener clickListener) {
-        if (getSnackbarAnchorView() != null) {
-            ErrorUtils.showSnackbar(getSnackbarAnchorView(), resId, e,
-                    com.quickblox.sample.core.R.string.dlg_retry, clickListener);
-        }
-    }
 
     protected abstract View getSnackbarAnchorView();
 
@@ -4335,9 +4315,9 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
         if (PaymentPopup != null && PaymentPopup.isShowing()) {
             PaymentPopup.dismiss();
         }
-        if (isValid(CallActivity.mSessionDetailRoot) &&
-                isValid(CallActivity.mSessionDetailRoot.getPacifyr()) &&
-                isValid(CallActivity.mSessionDetailRoot.getPacifyr().getId()))
+        if (isValid(VideoActivity.mSessionDetailRoot) &&
+                isValid(VideoActivity.mSessionDetailRoot.getPacifyr()) &&
+                isValid(VideoActivity.mSessionDetailRoot.getPacifyr().getId()))
 
         if (!isShowDialogs()) {
             if (isCallActive)
@@ -4558,10 +4538,10 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                     EventBus.getDefault().post("SCHEDULE_PAY");
                     //freeminuts expired and payment done by userafter free minuts timer need stop
                     EventBus.getDefault().post(Constants.PAYMENT_DONE);
-                    if (isValid(CallActivity.mSessionDetailRoot) &&
-                            isValid(CallActivity.mSessionDetailRoot.getPacifyr()) &&
-                            isValid(CallActivity.mSessionDetailRoot.getPacifyr().getId()))
-                        new NetworkService().sendCardAddedNotificationAfterPaytmSuccess(CallActivity.mSessionDetailRoot.getPacifyr().getId(), "cardSetup", new AjaxCallback<JSONObject>() {
+                    if (isValid(VideoActivity.mSessionDetailRoot) &&
+                            isValid(VideoActivity.mSessionDetailRoot.getPacifyr()) &&
+                            isValid(VideoActivity.mSessionDetailRoot.getPacifyr().getId()))
+                        new NetworkService().sendCardAddedNotificationAfterPaytmSuccess(VideoActivity.mSessionDetailRoot.getPacifyr().getId(), "cardSetup", new AjaxCallback<JSONObject>() {
                             @Override
                             public void callback(String url, JSONObject json, AjaxStatus status) {
                                 /*
@@ -4776,15 +4756,6 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                 }
             }, 2000);
 
-                                    if (isValid(VideoActivity.mSessionDetailRoot) &&
-                                            isValid(VideoActivity.mSessionDetailRoot.getPacifyr()) &&
-                                            isValid(VideoActivity.mSessionDetailRoot.getPacifyr().getId()))
-                                        new NetworkService().sendCardAddedNotificationAfterPaytmSuccess(VideoActivity.mSessionDetailRoot.getPacifyr().getId(), "cardSetup", new AjaxCallback<JSONObject>() {
-                                            @Override
-                                            public void callback(String url, JSONObject json, AjaxStatus status) {
-                                                /*
-                                                 *this must be the first line of any httpCallBacks
-                                                 */
         }
 
 
@@ -4796,10 +4767,10 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
     public void ShowTransactionSuccesResultToUSer(String message) {
 
         errorCount=0;
-        if (isValid(CallActivity.mSessionDetailRoot) &&
-                isValid(CallActivity.mSessionDetailRoot.getPacifyr()) &&
-                isValid(CallActivity.mSessionDetailRoot.getPacifyr().getId()))
-            new NetworkService().sendCardAddedNotificationAfterPaytmSuccess(CallActivity.mSessionDetailRoot.getPacifyr().getId(), "cardSetup", new AjaxCallback<JSONObject>() {
+        if (isValid(VideoActivity.mSessionDetailRoot) &&
+                isValid(VideoActivity.mSessionDetailRoot.getPacifyr()) &&
+                isValid(VideoActivity.mSessionDetailRoot.getPacifyr().getId()))
+            new NetworkService().sendCardAddedNotificationAfterPaytmSuccess(VideoActivity.mSessionDetailRoot.getPacifyr().getId(), "cardSetup", new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, JSONObject json, AjaxStatus status) {
                     /*
@@ -5373,7 +5344,3 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
     }
 
 }
-
-
-
-

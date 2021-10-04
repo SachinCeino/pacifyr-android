@@ -74,6 +74,7 @@ import java.util.TimerTask;
 import static com.pacifyr.client.network.NetworkService.GLOBAL_URL;
 import static com.pacifyr.client.network.NetworkService.pSearchPacifyrWOptionsResponse;
 import static com.pacifyr.client.twilio.VideoActivity.isCallActive;
+import static com.pacifyr.client.twiliochat.TwilioConversationActivity.DEFAULT_CONVERSATION_NAME;
 
 public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implements CategoryListAdapter.EmotionClickkListener {
 
@@ -1106,8 +1107,18 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
                 String message = intent.getExtras().getString("message");
                 String type = intent.getExtras().getString("type");
                 if (message != null && message != "") {
-                    if (type.equals("chat")) {
-                        SnackUtils.show(actionBarTopLlay,message,ConnectToPacifyrActivity.this,getLayoutInflater());
+                    if(type.equals("twilio.conversations.new_message") || type.equals("twilioChat") ){
+
+                        String conversation_sid = intent.getExtras().getString("conversation_sid");
+
+                        if(isValid(DEFAULT_CONVERSATION_NAME) && isValid(conversation_sid)
+                                && conversation_sid.equals(DEFAULT_CONVERSATION_NAME)){
+
+                            return;
+                        }
+
+                        SnackUtils.show(actionBarTopLlay,message, ConnectToPacifyrActivity.this,getLayoutInflater(),conversation_sid);
+
                     }
                 }
             }

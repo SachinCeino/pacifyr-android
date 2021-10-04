@@ -40,8 +40,6 @@ import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.quickblox.activities.PermissionsActivity;
 import com.pacifyr.client.quickblox.utils.Consts;
-
-import com.pacifyr.client.quickblox.utils.WebRtcSessionManager;
 import com.pacifyr.client.receiver.NotificationUtils;
 import com.pacifyr.client.twilio.VideoActivity;
 import com.pacifyr.client.utility.EventMessage;
@@ -73,6 +71,7 @@ import java.util.TimerTask;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.pacifyr.client.twilio.VideoActivity.isCallActive;
+import static com.pacifyr.client.twiliochat.TwilioConversationActivity.DEFAULT_CONVERSATION_NAME;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_IMAGE_URL;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
 
@@ -494,8 +493,18 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
                 String message = intent.getExtras().getString("message");
                 String type = intent.getExtras().getString("type");
                 if (message != null && message != "") {
-                    if (type.equals("chat")) {
-                        SnackUtils.show(actionBarTopLlay,message,ProfileScreenActivity.this,getLayoutInflater());
+                    if(type.equals("twilio.conversations.new_message") || type.equals("twilioChat") ){
+
+                        String conversation_sid = intent.getExtras().getString("conversation_sid");
+
+                        if(isValid(DEFAULT_CONVERSATION_NAME) && isValid(conversation_sid)
+                                && conversation_sid.equals(DEFAULT_CONVERSATION_NAME)){
+
+                            return;
+                        }
+
+                        SnackUtils.show(actionBarTopLlay,message, ProfileScreenActivity.this,getLayoutInflater(),conversation_sid);
+
                     }
                 }
             }

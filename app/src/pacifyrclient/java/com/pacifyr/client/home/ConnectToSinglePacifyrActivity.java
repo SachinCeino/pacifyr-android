@@ -72,6 +72,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import static com.pacifyr.client.network.NetworkService.GLOBAL_URL;
 import static com.pacifyr.client.network.NetworkService.modelCustomerDashboard2;
 import static com.pacifyr.client.twilio.VideoActivity.isCallActive;
+import static com.pacifyr.client.twiliochat.TwilioConversationActivity.DEFAULT_CONVERSATION_NAME;
 
 
 //import com.pacifyr.pacifyrapp.Fragment.SelecetFeelingFragment;
@@ -168,8 +169,18 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
                 String message = intent.getExtras().getString("message");
                 String type = intent.getExtras().getString("type");
                 if (message != null && message != "") {
-                    if (type.equals("chat")) {
-                        SnackUtils.show(actionBarTopLlay,message,ConnectToSinglePacifyrActivity.this,getLayoutInflater());
+                    if(type.equals("twilio.conversations.new_message") || type.equals("twilioChat") ){
+
+                        String conversation_sid = intent.getExtras().getString("conversation_sid");
+
+                        if(isValid(DEFAULT_CONVERSATION_NAME) && isValid(conversation_sid)
+                                && conversation_sid.equals(DEFAULT_CONVERSATION_NAME)){
+
+                            return;
+                        }
+
+                        SnackUtils.show(actionBarTopLlay,message, ConnectToSinglePacifyrActivity.this,getLayoutInflater(),conversation_sid);
+
                     }
                 }
             }
@@ -568,21 +579,17 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
                         if (isValid(isCallActive) && isCallActive)
                             return;
 
-                        if (isLoggedInChat()) {
-
-                            if (!isOnline)
-                                return;
-                                setAlertStartCall(pacifyer_obj, new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        hideStatus();
-                                        checkRoleRequest(pacifyer_obj, listner, true);
-                                    }
-                                });
-
+                        if (!isOnline)
+                            return;
+                        setAlertStartCall(pacifyer_obj, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                hideStatus();
+                                checkRoleRequest(pacifyer_obj, listner, true);
                             }
+                        });
 
-
+                    }
 
                 });
 
@@ -593,21 +600,18 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
                             return;
 
 
-                            if (isLoggedInChat()) {
-                                if (!isOnline)
-                                    return;
-                                setAlertStartCall(pacifyer_obj, new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        hideStatus();
-                                        checkRoleRequest(pacifyer_obj, listner, false);
-                                    }
-                                });
-
-
-
-
+                        if (!isOnline)
+                            return;
+                        setAlertStartCall(pacifyer_obj, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                hideStatus();
+                                checkRoleRequest(pacifyer_obj, listner, false);
+                            }
+                        });
                     }
+
+
                 });
                 chat_rlay.setVisibility(View.VISIBLE);
 

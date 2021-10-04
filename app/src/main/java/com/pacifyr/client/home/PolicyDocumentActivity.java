@@ -28,6 +28,8 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import static com.pacifyr.client.twiliochat.TwilioConversationActivity.DEFAULT_CONVERSATION_NAME;
+
 /*
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.copyrightUrl;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.privacypolicyUrl;
@@ -215,8 +217,18 @@ public class PolicyDocumentActivity extends PacifyrAppCompactActivity {
                 String message = intent.getExtras().getString("message");
                 String type = intent.getExtras().getString("type");
                 if (message != null && message != "") {
-                    if (type.equals("chat")) {
-                        SnackUtils.show(actionBarTopLlay,message,PolicyDocumentActivity.this,getLayoutInflater());
+                    if(type.equals("twilio.conversations.new_message") || type.equals("twilioChat") ){
+
+                        String conversation_sid = intent.getExtras().getString("conversation_sid");
+
+                        if(isValid(DEFAULT_CONVERSATION_NAME) && isValid(conversation_sid)
+                                && conversation_sid.equals(DEFAULT_CONVERSATION_NAME)){
+
+                            return;
+                        }
+
+                        SnackUtils.show(actionBarTopLlay,message, PolicyDocumentActivity.this,getLayoutInflater(),conversation_sid);
+
                     }
                 }
             }

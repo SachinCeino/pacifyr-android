@@ -90,8 +90,6 @@ import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.orginals.Auth;
 import com.pacifyr.client.quickblox.chat.ui.activity.AttachmentImageActivity;
-import com.pacifyr.client.quickblox.chat.ui.activity.ChatActivity;
-import com.pacifyr.client.quickblox.chat.ui.activity.DialogsActivity;
 import com.pacifyr.client.quickblox.utils.PermissionsChecker;
 import com.pacifyr.client.quickblox.utils.RingtonePlayer;
 import com.pacifyr.client.receiver.NotificationUtils;
@@ -982,18 +980,18 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                     }
                     else {
                         try {
-                            CallActivity.mSessionDetailRoot= GsonUtils.getInstance().gsonToMSessionDetailRoot(json);
-                            if (isValid(CallActivity.mSessionDetailRoot.isBilledSession())&&
-                                    CallActivity.mSessionDetailRoot.isBilledSession()) {
+                            VideoActivity.mSessionDetailRoot= GsonUtils.getInstance().gsonToMSessionDetailRoot(json);
+                            if (isValid(VideoActivity.mSessionDetailRoot.isBilledSession())&&
+                                    VideoActivity.mSessionDetailRoot.isBilledSession()) {
                                 setBillingStarted(true);
                                 billingStatus.setVisibility(View.VISIBLE);
                                 if (countDownTimer != null) {
                                     countDownTimer.cancel();
                                 }
 
-                                if (isValid(CallActivity.mSessionDetailRoot.getBillingStartTime()))
+                                if (isValid(VideoActivity.mSessionDetailRoot.getBillingStartTime()))
                                 {
-                                    long billingSatrtedSeconds=Utility.converToSecondsForJoin(CallActivity.mSessionDetailRoot.getBillingStartTime());
+                                    long billingSatrtedSeconds=Utility.converToSecondsForJoin(VideoActivity.mSessionDetailRoot.getBillingStartTime());
                                     long currentTimeInSeconds=(Utility.getCurrentDateinMilliSeconds());
 
                                     long difference= Math.toIntExact(currentTimeInSeconds - billingSatrtedSeconds);
@@ -1686,17 +1684,13 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                 public void onClick(View view) {
                     //Disable chat button
                     ImageView_chat.setEnabled(false);
-
-                    //if (checkPermissions()) {
-                        if (isValid(pacifyerDetial))
-                            startChat(pacifyerDetial);
-                        messageCountIncomming=0;
-                        messageCount.setVisibility(View.GONE);
-                    }
-                    /*} else {
-                        ImageView_chat.setEnabled(true);
-                    }*/
+                    if (isValid(pacifyerDetial))
+                        startChat(pacifyerDetial);
+                    messageCountIncomming = 0;
+                    messageCount.setVisibility(View.GONE);
                 }
+
+
             });
 
             ImageView_prescription.setOnClickListener(new View.OnClickListener() {
@@ -2026,12 +2020,12 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                                     //Toast.makeText(PacifyrActivity.this,"Clicked!",Toast.LENGTH_LONG).show();
                                     if (isValid(SessionId)) {
 
-                                        if (isValid(CallActivity.mSessionDetailRoot) && isValid(CallActivity.mSessionDetailRoot.getPacifyr()) &&
-                                                isValid(CallActivity.mSessionDetailRoot.getPacifyr().getPrice())) {
+                                        if (isValid(VideoActivity.mSessionDetailRoot) && isValid(VideoActivity.mSessionDetailRoot.getPacifyr()) &&
+                                                isValid(VideoActivity.mSessionDetailRoot.getPacifyr().getPrice())) {
                                             String tempSessionId = SessionId;
                                             if (errorCount != 0)
                                                 tempSessionId = tempSessionId + "_" + errorCount;
-                                            generateCheckSum(true, tempSessionId, Integer.parseInt(CallActivity.mSessionDetailRoot.getPacifyr().getPrice()),false);
+                                            generateCheckSum(true, tempSessionId, Integer.parseInt(VideoActivity.mSessionDetailRoot.getPacifyr().getPrice()),false);
                                         }
 
 
@@ -4034,12 +4028,12 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
                     public void onClick(iOSDialog dialog) {
                         dialog.dismiss();
 
-                        if (isValid(CallActivity.mSessionDetailRoot) && isValid(CallActivity.mSessionDetailRoot.getPacifyr()) &&
-                                isValid(CallActivity.mSessionDetailRoot.getPacifyr().getPrice())) {
+                        if (isValid(VideoActivity.mSessionDetailRoot) && isValid(VideoActivity.mSessionDetailRoot.getPacifyr()) &&
+                                isValid(VideoActivity.mSessionDetailRoot.getPacifyr().getPrice())) {
                             String tempSessionId = SessionId;
                             if (errorCount != 0)
                                 tempSessionId = tempSessionId + "_" + errorCount;
-                            generateCheckSum(true, tempSessionId, Integer.parseInt(CallActivity.mSessionDetailRoot.getPacifyr().getPrice()),true);
+                            generateCheckSum(true, tempSessionId, Integer.parseInt(VideoActivity.mSessionDetailRoot.getPacifyr().getPrice()),true);
                         }
                     }
                 }, "Cancel");

@@ -70,8 +70,6 @@ import com.pacifyr.client.orginals.Auth;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.orginals.DynamicLink;
 import com.pacifyr.client.orginals.RemoteConfig;
-import com.pacifyr.client.quickblox.chat.ui.activity.DialogsActivity;
-import com.pacifyr.client.quickblox.services.CallService;
 import com.pacifyr.client.receiver.NotificationUtils;
 import com.pacifyr.client.sign.CrisisActivity;
 import com.pacifyr.client.twiliochat.QuickstartConversationsManager;
@@ -116,6 +114,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 import static com.pacifyr.client.twilio.VideoActivity.isCallActive;
+import static com.pacifyr.client.twiliochat.TwilioConversationActivity.DEFAULT_CONVERSATION_NAME;
 import static com.pacifyr.client.utils.Constants.getCountryChecks;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
 
@@ -1304,8 +1303,18 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
                 String message = intent.getExtras().getString("message");
                 String type = intent.getExtras().getString("type");
                 if (message != null && message != "") {
-                    if (type.equals("chat")) {
-                        SnackUtils.show(actionBarTopLlay,message,DashboardActivity.this,getLayoutInflater());
+                    if(type.equals("twilio.conversations.new_message") || type.equals("twilioChat") ){
+
+                        String conversation_sid = intent.getExtras().getString("conversation_sid");
+
+                        if(isValid(DEFAULT_CONVERSATION_NAME) && isValid(conversation_sid)
+                                && conversation_sid.equals(DEFAULT_CONVERSATION_NAME)){
+
+                            return;
+                        }
+
+                        SnackUtils.show(actionBarTopLlay,message, DashboardActivity.this,getLayoutInflater(),conversation_sid);
+
                     }
                 }
             }

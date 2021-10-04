@@ -67,6 +67,7 @@ import com.pacifyr.client.receiver.NotificationUtils;
 import com.pacifyr.client.twiliochat.TwilioCoversationListActivity;
 import com.pacifyr.client.utility.BaseFragment;
 import com.pacifyr.client.utility.EventMessage;
+import com.pacifyr.client.utils.Toaster;
 import com.pacifyr.client.utils.Utility;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MSessionDetailRoot;

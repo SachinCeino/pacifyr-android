@@ -14,7 +14,8 @@ import android.widget.TextView;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.pacifyr.client.R;
-import com.pacifyr.client.quickblox.chat.ui.activity.DialogsActivity;
+import com.pacifyr.client.twiliochat.TwilioConversationActivity;
+import com.pacifyr.client.twiliochat.TwilioCoversationListActivity;
 
 public class SnackUtils {
 
@@ -22,7 +23,7 @@ public class SnackUtils {
     private static Context mContextsnackBar;
 
     @SuppressLint("WrongConstant")
-    public static void show(View anchor, String message, Context mContext, LayoutInflater layoutInflater) {
+    public static void show(View anchor, String message, Context mContext, LayoutInflater layoutInflater,String conversation_sid) {
         mContextsnackBar=mContext;
         if (snackBar != null && snackBar.isShown()) {
             snackBar.dismiss();
@@ -47,7 +48,9 @@ public class SnackUtils {
         TextView_snackBarMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent1 = new Intent(mContextsnackBar, DialogsActivity.class);
+                Intent intent1 = new Intent(mContextsnackBar, TwilioConversationActivity.class);
+                intent1.putExtra("conversation_sid",conversation_sid);
+                intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mContextsnackBar.startActivity(intent1);
             }
         });
