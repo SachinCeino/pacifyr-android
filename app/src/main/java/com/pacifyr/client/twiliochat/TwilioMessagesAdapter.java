@@ -7,12 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -22,19 +23,15 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
-import com.bumptech.glide.signature.ObjectKey;
 import com.pacifyr.client.R;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.model.MessageMediaModel;
-import com.pacifyr.client.quickblox.App;
 import com.pacifyr.client.utils.Utility;
 import com.twilio.conversations.CallbackListener;
 import com.twilio.conversations.Message;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAdapter.ViewHolder> {
     private static final int VIEW_TYPE_MESSAGE_SENT = 1;
@@ -45,11 +42,14 @@ public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAd
     ArrayList<MessageMediaModel> messageList;
     String userId;
     String nextMsgDate ="";
+    boolean dateShow = true;
     class ViewHolder extends RecyclerView.ViewHolder {
 
         final MainTextView messageText,tvTimeRight,tvTimeBottom,tvDate;
-        final ImageView ivImage,ivFile;
+        final ImageView ivFile, ivImage;
         final ProgressBar progressMessage;
+        final CardView cardDate;
+        final ConstraintLayout clBody;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -59,7 +59,9 @@ public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAd
             ivImage =  itemView.findViewById(R.id.iv_image);
             ivFile =  itemView.findViewById(R.id.iv_file);
             tvDate =  itemView.findViewById(R.id.tv_date);
+            cardDate =  itemView.findViewById(R.id.card_date);
             progressMessage =  itemView.findViewById(R.id.progress_message);
+            clBody =  itemView.findViewById(R.id.constraintLayout2);
 
         }
 
@@ -81,12 +83,13 @@ public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAd
             return VIEW_TYPE_MESSAGE_SENT_IMAGE;
         } else if(message.getAuthor().equals(userId)&& !message.hasMedia()) {
             return VIEW_TYPE_MESSAGE_SENT;
-        }else if(message.getAuthor().equals(userId)&& message.hasMedia()) {
-            return VIEW_TYPE_MESSAGE_SENT_IMAGE;
-        }else {
+        }else if(!message.getAuthor().equals(userId)&& message.hasMedia()) {
+            return VIEW_TYPE_MESSAGE_RECEIVED_IMAGE;
+        }else if(!message.getAuthor().equals(userId)&& !message.hasMedia()){
             // If some other user sent the message
             return VIEW_TYPE_MESSAGE_RECEIVED;
-        }
+        } else  return VIEW_TYPE_MESSAGE_RECEIVED;
+
     }
 
     @NonNull
@@ -124,7 +127,7 @@ public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAd
             Log.d("TAG", "re run");
             holder.ivImage.setVisibility(View.GONE);
             holder.ivFile.setVisibility(View.GONE);
-            holder.tvDate.setVisibility(View.GONE);
+            holder.cardDate.setVisibility(View.GONE);
             holder.tvTimeRight.setVisibility(View.GONE);
             holder.tvTimeBottom.setVisibility(View.GONE);
             holder.progressMessage.setVisibility(View.GONE);
@@ -133,23 +136,66 @@ public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAd
             Message message = messageList.get(position).message;
 
 
+        ///////Background ///////
+        if(message.getAuthor().equals(userId)) {
+            if ((messageList.size() -1 )!= position) {
+                String msgAuthor = message.getAuthor();
+                String nextMsgAuthor = messageList.get(position + 1).message.getAuthor();
+                String nxtDate = Utility.getFormattedDate(context, messageList.get(position + 1).message.getDateCreated());
+                String msgDate = Utility.getFormattedDate(context, message.getDateCreated());
+                if (msgAuthor.equals(nextMsgAuthor) && (nxtDate.equals(msgDate))) {
+                    holder.clBody.setBackground(ContextCompat.getDrawable(context, R.drawable.shape_bg_send_bubble));
+                } else{
+                    holder.clBody.setBackground(ContextCompat.getDrawable(context, R.drawable.shape_bg_send_bubble_arrow));
+                }
+            } else {
+                holder.clBody.setBackground(ContextCompat.getDrawable(context, R.drawable.shape_bg_send_bubble_arrow));
+
+            }
+        } else {
+            if ((messageList.size() -1 )!= position) {
+                String msgAuthor = message.getAuthor();
+                String nextMsgAuthor = messageList.get(position + 1).message.getAuthor();
+                String nxtDate = Utility.getFormattedDate(context, messageList.get(position + 1).message.getDateCreated());
+                String msgDate = Utility.getFormattedDate(context, message.getDateCreated());
+                if (msgAuthor.equals(nextMsgAuthor) && (nxtDate.equals(msgDate))) {
+                    holder.clBody.setBackground(ContextCompat.getDrawable(context, R.drawable.shape_bg_receive_bubble));
+                } else{
+                    holder.clBody.setBackground(ContextCompat.getDrawable(context, R.drawable.shape_bg_receive_bubble_arrow));
+                }
+            } else {
+                holder.clBody.setBackground(ContextCompat.getDrawable(context, R.drawable.shape_bg_receive_bubble_arrow));
+
+            }
+        }
+
+        //--------------------//
+
+
             /////// Date //////////
             String date = Utility.getFormattedDate(context, message.getDateCreated());
             holder.tvDate.setText(date);
+
             //Check last item
             if (0 == position) {
-                holder.tvDate.setVisibility(View.VISIBLE);
+                holder.cardDate.setVisibility(View.VISIBLE);
+
             } else {
                 nextMsgDate = Utility.getFormattedDate(context, messageList.get(position - 1).message.getDateCreated());
 
                 if (nextMsgDate.isEmpty() || !nextMsgDate.equals(date)) {
-                    holder.tvDate.setVisibility(View.VISIBLE);
+                    holder.cardDate.setVisibility(View.VISIBLE);
                     nextMsgDate = date;
+
                 } else {
-                    holder.tvDate.setVisibility(View.GONE);
+                    holder.cardDate.setVisibility(View.GONE);
+
                 }
             }
             //---------------------//
+
+
+
 
 
             String messageText = message.getMessageBody();
@@ -187,7 +233,7 @@ public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAd
 
                         Glide.with(context)
                                 .load(mediaUrl)
-                                .transform(new CenterCrop(),new RoundedCorners(15))
+                                .transform(new CenterCrop(),new RoundedCorners(37))
                                 .listener(new RequestListener<Drawable>() {
                                     @Override
                                     public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
@@ -203,7 +249,7 @@ public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAd
                                     }
                                 })
                                 //.override(w, h)
-                                //.diskCacheStrategy(DiskCacheStrategy.ALL)
+                                .diskCacheStrategy(DiskCacheStrategy.ALL)
                                 .into(holder.ivImage);
                         holder.ivImage.setClipToOutline(true);
 
@@ -255,7 +301,7 @@ public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAd
                 holder.tvTimeRight.setVisibility(View.VISIBLE);
             }
             ///////////Both time will be same/////
-            String time = Utility.getDate(message.getDateCreated(), true);
+            String time = Utility.getTime(message.getDateCreated());
             holder.tvTimeRight.setText(time);
             holder.tvTimeBottom.setText(time);
 

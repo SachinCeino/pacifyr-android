@@ -670,7 +670,7 @@ public class Utility {
         format.setTimeZone(TimeZone.getTimeZone("GMT"));
 
 
-        SimpleDateFormat outFormat = new SimpleDateFormat("dd-MMM-yyyy");
+        SimpleDateFormat outFormat = new SimpleDateFormat("MMMM d");
 
         outFormat.setTimeZone(TimeZone.getDefault());
 
@@ -691,6 +691,25 @@ public class Utility {
 
 
             return dayname;
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static String getTime(String input) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        format.setTimeZone(TimeZone.getTimeZone("GMT"));
+        SimpleDateFormat outFormat = null;
+
+            outFormat = new SimpleDateFormat("HH:mm");
+
+        outFormat.setTimeZone(TimeZone.getDefault());
+        Date date = null;
+        try {
+            date = format.parse(input);
+            return outFormat.format(date).toLowerCase();
 
         } catch (ParseException e) {
             e.printStackTrace();

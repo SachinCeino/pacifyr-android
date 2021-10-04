@@ -236,13 +236,14 @@
 
     </style>
 
-
-    <style parent="WrapContent" name="ChatTimeTextStyle">
-
+    <style parent="WrapContent" name="ChatSendTimeTextStyle">
         <item name="android:textColor">@color/color_text_time_sent</item>
-
         <item name="android:textSize">@dimen/chat_message_time_text_size</item>
+    </style>
 
+    <style parent="WrapContent" name="ChatReceiverTimeTextStyle">
+        <item name="android:textColor">@color/color_text_time_receiver</item>
+        <item name="android:textSize">@dimen/chat_message_time_text_size</item>
     </style>
 
 
