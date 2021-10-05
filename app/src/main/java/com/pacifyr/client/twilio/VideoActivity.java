@@ -104,6 +104,7 @@ import com.pacifyr.client.utils.Utility;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.pacifyrapp.utilitylibrary.ToastHandler;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MEmotion;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.MSessionDetailRoot;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.quickblox.sample.core.utils.Toaster;
@@ -205,6 +206,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
             IsacCodec.NAME, OpusCodec.NAME, PcmaCodec.NAME, PcmuCodec.NAME, G722Codec.NAME
     };
     private static final long PARTICIPANT_DISCONNECTED_DELAY = 2000;
+    public static MSessionDetailRoot mSessionDetailRoot;
 
 
     private String accessToken;
