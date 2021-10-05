@@ -985,8 +985,21 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                                     VideoActivity.mSessionDetailRoot.isBilledSession()) {
                                 setBillingStarted(true);
                                 billingStatus.setVisibility(View.VISIBLE);
-                                if (countDownTimer != null) {
-                                    countDownTimer.cancel();
+                                if (!isEmplyeeDonePaymentWithFreeMinuts) {
+                                    if (isValid(empMinutesListener))
+                                        setEmpMinutesListener(empMinutesListener);
+                                    checkEmpAvailableMinutes();
+                                } else {
+                                    if (isValid(countDownTimer)) {
+                                        countDownTimer.cancel();
+                                    }
+                                    empMinutesListener=null;
+                                }
+                                try {
+                                    stopTimer();
+                                    startTimer();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
                                 }
 
                                 if (isValid(VideoActivity.mSessionDetailRoot.getBillingStartTime()))
