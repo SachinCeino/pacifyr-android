@@ -4023,11 +4023,19 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
                 });
             }
             else {
-                showIOSDialogOKCancel("Message", message, "Payment", new iOSDialogClickListener() {
+
+                showIOSDialogOKCancel("Message", message, Utility.getPaymentLabel(VideoActivity.this, getPrefManager().getCountry()), new iOSDialogClickListener() {
                     @Override
                     public void onClick(iOSDialog dialog) {
                         dialog.dismiss();
+                        ShowTransactionFaileToUSer("Add payment cancelled");
+                        dialog.dismiss();
+                    }
+                }, new iOSDialogClickListener() {
+                    @Override
+                    public void onClick(iOSDialog dialog) {
 
+                        dialog.dismiss();
                         if (isValid(VideoActivity.mSessionDetailRoot) && isValid(VideoActivity.mSessionDetailRoot.getPacifyr()) &&
                                 isValid(VideoActivity.mSessionDetailRoot.getPacifyr().getPrice())) {
                             String tempSessionId = SessionId;
@@ -4035,8 +4043,10 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
                                 tempSessionId = tempSessionId + "_" + errorCount;
                             generateCheckSum(true, tempSessionId, Integer.parseInt(VideoActivity.mSessionDetailRoot.getPacifyr().getPrice()),true);
                         }
+
                     }
-                }, "Cancel");
+                });
+
             }
 
         }
