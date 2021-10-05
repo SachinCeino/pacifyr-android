@@ -1846,13 +1846,6 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
 
                                 if (!isCardExist())
                                 {
-                                    showIOSDialogOK("", getString(R.string.your_monthly_session_expired), getString(R.string.dlg_ok), false, new iOSDialogClickListener() {
-                                        @Override
-                                        public void onClick(iOSDialog dialog) {
-                                            dialog.dismiss();
-                                            button_hangup_call.performClick();
-                                        }
-                                    });
 
                                     if (getCallPacifyr() != null) {
                                         new NetworkService().sendCardAddedNotification(getCallPacifyr().getId(), FREE_MINUTES_OVER, new AjaxCallback<JSONObject>() {
@@ -1865,6 +1858,22 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                                             }
                                         });
                                     }
+
+                                    showIOSDialogOK("", getString(R.string.your_monthly_session_expired), getString(R.string.dlg_ok), false, new iOSDialogClickListener() {
+                                        @Override
+                                        public void onClick(iOSDialog dialog) {
+                                            dialog.dismiss();
+                                            button_hangup_call.performClick();
+                                        }
+                                    });
+                                    new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            button_hangup_call.performClick();
+
+                                        }
+                                    }, 4000);
+
                                 }
                                 else {
 
@@ -1883,13 +1892,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                             } else {
 
                                 makeAbeepSoundWhileShowingPopUp();
-                                showIOSDialogOK("", getString(R.string.your_monthly_session_expired), getString(R.string.dlg_ok), false, new iOSDialogClickListener() {
-                                    @Override
-                                    public void onClick(iOSDialog dialog) {
-                                        dialog.dismiss();
-                                        button_hangup_call.performClick();
-                                    }
-                                });
+
                                 if (getCallPacifyr() != null &&!isCardExist()) {
 
                                     new NetworkService().sendCardAddedNotification(getCallPacifyr().getId(), FREE_MINUTES_OVER, new AjaxCallback<JSONObject>() {
@@ -1901,6 +1904,20 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                                         }
                                     });
                                 }
+
+                                showIOSDialogOK("", getString(R.string.your_monthly_session_expired), getString(R.string.dlg_ok), false, new iOSDialogClickListener() {
+                                    @Override
+                                    public void onClick(iOSDialog dialog) {
+                                        dialog.dismiss();
+                                        button_hangup_call.performClick();
+                                    }
+                                });
+                                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        button_hangup_call.performClick();
+                                    }
+                                }, 4000);
 
                            /* showIOSDialogOKCancel("Warning", "Your monthly free sessions has expired. Please enter your payment to continue.", Utility.getPaymentLabel(VideoActivity.this, getPrefManager().getCountry()), new iOSDialogClickListener() {
                                 @Override
