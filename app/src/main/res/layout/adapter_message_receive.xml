@@ -7,42 +7,55 @@
     android:layout_marginBottom="@dimen/dp10"
     tools:ignore="RtlSymmetry">
 
-    <com.pacifyr.client.customview.MainTextView
-        android:id="@+id/tv_date"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/shape_round_gray"
-        android:padding="5dp"
-        android:textColor="@color/white"
-        android:textSize="@dimen/sp13"
-        android:inputType="textCapWords"
         app:layout_constraintBottom_toTopOf="@+id/constraintLayout2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="TODAY" />
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        app:cardCornerRadius="15dp"
+        app:contentPaddingRight="14dp"
+        app:contentPaddingLeft="14dp"
+        app:contentPaddingBottom="5dp"
+        app:contentPaddingTop="5dp"
+        android:elevation="5dp">
+
+        <com.pacifyr.client.customview.MainTextView
+            android:id="@+id/tv_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/sp13"
+            android:inputType="textCapWords"
+            android:textColor="@color/color_text_date"
+            tools:text="TODAY" />
+
+    </androidx.cardview.widget.CardView>
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/shape_bg_receive_bubble"
-        android:paddingStart="@dimen/dp10"
+        android:background="@drawable/shape_bg_receive_bubble_arrow"
+        android:paddingStart="@dimen/dp16"
+        android:layout_marginStart="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_date">
+        app:layout_constraintTop_toBottomOf="@+id/card_date">
 
         <ImageView
             android:id="@+id/iv_image"
             android:layout_width="250dp"
             android:layout_height="180dp"
-            android:layout_marginStart="@dimen/dp2"
-            android:padding="@dimen/dp3"
+            android:layout_margin="@dimen/dp2"
             android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:visibility="gone"/>
 
@@ -63,10 +76,9 @@
             style="@style/MessageTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingStart="8dp"
-            android:paddingTop="8dp"
-            android:paddingEnd="5dp"
-            android:paddingBottom="5dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="8dp"
             android:textColor="@android:color/black"
             app:layout_constraintBottom_toTopOf="@+id/tv_time_bottom"
             app:layout_constraintEnd_toStartOf="@+id/tv_time_right"
@@ -75,10 +87,10 @@
 
         <com.pacifyr.client.customview.MainTextView
             android:id="@+id/tv_time_right"
-            style="@style/ChatReceiveTimeTextStyle"
+            style="@style/ChatReceiverTimeTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="25dp"
             android:layout_marginBottom="5dp"
             android:textSize="@dimen/sp10"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -87,10 +99,10 @@
 
         <com.pacifyr.client.customview.MainTextView
             android:id="@+id/tv_time_bottom"
-            style="@style/ChatReceiveTimeTextStyle"
+            style="@style/ChatReceiverTimeTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="23dp"
             android:layout_marginBottom="5dp"
             android:textSize="@dimen/sp10"
             app:layout_constraintBottom_toBottomOf="parent"
