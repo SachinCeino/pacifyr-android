@@ -42,7 +42,6 @@ public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAd
     ArrayList<MessageMediaModel> messageList;
     String userId;
     String nextMsgDate ="";
-    boolean dateShow = true;
     class ViewHolder extends RecyclerView.ViewHolder {
 
         final MainTextView messageText,tvTimeRight,tvTimeBottom,tvDate;
@@ -251,7 +250,7 @@ public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAd
                                 //.override(w, h)
                                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                                 .into(holder.ivImage);
-                        holder.ivImage.setClipToOutline(true);
+
 
                         holder.ivImage.setOnClickListener(new View.OnClickListener() {
                             @Override
