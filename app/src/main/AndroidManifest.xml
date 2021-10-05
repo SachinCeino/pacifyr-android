@@ -53,6 +53,7 @@
         android:launchMode="singleInstance"
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
+        android:largeHeap="true"
         android:hardwareAccelerated="true"
         android:usesCleartextTraffic="true"
         android:theme="@style/CustomNoActionBarDarkTheme">
@@ -81,6 +82,7 @@
         <activity
             android:name="com.pacifyr.client.activity.SplashScreen"
             android:screenOrientation="portrait"
+            android:theme="@style/theme_for_avoiding_white_screen_in_sign_screen"
             android:windowSoftInputMode="stateAlwaysHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -123,6 +125,11 @@
             android:theme="@style/CustomNoActionBarTheme2"
             android:windowSoftInputMode="stateHidden" />
         <activity
+            android:name=".activity.IdentityDocumnetActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/CustomNoActionBarTheme2"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
             android:name="com.pacifyr.client.home.account.AccountEditActivity"
             android:screenOrientation="portrait"
             android:theme="@style/CustomNoActionBarTheme2"
@@ -130,8 +137,8 @@
         <activity
             android:name="com.pacifyr.client.sign.SignActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"
-            android:theme="@style/CustomNoActionBarTheme2" />
+            android:windowSoftInputMode="stateAlwaysHidden"
+            android:theme="@style/theme_for_avoiding_white_screen_in_sign_screen" />
         <activity
             android:name="com.pacifyr.client.sign.SignUpActivity"
             android:screenOrientation="portrait"
@@ -187,7 +194,7 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden"
-            android:theme="@style/CustomNoActionBarTheme2" />
+            android:theme="@style/theme_for_avoiding_white_screen_in_sign_screen" />
         <activity
             android:name="com.pacifyr.client.home.FeelSelectActivity"
             android:screenOrientation="portrait"
@@ -264,6 +271,15 @@
             android:name="com.pacifyr.client.activity.TermsOfUseActivity"
             android:screenOrientation="portrait"
             android:theme="@style/CustomNoActionBarTheme2" />
+        <activity
+            android:name="com.pacifyr.client.activity.AppointmentDetailsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/CustomNoActionBarTheme2" />
+        <activity
+            android:name=".home.MainVideoPlayerActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/CustomNoActionBarTheme2" />
+
         <activity
             android:name="com.pacifyr.client.activity.ResourceAllActivity"
             android:screenOrientation="portrait"

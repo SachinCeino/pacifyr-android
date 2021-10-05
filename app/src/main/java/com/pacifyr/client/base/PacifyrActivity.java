@@ -19,7 +19,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Matrix;
+import android.media.AudioManager;
 import android.media.ExifInterface;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -46,6 +48,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.aigestudio.wheelpicker.WheelPicker;
@@ -85,7 +89,9 @@ import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.event.TwilioCallEvent;
 import com.pacifyr.client.fragment.AppointmentsTabViewFragment;
 import com.pacifyr.client.fragment.UserDashboardFragment;
+import com.pacifyr.client.fragment.schedule.AppointmentModel;
 import com.pacifyr.client.home.DashboardActivity;
+import com.pacifyr.client.home.MyDialogFragment;
 import com.pacifyr.client.home.PaymentActivity;
 import com.pacifyr.client.home.SessionSummaryActivity;
 import com.pacifyr.client.model.ApiResponse;
@@ -128,6 +134,7 @@ import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelUserProfile;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.post.PostRegisterModel;
 import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
+import com.pacifyrapp.utilitylibrary.utils.BaseUtils;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.paytm.pgsdk.PaytmOrder;
 import com.paytm.pgsdk.PaytmPGService;
@@ -163,6 +170,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import static com.pacifyr.client.Payment.AlertAddCreditCardActivity.REQUEST_CODE_STRIPE_CARD;
 import static com.pacifyr.client.network.NetworkService.mCurrentUser;
 import static com.pacifyr.client.network.NetworkService.modelAllEmotions;
+import static com.pacifyr.client.network.NetworkService.modelCustomerDashboard2;
 import static com.pacifyr.client.twilio.VideoActivity.isCallActive;
 import static com.pacifyr.client.twiliochat.TwilioConversationActivity.DEFAULT_CONVERSATION_NAME;
 import static com.pacifyr.client.utils.Constants.getCountryChecks;
@@ -280,17 +288,27 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                         }, "Close");
                     }
 
-                    else if(type.equals("twilio.conversations.new_message") || type.equals("twilioChat") ){
+                    else if(type.equals("twilio.conversations.new_message") || type.equals("twilioChat") ) {
 
 
-                        String conversation_sid = intent.getExtras().getString("conversation_sid");
-                        if(isValid(DEFAULT_CONVERSATION_NAME) && isValid(conversation_sid)
-                                && conversation_sid.equals(DEFAULT_CONVERSATION_NAME)){
+                       //twilio chat notification we are handling from each separate activities
+                    }
 
-                            return;
-                        }
 
-                        showIOSDialogOKCancel("Message", message, "View", new iOSDialogClickListener() {
+                    else if (type.equals("sessionWrapUp")
+                            ||type.equals("sessionExtensionAccepted"))
+                    {
+                       /* if (isCallActive && !getClass().getName().contains("VideoActivity"))
+                        {
+                            startActivity(new Intent(PacifyrActivity.this, VideoActivity.class)
+                                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
+                        }*/
+                    }
+                    else
+                    {
+                       /* if (!type.equals("chat"))
+                        {
+                            showIOSDialogOKCancel("Message", message, "View", new iOSDialogClickListener() {
                             @Override
                             public void onClick(iOSDialog dialog) {
                                 dialog.dismiss();
@@ -299,17 +317,9 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                                 startActivity(intent1);
                             }
                         }, "Close");
+                        }*/
                     }
-                    else
-                    {
-                        showIOSDialogOKCancel("Message", message, "View", new iOSDialogClickListener() {
-                            @Override
-                            public void onClick(iOSDialog dialog) {
-                                dialog.dismiss();
 
-                            }
-                        }, "Close");
-                    }
 
                 }
             }
@@ -333,89 +343,6 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
     private boolean inProgress;
 
     private boolean settingUpPayment = false;
-
-    public void makeAbeepSoundWhileShowingPopUp()
-    {
-       try {
-            if (isCallActive) {
-                RingtonePlayer ringtonePlayer = new RingtonePlayer(PacifyrActivity.this, R.raw.beep_for_popup);
-                ringtonePlayer.play(false);
-            }
-       }catch (Exception e)
-       {
-
-       }
-    }
-    private final BroadcastReceiver waringToAddPayTmPaymentReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            // Get extra data included in the Intent
-            if (!showDialogs) {
-                maximizePicInPicView();
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                doPaymentSetup(intent);
-                            }
-                        });
-                    }
-                }, 2000);
-                return;
-            } else {
-                bringCallActivityToFront();
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                EventBus.getDefault().post(intent);
-                            }
-                        });
-                    }
-                }, 2000);
-            }
-
-
-        }
-    };
-
-    public boolean isSettingUpPayment() {
-        return settingUpPayment;
-    }
-
-    public void showNotificationPopups(boolean val) {
-        this.showNotification = val;
-    }
-
-
-    /* public String getProfileName() {
-         return getProfileFName() + " " + getProfileLName();
-
-     }*/
-    // public static  String call_emotionid=null;
-    public static MEmotion call_emotion = null;
-    private final BroadcastReceiver poupForAppoinmetCall = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-
-            if (intent != null && intent.hasExtra("typeId")) {
-                String typeId = intent.getExtras().getString("typeId");
-
-                if (isValid(typeId)) {
-                    webGetAppointmentDetails(typeId);
-                }
-            }
-
-        }
-    };
-
-
-    private PendingCall pendingCall;
-
 
     /*public void startCall(boolean isVideoCall, long  qbID) {
      *//*if (opponentsAdapter.getSelectedItems().size() > Consts.MAX_OPPONENTS_COUNT) {
@@ -577,6 +504,86 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
 
 
     };
+    private final BroadcastReceiver waringToAddPayTmPaymentReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // Get extra data included in the Intent
+            if (!showDialogs) {
+                maximizePicInPicView();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                doPaymentSetup(intent);
+                            }
+                        });
+                    }
+                }, 2000);
+                return;
+            } else {
+                bringCallActivityToFront();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                EventBus.getDefault().post(intent);
+                            }
+                        });
+                    }
+                }, 2000);
+            }
+
+
+        }
+    };
+
+    public boolean isSettingUpPayment() {
+        return settingUpPayment;
+    }
+
+    public void showNotificationPopups(boolean val) {
+        this.showNotification = val;
+    }
+
+
+    /* public String getProfileName() {
+         return getProfileFName() + " " + getProfileLName();
+
+     }*/
+    // public static  String call_emotionid=null;
+    public static MEmotion call_emotion = null;
+    private final BroadcastReceiver poupForAppoinmetCall = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            if (intent != null && intent.hasExtra("typeId")) {
+                String typeId = intent.getExtras().getString("typeId");
+
+                if (isValid(typeId)) {
+                    webGetAppointmentDetails(typeId);
+                }
+            }
+
+        }
+    };
+
+
+    private PendingCall pendingCall;
+
+    public void makeAbeepSoundWhileShowingPopUp() {
+        try {
+            if (isCallActive) {
+                MediaPlayer mp1 = MediaPlayer.create(PacifyrActivity.this, R.raw.beepforpopup);
+                mp1.start();
+            }
+        } catch (Exception e) {
+
+        }
+    }
 
     public void doPaymentSetup(Intent intent) {
         String type = intent.getStringExtra("type");
@@ -628,7 +635,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                                 String tempSessionId = id;
                                 if (errorCount != 0)
                                     tempSessionId = tempSessionId + "_" + errorCount;
-                                generateCheckSum(true,tempSessionId, Integer.parseInt(VideoActivity.mSessionDetailRoot.getPacifyr().getPrice()));
+                                generateCheckSum(true, tempSessionId, Integer.parseInt(VideoActivity.mSessionDetailRoot.getPacifyr().getPrice()),false);
                             }
 
 
@@ -664,6 +671,31 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
             }
         }
     }
+
+    public void setAlertStatusInBlue2(String title,String desc,String ok,String dismiss,View.OnClickListener oklistner,View.OnClickListener nolistner) {
+        View view = LayoutInflater.from(this).inflate(R.layout.alert_card_popup_payment, null, false);
+        TextView title_dtxv = view.findViewById(R.id.title_dtxv);
+        TextView desc_dtxv = view.findViewById(R.id.desc_dtxv);
+        TextView dismis_dtxv = view.findViewById(R.id.dismis_dtxv);
+        TextView ok_dtxv = view.findViewById(R.id.ok_dtxv);
+        if(isValid(title))
+            defSetText(title_dtxv,title);
+        else
+            title_dtxv.setVisibility(View.GONE);
+        defSetText(desc_dtxv,desc);
+
+        defSetText(dismis_dtxv,dismiss,"NO");
+        defSetText(ok_dtxv, ok, "Yes");
+
+        hideStatus();
+        hideStatus2();
+        hud_status2 = KProgressHUD.create(this).setStyle(KProgressHUD.Style.SPIN_INDETERMINATE).setCustomView(view).setWindowColor(this.getResources().getColor(com.pacifyrapp.utilitylibrary.R.color.transparent)).setCancellable(false).setAnimationSpeed(2).setDimAmount(0.5f);
+        showStatus2();
+        ok_dtxv.setOnClickListener(oklistner);
+        dismis_dtxv.setOnClickListener(nolistner);
+
+    }
+
 
     public static Timer trackTimer;
     public static TimerTask trackTimerTask;
@@ -795,7 +827,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                 .setSubtitle(subTitle)
                 .setBoldPositiveLabel(false)
                 .setCancelable(true)
-                .setPositiveListener(okLabel,new iOSDialogClickListener() {
+                .setPositiveListener(okLabel, new iOSDialogClickListener() {
                     @Override
                     public void onClick(iOSDialog dialog) {
                         //Toast.makeText(PacifyrActivity.this,"Clicked!",Toast.LENGTH_LONG).show();
@@ -915,7 +947,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                 })
                 .build();
         dialog.show();
-        makeAbeepSoundWhileShowingPopUp();
+       // makeAbeepSoundWhileShowingPopUp();
     }
 
 
@@ -1300,9 +1332,9 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
 
 
             if (isValid(billingSummary.getSession()) && isValid(billingSummary.getSession().getTimeSlotBookingId()))
-            text_amount_charged.setText(sign + billingSummary.getSessionCost() +getResources().getString(R.string.prepaid));
+            text_amount_charged.setText(sign +" "+billingSummary.getSessionCost() +getResources().getString(R.string.prepaid));
             else
-                text_amount_charged.setText(sign + billingSummary.getSessionCost()+" ");
+                text_amount_charged.setText(sign +" "+billingSummary.getSessionCost());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -1889,7 +1921,15 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
 
 
     private void updateProfileStartCallWeb( final MUser pacifyerDetial, final boolean isVideoCall) {
-        try {
+
+       // check Allready Provider Is In AppointmentCall or not
+        if(!pacifyerDetial.getCurrentlyAvailable()) {
+
+             checkAppointMentIsthere(pacifyerDetial.getId());
+
+        }
+        else {
+                    try {
             //only for leaders up
             // EmotionSpecialityAdapter.reason_forcall= UserDashboardFragment.LeadersUpReasonFortheCall;
             PostRegisterModel postRegisterModel=null;
@@ -1960,6 +2000,86 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
         } catch (Exception ex) {
             hideProgress();
             LogUtils.LOGD("session", "PA updateProfileWeb exce " + ex.getMessage());
+        }
+
+        }
+
+    }
+
+    public void checkAppointMentIsthere(String id) {
+
+        try {
+            setLoading();
+
+
+            String url = GLOBAL_URL + "schedule/user/" + getPrefManager().getUserID() + "/bookings/upcoming";
+
+            AjaxCallback cb = new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject json, AjaxStatus status) {
+
+                    try {
+//                        hideProgress();
+                        hideStatus();
+
+                        boolean isavailable=false;
+                        if (isValid(json))
+                        {
+                            AppointmentModel mAppointmentModel = GsonUtils.getInstance().gsonToAppointmentModel(json);
+                            if (isValid(mAppointmentModel) && isValid(mAppointmentModel.getResults()))
+                            {
+                                for (int i=0;i<mAppointmentModel.getResults().size();i++)
+                                {
+                                    if (mAppointmentModel.getResults().get(i).getPacifyr().getId().equals(id))
+                                    {
+                                        isavailable=true;
+
+                                    }
+
+                                }
+                            }
+
+                        }
+
+                        if (isavailable)
+                        {
+                            showIOSDialogOK("", getString(R.string.provider_is_in_insession_same_client_apppointment), getString(R.string.dlg_ok), false, new iOSDialogClickListener() {
+                                            @Override
+                                            public void onClick(iOSDialog dialog) {
+                                                dialog.dismiss();
+                                                DashboardActivity.start(PacifyrActivity.this,true);
+                                            }
+                                        });
+                                        return;
+                        }
+                        else {
+                                    showIOSDialogOK("", getString(R.string.provider_is_in_insession_), getString(R.string.dlg_ok), false, new iOSDialogClickListener() {
+                                    @Override
+                                    public void onClick(iOSDialog dialog) {
+                                        dialog.dismiss();
+
+                                    }
+                                });
+                                return;
+                        }
+
+
+
+
+                    } catch (Exception e) {
+
+                        hideProgress();
+                        e.printStackTrace();
+                    }
+                }
+            };
+            AQuery aq = new AQuery(PacifyrActivity.this);
+            cb.header("Content-Type", "application/json");
+            cb.header("AccessToken", getPrefManager().getAccessToken());
+            aq.ajax(url, JSONObject.class, cb);
+        } catch (Exception ex) {
+            hideProgress();
+            ex.printStackTrace();
         }
     }
 
@@ -3832,7 +3952,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
      * @param sessionid
      * @param price**/
     boolean isFromCall =false ;
-    public void generateCheckSum(boolean isFromCallb ,String sessionid, int price) {
+    public void generateCheckSum(boolean isFromCallb ,String sessionid, int price,boolean isFromsessionExtension) {
         isFromCall = isFromCallb;
        /* if (ContextCompat.checkSelfPermission(PacifyrActivity.this, Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(PacifyrActivity.this, new String[]{Manifest.permission.READ_SMS, Manifest.permission.RECEIVE_SMS}, 101);
@@ -3871,7 +3991,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                                     {
                                         String paytmChecksum=json.getString("paytmChecksum");
                                         Log.w("PAYTMLOG","paytmChecksum-----"+paytmChecksum);
-                                        initializePaytmPayment(paytmChecksum, paytm,sessionid);
+                                        initializePaytmPayment(paytmChecksum, paytm,sessionid,isFromsessionExtension);
                                     }else {
                                         Log.w("PAYTMLOG","generateCheckSum-----"+"paytmChecksum not available !");
                                         return;
@@ -3945,7 +4065,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
         }
     }
 
-    public void initializePaytmPayment(String checksumHash, Paytm paytm, String sessionid) {
+    public void initializePaytmPayment(String checksumHash, Paytm paytm, String sessionid,boolean isFromsessionExtension) {
 
         //getting paytm test service 'TEST'
         //
@@ -4004,7 +4124,9 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                 if (isValid(inResponse))
                 {
                     Log.w("PAYTMLOG","Bundle inResponse-----"+inResponse.toString());
-                    ConfirmationFromSever(inResponse,checksumHash);
+
+                        ConfirmationFromSever(inResponse,checksumHash,isFromsessionExtension,sessionid);
+
                 }
                 settingUpPayment = false;
             }
@@ -4046,7 +4168,56 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
     }
 
 
-    public void ConfirmationFromSever(Bundle inResponse, String checksumHash) {
+    public void SessionExtendedPaymentSuccess(Bundle inResponse, String checksumHash,String sessionid) {
+
+        /**split values **/
+        txnAmount = inResponse.getString("TXNAMOUNT");
+        try{
+            String url = NetworkService.GLOBAL_URL+"session/"+sessionid+"/extend/paymentSucceeded";
+            PrefManager prefM = PrefManager.getInstance(PacifyrActivity.this);
+            String token = prefM.getAccessToken();
+            AjaxCallback cb = new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject json, AjaxStatus status) {
+                    try {
+                        String jsonS = json.toString();
+                        Log.w("@@@jsonS", jsonS);
+                        //generateCheckSum-----{"status":"success","paytmChecksum":"DK4aCSQEuEMr9OXcbskeXqHrFvDM9RCJhfJaG\/dGTeOIrGBm1BbthHxYckTC07z79Q\/2x9\/O21++coAskab5EdI7lKqoOgCP4KcSf6zOuJI="}
+
+                        if (isValid(json))
+                        {
+                            Log.w("PAYTMLOG2","generateCheckSum-----"+json);
+                        }
+                        else {
+                            Log.w("PAYTMLOG2","generateCheckSum-----"+"Json not valid");
+                            return;
+                        }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            };
+
+            AQuery aq = new AQuery(PacifyrActivity.this);
+            cb.header("Content-Type", "application/json");
+            cb.header("AccessToken", token);
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.putOpt("userId", prefM.getUserID());
+            jsonObject.putOpt("amount", txnAmount);
+            Log.w("PAYTMLOG","jsonObjectAfterPayTmSuccess-----"+jsonObject.toString());
+            aq.post(url, jsonObject, JSONObject.class, cb);
+
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+    }
+
+
+
+    public void ConfirmationFromSever(Bundle inResponse, String checksumHash,boolean isFromsessionExtension,String sessionID) {
 
         /**split values **/
 
@@ -4087,7 +4258,15 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                                     if (object.getIsChecksumValid() && object.getTransactionStatus().equals("success")) {
                                         // Transaction Succeeded
                                         Log.w("@@@","Payment setup failed.ShowTransactionSuccesResultToUSer");
-                                        ShowTransactionSuccesResultToUSer(object);
+                                        if (isFromsessionExtension)
+                                        {
+                                            SessionExtendedPaymentSuccess(inResponse,checksumHash,sessionID);
+                                            ShowExtendedTransactionSuccesResultToUSer(object);
+                                        }
+                                        else {
+                                            ShowTransactionSuccesResultToUSer(object);
+                                        }
+
                                     } else { // Transaction Failed
 
                                         ShowTransactionFaileToUSer(responce_message);
@@ -4129,13 +4308,252 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
 
     }
 
+    /** this is for extention schedule payment transaction result **/
+    public void ShowExtendedTransactionSuccesResultToUSer(TransactionResponce object) {
+
+        errorCount=0;
+        if (PaymentPopup != null && PaymentPopup.isShowing()) {
+            PaymentPopup.dismiss();
+        }
+        if (isValid(VideoActivity.mSessionDetailRoot) &&
+                isValid(VideoActivity.mSessionDetailRoot.getPacifyr()) &&
+                isValid(VideoActivity.mSessionDetailRoot.getPacifyr().getId()))
+
+        if (!isShowDialogs()) {
+            if (isCallActive)
+                maximizePicInPicView();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            View view = LayoutInflater.from(PacifyrActivity.this).inflate(R.layout.layout_paytm_payment_report, null);
+                            TextView ok = view.findViewById(R.id.button_ok);
+                            TextView transactionId = view.findViewById(R.id.transactionId);
+                            TextView text_date = view.findViewById(R.id.text_date);
+                            TextView text_amount_charged = view.findViewById(R.id.text_amount_charged);
+                            TextView text_time= view.findViewById(R.id.text_time);
+                            TextView textViewCopyTransaction= view.findViewById(R.id.textViewCopyTransaction);
+                            TextView title = view.findViewById(R.id.title);
+                            title.setText(getResources().getString(R.string.payment_summary));
+                            try {
+                                transactionId.setText(object.getTransactionId());
+                                Calendar c = Calendar.getInstance();
+                                SimpleDateFormat targetFormat;
+                                if (getPrefManager().getCountry().equals("India")) {
+                                    targetFormat = new SimpleDateFormat("dd-MM-yyyy'  'hh:mm a", Locale.ENGLISH);
+                                } else {
+                                    targetFormat = new SimpleDateFormat("MM-dd-yyyy'  'hh:mm a", Locale.ENGLISH);
+                                }
+                                String strDate = targetFormat.format(c.getTime());
+                                strDate.replace("AM", "am").replace("PM","pm");
+
+
+                                String[] separated = strDate.split(" ");
+                                text_date.setText(separated[0].toLowerCase()+"");
+                                text_time.setText(separated[2].toLowerCase()+" "+separated[3].toLowerCase()+"");
+
+                                PrefManager prefM = PrefManager.getInstance(getApplicationContext());
+                                String country = prefM.getCountry();
+                                String sign = "$";
+                                if (country.equals("India")) {
+                                    sign = getApplicationContext().getResources().getString(R.string.rupee);
+                                } else {
+                                    sign = getApplicationContext().getResources().getString(R.string.dollar);
+                                }
+                                text_amount_charged.setText(sign + " " + Float.parseFloat(txnAmount));
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            ok.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    if (PaymentPopup != null) {
+                                        PaymentPopup.dismiss();
+                                    }
+
+                                    // else
+                                    // Toast.makeText(PacifyrActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
+
+                                    Bundle args =
+                                            FirebaseLogging.getConstantArgsLoggedIn(PacifyrActivity.this);
+                                    FirebaseLogging.sendLog(PacifyrActivity.this,
+                                            FirebaseLogging.EVENT_CLIENT_PAYMENT_DONE,
+                                            args);
+                                }
+                            });
+
+                            textViewCopyTransaction.setOnTouchListener(new View.OnTouchListener() {
+                                @SuppressLint("ClickableViewAccessibility")
+                                @Override
+                                public boolean onTouch(View v, MotionEvent event) {
+                                    if (event.getAction() == MotionEvent.ACTION_UP) {
+                                        int[] textLocation = new int[2];
+                                        textViewCopyTransaction.getLocationOnScreen(textLocation);
+
+                                        if(event.getRawX() >= textViewCopyTransaction.getRight() - textViewCopyTransaction.getTotalPaddingRight()) {
+                                            /** copy transaction id to clipboard **/
+
+                                            ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                                            ClipData clip = ClipData.newPlainText("transactionId", transactionId.getText());
+                                            clipboard.setPrimaryClip(clip);
+                                            Toast.makeText(PacifyrActivity.this, "Copied", Toast.LENGTH_SHORT).show();
+                                            return true;
+                                        }
+
+                                    }
+                                    return true;
+                                }
+                            });
+
+                            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(PacifyrActivity.this);
+                            builder.setView(view);
+                            builder.setCancelable(false);
+                            PaymentPopup = builder.create();
+                            PaymentPopup.show();
+                            makeAbeepSoundWhileShowingPopUp();
+                        }
+                    });
+                }
+            }, 2000);
+            return;
+        } else {
+
+            if (isCallActive)
+                bringCallActivityToFront();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            View view = LayoutInflater.from(PacifyrActivity.this).inflate(R.layout.layout_paytm_payment_report, null);
+                            TextView ok = view.findViewById(R.id.button_ok);
+                            TextView transactionId = view.findViewById(R.id.transactionId);
+                            TextView textViewCopyTransaction= view.findViewById(R.id.textViewCopyTransaction);
+                            TextView text_date = view.findViewById(R.id.text_date);
+                            TextView text_amount_charged = view.findViewById(R.id.text_amount_charged);
+                            TextView text_time= view.findViewById(R.id.text_time);
+                            TextView title = view.findViewById(R.id.title);
+                            title.setText(getResources().getString(R.string.payment_summary));
+                            try {
+                                transactionId.setText(object.getTransactionId());
+
+                                Calendar c = Calendar.getInstance();
+                                SimpleDateFormat targetFormat;
+                                if (getPrefManager().getCountry().equals("India")) {
+                                    targetFormat = new SimpleDateFormat("dd-MM-yyyy'  'hh:mm a", Locale.ENGLISH);
+                                } else {
+                                    targetFormat = new SimpleDateFormat("MM-dd-yyyy'  'hh:mm a", Locale.ENGLISH);
+                                }
+                                String strDate = targetFormat.format(c.getTime());
+                                strDate.replace("AM", "am").replace("PM","pm");
+
+                                String[] separated = strDate.split(" ");
+                                text_date.setText(separated[0].toLowerCase()+"");
+                                text_time.setText(separated[2].toLowerCase()+" "+separated[3].toLowerCase()+"");
+
+                                PrefManager prefM = PrefManager.getInstance(getApplicationContext());
+                                String country = prefM.getCountry();
+                                String sign = "$";
+                                if (country.equals("India")) {
+                                    sign = getApplicationContext().getResources().getString(R.string.rupee);
+                                } else {
+                                    sign = getApplicationContext().getResources().getString(R.string.dollar);
+                                }
+                                text_amount_charged.setText(sign + " " + Float.parseFloat(txnAmount));
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            ok.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    if (PaymentPopup != null) {
+                                        PaymentPopup.dismiss();
+                                    }
+
+                                    //  else
+                                    //  Toast.makeText(PacifyrActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
+
+                                    Bundle args =
+                                            FirebaseLogging.getConstantArgsLoggedIn(PacifyrActivity.this);
+                                    FirebaseLogging.sendLog(PacifyrActivity.this,
+                                            FirebaseLogging.EVENT_CLIENT_PAYMENT_DONE,
+                                            args);
+
+
+                                }
+                            });
+
+                            textViewCopyTransaction.setOnTouchListener(new View.OnTouchListener() {
+                                @SuppressLint("ClickableViewAccessibility")
+                                @Override
+                                public boolean onTouch(View v, MotionEvent event) {
+                                    if (event.getAction() == MotionEvent.ACTION_UP) {
+                                        int[] textLocation = new int[2];
+                                        textViewCopyTransaction.getLocationOnScreen(textLocation);
+
+                                        if(event.getRawX() >= textViewCopyTransaction.getRight() - textViewCopyTransaction.getTotalPaddingRight()) {
+                                            /** copy transaction id to clipboard **/
+
+                                            ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                                            ClipData clip = ClipData.newPlainText("transactionId", transactionId.getText());
+                                            clipboard.setPrimaryClip(clip);
+                                            Toast.makeText(PacifyrActivity.this, "Copied", Toast.LENGTH_SHORT).show();
+                                            return true;
+                                        }
+
+                                    }
+                                    return true;
+                                }
+                            });
+
+                            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(PacifyrActivity.this);
+                            builder.setView(view);
+                            builder.setCancelable(false);
+                            PaymentPopup = builder.create();
+                            PaymentPopup.show();
+                            makeAbeepSoundWhileShowingPopUp();
+                        }
+                    });
+                }
+            }, 2000);
+
+        }
+
+
+
+    }
+
     public void ShowTransactionSuccesResultToUSer(TransactionResponce object) {
 
         errorCount=0;
         if (PaymentPopup != null && PaymentPopup.isShowing()) {
             PaymentPopup.dismiss();
         }
+            /** send Notification to the Provider that user Done the Payment Success fully and able to start Session now.
+             * type "cardSetup**/
 
+                    EventBus.getDefault().post("SCHEDULE_PAY");
+                    //freeminuts expired and payment done by userafter free minuts timer need stop
+                    EventBus.getDefault().post(Constants.PAYMENT_DONE);
+                    if (isValid(VideoActivity.mSessionDetailRoot) &&
+                            isValid(VideoActivity.mSessionDetailRoot.getPacifyr()) &&
+                            isValid(VideoActivity.mSessionDetailRoot.getPacifyr().getId()))
+                        new NetworkService().sendCardAddedNotificationAfterPaytmSuccess(VideoActivity.mSessionDetailRoot.getPacifyr().getId(), "cardSetup", new AjaxCallback<JSONObject>() {
+                            @Override
+                            public void callback(String url, JSONObject json, AjaxStatus status) {
+                                /*
+                                 *this must be the first line of any httpCallBacks
+                                 */
+            //                                                Auth.httpStatusFilter(getApplicationContext(),status.getCode());
+                                BusProvider.getInstance().post(Utility.checkStatusCode(status.getCode())); // for call related apis
+                                if (json != null) {
+                                    Log.w("PAYTMLOG", "sendCardAddedNotification responce" + json.toString());
+                                }
+                            }
+                        });
 
         if (!isShowDialogs()) {
             if (isCallActive)
@@ -4180,7 +4598,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                                 } else {
                                     sign = getApplicationContext().getResources().getString(R.string.dollar);
                                 }
-                                text_amount_charged.setText(sign + " " + txnAmount);
+                                text_amount_charged.setText(sign + " " + Float.parseFloat(txnAmount));
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -4190,27 +4608,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                                     if (PaymentPopup != null) {
                                         PaymentPopup.dismiss();
                                     }
-                                    /** send Notification to the Provider that user Done the Payment Success fully and able to start Session now.
-                                     * type "cardSetup**/
 
-                                    EventBus.getDefault().post("SCHEDULE_PAY");
-                                    EventBus.getDefault().post(Constants.PAYMENT_DONE);
-                                    if (isValid(VideoActivity.mSessionDetailRoot) &&
-                                            isValid(VideoActivity.mSessionDetailRoot.getPacifyr()) &&
-                                            isValid(VideoActivity.mSessionDetailRoot.getPacifyr().getId()))
-                                        new NetworkService().sendCardAddedNotificationAfterPaytmSuccess(VideoActivity.mSessionDetailRoot.getPacifyr().getId(), "cardSetup", new AjaxCallback<JSONObject>() {
-                                            @Override
-                                            public void callback(String url, JSONObject json, AjaxStatus status) {
-                                                /*
-                                                 *this must be the first line of any httpCallBacks
-                                                 */
-//                                                Auth.httpStatusFilter(getApplicationContext(),status.getCode());
-                                                BusProvider.getInstance().post(Utility.checkStatusCode(status.getCode())); // for call related apis
-                                                if (json != null) {
-                                                    Log.w("PAYTMLOG", "sendCardAddedNotification responce" + json.toString());
-                                                }
-                                            }
-                                        });
                                    // else
                                        // Toast.makeText(PacifyrActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
 
@@ -4300,7 +4698,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                                 } else {
                                     sign = getApplicationContext().getResources().getString(R.string.dollar);
                                 }
-                                text_amount_charged.setText(sign + " " + txnAmount);
+                                text_amount_charged.setText(sign + " " + Float.parseFloat(txnAmount));
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -4310,24 +4708,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                                     if (PaymentPopup != null) {
                                         PaymentPopup.dismiss();
                                     }
-                                    /** send Notification to the Provider that user Done the Payment Success fully and able to start Session now.
-                                     * type "cardSetup**/
-                                    EventBus.getDefault().post("SCHEDULE_PAY");
-                                    if (isValid(VideoActivity.mSessionDetailRoot) &&
-                                            isValid(VideoActivity.mSessionDetailRoot.getPacifyr()) &&
-                                            isValid(VideoActivity.mSessionDetailRoot.getPacifyr().getId()))
-                                        new NetworkService().sendCardAddedNotificationAfterPaytmSuccess(VideoActivity.mSessionDetailRoot.getPacifyr().getId(), "cardSetup", new AjaxCallback<JSONObject>() {
-                                            @Override
-                                            public void callback(String url, JSONObject json, AjaxStatus status) {
-                                                /*
-                                                 *this must be the first line of any httpCallBacks
-                                                 */
-                                                Auth.httpStatusFilter(getApplicationContext(),status.getCode());
-                                                if (json != null) {
-                                                    Log.w("PAYTMLOG", "sendCardAddedNotification responce" + json.toString());
-                                                }
-                                            }
-                                        });
+
                                   //  else
                                       //  Toast.makeText(PacifyrActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
 
@@ -4386,6 +4767,23 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
     public void ShowTransactionSuccesResultToUSer(String message) {
 
         errorCount=0;
+        if (isValid(VideoActivity.mSessionDetailRoot) &&
+                isValid(VideoActivity.mSessionDetailRoot.getPacifyr()) &&
+                isValid(VideoActivity.mSessionDetailRoot.getPacifyr().getId()))
+            new NetworkService().sendCardAddedNotificationAfterPaytmSuccess(VideoActivity.mSessionDetailRoot.getPacifyr().getId(), "cardSetup", new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject json, AjaxStatus status) {
+                    /*
+                     *this must be the first line of any httpCallBacks
+                     */
+//                                                Auth.httpStatusFilter(getApplicationContext(),status.getCode());
+                    BusProvider.getInstance().post(Utility.checkStatusCode(status.getCode())); // for call related apis
+                    if (json != null) {
+                        Log.w("PAYTMLOG", "sendCardAddedNotification responce" + json.toString());
+                    }
+                }
+            });
+
         if (!isShowDialogs()) {
             if (Build.VERSION.SDK_INT != Build.VERSION_CODES.M) {
                 if (isCallActive)
@@ -4402,22 +4800,6 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                                 @Override
                                 public void onClick(iOSDialog dialog) {
 
-                                    if (isValid(VideoActivity.mSessionDetailRoot) &&
-                                            isValid(VideoActivity.mSessionDetailRoot.getPacifyr()) &&
-                                            isValid(VideoActivity.mSessionDetailRoot.getPacifyr().getId()))
-                                        new NetworkService().sendCardAddedNotificationAfterPaytmSuccess(VideoActivity.mSessionDetailRoot.getPacifyr().getId(), "cardSetup", new AjaxCallback<JSONObject>() {
-                                            @Override
-                                            public void callback(String url, JSONObject json, AjaxStatus status) {
-                                                /*
-                                                 *this must be the first line of any httpCallBacks
-                                                 */
-//                                                Auth.httpStatusFilter(getApplicationContext(),status.getCode());
-                                                BusProvider.getInstance().post(Utility.checkStatusCode(status.getCode())); // for call related apis
-                                                if (json != null) {
-                                                    Log.w("PAYTMLOG", "sendCardAddedNotification responce" + json.toString());
-                                                }
-                                            }
-                                        });
                                     Bundle args =
                                             FirebaseLogging.getConstantArgsLoggedIn(PacifyrActivity.this);
                                     args.putString(FirebaseLogging.EC, message + "");
@@ -4448,23 +4830,6 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                             iOSDialogClickListener listener = new iOSDialogClickListener() {
                                 @Override
                                 public void onClick(iOSDialog dialog) {
-
-                                    if (isValid(VideoActivity.mSessionDetailRoot) &&
-                                            isValid(VideoActivity.mSessionDetailRoot.getPacifyr()) &&
-                                            isValid(VideoActivity.mSessionDetailRoot.getPacifyr().getId()))
-                                        new NetworkService().sendCardAddedNotificationAfterPaytmSuccess(VideoActivity.mSessionDetailRoot.getPacifyr().getId(), "cardSetup", new AjaxCallback<JSONObject>() {
-                                            @Override
-                                            public void callback(String url, JSONObject json, AjaxStatus status) {
-                                                /*
-                                                 *this must be the first line of any httpCallBacks
-                                                 */
-//                                                Auth.httpStatusFilter(getApplicationContext(),status.getCode());
-                                                BusProvider.getInstance().post(Utility.checkStatusCode(status.getCode())); // for call related apis
-                                                if (json != null) {
-                                                    Log.w("PAYTMLOG", "sendCardAddedNotification responce" + json.toString());
-                                                }
-                                            }
-                                        });
                                     Bundle args =
                                             FirebaseLogging.getConstantArgsLoggedIn(PacifyrActivity.this);
                                     args.putString(FirebaseLogging.EC, message + "");
@@ -4703,117 +5068,26 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
         }
     }
 
-    private boolean appointmentDialogueIsShown=false;
     public void showAppointmentReminderPopup(AppoinmentNotification mAppointmentModel) {
-        // create an alert builder
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        // set the custom layout
-        final View customLayout = getLayoutInflater().inflate(R.layout.appoinment_call_popup_from_notification, null);
 
-        TextView textView_intro=customLayout.findViewById(R.id.textView_intro);
-        TextView mTextView_PacifyrName=customLayout.findViewById(R.id.mTextView_PacifyrName);
-        CircleImageView pacifyr_profileImage=customLayout.findViewById(R.id.pacifyr_profileImage);
-        TextView mTextView_ScheduleTime=customLayout.findViewById(R.id.mTextView_ScheduleTime);
-        TextView TextView_initiateCallInfo =customLayout.findViewById(R.id.TextView_initiateCallInfo);
-        Button Button_Dismiss  =customLayout.findViewById(R.id.Button_Dismiss);
-        RelativeLayout audiocall_rlay = customLayout.findViewById(R.id.audiocall_rlay);
-        RelativeLayout videocall_rlay = customLayout.findViewById(R.id.videocall_rlay);
-        RelativeLayout chat_rlay = customLayout.findViewById(R.id.chat_rlay);
+        MyDialogFragment dialogFragment = MyDialogFragment.newInstance();
 
-        builder.setView(customLayout);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("object", mAppointmentModel);
 
+        dialogFragment.setArguments(bundle);
 
-        SpannableStringBuilder spanTxt = new SpannableStringBuilder("Please visit your profile page and upload your identity document (PAN/Aadhaar/EPIC/DL) if you have not done so.\n\n");
-        spanTxt.append(Html.fromHtml("<font color=" + getResources().getColor(com.pacifyrapp.utilitylibrary.R.color.black) + "><b>" + "Steps to follow:" + "</b></font>"));
-        spanTxt.append("\n\n1. Click on the Audio or Video button to connect to the Provider.\n");
-        spanTxt.append("2. Introduction by yourself and the Provider.\n");
-        spanTxt.append("3. You will receive a ");
-        spanTxt.append(Html.fromHtml("<font size=14 color=" + getResources().getColor(com.pacifyrapp.utilitylibrary.R.color.black) + "><b>" + " Session Started" + "<b></font>"));
-        spanTxt.append(" message.");
-        textView_intro.setText(spanTxt, TextView.BufferType.SPANNABLE);
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        getSupportFragmentManager().executePendingTransactions();
+        Fragment prev = getSupportFragmentManager().findFragmentByTag("dialog");
+        if (prev != null) {
 
-        SpannableStringBuilder spanTxt2 = new SpannableStringBuilder("If you click on dismiss you can initiate this call from ");
-        spanTxt2.append(Html.fromHtml("<font size=14 color=" + getResources().getColor(com.pacifyrapp.utilitylibrary.R.color.black) + "><b>" + " MY APPOINTMENTS" + "<b></font>"));
-        TextView_initiateCallInfo.setText(spanTxt2, TextView.BufferType.SPANNABLE);
-        // create and show the alert dialog
-        if (appointmentDialogueIsShown)
-            return;
-        AlertDialog dialog = builder.create();
-        dialog.show();
-        appointmentDialogueIsShown=true;
-        Button_Dismiss.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-                appointmentDialogueIsShown=false;
-            }
-        });
-
-        if (isValid(mAppointmentModel))
-        {
-            if (isValid(mAppointmentModel.getPacifyr()))
-            {
-                isValid(mAppointmentModel.getPacifyr().getFirstName());
-                {
-                    mTextView_PacifyrName.setText(mAppointmentModel.getPacifyr().getFirstName());
-                    if (isValid(mAppointmentModel.getPacifyr().getLastName()))
-                    {
-                        mTextView_PacifyrName.append(" "+mAppointmentModel.getPacifyr().getLastName()+"");
-                    }
-                }
-
-                if (isValid(mAppointmentModel.getPacifyr().getImage()))
-                {
-                    String imgUrl= mAppointmentModel.getPacifyr().getImage();
-                    if (isValid(imgUrl))
-                        imgUrl= UtilityNetworkService.GLOBAL_IMAGE_URL + imgUrl;
-
-                    if (isValidhtml(imgUrl))
-                        Picasso.with(this).load(imgUrl).placeholder(R.drawable.placeholder_user).into(pacifyr_profileImage);
-
-                }
-
-
-                audiocall_rlay.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-
-                        dialog.dismiss();
-                        startSessionWebforAppoinmetCall(mAppointmentModel.getPacifyr(), false,mAppointmentModel.getId());
-
-                    }
-                });
-
-                videocall_rlay.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        dialog.dismiss();
-                        startSessionWebforAppoinmetCall(mAppointmentModel.getPacifyr(), true,mAppointmentModel.getId());
-                        appointmentDialogueIsShown=false;
-
-                    }
-                });
-
-                chat_rlay.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        dialog.dismiss();
-                        startChat(mAppointmentModel.getPacifyr());
-                        appointmentDialogueIsShown=false;
-
-                    }
-                });
-
-            }
-
-
-            if (isValid(mAppointmentModel.getStartTimeGMT()))
-            {
-                String mDisplayDateAndTime = Utility.getStartFormatDate(mAppointmentModel.getStartTimeGMT(),PacifyrActivity.this);
-                mTextView_ScheduleTime.setText(mDisplayDateAndTime+"");
-            }
-
+        }else {
+            ft.addToBackStack(null);
+            dialogFragment.show(ft, "dialog");
         }
+
+
 
     }
 
@@ -4978,8 +5252,95 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
         boolean forceUpgrade = false;//((App) getApplication()).getRemoteConfig().getBoolean(RemoteConfig.KEY_FORCE_UPGRADE);
         return (code > 0 && (availableVersionCode - code) >= 2) || forceUpgrade;
     }
+
+
+    public  void setAlertStartCall(MUser pacifyer_obj, View.OnClickListener oklistner) {
+        View view = LayoutInflater.from(this).inflate(com.pacifyrapp.utilitylibrary.R.layout.alert_startcall, null, false);
+        boolean isFreePacify = false ;
+        DeviceFitImageView closeDimv = view.findViewById(com.pacifyrapp.utilitylibrary.R.id.close_dimv);
+        CircleImageView imageDialogIcon = view.findViewById(com.pacifyrapp.utilitylibrary.R.id.image_dialog_icon);
+        CustomFontTextView textDialogName = view.findViewById(com.pacifyrapp.utilitylibrary.R.id.text_dialog_name);
+        CustomFontTextView textDialogLastMessage = view.findViewById(com.pacifyrapp.utilitylibrary.R.id.text_dialog_message);
+        TextView text_wallet_balance= view.findViewById(com.pacifyrapp.utilitylibrary.R.id.text_wallet_balance);
+
+        if (isValid(pacifyer_obj.getRoleModel()) &&
+                isValid(pacifyer_obj.getRoleModel().getLabel()) &&
+                pacifyer_obj.getRoleModel().getLabel().equalsIgnoreCase(getResources().getString(com.pacifyrapp.utilitylibrary.R.string.free_pacifyr)))
+        {
+            isFreePacify = true ;
+        }
+        RelativeLayout saveRlay = view.findViewById(com.pacifyrapp.utilitylibrary.R.id.save_rlay);
+        CustomFontTextView pacifyr_call_intro = view.findViewById(com.pacifyrapp.utilitylibrary.R.id.pacifyr_call_intro);
+        if (getPrefManager().getCountry().equals("India")||
+                getPrefManager().getCountry().equals("Wakanda"))
+        {
+            pacifyr_call_intro.setVisibility(View.VISIBLE);
+            if (! isFreePacify) {
+                SpannableStringBuilder spanTxt = new SpannableStringBuilder("Please visit your profile page and upload your identity document (PAN/Aadhaar/EPIC/DL) if you have not done so.\n\n");
+                spanTxt.append(Html.fromHtml("<font color=" + getResources().getColor(com.pacifyrapp.utilitylibrary.R.color.black) + "><b>" + "Steps to follow:" + "</b></font>"));
+                spanTxt.append("\n\n1. Click on the ");
+                spanTxt.append(Html.fromHtml("<font color=" + getResources().getColor(com.pacifyrapp.utilitylibrary.R.color.black) + "><b>" + "Start Call" + "</b></font>"));
+                spanTxt.append(" button to connect to the Provider.\n");
+                spanTxt.append("2. Introduction by yourself and the Provider.\n");
+                spanTxt.append("3. The Provider will initiate the payment process.\n");
+                spanTxt.append("4. You will be prompted to make the payment.\n");
+                spanTxt.append("5. Click ");
+                spanTxt.append(Html.fromHtml("<font color=" + getResources().getColor(com.pacifyrapp.utilitylibrary.R.color.black) + "><b>" + "Setup Payment" + "</b></font>"));
+                spanTxt.append(" and pay using Paytm Wallet or UPI.\n");
+                spanTxt.append("6. Click ");
+                spanTxt.append(Html.fromHtml("<font color=" + getResources().getColor(com.pacifyrapp.utilitylibrary.R.color.black) + "><b>" + "OK " + "</b></font>"));
+                spanTxt.append("to confirm successful payment completion.\n");
+                spanTxt.append("7. You will receive a ");
+                spanTxt.append(Html.fromHtml("<font size=14 color=" + getResources().getColor(com.pacifyrapp.utilitylibrary.R.color.black) + "><b>" + " Session Started" + "<b></font>"));
+                spanTxt.append(" message.");
+                pacifyr_call_intro.setText(spanTxt, TextView.BufferType.SPANNABLE);
+            }
+            else {
+                SpannableStringBuilder spanTxt = new SpannableStringBuilder("Please visit your profile page and upload your identity document (PAN/Aadhaar/EPIC/DL) if you have not done so.\n\n");
+                spanTxt.append(Html.fromHtml("<font color=" + getResources().getColor(com.pacifyrapp.utilitylibrary.R.color.black) + "><b>" + "Steps to follow:" + "</b></font>"));
+                spanTxt.append("\n\n1. Click on the ");
+                spanTxt.append(Html.fromHtml("<font color=" + getResources().getColor(com.pacifyrapp.utilitylibrary.R.color.black) + "><b>" + "Start Call" + "</b></font>"));
+                spanTxt.append(" button to connect to the Provider.\n");
+                spanTxt.append("2. Introduction by yourself and the Provider.\n");
+                spanTxt.append("3. You will receive a ");
+                spanTxt.append(Html.fromHtml("<font size=14 color=" + getResources().getColor(com.pacifyrapp.utilitylibrary.R.color.black) + "><b>" + " Session Started" + "<b></font>"));
+                spanTxt.append(" message.");
+                pacifyr_call_intro.setText(spanTxt, TextView.BufferType.SPANNABLE);
+            }
+        }
+        defSetText(textDialogName,pacifyer_obj.getFirstName()+""+pacifyer_obj.getLastName());
+        defSetText(textDialogLastMessage, pacifyer_obj.getPriceWithSign() + " " + BaseUtils.getCostLabel(PacifyrActivity.this));
+
+        if (getPrefManager().getCountry().equals("US"))
+        {
+
+            if (isValid(NetworkService.mCurrentUser))
+            {
+                if (NetworkService.mCurrentUser.getWalletBalance()!=0)
+                {
+                    text_wallet_balance.setVisibility(View.VISIBLE);
+                    text_wallet_balance.setText("Your available credit is $ "+NetworkService.mCurrentUser.getWalletBalance()+"");
+                }
+
+            }
+
+        }
+        String userimage = UtilityNetworkService.GLOBAL_IMAGE_URL+pacifyer_obj.getImage();
+
+        if(isValid(userimage))
+            Picasso.with(getBaseContext()).load(userimage).placeholder(com.pacifyrapp.utilitylibrary.R.drawable.placeholder_user).into(imageDialogIcon);
+
+        hideStatus();
+        hud_status = KProgressHUD.create(this).setStyle(KProgressHUD.Style.SPIN_INDETERMINATE).setCustomView(view).setWindowColor(this.getResources().getColor(com.pacifyrapp.utilitylibrary.R.color.transparent)).setCancellable(false).setAnimationSpeed(2).setDimAmount(0.5f);
+        showStatus();
+        saveRlay.setOnClickListener(oklistner);
+        closeDimv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hideStatus();
+
+            }
+        });
+    }
+
 }
-
-
-
-

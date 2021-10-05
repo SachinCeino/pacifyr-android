@@ -175,6 +175,45 @@
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:id="@+id/wallet_card"
+                android:visibility="gone"
+                card_view:cardCornerRadius="5dp"
+                card_view:contentPadding="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:orientation="vertical">
+
+                    <com.pacifyr.client.customview.MainTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:textSize="15sp"
+                        android:textColor="@color/grey_dark_text"
+                        android:text="WALLET BALANCE"/>
+
+
+                    <com.pacifyr.client.customview.MainTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="12sp"
+                        android:layout_centerHorizontal="true"
+                        android:id="@+id/TextView_walletBalence"
+                        android:textColor="@color/grey_dark_text"
+                        android:text=""/>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
                 android:layout_marginLeft="20dp"

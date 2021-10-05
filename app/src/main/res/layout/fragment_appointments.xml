@@ -7,7 +7,7 @@
     <com.pacifyr.client.customview.MainTextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/no_appointments"
+        android:text=""
         android:layout_centerInParent="true"
         android:textStyle="bold"
         android:id="@+id/emptyLayout"

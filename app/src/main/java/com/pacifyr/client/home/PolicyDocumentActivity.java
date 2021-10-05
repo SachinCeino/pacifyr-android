@@ -1,12 +1,16 @@
 package com.pacifyr.client.home;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.pacifyr.client.R;
 import com.pacifyr.client.activity.TermsOfUseActivity;
@@ -14,13 +18,17 @@ import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.AlertTypeEvent;
 import com.pacifyr.client.event.InternetConnectionEvent;
 import com.pacifyr.client.event.NotifyEvent;
+import com.pacifyr.client.receiver.NotificationUtils;
 import com.pacifyr.client.utility.PacifyrAppCompactActivity;
 import com.pacifyr.client.utils.Constants;
+import com.pacifyr.client.utils.SnackUtils;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
+import static com.pacifyr.client.twiliochat.TwilioConversationActivity.DEFAULT_CONVERSATION_NAME;
 
 /*
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.copyrightUrl;
@@ -34,6 +42,12 @@ public class PolicyDocumentActivity extends PacifyrAppCompactActivity {
     private MainTextView termsCtxv;
     private MainTextView privacyCtxv;
     private MainTextView copyrightCtxv;
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        LocalBroadcastManager.getInstance(this).registerReceiver(notificationReceiver, new IntentFilter(NotificationUtils.NOTIFY_INTENT));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -196,10 +210,36 @@ public class PolicyDocumentActivity extends PacifyrAppCompactActivity {
 
     }
 
+    private final BroadcastReceiver notificationReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent != null && intent.hasExtra("message")) {
+                String message = intent.getExtras().getString("message");
+                String type = intent.getExtras().getString("type");
+                if (message != null && message != "") {
+                    if(type.equals("twilio.conversations.new_message") || type.equals("twilioChat") ){
+
+                        String conversation_sid = intent.getExtras().getString("conversation_sid");
+
+                        if(isValid(DEFAULT_CONVERSATION_NAME) && isValid(conversation_sid)
+                                && conversation_sid.equals(DEFAULT_CONVERSATION_NAME)){
+
+                            return;
+                        }
+
+                        SnackUtils.show(actionBarTopLlay,message, PolicyDocumentActivity.this,getLayoutInflater(),conversation_sid);
+
+                    }
+                }
+            }
+        }
+    };
+
     @Override
     protected void onStop() {
         super.onStop();
         EventBus.getDefault().unregister(this);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(notificationReceiver);
     }
 
     @Override

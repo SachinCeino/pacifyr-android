@@ -3,9 +3,10 @@ package com.pacifyr.client.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class User {
+public class User implements Serializable {
 
     @SerializedName("chatSubscription")
     @Expose
@@ -42,7 +43,7 @@ public class User {
     private Object pin;
     @SerializedName("walletBalance")
     @Expose
-    private Integer walletBalance;
+    private Double walletBalance;
     @SerializedName("price")
     @Expose
     private Integer price;
@@ -246,11 +247,11 @@ public class User {
         this.pin = pin;
     }
 
-    public Integer getWalletBalance() {
+    public Double getWalletBalance() {
         return walletBalance;
     }
 
-    public void setWalletBalance(Integer walletBalance) {
+    public void setWalletBalance(Double walletBalance) {
         this.walletBalance = walletBalance;
     }
 

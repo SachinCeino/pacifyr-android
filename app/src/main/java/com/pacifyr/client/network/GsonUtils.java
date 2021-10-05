@@ -1021,6 +1021,19 @@ public class GsonUtils<T> {
         return model;
     }
 
+    public AppointmentModel.Result gsonToAppoinmentDetails(JSONObject json) {
+
+        AppointmentModel.Result model = null;
+        try {
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            String jsonString = json.toString();
+            model = gson.fromJson(jsonString, AppointmentModel.Result.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return model;
+    }
+
     public List<ModelPamTemplates> gsonToModelPamTemplates(JSONArray jsonArray) {
 
         List<ModelPamTemplates> model = null;

@@ -15,6 +15,7 @@ import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.pacifyr.client.customview.MainTextView;
+import com.pacifyr.client.utils.Constants;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.pacifyr.client.R;
@@ -27,8 +28,11 @@ import com.stripe.android.TokenCallback;
 import com.stripe.android.model.Card;
 import com.stripe.android.model.Token;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONObject;
 
+import static com.pacifyr.client.fragment.schedule.ScheduleBottomSheetFragment.isCardAddedFromAppointment;
+import static com.pacifyr.client.utils.Constants.PAYMENT_CARD_ADDED;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.STRIPE_PUBLISH_KEY;
 import static com.pacifyr.client.network.NetworkService.GLOBAL_URL;
 
@@ -42,6 +46,7 @@ public class AddCreditCardActivity extends PacifyrAppCompactActivity {
     private Token genaratedToken;
     private String userid,userToken;
     private PrefManager prefM;
+    private boolean isFromBooking=false;
 
 
     @Override
@@ -52,7 +57,10 @@ public class AddCreditCardActivity extends PacifyrAppCompactActivity {
         initializeViews();
         //59ca23f1dc224d0f8008347b
         //151238166488392f68d0fc6f144f58b20c50473451b78
-
+        if (isValid(getIntent())&&isValid(getIntent().getExtras()) && isValid(getIntent().getExtras().getBoolean("isFromBooking")))
+        {
+            isFromBooking=getIntent().getExtras().getBoolean("isFromBooking");
+        }
         saveRlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -166,8 +174,18 @@ public class AddCreditCardActivity extends PacifyrAppCompactActivity {
                             @Override
                             public void run() {
                                 hideStatus();
-                                Intent i= new Intent(AddCreditCardActivity.this,DashboardActivity.class);
-                                startActivity(i);
+                                if (isFromBooking)
+                                {
+                                    EventBus.getDefault().post(PAYMENT_CARD_ADDED);
+                                    isCardAddedFromAppointment=true;
+                                    finish();
+
+                                }
+                                else {
+                                    Intent i= new Intent(AddCreditCardActivity.this,DashboardActivity.class);
+                                    startActivity(i);
+                                }
+
                             }
                         }, 2000);
 

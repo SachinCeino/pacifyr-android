@@ -48,7 +48,7 @@ public class MUser implements Serializable{
     private ChatSubscription chatSubscription;
 
 
-    private String walletBalance;
+    private Double walletBalance;
 
     private String createdAt;
 
@@ -527,11 +527,11 @@ public class MUser implements Serializable{
         this.specialities = specialities;
     }
 
-    public String getWalletBalance() {
+    public Double getWalletBalance() {
         return walletBalance;
     }
 
-    public void setWalletBalance(String walletBalance) {
+    public void setWalletBalance(Double walletBalance) {
         this.walletBalance = walletBalance;
     }
 

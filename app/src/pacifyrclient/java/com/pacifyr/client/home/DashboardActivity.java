@@ -5,9 +5,11 @@ import android.app.Activity;
 import android.app.NotificationManager;
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.graphics.Typeface;
 import android.os.Build;
@@ -23,6 +25,7 @@ import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.multidex.MultiDex;
 
 import com.androidquery.AQuery;
@@ -36,6 +39,7 @@ import com.google.gson.JsonObject;
 import com.pacifyr.client.Payment.PaymentFragment;
 import com.pacifyr.client.R;
 import com.pacifyr.client.activity.TermsOfUseActivity;
+import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.ActionbarEvent;
 import com.pacifyr.client.event.AlertTypeEvent;
@@ -66,6 +70,7 @@ import com.pacifyr.client.orginals.Auth;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.orginals.DynamicLink;
 import com.pacifyr.client.orginals.RemoteConfig;
+import com.pacifyr.client.receiver.NotificationUtils;
 import com.pacifyr.client.sign.CrisisActivity;
 import com.pacifyr.client.twiliochat.QuickstartConversationsManager;
 import com.pacifyr.client.twiliochat.QuickstartConversationsManagerListener;
@@ -80,6 +85,7 @@ import com.pacifyr.client.utils.Constants;
 import com.pacifyr.client.utils.FirebaseLogging;
 import com.pacifyr.client.utils.LogUtils;
 import com.pacifyr.client.utils.PagerEnabledSlidingPaneLayout;
+import com.pacifyr.client.utils.SnackUtils;
 import com.pacifyr.client.utils.ToastHandler;
 import com.pacifyr.client.utils.Utility;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
@@ -106,7 +112,9 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static com.facebook.FacebookSdk.getApplicationContext;
 import static com.pacifyr.client.twilio.VideoActivity.isCallActive;
+import static com.pacifyr.client.twiliochat.TwilioConversationActivity.DEFAULT_CONVERSATION_NAME;
 import static com.pacifyr.client.utils.Constants.getCountryChecks;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
 
@@ -233,6 +241,50 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
                 FirebaseLogging.EVENT_ON_SCREEN,
                 args);
 
+        userDetailWeb(getUserID(), new AjaxCallback<JSONObject>() {
+            @Override
+            public void callback(String url, JSONObject json, AjaxStatus status) {
+                try {
+                    if (json != null) {
+                        NetworkService.mCurrentUser = GsonUtils.getInstance().gsonToModelUserProfile(json);
+
+                    } else {
+                        LogUtils.LOGD("base", "bAF userDetailWeb json null  : " + status.getMessage());
+                    }
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    LogUtils.LOGD("base", "bAF userDetailWeb callback exception : " + e.getMessage());
+                }
+            }
+        });
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(notificationReceiver, new IntentFilter(NotificationUtils.NOTIFY_INTENT));
+    }
+
+
+    public void userDetailWeb(String id, AjaxCallback cb) {
+        try {
+            //showProgress();
+
+            PrefManager prefM = PrefManager.getInstance(getApplicationContext());
+            String token = prefM.getAccessToken();
+
+            String url = GLOBAL_URL + "user/profile/" + id;
+
+
+            AQuery aq = new AQuery(getApplicationContext());
+            //cb.header("Content-Type", "application/json");
+            cb.header("AccessToken", token);
+            aq.ajax(url, JSONObject.class, cb);
+
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+            LogUtils.LOGD("base", "bAF userDetailWeb  exception : " + ex.getMessage());
+        }
     }
 
 
@@ -376,7 +428,15 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
             @Override
             public void onClick(View view) {
                 /**actionbar connectprovider from dashboard actionbar event **/
+                if (connectProviderActioBar.getText().equals("Connect"))
                 EventBus.getDefault().post(new ConnectEvent(true));
+                /*if (connectProviderActioBar.getText().equals("Add"))
+                {
+                    Intent i=new Intent(getApplicationContext(), TermsOfUseActivity.class);
+                    i.putExtra("spurl", Constants.ADD_RESOURCES_LINK);
+                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(i);
+                }*/
             }
         });
 
@@ -841,9 +901,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
             @Override
             public void onClick(View v) {
 
-                hideRightLayActionbar();
-                showFragment(new AppointmentsTabViewFragment());
-                defSetText(titleTxv, getResources().getString(R.string.appointments));
+                showAppointmentPage();
             }
         });
 
@@ -961,6 +1019,12 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
     }
 
 
+    public void showAppointmentPage()
+    {
+        hideRightLayActionbar();
+        showFragment(new AppointmentsTabViewFragment());
+        defSetText(titleTxv, getResources().getString(R.string.appointments));
+    }
     private void Browser(String screeName,boolean isLink){
         switch (screeName){
             case "PrescriptionListFragment":
@@ -1180,6 +1244,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
         super.onStop();
         EventBus.getDefault().unregister(this);
         Auth.foreground("");
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(notificationReceiver);
     }
 
     @Override
@@ -1214,10 +1279,47 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
 
     public void showConnectButton() {
         connectProviderActioBar.setVisibility(View.VISIBLE);
+        connectProviderActioBar.setText("Connect");
     }
     public void hideConnectButton() {
         connectProviderActioBar.setVisibility(View.GONE);
     }
+
+    public void showAddButton() {
+        connectProviderActioBar.setVisibility(View.VISIBLE);
+        connectProviderActioBar.setText("Add");
+    }
+    public void hideAddButton() {
+        connectProviderActioBar.setText("Connect");
+        connectProviderActioBar.setVisibility(View.INVISIBLE);
+    }
+
+
+
+    private final BroadcastReceiver notificationReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent != null && intent.hasExtra("message")) {
+                String message = intent.getExtras().getString("message");
+                String type = intent.getExtras().getString("type");
+                if (message != null && message != "") {
+                    if(type.equals("twilio.conversations.new_message") || type.equals("twilioChat") ){
+
+                        String conversation_sid = intent.getExtras().getString("conversation_sid");
+
+                        if(isValid(DEFAULT_CONVERSATION_NAME) && isValid(conversation_sid)
+                                && conversation_sid.equals(DEFAULT_CONVERSATION_NAME)){
+
+                            return;
+                        }
+
+                        SnackUtils.show(actionBarTopLlay,message, DashboardActivity.this,getLayoutInflater(),conversation_sid);
+
+                    }
+                }
+            }
+        }
+    };
 
     @Override
     public void receivedNewMessage(Message message) {

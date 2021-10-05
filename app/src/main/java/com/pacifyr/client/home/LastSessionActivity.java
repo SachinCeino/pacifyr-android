@@ -1,7 +1,9 @@
 package com.pacifyr.client.home;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.Resources;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
@@ -18,6 +20,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -39,9 +42,11 @@ import com.pacifyr.client.model.interfaces.CommentClick;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.quickblox.App;
+import com.pacifyr.client.receiver.NotificationUtils;
 import com.pacifyr.client.twilio.VideoActivity;
 import com.pacifyr.client.utility.PacifyrAppCompactActivity;
 import com.pacifyr.client.utils.LogUtils;
+import com.pacifyr.client.utils.SnackUtils;
 import com.pacifyr.client.utils.Utility;
 import com.pacifyr.client.utils.WrappingSlidingPaneLayout;
 import com.pacifyrapp.utilitylibrary.CustomEditText;
@@ -68,6 +73,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import static com.pacifyr.client.network.NetworkService.GLOBAL_URL;
 import static com.pacifyr.client.network.NetworkService.modelAllEmotions;
 import static com.pacifyr.client.twilio.VideoActivity.isCallActive;
+import static com.pacifyr.client.twiliochat.TwilioConversationActivity.DEFAULT_CONVERSATION_NAME;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_IMAGE_URL;
 
 /**
@@ -322,10 +328,36 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
             imm.showSoftInput(comments_cedt, InputMethodManager.SHOW_FORCED);
         }
     }
+
+    private final BroadcastReceiver notificationReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent != null && intent.hasExtra("message")) {
+                String message = intent.getExtras().getString("message");
+                String type = intent.getExtras().getString("type");
+                if (message != null && message != "") {
+                    if(type.equals("twilio.conversations.new_message") || type.equals("twilioChat") ){
+
+                        String conversation_sid = intent.getExtras().getString("conversation_sid");
+
+                        if(isValid(DEFAULT_CONVERSATION_NAME) && isValid(conversation_sid)
+                                && conversation_sid.equals(DEFAULT_CONVERSATION_NAME)){
+
+                            return;
+                        }
+
+                        SnackUtils.show(actionBarTopLlay,message, LastSessionActivity.this,getLayoutInflater(),conversation_sid);
+
+                    }
+                }
+            }
+        }
+    };
+
     @Override
     protected void onResume() {
         super.onResume();
-
+        LocalBroadcastManager.getInstance(this).registerReceiver(notificationReceiver, new IntentFilter(NotificationUtils.NOTIFY_INTENT));
         App.getInstance().setCurrentActivity(this);
     }
 
@@ -1327,6 +1359,7 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
     protected void onStop() {
         super.onStop();
         EventBus.getDefault().unregister(this);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(notificationReceiver);
     }
 
     @Override

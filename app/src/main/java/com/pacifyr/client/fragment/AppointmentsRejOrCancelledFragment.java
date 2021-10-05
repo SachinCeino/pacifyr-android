@@ -61,7 +61,7 @@ public class AppointmentsRejOrCancelledFragment extends BaseFragment {
             swiperefresh.setRefreshing(true);
             mPrefManager = PrefManager.getInstance(getContext());
             String token = mPrefManager.getAccessToken();
-            String url = GLOBAL_URL + "schedule/user/" + mPrefManager.getUserID() + "/bookings/cancelled?skip=0&limit=30";
+            String url = GLOBAL_URL + "schedule/user/" + mPrefManager.getUserID() + "/bookings/cancelled";
             AjaxCallback cb = new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, JSONObject json, AjaxStatus status) {
@@ -151,6 +151,7 @@ public class AppointmentsRejOrCancelledFragment extends BaseFragment {
         mRecyclerViewAppointments = root.findViewById(R.id.mRecyclerViewAppointments);
         swiperefresh = root.findViewById(R.id.swiperefresh);
         emptyLayout=root.findViewById(R.id.emptyLayout);
+        emptyLayout.setText(getResources().getString(R.string.no_appointments_in_reject_cancell));
         getAppointmentsList();
         return root;
     }

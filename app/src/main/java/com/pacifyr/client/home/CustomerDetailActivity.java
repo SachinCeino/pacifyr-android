@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.cardview.widget.CardView;
 import androidx.core.widget.NestedScrollView;
@@ -30,6 +31,7 @@ import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.twilio.VideoActivity;
 import com.pacifyr.client.quickblox.util.NestedScroll;
 import com.pacifyr.client.utility.PacifyrAppCompactActivity;
+import com.pacifyr.client.utils.Constants;
 import com.pacifyr.client.utils.LogUtils;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MEmotion;
@@ -39,6 +41,8 @@ import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -82,6 +86,10 @@ public class CustomerDetailActivity extends PacifyrAppCompactActivity {
     private SwipeRefreshLayout search_swipe_lay;
     //    private FlexLayout emptyFlay;
     private DeviceFitImageView im;
+
+    private TextView TextView_empty;
+
+
     ArrayList<MPastSessions.Results> pastsessions_list = new ArrayList<MPastSessions.Results>();
 
     public static MUser custListUser = null;
@@ -122,7 +130,7 @@ public class CustomerDetailActivity extends PacifyrAppCompactActivity {
             prefM = PrefManager.getInstance(CustomerDetailActivity.this);
             token = prefM.getAccessToken();
             userid = prefM.getUserID();
-            //&toDate=%@
+            EventBus.getDefault().register(this);
             onSetActionBar();
 
             topLlay = findViewById(R.id.top_llay);
@@ -132,7 +140,7 @@ public class CustomerDetailActivity extends PacifyrAppCompactActivity {
             bioCtxv = findViewById(R.id.bio_ctxv);
             pastSessionCtxv = findViewById(R.id.past_session_ctxv);
             pacifyrListRcv = findViewById(R.id.pacifyr_list_rcv);
-
+            TextView_empty= findViewById(R.id.TextView_empty);
             emotionNameCtxv = findViewById(R.id.emotion_name_ctxv);
 
            /* emptyDtxv = findViewById(R.id.empty_dtxv);
@@ -227,6 +235,7 @@ public class CustomerDetailActivity extends PacifyrAppCompactActivity {
         }
 
     }
+
     private void webGetPastSessions(final int skip, final int limit) {
         try
         {
@@ -249,9 +258,18 @@ public class CustomerDetailActivity extends PacifyrAppCompactActivity {
 
                         if (skip == 0) {
                             mPastSessions = GsonUtils.getInstance().gsonToMPastSessions(json);
-                            mPastSessionsPaged = null;
-                            postEventOnMainThread(new CustomerNotifyEvent(true, false));
+                            if (isValid(mPastSessions) &&isValid(mPastSessions.getResultsList()))
+                            {
+                                mPastSessionsPaged = null;
+                                postEventOnMainThread(new CustomerNotifyEvent(true, false));
+                                TextView_empty.setVisibility(View.GONE);
+                            }
+                            else {
+                                TextView_empty.setVisibility(View.VISIBLE);
+                            }
+
                         } else {
+                            TextView_empty.setVisibility(View.GONE);
                             if (mPastSessions != null) {
                                 mPastSessionsPaged = GsonUtils.getInstance().gsonToMPastSessions(json);
                                 postEventOnMainThread(new CustomerNotifyEvent(true, true));
@@ -269,6 +287,7 @@ public class CustomerDetailActivity extends PacifyrAppCompactActivity {
 
                     } catch (Exception excp) {
                         hideProgress();
+                        TextView_empty.setVisibility(View.VISIBLE);
                         excp.printStackTrace();
                     }
                 }
@@ -526,4 +545,32 @@ public class CustomerDetailActivity extends PacifyrAppCompactActivity {
         }
         finish();
     }
+
+    @org.greenrobot.eventbus.Subscribe(threadMode = ThreadMode.MAIN)
+    public void onDestroyActivity(String event) {
+        try {
+            if (isValid(event)) {
+                if (event.equals(Constants.DestroySubScreenAfterEndCall))
+                {
+                    finish();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
 }

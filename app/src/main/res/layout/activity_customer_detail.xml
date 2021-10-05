@@ -14,6 +14,7 @@
         android:id="@+id/nested_scroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/white"
         android:layout_below="@+id/include">
 
         <RelativeLayout
@@ -147,20 +148,20 @@
 
                 </androidx.recyclerview.widget.RecyclerView>
 
-                <!-- <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-                     android:id="@+id/swipe_lay"
-                     android:layout_width="match_parent"
-                     android:visibility="visible"
-                     android:layout_height="match_parent">
+                <com.pacifyr.client.customview.MainTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="No past sessions available ."
+                    android:layout_below="@+id/RecyclerLayout"
+                    android:gravity="center"
+                    android:textColor="@color/black"
+                    android:visibility="gone"
+                    android:textSize="13sp"
+                    android:layout_marginTop="150dp"
+                    android:id="@+id/TextView_empty"
+                    android:layout_centerInParent="true">
 
-
-                     &lt;!&ndash; <androidx.recyclerview.widget.RecyclerView
-                          android:id="@+id/rcv"
-                          android:layout_width="match_parent"
-                          android:layout_height="wrap_content"></androidx.recyclerview.widget.RecyclerView>&ndash;&gt;
-
-                 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>-->
-                <!--            <include layout="@layout/empty" android:visibility="gone"/>-->
+                </com.pacifyr.client.customview.MainTextView>
             </LinearLayout>
 
 

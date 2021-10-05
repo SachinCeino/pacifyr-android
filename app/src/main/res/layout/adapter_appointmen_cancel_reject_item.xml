@@ -98,6 +98,19 @@
                     android:textColor="@color/colorPrimary"
                      />
                 <com.pacifyr.client.customview.MainTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:id="@+id/mTextView_auto_cancel_status"
+                    android:textAllCaps="false"
+                    android:visibility="gone"
+                    android:gravity="center_vertical"
+                    android:textStyle="bold"
+                    android:textSize="12sp"
+                    android:drawableLeft="@drawable/svg_add_note_primary"
+                    android:drawableTint="@color/colorPrimary"
+                    android:drawablePadding="3dp"
+                    android:textColor="@color/colorPrimary"/>
+                <com.pacifyr.client.customview.MainTextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

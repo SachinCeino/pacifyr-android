@@ -1,7 +1,9 @@
 package com.pacifyr.client.home;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -13,6 +15,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.widget.AppCompatRatingBar;
 import androidx.cardview.widget.CardView;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -37,11 +40,12 @@ import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.quickblox.activities.PermissionsActivity;
 import com.pacifyr.client.quickblox.utils.Consts;
-
+import com.pacifyr.client.receiver.NotificationUtils;
 import com.pacifyr.client.twilio.VideoActivity;
 import com.pacifyr.client.utility.EventMessage;
 import com.pacifyr.client.utility.PacifyrAppCompactActivity;
 import com.pacifyr.client.utils.LogUtils;
+import com.pacifyr.client.utils.SnackUtils;
 import com.pacifyr.client.utils.Utility;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.Certification;
@@ -67,6 +71,8 @@ import java.util.TimerTask;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.pacifyr.client.twilio.VideoActivity.isCallActive;
+import static com.pacifyr.client.twiliochat.TwilioConversationActivity.DEFAULT_CONVERSATION_NAME;
+import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_IMAGE_URL;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
 
 public class ProfileScreenActivity extends PacifyrAppCompactActivity {
@@ -257,13 +263,15 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
 
                             if (!reason.equals(""))
                             {
-                                showIOSDialogOKCancel("", mpacifyerDetial.getFirstName()+ " is currently "+reason+". You can either chat with "+mpacifyerDetial.getFirstName()+" or try again later.", "Chat", new iOSDialogClickListener() {
-                                    @Override
-                                    public void onClick(iOSDialog dialog) {
-                                        dialog.dismiss();
-                                        startChat(mpacifyerDetial);
-                                    }
-                                }, "Ok");
+                                checkAppointMentIsthere(mpacifyerDetial.getId());
+                               /* showIOSDialogOKCancel("", mpacifyerDetial.getFirstName()+ " is currently "+reason+". You can either chat with "+mpacifyerDetial.getFirstName()+" or try again later.", "Chat", new iOSDialogClickListener() {
+                                        @Override
+                                        public void onClick(iOSDialog dialog) {
+                                            dialog.dismiss();
+                                            startChat(mpacifyerDetial);
+                                        }
+                                    }, "Ok");*/
+
                             }
 
 
@@ -328,13 +336,14 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
                             }
                             if (!reason.equals(""))
                             {
-                                showIOSDialogOKCancel("", mpacifyerDetial.getFirstName()+ " is currently "+reason+". You can either chat with "+mpacifyerDetial.getFirstName()+" or try again later.", "Chat", new iOSDialogClickListener() {
+                                checkAppointMentIsthere(mpacifyerDetial.getId());
+                               /* showIOSDialogOKCancel("", mpacifyerDetial.getFirstName()+ " is currently "+reason+". You can either chat with "+mpacifyerDetial.getFirstName()+" or try again later.", "Chat", new iOSDialogClickListener() {
                                         @Override
                                         public void onClick(iOSDialog dialog) {
                                             dialog.dismiss();
                                             startChat(mpacifyerDetial);
                                         }
-                                    }, "Ok");
+                                    }, "Ok");*/
 
                             }
 
@@ -477,10 +486,37 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
 
     }
 
+    private final BroadcastReceiver notificationReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent != null && intent.hasExtra("message")) {
+                String message = intent.getExtras().getString("message");
+                String type = intent.getExtras().getString("type");
+                if (message != null && message != "") {
+                    if(type.equals("twilio.conversations.new_message") || type.equals("twilioChat") ){
+
+                        String conversation_sid = intent.getExtras().getString("conversation_sid");
+
+                        if(isValid(DEFAULT_CONVERSATION_NAME) && isValid(conversation_sid)
+                                && conversation_sid.equals(DEFAULT_CONVERSATION_NAME)){
+
+                            return;
+                        }
+
+                        SnackUtils.show(actionBarTopLlay,message, ProfileScreenActivity.this,getLayoutInflater(),conversation_sid);
+
+                    }
+                }
+            }
+        }
+    };
+
     @Override
     protected void onResume() {
         super.onResume();
         handleActionProfile(userID);
+        LocalBroadcastManager.getInstance(this).registerReceiver(notificationReceiver, new IntentFilter(NotificationUtils.NOTIFY_INTENT));
+
     }
 
     @Override
@@ -591,10 +627,10 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
             if (isValid(pacifyerDetial.getQbid()))
                 qbID=pacifyerDetial.getQbid();
             hideProgress();
-            if(isValid(pacifyerDetial.getImageUrl())) {
-                imgUrl = pacifyerDetial.getImageUrl();
-                if (isValidhtml(imgUrl))
-                    Picasso.with(this).load(imgUrl).placeholder(R.drawable.placeholder_user).into(profileCimv);
+            if(isValid(pacifyerDetial.getImage())) {
+                imgUrl = pacifyerDetial.getImage();
+                if (isValid(imgUrl))
+                    Picasso.with(this).load(GLOBAL_IMAGE_URL+imgUrl).placeholder(R.drawable.placeholder_user).into(profileCimv);
             }
             if (isValid(pacifyerDetial.getDescription()))
                 snapshotCtxv.setText(pacifyerDetial.getDescription());
@@ -797,7 +833,7 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
         try {
             trackTimer_user_update.cancel();
             trackTimerTask_user_update.cancel();
-
+            LocalBroadcastManager.getInstance(this).unregisterReceiver(notificationReceiver);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -1024,79 +1060,6 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
 
 
     //Used this function when profile response is changed and got exception
-    private void updateProfile(JSONObject user) {
-        try {
-
-            if (isValid(pacifyerDetial.getQbid()))
-                qbID=pacifyerDetial.getQbid();
-            hideProgress();
-
-             String imgUrl =  user.getString("image");
-            profileRating.setRating(Float.valueOf(user.getString("rating")));
-            profileNameCtxv.setText(user.getString("firstName") + user.getString("lastName"));
-            ratingCtxv.setText(user.getString("numberOfReviews") + " Reviews");
-
-            if (isValid(imgUrl))
-                if(imgUrl.contains("http")||imgUrl.contains("https"))
-                    imgUrl=imgUrl;
-                else
-                    imgUrl= UtilityNetworkService.GLOBAL_IMAGE_URL + imgUrl;
-
-            if (isValidhtml(imgUrl))
-                Picasso.with(this).load(imgUrl).placeholder(R.drawable.placeholder_user).into(profileCimv);
-
-            if (isValid(user.getString("description"))) {
-                snapshotCtxv.setText(user.getString("description"));
-            }
-            else {
-                snapshotCard.setVisibility(View.GONE);
-            }
-
-            if (isValid(user.getString("websiteURL"))) {
-                websiteCtxv.setText(user.getString("websiteURL"));
-            }
-            else {
-                blogCard.setVisibility(View.GONE);
-            }
-            myList = new ArrayList<String>();
-            JSONArray specialArray=user.getJSONArray("specialities");
-            for (int i=0;i<specialArray.length();i++)
-            {
-                String data = specialArray.getString(i);
-                myList.add(data);
-            }
-            if (isValid(myList)) {
-                //Speciality adapter
-                SpecialRecyclerView = findViewById(R.id.special_rcv);
-                SpecialLayoutManager = new LinearLayoutManager(this);
-                SpecialRecyclerView.setLayoutManager(SpecialLayoutManager);
-                SpecialAdapter = new SpecilaListProfileAdapter(myList, ProfileScreenActivity.this);
-                SpecialRecyclerView.setAdapter(SpecialAdapter);
-            } else {
-                specialityCard.setVisibility(View.GONE);
-            }
-
-
-            // educationsList = pacifyerDetial.getEducationList();
-            JSONArray eduArray=user.getJSONArray("education");
-            if (isValid(eduArray)) {
-                //education adapter
-                EducationRecyclerView = findViewById(R.id.education_rcv);
-                EducationLayoutManager = new LinearLayoutManager(this);
-                EducationRecyclerView.setLayoutManager(EducationLayoutManager);
-                // EducationAdapter = new EducationProfileAdapter(eduArray, ProfileScreenActivity.this);
-                EducationRecyclerView.setAdapter(EducationAdapter);
-            } else {
-                educationCard.setVisibility(View.GONE);
-            }
-
-
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-    }
 
 
     private void callChatSubScription(String pacifyrID) {

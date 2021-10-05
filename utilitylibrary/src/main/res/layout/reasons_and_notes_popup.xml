@@ -16,19 +16,20 @@
         android:text=""
         tools:ignore="RtlCompat" />
 
-    <com.pacifyrapp.utilitylibrary.CustomFontTextView
-        android:id="@+id/message_edt"
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:layout_marginTop="20dp"
-        android:ems="10"
-        android:padding="15dp"
-        android:lines="7"
-        android:textColor="@color/grey_dark"
-        android:scrollbars="vertical"
-        android:gravity="top|left"
-        android:background="@drawable/rounded_white"
-        android:inputType="textCapSentences|textMultiLine" />
+  <ScrollView
+      android:layout_width="match_parent"
+      android:layout_marginTop="20dp"
+      android:background="@drawable/rounded_white"
+      android:layout_height="250dp">
+      <com.pacifyrapp.utilitylibrary.CustomFontTextView
+          android:id="@+id/message_edt"
+          android:layout_width="match_parent"
+          android:layout_height="250dp"
+          android:padding="15dp"
+          android:textColor="@color/grey_dark"
+          android:gravity="top|left"
+          android:inputType="textCapSentences|textMultiLine" />
+  </ScrollView>
 
     <LinearLayout
 

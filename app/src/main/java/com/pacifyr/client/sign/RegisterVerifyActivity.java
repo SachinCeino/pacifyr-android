@@ -41,6 +41,7 @@ import com.pacifyr.client.utils.FirebaseLogging;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.squareup.otto.Subscribe;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Random;
@@ -156,7 +157,7 @@ public class RegisterVerifyActivity extends PacifyrActivity {
 
                                         } else if (stat.equals("error")) {
 
-                                            Toast.makeText(RegisterVerifyActivity.this, "Mobile number not registered", Toast.LENGTH_LONG).show();
+                                           // Toast.makeText(RegisterVerifyActivity.this, "Mobile number not registered", Toast.LENGTH_LONG).show();
 
                                             new Handler().postDelayed(new Runnable() {
                                                 @Override
@@ -298,10 +299,75 @@ public class RegisterVerifyActivity extends PacifyrActivity {
                             Log.d("LOG:::", "signInWithCredential:success");
 
                             FirebaseUser user = task.getResult().getUser();
+                            String url = GLOBAL_URL + "login/phonenumber";
 
+                            try {
+                            AjaxCallback cb = new AjaxCallback<JSONObject>() {
+                                @Override
+                                public void callback(String url, final JSONObject json, final AjaxStatus status) {
+                                    try {
+                                        String stat= json.getString("status");
+                                        //String messag= json.getString("message");
+                                        String logstat = status.getMessage();
+                                        if (isValid(stat)) {
+                                            if (stat.equals("success")) {
+
+                                                //Toast.makeText(RegisterVerifyActivity.this, "Mobile number already registered", Toast.LENGTH_LONG).show();
+                                                setAlertOKStatusInRed(getResources().getString(R.string.registration_failed), getResources().getString(R.string.failed_register_message), "OK", new View.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(View v) {
+                                                        hideStatus();
+                                                        Intent mIntent = new Intent(RegisterVerifyActivity.this, SignActivity.class);
+                                                        mIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                                        startActivity(mIntent);
+                                                    }
+                                                });
+
+                                            } else if (stat.equals("error")) {
+
+                                                //Toast.makeText(RegisterVerifyActivity.this, "Mobile number not registered", Toast.LENGTH_LONG).show();
+
+                                                Intent intent = new Intent(RegisterVerifyActivity.this, RegisterActivity.class);
+                                                startActivity(intent);
+
+                                                /*new Handler().postDelayed(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+
+                                                        if (isValid(credential.getSmsCode())) {
+                                                            pinview.setValue(credential.getSmsCode());
+                                                        } else {
+                                                            Random rnd = new Random();
+                                                            int n = 100000 + rnd.nextInt(900000);
+                                                            pinview.setValue(Integer.toString(n));
+                                                        }
+                                                       // signInWithPhoneAuthCredential(credential);
+                                                        hideProgress();
+
+                                                    }
+                                                }, 900);*/
+
+                                            }
+                                        }
+                                    } catch (Exception e) {
+                                        hideProgress();
+                                        e.printStackTrace();
+                                    }
+                                }
+                            };
+                            AQuery aq = new AQuery(RegisterVerifyActivity.this);
+                            cb.header("Content-Type", "application/json");
+                            JSONObject postDataParams = new JSONObject();
+
+                                postDataParams.putOpt("phoneNumber",  phoneRegister);
+
+                            aq.post(url, postDataParams, JSONObject.class, cb);
+
+                                } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                            /* if(bundle.getString("from").equals("signup")) {*/
-                                Intent intent = new Intent(RegisterVerifyActivity.this, RegisterActivity.class);
-                                startActivity(intent);
+
                             /*}
                             else
                             {

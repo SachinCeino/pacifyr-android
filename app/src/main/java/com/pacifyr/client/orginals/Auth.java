@@ -2,6 +2,7 @@ package com.pacifyr.client.orginals;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
 import android.provider.Settings;
 import android.util.Log;
 import android.widget.Toast;
@@ -27,32 +28,51 @@ public class Auth {
     private static String VISIBLE_ACTIVITY = "";
     private static final boolean enableSessionManagement = false;
     private static Toast toast;
+    private static boolean SessionExpired=false;
 
     public static void httpStatusFilter(Context c, int status) {
         switch (status) {
             case 401://Forbidden
+
                 if (VISIBLE_ACTIVITY.equals(SignActivity.class.getName())
                         || VISIBLE_ACTIVITY.equals(LoginActivity.class.getName())
                         || VISIBLE_ACTIVITY.equals(SplashScreen.class.getName())) {
                     Log.d(TAG, "httpStatusFilter: login page already shown" + status);
                 } else {
-                    PrefManager.getInstance(c).clear();
-                    Intent intent = new Intent(c, SignActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-                            | Intent.FLAG_ACTIVITY_CLEAR_TOP
-                            | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    intent.putExtra("EXIT", true);
-                    c.startActivity(intent);
-                    if (toast != null) {
-                        toast.cancel();
+                    if (SessionExpired==false)
+                    {
+                        PrefManager.getInstance(c).clear();
+                        Intent intent = new Intent(c, SignActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                                | Intent.FLAG_ACTIVITY_CLEAR_TOP
+                                | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        intent.putExtra("EXIT", true);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                        c.startActivity(intent);
+
+                        if (toast != null) {
+                            toast.cancel();
+                        }
+                        toast = Toast.makeText(c, c.getString(R.string.please_login_to_continue), Toast.LENGTH_LONG);
+                        new Handler().postDelayed(new Runnable() {
+                            @Override public void run() {
+                                try {
+                                    toast.show();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }, 1000);
+
+                        SessionExpired=true;
                     }
-                    toast = Toast.makeText(c, c.getString(R.string.please_login_to_continue), Toast.LENGTH_LONG);
-                    toast.show();
+
 
                 }
 
                 break;
             default:
+                SessionExpired=false;
                 Log.d(TAG, "httpStatusFilter: " + status);
         }
     }
@@ -70,6 +90,10 @@ public class Auth {
         myRef.setValue(getDeviceId(context));
         scanUpdates(context);
         Log.d(TAG, "setActiveOnFDB: " + userId + "-" + getDeviceId(context));
+    }
+
+    public static boolean checkSessionIsExpired() {
+        return SessionExpired;
     }
 
     public static void scanUpdates(Context context) {

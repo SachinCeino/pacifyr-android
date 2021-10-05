@@ -156,7 +156,17 @@
                 android:layout_margin="10dp"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size"
-                android:visibility="invisible" />
+                 />
+            <com.pacifyr.client.customview.MainTextView
+                android:layout_width="wrap_content"
+                android:id="@+id/TextView_audio_freeminuts_remine"
+                android:textSize="@dimen/sp14"
+                android:singleLine="true"
+                android:layout_marginTop="5dp"
+                android:layout_centerVertical="true"
+                android:text=""
+                android:textColor="@color/colorPrimary"
+                android:layout_height="wrap_content" />
 
 
         </LinearLayout>
@@ -261,6 +271,7 @@
                         android:layout_marginLeft="4dp"
                         android:layout_marginTop="5dp"
                         android:layout_below="@+id/l1"
+                        android:visibility="gone"
                         android:textColor="@color/blue_button_primary"
                         android:textSize="@dimen/also_on_call_text_size" />
                 </RelativeLayout>
@@ -276,9 +287,21 @@
                     android:visibility="invisible" />
                 <com.pacifyr.client.customview.MainTextView
                     android:layout_width="wrap_content"
-                    android:id="@+id/Button_remind_counselor_vidio"
+                    android:id="@+id/TextView_vidio_freeminuts_remine"
                     android:visibility="gone"
                     android:layout_below="@+id/chronometer_timer_video_call"
+                    android:textSize="@dimen/sp14"
+                    android:singleLine="true"
+                    android:layout_marginTop="5dp"
+                    android:layout_centerVertical="true"
+                    android:text=""
+                    android:textColor="@color/colorPrimary"
+                    android:layout_height="wrap_content" />
+                <com.pacifyr.client.customview.MainTextView
+                    android:layout_width="wrap_content"
+                    android:id="@+id/Button_remind_counselor_vidio"
+                    android:visibility="gone"
+                    android:layout_below="@+id/TextView_vidio_freeminuts_remine"
                     android:background="@color/white"
                     android:textSize="@dimen/sp12"
                     android:singleLine="true"
@@ -375,7 +398,7 @@
                         android:src="@drawable/overlay_kyc" />
                 </LinearLayout>
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/LinearLayout_chat"
@@ -386,7 +409,21 @@
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:src="@drawable/overlay_chat" />
-                </LinearLayout>
+                    <TextView
+                        android:layout_width="14dp"
+                        android:layout_height="14dp"
+                        android:id="@+id/messageCount"
+                        android:gravity="center"
+                        android:visibility="gone"
+                        android:background="@drawable/rounded_textview"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginLeft="25dp"
+                        android:textSize="10sp"
+                        android:textStyle="bold"
+                        android:text=""
+                        android:textColor="@color/white"
+                        ></TextView>
+                </RelativeLayout>
 
                 <LinearLayout
                     android:layout_width="wrap_content"

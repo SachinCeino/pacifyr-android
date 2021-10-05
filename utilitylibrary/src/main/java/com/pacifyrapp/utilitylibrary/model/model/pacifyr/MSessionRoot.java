@@ -404,7 +404,7 @@ public class MSessionRoot {
 
         private String specialities;
 
-        private String walletBalance;
+        private Double walletBalance;
 
         private String createdAt;
 
@@ -584,12 +584,12 @@ public class MSessionRoot {
             this.specialities = specialities;
         }
 
-        public String getWalletBalance ()
+        public Double getWalletBalance ()
         {
             return walletBalance;
         }
 
-        public void setWalletBalance (String walletBalance)
+        public void setWalletBalance (Double walletBalance)
         {
             this.walletBalance = walletBalance;
         }

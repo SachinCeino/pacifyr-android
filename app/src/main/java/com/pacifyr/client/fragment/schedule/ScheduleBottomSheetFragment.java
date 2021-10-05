@@ -81,6 +81,8 @@ import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 import static com.pacifyr.client.base.PacifyrActivity.errorCount;
 import static com.pacifyr.client.network.NetworkService.GLOBAL_IMAGE_URL;
+import static com.pacifyr.client.utils.Constants.PAYMENT_CARD_ADDED;
+import static com.pacifyr.client.utils.Constants.PAYMENT_CARD_ADDED_FINISH;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
 
 public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
@@ -303,7 +305,7 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
                     }
 
                 } else if (txtv_next.getText().equals("Done")) {
-                    callSlotBookApiAfterPaymentSuccess(SlotForNextClick);
+                   dismiss();
                 }
             }
         });
@@ -411,7 +413,8 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
                                                     public void run() {
 
                                                         hideStatus();
-                                                        dismiss();
+                                                        if (isValid(USPAYMENT_MESSAGE_SUMMARY))
+                                                        showBillingSummary(USPAYMENT_MESSAGE_SUMMARY);
                                                     }
                                                 }, 4000);
 
@@ -868,6 +871,18 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
         Log.w("WWW","onStart");
         EventBus.getDefault().register(this);
     }
+    public static boolean isCardAddedFromAppointment=false;
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.w("WWW","onResume");
+        if (isCardAddedFromAppointment)
+        {
+            isCardAddedFromAppointment=false;
+            checkIfCardIsAddedOrNot(SlotForNextClick);
+        }
+    }
+
 
     @Override
     public void onStop() {
@@ -895,12 +910,6 @@ Log.w("WWW","onCreate");
         Log.w("WWW","onDestroy");
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        Log.w("WWW","onResume");
-
-    }
 
     @Override
     public void onPause() {
@@ -1344,12 +1353,12 @@ Log.w("WWW","onCreate");
                                                                 bookingTempId = bookingTempId + "_" + errorCount;
                                                             String finalBookingTempId = bookingTempId;
                                                             float finalCost = cost;
-                                                            ((PacifyrActivity)getActivity()).setAlertStatusInWhiteNoInternet("","You will be charged amount "+Utility.getPriceSign(getActivity())+ Math.round(cost)+" for this session. Do you want to continue?" , "Yes","No", new View.OnClickListener() {
+                                                            ((PacifyrActivity)getActivity()).setAlertStatusInWhiteNoInternet("","You will be charged amount "+Utility.getPriceSign(getActivity())+ cost+" for this session. Do you want to continue?" , "Yes","No", new View.OnClickListener() {
                                                                 @Override
                                                                 public void onClick(View v) {
                                                                     ((PacifyrActivity) getActivity()).hideProgress();
                                                                     ((PacifyrActivity) getActivity()).hideStatus2();
-                                                                    ((PacifyrActivity) getActivity()).generateCheckSum(false, finalBookingTempId, Math.round(finalCost));
+                                                                    ((PacifyrActivity) getActivity()).generateCheckSum(false, finalBookingTempId, Math.round(finalCost),false);
                                                                 }
                                                             });
 
@@ -1481,6 +1490,7 @@ Log.w("WWW","onCreate");
                             @Override
                             public void onClick(iOSDialog dialog) {
                                 Intent i = new Intent(getActivity(), PaymentActivity.class);
+                                i.putExtra("isFromBooking",true);
                                 startActivity(i);
                                 dialog.dismiss();
                             }
@@ -1519,6 +1529,7 @@ Log.w("WWW","onCreate");
 
     }
 
+    String USPAYMENT_MESSAGE_SUMMARY= null;
     private void callSlotBookApiAfterStripeSuccess(Slot singleSlote) {
 
         if (isValid(singleSlote)) {
@@ -1595,7 +1606,8 @@ Log.w("WWW","onCreate");
 
                                         if (status.equals("success"))
                                         {
-                                                 showBillingSummary(messsage);
+                                            USPAYMENT_MESSAGE_SUMMARY=messsage;
+                                            EventBus.getDefault().post("SCHEDULE_PAY");
                                         }
                                         else {
                                             setStatus(messsage, R.color.md_red_A700);
@@ -1708,7 +1720,7 @@ Log.w("WWW","onCreate");
             @Override
             public void onClick(View v) {
                 alertDialog.dismiss();
-                EventBus.getDefault().post("SCHEDULE_PAY");
+
             }
         });
 
@@ -1787,7 +1799,7 @@ Log.w("WWW","onCreate");
                                                 confirmLayout.setVisibility(GONE);
                                                 txtv_next.setText("Done");
                                                 txtv_back.setVisibility(GONE);
-                                                confirmationMessageText.setText("Your request for an appointment with "+pacifyer_obj.getFirstName() + ""
+                                                confirmationMessageText.setText("Your request for an appointment with "+pacifyer_obj.getFirstName() + " "
                                                         + pacifyer_obj.getLastName()+" " +
                                                         "has been submitted and you will be " +
                                                         "notified once the time slot is confirmed.");
@@ -1886,10 +1898,11 @@ Log.w("WWW","onCreate");
                 confirmLayout.setVisibility(GONE);
                 txtv_next.setText("Done");
                 txtv_back.setVisibility(GONE);
-                confirmationMessageText.setText("Your request for an appointment with " + pacifyer_obj.getFirstName() + ""
+                confirmationMessageText.setText("Your request for an appointment with " + pacifyer_obj.getFirstName() + " "
                         + pacifyer_obj.getLastName() + " " +
                         "has been submitted and you will be " +
                         "notified once the time slot is confirmed.");
+                callSlotBookApiAfterPaymentSuccess(SlotForNextClick);
             }
 
 
@@ -1898,7 +1911,6 @@ Log.w("WWW","onCreate");
             e.printStackTrace();
         }
     }
-
 
     public void hideProgress() {
         try {

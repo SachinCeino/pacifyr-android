@@ -38,7 +38,7 @@ public class MPacifyr {
     private ChatSubscription chatSubscription;
 
 
-    private String walletBalance;
+    private Double walletBalance;
 
     private String createdAt;
 
@@ -305,12 +305,12 @@ public class MPacifyr {
         this.specialities = specialities;
     }
 
-    public String getWalletBalance ()
+    public Double getWalletBalance ()
     {
         return walletBalance;
     }
 
-    public void setWalletBalance (String walletBalance)
+    public void setWalletBalance (Double walletBalance)
     {
         this.walletBalance = walletBalance;
     }

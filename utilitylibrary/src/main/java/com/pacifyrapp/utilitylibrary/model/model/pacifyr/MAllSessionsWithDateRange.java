@@ -259,7 +259,7 @@ public class MAllSessionsWithDateRange
 
         private String phoneNumber;
 
-        private String walletBalance;
+        private Double walletBalance;
 
         private String[] specialities;
 
@@ -381,12 +381,12 @@ public class MAllSessionsWithDateRange
             this.phoneNumber = phoneNumber;
         }
 
-        public String getWalletBalance ()
+        public Double getWalletBalance ()
         {
             return walletBalance;
         }
 
-        public void setWalletBalance (String walletBalance)
+        public void setWalletBalance (Double walletBalance)
         {
             this.walletBalance = walletBalance;
         }
@@ -680,7 +680,7 @@ public class MAllSessionsWithDateRange
 
         private String phoneNumber;
 
-        private String walletBalance;
+        private Double walletBalance;
 
         private String[] specialities;
 
@@ -802,12 +802,12 @@ public class MAllSessionsWithDateRange
             this.phoneNumber = phoneNumber;
         }
 
-        public String getWalletBalance ()
+        public Double getWalletBalance ()
         {
             return walletBalance;
         }
 
-        public void setWalletBalance (String walletBalance)
+        public void setWalletBalance (Double walletBalance)
         {
             this.walletBalance = walletBalance;
         }

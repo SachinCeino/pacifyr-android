@@ -241,7 +241,7 @@ public class AppoinmentNotification implements Serializable {
     }
 
 
-    public class CouponCode {
+    public class CouponCode  implements Serializable{
 
         @SerializedName("discountPercentage")
         @Expose

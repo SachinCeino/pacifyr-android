@@ -1,7 +1,9 @@
 package com.pacifyr.client.home;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -37,9 +40,11 @@ import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.quickblox.activities.PermissionsActivity;
 import com.pacifyr.client.quickblox.utils.Consts;
+import com.pacifyr.client.receiver.NotificationUtils;
 import com.pacifyr.client.utility.PacifyrAppCompactActivity;
 import com.pacifyr.client.utils.FirebaseLogging;
 import com.pacifyr.client.utils.LogUtils;
+import com.pacifyr.client.utils.SnackUtils;
 import com.pacifyr.client.utils.Utility;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.ChatSubscription;
@@ -67,6 +72,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import static com.pacifyr.client.network.NetworkService.GLOBAL_URL;
 import static com.pacifyr.client.network.NetworkService.modelCustomerDashboard2;
 import static com.pacifyr.client.twilio.VideoActivity.isCallActive;
+import static com.pacifyr.client.twiliochat.TwilioConversationActivity.DEFAULT_CONVERSATION_NAME;
 
 
 //import com.pacifyr.pacifyrapp.Fragment.SelecetFeelingFragment;
@@ -155,6 +161,32 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
         NetworkService.isConnectSinglePacifyer=isConnectSinglePacifyer;
         context.startActivity(intent);
     }
+
+    private final BroadcastReceiver notificationReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent != null && intent.hasExtra("message")) {
+                String message = intent.getExtras().getString("message");
+                String type = intent.getExtras().getString("type");
+                if (message != null && message != "") {
+                    if(type.equals("twilio.conversations.new_message") || type.equals("twilioChat") ){
+
+                        String conversation_sid = intent.getExtras().getString("conversation_sid");
+
+                        if(isValid(DEFAULT_CONVERSATION_NAME) && isValid(conversation_sid)
+                                && conversation_sid.equals(DEFAULT_CONVERSATION_NAME)){
+
+                            return;
+                        }
+
+                        SnackUtils.show(actionBarTopLlay,message, ConnectToSinglePacifyrActivity.this,getLayoutInflater(),conversation_sid);
+
+                    }
+                }
+            }
+        }
+    };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -402,7 +434,7 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
         chat_rlay.setEnabled(true);
 
         try {
-
+            LocalBroadcastManager.getInstance(this).registerReceiver(notificationReceiver, new IntentFilter(NotificationUtils.NOTIFY_INTENT));
             /** refresh pacifyr object**/
             /**
              * here we are checking the pacifyrs are status online or offline  **/
@@ -547,17 +579,17 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
                         if (isValid(isCallActive) && isCallActive)
                             return;
 
-                                setAlertStartCall(pacifyer_obj, new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        hideStatus();
-                                        checkRoleRequest(pacifyer_obj, listner, true);
-                                    }
-                                });
-
+                        if (!isOnline)
+                            return;
+                        setAlertStartCall(pacifyer_obj, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                hideStatus();
+                                checkRoleRequest(pacifyer_obj, listner, true);
                             }
+                        });
 
-
+                    }
 
                 });
 
@@ -568,18 +600,18 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
                             return;
 
 
-                                setAlertStartCall(pacifyer_obj, new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        hideStatus();
-                                        checkRoleRequest(pacifyer_obj, listner, false);
-                                    }
-                                });
-
-
-
-
+                        if (!isOnline)
+                            return;
+                        setAlertStartCall(pacifyer_obj, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                hideStatus();
+                                checkRoleRequest(pacifyer_obj, listner, false);
+                            }
+                        });
                     }
+
+
                 });
                 chat_rlay.setVisibility(View.VISIBLE);
 
@@ -1110,6 +1142,7 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
     protected void onStop() {
         super.onStop();
         EventBus.getDefault().unregister(this);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(notificationReceiver);
     }
 
     @Override

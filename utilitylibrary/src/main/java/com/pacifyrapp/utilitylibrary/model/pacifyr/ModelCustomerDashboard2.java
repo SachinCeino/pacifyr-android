@@ -828,7 +828,7 @@ public class ModelCustomerDashboard2
 
         private String phoneNumber;
 
-        private String walletBalance;
+        private Double walletBalance;
 
         private String[] specialities;
 
@@ -954,12 +954,12 @@ public class ModelCustomerDashboard2
             this.phoneNumber = phoneNumber;
         }
 
-        public String getWalletBalance ()
+        public Double getWalletBalance ()
         {
             return walletBalance;
         }
 
-        public void setWalletBalance (String walletBalance)
+        public void setWalletBalance (Double walletBalance)
         {
             this.walletBalance = walletBalance;
         }
@@ -1670,7 +1670,7 @@ public class ModelCustomerDashboard2
 
         private String phoneNumber;
 
-        private String walletBalance;
+        private Double walletBalance;
 
         private String[] specialities;
 
@@ -1796,12 +1796,12 @@ public class ModelCustomerDashboard2
             this.phoneNumber = phoneNumber;
         }
 
-        public String getWalletBalance ()
+        public Double getWalletBalance ()
         {
             return walletBalance;
         }
 
-        public void setWalletBalance (String walletBalance)
+        public void setWalletBalance (Double walletBalance)
         {
             this.walletBalance = walletBalance;
         }

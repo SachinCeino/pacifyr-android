@@ -311,6 +311,7 @@
                                 android:elevation="6dp"
                                 android:layout_width="@dimen/dash_circle_wh"
                                 android:layout_height="@dimen/dash_circle_wh"
+                                android:id="@+id/appointMentBackground"
                                 android:layout_gravity="center_horizontal"
                                 android:gravity="center">
                             <RelativeLayout

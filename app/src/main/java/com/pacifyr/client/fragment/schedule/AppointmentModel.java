@@ -77,6 +77,18 @@ public class AppointmentModel implements Serializable {
         @Expose
         private Boolean cancelled;
 
+        @SerializedName("status")
+        @Expose
+        private String status;
+
+        public String getStatus() {
+            return status;
+        }
+
+        public void setStatus(String status) {
+            this.status = status;
+        }
+
         public Boolean getRejected() {
             return rejected;
         }
@@ -87,7 +99,9 @@ public class AppointmentModel implements Serializable {
         @SerializedName("cancelReason")
         @Expose
         private Object cancelReason;
-
+        @SerializedName("refunds")
+        @Expose
+        private List<Refund> refunds = null;
 
         @SerializedName("confirmed")
         @Expose
@@ -109,6 +123,37 @@ public class AppointmentModel implements Serializable {
         @SerializedName("isCompleted")
         @Expose
         private Boolean isCompleted;
+        @SerializedName("statusText")
+        @Expose
+        private String statusText;
+
+        @SerializedName("transactionId")
+        @Expose
+        private String transactionId;
+
+        public List<Refund> getRefunds() {
+            return refunds;
+        }
+
+        public void setRefunds(List<Refund> refunds) {
+            this.refunds = refunds;
+        }
+
+        public String getTransactionId() {
+            return transactionId;
+        }
+
+        public void setTransactionId(String transactionId) {
+            this.transactionId = transactionId;
+        }
+
+        public String getStatusText() {
+            return statusText;
+        }
+
+        public void setStatusText(String statusText) {
+            this.statusText = statusText;
+        }
 
         public Object getCancelReason() {
             return cancelReason;
@@ -266,6 +311,112 @@ public class AppointmentModel implements Serializable {
 
         public void setUpdatedAt(String updatedAt) {
             this.updatedAt = updatedAt;
+        }
+
+    }
+
+    public class Refund implements Serializable
+    {
+
+        @SerializedName("createdAt")
+        @Expose
+        private String createdAt;
+        @SerializedName("amount")
+        @Expose
+        private float amount;
+        @SerializedName("chargeId")
+        @Expose
+        private String chargeId;
+        @SerializedName("timeSlotBookingId")
+        @Expose
+        private String timeSlotBookingId;
+        @SerializedName("id")
+        @Expose
+        private String id;
+        @SerializedName("message")
+        @Expose
+        private String message;
+        @SerializedName("refundId")
+        @Expose
+        private Object refundId;
+        @SerializedName("updatedAt")
+        @Expose
+        private String updatedAt;
+        @SerializedName("status")
+        @Expose
+        private String status;
+        private final static long serialVersionUID = 228508218246701734L;
+
+        public String getCreatedAt() {
+            return createdAt;
+        }
+
+        public void setCreatedAt(String createdAt) {
+            this.createdAt = createdAt;
+        }
+
+        public float getAmount() {
+            return amount;
+        }
+
+        public void setAmount(float amount) {
+            this.amount = amount;
+        }
+
+        public String getChargeId() {
+            return chargeId;
+        }
+
+        public void setChargeId(String chargeId) {
+            this.chargeId = chargeId;
+        }
+
+        public String getTimeSlotBookingId() {
+            return timeSlotBookingId;
+        }
+
+        public void setTimeSlotBookingId(String timeSlotBookingId) {
+            this.timeSlotBookingId = timeSlotBookingId;
+        }
+
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        public String getMessage() {
+            return message;
+        }
+
+        public void setMessage(String message) {
+            this.message = message;
+        }
+
+        public Object getRefundId() {
+            return refundId;
+        }
+
+        public void setRefundId(Object refundId) {
+            this.refundId = refundId;
+        }
+
+        public String getUpdatedAt() {
+            return updatedAt;
+        }
+
+        public void setUpdatedAt(String updatedAt) {
+            this.updatedAt = updatedAt;
+        }
+
+        public String getStatus() {
+            return status;
+        }
+
+        public void setStatus(String status) {
+            this.status = status;
         }
 
     }

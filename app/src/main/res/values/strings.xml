@@ -125,7 +125,7 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="payout_url">https://pacifyr.com/stripe_dev.html</string>
     <string name="sign_up">Register</string>
     <string name="registration_failed">Registration failed</string>
-    <string name="failed_register_message">Your mobile number is already registered. Please sign in</string>
+    <string name="failed_register_message">Your phone number is already registered. Please sign in.</string>
     <string name="select_specialisation">Select a specialization</string>
     <string name="no_wellness_experts_category">No providers available.</string>
     <string name="please_try_again">Please try again</string>
@@ -924,6 +924,22 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="pref_videocodec_key">videocodec_preference</string>
 
     <string name="pref_videocodec_title">Default video codec</string>
+    <string name="identity_document">Identity document</string>
+    <string name="cancelled_provider_not_respond">Cancelled, provider didn\'t respond.</string>
+    <string name="cancelled_provider_message">Cancelled since the provider\ndid not respond.</string>
+    <string name="cancelled_provider_not_respond_two">Cancelled, counselor didn\'t accept the session.</string>
+    <string name="cancelled_provider_message_two">Cancelled since the provider\nwas unavailable.</string>
+    <string name="client_cancelled_the_appointment">Client cancelled the appointment</string>
+    <string name="upcoming">Upcoming</string>
+    <string name="past">Past</string>
+    <string name="rejected_cancelled">Rejected/Cancelled</string>
+    <string name="you_have_finished_free_minuts">You have finished your credit balance. Your credit card will be charged based on the provider\'s bill rate per minute.</string>
+    <string name="your_monthly_session_expired">Your monthly free sessions has expired.</string>
+    <string name="no_appointments_in_upconmming">You currently have no upcoming appointments.</string>
+    <string name="no_appointments_in_reject_cancell">You currently have no rejected/cancelled appointments.</string>
+    <string name="no_appointments_in_past">You currently have no past appointments.</string>
+    <string name="provider_is_in_insession_">The provider is currently in a session with another client</string>
+    <string name="provider_is_in_insession_same_client_apppointment">You have an appointment call with this counselor now. So please initiate scheduled call.</string>
 
     <string name="pref_videocodec_dlg">Select default video codec</string>
 

@@ -135,8 +135,8 @@
     <string name="upcoming_session">UPCOMING SESSION</string>
     <string name="press_back_again_to_exit">Press back again to exit...!</string>
     <string name="logout">LOGOUT</string>
-    <string name="Connect_to_Wellness_Experts">connect to Providers</string>
-    <string name="connect_to_wellness_experts">CONNECT TO PROVIDERS</string>
+    <string name="Connect_to_Wellness_Experts">Connect to Provider</string>
+    <string name="connect_to_wellness_experts">CONNECT TO PROVIDER</string>
     <string name="browse_wellness_experts">BROWSE PROVIDERS</string>
     <string name="SUPPORT">SUPPORT</string>
     <string name="support">support</string>

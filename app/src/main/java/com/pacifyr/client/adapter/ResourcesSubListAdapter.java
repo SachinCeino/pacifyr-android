@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.pacifyr.client.R;
 import com.pacifyr.client.activity.TermsOfUseActivity;
+import com.pacifyr.client.home.MainVideoPlayerActivity;
 import com.pacifyr.client.model.ResourceMain;
 import com.pacifyr.client.network.NetworkService;
 import com.squareup.picasso.Picasso;
@@ -190,10 +191,22 @@ public class ResourcesSubListAdapter extends RecyclerView.Adapter<RecyclerView.V
             viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (item.getVideo()==null) {
-                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(item.getUrl()));
-                        browserIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        mContext.startActivity(browserIntent);
+                    if (item.getType().equals("video")) {
+
+                        if (item.getUrl().contains("https://pacifyrprod.")){
+                            Intent intent=new Intent(mContext, MainVideoPlayerActivity.class);
+                            intent.putExtra("URL",item.getUrl());
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            mContext.startActivity(intent);
+                        }
+                        else
+                        {
+                            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(item.getUrl()));
+                            browserIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            mContext.startActivity(browserIntent);
+
+                        }
+
                     }
                 }
             });

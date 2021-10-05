@@ -12,7 +12,7 @@
     <dimen name="dash_icon_text_marginbottom">24dp</dimen>
     <dimen name="company_logo_h">50dp</dimen>
     <dimen name="company_logo_w">100dp</dimen>
-    <dimen name="swipe_card_avatar_dia">35dp</dimen>
+    <dimen name="swipe_card_avatar_dia">60dp</dimen>
     <dimen name="swipe_card_name_sp">16dp</dimen>
     <dimen name="swipe_card_desc_sp">12dp</dimen>
     <!-- Per the design guidelines, navigation drawers should be between 240dp and 320dp:

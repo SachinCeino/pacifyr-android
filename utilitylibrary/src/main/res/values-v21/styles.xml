@@ -43,5 +43,13 @@
             <item name="android:windowTranslucentNavigation">true</item>
         </style>
 
+    <style name="theme_for_avoiding_white_screen_in_sign_screen" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@null</item>
+        <item name="android:colorPrimary">@color/colorPrimary</item>
+        <item name="android:colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="android:colorAccent">@color/colorAccent</item>
+        <item name="android:colorBackground">@color/grey_light</item>
+        <item name="android:windowDisablePreview">true</item>
+    </style>
 
 </resources>

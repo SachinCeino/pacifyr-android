@@ -2,46 +2,20 @@ package com.pacifyr.client.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
-import com.androidquery.AQuery;
-import com.androidquery.callback.AjaxCallback;
-import com.androidquery.callback.AjaxStatus;
 import com.google.android.material.tabs.TabLayout;
 import com.pacifyr.client.R;
-import com.pacifyr.client.adapter.AppointmentsListAdapter;
-import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.event.NotifyEvent;
-import com.pacifyr.client.fragment.schedule.AppointmentModel;
-import com.pacifyr.client.fragment.schedule.ScheduleBottomSheetFragment;
-import com.pacifyr.client.home.DashboardActivity;
-import com.pacifyr.client.network.GsonUtils;
-import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.utility.BaseFragment;
-import com.pacifyr.client.utility.PacifyrAppCompactActivity;
-import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.squareup.otto.Subscribe;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.ThreadMode;
-import org.json.JSONObject;
-
-import java.util.List;
-
-import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
 
 
 public class AppointmentsTabViewFragment extends BaseFragment {
@@ -72,24 +46,25 @@ private ViewPager mViewPager;
 @Override
 public View onCreateView(LayoutInflater inflater, ViewGroup container,
         Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View root = inflater.inflate(R.layout.fragment_appointments_tab_view, container, false);
+    // Inflate the layout for this fragment
+    View root = inflater.inflate(R.layout.fragment_appointments_tab_view, container, false);
 
-        mTabLayout = root.findViewById(R.id.mTabLayout);
-        mViewPager = root.findViewById(R.id.mViewPager);
+    mTabLayout = root.findViewById(R.id.mTabLayout);
+    mViewPager = root.findViewById(R.id.mViewPager);
 
-        mTabLayout.addTab(mTabLayout.newTab().setText("All"));
-        mTabLayout.addTab(mTabLayout.newTab().setText("Rejected/Cancelled"));
-        mTabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+    mTabLayout.addTab(mTabLayout.newTab().setText(getString(R.string.upcoming)));
+    mTabLayout.addTab(mTabLayout.newTab().setText(getString(R.string.past)));
+    mTabLayout.addTab(mTabLayout.newTab().setText(getString(R.string.rejected_cancelled)));
+    mTabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
-        //Creating our pager adapter
-        Pager adapter = new Pager(getChildFragmentManager(), mTabLayout.getTabCount());
+    //Creating our pager adapter
+    Pager adapter = new Pager(getChildFragmentManager(), mTabLayout.getTabCount());
 
-        //Adding adapter to pager
-        mViewPager.setAdapter(adapter);
-        mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));
-        mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-@Override
+    //Adding adapter to pager
+    mViewPager.setAdapter(adapter);
+    mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));
+    mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        @Override
 public void onTabSelected(TabLayout.Tab tab) {
         mViewPager.setCurrentItem(tab.getPosition());
         }
@@ -168,8 +143,11 @@ public class Pager extends FragmentStatePagerAdapter {
                 AppointmentsFragment tab1 = new AppointmentsFragment();
                 return tab1;
             case 1:
-                AppointmentsRejOrCancelledFragment tab2 = new AppointmentsRejOrCancelledFragment();
+                AppointmentsPastFragment tab2 = new AppointmentsPastFragment();
                 return tab2;
+            case 2:
+                AppointmentsRejOrCancelledFragment tab3 = new AppointmentsRejOrCancelledFragment();
+                return tab3;
             default:
                 return null;
         }
