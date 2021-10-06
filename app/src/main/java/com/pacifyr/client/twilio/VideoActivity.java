@@ -3209,8 +3209,9 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
             if (isProviderConnected) {
                 if (SessionId != null) {
                     if (!isFromProviderStopCall){
-                        if (!hasBillingStarted())
+                        if (!hasBillingStarted()) {
                             stopSessionWeb(SessionId);
+                        }
                     }
 
                 }
