@@ -1,10 +1,14 @@
 package com.pacifyr.client.sign;
 
+import android.Manifest;
+import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -14,6 +18,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.ExifInterface;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -42,6 +47,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -72,6 +79,7 @@ import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.fragment.StatesDialog;
 import com.pacifyr.client.home.PacifyrDashboardActivity;
 import com.pacifyr.client.home.WelcomeTourActivity;
+import com.pacifyr.client.home.account.AccountEditActivity;
 import com.pacifyr.client.model.Country;
 
 import com.pacifyr.client.model.ModelPacifyrDocuments;
@@ -651,28 +659,64 @@ public class RegisterActivity extends PacifyrActivity {
             public void onClick(DialogInterface dialog, int item) {
                 if (options[item].equals("Take Photo"))
                 {
-                    boolean checkPermission = Utility.checkPermission(RegisterActivity.this, "camera");
-                    if(checkPermission) {
+                    if (ActivityCompat.checkSelfPermission(RegisterActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(RegisterActivity.this);
+                        alertBuilder.setCancelable(true);
+                        alertBuilder.setTitle("Permission necessary");
+                        alertBuilder.setMessage("Camera permission is necessary");
+                        alertBuilder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+                            public void onClick(DialogInterface dialog, int which) {
+                                ActivityCompat.requestPermissions(RegisterActivity.this, new String[]{Manifest.permission.CAMERA}, REQUESTCODE_CAMERA_IMAGE);
+                            }
+                        });
+                        AlertDialog alert = alertBuilder.create();
+                        alert.show();
+
+                    }
+                    else
+                    {
                         new GligarPicker().requestCode(REQUESTCODE_CAMERA_IMAGE).disableCamera(false).cameraDirect(true).limit(1).withActivity(RegisterActivity.this).show();
+
                     }
                 }
                 else if (options[item].equals("Choose from Gallery"))
                 {
-                    boolean checkPermission = Utility.checkPermission(RegisterActivity.this, "gallery");
-                    if(checkPermission) {
-                        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-                        intent.addCategory(Intent.CATEGORY_OPENABLE);
-                        intent.setType("image/*");
-                        Uri pickerInitialUri=null;
-                        // Optionally, specify a URI for the file that should appear in the
-                        // system file picker when it loads.
-                        if (pickerInitialUri != null) {
-                            intent.putExtra(DocumentsContract.EXTRA_INITIAL_URI, pickerInitialUri);
+                    try {
+                        if (ActivityCompat.checkSelfPermission(RegisterActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                            AlertDialog.Builder alertBuilder = new AlertDialog.Builder(RegisterActivity.this);
+                            AlertDialog alert = null;
+                            alertBuilder.setCancelable(true);
+                            alertBuilder.setTitle("Permission necessary");
+                            alertBuilder.setMessage("External storage permission is necessary");
+                            AlertDialog finalAlert = alert;
+                            alertBuilder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+                                public void onClick(DialogInterface dialog, int which) {
+                                    finalAlert.dismiss();
+                                    ActivityCompat.requestPermissions(RegisterActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUESTCODE_GALLERY_IMAGE);
+                                }
+                            });
+
+                            alert = alertBuilder.create();
+                            alert.show();
+
+
+                        } else {
+                            Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                            intent.addCategory(Intent.CATEGORY_OPENABLE);
+                            intent.setType("image/*");
+                            Uri pickerInitialUri=null;
+                            // Optionally, specify a URI for the file that should appear in the
+                            // system file picker when it loads.
+                            if (pickerInitialUri != null) {
+                                intent.putExtra(DocumentsContract.EXTRA_INITIAL_URI, pickerInitialUri);
+                            }
+
+                            startActivityForResult(intent, REQUESTCODE_GALLERY_IMAGE);
                         }
-
-                        startActivityForResult(intent, REQUESTCODE_GALLERY_IMAGE);
-
-                        //  new GligarPicker().requestCode(REQUESTCODE_GALLERY_IMAGE).disableCamera(true).limit(1).withActivity(RegisterActivity.this).show();
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                 }
                 else if (options[item].equals("Cancel")) {
@@ -682,6 +726,58 @@ public class RegisterActivity extends PacifyrActivity {
         });
         builder.show();
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults)
+    {
+        switch (requestCode) {
+            case REQUESTCODE_GALLERY_IMAGE:
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                    intent.addCategory(Intent.CATEGORY_OPENABLE);
+                    intent.setType("image/*");
+                    Uri pickerInitialUri=null;
+                    // Optionally, specify a URI for the file that should appear in the
+                    // system file picker when it loads.
+                    if (pickerInitialUri != null) {
+                        intent.putExtra(DocumentsContract.EXTRA_INITIAL_URI, pickerInitialUri);
+                    }
+
+                    startActivityForResult(intent, REQUESTCODE_GALLERY_IMAGE);
+                } else {
+                    //do something like displaying a message that he didn`t allow the app to access gallery and you wont be able to let him select from gallery
+                }
+                break;
+
+            case REQUESTCODE_CAMERA_IMAGE:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    if (ContextCompat.checkSelfPermission(RegisterActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(RegisterActivity.this);
+                        alertBuilder.setCancelable(true);
+                        alertBuilder.setTitle("Permission necessary");
+                        alertBuilder.setMessage("External storage permission is necessary");
+                        alertBuilder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+                            public void onClick(DialogInterface dialog, int which) {
+                                ActivityCompat.requestPermissions(RegisterActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUESTCODE_CAMERA_IMAGE);
+                                dialog.cancel();
+                            }
+                        });
+                        AlertDialog alert = alertBuilder.create();
+                        alert.show();
+                    } else {
+                        new GligarPicker().requestCode(REQUESTCODE_CAMERA_IMAGE).disableCamera(false).cameraDirect(true).limit(1).withActivity(RegisterActivity.this).show();
+                    }
+
+
+
+                }
+                break;
+        }
+    }
+
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // super.onActivityResult(requestCode, resultCode, data);

@@ -35,6 +35,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -59,6 +60,7 @@ import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.model.ModelPacifyrDocuments;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
+import com.pacifyr.client.sign.RegisterActivity;
 import com.pacifyr.client.sign.UploadActivity;
 import com.pacifyr.client.utility.PacifyrAppCompactActivity;
 import com.pacifyr.client.utils.LogUtils;
@@ -96,6 +98,7 @@ import java.util.Map;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.pacifyr.client.sign.RegisterActivity.documentFileList;
+import static com.pacifyr.client.utils.Utility.MY_PERMISSIONS_REQUEST_CAMERA;
 import static com.pacifyr.client.utils.Utility.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
 
@@ -260,10 +263,27 @@ public class AccountEditActivity extends PacifyrAppCompactActivity {
             public void onClick(DialogInterface dialog, int item) {
                 if (options[item].equals("Take Photo"))
                 {
-                    boolean checkPermission = Utility.checkPermission(AccountEditActivity.this, "camera");
-                    if(checkPermission) {
-                        new GligarPicker().requestCode(REQUESTCODE_CAMERA_IMAGE).disableCamera(false).cameraDirect(true).limit(1).withActivity(AccountEditActivity.this).show();
+                    if (ActivityCompat.checkSelfPermission(AccountEditActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(AccountEditActivity.this);
+                        alertBuilder.setCancelable(true);
+                        alertBuilder.setTitle("Permission necessary");
+                        alertBuilder.setMessage("Camera permission is necessary");
+                        alertBuilder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+                            public void onClick(DialogInterface dialog, int which) {
+                                ActivityCompat.requestPermissions(AccountEditActivity.this, new String[]{Manifest.permission.CAMERA}, REQUESTCODE_CAMERA_IMAGE);
+                            }
+                        });
+                        AlertDialog alert = alertBuilder.create();
+                        alert.show();
+
                     }
+                    else
+                    {
+                        new GligarPicker().requestCode(REQUESTCODE_CAMERA_IMAGE).disableCamera(false).cameraDirect(true).limit(1).withActivity(AccountEditActivity.this).show();
+
+                    }
+
                 }
                 else if (options[item].equals("Choose from Gallery"))
                 {
@@ -331,6 +351,32 @@ public class AccountEditActivity extends PacifyrAppCompactActivity {
                     startActivityForResult(intent, REQUESTCODE_GALLERY_IMAGE);
                 } else {
                     //do something like displaying a message that he didn`t allow the app to access gallery and you wont be able to let him select from gallery
+                }
+                break;
+
+            case REQUESTCODE_CAMERA_IMAGE:
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    if (ContextCompat.checkSelfPermission(AccountEditActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(AccountEditActivity.this);
+                        alertBuilder.setCancelable(true);
+                        alertBuilder.setTitle("Permission necessary");
+                        alertBuilder.setMessage("External storage permission is necessary");
+                        alertBuilder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+                            public void onClick(DialogInterface dialog, int which) {
+                                ActivityCompat.requestPermissions(AccountEditActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUESTCODE_CAMERA_IMAGE);
+                                dialog.cancel();
+                            }
+                        });
+                        AlertDialog alert = alertBuilder.create();
+                        alert.show();
+                    } else {
+                        new GligarPicker().requestCode(REQUESTCODE_CAMERA_IMAGE).disableCamera(false).cameraDirect(true).limit(1).withActivity(AccountEditActivity.this).show();
+                    }
+
+
+
                 }
                 break;
         }
