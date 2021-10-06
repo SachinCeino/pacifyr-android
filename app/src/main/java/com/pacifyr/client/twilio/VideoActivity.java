@@ -206,6 +206,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
             IsacCodec.NAME, OpusCodec.NAME, PcmaCodec.NAME, PcmuCodec.NAME, G722Codec.NAME
     };
     private static final long PARTICIPANT_DISCONNECTED_DELAY = 2000;
+    private static MSessionDetailRoot mSessionDetailRoot;
 
 
     private String accessToken;
@@ -3207,8 +3208,8 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
 
             if (isProviderConnected) {
                 if (SessionId != null) {
-                    if (!isFromProviderStopCall)
-                    stopSessionWeb(SessionId);
+                    /*if (!isFromProviderStopCall)
+                    stopSessionWeb(SessionId);*/
                 }
             } else {
                 if (SessionId != null&&!sessionDeclainedByProvider) {
