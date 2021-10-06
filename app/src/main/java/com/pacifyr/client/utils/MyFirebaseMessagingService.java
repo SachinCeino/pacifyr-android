@@ -493,7 +493,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
         else {
             boolean isNeedToOpenAppointments=false;
-            if (actualType.equals("confirmBooking") ||actualType.equalsIgnoreCase("rejectBooking")) {
+            if (actualType.equals("confirmBooking") ||actualType.equalsIgnoreCase("rejectBooking")||actualType.equals("reminder")) {
                 isNeedToOpenAppointments=true;
             }
 
