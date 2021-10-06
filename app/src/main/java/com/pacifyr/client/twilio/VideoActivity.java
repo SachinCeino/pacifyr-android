@@ -3208,8 +3208,11 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
 
             if (isProviderConnected) {
                 if (SessionId != null) {
-                    /*if (!isFromProviderStopCall)
-                    stopSessionWeb(SessionId);*/
+                    if (!isFromProviderStopCall){
+                        if (!hasBillingStarted())
+                            stopSessionWeb(SessionId);
+                    }
+
                 }
             } else {
                 if (SessionId != null&&!sessionDeclainedByProvider) {
