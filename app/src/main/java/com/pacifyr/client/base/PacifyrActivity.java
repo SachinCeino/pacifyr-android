@@ -879,11 +879,12 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                 e.printStackTrace();
             }
         }
+        //comment
         dialog = new iOSDialogBuilder(PacifyrActivity.this)
                 .setTitle(title)
                 .setSubtitle(subTitle)
                 .setBoldPositiveLabel(false)
-                .setCancelable(true)
+                .setCancelable(false)
                 .setPositiveListener(okLabel, listener)
                 .build();
         try {
@@ -959,11 +960,12 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                 e.printStackTrace();
             }
         }
+        ////comment
         dialog = new iOSDialogBuilder(this)
                 .setTitle(title)
                 .setSubtitle(subTitle)
                 .setBoldPositiveLabel(false)
-                .setCancelable(true)
+                .setCancelable(false)
                 .setPositiveListener(okLabel, listener)
                 .setNegativeListener(negativeLabel, new iOSDialogClickListener() {
                     @Override

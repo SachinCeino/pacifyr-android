@@ -1868,6 +1868,22 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                                             }
                                         });
                                     }
+                                    ////comment
+
+                                    showIOSDialogOK("", getString(R.string.your_monthly_session_expired), getString(R.string.dlg_ok), false, new iOSDialogClickListener() {
+                                        @Override
+                                        public void onClick(iOSDialog dialog) {
+                                            dialog.dismiss();
+                                            button_hangup_call.performClick();
+                                        }
+                                    });
+                                    new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            button_hangup_call.performClick();
+
+                                        }
+                                    }, 4000);
                                 }
                                 else {
 
@@ -2022,9 +2038,10 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                                     dialog.dismiss();
                                     //Toast.makeText(PacifyrActivity.this,"Clicked!",Toast.LENGTH_LONG).show();
                                     if (isValid(SessionId)) {
+////comment
 
-                                        if (isValid(CallActivity.mSessionDetailRoot) && isValid(CallActivity.mSessionDetailRoot.getPacifyr()) &&
-                                                isValid(CallActivity.mSessionDetailRoot.getPacifyr().getPrice())) {
+                                        if (isValid(VideoActivity.mSessionDetailRoot) && isValid(VideoActivity.mSessionDetailRoot.getPacifyr()) &&
+                                                isValid(VideoActivity.mSessionDetailRoot.getPacifyr().getPrice())) {
                                             String tempSessionId = SessionId;
                                             if (errorCount != 0)
                                                 tempSessionId = tempSessionId + "_" + errorCount;
@@ -3206,12 +3223,11 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
                 }
             }
 
+            ////comment
             if (isProviderConnected) {
                 if (SessionId != null) {
                     if (!isFromProviderStopCall){
-                        if (!hasBillingStarted()) {
-                            stopSessionWeb(SessionId);
-                        }
+                        stopSessionWeb(SessionId);
                     }
 
                 }
