@@ -985,6 +985,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                     else {
                         try {
                             VideoActivity.mSessionDetailRoot= GsonUtils.getInstance().gsonToMSessionDetailRoot(json);
+                            CallActivity.mSessionDetailRoot= GsonUtils.getInstance().gsonToMSessionDetailRoot(json);
                             if (isValid(VideoActivity.mSessionDetailRoot.isBilledSession())&&
                                     VideoActivity.mSessionDetailRoot.isBilledSession()) {
                                 setBillingStarted(true);
@@ -4067,7 +4068,7 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
                     @Override
                     public void onClick(iOSDialog dialog) {
                         dialog.dismiss();
-                        ShowTransactionFaileToUSer("Add payment cancelled");
+                        ShowTransactionFaileToUSer("Add  canpaymentcelled");
                         dialog.dismiss();
                     }
                 }, new iOSDialogClickListener() {
