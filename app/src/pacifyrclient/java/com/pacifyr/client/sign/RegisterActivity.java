@@ -689,11 +689,10 @@ public class RegisterActivity extends PacifyrActivity {
                             alertBuilder.setCancelable(true);
                             alertBuilder.setTitle("Permission necessary");
                             alertBuilder.setMessage("External storage permission is necessary");
-                            AlertDialog finalAlert = alert;
                             alertBuilder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
                                 public void onClick(DialogInterface dialog, int which) {
-                                    finalAlert.dismiss();
+                                    dialog.dismiss();
                                     ActivityCompat.requestPermissions(RegisterActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUESTCODE_GALLERY_IMAGE);
                                 }
                             });
