@@ -4068,7 +4068,7 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
                     @Override
                     public void onClick(iOSDialog dialog) {
                         dialog.dismiss();
-                        ShowTransactionFaileToUSer("Add  canpaymentcelled");
+                        ShowTransactionFaileToUSer("Add payment cancelled");
                         dialog.dismiss();
                     }
                 }, new iOSDialogClickListener() {
