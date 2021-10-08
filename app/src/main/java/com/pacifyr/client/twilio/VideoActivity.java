@@ -338,6 +338,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
         }
     };
 
+    public static long WalletBalnce=0;
     public void checkEmpAvailableMinutes() {
 
             if (NetworkService.mCurrentUser == null) {
@@ -347,7 +348,12 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
             float WalletBalance_minutes;
             if (getPrefManager().getCountry().equals("US"))
             {
-                if (isValid(NetworkService.mCurrentUser.getWalletBalance()))
+                if (isValid(WalletBalnce)&&WalletBalnce!=0)
+                {
+                    float minuts= WalletBalnce;
+                    freeMinutes = (long) minuts;
+                }
+                else if (isValid(NetworkService.mCurrentUser.getWalletBalance()))
                 {
                     WalletBalance_minutes = (NetworkService.mCurrentUser.getWalletBalance() / Float.parseFloat(getCallPacifyr().getPrice())) * 60;
                     freeMinutes = (long) (freeMinutes + WalletBalance_minutes);
@@ -364,6 +370,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                     @Override
                     public void onTick(long millisUntilFinished) {
                         long minutesLeft = millisUntilFinished / (60 * 1000);
+                        WalletBalnce=minutesLeft;
                         if (millisUntilFinished<=60000)
                             minutesLeft=0;
 
@@ -1001,8 +1008,8 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                                     empMinutesListener=null;
                                 }
                                 try {
-                                    stopTimer();
-                                    startTimer();
+                                   /* stopTimer();
+                                    startTimer();*/
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
@@ -1570,7 +1577,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                 createAudioAndVideoTracks();
 
             }
-
+            getCurrentUserProfileInfo();
             intializeUI();
             connectToRoom(roomName);
 
@@ -3217,6 +3224,7 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
         LogUtils.LOGD("call","hangUpCurrentSession");
         stopSessionTracking();
         //jpppppppppppppp
+        WalletBalnce=0;
         try {
             LogUtils.LOGD("call","CA hangUpCurrentSessionMe sessionid"+SessionId);
             if(isOpponentConnected())
@@ -3432,7 +3440,7 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
                         startSessionWeb(roomName, room.getSid(), pacifyerDetial, isVideoCall, timeSlotBookingId);
 
                     } else {
-                        getCurrentUserProfileInfo();
+                      //  getCurrentUserProfileInfo();
                     }
 
 
@@ -3725,7 +3733,7 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
                 webGetSessionDetail(SessionId);
             }
 
-            getCurrentUserProfileInfo();
+
             if (!isProviderConnected && !ErrorConnectingProvider && !isRejoining) {
                 setAlertPacifyrWillJoinShortly("", getResources().getString(R.string.provider_will_join_shortly), "Ok", new View.OnClickListener() {
                     @Override

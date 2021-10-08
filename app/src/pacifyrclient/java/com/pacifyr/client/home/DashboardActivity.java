@@ -289,6 +289,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity{
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        VideoActivity.WalletBalnce=0;
         /*if (isValid(appUpdater))
         {
             appUpdater.stop();
