@@ -1118,7 +1118,7 @@ public class ConnectToPacifyrActivity extends PacifyrAppCompactActivity implemen
     @Override
     protected void onResume() {
         super.onResume();
-        LocalBroadcastManager.getInstance(this).registerReceiver(notificationReceiver, new IntentFilter(NotificationUtils.NOTIFY_INTENT));
+        LocalBroadcastManager.getInstance(this).registerReceiver(notificationReceiver, new IntentFilter(NotificationUtils.NOTIFY_INTENT_FOR_NEW_CHAT));
         if (swipeDeck.getVisibility()==View.VISIBLE && listPacifyrRlay.getVisibility()==View.VISIBLE)
         {
             morePacifyrsRlay.setVisibility(View.VISIBLE);

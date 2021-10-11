@@ -290,8 +290,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                                             }, 10000);
                                         }
                                     }
-                                } else if (actual_type.equalsIgnoreCase("chat")
-                                        ||actual_type.equalsIgnoreCase("confirmBooking") || actual_type.equalsIgnoreCase("rejectBooking")) {
+                                } else if (actual_type.equalsIgnoreCase("confirmBooking") || actual_type.equalsIgnoreCase("rejectBooking")) {
                                     Intent intent = new Intent(NotificationUtils.NOTIFY_INTENT);
                                     intent.putExtra("type", actual_type);
                                     intent.putExtra("message", message);
@@ -344,14 +343,19 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                                     LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
                                 }
 
-                                else if (actual_type.equalsIgnoreCase("chat")
-                                        ||actual_type.equalsIgnoreCase("confirmBooking")
+                                else if (actual_type.equalsIgnoreCase("confirmBooking")
                                         || actual_type.equalsIgnoreCase("rejectBooking")
                                         || actual_type.equalsIgnoreCase("reminder")) {
                                     Intent intent = new Intent(NotificationUtils.NOTIFY_INTENT);
                                     intent.putExtra("type", actual_type);
                                     intent.putExtra("message", message);
                                     LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+                                }
+                                else if (actual_type != null && actual_type.equals("chat")) {
+                                    Intent intent1 = new Intent(NotificationUtils.NOTIFY_INTENT_FOR_NEW_CHAT);
+                                    intent1.putExtra("type", actual_type);
+                                    intent1.putExtra("message", message);
+                                    LocalBroadcastManager.getInstance(context).sendBroadcast(intent1);
                                 }
 
                             }

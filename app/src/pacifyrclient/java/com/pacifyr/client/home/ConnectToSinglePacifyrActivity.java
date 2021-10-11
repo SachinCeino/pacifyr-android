@@ -420,7 +420,7 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
     protected void onResume() {
         super.onResume();
         try {
-            LocalBroadcastManager.getInstance(this).registerReceiver(notificationReceiver, new IntentFilter(NotificationUtils.NOTIFY_INTENT));
+            LocalBroadcastManager.getInstance(this).registerReceiver(notificationReceiver, new IntentFilter(NotificationUtils.NOTIFY_INTENT_FOR_NEW_CHAT));
             /** refresh pacifyr object**/
             /**
              * here we are checking the pacifyrs are status online or offline  **/

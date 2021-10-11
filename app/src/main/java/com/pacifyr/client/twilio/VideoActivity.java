@@ -1173,6 +1173,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
         LocalBroadcastManager.getInstance(this).registerReceiver(stripeCardAddWhileCall, new IntentFilter(STRIPCARD_ADDED_WHILE_CALL));
         LocalBroadcastManager.getInstance(this).registerReceiver(notificationReceiver, new IntentFilter(NotificationUtils.NOTIFY_INTENT));
 
+
         audioCodec = getAudioCodecPreference(PREF_AUDIO_CODEC,
                 PREF_AUDIO_CODEC_DEFAULT);
         videoCodec = getVideoCodecPreference(PREF_VIDEO_CODEC,
@@ -1281,6 +1282,8 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
         configureAudio(false);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(sessionDeclainedReceiver);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(sessionDeclainedWaitng);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(notificationReceiver_for_new_chat);
+
         EventBus.getDefault().post(Constants.DestroySubScreenAfterEndCall);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(stripeCardAddWhileCall);
         unregisterReceiver(mEarPhoneChanges);
@@ -1390,6 +1393,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         try {
             EventBus.getDefault().register(this);
+            LocalBroadcastManager.getInstance(this).registerReceiver(notificationReceiver_for_new_chat, new IntentFilter(NotificationUtils.NOTIFY_INTENT_FOR_NEW_CHAT));
 
             mEarPhoneChanges = new EarPhoneChanges();
             IntentFilter filter = new IntentFilter(Intent.ACTION_HEADSET_PLUG);
@@ -3992,6 +3996,23 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
         }
     }
     private int messageCountIncomming=0;
+    private final BroadcastReceiver notificationReceiver_for_new_chat = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent != null && intent.hasExtra("message")) {
+                String message = intent.getExtras().getString("message");
+                String type = intent.getExtras().getString("type");
+                if (message != null && message != "") {
+                    if (type.equals("chat")) {
+                        messageCountIncomming++;
+                        if (messageCountIncomming>=1)
+                            messageCount.setText(messageCountIncomming+"");
+                        messageCount.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+        }
+    };
     private final BroadcastReceiver notificationReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {

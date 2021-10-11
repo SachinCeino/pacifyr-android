@@ -510,7 +510,7 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
     protected void onResume() {
         super.onResume();
         handleActionProfile(userID);
-        LocalBroadcastManager.getInstance(this).registerReceiver(notificationReceiver, new IntentFilter(NotificationUtils.NOTIFY_INTENT));
+        LocalBroadcastManager.getInstance(this).registerReceiver(notificationReceiver, new IntentFilter(NotificationUtils.NOTIFY_INTENT_FOR_NEW_CHAT));
 
     }
 
