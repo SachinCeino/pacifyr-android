@@ -4088,7 +4088,8 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
                             String tempSessionId = SessionId;
                             if (errorCount != 0)
                                 tempSessionId = tempSessionId + "_" + errorCount;
-                            generateCheckSum(true, tempSessionId, Integer.parseInt(VideoActivity.mSessionDetailRoot.getPacifyr().getPrice()),true);
+                           float amount=Integer.parseInt(VideoActivity.mSessionDetailRoot.getPacifyr().getPrice())/2;//deducting half amount for extension  becouse its extending only for half hours
+                            generateCheckSum(true, tempSessionId,Math.round(amount) ,true);
                         }
                     }
                 });
