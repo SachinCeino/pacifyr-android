@@ -4236,6 +4236,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
         /**split values **/
         txnAmount = inResponse.getString("TXNAMOUNT");
         try{
+            sessionid=sessionid.substring(0, sessionid.length() - 2);
             String url = NetworkService.GLOBAL_URL+"session/"+sessionid+"/extend/paymentSucceeded";
             PrefManager prefM = PrefManager.getInstance(PacifyrActivity.this);
             String token = prefM.getAccessToken();

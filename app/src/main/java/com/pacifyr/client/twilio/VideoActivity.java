@@ -1333,6 +1333,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         isScreenActive=false;
         EventBus.getDefault().post(Constants.CLOSE_CHAT_ACTIVITY);
+        errorCount=0;
         super.onDestroy();
     }
 
@@ -2072,6 +2073,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                                         if (isValid(VideoActivity.mSessionDetailRoot) && isValid(VideoActivity.mSessionDetailRoot.getPacifyr()) &&
                                                 isValid(VideoActivity.mSessionDetailRoot.getPacifyr().getPrice())) {
                                             String tempSessionId = SessionId;
+                                            sessionid=SessionId;
                                             if (errorCount != 0)
                                                 tempSessionId = tempSessionId + "_" + errorCount;
                                             generateCheckSum(true, tempSessionId, Integer.parseInt(VideoActivity.mSessionDetailRoot.getPacifyr().getPrice()),false);
@@ -4107,6 +4109,7 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
                         if (isValid(VideoActivity.mSessionDetailRoot) && isValid(VideoActivity.mSessionDetailRoot.getPacifyr()) &&
                                 isValid(VideoActivity.mSessionDetailRoot.getPacifyr().getPrice())) {
                             String tempSessionId = SessionId;
+                            errorCount++;
                             if (errorCount != 0)
                                 tempSessionId = tempSessionId + "_" + errorCount;
                            float amount=Integer.parseInt(VideoActivity.mSessionDetailRoot.getPacifyr().getPrice())/2;//deducting half amount for extension  becouse its extending only for half hours
