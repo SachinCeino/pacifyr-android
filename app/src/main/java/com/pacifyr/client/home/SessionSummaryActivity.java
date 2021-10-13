@@ -259,6 +259,7 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
         pacifyrRateCtxv = findViewById(R.id.pacifyr_rate_ctxv);
         durationCtxv = findViewById(R.id.duration_ctxv);
         comments_cedt = findViewById(R.id.comments_cedt);
+        comments_cedt.setVisibility(View.INVISIBLE);
 
         rating_bar = findViewById(R.id.rating_bar);
         //rating_bar = (RatingBar) findViewById(R.id.rating_bar);
@@ -992,7 +993,7 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
         }
         //  finish();
 
-        setLoading();
+        setLoading("Saving...");
         showProgress();
 
         AjaxCallback cb = new AjaxCallback<JSONObject>() {
@@ -1004,7 +1005,7 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
                         PacifyrActivity.sessionid = null;
                         hideProgress();
                     }
-                }, 1000);
+                }, 2000);
                 DashboardActivity.sessioSummaryPageShown=false;
                 if (isPacifyer())
                     PacifyrDashboardActivity.start(SessionSummaryActivity.this);
@@ -1042,7 +1043,10 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
         @Override
         public void CommentCliked(MComments mComments) {
             if (isValid(comments_cedt)) {
-                comments_cedt.setVisibility(mComments.isSelected ? View.VISIBLE : View.GONE);
+                if (!mComments.item.equalsIgnoreCase("other"))
+                    comments_cedt.setVisibility(View.GONE);
+                else
+                    comments_cedt.setVisibility(mComments.isSelected ? View.VISIBLE : View.GONE);
                 if (!comments_cedt.isShown()) {
                     comments_cedt.setText("");
                 }

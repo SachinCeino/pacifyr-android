@@ -1015,7 +1015,7 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
             if (!isValid(mSessionRating, "Error , Please Re-Login"))
                 return;
 
-            setLoading();
+            setLoading("Saving...");
             showProgress();
 
             AjaxCallback cb = new AjaxCallback<JSONObject>() {
@@ -1035,7 +1035,7 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
                                 hideProgress();
                                 finish();
                             }
-                        }, 1000);
+                        }, 2000);
 
 
                     } catch (Exception e) {
