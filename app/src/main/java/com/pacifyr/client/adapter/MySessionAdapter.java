@@ -332,12 +332,12 @@ public class MySessionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     if (position > firstValidSessionPos || !firstItemEditable) {
                         editable = false;
                     }
+                    String sessionID = null;
                     try {
-                            String sessionID = results.getId();
+                        sessionID = results.getId();
                         LastSessionActivity.start(context, sessionID, editable);
-                    }
-                    catch (Exception ex)
-                    {
+                    } catch (Exception ex) {
+                        LastSessionActivity.startNew(context, sessionID, editable);
                         ex.printStackTrace();
                     }
                 }

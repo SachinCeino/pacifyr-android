@@ -245,7 +245,20 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
         context.startActivity(intent);
     }
 
+ public static void startNew(Context context, String sessionID, boolean editable) {
+        if (!isValidStatic(sessionID)) {
+            Log.e(TAG, "Invalid session Id. Cannot start session summary activity");
+            return;
+        }
+        Intent intent = new Intent(context, LastSessionActivity.class);
+       intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra("id", sessionID);
+        intent.putExtra("editable", editable);
+        LastSessionActivity.isAudioCall = true;
+        mysessions = true;
 
+        context.startActivity(intent);
+    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

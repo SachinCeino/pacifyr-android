@@ -15,281 +15,308 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/include">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/grey_background"
-            android:id="@+id/my_sessions_top_llay"
-            android:orientation="vertical">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="55dp">
-
-                <com.pacifyr.client.customview.MainTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:id="@+id/this_wk_ctxv"
-                    android:gravity="center"
-                    android:padding="15dp"
-                    android:background="@drawable/blue_line_bottom"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/blue_pacifyr"
-                    android:layout_alignParentLeft="true"
-                    android:text="Weekly"/>
-
-                <com.pacifyr.client.customview.MainTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/this_mnt_ctxv"
-                    android:gravity="center"
-                    android:padding="15dp"
-                    android:textStyle="bold"
-                    android:textColor="@color/grey_hex_c7"
-                    android:textSize="18sp"
-                    android:layout_centerHorizontal="true"
-                    android:text="Monthly"/>
-
-                <com.pacifyr.client.customview.MainTextView
-                    android:layout_width="wrap_content"
-                    android:gravity="center"
-                    android:textStyle="bold"
-                    android:textColor="@color/grey_hex_c7"
-                    android:padding="15dp"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/this_year_ctxv"
-                    android:textSize="18sp"
-                    android:layout_alignParentRight="true"
-                    android:text="Yearly"/>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_alignParentBottom="true"
-                    android:background="@color/grey_hex_e6"/>
-
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:background="#F0F3F5"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_marginLeft="3dp"
-                    android:visibility="gone"
-                    android:src="@drawable/ic_arrow_back"
-                    android:layout_centerVertical="true"/>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/date_list_rcv"/>
-
-                <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_centerVertical="true"
-                    android:visibility="gone"
-                    android:layout_marginRight="3dp"
-                    android:src="@drawable/ic_arrow_forword"
-                    android:layout_alignParentRight="true"/>
-
-            </RelativeLayout>
-
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:background="@color/grey_hex_e6"/>
-
-
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/upper_rlay"
-                android:padding="5dp"
-                android:background="#F0F3F5">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:gravity="center"
-                    android:padding="10dp"
-                    android:orientation="vertical">
-
-                    <com.pacifyr.client.customview.MainTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="25sp"
-                        android:id="@+id/session_no_ctxv"
-                        android:textColor="@color/grey_dark_text"
-                        android:textStyle="bold"
-                        android:text="00"/>
-
-                    <com.pacifyr.client.customview.MainTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="17sp"
-                        android:textColor="@color/grey_dark_text"
-                        android:text="@string/sessionS"/>
-
-
-                </LinearLayout>
-
-
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:gravity="center"
-                    android:padding="10dp"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <com.pacifyr.client.customview.MainTextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="25sp"
-                            android:id="@+id/hours_no_ctxv"
-                            android:textColor="@color/grey_dark_text"
-                            android:textStyle="bold"
-                            android:text="00"/>
-
-                        <com.pacifyr.client.customview.MainTextView
-                            android:layout_width="wrap_content"
-                            android:textColor="@color/grey_dark_text"
-                            android:layout_height="wrap_content"
-                            android:textSize="17sp"
-                            android:text="@string/hrs"/>
-
-                    </LinearLayout>
-
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <com.pacifyr.client.customview.MainTextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="25sp"
-                            android:id="@+id/minutes_no_ctxv"
-                            android:textColor="@color/grey_dark_text"
-                            android:textStyle="bold"
-                            android:text="00"/>
-
-                        <com.pacifyr.client.customview.MainTextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="17sp"
-                            android:textColor="@color/grey_dark_text"
-                            android:text="@string/mns"/>
-
-                    </LinearLayout>
-
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:gravity="center"
-                    android:padding="10dp"
-                    android:layout_marginRight="15dp"
-                    android:orientation="vertical">
-
-                    <com.pacifyr.client.customview.MainTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="24sp"
-                        android:textColor="@color/grey_dark_text"
-                        android:textStyle="bold"
-                        android:id="@+id/earnings_no_ctxv"
-                        android:text="00"/>
-
-                    <com.pacifyr.client.customview.MainTextView
-                        android:layout_width="wrap_content"
-                        android:layout_marginTop="1dp"
-                        android:layout_height="wrap_content"
-                        android:textSize="18sp"
-                        android:textColor="@color/grey_dark_text"
-                        android:text="@string/paid"/>
-
-
-                </LinearLayout>
-
-
-            </RelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:background="@color/grey_hex_e6"/>
-
-
-
-
-
-
-
-
-        </LinearLayout>
-
-        <com.pacifyr.client.customview.MainTextView
+        <FrameLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/no_data_ctxv"
-            android:textSize="20dp"
-            android:textColor="@color/black"
-            android:visibility="gone"
-            android:text=""
-            android:gravity="center"/>
+            tools:context="com.pacifyr.client.fragment.MySessionFragment">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:layout_below="@+id/my_sessions_top_llay"
-            android:id="@+id/week_sessions_rcv">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-        </androidx.recyclerview.widget.RecyclerView>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/bg_gray"
+                    android:id="@+id/my_sessions_top_llay"
+                    android:orientation="vertical">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:background="@color/white"
-            android:layout_below="@+id/my_sessions_top_llay"
-            android:id="@+id/month_sessions_rcv">
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:id="@+id/tab_rlay"
+                        android:layout_height="wrap_content"
+                        android:weightSum="3">
 
-        </androidx.recyclerview.widget.RecyclerView>
+                        <com.pacifyr.client.customview.MainTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/blue_line_bottom"
+                            android:textSize="18sp"
+                            android:id="@+id/this_wk_ctxv"
+                            android:padding="15dp"
+                            android:textColor="@color/blue_pacifyr"
+                            android:text="Weekly"
+                            android:gravity="center"
+                            android:layout_gravity="left|center_vertical" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:background="@color/white"
-            android:layout_below="@+id/my_sessions_top_llay"
-            android:id="@+id/year_sessions_rcv">
+                        <com.pacifyr.client.customview.MainTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="Monthly"
+                            android:padding="15dp"
+                            android:textStyle="bold"
+                            android:id="@+id/this_mnt_ctxv"
+                            android:background="@color/bg_gray"
+                            android:textColor="@color/grey_hex_c7"
+                            android:textSize="18sp"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:layout_weight="1" />
 
-        </androidx.recyclerview.widget.RecyclerView>
+                        <com.pacifyr.client.customview.MainTextView
+                            android:text="Yearly"
+                            android:layout_width="0dp"
+                            android:gravity="center"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:background="@color/bg_gray"
+                            android:id="@+id/this_year_ctxv"
+                            android:textColor="@color/grey_hex_c7"
+                            android:padding="15dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_gravity="right|center_vertical" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:background="@color/grey_hex_e6"/>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:visibility="gone"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_marginLeft="3dp"
+                            android:src="@drawable/ic_arrow_back"
+                            android:layout_centerVertical="true"/>
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/date_list_rcv"/>
+
+                        <ImageView
+                            android:visibility="gone"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="3dp"
+                            android:src="@drawable/ic_arrow_forword"
+                            android:layout_alignParentRight="true"/>
+
+                    </RelativeLayout>
+                    <!--<androidx.recyclerview.widget.RecyclerView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/date_list_rcv"/>-->
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:background="@color/grey_hex_e6"/>
+
+
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/upper_rlay"
+                        android:padding="5dp"
+                        android:background="#F0F3F5">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:gravity="center"
+                            android:padding="10dp"
+                            android:orientation="vertical">
+
+                            <com.pacifyr.client.customview.MainTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="25sp"
+                                android:id="@+id/session_no_ctxv"
+                                android:textColor="@color/grey_dark_text"
+                                android:textStyle="bold"
+                                android:text="00"/>
+
+                            <com.pacifyr.client.customview.MainTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="17sp"
+                                android:textColor="@color/grey_dark_text"
+                                android:text="@string/sessionS"/>
+
+
+                        </LinearLayout>
+
+
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:gravity="center"
+                            android:padding="10dp"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:orientation="vertical">
+
+                                <com.pacifyr.client.customview.MainTextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="25sp"
+                                    android:id="@+id/hours_no_ctxv"
+                                    android:textColor="@color/grey_dark_text"
+                                    android:textStyle="bold"
+                                    android:text="00"/>
+
+                                <com.pacifyr.client.customview.MainTextView
+                                    android:layout_width="wrap_content"
+                                    android:textColor="@color/grey_dark_text"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="17sp"
+                                    android:text="HRS" />
+
+                            </LinearLayout>
+
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:gravity="center"
+                                android:orientation="vertical">
+
+                                <com.pacifyr.client.customview.MainTextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="25sp"
+                                    android:id="@+id/minutes_no_ctxv"
+                                    android:textColor="@color/grey_dark_text"
+                                    android:textStyle="bold"
+                                    android:text="00"/>
+
+                                <com.pacifyr.client.customview.MainTextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="17sp"
+                                    android:textColor="@color/grey_dark_text"
+                                    android:text="MINS" />
+
+                            </LinearLayout>
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:gravity="center"
+                            android:padding="10dp"
+                            android:orientation="vertical">
+
+                            <com.pacifyr.client.customview.MainTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="25sp"
+                                android:textColor="@color/grey_dark_text"
+                                android:textStyle="bold"
+                                android:id="@+id/earnings_no_ctxv"
+                                android:text="00"/>
+
+                            <com.pacifyr.client.customview.MainTextView
+                                android:layout_width="wrap_content"
+                                android:layout_marginTop="1dp"
+                                android:layout_height="wrap_content"
+                                android:textSize="17sp"
+                                android:textColor="@color/grey_dark_text"
+                                android:text="PAID" />
+
+
+                        </LinearLayout>
+
+
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:background="@color/grey_hex_e6"/>
+
+
+
+                </LinearLayout>
+
+                <com.pacifyr.client.customview.MainTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/no_data_ctxv"
+                    android:textSize="20dp"
+                    android:textColor="@color/black"
+                    android:visibility="gone"
+                    android:text=""
+                    android:gravity="center"/>
+
+                <androidx.core.widget.NestedScrollView
+                    android:id="@+id/nestedscrollView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_below="@+id/my_sessions_top_llay"
+                    android:background="@color/white"
+                    android:scrollbars="none">
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/my_sessions_rcv">
+
+                        </androidx.recyclerview.widget.RecyclerView>
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"
+                            android:id="@+id/month_sessions_rcv">
+
+                        </androidx.recyclerview.widget.RecyclerView>
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"
+                            android:id="@+id/year_sessions_rcv">
+
+                        </androidx.recyclerview.widget.RecyclerView>
+                    </RelativeLayout>
+                </androidx.core.widget.NestedScrollView>
+            </RelativeLayout>
+
+        </FrameLayout>
+
+
+
 
     </RelativeLayout>
 
