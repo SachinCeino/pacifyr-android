@@ -168,6 +168,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.webrtc.voiceengine.WebRtcAudioUtils;
 
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
@@ -1494,6 +1495,20 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                     ringtonePlayer.play(true);
                 }
             }, 1000);*/
+
+            // Use software AEC
+/* AEC has a [known bug](https://bugs.chromium.org/p/webrtc/issues/detail?id=10386#c1)
+that we have filed that causes the microphone to be muted system wide.
+If this hasn't been fixed on Android Q, please set this to false.
+*/
+            WebRtcAudioUtils.setWebRtcBasedAcousticEchoCanceler(true);
+
+// Use sofware NS
+            WebRtcAudioUtils.setWebRtcBasedNoiseSuppressor(true);
+
+// Use software AGC
+            WebRtcAudioUtils.setWebRtcBasedAutomaticGainControl(true);
+
             if (isValid(getIntent())) {
                 if (isValid(getIntent().getExtras())) {
                     accessToken = getIntent().getExtras().getString("accessToken");
@@ -2144,55 +2159,45 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
 
     private void setUpRealTimeDataBaseEvents() {
 
-        if (!isValid(SessionId))
-            return;
+        try {
+            if (!isValid(SessionId))
+                return;
 
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        /*db.collection("sessions").document(sessionid).get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                DocumentSnapshot document = task.getResult();
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            db.collection("sessions").document(SessionId).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                @Override
+                public void onEvent(@org.jetbrains.annotations.Nullable DocumentSnapshot documentSnapshot, @org.jetbrains.annotations.Nullable FirebaseFirestoreException e) {
 
+                    List<Map<String, Object>> mFireBaseEvents=null;
+                    if (documentSnapshot.exists()) {
 
+                        mFireBaseEvents = (List<Map<String, Object>>) documentSnapshot.get("events");
 
-            } else {
-                Log.d("FragNotif", "get failed with ", task.getException());
-            }
-        });*/
+                    }
 
-        db.collection("sessions").document(SessionId).addSnapshotListener(new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@org.jetbrains.annotations.Nullable DocumentSnapshot documentSnapshot, @org.jetbrains.annotations.Nullable FirebaseFirestoreException e) {
-
-                List<Map<String, Object>> mFireBaseEvents=null;
-                if (documentSnapshot.exists()) {
-
-                    mFireBaseEvents = (List<Map<String, Object>>) documentSnapshot.get("events");
-
-                }
-
-                if (isValidSize(mFireBaseEvents))
-                {
-                    if (isValid(mFireBaseEvents.get(mFireBaseEvents.size()-1)))
+                    if (isValidSize(mFireBaseEvents))
                     {
-                        Map<String, Object> mapObject=mFireBaseEvents.get(mFireBaseEvents.size()-1);
-                        String CurrentEvent="";
-                        String message="";
-                        String id="";
-                       try {
-                           CurrentEvent=mapObject.get("type").toString();
-                           message=mapObject.get("text").toString();
-                           id = mapObject.get("id").toString();
-                       }catch (Exception eqq)
-                       {
+                        if (isValid(mFireBaseEvents.get(mFireBaseEvents.size()-1)))
+                        {
+                            Map<String, Object> mapObject=mFireBaseEvents.get(mFireBaseEvents.size()-1);
+                            String CurrentEvent="";
+                            String message="";
+                            String id="";
+                            try {
+                                CurrentEvent=mapObject.get("type").toString();
+                                message=mapObject.get("text").toString();
+                                id = mapObject.get("id").toString();
+                            }catch (Exception eqq)
+                            {
 
-                       }
+                            }
 
-                        switch (CurrentEvent) {
-                            case "startbilling":
-                                System.out.println("startbilling");
-                                break;
-                            case "payment":
-                                System.out.println("payment");
+                            switch (CurrentEvent) {
+                                case "startbilling":
+                                    System.out.println("startbilling");
+                                    break;
+                                case "payment":
+                                    System.out.println("payment");
                               /*  if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.O || isAppIsInBackground(VideoActivity.this)) {
                                     showInternalNotification(message);
                                 }
@@ -2231,67 +2236,45 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                                         }
                                     }, 2000);
                                 }*/
-                                break;
-                            case "freeMinutesOver":
-                                System.out.println("freeMinutesOver");
-                                //showfreeMinutWarningPopup(message);
-                                break;
-                            case "cardSetup":
-                                System.out.println("cardSetup");
-                                //EventBus.getDefault().post(new UserDonePaytmEvent(message));
-                                break;
-                            case "paymentFailure":
-                                System.out.println("paymentFailure");
-                                //EventBus.getDefault().post(new UserPaytmFailed(message));
-                                break;
-                            case "sessionExtensionAccepted":
-                                System.out.println("sessionExtensionPaymentSucceeded");
-                                if (!isScreenActive) {
-                                    showInternalNotification(message);
-                                }
-                                showMessagesFromEvent(message,CurrentEvent);
-                                break;
-                            case "sessionWrapUp":
-                                System.out.println("sessionWrapUp");
-                                if (!isScreenActive) {
-                                    showInternalNotification(message);
-                                }
-                                showMessagesFromEvent(message,CurrentEvent);
-                                break;
-                            default:
-                                break;
+                                    break;
+                                case "freeMinutesOver":
+                                    System.out.println("freeMinutesOver");
+                                    //showfreeMinutWarningPopup(message);
+                                    break;
+                                case "cardSetup":
+                                    System.out.println("cardSetup");
+                                    //EventBus.getDefault().post(new UserDonePaytmEvent(message));
+                                    break;
+                                case "paymentFailure":
+                                    System.out.println("paymentFailure");
+                                    //EventBus.getDefault().post(new UserPaytmFailed(message));
+                                    break;
+                                case "sessionExtensionAccepted":
+                                    System.out.println("sessionExtensionPaymentSucceeded");
+                                    if (!isScreenActive) {
+                                        showInternalNotification(message);
+                                    }
+                                    showMessagesFromEvent(message,CurrentEvent);
+                                    break;
+                                case "sessionWrapUp":
+                                    System.out.println("sessionWrapUp");
+                                    if (!isScreenActive) {
+                                        showInternalNotification(message);
+                                    }
+                                    showMessagesFromEvent(message,CurrentEvent);
+                                    break;
+                                default:
+                                    break;
+                            }
                         }
                     }
                 }
-            }
-        });
+            });
 
-
-
-       /* FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("sessions").document(sessionid)
-                .get()
-                .addOnCompleteListener((OnCompleteListener<QuerySnapshot>) task -> {
-                    if (task.isSuccessful()) {
-
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            try {
-                                HashMap<String,Object> data = (HashMap<String, Object>) document.getData();
-                                String result = String.valueOf(data.get("events"));
-
-                            }catch (Exception e)
-                            {
-                                Log.w("TAG", "Error getting documents.", task.getException());
-                            }
-                        }
-                    } else {
-
-                        Log.w("TAG", "Error getting documents.", task.getException());
-                    }
-                });
-
-
-        */
+        }catch(Exception e)
+        {
+            Log.w("dataError",String.valueOf(e));
+        }
     }
 
 
