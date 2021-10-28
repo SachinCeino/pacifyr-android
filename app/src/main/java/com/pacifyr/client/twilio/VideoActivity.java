@@ -91,7 +91,6 @@ import com.pacifyr.client.event.PicInPic;
 import com.pacifyr.client.event.TwilioCallEvent;
 import com.pacifyr.client.fragment.PrescriptionWhileCallFragment;
 import com.pacifyr.client.home.CustomerDetailActivity;
-import com.pacifyr.client.home.LastSessionActivity;
 import com.pacifyr.client.interfaces.EmpMinutesListener;
 import com.pacifyr.client.model.CallStatus;
 import com.pacifyr.client.model.PrescriptionList;
@@ -99,17 +98,12 @@ import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.orginals.Auth;
 import com.pacifyr.client.quickblox.activities.CallActivity;
-import com.pacifyr.client.quickblox.activities.SettingsActivity;
-import com.pacifyr.client.quickblox.chat.ui.activity.AttachmentImageActivity;
-import com.pacifyr.client.quickblox.chat.ui.activity.ChatActivity;
-import com.pacifyr.client.quickblox.chat.ui.activity.DialogsActivity;
 import com.pacifyr.client.quickblox.utils.PermissionsChecker;
 import com.pacifyr.client.quickblox.utils.RingtonePlayer;
 import com.pacifyr.client.receiver.NotificationUtils;
 import com.pacifyr.client.utils.Constants;
 import com.pacifyr.client.utils.FirebaseLogging;
 import com.pacifyr.client.utils.LogUtils;
-import com.pacifyr.client.utils.SnackUtils;
 import com.pacifyr.client.utils.Utility;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.pacifyrapp.utilitylibrary.ToastHandler;
@@ -184,10 +178,8 @@ import kotlin.Unit;
 import static androidx.core.app.NotificationCompat.BADGE_ICON_SMALL;
 import static com.pacifyr.client.Payment.AlertAddCreditCardActivity.REQUEST_CODE_STRIPE_CARD;
 import static com.pacifyr.client.netconnectionlistener.ConnectionCheckBroadcast.CheckInternetConnection;
-import static com.pacifyr.client.network.NetworkService.GLOBAL_IMAGE_URL;
 import static com.pacifyr.client.network.NetworkService.isRelease;
 import static com.pacifyr.client.receiver.NotificationUtils.STRIPCARD_ADDED_WHILE_CALL;
-import static com.pacifyr.client.receiver.NotificationUtils.isAppIsInBackground;
 import static com.pacifyr.client.utils.Constants.getCountryChecks;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.isProd;
@@ -1387,6 +1379,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
     }
 
     private void createAudioAndVideoTracks() {
+       // troubleShootAudioSounds();
         // Share your microphone
         localAudioTrack = LocalAudioTrack.create(this, true, LOCAL_AUDIO_TRACK_NAME);
 
@@ -1400,6 +1393,19 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
             primaryVideoView.setMirror(true);
             localVideoTrack.addRenderer(primaryVideoView);
             localVideoView = primaryVideoView;
+        }
+    }
+
+    private void troubleShootAudioSounds() {
+        try {
+            WebRtcAudioUtils.setWebRtcBasedAcousticEchoCanceler(true);
+            WebRtcAudioUtils.setWebRtcBasedNoiseSuppressor(true);
+            WebRtcAudioUtils.setWebRtcBasedAutomaticGainControl(true);
+            tvi.webrtc.voiceengine.WebRtcAudioManager.setBlacklistDeviceForOpenSLESUsage(false);
+            tvi.webrtc.voiceengine.WebRtcAudioUtils.deviceIsBlacklistedForOpenSLESUsage();
+        }catch (Exception e)
+        {
+            Log.w("###TroubleShootAudio",String.valueOf(e));
         }
     }
 
@@ -1496,18 +1502,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                 }
             }, 1000);*/
 
-            // Use software AEC
-/* AEC has a [known bug](https://bugs.chromium.org/p/webrtc/issues/detail?id=10386#c1)
-that we have filed that causes the microphone to be muted system wide.
-If this hasn't been fixed on Android Q, please set this to false.
-*/
-            WebRtcAudioUtils.setWebRtcBasedAcousticEchoCanceler(true);
 
-// Use sofware NS
-            WebRtcAudioUtils.setWebRtcBasedNoiseSuppressor(true);
-
-// Use software AGC
-            WebRtcAudioUtils.setWebRtcBasedAutomaticGainControl(true);
 
             if (isValid(getIntent())) {
                 if (isValid(getIntent().getExtras())) {
@@ -3477,7 +3472,7 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
             if (isProviderConnected) {
                 if (SessionId != null) {
                     if (!isFromProviderStopCall){
-                        stopSessionWeb(SessionId);
+                        stopSessionWebFromHangUp(SessionId,room);
                     }
 
                 }
@@ -3487,12 +3482,8 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
                 }
                 else if (SessionId != null&&sessionDeclainedByProvider)
                 {
-                    stopSessionWeb(SessionId);
+                    stopSessionWebFromHangUp(SessionId, room);
                 }
-            }
-            if (isValid(room))
-            {
-                room.disconnect();
             }
             finish();
             isCallActive = false;

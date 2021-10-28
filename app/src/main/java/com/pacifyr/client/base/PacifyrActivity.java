@@ -19,7 +19,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Matrix;
-import android.media.AudioManager;
 import android.media.ExifInterface;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -38,7 +37,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -47,7 +45,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
-import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -108,14 +105,12 @@ import com.pacifyr.client.quickblox.App;
 import com.pacifyr.client.quickblox.activities.CallActivity;
 import com.pacifyr.client.quickblox.activities.PermissionsActivity;
 import com.pacifyr.client.quickblox.chat.ui.activity.ChatActivity;
-import com.pacifyr.client.quickblox.chat.ui.activity.DialogsActivity;
 import com.pacifyr.client.quickblox.chat.utils.chat.ChatHelper;
 import com.pacifyr.client.quickblox.chat.utils.qb.QbDialogHolder;
 import com.pacifyr.client.quickblox.services.CallService;
 import com.pacifyr.client.quickblox.util.QBResRequestExecutor;
 import com.pacifyr.client.quickblox.utils.Consts;
 import com.pacifyr.client.quickblox.utils.PermissionsChecker;
-import com.pacifyr.client.quickblox.utils.RingtonePlayer;
 import com.pacifyr.client.receiver.NotificationUtils;
 import com.pacifyr.client.sign.SignActivity;
 import com.pacifyr.client.twilio.TwilioAccessToken;
@@ -158,6 +153,7 @@ import com.stripe.android.Stripe;
 import com.stripe.android.TokenCallback;
 import com.stripe.android.model.Card;
 import com.stripe.android.model.Token;
+import com.twilio.video.Room;
 
 import org.greenrobot.eventbus.EventBus;
 import org.jetbrains.annotations.NotNull;
@@ -185,7 +181,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import static com.pacifyr.client.Payment.AlertAddCreditCardActivity.REQUEST_CODE_STRIPE_CARD;
 import static com.pacifyr.client.network.NetworkService.mCurrentUser;
 import static com.pacifyr.client.network.NetworkService.modelAllEmotions;
-import static com.pacifyr.client.network.NetworkService.modelCustomerDashboard2;
 import static com.pacifyr.client.twilio.VideoActivity.isCallActive;
 import static com.pacifyr.client.utils.Constants.getCountryChecks;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_IMAGE_URL;
@@ -2746,6 +2741,76 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
         }
     }
 */
+
+    public void stopSessionWebFromHangUp(String sessionid, Room room) {
+        isCallActive=false;
+        Log.d(TAG, "stopSessionWeb " + sessionid);
+        try {
+            //  ToastHandler.newInstance(PacifyrActivity.this).showToast("stopSessionWeb api called ");
+            LogUtils.LOGD("call", "stopSessionWeb getUserID "+ getUserID());
+            LogUtils.LOGD("call", "stopSessionWeb getAccessToken() "+getAccessToken());
+
+            if (!isValid(getAccessToken(),"Stop Session getAccessToken null")) {
+                handlerLogoutFinish("Session expired, please login");
+                return;
+            }
+            // return;
+          /*
+             if (!isValid(getUserID(),"Stop Session getUserID null"))
+                return;
+
+            LogUtils.LOGD("call", "stopSessionWeb oppenentid "+oppenentid);
+          if (!isValid(oppenentid,"Stop Session Oppenant id null "))
+                return;*/
+
+            AjaxCallback<JSONObject> cb = new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject json, AjaxStatus status) {
+
+                    //  SessionSummaryActivity.start(PacifyrActivity.this);
+                    if (isValid(room))
+                    {
+                        room.disconnect();
+                    }
+                    if (json == null) {
+
+
+                        //ToastHandler.newInstance(PacifyrActivity.this).showToast("Please Try again");
+                        LogUtils.LOGD("call", "stopSessionWeb json null ");
+                    } else {
+                        try {
+                            Bundle args =
+                                    FirebaseLogging.getConstantArgsLoggedIn(PacifyrActivity.this);
+                            args.putString(FirebaseLogging.EC, "stopSessionWeb");
+
+                            FirebaseLogging.sendLog(PacifyrActivity.this,
+                                    FirebaseLogging.EVENT_CALL_STARTED,
+                                    args);
+                            LogUtils.LOGD("call", "stopSessionWeb json  " + json);
+                        } catch (Exception e){
+                            //ToastHandler.newInstance(PacifyrActivity.this).showToast("Please Try again");
+                            LogUtils.LOGD("call", "stopSessionWeb exception : " + e.getMessage());
+                        }
+                    }
+                }
+            };
+            AQuery aq = new AQuery(this);
+
+            cb.header("AccessToken", getAccessToken());
+            cb.header("Content-Type", "application/json");
+
+            JSONObject input = new JSONObject();
+            // input.putOpt("userId", getUserID());
+            // input.putOpt("pacifyrId", oppenentid);
+            input.putOpt("id", sessionid);
+            aq.post(GLOBAL_URL + "session/stop", input, JSONObject.class, cb);
+            Log.d(TAG, "session/stop");
+        } catch (Exception e){
+            LogUtils.LOGD("call", "stopSessionWeb end exception : " + e.getMessage());
+        }
+    }
+
+
 
     public void stopSessionWeb( String sessionid) {
         isCallActive=false;
