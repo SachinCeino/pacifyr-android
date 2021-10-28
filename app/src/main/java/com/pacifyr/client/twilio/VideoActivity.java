@@ -3472,7 +3472,7 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
             if (isProviderConnected) {
                 if (SessionId != null) {
                     if (!isFromProviderStopCall){
-                        stopSessionWebFromHangUp(SessionId,room);
+                        stopSessionWeb(SessionId);
                     }
 
                 }
@@ -3482,8 +3482,12 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
                 }
                 else if (SessionId != null&&sessionDeclainedByProvider)
                 {
-                    stopSessionWebFromHangUp(SessionId, room);
+                    stopSessionWeb(SessionId);
                 }
+            }
+            if (isValid(room))
+            {
+                room.disconnect();
             }
             finish();
             isCallActive = false;
