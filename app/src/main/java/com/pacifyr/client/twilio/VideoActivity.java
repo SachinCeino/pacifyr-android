@@ -3628,25 +3628,32 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
 
 
             ConnectOptions connectOptions = null;
-            if (isVideoCall) {
-                connectOptions = new ConnectOptions.Builder(accessToken)
-                        .roomName(roomName)
-                        .audioTracks(Collections.singletonList(localAudioTrack))
-                        .videoTracks(Collections.singletonList(localVideoTrack))
-                        .dataTracks(Collections.singletonList(localDataTrack))
-                        .enableNetworkQuality(true)
-                        .networkQualityConfiguration(configuration)
-                        .build();
-            } else {
-                connectOptions = new ConnectOptions.Builder(accessToken)
-                        .roomName(roomName)
-                        .audioTracks(Collections.singletonList(localAudioTrack))
-                        .dataTracks(Collections.singletonList(localDataTrack))
-                        .enableNetworkQuality(true)
-                        .networkQualityConfiguration(configuration)
-                        .build();
-            }
-            // Connect to room
+           try {
+               if (isVideoCall) {
+                   connectOptions = new ConnectOptions.Builder(accessToken)
+                           .roomName(roomName)
+                           .audioTracks(Collections.singletonList(localAudioTrack))
+                           .videoTracks(Collections.singletonList(localVideoTrack))
+                           .dataTracks(Collections.singletonList(localDataTrack))
+                           .enableNetworkQuality(true)
+                           .preferVideoCodecs(Collections.singletonList(new Vp8Codec()))
+                           .networkQualityConfiguration(configuration)
+                           .build();
+               } else {
+                   connectOptions = new ConnectOptions.Builder(accessToken)
+                           .roomName(roomName)
+                           .audioTracks(Collections.singletonList(localAudioTrack))
+                           .dataTracks(Collections.singletonList(localDataTrack))
+                           .enableNetworkQuality(true)
+                           .preferAudioCodecs(Collections.singletonList(new OpusCodec()))
+                           .networkQualityConfiguration(configuration)
+                           .build();
+               }
+           }catch (Exception e)
+           {
+               Log.w("ssdf",String.valueOf(e));
+           }
+
             room = Video.connect(this, connectOptions, new Room.Listener() {
                 @Override
                 public void onConnected(Room room) {
