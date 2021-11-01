@@ -9,10 +9,12 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.api.Distribution;
 import com.pacifyr.client.R;
 import com.pacifyr.client.twiliochat.TwilioConversationActivity;
 import com.pacifyr.client.twiliochat.TwilioCoversationListActivity;
@@ -36,7 +38,20 @@ public class SnackUtils {
         Snackbar.SnackbarLayout snackbarLayout = (Snackbar.SnackbarLayout) snackBar.getView();
         snackbarLayout.setPadding(0, 0, 0, 0);
         TextView TextView_snackBarMessage=customSnackView.findViewById(R.id.TextView_snackBarMessage);
-        TextView_snackBarMessage.setText(message);
+        TextView TextView_snackBarName=customSnackView.findViewById(R.id.TextView_snackBarName);
+        LinearLayout LinearLayout_container=customSnackView.findViewById(R.id.LinearLayout_container);
+
+        String[] separated = message.split(":");
+        if (separated[0]!=null)
+        {
+            TextView_snackBarName.setText(separated[0]+"");
+        }
+        if (separated[1]!=null)
+        {
+            TextView_snackBarMessage.setText(separated[1]+"");
+        }
+       // separated[0]; // this will contain "name"
+       // separated[1]; // this will contain "message"
         snackbarLayout.addView(customSnackView, 0);
 
         View view=snackBar.getView();
@@ -45,7 +60,7 @@ public class SnackUtils {
         view.setLayoutParams(params);
         snackBar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_FADE);
 
-        TextView_snackBarMessage.setOnClickListener(new View.OnClickListener() {
+        LinearLayout_container.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent1 = new Intent(mContextsnackBar, TwilioConversationActivity.class);

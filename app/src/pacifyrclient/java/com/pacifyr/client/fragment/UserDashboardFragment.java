@@ -714,6 +714,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
             String url = GLOBAL_URL + "session/customer/active";
             setLoading();
             showProgress();
+            Log.w("TOKEN_AND_USERID",token+":"+userid);
             AjaxCallback cb = new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, JSONObject json, AjaxStatus status) {

@@ -759,7 +759,7 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
     protected void onResume() {
         super.onResume();
         try {
-            LocalBroadcastManager.getInstance(this).registerReceiver(notificationReceiver, new IntentFilter(NotificationUtils.NOTIFY_INTENT));
+            LocalBroadcastManager.getInstance(this).registerReceiver(notificationReceiver, new IntentFilter(NotificationUtils.NOTIFY_INTENT_FOR_NEW_CHAT));
             trackTimer_check_online = new Timer();
             trackTimerTask_check_online = new TimerTask() {
                 @Override

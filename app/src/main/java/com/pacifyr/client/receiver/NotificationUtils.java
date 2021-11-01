@@ -26,6 +26,7 @@ import java.util.List;
 public class NotificationUtils {
 
     public static final String NOTIFY_INTENT = "notify_intent";
+    public static final String NOTIFY_INTENT_FOR_NEW_CHAT = "notify_intent_new_chat";
     public static final String PAYTM_PAYMENT_EVENT="paytm_payment_intent";
     public static final String STRIPCARD_ADDED_WHILE_CALL="stripe_card_added_while_call";
     public static final String NOTIFY_INTENT_GENERAL = "notify_event_general";

@@ -245,7 +245,20 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
         context.startActivity(intent);
     }
 
+ public static void startNew(Context context, String sessionID, boolean editable) {
+        if (!isValidStatic(sessionID)) {
+            Log.e(TAG, "Invalid session Id. Cannot start session summary activity");
+            return;
+        }
+        Intent intent = new Intent(context, LastSessionActivity.class);
+       intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra("id", sessionID);
+        intent.putExtra("editable", editable);
+        LastSessionActivity.isAudioCall = true;
+        mysessions = true;
 
+        context.startActivity(intent);
+    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -357,7 +370,7 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        LocalBroadcastManager.getInstance(this).registerReceiver(notificationReceiver, new IntentFilter(NotificationUtils.NOTIFY_INTENT));
+        LocalBroadcastManager.getInstance(this).registerReceiver(notificationReceiver, new IntentFilter(NotificationUtils.NOTIFY_INTENT_FOR_NEW_CHAT));
         App.getInstance().setCurrentActivity(this);
     }
 
@@ -1025,7 +1038,7 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
             if (!isValid(mSessionRating, "Error , Please Re-Login"))
                 return;
 
-            setLoading();
+            setLoading("Saving...");
             showProgress();
 
             AjaxCallback cb = new AjaxCallback<JSONObject>() {
@@ -1045,7 +1058,7 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
                                 hideProgress();
                                 finish();
                             }
-                        }, 1000);
+                        }, 2000);
 
 
                     } catch (Exception e) {

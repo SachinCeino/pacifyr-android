@@ -341,11 +341,13 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<RecyclerView.V
                 holder.mainLayout.setBackgroundColor(mContext.getResources().getColor(R.color.appointment_no_click));
                 holder.ImageView_PrevistNote.setVisibility(View.GONE);
 
-                if (isValid(mObject.getStatusText()))
-                holder.mTextView_auto_cancel_status.setText(mObject.getStatusText());
-                /*holder.mTextView_auto_cancel_status.setVisibility(View.VISIBLE);
+                if (isValid(mObject.getStatusText())) {
+                    holder.mTextView_auto_cancel_status.setText(mObject.getStatusText());
+                    holder.mTextView_auto_cancel_status.setVisibility(View.VISIBLE);
+                    holder.TextView_cancelled.setText("");
+                }
 
-                if (mObject.getStatusText().toString().equals(mContext.getResources().getString(R.string.cancelled_provider_not_respond)))
+               /* if (mObject.getStatusText().toString().equals(mContext.getResources().getString(R.string.cancelled_provider_not_respond)))
                 {
                     holder.TextView_cancelled.setText("");
 

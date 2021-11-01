@@ -19,7 +19,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Matrix;
-import android.media.AudioManager;
 import android.media.ExifInterface;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -38,7 +37,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -47,7 +45,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
-import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -144,6 +141,8 @@ import com.stripe.android.Stripe;
 import com.stripe.android.TokenCallback;
 import com.stripe.android.model.Card;
 import com.stripe.android.model.Token;
+import com.twilio.video.Room;
+
 import org.greenrobot.eventbus.EventBus;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -170,7 +169,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import static com.pacifyr.client.Payment.AlertAddCreditCardActivity.REQUEST_CODE_STRIPE_CARD;
 import static com.pacifyr.client.network.NetworkService.mCurrentUser;
 import static com.pacifyr.client.network.NetworkService.modelAllEmotions;
-import static com.pacifyr.client.network.NetworkService.modelCustomerDashboard2;
 import static com.pacifyr.client.twilio.VideoActivity.isCallActive;
 import static com.pacifyr.client.twiliochat.TwilioConversationActivity.DEFAULT_CONVERSATION_NAME;
 import static com.pacifyr.client.utils.Constants.getCountryChecks;
@@ -851,6 +849,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                 e.printStackTrace();
             }
         }
+        //comment
         dialog = new iOSDialogBuilder(PacifyrActivity.this)
                 .setTitle(title)
                 .setSubtitle(subTitle)
@@ -2684,6 +2683,9 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
     }
 */
 
+
+
+
     public void stopSessionWeb( String sessionid) {
         isCallActive=false;
         Log.d(TAG, "stopSessionWeb " + sessionid);
@@ -4173,6 +4175,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
         /**split values **/
         txnAmount = inResponse.getString("TXNAMOUNT");
         try{
+            sessionid=sessionid.substring(0, sessionid.length() - 2);
             String url = NetworkService.GLOBAL_URL+"session/"+sessionid+"/extend/paymentSucceeded";
             PrefManager prefM = PrefManager.getInstance(PacifyrActivity.this);
             String token = prefM.getAccessToken();

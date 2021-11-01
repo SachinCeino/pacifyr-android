@@ -185,7 +185,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     String text = null;
                     String _id = null;
                     String actual_type = null;
-                    String conversation_sid=null;
+                    String conversation_sid = null;
 
                     if (remoteMessage.getData().containsKey("message")) {
                         message = remoteMessage.getData().get("message") + "";
@@ -220,15 +220,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                         startActivity(i);
                     }*/
 
-                    if (actual_type != null && (actual_type.equals("billing") )) {
+                    if (actual_type != null && (actual_type.equals("billing"))) {
                         Intent callIntent = new Intent(CallEvent.CALL_EVENT);
                         callIntent.putExtra("type", actual_type);
                         callIntent.putExtra("id", _id);
                         LocalBroadcastManager.getInstance(context).sendBroadcast(callIntent);
-                    }
-                    else if (actual_type != null && actual_type.equals("rating")){
+                    } else if (actual_type != null && actual_type.equals("rating")) {
 
-                        EventBus.getDefault().post(new RateSessionEvent(_id,message));
+                        EventBus.getDefault().post(new RateSessionEvent(_id, message));
                     }
 
                     LogUtils.LOGD("app_rec", "PR  onReceive message " + message);
@@ -245,22 +244,20 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                             if (isAppIsInBackground(context)) {
                                 if (actual_type.equalsIgnoreCase("session")) {
                                     isCall = true;
-                                     showNotification(context, _id, message, actual_type,conversation_sid);
+                                    showNotification(context, _id, message, actual_type, conversation_sid);
 
-                                            new Handler().postDelayed(new Runnable() {
-                                                @Override
-                                                public void run() {
-                                                    LogUtils.LOGD("app_reca", "app live notification tempseesionid cleaed");
-                                                }
-                                            }, 10000);
-
-
+                                    new Handler().postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            LogUtils.LOGD("app_reca", "app live notification tempseesionid cleaed");
+                                        }
+                                    }, 10000);
 
 
                                 } else {
 
                                     isCall = false;
-                                    showNotification(context, _id, message, actual_type,conversation_sid);
+                                    showNotification(context, _id, message, actual_type, conversation_sid);
                                 }
                             } else {
 
@@ -268,137 +265,123 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                                 isCall = false;
                                 if (actual_type.equalsIgnoreCase("session")) {
                                     isCall = true;
-                                            new Handler().postDelayed(new Runnable() {
-                                                @Override
-                                                public void run() {
-                                                    LogUtils.LOGD("app_recb", "app live notification tempseesionid cleaed");
-                                                }
-                                            }, 10000);
+                                    new Handler().postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            LogUtils.LOGD("app_recb", "app live notification tempseesionid cleaed");
+                                        }
+                                    }, 10000);
 
 
                                 } else if (actual_type.equalsIgnoreCase("chat")
-                                        ||actual_type.equalsIgnoreCase("confirmBooking") || actual_type.equalsIgnoreCase("rejectBooking")) {
-                                    Intent intent = new Intent(NotificationUtils.NOTIFY_INTENT);
-                                    intent.putExtra("type", actual_type);
-                                    intent.putExtra("message", message);
-                                    LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
-                                }
-
-                                else if (actual_type.equalsIgnoreCase("payment")) {
-                                    Log.w("@@@","PAYTM_PAYMENT_EVENT");
-                                    Intent intent = new Intent(NotificationUtils.PAYTM_PAYMENT_EVENT);
-                                    intent.putExtra("type", actual_type);
-                                    intent.putExtra("message", message);
-                                    intent.putExtra("id", _id);
-                                    LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
-                                }
-
-                                else if (actual_type.equalsIgnoreCase("sessionWrapUp")) {
-                                    Intent intent = new Intent(NotificationUtils.NOTIFY_INTENT);
-                                    intent.putExtra("type", actual_type);
-                                    intent.putExtra("message", message);
-                                    LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
-                                }
-                                else if (actual_type.equalsIgnoreCase("sessionExtensionAccepted")) {
-                                    Intent intent = new Intent(NotificationUtils.NOTIFY_INTENT);
-                                    intent.putExtra("type", actual_type);
-                                    intent.putExtra("message", message);
-                                    LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
-                                }
-
-
-                                else if (actual_type.equals("reminder") && isValid(typeId))
-                                {
-                                    Intent intent = new Intent(NotificationUtils.APPOINTMENT_EVENT);
-                                    intent.putExtra("typeId", typeId);
-                                    LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
-                                    MediaPlayer mp1 = MediaPlayer.create(context, R.raw.appointment_reminder);
-                                    mp1.start();
-                                }
-                                //{type=sessionDeclined, sound=default, message=Your call was declined by the provider "VINEESH PROVIDER "}
-
-                                else if (actual_type.equals("sessionDeclined"))
-                                {
-                                    Intent intent = new Intent(NotificationUtils.SESSION_DECLAINED);
-                                    intent.putExtra("message", message);
-                                    LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
-                                }
-                                else if (actual_type.equals("sessionWaiting"))
-                                {
-                                    Intent intent = new Intent(NotificationUtils.SESSION_DECLAINED_WAITING);
-                                    intent.putExtra("message", message);
-                                    LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
-                                }
-
-                                else if (actual_type.equalsIgnoreCase("chat")
-                                        ||actual_type.equalsIgnoreCase("confirmBooking")
-                                        || actual_type.equalsIgnoreCase("rejectBooking")
-                                        || actual_type.equalsIgnoreCase("reminder")
-                                        || actual_type.equalsIgnoreCase("twilioChat")
-                                        || actual_type.equalsIgnoreCase("twilio.conversations.new_message")) {
-                                    Intent intent = new Intent(NotificationUtils.NOTIFY_INTENT);
-                                    intent.putExtra("type", actual_type);
-                                    intent.putExtra("message", message);
-                                    if(actual_type.equals("twilioChat")){
-                                        conversation_sid = _id;
-                                    }
-
-                                    if (isValid(conversation_sid)){
-                                        intent.putExtra("conversation_sid", conversation_sid);}
-
-
-                                    LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
-                                }
-
-                            }
-                        } else {
-                            if (isAppIsInBackground(context)) {
-                                isCall = false;
-                                if (actual_type.equalsIgnoreCase("session")) {
-                                    isCall = true;
-                                          //  showNotification(context,_id,message,actual_type);
-                                            new Handler().postDelayed(new Runnable() {
-                                                @Override
-                                                public void run() {
-                                                    LogUtils.LOGD("app_recc", "app live notification tempseesionid cleaed");
-                                                }
-                                            }, 10000);
-                                        }
-
-
-
-
-                            } else {
-                                isCall = false;
-                                if (actual_type.equalsIgnoreCase("session")) {
-                                    isCall = true;
-
-
-                                        new Handler().postDelayed(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                LogUtils.LOGD("app_recd", "app live notification tempseesionid cleaed");
-                                            }
-                                        }, 5000);
-
-
-                                }
-                                else if (actual_type.equals("sessionDeclined"))
-                                {
-                                    Intent intent = new Intent(NotificationUtils.SESSION_DECLAINED);
-                                    intent.putExtra("message", message);
-                                    LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
-                                }
-                                else if (actual_type.equals("sessionWaiting"))
-                                {
-                                    Intent intent = new Intent(NotificationUtils.SESSION_DECLAINED_WAITING);
-                                    //intent.putExtra("message", message);
-                                    LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+                                        || actual_type.equalsIgnoreCase("confirmBooking") || actual_type.equalsIgnoreCase("rejectBooking")) {
                                 }
                             }
+                        } else if (actual_type.equalsIgnoreCase("confirmBooking") || actual_type.equalsIgnoreCase("rejectBooking")) {
+                            Intent intent = new Intent(NotificationUtils.NOTIFY_INTENT);
+                            intent.putExtra("type", actual_type);
+                            intent.putExtra("message", message);
+                            LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+                        } else if (actual_type.equalsIgnoreCase("payment")) {
+                            Log.w("@@@", "PAYTM_PAYMENT_EVENT");
+                            Intent intent = new Intent(NotificationUtils.PAYTM_PAYMENT_EVENT);
+                            intent.putExtra("type", actual_type);
+                            intent.putExtra("message", message);
+                            intent.putExtra("id", _id);
+                            LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+                        } else if (actual_type.equalsIgnoreCase("sessionWrapUp")) {
+                            Intent intent = new Intent(NotificationUtils.NOTIFY_INTENT);
+                            intent.putExtra("type", actual_type);
+                            intent.putExtra("message", message);
+                            LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+                        } else if (actual_type.equalsIgnoreCase("sessionExtensionAccepted")) {
+                            Intent intent = new Intent(NotificationUtils.NOTIFY_INTENT);
+                            intent.putExtra("type", actual_type);
+                            intent.putExtra("message", message);
+                            LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+                        } else if (actual_type.equals("reminder") && isValid(typeId)) {
+                            Intent intent = new Intent(NotificationUtils.APPOINTMENT_EVENT);
+                            intent.putExtra("typeId", typeId);
+                            LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+                            MediaPlayer mp1 = MediaPlayer.create(context, R.raw.appointment_reminder);
+                            mp1.start();
+                        }
+                        //{type=sessionDeclined, sound=default, message=Your call was declined by the provider "VINEESH PROVIDER "}
+
+                        else if (actual_type.equals("sessionDeclined")) {
+                            Intent intent = new Intent(NotificationUtils.SESSION_DECLAINED);
+                            intent.putExtra("message", message);
+                            LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+                        } else if (actual_type.equals("sessionWaiting")) {
+                            Intent intent = new Intent(NotificationUtils.SESSION_DECLAINED_WAITING);
+                            intent.putExtra("message", message);
+                            LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+                        } else if (actual_type.equalsIgnoreCase("confirmBooking")
+                                || actual_type.equalsIgnoreCase("rejectBooking")
+                                || actual_type.equalsIgnoreCase("reminder")
+                                || actual_type.equalsIgnoreCase("twilioChat")
+                                || actual_type.equalsIgnoreCase("twilio.conversations.new_message")) {
+                            Intent intent = new Intent(NotificationUtils.NOTIFY_INTENT);
+                            intent.putExtra("type", actual_type);
+                            intent.putExtra("message", message);
+                            if (actual_type.equals("twilioChat")) {
+                                conversation_sid = _id;
+                            }
+
+                            if (isValid(conversation_sid)) {
+                                intent.putExtra("conversation_sid", conversation_sid);
+                            }
+
+
+                            LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+                        } else if (actual_type != null && actual_type.equals("chat")) {
+                            Intent intent1 = new Intent(NotificationUtils.NOTIFY_INTENT_FOR_NEW_CHAT);
+                            intent1.putExtra("type", actual_type);
+                            intent1.putExtra("message", message);
+                            LocalBroadcastManager.getInstance(context).sendBroadcast(intent1);
                         }
 
+                    } else {
+                        if (isAppIsInBackground(context)) {
+                            isCall = false;
+                            if (actual_type.equalsIgnoreCase("session")) {
+                                isCall = true;
+                                //  showNotification(context,_id,message,actual_type);
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        LogUtils.LOGD("app_recc", "app live notification tempseesionid cleaed");
+                                    }
+                                }, 10000);
+                            }
+
+
+                        } else {
+                            isCall = false;
+                            if (actual_type.equalsIgnoreCase("session")) {
+                                isCall = true;
+
+
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        LogUtils.LOGD("app_recd", "app live notification tempseesionid cleaed");
+                                    }
+                                }, 5000);
+
+
+                            } else if (actual_type.equals("sessionDeclined")) {
+                                Intent intent = new Intent(NotificationUtils.SESSION_DECLAINED);
+                                intent.putExtra("message", message);
+                                LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+                            } else if (actual_type.equals("sessionWaiting")) {
+                                Intent intent = new Intent(NotificationUtils.SESSION_DECLAINED_WAITING);
+                                //intent.putExtra("message", message);
+                                LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+                            }
+                        }
                     }
+
 
                     LogUtils.LOGD("app_rec", "PR  onReceive End ");
                 } catch (Exception e) {
@@ -406,7 +389,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 }
             }
         }
+
     }
+
     // [END receive_message]
 
 
@@ -470,7 +455,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
         else {
             boolean isNeedToOpenAppointments=false;
-            if (actualType.equals("confirmBooking") ||actualType.equalsIgnoreCase("rejectBooking")) {
+            if (actualType.equals("confirmBooking") ||actualType.equalsIgnoreCase("rejectBooking")||actualType.equals("reminder")) {
                 isNeedToOpenAppointments=true;
             }
 
@@ -499,16 +484,16 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         builder.setNumber(prefM.getBadgeValue());
         builder.setAutoCancel(true);
 
-            if (actualType.equals("reminder")&& isValid(typeId))
-            {
-                builder.setNotificationSilent();
-                MediaPlayer mp1 = MediaPlayer.create(context, R.raw.appointment_reminder);
-                mp1.start();
-            }
-            else
-            {
-                builder.setSound(notificationSound);
-            }
+        if (actualType.equals("reminder")&& isValid(typeId))
+        {
+            builder.setNotificationSilent();
+            MediaPlayer mp1 = MediaPlayer.create(context, R.raw.appointment_reminder);
+            mp1.start();
+        }
+        else
+        {
+            builder.setSound(notificationSound);
+        }
         Notification notification = builder.build();
         NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         //notification.flags = Notification.DEFAULT_LIGHTS | Notification.FLAG_AUTO_CANCEL;

@@ -3,6 +3,9 @@ package com.pacifyr.client.twilio;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.PictureInPictureParams;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -19,6 +22,8 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -54,6 +59,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -67,6 +73,10 @@ import com.gdacciaro.iOSDialog.iOSDialog;
 import com.gdacciaro.iOSDialog.iOSDialogClickListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.pacifyr.client.Payment.AlertAddCreditCardActivity;
 import com.pacifyr.client.R;
 import com.pacifyr.client.activity.ActivityChangeEmotionFromCall;
@@ -82,7 +92,6 @@ import com.pacifyr.client.event.PicInPic;
 import com.pacifyr.client.event.TwilioCallEvent;
 import com.pacifyr.client.fragment.PrescriptionWhileCallFragment;
 import com.pacifyr.client.home.CustomerDetailActivity;
-import com.pacifyr.client.home.LastSessionActivity;
 import com.pacifyr.client.interfaces.EmpMinutesListener;
 import com.pacifyr.client.model.CallStatus;
 import com.pacifyr.client.model.PrescriptionList;
@@ -160,15 +169,17 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import kotlin.Unit;
+import tvi.webrtc.voiceengine.WebRtcAudioUtils;
 
+import static androidx.core.app.NotificationCompat.BADGE_ICON_SMALL;
 import static com.pacifyr.client.Payment.AlertAddCreditCardActivity.REQUEST_CODE_STRIPE_CARD;
 import static com.pacifyr.client.netconnectionlistener.ConnectionCheckBroadcast.CheckInternetConnection;
-import static com.pacifyr.client.network.NetworkService.GLOBAL_IMAGE_URL;
 import static com.pacifyr.client.network.NetworkService.isRelease;
 import static com.pacifyr.client.receiver.NotificationUtils.STRIPCARD_ADDED_WHILE_CALL;
 import static com.pacifyr.client.utils.Constants.getCountryChecks;
@@ -334,6 +345,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
         }
     };
 
+    public static long WalletBalnce=0;
     public void checkEmpAvailableMinutes() {
 
             if (NetworkService.mCurrentUser == null) {
@@ -343,7 +355,12 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
             float WalletBalance_minutes;
             if (getPrefManager().getCountry().equals("US"))
             {
-                if (isValid(NetworkService.mCurrentUser.getWalletBalance()))
+                if (isValid(WalletBalnce)&&WalletBalnce!=0)
+                {
+                    float minuts= WalletBalnce;
+                    freeMinutes = (long) minuts;
+                }
+                else if (isValid(NetworkService.mCurrentUser.getWalletBalance()))
                 {
                     WalletBalance_minutes = (NetworkService.mCurrentUser.getWalletBalance() / Float.parseFloat(getCallPacifyr().getPrice())) * 60;
                     freeMinutes = (long) (freeMinutes + WalletBalance_minutes);
@@ -359,7 +376,12 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                 countDownTimer = new CountDownTimer(freeMillis, ONE_MINUTE) {
                     @Override
                     public void onTick(long millisUntilFinished) {
+                        if (isEmplyeeDonePaymentWithFreeMinuts) {
+                            cancel();
+                            return;
+                        }
                         long minutesLeft = millisUntilFinished / (60 * 1000);
+                        WalletBalnce=minutesLeft;
                         if (millisUntilFinished<=60000)
                             minutesLeft=0;
 
@@ -1161,6 +1183,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
         LocalBroadcastManager.getInstance(this).registerReceiver(stripeCardAddWhileCall, new IntentFilter(STRIPCARD_ADDED_WHILE_CALL));
         LocalBroadcastManager.getInstance(this).registerReceiver(notificationReceiver, new IntentFilter(NotificationUtils.NOTIFY_INTENT));
 
+
         audioCodec = getAudioCodecPreference(PREF_AUDIO_CODEC,
                 PREF_AUDIO_CODEC_DEFAULT);
         videoCodec = getVideoCodecPreference(PREF_VIDEO_CODEC,
@@ -1219,6 +1242,14 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
         }
         isScreenActive=true;
         EventBus.getDefault().post(Constants.CLOSECHILDACTIIVTY);
+        try {
+            NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+            notificationManager.cancelAll();
+            EventBus.getDefault().register(this);
+        }catch (Exception e)
+        {
+            Log.w("#########",String.valueOf(e));
+        }
 
     }
 
@@ -1269,6 +1300,8 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
         configureAudio(false);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(sessionDeclainedReceiver);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(sessionDeclainedWaitng);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(notificationReceiver_for_new_chat);
+
         EventBus.getDefault().post(Constants.DestroySubScreenAfterEndCall);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(stripeCardAddWhileCall);
         unregisterReceiver(mEarPhoneChanges);
@@ -1318,6 +1351,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         isScreenActive=false;
         EventBus.getDefault().post(Constants.CLOSE_CHAT_ACTIVITY);
+        errorCount=0;
         super.onDestroy();
     }
 
@@ -1349,6 +1383,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
     }
 
     private void createAudioAndVideoTracks() {
+       // troubleShootAudioSounds();
         // Share your microphone
         localAudioTrack = LocalAudioTrack.create(this, true, LOCAL_AUDIO_TRACK_NAME);
 
@@ -1365,6 +1400,19 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
         }
     }
 
+    private void troubleShootAudioSounds() {
+        try {
+            WebRtcAudioUtils.setWebRtcBasedAcousticEchoCanceler(true);
+            WebRtcAudioUtils.setWebRtcBasedNoiseSuppressor(true);
+            WebRtcAudioUtils.setWebRtcBasedAutomaticGainControl(true);
+            tvi.webrtc.voiceengine.WebRtcAudioManager.setBlacklistDeviceForOpenSLESUsage(false);
+            tvi.webrtc.voiceengine.WebRtcAudioUtils.deviceIsBlacklistedForOpenSLESUsage();
+        }catch (Exception e)
+        {
+            Log.w("###TroubleShootAudio",String.valueOf(e));
+        }
+    }
+
     private CameraSource getAvailableCameraSource() {
         return (CameraCapturer.isSourceAvailable(CameraSource.FRONT_CAMERA)) ?
                 (CameraSource.FRONT_CAMERA) :
@@ -1378,6 +1426,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         try {
             EventBus.getDefault().register(this);
+            LocalBroadcastManager.getInstance(this).registerReceiver(notificationReceiver_for_new_chat, new IntentFilter(NotificationUtils.NOTIFY_INTENT_FOR_NEW_CHAT));
 
             mEarPhoneChanges = new EarPhoneChanges();
             IntentFilter filter = new IntentFilter(Intent.ACTION_HEADSET_PLUG);
@@ -1456,6 +1505,9 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                     ringtonePlayer.play(true);
                 }
             }, 1000);*/
+
+
+
             if (isValid(getIntent())) {
                 if (isValid(getIntent().getExtras())) {
                     accessToken = getIntent().getExtras().getString("accessToken");
@@ -1565,7 +1617,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                 createAudioAndVideoTracks();
 
             }
-
+            getCurrentUserProfileInfo();
             intializeUI();
             connectToRoom(roomName);
 
@@ -1821,6 +1873,9 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                     callReminderCounslrAPI();
                 }
             });
+
+            //dataMessages
+            setUpRealTimeDataBaseEvents();
        } catch (Exception e) {
             e.printStackTrace();
             Bundle args =
@@ -1871,6 +1926,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                                             }
                                         });
                                     }
+                                    ////comment
 
                                     showIOSDialogOK("", getString(R.string.your_monthly_session_expired), getString(R.string.dlg_ok), false, new iOSDialogClickListener() {
                                         @Override
@@ -1886,7 +1942,6 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
 
                                         }
                                     }, 4000);
-
                                 }
                                 else {
 
@@ -1905,6 +1960,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                             } else {
 
                                 makeAbeepSoundWhileShowingPopUp();
+////comment
 
                                 if (getCallPacifyr() != null &&!isCardExist()) {
 
@@ -1925,6 +1981,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                                         button_hangup_call.performClick();
                                     }
                                 });
+
                                 new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                                     @Override
                                     public void run() {
@@ -2053,6 +2110,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                                         if (isValid(VideoActivity.mSessionDetailRoot) && isValid(VideoActivity.mSessionDetailRoot.getPacifyr()) &&
                                                 isValid(VideoActivity.mSessionDetailRoot.getPacifyr().getPrice())) {
                                             String tempSessionId = SessionId;
+                                            sessionid=SessionId;
                                             if (errorCount != 0)
                                                 tempSessionId = tempSessionId + "_" + errorCount;
                                             generateCheckSum(true, tempSessionId, Integer.parseInt(VideoActivity.mSessionDetailRoot.getPacifyr().getPrice()),false);
@@ -2095,6 +2153,185 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
         }
 
         getSavedCardDetail();
+    }
+
+    private void setUpRealTimeDataBaseEvents() {
+
+        try {
+            if (!isValid(SessionId))
+                return;
+
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            db.collection("sessions").document(SessionId).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                @Override
+                public void onEvent(@org.jetbrains.annotations.Nullable DocumentSnapshot documentSnapshot, @org.jetbrains.annotations.Nullable FirebaseFirestoreException e) {
+
+                    List<Map<String, Object>> mFireBaseEvents=null;
+                    if (documentSnapshot.exists()) {
+
+                        mFireBaseEvents = (List<Map<String, Object>>) documentSnapshot.get("events");
+
+                    }
+
+                    if (isValidSize(mFireBaseEvents))
+                    {
+                        if (isValid(mFireBaseEvents.get(mFireBaseEvents.size()-1)))
+                        {
+                            Map<String, Object> mapObject=mFireBaseEvents.get(mFireBaseEvents.size()-1);
+                            String CurrentEvent="";
+                            String message="";
+                            String id="";
+                            try {
+                                CurrentEvent=mapObject.get("type").toString();
+                                message=mapObject.get("text").toString();
+                                id = mapObject.get("id").toString();
+                            }catch (Exception eqq)
+                            {
+
+                            }
+
+                            switch (CurrentEvent) {
+                                case "startbilling":
+                                    System.out.println("startbilling");
+                                    break;
+                                case "payment":
+                                    System.out.println("payment");
+                              /*  if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.O || isAppIsInBackground(VideoActivity.this)) {
+                                    showInternalNotification(message);
+                                }
+                                Intent intent = new Intent(NotificationUtils.PAYTM_PAYMENT_EVENT);
+                                if (isValid(id)) {
+                                    intent.putExtra("type", "payment");
+                                    intent.putExtra("message", message);
+                                    intent.putExtra("id", id);
+                                }
+
+                                if (!isShowDialogs()) {
+                                    maximizePicInPicView();
+                                    new Handler().postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    doPaymentSetup(intent);
+                                                }
+                                            });
+                                        }
+                                    }, 2000);
+                                    return;
+                                } else {
+                                    bringCallActivityToFront();
+                                    new Handler().postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    EventBus.getDefault().post(intent);
+                                                }
+                                            });
+                                        }
+                                    }, 2000);
+                                }*/
+                                    break;
+                                case "freeMinutesOver":
+                                    System.out.println("freeMinutesOver");
+                                    //showfreeMinutWarningPopup(message);
+                                    break;
+                                case "cardSetup":
+                                    System.out.println("cardSetup");
+                                    //EventBus.getDefault().post(new UserDonePaytmEvent(message));
+                                    break;
+                                case "paymentFailure":
+                                    System.out.println("paymentFailure");
+                                    //EventBus.getDefault().post(new UserPaytmFailed(message));
+                                    break;
+                                case "sessionExtensionAccepted":
+                                    System.out.println("sessionExtensionPaymentSucceeded");
+                                    if (!isScreenActive) {
+                                        showInternalNotification(message);
+                                    }
+                                    showMessagesFromEvent(message,CurrentEvent);
+                                    break;
+                                case "sessionWrapUp":
+                                    System.out.println("sessionWrapUp");
+                                    if (!isScreenActive) {
+                                        showInternalNotification(message);
+                                    }
+                                    showMessagesFromEvent(message,CurrentEvent);
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                    }
+                }
+            });
+
+        }catch(Exception e)
+        {
+            Log.w("dataError",String.valueOf(e));
+        }
+    }
+
+
+    private void showInternalNotification(String message) {
+        Intent cIntent = new Intent(this, VideoActivity.class);
+        cIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        cIntent.setAction(Long.toString(System.currentTimeMillis()));
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis(),
+                cIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+
+        Uri notificationSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, Constants.CHANNEL_ID_DEFAULT)
+                .setSmallIcon(R.drawable.ic_pacifyr_notification)
+                .setContentText(message)
+                .setStyle(new NotificationCompat.BigTextStyle()
+                        .bigText(message))
+                .setContentTitle(getResources().getString(R.string.app_name))
+                .setContentIntent(pendingIntent)
+                .setSound(notificationSound)
+                .setBadgeIconType(BADGE_ICON_SMALL)
+                .setAutoCancel(true);
+
+        Notification notification = builder.build();
+        NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        final int mNotificationId = (int) System.currentTimeMillis();
+        mNotificationManager.notify(mNotificationId, notification);
+
+    }
+
+    private void showMessagesFromEvent(String message, String currentEvent) {
+        if (!isShowDialogs()) {
+            maximizePicInPicView();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            showMessages(message,currentEvent);
+                        }
+                    });
+                }
+            }, 2000);
+            return;
+        } else {
+            bringCallActivityToFront();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            showMessages(message,currentEvent);
+                        }
+                    });
+                }
+            }, 2000);
+        }
+
     }
 
     @Override
@@ -3209,6 +3446,7 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
         LogUtils.LOGD("call","hangUpCurrentSession");
         stopSessionTracking();
         //jpppppppppppppp
+        WalletBalnce=0;
         try {
             LogUtils.LOGD("call","CA hangUpCurrentSessionMe sessionid"+SessionId);
             if(isOpponentConnected())
@@ -3233,10 +3471,13 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
                 }
             }
 
+            ////comment
             if (isProviderConnected) {
                 if (SessionId != null) {
-                    if (!isFromProviderStopCall)
-                    stopSessionWeb(SessionId);
+                    if (!isFromProviderStopCall){
+                        stopSessionWeb(SessionId);
+                    }
+
                 }
             } else {
                 if (SessionId != null&&!sessionDeclainedByProvider) {
@@ -3381,6 +3622,7 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
         }
     }
 
+
     private void connectToRoom(String roomName) {
         configureAudio(true);
         try {
@@ -3391,25 +3633,32 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
 
 
             ConnectOptions connectOptions = null;
-            if (isVideoCall) {
-                connectOptions = new ConnectOptions.Builder(accessToken)
-                        .roomName(roomName)
-                        .audioTracks(Collections.singletonList(localAudioTrack))
-                        .videoTracks(Collections.singletonList(localVideoTrack))
-                        .dataTracks(Collections.singletonList(localDataTrack))
-                        .enableNetworkQuality(true)
-                        .networkQualityConfiguration(configuration)
-                        .build();
-            } else {
-                connectOptions = new ConnectOptions.Builder(accessToken)
-                        .roomName(roomName)
-                        .audioTracks(Collections.singletonList(localAudioTrack))
-                        .dataTracks(Collections.singletonList(localDataTrack))
-                        .enableNetworkQuality(true)
-                        .networkQualityConfiguration(configuration)
-                        .build();
-            }
-            // Connect to room
+           try {
+               if (isVideoCall) {
+                   connectOptions = new ConnectOptions.Builder(accessToken)
+                           .roomName(roomName)
+                           .audioTracks(Collections.singletonList(localAudioTrack))
+                           .videoTracks(Collections.singletonList(localVideoTrack))
+                           .dataTracks(Collections.singletonList(localDataTrack))
+                           .enableNetworkQuality(true)
+                           .preferVideoCodecs(Collections.singletonList(new Vp8Codec()))
+                           .networkQualityConfiguration(configuration)
+                           .build();
+               } else {
+                   connectOptions = new ConnectOptions.Builder(accessToken)
+                           .roomName(roomName)
+                           .audioTracks(Collections.singletonList(localAudioTrack))
+                           .dataTracks(Collections.singletonList(localDataTrack))
+                           .enableNetworkQuality(true)
+                           .preferAudioCodecs(Collections.singletonList(new OpusCodec()))
+                           .networkQualityConfiguration(configuration)
+                           .build();
+               }
+           }catch (Exception e)
+           {
+               Log.w("ssdf",String.valueOf(e));
+           }
+
             room = Video.connect(this, connectOptions, new Room.Listener() {
                 @Override
                 public void onConnected(Room room) {
@@ -3423,7 +3672,7 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
                         startSessionWeb(roomName, room.getSid(), pacifyerDetial, isVideoCall, timeSlotBookingId);
 
                     } else {
-                        getCurrentUserProfileInfo();
+                      //  getCurrentUserProfileInfo();
                     }
 
 
@@ -3716,7 +3965,7 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
                 webGetSessionDetail(SessionId);
             }
 
-            getCurrentUserProfileInfo();
+
             if (!isProviderConnected && !ErrorConnectingProvider && !isRejoining) {
                 setAlertPacifyrWillJoinShortly("", getResources().getString(R.string.provider_will_join_shortly), "Ok", new View.OnClickListener() {
                     @Override
@@ -3726,7 +3975,7 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
                     }
                 });
             }
-
+            setUpRealTimeDataBaseEvents();
             Log.w("WWWWW", "onCallConnected");
             Bundle args =
                     FirebaseLogging.getConstantArgsLoggedIn(VideoActivity.this);
@@ -3913,6 +4162,7 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
                 getApplication().startActivity(new Intent(this, getClass())
                         .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT));
             maximizePicInPicView();
+
             EventBus.getDefault().post(Constants.CLOSE_CHAT_ACTIVITY);
         }
     }
@@ -3973,6 +4223,23 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
         }
     }
     private int messageCountIncomming=0;
+    private final BroadcastReceiver notificationReceiver_for_new_chat = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent != null && intent.hasExtra("message")) {
+                String message = intent.getExtras().getString("message");
+                String type = intent.getExtras().getString("type");
+                if (message != null && message != "") {
+                    if (type.equals("chat")) {
+                        messageCountIncomming++;
+                        if (messageCountIncomming>=1)
+                            messageCount.setText(messageCountIncomming+"");
+                        messageCount.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+        }
+    };
     private final BroadcastReceiver notificationReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -3987,7 +4254,7 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
                         messageCount.setVisibility(View.VISIBLE);
                     }
                     else {
-                        if (!isShowDialogs()) {
+                        /*if (!isShowDialogs()) {
                             maximizePicInPicView();
                             new Handler().postDelayed(new Runnable() {
                                 @Override
@@ -4014,7 +4281,7 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
                                     });
                                 }
                             }, 2000);
-                        }
+                        }*/
                     }
 
 
@@ -4025,6 +4292,7 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
     };
 
     private void showMessages(String message, String type) {
+
         if (type.equals("sessionWrapUp")) {
             showIOSDialogOK("Message", message, "Ok", new iOSDialogClickListener() {
                 @Override
@@ -4053,7 +4321,6 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
                 });
             }
             else {
-
                 showIOSDialogOKCancel("Message", message, Utility.getPaymentLabel(VideoActivity.this, getPrefManager().getCountry()), new iOSDialogClickListener() {
                     @Override
                     public void onClick(iOSDialog dialog) {
@@ -4064,16 +4331,18 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
                 }, new iOSDialogClickListener() {
                     @Override
                     public void onClick(iOSDialog dialog) {
-
                         dialog.dismiss();
                         if (isValid(VideoActivity.mSessionDetailRoot) && isValid(VideoActivity.mSessionDetailRoot.getPacifyr()) &&
                                 isValid(VideoActivity.mSessionDetailRoot.getPacifyr().getPrice())) {
                             String tempSessionId = SessionId;
+                            errorCount++;
                             if (errorCount != 0)
                                 tempSessionId = tempSessionId + "_" + errorCount;
-                            generateCheckSum(true, tempSessionId, Integer.parseInt(VideoActivity.mSessionDetailRoot.getPacifyr().getPrice()),true);
+                           float amount=Float.parseFloat(VideoActivity.mSessionDetailRoot.getPacifyr().getPrice())/2;//deducting half amount for extension  becouse its extending only for half hours
+                            if (isAppointment)
+                                amount=Float.parseFloat(VideoActivity.mSessionDetailRoot.getPacifyr().getPrice());
+                            generateCheckSum(true, tempSessionId,Math.round(amount) ,true);
                         }
-
                     }
                 });
 

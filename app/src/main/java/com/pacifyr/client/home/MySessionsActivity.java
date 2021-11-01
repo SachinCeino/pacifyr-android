@@ -4,10 +4,13 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import androidx.core.content.ContextCompat;
+import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,6 +29,9 @@ import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.event.WeekSetSessionEvent;
 import com.pacifyr.client.model.interfaces.CallChatEventListner;
 import com.pacifyr.client.network.GsonUtils;
+import com.pacifyr.client.network.NetworkService;
+import com.pacifyr.client.orginals.Auth;
+import com.pacifyr.client.quickblox.util.NestedScroll;
 import com.pacifyr.client.utility.PacifyrAppCompactActivity;
 import com.pacifyr.client.utils.LogUtils;
 import com.pacifyr.client.utils.Utility;
@@ -77,6 +83,15 @@ public class MySessionsActivity extends PacifyrAppCompactActivity {
     int skip,limit;
     String WeekStartDate,FirstDateOfMonth,fromDYear;
     String WeekEndDate,lastMonthDate,toDYear;
+
+    private String token;
+
+    ArrayList<MSessionDetailRoot> list=new ArrayList<>();
+    ArrayList<MSessionDetailRoot> listTemp=new ArrayList<>();
+    int tab=0;//0:Week,1:Month,2:Year
+    NestedScrollView nestedscrollView;
+    private boolean firstItemEditable = true;
+
     public static void start(Activity activity) {
         Intent intent = new Intent(activity, MySessionsActivity.class);
         activity.startActivity(intent);
@@ -89,12 +104,51 @@ public class MySessionsActivity extends PacifyrAppCompactActivity {
 
         try {
             onSetActionBar();
-            onSetValues();
+            Log.i("sesssurlwa12","w: "+limit);
+            Log.i("emoooooooojiiii","l:  ");
+
+            if(isValid(sessionid)) webGetSessionDetail(sessionid);
+            else {
+                //handlerFinish("Data not updated in last session ");
+                // finish();
+            }
+
+            prefM= PrefManager.getInstance(getApplicationContext());
+            token=prefM.getAccessToken();
+            userid=prefM.getUserID();
+
+            nestedscrollView = findViewById(R.id.nestedscrollView);
+
+            mySessionsTopLlay = findViewById(R.id.my_sessions_top_llay);
+            upperRlay = findViewById(R.id.upper_rlay);
+            sessionNoCtxv = findViewById(R.id.session_no_ctxv);
+            hoursNoCtxv = findViewById(R.id.hours_no_ctxv);
+            minutesNoCtxv = findViewById(R.id.minutes_no_ctxv);
+            earningsNoCtxv = findViewById(R.id.earnings_no_ctxv);
+            thisWkCtxv = findViewById(R.id.this_wk_ctxv);
+            thisMntCtxv = findViewById(R.id.this_mnt_ctxv);
+            thisYearCtxv = findViewById(R.id.this_year_ctxv);
+            weekSessionsRcv = findViewById(R.id.my_sessions_rcv);
+            monthSessionsRcv = findViewById(R.id.month_sessions_rcv);
+            yearSessionsRcv = findViewById(R.id.year_sessions_rcv);
+            dateListRcv = findViewById(R.id.date_list_rcv);
+            noDataCtxv = findViewById(R.id.no_data_ctxv);
+
+            weekSessionsRcv.setNestedScrollingEnabled(false);
+            monthSessionsRcv.setNestedScrollingEnabled(false);
+            yearSessionsRcv.setNestedScrollingEnabled(false);
+            dateListRcv.setNestedScrollingEnabled(false);
+
+
 
 
             skip=0;
             limit=10;
+            tab=0;
+            list.clear();
+            listTemp.clear();
 
+            Log.i("sesssurlwa1","w: "+limit);
             LocalDate now1 = new LocalDate();
             LocalDate backNow = now1.minusDays(7);
             LocalDate startofWeek = backNow.withDayOfWeek(DateTimeConstants.SUNDAY);
@@ -105,9 +159,8 @@ public class MySessionsActivity extends PacifyrAppCompactActivity {
             DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
             final String fromDateWeek = formatter.print(startofWeek);
             final String fromDateMonth = formatter.print(startofMonth);
-            final String fromDateYear= String.valueOf(Calendar.getInstance().get(Calendar.YEAR)+"-01-01");
-
-
+            final String fromDateYear = formatter.print(startofYear);
+            fromDYear= String.valueOf(Calendar.getInstance().get(Calendar.YEAR)+"-01-01");
 
 /** getting last day of year**/
 
@@ -143,62 +196,150 @@ public class MySessionsActivity extends PacifyrAppCompactActivity {
 
             final String thisWeekUrl=GLOBAL_URL+"session/customer/all?userId="+userid+"&skip="+skip+"&limit="+limit+"&fromDate="+WeekStartDate+"&toDate="+WeekEndDate;
             final String thisMonthUrl=GLOBAL_URL+"session/customer/all?userId="+userid+"&skip="+skip+"&limit="+limit+"&fromDate="+FirstDateOfMonth+"&toDate="+lastMonthDate;
-            final String thisYearUrl=GLOBAL_URL+"session/customer/all?userId="+userid+"&skip="+skip+"&limit="+limit+"&fromDate="+fromDateYear+"&toDate="+toDYear;
+            final String thisYearUrl=GLOBAL_URL+"session/customer/all?userId="+userid+"&skip="+skip+"&limit="+limit+"&fromDate="+fromDYear+"&toDate="+toDYear;
 
             final String weekStatUrl = GLOBAL_URL+"dashboard/customer/"+userid+"/sessionStatistics?fromDate="+WeekStartDate+"&toDate="+WeekEndDate;
             final String monthStatUrl = GLOBAL_URL+"dashboard/customer/"+userid+"/sessionStatistics?fromDate="+FirstDateOfMonth+"&toDate="+lastMonthDate;
-            final String yearStatUrl = GLOBAL_URL+"dashboard/customer/"+userid+"/sessionStatistics?fromDate="+fromDateYear+"&toDate="+toDYear;
+            final String yearStatUrl = GLOBAL_URL+"dashboard/customer/"+userid+"/sessionStatistics?fromDate="+fromDYear+"&toDate="+toDYear;
+//        setLoading();
+
             getStatistics(weekStatUrl);
             callThisWeekSession(thisWeekUrl);
-            SessionWeekCustomerAdapter adapter =new SessionWeekCustomerAdapter(MySessionsActivity.this,"week");
+            Log.i("sesssurlw","w: "+thisWeekUrl);
+            Log.i("sesssurlws","w: "+weekStatUrl);
+            SessionWeekCustomerAdapter adapter =new SessionWeekCustomerAdapter(getApplicationContext(),"week");
             LinearLayoutManager manager
-                    = new LinearLayoutManager(MySessionsActivity.this, LinearLayoutManager.HORIZONTAL, false);
+                    = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
             //manager.setReverseLayout(true);
             dateListRcv.setLayoutManager(manager);
             dateListRcv.setAdapter(adapter);
             dateListRcv.scrollToPosition(dateListRcv.getAdapter().getItemCount() - 1);
             //listAllEmotion();
+
+
+            nestedscrollView.setOnScrollChangeListener(new NestedScroll() {
+                @Override
+                public void onScroll() {
+                    Log.i("sesssuruuuab","u: "+skip);
+                    if(tab==2){
+                        if(listTemp.size()==0){
+                            thisYearCtxv.performClick();
+                        }else
+                            Log.i("sesssuruuuab3","u: "+skip);
+                        final String thisYearUrl=GLOBAL_URL+"session/customer/all?userId="+userid+"&skip="+skip+"&limit="+limit+"&fromDate="+fromDYear+"&toDate="+toDYear;
+                        final String yearStatUrl = GLOBAL_URL+"dashboard/customer/"+userid+"/sessionStatistics?fromDate="+fromDYear+"&toDate="+toDYear;
+
+                        callThisYearSession(thisYearUrl);
+                        thisYearCtxv.setBackground(getResources().getDrawable(R.drawable.blue_line_bottom));
+                        thisMntCtxv.setBackground(getResources().getDrawable(R.color.grey_hex_f8));
+                        thisWkCtxv.setBackground(getResources().getDrawable(R.color.grey_hex_f8));
+                        thisWkCtxv.setTextColor(getResources().getColor(R.color.grey));
+                        thisMntCtxv.setTextColor(getResources().getColor(R.color.grey));
+                        thisYearCtxv.setTextColor(getResources().getColor(R.color.blue_pacifyr));
+                        yearSessionsRcv.setVisibility(View.VISIBLE);
+                        weekSessionsRcv.setVisibility(View.GONE);
+                        monthSessionsRcv.setVisibility(View.GONE);
+                    }
+                    else if(tab==1){
+                        if(listTemp.size()==0){
+                            thisMntCtxv.performClick();
+                        }else
+                            Log.i("sesssuruuuab2","u: "+skip);
+                        final String thisMonthUrl=GLOBAL_URL+"session/customer/all?userId="+userid+"&skip="+skip+"&limit="+limit+"&fromDate="+FirstDateOfMonth+"&toDate="+lastMonthDate;
+                        final String monthStatUrl = GLOBAL_URL+"dashboard/customer/"+userid+"/sessionStatistics?fromDate="+FirstDateOfMonth+"&toDate="+lastMonthDate;
+
+                        callThisMonthSession(thisMonthUrl);
+                        thisWkCtxv.setBackground(getResources().getDrawable(R.color.grey_hex_f8));
+                        thisYearCtxv.setBackground(getResources().getDrawable(R.color.grey_hex_f8));
+                        thisMntCtxv.setBackground(getResources().getDrawable(R.drawable.blue_line_bottom));
+                        thisMntCtxv.setTextColor(getResources().getColor(R.color.blue_pacifyr));
+                        thisWkCtxv.setTextColor(getResources().getColor(R.color.grey));
+                        thisYearCtxv.setTextColor(getResources().getColor(R.color.grey));
+                        monthSessionsRcv.setVisibility(View.VISIBLE);
+                        weekSessionsRcv.setVisibility(View.GONE);
+                        yearSessionsRcv.setVisibility(View.GONE);
+                    }
+                    else if(tab==0){
+                        if(listTemp.size()==0){
+                            thisWkCtxv.performClick();
+                        }else
+                            Log.i("sesssuruuuab1","u: "+skip);
+                        final String thisWeekUrl=GLOBAL_URL+"session/customer/all?userId="+userid+"&skip="+skip+"&limit="+limit+"&fromDate="+WeekStartDate+"&toDate="+WeekEndDate;
+                        final String weekStatUrl = GLOBAL_URL+"dashboard/customer/"+userid+"/sessionStatistics?fromDate="+WeekStartDate+"&toDate="+WeekEndDate;
+
+                        callThisWeekSession(thisWeekUrl);
+                        thisWkCtxv.setBackground(getResources().getDrawable(R.drawable.blue_line_bottom));
+                        thisMntCtxv.setBackground(getResources().getDrawable(R.color.grey_hex_f8));
+                        thisYearCtxv.setBackground(getResources().getDrawable(R.color.grey_hex_f8));
+                        thisWkCtxv.setTextColor(getResources().getColor(R.color.blue_pacifyr));
+                        thisMntCtxv.setTextColor(getResources().getColor(R.color.grey));
+                        thisYearCtxv.setTextColor(getResources().getColor(R.color.grey));
+                        weekSessionsRcv.setVisibility(View.VISIBLE);
+                        monthSessionsRcv.setVisibility(View.GONE);
+                        yearSessionsRcv.setVisibility(View.GONE);
+                    }
+                }
+            });
+
+
+
+
             thisWkCtxv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
+                    skip=0;
+                    limit=10;
+                    tab=0;
+                    list.clear();
+                    listTemp.clear();
+                    firstItemEditable = true;
                     getStatistics(weekStatUrl);
                     callThisWeekSession(thisWeekUrl);
-                    SessionWeekCustomerAdapter adapter =new SessionWeekCustomerAdapter(MySessionsActivity.this,"week");
+                    SessionWeekCustomerAdapter adapter =new SessionWeekCustomerAdapter(getApplicationContext(),"week");
                     LinearLayoutManager manager
-                            = new LinearLayoutManager(MySessionsActivity.this, LinearLayoutManager.HORIZONTAL, false);
+                            = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
                     //manager.setReverseLayout(true);
                     dateListRcv.setLayoutManager(manager);
                     dateListRcv.setAdapter(adapter);
                     dateListRcv.scrollToPosition(dateListRcv.getAdapter().getItemCount() - 1);
                     thisWkCtxv.setBackground(getResources().getDrawable(R.drawable.blue_line_bottom));
-                    thisYearCtxv.setBackground(getResources().getDrawable(R.drawable.grey_bg));
                     thisMntCtxv.setBackground(getResources().getDrawable(R.drawable.grey_bg));
-                    thisWkCtxv.setTextColor(getResources().getColor(R.color.blue_pacifyr));
-                    thisMntCtxv.setTextColor(getResources().getColor(R.color.grey));
-                    thisYearCtxv.setTextColor(getResources().getColor(R.color.grey));
+                    thisYearCtxv.setBackground(getResources().getDrawable(R.drawable.grey_bg));
+                    thisWkCtxv.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.blue_pacifyr));
+                    thisMntCtxv.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.grey));
+                    thisYearCtxv.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.grey));
                     weekSessionsRcv.setVisibility(View.VISIBLE);
                     monthSessionsRcv.setVisibility(View.GONE);
                     yearSessionsRcv.setVisibility(View.GONE);
+                    Log.i("emoooooooojiii","l:  ");
                 }
             });
             thisMntCtxv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
+                    skip=0;
+                    limit=10;
+                    tab=1;
+                    list.clear();
+                    listTemp.clear();
+                    firstItemEditable = true;
                     getStatistics(monthStatUrl);
                     callThisMonthSession(thisMonthUrl);
-                    SessionWeekCustomerAdapter adapter =new SessionWeekCustomerAdapter(MySessionsActivity.this,"month");
+                    SessionWeekCustomerAdapter adapter =new SessionWeekCustomerAdapter(getApplicationContext(),"month");
                     LinearLayoutManager manager
-                            = new LinearLayoutManager(MySessionsActivity.this, LinearLayoutManager.HORIZONTAL, false);
+                            = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
                     //manager.setReverseLayout(true);
                     dateListRcv.setLayoutManager(manager);
                     dateListRcv.setAdapter(adapter);
                     dateListRcv.scrollToPosition(dateListRcv.getAdapter().getItemCount() - 1);
-                    thisYearCtxv.setBackground(getResources().getDrawable(R.drawable.grey_bg));
                     thisWkCtxv.setBackground(getResources().getDrawable(R.drawable.grey_bg));
+                    thisYearCtxv.setBackground(getResources().getDrawable(R.drawable.grey_bg));
                     thisMntCtxv.setBackground(getResources().getDrawable(R.drawable.blue_line_bottom));
-                    thisMntCtxv.setTextColor(getResources().getColor(R.color.blue_pacifyr));
-                    thisWkCtxv.setTextColor(getResources().getColor(R.color.grey));
-                    thisYearCtxv.setTextColor(getResources().getColor(R.color.grey));
+                    thisMntCtxv.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.blue_pacifyr));
+                    thisWkCtxv.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.grey));
+                    thisYearCtxv.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.grey));
                     monthSessionsRcv.setVisibility(View.VISIBLE);
                     weekSessionsRcv.setVisibility(View.GONE);
                     yearSessionsRcv.setVisibility(View.GONE);
@@ -207,26 +348,34 @@ public class MySessionsActivity extends PacifyrAppCompactActivity {
             thisYearCtxv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
+                    skip=0;
+                    limit=10;
+                    tab=2;
+                    list.clear();
+                    listTemp.clear();
+                    firstItemEditable = true;
                     getStatistics(yearStatUrl);
                     callThisYearSession(thisYearUrl);
-                    SessionWeekCustomerAdapter adapter =new SessionWeekCustomerAdapter(MySessionsActivity.this,"year");
+                    SessionWeekCustomerAdapter adapter =new SessionWeekCustomerAdapter(getApplicationContext(),"year");
                     LinearLayoutManager manager
-                            = new LinearLayoutManager(MySessionsActivity.this, LinearLayoutManager.HORIZONTAL, false);
+                            = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
                     //manager.setReverseLayout(true);
                     dateListRcv.setLayoutManager(manager);
                     dateListRcv.setAdapter(adapter);
                     dateListRcv.scrollToPosition(dateListRcv.getAdapter().getItemCount() - 1);
                     thisYearCtxv.setBackground(getResources().getDrawable(R.drawable.blue_line_bottom));
-                    thisWkCtxv.setBackground(getResources().getDrawable(R.drawable.grey_bg));
                     thisMntCtxv.setBackground(getResources().getDrawable(R.drawable.grey_bg));
-                    thisWkCtxv.setTextColor(getResources().getColor(R.color.grey));
-                    thisMntCtxv.setTextColor(getResources().getColor(R.color.grey));
-                    thisYearCtxv.setTextColor(getResources().getColor(R.color.blue_pacifyr));
+                    thisWkCtxv.setBackground(getResources().getDrawable(R.drawable.grey_bg));
+                    thisWkCtxv.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.grey));
+                    thisMntCtxv.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.grey));
+                    thisYearCtxv.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.blue_pacifyr));
                     yearSessionsRcv.setVisibility(View.VISIBLE);
                     weekSessionsRcv.setVisibility(View.GONE);
                     monthSessionsRcv.setVisibility(View.GONE);
                 }
             });
+
         }
         catch (Exception e)
         {
@@ -240,29 +389,29 @@ public class MySessionsActivity extends PacifyrAppCompactActivity {
             AjaxCallback cb = new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, JSONObject json, AjaxStatus status) {
+                    Auth.httpStatusFilter(getApplicationContext(), status.getCode());
                     try {
                         ModelStatistics model = GsonUtils.getInstance().gsonToModelStatistics(json);
                         sessionNoCtxv.setText(model.getTotalSessions());
-                        earningsNoCtxv.setText(Utility.getPriceSign(MySessionsActivity.this) + model.getSpendings());
+                        earningsNoCtxv.setText(Utility.getPriceSign(getApplicationContext()) + model.getSpendings());
                         String duration = model.getDuration();
-                        String hours = duration.substring(3,5);
-                        String mint = duration.substring(6,8);
-                        hoursNoCtxv.setText(mint);
-                        minutesNoCtxv.setText(hours);
+                        String hours = duration.substring(0,2);
+                        String minute = duration.substring(3,5);
+                        hoursNoCtxv.setText(hours);
+                        minutesNoCtxv.setText(minute);
                     }
                     catch(Exception excp){
                         excp.printStackTrace();
                     }
                 }
             };
-            AQuery aq = new AQuery(MySessionsActivity.this);
+            AQuery aq = new AQuery(getApplicationContext());
             cb.header("Content-Type", "application/json");
             //cb.header("AccessToken",token);
-            cb.header("AccessToken",accessToken);
+            cb.header("AccessToken",token);
             aq.ajax(url,JSONObject.class, cb);
         }
         catch (Exception e) {
-            hideProgress();
             e.printStackTrace();
         }
     }
@@ -270,8 +419,6 @@ public class MySessionsActivity extends PacifyrAppCompactActivity {
     private void callThisYearSession(String url) {
         try
         {
-            weekSessionsRcv.setVisibility(View.GONE);
-            monthSessionsRcv.setVisibility(View.GONE);
             yearSessionsRcv.setVisibility(View.GONE);
             noDataCtxv.setVisibility(View.GONE);
             setLoading();
@@ -280,26 +427,37 @@ public class MySessionsActivity extends PacifyrAppCompactActivity {
                 @Override
                 public void callback(String url, JSONObject json, AjaxStatus status) {
                     hideProgress();
+                    Auth.httpStatusFilter(getApplicationContext(), status.getCode());
+                    list.clear();
+                    skip=skip+10;
                     ModelSessonsOfCustomer model= GsonUtils.getInstance().gsonToModelSessonsOfCustomer(json);
-                    ArrayList<MSessionDetailRoot> list=model.getResultsList();
-
+                    list=model.getResultsList();
                     if(isValid(list)) {
-                        MySessionAdapter adapter = new MySessionAdapter(MySessionsActivity.this, list, userid, accessToken);
-                        LinearLayoutManager verticalLayoutmanager
-                                = new LinearLayoutManager(MySessionsActivity.this, LinearLayoutManager.VERTICAL, false);
-                        yearSessionsRcv.setLayoutManager(verticalLayoutmanager);
+                        listTemp.addAll(list);
+                        monthSessionsRcv.setVisibility(View.GONE);
+                        weekSessionsRcv.setVisibility(View.GONE);
                         yearSessionsRcv.setVisibility(View.VISIBLE);
-                        yearSessionsRcv.setAdapter(adapter);
-                    }else{
-                        noDataCtxv.setVisibility(View.VISIBLE);
-                        noDataCtxv.setText("There are no sessions this Year.");
+                        setAdapter(listTemp,yearSessionsRcv);
+                        /* MySessionAdapter adapter = new MySessionAdapter(getActivity(), list, userid, token);
+                        LinearLayoutManager verticalLayoutmanager
+                                = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+                        yearSessionsRcv.setLayoutManager(verticalLayoutmanager);
+                        yearSessionsRcv.setAdapter(adapter);*/
+                    } else {
+                        if(listTemp.size()==0){
+                            noDataCtxv.setVisibility(View.VISIBLE);
+                            yearSessionsRcv.setVisibility(View.GONE);
+                            weekSessionsRcv.setVisibility(View.GONE);
+                            monthSessionsRcv.setVisibility(View.GONE);
+                            noDataCtxv.setText("There are no sessions this Year.");}
+
                     }
                 }
             };
-            AQuery aq = new AQuery(MySessionsActivity.this);
+            AQuery aq = new AQuery(getApplicationContext());
             cb.header("Content-Type", "application/json");
             //cb.header("AccessToken",token);
-            cb.header("AccessToken",accessToken);
+            cb.header("AccessToken",token);
             aq.ajax(url,JSONObject.class, cb);
         }
         catch (Exception e) {
@@ -308,38 +466,63 @@ public class MySessionsActivity extends PacifyrAppCompactActivity {
         }
     }
 
+    private void setAdapter(ArrayList<MSessionDetailRoot> list,RecyclerView recyclerView){
+        try {
+            Log.i("sesssssss11","l:  "+userid+"   "+token);
+            MySessionAdapter adapter = new MySessionAdapter(getApplicationContext(), list, userid, token);
+            adapter.setFirstItemEditable(firstItemEditable);
+            LinearLayoutManager verticalLayoutmanager
+                    = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
+            recyclerView.setLayoutManager(verticalLayoutmanager);
+            recyclerView.setAdapter(adapter);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
+    }
+
     private void callThisMonthSession(String url) {
         try {
-            weekSessionsRcv.setVisibility(View.GONE);
-            monthSessionsRcv.setVisibility(View.GONE);
-            yearSessionsRcv.setVisibility(View.GONE);
             noDataCtxv.setVisibility(View.GONE);
+            monthSessionsRcv.setVisibility(View.GONE);
             setLoading();
             showProgress();
             AjaxCallback cb = new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, JSONObject json, AjaxStatus status) {
                     hideProgress();
+                    Auth.httpStatusFilter(getApplicationContext(), status.getCode());
+                    list.clear();
+                    skip=skip+10;
                     ModelSessonsOfCustomer model= GsonUtils.getInstance().gsonToModelSessonsOfCustomer(json);
-                    ArrayList<MSessionDetailRoot> list=model.getResultsList();
+                    list=model.getResultsList();
                     if(isValid(list)) {
-                        MySessionAdapter adapter = new MySessionAdapter(MySessionsActivity.this, list, userid, accessToken);
-                        LinearLayoutManager verticalLayoutmanager = new LinearLayoutManager(MySessionsActivity.this, LinearLayoutManager.VERTICAL, false);
-                        monthSessionsRcv.setLayoutManager(verticalLayoutmanager);
+                        listTemp.addAll(list);
+                        yearSessionsRcv.setVisibility(View.GONE);
+                        weekSessionsRcv.setVisibility(View.GONE);
                         monthSessionsRcv.setVisibility(View.VISIBLE);
-                        monthSessionsRcv.setAdapter(adapter);
-                    }else {
-                        noDataCtxv.setVisibility(View.VISIBLE);
-                        noDataCtxv.setText("There are no sessions this Month.");
+                        setAdapter(listTemp,monthSessionsRcv);
+                    /*MySessionAdapter adapter = new MySessionAdapter(getActivity(), list, userid, token);
+                    LinearLayoutManager verticalLayoutmanager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+                    monthSessionsRcv.setLayoutManager(verticalLayoutmanager);
+                    monthSessionsRcv.setAdapter(adapter);*/
+                    } else {
+                        if(listTemp.size()==0){
+                            noDataCtxv.setVisibility(View.VISIBLE);
+                            yearSessionsRcv.setVisibility(View.GONE);
+                            weekSessionsRcv.setVisibility(View.GONE);
+                            monthSessionsRcv.setVisibility(View.GONE);
+                            noDataCtxv.setText("There are no sessions this Month.");}
                     }
-                }
-            };
-            AQuery aq = new AQuery(MySessionsActivity.this);
+                }};
+            AQuery aq = new AQuery(getApplicationContext());
             cb.header("Content-Type", "application/json");
             //cb.header("AccessToken",token);
-            cb.header("AccessToken",accessToken);
+            cb.header("AccessToken",token);
             aq.ajax(url,JSONObject.class, cb);
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             hideProgress();
             e.printStackTrace();
         }
@@ -347,37 +530,53 @@ public class MySessionsActivity extends PacifyrAppCompactActivity {
 
     private void callThisWeekSession(String url) {
         try {
+            Log.i("weeeeek1","w:  "+url);
             weekSessionsRcv.setVisibility(View.GONE);
-            monthSessionsRcv.setVisibility(View.GONE);
-            yearSessionsRcv.setVisibility(View.GONE);
             noDataCtxv.setVisibility(View.GONE);
+            hideProgress();
             setLoading();
             showProgress();
             AjaxCallback cb = new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, JSONObject json, AjaxStatus status) {
                     hideProgress();
+                    Auth.httpStatusFilter(getApplicationContext(), status.getCode());
+                    Log.i("weeeeek12", "w:  " + json);
+                    list.clear();
+                    skip=skip+10;
                     ModelSessonsOfCustomer model= GsonUtils.getInstance().gsonToModelSessonsOfCustomer(json);
-                    ArrayList<MSessionDetailRoot> list=model.getResultsList();
+                    list=model.getResultsList();
+                    Log.i("weeeeek123","w:  "+list);
                     if(isValid(list)) {
-                        MySessionAdapter adapter = new MySessionAdapter(MySessionsActivity.this, list, userid, accessToken);
-                        LinearLayoutManager verticalLayoutmanager
-                                = new LinearLayoutManager(MySessionsActivity.this, RecyclerView.VERTICAL,
-                                false);
-                        weekSessionsRcv.setLayoutManager(verticalLayoutmanager);
+                        Log.i("weeeeek124","w:  "+list);
+                        listTemp.addAll(list);
+                        monthSessionsRcv.setVisibility(View.GONE);
+                        yearSessionsRcv.setVisibility(View.GONE);
                         weekSessionsRcv.setVisibility(View.VISIBLE);
-                        weekSessionsRcv.setAdapter(adapter);
-                    }else {
-                        noDataCtxv.setVisibility(View.VISIBLE);
-                        noDataCtxv.setText("There are no sessions this Week.");
+                        setAdapter(listTemp,weekSessionsRcv);
+                        /*MySessionAdapter adapter = new MySessionAdapter(getActivity(), list, userid, token);
+                        LinearLayoutManager verticalLayoutmanager
+                                = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+                        weekSessionsRcv.setLayoutManager(verticalLayoutmanager);
+                        weekSessionsRcv.setAdapter(adapter);*/
+                    } else {
+                        if(listTemp.size()==0){
+                            Log.i("weeeeek125","w:  "+list);
+                            noDataCtxv.setVisibility(View.VISIBLE);
+                            yearSessionsRcv.setVisibility(View.GONE);
+                            weekSessionsRcv.setVisibility(View.GONE);
+                            monthSessionsRcv.setVisibility(View.GONE);
+                            noDataCtxv.setText("There are no sessions this Week.");}
                     }
                 }
             };
-            AQuery aq = new AQuery(MySessionsActivity.this);
+            AQuery aq = new AQuery(getApplicationContext());
             cb.header("Content-Type", "application/json");
             //cb.header("AccessToken",token);
-            cb.header("AccessToken",accessToken);
+            //
+            cb.header("AccessToken",token);
             aq.ajax(url,JSONObject.class, cb);
+
         } catch (Exception e) {
             hideProgress();
             e.printStackTrace();
@@ -386,30 +585,6 @@ public class MySessionsActivity extends PacifyrAppCompactActivity {
 
     @Override
     public void onSetValues(){
-        try {
-            prefM= PrefManager.getInstance(MySessionsActivity.this);
-            accessToken=prefM.getAccessToken();
-            userid=prefM.getUserID();
-
-            mySessionsTopLlay = findViewById(R.id.my_sessions_top_llay);
-            upperRlay = findViewById(R.id.upper_rlay);
-            sessionNoCtxv = findViewById(R.id.session_no_ctxv);
-            hoursNoCtxv = findViewById(R.id.hours_no_ctxv);
-            minutesNoCtxv = findViewById(R.id.minutes_no_ctxv);
-            earningsNoCtxv = findViewById(R.id.earnings_no_ctxv);
-            thisWkCtxv = findViewById(R.id.this_wk_ctxv);
-            thisMntCtxv = findViewById(R.id.this_mnt_ctxv);
-            thisYearCtxv = findViewById(R.id.this_year_ctxv);
-            dateListRcv = findViewById(R.id.date_list_rcv);
-            noDataCtxv = findViewById(R.id.no_data_ctxv);
-            weekSessionsRcv = findViewById(R.id.week_sessions_rcv);
-            monthSessionsRcv = findViewById(R.id.month_sessions_rcv);
-            yearSessionsRcv = findViewById(R.id.year_sessions_rcv);
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
     }
 
     @Override
@@ -478,22 +653,32 @@ public class MySessionsActivity extends PacifyrAppCompactActivity {
 
     @Subscribe
     public void onWeekSetSessionEvent(WeekSetSessionEvent event) {
+        firstItemEditable = event.getEditable();
         try {
+
             if(event.getWeekType().equals("week")) {
                 WeekStartDate=event.getFromDWeek();
                 WeekEndDate=event.getToDWeek();
+                listTemp.clear();
+                list.clear();
                 callThisWeekSession(event.getUrl());
                 getStatistics(event.getStatUrl());
+
             }
             else if(event.getWeekType().equals("month")){
                 FirstDateOfMonth=event.getFromDWeek();
                 lastMonthDate=event.getToDWeek();
+                listTemp.clear();
+                list.clear();
                 callThisMonthSession(event.getUrl());
                 getStatistics(event.getStatUrl());
+
             }
             else if(event.getWeekType().equals("year")){
                 fromDYear=event.getFromDWeek();
                 toDYear=event.getToDWeek();
+                listTemp.clear();
+                list.clear();
                 callThisYearSession(event.getUrl());
                 getStatistics(event.getStatUrl());
             }
@@ -504,6 +689,49 @@ public class MySessionsActivity extends PacifyrAppCompactActivity {
         }
 
     }
+
+
+    public void webGetSessionDetail(final String sessionid) {
+        try {
+          /*  setLoading("Loading sessions detail");
+            showProgress();*/
+            if(!isValid(sessionid,"Network Interupted")) {
+                // finish();
+                return;
+            }
+            AjaxCallback<JSONObject> cb = new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject json, AjaxStatus status) {
+//                    hideProgress();
+                    Auth.httpStatusFilter(getApplicationContext(), status.getCode());
+                    LogUtils.LOGD("session", " SSA webGetSessionDetail callback result" + json + " " + status.getMessage());
+                    if(!isValid(json,"Network Interupted"))
+                    {
+                        //finish();
+                    }
+                    else {
+                        try {
+
+                        } catch (Exception e){
+                            //finish();
+                            LogUtils.LOGD("session", " SSA webGetSessionDetail callback exce" + e.getMessage());
+                        }
+                    }
+                }
+            };
+            AQuery aq = new AQuery(getApplicationContext());
+            cb.header("Content-Type", "application/json");
+            cb.header("AccessToken", getAccessToken());
+            String url = "session/"+sessionid;
+            aq.ajax(NetworkService.GLOBAL_URL + url, JSONObject.class, cb);
+        } catch (Exception e){
+//            hideProgress();
+            LogUtils.LOGD("session","SSA webGetSessionDetail exce " + e.getMessage());
+            //finish();
+        }
+    }
+
+
 
 
     @Subscribe

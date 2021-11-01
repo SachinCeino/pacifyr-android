@@ -72,6 +72,7 @@ import com.pacifyr.client.orginals.DynamicLink;
 import com.pacifyr.client.orginals.RemoteConfig;
 import com.pacifyr.client.receiver.NotificationUtils;
 import com.pacifyr.client.sign.CrisisActivity;
+import com.pacifyr.client.twilio.VideoActivity;
 import com.pacifyr.client.twiliochat.QuickstartConversationsManager;
 import com.pacifyr.client.twiliochat.QuickstartConversationsManagerListener;
 import com.pacifyr.client.twiliochat.TokenResponseListener;
@@ -260,7 +261,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
             }
         });
 
-        LocalBroadcastManager.getInstance(this).registerReceiver(notificationReceiver, new IntentFilter(NotificationUtils.NOTIFY_INTENT));
+        LocalBroadcastManager.getInstance(this).registerReceiver(notificationReceiver, new IntentFilter(NotificationUtils.NOTIFY_INTENT_FOR_NEW_CHAT));
     }
 
 
@@ -300,6 +301,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        VideoActivity.WalletBalnce=0;
         /*if (isValid(appUpdater))
         {
             appUpdater.stop();
