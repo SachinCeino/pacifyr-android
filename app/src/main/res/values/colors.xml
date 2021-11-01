@@ -80,7 +80,10 @@
     <color name="color_chat_receiver_bg">#e0e0e0</color>
     <color name="color_chat_sent_bg">#31a5fc</color>
     <color name="color_border_line">#dfdfdf</color>
-    <color name="color_text_time_sent">#dfdfdf</color>
+    <color name="color_text_time_sent">#B0E1F1</color>
+    <color name="color_text_time_receiver">#a4b3ba</color>
+    <color name="color_text_date">#a6b6bd</color>
+    <color name="color_footer_bg">#e8ecee</color>
 
     <color name="black">#000000</color>
 
