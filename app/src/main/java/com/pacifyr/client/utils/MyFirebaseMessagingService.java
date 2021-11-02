@@ -259,89 +259,73 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                                     isCall = false;
                                     showNotification(context, _id, message, actual_type, conversation_sid);
                                 }
-                            } else {
+                            } else if (actual_type.equalsIgnoreCase("confirmBooking") || actual_type.equalsIgnoreCase("rejectBooking")) {
+                                Intent intent = new Intent(NotificationUtils.NOTIFY_INTENT);
+                                intent.putExtra("type", actual_type);
+                                intent.putExtra("message", message);
+                                LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+                            } else if (actual_type.equalsIgnoreCase("payment")) {
+                                Log.w("@@@", "PAYTM_PAYMENT_EVENT");
+                                Intent intent = new Intent(NotificationUtils.PAYTM_PAYMENT_EVENT);
+                                intent.putExtra("type", actual_type);
+                                intent.putExtra("message", message);
+                                intent.putExtra("id", _id);
+                                LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+                            } else if (actual_type.equalsIgnoreCase("sessionWrapUp")) {
+                                Intent intent = new Intent(NotificationUtils.NOTIFY_INTENT);
+                                intent.putExtra("type", actual_type);
+                                intent.putExtra("message", message);
+                                LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+                            } else if (actual_type.equalsIgnoreCase("sessionExtensionAccepted")) {
+                                Intent intent = new Intent(NotificationUtils.NOTIFY_INTENT);
+                                intent.putExtra("type", actual_type);
+                                intent.putExtra("message", message);
+                                LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+                            } else if (actual_type.equals("reminder") && isValid(typeId)) {
+                                Intent intent = new Intent(NotificationUtils.APPOINTMENT_EVENT);
+                                intent.putExtra("typeId", typeId);
+                                LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+                                MediaPlayer mp1 = MediaPlayer.create(context, R.raw.appointment_reminder);
+                                mp1.start();
+                            }
+                            //{type=sessionDeclined, sound=default, message=Your call was declined by the provider "VINEESH PROVIDER "}
 
-                                LogUtils.LOGD("app_recb", " app live notification ");
-                                isCall = false;
-                                if (actual_type.equalsIgnoreCase("session")) {
-                                    isCall = true;
-                                    new Handler().postDelayed(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            LogUtils.LOGD("app_recb", "app live notification tempseesionid cleaed");
-                                        }
-                                    }, 10000);
-
-
-                                } else if (actual_type.equalsIgnoreCase("chat")
-                                        || actual_type.equalsIgnoreCase("confirmBooking") || actual_type.equalsIgnoreCase("rejectBooking")) {
+                            else if (actual_type.equals("sessionDeclined")) {
+                                Intent intent = new Intent(NotificationUtils.SESSION_DECLAINED);
+                                intent.putExtra("message", message);
+                                LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+                            } else if (actual_type.equals("sessionWaiting")) {
+                                Intent intent = new Intent(NotificationUtils.SESSION_DECLAINED_WAITING);
+                                intent.putExtra("message", message);
+                                LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+                            } else if (actual_type.equalsIgnoreCase("confirmBooking")
+                                    || actual_type.equalsIgnoreCase("rejectBooking")
+                                    || actual_type.equalsIgnoreCase("reminder")
+                                    || actual_type.equalsIgnoreCase("twilioChat")
+                                    || actual_type.equalsIgnoreCase("twilio.conversations.new_message")) {
+                                Intent intent = new Intent(NotificationUtils.NOTIFY_INTENT);
+                                intent.putExtra("type", actual_type);
+                                intent.putExtra("message", message);
+                                if (actual_type.equals("twilioChat")) {
+                                    conversation_sid = _id;
                                 }
+
+                                if (isValid(conversation_sid)) {
+                                    intent.putExtra("conversation_sid", conversation_sid);
+                                }
+
+
+                                LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+                            } else if (actual_type != null && actual_type.equals("chat")) {
+                                Intent intent1 = new Intent(NotificationUtils.NOTIFY_INTENT_FOR_NEW_CHAT);
+                                intent1.putExtra("type", actual_type);
+                                intent1.putExtra("message", message);
+                                LocalBroadcastManager.getInstance(context).sendBroadcast(intent1);
                             }
-                        } else if (actual_type.equalsIgnoreCase("confirmBooking") || actual_type.equalsIgnoreCase("rejectBooking")) {
-                            Intent intent = new Intent(NotificationUtils.NOTIFY_INTENT);
-                            intent.putExtra("type", actual_type);
-                            intent.putExtra("message", message);
-                            LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
-                        } else if (actual_type.equalsIgnoreCase("payment")) {
-                            Log.w("@@@", "PAYTM_PAYMENT_EVENT");
-                            Intent intent = new Intent(NotificationUtils.PAYTM_PAYMENT_EVENT);
-                            intent.putExtra("type", actual_type);
-                            intent.putExtra("message", message);
-                            intent.putExtra("id", _id);
-                            LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
-                        } else if (actual_type.equalsIgnoreCase("sessionWrapUp")) {
-                            Intent intent = new Intent(NotificationUtils.NOTIFY_INTENT);
-                            intent.putExtra("type", actual_type);
-                            intent.putExtra("message", message);
-                            LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
-                        } else if (actual_type.equalsIgnoreCase("sessionExtensionAccepted")) {
-                            Intent intent = new Intent(NotificationUtils.NOTIFY_INTENT);
-                            intent.putExtra("type", actual_type);
-                            intent.putExtra("message", message);
-                            LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
-                        } else if (actual_type.equals("reminder") && isValid(typeId)) {
-                            Intent intent = new Intent(NotificationUtils.APPOINTMENT_EVENT);
-                            intent.putExtra("typeId", typeId);
-                            LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
-                            MediaPlayer mp1 = MediaPlayer.create(context, R.raw.appointment_reminder);
-                            mp1.start();
+
                         }
-                        //{type=sessionDeclined, sound=default, message=Your call was declined by the provider "VINEESH PROVIDER "}
-
-                        else if (actual_type.equals("sessionDeclined")) {
-                            Intent intent = new Intent(NotificationUtils.SESSION_DECLAINED);
-                            intent.putExtra("message", message);
-                            LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
-                        } else if (actual_type.equals("sessionWaiting")) {
-                            Intent intent = new Intent(NotificationUtils.SESSION_DECLAINED_WAITING);
-                            intent.putExtra("message", message);
-                            LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
-                        } else if (actual_type.equalsIgnoreCase("confirmBooking")
-                                || actual_type.equalsIgnoreCase("rejectBooking")
-                                || actual_type.equalsIgnoreCase("reminder")
-                                || actual_type.equalsIgnoreCase("twilioChat")
-                                || actual_type.equalsIgnoreCase("twilio.conversations.new_message")) {
-                            Intent intent = new Intent(NotificationUtils.NOTIFY_INTENT);
-                            intent.putExtra("type", actual_type);
-                            intent.putExtra("message", message);
-                            if (actual_type.equals("twilioChat")) {
-                                conversation_sid = _id;
-                            }
-
-                            if (isValid(conversation_sid)) {
-                                intent.putExtra("conversation_sid", conversation_sid);
-                            }
-
-
-                            LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
-                        } else if (actual_type != null && actual_type.equals("chat")) {
-                            Intent intent1 = new Intent(NotificationUtils.NOTIFY_INTENT_FOR_NEW_CHAT);
-                            intent1.putExtra("type", actual_type);
-                            intent1.putExtra("message", message);
-                            LocalBroadcastManager.getInstance(context).sendBroadcast(intent1);
-                        }
-
-                    } else {
+                    }
+                    else {
                         if (isAppIsInBackground(context)) {
                             isCall = false;
                             if (actual_type.equalsIgnoreCase("session")) {
