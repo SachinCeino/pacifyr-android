@@ -1,6 +1,8 @@
 package com.pacifyr.client.twiliochat;
 
 import android.content.Context;
+import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.pacifyr.client.R;
 import com.pacifyr.client.base.PacifyrActivity;
+import com.pacifyr.client.utils.Utility;
 import com.squareup.picasso.Picasso;
 import com.twilio.conversations.Message;
 
@@ -38,7 +41,7 @@ public class TwilioChatListAdapter extends RecyclerView.Adapter<TwilioChatListAd
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        final TextView mName,tvLastMsg,tvUnreadCount;
+        final TextView mName,tvLastMsg,tvUnreadCount, tvDate;
         CircleImageView mImage;
 
         ViewHolder(View itemView) {
@@ -47,6 +50,7 @@ public class TwilioChatListAdapter extends RecyclerView.Adapter<TwilioChatListAd
             tvLastMsg = itemView.findViewById(R.id.mtv_last_message);
             mImage=itemView.findViewById(R.id.mImage);
             tvUnreadCount=itemView.findViewById(R.id.mtv_unread_count);
+            tvDate=itemView.findViewById(R.id.mtv_date);
         }
     }
 
@@ -73,6 +77,14 @@ public class TwilioChatListAdapter extends RecyclerView.Adapter<TwilioChatListAd
             if(isValid(object.getLastMessage())){
                  holder.tvLastMsg.setVisibility(View.VISIBLE);
                 holder.tvLastMsg.setText(object.getLastMessage());
+
+
+                String date = Utility.getRelativeDateTimeString(mContext,object.getLastMessageAt());
+
+                if(date != null && !date.isEmpty()){
+                     holder.tvDate.setText(date);
+                }
+
             }else {
                 holder.tvLastMsg.setVisibility(View.GONE);
             }

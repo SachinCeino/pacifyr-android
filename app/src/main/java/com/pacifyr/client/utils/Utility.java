@@ -69,6 +69,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
+import java.util.concurrent.TimeUnit;
 
 import static com.pacifyr.client.sign.PacifyrRequestAccessActivity.getPath;
 
@@ -92,6 +93,7 @@ public class Utility {
     public static final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 127;
     public static final int MY_PERMISSIONS_REQUEST_RECORD_AUDIO = 128;
     public static final int MY_PERMISSIONS_REQUEST_READ_AUDIO = 129;
+
 
 
     public static String getStringSizeLengthFile(long size) {
@@ -683,6 +685,71 @@ public class Utility {
         catch (Exception e) { }
         return null;
     }
+
+    public static String getRelativeDateTimeString(Context context, String input) {
+
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'",Locale.getDefault());
+        format.setTimeZone(TimeZone.getTimeZone("GMT"));
+
+
+        SimpleDateFormat outFormat = new SimpleDateFormat("d.MM");
+
+        outFormat.setTimeZone(TimeZone.getDefault());
+
+        Date date = null;
+        String dayname="";
+
+        try {
+            date = format.parse(input);
+            System.out.println("Date ->" + date);
+
+            if(DateUtils.isToday(date.getTime())){
+                dayname = getTime(input);
+            }else if(DateUtils.isToday(date.getTime() + DateUtils.DAY_IN_MILLIS)){
+                dayname = context.getResources().getString(R.string.yesterday);
+            }else {
+                Date c = Calendar.getInstance().getTime();
+
+               long dys =  getDateDiff(format, input,format.format(c));
+               if(dys <= 6){
+                   dayname = getWeekDay(date);
+               } else {
+                   dayname = outFormat.format(date);
+               }
+
+            }
+
+
+            return dayname;
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private static String getWeekDay(Date date) {
+        SimpleDateFormat dayFormat = new SimpleDateFormat("EEEE");
+        dayFormat.setTimeZone(TimeZone.getDefault());
+        return dayFormat.format(date);
+    }
+
+    /**
+     * Get a diff between two dates
+     *
+     * @param oldDate the old date
+     * @param newDate the new date
+     * @return the diff value, in the days
+     */
+    public static long getDateDiff(SimpleDateFormat format, String oldDate, String newDate) {
+        try {
+            return TimeUnit.DAYS.convert(format.parse(newDate).getTime() - format.parse(oldDate).getTime(), TimeUnit.MILLISECONDS);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
 
     public static String getFormattedDate(Context context,String input) {
 
