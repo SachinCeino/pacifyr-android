@@ -729,7 +729,7 @@ public class Utility {
     }
 
     private static String getWeekDay(Date date) {
-        SimpleDateFormat dayFormat = new SimpleDateFormat("EEEE");
+        SimpleDateFormat dayFormat = new SimpleDateFormat("EEE");
         dayFormat.setTimeZone(TimeZone.getDefault());
         return dayFormat.format(date);
     }

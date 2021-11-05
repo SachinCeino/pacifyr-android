@@ -956,7 +956,7 @@ public class TwilioConversationActivity extends
             leftLlay.setVisibility(View.VISIBLE);
 
             rightTxv.setTextColor(getResources().getColor(R.color._color_action_bar_text_color));
-            rightTxv.setText("close");
+            rightTxv.setText("Close");
 
         }
         catch (Exception ex)
