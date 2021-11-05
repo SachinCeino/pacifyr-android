@@ -650,11 +650,14 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
     public void onStart() {
         super.onStart();
         EventBus.getDefault().register(this);
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(notificationReceiver, new IntentFilter(NotificationUtils.NOTIFY_INTENT));
     }
 
     @Override
     public void onStop() {
         super.onStop();
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(notificationReceiver);
+
         EventBus.getDefault().unregister(this);
         ((DashboardActivity) getActivity()).hideConnectButton();
         isVisible=false;
