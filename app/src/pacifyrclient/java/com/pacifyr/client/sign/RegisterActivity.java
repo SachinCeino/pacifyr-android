@@ -1347,9 +1347,12 @@ public class RegisterActivity extends PacifyrActivity {
                                         mainLabel = roleModel.getMainLabel();
                                         label=roleModel.getLabel();
                                         quickbloxNewLogin();
-
+                                        if(isValid(edit_image))
+                                            updateProfileWithImage();
+                                        else
+                                            updateProfileWeb();
                                         Bundle args =
-                                                FirebaseLogging.getConstantArgsLoggedOut(RegisterActivity.this);
+                                                FirebaseLogging.getConstantArgsLoggedIn(RegisterActivity.this);
                                         if (userModel != null) {
                                             args.putString(FirebaseLogging.EC,
                                                     userModel.getId() + "-" + userModel.getFirstName());
@@ -1441,7 +1444,6 @@ public class RegisterActivity extends PacifyrActivity {
             showProgress();
 
             JSONObject postDataParams = new JSONObject();
-            postDataParams.putOpt("qbid", Long.valueOf(qbID));
             String json = postDataParams.toString();
             Map<String, Object> params = new HashMap<String, Object>();
             params.put("data", json);
@@ -1683,7 +1685,6 @@ public class RegisterActivity extends PacifyrActivity {
             //cb.header("AccessToken", accessToken);
             //cb.header("enctype", "multipart/form-data");
             JSONObject postDataParams = new JSONObject();
-            postDataParams.putOpt("qbid", Long.valueOf(qbID));
             String json = postDataParams.toString();
             HashMap<String, JSONObject> map = new HashMap<String, JSONObject>();
             map.put("data", postDataParams);
