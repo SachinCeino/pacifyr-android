@@ -725,6 +725,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
         emotion_rlay.setVisibility(View.INVISIBLE);
         call_overlay.setVisibility(View.GONE);
         toggle_speaker.setVisibility(View.GONE);
+        toggle_camera.setVisibility(View.GONE);
         micToggleVideoCall.setVisibility(View.GONE);
         Log.d(TAG, "hideToolBarAndButtons");
 
@@ -756,6 +757,10 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
             toggle_speaker.setVisibility(View.VISIBLE);
         }
         micToggleVideoCall.setVisibility(View.VISIBLE);
+        if (isVideoCall)
+        {
+            toggle_camera.setVisibility(View.VISIBLE);
+        }
 
         Log.d(TAG, "showToolBarAndButtons");
 

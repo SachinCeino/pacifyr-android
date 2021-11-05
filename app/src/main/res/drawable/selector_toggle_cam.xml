@@ -11,10 +11,10 @@
 
     <item
         android:state_checked="true"
-        android:drawable="@drawable/call_cam_video"
+        android:drawable="@drawable/cam_light"
         />
     <item
         android:state_checked="false"
-        android:drawable="@drawable/call_cam_video"
+        android:drawable="@drawable/cam_light"
         />
 </selector>
