@@ -51,12 +51,21 @@
         </LinearLayout>
 
         <com.pacifyr.client.customview.MainTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_color_dark_grey"
+            android:id="@+id/mtv_date"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Yesterday" />
+
+        <com.pacifyr.client.customview.MainTextView
             android:id="@+id/mtv_unread_count"
             style="@style/DialogUnreadCounterStyle"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mtv_date"
             tools:text="4" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -38,13 +38,15 @@ public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAd
     private static final int VIEW_TYPE_MESSAGE_SENT_IMAGE = 2;
     private static final int VIEW_TYPE_MESSAGE_RECEIVED = 3;
     private static final int VIEW_TYPE_MESSAGE_RECEIVED_IMAGE = 4;
+    private static final int VIEW_TYPE_MESSAGE_RECEIVED_FILE = 5;
+    private static final int VIEW_TYPE_MESSAGE_SENT_FILE = 6;
     Context context;
     ArrayList<MessageMediaModel> messageList;
     String userId;
     String nextMsgDate ="";
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        final MainTextView messageText,tvTimeRight,tvTimeBottom,tvDate;
+        final MainTextView messageText,tvTimeRight,tvTimeBottom,tvDate, tvFileSize;
         final ImageView ivFile, ivImage;
         final ProgressBar progressMessage;
         final CardView cardDate;
@@ -61,6 +63,7 @@ public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAd
             cardDate =  itemView.findViewById(R.id.card_date);
             progressMessage =  itemView.findViewById(R.id.progress_message);
             clBody =  itemView.findViewById(R.id.constraintLayout2);
+            tvFileSize =  itemView.findViewById(R.id.tv_file_size);
 
         }
 
@@ -79,11 +82,21 @@ public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAd
 
         if (message.getAuthor().equals(userId) && message.hasMedia()) {
             // If the current user is the sender of the message
-            return VIEW_TYPE_MESSAGE_SENT_IMAGE;
+            if(message.getMediaType().equals("application/pdf")){
+                return VIEW_TYPE_MESSAGE_SENT_FILE;
+            } else {
+                return VIEW_TYPE_MESSAGE_SENT_IMAGE;
+            }
+
         } else if(message.getAuthor().equals(userId)&& !message.hasMedia()) {
             return VIEW_TYPE_MESSAGE_SENT;
         }else if(!message.getAuthor().equals(userId)&& message.hasMedia()) {
-            return VIEW_TYPE_MESSAGE_RECEIVED_IMAGE;
+            if(message.getMediaType().equals("application/pdf")){
+                return VIEW_TYPE_MESSAGE_RECEIVED_FILE;
+            } else {
+                return VIEW_TYPE_MESSAGE_RECEIVED_IMAGE;
+            }
+
         }else if(!message.getAuthor().equals(userId)&& !message.hasMedia()){
             // If some other user sent the message
             return VIEW_TYPE_MESSAGE_RECEIVED;
@@ -112,6 +125,14 @@ public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAd
         }else if (viewType == VIEW_TYPE_MESSAGE_RECEIVED_IMAGE) {
             view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.adapter_message_receive_image, parent, false);
+            return new ViewHolder(view);
+        } else if(viewType == VIEW_TYPE_MESSAGE_RECEIVED_FILE) {
+            view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.adapter_message_receive_file, parent, false);
+            return new ViewHolder(view);
+        }else if(viewType == VIEW_TYPE_MESSAGE_SENT_FILE) {
+            view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.adapter_message_send_file, parent, false);
             return new ViewHolder(view);
         }
 
@@ -217,6 +238,12 @@ public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAd
 
                     if (message.getMediaType().equals("application/pdf")) {
                         holder.progressMessage.setVisibility(View.GONE);
+                        String fileName = message.getMediaFileName();
+                        holder.messageText.setText(fileName);
+
+                        String fileSize = Utility.getStringSizeLengthFile(message.getMediaSize());
+
+                        holder.tvFileSize.setText(fileSize);
 
                         holder.ivFile.setOnClickListener(new View.OnClickListener() {
                             @Override

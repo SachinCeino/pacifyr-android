@@ -101,6 +101,34 @@
             app:layout_constraintEnd_toEndOf="parent"
             tools:text="2:20 AM" />
 
+        <ImageView
+            android:id="@+id/iv_down_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:padding="@dimen/dp3"
+            android:src="@drawable/ic_down_arrow_white"
+            app:layout_constraintStart_toStartOf="@+id/progress_message"
+            app:layout_constraintTop_toBottomOf="@+id/tv_message"
+            android:visibility="gone"/>
+
+        <com.pacifyr.client.customview.MainTextView
+            android:id="@+id/tv_file_size"
+            style="@style/ChatSendTimeTextStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:paddingStart="5dp"
+            android:paddingTop="@dimen/dp2"
+            android:paddingEnd="@dimen/dp5"
+            android:paddingBottom="@dimen/dp2"
+            android:textSize="@dimen/sp10"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/tv_time_bottom"
+            app:layout_constraintStart_toEndOf="@+id/iv_down_arrow"
+            tools:text="407KB"
+            android:visibility="gone"/>
+
         <com.pacifyr.client.customview.MainTextView
             android:id="@+id/tv_time_bottom"
             style="@style/ChatSendTimeTextStyle"
