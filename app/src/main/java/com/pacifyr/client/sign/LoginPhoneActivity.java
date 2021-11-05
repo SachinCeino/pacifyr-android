@@ -208,7 +208,7 @@ private static String TAG=LoginPhoneActivity.class.getName();
                                 }else{
                                     signInCreatedUser();
                                     Bundle args =
-                                            FirebaseLogging.getConstantArgsLoggedOut(LoginPhoneActivity.this);
+                                            FirebaseLogging.getConstantArgsLoggedIn(LoginPhoneActivity.this);
                                     args.putString(FirebaseLogging.EC,
                                             phoneNo + " tried Login. Status code:" + status.getCode());
                                     FirebaseLogging.sendLog(LoginPhoneActivity.this,
