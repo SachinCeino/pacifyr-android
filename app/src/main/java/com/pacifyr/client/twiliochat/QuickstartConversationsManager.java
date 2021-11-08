@@ -36,6 +36,7 @@ import java.util.List;
 import static com.pacifyr.client.network.NetworkService.GLOBAL_URL;
 import static com.pacifyr.client.orginals.Auth.getDeviceId;
 import static com.pacifyr.client.twiliochat.TwilioConversationActivity.DEFAULT_CONVERSATION_NAME;
+import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.isProd;
 
 interface AccessTokenListener {
     void receivedAccessToken(@Nullable String token, @Nullable Exception exception);
@@ -130,7 +131,10 @@ public class QuickstartConversationsManager {
         try {
             JSONObject jsonObject = new JSONObject();
             jsonObject.putOpt("deviceId", getDeviceId(context));
-            jsonObject.putOpt("pushCredentialName", "android-test-client");
+            if (!isProd)
+                jsonObject.putOpt("pushCredentialName", "android-test-client");
+            else
+                jsonObject.putOpt("pushCredentialName", "android-prod-client");
             jsonObject.putOpt("deviceType", "android");
             aq.post(url, jsonObject, JSONObject.class, cb);
         }
