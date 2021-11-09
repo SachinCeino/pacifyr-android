@@ -4235,12 +4235,12 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
                 String message = intent.getExtras().getString("message");
                 String type = intent.getExtras().getString("type");
                 if (message != null && message != "") {
-                    if (type.equals("chat")) {
+
                         messageCountIncomming++;
                         if (messageCountIncomming>=1)
                             messageCount.setText(messageCountIncomming+"");
                         messageCount.setVisibility(View.VISIBLE);
-                    }
+
                 }
             }
         }
