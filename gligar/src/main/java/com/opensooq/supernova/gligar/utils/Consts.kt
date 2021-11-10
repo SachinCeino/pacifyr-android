@@ -8,6 +8,7 @@ import android.provider.MediaStore
  */
 
 internal val cursorUri: Uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+internal val newCursorUri: Uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
 internal const val ORDER_BY = MediaStore.Images.Media.DATE_TAKEN + " DESC"
 internal const val DISPLAY_NAME_COLUMN = MediaStore.Images.Media.BUCKET_DISPLAY_NAME
 internal const val ID_COLUMN = MediaStore.Images.Media._ID
