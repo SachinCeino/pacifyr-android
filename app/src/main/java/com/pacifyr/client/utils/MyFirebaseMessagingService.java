@@ -308,7 +308,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                                 LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
                             } else if (actual_type != null && actual_type.equals("chat")
                                     || actual_type.equalsIgnoreCase("twilioChat")
-                                    || actual_type.equalsIgnoreCase("twilio.conversations.new_message")) {
+                                    ) {//twilio.conversations.new_message
 
                                 Intent intent1 = new Intent(NotificationUtils.NOTIFY_INTENT_FOR_NEW_CHAT);
                                 if (actual_type.equals("twilioChat")) {
@@ -412,7 +412,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         Intent cIntent = null;
         PendingIntent pendingIntent = null;
-        if (actualType.equals("twilio.conversations.new_message") ||actualType.equals("twilioChat"))
+        if (actualType.equals("twilioChat"))//actualType.equals("twilio.conversations.new_message") ||
         {
             if (actualType.equals("twilioChat"))
                 conversation_sid =qsid;
