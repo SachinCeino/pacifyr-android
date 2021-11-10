@@ -98,7 +98,7 @@
 
     <style parent="MatchWidth" name="DialogNameStyle">
 
-        <item name="android:textColor">@color/text_color_primary</item>
+        <item name="android:textColor">@color/text_color_black</item>
 
         <item name="android:textSize">16sp</item>
 
@@ -109,7 +109,7 @@
 
     <style parent="MatchWidth" name="DialogLastMessageStyle">
 
-        <item name="android:textColor">@color/text_color_dark_grey</item>
+        <item name="android:textColor">@color/color_last_massage</item>
 
         <item name="android:textSize">14sp</item>
 
