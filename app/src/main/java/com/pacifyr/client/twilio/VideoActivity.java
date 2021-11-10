@@ -1187,6 +1187,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
         LocalBroadcastManager.getInstance(this).registerReceiver(eventReceiver, new IntentFilter(CallEvent.CALL_EVENT));
         LocalBroadcastManager.getInstance(this).registerReceiver(stripeCardAddWhileCall, new IntentFilter(STRIPCARD_ADDED_WHILE_CALL));
         LocalBroadcastManager.getInstance(this).registerReceiver(notificationReceiver, new IntentFilter(NotificationUtils.NOTIFY_INTENT));
+        LocalBroadcastManager.getInstance(this).registerReceiver(notificationReceiver_for_new_chat, new IntentFilter(NotificationUtils.NOTIFY_INTENT_FOR_NEW_CHAT));
 
 
         audioCodec = getAudioCodecPreference(PREF_AUDIO_CODEC,
@@ -1305,7 +1306,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
         configureAudio(false);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(sessionDeclainedReceiver);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(sessionDeclainedWaitng);
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(notificationReceiver_for_new_chat);
+
 
         EventBus.getDefault().post(Constants.DestroySubScreenAfterEndCall);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(stripeCardAddWhileCall);
@@ -1431,7 +1432,6 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         try {
             EventBus.getDefault().register(this);
-            LocalBroadcastManager.getInstance(this).registerReceiver(notificationReceiver_for_new_chat, new IntentFilter(NotificationUtils.NOTIFY_INTENT_FOR_NEW_CHAT));
 
             mEarPhoneChanges = new EarPhoneChanges();
             IntentFilter filter = new IntentFilter(Intent.ACTION_HEADSET_PLUG);
@@ -3954,6 +3954,7 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
                 }
             }
             LocalBroadcastManager.getInstance(this).unregisterReceiver(notificationReceiver);
+            LocalBroadcastManager.getInstance(this).unregisterReceiver(notificationReceiver_for_new_chat);
         }catch (Exception e)
         {
 
