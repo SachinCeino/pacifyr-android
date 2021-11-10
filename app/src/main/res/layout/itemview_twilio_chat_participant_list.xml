@@ -13,15 +13,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:padding="14dp"
-        android:paddingStart="@dimen/list_item_side_margin"
-        android:paddingEnd="@dimen/list_item_side_margin">
+        android:paddingStart="14dp"
+        android:paddingTop="14dp"
+        android:paddingBottom="14dp"
+        android:paddingEnd="0dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/mImage"
             android:layout_width="45dp"
             android:layout_height="45dp"
-            android:src="@drawable/placeholder_user"
+            android:src="@drawable/img_chat_avatar"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -30,12 +31,12 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:orientation="vertical"
             android:gravity="center_vertical"
+            android:orientation="vertical"
             android:paddingStart="10dp"
             android:paddingEnd="5dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/mtv_unread_count"
+            app:layout_constraintEnd_toStartOf="@+id/fl_go_arrow"
             app:layout_constraintStart_toEndOf="@+id/mImage"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -47,26 +48,55 @@
             <com.pacifyr.client.customview.MainTextView
                 android:id="@+id/mtv_last_message"
                 style="@style/DialogLastMessageStyle"
-                tools:text="Long last message to see how margin on the right side works" />
+                tools:text="on the right side works on the right side works" />
         </LinearLayout>
 
         <com.pacifyr.client.customview.MainTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/text_color_dark_grey"
+            android:textColor="@color/color_last_massage"
             android:id="@+id/mtv_date"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:paddingEnd="14dp"
             tools:text="Yesterday" />
 
-        <com.pacifyr.client.customview.MainTextView
+        <FrameLayout
+            android:id="@+id/fl_go_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mtv_date">
+
+            <com.pacifyr.client.customview.MainTextView
+                android:id="@+id/mtv_unread_count"
+                style="@style/DialogUnreadCounterStyle"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/mtv_date"
+                tools:text="4"
+                android:layout_marginEnd="14dp"/>
+
+            <ImageView
+                android:layout_height="35dp"
+                android:layout_width="35dp"
+                android:id="@+id/img_arrow"
+                android:src="@drawable/ic_go_arrow"
+                android:layout_gravity="center"/>
+        </FrameLayout>
+
+        <!--<com.pacifyr.client.customview.MainTextView
             android:id="@+id/mtv_unread_count"
             style="@style/DialogUnreadCounterStyle"
-            android:visibility="visible"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/mtv_date"
-            tools:text="4" />
+            tools:text="4" />-->
+
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

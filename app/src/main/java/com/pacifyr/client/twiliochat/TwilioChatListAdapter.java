@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -43,6 +44,7 @@ public class TwilioChatListAdapter extends RecyclerView.Adapter<TwilioChatListAd
 
         final TextView mName,tvLastMsg,tvUnreadCount, tvDate;
         CircleImageView mImage;
+        ImageView imgArrow;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -51,6 +53,7 @@ public class TwilioChatListAdapter extends RecyclerView.Adapter<TwilioChatListAd
             mImage=itemView.findViewById(R.id.mImage);
             tvUnreadCount=itemView.findViewById(R.id.mtv_unread_count);
             tvDate=itemView.findViewById(R.id.mtv_date);
+            imgArrow=itemView.findViewById(R.id.img_arrow);
         }
     }
 
@@ -71,7 +74,7 @@ public class TwilioChatListAdapter extends RecyclerView.Adapter<TwilioChatListAd
         TwilioConversationCreate object=results.get(position);
         if (isValid(object) && isValid(object.getPacifyr()))
         {
-            holder.mName.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
+            holder.mName.setTextColor(ContextCompat.getColor(mContext, R.color.text_color_black));
             holder.mName.setText(object.getPacifyr().getFirstName());
 
             if(isValid(object.getLastMessage())){
@@ -102,8 +105,12 @@ public class TwilioChatListAdapter extends RecyclerView.Adapter<TwilioChatListAd
 
 
                 if(unreadCount > 0){
+                    holder.imgArrow.setVisibility(View.GONE);
                     holder.tvUnreadCount.setVisibility(View.VISIBLE);
                     holder.tvUnreadCount.setText(String.valueOf(unreadCount));
+                } else {
+                    holder.imgArrow.setVisibility(View.VISIBLE);
+                    holder.tvUnreadCount.setVisibility(View.GONE);
                 }
             }
 
@@ -113,7 +120,7 @@ public class TwilioChatListAdapter extends RecyclerView.Adapter<TwilioChatListAd
                  imgUrl= GLOBAL_IMAGE_URL+object.getPacifyr().getImage();
 
             }
-            Picasso.with(mContext).load(imgUrl).placeholder(R.drawable.placeholder_user).into(holder.mImage);
+            Picasso.with(mContext).load(imgUrl).placeholder(R.drawable.img_chat_avatar).into(holder.mImage);
 
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
