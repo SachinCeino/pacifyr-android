@@ -373,7 +373,7 @@ public class TwilioConversationActivity extends
             }
             leftTxv.setText(name);
             //Image
-            Picasso.with(TwilioConversationActivity.this).load(imgUrl).placeholder(R.drawable.placeholder_user).into(userCimv);
+            Picasso.with(TwilioConversationActivity.this).load(imgUrl).placeholder(R.drawable.img_chat_avatar).into(userCimv);
         }
 
     }
