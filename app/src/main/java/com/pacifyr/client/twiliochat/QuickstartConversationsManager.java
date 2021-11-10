@@ -3,6 +3,7 @@ package com.pacifyr.client.twiliochat;
 import android.content.Context;
 import android.os.ParcelFileDescriptor;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
@@ -340,16 +341,22 @@ public class QuickstartConversationsManager {
 
 
     private void loadPreviousMessages(final Conversation conversation) {
-        conversation.getLastMessages(200,
-                new CallbackListener<List<Message>>() {
-                    @Override
-                    public void onSuccess(List<Message> result) {
-                        messages.addAll(result);
-                        if (conversationsManagerListener != null) {
-                            conversationsManagerListener.reloadMessages(result);
+        try {
+            conversation.getLastMessages(200,
+                    new CallbackListener<List<Message>>() {
+                        @Override
+                        public void onSuccess(List<Message> result) {
+                            messages.addAll(result);
+                            if (conversationsManagerListener != null) {
+                                conversationsManagerListener.reloadMessages(result);
+                            }
                         }
-                    }
-                });
+                    });
+        }
+        catch (Exception e)
+        {
+
+        }
     }
 
 
@@ -359,6 +366,22 @@ public class QuickstartConversationsManager {
                 @Override
                 public void onConversationAdded(Conversation conversation) {
                     Log.w("####","onConversationAdded");
+                    try {
+                        conversation.getLastMessages(200,
+                                new CallbackListener<List<Message>>() {
+                                    @Override
+                                    public void onSuccess(List<Message> result) {
+                                        messages.addAll(result);
+                                        if (conversationsManagerListener != null) {
+                                            conversationsManagerListener.reloadMessages(result);
+                                        }
+                                    }
+                                });
+                    }
+                    catch (Exception e)
+                    {
+
+                    }
 
                 }
 

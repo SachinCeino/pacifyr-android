@@ -300,24 +300,24 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                                 LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
                             } else if (actual_type.equalsIgnoreCase("confirmBooking")
                                     || actual_type.equalsIgnoreCase("rejectBooking")
-                                    || actual_type.equalsIgnoreCase("reminder")
-                                    || actual_type.equalsIgnoreCase("twilioChat")
-                                    || actual_type.equalsIgnoreCase("twilio.conversations.new_message")) {
+                                    || actual_type.equalsIgnoreCase("reminder"))
+                            {
                                 Intent intent = new Intent(NotificationUtils.NOTIFY_INTENT);
                                 intent.putExtra("type", actual_type);
                                 intent.putExtra("message", message);
+                                LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+                            } else if (actual_type != null && actual_type.equals("chat")
+                                    || actual_type.equalsIgnoreCase("twilioChat")
+                                    || actual_type.equalsIgnoreCase("twilio.conversations.new_message")) {
+
+                                Intent intent1 = new Intent(NotificationUtils.NOTIFY_INTENT_FOR_NEW_CHAT);
                                 if (actual_type.equals("twilioChat")) {
                                     conversation_sid = _id;
                                 }
 
                                 if (isValid(conversation_sid)) {
-                                    intent.putExtra("conversation_sid", conversation_sid);
+                                    intent1.putExtra("conversation_sid", conversation_sid);
                                 }
-
-
-                                LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
-                            } else if (actual_type != null && actual_type.equals("chat")) {
-                                Intent intent1 = new Intent(NotificationUtils.NOTIFY_INTENT_FOR_NEW_CHAT);
                                 intent1.putExtra("type", actual_type);
                                 intent1.putExtra("message", message);
                                 LocalBroadcastManager.getInstance(context).sendBroadcast(intent1);
