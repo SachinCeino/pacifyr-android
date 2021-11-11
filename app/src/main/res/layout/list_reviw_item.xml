@@ -39,6 +39,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
                 android:id="@+id/quality_ctxv"
+                android:visibility="gone"
                 android:textColor="@color/black"
                 android:text=""/>
         </LinearLayout>
