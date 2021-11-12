@@ -2,10 +2,12 @@ package com.pacifyr.client.twiliochat;
 
 import android.Manifest;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -30,6 +32,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -61,6 +64,7 @@ import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.quickblox.chat.interfaces.AttachmentClick;
 import com.pacifyr.client.quickblox.chat.ui.activity.AttachmentImageActivity;
 import com.pacifyr.client.quickblox.chat.ui.widget.BottomAttachDialog;
+import com.pacifyr.client.receiver.NotificationUtils;
 import com.pacifyr.client.twilio.VideoActivity;
 import com.pacifyr.client.utility.PdfViewer;
 import com.pacifyr.client.utils.Utility;
@@ -101,8 +105,19 @@ public class TwilioConversationActivity extends
     @Override
     public void onPause() {
         super.onPause();
-
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(notificationReceiver_for_new_chat);
     }
+
+    private final BroadcastReceiver notificationReceiver_for_new_chat = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent != null && intent.hasExtra("message")) {
+                String message = intent.getExtras().getString("message");
+                String type = intent.getExtras().getString("type");
+
+            }
+        }
+    };
     TwilioConversationCreate mTwilioConversationCreate;
     public static void start(Context context, TwilioConversationCreate mTwilioConversationCreate) {
         Intent intent = new Intent(context, TwilioConversationActivity.class);
@@ -1034,7 +1049,7 @@ public class TwilioConversationActivity extends
     @Override
     protected void onResume() {
         super.onResume();
-
+        LocalBroadcastManager.getInstance(this).registerReceiver(notificationReceiver_for_new_chat, new IntentFilter(NotificationUtils.NOTIFY_INTENT_FOR_NEW_CHAT));
     }
 
     @Override

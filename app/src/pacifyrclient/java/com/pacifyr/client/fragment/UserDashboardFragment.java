@@ -630,6 +630,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
                 @Override
                 public void run() {
                     checkIsThereAnyActiveSessionsAvailable();
+                    getChatUnreadCount();
                     Log.w("TIMERRUNNING","YES");
                 }
 
@@ -967,7 +968,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
         }
         ((DashboardActivity)getActivity()).getUnratedSessions();
         //setChatCountInfo();
-        getChatUnreadCount();
+       // getChatUnreadCount();
         if (prefM != null && prefM.getCompanyLogo() != null) {
             Glide.with(getActivity())
                     .load(UtilityNetworkService.GLOBAL_IMAGE_URL + prefM.getCompanyLogo())

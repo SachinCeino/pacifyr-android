@@ -1281,6 +1281,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
          */
         super.onPause();
         isScreenActive=false;
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(notificationReceiver_for_new_chat);
         try {
             if (!isVideoCall) {
                 if (isValid(proximitySensorEventListener) && isValid(sensorManager)) {
@@ -3954,7 +3955,7 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
                 }
             }
             LocalBroadcastManager.getInstance(this).unregisterReceiver(notificationReceiver);
-            LocalBroadcastManager.getInstance(this).unregisterReceiver(notificationReceiver_for_new_chat);
+
         }catch (Exception e)
         {
 
