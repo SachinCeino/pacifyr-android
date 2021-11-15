@@ -264,13 +264,14 @@ public class TwilioCoversationListActivity extends PacifyrActivity {
     protected void onStart() {
         super.onStart();
         EventBus.getDefault().register(this);
-        LocalBroadcastManager.getInstance(this).registerReceiver(notificationReceiver, new IntentFilter(NotificationUtils.NOTIFY_INTENT_FOR_NEW_CHAT));
+
     }
 
 
     @Override
     protected void onResume() {
         super.onResume();
+        LocalBroadcastManager.getInstance(this).registerReceiver(notificationReceiver, new IntentFilter(NotificationUtils.NOTIFY_INTENT_FOR_NEW_CHAT));
         if (ConnectionCheckBroadcast.CheckInternetConnection(this)) {
             getConversationParticipantsList();
         } else {
