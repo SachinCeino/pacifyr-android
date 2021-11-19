@@ -50,6 +50,7 @@ public class AmazonSNSTokenHandler {
     private final Context context;
     private String token;
     private Installation installation;
+    public static boolean installationIsSuccess=false;
 
     public AmazonSNSTokenHandler(Context context) {
         this.context = context;
@@ -112,15 +113,18 @@ public class AmazonSNSTokenHandler {
                 public void callback(String url, JSONObject json, AjaxStatus status) {
                     LogUtils.LOGD("install", "installationWeb callback : " + json);
                     if (json == null) {
+                        installationIsSuccess=false;
                         LogUtils.LOGD("install", "installationWeb fail : " + status.getMessage());
-                        com.pacifyrapp.utilitylibrary.ToastHandler.newInstance(context).showToast("Install : Please Try again");
+                        //com.pacifyrapp.utilitylibrary.ToastHandler.newInstance(context).showToast("Installation : Please Try again");
 
                     } else {
                         try {
+                            installationIsSuccess=true;
                             saveUDID(udid);
                             Gson gson = new Gson();
                             String json2 = gson.toJson(json);
                             LogUtils.LOGD("install", "installationWeb suceess : " + json2);
+                           // com.pacifyrapp.utilitylibrary.ToastHandler.newInstance(context).showToast("Installation success");
                         } catch (Exception e) {
                             //Crashlytics.logException(e);
                             ToastHandler.newInstance(context).showToast("Please Try again");
@@ -154,7 +158,7 @@ public class AmazonSNSTokenHandler {
             input.putOpt("osVersion", getAndroidVersion());
             Gson gson = new Gson();
             String json = gson.toJson(input);
-            LogUtils.LOGD("install", "installationWeb : " + json);
+            Log.w("install", "installationWeb : " + json);
             aq.post(NetworkService.GLOBAL_URL + "installation", input, JSONObject.class, cbc);
             LogUtils.LOGD("install", "installation url: " + NetworkService.GLOBAL_URL + "installation");
 

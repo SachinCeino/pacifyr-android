@@ -116,6 +116,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import static com.facebook.FacebookSdk.getApplicationContext;
 import static com.pacifyr.client.twilio.VideoActivity.isCallActive;
 import static com.pacifyr.client.twiliochat.TwilioConversationActivity.DEFAULT_CONVERSATION_NAME;
+import static com.pacifyr.client.utils.AmazonSNSTokenHandler.installationIsSuccess;
 import static com.pacifyr.client.utils.Constants.getCountryChecks;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
 
@@ -602,7 +603,10 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
         configPushNotifications();
         setContentView(R.layout.activity_dashboard);
         hideKeyboard();
-
+        if (!installationIsSuccess)
+        {
+            new AmazonSNSTokenHandler(getBaseContext()).register();
+        }
         context = DashboardActivity.this;
         //    permissionCheck();
         /**the library will work in background for checking new update available or not**/
@@ -916,7 +920,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
                 Log.w("FIREBASETOKEN_dash", tok);
                 PrefManager.getInstance(context).putSharedString(PrefManager.FCM_TOKEN,tok);
                 new FCMMasterToken(context,tok);
-                new AmazonSNSTokenHandler(context).register();
+               // new AmazonSNSTokenHandler(context).register();
                 if (!isValid(getPrefManager().getTWILIOAccessToken()))
                 {
                     quickstartConversationsManager = new QuickstartConversationsManager();
@@ -929,7 +933,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
         }
         else
         {
-            new AmazonSNSTokenHandler(context).register();
+           // new AmazonSNSTokenHandler(context).register();
             if (!isValid(getPrefManager().getTWILIOAccessToken()))
             {
                 quickstartConversationsManager = new QuickstartConversationsManager();

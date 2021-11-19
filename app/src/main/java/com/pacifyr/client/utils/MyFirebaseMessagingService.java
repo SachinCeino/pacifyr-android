@@ -39,6 +39,7 @@ import org.json.JSONObject;
 
 import static androidx.core.app.NotificationCompat.BADGE_ICON_SMALL;
 import static com.pacifyr.client.receiver.NotificationUtils.isAppIsInBackground;
+import static com.pacifyr.client.utils.AmazonSNSTokenHandler.installationIsSuccess;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
@@ -79,6 +80,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             Log.d(TAG, "Invalid access token cancelling sendRegistrationToServer");
             return;
         }
+        installationIsSuccess=false;
         new AmazonSNSTokenHandler(getApplicationContext()).register();
     }
 

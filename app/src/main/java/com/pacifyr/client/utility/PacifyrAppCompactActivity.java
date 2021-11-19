@@ -362,7 +362,7 @@ public abstract class PacifyrAppCompactActivity  extends PacifyrActivity {
 
     public void configPushNotifications() {
 
-        new AmazonSNSTokenHandler(this).register();
+       // new AmazonSNSTokenHandler(this).register();
         /*try {
             LogUtils.LOGD("install", "configPushNotifications");
             String gcmToken = getGCMToken();
