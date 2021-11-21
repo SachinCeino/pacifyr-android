@@ -693,12 +693,12 @@ public class Utility {
 
 
         SimpleDateFormat outFormat = new SimpleDateFormat("d.MM");
-
+        PrefManager prefM = PrefManager.getInstance(context);
         outFormat.setTimeZone(TimeZone.getDefault());
 
         Date date = null;
         String dayname="";
-
+        Date formattedDate = null;
         try {
             date = format.parse(input);
             System.out.println("Date ->" + date);
@@ -714,7 +714,20 @@ public class Utility {
                if(dys <= 6){
                    dayname = getWeekDay(date);
                } else {
-                   dayname = outFormat.format(date);
+                   SimpleDateFormat targetFormat;// = new SimpleDateFormat("MM-dd-yyyy'  'hh:mm a", Locale.ENGLISH);
+                   String country = prefM.getCountry();
+                   if(country.equals("India")){
+                       targetFormat = new SimpleDateFormat("dd-MM-yyyy'  'hh:mm a", Locale.ENGLISH);
+                   }else{
+                       targetFormat = new SimpleDateFormat("MM-dd-yyyy'  'hh:mm a", Locale.ENGLISH);
+                   }
+                   //dayname = outFormat.format(date);
+                   SimpleDateFormat recivedFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+                   recivedFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+
+                   formattedDate = recivedFormat.parse(input);
+
+                   dayname = targetFormat.format(formattedDate).toLowerCase();
                }
 
             }
