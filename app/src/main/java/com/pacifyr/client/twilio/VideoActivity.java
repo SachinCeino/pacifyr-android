@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.PictureInPictureParams;
@@ -182,6 +183,7 @@ import kotlin.Unit;
 import tvi.webrtc.voiceengine.WebRtcAudioUtils;
 
 import static androidx.core.app.NotificationCompat.BADGE_ICON_SMALL;
+import static androidx.core.app.NotificationCompat.PRIORITY_HIGH;
 import static com.pacifyr.client.Payment.AlertAddCreditCardActivity.REQUEST_CODE_STRIPE_CARD;
 import static com.pacifyr.client.netconnectionlistener.ConnectionCheckBroadcast.CheckInternetConnection;
 import static com.pacifyr.client.network.NetworkService.isRelease;
@@ -1197,6 +1199,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
         if(isValid(ImageView_chat)){ImageView_chat.setEnabled(true);}
 
         isForeground = true;
+        cancelCallActiveInforMationPopUp();
         LocalBroadcastManager.getInstance(this).registerReceiver(eventReceiver, new IntentFilter(CallEvent.CALL_EVENT));
         LocalBroadcastManager.getInstance(this).registerReceiver(stripeCardAddWhileCall, new IntentFilter(STRIPCARD_ADDED_WHILE_CALL));
         LocalBroadcastManager.getInstance(this).registerReceiver(notificationReceiver, new IntentFilter(NotificationUtils.NOTIFY_INTENT));
@@ -1312,6 +1315,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
         /*
          * Tear down audio management and restore previous volume stream
          */
+        cancelCallActiveInforMationPopUp();
         LocalBroadcastManager.getInstance(this).unregisterReceiver(eventReceiver);
         isCallActive=false;
         setVolumeControlStream(AudioManager.STREAM_VOICE_CALL);
@@ -1490,15 +1494,13 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
             TextView_audio_freeminuts_remine= findViewById(R.id.TextView_audio_freeminuts_remine);
             messageCount=findViewById(R.id.messageCount);
 
-            this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN |
-                            WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
-                            WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
-                            WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON,
-                    WindowManager.LayoutParams.FLAG_FULLSCREEN |
-                            WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
-                            WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
-                            WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON |
-                            WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+            this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN |
+                    WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
+                    WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
+                    WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
+
+            //thumbnail_video_view
+
 
             //  ringtonePlayer = new RingtonePlayer(this, R.raw.beep);
             checker = new PermissionsChecker(VideoActivity.this);
@@ -4191,12 +4193,61 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
         if (picInPic.isEnabled()) {
             isScreenActive=false;
             hideToolBarAndButtons();
+            showCallActiveInforMationPopUp();
         } else {
             isScreenActive=true;
             showToolBarAndButtons();
+
         }
     }
 
+    private void cancelCallActiveInforMationPopUp() {
+        try {
+            NotificationManager mnotificationManager =
+                    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            mnotificationManager.cancel(Constants.NOTIFICATION_ID_CALL_PROGRESS);
+        }catch (Exception e)
+        {
+
+        }
+    }
+    private void showCallActiveInforMationPopUp() {
+
+        Intent intent = new Intent(VideoActivity.this, VideoActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
+                intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this,
+                Constants.getChannelId(VideoActivity.this))
+                .setSmallIcon(R.drawable.ic_pacifyr_notification)
+                .setContentTitle("Call ongoing...")
+                .setContentText("Tap to return to call...")
+                .setOngoing(true)
+                .setPriority(NotificationManager.IMPORTANCE_HIGH)
+                .setFullScreenIntent(pendingIntent, true);
+
+        Notification notification = notificationBuilder.build();
+        NotificationManager mnotificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        mnotificationManager.notify(Constants.NOTIFICATION_ID_CALL_PROGRESS, notification);
+
+    }
+
+    private void createNotificationChannel() {
+       /* // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = getResources().getString(R.string.app_name);
+            String description = "general_notifications";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(Constants.getChannelId(this), name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }*/
+    }
 
     @Override
     public void onBackPressed() {
