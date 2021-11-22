@@ -328,26 +328,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
             // Get extra data included in the Intent
             String type = intent.getStringExtra("type");
             Log.d("receiver", "Got message: " + type);
-            if (type != null && type.equals("billing")) {
-                setBillingStarted(true);
-                billingStatus.setVisibility(View.VISIBLE);
-                if (!isEmplyeeDonePaymentWithFreeMinuts) {
-                    if (isValid(empMinutesListener))
-                        setEmpMinutesListener(empMinutesListener);
-                    checkEmpAvailableMinutes();
-                } else {
-                    if (isValid(countDownTimer)) {
-                        countDownTimer.cancel();
-                    }
-                    empMinutesListener=null;
-                }
-                try {
-                    stopTimer();
-                    startTimer();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
+            //implemented inside dataMessgaes  function
         }
     };
 
@@ -2214,10 +2195,29 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                             switch (CurrentEvent) {
                                 case "startbilling":
                                     System.out.println("startbilling");
+                                        setBillingStarted(true);
+                                        billingStatus.setVisibility(View.VISIBLE);
+                                        if (!isEmplyeeDonePaymentWithFreeMinuts) {
+                                            if (isValid(empMinutesListener))
+                                                setEmpMinutesListener(empMinutesListener);
+                                            checkEmpAvailableMinutes();
+                                        } else {
+                                            if (isValid(countDownTimer)) {
+                                                countDownTimer.cancel();
+                                            }
+                                            empMinutesListener=null;
+                                        }
+                                        try {
+                                            stopTimer();
+                                            startTimer();
+                                        } catch (Exception mException) {
+                                            mException.printStackTrace();
+                                        }
+
                                     break;
                                 case "payment":
                                     System.out.println("payment");
-                              /*  if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.O || isAppIsInBackground(VideoActivity.this)) {
+                              /*  if (!isScreenActive) {
                                     showInternalNotification(message);
                                 }
                                 Intent intent = new Intent(NotificationUtils.PAYTM_PAYMENT_EVENT);
