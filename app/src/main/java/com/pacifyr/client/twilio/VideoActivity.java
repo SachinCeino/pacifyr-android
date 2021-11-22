@@ -107,6 +107,7 @@ import com.pacifyr.client.quickblox.utils.PermissionsChecker;
 import com.pacifyr.client.quickblox.utils.RingtonePlayer;
 import com.pacifyr.client.receiver.NotificationUtils;
 import com.pacifyr.client.twiliochat.TwilioConversationActivity;
+import com.pacifyr.client.utility.PacifyrAppCompactActivity;
 import com.pacifyr.client.utils.Constants;
 import com.pacifyr.client.utils.FirebaseLogging;
 import com.pacifyr.client.utils.LogUtils;
@@ -119,6 +120,7 @@ import com.pacifyrapp.utilitylibrary.model.pacifyr.MEmotion;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MSessionDetailRoot;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
+import com.paytm.pgsdk.PaytmPGActivity;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
 import com.twilio.audioswitch.AudioDevice;
@@ -4172,6 +4174,9 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
                                         pictureParams.setAspectRatio(new Rational(700, 1100)).build();
                                         enterPictureInPictureMode(pictureParams.build());
                                     }
+                                    Intent intent = new Intent(VideoActivity.this, PaytmPGActivity.class);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                                    startActivity(intent);
                                 }
                             }
                         });
