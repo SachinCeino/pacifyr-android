@@ -506,38 +506,12 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             // Get extra data included in the Intent
-            if (!showDialogs) {
-                maximizePicInPicView();
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                doPaymentSetup(intent);
-                            }
-                        });
-                    }
-                }, 2000);
-                return;
-            } else {
-                bringCallActivityToFront();
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                EventBus.getDefault().post(intent);
-                            }
-                        });
-                    }
-                }, 2000);
-            }
-
+           //we are handling using datamessages
+            //waringToAddPayTmPaymentReceiver
 
         }
     };
+
 
     public boolean isSettingUpPayment() {
         return settingUpPayment;

@@ -269,10 +269,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                             } else if (actual_type.equalsIgnoreCase("payment")) {
                                 Log.w("@@@", "PAYTM_PAYMENT_EVENT");
                                 Intent intent = new Intent(NotificationUtils.PAYTM_PAYMENT_EVENT);
-                                intent.putExtra("type", actual_type);
+                                /*intent.putExtra("type", actual_type);
                                 intent.putExtra("message", message);
                                 intent.putExtra("id", _id);
-                                LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+                                LocalBroadcastManager.getInstance(context).sendBroadcast(intent);*/
                             } else if (actual_type.equalsIgnoreCase("sessionWrapUp")) {
                                 Intent intent = new Intent(NotificationUtils.NOTIFY_INTENT);
                                 intent.putExtra("type", actual_type);

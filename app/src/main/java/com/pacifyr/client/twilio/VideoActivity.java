@@ -2219,44 +2219,16 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                                     break;
                                 case "payment":
                                     System.out.println("payment");
-                              /*  if (!isScreenActive) {
+                                if (!isScreenActive) {
                                     showInternalNotification(message);
                                 }
                                 Intent intent = new Intent(NotificationUtils.PAYTM_PAYMENT_EVENT);
-                                if (isValid(id)) {
-                                    intent.putExtra("type", "payment");
-                                    intent.putExtra("message", message);
-                                    intent.putExtra("id", id);
-                                }
+                                intent.putExtra("type", "payment");
+                                intent.putExtra("message", message);
+                                intent.putExtra("id", SessionId);
 
-                                if (!isShowDialogs()) {
-                                    maximizePicInPicView();
-                                    new Handler().postDelayed(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            runOnUiThread(new Runnable() {
-                                                @Override
-                                                public void run() {
-                                                    doPaymentSetup(intent);
-                                                }
-                                            });
-                                        }
-                                    }, 2000);
-                                    return;
-                                } else {
-                                    bringCallActivityToFront();
-                                    new Handler().postDelayed(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            runOnUiThread(new Runnable() {
-                                                @Override
-                                                public void run() {
-                                                    EventBus.getDefault().post(intent);
-                                                }
-                                            });
-                                        }
-                                    }, 2000);
-                                }*/
+
+                                    waringToAddPayTmPaymentReceiver(intent);
                                     break;
                                 case "freeMinutesOver":
                                     System.out.println("freeMinutesOver");
@@ -2296,6 +2268,23 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
         {
             Log.w("dataError",String.valueOf(e));
         }
+    }
+
+    public void waringToAddPayTmPaymentReceiver(Intent intent){
+
+            maximizePicInPicView();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            doPaymentSetup(intent);
+                        }
+                    });
+                }
+            }, 2000);
+
     }
 
 
@@ -4281,6 +4270,7 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
             e.printStackTrace();
         }
     }
+
 
     /**
      * why this logic ?
