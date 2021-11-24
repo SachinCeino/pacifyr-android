@@ -341,6 +341,15 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
     private boolean inProgress;
 
     private boolean settingUpPayment = false;
+    private boolean paymentScreenOpend = false;
+
+    public boolean isPaymentScreenOpend() {
+        return paymentScreenOpend;
+    }
+
+    public void setPaymentScreenOpend(boolean paymentScreenOpend) {
+        this.paymentScreenOpend = paymentScreenOpend;
+    }
 
     /*public void startCall(boolean isVideoCall, long  qbID) {
      *//*if (opponentsAdapter.getSelectedItems().size() > Consts.MAX_OPPONENTS_COUNT) {
@@ -4091,6 +4100,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                 Log.w("@@@", "someUIErrorOccurred" + inErrorMessage);
                 ShowTransactionFaileToUSer(inErrorMessage);
                 settingUpPayment = false;
+                paymentScreenOpend=false;
             }
 
             public void onTransactionResponse(Bundle inResponse) {
@@ -4105,36 +4115,42 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
 
                 }
                 settingUpPayment = false;
+                paymentScreenOpend=true;
             }
 
             public void networkNotAvailable() {
                 Log.w("@@@","networkNotAvailable");
                 ShowTransactionFaileToUSer("Paytm server networkNotAvailable");
                 settingUpPayment = false;
+                paymentScreenOpend=false;
             }
 
             public void clientAuthenticationFailed(String inErrorMessage) {
                 Log.w("@@@","clientAuthenticationFailed"+inErrorMessage);
                 ShowTransactionFaileToUSer(inErrorMessage);
                 settingUpPayment = false;
+                paymentScreenOpend=false;
             }
 
             public void onErrorLoadingWebPage(int iniErrorCode, String inErrorMessage, String inFailingUrl) {
                 Log.w("@@@","onErrorLoadingWebPage"+inErrorMessage);
                 ShowTransactionFaileToUSer(inErrorMessage);
                 settingUpPayment = false;
+                paymentScreenOpend=false;
             }
 
             public void onBackPressedCancelTransaction() {
                 Log.w("@@@","onBackPressedCancel");
                 ShowTransactionFaileToUSer("Transaction cancelled");
                 settingUpPayment = false;
+                paymentScreenOpend=false;
             }
 
             public void onTransactionCancel(String inErrorMessage, Bundle inResponse) {
                 Log.w("@@@", "onTransactionCancel" + inErrorMessage);
                 ShowTransactionFaileToUSer(inErrorMessage);
                 settingUpPayment = false;
+                paymentScreenOpend=false;
             }
         });
     }

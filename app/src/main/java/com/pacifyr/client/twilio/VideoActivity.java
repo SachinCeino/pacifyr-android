@@ -1359,6 +1359,10 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
         isScreenActive=false;
         EventBus.getDefault().post(Constants.CLOSE_CHAT_ACTIVITY);
         errorCount=0;
+        if (isPaymentScreenOpend())
+        {
+            DashboardActivity.start(VideoActivity.this,false);
+        }
         super.onDestroy();
     }
 
