@@ -1,24 +1,5 @@
 package com.pacifyrapp.utilitylibrary.network;
 
-import android.app.IntentService;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Environment;
-import android.os.Handler;
-import android.os.Looper;
-
-import com.androidquery.AQuery;
-import com.androidquery.callback.AjaxCallback;
-import com.androidquery.callback.AjaxStatus;
-import com.pacifyrapp.utilitylibrary.LogUtilsutility;
-import com.pacifyrapp.utilitylibrary.ToastHandler;
-import com.pacifyrapp.utilitylibrary.event.BusProvider;
-import com.pacifyrapp.utilitylibrary.event.NotifyEvent;
-import com.pacifyrapp.utilitylibrary.interfaces.RemoteConfigInterface;
-import com.pacifyrapp.utilitylibrary.model.Users;
-
-import org.json.JSONObject;
-
 import static com.pacifyrapp.utilitylibrary.orginals.RemoteConfigHelper._appId;
 import static com.pacifyrapp.utilitylibrary.orginals.RemoteConfigHelper._appIdNonPamDev;
 import static com.pacifyrapp.utilitylibrary.orginals.RemoteConfigHelper._appIdPam;
@@ -43,6 +24,25 @@ import static com.pacifyrapp.utilitylibrary.orginals.RemoteConfigHelper._pamGlob
 import static com.pacifyrapp.utilitylibrary.orginals.RemoteConfigHelper._pamGlobalUrlNonPamDev;
 import static com.pacifyrapp.utilitylibrary.orginals.RemoteConfigHelper._pamGlobalUrlProd;
 import static com.pacifyrapp.utilitylibrary.orginals.RemoteConfigHelper._stripeKey;
+
+import android.app.IntentService;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Environment;
+import android.os.Handler;
+import android.os.Looper;
+
+import com.androidquery.AQuery;
+import com.androidquery.callback.AjaxCallback;
+import com.androidquery.callback.AjaxStatus;
+import com.pacifyrapp.utilitylibrary.LogUtilsutility;
+import com.pacifyrapp.utilitylibrary.ToastHandler;
+import com.pacifyrapp.utilitylibrary.event.BusProvider;
+import com.pacifyrapp.utilitylibrary.event.NotifyEvent;
+import com.pacifyrapp.utilitylibrary.interfaces.RemoteConfigInterface;
+import com.pacifyrapp.utilitylibrary.model.Users;
+
+import org.json.JSONObject;
 
 
 /**
@@ -90,8 +90,8 @@ public class UtilityNetworkService extends IntentService {
     public static final String termOfUsersUrl = "https://pacifyr.com/TermsUsers.html";
     public static final String PACKAGE_PAM = "com.pacifyr.pam";
     public static final String OM_PLAYSTORE = "https://play.google.com/store/apps/details?id=com.ceino.pacifyr.omhealthcare";
-    public static boolean isRelease = false;
-    public static boolean isProd = false;
+    public static boolean isRelease = true;
+    public static boolean isProd = true;
     public static String ACCOUNT_KEY = "";
     public static String ACCOUNT_ID = "";
     public static String TURN_SERVER = "";
