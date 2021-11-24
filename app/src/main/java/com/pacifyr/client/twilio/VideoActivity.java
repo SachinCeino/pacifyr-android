@@ -2219,9 +2219,9 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                                     break;
                                 case "payment":
                                     System.out.println("payment");
-                                if (!isScreenActive) {
+                                /*if (!isScreenActive) {
                                     showInternalNotification(message);
-                                }
+                                }*/
                                 Intent intent = new Intent(NotificationUtils.PAYTM_PAYMENT_EVENT);
                                 intent.putExtra("type", "payment");
                                 intent.putExtra("message", message);
