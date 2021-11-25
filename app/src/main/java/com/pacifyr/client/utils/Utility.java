@@ -717,9 +717,9 @@ public class Utility {
                    SimpleDateFormat targetFormat;// = new SimpleDateFormat("MM-dd-yyyy'  'hh:mm a", Locale.ENGLISH);
                    String country = prefM.getCountry();
                    if(country.equals("India")){
-                       targetFormat = new SimpleDateFormat("dd-MM-yyyy'  'hh:mm a", Locale.ENGLISH);
+                       targetFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
                    }else{
-                       targetFormat = new SimpleDateFormat("MM-dd-yyyy'  'hh:mm a", Locale.ENGLISH);
+                       targetFormat = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
                    }
                    //dayname = outFormat.format(date);
                    SimpleDateFormat recivedFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
