@@ -179,10 +179,15 @@ public class QuickstartConversationsManager {
             throws FileNotFoundException {
         String mimeType = "", fileName = "";
         fileName = String.valueOf(System.currentTimeMillis());
-        switch (type){
-            case "FILE": mimeType = "application/pdf"; fileName += "_file.pdf"; break;
-            case "IMAGE": mimeType = "image/jpg"; fileName += "_image.jpg"; break;
 
+        if (type.equals("IMAGE"))
+        {
+            fileName += "_image.jpg";
+            mimeType = "image/jpg";
+        }
+        else {
+            fileName += "_file."+type;
+            mimeType = "application/"+type;
         }
 
 

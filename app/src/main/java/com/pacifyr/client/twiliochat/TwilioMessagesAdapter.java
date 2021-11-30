@@ -1,7 +1,9 @@
 package com.pacifyr.client.twiliochat;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +27,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.pacifyr.client.R;
+import com.pacifyr.client.activity.TermsOfUseActivity;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.model.MessageMediaModel;
 import com.pacifyr.client.utils.Utility;
@@ -82,7 +85,8 @@ public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAd
 
         if (message.getAuthor().equals(userId) && message.hasMedia()) {
             // If the current user is the sender of the message
-            if(message.getMediaType().equals("application/pdf")){
+            Log.w("TRTRTRTRTRT",message.getMediaType()+"media type");
+            if(message.getMediaType().contains("application")){
                 return VIEW_TYPE_MESSAGE_SENT_FILE;
             } else {
                 return VIEW_TYPE_MESSAGE_SENT_IMAGE;
@@ -91,7 +95,7 @@ public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAd
         } else if(message.getAuthor().equals(userId)&& !message.hasMedia()) {
             return VIEW_TYPE_MESSAGE_SENT;
         }else if(!message.getAuthor().equals(userId)&& message.hasMedia()) {
-            if(message.getMediaType().equals("application/pdf")){
+            if(message.getMediaType().contains("application")){
                 return VIEW_TYPE_MESSAGE_RECEIVED_FILE;
             } else {
                 return VIEW_TYPE_MESSAGE_RECEIVED_IMAGE;
@@ -225,7 +229,7 @@ public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAd
                 holder.progressMessage.setVisibility(View.VISIBLE);
                 String mediaUrl = messageList.get(position).mediaUrl;
                 //Set view
-                if (message.getMediaType().equals("application/pdf")) {
+                if (message.getMediaType().contains("application")) {
                     holder.ivImage.setVisibility(View.GONE);
                     holder.ivFile.setVisibility(View.VISIBLE);
                 } else {
@@ -236,7 +240,7 @@ public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAd
 
                 if (Utility.isValid(mediaUrl)) {
 
-                    if (message.getMediaType().equals("application/pdf")) {
+                    if (message.getMediaType().contains("application")) {
                         holder.progressMessage.setVisibility(View.GONE);
                         String fileName = message.getMediaFileName();
                         holder.messageText.setText(fileName);
@@ -250,7 +254,14 @@ public class TwilioMessagesAdapter extends RecyclerView.Adapter<TwilioMessagesAd
                             public void onClick(View view) {
 
                                 if (!mediaUrl.isEmpty()) {
-                                    ((TwilioConversationActivity) context).pdfReaderIntent(mediaUrl, message.getMediaFileName());
+                                    if (message.getMediaType().equals("application/pdf")) {
+                                        ((TwilioConversationActivity) context).pdfReaderIntent(mediaUrl, message.getMediaFileName());
+                                    }
+                                    else {
+                                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(mediaUrl));
+                                        browserIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        context.startActivity(browserIntent);
+                                    }
                                 }
 
                             }

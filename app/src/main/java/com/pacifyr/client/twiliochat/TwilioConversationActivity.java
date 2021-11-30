@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.ClipData;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -21,6 +22,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -556,7 +558,7 @@ public class TwilioConversationActivity extends
                         uploadDataList.add(new UploadData(uri,"IMAGE"));
                         //resizeImage(url);
                     }
-                    runUploadTimer();
+                    runUploadTimer("IMAGE");
                 }
             }
              else if (requestCode == REQUESTCODE_GALLERY_IMAGE) {
@@ -577,7 +579,7 @@ public class TwilioConversationActivity extends
 
                          //resizeImage(uri.toString());
                      }
-                     runUploadTimer();
+                     runUploadTimer("IMAGE");
 
                  } else if (isValid(data.getData())) {
 
@@ -585,7 +587,7 @@ public class TwilioConversationActivity extends
                      uploadDataList.add(new UploadData(uri,"IMAGE"));
                      // display your image
                      //resizeImage(uri.toString());
-                     runUploadTimer();
+                     runUploadTimer("IMAGE");
                  }
 
              } else if(requestCode ==  REQUESTCODE_FILE){
@@ -601,15 +603,22 @@ public class TwilioConversationActivity extends
                      for (int i = 0; i < mClipData.getItemCount(); i++) {
                          ClipData.Item item = mClipData.getItemAt(i);
                          Uri uri = item.getUri();
-
-                         uploadDataList.add(new UploadData(uri,"FILE"));
-                         runUploadTimer();
+                         ContentResolver cR = context.getContentResolver();
+                         MimeTypeMap mime = MimeTypeMap.getSingleton();
+                         String type = mime.getExtensionFromMimeType(cR.getType(uri));
+                         Log.w("type",type);
+                         uploadDataList.add(new UploadData(uri,type));
+                         runUploadTimer(type);
                      }
                  } else if (isValid(data.getData())) {
                      Uri uri = data.getData();
-
-                     uploadDataList.add(new UploadData(uri,"FILE"));
-                     runUploadTimer();
+              ContentResolver cR = context.getContentResolver();
+                MimeTypeMap mime = MimeTypeMap.getSingleton();
+                String type = mime.getExtensionFromMimeType(cR.getType(uri));
+                Log.w("type",type);
+                     Log.w("type",type);
+                     uploadDataList.add(new UploadData(uri,type));
+                     runUploadTimer(type);
                  }
              }
         }
@@ -857,13 +866,13 @@ public class TwilioConversationActivity extends
         });
     }
 
-    private void runUploadTimer(){
+    private void runUploadTimer(String type){
 
         delayhandler = new Handler();
         run = new Runnable() {
             @Override
             public void run() {
-                runUploadLop();
+                runUploadLop(type);
 
             }
         };
@@ -874,7 +883,7 @@ public class TwilioConversationActivity extends
     /**
      * Create queue for send media message
      */
-    void runUploadLop(){
+    void runUploadLop(String type){
 
         if(Utility.isValid(uploadDataList)){
             if(uploadPos  < uploadDataList.size()){
@@ -884,23 +893,21 @@ public class TwilioConversationActivity extends
 
                     UploadData uploadData = uploadDataList.get(uploadPos);
 
-                    switch (uploadData.type) {
-                        case "IMAGE":
-                            resizeImage(uploadData.uri.toString());
-                            break;
-                        case "FILE": {
-                            try {
+                    if (uploadData.type.equals("IMAGE"))
+                    {
+                        resizeImage(uploadData.uri.toString());
+                    }
+                    else {
+                        try {
 
-                                ParcelFileDescriptor fd = this.getContentResolver().openFileDescriptor(uploadData.uri, "r");
-                                Long fileSizeInBytes = fd.getStatSize();
-                                FileInputStream fileInputStream = new FileInputStream(fd.getFileDescriptor());
-                                quickstartConversationsManager.sendMedia(fileInputStream, fd, "FILE", fileSizeInBytes);
-                            } catch (FileNotFoundException e) {
-                            }
-
-                            break;
+                            ParcelFileDescriptor fd = this.getContentResolver().openFileDescriptor(uploadData.uri, "r");
+                            Long fileSizeInBytes = fd.getStatSize();
+                            FileInputStream fileInputStream = new FileInputStream(fd.getFileDescriptor());
+                            quickstartConversationsManager.sendMedia(fileInputStream, fd, type, fileSizeInBytes);
+                        } catch (FileNotFoundException e) {
                         }
                     }
+
 
                     uploadPos += 1;
 
@@ -1179,7 +1186,8 @@ public class TwilioConversationActivity extends
             case 2:
                 Intent intentFile = new Intent(Intent.ACTION_OPEN_DOCUMENT);
                 intentFile.addCategory(Intent.CATEGORY_OPENABLE);
-                intentFile.setType("application/pdf");
+                intentFile.setType("*/*");
+                intentFile.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
                 intentFile.putExtra(EXTRA_ALLOW_MULTIPLE, true);
                 Uri filePickerInitialUri = null;
                 // Optionally, specify a URI for the file that should appear in the
@@ -1196,4 +1204,14 @@ public class TwilioConversationActivity extends
                 break;
         }
     }
+
+    String[] mimeTypes =
+            {"application/msword","application/vnd.openxmlformats-officedocument.wordprocessingml.document", // .doc & .docx
+                    "application/vnd.ms-powerpoint","application/vnd.openxmlformats-officedocument.presentationml.presentation", // .ppt & .pptx
+                    "application/vnd.ms-excel","application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", // .xls & .xlsx
+                    "text/plain",
+                    "application/pdf",
+                    "application/zip"};
+
+
 }
