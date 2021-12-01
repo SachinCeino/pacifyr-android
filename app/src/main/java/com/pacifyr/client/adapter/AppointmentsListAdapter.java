@@ -244,39 +244,13 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<RecyclerView.V
                                 }
                             }
 
-                            holder.videocall_rlay.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    if (!ConnectionCheckBroadcast.CheckInternetConnection(mContext)) {
-                                        Toast.makeText(mContext, "No Internet available", Toast.LENGTH_SHORT).show();
-                                        return;
-                                    }
-                                    ((PacifyrActivity)mContext).startSessionWebforAppoinmetCall(mObject.getPacifyr(), true,mObject.getId());
-                                }
-                            });
 
-                            holder.audiocall_rlay.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    if (!ConnectionCheckBroadcast.CheckInternetConnection(mContext)) {
-                                        Toast.makeText(mContext, "No Internet available", Toast.LENGTH_SHORT).show();
-                                        return;
-                                    }
-                                    ((PacifyrActivity)mContext).startSessionWebforAppoinmetCall(mObject.getPacifyr(), false,mObject.getId());
 
-                                }
-                            });
-
-                            holder.chat_rlay.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    if (!ConnectionCheckBroadcast.CheckInternetConnection(mContext)) {
-                                        Toast.makeText(mContext, "No Internet available", Toast.LENGTH_SHORT).show();
-                                        return;
-                                    }
-                                    ((PacifyrActivity)mContext).startChat(mObject.getPacifyr());
-                                }
-                            });
+                        }
+                        else if (mObject.getExtended()==true&&mObject.getCancelled()==false&&mObject.getRejected()==false&&mObject.getCompleted()==false)//extended scenario for appointment call
+                        {
+                            holder.mButton_Cancel.setVisibility(View.GONE);
+                            holder.call_layout.setVisibility(View.VISIBLE);
 
                         }
                         else {
@@ -432,6 +406,42 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<RecyclerView.V
                     }
                 });
             }
+
+
+            holder.videocall_rlay.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (!ConnectionCheckBroadcast.CheckInternetConnection(mContext)) {
+                        Toast.makeText(mContext, "No Internet available", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    ((PacifyrActivity)mContext).startSessionWebforAppoinmetCall(mObject.getPacifyr(), true,mObject.getId());
+                }
+            });
+
+            holder.audiocall_rlay.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (!ConnectionCheckBroadcast.CheckInternetConnection(mContext)) {
+                        Toast.makeText(mContext, "No Internet available", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    ((PacifyrActivity)mContext).startSessionWebforAppoinmetCall(mObject.getPacifyr(), false,mObject.getId());
+
+                }
+            });
+
+            holder.chat_rlay.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (!ConnectionCheckBroadcast.CheckInternetConnection(mContext)) {
+                        Toast.makeText(mContext, "No Internet available", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    ((PacifyrActivity)mContext).startChat(mObject.getPacifyr());
+                }
+            });
+
 
 
             holder.ImageView_PrevistNote.setOnClickListener(new View.OnClickListener() {

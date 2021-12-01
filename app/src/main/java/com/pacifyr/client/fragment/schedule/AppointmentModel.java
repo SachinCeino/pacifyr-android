@@ -69,6 +69,11 @@ public class AppointmentModel implements Serializable {
         @Expose
         private Boolean rejected;
 
+        @SerializedName("extended")
+        @Expose
+        private Boolean extended;
+
+
         @SerializedName("rejectReason")
         @Expose
         private Object rejectReason;
@@ -80,6 +85,14 @@ public class AppointmentModel implements Serializable {
         @SerializedName("status")
         @Expose
         private String status;
+
+        public Boolean getExtended() {
+            return extended;
+        }
+
+        public void setExtended(Boolean extended) {
+            this.extended = extended;
+        }
 
         public String getStatus() {
             return status;
