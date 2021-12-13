@@ -10,6 +10,7 @@ import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
+import com.pacifyr.client.R;
 import com.pacifyr.client.utility.FCMMasterToken;
 import com.pacifyr.client.utils.Constants;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
@@ -527,7 +528,25 @@ public class QuickstartConversationsManager {
 
                 @Override
                 public void onError(ErrorInfo errorInfo) {
-                    Log.e("TWILIO", "Error creating Twilio Conversations Client: " + errorInfo.getMessage());
+                    Log.e("TWILIO", "Error creating Twilio Conversations Client: " + errorInfo.getCode());
+                    Log.e("TWILIO", "Error creating Twilio Conversations Client: " + errorInfo.getCode());
+                    retrieveAccessTokenFromServer(context, "CONVERSATIONS_USER", new TokenResponseListener() {
+                        @Override
+                        public void receivedTokenResponse(boolean success, @Nullable Exception exception, String token) {
+                            if (success) {
+                                PrefManager prefManager=new PrefManager(context);
+                                prefManager.saveTwilioAccessToken(token);
+                                initializeWithAccessToken(context,token);
+                            }
+                            else {
+                                String errorMessage = context.getString(R.string.error_retrieving_access_token);
+                                if (exception != null) {
+                                    errorMessage = errorMessage + " " + exception.getLocalizedMessage();
+                                }
+
+                            }
+                        }
+                    });
                 }
             };
 
