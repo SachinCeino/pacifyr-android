@@ -19,7 +19,11 @@ import com.pacifyr.client.activity.SplashScreen;
 import com.pacifyr.client.quickblox.App;
 import com.pacifyr.client.sign.LoginActivity;
 import com.pacifyr.client.sign.SignActivity;
+import com.pacifyr.client.twiliochat.TwilioMainConversationsClient;
+import com.pacifyr.client.utility.FCMMasterToken;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
+import com.twilio.conversations.ConversationsClient;
+import com.twilio.conversations.StatusListener;
 
 
 public class Auth {
@@ -41,6 +45,26 @@ public class Auth {
                 } else {
                     if (SessionExpired==false)
                     {
+                        /** unregister previous FCM token from twilio sever**/
+                        try {
+                            if (TwilioMainConversationsClient.getInstance()!=null)
+                            {
+                                String token = FCMMasterToken.getFCMTokenFromUTility(c);
+                                TwilioMainConversationsClient.getInstance().unregisterFCMToken(new ConversationsClient.FCMToken(token), new StatusListener() {
+                                    @Override
+                                    public void onSuccess() {
+                                        Log.w("EEEE","www");
+                                    }
+                                });
+                                TwilioMainConversationsClient.mConversationsClient=null;
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            TwilioMainConversationsClient.mConversationsClient=null;
+                            Log.w("EEEE",e.toString());
+                        }
+
                         PrefManager.getInstance(c).clear();
                         Intent intent = new Intent(c, SignActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
