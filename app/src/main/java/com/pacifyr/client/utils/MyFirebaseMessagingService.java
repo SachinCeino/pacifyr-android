@@ -320,6 +320,21 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                                 if (isValid(conversation_sid)) {
                                     intent1.putExtra("conversation_sid", conversation_sid);
                                 }
+
+                                if (message.contains("_image"))
+                                {
+                                    String currentString =message;
+                                    String[] separated = currentString.split(":");
+                                    message=separated[0]+": Photo";
+                                }
+
+                                else if (message.contains("_file"))
+                                {
+                                    String currentString =message;
+                                    String[] separated = currentString.split(":");
+                                    message=separated[0]+": File";
+                                }
+
                                 intent1.putExtra("type", actual_type);
                                 intent1.putExtra("message", message);
                                 LocalBroadcastManager.getInstance(context).sendBroadcast(intent1);
@@ -418,6 +433,19 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         {
             if (actualType.equals("twilioChat"))
                 conversation_sid =qsid;
+            if (message.contains("_image"))
+            {
+                String currentString =message;
+                String[] separated = currentString.split(":");
+                message=separated[0]+": Photo";
+            }
+
+            else if (message.contains("_file"))
+            {
+                String currentString =message;
+                String[] separated = currentString.split(":");
+                message=separated[0]+": File";
+            }
 
             cIntent = new Intent(context, TwilioConversationActivity.class);
             cIntent.putExtra("conversation_sid", conversation_sid);

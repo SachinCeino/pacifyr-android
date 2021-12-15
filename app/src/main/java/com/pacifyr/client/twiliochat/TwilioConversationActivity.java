@@ -33,6 +33,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -251,6 +252,13 @@ public class TwilioConversationActivity extends
         initView();
         loadData();
         intiListener();
+
+        try {
+            NotificationManagerCompat.from(context).cancelAll();
+        }catch (Exception e)
+        {
+
+        }
 
     }
 

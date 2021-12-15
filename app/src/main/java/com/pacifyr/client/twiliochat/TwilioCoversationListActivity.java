@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -43,6 +44,7 @@ public class TwilioCoversationListActivity extends PacifyrActivity {
 
 
 
+    public static boolean currentScreenIsConversation=true;
     String ActionbarTitle="";
     public static void start(Context context, boolean isFromSlideMenu) {
         Intent intent = new Intent(context, TwilioCoversationListActivity.class);
@@ -271,6 +273,7 @@ public class TwilioCoversationListActivity extends PacifyrActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        currentScreenIsConversation=true;
         LocalBroadcastManager.getInstance(this).registerReceiver(notificationReceiver, new IntentFilter(NotificationUtils.NOTIFY_INTENT_FOR_NEW_CHAT));
         if (ConnectionCheckBroadcast.CheckInternetConnection(this)) {
             getConversationParticipantsList();
@@ -289,6 +292,13 @@ public class TwilioCoversationListActivity extends PacifyrActivity {
         super.onStop();
         EventBus.getDefault().unregister(this);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(notificationReceiver);
+        currentScreenIsConversation=false;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        currentScreenIsConversation=false;
     }
 
     private final BroadcastReceiver notificationReceiver = new BroadcastReceiver() {
@@ -299,7 +309,12 @@ public class TwilioCoversationListActivity extends PacifyrActivity {
                 String type = intent.getExtras().getString("type");
                 if (message != null && message != "") {
                     if(type.equals("twilio.conversations.new_message") || type.equals("twilioChat") ){
-                        getConversationParticipantsList();
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                getConversationParticipantsList();
+                            }
+                        }, 3000);
                     }
 
                 }
