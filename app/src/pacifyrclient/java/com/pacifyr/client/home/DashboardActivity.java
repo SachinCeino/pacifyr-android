@@ -1137,8 +1137,8 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
 
                     } catch (Exception e) {
                         hideProgress();
-                        coupon_llay.setVisibility(View.GONE);
-                        coupon_view.setVisibility(View.GONE);
+                        //coupon_llay.setVisibility(View.GONE);
+                       // coupon_view.setVisibility(View.GONE);
                         e.printStackTrace();
                     }
                 }

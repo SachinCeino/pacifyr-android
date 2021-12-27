@@ -637,7 +637,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
             },0,5000);
             if (isCallActive)
                 LinearLayout_Active_Session.setVisibility(View.GONE);
-            setUpBanner();
+                setUpBanner();
         }
         catch (Exception e)
         {
