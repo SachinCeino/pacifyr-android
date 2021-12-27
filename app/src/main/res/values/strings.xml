@@ -1127,5 +1127,6 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="error_leave_chat">Error leaving room</string>
 
     <string name="text_loading">Loading ..</string>
+    <string name="payment_verification_failed">Payment verification failed</string>
 
 </resources>

@@ -1242,7 +1242,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                 ShowTransactionSuccesResultToUSer(transactionResponce);
             }
             else {
-                ShowTransactionFaileToUSer("Add payment failed");
+                ShowTransactionFaileToUSer(getString(R.string.payment_verification_failed));
             }
 
         } else if (requestCode == APP_UPDATE_REQUEST_CODE) {
@@ -1259,7 +1259,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                 ShowTransactionSuccesResultToUSer(getResources().getString(R.string.successfully_done_payment));
             }
             else {
-                ShowTransactionFaileToUSer("Add payment failed");
+                ShowTransactionFaileToUSer(getString(R.string.payment_verification_failed));
             }
         }
     }
@@ -4098,7 +4098,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
             /*Call Backs*/
             public void someUIErrorOccurred(String inErrorMessage) {
                 Log.w("@@@", "someUIErrorOccurred" + inErrorMessage);
-                ShowTransactionFaileToUSer(inErrorMessage);
+                ShowTransactionFaileToUSer(getString(R.string.payment_verification_failed));
                 settingUpPayment = false;
                 paymentScreenOpend=false;
             }
@@ -4120,35 +4120,35 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
 
             public void networkNotAvailable() {
                 Log.w("@@@","networkNotAvailable");
-                ShowTransactionFaileToUSer("Paytm server networkNotAvailable");
+                ShowTransactionFaileToUSer(getString(R.string.payment_verification_failed));
                 settingUpPayment = false;
                 paymentScreenOpend=false;
             }
 
             public void clientAuthenticationFailed(String inErrorMessage) {
                 Log.w("@@@","clientAuthenticationFailed"+inErrorMessage);
-                ShowTransactionFaileToUSer(inErrorMessage);
+                ShowTransactionFaileToUSer(getString(R.string.payment_verification_failed));
                 settingUpPayment = false;
                 paymentScreenOpend=false;
             }
 
             public void onErrorLoadingWebPage(int iniErrorCode, String inErrorMessage, String inFailingUrl) {
                 Log.w("@@@","onErrorLoadingWebPage"+inErrorMessage);
-                ShowTransactionFaileToUSer(inErrorMessage);
+                ShowTransactionFaileToUSer(getString(R.string.payment_verification_failed));
                 settingUpPayment = false;
                 paymentScreenOpend=false;
             }
 
             public void onBackPressedCancelTransaction() {
                 Log.w("@@@","onBackPressedCancel");
-                ShowTransactionFaileToUSer("Transaction cancelled");
+                ShowTransactionFaileToUSer(getString(R.string.payment_verification_failed));
                 settingUpPayment = false;
                 paymentScreenOpend=false;
             }
 
             public void onTransactionCancel(String inErrorMessage, Bundle inResponse) {
                 Log.w("@@@", "onTransactionCancel" + inErrorMessage);
-                ShowTransactionFaileToUSer(inErrorMessage);
+                ShowTransactionFaileToUSer(getString(R.string.payment_verification_failed));
                 settingUpPayment = false;
                 paymentScreenOpend=false;
             }
@@ -4262,7 +4262,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
 
                                     } else { // Transaction Failed
 
-                                        ShowTransactionFaileToUSer(responce_message);
+                                        ShowTransactionFaileToUSer(getString(R.string.payment_verification_failed));
                                         Log.w("@@@","Payment setup failed.ShowTransactionFaileToUSer");
 
                                     }
