@@ -1703,6 +1703,10 @@ public class RegisterActivity extends PacifyrActivity {
     private void quickbloxNewLogin() {
         try {
             saveUserDetailsToPrefM();
+            /**
+             * after 50days need to refresh the token**/
+            long mTimeStamp = System.currentTimeMillis();
+            prefM.saveLoginTimeStamp(String.valueOf(mTimeStamp));
         }
         catch (Exception exc)
         {

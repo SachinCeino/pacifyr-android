@@ -916,7 +916,8 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
 
 
     private void checkLastTimeLoginFiftyDaysExcceed() {
-        long mLastTimeLoginTimeStamp=prefM.getLoginTimeStamp();//1606362531198
+       try{
+            long mLastTimeLoginTimeStamp=prefM.getLoginTimeStamp();//1606362531198
         long mCurrentDateTimeStamp=System.currentTimeMillis();
 
         long defference=mCurrentDateTimeStamp - mLastTimeLoginTimeStamp;
@@ -931,6 +932,10 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
 
            onResumeCommonAPICalls();
         }
+       }catch (Exception e)
+       {
+           Log.w("wwww",e.toString());
+       }
     }
 
     private void onResumeCommonAPICalls() {
