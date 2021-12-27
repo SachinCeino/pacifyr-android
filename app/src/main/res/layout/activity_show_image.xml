@@ -37,7 +37,7 @@
             android:padding="5dp"
             android:text=""
             android:textColor="@color/white"
-            android:textSize="@dimen/sp20_title"
+            android:textSize="@dimen/actionbar_title_text_size"
             android:textStyle="bold" />
     </androidx.appcompat.widget.Toolbar>
 

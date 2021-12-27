@@ -59,7 +59,7 @@
 
             android:gravity="center"
             android:textStyle="bold"
-            android:textSize="@dimen/sp20_title"
+            android:textSize="@dimen/actionbar_title_text_size"
             android:id="@+id/title_txv"
             android:textColor="@color/black"
             />

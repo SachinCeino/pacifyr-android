@@ -7,6 +7,7 @@
         <dimen name="sp15">15sp</dimen>
         <dimen name="sp18">18sp</dimen>
         <dimen name="sp20">20sp</dimen>
+        <dimen name="actionbar_title_text_size">20sp</dimen>
         <dimen name="sp20_title">20sp</dimen>
         <dimen name="sp22_title">22sp</dimen>
         <dimen name="sp24_title">24sp</dimen>
