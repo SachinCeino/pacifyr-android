@@ -4883,6 +4883,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                                     dialog.dismiss();
                                 }
                             };
+                            if (!getPrefManager().getCountry().equalsIgnoreCase("US"))
                             showIOSDialogOK("", message, "OK", listener,false);
                         }
                     });
@@ -4928,6 +4929,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                                     dialog.dismiss();
                                 }
                             };
+                            if (!getPrefManager().getCountry().equalsIgnoreCase("US"))
                             showIOSDialogOK("", message, "OK", listener,false);
                         }
                     });
