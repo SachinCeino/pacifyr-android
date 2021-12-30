@@ -211,7 +211,12 @@ public class PaymentActivity extends PacifyrAppCompactActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        EventBus.getDefault().register(this);
+        try {
+            EventBus.getDefault().register(this);
+        }catch (Exception e)
+        {
+
+        }
 
     }
 
