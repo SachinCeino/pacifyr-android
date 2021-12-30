@@ -3688,7 +3688,7 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
                         startSessionWeb(roomName, room.getSid(), pacifyerDetial, isVideoCall, timeSlotBookingId);
 
                     } else {
-                      //  getCurrentUserProfileInfo();
+
                     }
 
 
@@ -3743,7 +3743,7 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
                         toggle_speaker.setClickable(true);
                         toggle_camera.setClickable(true);
                         micToggleVideoCall.setClickable(true);
-
+                        startSessionTracking(SessionId);
                         Bundle args =
                                 FirebaseLogging.getConstantArgsLoggedIn(VideoActivity.this);
                         args.putString(FirebaseLogging.EC, "Room onConnected");
