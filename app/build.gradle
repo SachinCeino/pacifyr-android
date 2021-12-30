@@ -26,9 +26,6 @@ android {
             maven {
                 url "https://github.com/QuickBlox/quickblox-android-sdk-releases/raw/master/"
             }
-            maven {
-                url "http://dl.bintray.com/ahmedrizwan/maven"
-            }
             maven { url "https://jitpack.io" }
 
         }
@@ -104,8 +101,8 @@ android {
         pacifyrclient {
             dimension "Pacifyr"
             applicationId "com.pacifyr.pacifyrapp"
-            versionName "2.4.13"
-            versionCode 170
+            versionName "2.4.14"
+            versionCode 171
         }
         leadersup {
             dimension "Pacifyr"

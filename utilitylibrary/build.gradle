@@ -28,9 +28,6 @@ android {
     buildTypes {
         repositories {
 
-            maven {
-                url "http://dl.bintray.com/ahmedrizwan/maven"
-            }
             maven { url "https://jitpack.io" }
         }
         debug{
