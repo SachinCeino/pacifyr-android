@@ -4883,7 +4883,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                                     dialog.dismiss();
                                 }
                             };
-                            showIOSDialogOK("Error", message, "OK", listener,false);
+                            showIOSDialogOK("", message, "OK", listener,false);
                         }
                     });
                 }
@@ -4928,7 +4928,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                                     dialog.dismiss();
                                 }
                             };
-                            showIOSDialogOK("Error", message, "OK", listener,false);
+                            showIOSDialogOK("", message, "OK", listener,false);
                         }
                     });
                 }
