@@ -719,15 +719,16 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
         sharedPrefsHelper = SharedPrefsHelper.getInstance();
         googlePlayServicesHelper = new GooglePlayServicesHelper();
 
-        loadEmotions();
+       // loadEmotions();
 
 
     }
 
     private void loadEmotions() {
-        if (!isValid(PrefManager.getInstance(PacifyrActivity.this).getAccessToken())) {
+       try {
+            if (!isValid(PrefManager.getInstance(PacifyrActivity.this).getAccessToken())) {
             Log.d(TAG, "loadEmotions Error : Not logged in");
-            return;
+
         }
         String emotionJson =
                 PrefManager.getInstance(PacifyrActivity.this).getSharedString(PrefManager.JSON_ALL_EMOTIONS, null);
@@ -776,6 +777,10 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
             }
         }
 
+       }catch (Exception e)
+       {
+
+       }
     }
 
     public  void permissionCheck(){
