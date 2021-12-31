@@ -4849,6 +4849,103 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
     }
 
 
+    public void ShowTransactionFaileToUSerwithAlert(String message) {
+        errorCount++;
+        if (!isShowDialogs()) {
+            if (Build.VERSION.SDK_INT != Build.VERSION_CODES.M) {
+                if (isCallActive)
+                    maximizePicInPicView();
+            }
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            iOSDialogClickListener listener = new iOSDialogClickListener() {
+                                @Override
+                                public void onClick(iOSDialog dialog) {
+
+                                    new NetworkService().sendPaymentFailedDueToSomeReasons(VideoActivity.mSessionDetailRoot.getPacifyr().getId(), "paymentFailure", message, new AjaxCallback<JSONObject>() {
+                                        @Override
+                                        public void callback(String url, JSONObject json, AjaxStatus status) {
+                                            /*
+                                             *this must be the first line of any httpCallBacks
+                                             */
+                                            Auth.httpStatusFilter(getApplicationContext(),status.getCode());
+                                            if (json != null) {
+                                                Log.w("PAYTMLOG", "sendCardAddedNotificationFail messages" + json.toString());
+                                            }
+                                        }
+                                    });
+                                    Bundle args =
+                                            FirebaseLogging.getConstantArgsLoggedIn(PacifyrActivity.this);
+                                    args.putString(FirebaseLogging.EC, message + "");
+                                    FirebaseLogging.sendLog(PacifyrActivity.this,
+                                            FirebaseLogging.EVENT_CLIENT_PAYMENT_FAILED,
+                                            args);
+                                    dialog.dismiss();
+                                }
+                            };
+                            showIOSDialogOK("", message, "OK", listener,false);
+
+                        }
+                    });
+                }
+            }, 2000);
+            return;
+        } else {
+            if (Build.VERSION.SDK_INT != Build.VERSION_CODES.M) {
+                if (isCallActive)
+                    bringCallActivityToFront();
+            }
+
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            iOSDialogClickListener listener = new iOSDialogClickListener() {
+                                @Override
+                                public void onClick(iOSDialog dialog) {
+                                    if (isValid(VideoActivity.mSessionDetailRoot)&&isValid(VideoActivity.mSessionDetailRoot.getPacifyr()))
+
+                                        new NetworkService().sendPaymentFailedDueToSomeReasons(VideoActivity.mSessionDetailRoot.getPacifyr().getId(), "paymentFailure", message, new AjaxCallback<JSONObject>() {
+                                            @Override
+                                            public void callback(String url, JSONObject json, AjaxStatus status) {
+                                                /*
+                                                 *this must be the first line of any httpCallBacks
+                                                 */
+                                                Auth.httpStatusFilter(getApplicationContext(),status.getCode());
+                                                if (json != null) {
+                                                    Log.w("PAYTMLOG", "sendCardAddedNotificationFail messages" + json.toString());
+                                                }
+                                            }
+                                        });
+                                    Bundle args =
+                                            FirebaseLogging.getConstantArgsLoggedIn(PacifyrActivity.this);
+                                    args.putString(FirebaseLogging.EC, message + "");
+                                    FirebaseLogging.sendLog(PacifyrActivity.this,
+                                            FirebaseLogging.EVENT_CLIENT_PAYMENT_FAILED,
+                                            args);
+                                    dialog.dismiss();
+                                }
+                            };
+                            showIOSDialogOK("", message, "OK", listener,false);
+
+
+                        }
+                    });
+                }
+            }, 2000);
+        }
+
+
+    }
+
     public void ShowTransactionFaileToUSer(String message) {
         errorCount++;
         if (!isShowDialogs()) {
@@ -4888,8 +4985,31 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                                     dialog.dismiss();
                                 }
                             };
-                            if (!getPrefManager().getCountry().equalsIgnoreCase("US"))
-                            showIOSDialogOK("", message, "OK", listener,false);
+                            if (getPrefManager().getCountry().equalsIgnoreCase("US")){
+                                new NetworkService().sendPaymentFailedDueToSomeReasons(VideoActivity.mSessionDetailRoot.getPacifyr().getId(), "paymentFailure", message, new AjaxCallback<JSONObject>() {
+                                    @Override
+                                    public void callback(String url, JSONObject json, AjaxStatus status) {
+                                        /*
+                                         *this must be the first line of any httpCallBacks
+                                         */
+                                        Auth.httpStatusFilter(getApplicationContext(),status.getCode());
+                                        if (json != null) {
+                                            Log.w("PAYTMLOG", "sendCardAddedNotificationFail messages" + json.toString());
+                                        }
+                                    }
+                                });
+                                Bundle args =
+                                        FirebaseLogging.getConstantArgsLoggedIn(PacifyrActivity.this);
+                                args.putString(FirebaseLogging.EC, message + "");
+                                FirebaseLogging.sendLog(PacifyrActivity.this,
+                                        FirebaseLogging.EVENT_CLIENT_PAYMENT_FAILED,
+                                        args);
+
+                            }
+                            else
+                            {
+                                showIOSDialogOK("", message, "OK", listener,false);
+                            }
                         }
                     });
                 }
@@ -4934,8 +5054,32 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                                     dialog.dismiss();
                                 }
                             };
-                            if (!getPrefManager().getCountry().equalsIgnoreCase("US"))
-                            showIOSDialogOK("", message, "OK", listener,false);
+                            if (getPrefManager().getCountry().equalsIgnoreCase("US")){
+                                new NetworkService().sendPaymentFailedDueToSomeReasons(VideoActivity.mSessionDetailRoot.getPacifyr().getId(), "paymentFailure", message, new AjaxCallback<JSONObject>() {
+                                        @Override
+                                        public void callback(String url, JSONObject json, AjaxStatus status) {
+                                            /*
+                                             *this must be the first line of any httpCallBacks
+                                             */
+                                            Auth.httpStatusFilter(getApplicationContext(),status.getCode());
+                                            if (json != null) {
+                                                Log.w("PAYTMLOG", "sendCardAddedNotificationFail messages" + json.toString());
+                                            }
+                                        }
+                                    });
+                                    Bundle args =
+                                            FirebaseLogging.getConstantArgsLoggedIn(PacifyrActivity.this);
+                                    args.putString(FirebaseLogging.EC, message + "");
+                                    FirebaseLogging.sendLog(PacifyrActivity.this,
+                                            FirebaseLogging.EVENT_CLIENT_PAYMENT_FAILED,
+                                            args);
+
+                            }
+                            else
+                            {
+                                showIOSDialogOK("", message, "OK", listener,false);
+                            }
+
                         }
                     });
                 }

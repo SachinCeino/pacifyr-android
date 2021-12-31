@@ -2367,7 +2367,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                     }
                     else if (resultCode==RESULT_CANCELED)
                     {
-                        ShowTransactionFaileToUSer(getString(R.string.payment_verification_failed));
+                        ShowTransactionFaileToUSerwithAlert(getString(R.string.payment_verification_failed));
                     }
                 }
 
