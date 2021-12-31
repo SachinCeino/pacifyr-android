@@ -232,6 +232,12 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
             @Override
             public void onClick(View v) {
                 //DialogsActivity.start(getActivity());
+                if (!((DashboardActivity)getActivity()).isInternetAvailable()) {
+                    ((DashboardActivity) getActivity()).showInternetNotAvailablePopup();
+                    return;
+                }
+
+
                 TwilioCoversationListActivity.start(getActivity(),false);
                 unreadCount=0;
                 /*showFragment(new PacifyrMessageFragment(/));*/
@@ -246,6 +252,11 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
             public void onClick(View v) {
 
                 try {
+                    if (!((DashboardActivity)getActivity()).isInternetAvailable()) {
+                        ((DashboardActivity) getActivity()).showInternetNotAvailablePopup();
+                        return;
+                    }
+
                     if (isValid(modelCustomerDashboard2.getNextAppointment()))
                     {
                         ((DashboardActivity)getActivity()).showAppointmentPage();
@@ -276,7 +287,10 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
             public void onClick(View v) {
                 /*Intent i= new Intent(getContext(),FeelSelectActivity.class);
                 startActivity(i);*/
-
+                if (!((DashboardActivity)getActivity()).isInternetAvailable()) {
+                    ((DashboardActivity) getActivity()).showInternetNotAvailablePopup();
+                    return;
+                }
                 ConnectToPacifyrActivity.start(getActivity());
              /*    Intent intent= new Intent(getContext(),ConnectToPacifyrActivity.class);
                 intent.putExtra("display","Pacifyr");
@@ -289,6 +303,10 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
             @Override
             public void onClick(View v) {
                 try {
+                    if (!((DashboardActivity)getActivity()).isInternetAvailable()) {
+                        ((DashboardActivity) getActivity()).showInternetNotAvailablePopup();
+                        return;
+                    }
                     if (isValid(modelAllEmotions))
                         MySessionsActivity.start(getActivity());
                     else
@@ -310,6 +328,10 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
         connect_btn_rlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (!((DashboardActivity)getActivity()).isInternetAvailable()) {
+                    ((DashboardActivity) getActivity()).showInternetNotAvailablePopup();
+                    return;
+                }
                 ConnectToPacifyrActivity.start(getActivity());
                 /*Intent intent=new Intent(getActivity(), ConnectToPacifyrActivity.class);
                 intent.putExtra("display","Pacifyr");
@@ -321,6 +343,10 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
             @Override
             public void onClick(View v) {
                // Log.i("preffffff11","p: "+prefpac);
+                if (!((DashboardActivity)getActivity()).isInternetAvailable()) {
+                    ((DashboardActivity) getActivity()).showInternetNotAvailablePopup();
+                    return;
+                }
                 if (isValid(modelCustomerDashboard2)&&isValid(modelCustomerDashboard2.getPreferredPacifyrs()[0]))
                 {
                     prefpac = modelCustomerDashboard2.getPreferredPacifyrs()[0];
@@ -336,6 +362,10 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
         pacifyr2Dimv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (!((DashboardActivity)getActivity()).isInternetAvailable()) {
+                    ((DashboardActivity) getActivity()).showInternetNotAvailablePopup();
+                    return;
+                }
                 if (isValid(modelCustomerDashboard2)&&isValid(modelCustomerDashboard2.getPreferredPacifyrs()[1]))
                 {
                     prefpac = modelCustomerDashboard2.getPreferredPacifyrs()[1];
@@ -348,6 +378,10 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
         pacifyr3Dimv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (!((DashboardActivity)getActivity()).isInternetAvailable()) {
+                    ((DashboardActivity) getActivity()).showInternetNotAvailablePopup();
+                    return;
+                }
                 if (isValid(modelCustomerDashboard2)&&isValid(modelCustomerDashboard2.getPreferredPacifyrs()[2]))
                 {
                     prefpac = modelCustomerDashboard2.getPreferredPacifyrs()[2];
@@ -361,6 +395,10 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
         pacifyr4Dimv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (!((DashboardActivity)getActivity()).isInternetAvailable()) {
+                    ((DashboardActivity) getActivity()).showInternetNotAvailablePopup();
+                    return;
+                }
                 if (isValid(modelCustomerDashboard2)&&isValid(modelCustomerDashboard2.getPreferredPacifyrs()[3]))
                 {
                     prefpac = modelCustomerDashboard2.getPreferredPacifyrs()[3];

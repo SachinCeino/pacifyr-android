@@ -430,6 +430,11 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
         connectProviderActioBar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (!isInternetAvailable()) {
+                    showInternetNotAvailablePopup();
+                    return;
+                }
+
                 /**actionbar connectprovider from dashboard actionbar event **/
                 if (connectProviderActioBar.getText().equals("Connect"))
                 EventBus.getDefault().post(new ConnectEvent(true));
@@ -462,6 +467,10 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
             rightLlay.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    if (!isInternetAvailable()) {
+                        showInternetNotAvailablePopup();
+                        return;
+                    }
                     Intent intent = new Intent(DashboardActivity.this, AccountEditActivity.class);
                     //  intent.putExtra("display","Pacifyr");
                     startActivity(intent);
@@ -729,7 +738,10 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
         dashboardLlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (!isInternetAvailable()) {
+                    showInternetNotAvailablePopup();
+                    return;
+                }
                 hideRightLayActionbar();
                 showFragment(new UserDashboardFragment());
             }
@@ -737,7 +749,10 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
         account_rlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (!isInternetAvailable()) {
+                    showInternetNotAvailablePopup();
+                    return;
+                }
                 showRightLayActionbar();
                 showFragment(new AccountFragment());
             }
@@ -745,7 +760,10 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
         connectToPacifyr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (!isInternetAvailable()) {
+                    showInternetNotAvailablePopup();
+                    return;
+                }
                 hideRightLayActionbar();
                 closePane(true);
                 ConnectToPacifyrActivity.start(context);
@@ -758,7 +776,10 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
         tutotial_llay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (!isInternetAvailable()) {
+                    showInternetNotAvailablePopup();
+                    return;
+                }
                 hideRightLayActionbar();
                 showFragment(new WelcomeTourFragment());
 
@@ -767,7 +788,10 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
         browsePacifyr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (!isInternetAvailable()) {
+                    showInternetNotAvailablePopup();
+                    return;
+                }
                 hideRightLayActionbar();
                 closePane(true);
                 Intent i=new Intent(context, ListPacifyrScreenActivity.class);
@@ -784,7 +808,10 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
         paymentLlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (!isInternetAvailable()) {
+                    showInternetNotAvailablePopup();
+                    return;
+                }
                 hideRightLayActionbar();
                 showFragment(new PaymentFragment());
 
@@ -795,7 +822,10 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
         messagesLlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (!isInternetAvailable()) {
+                    showInternetNotAvailablePopup();
+                    return;
+                }
                 hideRightLayActionbar();
                 closePane(true);
                 //isFromSlideMenu true for subscription check validation
@@ -810,7 +840,10 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
         policyDocumentLlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (!isInternetAvailable()) {
+                    showInternetNotAvailablePopup();
+                    return;
+                }
                 hideRightLayActionbar();
                 closePane(true);
                 PolicyDocumentActivity.start(context);
@@ -821,7 +854,10 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
         mysessionsLlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (!isInternetAvailable()) {
+                    showInternetNotAvailablePopup();
+                    return;
+                }
                 hideRightLayActionbar();
                 showFragment(new MySessionFragment());
 
@@ -831,7 +867,10 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
         supportLlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (!isInternetAvailable()) {
+                    showInternetNotAvailablePopup();
+                    return;
+                }
                 hideRightLayActionbar();
                 showFragment(new SupportFragment());
             }
@@ -840,7 +879,10 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
         crisisLlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (!isInternetAvailable()) {
+                    showInternetNotAvailablePopup();
+                    return;
+                }
                 hideRightLayActionbar();
                 closePane(true);
                 Intent intent = new Intent(DashboardActivity.this,CrisisActivity.class);
@@ -854,7 +896,10 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
         resourcesLlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (!isInternetAvailable()) {
+                    showInternetNotAvailablePopup();
+                    return;
+                }
                 hideRightLayActionbar();
                 showFragment(new ResourcesFragment());
 
@@ -865,6 +910,10 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
             @Override
             public void onClick(View v) {
                closePane(true);
+                if (!isInternetAvailable()) {
+                    showInternetNotAvailablePopup();
+                    return;
+                }
                 hideRightLayActionbar();
                 setAlertStatusInBlue("Logout", getResources().getString(R.string.signout_message), new Dialog.onClick() {
                     @Override
@@ -906,7 +955,10 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
         mLinearLayoutAppointments.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (!isInternetAvailable()) {
+                    showInternetNotAvailablePopup();
+                    return;
+                }
                 showAppointmentPage();
             }
         });
@@ -960,6 +1012,10 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
         coupon_llay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (!isInternetAvailable()) {
+                    showInternetNotAvailablePopup();
+                    return;
+                }
                 hideRightLayActionbar();
                 showFragment(new CouponCodeFragment());
 
@@ -969,6 +1025,10 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
         mLinearLayoutPrescription.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (!isInternetAvailable()) {
+                    showInternetNotAvailablePopup();
+                    return;
+                }
                 hideRightLayActionbar();
                 showFragment(new PrescriptionListFragment());
             }
@@ -1163,12 +1223,35 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
     }
 
 
+    public boolean isInternetAvailable=true;
+
+    public boolean isInternetAvailable() {
+        return isInternetAvailable;
+    }
+
+    public void setInternetAvailable(boolean internetAvailable) {
+        isInternetAvailable = internetAvailable;
+    }
+
+    public void showInternetNotAvailablePopup()
+    {
+        setAlertStatusInWhiteNoInternet("No Internet connection!", "Please turn on internet connection to continue.", "Exit", "Ok", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hideProgress();
+                hideStatus2();
+                finish();
+            }
+        });
+    }
+
     @org.greenrobot.eventbus.Subscribe(threadMode = ThreadMode.MAIN)
     public void onNetworkChanged(InternetConnectionEvent event) {
         try {
             if (isValid(event) && isShowDialogs()) {
                 if (!event.isConnected())
                 {
+                    setInternetAvailable(false);
                     setAlertStatusInWhiteNoInternet("No Internet connection!", "Please turn on internet connection to continue.", "Exit", "Ok", new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -1180,6 +1263,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
                 }
                 else
                 {
+                    setInternetAvailable(true);
                     hideProgress();
                     hideStatus2();
                 }
