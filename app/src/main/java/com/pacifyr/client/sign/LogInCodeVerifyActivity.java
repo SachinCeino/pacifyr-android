@@ -187,6 +187,12 @@ public class LogInCodeVerifyActivity extends PacifyrActivity {
     @Override
     protected void onStop() {
         super.onStop();
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
         cancelTimer();
     }
 
