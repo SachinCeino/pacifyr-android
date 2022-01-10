@@ -131,7 +131,7 @@ public class LogInCodeVerifyActivity extends PacifyrActivity {
             resend_ctxv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(LogInCodeVerifyActivity.this,"SMS Sent",Toast.LENGTH_LONG).show();
+                    //Toast.makeText(LogInCodeVerifyActivity.this,"SMS Sent",Toast.LENGTH_LONG).show();
                     showProgress();
                     startPhoneNumberVerification(phonenumber);
                     Bundle args =
