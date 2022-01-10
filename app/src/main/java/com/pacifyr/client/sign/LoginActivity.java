@@ -322,7 +322,7 @@ public class LoginActivity extends PacifyrActivity {
         try {
             setLoading();
             showProgress();
-            if (!isValidMobile(phoneCedit, "Please enter your mobile number"))
+            if (!isValidMobile(phoneCedit, getResources().getString(R.string.error_enter_mob_number)))
             {
                 hideProgress();
                 return;

@@ -415,7 +415,7 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="toast_verify_code_send">Verification code sent</string>
     <string name="error_incorrect_confirm_code">Incorrect Confirmation Code</string>
     <string name="error_invalid_code">Invalid code </string>
-    <string name="error_enter_mob_number">Please enter your mobile number</string>
+    <string name="error_enter_mob_number">Please enter your phone number</string>
     <string name="status_login_failed">Login Failed. Please Try again</string>
     <string name="status_login_success">Login Successful</string>
     <string name="subtitle_device_date_time_incorrect"><![CDATA[Your device date & time is not correct. Please correct it and try sign in.]]></string>
