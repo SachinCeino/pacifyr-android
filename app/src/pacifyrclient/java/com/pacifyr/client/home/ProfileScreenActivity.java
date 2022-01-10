@@ -217,7 +217,7 @@ public class ProfileScreenActivity extends PacifyrAppCompactActivity {
                         handleActionProfile(userID);
                     }
                 };
-                trackTimer_user_update.scheduleAtFixedRate(trackTimerTask_user_update, 0, 5000);
+                trackTimer_user_update.scheduleAtFixedRate(trackTimerTask_user_update, 0, Consts.TIMER_ONLINE_OFFLIN);
 
 
                 if(isFromConnectPacifyr) {

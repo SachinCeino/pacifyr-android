@@ -448,7 +448,7 @@ public class ConnectToSinglePacifyrActivity  extends PacifyrAppCompactActivity {
 
                 }
             };
-            trackTimer_check_online.scheduleAtFixedRate(trackTimerTask_check_online, 0, 10000);
+            trackTimer_check_online.scheduleAtFixedRate(trackTimerTask_check_online, 0, Consts.TIMER_ONLINE_OFFLIN);
 
 
         }

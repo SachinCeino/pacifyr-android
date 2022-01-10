@@ -56,6 +56,7 @@ public interface Consts {
     String EXTRA_IS_STARTED_FOR_CALL = "isRunForCall";
     String ALREADY_LOGGED_IN = "You have already logged in chat";
     String REJECT_REASON="Rejected";
+    long TIMER_ONLINE_OFFLIN = 5000;
 
     enum StartConversationReason {
         INCOME_CALL_FOR_ACCEPTION,
