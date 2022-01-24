@@ -35,6 +35,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
+import androidx.documentfile.provider.DocumentFile;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -818,7 +819,7 @@ public class TwilioConversationActivity extends
                             FileInputStream fileInputStream = new FileInputStream(fd.getFileDescriptor());
 
                             quickstartConversationsManager.sendMedia(fileInputStream,fd,
-                                    "IMAGE", fileSizeInBytes);
+                                    "IMAGE", fileSizeInBytes,"");
 
                         } catch (FileNotFoundException e) {
                             e.printStackTrace();
@@ -908,10 +909,12 @@ public class TwilioConversationActivity extends
                     else {
                         try {
 
+                            DocumentFile file = DocumentFile.fromSingleUri(context, uploadData.uri);
+                            String fileName = file.getName();
                             ParcelFileDescriptor fd = this.getContentResolver().openFileDescriptor(uploadData.uri, "r");
                             Long fileSizeInBytes = fd.getStatSize();
                             FileInputStream fileInputStream = new FileInputStream(fd.getFileDescriptor());
-                            quickstartConversationsManager.sendMedia(fileInputStream, fd, type, fileSizeInBytes);
+                            quickstartConversationsManager.sendMedia(fileInputStream, fd, type, fileSizeInBytes,fileName);
                         } catch (FileNotFoundException e) {
                         }
                     }

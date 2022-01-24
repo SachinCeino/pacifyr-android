@@ -176,10 +176,13 @@ public class QuickstartConversationsManager {
     }
 
 
-    void sendMedia(FileInputStream file, ParcelFileDescriptor fd, String type, long fileSizeInBytes)
+    void sendMedia(FileInputStream file, ParcelFileDescriptor fd, String type, long fileSizeInBytes,String flName)
             throws FileNotFoundException {
         String mimeType = "", fileName = "";
+        if (flName.equals(""))
         fileName = String.valueOf(System.currentTimeMillis());
+        else
+            fileName=flName;
 
         if (type.equals("IMAGE"))
         {
@@ -187,7 +190,7 @@ public class QuickstartConversationsManager {
             mimeType = "image/jpg";
         }
         else {
-            fileName += "_file."+type;
+           // fileName += "_file."+type;
             mimeType = "application/"+type;
         }
 
