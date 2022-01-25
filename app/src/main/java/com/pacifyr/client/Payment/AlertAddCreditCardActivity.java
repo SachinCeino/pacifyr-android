@@ -125,7 +125,14 @@ public class AlertAddCreditCardActivity extends PacifyrAppCompactActivity {
 						}, 2000);
 
 					} else {
-						setStatus("Error occured. Please try again.", R.color.md_red_500);
+						String messageExtended="Your card's security code is invalid.";
+						/*if(json.has("messageExtended"))
+							messageExtended = json.getString("messageExtended");
+						if (!messageExtended.equals(""))
+						setStatus(messageExtended, R.color.md_red_500);
+						else
+							*/
+						setStatus(messageExtended, R.color.md_red_500);
 						showStatus();
 						final Handler handler = new Handler();
 						handler.postDelayed(new Runnable() {
@@ -133,12 +140,12 @@ public class AlertAddCreditCardActivity extends PacifyrAppCompactActivity {
 							public void run() {
 								hideStatus();
 							}
-						}, 2000);
+						}, 3000);
 
-						Intent intent = new Intent();
+						/*Intent intent = new Intent();
 						intent.putExtra("CardAdded", false);
 						setResult(RESULT_CANCELED, intent);
-						finish();
+						finish();*/
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
