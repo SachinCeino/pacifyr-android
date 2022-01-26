@@ -378,7 +378,14 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                             empMinutesListener.tick(minutesLeft);
                             if (isVideoCall)
                             {
-                                TextView_vidio_freeminuts_remine.setVisibility(View.VISIBLE);
+                                if (isValid(VideoActivity.mSessionDetailRoot) && isValid(VideoActivity.mSessionDetailRoot.getTimeSlotBookingId()))
+                                {
+                                    TextView_vidio_freeminuts_remine.setVisibility(View.GONE);
+                                }
+                                else {
+                                    TextView_vidio_freeminuts_remine.setVisibility(View.VISIBLE);
+                                }
+
                                 if (getPrefManager().getCountry().equals("US"))
                                     TextView_vidio_freeminuts_remine.setText("Wallet balance: "+minutesLeft+" minutes");
                                 else
@@ -386,7 +393,13 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                             }
                             else
                             {
-                                TextView_audio_freeminuts_remine.setVisibility(View.VISIBLE);
+                                if (isValid(VideoActivity.mSessionDetailRoot) && isValid(VideoActivity.mSessionDetailRoot.getTimeSlotBookingId()))
+                                {
+                                    TextView_audio_freeminuts_remine.setVisibility(View.GONE);
+                                }
+                                else {
+                                    TextView_audio_freeminuts_remine.setVisibility(View.VISIBLE);
+                                }
                                 if (getPrefManager().getCountry().equals("US"))
                                     TextView_audio_freeminuts_remine.setText("Wallet balance: "+minutesLeft+" minutes");
                                 else
