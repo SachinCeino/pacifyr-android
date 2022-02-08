@@ -213,7 +213,8 @@ public class MySessionFragment extends BaseFragment {
         final String weekStatUrl = GLOBAL_URL+"dashboard/customer/"+userid+"/sessionStatistics?fromDate="+WeekStartDate+"&toDate="+WeekEndDate;
         final String monthStatUrl = GLOBAL_URL+"dashboard/customer/"+userid+"/sessionStatistics?fromDate="+FirstDateOfMonth+"&toDate="+lastMonthDate;
         final String yearStatUrl = GLOBAL_URL+"dashboard/customer/"+userid+"/sessionStatistics?fromDate="+fromDYear+"&toDate="+toDYear;
-//        setLoading();
+        setLoading();
+        showProgress();
 
         getStatistics(weekStatUrl);
         callThisWeekSession(thisWeekUrl);
@@ -240,7 +241,8 @@ public class MySessionFragment extends BaseFragment {
                         Log.i("sesssuruuuab3","u: "+skip);
                     final String thisYearUrl=GLOBAL_URL+"session/customer/all?userId="+userid+"&skip="+skip+"&limit="+limit+"&fromDate="+fromDYear+"&toDate="+toDYear;
                     final String yearStatUrl = GLOBAL_URL+"dashboard/customer/"+userid+"/sessionStatistics?fromDate="+fromDYear+"&toDate="+toDYear;
-
+                    setLoading();
+                    showProgress();
                     callThisYearSession(thisYearUrl);
                     thisYearCtxv.setBackground(getResources().getDrawable(R.drawable.blue_line_bottom));
                     thisMntCtxv.setBackground(getResources().getDrawable(R.color.grey_hex_f8));
@@ -259,7 +261,8 @@ public class MySessionFragment extends BaseFragment {
                         Log.i("sesssuruuuab2","u: "+skip);
                     final String thisMonthUrl=GLOBAL_URL+"session/customer/all?userId="+userid+"&skip="+skip+"&limit="+limit+"&fromDate="+FirstDateOfMonth+"&toDate="+lastMonthDate;
                     final String monthStatUrl = GLOBAL_URL+"dashboard/customer/"+userid+"/sessionStatistics?fromDate="+FirstDateOfMonth+"&toDate="+lastMonthDate;
-
+                    setLoading();
+                    showProgress();
                     callThisMonthSession(thisMonthUrl);
                     thisWkCtxv.setBackground(getResources().getDrawable(R.color.grey_hex_f8));
                     thisYearCtxv.setBackground(getResources().getDrawable(R.color.grey_hex_f8));
@@ -278,7 +281,8 @@ public class MySessionFragment extends BaseFragment {
                         Log.i("sesssuruuuab1","u: "+skip);
                     final String thisWeekUrl=GLOBAL_URL+"session/customer/all?userId="+userid+"&skip="+skip+"&limit="+limit+"&fromDate="+WeekStartDate+"&toDate="+WeekEndDate;
                     final String weekStatUrl = GLOBAL_URL+"dashboard/customer/"+userid+"/sessionStatistics?fromDate="+WeekStartDate+"&toDate="+WeekEndDate;
-
+                    setLoading();
+                    showProgress();
                     callThisWeekSession(thisWeekUrl);
                     thisWkCtxv.setBackground(getResources().getDrawable(R.drawable.blue_line_bottom));
                     thisMntCtxv.setBackground(getResources().getDrawable(R.color.grey_hex_f8));
@@ -299,7 +303,8 @@ public class MySessionFragment extends BaseFragment {
         thisWkCtxv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                setLoading();
+                showProgress();
                 skip=0;
                 limit=10;
                 tab=0;
@@ -330,7 +335,8 @@ public class MySessionFragment extends BaseFragment {
         thisMntCtxv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                setLoading();
+                showProgress();
                 skip=0;
                 limit=10;
                 tab=1;
@@ -360,7 +366,8 @@ public class MySessionFragment extends BaseFragment {
         thisYearCtxv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                setLoading();
+                showProgress();
                 skip=0;
                 limit=10;
                 tab=2;
@@ -435,8 +442,6 @@ public class MySessionFragment extends BaseFragment {
         {
             yearSessionsRcv.setVisibility(View.GONE);
             noDataCtxv.setVisibility(View.GONE);
-            setLoading();
-            showProgress();
             AjaxCallback cb = new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, JSONObject json, AjaxStatus status) {
@@ -500,8 +505,7 @@ public class MySessionFragment extends BaseFragment {
         try {
             noDataCtxv.setVisibility(View.GONE);
             monthSessionsRcv.setVisibility(View.GONE);
-            setLoading();
-            showProgress();
+
             AjaxCallback cb = new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, JSONObject json, AjaxStatus status) {
@@ -547,9 +551,6 @@ public class MySessionFragment extends BaseFragment {
             Log.i("weeeeek1","w:  "+url);
             weekSessionsRcv.setVisibility(View.GONE);
             noDataCtxv.setVisibility(View.GONE);
-            hideProgress();
-            setLoading();
-            showProgress();
             AjaxCallback cb = new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, JSONObject json, AjaxStatus status) {
@@ -619,7 +620,7 @@ public class MySessionFragment extends BaseFragment {
     public void onWeekSetSessionEvent(WeekSetSessionEvent event) {
         firstItemEditable = event.getEditable();
         try {
-
+            showProgress();
             if(event.getWeekType().equals("week")) {
                 WeekStartDate=event.getFromDWeek();
                 WeekEndDate=event.getToDWeek();

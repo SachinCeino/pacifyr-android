@@ -382,11 +382,12 @@ public abstract class BaseFragment extends Fragment {
     public KProgressHUD hud_progress = null;
     public KProgressHUD hud_status = null;
     public void setLoading() {
-//        try {
-//            hud_progress = KProgressHUD.create(getActivity()).setStyle(KProgressHUD.Style.SPIN_INDETERMINATE).setAnimationSpeed(2).setCancellable(true).setMaxProgress(100).setDimAmount(0.5f);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+        try {
+           hud_progress = KProgressHUD.create(getActivity()).setStyle(KProgressHUD.Style.SPIN_INDETERMINATE).setAnimationSpeed(2).setCancellable(true).setMaxProgress(100).setDimAmount(0.5f);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+       }
 
     }
 
@@ -422,12 +423,15 @@ public abstract class BaseFragment extends Fragment {
     }
 
     public void showProgress() {
-//        if (getActivity() instanceof PacifyrActivity) {
-//            if (!((PacifyrActivity) getActivity()).isShowDialogs()) {
-//                return;
-//            }
-//        }
-//        if(isValid(hud_progress)) if(!hud_progress.isShowing()) hud_progress.show();
+        try {
+            if (!((PacifyrActivity) getActivity()).isShowDialogs()) {
+                return;
+            }
+            if(isValid(hud_progress)) if(!hud_progress.isShowing()) hud_progress.show();
+        }catch (Exception e)
+        {
+
+        }
     }
     public void setStatus(String status, int color) {
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.status_dialog, null, false);
