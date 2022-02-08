@@ -32,6 +32,7 @@ import com.google.firebase.auth.PhoneAuthProvider;
 import com.pacifyr.client.R;
 import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
+import com.pacifyr.client.netconnectionlistener.ConnectionCheckBroadcast;
 import com.pacifyr.client.utils.FirebaseLogging;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 
@@ -339,20 +340,37 @@ public class LogInCodeVerifyActivity extends PacifyrActivity {
                 @Override
                 public void onClick(View view) {
                     hideKeyboard();
-                    setLoading();
-                    showProgress();
-                    if(!isValid(mVerificationId,"Incorrect Confirmation Code")){
-                        hideProgress();
-                        return;
-                    }
-
-                    if(!isValid(pin.getValue(),"Please enter verification code "))
+                    if (ConnectionCheckBroadcast.CheckInternetConnection(getApplicationContext()))
                     {
-                        hideProgress();
-                        return;
+                        setLoading();
+                        showProgress();
+                        if(!isValid(mVerificationId,"Incorrect Confirmation Code")){
+                            hideProgress();
+                            return;
+                        }
+
+                        if(!isValid(pin.getValue(),"Please enter verification code "))
+                        {
+                            hideProgress();
+                            return;
+                        }
+
+                        verifyPhoneNumberWithCode(mVerificationId, pin.getValue()+"");
+                    }
+                    else
+                    {
+                        setAlertStatusInWhiteNoInternet("No Internet connection!", "Please turn on internet connection to continue.", "Exit", "Ok", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                hideProgress();
+                                hideStatus2();
+                                finish();
+                            }
+                        });
                     }
 
-                    verifyPhoneNumberWithCode(mVerificationId, pin.getValue()+"");
+
+
                   /*  if (isValid(phonenumber))
                         PhoneAuthProvider.getInstance().verifyPhoneNumber(
                                 phonenumber,        // Phone number to verify
