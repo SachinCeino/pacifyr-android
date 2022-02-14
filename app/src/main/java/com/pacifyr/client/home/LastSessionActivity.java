@@ -986,10 +986,14 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
         ArrayList<String> comments = new ArrayList<String>();
         try {
             comments = commentsAdapter.getSelectedList();
+
             if (comments_cedt.isShown()) {
                 String comment = comments_cedt.getText() + "";
-                if (isValid(comment))
+                if (isValid(comment)) {
+                    comments = new ArrayList<>();
                     comments.add(comment);
+                }
+
             }
         } catch (Exception e) {
             LogUtils.LOGD("session", "SSA getMSessionRating list exce " + e.getMessage());
