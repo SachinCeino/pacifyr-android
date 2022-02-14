@@ -364,7 +364,8 @@ public class LogInCodeVerifyActivity extends PacifyrActivity {
                             public void onClick(View v) {
                                 hideProgress();
                                 hideStatus2();
-                                finish();
+                                finishAffinity();
+                                System.exit(0);
                             }
                         });
                     }
