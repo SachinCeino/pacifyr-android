@@ -37,6 +37,7 @@ import com.pacifyr.client.R;
 import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.NotifyEvent;
+import com.pacifyr.client.netconnectionlistener.ConnectionCheckBroadcast;
 import com.pacifyr.client.utils.FirebaseLogging;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.squareup.otto.Subscribe;
@@ -107,18 +108,34 @@ public class RegisterVerifyActivity extends PacifyrActivity {
             createAccountRlay.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    setLoading();
-                    showProgress();
-                    if(!isValid(mVerificationId,"Incorrect Confirmation Code")) {
-                        hideProgress();
-                        return;
+                    if (ConnectionCheckBroadcast.CheckInternetConnection(getApplicationContext()))
+                    {
+                        setLoading();
+                        showProgress();
+                        if(!isValid(mVerificationId,"Incorrect Confirmation Code")) {
+                            hideProgress();
+                            return;
 
+                        }
+                        if(!isValid(pinview.getValue(),"Please enter verification code ")) {
+                            hideProgress();
+                            return;
+                        }
+                        verifyPhoneNumberWithCode(mVerificationId, pinview.getValue()+"");
                     }
-                    if(!isValid(pinview.getValue(),"Please enter verification code ")) {
-                        hideProgress();
-                        return;
+                    else
+                    {
+                        setAlertStatusInWhiteNoInternet("No Internet connection!", "Please turn on internet connection to continue.", "Exit", "Ok", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                hideProgress();
+                                hideStatus2();
+                                finishAffinity();
+                                System.exit(0);
+                            }
+                        });
                     }
-                    verifyPhoneNumberWithCode(mVerificationId, pinview.getValue()+"");
+
 
                 }
             });

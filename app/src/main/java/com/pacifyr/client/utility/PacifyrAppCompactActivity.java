@@ -1341,7 +1341,7 @@ public abstract class PacifyrAppCompactActivity  extends PacifyrActivity {
     {
         if (isCallActive)
         {
-            showIOSDialogOK("Sorry","You can't schedule while session is going on.","OK");
+            showIOSDialogOK("","You can't schedule while session is going on.","OK");
             return;
         }
         try {
