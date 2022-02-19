@@ -47,6 +47,7 @@ import android.view.WindowManager;
 import android.widget.Chronometer;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -285,7 +286,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
     public CountDownTimer timer;
     private EmpMinutesListener empMinutesListener;
     private ImageView toggle_Max_Min,ImageView_emotion,ImageView_chat,ImageView_prescription;
-    private LinearLayout call_overlay,certificate_View,more_rlay;
+    private LinearLayout call_overlay,certificate_View,more_rlay,info_overlay_llay;
     private RelativeLayout LinearLayout_chat;
     private RelativeLayout emotion_rlay;
     private String change_Emotion_name;
@@ -299,7 +300,8 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
     boolean freeMinuteAlert10, freeMinuteAlert5, freeMinuteAlert0, freeMinuteAlertMore10 = false; // track which of the 3 alerts are shown. 10, 5 or 0;
     private TextView connectionStatusLocal;
     private TextView username_ctxv;
-    private LinearLayout layout_info_about_audio_call;
+    private LinearLayout layout_info_about_audio_call,element_set_video_buttons;
+    private FrameLayout call_overlay_frame;
     private TextView TextView_call_type;
     private CountDownTimer OutGoingCallTimer =null;
     private boolean isProviderConnected=false;
@@ -1494,6 +1496,9 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
             TextView_vidio_freeminuts_remine= findViewById(R.id.TextView_vidio_freeminuts_remine);
             TextView_audio_freeminuts_remine= findViewById(R.id.TextView_audio_freeminuts_remine);
             messageCount=findViewById(R.id.messageCount);
+            info_overlay_llay=findViewById(R.id.info_overlay_llay);
+            call_overlay_frame=findViewById(R.id.call_overlay_frame);
+            element_set_video_buttons=findViewById(R.id.element_set_video_buttons);
 
             this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN |
                     WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
@@ -1612,6 +1617,8 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                         return true;
                     }
                 });
+
+
 
 
             } else {
@@ -1898,6 +1905,38 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
 
             //dataMessages
             setUpRealTimeDataBaseEvents();
+
+
+            final boolean[] isClicked = {false};
+            primaryVideoView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (isClicked[0])
+                        isClicked[0] =false;
+                    else
+                        isClicked[0] =true;
+
+                    if (isClicked[0])
+                    {
+                        info_overlay_llay.setVisibility(View.GONE);
+                        call_overlay_frame.setVisibility(View.GONE);
+                        element_set_video_buttons.setVisibility(View.GONE);
+                        billingStatus.setVisibility(View.INVISIBLE);
+                    }
+                    else {
+                        info_overlay_llay.setVisibility(View.VISIBLE);
+                        call_overlay_frame.setVisibility(View.VISIBLE);
+                        element_set_video_buttons.setVisibility(View.VISIBLE);
+                        if (hasBillingStarted())
+                            billingStatus.setVisibility(View.VISIBLE);
+                        else
+                            billingStatus.setVisibility(View.INVISIBLE);
+                    }
+
+
+                }
+            });
+
        } catch (Exception e) {
             e.printStackTrace();
             Bundle args =

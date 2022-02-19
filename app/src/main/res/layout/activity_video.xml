@@ -222,16 +222,16 @@
                     android:layout_height="wrap_content">
 
                     <com.pacifyrapp.utilitylibrary.DeviceFitImageView
-                        android:layout_width="wrap_content"
                         android:id="@+id/emotion_dimv"
-                        app:width_percentage="15"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
+                        android:src="@drawable/placeholder_user"
                         android:visibility="visible"
+                        app:aspect_ratio="1"
                         app:height_percentage="10"
                         app:parameter="aspect_width"
-                        app:aspect_ratio="1"
-                        android:src="@drawable/placeholder_user"
-                        android:layout_height="wrap_content" />
+                        app:width_percentage="15" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -483,8 +483,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="13dp"
             android:layout_marginTop="5dp"
+            android:layout_marginBottom="13dp"
             android:background="@drawable/white_border_transparent_black"
             android:enabled="false"
             android:padding="10dp"
