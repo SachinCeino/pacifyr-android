@@ -527,7 +527,7 @@ public abstract class PacifyrAppCompactActivity  extends PacifyrActivity {
                                         modelCustomerDashboard2 = null;
 
                                 }
-                            }, 500);
+                            }, 5000);
 
                         } catch (Exception e){
                             //Crashlytics.logException(e);
