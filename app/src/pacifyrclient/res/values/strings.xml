@@ -122,7 +122,7 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="pref_wellness_experts">Preferred Providers</string>
     <string name="This_Week">This Week</string>
     <string name="sessions_summary">SESSIONS SUMMARY</string>
-    <string name="no_wellness_experts_category">No Providers available for the selected category.</string>
+    <string name="no_wellness_experts_category">No provider in the list</string>
 
     <string name="note_add_tilte">Add Notes</string>
 
