@@ -1670,14 +1670,14 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                 }
             });
 
-            toggle_speaker.setClickable(false);
-            toggle_camera.setClickable(false);
-            micToggleVideoCall.setClickable(false);
+            //toggle_speaker.setClickable(false);
+            //toggle_camera.setClickable(false);
+            //micToggleVideoCall.setClickable(false);
 
             micToggleVideoCall.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (!isProviderConnected) return;
+                    //if (!isProviderConnected) return;
                     if (audioManager != null) {
                         boolean isMute = audioManager.isMicrophoneMute();
                         audioManager.setMicrophoneMute(!isMute);
