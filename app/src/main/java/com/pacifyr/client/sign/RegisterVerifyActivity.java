@@ -6,6 +6,9 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
+import android.text.Html;
+import android.text.SpannableStringBuilder;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -600,7 +604,10 @@ public class RegisterVerifyActivity extends PacifyrActivity {
                 progressOtp.setVisibility(View.VISIBLE);
             }
             public void onFinish() {
-                resendCtxv.setText(getResources().getString(R.string.didnt_get_code));
+                SpannableStringBuilder spanTxt = new SpannableStringBuilder();
+                spanTxt.append(Html.fromHtml("<font> <u>" + getResources().getString(R.string.didnt_get_code) + "</u></font>"));
+                resendCtxv.setMovementMethod(LinkMovementMethod.getInstance());
+                resendCtxv.setText(spanTxt, TextView.BufferType.SPANNABLE);
                 progressOtp.setVisibility(View.GONE);
                 cancelTimer();
             }

@@ -80,7 +80,7 @@
     <string name="term_of_use">OMHealthCare Terms of Use</string>
     <string name="terms_of_use">Terms of Use</string>
     <string name="send_confirmcode">Send confirmation code </string>
-    <string name="didnt_get_code">Did not receive the verification code? Make sure the number entered is correct or tap on resend</string>
+    <string name="didnt_get_code">Did not receive the verification code? Make sure the number entered is correct or tap on <u>resend</u></string>
     <string name="action_sign_in">Sign in or Register</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="error_invalid_email">This email address is invalid</string>
