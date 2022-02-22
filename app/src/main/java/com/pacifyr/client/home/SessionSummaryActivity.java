@@ -111,6 +111,7 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
     private MainTextView pacifyrRateCtxv, before_feel_ctxv;
     private MainTextView sessionCostCtxv;
     private int oldRating = 0;
+    private ImageView ImageView_i_icon;
 
     public MSessionDetailRoot mSessionDetailRoot;
     public SeekBarCompat effective_seekbar;
@@ -252,6 +253,7 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
         before_emotion_ctxv = findViewById(R.id.before_emotion_ctxv);
         callback_ctxv = findViewById(R.id.callback_ctxv);
         sessionCostCtxv = findViewById(R.id.session_cost_ctxv);
+        ImageView_i_icon=findViewById(R.id.eye_icon);
         pacifyrNameCtxv = findViewById(R.id.pacifyr_name_ctxv);
         beforeFeelDimv = findViewById(R.id.before_feel_dimv);
         recyclerView = findViewById(R.id.begning_rcv);
@@ -698,8 +700,51 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
 
                 durationCtxv.setText(mSessionDetailRoot.getDuration());
                 if (isValid(mSessionDetailRoot.getStartTime()))
-                    durationCtxv.setText(mSessionDetailRoot.getDuration() + " " + Utility.getStartFormatDate(mSessionDetailRoot.getStartTime(), getApplicationContext()));
+                    durationCtxv.setText(Utility.getCorrectRoundedDuration(mSessionDetailRoot.getDuration()) + " " + Utility.getStartFormatDate(mSessionDetailRoot.getStartTime(), getApplicationContext()));
 
+                try {
+                    /** implementation of "i" icon **/
+
+                    if (mSessionDetailRoot.getSessionCost()>0
+                            &&mSessionDetailRoot.getFreeWalletBalanceUsed()>0 && mSessionDetailRoot.getCreditCardCharges()>0)
+                    {
+                        ImageView_i_icon.setVisibility(View.VISIBLE);
+                    }
+                    if (mSessionDetailRoot.getSessionCost()>0
+                            &&mSessionDetailRoot.getFreeMinutesUsed()>0 && mSessionDetailRoot.getCreditCardCharges()>0)
+                    {
+                        ImageView_i_icon.setVisibility(View.VISIBLE);
+                    }
+
+
+
+                    ImageView_i_icon.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                            if (mSessionDetailRoot.getSessionCost()>0
+                                    &&mSessionDetailRoot.getFreeWalletBalanceUsed()>0 && mSessionDetailRoot.getCreditCardCharges()>0)
+                            {
+                                showIOSDialogOK("","$"+mSessionDetailRoot.getCreditCardCharges()+
+                                        " from credit card and $"+mSessionDetailRoot.getFreeWalletBalanceUsed()+" from wallet","Ok");
+                            }
+
+                            if (mSessionDetailRoot.getSessionCost()>0
+                                    &&mSessionDetailRoot.getFreeMinutesUsed()>0 && mSessionDetailRoot.getCreditCardCharges()>0)
+                            {
+
+                                showIOSDialogOK("",mSessionDetailRoot.getFreeMinutesUsed()+
+                                        " minutes free session and $"+mSessionDetailRoot.getCreditCardCharges()+" from credit card","Ok");
+
+                            }
+
+
+                        }
+                    });
+                }catch (Exception e)
+                {
+
+                }
                 if (isCustomer) {
                     if (isValid(mSessionDetailRoot.getTimeSlotBookingId()))
                         sessionCostCtxv.setText(Utility.getPriceSign(SessionSummaryActivity.this) + mSessionDetailRoot.getSessionCost()+getResources().getString(R.string.prepaid));

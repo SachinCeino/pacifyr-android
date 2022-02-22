@@ -1250,7 +1250,7 @@ boolean itIsFirstCallFrom=true;
                     }
                     else {
                         String duration = lastSession.getDuration();
-                        lastSessionMinuteTxv.setText(duration);
+                        lastSessionMinuteTxv.setText(Utility.getCorrectRoundedDuration(duration));
                         lastSessionMinuteTxv.setVisibility(View.VISIBLE);
                         videoCamImg.setVisibility(View.VISIBLE);
                         daysTxv.setVisibility(View.VISIBLE);

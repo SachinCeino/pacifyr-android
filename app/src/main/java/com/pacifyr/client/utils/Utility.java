@@ -1101,6 +1101,30 @@ public class Utility {
         }
         return 0;
     }
+
+    public static String getCorrectRoundedDuration(String input) {
+
+        String[] split=input.split(":");
+        String hrs= split[0];
+        String mnts=  split[1];
+        String seconds=  split[2];
+
+        if (Integer.parseInt(seconds)>30){
+            mnts= String.valueOf(Integer.parseInt(mnts)+1);
+            if (mnts.length()==1)
+            {
+                mnts="0"+mnts;
+            }
+        }
+        if (hrs.equals("0"))
+            return "00"+":"+mnts;
+        else
+            return hrs+":"+mnts;
+
+
+    }
+
+
     public static String timeZoneOffset()
     {
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT"), Locale.getDefault());

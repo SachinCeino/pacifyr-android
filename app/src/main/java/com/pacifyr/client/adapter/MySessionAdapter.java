@@ -20,6 +20,7 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.pacifyr.client.R;
+import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.ChatEvent;
 import com.pacifyr.client.home.DashboardActivity;
@@ -42,6 +43,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.pacifyr.client.network.NetworkService.GLOBAL_IMAGE_URL;
 import static com.pacifyr.client.network.NetworkService.modelAllEmotions;
+import static com.pacifyr.client.network.NetworkService.respSetSessionAsConnected;
 
 /**
 
@@ -242,8 +244,44 @@ public class MySessionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
             holder.priceCtxv.setText(Utility.getPriceSign(context)+String.format("%.2f", results.getSessionCost()));
 
-            holder.callTimeCtxv.setText(results.getDuration());
+            holder.callTimeCtxv.setText(Utility.getCorrectRoundedDuration(results.getDuration()));
 
+
+            /** implementation of "i" icon **/
+
+            if (results.getSessionCost()>0
+                    &&results.getFreeWalletBalanceUsed()>0 && results.getCreditCardCharges()>0)
+            {
+                holder.ImageView_i_icon.setVisibility(View.VISIBLE);
+            }
+            if (results.getSessionCost()>0
+                    &&results.getFreeMinutesUsed()>0 && results.getCreditCardCharges()>0)
+            {
+                holder.ImageView_i_icon.setVisibility(View.VISIBLE);
+            }
+
+            holder.ImageView_i_icon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    if (results.getSessionCost()>0
+                            &&results.getFreeWalletBalanceUsed()>0 && results.getCreditCardCharges()>0)
+                    {
+                        ((PacifyrActivity)context).showIOSDialogOK("","$"+results.getCreditCardCharges()+
+                                " from credit card and $"+results.getFreeWalletBalanceUsed()+" from wallet","Ok");
+                    }
+
+                    if (results.getSessionCost()>0
+                            &&results.getFreeMinutesUsed()>0 && results.getCreditCardCharges()>0)
+                    {
+
+                        ((PacifyrActivity)context).showIOSDialogOK("",results.getFreeMinutesUsed()+
+                                " minutes free session and $"+results.getCreditCardCharges()+" from credit card","Ok");
+
+                    }
+
+                }
+            });
 
             if (rating != null) {
                 for (int j = 0; j < rating.length; j++) {
@@ -349,6 +387,9 @@ public class MySessionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             ex.printStackTrace();
             LogUtils.LOGD("MSA setViewholder:"+ex.getMessage());
         }
+    }
+
+    private void showAlertWithMessage() {
     }
 
     private void setViewholder(MissedViewHolder missedViewHolder, int position) {
@@ -571,6 +612,7 @@ public class MySessionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         private MainTextView callTimeCtxv;
         private LinearLayout after_Layout;
         private LinearLayout before_Layout;
+        private ImageView ImageView_i_icon;
 
         public MyViewHolder(View view) {
             super(view);
@@ -590,6 +632,7 @@ public class MySessionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             calltype_imv = view.findViewById(R.id.calltype_imv);
             before_Layout = view.findViewById(R.id.before_Layout);
             after_Layout = view.findViewById(R.id.after_Layout);
+            ImageView_i_icon= view.findViewById(R.id.eye_icon);
 
 
         }

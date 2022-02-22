@@ -66,7 +66,16 @@
                     android:text=""
                     android:layout_marginLeft="7dp"
                     android:textColor="@color/black"
-                    android:id="@+id/call_time_ctxv"/>
+                    android:id="@+id/call_time_ctxv"
+                    />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:id="@+id/eye_icon"
+                    android:visibility="gone"
+                    android:layout_marginLeft="5dp"
+                    android:src="@drawable/i_icon"/>
 
             </LinearLayout>
 

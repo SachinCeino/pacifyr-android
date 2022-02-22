@@ -36,8 +36,6 @@ public class MSessionDetailRoot
 
     private MSessionRating[] sessionRatings;
 
-    private String creditCardCharges;
-
     private String sessionType;
 
     private String updatedAt;
@@ -71,6 +69,27 @@ public class MSessionDetailRoot
     private  String  timeSlotBookingId;
     private  String twilioRoomSID;
     private String twilioRoomName;
+
+    private double freeWalletBalanceUsed;
+    private double freeMinutesUsed;
+    private double creditCardCharges;
+
+
+    public double getFreeWalletBalanceUsed() {
+        return freeWalletBalanceUsed;
+    }
+
+    public void setFreeWalletBalanceUsed(double freeWalletBalanceUsed) {
+        this.freeWalletBalanceUsed = freeWalletBalanceUsed;
+    }
+
+    public double getFreeMinutesUsed() {
+        return freeMinutesUsed;
+    }
+
+    public void setFreeMinutesUsed(double freeMinutesUsed) {
+        this.freeMinutesUsed = freeMinutesUsed;
+    }
 
     public String getBillingStartTime() {
         return billingStartTime;
@@ -331,12 +350,12 @@ public class MSessionDetailRoot
         return dates;
     }
 
-    public String getCreditCardCharges ()
+    public double getCreditCardCharges ()
     {
         return creditCardCharges;
     }
 
-    public void setCreditCardCharges (String creditCardCharges)
+    public void setCreditCardCharges (double creditCardCharges)
     {
         this.creditCardCharges = creditCardCharges;
     }

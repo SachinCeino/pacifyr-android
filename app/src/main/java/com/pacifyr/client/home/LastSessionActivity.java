@@ -32,6 +32,7 @@ import com.google.gson.Gson;
 import com.pacifyr.client.R;
 import com.pacifyr.client.adapter.CommentsAdapter;
 import com.pacifyr.client.adapter.EmotionsListAdapter;
+import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.AlertTypeEvent;
 import com.pacifyr.client.event.EventLoadEmotion;
@@ -139,6 +140,7 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
 
     private MainTextView afterFeelSelectionCtxv;
     private ImageView afterFeelDimv;
+    private ImageView ImageView_i_icon;
     private LinearLayout pacifyrEaringsLlay, customer_fees_llay;
     private MainTextView earingstCtxv, comapnyfeesCtxv;
 
@@ -423,6 +425,7 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
             afterFeelSelectionLlay = (LinearLayout) findViewById(R.id.after_feel_selection_llay);*/
 
             rating_llay = findViewById(R.id.rating_llay);
+            ImageView_i_icon=findViewById(R.id.eye_icon);
 
             before_feel_llay = findViewById(R.id.before_feel_llay);
             after_feel_llay = findViewById(R.id.after_feel_llay);
@@ -705,7 +708,49 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
                 String callType = mSessionDetailRoot.getSessionType();
                 durationCtxv.setText(mSessionDetailRoot.getDuration());
                 if (isValid(mSessionDetailRoot.getStartTime()))
-                    durationCtxv.setText(mSessionDetailRoot.getDuration() + " " + Utility.getStartFormatDate(mSessionDetailRoot.getStartTime(), getApplicationContext()));
+                    durationCtxv.setText(Utility.getCorrectRoundedDuration(mSessionDetailRoot.getDuration()) + " " + Utility.getStartFormatDate(mSessionDetailRoot.getStartTime(), getApplicationContext()));
+
+
+                try {
+                    /** implementation of "i" icon **/
+
+                    if (mSessionDetailRoot.getSessionCost()>0
+                            &&mSessionDetailRoot.getFreeWalletBalanceUsed()>0 && mSessionDetailRoot.getCreditCardCharges()>0)
+                    {
+                        ImageView_i_icon.setVisibility(View.VISIBLE);
+                    }
+                    if (mSessionDetailRoot.getSessionCost()>0
+                            &&mSessionDetailRoot.getFreeMinutesUsed()>0 && mSessionDetailRoot.getCreditCardCharges()>0)
+                    {
+                        ImageView_i_icon.setVisibility(View.VISIBLE);
+                    }
+
+                    ImageView_i_icon.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                            if (mSessionDetailRoot.getSessionCost()>0
+                                    &&mSessionDetailRoot.getFreeWalletBalanceUsed()>0 && mSessionDetailRoot.getCreditCardCharges()>0)
+                            {
+                                showIOSDialogOK("","$"+mSessionDetailRoot.getCreditCardCharges()+
+                                        " from credit card and $"+mSessionDetailRoot.getFreeWalletBalanceUsed()+" from wallet","Ok");
+                            }
+
+                            if (mSessionDetailRoot.getSessionCost()>0
+                                    &&mSessionDetailRoot.getFreeMinutesUsed()>0 && mSessionDetailRoot.getCreditCardCharges()>0)
+                            {
+
+                                showIOSDialogOK("",mSessionDetailRoot.getFreeMinutesUsed()+
+                                        " minutes free session and $"+mSessionDetailRoot.getCreditCardCharges()+" from credit card","Ok");
+
+                            }
+     }
+                    });
+                }catch (Exception e)
+                {
+
+                }
+
                 if (isCustomer) {
                     if (isValid(mSessionDetailRoot.getTimeSlotBookingId()))
                         sessionCostCtxv.setText(Utility.getPriceSign(LastSessionActivity.this) + mSessionDetailRoot.getSessionCost()+getResources().getString(R.string.prepaid));

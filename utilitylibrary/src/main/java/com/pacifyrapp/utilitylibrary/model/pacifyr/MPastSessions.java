@@ -67,7 +67,7 @@ public class MPastSessions
 
     public class Results
     {
-        private String sessionCost;
+        private double sessionCost;
 
         private String connected;
 
@@ -91,7 +91,7 @@ public class MPastSessions
 
         private MSessionRating[] sessionRatings;
 
-        private String creditCardCharges;
+        private double creditCardCharges;
 
         private String sessionType;
 
@@ -120,6 +120,25 @@ public class MPastSessions
         private String  aggregationSessionId;
         private boolean billedSession;
 
+        private double freeWalletBalanceUsed;
+        private double freeMinutesUsed;
+
+        public double getFreeWalletBalanceUsed() {
+            return freeWalletBalanceUsed;
+        }
+
+        public void setFreeWalletBalanceUsed(double freeWalletBalanceUsed) {
+            this.freeWalletBalanceUsed = freeWalletBalanceUsed;
+        }
+
+        public double getFreeMinutesUsed() {
+            return freeMinutesUsed;
+        }
+
+        public void setFreeMinutesUsed(double freeMinutesUsed) {
+            this.freeMinutesUsed = freeMinutesUsed;
+        }
+
         public boolean isDeclined() {
             return declined;
         }
@@ -136,12 +155,12 @@ public class MPastSessions
             this.billedSession = billedSession;
         }
 
-        public String getSessionCost ()
+        public double getSessionCost ()
         {
             return sessionCost;
         }
 
-        public void setSessionCost (String sessionCost)
+        public void setSessionCost (double sessionCost)
         {
             this.sessionCost = sessionCost;
         }
@@ -256,12 +275,12 @@ public class MPastSessions
             this.sessionRatings = sessionRatings;
         }
 
-        public String getCreditCardCharges ()
+        public double getCreditCardCharges ()
         {
             return creditCardCharges;
         }
 
-        public void setCreditCardCharges (String creditCardCharges)
+        public void setCreditCardCharges (double creditCardCharges)
         {
             this.creditCardCharges = creditCardCharges;
         }

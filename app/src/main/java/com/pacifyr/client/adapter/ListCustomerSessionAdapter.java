@@ -18,6 +18,7 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.pacifyr.client.R;
+import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.home.LastSessionActivity;
 import com.pacifyr.client.utils.LogUtils;
@@ -222,8 +223,48 @@ public class ListCustomerSessionAdapter extends RecyclerView.Adapter<RecyclerVie
             //Picasso.with(context).load(imgUrl).into(holder.userCimv);
 
             holder.priceCtxv.setText(Utility.getPriceSign(mContext)+results.getSessionCost());
+            holder.callTimeCtxv.setText(Utility.getCorrectRoundedDuration(results.getDuration()));
 
-            holder.callTimeCtxv.setText(results.getDuration());
+            /** implementation of "i" icon **/
+
+            if (results.getSessionCost()>0
+                    &&results.getFreeWalletBalanceUsed()>0 && results.getCreditCardCharges()>0)
+            {
+                holder.ImageView_i_icon.setVisibility(View.VISIBLE);
+            }
+            if (results.getSessionCost()>0
+                    &&results.getFreeMinutesUsed()>0 && results.getCreditCardCharges()>0)
+            {
+                holder.ImageView_i_icon.setVisibility(View.VISIBLE);
+            }
+
+
+
+
+            holder.ImageView_i_icon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    if (results.getSessionCost()>0
+                            &&results.getFreeWalletBalanceUsed()>0 && results.getCreditCardCharges()>0)
+                    {
+                        ((PacifyrActivity)mContext).showIOSDialogOK("","$"+results.getCreditCardCharges()+
+                                " from credit card and $"+results.getFreeWalletBalanceUsed()+" from wallet","Ok");
+                    }
+
+                    if (results.getSessionCost()>0
+                            &&results.getFreeMinutesUsed()>0 && results.getCreditCardCharges()>0)
+                    {
+
+                        ((PacifyrActivity)mContext).showIOSDialogOK("",results.getFreeMinutesUsed()+
+                                " minutes free session and $"+results.getCreditCardCharges()+" from credit card","Ok");
+
+                    }
+
+
+                }
+            });
+
 
 
             if (rating != null) {
@@ -565,6 +606,7 @@ public class ListCustomerSessionAdapter extends RecyclerView.Adapter<RecyclerVie
         private MainTextView callTimeCtxv;
         private LinearLayout after_Layout;
         private LinearLayout before_Layout;
+        private ImageView ImageView_i_icon;
 
         public MyViewHolder(View view) {
             super(view);
@@ -584,6 +626,7 @@ public class ListCustomerSessionAdapter extends RecyclerView.Adapter<RecyclerVie
             calltype_imv = view.findViewById(R.id.calltype_imv);
             before_Layout = view.findViewById(R.id.before_Layout);
             after_Layout = view.findViewById(R.id.after_Layout);
+            ImageView_i_icon = view.findViewById(R.id.eye_icon);
 
 
         }
