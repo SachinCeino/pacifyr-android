@@ -1574,51 +1574,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                 int screenHight = displaymetrics.heightPixels;
                 int screenWidth = displaymetrics.widthPixels;
 
-                thumbnailVideoView.setOnTouchListener(new View.OnTouchListener() {
-                    float dX, dY;
-                    float newX, newY;
-                    int lastAction;
-                    @Override
-                    public boolean onTouch(View view, MotionEvent event) {
-                        switch (event.getActionMasked()) {
-                            case MotionEvent.ACTION_DOWN:
-
-                                dX = view.getX() - event.getRawX();
-                                dY = view.getY() - event.getRawY();
-                                lastAction = MotionEvent.ACTION_DOWN;
-                                break;
-
-                            case MotionEvent.ACTION_MOVE:
-
-                                newX = event.getRawX() + dX;
-                                newY = event.getRawY() + dY;
-
-                                // check if the view out of screen
-                                if ((newX <= 0 || newX >= screenWidth-view.getWidth()) || (newY <= 0 || newY >= screenHight-view.getHeight()))
-                                {
-                                    lastAction = MotionEvent.ACTION_MOVE;
-                                    break;
-                                }
-
-                                view.setX(newX);
-                                view.setY(newY);
-
-                                lastAction = MotionEvent.ACTION_MOVE;
-
-                                break;
-
-                            case MotionEvent.ACTION_UP:
-                                if (lastAction == MotionEvent.ACTION_DOWN)
-                                break;
-
-                            default:
-                                return false;
-                        }
-                        return true;
-                    }
-                });
-
-
+                thumbnailVideoView.setOnTouchListener(new OnDragTouchListener(thumbnailVideoView));
 
 
             } else {

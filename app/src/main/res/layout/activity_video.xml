@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
+<RelativeLayout
     android:id="@+id/parent_call"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -62,20 +62,6 @@
 
         <!--     android:layout_above="@+id/grid_opponents"-->
 
-        <com.twilio.video.VideoView
-            android:id="@+id/thumbnail_video_view"
-            android:layout_width="100dp"
-            android:layout_height="150dp"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginRight="-1dp"
-            android:layout_marginBottom="231dp"
-            app:tviMirror="true"
-            android:visibility="gone"
-            app:tviOverlaySurface="true" />
 
         <com.twilio.video.VideoView
             android:id="@+id/primary_video_view"
@@ -499,4 +485,19 @@
               android:layout_height="1dp"
               android:layout_alignParentBottom="true" />-->
     </RelativeLayout>
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <com.twilio.video.VideoView
+        android:id="@+id/thumbnail_video_view"
+        android:layout_width="100dp"
+        android:layout_height="150dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:visibility="gone"
+        android:layout_centerInParent="true"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="-1dp"
+        app:tviMirror="true"
+        app:tviOverlaySurface="true" />
+
+</RelativeLayout>
