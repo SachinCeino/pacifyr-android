@@ -140,7 +140,7 @@
                 android:gravity="center"
                 android:layout_height="wrap_content"
                 android:text="@string/didnt_get_code"
-                android:textColor="#3063f9"
+                android:textColor="@color/blue_text_dark"
                 android:textStyle="bold"
                 android:layout_marginTop="25dp"
                 android:layout_marginBottom="15dp"

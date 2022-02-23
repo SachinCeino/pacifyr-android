@@ -2,6 +2,7 @@ package com.pacifyr.client.sign;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -9,6 +10,9 @@ import android.os.Handler;
 import android.text.Html;
 import android.text.SpannableStringBuilder;
 import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -133,22 +137,6 @@ public class LogInCodeVerifyActivity extends PacifyrActivity {
             else{
                 Toast.makeText(this,"invalid no: "+phonenumber,Toast.LENGTH_LONG).show();
             }
-            resend_ctxv.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //Toast.makeText(LogInCodeVerifyActivity.this,"SMS Sent",Toast.LENGTH_LONG).show();
-                    showProgress();
-                    startPhoneNumberVerification(phonenumber);
-                    Bundle args =
-                            FirebaseLogging.getConstantArgsLoggedOut(LogInCodeVerifyActivity.this);
-                    args.putString(FirebaseLogging.EC, phonenumber + "");
-                    FirebaseLogging.sendLog(LogInCodeVerifyActivity.this,
-                            FirebaseLogging.EVENT_LOGIN_OTP_RESENT, args);
-                    cancelTimer();
-                    startTimer();
-
-                }
-            });
 
             startTimer();
 
@@ -174,8 +162,21 @@ public class LogInCodeVerifyActivity extends PacifyrActivity {
                     progressOtp.setVisibility(View.VISIBLE);
             }
             public void onFinish() {
-                SpannableStringBuilder spanTxt = new SpannableStringBuilder();
-                spanTxt.append(Html.fromHtml("<font> <u>" + getResources().getString(R.string.didnt_get_code) + "</u></font>"));
+                SpannableStringBuilder spanTxt = new SpannableStringBuilder(getResources().getString(R.string.didnt_get_code));
+                //setting color
+                final ForegroundColorSpan color = new ForegroundColorSpan(Color.parseColor("#3063f9"));
+                spanTxt.setSpan(color, spanTxt.length() - "resend".length(), spanTxt.length(), 0);
+                //setting bold style
+                final StyleSpan bold = new StyleSpan(android.graphics.Typeface.BOLD);
+                spanTxt.setSpan(bold, spanTxt.length() - "resend".length(), spanTxt.length(), 0);
+                //setting underline
+                spanTxt.setSpan(new ClickableSpan() {
+                    @Override
+                    public void onClick(View widget) {
+
+                        resendOtp();
+                    }
+                }, spanTxt.length() - "resend".length(), spanTxt.length(), 0);
                 resend_ctxv.setMovementMethod(LinkMovementMethod.getInstance());
                 resend_ctxv.setText(spanTxt, TextView.BufferType.SPANNABLE);
                 progressOtp.setVisibility(View.GONE);
@@ -183,6 +184,19 @@ public class LogInCodeVerifyActivity extends PacifyrActivity {
             }
         };
         otpTimer.start();
+    }
+
+    private void resendOtp() {
+        showProgress();
+        startPhoneNumberVerification(phonenumber);
+        Bundle args =
+                FirebaseLogging.getConstantArgsLoggedOut(LogInCodeVerifyActivity.this);
+        args.putString(FirebaseLogging.EC, phonenumber + "");
+        FirebaseLogging.sendLog(LogInCodeVerifyActivity.this,
+                FirebaseLogging.EVENT_LOGIN_OTP_RESENT, args);
+        cancelTimer();
+        startTimer();
+
     }
 
 
