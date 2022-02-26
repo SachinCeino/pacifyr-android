@@ -69,14 +69,6 @@
                     android:id="@+id/call_time_ctxv"
                     />
 
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:id="@+id/eye_icon"
-                    android:visibility="gone"
-                    android:layout_marginLeft="5dp"
-                    android:src="@drawable/i_icon"/>
-
             </LinearLayout>
 
             <com.pacifyr.client.customview.MainTextView
@@ -87,13 +79,28 @@
                 android:textColor="@color/grey_dark"
                 android:id="@+id/date_ctxv"/>
 
-            <com.pacifyr.client.customview.MainTextView
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=""
-                android:layout_marginTop="3dp"
-                android:textColor="@color/colorPrimary"
-                android:id="@+id/price_ctxv"/>
+                android:orientation="horizontal">
+                <com.pacifyr.client.customview.MainTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:layout_marginTop="3dp"
+                    android:textColor="@color/colorPrimary"
+                    android:id="@+id/price_ctxv"/>
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:id="@+id/eye_icon"
+                    android:visibility="gone"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="5dp"
+                    android:src="@drawable/i_icon"/>
+            </LinearLayout>
 
 
 

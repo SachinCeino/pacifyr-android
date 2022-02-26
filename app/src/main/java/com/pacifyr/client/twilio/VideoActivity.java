@@ -992,7 +992,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction =
                 fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.fragment_container, fragment);
+        fragmentTransaction.add(R.id.parent_call, fragment);
         fragmentTransaction.addToBackStack("");
         fragmentTransaction.commit();
         isScreenActive=false;
@@ -4258,7 +4258,7 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
 
     @Override
     public void onBackPressed() {
-        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.parent_call);
 
         if (currentFragment instanceof PrescriptionWhileCallFragment) {
             isScreenActive = true;
