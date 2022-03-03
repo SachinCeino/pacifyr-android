@@ -66,6 +66,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import app.minimize.com.seek_bar_compat.SeekBarCompat;
@@ -751,11 +752,13 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
 
                 }
 
+                DecimalFormat precision = new DecimalFormat("0.00");
+
                 if (isCustomer) {
                     if (isValid(mSessionDetailRoot.getTimeSlotBookingId()))
-                        sessionCostCtxv.setText(Utility.getPriceSign(LastSessionActivity.this) + mSessionDetailRoot.getSessionCost()+getResources().getString(R.string.prepaid));
+                        sessionCostCtxv.setText(Utility.getPriceSign(LastSessionActivity.this) + precision.format(mSessionDetailRoot.getSessionCost())+getResources().getString(R.string.prepaid));
                     else
-                        sessionCostCtxv.setText(Utility.getPriceSign(LastSessionActivity.this) + mSessionDetailRoot.getSessionCost());
+                        sessionCostCtxv.setText(Utility.getPriceSign(LastSessionActivity.this) + precision.format(mSessionDetailRoot.getSessionCost()));
 
                     if (isValid(mSessionDetailRoot.getPacifyr())) {
                         String pacName = mSessionDetailRoot.getPacifyr().getFirstName() + " " + mSessionDetailRoot.getPacifyr().getLastName();

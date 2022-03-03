@@ -478,7 +478,7 @@
                                 android:layout_height="wrap_content"
                                 android:id="@+id/experica_ctxv"
                                 android:layout_centerHorizontal="true"
-                                android:text="How was your audio or video call experience ?"
+                                android:text="How was your audio or video call experience?"
                                 android:textColor="@color/md_grey_user"
                                 android:textSize="14sp"/>
 

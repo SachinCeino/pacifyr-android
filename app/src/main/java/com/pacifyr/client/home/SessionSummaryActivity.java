@@ -63,6 +63,7 @@ import com.willy.ratingbar.ScaleRatingBar;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import app.minimize.com.seek_bar_compat.SeekBarCompat;
@@ -775,8 +776,9 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
                     }
 */
                 } else {
+                    DecimalFormat precision = new DecimalFormat("0.00");
                     defSetText(earingstCtxv, Utility.getPriceSign(SessionSummaryActivity.this) + (mSessionDetailRoot.getPacifyrEarnings()));
-                    defSetText(comapnyfeesCtxv, Utility.getPriceSign(SessionSummaryActivity.this) + (mSessionDetailRoot.getSessionCost() - mSessionDetailRoot.getPacifyrEarnings()));
+                    defSetText(comapnyfeesCtxv, Utility.getPriceSign(SessionSummaryActivity.this) + precision.format(mSessionDetailRoot.getSessionCost() - mSessionDetailRoot.getPacifyrEarnings()));
                     if (isValid(mSessionDetailRoot.getUser())) {
                         String pacName = mSessionDetailRoot.getUser().getFirstName() + " " + mSessionDetailRoot.getUser().getLastName();
                         pacifyrNameCtxv.setText(pacName);
