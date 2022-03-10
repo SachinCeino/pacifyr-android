@@ -75,7 +75,16 @@ public class TwilioChatListAdapter extends RecyclerView.Adapter<TwilioChatListAd
         if (isValid(object) && isValid(object.getPacifyr()))
         {
             holder.mName.setTextColor(ContextCompat.getColor(mContext, R.color.text_color_black));
-            holder.mName.setText(object.getPacifyr().getFirstName());
+            String name="";
+            if (isValid(object.getPacifyr().getFirstName()) && isValid(object.getPacifyr().getLastName()))
+            {
+                name= object.getPacifyr().getFirstName() + " " + object.getPacifyr().getLastName();
+            }
+            else {
+                name= object.getPacifyr().getFirstName();
+            }
+
+            holder.mName.setText(name);
 
             if(isValid(object.getLastMessage())){
                  holder.tvLastMsg.setVisibility(View.VISIBLE);

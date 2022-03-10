@@ -99,11 +99,14 @@ public class MyDialogFragment extends DialogFragment implements Serializable {
             {
                 isValid(mAppointmentModel.getPacifyr().getFirstName());
                 {
-                    mTextView_PacifyrName.setText(mAppointmentModel.getPacifyr().getFirstName());
+                    String name="";
+                    name=mAppointmentModel.getPacifyr().getFirstName();
                     if (isValid(mAppointmentModel.getPacifyr().getLastName()))
                     {
-                        mTextView_PacifyrName.append(" "+mAppointmentModel.getPacifyr().getLastName()+"");
+                        name=mAppointmentModel.getPacifyr().getFirstName()+" "+mAppointmentModel.getPacifyr().getLastName();
                     }
+
+                    mTextView_PacifyrName.setText(name);
                 }
 
                 if (isValid(mAppointmentModel.getPacifyr().getImage()))

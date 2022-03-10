@@ -101,7 +101,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_alignParentLeft="true"
                                     android:text=""
-                                    android:textColor="@color/black"
+                                    android:textColor="@color/blue_text_dark"
                                     android:textSize="18sp" />
 
                                 <com.pacifyr.client.customview.MainTextView
@@ -111,7 +111,7 @@
                                     android:layout_below="@+id/pacifyr_name_ctxv"
                                     android:layout_alignParentLeft="true"
                                     android:text=""
-                                    android:textColor="@color/md_grey_user"
+                                    android:textColor="@color/blue_text_dark"
                                     android:textSize="13sp" />
 
                                 <ImageButton
@@ -178,7 +178,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_alignParentLeft="true"
                                     android:text="TOTAL :"
-                                    android:textColor="@color/grey_hex_b3"
+                                    android:textColor="@color/grey_dark"
                                     android:textSize="13sp"
                                     android:textStyle="bold" />
 
@@ -188,7 +188,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_alignParentRight="true"
                                     android:text="  "
-                                    android:textColor="@color/colorPrimary"
+                                    android:textColor="@color/blue_text_dark"
                                     android:textSize="13sp"
                                     android:textStyle="bold" />
 

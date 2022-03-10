@@ -81,7 +81,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/tv_name"
-                        android:textSize="@dimen/sp16"
+                        android:textSize="@dimen/sp20"
                         android:textStyle="bold"
                         android:maxLines="2"
                         android:ellipsize="end"
@@ -190,16 +190,20 @@
         android:gravity="center"
         android:layout_below="@+id/card_pacifyr">
 
-        <TextView
+        <com.pacifyr.client.customview.MainTextView
+            android:id="@+id/description_ctxv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
             android:ellipsize="end"
-            android:textSize="@dimen/swipe_card_desc_sp"
-            android:padding="2dp"
             android:lines="2"
-            android:layout_margin="5dp"
-            android:id="@+id/description_ctxv"
-            android:textColor="@color/grey_dark_text" />
+            android:textAlignment="center"
+            android:padding="2dp"
+            android:textColor="@color/grey_dark"
+            android:textSize="@dimen/swipe_card_desc_sp" />
 
         <com.pacifyr.client.customview.MainTextView
             android:layout_width="wrap_content"

@@ -5452,7 +5452,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                 pacifyr_call_intro.setText(spanTxt, TextView.BufferType.SPANNABLE);
             }
         }
-        defSetText(textDialogName,pacifyer_obj.getFirstName()+""+pacifyer_obj.getLastName());
+        defSetText(textDialogName,pacifyer_obj.getFirstName()+" "+pacifyer_obj.getLastName());
         defSetText(textDialogLastMessage, pacifyer_obj.getPriceWithSign() + " " + BaseUtils.getCostLabel(PacifyrActivity.this));
 
         if (getPrefManager().getCountry().equals("US"))

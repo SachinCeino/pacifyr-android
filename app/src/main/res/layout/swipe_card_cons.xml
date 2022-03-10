@@ -185,21 +185,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view2" >
 
-        <TextView
-        android:id="@+id/description_ctxv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginLeft="24dp"
-        android:layout_marginRight="24dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="7dp"
+        <com.pacifyr.client.customview.MainTextView
+            android:id="@+id/description_ctxv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="7dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginRight="24dp"
+            android:layout_marginBottom="4dp"
             android:maxLines="3"
-        android:textAlignment="center"
-        android:textColor="@color/grey_dark"
-        android:textSize="16sp"
-       />
+            android:textAlignment="center"
+            android:textColor="@color/grey_dark"
+            android:textSize="13sp" />
 
 
     <LinearLayout

@@ -23,7 +23,6 @@
         android:layout_marginTop="40dp"
         android:ems="10"
         android:textColorHighlight="@color/text_Color_High_light"
-        android:lines="7"
         android:scrollbars="vertical"
         android:padding="15dp"
         android:hint="@string/question_or_issue"

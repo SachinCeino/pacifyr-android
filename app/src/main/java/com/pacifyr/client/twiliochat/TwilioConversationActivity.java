@@ -385,6 +385,8 @@ public class TwilioConversationActivity extends
             String imgUrl =null, name="";
             if(isValid(pacifyr)){
                 name = ""+pacifyr.getFirstName();
+                if (isValid(pacifyr.getFirstName()) && isValid(pacifyr.getLastName()))
+                    name =pacifyr.getFirstName()+ " "+pacifyr.getLastName();
 
                 if(isValid(pacifyr.getImage())){
                     imgUrl = ""+GLOBAL_IMAGE_URL+mTwilioConversationCreate.getPacifyr().getImage();

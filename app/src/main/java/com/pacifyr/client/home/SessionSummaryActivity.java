@@ -746,11 +746,12 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
                 {
 
                 }
+                DecimalFormat precision = new DecimalFormat("0.00");
                 if (isCustomer) {
                     if (isValid(mSessionDetailRoot.getTimeSlotBookingId()))
-                        sessionCostCtxv.setText(Utility.getPriceSign(SessionSummaryActivity.this) + mSessionDetailRoot.getSessionCost()+getResources().getString(R.string.prepaid));
+                        sessionCostCtxv.setText(Utility.getPriceSign(SessionSummaryActivity.this) + precision.format(mSessionDetailRoot.getSessionCost())+getResources().getString(R.string.prepaid));
                     else
-                        sessionCostCtxv.setText(Utility.getPriceSign(SessionSummaryActivity.this) + mSessionDetailRoot.getSessionCost());
+                        sessionCostCtxv.setText(Utility.getPriceSign(SessionSummaryActivity.this) + precision.format(mSessionDetailRoot.getSessionCost()));
 
 
                     if (isValid(mSessionDetailRoot.getPacifyr())) {
@@ -776,7 +777,6 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
                     }
 */
                 } else {
-                    DecimalFormat precision = new DecimalFormat("0.00");
                     defSetText(earingstCtxv, Utility.getPriceSign(SessionSummaryActivity.this) + (mSessionDetailRoot.getPacifyrEarnings()));
                     defSetText(comapnyfeesCtxv, Utility.getPriceSign(SessionSummaryActivity.this) + precision.format(mSessionDetailRoot.getSessionCost() - mSessionDetailRoot.getPacifyrEarnings()));
                     if (isValid(mSessionDetailRoot.getUser())) {
