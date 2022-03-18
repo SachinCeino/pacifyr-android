@@ -153,7 +153,7 @@ public class CodeVerifyActivity extends BaseAppCompactActivity {
                     } else if (e instanceof FirebaseTooManyRequestsException) {
                         // The SMS quota for the project has been exceeded
                         // [START_EXCLUDE]
-                        Snackbar.make(findViewById(android.R.id.content), "Quota exceeded.",
+                        Snackbar.make(findViewById(android.R.id.content), getResources().getString(R.string.quata_exceed_message),
                                 Snackbar.LENGTH_SHORT).show();
                         // [END_EXCLUDE]
                     }

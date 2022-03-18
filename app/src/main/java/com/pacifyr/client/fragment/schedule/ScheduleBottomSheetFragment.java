@@ -589,7 +589,7 @@ public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
 
             cb.header("AccessToken", token);
 
-            aq.ajax(GLOBAL_URL + "schedule/byWeek?pacifyrId=" + pacifyer_obj.getId() + "&weekNumber=" + weekNumber, JSONArray.class, cb);
+            aq.ajax(GLOBAL_URL + "schedule/byWeek?pacifyrId=" + pacifyer_obj.getId() + "&weekNumber=" + weekNumber+"&timeZoneOffset="+Utility.timeZoneOffset(), JSONArray.class, cb);
 
         } catch (Exception ex) {
             text_loading.setVisibility(GONE);
@@ -995,8 +995,8 @@ Log.w("WWW","onCreate");
             AQuery aq = new AQuery(getActivity());
             cb.header("Content-Type", "application/json");
             cb.header("AccessToken", token);
-            aq.ajax(GLOBAL_URL + "schedule/slots/" + id, JSONArray.class, cb);
-
+            cb.header("AccessToken", token);
+            aq.ajax(GLOBAL_URL + "schedule/slots/" + id+"?timeZoneOffset="+Utility.timeZoneOffset(), JSONArray.class, cb);
         } catch (Exception ex) {
             hideProgress();
             ex.printStackTrace();

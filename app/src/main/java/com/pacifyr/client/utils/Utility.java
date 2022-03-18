@@ -1090,7 +1090,7 @@ public class Utility {
     public static long getLocalTimeFromUtc(String input) {
 
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-        format.setTimeZone(TimeZone.getTimeZone("GMT"));
+        format.setTimeZone(TimeZone.getDefault());
         Date date = null;
         try {
             date = format.parse(input);
@@ -1127,8 +1127,9 @@ public class Utility {
 
     public static String timeZoneOffset()
     {
-        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT"), Locale.getDefault());
+        Calendar calendar = Calendar.getInstance( Locale.getDefault());
         String   timeZone = new SimpleDateFormat("Z").format(calendar.getTime());
+        Log.w("fff",timeZone.substring(0, 3) + ":"+ timeZone.substring(3, 5));
         return timeZone.substring(0, 3) + ":"+ timeZone.substring(3, 5);
     }
 
