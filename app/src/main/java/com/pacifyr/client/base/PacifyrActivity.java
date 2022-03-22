@@ -2347,6 +2347,8 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                     input.putOpt("reasonForTheCall",getPrefManager().getReasonFortheCall());
                 else if (isValid(mCurrentUser.getSelectedSpecialityCategory()))
                     input.putOpt("reasonForTheCall",mCurrentUser.getSelectedSpecialityCategory());
+                if (!isValid(timeSlotBookingId))
+                input.put("timeZoneOffset",Utility.timeZoneOffset());
                 aq.post(GLOBAL_URL + "session/start", input, JSONObject.class, cb);
             }
         } catch (Exception e2){

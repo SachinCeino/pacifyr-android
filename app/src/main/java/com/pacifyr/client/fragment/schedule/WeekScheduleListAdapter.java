@@ -71,7 +71,7 @@ public class WeekScheduleListAdapter extends RecyclerView.Adapter<WeekScheduleLi
         ArrayList<Long> dates=new ArrayList<Long>();
         for (int i=0;i<weekScheduleData.size();i++)
         {
-            mServerMilliSeconds = Utility.getLocalTimeFromUtc(weekScheduleData.get(i).getDate());
+            mServerMilliSeconds = Utility.getLocalTimeZone(weekScheduleData.get(i).getDate());
             dates.add(mServerMilliSeconds);
             Log.w("@@@",String.valueOf(mServerMilliSeconds));
         }

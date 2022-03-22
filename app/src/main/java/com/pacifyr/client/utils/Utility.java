@@ -1090,6 +1090,22 @@ public class Utility {
     public static long getLocalTimeFromUtc(String input) {
 
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        format.setTimeZone(TimeZone.getTimeZone("GMT"));
+        Date date = null;
+        try {
+            date = format.parse(input);
+            return date.getTime();
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+
+    public static long getLocalTimeZone(String input) {
+
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
         format.setTimeZone(TimeZone.getDefault());
         Date date = null;
         try {

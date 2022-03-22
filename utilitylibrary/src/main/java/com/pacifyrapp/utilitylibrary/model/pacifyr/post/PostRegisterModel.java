@@ -65,8 +65,17 @@ public class PostRegisterModel {
     private String getPaidForQuickSurveys;
     private String appSource;
     private String address1;
+    private String timeZoneOffset;
     private Certification[] certification;
     private String[] states;
+
+    public String getTimeZoneOffset() {
+        return timeZoneOffset;
+    }
+
+    public void setTimeZoneOffset(String timeZoneOffset) {
+        this.timeZoneOffset = timeZoneOffset;
+    }
 
     public String[] getStates() {
         return states;

@@ -1062,6 +1062,7 @@ public class RegisterActivity extends PacifyrActivity {
         try{
 
             PostRegisterModel postRegisterModel=new PostRegisterModel();
+
             if(!isFacebook) {
                 if (!isValidName(nameEdt, "Please enter name"))
                     return;
@@ -1153,6 +1154,7 @@ public class RegisterActivity extends PacifyrActivity {
 
             }
 
+            postRegisterModel.setTimeZoneOffset(Utility.timeZoneOffset());
 
 
             // postRegisterModel.

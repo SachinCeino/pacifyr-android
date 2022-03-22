@@ -983,16 +983,9 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
 
 
         }
-        else
-        {
-           // new AmazonSNSTokenHandler(context).register();
-            if (!isValid(getPrefManager().getTWILIOAccessToken()))
-            {
-                quickstartConversationsManager = new QuickstartConversationsManager();
-                retrieveTokenFromServer();
-            }
+        quickstartConversationsManager = new QuickstartConversationsManager();
+        retrieveTokenFromServer();
 
-        }
 
 
         /**
