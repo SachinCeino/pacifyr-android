@@ -1,6 +1,7 @@
 package com.pacifyr.client.utils;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -29,6 +30,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -62,6 +64,9 @@ import java.io.OutputStream;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -932,26 +937,30 @@ public class Utility {
     }
 
 
+
     public static long converToSecondsForJoin(String data) {
-        long millis = 0;
+        long millis = 0;//2022-04-04T09:09:13.211Z //1649063353211
 
         try {
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-            format.setTimeZone(TimeZone.getTimeZone("GMT"));
             Date date = null;
             try {
                 date = format.parse(data);
-                millis= date.getTime();
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(date);
+
+                // Get timezone offset then use it to adjust the return value
+                int offset = cal.getTimeZone().getOffset(cal.getTimeInMillis());
+                millis= cal.getTimeInMillis() + offset;
 
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            
+
         } catch (Exception e) {
             e.printStackTrace();
         }
         return millis;
-        //return (millis / 1000) % 60;
     }
 
     public static long converToMilliSeconds(String date) {

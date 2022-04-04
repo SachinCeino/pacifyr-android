@@ -175,6 +175,7 @@ import org.json.JSONObject;
 
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -1046,7 +1047,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                                 if (isValid(VideoActivity.mSessionDetailRoot.getBillingStartTime()))
                                 {
                                     long billingSatrtedSeconds=Utility.converToSecondsForJoin(VideoActivity.mSessionDetailRoot.getBillingStartTime());
-                                    long currentTimeInSeconds=(Utility.getCurrentDateinMilliSeconds());
+                                    long currentTimeInSeconds=(Calendar.getInstance().getTimeInMillis());
 
                                     long difference= Math.toIntExact(currentTimeInSeconds - billingSatrtedSeconds);
                                     startTimerWhileJoining(difference);
@@ -3394,8 +3395,6 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
 
 
     public void startTimerWhileJoining(long difference) {
-        if (!isStarted) {
-
             if (isVideoCall) {
                 timerChronometer.setVisibility(View.VISIBLE);
                 timerChronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
@@ -3454,7 +3453,7 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
                     }*/
                 isStarted = true;
             }
-        }
+
     }
 
     public void hangUpCurrentSessionMe() {
