@@ -1,6 +1,7 @@
 <!-- A DrawerLayout is intended to be used as the top-level content view using match_parent for both width and height to consume the full space available. -->
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:swipedeck="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
@@ -24,11 +25,9 @@
             android:layout_gravity="start"
             tools:layout="@layout/drawer_home_screen" />-->
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        xmlns:swipedeck="http://schemas.android.com/apk/res-auto"
         android:background="#F8F8F8">
 
         <include layout="@layout/actionbar_grey"
@@ -42,17 +41,46 @@
             android:orientation="vertical"
             android:layout_below="@id/include">
 
-            <SearchView
+            <!--<SearchView
                 android:id="@+id/pacifyr_SearchView"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:inputType="textCapSentences"
+
                 android:background="@android:color/transparent"
                 android:iconifiedByDefault="true"
+                 android:focusable="false"
                 android:imeOptions="actionSearch"
-                android:focusable="false"
+                android:inputType="textCapSentences"
                 android:queryHint="@string/query_hint_search_pacifyr"
-                />
+                />-->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:id="@+id/searchLayout"
+                android:orientation="horizontal"
+                android:layout_margin="15dp"
+                android:layout_below="@+id/include"
+                android:background="@drawable/resource_search_background"
+                >
+                <SearchView
+                    android:id="@+id/pacifyr_SearchView"
+                    android:layout_width="match_parent"
+                    android:layout_height="51dp"
+                    android:inputType="textCapSentences"
+                    android:background="@android:color/transparent"
+                    android:imeOptions="actionSearch"
+                    android:queryHint="@string/query_hint_search_pacifyr"
+                    />
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/transparent"
+                    android:hint="@string/query_hint_search_pacifyr"
+                    android:layout_marginLeft="50dp"
+                    android:focusable="false"
+                    android:id="@+id/EditText_search"
+                    ></EditText>
+            </RelativeLayout>
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

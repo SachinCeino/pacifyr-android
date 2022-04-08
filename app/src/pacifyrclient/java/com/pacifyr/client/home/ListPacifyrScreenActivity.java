@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.SearchView;
@@ -93,6 +94,7 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
     private int card_position=0;
 
     private SearchView pacifyr_SearchView;
+    private EditText EditText_search;
 
     private String searchQuery="";
     ArrayList<MUser>  pacifyrList=new ArrayList<>();
@@ -277,6 +279,7 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
         showallCtxv = findViewById(R.id.showall_ctxv);
         noPacifyrCtxv = findViewById(R.id.no_pacifyr_ctxv);
         pacifyr_SearchView=findViewById(R.id.pacifyr_SearchView);
+        EditText_search=findViewById(R.id.EditText_search);
 
         recyclerView = findViewById(R.id.special_recycle);
         recyclerView.setHasFixedSize(true);
@@ -356,11 +359,51 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
         });
 
 
-
-        pacifyr_SearchView.setOnClickListener(new View.OnClickListener() {
+        EditText_search.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+                pacifyr_SearchView.setIconifiedByDefault(true);
+                pacifyr_SearchView.setFocusable(true);
                 pacifyr_SearchView.setIconified(false);
+            }
+        });
+        pacifyr_SearchView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                EditText_search.setVisibility(View.GONE);
+            }
+        });
+        pacifyr_SearchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                EditText_search.setVisibility(View.GONE);
+            }
+        });
+
+        pacifyr_SearchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                if (!pacifyr_SearchView.isIconified()) {
+                    pacifyr_SearchView.onActionViewCollapsed();
+                    EditText_search.setVisibility(View.VISIBLE);
+                }
+                setSearchQuery("");
+
+                try {
+                    showAllFlag = getShowallCbox().isChecked();
+                    try {
+                        if (isValid(specialistAdapter))
+                            specialistAdapter.clearSelection();
+                        specialistAdapter.setSelected(0);
+                    }catch (Exception e){
+                        Log.w("dsfsdfds", "sdfsdf");
+                    }
+                    webSearchPacifyrWOptions(customerEmotion);
+                }catch (Exception e){
+                    Log.w("dsfsdfds", "sdfsdf");
+                }
+
+                return false;
             }
         });
 
@@ -407,25 +450,7 @@ public class ListPacifyrScreenActivity extends PacifyrAppCompactActivity impleme
             }
         });
 
-        pacifyr_SearchView.setOnCloseListener(new SearchView.OnCloseListener() {
-            @Override
-            public boolean onClose() {
-                if (!pacifyr_SearchView.isIconified()) {
-                    pacifyr_SearchView.onActionViewCollapsed();
-                }
-                setSearchQuery("");
-                showAllFlag = getShowallCbox().isChecked();
-                try {
-                    if (isValid(specialistAdapter))
-                        specialistAdapter.clearSelection();
-                    specialistAdapter.setSelected(0);
-                }catch (Exception e){
-                    Log.w("dsfsdfds", "sdfsdf");
-                }
-                webSearchPacifyrWOptions(customerEmotion);
-                return false;
-            }
-        });
+
 
 
 
