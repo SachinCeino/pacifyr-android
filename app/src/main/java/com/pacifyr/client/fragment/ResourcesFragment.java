@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -449,7 +450,12 @@ public class ResourcesFragment extends BaseFragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         loadResources();
+        if (getActivity() instanceof DashboardActivity) {
+            //((DashboardActivity) getActivity()).changeBottomMenuIcon(R.id.bnm_resources);
+        }
     }
+
+
 
     @Override
     public void onDetach() {

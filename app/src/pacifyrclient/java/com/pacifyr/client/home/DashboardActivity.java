@@ -16,11 +16,13 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -33,6 +35,7 @@ import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.gdacciaro.iOSDialog.iOSDialog;
 import com.gdacciaro.iOSDialog.iOSDialogClickListener;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.installations.FirebaseInstallations;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -52,8 +55,10 @@ import com.pacifyr.client.event.RateSessionEvent;
 import com.pacifyr.client.fragment.AppointmentsFragment;
 import com.pacifyr.client.fragment.AppointmentsTabViewFragment;
 import com.pacifyr.client.fragment.CouponCodeFragment;
+import com.pacifyr.client.fragment.MessagesFragment;
 import com.pacifyr.client.fragment.MySessionFragment;
 import com.pacifyr.client.fragment.PrescriptionListFragment;
+import com.pacifyr.client.fragment.ProvidersListFragment;
 import com.pacifyr.client.fragment.ResourcesFragment;
 import com.pacifyr.client.fragment.SupportFragment;
 import com.pacifyr.client.fragment.UserDashboardFragment;
@@ -123,7 +128,7 @@ import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL
 //import com.github.javiersantos.appupdater.AppUpdater;
 
 
-public class DashboardActivity extends PacifyrAppCompactActivity implements QuickstartConversationsManagerListener {
+public class DashboardActivity extends PacifyrAppCompactActivity implements QuickstartConversationsManagerListener, BottomNavigationView.OnNavigationItemSelectedListener {
 
     private static final String TAG = DashboardActivity.class.getSimpleName();
     boolean showingFirst = true;
@@ -262,8 +267,14 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
             }
         });
 
+        if (isValid(bottomNavigationView))
+        {
+            bottomNavigationView.setSelectedItemId(R.id.bnm_dashboard);
+            bottomNavigationView.setVisibility(View.VISIBLE);
+        }
         LocalBroadcastManager.getInstance(this).registerReceiver(notificationReceiver, new IntentFilter(NotificationUtils.NOTIFY_INTENT_FOR_NEW_CHAT));
     }
+
 
 
     public void userDetailWeb(String id, AjaxCallback cb) {
@@ -402,6 +413,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
         backImv = findViewById(R.id.back_imv);
         leftTxv = findViewById(R.id.left_txv);
         titleTxv = findViewById(R.id.title_txv);
+        titleTxv.setAllCaps(true);
         rightLlay = findViewById(R.id.right_llay);
         rightTxv = findViewById(R.id.right_txv);
         rightImv = findViewById(R.id.right_imv);
@@ -604,6 +616,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
     private String AppointMentId = null;
 
     LinearLayout LinearLayout_Active_Session;
+    BottomNavigationView bottomNavigationView;
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -755,6 +768,10 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
                 }
                 showRightLayActionbar();
                 showFragment(new AccountFragment());
+                if (isValid(bottomNavigationView))
+                {
+                    bottomNavigationView.setVisibility(View.GONE);
+                }
             }
         });
         connectToPacifyr.setOnClickListener(new View.OnClickListener() {
@@ -782,6 +799,10 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
                 }
                 hideRightLayActionbar();
                 showFragment(new WelcomeTourFragment());
+                if (isValid(bottomNavigationView))
+                {
+                    bottomNavigationView.setVisibility(View.GONE);
+                }
 
             }
         });
@@ -814,6 +835,10 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
                 }
                 hideRightLayActionbar();
                 showFragment(new PaymentFragment());
+                if (isValid(bottomNavigationView))
+                {
+                    bottomNavigationView.setVisibility(View.GONE);
+                }
 
             }
         });
@@ -860,6 +885,10 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
                 }
                 hideRightLayActionbar();
                 showFragment(new MySessionFragment());
+                if (isValid(bottomNavigationView))
+                {
+                    bottomNavigationView.setVisibility(View.GONE);
+                }
 
             }
         });
@@ -873,6 +902,10 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
                 }
                 hideRightLayActionbar();
                 showFragment(new SupportFragment());
+                if (isValid(bottomNavigationView))
+                {
+                    bottomNavigationView.setVisibility(View.GONE);
+                }
             }
         });
 
@@ -960,6 +993,10 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
                     return;
                 }
                 showAppointmentPage();
+                if (isValid(bottomNavigationView))
+                {
+                    bottomNavigationView.setVisibility(View.GONE);
+                }
             }
         });
 
@@ -1011,7 +1048,10 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
                 }
                 hideRightLayActionbar();
                 showFragment(new CouponCodeFragment());
-
+                if (isValid(bottomNavigationView))
+                {
+                    bottomNavigationView.setVisibility(View.GONE);
+                }
             }
         });
 
@@ -1024,6 +1064,10 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
                 }
                 hideRightLayActionbar();
                 showFragment(new PrescriptionListFragment());
+                if (isValid(bottomNavigationView))
+                {
+                    bottomNavigationView.setVisibility(View.GONE);
+                }
             }
         });
 
@@ -1048,9 +1092,53 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
 
 
 
+        bottomNavigationView = findViewById(R.id.bottomNavigationView);
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(this);
+        bottomNavigationView.setSelectedItemId(R.id.bnm_dashboard);
 
     }
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
+        switch (item.getItemId()) {
+            case R.id.bnm_dashboard:
+                if (!isInternetAvailable()) {
+                    showInternetNotAvailablePopup();
+                    return false;
+                }
+                hideRightLayActionbar();
+                showFragment(new UserDashboardFragment());
+                return true;
+            case R.id.bnm_resources:
+            if (!isInternetAvailable()) {
+                showInternetNotAvailablePopup();
+                return false;
+            }
+            hideRightLayActionbar();
+            showFragment(new ResourcesFragment());
+                return true;
+            case R.id.bnm_messages:
+                if (!isInternetAvailable()) {
+                    showInternetNotAvailablePopup();
+                    return false;
+                }
+                hideRightLayActionbar();
+                showFragment(new MessagesFragment());
+                return true;
+
+            case R.id.bnm_providers:
+                if (!isInternetAvailable()) {
+                    showInternetNotAvailablePopup();
+                    return false;
+                }
+                hideRightLayActionbar();
+                showFragment(new ProvidersListFragment());
+                return true;
+
+        }
+        return false;
+    }
 
     private void retrieveTokenFromServer() {
         quickstartConversationsManager.retrieveAccessTokenFromServer(this, "identity", new TokenResponseListener() {
@@ -1213,6 +1301,13 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
 
     public void changeActionBarTitleForFragments(String mActionBarTitle) {
         defSetText(titleTxv, mActionBarTitle);
+    }
+    public void changeBottomMenuIcon(int id) {
+        if (isValid(bottomNavigationView))
+        {
+            bottomNavigationView.setSelectedItemId(id);
+            bottomNavigationView.setVisibility(View.VISIBLE);
+        }
     }
 
 
@@ -1443,6 +1538,8 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
     public void setProgressValue(long value) {
 
     }
+
+
 }
 
 

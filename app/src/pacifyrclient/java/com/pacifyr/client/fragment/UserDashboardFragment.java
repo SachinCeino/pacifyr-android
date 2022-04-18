@@ -163,6 +163,14 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
     private TextView bannerTitle,TextViewHideBanner,TextView_buttonText;
     private RelativeLayout bannerLayout;
 
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        if (getActivity() instanceof DashboardActivity) {
+            ((DashboardActivity) getActivity()).changeBottomMenuIcon(R.id.bnm_dashboard);
+        }
+    }
+
     private void getPermissions() {
         Utility.checkPermission(getActivity(), "essential");
     }

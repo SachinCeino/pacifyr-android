@@ -29,7 +29,9 @@
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:background">@android:color/transparent</item>
     </style>
+    <style name="CustomThemeForBottomMenu" parent="Theme.MaterialComponents.Light.NoActionBar">
 
+    </style>
 
     <style name="WindowAnimationTransition">
         <item name="android:windowEnterAnimation">@anim/animation</item>
