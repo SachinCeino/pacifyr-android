@@ -62,6 +62,7 @@ import com.pacifyr.client.fragment.ProvidersListFragment;
 import com.pacifyr.client.fragment.ResourcesFragment;
 import com.pacifyr.client.fragment.SupportFragment;
 import com.pacifyr.client.fragment.UserDashboardFragment;
+import com.pacifyr.client.fragment.UserDashboardFragmentNew;
 import com.pacifyr.client.fragment.WelcomeTourFragment;
 import com.pacifyr.client.home.account.AccountEditActivity;
 import com.pacifyr.client.home.account.AccountFragment;
@@ -495,7 +496,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
 
     }
 
-    private void hideRightLayActionbar() {
+    public void hideRightLayActionbar() {
 
         try {
             rightTxv.setVisibility(View.INVISIBLE);
@@ -508,14 +509,14 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
         }
 
     }
-    UserDashboardFragment userDashboardFragment = null;
+    UserDashboardFragmentNew userDashboardFragment = null;
     boolean dashBoardVisibility=true;
     public void showFragment() {
         FragmentManager fm = DashboardActivity.this.getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
 
         if (userDashboardFragment==null){
-            userDashboardFragment=new UserDashboardFragment();
+            userDashboardFragment=new UserDashboardFragmentNew();
         }
         getSupportFragmentManager().beginTransaction().replace(R.id.activity_main_content_fragment, userDashboardFragment).commit();
 
@@ -524,7 +525,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
 
     public void showFragment(Fragment fragment) {
         closePane(true);
-        if(fragment instanceof UserDashboardFragment){
+        if(fragment instanceof UserDashboardFragmentNew){
             showFragment();
         }else {
             getSupportFragmentManager().beginTransaction().replace(R.id.activity_main_content_fragment, fragment).commit();
@@ -756,7 +757,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
                     return;
                 }
                 hideRightLayActionbar();
-                showFragment(new UserDashboardFragment());
+                showFragment(new UserDashboardFragmentNew());
             }
         });
         account_rlay.setOnClickListener(new View.OnClickListener() {
@@ -1108,7 +1109,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
                     return false;
                 }
                 hideRightLayActionbar();
-                showFragment(new UserDashboardFragment());
+                showFragment(new UserDashboardFragmentNew());
                 return true;
             case R.id.bnm_resources:
             if (!isInternetAvailable()) {
@@ -1171,6 +1172,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
         hideRightLayActionbar();
         showFragment(new AppointmentsTabViewFragment());
         defSetText(titleTxv, getResources().getString(R.string.appointments));
+
     }
     private void Browser(String screeName,boolean isLink){
         switch (screeName){

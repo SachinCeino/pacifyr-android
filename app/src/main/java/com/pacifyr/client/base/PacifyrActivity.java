@@ -86,6 +86,7 @@ import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.event.TwilioCallEvent;
 import com.pacifyr.client.fragment.AppointmentsTabViewFragment;
 import com.pacifyr.client.fragment.UserDashboardFragment;
+import com.pacifyr.client.fragment.UserDashboardFragmentNew;
 import com.pacifyr.client.fragment.schedule.AppointmentModel;
 import com.pacifyr.client.home.DashboardActivity;
 import com.pacifyr.client.home.MyDialogFragment;
@@ -3094,7 +3095,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                                                     public void onClick(iOSDialog dialog) {
                                                         //Toast.makeText(PacifyrActivity.this,"Clicked!",Toast.LENGTH_LONG).show();
                                                         dialog.dismiss();
-                                                        showFragment(new UserDashboardFragment());
+                                                        showFragment(new UserDashboardFragmentNew());
                                                     }
                                                 });
 

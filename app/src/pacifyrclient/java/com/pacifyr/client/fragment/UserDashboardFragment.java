@@ -113,7 +113,7 @@ public class UserDashboardFragment extends BaseFragment implements SwipeRefreshL
 
     private static final String TAG = UserDashboardFragment.class.getSimpleName();
     private RelativeLayout feelRlay,this_week_rlay,connect_btn_rlay;
-    //private DeviceFitImageView feelImage;
+    //private DeviceFprefMitImageView feelImage;
     private RelativeLayout lastSessionRlay;
     private CircleImageView lastSessionDimv;
     private MainTextView lastSsnPacfyrCtxv,no_pacifyr_ctxv,no_lastsession_ctxv;

@@ -265,7 +265,7 @@ public class LastSessionFragment extends BaseFragment {
                         String js=json.toString();
                         FragmentManager fm=getActivity().getSupportFragmentManager();
                         FragmentTransaction ft=fm.beginTransaction();
-                        UserDashboardFragment fragment=new UserDashboardFragment();
+                        UserDashboardFragmentNew fragment=new UserDashboardFragmentNew();
                         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.activity_main_content_fragment,fragment).commit();
                         //  postEventOnMainThread(new ActionbarEvent("MY DASHBOARD"));
                         //defSetText(titleTxv,"Dashboard");

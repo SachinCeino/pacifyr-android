@@ -784,7 +784,6 @@
         android:layout_height="80dp"
         android:orientation="horizontal"
         android:gravity="center"
-        android:visibility="gone"
         android:id="@+id/LinearLayout_Active_Session"
         android:background="@color/white">
         <com.pacifyr.client.customview.MainTextView

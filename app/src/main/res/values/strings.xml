@@ -1132,5 +1132,6 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="providers">Providers</string>
     <string name="messages_dash">Messages</string>
     <string name="RESOURCES_small">Resources</string>
+    <string name="status">Status</string>
 
 </resources>

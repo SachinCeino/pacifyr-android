@@ -147,7 +147,7 @@ public class CouponCodeFragment extends BaseFragment {
                                                             public void onClick(iOSDialog dialog) {
                                                               try {
                                                                   dialog.dismiss();
-                                                                  ((DashboardActivity)getActivity()).showFragment(new UserDashboardFragment());
+                                                                  ((DashboardActivity)getActivity()).showFragment(new UserDashboardFragmentNew());
                                                               }catch (Exception e)
                                                               {
 

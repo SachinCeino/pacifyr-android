@@ -293,5 +293,8 @@ dependencies {
     implementation 'com.twilio:video-android:5.11.1'
     implementation 'com.twilio:audioswitch:1.0.1'
     implementation 'com.twilio:conversations-android:1.4.1'
+
+    //arc layout
+    implementation 'com.github.florent37:arclayout:1.0.3'
 }
 apply plugin: 'com.google.gms.google-services'
