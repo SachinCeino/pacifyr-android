@@ -2,6 +2,7 @@ package com.pacifyr.client.fragment;
 
 import static com.pacifyr.client.R.id.grid_balls;
 import static com.pacifyr.client.R.id.last_session_rlay;
+import static com.pacifyr.client.R.id.viewpager;
 import static com.pacifyr.client.R.id.visible;
 import static com.pacifyr.client.base.PacifyrActivity.call_emotion;
 import static com.pacifyr.client.network.NetworkService.lastSession;
@@ -30,6 +31,7 @@ import android.view.ViewGroup;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,6 +44,8 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
@@ -75,6 +79,7 @@ import com.pacifyr.client.home.DashboardActivity;
 import com.pacifyr.client.home.LastSessionActivity;
 import com.pacifyr.client.home.MySessionsActivity;
 import com.pacifyr.client.home.SessionSummaryActivity;
+import com.pacifyr.client.model.Banners;
 import com.pacifyr.client.model.DashBoardResource;
 import com.pacifyr.client.model.ResourceMain;
 import com.pacifyr.client.model.ResourceSpecialityList;
@@ -104,9 +109,11 @@ import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -115,6 +122,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
 
 
+    private static final String TAG = "DashboardFragmentNew";
     private PrefManager prefM;
     @Override
     public void onAttach(@NonNull Context context) {
@@ -163,6 +171,8 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
     private MUser prefpac;
     private LinearLayout LinearLayout_Active_Session;
     TextView JoinChat,JoinCall;
+    private ViewPager ViewPager_bannerLayout;
+    private CircleImageView ImageView_next;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -202,6 +212,8 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
         LinearLayout_Active_Session=view.findViewById(R.id.LinearLayout_Active_Session);
         JoinCall=view.findViewById(R.id.JoinCall);
         JoinChat=view.findViewById(R.id.JoinChat);
+        ViewPager_bannerLayout=view.findViewById(R.id.bannerLayout);
+        ImageView_next=view.findViewById(R.id.ImageView_next);
 
 
         CardView_unReadMessageLayout.setOnClickListener(new View.OnClickListener() {
@@ -335,7 +347,24 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
             }
         });
 
+        ImageView_next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (isValid(ViewPager_bannerLayout) )
+                {
+                    if(isValid(ViewPager_bannerLayout.getCurrentItem())) {
+                        if (ViewPager_bannerLayout.getCurrentItem() < ViewPager_bannerLayout.getAdapter().getCount() - 1)
+                            ViewPager_bannerLayout.setCurrentItem(ViewPager_bannerLayout.getCurrentItem() + 1);
+                        else
+                            ViewPager_bannerLayout.setCurrentItem(0, true);
+                    }
+                    else {
+                        ViewPager_bannerLayout.setCurrentItem(1, true);
+                    }
 
+                }
+            }
+        });
         return view;
     }
 
@@ -388,7 +417,9 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
             },0,5000);
             if (isCallActive)
                LinearLayout_Active_Session.setVisibility(View.GONE);
-            //setUpBanner();
+
+
+            setUpBanner();
         }
         catch (Exception e)
         {
@@ -1135,6 +1166,242 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+    }
+
+    List<Banners> banners=new ArrayList<>();
+    private void setUpBanner() {
+
+        if (isValidSize(banners))
+        {
+            setUpViewPager(banners);
+        }else {
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            db.collection("banners")
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+
+                                    Banners mBanner=new Banners();
+                                    try {
+
+                                        String bannerUrl = null;
+                                        String buttonText=null;
+                                        if (isValid(document.get("imageUrl")))
+                                        {
+                                            bannerUrl=document.get("imageUrl").toString();
+                                            mBanner.setBannerUrl(bannerUrl);
+                                        }
+                                        if(isValid(document.get("buttonText")))
+                                        {
+                                            buttonText=document.get("buttonText").toString();
+                                            mBanner.setButtonText(buttonText);
+                                        }
+
+
+                                        String webinarUrl=null;
+                                        if (isValid(document.get("url")))
+                                        {
+                                            webinarUrl=document.get("url").toString();
+                                            mBanner.setWebinarUrl(webinarUrl);
+                                        }
+
+
+                                        if (isValid(document.get("text").toString()))
+                                        {
+                                            mBanner.setText(document.get("text").toString());
+                                            // bannerTitle.setText(document.get("text").toString());
+                                            //bannerTitle.setVisibility(View.VISIBLE);
+                                        }
+
+                                        List<String> countrys = (List<String>) document.get("country");
+                                        if (isValid(countrys))
+                                        {
+                                            mBanner.setCountrys(countrys);
+                                            if (countrys.contains(getPrefManager().getCountry()) ||
+                                                    getPrefManager().getCountry().equals("Wakanda")) {
+                                                Timestamp startDate = document.getTimestamp("startDate");
+                                                Timestamp endDate = document.getTimestamp("endDate");
+
+                                            }
+                                        }
+
+                                        banners.add(mBanner);
+
+                                    }catch (Exception e)
+                                    {
+                                        Log.w(TAG, "Error getting documents.", task.getException());
+                                    }
+                                }
+                            } else {
+                                Log.w(TAG, "Error getting documents.", task.getException());
+                            }
+
+                            if (isValidSize(banners))
+                            {
+                                setUpViewPager(banners);
+                            }
+                        }
+                    });
+        }
+
+
+    }
+
+    ViewPagerAdapter  mViewPagerAdapter;
+    private void setUpViewPager(List<Banners> banners) {
+        mViewPagerAdapter = new ViewPagerAdapter(getActivity());
+        ViewPager_bannerLayout.setAdapter(mViewPagerAdapter);
+    }
+
+
+    class ViewPagerAdapter extends PagerAdapter {
+
+        // Context object
+        Context context;
+        // Layout Inflater
+        LayoutInflater mLayoutInflater;
+
+
+        // Viewpager Constructor
+        public ViewPagerAdapter(Context context) {
+            this.context = context;
+            mLayoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        }
+
+        @Override
+        public int getCount() {
+            // return the number of images
+            return banners.size();
+        }
+
+
+        @NonNull
+        @Override
+        public Object instantiateItem(@NonNull ViewGroup container, final int position) {
+            // inflating the item.xml
+            View itemView = mLayoutInflater.inflate(R.layout.item_layout_banner, container, false);
+
+            // referencing the image view from the item.xml file
+            ImageView bannerLogo = (ImageView) itemView.findViewById(R.id.bannerLogo);
+            TextView bannerTitle = (TextView) itemView.findViewById(R.id.bannerTitle);
+            TextView TextView_buttonText = (TextView) itemView.findViewById(R.id.TextView_buttonText);
+            LinearLayout LinearLayout_webinar = (LinearLayout) itemView.findViewById(R.id.LinearLayout_webinar);
+            ProgressBar _ProgressBar_load_image=(ProgressBar) itemView.findViewById(R.id._ProgressBar_load_image);
+
+            Banners mBanner=banners.get(position);
+
+            if (isValid(mBanner))
+            {
+                if (isValid(mBanner.getBannerUrl()))
+                {
+                    Glide.with(context)
+                            .load(mBanner.getBannerUrl())
+                            .listener(new RequestListener<Drawable>() {
+                                @Override
+                                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                                    _ProgressBar_load_image.setVisibility(View.GONE);
+                                    return false;
+                                }
+
+                                @Override
+                                public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                                    _ProgressBar_load_image.setVisibility(View.GONE);
+                                    return false;
+                                }
+                            })
+                            .into(bannerLogo);
+                }
+
+                if (isValid(mBanner.getText()))
+                {
+                    bannerTitle.setText(mBanner.getText());
+                }
+                else {
+                    bannerTitle.setVisibility(View.GONE);
+                }
+
+                if (isValid(mBanner.getButtonText()))
+                {
+                    TextView_buttonText.setText(mBanner.getButtonText());
+                }
+
+                if (isValid(mBanner.getWebinarUrl()))
+                {
+                    LinearLayout_webinar.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(mBanner.getWebinarUrl()));
+                            browserIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(browserIntent);
+                        }
+                    });
+
+                }
+
+            }
+            container.addView(itemView);
+            return itemView;
+        }
+
+
+
+        @Override
+        public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
+            return view==object;
+        }
+
+        @Override
+        public void destroyItem(ViewGroup collection, int position, Object view) {
+            collection.removeView((View) view);
+        }
+    }
+
+    public Boolean isValid(String text) {
+        if (text != null) return !text.trim().equalsIgnoreCase("");
+        return false;
+
+    }
+
+    public Boolean isValid(List list) {
+        if (list != null) return list.size() > 0;
+        return false;
+
+    }
+
+    public Boolean isValid(List list,int pos) {
+        if (isValid(list))
+            return list.size() >= pos;
+        return false;
+
+    }
+    public Boolean isValidPos(List list,int pos) {
+        if (isValid(list))
+            return list.size() >= pos;
+        return false;
+
+    }
+    public Boolean isValidNotNull(List list) {
+        return list != null;
+
+    }
+
+    public Boolean isValidSize(List list) {
+        if (list != null) return list.size() > 0;
+        return false;
+
+    }
+
+    public Boolean isValid(Object object) {
+        return object != null;
+
+    }
+
+    public Boolean isValid(int object) {
+        return object > 0;
 
     }
 }
