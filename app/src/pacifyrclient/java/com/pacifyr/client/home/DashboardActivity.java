@@ -525,12 +525,25 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
     }
 
     public void showFragment(Fragment fragment) {
-        closePane(true);
-        if(fragment instanceof UserDashboardFragmentNew){
-            showFragment();
-        }else {
-            getSupportFragmentManager().beginTransaction().replace(R.id.activity_main_content_fragment, fragment).commit();
-            dashBoardVisibility=false;
+        try {
+            closePane(true);
+        }catch (Exception e)
+        {
+
+        }
+
+        String backStateName = fragment.getClass().getName();
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        boolean fragmentPopped = fragmentManager.popBackStackImmediate (backStateName, 0);
+
+        if (!fragmentPopped){ //fragment not in back stack, create it.
+            FragmentTransaction fragmentTransaction = fragmentManager
+                    .beginTransaction();
+            fragmentTransaction.replace(R.id.activity_main_content_fragment,fragment);
+            fragmentTransaction.addToBackStack(backStateName);
+            fragmentTransaction.commit();
+
         }
     }
 
@@ -548,7 +561,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
  //           if (getSupportFragmentManager().getBackStackEntryCount() > 0){
   //              getSupportFragmentManager().popBackStackImmediate();
                if(!dashBoardVisibility) {
-                   showFragment();
+                   showFragment(new UserDashboardFragmentNew());
                } else {
                 if (!onceBackpressed) {
                     ToastHandler.newInstance(this).mustShowToast("" + getText(R.string.press_back_again_to_exit));
@@ -682,7 +695,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
 
 
         //NetworkService.startActionCutomerDashboard(this);
-        showFragment();
+        showFragment(new UserDashboardFragmentNew());
         MultiDex.install(this);
         onSetActionBar();
         hideRightLayActionbar();
@@ -758,6 +771,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
                     return;
                 }
                 hideRightLayActionbar();
+                closePane(true);
                 showFragment(new UserDashboardFragmentNew());
             }
         });
@@ -1097,7 +1111,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
-        bottomNavigationView.setSelectedItemId(R.id.bnm_dashboard);
+        //bottomNavigationView.getMenu().getItem(0).setChecked(true);
 
     }
     @Override
@@ -1310,8 +1324,16 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
     public void changeBottomMenuIcon(int id) {
         if (isValid(bottomNavigationView))
         {
-            bottomNavigationView.setSelectedItemId(id);
-            bottomNavigationView.setVisibility(View.VISIBLE);
+            if(id==R.id.bnm_dashboard)
+            {
+                bottomNavigationView.getMenu().getItem(0).setChecked(true);
+                bottomNavigationView.setVisibility(View.VISIBLE);
+            }
+            else
+            {
+                bottomNavigationView.setSelectedItemId(id);
+
+            }
         }
     }
 
