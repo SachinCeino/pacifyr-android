@@ -243,9 +243,9 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
                     ((DashboardActivity) getActivity()).showInternetNotAvailablePopup();
                     return;
                 }
-                if (isValid(modelCustomerDashboard2)&&isValid(modelCustomerDashboard2.getPreferredPacifyrs()[0]))
+                if (isValid(modelCustomerDashboard2)&&isValid(modelCustomerDashboard2.getPreferredPacifyrs()[modelCustomerDashboard2.getPreferredPacifyrs().length-1]))
                 {
-                    prefpac = modelCustomerDashboard2.getPreferredPacifyrs()[0];
+                    prefpac = modelCustomerDashboard2.getPreferredPacifyrs()[modelCustomerDashboard2.getPreferredPacifyrs().length-1];
                     if (isValid(prefpac))
                         ConnectToSinglePacifyrActivity.start(getActivity(), prefpac);
                 }
@@ -1047,15 +1047,10 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
                                 no_pacifyr_ctxv.setVisibility(View.VISIBLE);
                                 defSetText(no_pacifyr_ctxv, getResources().getString(R.string.no_prefered_pacifyr));
                             } else {
-                                pacifyr1Dimv.setVisibility(View.GONE);
-                                for (int i = 0; i < pfc.length; i++) {
-                                    if (i == 0) {
-                                        pacifyr1Dimv.setVisibility(View.VISIBLE);
-                                        showPrefferedPacifyrIntoGlideView(pfc[0].getImageUrl(), pacifyr1Dimv);
-                                        fav_provider_name.setText(pfc[0].getFirstName()+"");
-                                    }
+                                pacifyr1Dimv.setVisibility(View.VISIBLE);
+                                showPrefferedPacifyrIntoGlideView(pfc[pfc.length-1].getImageUrl(), pacifyr1Dimv);
+                                fav_provider_name.setText(pfc[pfc.length-1].getFirstName()+"");
 
-                                }
                             }
 
                         } else {
