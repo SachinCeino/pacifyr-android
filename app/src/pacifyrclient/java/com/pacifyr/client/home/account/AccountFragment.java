@@ -1,5 +1,6 @@
 package com.pacifyr.client.home.account;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 
 import com.androidquery.callback.AjaxCallback;
@@ -62,6 +64,15 @@ public class AccountFragment extends BaseFragment {
     private TextView TextView_Document;
     private CardView CardView_Document_Field,wallet_card;
     private TextView TextView_walletBalence;
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        if (getActivity() instanceof DashboardActivity) {
+            ((DashboardActivity) getActivity()).hideConnectButton();
+            // ((DashboardActivity) getActivity()).changeBottomMenuIcon(R.id.bnm_providers);
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

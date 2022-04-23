@@ -113,7 +113,7 @@
                            android:layout_gravity="center"
                            android:layout_weight="1"
                            android:gravity="center"
-                           android:padding="10dp">
+                           android:padding="5dp">
 
                            <ImageView
                                android:id="@+id/feel_image_dimv"
@@ -173,7 +173,7 @@
                            android:layout_gravity="center"
                            android:layout_weight="1"
                            android:gravity="center"
-                           android:padding="10dp">
+                           android:padding="5dp">
 
                            <de.hdodenhof.circleimageview.CircleImageView
                                android:id="@+id/pacifyr1_dimv"
@@ -204,7 +204,7 @@
                                android:gravity="center"
                                android:text=""
                                android:textColor="@color/black"
-                               android:textSize="12sp"
+                               android:textSize="13sp"
                                android:textStyle="bold" />
 
                            <com.pacifyr.client.customview.MainTextView
@@ -229,7 +229,7 @@
                            android:layout_gravity="center"
                            android:layout_weight="1"
                            android:gravity="center"
-                           android:padding="10dp">
+                           android:padding="5dp">
 
                            <com.pacifyr.client.customview.MainTextView
                                android:id="@+id/sessions_txv"
@@ -279,7 +279,7 @@
                            android:layout_gravity="center"
                            android:layout_weight="1"
                            android:gravity="center"
-                           android:padding="10dp">
+                           android:padding="5dp">
 
                            <de.hdodenhof.circleimageview.CircleImageView
                                android:id="@+id/last_session_dimv"
@@ -338,7 +338,7 @@
                        android:text="@string/status"
                        android:textAllCaps="true"
                        android:textColor="@color/black"
-                       android:textSize="14sp"
+                       android:textSize="15sp"
                        android:textStyle="bold"
                        app:layout_constraintStart_toStartOf="parent"
                        app:layout_constraintTop_toTopOf="parent" />
@@ -485,7 +485,7 @@
                        android:layout_marginBottom="10dp"
                        android:text="@string/resources"
                        android:textColor="@color/black"
-                       android:textSize="14sp"
+                       android:textSize="15sp"
                        android:textStyle="bold"
                        app:layout_constraintEnd_toEndOf="parent"
                        app:layout_constraintStart_toStartOf="parent"
@@ -549,7 +549,7 @@
                        android:layout_marginTop="10dp"
                        android:text="NEXT APPOINTMENT"
                        android:textColor="@color/black"
-                       android:textSize="14sp"
+                       android:textSize="15sp"
                        android:textStyle="bold"
                        app:layout_constraintEnd_toEndOf="parent"
                        app:layout_constraintStart_toStartOf="parent"

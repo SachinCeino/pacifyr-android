@@ -1057,7 +1057,7 @@ CheckBox showall_cbox;
         super.onAttach(context);
 
         if (getActivity() instanceof DashboardActivity) {
-            ((DashboardActivity) getActivity()).changeActionBarTitleForFragments(getResources().getString(R.string.providers));
+            ((DashboardActivity) getActivity()).changeActionBarTitleForFragments(getResources().getString(R.string.browse_pacifyr));
            // ((DashboardActivity) getActivity()).changeBottomMenuIcon(R.id.bnm_providers);
         }
     }

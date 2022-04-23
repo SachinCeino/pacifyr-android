@@ -1,5 +1,6 @@
 package com.pacifyr.client.twiliochat;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.text.format.DateUtils;
 import android.util.Log;
@@ -15,6 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.pacifyr.client.R;
 import com.pacifyr.client.base.PacifyrActivity;
+import com.pacifyr.client.home.DashboardActivity;
+import com.pacifyr.client.netconnectionlistener.ConnectionCheckBroadcast;
 import com.pacifyr.client.utils.Utility;
 import com.squareup.picasso.Picasso;
 import com.twilio.conversations.Message;
@@ -68,7 +71,7 @@ public class TwilioChatListAdapter extends RecyclerView.Adapter<TwilioChatListAd
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.tvUnreadCount.setVisibility(View.INVISIBLE);
 
         TwilioConversationCreate object=results.get(position);
@@ -136,7 +139,23 @@ public class TwilioChatListAdapter extends RecyclerView.Adapter<TwilioChatListAd
                 public void onClick(View view) {
                     if (isValid(object) && isValid(object.getTwilioConversationId()))
                     {
+                        if (mContext instanceof TwilioCoversationListActivity )
                         ((TwilioCoversationListActivity) mContext).clearUnreadCount(object,position);
+                        if (mContext instanceof DashboardActivity) {
+                            if (ConnectionCheckBroadcast.CheckInternetConnection(mContext)) {
+                                if (isValid(object.getTwilioConversationId()))
+                                {
+                                    results.get(position).getUnreadStatus().clear();
+                                    TwilioConversationActivity.startWithoutFlag(mContext,object);
+
+                                }
+
+                            }else {
+
+                                ((DashboardActivity)mContext).showInternetNotAvailablePopup();
+                            }
+                        }
+
                     }
                 }
             });

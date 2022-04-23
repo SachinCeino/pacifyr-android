@@ -405,7 +405,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
     private MainTextView rightTxv;
     private DeviceFitImageView rightImv;
     private LinearLayout mLinearLayoutPrescription;
-    private TextView connectProviderActioBar;
+    private CircleImageView connectProviderActioBar;
 
     public void onSetActionBar() {
         actionBarTopLlay = findViewById(R.id.action_bar_top_llay);
@@ -447,11 +447,12 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
                     showInternetNotAvailablePopup();
                     return;
                 }
+                account_rlay.performClick();
 
-                /**actionbar connectprovider from dashboard actionbar event **/
+              /*  *//**actionbar connectprovider from dashboard actionbar event **//*
                 if (connectProviderActioBar.getText().equals("Connect"))
                 EventBus.getDefault().post(new ConnectEvent(true));
-                /*if (connectProviderActioBar.getText().equals("Add"))
+                *//*if (connectProviderActioBar.getText().equals("Add"))
                 {
                     Intent i=new Intent(getApplicationContext(), TermsOfUseActivity.class);
                     i.putExtra("spurl", Constants.ADD_RESOURCES_LINK);
@@ -1246,10 +1247,12 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
                         String imageUrl = user.getImageUrl();
                         if(isValid(imageUrl)) {
                             Picasso.with(DashboardActivity.this).load(imageUrl).placeholder(R.drawable.placeholder_image).into(profile_cimv);
+                            Picasso.with(DashboardActivity.this).load(imageUrl).placeholder(R.drawable.placeholder_image).into(connectProviderActioBar);
                         }else {
                             imageUrl = user.getImage();
                             if(isValid(imageUrl))
                                 Picasso.with(DashboardActivity.this).load(imageUrl).placeholder(R.drawable.placeholder_image).into(profile_cimv);
+                            Picasso.with(DashboardActivity.this).load(imageUrl).placeholder(R.drawable.placeholder_image).into(connectProviderActioBar);
                         }
 
                         MRoleModel roleModel = user.getRoleModel();
@@ -1458,8 +1461,8 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
     }
 
     public void showConnectButton() {
-        connectProviderActioBar.setVisibility(View.VISIBLE);
-        connectProviderActioBar.setText("Connect");
+       connectProviderActioBar.setVisibility(View.VISIBLE);
+
     }
     public void hideConnectButton() {
         connectProviderActioBar.setVisibility(View.GONE);
@@ -1467,10 +1470,9 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
 
     public void showAddButton() {
         connectProviderActioBar.setVisibility(View.VISIBLE);
-        connectProviderActioBar.setText("Add");
+
     }
     public void hideAddButton() {
-        connectProviderActioBar.setText("Connect");
         connectProviderActioBar.setVisibility(View.INVISIBLE);
     }
 
