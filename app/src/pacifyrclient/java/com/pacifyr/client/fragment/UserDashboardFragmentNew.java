@@ -59,6 +59,7 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -68,6 +69,7 @@ import com.pacifyr.client.R;
 import com.pacifyr.client.adapter.ResourcesDashBoardAdapter;
 import com.pacifyr.client.adapter.ResourcesListAdapter;
 import com.pacifyr.client.adapter.ResourcesListMainAdapter;
+import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.ConnectEvent;
 import com.pacifyr.client.event.InternetConnectionEvent;
@@ -173,6 +175,7 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
     TextView JoinChat,JoinCall;
     private ViewPager ViewPager_bannerLayout;
     private CircleImageView ImageView_next;
+    private FloatingActionButton connect_action_fab;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -214,6 +217,7 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
         JoinChat=view.findViewById(R.id.JoinChat);
         ViewPager_bannerLayout=view.findViewById(R.id.bannerLayout);
         ImageView_next=view.findViewById(R.id.ImageView_next);
+        connect_action_fab=view.findViewById(R.id.connect_action_fab);
 
 
         CardView_unReadMessageLayout.setOnClickListener(new View.OnClickListener() {
@@ -363,6 +367,19 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
                     }
 
                 }
+            }
+        });
+
+        connect_action_fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!((DashboardActivity)getActivity()).isInternetAvailable()) {
+                    ((DashboardActivity) getActivity()).showInternetNotAvailablePopup();
+                    return;
+                }
+                ((DashboardActivity) getActivity()).hideRightLayActionbar();
+                ((DashboardActivity) getActivity()).closePane(true);
+                ConnectToPacifyrActivity.start(getActivity());
             }
         });
         return view;
