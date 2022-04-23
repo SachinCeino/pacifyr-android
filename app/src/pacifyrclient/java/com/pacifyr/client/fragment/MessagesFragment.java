@@ -67,7 +67,10 @@ public class MessagesFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         // ((DashboardActivity) getActivity()).changeActionBarTitleForFragments(getResources().getString(R.string.nav_support_title));
-
+        if (getActivity() instanceof DashboardActivity) {
+            ((DashboardActivity) getActivity()).changeActionBarTitleForFragments(getResources().getString(R.string.messages));
+            ((DashboardActivity) getActivity()).changeBottomMenuIcon(2);
+        }
         if (!((DashboardActivity)getActivity()).isInternetAvailable()) {
             ((DashboardActivity) getActivity()).showInternetNotAvailablePopup();
             return;
@@ -211,10 +214,7 @@ public class MessagesFragment extends BaseFragment {
     public void onAttach(Context context) {
         super.onAttach(context);
 
-        if (getActivity() instanceof DashboardActivity) {
-            ((DashboardActivity) getActivity()).changeActionBarTitleForFragments(getResources().getString(R.string.messages));
-            //((DashboardActivity) getActivity()).changeBottomMenuIcon(R.id.bnm_messages);
-        }
+
     }
 
     @Override

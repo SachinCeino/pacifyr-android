@@ -268,11 +268,11 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
             }
         });
 
-        if (isValid(bottomNavigationView))
+       /* if (isValid(bottomNavigationView))
         {
             bottomNavigationView.setSelectedItemId(R.id.bnm_dashboard);
             bottomNavigationView.setVisibility(View.VISIBLE);
-        }
+        }*/
         LocalBroadcastManager.getInstance(this).registerReceiver(notificationReceiver, new IntentFilter(NotificationUtils.NOTIFY_INTENT_FOR_NEW_CHAT));
     }
 
@@ -558,26 +558,29 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
             mSlidingPaneLayout.closePane();
         } else {
 
- //           if (getSupportFragmentManager().getBackStackEntryCount() > 0){
-  //              getSupportFragmentManager().popBackStackImmediate();
-               if(!dashBoardVisibility) {
-                   showFragment(new UserDashboardFragmentNew());
-               } else {
-                if (!onceBackpressed) {
-                    ToastHandler.newInstance(this).mustShowToast("" + getText(R.string.press_back_again_to_exit));
-                    onceBackpressed = true;
-                    Handler handler = new Handler();
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            onceBackpressed = false;
-                        }
-                    }, 5000);
-                } else {
-                    finishAffinity();
-                    finish();
-                }
-            }
+           //if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+            //   getSupportFragmentManager().popBackStackImmediate();
+              // Fragment fragmentCurrent = getSupportFragmentManager().findFragmentById(R.id.activity_main_content_fragment);
+               if(bottomNavigationView.getVisibility()==View.VISIBLE){
+                   if (!onceBackpressed) {
+                       ToastHandler.newInstance(this).mustShowToast("" + getText(R.string.press_back_again_to_exit));
+                       onceBackpressed = true;
+                       Handler handler = new Handler();
+                       handler.postDelayed(new Runnable() {
+                           @Override
+                           public void run() {
+                               onceBackpressed = false;
+                           }
+                       }, 5000);
+                   } else {
+
+                       finishAffinity();
+                       finish();
+
+                   }
+               }
+
+
         }
     }
 
@@ -1324,16 +1327,10 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
     public void changeBottomMenuIcon(int id) {
         if (isValid(bottomNavigationView))
         {
-            if(id==R.id.bnm_dashboard)
-            {
-                bottomNavigationView.getMenu().getItem(0).setChecked(true);
-                bottomNavigationView.setVisibility(View.VISIBLE);
-            }
-            else
-            {
-                bottomNavigationView.setSelectedItemId(id);
+            bottomNavigationView.getMenu().getItem(id).setChecked(true);
+            bottomNavigationView.setVisibility(View.VISIBLE);
 
-            }
+
         }
     }
 

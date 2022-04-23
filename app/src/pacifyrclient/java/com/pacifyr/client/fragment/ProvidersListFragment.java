@@ -751,7 +751,10 @@ CheckBox showall_cbox;
                 }
             };
             trackTimer_check_online.scheduleAtFixedRate(trackTimerTask_check_online, 0, Consts.TIMER_ONLINE_OFFLIN);
-
+            if (getActivity() instanceof DashboardActivity) {
+                ((DashboardActivity) getActivity()).changeActionBarTitleForFragments(getResources().getString(R.string.browse_pacifyr));
+                ((DashboardActivity) getActivity()).changeBottomMenuIcon(1);
+            }
         }
         catch (Exception e)
         {
@@ -1056,10 +1059,7 @@ CheckBox showall_cbox;
     public void onAttach(Context context) {
         super.onAttach(context);
 
-        if (getActivity() instanceof DashboardActivity) {
-            ((DashboardActivity) getActivity()).changeActionBarTitleForFragments(getResources().getString(R.string.browse_pacifyr));
-           // ((DashboardActivity) getActivity()).changeBottomMenuIcon(R.id.bnm_providers);
-        }
+
     }
 
     @Override

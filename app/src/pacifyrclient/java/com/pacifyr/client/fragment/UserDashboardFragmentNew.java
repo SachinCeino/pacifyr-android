@@ -129,9 +129,7 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        if (getActivity() instanceof DashboardActivity) {
-            ((DashboardActivity) getActivity()).changeBottomMenuIcon(R.id.bnm_dashboard);
-        }
+
     }
 
     private void getPermissions() {
@@ -414,7 +412,9 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
         isVisible=true;
         ((DashboardActivity) getActivity()).changeActionBarTitleForFragments(getResources().getString(R.string.nav_mydashbord_title));
         ((DashboardActivity) getActivity()).showConnectButton();
-
+        if (getActivity() instanceof DashboardActivity) {
+            ((DashboardActivity) getActivity()).changeBottomMenuIcon(0);
+        }
         try {
 
             checkLastTimeLoginFiftyDaysExcceed();

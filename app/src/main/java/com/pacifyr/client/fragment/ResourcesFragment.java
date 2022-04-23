@@ -69,7 +69,10 @@ public class ResourcesFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         ((DashboardActivity) getActivity()).changeActionBarTitleForFragments(getResources().getString(R.string.nav_resources_title));
-        //((DashboardActivity)getActivity()).showAddButton();
+        loadResources();
+        if (getActivity() instanceof DashboardActivity) {
+            ((DashboardActivity) getActivity()).changeBottomMenuIcon(3);
+        }
     }
 
     public static ResourcesFragment newInstance(String param1, String param2) {
@@ -449,10 +452,7 @@ public class ResourcesFragment extends BaseFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        loadResources();
-        if (getActivity() instanceof DashboardActivity) {
-            //((DashboardActivity) getActivity()).changeBottomMenuIcon(R.id.bnm_resources);
-        }
+
     }
 
 
