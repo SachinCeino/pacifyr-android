@@ -27,7 +27,8 @@
                 <androidx.viewpager.widget.ViewPager
                     android:id="@+id/bannerLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    tools:ignore="SpeakableTextPresentCheck">
 
                 </androidx.viewpager.widget.ViewPager>
 
@@ -383,6 +384,133 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#E65C52">
+
+                    <ImageView
+                        android:id="@+id/ImageView_right_arrow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:padding="3dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/unread_right_arrow"
+                        app:tint="@color/white" />
+
+                    <ImageView
+                        android:id="@+id/ImageView_message_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/unread_meesg_msg" />
+
+                    <com.pacifyr.client.customview.MainTextView
+                        android:id="@+id/unread_chat_ctxv"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:text="2"
+                        android:padding="3dp"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toStartOf="@+id/ImageView_right_arrow"
+                        app:layout_constraintStart_toEndOf="@+id/ImageView_message_icon"
+                        app:layout_constraintTop_toTopOf="@+id/ImageView_message_icon" />
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginBottom="8dp"
+                        app:cardBackgroundColor="@color/white"
+                        app:cardCornerRadius="10dp"
+                        app:cardUseCompatPadding="true"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/ImageView_message_icon"
+                        app:layout_constraintTop_toBottomOf="@+id/ImageView_message_icon">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="3dp">
+
+                            <de.hdodenhof.circleimageview.CircleImageView
+                                android:id="@+id/ImageView_msg_Provider"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_marginStart="8dp"
+                                android:layout_marginTop="8dp"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:srcCompat="@drawable/attach_contact" />
+
+                            <com.pacifyr.client.customview.MainTextView
+                                android:id="@+id/TextView_msg_Provider_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="8dp"
+                                android:layout_marginTop="8dp"
+                                android:text=""
+                                android:textStyle="bold"
+                                android:textColor="@color/black"
+                                android:alpha="0.9"
+                                app:layout_constraintStart_toEndOf="@+id/ImageView_msg_Provider"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <com.pacifyr.client.customview.MainTextView
+                                android:id="@+id/TextView_msg"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
+                                android:text=""
+                                android:textSize="12sp"
+                                android:ellipsize="end"
+                                android:maxLines="1"
+                                android:textColor="@color/black"
+                                app:layout_constraintStart_toStartOf="@+id/TextView_msg_Provider_name"
+                                app:layout_constraintTop_toBottomOf="@+id/TextView_msg_Provider_name" />
+
+                            <TextView
+                                android:id="@+id/TextView_msg_time"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:layout_marginEnd="8dp"
+                                android:text=""
+                                android:textColor="#009688"
+                                android:textStyle="bold"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </androidx.cardview.widget.CardView>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+
+<!--
+            <androidx.cardview.widget.CardView
+                android:id="@+id/CardView_unReadMessageLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:padding="10dp"
+                app:cardCornerRadius="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cardView">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:background="#E65C52">
 
@@ -439,7 +567,7 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent">
 
-                            <ImageView
+                            <de.hdodenhof.circleimageview.CircleImageView
                                 android:id="@+id/ImageView_msg_Provider"
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
@@ -478,6 +606,7 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
+-->
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/CardView_resource"
@@ -680,16 +809,17 @@
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/connect_action_fab"
-        android:clickable="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="25dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:src="@drawable/connect_floating_iconi"
+        android:layout_margin="25dp"
         android:backgroundTint="@color/colorPrimary"
+        android:clickable="true"
+        android:src="@drawable/connect_floating_iconi"
+        app:borderWidth="0dp"
         app:elevation="6dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:pressedTranslationZ="12dp"
-        app:borderWidth="0dp" />
+        tools:ignore="SpeakableTextPresentCheck" />
 </androidx.constraintlayout.widget.ConstraintLayout>

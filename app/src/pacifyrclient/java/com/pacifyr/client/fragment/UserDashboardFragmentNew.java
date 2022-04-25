@@ -160,8 +160,8 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
     private MainTextView sessionsTxv,sessionCostTotal;
     private MainTextView daysTxv;
     private CircleImageView lastSessionDimv;
-    private ImageView ImageView_msg_Provider,ImageView_right_arrow;
-    private TextView TextView_msg_Provider_name,TextView_msg,unread_chat_ctxv,next_app_provider_name,next_app_category,next_app_time;
+    private ImageView ImageView_right_arrow;
+    private TextView TextView_msg_Provider_name,TextView_msg,TextView_msg_time,unread_chat_ctxv,next_app_provider_name,next_app_category,next_app_time;
     private CardView CardView_unReadMessageLayout;
     private RecyclerView resources_list_rcv;
     private CircleImageView Img_next_app_provider;
@@ -172,7 +172,7 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
     private LinearLayout LinearLayout_Active_Session;
     TextView JoinChat,JoinCall;
     private ViewPager ViewPager_bannerLayout;
-    private CircleImageView ImageView_next;
+    private CircleImageView ImageView_next,ImageView_msg_Provider;
     private FloatingActionButton connect_action_fab;
 
     @Override
@@ -198,6 +198,7 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
         ImageView_msg_Provider= view.findViewById(R.id.ImageView_msg_Provider);
         TextView_msg_Provider_name= view.findViewById(R.id.TextView_msg_Provider_name);
         TextView_msg= view.findViewById(R.id.TextView_msg);
+        TextView_msg_time= view.findViewById(R.id.TextView_msg_time);
         unread_chat_ctxv= view.findViewById(R.id.unread_chat_ctxv);
         ImageView_right_arrow= view.findViewById(R.id.ImageView_right_arrow);
         CardView_unReadMessageLayout= view.findViewById(R.id.CardView_unReadMessageLayout);
@@ -427,7 +428,8 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
                 @Override
                 public void run() {
                    checkIsThereAnyActiveSessionsAvailable();
-                    getChatUnreadCount();
+                    handleActionCustomerDashboard();
+                   // getChatUnreadCount();
                     Log.w("TIMERRUNNING","YES");
                 }
 
@@ -652,7 +654,7 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
                                 if(unreadCount > 0)
                                 {
                                     unread_chat_ctxv.setVisibility(View.VISIBLE);
-                                    unread_chat_ctxv.setText(unreadCount + "");
+                                    unread_chat_ctxv.setText(unreadCount + "Missed Messages");
                                     CardView_unReadMessageLayout.setVisibility(View.VISIBLE);
 
 
@@ -833,7 +835,6 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
     private void onResumeCommonAPICalls() {
         // setLoading();
         // showProgress();
-        handleActionCustomerDashboard();
         if (isValid(call_emotion)) {
             // feel_err_text.setVisibility(View.GONE);
             String emotionImg = GLOBAL_IMAGE_URL + call_emotion.getImage();
@@ -855,7 +856,7 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
         }
         ((DashboardActivity)getActivity()).getUnratedSessions();
         //setChatCountInfo();
-         getChatUnreadCount();
+        // getChatUnreadCount();
        /* if (prefM != null && prefM.getCompanyLogo() != null) {
             Glide.with(getActivity())
                     .load(UtilityNetworkService.GLOBAL_IMAGE_URL + prefM.getCompanyLogo())
@@ -1032,6 +1033,47 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
                 }
                 else {
 
+                }
+
+                if (isValid(modelCustomerDashboard2.getTotalUnreadMessages()))
+                {
+                    unreadCount=modelCustomerDashboard2.getTotalUnreadMessages();
+                    if (isValid(unreadCount)){
+                        if(unreadCount > 0)
+                        {
+                            unread_chat_ctxv.setVisibility(View.VISIBLE);
+                            unread_chat_ctxv.setText(unreadCount + " Missed Messages");
+                            CardView_unReadMessageLayout.setVisibility(View.VISIBLE);
+
+                            if (isValid(modelCustomerDashboard2.getLatestUnreadConversation()) &&
+                            isValid(modelCustomerDashboard2.getLatestUnreadConversation().getPacifyr()))
+                            {
+                                ModelCustomerDashboard2.Pacifyr pacifyr=modelCustomerDashboard2.getLatestUnreadConversation().getPacifyr();
+
+                                showPrefferedPacifyrIntoGlideView(GLOBAL_IMAGE_URL+pacifyr.getImage(), ImageView_msg_Provider);
+                                if (isValid(modelCustomerDashboard2.getLatestUnreadConversation().getLastMessage()))
+                                {
+                                    TextView_msg.setText(modelCustomerDashboard2.getLatestUnreadConversation().getLastMessage());
+                                }
+
+                                if (isValid(modelCustomerDashboard2.getLatestUnreadConversation().getLastMessageAt()))
+                                {
+                                   TextView_msg_time.setText(Utility.getFormattedDate(getActivity(),modelCustomerDashboard2.getLatestUnreadConversation().getLastMessageAt()));
+                                }
+                                TextView_msg_Provider_name.setText(pacifyr.getFirstName()+" "+pacifyr.getLastName()+"");
+                            }
+
+
+
+
+
+                        }else {
+                            isClickedOnChat=true;
+                            unread_chat_ctxv.setVisibility(View.GONE);
+                            CardView_unReadMessageLayout.setVisibility(View.GONE);
+                            // ShortcutBadger.applyCount(getActivity(), 0);
+                        }
+                    }
                 }
 
                     if (isValid(pfc)) {
