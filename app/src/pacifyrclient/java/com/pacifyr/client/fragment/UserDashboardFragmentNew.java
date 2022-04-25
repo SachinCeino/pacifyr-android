@@ -971,7 +971,7 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
                     }
 
                     defSetText(daysTxv,lastSession.getDaysSincePosted());
-
+                    showPrefferedPacifyrIntoGlideView(GLOBAL_IMAGE_URL+lastSession.getPacifyr().getImage(), lastSessionDimv);
                     if (isValid(modelCustomerDashboard2.getNextAppointment()))
                     {
                         try {
@@ -987,8 +987,18 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
                             }
                             if (isValid(modelCustomerDashboard2.getNextAppointment().getPacifyr()))
                             {
-                                if (isValid(modelCustomerDashboard2.getNextAppointment().getPacifyr().getSpecialities()[0])){
-                                    next_app_category.setText(modelCustomerDashboard2.getNextAppointment().getPacifyr().getSpecialities()[0].toString());
+                                if (isValid(modelCustomerDashboard2.getNextAppointment().getPacifyr().getSpecialities())){
+                                    StringBuffer buffer=new StringBuffer();
+                                    for (int i=0;i<modelCustomerDashboard2.getNextAppointment().getPacifyr().getSpecialities().length;i++ )
+                                    {
+                                        buffer.append(modelCustomerDashboard2.getNextAppointment().getPacifyr().getSpecialities()[i]);
+                                        if (i!=modelCustomerDashboard2.getNextAppointment().getPacifyr().getSpecialities().length-1)
+                                        {
+                                            buffer.append(", ");
+                                        }
+
+                                    }
+                                    next_app_category.setText(buffer.toString());
                                 }
                             }
 
@@ -1004,7 +1014,7 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
                        // lastSessionMinuteTxv.setVisibility(View.VISIBLE);
                        // videoCamImg.setVisibility(View.VISIBLE);
                         daysTxv.setVisibility(View.VISIBLE);
-                        showPrefferedPacifyrIntoGlideView(GLOBAL_IMAGE_URL+lastSession.getPacifyr().getImage(), lastSessionDimv);
+
 
                     }
 
@@ -1029,7 +1039,7 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
                     }else {
                         sign=getContext().getResources().getString(R.string.dollar);
                     }
-                    sessionCostTotal.setText(hrs+" hrs. "+mintd+" mnts  "+sign+lastWeek.getSpendings());
+                    sessionCostTotal.setText(hrs+" hrs. "+sign+lastWeek.getSpendings());
                 }
                 else {
 
