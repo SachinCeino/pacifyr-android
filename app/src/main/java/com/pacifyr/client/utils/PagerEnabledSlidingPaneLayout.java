@@ -54,6 +54,7 @@ public class PagerEnabledSlidingPaneLayout extends WrappingSlidingPaneLayout {
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
 
+/*
         switch (MotionEventCompat.getActionMasked(ev)) {
             case MotionEvent.ACTION_DOWN: {
                 mInitialMotionX = ev.getX();
@@ -78,8 +79,9 @@ public class PagerEnabledSlidingPaneLayout extends WrappingSlidingPaneLayout {
                 }
             }
         }
+*/
 
-        return super.onInterceptTouchEvent(ev);
+        return false;
     }
 
 
