@@ -69,7 +69,7 @@ public class AccountFragment extends BaseFragment {
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         if (getActivity() instanceof DashboardActivity) {
-            ((DashboardActivity) getActivity()).hideConnectButton();
+
             // ((DashboardActivity) getActivity()).changeBottomMenuIcon(R.id.bnm_providers);
         }
     }
@@ -86,6 +86,7 @@ public class AccountFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         ((DashboardActivity) getActivity()).changeActionBarTitleForFragments(getResources().getString(R.string.nav_profile_title));
+        ((DashboardActivity) getActivity()).hideConnectButton();
         userDetailWeb(getUserID(), new AjaxCallback<JSONObject>() {
             @Override
             public void callback(String url, JSONObject json, AjaxStatus status) {

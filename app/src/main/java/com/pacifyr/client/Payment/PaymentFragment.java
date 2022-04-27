@@ -52,6 +52,7 @@ public class PaymentFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         ((DashboardActivity) getActivity()).changeActionBarTitleForFragments(getResources().getString(R.string.nav_payment_title));
+        ((DashboardActivity) getActivity()).hideConnectButton();
         getSavedCard();
     }
 

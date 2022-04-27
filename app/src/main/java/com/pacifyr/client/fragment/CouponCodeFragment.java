@@ -60,7 +60,7 @@ public class CouponCodeFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-
+        ((DashboardActivity) getActivity()).hideConnectButton();
     }
 
     @Override

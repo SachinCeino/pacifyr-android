@@ -67,6 +67,7 @@ public class MessagesFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         // ((DashboardActivity) getActivity()).changeActionBarTitleForFragments(getResources().getString(R.string.nav_support_title));
+        ((DashboardActivity) getActivity()).hideConnectButton();
         if (getActivity() instanceof DashboardActivity) {
             ((DashboardActivity) getActivity()).changeActionBarTitleForFragments(getResources().getString(R.string.messages));
             ((DashboardActivity) getActivity()).changeBottomMenuIcon(2);

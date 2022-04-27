@@ -65,10 +65,12 @@ public class ResourcesFragment extends BaseFragment {
         // Required empty public constructor
     }
 
+
     @Override
     public void onResume() {
         super.onResume();
         ((DashboardActivity) getActivity()).changeActionBarTitleForFragments(getResources().getString(R.string.nav_resources_title));
+        ((DashboardActivity) getActivity()).hideConnectButton();
         loadResources();
         if (getActivity() instanceof DashboardActivity) {
             ((DashboardActivity) getActivity()).changeBottomMenuIcon(3);
@@ -460,8 +462,12 @@ public class ResourcesFragment extends BaseFragment {
     @Override
     public void onDetach() {
         super.onDetach();
-      //  ((DashboardActivity)getActivity()).hideAddButton();
 
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
     }
 
     public Boolean isValid(Object object) {

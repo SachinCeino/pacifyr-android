@@ -54,6 +54,7 @@ public class SupportFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
+        ((DashboardActivity) getActivity()).hideConnectButton();
        // ((DashboardActivity) getActivity()).changeActionBarTitleForFragments(getResources().getString(R.string.nav_support_title));
 
     }

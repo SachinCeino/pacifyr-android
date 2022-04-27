@@ -93,6 +93,12 @@ public class PrescriptionListFragment extends BaseFragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        ((DashboardActivity) getActivity()).hideConnectButton();
+    }
+
+    @Override
     public void onDetach() {
         super.onDetach();
 

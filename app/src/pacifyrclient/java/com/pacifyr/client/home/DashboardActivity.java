@@ -668,6 +668,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
         mysessionsCtxv = findViewById(R.id.mysessions_ctxv);
         paymentLlay = findViewById(R.id.payment_llay);
         browsePacifyr = findViewById(R.id.browse_llay);
+        browsePacifyr.setVisibility(View.GONE);
         tutotial_llay = findViewById(R.id.tutotial_llay);
         supportLlay = findViewById(R.id.support_llay);
         policyDocumentLlay = findViewById(R.id.policy_document_llay);
@@ -685,10 +686,11 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
         resourcesCtxv = findViewById(R.id.resourses_ctxv);
         resourcesDimv = findViewById(R.id.resourses_dimv);
         resourcesLlay = findViewById(R.id.resourses_llay);
+        resourcesLlay.setVisibility(View.GONE);
 
 
         messagesLlay = findViewById(R.id.message_llay);
-
+        messagesLlay.setVisibility(View.GONE);
         coupon_llay = findViewById(R.id.coupon_llay);
         coupon_view = findViewById(R.id.coupon_view);
         mLinearLayoutAppointments = findViewById(R.id.mLinearLayoutAppointments);
@@ -862,7 +864,6 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
             }
         });
 
-        messagesLlay.setVisibility(View.VISIBLE);
         messagesLlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -1478,6 +1479,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
             }
         }
     }
+
 
     public void showConnectButton() {
        connectProviderActioBar.setVisibility(View.VISIBLE);

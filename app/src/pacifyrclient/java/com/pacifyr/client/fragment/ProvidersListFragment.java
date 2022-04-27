@@ -742,6 +742,7 @@ CheckBox showall_cbox;
     public void onResume() {
         super.onResume();
         try {
+            ((DashboardActivity) getActivity()).hideConnectButton();
             isProvidersListFragmentIsShwoing=true;
             //LocalBroadcastManager.getInstance(getActivity()).registerReceiver(notificationReceiver, new IntentFilter(NotificationUtils.NOTIFY_INTENT_FOR_NEW_CHAT));
             trackTimer_check_online = new Timer();

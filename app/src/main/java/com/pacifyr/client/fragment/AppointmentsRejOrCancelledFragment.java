@@ -19,6 +19,7 @@ import com.pacifyr.client.R;
 import com.pacifyr.client.adapter.AppointmentsCancelRejecListAdapter;
 import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.fragment.schedule.AppointmentModel;
+import com.pacifyr.client.home.DashboardActivity;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.utility.BaseFragment;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
@@ -199,6 +200,9 @@ public class AppointmentsRejOrCancelledFragment extends BaseFragment {
 
     }
 
-
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((DashboardActivity) getActivity()).hideConnectButton();
+    }
 }
