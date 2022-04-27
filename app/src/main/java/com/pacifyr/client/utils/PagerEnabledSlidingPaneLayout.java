@@ -4,6 +4,8 @@ package com.pacifyr.client.utils;
 
  */
 
+import static com.pacifyr.client.fragment.ProvidersListFragment.isProvidersListFragmentIsShwoing;
+
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -54,34 +56,40 @@ public class PagerEnabledSlidingPaneLayout extends WrappingSlidingPaneLayout {
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
 
-/*
-        switch (MotionEventCompat.getActionMasked(ev)) {
-            case MotionEvent.ACTION_DOWN: {
-                mInitialMotionX = ev.getX();
-                mInitialMotionY = ev.getY();
-                break;
-            }
+        if (isProvidersListFragmentIsShwoing)
+        {
+            return  false;
+        }
+        else
+        {
+            switch (MotionEventCompat.getActionMasked(ev)) {
+                case MotionEvent.ACTION_DOWN: {
+                    mInitialMotionX = ev.getX();
+                    mInitialMotionY = ev.getY();
+                    break;
+                }
 
-            case MotionEvent.ACTION_MOVE: {
-                final float x = ev.getX();
-                final float y = ev.getY();
-                // The user should always be able to "close" the pane, so we only check
-                // for child scrollability if the pane is currently closed.
-                if (mInitialMotionX > mEdgeSlop && !isOpen() && canScroll(this, false,
-                        Math.round(x - mInitialMotionX), Math.round(x), Math.round(y))) {
+                case MotionEvent.ACTION_MOVE: {
+                    final float x = ev.getX();
+                    final float y = ev.getY();
+                    // The user should always be able to "close" the pane, so we only check
+                    // for child scrollability if the pane is currently closed.
+                    if (mInitialMotionX > mEdgeSlop && !isOpen() && canScroll(this, false,
+                            Math.round(x - mInitialMotionX), Math.round(x), Math.round(y))) {
 
-                    // How do we set super.mIsUnableToDrag = true?
+                        // How do we set super.mIsUnableToDrag = true?
 
-                    // send the parent a cancel event
-                    MotionEvent cancelEvent = MotionEvent.obtain(ev);
-                    cancelEvent.setAction(MotionEvent.ACTION_CANCEL);
-                    return super.onInterceptTouchEvent(cancelEvent);
+                        // send the parent a cancel event
+                        MotionEvent cancelEvent = MotionEvent.obtain(ev);
+                        cancelEvent.setAction(MotionEvent.ACTION_CANCEL);
+                        return super.onInterceptTouchEvent(cancelEvent);
+                    }
                 }
             }
+            return super.onInterceptTouchEvent(ev);
         }
-*/
 
-        return false;
+
     }
 
 

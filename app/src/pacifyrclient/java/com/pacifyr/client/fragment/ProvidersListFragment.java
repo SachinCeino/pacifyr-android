@@ -122,6 +122,8 @@ CheckBox showall_cbox;
 
     private String emoSelected;
 
+    public static boolean isProvidersListFragmentIsShwoing=false;
+
 
     public CallChatEventListner callchatEventListner = new CallChatEventListner() {
         @Override
@@ -740,6 +742,7 @@ CheckBox showall_cbox;
     public void onResume() {
         super.onResume();
         try {
+            isProvidersListFragmentIsShwoing=true;
             //LocalBroadcastManager.getInstance(getActivity()).registerReceiver(notificationReceiver, new IntentFilter(NotificationUtils.NOTIFY_INTENT_FOR_NEW_CHAT));
             trackTimer_check_online = new Timer();
             trackTimerTask_check_online = new TimerTask() {
@@ -996,6 +999,7 @@ CheckBox showall_cbox;
         super.onStop();
 
         EventBus.getDefault().unregister(this);
+        isProvidersListFragmentIsShwoing=false;
     }
 
     @Override
@@ -1065,8 +1069,15 @@ CheckBox showall_cbox;
     @Override
     public void onDetach() {
         super.onDetach();
-
+        isProvidersListFragmentIsShwoing=false;
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        isProvidersListFragmentIsShwoing=false;
+    }
+
 
     @Subscribe
     public void onNotifyEvent(NotifyEvent event) {
