@@ -18,12 +18,14 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.Configuration;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -182,6 +184,7 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
         View view=inflater.inflate(R.layout.fragment_user_dashboard_new,container,false);
 
 
+        checkScreenReselution();
         feelImageDimv = view.findViewById(R.id.feel_image_dimv);
         feelTitleCtxv = view.findViewById(R.id.feel_title_ctxv);
         feellabel= view.findViewById(R.id.feellabel);
@@ -382,6 +385,33 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
             }
         });
         return view;
+    }
+
+    private void checkScreenReselution() {
+        int density= getResources().getDisplayMetrics().densityDpi;
+
+        switch(density)
+        {
+            case DisplayMetrics.DENSITY_LOW:
+                Toast.makeText(getActivity(), "LDPI", Toast.LENGTH_SHORT).show();
+                break;
+            case DisplayMetrics.DENSITY_MEDIUM:
+                Toast.makeText(getActivity(), "MDPI", Toast.LENGTH_SHORT).show();
+                break;
+            case DisplayMetrics.DENSITY_HIGH:
+                Toast.makeText(getActivity(), "HDPI", Toast.LENGTH_SHORT).show();
+                break;
+            case DisplayMetrics.DENSITY_XHIGH:
+                Toast.makeText(getActivity(), "XHDPI", Toast.LENGTH_SHORT).show();
+                break;
+            case DisplayMetrics.DENSITY_XXHIGH:
+                Toast.makeText(getActivity(), "XXHIGH", Toast.LENGTH_SHORT).show();
+                break;
+
+            case DisplayMetrics.DENSITY_XXXHIGH:
+                Toast.makeText(getActivity(), "XXXHIGH", Toast.LENGTH_SHORT).show();
+                break;
+        }
     }
 
     private void callAllEmotions() {
@@ -977,7 +1007,7 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
                         try {
 
                             String appointMentTime=modelCustomerDashboard2.getNextAppointment().getStartTimeGMT();
-                            String time = Utility.getStartFormatDate(appointMentTime,getActivity());
+                            String time = Utility.getMissedChatMessageTimeDate(appointMentTime,getActivity());
                             next_app_time.setText(time+"");
                             if (isValid(modelCustomerDashboard2.getNextAppointment().getPacifyr())
                                     && isValid(modelCustomerDashboard2.getNextAppointment().getPacifyr().getImage())) {

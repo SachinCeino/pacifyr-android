@@ -768,7 +768,7 @@ public class Utility {
 
             formattedDate = recivedFormat.parse(iiiiii);
 
-            dateat = targetFormat.format(formattedDate).toLowerCase();
+            dateat = targetFormat.format(formattedDate);
             //daty=targetFormat.parse(dateat);
         } catch (Exception e) {
             e.printStackTrace();
