@@ -184,7 +184,7 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
         View view=inflater.inflate(R.layout.fragment_user_dashboard_new,container,false);
 
 
-        checkScreenReselution();
+        //checkScreenReselution();
         feelImageDimv = view.findViewById(R.id.feel_image_dimv);
         feelTitleCtxv = view.findViewById(R.id.feel_title_ctxv);
         feellabel= view.findViewById(R.id.feellabel);
