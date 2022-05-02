@@ -1068,7 +1068,7 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
 
                                 if (isValid(modelCustomerDashboard2.getLatestUnreadConversation().getLastMessageAt()))
                                 {
-                                   TextView_msg_time.setText(Utility.getRelativeDateTimeString(getActivity(),modelCustomerDashboard2.getLatestUnreadConversation().getLastMessageAt()));
+                                   TextView_msg_time.setText(Utility.getMissedChatMessageTimeDate(modelCustomerDashboard2.getLatestUnreadConversation().getLastMessageAt(),getActivity()));
                                 }
                                 TextView_msg_Provider_name.setText(pacifyr.getFirstName()+" "+pacifyr.getLastName()+"");
                             }
