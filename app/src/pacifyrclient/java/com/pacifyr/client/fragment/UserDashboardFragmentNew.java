@@ -174,9 +174,9 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
     private LinearLayout LinearLayout_Active_Session;
     TextView JoinChat,JoinCall;
     private ViewPager ViewPager_bannerLayout;
-    private CircleImageView ImageView_next,ImageView_msg_Provider;
+    private CircleImageView ImageView_msg_Provider;
     private FloatingActionButton connect_action_fab;
-
+    private ImageView ImageView_next,ImageView_Prev;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -219,6 +219,7 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
         JoinChat=view.findViewById(R.id.JoinChat);
         ViewPager_bannerLayout=view.findViewById(R.id.bannerLayout);
         ImageView_next=view.findViewById(R.id.ImageView_next);
+        ImageView_Prev=view.findViewById(R.id.ImageView_Prev);
         connect_action_fab=view.findViewById(R.id.connect_action_fab);
 
 
@@ -245,9 +246,9 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
                     ((DashboardActivity) getActivity()).showInternetNotAvailablePopup();
                     return;
                 }
-                if (isValid(modelCustomerDashboard2)&&isValid(modelCustomerDashboard2.getPreferredPacifyrs()[modelCustomerDashboard2.getPreferredPacifyrs().length-1]))
+                if (isValid(modelCustomerDashboard2)&&isValid(modelCustomerDashboard2.getPreferredPacifyrs()[0]))
                 {
-                    prefpac = modelCustomerDashboard2.getPreferredPacifyrs()[modelCustomerDashboard2.getPreferredPacifyrs().length-1];
+                    prefpac = modelCustomerDashboard2.getPreferredPacifyrs()[0];
                     if (isValid(prefpac))
                         ConnectToSinglePacifyrActivity.start(getActivity(), prefpac);
                 }
@@ -356,21 +357,54 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
         ImageView_next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (isValid(ViewPager_bannerLayout) )
+                int current=getItem(+1);
+                if (current<banners.size())
                 {
-                    if(isValid(ViewPager_bannerLayout.getCurrentItem())) {
-                        if (ViewPager_bannerLayout.getCurrentItem() < ViewPager_bannerLayout.getAdapter().getCount() - 1)
-                            ViewPager_bannerLayout.setCurrentItem(ViewPager_bannerLayout.getCurrentItem() + 1);
-                        else
-                            ViewPager_bannerLayout.setCurrentItem(0, true);
-                    }
-                    else {
-                        ViewPager_bannerLayout.setCurrentItem(1, true);
-                    }
-
+                    ViewPager_bannerLayout.setCurrentItem(current);
                 }
             }
         });
+
+        ImageView_Prev.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ViewPager_bannerLayout.setCurrentItem(ViewPager_bannerLayout.getCurrentItem()-1);
+            }
+        });
+
+
+        ViewPager_bannerLayout.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+                if (position == banners.size()-1)
+                {
+                    ImageView_next.setVisibility(View.GONE);
+                    ImageView_Prev.setVisibility(View.VISIBLE);
+                }
+                else {
+                    ImageView_next.setVisibility(View.VISIBLE);
+                    ImageView_Prev.setVisibility(View.VISIBLE);
+
+                }
+                if (position ==0)
+                {
+                    ImageView_next.setVisibility(View.VISIBLE);
+                    ImageView_Prev.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
 
         connect_action_fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -386,6 +420,11 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
         });
         return view;
     }
+
+    private int getItem(int i) {
+        return ViewPager_bannerLayout.getCurrentItem()+i;
+    }
+
 
     private void checkScreenReselution() {
         int density= getResources().getDisplayMetrics().densityDpi;
@@ -1130,8 +1169,8 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
                                 defSetText(no_pacifyr_ctxv, getResources().getString(R.string.no_prefered_pacifyr));
                             } else {
                                 pacifyr1Dimv.setVisibility(View.VISIBLE);
-                                showPrefferedPacifyrIntoGlideView(pfc[pfc.length-1].getImageUrl(), pacifyr1Dimv);
-                                fav_provider_name.setText(pfc[pfc.length-1].getFirstName()+"");
+                                showPrefferedPacifyrIntoGlideView(pfc[0].getImageUrl(), pacifyr1Dimv);
+                                fav_provider_name.setText(pfc[0].getFirstName()+"");
 
                             }
 
@@ -1347,6 +1386,8 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
 
     ViewPagerAdapter  mViewPagerAdapter;
     private void setUpViewPager(List<Banners> banners) {
+        if (banners.size()>1)
+            ImageView_next.setVisibility(View.VISIBLE);
         mViewPagerAdapter = new ViewPagerAdapter(getActivity());
         ViewPager_bannerLayout.setAdapter(mViewPagerAdapter);
     }

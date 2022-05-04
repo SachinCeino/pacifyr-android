@@ -34,17 +34,31 @@
 
                 </androidx.viewpager.widget.ViewPager>
 
-                <de.hdodenhof.circleimageview.CircleImageView
+                <ImageView
                     android:id="@+id/ImageView_next"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentBottom="true"
+                    android:visibility="gone"
                     android:layout_marginRight="25dp"
-                    android:layout_marginBottom="50dp"
-                    android:src="@drawable/ic_baseline_error"
-                    android:tint="#32000000"></de.hdodenhof.circleimageview.CircleImageView>
+                    android:layout_marginBottom="30dp"
+                    android:src="@drawable/nexthdpi"
+                    android:background="@drawable/ic_baseline_error"
+                    ></ImageView>
 
+                <ImageView
+                    android:id="@+id/ImageView_Prev"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:visibility="gone"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginBottom="30dp"
+                    android:src="@drawable/previoushdpi"
+                    android:background="@drawable/ic_baseline_error"
+                    ></ImageView>
             </RelativeLayout>
 
 
