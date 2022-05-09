@@ -1,5 +1,11 @@
 package com.pacifyr.client.home;
 
+import static com.pacifyr.client.twilio.VideoActivity.isCallActive;
+import static com.pacifyr.client.twiliochat.TwilioConversationActivity.DEFAULT_CONVERSATION_NAME;
+import static com.pacifyr.client.utils.AmazonSNSTokenHandler.installationIsSuccess;
+import static com.pacifyr.client.utils.Constants.getCountryChecks;
+import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.NotificationManager;
@@ -20,7 +26,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -33,22 +38,17 @@ import androidx.multidex.MultiDex;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.gdacciaro.iOSDialog.iOSDialog;
-import com.gdacciaro.iOSDialog.iOSDialogClickListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.installations.FirebaseInstallations;
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.pacifyr.client.Payment.PaymentFragment;
 import com.pacifyr.client.R;
 import com.pacifyr.client.activity.TermsOfUseActivity;
-import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.ActionbarEvent;
 import com.pacifyr.client.event.AlertTypeEvent;
 import com.pacifyr.client.event.CallEvent;
 import com.pacifyr.client.event.ChatEvent;
-import com.pacifyr.client.event.ConnectEvent;
 import com.pacifyr.client.event.InternetConnectionEvent;
 import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.event.RateSessionEvent;
@@ -61,7 +61,6 @@ import com.pacifyr.client.fragment.PrescriptionListFragment;
 import com.pacifyr.client.fragment.ProvidersListFragment;
 import com.pacifyr.client.fragment.ResourcesFragment;
 import com.pacifyr.client.fragment.SupportFragment;
-import com.pacifyr.client.fragment.UserDashboardFragment;
 import com.pacifyr.client.fragment.UserDashboardFragmentNew;
 import com.pacifyr.client.fragment.WelcomeTourFragment;
 import com.pacifyr.client.home.account.AccountEditActivity;
@@ -71,9 +70,9 @@ import com.pacifyr.client.model.Session;
 import com.pacifyr.client.model.interfaces.CallChatEventListner;
 import com.pacifyr.client.netconnectionlistener.CheckNetworkJob;
 import com.pacifyr.client.netconnectionlistener.ConnectionCheckBroadcast;
+import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.orginals.Auth;
-import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.orginals.DynamicLink;
 import com.pacifyr.client.orginals.RemoteConfig;
 import com.pacifyr.client.receiver.NotificationUtils;
@@ -82,7 +81,6 @@ import com.pacifyr.client.twilio.VideoActivity;
 import com.pacifyr.client.twiliochat.QuickstartConversationsManager;
 import com.pacifyr.client.twiliochat.QuickstartConversationsManagerListener;
 import com.pacifyr.client.twiliochat.TokenResponseListener;
-import com.pacifyr.client.twiliochat.TwilioConversationActivity;
 import com.pacifyr.client.twiliochat.TwilioCoversationListActivity;
 import com.pacifyr.client.twiliochat.TwilioMainConversationsClient;
 import com.pacifyr.client.utility.FCMMasterToken;
@@ -98,9 +96,7 @@ import com.pacifyr.client.utils.Utility;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.pacifyrapp.utilitylibrary.Dialog;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MRoleModel;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.MSessionDetailRoot;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelSessonsOfCustomer;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
@@ -119,19 +115,13 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-import static com.facebook.FacebookSdk.getApplicationContext;
-import static com.pacifyr.client.twilio.VideoActivity.isCallActive;
-import static com.pacifyr.client.twiliochat.TwilioConversationActivity.DEFAULT_CONVERSATION_NAME;
-import static com.pacifyr.client.utils.AmazonSNSTokenHandler.installationIsSuccess;
-import static com.pacifyr.client.utils.Constants.getCountryChecks;
-import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
-
 //import com.github.javiersantos.appupdater.AppUpdater;
 
 
 public class DashboardActivity extends PacifyrAppCompactActivity implements QuickstartConversationsManagerListener, BottomNavigationView.OnNavigationItemSelectedListener {
 
     private static final String TAG = DashboardActivity.class.getSimpleName();
+    private static final long BOTTOM_MENU_VISIBILITY_DELAY = 1000;
     boolean showingFirst = true;
     private Context context;
     public static boolean sessioSummaryPageShown=false;
@@ -791,7 +781,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
                 showFragment(new AccountFragment());
                 if (isValid(bottomNavigationView))
                 {
-                    bottomNavigationView.setVisibility(View.GONE);
+                    bottomNavVisibility(false);
                 }
             }
         });
@@ -822,7 +812,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
                 showFragment(new WelcomeTourFragment());
                 if (isValid(bottomNavigationView))
                 {
-                    bottomNavigationView.setVisibility(View.GONE);
+                    bottomNavVisibility(false);
                 }
 
             }
@@ -858,7 +848,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
                 showFragment(new PaymentFragment());
                 if (isValid(bottomNavigationView))
                 {
-                    bottomNavigationView.setVisibility(View.GONE);
+                    bottomNavVisibility(false);
                 }
 
             }
@@ -907,7 +897,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
                 showFragment(new MySessionFragment());
                 if (isValid(bottomNavigationView))
                 {
-                    bottomNavigationView.setVisibility(View.GONE);
+                    bottomNavVisibility(false);
                 }
 
             }
@@ -924,7 +914,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
                 showFragment(new SupportFragment());
                 if (isValid(bottomNavigationView))
                 {
-                    bottomNavigationView.setVisibility(View.GONE);
+                    bottomNavVisibility(false);
                 }
             }
         });
@@ -1015,7 +1005,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
                 showAppointmentPage();
                 if (isValid(bottomNavigationView))
                 {
-                    bottomNavigationView.setVisibility(View.GONE);
+                    bottomNavVisibility(false);
                 }
             }
         });
@@ -1070,7 +1060,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
                 showFragment(new CouponCodeFragment());
                 if (isValid(bottomNavigationView))
                 {
-                    bottomNavigationView.setVisibility(View.GONE);
+                    bottomNavVisibility(false);
                 }
             }
         });
@@ -1086,7 +1076,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
                 showFragment(new PrescriptionListFragment());
                 if (isValid(bottomNavigationView))
                 {
-                    bottomNavigationView.setVisibility(View.GONE);
+                    bottomNavVisibility(false);
                 }
             }
         });
@@ -1226,7 +1216,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
             case "CouponCodeFragment": {
                 String code = "";
                 try {
-                    JSONObject j = new JSONObject(isLink?RemoteConfig.Config().getString(screeName):DynamicLink.getScreenDataFromNotification());;
+                    JSONObject j = new JSONObject(isLink ? RemoteConfig.Config().getString(screeName) : DynamicLink.getScreenDataFromNotification());
                     code = j.getString("code");
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -1325,18 +1315,36 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
     public void changeActionBarTitleForFragments(String mActionBarTitle) {
         defSetText(titleTxv, mActionBarTitle);
     }
-    public void changeBottomMenuIcon(int id) {
-        if (isValid(bottomNavigationView))
-        {
-            bottomNavigationView.getMenu().getItem(id).setChecked(true);
-            bottomNavigationView.setVisibility(View.VISIBLE);
 
+    public void changeBottomMenuIcon(int id) {
+        if (isValid(bottomNavigationView)) {
+            bottomNavigationView.getMenu().getItem(id).setChecked(true);
+            bottomNavVisibility(true);
 
         }
     }
 
+    private void bottomNavVisibility(boolean visible) {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            bottomNavigationView.setVisibility(visible ? View.VISIBLE : View.GONE);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
 
-    public boolean isInternetAvailable=true;
+            }
+        }, BOTTOM_MENU_VISIBILITY_DELAY);
+    }
+
+
+    public boolean isInternetAvailable = true;
 
     public boolean isInternetAvailable() {
         return isInternetAvailable;
