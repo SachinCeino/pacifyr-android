@@ -480,8 +480,7 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
     public void onResume() {
         super.onResume();
         isVisible=true;
-        ((DashboardActivity) getActivity()).changeActionBarTitleForFragments(getResources().getString(R.string.nav_mydashbord_title));
-        ((DashboardActivity) getActivity()).showConnectButton();
+
         if (getActivity() instanceof DashboardActivity) {
             ((DashboardActivity) getActivity()).changeBottomMenuIcon(0);
         }
@@ -508,6 +507,8 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
 
 
             setUpBanner();
+            ((DashboardActivity) getActivity()).changeActionBarTitleForFragments(getResources().getString(R.string.nav_mydashbord_title));
+            ((DashboardActivity) getActivity()).showConnectButton();
         }
         catch (Exception e)
         {

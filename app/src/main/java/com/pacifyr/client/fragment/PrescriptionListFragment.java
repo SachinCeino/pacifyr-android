@@ -89,12 +89,13 @@ public class PrescriptionListFragment extends BaseFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        ((DashboardActivity) getActivity()).changeActionBarTitleForFragments(getResources().getString(R.string.my_prescriptions));
+
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        ((DashboardActivity) getActivity()).changeActionBarTitleForFragments(getResources().getString(R.string.my_prescriptions));
         ((DashboardActivity) getActivity()).hideConnectButton();
     }
 
