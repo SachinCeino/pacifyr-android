@@ -1086,6 +1086,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
             if (isValid(isNeedToOpenAppointments) && isNeedToOpenAppointments)
             {
                 hideRightLayActionbar();
+                bottomNavVisibility(false);
                 showFragment(new AppointmentsTabViewFragment());
                 defSetText(titleTxv, getResources().getString(R.string.appointments));
             }
@@ -1178,6 +1179,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
 
     public void showAppointmentPage()
     {
+        bottomNavVisibility(false);
         hideRightLayActionbar();
         showFragment(new AppointmentsTabViewFragment());
         defSetText(titleTxv, getResources().getString(R.string.appointments));
@@ -1324,7 +1326,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
         }
     }
 
-    private void bottomNavVisibility(boolean visible) {
+    public void bottomNavVisibility(boolean visible) {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {

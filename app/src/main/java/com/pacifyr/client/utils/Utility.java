@@ -747,6 +747,47 @@ public class Utility {
     }
 
 
+    public static String getFormattedDateForAppointment(Context context,String input) {
+
+        // Date daty=null;
+        Date formattedDate = null;
+        PrefManager prefM = PrefManager.getInstance(context);
+        String dateat = "";
+        try {
+            SimpleDateFormat targetFormat;// = new SimpleDateFormat("MM-dd-yyyy'  'hh:mm a", Locale.ENGLISH);
+            String country = prefM.getCountry();
+            if(country.equals("India")){
+                targetFormat = new SimpleDateFormat("dd MMM'  'hh:mm a", Locale.ENGLISH);
+            }else{
+                targetFormat = new SimpleDateFormat("MMM dd'  'hh:mm a", Locale.ENGLISH);
+            }
+            // SimpleDateFormat sdf=new SimpleDateFormat();
+
+
+            SimpleDateFormat recivedFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'",Locale.getDefault());
+            recivedFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+
+            formattedDate = recivedFormat.parse(input);
+            if(DateUtils.isToday(formattedDate.getTime())) {
+                targetFormat = new SimpleDateFormat("hh:mm a", Locale.ENGLISH);
+                dateat = context.getResources().getString(R.string.today)+" "+targetFormat.format(formattedDate);
+            }
+            else
+            {
+                dateat = targetFormat.format(formattedDate);
+            }
+
+
+            //daty=targetFormat.parse(dateat);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return dateat;
+
+
+    }
+
+
     public static String getMissedChatMessageTimeDate (String iiiiii,Context mContext) {
         // Date daty=null;
         Date formattedDate = null;

@@ -152,23 +152,37 @@
                             android:gravity="center"
                             android:padding="5dp">
 
-                            <ImageView
-                                android:id="@+id/feel_image_dimv"
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:layout_alignParentTop="true"
-                                android:layout_centerInParent="true"
-                                android:adjustViewBounds="true"
-                                android:backgroundTint="#FFC107"
+                            <FrameLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/RelativeLayout_feel"
+                                android:gravity="center"
                                 android:foregroundGravity="center"
-                                android:scaleType="centerCrop"
-                                app:tint="#FFC107" />
+                                android:layout_alignParentTop="true"
+                                android:layout_centerInParent="true">
+
+                                <ImageView
+                                    android:layout_width="40dp"
+                                    android:layout_height="40dp"
+                                    android:background="@drawable/last_emotion_background" />
+
+
+                                <ImageView
+                                    android:id="@+id/feel_image_dimv"
+                                    android:layout_width="40dp"
+                                    android:layout_height="40dp"
+                                    android:padding="2dp"
+                                    android:backgroundTint="@color/white"
+                                    app:tint="@color/white"></ImageView>
+
+
+                            </FrameLayout>
 
                             <com.pacifyr.client.customview.MainTextView
                                 android:id="@+id/feellabel"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_below="@+id/feel_image_dimv"
+                                android:layout_below="@+id/RelativeLayout_feel"
                                 android:layout_gravity="center"
                                 android:layout_marginTop="5dp"
                                 android:gravity="center"

@@ -19,8 +19,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Configuration;
+import android.graphics.ColorFilter;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -238,6 +241,15 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
             }
         });
 
+        CardView_nextAppointment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (isValid(modelCustomerDashboard2.getNextAppointment()))
+                {
+                    ((DashboardActivity)getActivity()).showAppointmentPage();
+                }
+            }
+        });
         pacifyr1Dimv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -418,6 +430,7 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
                 ConnectToPacifyrActivity.start(getActivity());
             }
         });
+
         return view;
     }
 
@@ -1047,7 +1060,7 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
                         try {
 
                             String appointMentTime=modelCustomerDashboard2.getNextAppointment().getStartTimeGMT();
-                            String time = Utility.getMissedChatMessageTimeDate(appointMentTime,getActivity());
+                            String time = Utility.getFormattedDateForAppointment(getActivity(),appointMentTime);
                             next_app_time.setText(time+"");
                             if (isValid(modelCustomerDashboard2.getNextAppointment().getPacifyr())
                                     && isValid(modelCustomerDashboard2.getNextAppointment().getPacifyr().getImage())) {

@@ -14,6 +14,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.tabs.TabLayout;
 import com.pacifyr.client.R;
 import com.pacifyr.client.event.NotifyEvent;
+import com.pacifyr.client.home.DashboardActivity;
 import com.pacifyr.client.utility.BaseFragment;
 import com.squareup.otto.Subscribe;
 
@@ -119,10 +120,13 @@ public void onStop() {
 
         }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((DashboardActivity) getActivity()).hideConnectButton();
+    }
 
-
-
-public class Pager extends FragmentStatePagerAdapter {
+    public class Pager extends FragmentStatePagerAdapter {
 
     //integer to count number of tabs
     int tabCount;

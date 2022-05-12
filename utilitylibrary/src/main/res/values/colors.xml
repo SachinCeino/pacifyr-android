@@ -604,6 +604,7 @@
     <color name="grey_hex_01">#010101</color>
     <color name="grey_hex_02">#020202</color>
     <color name="grey_hex_03">#030303</color>
+    <color name="last_emotion_circle_color">#FBAF2E</color>
     <color name="grey_hex_04">#040404</color>
     <color name="grey_hex_05">#050505</color>
     <color name="grey_hex_06">#060606</color>

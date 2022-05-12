@@ -69,7 +69,7 @@ public class MessagesFragment extends BaseFragment {
         // ((DashboardActivity) getActivity()).changeActionBarTitleForFragments(getResources().getString(R.string.nav_support_title));
         ((DashboardActivity) getActivity()).hideConnectButton();
         if (getActivity() instanceof DashboardActivity) {
-            ((DashboardActivity) getActivity()).changeActionBarTitleForFragments(getResources().getString(R.string.messages));
+            ((DashboardActivity) getActivity()).changeActionBarTitleForFragments(getResources().getString(R.string.message_list));
             ((DashboardActivity) getActivity()).changeBottomMenuIcon(2);
         }
         if (!((DashboardActivity)getActivity()).isInternetAvailable()) {

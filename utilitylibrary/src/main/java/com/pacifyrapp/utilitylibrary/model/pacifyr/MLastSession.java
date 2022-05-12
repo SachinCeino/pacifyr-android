@@ -351,7 +351,7 @@ public class MLastSession {
         String value = null;
         Calendar postedDay = Calendar.getInstance();
         try {
-            date = df.parse(this.endTime);
+            date = df.parse(this.startTime);
             postedDay.setTime(date);
 
 
