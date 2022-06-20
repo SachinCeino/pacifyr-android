@@ -777,7 +777,7 @@ public class AppointmentsListAdapter extends RecyclerView.Adapter<RecyclerView.V
         long mcurrentMilliSeconds = Utility.getCurrentDateinMilliSeconds();
         long mServerMilliSeconds = Utility.getLocalTimeFromUtc(date);
         long TimDifference=mcurrentMilliSeconds - mServerMilliSeconds;
-        if (TimDifference<1800000)
+        if (mcurrentMilliSeconds>=mServerMilliSeconds)
         {
             return true;
         }

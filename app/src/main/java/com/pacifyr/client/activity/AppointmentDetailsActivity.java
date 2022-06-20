@@ -448,7 +448,7 @@ public class AppointmentDetailsActivity extends PacifyrActivity {
         long mcurrentMilliSeconds = Utility.getCurrentDateinMilliSeconds();
         long mServerMilliSeconds = Utility.getLocalTimeFromUtc(date);
         long TimDifference=mcurrentMilliSeconds - mServerMilliSeconds;
-        if (TimDifference<1800000)
+        if (mcurrentMilliSeconds>=mServerMilliSeconds)
         {
             return true;
         }
