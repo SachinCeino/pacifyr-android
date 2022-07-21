@@ -72,6 +72,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.gson.Gson;
 import com.pacifyr.client.R;
+import com.pacifyr.client.activity.TermsOfUseActivity;
 import com.pacifyr.client.adapter.FavPRoviderListAdapter;
 import com.pacifyr.client.adapter.ResourcesDashBoardAdapter;
 import com.pacifyr.client.adapter.ResourcesListAdapter;
@@ -118,10 +119,12 @@ import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -184,6 +187,9 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
     private ImageView ImageView_next,ImageView_Prev;
     private CardView cardView_fav_providers;
     private RecyclerView RecyclerViewFavPro;
+    private CardView CardView_SurveyLink;
+    private TextView TV_survey_title,TV_Survey_Days;
+    private ImageView IMV_goto_survey;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -231,6 +237,10 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
         connect_action_fab=view.findViewById(R.id.connect_action_fab);
         cardView_fav_providers=view.findViewById(R.id.cardView_fav_providers);
         RecyclerViewFavPro=view.findViewById(R.id.RecyclerViewFavPro);
+        CardView_SurveyLink=view.findViewById(R.id.CardView_SurveyLink);
+        TV_survey_title=view.findViewById(R.id.TV_survey_title);
+        TV_Survey_Days=view.findViewById(R.id.TV_Survey_Days);
+        IMV_goto_survey=view.findViewById(R.id.IMV_goto_survey);
 
 
         CardView_unReadMessageLayout.setOnClickListener(new View.OnClickListener() {
@@ -1029,6 +1039,15 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
                     }
 
 
+                    if (isValidSize(modelCustomerDashboard2.getSurveys()))
+                    {
+                        setUpSurveyUI((modelCustomerDashboard2.getSurveys()));
+                    }
+                    else {
+                        CardView_SurveyLink.setVisibility(GONE);
+                    }
+
+
                 } catch(Exception e){
                     e.printStackTrace();
                     // hideProgress();
@@ -1050,6 +1069,39 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
             //hideProgress();
         }
         hideProgress();
+    }
+
+    private void setUpSurveyUI(List<ModelCustomerDashboard2.Survey> surveys) {
+
+        if (isValid(surveys.get(0))) {
+            ModelCustomerDashboard2.Survey object = surveys.get(0);
+            if (isValid(object))
+            {
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault());
+                Date c = Calendar.getInstance().getTime();
+                int dys = (int) Utility.getDateDiff(format, format.format(c),object.getEndTime());
+                CardView_SurveyLink.setVisibility(View.VISIBLE);
+                TV_survey_title.setText(object.getTitle());
+                TV_Survey_Days.setText(String.valueOf(dys)+" Days");
+                ModelCustomerDashboard2.Survey finalObject = object;
+                IMV_goto_survey.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        Intent i=new Intent(getActivity(), TermsOfUseActivity.class);
+                        i.putExtra("spurl", finalObject.getFormUrl());
+                        i.putExtra("title", "Survey");
+                        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        getActivity().startActivity(i);
+                    }
+                });
+            }
+
+        }
+
+
+
+
     }
 
     private void setUpFavProviderAdapter() {

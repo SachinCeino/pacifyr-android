@@ -38,6 +38,7 @@ public class ModelCustomerDashboard2
     private User user;
 
     private ThisWeekStatistics thisWeekStatistics;
+    private List<Survey> surveys = null;
 
     private MUser[] preferredPacifyrs;
     private NextAppointment nextAppointment;
@@ -49,6 +50,14 @@ public class ModelCustomerDashboard2
 
     public Integer getTotalUnreadMessages() {
         return totalUnreadMessages;
+    }
+
+    public List<Survey> getSurveys() {
+        return surveys;
+    }
+
+    public void setSurveys(List<Survey> surveys) {
+        this.surveys = surveys;
     }
 
     public void setTotalUnreadMessages(Integer totalUnreadMessages) {
@@ -2468,5 +2477,96 @@ public class ModelCustomerDashboard2
     }
 
 
+    public class Survey {
+        private String createdAt;
 
+        private String companyId;
+
+        private Boolean expired;
+
+        private String formUrl;
+
+        private String startTime;
+
+        private String id;
+
+        private String endTime;
+
+        private String title;
+
+        private String updatedAt;
+
+        public String getCreatedAt() {
+            return createdAt;
+        }
+
+        public void setCreatedAt(String createdAt) {
+            this.createdAt = createdAt;
+        }
+
+        public String getCompanyId() {
+            return companyId;
+        }
+
+        public void setCompanyId(String companyId) {
+            this.companyId = companyId;
+        }
+
+        public Boolean getExpired() {
+            return expired;
+        }
+
+        public void setExpired(Boolean expired) {
+            this.expired = expired;
+        }
+
+        public String getFormUrl() {
+            return formUrl;
+        }
+
+        public void setFormUrl(String formUrl) {
+            this.formUrl = formUrl;
+        }
+
+        public String getStartTime() {
+            return startTime;
+        }
+
+        public void setStartTime(String startTime) {
+            this.startTime = startTime;
+        }
+
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        public String getEndTime() {
+            return endTime;
+        }
+
+        public void setEndTime(String endTime) {
+            this.endTime = endTime;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        public void setTitle(String title) {
+            this.title = title;
+        }
+
+        public String getUpdatedAt() {
+            return updatedAt;
+        }
+
+        public void setUpdatedAt(String updatedAt) {
+            this.updatedAt = updatedAt;
+        }
+
+    }
 }
