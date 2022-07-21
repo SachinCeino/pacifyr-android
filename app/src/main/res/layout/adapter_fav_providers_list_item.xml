@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:padding="5dp"
+    android:layout_marginEnd="15dp"
+    android:layout_gravity="center"
+    android:gravity="center"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:src="@drawable/ic_person"
+        android:id="@+id/ImagView_Provider">
+
+    </de.hdodenhof.circleimageview.CircleImageView>
+    <com.pacifyr.client.customview.MainTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="Vineesh Kumar"
+        android:textSize="12sp"
+        android:singleLine="true"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:id="@+id/TextView_ProviderName"
+        android:ellipsize="end"
+        android:layout_marginTop="5dp"></com.pacifyr.client.customview.MainTextView>
+
+</LinearLayout>

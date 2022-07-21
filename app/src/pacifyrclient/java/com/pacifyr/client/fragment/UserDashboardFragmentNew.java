@@ -71,6 +71,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.gson.Gson;
 import com.pacifyr.client.R;
+import com.pacifyr.client.adapter.FavPRoviderListAdapter;
 import com.pacifyr.client.adapter.ResourcesDashBoardAdapter;
 import com.pacifyr.client.adapter.ResourcesListAdapter;
 import com.pacifyr.client.adapter.ResourcesListMainAdapter;
@@ -180,6 +181,8 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
     private CircleImageView ImageView_msg_Provider;
     private FloatingActionButton connect_action_fab;
     private ImageView ImageView_next,ImageView_Prev;
+    private CardView cardView_fav_providers;
+    private RecyclerView RecyclerViewFavPro;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -224,6 +227,8 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
         ImageView_next=view.findViewById(R.id.ImageView_next);
         ImageView_Prev=view.findViewById(R.id.ImageView_Prev);
         connect_action_fab=view.findViewById(R.id.connect_action_fab);
+        cardView_fav_providers=view.findViewById(R.id.cardView_fav_providers);
+        RecyclerViewFavPro=view.findViewById(R.id.RecyclerViewFavPro);
 
 
         CardView_unReadMessageLayout.setOnClickListener(new View.OnClickListener() {
@@ -970,6 +975,16 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
                     modelCustomerDashboard2 = GsonUtils.getInstance().gsonToModelCustomerDashboard2(json);
                     setMyAdapter();
 
+                    if (isValid(modelCustomerDashboard2.getPreferredPacifyrs().length))
+                    {
+
+                        setUpFavProviderAdapter();
+
+                    }
+                    else {
+                        cardView_fav_providers.setVisibility(View.GONE);
+                    }
+
 
                 } catch(Exception e){
                     e.printStackTrace();
@@ -992,6 +1007,19 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
             //hideProgress();
         }
         hideProgress();
+    }
+
+    private void setUpFavProviderAdapter() {
+        cardView_fav_providers.setVisibility(View.VISIBLE);
+
+        FavPRoviderListAdapter resourcesAdapter = new FavPRoviderListAdapter(modelCustomerDashboard2.getPreferredPacifyrs(), getActivity());
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity(),RecyclerView.HORIZONTAL,false);
+        RecyclerViewFavPro.setLayoutManager(mLayoutManager);
+        RecyclerViewFavPro.setItemAnimator(new DefaultItemAnimator());
+        RecyclerViewFavPro.setAdapter(resourcesAdapter);
+
+
+
     }
 
 
