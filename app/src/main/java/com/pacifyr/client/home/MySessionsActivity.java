@@ -469,7 +469,7 @@ public class MySessionsActivity extends PacifyrAppCompactActivity {
     private void setAdapter(ArrayList<MSessionDetailRoot> list,RecyclerView recyclerView){
         try {
             Log.i("sesssssss11","l:  "+userid+"   "+token);
-            MySessionAdapter adapter = new MySessionAdapter(getApplicationContext(), list, userid, token);
+            MySessionAdapter adapter = new MySessionAdapter(MySessionsActivity.this, list, userid, token);
             adapter.setFirstItemEditable(firstItemEditable);
             LinearLayoutManager verticalLayoutmanager
                     = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
