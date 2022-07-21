@@ -219,7 +219,7 @@
 
                         <RelativeLayout
                             android:layout_width="0dp"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_gravity="center"
                             android:layout_weight="1"
                             android:gravity="center"
@@ -259,23 +259,22 @@
 
                             <com.pacifyr.client.customview.MainTextView
                                 android:id="@+id/no_pacifyr_ctxv"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_below="@id/fav_provider_name"
-                                android:layout_centerHorizontal="true"
-                                android:layout_centerVertical="true"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_centerInParent="true"
+                                android:background="@color/white"
                                 android:gravity="center"
-                                android:text="@string/___"
+                                android:text="@string/no_prefered_pacifyr"
                                 android:textColor="@color/grey_dark"
-                                android:textSize="13sp"
-                                android:textStyle="bold"
-                                android:visibility="gone" />
+                                android:textSize="12sp"
+                                android:textStyle="bold" />
+
                         </RelativeLayout>
 
 
                         <RelativeLayout
                             android:layout_width="0dp"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_gravity="center"
                             android:layout_weight="1"
                             android:gravity="center"
@@ -320,12 +319,24 @@
                                 android:textSize="12sp"
                                 android:textStyle="bold" />
 
+                            <com.pacifyr.client.customview.MainTextView
+                                android:id="@+id/no_sessions"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_centerInParent="true"
+                                android:background="@color/white"
+                                android:gravity="center"
+                                android:text="@string/no_sessions_yet"
+                                android:textColor="@color/grey_dark"
+                                android:textSize="12sp"
+                                android:textStyle="bold" />
+
                         </RelativeLayout>
 
 
                         <RelativeLayout
                             android:layout_width="0dp"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_gravity="center"
                             android:layout_weight="1"
                             android:gravity="center"
@@ -366,17 +377,13 @@
                             <com.pacifyr.client.customview.MainTextView
                                 android:id="@+id/no_lastsession_ctxv"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_centerInParent="true"
-                                android:layout_centerHorizontal="true"
-                                android:layout_centerVertical="true"
+                                android:layout_height="match_parent"
+                                android:background="@color/white"
                                 android:gravity="center"
-                                android:padding="10dp"
-                                android:text="@string/___"
+                                android:text="@string/no_sessions_yet"
                                 android:textColor="@color/black"
-                                android:textSize="15sp"
-                                android:textStyle="bold"
-                                android:visibility="gone" />
+                                android:textSize="12sp"
+                                android:textStyle="bold" />
                         </RelativeLayout>
                     </LinearLayout>
 

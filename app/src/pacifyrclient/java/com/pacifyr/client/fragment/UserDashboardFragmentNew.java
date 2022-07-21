@@ -1,5 +1,6 @@
 package com.pacifyr.client.fragment;
 
+import static android.view.View.GONE;
 import static com.pacifyr.client.R.id.grid_balls;
 import static com.pacifyr.client.R.id.last_session_rlay;
 import static com.pacifyr.client.R.id.viewpager;
@@ -162,7 +163,7 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
     private MainTextView feelTitleCtxv,feellabel;
     private MainTextView feel_err_text;
     private CircleImageView pacifyr1Dimv;
-    private MainTextView lastSsnPacfyrCtxv,no_pacifyr_ctxv,no_lastsession_ctxv,fav_provider_name;
+    private MainTextView lastSsnPacfyrCtxv,no_pacifyr_ctxv,no_lastsession_ctxv,fav_provider_name,no_sessions;
     private MainTextView sessionsTxv,sessionCostTotal;
     private MainTextView daysTxv;
     private CircleImageView lastSessionDimv;
@@ -198,6 +199,7 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
         pacifyr1Dimv = view.findViewById(R.id.pacifyr1_dimv);
         no_pacifyr_ctxv = view.findViewById(R.id.no_pacifyr_ctxv);
         no_lastsession_ctxv = view.findViewById(R.id.no_lastsession_ctxv);
+        no_sessions= view.findViewById(R.id.no_sessions);
         fav_provider_name= view.findViewById(R.id.fav_provider_name);
 
         sessionsTxv = view.findViewById(R.id.sessions_txv);
@@ -263,16 +265,57 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
                     ((DashboardActivity) getActivity()).showInternetNotAvailablePopup();
                     return;
                 }
-                if (isValid(modelCustomerDashboard2)&&isValid(modelCustomerDashboard2.getPreferredPacifyrs()[0]))
+                try {
+                    if (isValid(modelCustomerDashboard2)&&isValid(modelCustomerDashboard2.getPreferredPacifyrs()[0]))
+                    {
+                        prefpac = modelCustomerDashboard2.getPreferredPacifyrs()[0];
+                        if (isValid(prefpac))
+                            ConnectToSinglePacifyrActivity.start(getActivity(), prefpac);
+                    }
+                }catch (Exception e)
                 {
-                    prefpac = modelCustomerDashboard2.getPreferredPacifyrs()[0];
-                    if (isValid(prefpac))
-                        ConnectToSinglePacifyrActivity.start(getActivity(), prefpac);
+
                 }
 
 
 
                 // showTheRoundDialog(0, prefpac);
+            }
+        });
+
+        no_lastsession_ctxv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!((DashboardActivity)getActivity()).isInternetAvailable()) {
+                    ((DashboardActivity) getActivity()).showInternetNotAvailablePopup();
+                    return;
+                }
+                ConnectToPacifyrActivity.start(getActivity());
+
+            }
+        });
+
+        no_sessions.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (!((DashboardActivity)getActivity()).isInternetAvailable()) {
+                    ((DashboardActivity) getActivity()).showInternetNotAvailablePopup();
+                    return;
+                }
+                ConnectToPacifyrActivity.start(getActivity());
+            }
+        });
+
+        no_pacifyr_ctxv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (!((DashboardActivity)getActivity()).isInternetAvailable()) {
+                    ((DashboardActivity) getActivity()).showInternetNotAvailablePopup();
+                    return;
+                }
+                ConnectToPacifyrActivity.start(getActivity());
             }
         });
 
@@ -401,7 +444,7 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
 
                 if (position == banners.size()-1)
                 {
-                    ImageView_next.setVisibility(View.GONE);
+                    ImageView_next.setVisibility(GONE);
                     ImageView_Prev.setVisibility(View.VISIBLE);
                 }
                 else {
@@ -412,7 +455,7 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
                 if (position ==0)
                 {
                     ImageView_next.setVisibility(View.VISIBLE);
-                    ImageView_Prev.setVisibility(View.GONE);
+                    ImageView_Prev.setVisibility(GONE);
                 }
             }
 
@@ -521,7 +564,7 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
 
             },0,5000);
             if (isCallActive)
-               LinearLayout_Active_Session.setVisibility(View.GONE);
+               LinearLayout_Active_Session.setVisibility(GONE);
 
 
             setUpBanner();
@@ -584,11 +627,11 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
                                     });
                                 }
                                 else {
-                                    LinearLayout_Active_Session.setVisibility(View.GONE);
+                                    LinearLayout_Active_Session.setVisibility(GONE);
                                 }
                             }
                             else {
-                                LinearLayout_Active_Session.setVisibility(View.GONE);
+                                LinearLayout_Active_Session.setVisibility(GONE);
                                 if (isValid(mMSessionDetailRoot))
                                 {
                                     if (!mMSessionDetailRoot.isBilledSession())
@@ -606,7 +649,7 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
                             }
                         }
                         else {
-                            LinearLayout_Active_Session.setVisibility(View.GONE);
+                            LinearLayout_Active_Session.setVisibility(GONE);
                             if (isValid(mMSessionDetailRoot))
                             {
                                 if (!mMSessionDetailRoot.isBilledSession())
@@ -678,17 +721,17 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
                                     }
                                 }
                                 else {
-                                    LinearLayout_Active_Session.setVisibility(View.GONE);
+                                    LinearLayout_Active_Session.setVisibility(GONE);
                                     Toast.makeText(getActivity(), getString(R.string.no_active_session), Toast.LENGTH_SHORT).show();
                                 }
                             }
                             else {
-                                LinearLayout_Active_Session.setVisibility(View.GONE);
+                                LinearLayout_Active_Session.setVisibility(GONE);
                                 Toast.makeText(getActivity(), getString(R.string.no_active_session), Toast.LENGTH_SHORT).show();
                             }
                         }
                         else {
-                            LinearLayout_Active_Session.setVisibility(View.GONE);
+                            LinearLayout_Active_Session.setVisibility(GONE);
                             Toast.makeText(getActivity(), getString(R.string.no_active_session), Toast.LENGTH_SHORT).show();
                         }
 
@@ -748,8 +791,8 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
 
                                 }else {
                                     isClickedOnChat=true;
-                                    unread_chat_ctxv.setVisibility(View.GONE);
-                                    CardView_unReadMessageLayout.setVisibility(View.GONE);
+                                    unread_chat_ctxv.setVisibility(GONE);
+                                    CardView_unReadMessageLayout.setVisibility(GONE);
                                     // ShortcutBadger.applyCount(getActivity(), 0);
                                 }
                             }
@@ -801,13 +844,13 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
                         }
                         else
                         {
-                            resources_list_rcv.setVisibility(View.GONE);
+                            resources_list_rcv.setVisibility(GONE);
                         }
 
                     } catch (Exception e) {
                         hideProgress();
                         e.printStackTrace();
-                        resources_list_rcv.setVisibility(View.GONE);
+                        resources_list_rcv.setVisibility(GONE);
                     }
                 }
             };
@@ -933,7 +976,7 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
                         .transition(DrawableTransitionOptions.withCrossFade()).into(feelImageDimv);
                 feelTitleCtxv.setText(emotionTitle);
                 if (isValid(feel_err_text)) {
-                    feel_err_text.setVisibility(View.GONE);
+                    feel_err_text.setVisibility(GONE);
                     feellabel.setVisibility(View.VISIBLE);
 
                 }
@@ -982,7 +1025,7 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
 
                     }
                     else {
-                        cardView_fav_providers.setVisibility(View.GONE);
+                        cardView_fav_providers.setVisibility(GONE);
                     }
 
 
@@ -1036,7 +1079,7 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
                     if(isValid(feel_err_text))
                     {feel_err_text.setVisibility(View.VISIBLE);
                         defSetText(feel_err_text,"Please select an emotion");
-                        feellabel.setVisibility(View.GONE);
+                        feellabel.setVisibility(GONE);
                     }
                 }
 
@@ -1057,7 +1100,7 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
                         Picasso.with(getActivity()).load(emotionImg).into(feelImageDimv);
                         feelTitleCtxv.setText(emotionTitle);
                         if (isValid(feel_err_text)) {
-                            feel_err_text.setVisibility(View.GONE);
+                            feel_err_text.setVisibility(GONE);
 
 
                         }
@@ -1069,7 +1112,7 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
 
                 if (isValid(lastSession)) {
                   //  last_session_top_llay.setVisibility(View.VISIBLE);
-                    no_lastsession_ctxv.setVisibility(View.GONE);
+                    no_lastsession_ctxv.setVisibility(GONE);
                   ///  lastSessionDimv.setVisibility(View.VISIBLE);
                    // lastSessionRlay.setVisibility(View.VISIBLE);
 
@@ -1119,12 +1162,13 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
                         }
                     }
                     else {
-                        CardView_nextAppointment.setVisibility(View.GONE);
+                        CardView_nextAppointment.setVisibility(GONE);
                         String duration = lastSession.getDuration();
                       //  lastSessionMinuteTxv.setText(Utility.getCorrectRoundedDuration(duration));
                        // lastSessionMinuteTxv.setVisibility(View.VISIBLE);
                        // videoCamImg.setVisibility(View.VISIBLE);
                         daysTxv.setVisibility(View.VISIBLE);
+                        no_sessions.setVisibility(GONE);
 
 
                     }
@@ -1132,8 +1176,9 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
                 }
                 else {
                     no_lastsession_ctxv.setVisibility(View.VISIBLE);
-                    sessionsTxv.setVisibility(View.GONE);
-                    daysTxv.setVisibility(View.GONE);
+                    no_sessions.setVisibility(View.VISIBLE);
+                    sessionsTxv.setVisibility(GONE);
+                    daysTxv.setVisibility(GONE);
                     defSetText(no_lastsession_ctxv,getResources().getString(R.string.no_sessions_yet));
 
                 }
@@ -1151,6 +1196,7 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
                         sign=getContext().getResources().getString(R.string.dollar);
                     }
                     sessionCostTotal.setText(hrs+" hrs. "+sign+lastWeek.getSpendings());
+                    no_sessions.setVisibility(GONE);
                 }
                 else {
 
@@ -1190,8 +1236,8 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
 
                         }else {
                             isClickedOnChat=true;
-                            unread_chat_ctxv.setVisibility(View.GONE);
-                            CardView_unReadMessageLayout.setVisibility(View.GONE);
+                            unread_chat_ctxv.setVisibility(GONE);
+                            CardView_unReadMessageLayout.setVisibility(GONE);
                             // ShortcutBadger.applyCount(getActivity(), 0);
                         }
                     }
@@ -1202,11 +1248,11 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
                         Log.i("preffffffa1", "p: " + pfc);
                         if (isValid(pfc.length)) {
                             Log.i("preffffffb1", "p: " + pfc.length);
-                            no_pacifyr_ctxv.setVisibility(View.GONE);
+                            no_pacifyr_ctxv.setVisibility(GONE);
 
                             if (!isValid(pfc.length)) {
 
-                                pacifyr1Dimv.setVisibility(View.GONE);
+                                pacifyr1Dimv.setVisibility(GONE);
                                 no_pacifyr_ctxv.setVisibility(View.VISIBLE);
                                 defSetText(no_pacifyr_ctxv, getResources().getString(R.string.no_prefered_pacifyr));
                             } else {
@@ -1480,13 +1526,13 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
                             .listener(new RequestListener<Drawable>() {
                                 @Override
                                 public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                                    _ProgressBar_load_image.setVisibility(View.GONE);
+                                    _ProgressBar_load_image.setVisibility(GONE);
                                     return false;
                                 }
 
                                 @Override
                                 public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                                    _ProgressBar_load_image.setVisibility(View.GONE);
+                                    _ProgressBar_load_image.setVisibility(GONE);
                                     return false;
                                 }
                             })
@@ -1498,7 +1544,7 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
                     bannerTitle.setText(mBanner.getText());
                 }
                 else {
-                    bannerTitle.setVisibility(View.GONE);
+                    bannerTitle.setVisibility(GONE);
                 }
 
                 if (isValid(mBanner.getButtonText()))
