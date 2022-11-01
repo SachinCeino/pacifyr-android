@@ -795,7 +795,10 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
                                 if(unreadCount > 0)
                                 {
                                     unread_chat_ctxv.setVisibility(View.VISIBLE);
-                                    unread_chat_ctxv.setText(unreadCount + "Missed Messages");
+                                    if (unreadCount==1)
+                                    unread_chat_ctxv.setText(unreadCount + " Missed Message");
+                                    else
+                                        unread_chat_ctxv.setText(unreadCount + " Missed Messages");
                                     CardView_unReadMessageLayout.setVisibility(View.VISIBLE);
 
 
@@ -1261,7 +1264,10 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
                         if(unreadCount > 0)
                         {
                             unread_chat_ctxv.setVisibility(View.VISIBLE);
-                            unread_chat_ctxv.setText(unreadCount + " Missed Messages");
+                            if (unreadCount==1)
+                                unread_chat_ctxv.setText(unreadCount + " Missed Message");
+                            else
+                                unread_chat_ctxv.setText(unreadCount + " Missed Messages");
                             CardView_unReadMessageLayout.setVisibility(View.VISIBLE);
 
                             if (isValid(modelCustomerDashboard2.getLatestUnreadConversation()) &&
