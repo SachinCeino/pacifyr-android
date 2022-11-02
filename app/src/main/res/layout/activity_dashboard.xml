@@ -124,42 +124,7 @@ android:id="@+id/drawer_layout">
                                 android:textSize="12sp"/>
 
                         </LinearLayout>
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1px"
-                            android:background="@color/grey" />
 
-                        <LinearLayout
-                            android:background="?android:attr/selectableItemBackground"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/mLinearLayoutPrescription"
-                            android:padding="10dp"
-                            android:gravity="center"
-                            android:orientation="horizontal">
-                            <!--    android:paddingRight="10dp"-->
-
-                            <com.pacifyrapp.utilitylibrary.DeviceFitImageView
-                                android:padding="5dp"
-                                android:id="@+id/mDeviceFitImageViewPrescription"
-                                android:layout_width="25dp"
-                                android:layout_height="25dp"
-                                android:scaleType="centerInside"
-                                app:width_percentage="10"
-                                android:src="@drawable/tutorial"
-                                android:layout_centerInParent="true" />
-
-                            <com.pacifyr.client.customview.MainTextView
-                                android:id="@+id/mTextViewPrescription"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_centerInParent="true"
-                                android:layout_marginLeft="10dp"
-                                android:text="@string/my_prescriptions"
-                                android:textColor="@color/grey_dark"
-                                android:textSize="12sp" />
-
-                        </LinearLayout>
 
                         <View
                             android:layout_width="match_parent"
@@ -230,6 +195,82 @@ android:id="@+id/drawer_layout">
                                 android:text="@string/my_session"
                                 android:layout_marginLeft="10dp"
                                 android:layout_centerInParent="true"
+                                android:textColor="@color/grey_dark"
+                                android:textSize="12sp"/>
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1px"
+                            android:background="@color/grey" />
+
+                        <LinearLayout
+                            android:background="?android:attr/selectableItemBackground"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/mLinearLayoutPrescription"
+                            android:padding="10dp"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+                            <!--    android:paddingRight="10dp"-->
+
+                            <com.pacifyrapp.utilitylibrary.DeviceFitImageView
+                                android:padding="5dp"
+                                android:id="@+id/mDeviceFitImageViewPrescription"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:scaleType="centerInside"
+                                app:width_percentage="10"
+                                android:src="@drawable/tutorial"
+                                android:layout_centerInParent="true" />
+
+                            <com.pacifyr.client.customview.MainTextView
+                                android:id="@+id/mTextViewPrescription"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:layout_marginLeft="10dp"
+                                android:text="@string/my_prescriptions"
+                                android:textColor="@color/grey_dark"
+                                android:textSize="12sp" />
+
+                        </LinearLayout>
+
+
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1px"
+                            android:background="@color/grey"/>
+
+                        <LinearLayout
+                            android:background="?android:attr/selectableItemBackground"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/connect_pacifyr_llay"
+                            android:padding="10dp"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+                            <!--    android:paddingRight="10dp"-->
+
+                            <com.pacifyrapp.utilitylibrary.DeviceFitImageView
+                                android:padding="5dp"
+                                android:id="@+id/connect_pacifyr_dimv"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:scaleType="centerInside"
+                                app:width_percentage="10"
+                                android:src="@drawable/connect3"
+                                android:layout_centerInParent="true" />
+
+                            <com.pacifyr.client.customview.MainTextView
+                                android:id="@+id/connect_pacifyr_ctxv"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:layout_marginLeft="10dp"
+                                android:text="@string/connect_to_wellness_experts"
                                 android:textColor="@color/grey_dark"
                                 android:textSize="12sp"/>
 
@@ -591,42 +632,7 @@ android:id="@+id/drawer_layout">
 
                         </LinearLayout>
 
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1px"
-                            android:background="@color/grey"/>
 
-                        <LinearLayout
-                            android:background="?android:attr/selectableItemBackground"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/connect_pacifyr_llay"
-                            android:padding="10dp"
-                            android:gravity="center"
-                            android:orientation="horizontal">
-                            <!--    android:paddingRight="10dp"-->
-
-                            <com.pacifyrapp.utilitylibrary.DeviceFitImageView
-                                android:padding="5dp"
-                                android:id="@+id/connect_pacifyr_dimv"
-                                android:layout_width="25dp"
-                                android:layout_height="25dp"
-                                android:scaleType="centerInside"
-                                app:width_percentage="10"
-                                android:src="@drawable/connect3"
-                                android:layout_centerInParent="true" />
-
-                            <com.pacifyr.client.customview.MainTextView
-                                android:id="@+id/connect_pacifyr_ctxv"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_centerInParent="true"
-                                android:layout_marginLeft="10dp"
-                                android:text="@string/connect_to_wellness_experts"
-                                android:textColor="@color/grey_dark"
-                                android:textSize="12sp"/>
-
-                        </LinearLayout>
 
 
                         <View
