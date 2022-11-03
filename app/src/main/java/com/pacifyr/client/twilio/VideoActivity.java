@@ -2226,6 +2226,13 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                                         try {
                                             stopTimer();
                                             startTimer();
+                                            Bundle args =
+                                                    FirebaseLogging.getConstantArgsLoggedIn(VideoActivity.this);
+                                            args.putString(FirebaseLogging.EVENT_COUNCELOR_SESSION_STARTED, "Billing started");
+
+                                            FirebaseLogging.sendLog(VideoActivity.this,
+                                                    FirebaseLogging.EVENT_COUNCELOR_SESSION_STARTED,
+                                                    args);
                                         } catch (Exception mException) {
                                             mException.printStackTrace();
                                         }
