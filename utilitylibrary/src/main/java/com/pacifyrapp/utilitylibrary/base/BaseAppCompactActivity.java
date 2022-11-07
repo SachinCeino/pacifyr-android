@@ -8,8 +8,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.Html;
-import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Patterns;
@@ -33,11 +31,9 @@ import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.pacifyrapp.utilitylibrary.Dialog;
 import com.pacifyrapp.utilitylibrary.R;
 import com.pacifyrapp.utilitylibrary.ToastHandler;
-import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
 import com.pacifyrapp.utilitylibrary.utils.BaseUtils;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
-
 import com.squareup.picasso.Picasso;
 
 import java.util.Date;
@@ -546,7 +542,11 @@ public class BaseAppCompactActivity extends AppCompatActivity {
         if(hud_status2 != null) if(hud_status2.isShowing()) hud_status2.dismiss();
     }
     public void hideStatus() {
-        if(hud_status != null) if(hud_status.isShowing()) hud_status.dismiss();
+        try {
+            if (hud_status != null) if (hud_status.isShowing()) hud_status.dismiss();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public Boolean isValid(String text) {

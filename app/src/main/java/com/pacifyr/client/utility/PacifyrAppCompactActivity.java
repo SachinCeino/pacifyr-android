@@ -1,5 +1,12 @@
 package com.pacifyr.client.utility;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+import static com.pacifyr.client.network.NetworkService.GLOBAL_URL;
+import static com.pacifyr.client.network.NetworkService.modelCustomerDashboard2;
+import static com.pacifyr.client.twilio.VideoActivity.isCallActive;
+import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_IMAGE_URL;
+
 import android.animation.Animator;
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -7,7 +14,6 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -42,12 +48,11 @@ import com.pacifyr.client.event.BusProvider;
 import com.pacifyr.client.event.CallDetailEvent;
 import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.fragment.schedule.ScheduleBottomSheetFragment;
-import com.pacifyr.client.orginals.Auth;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
+import com.pacifyr.client.orginals.Auth;
 import com.pacifyr.client.sign.SignActivity;
 import com.pacifyr.client.twilio.VideoActivity;
-import com.pacifyr.client.utils.AmazonSNSTokenHandler;
 import com.pacifyr.client.utils.FirebaseLogging;
 import com.pacifyr.client.utils.LogUtils;
 import com.pacifyrapp.utilitylibrary.ToastHandler;
@@ -69,17 +74,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.TimeZone;
-
-import static android.view.View.GONE;
-import static android.view.View.VISIBLE;
-import static com.pacifyr.client.network.NetworkService.GLOBAL_URL;
-import static com.pacifyr.client.network.NetworkService.modelCustomerDashboard2;
-import static com.pacifyr.client.twilio.VideoActivity.isCallActive;
-import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.ACCOUNT_KEY;
-import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.APP_ID;
-import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.AUTH_KEY;
-import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.AUTH_SECRET;
-import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_IMAGE_URL;
 
 //import com.google.android.gms.gcm.GoogleCloudMessaging;
 //import com.pacifyr.pacifyrapp.utils.LogUtils;
@@ -413,6 +407,10 @@ public abstract class PacifyrAppCompactActivity  extends PacifyrActivity {
     }
     private void showSignActivty() {
         Intent i = new Intent(getApplicationContext(), SignActivity.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                | Intent.FLAG_ACTIVITY_CLEAR_TOP
+                | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         startActivity(i);
         finish();
     }
