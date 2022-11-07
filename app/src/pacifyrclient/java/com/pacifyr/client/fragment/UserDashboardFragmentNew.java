@@ -1343,6 +1343,7 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
 
         Glide.with(getActivity())
                 .load(imageURl)
+                .placeholder(R.drawable.placeholder_user)
                 .listener(new RequestListener<Drawable>() {
 
                     @Override
