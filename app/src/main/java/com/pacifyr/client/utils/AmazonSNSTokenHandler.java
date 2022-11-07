@@ -1,5 +1,8 @@
 package com.pacifyr.client.utils;
 
+import static com.pacifyr.client.utils.FirebaseLogging.getAndroidVersion;
+import static com.pacifyr.client.utils.FirebaseLogging.getAppVersion;
+
 import android.content.Context;
 import android.os.Build;
 import android.provider.Settings;
@@ -8,7 +11,8 @@ import android.util.Log;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
 import com.pacifyr.client.model.Installation;
 import com.pacifyr.client.network.NetworkService;
@@ -18,9 +22,6 @@ import com.pacifyrapp.utilitylibrary.ToastHandler;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 
 import org.json.JSONObject;
-
-import static com.pacifyr.client.utils.FirebaseLogging.getAndroidVersion;
-import static com.pacifyr.client.utils.FirebaseLogging.getAppVersion;
 
 /* PSEUDO CODE
 * retrieve the latest device token from the mobile operating system
@@ -59,15 +60,23 @@ public class AmazonSNSTokenHandler {
     public void register() {
         token = PrefManager.getInstance(context).getSharedString(PrefManager.FCM_TOKEN, null);
         if (token == null) {
-            token = FirebaseInstanceId.getInstance().getToken();
+            FirebaseMessaging.getInstance().getToken().addOnSuccessListener(new OnSuccessListener<String>() {
+                @Override
+                public void onSuccess(String s) {
+                    token = s;
+                    if (token == null || token.isEmpty()) {
+                        ToastHandler.newInstance(context).showToast("Token empty cannot subscribe for notifications");
+                        Log.d(TAG, "Invalid Token exiting...");
+                        return;
+                    }
+                    Log.w("FIREBASETOKEN_insta", token);
+                    installationWeb();
+                }
+            });
+        } else {
+            installationWeb();
         }
-        if (token == null || token.isEmpty()) {
-            ToastHandler.newInstance(context).showToast("Token empty cannot subscribe for notifications");
-            Log.d(TAG, "Invalid Token exiting...");
-            return;
-        }
-        Log.w("FIREBASETOKEN_insta", token);
-        installationWeb();
+
 
        /* AjaxCallback cb = new AjaxCallback<JSONObject>() {
             @Override
@@ -229,13 +238,13 @@ public class AmazonSNSTokenHandler {
         return PrefManager.getInstance(context).getSharedString(PrefManager.AWS_ENDPOINT, null);
     }
 
-    public String getFcmToken() {
+   /* public String getFcmToken() {
         String token = PrefManager.getInstance(context).getSharedString(PrefManager.FCM_TOKEN, null);
         if (token == null || token.isEmpty()) {
             token = FirebaseInstanceId.getInstance().getToken();
         }
         return token;
-    }
+    }*/
 
     public String getProfileName() {
         return getProfileFName() + " " + getProfileLName();

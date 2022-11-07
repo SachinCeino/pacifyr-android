@@ -1,14 +1,17 @@
 package com.pacifyr.client.twiliochat;
 
+import static com.pacifyr.client.network.NetworkService.GLOBAL_URL;
+import static com.pacifyr.client.orginals.Auth.getDeviceId;
+import static com.pacifyr.client.twiliochat.TwilioConversationActivity.DEFAULT_CONVERSATION_NAME;
+import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.isProd;
+
 import android.content.Context;
 import android.os.ParcelFileDescriptor;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
 import com.pacifyr.client.R;
 import com.pacifyr.client.utility.FCMMasterToken;
@@ -34,11 +37,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.pacifyr.client.network.NetworkService.GLOBAL_URL;
-import static com.pacifyr.client.orginals.Auth.getDeviceId;
-import static com.pacifyr.client.twiliochat.TwilioConversationActivity.DEFAULT_CONVERSATION_NAME;
-import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.isProd;
 
 interface AccessTokenListener {
     void receivedAccessToken(@Nullable String token, @Nullable Exception exception);

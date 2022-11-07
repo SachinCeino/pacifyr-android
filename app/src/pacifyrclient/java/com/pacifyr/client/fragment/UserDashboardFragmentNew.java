@@ -1,10 +1,6 @@
 package com.pacifyr.client.fragment;
 
 import static android.view.View.GONE;
-import static com.pacifyr.client.R.id.grid_balls;
-import static com.pacifyr.client.R.id.last_session_rlay;
-import static com.pacifyr.client.R.id.viewpager;
-import static com.pacifyr.client.R.id.visible;
 import static com.pacifyr.client.base.PacifyrActivity.call_emotion;
 import static com.pacifyr.client.network.NetworkService.lastSession;
 import static com.pacifyr.client.network.NetworkService.modelAllEmotions;
@@ -15,26 +11,16 @@ import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.TOKEN_EXPIRY_TIME;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.TOKEN_REFRESH_TIME;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.res.Configuration;
-import android.graphics.ColorFilter;
-import android.graphics.ColorMatrix;
-import android.graphics.ColorMatrixColorFilter;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -45,7 +31,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -75,12 +60,8 @@ import com.pacifyr.client.R;
 import com.pacifyr.client.activity.TermsOfUseActivity;
 import com.pacifyr.client.adapter.FavPRoviderListAdapter;
 import com.pacifyr.client.adapter.ResourcesDashBoardAdapter;
-import com.pacifyr.client.adapter.ResourcesListAdapter;
-import com.pacifyr.client.adapter.ResourcesListMainAdapter;
-import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.ConnectEvent;
-import com.pacifyr.client.event.InternetConnectionEvent;
 import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.event.RateSessionEvent;
 import com.pacifyr.client.home.ConnectToPacifyrActivity;
@@ -88,35 +69,26 @@ import com.pacifyr.client.home.ConnectToSinglePacifyrActivity;
 import com.pacifyr.client.home.DashboardActivity;
 import com.pacifyr.client.home.LastSessionActivity;
 import com.pacifyr.client.home.MySessionsActivity;
-import com.pacifyr.client.home.SessionSummaryActivity;
 import com.pacifyr.client.model.Banners;
-import com.pacifyr.client.model.DashBoardResource;
-import com.pacifyr.client.model.ResourceMain;
 import com.pacifyr.client.model.ResourceSpecialityList;
-import com.pacifyr.client.model.Session;
 import com.pacifyr.client.model.UnreadCountModel;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.orginals.Auth;
-import com.pacifyr.client.receiver.NotificationUtils;
 import com.pacifyr.client.twiliochat.TwilioCoversationListActivity;
 import com.pacifyr.client.utility.BaseFragment;
 import com.pacifyr.client.utility.EventMessage;
 import com.pacifyr.client.utils.Toaster;
 import com.pacifyr.client.utils.Utility;
-import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MSessionDetailRoot;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelCustomerDashboard2;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelSessonsOfCustomer;
-import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
 
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.ThreadMode;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
@@ -125,7 +97,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -1085,7 +1056,7 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
                 int dys = (int) Utility.getDateDiff(format, format.format(c),object.getEndTime());
                 CardView_SurveyLink.setVisibility(View.VISIBLE);
                 TV_survey_title.setText(object.getTitle());
-                TV_Survey_Days.setText(String.valueOf(dys)+" Days");
+                TV_Survey_Days.setText(dys + " Days");
                 ModelCustomerDashboard2.Survey finalObject = object;
                 IMV_goto_survey.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -1523,6 +1494,7 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
                             {
                                 setUpViewPager(banners);
                             }
+                            FirebaseFirestore.getInstance().terminate();
                         }
                     });
         }
@@ -1567,18 +1539,16 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
             View itemView = mLayoutInflater.inflate(R.layout.item_layout_banner, container, false);
 
             // referencing the image view from the item.xml file
-            ImageView bannerLogo = (ImageView) itemView.findViewById(R.id.bannerLogo);
-            TextView bannerTitle = (TextView) itemView.findViewById(R.id.bannerTitle);
-            TextView TextView_buttonText = (TextView) itemView.findViewById(R.id.TextView_buttonText);
-            LinearLayout LinearLayout_webinar = (LinearLayout) itemView.findViewById(R.id.LinearLayout_webinar);
-            ProgressBar _ProgressBar_load_image=(ProgressBar) itemView.findViewById(R.id._ProgressBar_load_image);
+            ImageView bannerLogo = itemView.findViewById(R.id.bannerLogo);
+            TextView bannerTitle = itemView.findViewById(R.id.bannerTitle);
+            TextView TextView_buttonText = itemView.findViewById(R.id.TextView_buttonText);
+            LinearLayout LinearLayout_webinar = itemView.findViewById(R.id.LinearLayout_webinar);
+            ProgressBar _ProgressBar_load_image = itemView.findViewById(R.id._ProgressBar_load_image);
 
-            Banners mBanner=banners.get(position);
+            Banners mBanner = banners.get(position);
 
-            if (isValid(mBanner))
-            {
-                if (isValid(mBanner.getBannerUrl()))
-                {
+            if (isValid(mBanner)) {
+                if (isValid(mBanner.getBannerUrl())) {
                     Glide.with(context)
                             .load(mBanner.getBannerUrl())
                             .listener(new RequestListener<Drawable>() {
