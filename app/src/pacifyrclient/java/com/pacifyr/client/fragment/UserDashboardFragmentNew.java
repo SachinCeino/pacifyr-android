@@ -1161,7 +1161,7 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
                             next_app_time.setText(time+"");
                             if (isValid(modelCustomerDashboard2.getNextAppointment().getPacifyr())
                                     && isValid(modelCustomerDashboard2.getNextAppointment().getPacifyr().getImage())) {
-                                Glide.with(getContext()).load(GLOBAL_IMAGE_URL + modelCustomerDashboard2.getNextAppointment().getPacifyr().getImage()).transition(DrawableTransitionOptions.withCrossFade()).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).into(Img_next_app_provider);
+                                Glide.with(getContext()).load(GLOBAL_IMAGE_URL + modelCustomerDashboard2.getNextAppointment().getPacifyr().getImage()).placeholder(R.drawable.placeholder_user).transition(DrawableTransitionOptions.withCrossFade()).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).into(Img_next_app_provider);
                                 next_app_provider_name.setText(modelCustomerDashboard2.getNextAppointment().getPacifyr().getFirstName() + " " + modelCustomerDashboard2.getNextAppointment().getPacifyr().getLastName());
                                 CardView_nextAppointment.setVisibility(View.VISIBLE);
                             }
