@@ -43,6 +43,7 @@ import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.engine.GlideException;
@@ -1556,6 +1557,8 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
                 if (isValid(mBanner.getBannerUrl())) {
                     Glide.with(context)
                             .load(mBanner.getBannerUrl())
+                            .priority(Priority.IMMEDIATE)
+                            .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                             .listener(new RequestListener<Drawable>() {
                                 @Override
                                 public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
