@@ -1035,6 +1035,11 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
                 return;
         }
 
+        if (effectiveness==0)
+        {
+            setAlertOKStatusInWhite("",getResources().getString(R.string.how_effective_error),"Ok");
+            return;
+        }
         MSessionRating mSessionRating = getMSessionRating(sessionId);
         if (!isValid(mSessionRating, "Error")) {
             handlerFinish("Error :Token Invalid , Please Re-Login");

@@ -1086,6 +1086,13 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
                 if (!isValid(emotionsListAdapter.getSelected(), "Choose an After Emotion   "))
                     return;
             }
+
+            if (effectiveness==0)
+            {
+                setAlertOKStatusInWhite("",getResources().getString(R.string.how_effective_error),"Ok");
+                return;
+            }
+
             MSessionRating mSessionRating = getMSessionRating();
             if (!isValid(mSessionRating, "Error , Please Re-Login"))
                 return;

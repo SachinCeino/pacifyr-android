@@ -1134,5 +1134,6 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="RESOURCES_small">Resources</string>
     <string name="status">Status</string>
     <string name="fav_providers">MY PROVIDERS</string>
+    <string name="how_effective_error">Please specify how effective the call was in solving your problems</string>
 
 </resources>
