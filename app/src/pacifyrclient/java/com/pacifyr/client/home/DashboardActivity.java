@@ -1254,15 +1254,18 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
                         Utility.getUserCreatedDayMonthYear(user.getCreatedAt());
                         detailNameCtxv.setText(user.getName());
                         detailMailCtxv.setText(user.getEmail());
-                        String imageUrl = user.getImageUrl();
+                        String imageUrl ="";
+                        if (isValid(user.getImageUrl()))
+                            imageUrl=user.getImageUrl();
                         if(isValid(imageUrl)) {
-                            Picasso.with(DashboardActivity.this).load(imageUrl).placeholder(R.drawable.placeholder_image).into(profile_cimv);
-                            Picasso.with(DashboardActivity.this).load(imageUrl).placeholder(R.drawable.placeholder_image).into(connectProviderActioBar);
+                            Picasso.with(DashboardActivity.this).load(imageUrl).placeholder(R.drawable.placeholder_user).into(profile_cimv);
+                            Picasso.with(DashboardActivity.this).load(imageUrl).placeholder(R.drawable.placeholder_user).into(connectProviderActioBar);
                         }else {
-                            imageUrl = user.getImage();
+                            if (isValid(user.getImage()))
+                                imageUrl=user.getImage();
                             if(isValid(imageUrl))
-                                Picasso.with(DashboardActivity.this).load(imageUrl).placeholder(R.drawable.placeholder_image).into(profile_cimv);
-                            Picasso.with(DashboardActivity.this).load(imageUrl).placeholder(R.drawable.placeholder_image).into(connectProviderActioBar);
+                                Picasso.with(DashboardActivity.this).load(imageUrl).placeholder(R.drawable.placeholder_user).into(profile_cimv);
+                            Picasso.with(DashboardActivity.this).load(imageUrl).placeholder(R.drawable.placeholder_user).into(connectProviderActioBar);
                         }
 
                         MRoleModel roleModel = user.getRoleModel();

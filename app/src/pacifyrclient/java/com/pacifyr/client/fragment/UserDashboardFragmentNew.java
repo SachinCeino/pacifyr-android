@@ -11,6 +11,7 @@ import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.TOKEN_EXPIRY_TIME;
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.TOKEN_REFRESH_TIME;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -1092,6 +1093,7 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
     }
 
 
+    @SuppressLint("SetTextI18n")
     private void setMyAdapter() {
         try {
 
@@ -1159,9 +1161,11 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
                             String appointMentTime=modelCustomerDashboard2.getNextAppointment().getStartTimeGMT();
                             String time = Utility.getFormattedDateForAppointment(getActivity(),appointMentTime);
                             next_app_time.setText(time+"");
-                            if (isValid(modelCustomerDashboard2.getNextAppointment().getPacifyr())
-                                    && isValid(modelCustomerDashboard2.getNextAppointment().getPacifyr().getImage())) {
-                                Glide.with(getContext()).load(GLOBAL_IMAGE_URL + modelCustomerDashboard2.getNextAppointment().getPacifyr().getImage()).placeholder(R.drawable.placeholder_user).transition(DrawableTransitionOptions.withCrossFade()).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).into(Img_next_app_provider);
+                            if (isValid(modelCustomerDashboard2.getNextAppointment().getPacifyr())) {
+                                String imgUrl="";
+                                if (isValid(modelCustomerDashboard2.getNextAppointment().getPacifyr().getImage()))
+                                    imgUrl=modelCustomerDashboard2.getNextAppointment().getPacifyr().getImage();
+                                Glide.with(getContext()).load(GLOBAL_IMAGE_URL +imgUrl).placeholder(R.drawable.placeholder_user).transition(DrawableTransitionOptions.withCrossFade()).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).into(Img_next_app_provider);
                                 next_app_provider_name.setText(modelCustomerDashboard2.getNextAppointment().getPacifyr().getFirstName() + " " + modelCustomerDashboard2.getNextAppointment().getPacifyr().getLastName());
                                 CardView_nextAppointment.setVisibility(View.VISIBLE);
                             }
