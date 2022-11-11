@@ -171,6 +171,10 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
     LinearLayout coupon_llay;
     View coupon_view;
     boolean isNeedToOpenAppointments=false;
+    private boolean isLogoutPressed=false;
+    public boolean getisLogedOut(){
+        return isLogoutPressed;
+    }
     public static void start(Activity context,boolean isNeedToOpenAppointments) {
         Intent intent = new Intent(context, DashboardActivity.class);
         intent.putExtra("isNeedToOpenAppointments",isNeedToOpenAppointments);
@@ -238,6 +242,8 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
         FirebaseLogging.sendLog(DashboardActivity.this,
                 FirebaseLogging.EVENT_ON_SCREEN,
                 args);
+        if (isLogoutPressed)
+            return;
 
         userDetailWeb(getUserID(), new AjaxCallback<JSONObject>() {
             @Override
@@ -964,6 +970,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
                     @Override
                     public void onAction(Dialog d) {
                         hideStatus();
+                        isLogoutPressed=true;
                         try {
                             if (TwilioMainConversationsClient.getInstance()!=null)
                             {

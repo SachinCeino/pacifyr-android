@@ -519,6 +519,14 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
         aq.ajax(url, JSONObject.class, cb);
     }
 
+
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        _TimerRefreshDashBoard.cancel();
+    }
+
     private static boolean isVisible=false;
     @Override
     public void onResume() {
@@ -539,6 +547,8 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
 
                 @Override
                 public void run() {
+                    if (((DashboardActivity)getActivity()).getisLogedOut())
+                        return;
                    checkIsThereAnyActiveSessionsAvailable();
                     handleActionCustomerDashboard();
                    // getChatUnreadCount();
@@ -1352,11 +1362,7 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
 
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
 
-    }
 
 
 
