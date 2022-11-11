@@ -258,6 +258,8 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
             }
         });
 
+        setProfileValues();
+
        /* if (isValid(bottomNavigationView))
         {
             bottomNavigationView.setSelectedItemId(R.id.bnm_dashboard);
@@ -1249,6 +1251,57 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
                 public void callback(String url, JSONObject json, AjaxStatus status) {
                     Auth.httpStatusFilter(getApplicationContext(), status.getCode());
                     try {
+                        hideProgress();
+                        MUser user  = GsonUtils.getInstance().gsonToMUser(json);
+                        Utility.getUserCreatedDayMonthYear(user.getCreatedAt());
+                        detailNameCtxv.setText(user.getName());
+                        detailMailCtxv.setText(user.getEmail());
+                        String imageUrl ="";
+                        if (isValid(user.getImageUrl()))
+                            imageUrl=user.getImageUrl();
+                        if(isValid(imageUrl)) {
+                            Picasso.with(DashboardActivity.this).load(imageUrl).placeholder(R.drawable.placeholder_user).into(profile_cimv);
+                            Picasso.with(DashboardActivity.this).load(imageUrl).placeholder(R.drawable.placeholder_user).into(connectProviderActioBar);
+                        }else {
+                            if (isValid(user.getImage()))
+                                imageUrl=user.getImage();
+                            if(isValid(imageUrl))
+                                Picasso.with(DashboardActivity.this).load(imageUrl).placeholder(R.drawable.placeholder_user).into(profile_cimv);
+                            Picasso.with(DashboardActivity.this).load(imageUrl).placeholder(R.drawable.placeholder_user).into(connectProviderActioBar);
+                        }
+
+                        MRoleModel roleModel = user.getRoleModel();
+                        mainLabel = roleModel.getMainLabel();
+                        label=roleModel.getLabel();
+                        if (mainLabel.equals("customer"))
+                        { if (label.equalsIgnoreCase("customer")) {
+                            coupon_llay.setVisibility(View.VISIBLE);
+                            coupon_view.setVisibility(View.VISIBLE);
+                            PrefManager.getInstance(DashboardActivity.this).saveCustomerRole("customer");
+
+                        } else if (label.equalsIgnoreCase("paidMember")) {
+                            coupon_llay.setVisibility(View.VISIBLE);
+                            coupon_view.setVisibility(View.VISIBLE);
+                            PrefManager.getInstance(DashboardActivity.this).saveCustomerRole("paidMember");
+                            }
+                        else if (label.equalsIgnoreCase("employee")) {
+                            coupon_llay.setVisibility(View.VISIBLE);
+                            coupon_view.setVisibility(View.VISIBLE);
+                            PrefManager.getInstance(DashboardActivity.this).saveCustomerRole("employee");
+                        }
+                            else
+                        {
+                            coupon_llay.setVisibility(View.GONE);
+                            coupon_view.setVisibility(View.GONE);
+                        }
+                        }
+
+                    } catch (Exception e) {
+                        hideProgress();
+                        //coupon_llay.setVisibility(View.GONE);
+                       // coupon_view.setVisibility(View.GONE);
+                        e.printStackTrace();
+                    }try {
                         hideProgress();
                         MUser user  = GsonUtils.getInstance().gsonToMUser(json);
                         Utility.getUserCreatedDayMonthYear(user.getCreatedAt());

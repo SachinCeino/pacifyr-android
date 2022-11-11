@@ -32,6 +32,7 @@ import com.pacifyr.client.quickblox.chat.ui.activity.AttachmentImageActivity;
 import com.pacifyr.client.utility.BaseFragment;
 import com.pacifyr.client.utility.PdfViewer;
 import com.pacifyr.client.utils.LogUtils;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelUserProfile;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
 
@@ -96,7 +97,7 @@ public class AccountFragment extends BaseFragment {
                         NetworkService.mCurrentUser = GsonUtils.getInstance().gsonToModelUserProfile(json);
                         //ProfileScreenActivity.pacifyerDetial = GsonUtils.getInstance().gsonToModelUserProfile(json);
 
-                        onSetValues(getView());
+                       setUpProfileValues(GsonUtils.getInstance().gsonToModelUserProfile(json));
 
                     } else {
                         LogUtils.LOGD("base", "bAF userDetailWeb json null  : " + status.getMessage());
@@ -109,6 +110,61 @@ public class AccountFragment extends BaseFragment {
                 }
             }
         });
+    }
+
+    private void setUpProfileValues(ModelUserProfile modelUserProfile) {
+
+        try {
+            if(isValid(NetworkService.mCurrentUser)) {
+                if (isValid(NetworkService.mCurrentUser.getImageUrl())) {
+                    Picasso.with(getActivity()).load(NetworkService.mCurrentUser.getImageUrl()).placeholder(R.drawable.placeholder_user).into(profileCimv);
+                }
+                defSetText(profileNameCtxv,NetworkService.mCurrentUser.getName());
+                defSetText(mailDtxv,NetworkService.mCurrentUser.getEmail());
+                defSetText(pnumberDtxv,NetworkService.mCurrentUser.getPhoneNumber());
+                defSetText(aboutmeCtxv,NetworkService.mCurrentUser.getDescription());
+                CardView_Document_Field.setVisibility(View.GONE);
+
+                if (isValid(NetworkService.mCurrentUser)
+                        && isValid(NetworkService.mCurrentUser.getCertificationList())
+                        && isValid(NetworkService.mCurrentUser.getCertificationList().get(0))
+                        && isValid(NetworkService.mCurrentUser.getCertificationList().get(0).getDocuments())
+                        && isValid(NetworkService.mCurrentUser.getCertificationList().get(0).getDocuments().get(0)))
+                {
+                    String _FileName = NetworkService.mCurrentUser.getCertificationList().get(0).getDocuments().get(0).toString();
+                    CardView_Document_Field.setVisibility(View.VISIBLE);
+                    TextView_Document.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            if (_FileName.contains(".jpg") || _FileName.contains(".png") || _FileName.contains(".jpeg"))
+                            {
+                                AttachmentImageActivity.start(getActivity(), GLOBAL_IMAGE_URL+_FileName);
+                            }
+                            else if (_FileName.contains(".pdf"))
+                            {
+                                loadPDF(_FileName);
+                            }
+
+                        }
+                    });
+                }
+
+                if (getPrefManager().getCountry().equals("US") &&isValid(NetworkService.mCurrentUser.getWalletBalance()))
+                {
+
+                    if (NetworkService.mCurrentUser.getWalletBalance()!=0)
+                    {
+                        TextView_walletBalence.setText("$ "+NetworkService.mCurrentUser.getWalletBalance()+"");
+                        wallet_card.setVisibility(View.VISIBLE);
+                    }
+
+                }
+
+            }
+        }catch (Exception e)
+        {
+            LogUtils.LOGD("session","AF onSetValues exce " + e.getMessage());
+        }
     }
 
     @Override

@@ -1173,7 +1173,7 @@ public class AccountEditActivity extends PacifyrAppCompactActivity {
                         getPrefManager().saveMail(NetworkService.mCurrentUser.getEmail());
 
                         getPrefManager().saveUserUserLastName(NetworkService.mCurrentUser.getLastName());
-
+                        postEventOnMainThread(new NotifyEvent(true));
                             setStatus("Updated Profile");
                             showStatus();
                             new Handler().postDelayed(new Runnable() {
@@ -1187,7 +1187,7 @@ public class AccountEditActivity extends PacifyrAppCompactActivity {
 
 
                                 }
-                            }, 1200);
+                            }, 3000);
 
 
                     }catch (Exception e)
