@@ -986,6 +986,7 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
     }
 
 
+    private boolean favProvidersShown=false;
     private void handleActionCustomerDashboard(){
 
         prefM= PrefManager.getInstance(getContext());
@@ -1007,6 +1008,8 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
                     if (isValid(modelCustomerDashboard2.getPreferredPacifyrs().length))
                     {
 
+                        if (favProvidersShown)
+                            return;
                         setUpFavProviderAdapter();
 
                     }
@@ -1088,6 +1091,7 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
         RecyclerViewFavPro.setLayoutManager(mLayoutManager);
         RecyclerViewFavPro.setItemAnimator(new DefaultItemAnimator());
         RecyclerViewFavPro.setAdapter(resourcesAdapter);
+        favProvidersShown=true;
 
 
 
