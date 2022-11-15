@@ -109,6 +109,8 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
 
     private static final String TAG = "DashboardFragmentNew";
     private PrefManager prefM;
+    private FirebaseFirestore db;
+
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
@@ -123,6 +125,7 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         prefM = PrefManager.getInstance(getContext());
+        db = FirebaseFirestore.getInstance();
 
     }
 
@@ -526,6 +529,11 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
         super.onPause();
         _TimerRefreshDashBoard.cancel();
         favProvidersShown=false;
+/*
+        if (db != null) {
+            db.terminate();
+        }
+*/
     }
 
     private static boolean isVisible=false;
@@ -1447,7 +1455,6 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
         {
             setUpViewPager(banners);
         }else {
-            FirebaseFirestore db = FirebaseFirestore.getInstance();
             db.collection("banners")
                     .get()
                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -1515,7 +1522,7 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
                             {
                                 setUpViewPager(banners);
                             }
-                            FirebaseFirestore.getInstance().terminate();
+                            db.terminate();
                         }
                     });
         }

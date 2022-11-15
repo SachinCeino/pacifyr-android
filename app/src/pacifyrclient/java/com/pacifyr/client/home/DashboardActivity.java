@@ -170,15 +170,18 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
     String label;
     LinearLayout coupon_llay;
     View coupon_view;
-    boolean isNeedToOpenAppointments=false;
-    private boolean isLogoutPressed=false;
-    public boolean getisLogedOut(){
+    boolean isNeedToOpenAppointments = false;
+    private boolean isLogoutPressed = false;
+    private int currentItemId;
+
+    public boolean getisLogedOut() {
         return isLogoutPressed;
     }
-    public static void start(Activity context,boolean isNeedToOpenAppointments) {
+
+    public static void start(Activity context, boolean isNeedToOpenAppointments) {
         Intent intent = new Intent(context, DashboardActivity.class);
-        intent.putExtra("isNeedToOpenAppointments",isNeedToOpenAppointments);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.putExtra("isNeedToOpenAppointments", isNeedToOpenAppointments);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         context.overridePendingTransition(R.anim.slide_out_left, R.anim.slide_in_left);
         context.startActivity(intent);
     }
@@ -1121,6 +1124,12 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
+        if (item.getItemId() == currentItemId) {
+            Log.d(TAG, "skip navigation");
+            return false;
+        }
+        Log.d(TAG, "execute navigation");
+        currentItemId = item.getItemId();
         switch (item.getItemId()) {
             case R.id.bnm_dashboard:
                 if (!isInternetAvailable()) {
@@ -1128,6 +1137,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
                     return false;
                 }
                 hideRightLayActionbar();
+                Log.d(TAG, "show dashboard");
                 showFragment(new UserDashboardFragmentNew());
                 return true;
             case R.id.bnm_resources:
