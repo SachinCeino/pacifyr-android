@@ -1,24 +1,18 @@
 package com.pacifyr.client.quickblox;
 
 import android.app.Activity;
-import android.os.StrictMode;
+import android.app.Application;
 
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.multidex.MultiDex;
-import androidx.multidex.MultiDexApplication;
 
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.pacifyr.client.orginals.Auth;
 import com.pacifyr.client.orginals.RemoteConfig;
 import com.pacifyr.client.orginals.UserProperties;
-import com.pacifyr.client.quickblox.chat.models.SampleConfigs;
-import com.pacifyr.client.quickblox.chat.utils.Consts;
 import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
 import com.squareup.picasso.Picasso;
 
-import java.io.IOException;
-
-public class App extends MultiDexApplication {
+public class App extends Application {
     private static final String TAG = App.class.getSimpleName();
     private static App instance;
     private FirebaseRemoteConfig mFirebaseRemoteConfig;
@@ -31,10 +25,10 @@ public class App extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        MultiDex.install(getBaseContext());
+        //MultiDex.install(getBaseContext());
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
-        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
-        StrictMode.setVmPolicy(builder.build());
+        /*StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());*/
 
 
         UtilityNetworkService uns = UtilityNetworkService.getInstance();//before this ,Remote config int must be called
