@@ -525,6 +525,7 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
     public void onPause() {
         super.onPause();
         _TimerRefreshDashBoard.cancel();
+        favProvidersShown=false;
     }
 
     private static boolean isVisible=false;
