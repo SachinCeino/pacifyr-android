@@ -1,5 +1,10 @@
 package com.pacifyr.client.home;
 
+import static com.pacifyr.client.network.NetworkService.GLOBAL_URL;
+import static com.pacifyr.client.network.NetworkService.modelAllEmotions;
+import static com.pacifyr.client.twiliochat.TwilioConversationActivity.DEFAULT_CONVERSATION_NAME;
+import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_IMAGE_URL;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -32,7 +37,6 @@ import com.google.gson.Gson;
 import com.pacifyr.client.R;
 import com.pacifyr.client.adapter.CommentsAdapter;
 import com.pacifyr.client.adapter.EmotionsListAdapter;
-import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.AlertTypeEvent;
 import com.pacifyr.client.event.EventLoadEmotion;
@@ -44,7 +48,6 @@ import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.quickblox.App;
 import com.pacifyr.client.receiver.NotificationUtils;
-import com.pacifyr.client.twilio.VideoActivity;
 import com.pacifyr.client.utility.PacifyrAppCompactActivity;
 import com.pacifyr.client.utils.LogUtils;
 import com.pacifyr.client.utils.SnackUtils;
@@ -71,12 +74,6 @@ import java.util.ArrayList;
 
 import app.minimize.com.seek_bar_compat.SeekBarCompat;
 import de.hdodenhof.circleimageview.CircleImageView;
-
-import static com.pacifyr.client.network.NetworkService.GLOBAL_URL;
-import static com.pacifyr.client.network.NetworkService.modelAllEmotions;
-import static com.pacifyr.client.twilio.VideoActivity.isCallActive;
-import static com.pacifyr.client.twiliochat.TwilioConversationActivity.DEFAULT_CONVERSATION_NAME;
-import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_IMAGE_URL;
 
 /**
  * Created by developer on 12/22/2017.
@@ -1080,10 +1077,11 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
             if (!isValid(getUserID(), "User Session Failed, Please Re-Login"))
                 return;
             if (afterFeelSelectionCtxv.isShown()) {
-                if (!isValid(emotionsListAdapter, "Choose an After Emotion  ")) return;
-                if (!isValid(emotionsListAdapter.getSelectedIndex() >= 0, "Choose an After Emotion   "))
+                if (!isValid(emotionsListAdapter, getString(R.string.after_call_emotion_err)))
                     return;
-                if (!isValid(emotionsListAdapter.getSelected(), "Choose an After Emotion   "))
+                if (!isValid(emotionsListAdapter.getSelectedIndex() >= 0, getString(R.string.after_call_emotion_err)))
+                    return;
+                if (!isValid(emotionsListAdapter.getSelected(), getString(R.string.after_call_emotion_err)))
                     return;
             }
 

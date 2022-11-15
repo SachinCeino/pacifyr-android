@@ -1,5 +1,10 @@
 package com.pacifyr.client.home;
 
+import static com.pacifyr.client.network.NetworkService.GLOBAL_URL;
+import static com.pacifyr.client.network.NetworkService.modelAllEmotions;
+import static com.pacifyr.client.network.NetworkService.modelListPosEmotions;
+import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_IMAGE_URL;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -26,7 +31,6 @@ import com.androidquery.callback.AjaxStatus;
 import com.eralp.circleprogressview.CircleProgressView;
 import com.google.gson.Gson;
 import com.pacifyr.client.R;
-import com.pacifyr.client.activity.PrescriptionViewActivity;
 import com.pacifyr.client.adapter.CommentsAdapter;
 import com.pacifyr.client.adapter.EmotionsListAdapter;
 import com.pacifyr.client.base.PacifyrActivity;
@@ -37,9 +41,9 @@ import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.model.MComments;
 import com.pacifyr.client.model.PrescriptionList;
 import com.pacifyr.client.model.interfaces.CommentClick;
-import com.pacifyr.client.orginals.Auth;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
+import com.pacifyr.client.orginals.Auth;
 import com.pacifyr.client.quickblox.App;
 import com.pacifyr.client.quickblox.utils.Consts;
 import com.pacifyr.client.utility.PacifyrAppCompactActivity;
@@ -68,11 +72,6 @@ import java.util.ArrayList;
 
 import app.minimize.com.seek_bar_compat.SeekBarCompat;
 import de.hdodenhof.circleimageview.CircleImageView;
-
-import static com.pacifyr.client.network.NetworkService.GLOBAL_URL;
-import static com.pacifyr.client.network.NetworkService.modelAllEmotions;
-import static com.pacifyr.client.network.NetworkService.modelListPosEmotions;
-import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_IMAGE_URL;
 
 /**
 
@@ -1028,10 +1027,10 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
         // before_feel_llay.setVisibility(View.GONE);
         // after_feel_ctxv.setVisibility(View.GONE)
         if (afterFeelSelectionLlay.isShown()) {
-            if (!isValid(emotionsListAdapter, "Choose an After Emotion  ")) return;
-            if (!isValid(emotionsListAdapter.getSelectedIndex() >= 0, "Choose an After Emotion   "))
+            if (!isValid(emotionsListAdapter, getString(R.string.after_call_emotion_err))) return;
+            if (!isValid(emotionsListAdapter.getSelectedIndex() >= 0, getString(R.string.after_call_emotion_err)))
                 return;
-            if (!isValid(emotionsListAdapter.getSelected(), "Choose an After Emotion   "))
+            if (!isValid(emotionsListAdapter.getSelected(), getString(R.string.after_call_emotion_err)))
                 return;
         }
 
