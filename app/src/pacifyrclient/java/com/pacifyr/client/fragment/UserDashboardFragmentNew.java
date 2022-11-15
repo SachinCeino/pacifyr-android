@@ -1240,7 +1240,11 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
                     }else {
                         sign=getContext().getResources().getString(R.string.dollar);
                     }
+                    if (hrs.equals("00"))
+                        sessionCostTotal.setText(mintd+" min. "+sign+lastWeek.getSpendings());
+                    else
                     sessionCostTotal.setText(hrs+" hrs. "+sign+lastWeek.getSpendings());
+
                     no_sessions.setVisibility(GONE);
                 }
                 else {
