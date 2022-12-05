@@ -1,5 +1,11 @@
 package com.pacifyr.client.utility;
 
+import static com.facebook.FacebookSdk.getApplicationContext;
+import static com.pacifyr.client.network.NetworkService.GLOBAL_IMAGE_URL;
+import static com.pacifyr.client.network.NetworkService.modelAllEmotions;
+import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
+import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.STRIPE_PUBLISH_KEY;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -34,7 +40,6 @@ import com.pacifyr.client.event.BusProvider;
 import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
-
 import com.pacifyr.client.twilio.VideoActivity;
 import com.pacifyr.client.utils.LogUtils;
 import com.pacifyr.client.utils.ToastHandler;
@@ -59,12 +64,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import static com.facebook.FacebookSdk.getApplicationContext;
-import static com.pacifyr.client.network.NetworkService.GLOBAL_IMAGE_URL;
-import static com.pacifyr.client.network.NetworkService.modelAllEmotions;
-import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
-import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.STRIPE_PUBLISH_KEY;
 
 
 /**
@@ -383,7 +382,16 @@ public abstract class BaseFragment extends Fragment {
     public KProgressHUD hud_status = null;
     public void setLoading() {
         try {
-           hud_progress = KProgressHUD.create(getActivity()).setStyle(KProgressHUD.Style.SPIN_INDETERMINATE).setAnimationSpeed(2).setCancellable(true).setMaxProgress(100).setDimAmount(0.5f);
+            if (hud_progress == null) {
+                if (getActivity() != null) {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            hud_progress = KProgressHUD.create(getActivity()).setStyle(KProgressHUD.Style.SPIN_INDETERMINATE).setAnimationSpeed(2).setCancellable(true).setMaxProgress(100).setDimAmount(0.5f);
+                        }
+                    });
+                }
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -419,7 +427,18 @@ public abstract class BaseFragment extends Fragment {
         if(hud_status != null) if(hud_status.isShowing()) hud_status.dismiss();
     }
     public void hideProgress() {
-        if(isValid(hud_progress))if(hud_progress.isShowing()) hud_progress.dismiss();
+        if (isValid(hud_progress)) {
+            if (hud_progress.isShowing()) {
+                if (getActivity() != null) {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            hud_progress.dismiss();
+                        }
+                    });
+                }
+            }
+        }
     }
 
     public void showProgress() {
@@ -427,7 +446,18 @@ public abstract class BaseFragment extends Fragment {
             if (!((PacifyrActivity) getActivity()).isShowDialogs()) {
                 return;
             }
-            if(isValid(hud_progress)) if(!hud_progress.isShowing()) hud_progress.show();
+            if (isValid(hud_progress)) {
+                if (!hud_progress.isShowing()) {
+                    if (getActivity() != null) {
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                hud_progress.show();
+                            }
+                        });
+                    }
+                }
+            }
         }catch (Exception e)
         {
 

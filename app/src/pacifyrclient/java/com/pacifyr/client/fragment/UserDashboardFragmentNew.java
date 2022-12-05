@@ -584,20 +584,20 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
     MSessionDetailRoot mMSessionDetailRoot=null;
     private void checkIsThereAnyActiveSessionsAvailable() {
         try {
-            if (isCallActive)return;
+            if (isCallActive) return;
             PrefManager prefM = PrefManager.getInstance(getActivity());
             String token = prefM.getAccessToken();
             String userid = prefM.getUserID();
             String url = GLOBAL_URL + "session/customer/active";
-            setLoading();
-            showProgress();
-            Log.w("TOKEN_AND_USERID",token+":"+userid);
+            //setLoading();
+            //showProgress();
+            Log.w("TOKEN_AND_USERID", token + ":" + userid);
             AjaxCallback cb = new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, JSONObject json, AjaxStatus status) {
                     // Auth.httpStatusFilter(getActivity(), status.getCode());
                     try {
-                        hideProgress();
+                        //hideProgress();
                         if (isValid(json)) {
                             ModelSessonsOfCustomer model = GsonUtils.getInstance().gsonToModelSessonsOfCustomer(json);
 
@@ -672,7 +672,7 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
                         }*/
 
                     } catch (Exception e) {
-                        hideProgress();
+                        //hideProgress();
                         e.printStackTrace();
                     }
                 }
@@ -682,7 +682,7 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
             cb.header("AccessToken", token);
             aq.ajax(url, JSONObject.class, cb);
         }catch (Exception e){
-            hideProgress();
+            //hideProgress();
             e.printStackTrace();
         }
     }
@@ -1019,7 +1019,7 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
 
                 Auth.httpStatusFilter(getContext(), status.getCode());
                 try {
-                    hideProgress();
+                    //hideProgress();
                     ModelCustomerDashboard2 m = modelCustomerDashboard2;
                     modelCustomerDashboard2 = GsonUtils.getInstance().gsonToModelCustomerDashboard2(json);
                     setMyAdapter();
@@ -1054,7 +1054,7 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
             }
         };
         try {
-            hideProgress();
+            //hideProgress();
             AQuery aq = new AQuery(getContext());
             cb.header("Content-Type", "application/json");
             cb.header("AccessToken", token);
@@ -1066,7 +1066,7 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
             ex.printStackTrace();
             //hideProgress();
         }
-        hideProgress();
+        //hideProgress();
     }
 
     private void setUpSurveyUI(List<ModelCustomerDashboard2.Survey> surveys) {
