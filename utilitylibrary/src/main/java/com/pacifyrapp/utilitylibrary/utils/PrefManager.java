@@ -48,6 +48,7 @@ public class PrefManager {
     public static final String EMOTION_IMAGE = "emotionImgae";
     public static final String EMOTION_NAME = "emotionName";
     public static final String COMPANY_LOGO = "companyLogo";
+    public static final String ENABLE_PRESCRIPTION = "enablePrescription";
     public static final String LOGINTIME_STAMP = "LOGINTIME_STAMP";
     public static final String IS_ONLINE = "isOnline";
     public static final String IS_CHAT_SUBSCRIPTION = "isChatEnable";
@@ -789,7 +790,7 @@ public class PrefManager {
     {
         if(list!=null)
             return list.size() > 0;
-        return  false;
+        return false;
 
     }
 
@@ -798,13 +799,20 @@ public class PrefManager {
         putSharedString(COMPANY_LOGO, logo);
     }
 
-    public String getCompanyLogo(){
+    public boolean getEnablePrescription() {
+        return getSharedBoolean(ENABLE_PRESCRIPTION, true);
+    }
+
+    public void setEnablePrescription(boolean enable) {
+        putSharedBoolean(ENABLE_PRESCRIPTION, enable);
+    }
+
+    public String getCompanyLogo() {
         return getSharedString(COMPANY_LOGO, null);
     }
 
-    public void saveLoginTimeStamp(String  timeStamp)
-    {
-        putSharedString(LOGINTIME_STAMP,timeStamp);
+    public void saveLoginTimeStamp(String timeStamp) {
+        putSharedString(LOGINTIME_STAMP, timeStamp);
 
     }
 

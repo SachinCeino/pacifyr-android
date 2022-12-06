@@ -173,6 +173,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
     boolean isNeedToOpenAppointments = false;
     private boolean isLogoutPressed = false;
     private int currentItemId;
+    private PrefManager prefManager;
 
     public boolean getisLogedOut() {
         return isLogoutPressed;
@@ -649,6 +650,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
             new AmazonSNSTokenHandler(getBaseContext()).register();
         }
         context = DashboardActivity.this;
+        prefManager = PrefManager.getInstance(context);
         //    permissionCheck();
         /**the library will work in background for checking new update available or not**/
         /*appUpdater = new AppUpdater(this);
@@ -705,6 +707,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
         MultiDex.install(this);
         onSetActionBar();
         hideRightLayActionbar();
+        setSideMenuItemVisibility();
         //menu_llay=(LinearLayout) findViewById(R.id.menu_llay);
         PrefManager prefM = getPrefManager();
         String name=prefM.getUserFirstName();
@@ -1113,14 +1116,21 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
         }
 
 
-
-
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
         //bottomNavigationView.getMenu().getItem(0).setChecked(true);
 
     }
+
+    private void setSideMenuItemVisibility() {
+        if (prefManager.getEnablePrescription()) {
+            mLinearLayoutPrescription.setVisibility(View.VISIBLE);
+        } else {
+            mLinearLayoutPrescription.setVisibility(View.GONE);
+        }
+    }
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 

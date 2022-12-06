@@ -12,8 +12,10 @@ import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.TOKEN_
 import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.TOKEN_REFRESH_TIME;
 
 import android.annotation.SuppressLint;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -32,6 +34,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -104,7 +107,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Timer;
-import java.util.TimerTask;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -114,6 +116,17 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
     private static final String TAG = "DashboardFragmentNew";
     private PrefManager prefM;
     private FirebaseFirestore db;
+    private final BroadcastReceiver surveyEvent = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent != null && intent.hasExtra("id")) {
+                Log.d(TAG, "Survey event " + intent.getStringExtra("id"));
+                banners.clear();
+                checkIsThereAnyActiveSessionsAvailable();
+                handleActionCustomerDashboard();
+            }
+        }
+    };
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -124,7 +137,8 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
     private void getPermissions() {
         Utility.checkPermission(getActivity(), "essential");
     }
-    Timer _TimerRefreshDashBoard=null;
+
+    Timer _TimerRefreshDashBoard = null;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -531,7 +545,7 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
     @Override
     public void onPause() {
         super.onPause();
-        _TimerRefreshDashBoard.cancel();
+        //_TimerRefreshDashBoard.cancel();
         favProvidersShown=false;
 /*
         if (db != null) {
@@ -555,7 +569,7 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
             loadResources();
             /**refresh dashboard every 5 seconds for checking available active sessions **/
 
-            _TimerRefreshDashBoard = new Timer();
+            /*_TimerRefreshDashBoard = new Timer();
             _TimerRefreshDashBoard.scheduleAtFixedRate(new TimerTask() {
 
                 @Override
@@ -568,24 +582,44 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
                     Log.w("TIMERRUNNING","YES");
                 }
 
-            },0,5000);
+            },0,5000);*/
+            if (((DashboardActivity) getActivity()).getisLogedOut())
+                return;
+            if (banners != null) {
+                banners.clear();
+            }
+            checkIsThereAnyActiveSessionsAvailable();
+            handleActionCustomerDashboard();
             if (isCallActive)
-               LinearLayout_Active_Session.setVisibility(GONE);
+                LinearLayout_Active_Session.setVisibility(GONE);
 
 
             //setUpBanner(modelCustomerDashboard2.getSurveys());
             ((DashboardActivity) getActivity()).changeActionBarTitleForFragments(getResources().getString(R.string.nav_mydashbord_title));
             ((DashboardActivity) getActivity()).showConnectButton();
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
-            Log.d("ON RESUME;",e.getMessage());
+            Log.d("ON RESUME;", e.getMessage());
         }
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        LocalBroadcastManager.getInstance(requireActivity())
+                .registerReceiver(surveyEvent, new IntentFilter("Survey_event"));
+        Log.d(TAG, "view created");
+    }
 
-    MSessionDetailRoot mMSessionDetailRoot=null;
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        LocalBroadcastManager.getInstance(requireActivity()).unregisterReceiver(surveyEvent);
+        Log.d(TAG, "view destroyed");
+    }
+
+    MSessionDetailRoot mMSessionDetailRoot = null;
+
     private void checkIsThereAnyActiveSessionsAvailable() {
         try {
             if (isCallActive) return;
@@ -1086,11 +1120,19 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
                 TV_survey_title.setText(object.getTitle());
                 TV_Survey_Days.setText(dys + " Days");
                 ModelCustomerDashboard2.Survey finalObject = object;
-                IMV_goto_survey.setOnClickListener(new View.OnClickListener() {
+                CardView_SurveyLink.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
 
-                        Intent i=new Intent(getActivity(), TermsOfUseActivity.class);
+                        // if type = survey, survey url will end with email=xxx,
+                        // replace xxx with user email
+                        if (finalObject.getFormUrl().contains("email=")) {
+                            String[] split = finalObject.getFormUrl().split("=");
+                            finalObject.setFormUrl(split[0] + "=" + PrefManager.getInstance(getActivity()).getEmail());
+                        }
+
+                        Log.d("Survey Url 2", finalObject.getFormUrl());
+                        Intent i = new Intent(getActivity(), TermsOfUseActivity.class);
                         i.putExtra("spurl", finalObject.getFormUrl());
                         i.putExtra("title", "Survey");
                         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -1464,6 +1506,7 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
             Log.d(TAG, "country = " + mCountry);
             Log.d(TAG, "companyId = " + companyId);
 
+            db = FirebaseFirestore.getInstance();
             db.collection("banners")
                     .whereArrayContainsAny("companyId", Arrays.asList("0", PrefManager.getInstance(getActivity()).getCompanyId()))
 //                  .whereArrayContainsAny("country", Arrays.asList(PrefManager.getInstance(getActivity()).getCountry()))
@@ -1478,18 +1521,22 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
                                     if (isValid(document.get("country"))) { // check if user country == banner country
                                         if (!((List<String>) document.get("country"))
                                                 .contains(PrefManager.getInstance(getActivity()).getCountry())) {
-                                            continue;
+                                            continue; //Skip the for-loop iteration
                                         }
                                     }
 
                                     // if dashboard api survey object isn't found on banner surveys,
                                     // that survey was completed by the user.
                                     // Don't show it
+                                    boolean surveyFound = false;
                                     if (isValid(document.get("type")) && document.getString("type").equalsIgnoreCase("survey")) {
                                         for (ModelCustomerDashboard2.Survey survey : surveys) {
-                                            if (!survey.getId().equals(document.getString("surveyId"))) {
-                                                continue;
+                                            if (survey.getId().equals(document.getString("surveyId"))) {
+                                                surveyFound = true;
                                             }
+                                        }
+                                        if (!surveyFound) {
+                                            continue; //Skip the for-loop iteration
                                         }
                                     }
                                     Banners mBanner = new Banners();
@@ -1523,6 +1570,14 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
 
                                         if (isValid(document.get("type"))) {
                                             mBanner.setType(document.getString("type"));
+                                            // if type = survey, survey url will end with email=xxx,
+                                            // replace xxx with user email
+                                            if (document.getString("type").equalsIgnoreCase("survey")) {
+                                                if (mBanner.getWebinarUrl().contains("email=")) {
+                                                    String[] split = mBanner.getWebinarUrl().split("=");
+                                                    mBanner.setWebinarUrl(split[0] + "=" + PrefManager.getInstance(getActivity()).getEmail());
+                                                }
+                                            }
                                         }
 
 
@@ -1658,6 +1713,8 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
                         @Override
                         public void onClick(View view) {
                             if (mBanner.getType().equalsIgnoreCase("survey")) {
+                                Log.d("Survey Url 1", mBanner.getWebinarUrl());
+
                                 Intent i = new Intent(getActivity(), TermsOfUseActivity.class);
                                 i.putExtra("spurl", mBanner.getWebinarUrl());
                                 i.putExtra("title", "Survey");

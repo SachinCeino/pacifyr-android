@@ -35,6 +35,10 @@ public class Company implements Serializable {
     @Expose
     private Object platform;
 
+    @SerializedName("enablePrescription")
+    @Expose
+    private Boolean enablePrescription;
+
     public Boolean getCreatePacifyrs() {
         return createPacifyrs;
     }
@@ -73,6 +77,14 @@ public class Company implements Serializable {
 
     public void setLogo(String logo) {
         this.logo = logo;
+    }
+
+    public Boolean getEnablePrescription() {
+        return enablePrescription;
+    }
+
+    public void setEnablePrescription(Boolean enablePrescription) {
+        this.enablePrescription = enablePrescription;
     }
 
     public String getId() {

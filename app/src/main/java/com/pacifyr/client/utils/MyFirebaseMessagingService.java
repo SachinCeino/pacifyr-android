@@ -1,11 +1,13 @@
 package com.pacifyr.client.utils;
 
+import static androidx.core.app.NotificationCompat.BADGE_ICON_SMALL;
+import static com.pacifyr.client.receiver.NotificationUtils.isAppIsInBackground;
+import static com.pacifyr.client.utils.AmazonSNSTokenHandler.installationIsSuccess;
+
 import android.app.Notification;
-import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
@@ -22,10 +24,8 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
-import com.pacifyr.client.BuildConfig;
 import com.pacifyr.client.R;
 import com.pacifyr.client.activity.SplashScreen;
-import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.event.CallEvent;
 import com.pacifyr.client.event.RateSessionEvent;
 import com.pacifyr.client.home.DashboardActivity;
@@ -33,13 +33,10 @@ import com.pacifyr.client.receiver.NotificationUtils;
 import com.pacifyr.client.twiliochat.TwilioConversationActivity;
 import com.pacifyr.client.utility.FCMMasterToken;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
+
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import static androidx.core.app.NotificationCompat.BADGE_ICON_SMALL;
-import static com.pacifyr.client.receiver.NotificationUtils.isAppIsInBackground;
-import static com.pacifyr.client.utils.AmazonSNSTokenHandler.installationIsSuccess;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
@@ -115,7 +112,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Log.d(TAG, "From: " + remoteMessage.getFrom());
         prefM = PrefManager.getInstance(getApplicationContext());
         String data = remoteMessage.getData().toString();
-        Log.d("@@@@/noti", "From: " + remoteMessage.toString());
+        Log.d("@@@@/noti", "From: " + remoteMessage);
         // Check if message contains a data payload.
         if (remoteMessage.getData().size() > 0) {
             Log.d(TAG, "Message data payload: " + remoteMessage.getData());
@@ -230,6 +227,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     } else if (actual_type != null && actual_type.equals("rating")) {
 
                         EventBus.getDefault().post(new RateSessionEvent(_id, message));
+                    } else if (actual_type != null && actual_type.equalsIgnoreCase("survey")) {
+                        Intent callIntent = new Intent("Survey_event");
+                        callIntent.putExtra("type", actual_type);
+                        callIntent.putExtra("id", _id);
+                        LocalBroadcastManager.getInstance(context).sendBroadcast(callIntent);
                     }
 
                     LogUtils.LOGD("app_rec", "PR  onReceive message " + message);
@@ -468,10 +470,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     cIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         }
         else {
-            boolean isNeedToOpenAppointments=false;
-            if (actualType.equals("confirmBooking") ||actualType.equalsIgnoreCase("rejectBooking")||actualType.equals("reminder")) {
-                isNeedToOpenAppointments=true;
-            }
+            boolean isNeedToOpenAppointments = actualType.equals("confirmBooking") || actualType.equalsIgnoreCase("rejectBooking") || actualType.equals("reminder");
 
             cIntent = new Intent(context, SplashScreen.class);
             Bundle b = new Bundle();

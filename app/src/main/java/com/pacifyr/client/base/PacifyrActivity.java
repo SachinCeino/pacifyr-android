@@ -1,8 +1,17 @@
 package com.pacifyr.client.base;
 
+import static com.pacifyr.client.Payment.AlertAddCreditCardActivity.REQUEST_CODE_STRIPE_CARD;
+import static com.pacifyr.client.network.NetworkService.mCurrentUser;
+import static com.pacifyr.client.network.NetworkService.modelAllEmotions;
+import static com.pacifyr.client.twilio.VideoActivity.isCallActive;
+import static com.pacifyr.client.utils.Constants.getCountryChecks;
+import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_IMAGE_URL;
+import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
+import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.STRIPE_PUBLISH_KEY;
+import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.isProd;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.PendingIntent;
 import android.app.PictureInPictureParams;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
@@ -58,7 +67,6 @@ import com.facebook.login.LoginManager;
 import com.gdacciaro.iOSDialog.iOSDialog;
 import com.gdacciaro.iOSDialog.iOSDialogBuilder;
 import com.gdacciaro.iOSDialog.iOSDialogClickListener;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.play.core.appupdate.AppUpdateInfo;
 import com.google.android.play.core.appupdate.AppUpdateManager;
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
@@ -85,7 +93,6 @@ import com.pacifyr.client.event.CallEvent;
 import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.event.TwilioCallEvent;
 import com.pacifyr.client.fragment.AppointmentsTabViewFragment;
-import com.pacifyr.client.fragment.UserDashboardFragment;
 import com.pacifyr.client.fragment.UserDashboardFragmentNew;
 import com.pacifyr.client.fragment.schedule.AppointmentModel;
 import com.pacifyr.client.home.DashboardActivity;
@@ -105,7 +112,6 @@ import com.pacifyr.client.paytmpayment.TransactionResponce;
 import com.pacifyr.client.quickblox.activities.PermissionsActivity;
 import com.pacifyr.client.quickblox.utils.Consts;
 import com.pacifyr.client.quickblox.utils.PermissionsChecker;
-import com.pacifyr.client.quickblox.utils.RingtonePlayer;
 import com.pacifyr.client.receiver.NotificationUtils;
 import com.pacifyr.client.sign.SignActivity;
 import com.pacifyr.client.twilio.TwilioAccessToken;
@@ -118,7 +124,6 @@ import com.pacifyr.client.utils.FirebaseLogging;
 import com.pacifyr.client.utils.GooglePlayServicesHelper;
 import com.pacifyr.client.utils.LogUtils;
 import com.pacifyr.client.utils.SharedPrefsHelper;
-import com.pacifyr.client.utils.Toaster;
 import com.pacifyr.client.utils.Utility;
 import com.pacifyrapp.utilitylibrary.CustomEditText;
 import com.pacifyrapp.utilitylibrary.CustomFontTextView;
@@ -142,7 +147,6 @@ import com.stripe.android.Stripe;
 import com.stripe.android.TokenCallback;
 import com.stripe.android.model.Card;
 import com.stripe.android.model.Token;
-import com.twilio.video.Room;
 
 import org.greenrobot.eventbus.EventBus;
 import org.jetbrains.annotations.NotNull;
@@ -166,17 +170,6 @@ import java.util.TimerTask;
 import java.util.UUID;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-
-import static com.pacifyr.client.Payment.AlertAddCreditCardActivity.REQUEST_CODE_STRIPE_CARD;
-import static com.pacifyr.client.network.NetworkService.mCurrentUser;
-import static com.pacifyr.client.network.NetworkService.modelAllEmotions;
-import static com.pacifyr.client.twilio.VideoActivity.isCallActive;
-import static com.pacifyr.client.twiliochat.TwilioConversationActivity.DEFAULT_CONVERSATION_NAME;
-import static com.pacifyr.client.utils.Constants.getCountryChecks;
-import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_IMAGE_URL;
-import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
-import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.STRIPE_PUBLISH_KEY;
-import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.isProd;
 
 /**
 
@@ -591,7 +584,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                                  */
                                 Auth.httpStatusFilter(getApplicationContext(),status.getCode());
                                 if (json != null) {
-                                    Log.w("@@@", "sendCardAddedNotificationFail messages" + json.toString());
+                                    Log.w("@@@", "sendCardAddedNotificationFail messages" + json);
                                 }
                             }
                         });
@@ -3089,6 +3082,8 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                                                 prefManager.saveCustomerRole("employee");
                                                 if (NetworkService.mCurrentUser != null && NetworkService.mCurrentUser.getCompany() != null) {
                                                     prefManager.saveCompanyLogo(NetworkService.mCurrentUser.getCompany().getLogo());
+                                                    prefManager.setEnablePrescription(NetworkService.mCurrentUser.getCompany().getEnablePrescription());
+
                                                 }
                                                 showIOSDialogOK("Success", apiResponse.getMessage(), "ok", new iOSDialogClickListener() {
                                                     @Override
@@ -4020,7 +4015,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
             jsonObject.putOpt("mobileNo",prefM.getPhoneNumber());
             jsonObject.putOpt("txnAmount", paytm.getTxnAmount());
             jsonObject.putOpt("email", prefM.getEmail());
-            Log.w("PAYTMLOG", "jsonObjectBeforeCreatingCheckSum-----" + jsonObject.toString());
+            Log.w("PAYTMLOG", "jsonObjectBeforeCreatingCheckSum-----" + jsonObject);
             aq.post(url, jsonObject, JSONObject.class, cb);
 
         } catch (Exception e) {
@@ -4117,7 +4112,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                 /**After completing payment call the API to confirm and once again verify from server ! **/
                 if (isValid(inResponse))
                 {
-                    Log.w("PAYTMLOG","Bundle inResponse-----"+inResponse.toString());
+                    Log.w("PAYTMLOG", "Bundle inResponse-----" + inResponse);
 
                         ConfirmationFromSever(inResponse,checksumHash,isFromsessionExtension,sessionid);
 
@@ -4206,7 +4201,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
             JSONObject jsonObject = new JSONObject();
             jsonObject.putOpt("userId", prefM.getUserID());
             jsonObject.putOpt("amount", txnAmount);
-            Log.w("PAYTMLOG","jsonObjectAfterPayTmSuccess-----"+jsonObject.toString());
+            Log.w("PAYTMLOG", "jsonObjectAfterPayTmSuccess-----" + jsonObject);
             aq.post(url, jsonObject, JSONObject.class, cb);
 
         }catch (Exception e)
@@ -4299,7 +4294,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
             jsonObject.putOpt("txnAmount", txnAmount);
             jsonObject.putOpt("email", prefM.getEmail());
             jsonObject.putOpt("checkSumHash", checksumHash);
-            Log.w("PAYTMLOG","jsonObjectAfterPayTmSuccess-----"+jsonObject.toString());
+            Log.w("PAYTMLOG", "jsonObjectAfterPayTmSuccess-----" + jsonObject);
             aq.post(url, jsonObject, JSONObject.class, cb);
 
         }catch (Exception e)
@@ -4551,7 +4546,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
             //                                                Auth.httpStatusFilter(getApplicationContext(),status.getCode());
                                 BusProvider.getInstance().post(Utility.checkStatusCode(status.getCode())); // for call related apis
                                 if (json != null) {
-                                    Log.w("PAYTMLOG", "sendCardAddedNotification responce" + json.toString());
+                                    Log.w("PAYTMLOG", "sendCardAddedNotification responce" + json);
                                 }
                             }
                         });
@@ -4780,7 +4775,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
 //                                                Auth.httpStatusFilter(getApplicationContext(),status.getCode());
                     BusProvider.getInstance().post(Utility.checkStatusCode(status.getCode())); // for call related apis
                     if (json != null) {
-                        Log.w("PAYTMLOG", "sendCardAddedNotification responce" + json.toString());
+                        Log.w("PAYTMLOG", "sendCardAddedNotification responce" + json);
                     }
                 }
             });
@@ -4878,7 +4873,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                                              */
                                             Auth.httpStatusFilter(getApplicationContext(),status.getCode());
                                             if (json != null) {
-                                                Log.w("PAYTMLOG", "sendCardAddedNotificationFail messages" + json.toString());
+                                                Log.w("PAYTMLOG", "sendCardAddedNotificationFail messages" + json);
                                             }
                                         }
                                     });
@@ -4924,7 +4919,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                                                  */
                                                 Auth.httpStatusFilter(getApplicationContext(),status.getCode());
                                                 if (json != null) {
-                                                    Log.w("PAYTMLOG", "sendCardAddedNotificationFail messages" + json.toString());
+                                                    Log.w("PAYTMLOG", "sendCardAddedNotificationFail messages" + json);
                                                 }
                                             }
                                         });
@@ -4975,7 +4970,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                                              */
                                             Auth.httpStatusFilter(getApplicationContext(),status.getCode());
                                             if (json != null) {
-                                                Log.w("PAYTMLOG", "sendCardAddedNotificationFail messages" + json.toString());
+                                                Log.w("PAYTMLOG", "sendCardAddedNotificationFail messages" + json);
                                             }
                                         }
                                     });
@@ -4997,7 +4992,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                                          */
                                         Auth.httpStatusFilter(getApplicationContext(),status.getCode());
                                         if (json != null) {
-                                            Log.w("PAYTMLOG", "sendCardAddedNotificationFail messages" + json.toString());
+                                            Log.w("PAYTMLOG", "sendCardAddedNotificationFail messages" + json);
                                         }
                                     }
                                 });
@@ -5044,7 +5039,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                                              */
                                             Auth.httpStatusFilter(getApplicationContext(),status.getCode());
                                             if (json != null) {
-                                                Log.w("PAYTMLOG", "sendCardAddedNotificationFail messages" + json.toString());
+                                                Log.w("PAYTMLOG", "sendCardAddedNotificationFail messages" + json);
                                             }
                                         }
                                     });
@@ -5066,7 +5061,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                                              */
                                             Auth.httpStatusFilter(getApplicationContext(),status.getCode());
                                             if (json != null) {
-                                                Log.w("PAYTMLOG", "sendCardAddedNotificationFail messages" + json.toString());
+                                                Log.w("PAYTMLOG", "sendCardAddedNotificationFail messages" + json);
                                             }
                                         }
                                     });

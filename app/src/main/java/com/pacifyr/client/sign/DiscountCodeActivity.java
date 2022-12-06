@@ -19,9 +19,9 @@ import com.pacifyr.client.event.BusProvider;
 import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.home.WelcomeTourActivity;
 import com.pacifyr.client.model.ApiResponse;
-import com.pacifyr.client.orginals.Auth;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
+import com.pacifyr.client.orginals.Auth;
 import com.pacifyr.client.utility.PacifyrAppCompactActivity;
 import com.pacifyr.client.utils.FirebaseLogging;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
@@ -109,8 +109,10 @@ public class DiscountCodeActivity extends PacifyrAppCompactActivity {
                                                         PrefManager prefManager = PrefManager.getInstance(DiscountCodeActivity.this);
                                                         prefManager.saveCompanyID(NetworkService.mCurrentUser.getCompanyId());
                                                         prefManager.saveCustomerRole("employee");
-                                                        if (NetworkService.mCurrentUser != null && NetworkService.mCurrentUser.getCompany() != null){
+                                                        if (NetworkService.mCurrentUser != null && NetworkService.mCurrentUser.getCompany() != null) {
                                                             prefManager.saveCompanyLogo(NetworkService.mCurrentUser.getCompany().getLogo());
+                                                            prefManager.setEnablePrescription(NetworkService.mCurrentUser.getCompany().getEnablePrescription());
+
                                                         }
                                                         showIOSDialogOK("Success", apiResponse.getMessage(), "ok", new iOSDialogClickListener() {
                                                             @Override

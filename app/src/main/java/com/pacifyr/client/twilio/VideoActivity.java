@@ -1,14 +1,22 @@
 package com.pacifyr.client.twilio;
 
+import static androidx.core.app.NotificationCompat.BADGE_ICON_SMALL;
+import static com.pacifyr.client.Payment.AlertAddCreditCardActivity.REQUEST_CODE_STRIPE_CARD;
+import static com.pacifyr.client.netconnectionlistener.ConnectionCheckBroadcast.CheckInternetConnection;
+import static com.pacifyr.client.network.NetworkService.isRelease;
+import static com.pacifyr.client.receiver.NotificationUtils.STRIPCARD_ADDED_WHILE_CALL;
+import static com.pacifyr.client.utils.Constants.getCountryChecks;
+import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
+import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.isProd;
+import static com.twilio.video.NetworkQualityLevel.NETWORK_QUALITY_LEVEL_ZERO;
+
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Notification;
-import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.PictureInPictureParams;
-import android.app.TaskStackBuilder;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -41,7 +49,6 @@ import android.util.Rational;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Chronometer;
@@ -84,10 +91,8 @@ import com.pacifyr.client.Payment.AlertAddCreditCardActivity;
 import com.pacifyr.client.R;
 import com.pacifyr.client.activity.ActivityChangeEmotionFromCall;
 import com.pacifyr.client.activity.IdentityDocumnetActivity;
-import com.pacifyr.client.activity.SplashScreen;
 import com.pacifyr.client.adapter.EmotionSpecialityAdapter;
 import com.pacifyr.client.base.PacifyrActivity;
-import com.pacifyr.client.classes.PendingCall;
 import com.pacifyr.client.event.BusProvider;
 import com.pacifyr.client.event.CallChangeEmotion;
 import com.pacifyr.client.event.CallEvent;
@@ -103,16 +108,12 @@ import com.pacifyr.client.model.PrescriptionList;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.orginals.Auth;
-import com.pacifyr.client.quickblox.chat.ui.activity.AttachmentImageActivity;
 import com.pacifyr.client.quickblox.utils.PermissionsChecker;
 import com.pacifyr.client.quickblox.utils.RingtonePlayer;
 import com.pacifyr.client.receiver.NotificationUtils;
-import com.pacifyr.client.twiliochat.TwilioConversationActivity;
-import com.pacifyr.client.utility.PacifyrAppCompactActivity;
 import com.pacifyr.client.utils.Constants;
 import com.pacifyr.client.utils.FirebaseLogging;
 import com.pacifyr.client.utils.LogUtils;
-import com.pacifyr.client.utils.SnackUtils;
 import com.pacifyr.client.utils.Toaster;
 import com.pacifyr.client.utils.Utility;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
@@ -185,17 +186,6 @@ import java.util.TimerTask;
 import de.hdodenhof.circleimageview.CircleImageView;
 import kotlin.Unit;
 import tvi.webrtc.voiceengine.WebRtcAudioUtils;
-
-import static androidx.core.app.NotificationCompat.BADGE_ICON_SMALL;
-import static androidx.core.app.NotificationCompat.PRIORITY_HIGH;
-import static com.pacifyr.client.Payment.AlertAddCreditCardActivity.REQUEST_CODE_STRIPE_CARD;
-import static com.pacifyr.client.netconnectionlistener.ConnectionCheckBroadcast.CheckInternetConnection;
-import static com.pacifyr.client.network.NetworkService.isRelease;
-import static com.pacifyr.client.receiver.NotificationUtils.STRIPCARD_ADDED_WHILE_CALL;
-import static com.pacifyr.client.utils.Constants.getCountryChecks;
-import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
-import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.isProd;
-import static com.twilio.video.NetworkQualityLevel.NETWORK_QUALITY_LEVEL_ZERO;
 
 public class VideoActivity extends PacifyrActivity implements LocalParticipant.Listener{
     private static final int CAMERA_MIC_PERMISSION_REQUEST_CODE = 1;
@@ -1498,8 +1488,8 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
             TextView_audio_freeminuts_remine= findViewById(R.id.TextView_audio_freeminuts_remine);
             messageCount=findViewById(R.id.messageCount);
             info_overlay_llay=findViewById(R.id.info_overlay_llay);
-            call_overlay_frame=findViewById(R.id.call_overlay_frame);
-            element_set_video_buttons=findViewById(R.id.element_set_video_buttons);
+            call_overlay_frame = findViewById(R.id.call_overlay_frame);
+            element_set_video_buttons = findViewById(R.id.element_set_video_buttons);
 
             this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN |
                     WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
@@ -1508,6 +1498,11 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
 
             //thumbnail_video_view
 
+            if (PrefManager.getInstance(this).getEnablePrescription()) {
+                findViewById(R.id.LinearLayout_prescription).setVisibility(View.VISIBLE);
+            } else {
+                findViewById(R.id.LinearLayout_prescription).setVisibility(View.GONE);
+            }
 
             //  ringtonePlayer = new RingtonePlayer(this, R.raw.beep);
             checker = new PermissionsChecker(VideoActivity.this);
@@ -1868,10 +1863,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
             primaryVideoView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (isClicked[0])
-                        isClicked[0] =false;
-                    else
-                        isClicked[0] =true;
+                    isClicked[0] = !isClicked[0];
 
                     if (isClicked[0])
                     {
@@ -4131,7 +4123,7 @@ private RemoteDataTrack.Listener remoteDataTrackListener() {
                  */
                 Auth.httpStatusFilter(getApplicationContext(),status.getCode());
                 if (json != null) {
-                    Log.w("PAYTMLOG", "sendCardAddedNotification responce" + json.toString());
+                    Log.w("PAYTMLOG", "sendCardAddedNotification responce" + json);
                 }
             }
         });

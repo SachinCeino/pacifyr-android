@@ -18,9 +18,9 @@ import com.pacifyr.client.R;
 import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.home.DashboardActivity;
 import com.pacifyr.client.model.ApiResponse;
-import com.pacifyr.client.orginals.Auth;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
+import com.pacifyr.client.orginals.Auth;
 import com.pacifyr.client.utility.BaseFragment;
 import com.pacifyr.client.utils.FirebaseLogging;
 import com.pacifyr.client.utils.Utility;
@@ -127,6 +127,7 @@ public class CouponCodeFragment extends BaseFragment {
                                                         prefManager.saveCompanyID(NetworkService.mCurrentUser.getCompanyId());
                                                         if (NetworkService.mCurrentUser != null && NetworkService.mCurrentUser.getCompany() != null){
                                                             prefManager.saveCompanyLogo(NetworkService.mCurrentUser.getCompany().getLogo());
+                                                            prefManager.setEnablePrescription(NetworkService.mCurrentUser.getCompany().getEnablePrescription());
                                                         }
                                                         prefManager.saveCustomerRole("employee");
                                                         /*showIOSDialogOK("Success", apiResponse.getMessage(), "ok", new iOSDialogClickListener() {
@@ -140,6 +141,7 @@ public class CouponCodeFragment extends BaseFragment {
                                                     else {
                                                         prefManager.saveCompanyID(null);
                                                         prefManager.saveCompanyLogo(null);
+                                                        prefManager.setEnablePrescription(true);
                                                         prefManager.saveCustomerRole(NetworkService.mCurrentUser.getRoleModel().getLabel());
                                                     }
                                                         showIOSDialogOK("Success", apiResponse.getMessage(), "ok", new iOSDialogClickListener() {

@@ -459,7 +459,7 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
             //  rating_bar = (RatingBar) findViewById(R.id.rating_bar);
 
             effective_seekbar = findViewById(R.id.effective_seekbar);
-            mTextView_View_pres  = findViewById(R.id.mTextView_View_pres);
+            mTextView_View_pres = findViewById(R.id.mTextView_View_pres);
             //holoCircleSeekBar=(HoloCircleSeekBar) findViewById(R.id.picker);
             //effective_circle_view = (CircleView) findViewById(R.id.effective_circle_view);
             rating_llay.setVisibility(View.GONE);
@@ -468,6 +468,12 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
 
             img_notes = findViewById(R.id.img_notes);
             img_notes.setVisibility(View.GONE);
+
+            if (PrefManager.getInstance(this).getEnablePrescription()) {
+                mTextView_View_pres.setVisibility(View.VISIBLE);
+            } else {
+                mTextView_View_pres.setVisibility(View.GONE);
+            }
 
             if (isCustomer) {
                 pacifyrEaringsLlay.setVisibility(View.GONE);
@@ -1104,7 +1110,7 @@ public class LastSessionActivity extends PacifyrAppCompactActivity {
                     try {
 
                         if (json != null) {
-                            Log.d(TAG, "Save seeion resspomse " + json.toString());
+                            Log.d(TAG, "Save seeion resspomse " + json);
                         }
                         App.getInstance().setCurrentActivity(null);
                         NetworkService.startActionCutomerDashboard(LastSessionActivity.this);

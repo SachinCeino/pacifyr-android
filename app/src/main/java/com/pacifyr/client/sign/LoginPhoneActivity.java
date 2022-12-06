@@ -1,5 +1,9 @@
 package com.pacifyr.client.sign;
 
+import static com.pacifyr.client.network.NetworkService.editProfileObject;
+import static com.pacifyr.client.network.NetworkService.isRelease;
+import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -16,18 +20,13 @@ import android.widget.Toast;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.facebook.login.LoginManager;
-import com.gdacciaro.iOSDialog.iOSDialog;
-import com.gdacciaro.iOSDialog.iOSDialogClickListener;
-import com.google.gson.JsonObject;
-import com.koushikdutta.ion.Ion;
 import com.pacifyr.client.R;
 import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.home.DashboardActivity;
-import com.pacifyr.client.orginals.Auth;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
+import com.pacifyr.client.orginals.Auth;
 import com.pacifyr.client.utility.AWSManager;
 import com.pacifyr.client.utils.AmazonSNSTokenHandler;
 import com.pacifyr.client.utils.FirebaseLogging;
@@ -37,21 +36,9 @@ import com.pacifyrapp.utilitylibrary.model.pacifyr.MRoleModel;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelPhoneLogin;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelUserProfile;
-import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 
-
 import org.json.JSONObject;
-
-import java.util.HashMap;
-
-import static com.pacifyr.client.network.NetworkService.editProfileObject;
-import static com.pacifyr.client.network.NetworkService.isRelease;
-import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.ACCOUNT_KEY;
-import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.APP_ID;
-import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.AUTH_KEY;
-import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.AUTH_SECRET;
-import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
 
 public class LoginPhoneActivity extends PacifyrActivity {
 
@@ -67,7 +54,7 @@ public class LoginPhoneActivity extends PacifyrActivity {
     private Context context;
 
     private PrefManager prefM;
-private static String TAG=LoginPhoneActivity.class.getName();
+    private static final String TAG = LoginPhoneActivity.class.getName();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -155,6 +142,7 @@ private static String TAG=LoginPhoneActivity.class.getName();
                         userModel = modelPhoneLogin.getUser();
                         if (userModel != null && userModel.getCompany() != null){
                             prefM.saveCompanyLogo(userModel.getCompany().getLogo());
+                            prefM.setEnablePrescription(userModel.getCompany().getEnablePrescription());
                         }
                         prefM.saveCompanyID(userModel.getCompanyId());
                         jsonStrng = json.toString();

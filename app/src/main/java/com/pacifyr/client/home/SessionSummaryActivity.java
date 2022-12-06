@@ -308,14 +308,16 @@ public class SessionSummaryActivity extends PacifyrAppCompactActivity {
         });
 
 
-
-
-        if (getPackageName().equalsIgnoreCase("com.pacifyr.pam"))
-        {
+        if (getPackageName().equalsIgnoreCase("com.pacifyr.pam")) {
             afterFeelSelectionLlay.setVisibility(View.GONE);
             before_feel_llay.setVisibility(View.GONE);
         }
         mTextView_View_pres = findViewById(R.id.mTextView_View_pres);
+        if (PrefManager.getInstance(this).getEnablePrescription()) {
+            mTextView_View_pres.setVisibility(View.VISIBLE);
+        } else {
+            mTextView_View_pres.setVisibility(View.GONE);
+        }
         mTextView_View_pres.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
