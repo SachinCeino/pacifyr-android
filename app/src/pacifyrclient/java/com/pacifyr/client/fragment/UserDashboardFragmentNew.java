@@ -71,6 +71,7 @@ import com.pacifyr.client.home.ConnectToSinglePacifyrActivity;
 import com.pacifyr.client.home.DashboardActivity;
 import com.pacifyr.client.home.LastSessionActivity;
 import com.pacifyr.client.home.MySessionsActivity;
+import com.pacifyr.client.home.ProfileScreenActivity;
 import com.pacifyr.client.model.Banners;
 import com.pacifyr.client.model.ResourceSpecialityList;
 import com.pacifyr.client.model.UnreadCountModel;
@@ -95,7 +96,10 @@ import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -569,7 +573,7 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
                LinearLayout_Active_Session.setVisibility(GONE);
 
 
-            setUpBanner();
+            //setUpBanner(modelCustomerDashboard2.getSurveys());
             ((DashboardActivity) getActivity()).changeActionBarTitleForFragments(getResources().getString(R.string.nav_mydashbord_title));
             ((DashboardActivity) getActivity()).showConnectButton();
         }
@@ -1044,7 +1048,7 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
                     else {
                         CardView_SurveyLink.setVisibility(GONE);
                     }
-
+                    setUpBanner(modelCustomerDashboard2.getSurveys());
 
                 } catch(Exception e){
                     e.printStackTrace();
@@ -1449,13 +1453,21 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
     }
 
     List<Banners> banners=new ArrayList<>();
-    private void setUpBanner() {
 
-        if (isValidSize(banners))
-        {
+    private void setUpBanner(List<ModelCustomerDashboard2.Survey> surveys) {
+
+        if (isValidSize(banners)) {
             setUpViewPager(banners);
-        }else {
+        } else {
+            String mCountry = PrefManager.getInstance(getActivity()).getCountry();
+            String companyId = PrefManager.getInstance(getActivity()).getCompanyId();
+            Log.d(TAG, "country = " + mCountry);
+            Log.d(TAG, "companyId = " + companyId);
+
             db.collection("banners")
+                    .whereArrayContainsAny("companyId", Arrays.asList("0", PrefManager.getInstance(getActivity()).getCompanyId()))
+//                  .whereArrayContainsAny("country", Arrays.asList(PrefManager.getInstance(getActivity()).getCountry()))
+                    //.orderBy("order", Query.Direction.ASCENDING)
                     .get()
                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
@@ -1463,33 +1475,58 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
                             if (task.isSuccessful()) {
                                 for (QueryDocumentSnapshot document : task.getResult()) {
 
-                                    Banners mBanner=new Banners();
+                                    if (isValid(document.get("country"))) { // check if user country == banner country
+                                        if (!((List<String>) document.get("country"))
+                                                .contains(PrefManager.getInstance(getActivity()).getCountry())) {
+                                            continue;
+                                        }
+                                    }
+
+                                    // if dashboard api survey object isn't found on banner surveys,
+                                    // that survey was completed by the user.
+                                    // Don't show it
+                                    if (isValid(document.get("type")) && document.getString("type").equalsIgnoreCase("survey")) {
+                                        for (ModelCustomerDashboard2.Survey survey : surveys) {
+                                            if (!survey.getId().equals(document.getString("surveyId"))) {
+                                                continue;
+                                            }
+                                        }
+                                    }
+                                    Banners mBanner = new Banners();
                                     try {
 
                                         String bannerUrl = null;
-                                        String buttonText=null;
-                                        if (isValid(document.get("imageUrl")))
-                                        {
-                                            bannerUrl=document.get("imageUrl").toString();
+                                        String buttonText = null;
+
+                                        if (isValid(document.get("userId"))) {
+                                            mBanner.setUserId(document.getString("userId"));
+                                        }
+                                        if (isValid(document.get("imageUrl"))) {
+                                            bannerUrl = document.get("imageUrl").toString();
                                             mBanner.setBannerUrl(bannerUrl);
                                         }
-                                        if(isValid(document.get("buttonText")))
-                                        {
-                                            buttonText=document.get("buttonText").toString();
+                                        if (isValid(document.get("buttonText"))) {
+                                            buttonText = document.get("buttonText").toString();
                                             mBanner.setButtonText(buttonText);
                                         }
 
-
-                                        String webinarUrl=null;
-                                        if (isValid(document.get("url")))
-                                        {
-                                            webinarUrl=document.get("url").toString();
-                                            mBanner.setWebinarUrl(webinarUrl);
+                                        if (isValid(document.get("order"))) {
+                                            mBanner.setOrder(Integer.valueOf(document.get("order").toString()));
                                         }
 
 
-                                        if (isValid(document.get("text").toString()))
-                                        {
+                                        String webinarUrl = null;
+                                        if (isValid(document.get("url"))) {
+                                            webinarUrl = document.get("url").toString();
+                                            mBanner.setWebinarUrl(webinarUrl);
+                                        }
+
+                                        if (isValid(document.get("type"))) {
+                                            mBanner.setType(document.getString("type"));
+                                        }
+
+
+                                        if (isValid(document.get("text").toString())) {
                                             mBanner.setText(document.get("text").toString());
                                             // bannerTitle.setText(document.get("text").toString());
                                             //bannerTitle.setVisibility(View.VISIBLE);
@@ -1508,6 +1545,12 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
                                         }
 
                                         banners.add(mBanner);
+                                        Collections.sort(banners, new Comparator<Banners>() { //Sort banners by order number
+                                            @Override
+                                            public int compare(Banners o1, Banners o2) {
+                                                return Integer.valueOf(o1.getOrder()).compareTo(Integer.valueOf(o2.getOrder()));
+                                            }
+                                        });
 
                                     }catch (Exception e)
                                     {
@@ -1610,17 +1653,32 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
                     TextView_buttonText.setText(mBanner.getButtonText());
                 }
 
-                if (isValid(mBanner.getWebinarUrl()))
-                {
+                if (isValid(mBanner.getWebinarUrl())) {
                     LinearLayout_webinar.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(mBanner.getWebinarUrl()));
-                            browserIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            startActivity(browserIntent);
+                            if (mBanner.getType().equalsIgnoreCase("survey")) {
+                                Intent i = new Intent(getActivity(), TermsOfUseActivity.class);
+                                i.putExtra("spurl", mBanner.getWebinarUrl());
+                                i.putExtra("title", "Survey");
+                                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                getActivity().startActivity(i);
+                            } else {
+                                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(mBanner.getWebinarUrl()));
+                                browserIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(browserIntent);
+                            }
                         }
                     });
 
+                }
+                if (isValid(mBanner.getUserId())) {
+                    LinearLayout_webinar.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            ProfileScreenActivity.start(context, mBanner.getUserId(), false); //Show Counselor profile
+                        }
+                    });
                 }
 
             }

@@ -1,8 +1,5 @@
 package com.pacifyr.client.model;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
-
 import java.util.List;
 
 public class Banners {
@@ -11,6 +8,11 @@ public class Banners {
     private String webinarUrl;
     private String text;
     private List<String> countrys;
+    private String type;
+
+    private String userId;
+
+    private int order = Integer.MAX_VALUE;
 
     public String getBannerUrl() {
         return bannerUrl;
@@ -48,7 +50,31 @@ public class Banners {
         return countrys;
     }
 
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
     public void setCountrys(List<String> countrys) {
         this.countrys = countrys;
+    }
+
+    public int getOrder() {
+        return order;
+    }
+
+    public void setOrder(int order) {
+        this.order = order;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }
