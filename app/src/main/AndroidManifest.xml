@@ -84,6 +84,7 @@
             android:name="com.pacifyr.client.activity.SplashScreen"
             android:screenOrientation="portrait"
             android:theme="@style/theme_for_avoiding_white_screen_in_sign_screen"
+            android:exported="true"
             android:windowSoftInputMode="stateAlwaysHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -314,20 +315,10 @@
             android:theme="@style/CustomNoActionBarTheme2" />
 
         <activity
-            android:name="com.pacifyr.client.quickblox.activities.OpponentsActivity"
-            android:configChanges="keyboardHidden|screenSize|orientation"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait"
-            android:theme="@style/CustomNoActionBarTheme2" />
-        <activity
             android:name="com.pacifyr.client.quickblox.activities.PermissionsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/CustomNoActionBarTheme2" />
-        <activity
-            android:name="com.pacifyr.client.quickblox.activities.SettingsActivity"
-            android:configChanges="keyboardHidden|screenSize|orientation"
-            android:screenOrientation="portrait"
-            android:theme="@style/CustomNoActionBarTheme2" />
+
         <activity
             android:name="com.pacifyr.client.Payment.EditCardActivity"
             android:screenOrientation="portrait"
@@ -458,25 +449,32 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <activity android:name="com.pacifyr.client.sign.CrisisActivity"
+        <activity
+            android:name="com.pacifyr.client.sign.CrisisActivity"
             android:theme="@style/CustomNoActionBarTheme2" />
-        <activity android:name="com.pacifyr.client.emotionupdate.SelectEmotionActivity"
+        <activity
+            android:name="com.pacifyr.client.emotionupdate.SelectEmotionActivity"
             android:theme="@style/CustomNoActionBarTheme2" />
         <activity
             android:name="com.pacifyr.client.home.AndroidDashoardActivity"
             android:label="@string/title_activity_android_dashoard"
             android:theme="@style/CustomNoActionBarTheme2"></activity>
 
-        <service android:name="com.pacifyr.client.utils.MyFirebaseMessagingService">
+        <service
+            android:name="com.pacifyr.client.utils.MyFirebaseMessagingService"
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
 
 
-        <receiver android:name=".netconnectionlistener.ConnectionCheck">
+        <receiver
+            android:name=".netconnectionlistener.ConnectionCheck"
+            android:exported="false">
             <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"
+                <action
+                    android:name="android.net.conn.CONNECTIVITY_CHANGE"
                     tools:ignore="BatteryLife" />
             </intent-filter>
         </receiver>
@@ -484,7 +482,7 @@
         <service
             android:name=".netconnectionlistener.CheckNetworkJob"
             android:exported="true"
-            android:permission="android.permission.BIND_JOB_SERVICE"/>
+            android:permission="android.permission.BIND_JOB_SERVICE" />
 
 
         <uses-library
