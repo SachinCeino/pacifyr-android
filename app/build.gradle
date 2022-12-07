@@ -4,13 +4,13 @@ apply plugin: 'com.google.firebase.crashlytics'
 
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 32
     buildToolsVersion "26.0.3"
     defaultConfig {
         applicationId "com.ceino.pacifyr.omhealthcare"
 //        minSdkVersion 16
          minSdkVersion 21
-        targetSdkVersion 30
+        targetSdkVersion 32
         versionCode 24
         versionName "1.4.2"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
