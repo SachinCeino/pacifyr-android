@@ -587,6 +587,7 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
                 return;
             if (banners != null) {
                 banners.clear();
+                ImageView_Prev.setVisibility(GONE);
             }
             checkIsThereAnyActiveSessionsAvailable();
             handleActionCustomerDashboard();
@@ -1630,8 +1631,9 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
 
     ViewPagerAdapter  mViewPagerAdapter;
     private void setUpViewPager(List<Banners> banners) {
-        if (banners.size()>1)
+        if (banners.size() > 1) {
             ImageView_next.setVisibility(View.VISIBLE);
+        }
         mViewPagerAdapter = new ViewPagerAdapter(getActivity());
         ViewPager_bannerLayout.setAdapter(mViewPagerAdapter);
     }
