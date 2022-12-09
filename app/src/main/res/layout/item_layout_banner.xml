@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="250dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="250dp">
 
 
     <ImageView
@@ -25,7 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginLeft="15dp"
-        android:layout_marginBottom="70dp">
+        android:layout_marginBottom="40dp">
 
         <RelativeLayout
             android:id="@+id/RelativeLayout_banner_title"
@@ -34,18 +33,16 @@
             android:alpha="0.7"
             android:background="@drawable/banner_text_curve_layout">
 
-            <com.pacifyr.client.customview.MainTextView
+            <TextView
                 android:id="@+id/bannerTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:gravity="start"
-                android:maxLines="4"
+                android:maxLines="6"
                 android:padding="10dp"
                 android:text="gadkgd whqdiuhqa hqichqiac hiqch qihciq ciqhciqchq ciqchqich"
                 android:textColor="@color/white">
 
-            </com.pacifyr.client.customview.MainTextView>
+            </TextView>
 
         </RelativeLayout>
 

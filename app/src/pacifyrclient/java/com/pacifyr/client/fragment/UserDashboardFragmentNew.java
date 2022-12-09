@@ -18,7 +18,9 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -144,7 +146,6 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
         super.onCreate(savedInstanceState);
         prefM = PrefManager.getInstance(getContext());
         db = FirebaseFirestore.getInstance();
-
     }
 
     @Override
@@ -1697,9 +1698,15 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
                             .into(bannerLogo);
                 }
 
-                if (isValid(mBanner.getText()))
-                {
-                    bannerTitle.setText(mBanner.getText());
+                if (isValid(mBanner.getText())) {
+//                    String htmltext = "<h1>Heading</h1><p>This is normal text with <i>italics</i></p><b>This is bold text</b>";
+                    String htmlText = mBanner.getText();
+//                    bannerTitle.setText(mBanner.getText());
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        bannerTitle.setText(Html.fromHtml(htmlText, Html.FROM_HTML_MODE_LEGACY));
+                    } else {
+                        bannerTitle.setText(Html.fromHtml(htmlText));
+                    }
                 }
                 else {
                     bannerTitle.setVisibility(GONE);
