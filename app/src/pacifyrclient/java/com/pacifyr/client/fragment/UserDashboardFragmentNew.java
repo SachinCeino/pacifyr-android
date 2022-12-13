@@ -1300,7 +1300,7 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
                     if (hrs.equals("00"))
                         sessionCostTotal.setText(mintd+" min. "+sign+lastWeek.getSpendings());
                     else
-                    sessionCostTotal.setText(hrs+" hrs. "+sign+lastWeek.getSpendings());
+                       sessionCostTotal.setText(hrs + " hrs. " + sign + lastWeek.getSpendings());
 
                     no_sessions.setVisibility(GONE);
                 }
@@ -1602,18 +1602,34 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
                                         }
 
                                         banners.add(mBanner);
-                                        Collections.sort(banners, new Comparator<Banners>() { //Sort banners by order number
-                                            @Override
-                                            public int compare(Banners o1, Banners o2) {
-                                                return Integer.valueOf(o1.getOrder()).compareTo(Integer.valueOf(o2.getOrder()));
-                                            }
-                                        });
 
-                                    }catch (Exception e)
-                                    {
+                                    } catch (Exception e) {
                                         Log.w(TAG, "Error getting documents.", task.getException());
                                     }
                                 }
+                                // if only one survey banner available or no other banners available, show default banners
+                                int surveyBanners = 0;
+                                int otherBanners = 0;
+                                for (Banners b : banners) {
+                                    if (b.getType().equalsIgnoreCase("survey")) {
+                                        surveyBanners++;
+                                    } else if (!b.getType().equalsIgnoreCase("default")) {
+                                        otherBanners++;
+                                    }
+                                }
+                                if (surveyBanners > 1) {
+                                    //remove default banners
+                                    removeBanner("default");
+                                } else if (otherBanners > 0) {
+                                    //remove default banners
+                                    removeBanner("default");
+                                }
+                                Collections.sort(banners, new Comparator<Banners>() { //Sort banners by order number
+                                    @Override
+                                    public int compare(Banners o1, Banners o2) {
+                                        return Integer.valueOf(o1.getOrder()).compareTo(Integer.valueOf(o2.getOrder()));
+                                    }
+                                });
                             } else {
                                 Log.w(TAG, "Error getting documents.", task.getException());
                             }
@@ -1630,7 +1646,18 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
 
     }
 
-    ViewPagerAdapter  mViewPagerAdapter;
+    private void removeBanner(String type) {
+        ArrayList<Banners> toRemove = new ArrayList<>();
+        for (Banners banner : banners) {
+            if (banner.getType().equalsIgnoreCase(type)) {
+                toRemove.add(banner);
+            }
+        }
+        banners.removeAll(toRemove);
+    }
+
+    ViewPagerAdapter mViewPagerAdapter;
+
     private void setUpViewPager(List<Banners> banners) {
         if (banners.size() > 1) {
             ImageView_next.setVisibility(View.VISIBLE);
