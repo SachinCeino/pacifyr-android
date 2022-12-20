@@ -39,6 +39,18 @@ public class Company implements Serializable {
     @Expose
     private Boolean enablePrescription;
 
+    @SerializedName("enablePredefinedSessions")
+    @Expose
+    private Boolean enablePredefinedSessions;
+
+    @SerializedName("enableWalletBalance")
+    @Expose
+    private Boolean enableWalletBalance;
+
+    @SerializedName("enableFreeminutes")
+    @Expose
+    private Boolean enableFreeminutes;
+
     public Boolean getCreatePacifyrs() {
         return createPacifyrs;
     }
@@ -120,4 +132,27 @@ public class Company implements Serializable {
     }
 
 
+    public Boolean getEnableFreeminutes() {
+        return enableFreeminutes;
+    }
+
+    public void setEnableFreeminutes(Boolean enableFreeminutes) {
+        this.enableFreeminutes = enableFreeminutes;
+    }
+
+    public Boolean getEnableWalletBalance() {
+        return enableWalletBalance;
+    }
+
+    public void setEnableWalletBalance(Boolean enableWalletBalance) {
+        this.enableWalletBalance = enableWalletBalance;
+    }
+
+    public Boolean getEnablePredefinedSessions() {
+        return enablePredefinedSessions;
+    }
+
+    public void setEnablePredefinedSessions(Boolean enablePredefinedSessions) {
+        this.enablePredefinedSessions = enablePredefinedSessions;
+    }
 }

@@ -110,6 +110,7 @@ public class DiscountCodeActivity extends PacifyrAppCompactActivity {
                                                         prefManager.saveCompanyID(NetworkService.mCurrentUser.getCompanyId());
                                                         prefManager.saveCustomerRole("employee");
                                                         if (NetworkService.mCurrentUser != null && NetworkService.mCurrentUser.getCompany() != null) {
+                                                            prefManager.saveCompany(new Gson().toJson(NetworkService.mCurrentUser.getCompany()));
                                                             prefManager.saveCompanyLogo(NetworkService.mCurrentUser.getCompany().getLogo());
                                                             prefManager.setEnablePrescription(NetworkService.mCurrentUser.getCompany().getEnablePrescription());
 

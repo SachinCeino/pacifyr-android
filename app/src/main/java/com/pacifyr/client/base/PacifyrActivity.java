@@ -3081,6 +3081,7 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                                                 prefManager.saveCompanyID(NetworkService.mCurrentUser.getCompanyId());
                                                 prefManager.saveCustomerRole("employee");
                                                 if (NetworkService.mCurrentUser != null && NetworkService.mCurrentUser.getCompany() != null) {
+                                                    prefManager.saveCompany(new Gson().toJson(NetworkService.mCurrentUser.getCompany()));
                                                     prefManager.saveCompanyLogo(NetworkService.mCurrentUser.getCompany().getLogo());
                                                     prefManager.setEnablePrescription(NetworkService.mCurrentUser.getCompany().getEnablePrescription());
 
@@ -5450,23 +5451,31 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
                 pacifyr_call_intro.setText(spanTxt, TextView.BufferType.SPANNABLE);
             }
         }
-        defSetText(textDialogName,pacifyer_obj.getFirstName()+" "+pacifyer_obj.getLastName());
+        defSetText(textDialogName, pacifyer_obj.getFirstName() + " " + pacifyer_obj.getLastName());
         defSetText(textDialogLastMessage, pacifyer_obj.getPriceWithSign() + " " + BaseUtils.getCostLabel(PacifyrActivity.this));
 
-        if (getPrefManager().getCountry().equals("US"))
-        {
+        /*if (getPrefManager().getCountry().equals("US"))
+        {*/
 
-            if (isValid(NetworkService.mCurrentUser))
-            {
-                if (NetworkService.mCurrentUser.getWalletBalance()!=0)
-                {
+        if (isValid(NetworkService.mCurrentUser)) {
+            if (isValid(NetworkService.mCurrentUser.getCompany())) {
+
+                if (NetworkService.mCurrentUser.getCompany().getEnableWalletBalance()) {
+
+                    if (NetworkService.mCurrentUser.getWalletBalance() != 0) {
+                        text_wallet_balance.setVisibility(View.VISIBLE);
+                        text_wallet_balance.setText("Your available credit is $ " + NetworkService.mCurrentUser.getWalletBalance() + "");
+                    }
+                } else if (NetworkService.mCurrentUser.getCompany().getEnablePredefinedSessions()) {
                     text_wallet_balance.setVisibility(View.VISIBLE);
-                    text_wallet_balance.setText("Your available credit is $ "+NetworkService.mCurrentUser.getWalletBalance()+"");
+                    text_wallet_balance.setText(NetworkService.mCurrentUser.getNumberOfPredefinedSessions() + " sessions left");
+                    textDialogLastMessage.setVisibility(View.GONE);
                 }
-
             }
 
         }
+
+//        }
         String userimage = UtilityNetworkService.GLOBAL_IMAGE_URL+pacifyer_obj.getImage();
 
         if(isValid(userimage))

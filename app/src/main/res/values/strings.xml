@@ -1136,5 +1136,9 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="fav_providers">MY PROVIDERS</string>
     <string name="how_effective_error">Please specify how effective the call was in solving your problems</string>
     <string name="after_call_emotion_err">Please specify how you are feeling after the session</string>
+    <string name="balance_minutes">Balance minutes</string>
+    <string name="balance_sessions">Bal. sessions</string>
+    <string name="sessions_lowercase">sessions</string>
+    <string name="balance_sessions_caps">BALANCE SESSIONS</string>
 
 </resources>

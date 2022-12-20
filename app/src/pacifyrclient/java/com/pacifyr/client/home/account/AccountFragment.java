@@ -1,5 +1,7 @@
 package com.pacifyr.client.home.account;
 
+import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_IMAGE_URL;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,7 +9,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -20,12 +21,10 @@ import com.krishna.fileloader.FileLoader;
 import com.krishna.fileloader.listener.FileRequestListener;
 import com.krishna.fileloader.pojo.FileResponse;
 import com.krishna.fileloader.request.FileLoadRequest;
-import com.pacifyr.client.base.PacifyrActivity;
-import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.R;
+import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.home.DashboardActivity;
-import com.pacifyr.client.model.ModelPacifyrDocuments;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.quickblox.chat.ui.activity.AttachmentImageActivity;
@@ -41,9 +40,6 @@ import org.json.JSONObject;
 import java.io.File;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-
-import static com.pacifyr.client.sign.RegisterActivity.documentFileList;
-import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_IMAGE_URL;
 
 
 /**
@@ -65,6 +61,7 @@ public class AccountFragment extends BaseFragment {
     private TextView TextView_Document;
     private CardView CardView_Document_Field,wallet_card;
     private TextView TextView_walletBalence;
+    private TextView label_balance;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -97,7 +94,7 @@ public class AccountFragment extends BaseFragment {
                         NetworkService.mCurrentUser = GsonUtils.getInstance().gsonToModelUserProfile(json);
                         //ProfileScreenActivity.pacifyerDetial = GsonUtils.getInstance().gsonToModelUserProfile(json);
 
-                       setUpProfileValues(GsonUtils.getInstance().gsonToModelUserProfile(json));
+                        setUpProfileValues(GsonUtils.getInstance().gsonToModelUserProfile(json));
 
                     } else {
                         LogUtils.LOGD("base", "bAF userDetailWeb json null  : " + status.getMessage());
@@ -139,9 +136,7 @@ public class AccountFragment extends BaseFragment {
                             if (_FileName.contains(".jpg") || _FileName.contains(".png") || _FileName.contains(".jpeg"))
                             {
                                 AttachmentImageActivity.start(getActivity(), GLOBAL_IMAGE_URL+_FileName);
-                            }
-                            else if (_FileName.contains(".pdf"))
-                            {
+                            } else if (_FileName.contains(".pdf")) {
                                 loadPDF(_FileName);
                             }
 
@@ -149,7 +144,20 @@ public class AccountFragment extends BaseFragment {
                     });
                 }
 
-                if (getPrefManager().getCountry().equals("US") &&isValid(NetworkService.mCurrentUser.getWalletBalance()))
+                if (isValid(NetworkService.mCurrentUser.getCompany())) {
+                    if (NetworkService.mCurrentUser.getCompany().getEnableWalletBalance()) {
+                        if (NetworkService.mCurrentUser.getWalletBalance() != 0) {
+                            TextView_walletBalence.setText("$ " + NetworkService.mCurrentUser.getWalletBalance() + "");
+                            wallet_card.setVisibility(View.VISIBLE);
+                        }
+                    } else if (NetworkService.mCurrentUser.getCompany().getEnablePredefinedSessions()) {
+                        TextView_walletBalence.setText(NetworkService.mCurrentUser.getNumberOfPredefinedSessions() + " sessions left");
+                        label_balance.setText(getString(R.string.balance_sessions_caps));
+                        wallet_card.setVisibility(View.VISIBLE);
+                    }
+                }
+
+                /*if (getPrefManager().getCountry().equals("US") &&isValid(NetworkService.mCurrentUser.getWalletBalance()))
                 {
 
                     if (NetworkService.mCurrentUser.getWalletBalance()!=0)
@@ -158,7 +166,7 @@ public class AccountFragment extends BaseFragment {
                         wallet_card.setVisibility(View.VISIBLE);
                     }
 
-                }
+                }*/
 
             }
         }catch (Exception e)
@@ -184,7 +192,8 @@ public class AccountFragment extends BaseFragment {
             TextView_Document = view.findViewById(R.id.TextView_Document);
             CardView_Document_Field = view.findViewById(R.id.CardView_Document_Field);
             wallet_card= view.findViewById(R.id.wallet_card);
-            TextView_walletBalence= view.findViewById(R.id.TextView_walletBalence);
+            TextView_walletBalence = view.findViewById(R.id.TextView_walletBalence);
+            label_balance = view.findViewById(R.id.label_balance);
 
             onSetValues(view);
 
@@ -202,47 +211,47 @@ public class AccountFragment extends BaseFragment {
         try {
             if(isValid(NetworkService.mCurrentUser)) {
                 if (isValid(NetworkService.mCurrentUser.getImageUrl())) {
-                        Picasso.with(getActivity()).load(NetworkService.mCurrentUser.getImageUrl()).placeholder(R.drawable.placeholder_user).into(profileCimv);
+                    Picasso.with(getActivity()).load(NetworkService.mCurrentUser.getImageUrl()).placeholder(R.drawable.placeholder_user).into(profileCimv);
                 }
-                defSetText(profileNameCtxv,NetworkService.mCurrentUser.getName());
-                defSetText(mailDtxv,NetworkService.mCurrentUser.getEmail());
-                defSetText(pnumberDtxv,NetworkService.mCurrentUser.getPhoneNumber());
-                defSetText(aboutmeCtxv,NetworkService.mCurrentUser.getDescription());
+                defSetText(profileNameCtxv, NetworkService.mCurrentUser.getName());
+                defSetText(mailDtxv, NetworkService.mCurrentUser.getEmail());
+                defSetText(pnumberDtxv, NetworkService.mCurrentUser.getPhoneNumber());
+                defSetText(aboutmeCtxv, NetworkService.mCurrentUser.getDescription());
                 CardView_Document_Field.setVisibility(View.GONE);
 
-                  if (isValid(NetworkService.mCurrentUser)
-                    && isValid(NetworkService.mCurrentUser.getCertificationList())
-                    && isValid(NetworkService.mCurrentUser.getCertificationList().get(0))
-                    && isValid(NetworkService.mCurrentUser.getCertificationList().get(0).getDocuments())
-                    && isValid(NetworkService.mCurrentUser.getCertificationList().get(0).getDocuments().get(0)))
-                    {
-                        String _FileName = NetworkService.mCurrentUser.getCertificationList().get(0).getDocuments().get(0).toString();
-                        CardView_Document_Field.setVisibility(View.VISIBLE);
-                        TextView_Document.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                if (_FileName.contains(".jpg") || _FileName.contains(".png") || _FileName.contains(".jpeg"))
-                                {
-                                    AttachmentImageActivity.start(getActivity(), GLOBAL_IMAGE_URL+_FileName);
-                                }
-                                else if (_FileName.contains(".pdf"))
-                                {
-                                    loadPDF(_FileName);
-                                }
-
+                if (isValid(NetworkService.mCurrentUser)
+                        && isValid(NetworkService.mCurrentUser.getCertificationList())
+                        && isValid(NetworkService.mCurrentUser.getCertificationList().get(0))
+                        && isValid(NetworkService.mCurrentUser.getCertificationList().get(0).getDocuments())
+                        && isValid(NetworkService.mCurrentUser.getCertificationList().get(0).getDocuments().get(0))) {
+                    String _FileName = NetworkService.mCurrentUser.getCertificationList().get(0).getDocuments().get(0).toString();
+                    CardView_Document_Field.setVisibility(View.VISIBLE);
+                    TextView_Document.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            if (_FileName.contains(".jpg") || _FileName.contains(".png") || _FileName.contains(".jpeg")) {
+                                AttachmentImageActivity.start(getActivity(), GLOBAL_IMAGE_URL + _FileName);
+                            } else if (_FileName.contains(".pdf")) {
+                                loadPDF(_FileName);
                             }
-                        });
-                    }
 
-                  if (getPrefManager().getCountry().equals("US") &&isValid(NetworkService.mCurrentUser.getWalletBalance()))
-                {
+                        }
+                    });
+                }
 
-                    if (NetworkService.mCurrentUser.getWalletBalance()!=0)
-                    {
-                        TextView_walletBalence.setText("$ "+NetworkService.mCurrentUser.getWalletBalance()+"");
+                if (isValid(NetworkService.mCurrentUser.getCompany())) {
+                    if (NetworkService.mCurrentUser.getCompany().getEnableWalletBalance()) {
+
+                        if (NetworkService.mCurrentUser.getWalletBalance() != 0) {
+                            TextView_walletBalence.setText("$ " + NetworkService.mCurrentUser.getWalletBalance() + "");
+                            wallet_card.setVisibility(View.VISIBLE);
+                        }
+
+                    } else if (NetworkService.mCurrentUser.getCompany().getEnablePredefinedSessions()) {
+                        TextView_walletBalence.setText(NetworkService.mCurrentUser.getNumberOfPredefinedSessions() + " sessions left");
+                        label_balance.setText(getString(R.string.balance_sessions_caps));
                         wallet_card.setVisibility(View.VISIBLE);
                     }
-
                 }
 
             }
@@ -296,7 +305,7 @@ public class AccountFragment extends BaseFragment {
     public void onNotifyEvent(NotifyEvent event) {
         try {
             if(event.isSuccess)
-            onSetValues();
+                onSetValues();
         }catch (Exception e)
         {
             LogUtils.LOGD("session","AF onNotifyEvent exce " + e.getMessage());

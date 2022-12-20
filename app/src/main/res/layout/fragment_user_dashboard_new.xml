@@ -136,10 +136,11 @@
                     android:layout_height="wrap_content">
 
                     <LinearLayout
+                        android:id="@+id/layout_status"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="horizontal"
-                        android:weightSum="3"
+                        android:weightSum="4"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/textView3">
@@ -331,6 +332,57 @@
                                 android:textColor="@color/grey_dark"
                                 android:textSize="12sp"
                                 android:textStyle="bold" />
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/layout_sessions_count"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:padding="5dp">
+
+                            <com.pacifyr.client.customview.MainTextView
+                                android:id="@+id/item_sessions"
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
+                                android:layout_alignParentTop="true"
+                                android:layout_centerInParent="true"
+                                android:background="@drawable/rounded_textview"
+                                android:backgroundTint="@color/colorPrimary"
+                                android:gravity="center"
+                                android:text="0"
+                                android:textColor="@color/white"
+                                android:textSize="15sp" />
+
+                            <com.pacifyr.client.customview.MainTextView
+                                android:id="@+id/label_balance_mins"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/item_sessions"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="5dp"
+                                android:gravity="center"
+                                android:text="Balance Mins"
+                                android:textColor="@color/grey"
+                                android:textSize="12sp" />
+
+
+                            <com.pacifyr.client.customview.MainTextView
+                                android:id="@+id/value_balance_mins"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/label_balance_mins"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="3dp"
+                                android:gravity="center"
+                                android:text=""
+                                android:textColor="@color/black"
+                                android:textSize="12sp"
+                                android:textStyle="bold" />
+
 
                         </RelativeLayout>
 

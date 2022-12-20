@@ -78,6 +78,7 @@ public class PrefManager {
     public static final String JSON_ALL_EMOTIONS = "ALL_EMOTIONS_JSON";
     public static final String JSON_POSITIVE_EMOTIONS = "POSITIVE_EMOTIONS_JSON";
     public static final String JSON_NEGATIVE_EMOTIONS = "NEGATIVE_EMOTIONS_JSON";
+    private static final String COMPANY_JSON = "company_json";
 
     Context context;
     SharedPreferences sharedpreferences;
@@ -786,14 +787,17 @@ public class PrefManager {
         return  false;
 
     }
-    public Boolean isValid(List list)
-    {
-        if(list!=null)
+
+    public Boolean isValid(List list) {
+        if (list != null)
             return list.size() > 0;
         return false;
 
     }
 
+    public void saveCompany(String companyJson) {
+        putSharedString(COMPANY_JSON, companyJson);
+    }
 
     public void saveCompanyLogo(String logo) {
         putSharedString(COMPANY_LOGO, logo);

@@ -330,12 +330,27 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
     public static long WalletBalnce=0;
     public void checkEmpAvailableMinutes() {
 
-            if (NetworkService.mCurrentUser == null) {
-                return;
+        if (NetworkService.mCurrentUser == null) {
+            return;
+        }
+        long freeMinutes = NetworkService.mCurrentUser.getAvailableMinutes();
+        float WalletBalance_minutes;
+
+        if (isValid(NetworkService.mCurrentUser.getCompany())) {
+            if (isValid(WalletBalnce) && WalletBalnce != 0) {
+                float minuts = WalletBalnce;
+                freeMinutes = (long) minuts;
+            } else if (NetworkService.mCurrentUser.getCompany().getEnableWalletBalance()
+                    && isValid(NetworkService.mCurrentUser.getWalletBalance())) {
+                WalletBalance_minutes = (NetworkService.mCurrentUser.getWalletBalance() / Float.parseFloat(getCallPacifyr().getPrice())) * 60;
+                freeMinutes = (long) (freeMinutes + WalletBalance_minutes);
+
+            } else if (NetworkService.mCurrentUser.getCompany().getEnablePredefinedSessions()) {
+                freeMinutes = 0;
+
             }
-            long freeMinutes = NetworkService.mCurrentUser.getAvailableMinutes();
-            float WalletBalance_minutes;
-            if (getPrefManager().getCountry().equals("US"))
+        }
+            /*if (getPrefManager().getCountry().equals("US"))
             {
                 if (isValid(WalletBalnce)&&WalletBalnce!=0)
                 {
@@ -349,7 +364,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
 
                 }
 
-            }
+            }*/
             if (freeMinutes > 0) {
                 freeMinutes=freeMinutes+1;
                 long freeMillis = freeMinutes * 60 * 1000;

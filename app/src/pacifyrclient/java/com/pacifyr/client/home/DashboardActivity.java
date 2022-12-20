@@ -255,6 +255,12 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
                 try {
                     if (json != null) {
                         NetworkService.mCurrentUser = GsonUtils.getInstance().gsonToModelUserProfile(json);
+//                        postEventOnMainThread(NetworkService.mCurrentUser);
+                        Fragment f = getSupportFragmentManager().findFragmentById(R.id.activity_main_content_fragment);
+                        if (f != null &&
+                                f instanceof UserDashboardFragmentNew) {
+                            ((UserDashboardFragmentNew) f).updatePendingSessions(NetworkService.mCurrentUser);
+                        }
 
                     } else {
                         LogUtils.LOGD("base", "bAF userDetailWeb json null  : " + status.getMessage());

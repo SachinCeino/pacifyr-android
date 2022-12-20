@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
+import com.google.gson.Gson;
 import com.pacifyr.client.R;
 import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
@@ -141,6 +142,7 @@ public class LoginPhoneActivity extends PacifyrActivity {
                         modelPhoneLogin = GsonUtils.getInstance().gsonToModelPhoneLogin(json);
                         userModel = modelPhoneLogin.getUser();
                         if (userModel != null && userModel.getCompany() != null){
+                            prefM.saveCompany(new Gson().toJson(userModel.getCompany()));
                             prefM.saveCompanyLogo(userModel.getCompany().getLogo());
                             prefM.setEnablePrescription(userModel.getCompany().getEnablePrescription());
                         }

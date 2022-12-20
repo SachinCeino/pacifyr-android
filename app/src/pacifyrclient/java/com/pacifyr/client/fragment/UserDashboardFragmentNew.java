@@ -92,6 +92,7 @@ import com.pacifyrapp.utilitylibrary.model.pacifyr.MSessionDetailRoot;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MUser;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelCustomerDashboard2;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelSessonsOfCustomer;
+import com.pacifyrapp.utilitylibrary.model.pacifyr.ModelUserProfile;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
@@ -129,6 +130,9 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
             }
         }
     };
+    private View layout_sessions_count;
+    private TextView value_balance_mins;
+
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -226,23 +230,24 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
         LinearLayout_Active_Session=view.findViewById(R.id.LinearLayout_Active_Session);
         JoinCall=view.findViewById(R.id.JoinCall);
         JoinChat=view.findViewById(R.id.JoinChat);
-        ViewPager_bannerLayout=view.findViewById(R.id.bannerLayout);
-        ImageView_next=view.findViewById(R.id.ImageView_next);
-        ImageView_Prev=view.findViewById(R.id.ImageView_Prev);
-        connect_action_fab=view.findViewById(R.id.connect_action_fab);
-        cardView_fav_providers=view.findViewById(R.id.cardView_fav_providers);
-        RecyclerViewFavPro=view.findViewById(R.id.RecyclerViewFavPro);
-        CardView_SurveyLink=view.findViewById(R.id.CardView_SurveyLink);
-        TV_survey_title=view.findViewById(R.id.TV_survey_title);
-        TV_Survey_Days=view.findViewById(R.id.TV_Survey_Days);
-        IMV_goto_survey=view.findViewById(R.id.IMV_goto_survey);
-
+        ViewPager_bannerLayout = view.findViewById(R.id.bannerLayout);
+        ImageView_next = view.findViewById(R.id.ImageView_next);
+        ImageView_Prev = view.findViewById(R.id.ImageView_Prev);
+        connect_action_fab = view.findViewById(R.id.connect_action_fab);
+        cardView_fav_providers = view.findViewById(R.id.cardView_fav_providers);
+        RecyclerViewFavPro = view.findViewById(R.id.RecyclerViewFavPro);
+        CardView_SurveyLink = view.findViewById(R.id.CardView_SurveyLink);
+        TV_survey_title = view.findViewById(R.id.TV_survey_title);
+        TV_Survey_Days = view.findViewById(R.id.TV_Survey_Days);
+        IMV_goto_survey = view.findViewById(R.id.IMV_goto_survey);
+        layout_sessions_count = view.findViewById(R.id.layout_sessions_count);
+        value_balance_mins = view.findViewById(R.id.value_balance_mins);
 
         CardView_unReadMessageLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //DialogsActivity.start(getActivity());
-                if (!((DashboardActivity)getActivity()).isInternetAvailable()) {
+                if (!((DashboardActivity) getActivity()).isInternetAvailable()) {
                     ((DashboardActivity) getActivity()).showInternetNotAvailablePopup();
                     return;
                 }
@@ -1085,6 +1090,7 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
                         CardView_SurveyLink.setVisibility(GONE);
                     }
                     setUpBanner(modelCustomerDashboard2.getSurveys());
+                    updatePendingSessions(NetworkService.mCurrentUser);
 
                 } catch(Exception e){
                     e.printStackTrace();
@@ -1611,10 +1617,12 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
                                 int surveyBanners = 0;
                                 int otherBanners = 0;
                                 for (Banners b : banners) {
-                                    if (b.getType().equalsIgnoreCase("survey")) {
-                                        surveyBanners++;
-                                    } else if (!b.getType().equalsIgnoreCase("default")) {
-                                        otherBanners++;
+                                    if (b.getType() != null) {
+                                        if (b.getType().equalsIgnoreCase("survey")) {
+                                            surveyBanners++;
+                                        } else if (!b.getType().equalsIgnoreCase("default")) {
+                                            otherBanners++;
+                                        }
                                     }
                                 }
                                 if (surveyBanners > 1) {
@@ -1664,6 +1672,31 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
         }
         mViewPagerAdapter = new ViewPagerAdapter(getActivity());
         ViewPager_bannerLayout.setAdapter(mViewPagerAdapter);
+    }
+
+    public void updatePendingSessions(ModelUserProfile mCurrentUser) {
+        if (getActivity() != null) {
+            if (isValid(mCurrentUser.getCompany())) {
+                if (mCurrentUser.getCompany().getEnablePredefinedSessions()) { //condition check to show sessions
+                    TextView labelSessions = getView().findViewById(R.id.item_sessions);
+                    TextView labelMinutes = getView().findViewById(R.id.label_balance_mins);
+                    TextView valueMinutes = getView().findViewById(R.id.value_balance_mins);
+                    labelMinutes.setText(getString(R.string.balance_sessions));
+                    labelSessions.setText(mCurrentUser.getNumberOfPredefinedSessions() + "");
+                    valueMinutes.setText(mCurrentUser.getNumberOfPredefinedSessions() + " " + getString(R.string.sessions_lowercase));
+                } else {
+                    View sessionsLayout = getView().findViewById(R.id.layout_sessions_count);
+                    LinearLayout layoutStatus = getView().findViewById(R.id.layout_status);
+                    layoutStatus.setWeightSum(3.0f);
+                    sessionsLayout.setVisibility(GONE);
+                }
+            } else {
+                View sessionsLayout = getView().findViewById(R.id.layout_sessions_count);
+                LinearLayout layoutStatus = getView().findViewById(R.id.layout_status);
+                layoutStatus.setWeightSum(3.0f);
+                sessionsLayout.setVisibility(GONE);
+            }
+        }
     }
 
 
@@ -1748,7 +1781,7 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
                     LinearLayout_webinar.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            if (mBanner.getType().equalsIgnoreCase("survey")) {
+                            if (mBanner.getType() != null && mBanner.getType().equalsIgnoreCase("survey")) {
                                 Log.d("Survey Url 1", mBanner.getWebinarUrl());
 
                                 Intent i = new Intent(getActivity(), TermsOfUseActivity.class);

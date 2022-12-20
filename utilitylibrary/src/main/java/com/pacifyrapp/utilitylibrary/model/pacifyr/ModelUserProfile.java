@@ -3,10 +3,8 @@ package com.pacifyrapp.utilitylibrary.model.pacifyr;
 import com.pacifyrapp.utilitylibrary.model.Company;
 import com.pacifyrapp.utilitylibrary.network.UtilityNetworkService;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 
 /**
@@ -145,7 +143,10 @@ public class ModelUserProfile
 
     private Company company;
 
+    private int numberOfPredefinedSessions;
+
     private boolean enableScheduling;
+
     public boolean isEnableScheduling() {
         return enableScheduling;
     }
@@ -653,9 +654,16 @@ public class ModelUserProfile
         this.country = country;
     }
 
+    public int getNumberOfPredefinedSessions() {
+        return numberOfPredefinedSessions;
+    }
 
-    public class RoleModel
-    {
+    public void setNumberOfPredefinedSessions(int numberOfPredefinedSessions) {
+        this.numberOfPredefinedSessions = numberOfPredefinedSessions;
+    }
+
+
+    public class RoleModel {
         private String updatedAt;
 
         private String id;
