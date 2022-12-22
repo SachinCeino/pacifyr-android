@@ -1681,20 +1681,32 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
                     TextView labelSessions = getView().findViewById(R.id.item_sessions);
                     TextView labelMinutes = getView().findViewById(R.id.label_balance_mins);
                     TextView valueMinutes = getView().findViewById(R.id.value_balance_mins);
-                    labelMinutes.setText(getString(R.string.balance_sessions));
+                    labelMinutes.setText(getString(R.string.plan_sessions));
                     labelSessions.setText(mCurrentUser.getNumberOfPredefinedSessions() + "");
                     valueMinutes.setText(mCurrentUser.getNumberOfPredefinedSessions() + " " + getString(R.string.sessions_lowercase));
+                } else if (mCurrentUser.getCompany().getEnableWalletBalance()) { //condition check to show wallet balance
+                    TextView labelSessions = getView().findViewById(R.id.item_sessions);
+                    TextView labelMinutes = getView().findViewById(R.id.label_balance_mins);
+                    TextView valueMinutes = getView().findViewById(R.id.value_balance_mins);
+                    labelMinutes.setText(getString(R.string.plan_amount));
+                    labelSessions.setText(mCurrentUser.getWalletBalance() + "");
+                    valueMinutes.setText(mCurrentUser.getWalletBalance() + " " + getString(R.string.plan_amount));
                 } else {
-                    View sessionsLayout = getView().findViewById(R.id.layout_sessions_count);
-                    LinearLayout layoutStatus = getView().findViewById(R.id.layout_status);
-                    layoutStatus.setWeightSum(3.0f);
-                    sessionsLayout.setVisibility(GONE);
+                    TextView labelSessions = getView().findViewById(R.id.item_sessions);
+                    TextView labelMinutes = getView().findViewById(R.id.label_balance_mins);
+                    TextView valueMinutes = getView().findViewById(R.id.value_balance_mins);
+                    labelMinutes.setText(getString(R.string.plan_minutes));
+                    labelSessions.setText(mCurrentUser.getAvailableMinutes() + "");
+                    valueMinutes.setVisibility(View.INVISIBLE);
                 }
+
             } else {
-                View sessionsLayout = getView().findViewById(R.id.layout_sessions_count);
-                LinearLayout layoutStatus = getView().findViewById(R.id.layout_status);
-                layoutStatus.setWeightSum(3.0f);
-                sessionsLayout.setVisibility(GONE);
+                TextView labelSessions = getView().findViewById(R.id.item_sessions);
+                TextView labelMinutes = getView().findViewById(R.id.label_balance_mins);
+                TextView valueMinutes = getView().findViewById(R.id.value_balance_mins);
+                labelMinutes.setText(getString(R.string.plan_minutes));
+                labelSessions.setText(mCurrentUser.getAvailableMinutes() + "");
+                valueMinutes.setVisibility(View.INVISIBLE);
             }
         }
     }

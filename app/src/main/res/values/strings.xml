@@ -1140,5 +1140,6 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="balance_sessions">Bal. sessions</string>
     <string name="sessions_lowercase">sessions</string>
     <string name="balance_sessions_caps">BALANCE SESSIONS</string>
+    <string name="available_plan_minutes">Available plan minutes</string>
 
 </resources>

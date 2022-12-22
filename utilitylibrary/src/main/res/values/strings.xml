@@ -370,5 +370,8 @@
     <string name="main_font_medium">Avenir-Medium.ttf</string>
     <string name="free_pacifyr">freePacifyr</string>
     <string name="please_login_to_continue">Session expired. Please login to continue.</string>
+    <string name="plan_amount">plan amount</string>
+    <string name="plan_sessions">plan sessions</string>
+    <string name="plan_minutes">plan minutes</string>
 
 </resources>

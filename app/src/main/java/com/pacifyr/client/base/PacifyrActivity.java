@@ -5464,11 +5464,13 @@ public abstract class PacifyrActivity extends BaseAppCompactActivity {
 
                     if (NetworkService.mCurrentUser.getWalletBalance() != 0) {
                         text_wallet_balance.setVisibility(View.VISIBLE);
-                        text_wallet_balance.setText("Your available credit is $ " + NetworkService.mCurrentUser.getWalletBalance() + "");
+                        text_wallet_balance.setText("Your available credit is $ " + NetworkService.mCurrentUser.getWalletBalance()
+                                + " " + getString(R.string.plan_amount));
                     }
                 } else if (NetworkService.mCurrentUser.getCompany().getEnablePredefinedSessions()) {
                     text_wallet_balance.setVisibility(View.VISIBLE);
-                    text_wallet_balance.setText(NetworkService.mCurrentUser.getNumberOfPredefinedSessions() + " sessions left");
+                    text_wallet_balance.setText(NetworkService.mCurrentUser.getNumberOfPredefinedSessions()
+                            + " " + getString(R.string.plan_sessions));
                     textDialogLastMessage.setVisibility(View.GONE);
                 }
             }

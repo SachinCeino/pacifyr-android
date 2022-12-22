@@ -386,18 +386,26 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                             empMinutesListener.tick(minutesLeft);
                             if (isVideoCall)
                             {
-                                if (isValid(VideoActivity.mSessionDetailRoot) && isValid(VideoActivity.mSessionDetailRoot.getTimeSlotBookingId()))
-                                {
+                                if (isValid(VideoActivity.mSessionDetailRoot) && isValid(VideoActivity.mSessionDetailRoot.getTimeSlotBookingId())) {
                                     TextView_vidio_freeminuts_remine.setVisibility(View.GONE);
-                                }
-                                else {
+                                } else {
                                     TextView_vidio_freeminuts_remine.setVisibility(View.VISIBLE);
                                 }
 
-                                if (getPrefManager().getCountry().equals("US"))
+                                if (isValid(NetworkService.mCurrentUser.getCompany())) {
+                                    if (NetworkService.mCurrentUser.getCompany().getEnableWalletBalance()) {
+                                        TextView_vidio_freeminuts_remine.setText("Wallet balance: " + minutesLeft + " ");
+                                    } else if (NetworkService.mCurrentUser.getCompany().getEnableFreeminutes()) {
+                                        TextView_vidio_freeminuts_remine.setText("Free minutes: " + minutesLeft);
+                                    }
+                                } else {
+                                    TextView_vidio_freeminuts_remine.setText("Free minutes: " + minutesLeft);
+                                }
+
+                                /*if (getPrefManager().getCountry().equals("US"))
                                     TextView_vidio_freeminuts_remine.setText("Wallet balance: "+minutesLeft+" minutes");
                                 else
-                                    TextView_vidio_freeminuts_remine.setText("Free minutes: "+minutesLeft+" minutes");
+                                    TextView_vidio_freeminuts_remine.setText("Free minutes: "+minutesLeft+" minutes");*/
                             }
                             else
                             {
