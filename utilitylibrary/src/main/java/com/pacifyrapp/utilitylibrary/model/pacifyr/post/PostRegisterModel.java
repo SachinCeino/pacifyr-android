@@ -68,6 +68,7 @@ public class PostRegisterModel {
     private String timeZoneOffset;
     private Certification[] certification;
     private String[] states;
+    private String employeeId;
 
     public String getTimeZoneOffset() {
         return timeZoneOffset;
@@ -299,5 +300,13 @@ public class PostRegisterModel {
 
     public void setGetPaidForQuickSurveys(String getPaidForQuickSurveys) {
         this.getPaidForQuickSurveys = getPaidForQuickSurveys;
+    }
+
+    public String getEmployeeId() {
+        return employeeId;
+    }
+
+    public void setEmployeeId(String employeeId) {
+        this.employeeId = employeeId;
     }
 }

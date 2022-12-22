@@ -297,14 +297,49 @@
                    android:visibility="gone"></TextView>
            </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/LinearLayout_EmployeeId"
+                android:layout_marginTop="10dp"
+                android:layout_below="@id/LinearLayout_year"
+                android:orientation="vertical">
+
+                <com.pacifyrapp.utilitylibrary.CustomEditText
+                    android:id="@+id/employeeid_edt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/edittext_black_curve"
+                    android:gravity="center_vertical"
+                    android:hint="@string/employeeId"
+                    android:inputType="textCapWords"
+                    android:minHeight="40dp"
+                    android:paddingStart="15dp"
+                    android:textColor="@color/medium_grey_pacifyr"
+                    android:textSize="@dimen/sp16" />
+
+                <TextView
+                    android:id="@+id/TextView_employeeId_Error"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="2dp"
+                    android:text=""
+                    android:textColor="@color/red"
+                    android:textSize="12sp"
+                    android:visibility="gone"></TextView>
+
+
+            </LinearLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/LinearLayout_year"
+                android:layout_below="@id/LinearLayout_EmployeeId"
                 android:id="@+id/uploadDocLayout"
                 android:orientation="vertical"
                 android:layout_marginTop="10dp">
+
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -313,6 +348,7 @@
                     android:gravity="center_vertical"
                     android:background="@drawable/edittext_black_curve"
                     android:orientation="vertical">
+
                     <EditText
                         android:id="@+id/upload_docs_ctxv"
                         android:layout_width="wrap_content"
@@ -324,9 +360,8 @@
                         android:textColorHint="@color/black"
                         android:padding="5dp"
                         android:textSize="18sp"
-                        android:focusable="false"
-                        />
-                    
+                        android:focusable="false" />
+
                     <com.pacifyr.client.customview.MainTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -337,8 +372,7 @@
                         android:textColor="@color/colorPrimary"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
-                        android:gravity="center_horizontal"
-                        ></com.pacifyr.client.customview.MainTextView>
+                        android:gravity="center_horizontal"></com.pacifyr.client.customview.MainTextView>
                 </RelativeLayout>
 
                 <TextView
@@ -350,13 +384,13 @@
                     android:text="@string/document_upload_instruction"
                     android:textSize="8sp"
                     tools:ignore="RtlCompat" />
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/file_list_rcv"
                     android:layout_below="@+id/upload_instruction_txv"
-                    android:layout_marginTop="10dp"
-                    />
+                    android:layout_marginTop="10dp" />
             </LinearLayout>
 
             <RelativeLayout

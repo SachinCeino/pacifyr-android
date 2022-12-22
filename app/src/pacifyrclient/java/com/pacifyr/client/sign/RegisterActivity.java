@@ -1,8 +1,11 @@
 package com.pacifyr.client.sign;
 
+import static com.pacifyr.client.network.NetworkService.countryData;
+import static com.pacifyr.client.sign.RegisterVerifyActivity.phoneRegister;
+import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
+
 import android.Manifest;
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -21,7 +24,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.SystemClock;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.text.Editable;
@@ -60,9 +62,6 @@ import com.bumptech.glide.request.Request;
 import com.bumptech.glide.request.target.SizeReadyCallback;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
-import com.facebook.login.LoginManager;
-import com.gdacciaro.iOSDialog.iOSDialog;
-import com.gdacciaro.iOSDialog.iOSDialogClickListener;
 import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
 import com.github.florent37.singledateandtimepicker.dialog.SingleDateAndTimePickerDialog;
 import com.google.gson.Gson;
@@ -79,14 +78,11 @@ import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.fragment.StatesDialog;
 import com.pacifyr.client.home.PacifyrDashboardActivity;
 import com.pacifyr.client.home.WelcomeTourActivity;
-import com.pacifyr.client.home.account.AccountEditActivity;
 import com.pacifyr.client.model.Country;
-
 import com.pacifyr.client.model.ModelPacifyrDocuments;
 import com.pacifyr.client.model.State;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
-import com.pacifyr.client.quickblox.App;
 import com.pacifyr.client.utils.Constants;
 import com.pacifyr.client.utils.FirebaseLogging;
 import com.pacifyr.client.utils.LogUtils;
@@ -115,14 +111,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static com.pacifyr.client.network.NetworkService.countryData;
-import static com.pacifyr.client.sign.RegisterVerifyActivity.phoneRegister;
-import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.ACCOUNT_KEY;
-import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.APP_ID;
-import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.AUTH_KEY;
-import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.AUTH_SECRET;
-import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
 
 //import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.termOfUseUrl;
 
@@ -222,7 +210,7 @@ public class RegisterActivity extends PacifyrActivity {
     /** docs upload**/
     private LinearLayout uploadDocLayout;
     private EditText upload_docs_ctxv;
-    private int FILE_REQUEST=9;
+    private final int FILE_REQUEST = 9;
     public static ArrayList<ModelPacifyrDocuments> documentFileList;
     private RecyclerView file_list_rcv;
     private RecyclerView.Adapter fileAdapter;
@@ -238,6 +226,7 @@ public class RegisterActivity extends PacifyrActivity {
     private ArrayList<String> statesSelected = null;
     ArrayList<State> mstateList = new ArrayList<>();
     private TextView selected_states_txtv;
+    private EditText employeeid_edt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -263,7 +252,8 @@ public class RegisterActivity extends PacifyrActivity {
             phone_llay = findViewById(R.id.phone_llay);
             privacy_ctxv = findViewById(R.id.privacy_ctxv);
             layout_states = findViewById(R.id.layout_states);
-            selected_states_txtv_err=findViewById(R.id.selected_states_txtv_err);
+            employeeid_edt = findViewById(R.id.employeeid_edt);
+            selected_states_txtv_err = findViewById(R.id.selected_states_txtv_err);
             TextView_states_Error = findViewById(R.id.TextView_states_Error);
             selected_states_txtv=findViewById(R.id.selected_states_txtv);
 
@@ -598,6 +588,7 @@ public class RegisterActivity extends PacifyrActivity {
                 SpannableString.SPAN_INCLUSIVE_EXCLUSIVE);
         return link;
     }
+
     private void makeLinksFocusable(MainTextView tv) {
         MovementMethod m = tv.getMovementMethod();
         if ((m == null) || !(m instanceof LinkMovementMethod)) {
@@ -607,14 +598,51 @@ public class RegisterActivity extends PacifyrActivity {
         }
     }
 
-    private static class ClickableString extends ClickableSpan {
-        private View.OnClickListener mListener;
-        public ClickableString(View.OnClickListener listener) {
-            mListener = listener;
-        }
-        @Override
-        public void onClick(View v) {
-            mListener.onClick(v);
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case REQUESTCODE_GALLERY_IMAGE:
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                    intent.addCategory(Intent.CATEGORY_OPENABLE);
+                    intent.setType("image/*");
+                    Uri pickerInitialUri = null;
+                    // Optionally, specify a URI for the file that should appear in the
+                    // system file picker when it loads.
+                    if (pickerInitialUri != null) {
+                        intent.putExtra(DocumentsContract.EXTRA_INITIAL_URI, pickerInitialUri);
+                    }
+
+                    startActivityForResult(intent, REQUESTCODE_GALLERY_IMAGE);
+                } else {
+                    //do something like displaying a message that he didn`t allow the app to access gallery and you wont be able to let him select from gallery
+                }
+                break;
+
+            case REQUESTCODE_CAMERA_IMAGE:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    if (ContextCompat.checkSelfPermission(RegisterActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(RegisterActivity.this);
+                        alertBuilder.setCancelable(true);
+                        alertBuilder.setTitle("Permission necessary");
+                        alertBuilder.setMessage("External storage permission is necessary");
+                        alertBuilder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+                            public void onClick(DialogInterface dialog, int which) {
+                                ActivityCompat.requestPermissions(RegisterActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUESTCODE_CAMERA_IMAGE);
+                                dialog.cancel();
+                            }
+                        });
+                        AlertDialog alert = alertBuilder.create();
+                        alert.show();
+                    } else {
+                        new GligarPicker().requestCode(REQUESTCODE_CAMERA_IMAGE).disableCamera(false).cameraDirect(true).limit(1).withActivity(RegisterActivity.this).show();
+                    }
+
+
+                }
+                break;
         }
     }
 
@@ -704,8 +732,7 @@ public class RegisterActivity extends PacifyrActivity {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                }
-                else if (options[item].equals("Cancel")) {
+                } else if (options[item].equals("Cancel")) {
                     dialog.dismiss();
                 }
             }
@@ -713,53 +740,114 @@ public class RegisterActivity extends PacifyrActivity {
         builder.show();
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults)
-    {
-        switch (requestCode) {
-            case REQUESTCODE_GALLERY_IMAGE:
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-                    intent.addCategory(Intent.CATEGORY_OPENABLE);
-                    intent.setType("image/*");
-                    Uri pickerInitialUri=null;
-                    // Optionally, specify a URI for the file that should appear in the
-                    // system file picker when it loads.
-                    if (pickerInitialUri != null) {
-                        intent.putExtra(DocumentsContract.EXTRA_INITIAL_URI, pickerInitialUri);
+    private void validRegister() {
+
+        try {
+
+            PostRegisterModel postRegisterModel = new PostRegisterModel();
+
+            if (!isFacebook) {
+                if (!isValidName(nameEdt, "Please enter name"))
+                    return;
+                if (!isValidEmail1(emailEdt, "Please enter a valid email"))
+                    return;
+                if (!isValidYear(yearEdit.getText().toString()))
+                    return;
+                if (!isValidCheckBox(checkBox, getResources().getString(R.string.agree_terms_alert)))
+                    return;
+                postRegisterModel.setLoginType("manual");
+                postRegisterModel.setFirstName(nameEdt.getText().toString());
+                postRegisterModel.setEmail(emailEdt.getText().toString());
+                postRegisterModel.setLastName("");
+                Rfullname = nameEdt.getText().toString();
+                Remail = emailEdt.getText().toString();
+                phoneRegister = phoneEdit.getText().toString();
+            } else {
+                if (isValid(phoneCedt)) {
+                    if (!isValid(fbMail)) {
+                        if (!isValidEmail1(emailEdt, "Please enter a valid email"))
+                            return;
                     }
 
-                    startActivityForResult(intent, REQUESTCODE_GALLERY_IMAGE);
-                } else {
-                    //do something like displaying a message that he didn`t allow the app to access gallery and you wont be able to let him select from gallery
-                }
-                break;
-
-            case REQUESTCODE_CAMERA_IMAGE:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    if (ContextCompat.checkSelfPermission(RegisterActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(RegisterActivity.this);
-                        alertBuilder.setCancelable(true);
-                        alertBuilder.setTitle("Permission necessary");
-                        alertBuilder.setMessage("External storage permission is necessary");
-                        alertBuilder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                            @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-                            public void onClick(DialogInterface dialog, int which) {
-                                ActivityCompat.requestPermissions(RegisterActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUESTCODE_CAMERA_IMAGE);
-                                dialog.cancel();
-                            }
-                        });
-                        AlertDialog alert = alertBuilder.create();
-                        alert.show();
+                    if (isValidMobile(phoneCedt.getText().toString())) {
+                        countryData = (Country) spinner.getSelectedItem();
+                        TextView_Phonelay_Error.setVisibility(View.GONE);
+                        makEditTextBackgroundBlack(phoneCedt);
+                        String code = countryData.getCode();
+                        phoneRegister = code + phoneCedt.getText();
+                        postRegisterModel.setLoginType("facebook");
+                        postRegisterModel.setFirstName(fbFirstName);
+                        if (isValid(fbMail)) {
+                            postRegisterModel.setEmail(fbMail);
+                        } else {
+                            postRegisterModel.setEmail(emailEdt.getText().toString());
+                        }
+                        postRegisterModel.setLastName(fbLastName);
+                        Rfullname = fbFirstName + " " + fbLastName;
+                        Remail = fbMail;
+                        if (isValid(fbImage)) {
+                            postRegisterModel.setImage(fbImage);
+                        }
                     } else {
-                        new GligarPicker().requestCode(REQUESTCODE_CAMERA_IMAGE).disableCamera(false).cameraDirect(true).limit(1).withActivity(RegisterActivity.this).show();
+                        makeAlertMessageInTextView(TextView_Phonelay_Error, "Enter valid phone number");
+                        makEditTextBackgroundRed(phoneCedt);
                     }
+                    if (!isValidYear(yearEdit.getText().toString()))
+                        return;
+                    if (!isValidCheckBox(checkBox, getResources().getString(R.string.agree_terms_alert)))
+                        return;
 
-
-
+                } else {
+                    Toast.makeText(RegisterActivity.this, "Please enter phone.", Toast.LENGTH_LONG).show();
                 }
-                break;
+            }
+
+            postRegisterModel.setCountry(countryData.getCountry());
+            postRegisterModel.setDateOfBirth(yearEdit.getText().toString());
+            if (isValid(employeeid_edt.getText().toString())) {
+                postRegisterModel.setEmployeeId(employeeid_edt.getText().toString().trim());
+            }
+            postRegisterModel.setPhoneNumber(phoneRegister);
+            String[] states = getStringArray(statesSelected);
+            if (isValid(states)) {
+                postRegisterModel.setStates(states);
+            }
+
+            if (uploadDocLayout.getVisibility() == View.VISIBLE) {
+
+                if (isValidSize(documentFileList)) {
+
+                    List<Object> list = new ArrayList<>();
+                    certificationList = new ArrayList<>();
+                    for (int i = 0; i < documentFileList.size(); i++) {
+                        if (documentFileList.get(i).isUploaded())
+                            list.add(documentFileList.get(i).getFileName());
+
+                    }
+                    Certification certification = new Certification();
+                    certification.setDocuments(list);
+                    certificationList.add(certification);
+                    postRegisterModel.setCertification(certificationList);
+                } else {
+                    certificationList = new ArrayList<>();
+                    postRegisterModel.setCertification(certificationList);
+                }
+
+            }
+
+            postRegisterModel.setTimeZoneOffset(Utility.timeZoneOffset());
+
+
+            // postRegisterModel.
+            Gson gson = new Gson();
+            // gson .setExclusionStrategies(new TestExclStrat())
+            String json = gson.toJson(postRegisterModel);
+            Log.w("RegisterActivity", "Register payload : " + json);
+            //registerWeb(postRegisterModel);
+
+        } catch (Exception e) {
+            LogUtils.LOGD("sign", "lA validRegister exception " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -1050,124 +1138,21 @@ public class RegisterActivity extends PacifyrActivity {
                     finish();
                 }
             });
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
 
-    private void validRegister() {
+    private static class ClickableString extends ClickableSpan {
+        private final View.OnClickListener mListener;
 
-        try{
+        public ClickableString(View.OnClickListener listener) {
+            mListener = listener;
+        }
 
-            PostRegisterModel postRegisterModel=new PostRegisterModel();
-
-            if(!isFacebook) {
-                if (!isValidName(nameEdt, "Please enter name"))
-                    return;
-                if (!isValidEmail1(emailEdt, "Please enter a valid email"))
-                    return;
-                if (!isValidYear(yearEdit.getText().toString()))
-                    return;
-                if (!isValidCheckBox(checkBox, getResources().getString(R.string.agree_terms_alert)))
-                    return;
-                postRegisterModel.setLoginType("manual");
-                postRegisterModel.setFirstName(nameEdt.getText().toString());
-                postRegisterModel.setEmail(emailEdt.getText().toString());
-                postRegisterModel.setLastName("");
-                Rfullname=nameEdt.getText().toString();
-                Remail=emailEdt.getText().toString();
-                phoneRegister=phoneEdit.getText().toString();
-            }else{
-                if(isValid(phoneCedt)) {
-                    if(!isValid(fbMail)){
-                        if (!isValidEmail1(emailEdt, "Please enter a valid email"))
-                            return;
-                    }
-
-                    if (isValidMobile(phoneCedt.getText().toString())) {
-                        countryData = (Country) spinner.getSelectedItem();
-                        TextView_Phonelay_Error.setVisibility(View.GONE);
-                        makEditTextBackgroundBlack(phoneCedt);
-                        String code = countryData.getCode();
-                        phoneRegister = code + phoneCedt.getText();
-                        postRegisterModel.setLoginType("facebook");
-                        postRegisterModel.setFirstName(fbFirstName);
-                        if(isValid(fbMail)){
-                            postRegisterModel.setEmail(fbMail);
-                        }else{
-                            postRegisterModel.setEmail(emailEdt.getText().toString());
-                        }
-                        postRegisterModel.setLastName(fbLastName);
-                        Rfullname=fbFirstName+" "+fbLastName;
-                        Remail=fbMail;
-                        if(isValid(fbImage))
-                        {
-                            postRegisterModel.setImage(fbImage);
-                        }
-                    }else {
-                        makeAlertMessageInTextView(TextView_Phonelay_Error,"Enter valid phone number");
-                        makEditTextBackgroundRed(phoneCedt);
-                    }
-                    if (!isValidYear(yearEdit.getText().toString()))
-                        return;
-                    if (!isValidCheckBox(checkBox, getResources().getString(R.string.agree_terms_alert)))
-                        return;
-
-                }else {
-                    Toast.makeText(RegisterActivity.this,"Please enter phone.",Toast.LENGTH_LONG).show();
-                }
-            }
-
-            postRegisterModel.setCountry(countryData.getCountry());
-            postRegisterModel.setDateOfBirth(yearEdit.getText().toString());
-            postRegisterModel.setPhoneNumber(phoneRegister);
-            String[] states = getStringArray(statesSelected);
-            if (isValid(states)){
-                postRegisterModel.setStates(states);
-            }
-
-            if(uploadDocLayout.getVisibility()==View.VISIBLE) {
-
-                if (isValidSize(documentFileList))
-                {
-
-                    List<Object> list=new ArrayList<>();
-                    certificationList=new ArrayList<>();
-                    for (int i=0;i<documentFileList.size();i++)
-                    {
-                        if (documentFileList.get(i).isUploaded())
-                            list.add(documentFileList.get(i).getFileName());
-
-                    }
-                    Certification certification=new Certification();
-                    certification.setDocuments(list);
-                    certificationList.add(certification);
-                    postRegisterModel.setCertification(certificationList);
-                }
-                else
-                {
-                    certificationList=new ArrayList<>();
-                    postRegisterModel.setCertification(certificationList);
-                }
-
-            }
-
-            postRegisterModel.setTimeZoneOffset(Utility.timeZoneOffset());
-
-
-            // postRegisterModel.
-            Gson gson = new Gson();
-            // gson .setExclusionStrategies(new TestExclStrat())
-            String json = gson.toJson(postRegisterModel);
-            Log.w("@@@",String.valueOf(json));
-            registerWeb(postRegisterModel);
-
-        }catch (Exception e)
-        {
-            LogUtils.LOGD("sign","lA validRegister exception "+e.getMessage());
-            e.printStackTrace();
+        @Override
+        public void onClick(View v) {
+            mListener.onClick(v);
         }
     }
 
