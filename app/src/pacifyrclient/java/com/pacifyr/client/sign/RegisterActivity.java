@@ -1308,7 +1308,7 @@ public class RegisterActivity extends PacifyrActivity {
                 public void onCompleted(Exception e, final JsonObject json) {
                     try {
                         //String message = json.get("message");
-                        String status = json.get(getResources().getString(R.string.status)).getAsString();
+                        String status = json.get("status").getAsString();
                         if (json == null || status.equals(getResources().getString(R.string.error))) {
                             hideProgress();
                             String message = json.get(getResources().getString(R.string.message_string)).getAsString();
