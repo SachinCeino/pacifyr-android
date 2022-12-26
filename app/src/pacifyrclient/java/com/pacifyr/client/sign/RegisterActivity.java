@@ -843,7 +843,7 @@ public class RegisterActivity extends PacifyrActivity {
             // gson .setExclusionStrategies(new TestExclStrat())
             String json = gson.toJson(postRegisterModel);
             Log.w("RegisterActivity", "Register payload : " + json);
-            //registerWeb(postRegisterModel);
+            registerWeb(postRegisterModel);
 
         } catch (Exception e) {
             LogUtils.LOGD("sign", "lA validRegister exception " + e.getMessage());

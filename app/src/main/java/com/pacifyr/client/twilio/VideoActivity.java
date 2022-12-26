@@ -2222,7 +2222,7 @@ public class VideoActivity extends PacifyrActivity implements LocalParticipant.L
                             {
 
                             }
-
+                //            Log.d(TAG, "Firebase Event : " + CurrentEvent);
                             switch (CurrentEvent) {
                                 case "startbilling":
                                     System.out.println("startbilling");
