@@ -1,5 +1,7 @@
 package com.pacifyr.client.fragment;
 
+import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
+
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
@@ -28,11 +30,12 @@ import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.fragment.schedule.AppointmentModel;
 import com.pacifyr.client.fragment.schedule.ScheduleBottomSheetFragment;
 import com.pacifyr.client.netconnectionlistener.ConnectionCheckBroadcast;
-import com.pacifyr.client.orginals.Auth;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
+import com.pacifyr.client.orginals.Auth;
 import com.pacifyr.client.utility.BaseFragment;
 import com.pacifyr.client.utility.PacifyrAppCompactActivity;
+import com.pacifyr.client.utils.LogUtils;
 import com.pacifyrapp.utilitylibrary.utils.PrefManager;
 import com.squareup.otto.Subscribe;
 
@@ -41,8 +44,6 @@ import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONObject;
 
 import java.util.List;
-
-import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
 
 public class AppointmentsFragment extends BaseFragment {
 
@@ -332,6 +333,7 @@ public class AppointmentsFragment extends BaseFragment {
 
                                             if (status.equals("success")) {
                                                 mAppointmentModel.getResults().remove(position);
+                                                updateUserObj();
                                                 if (isReschedule()) {
                                                     ((PacifyrActivity) getActivity()).setStatus("Rescheduled successfully", R.color.md_green_400);
                                                     ((PacifyrActivity) getActivity()).showStatus();
@@ -415,6 +417,25 @@ public class AppointmentsFragment extends BaseFragment {
 
         }
 
+    }
+
+    private void updateUserObj() {
+        userDetailWeb(PrefManager.getInstance(getContext()).getUserID(), new AjaxCallback<JSONObject>() {
+            @Override
+            public void callback(String url, JSONObject json, AjaxStatus status) {
+                Auth.httpStatusFilter(getActivity(), status.getCode());
+                try {
+                    if (json != null) {
+                        NetworkService.mCurrentUser = GsonUtils.getInstance().gsonToModelUserProfile(json);
+                    } else {
+                        LogUtils.LOGD("base", "PA userDetailWeb json null  : " + status.getMessage());
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    LogUtils.LOGD("base", "PA userDetailWeb callback exception : " + e.getMessage());
+                }
+            }
+        });
     }
 
     @Override
