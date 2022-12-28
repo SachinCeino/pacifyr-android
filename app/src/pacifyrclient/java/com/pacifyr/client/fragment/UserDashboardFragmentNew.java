@@ -132,6 +132,8 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
     };
     private View layout_sessions_count;
     private TextView value_balance_mins;
+    private TextView sessions_error_text;
+    private View layout_status;
 
 
     @Override
@@ -193,19 +195,21 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view=inflater.inflate(R.layout.fragment_user_dashboard_new,container,false);
+        View view = inflater.inflate(R.layout.fragment_user_dashboard_new, container, false);
 
 
         //checkScreenReselution();
+        layout_status = view.findViewById(R.id.layout_status);
+        sessions_error_text = view.findViewById(R.id.error_text);
         feelImageDimv = view.findViewById(R.id.feel_image_dimv);
         feelTitleCtxv = view.findViewById(R.id.feel_title_ctxv);
-        feellabel= view.findViewById(R.id.feellabel);
+        feellabel = view.findViewById(R.id.feellabel);
         feel_err_text = view.findViewById(R.id.text_feel_error);
         pacifyr1Dimv = view.findViewById(R.id.pacifyr1_dimv);
         no_pacifyr_ctxv = view.findViewById(R.id.no_pacifyr_ctxv);
         no_lastsession_ctxv = view.findViewById(R.id.no_lastsession_ctxv);
-        no_sessions= view.findViewById(R.id.no_sessions);
-        fav_provider_name= view.findViewById(R.id.fav_provider_name);
+        no_sessions = view.findViewById(R.id.no_sessions);
+        fav_provider_name = view.findViewById(R.id.fav_provider_name);
 
         sessionsTxv = view.findViewById(R.id.sessions_txv);
         sessionCostTotal = view.findViewById(R.id.sessionCostTotal);
@@ -1268,18 +1272,19 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
                         {
 
                         }
-                    }
-                    else {
+                    } else {
                         CardView_nextAppointment.setVisibility(GONE);
                         String duration = lastSession.getDuration();
-                      //  lastSessionMinuteTxv.setText(Utility.getCorrectRoundedDuration(duration));
-                       // lastSessionMinuteTxv.setVisibility(View.VISIBLE);
-                       // videoCamImg.setVisibility(View.VISIBLE);
+                        //  lastSessionMinuteTxv.setText(Utility.getCorrectRoundedDuration(duration));
+                        // lastSessionMinuteTxv.setVisibility(View.VISIBLE);
+                        // videoCamImg.setVisibility(View.VISIBLE);
                         daysTxv.setVisibility(View.VISIBLE);
                         no_sessions.setVisibility(GONE);
 
-
                     }
+
+                    sessions_error_text.setVisibility(GONE);
+                    layout_status.setVisibility(View.VISIBLE);
 
                 }
                 else {
@@ -1287,7 +1292,9 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
                     no_sessions.setVisibility(View.VISIBLE);
                     sessionsTxv.setVisibility(GONE);
                     daysTxv.setVisibility(GONE);
-                    defSetText(no_lastsession_ctxv,getResources().getString(R.string.no_sessions_yet));
+                    defSetText(no_lastsession_ctxv, getResources().getString(R.string.no_sessions_yet));
+                    sessions_error_text.setVisibility(View.VISIBLE);
+                    layout_status.setVisibility(GONE);
 
                 }
                 if (isValid(lastWeek)) {
