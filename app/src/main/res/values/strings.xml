@@ -645,7 +645,7 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="successfully_done_payment">Successfully done payment</string>
     <string name="next_appointment">NEXT SESSION</string>
     <string name="successfully_updated_your_card">Successfully updated your card</string>
-    <string name="You_will_not_charged_">You will not be charged for this session as you have free minutes left in your account. Do you want to continue?</string>
+    <string name="You_will_not_charged_">You will not be charged for this session as you have %s in your account. Do you want to continue?</string>
     <string name="You_will_be_charged_amount">You will be charged amount ($/₹)xx for this session. Do you want to continue?</string>
     <string name="message_list">MESSAGE LIST</string>
     <string name="chat_activity">CHAT</string>
@@ -1142,5 +1142,7 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="balance_sessions_caps">BALANCE SESSIONS</string>
     <string name="available_plan_minutes">Available plan minutes</string>
     <string name="employeeId">Employee Id</string>
+    <string name="plan_mins_left">plan minutes left</string>
+    <string name="plan_sessions_left">plan sessions left</string>
 
 </resources>

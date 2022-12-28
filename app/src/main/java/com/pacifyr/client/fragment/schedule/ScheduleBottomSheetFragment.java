@@ -1,5 +1,11 @@
 package com.pacifyr.client.fragment.schedule;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+import static com.pacifyr.client.base.PacifyrActivity.errorCount;
+import static com.pacifyr.client.network.NetworkService.GLOBAL_IMAGE_URL;
+import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
+
 import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -45,7 +51,6 @@ import com.pacifyr.client.R;
 import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.home.PaymentActivity;
-import com.pacifyr.client.model.BillingSummary;
 import com.pacifyr.client.model.SchedulePayment;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
@@ -76,14 +81,6 @@ import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-
-import static android.view.View.GONE;
-import static android.view.View.VISIBLE;
-import static com.pacifyr.client.base.PacifyrActivity.errorCount;
-import static com.pacifyr.client.network.NetworkService.GLOBAL_IMAGE_URL;
-import static com.pacifyr.client.utils.Constants.PAYMENT_CARD_ADDED;
-import static com.pacifyr.client.utils.Constants.PAYMENT_CARD_ADDED_FINISH;
-import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
 
 public class ScheduleBottomSheetFragment extends BottomSheetDialogFragment {
     MUser pacifyer_obj;
@@ -1338,7 +1335,13 @@ Log.w("WWW","onCreate");
 
                                                         if (Math.round(cost) <= 0) { //EAP counselors have price set as 0. Continue with booking
 
-                                                            ((PacifyrActivity)getActivity()).setAlertStatusInWhiteNoInternet("", getResources().getString(R.string.You_will_not_charged_) , "Yes","No", new View.OnClickListener() {
+                                                            String remaingLabel = getString(R.string.plan_mins_left);
+                                                            if (isValid(NetworkService.mCurrentUser) && isValid(NetworkService.mCurrentUser.getCompany())) {
+                                                                if (NetworkService.mCurrentUser.getCompany().getEnablePredefinedSessions()) {
+                                                                    remaingLabel = getString(R.string.plan_sessions_left);
+                                                                }
+                                                            }
+                                                            ((PacifyrActivity) getActivity()).setAlertStatusInWhiteNoInternet("", getResources().getString(R.string.You_will_not_charged_, remaingLabel), "Yes", "No", new View.OnClickListener() {
                                                                 @Override
                                                                 public void onClick(View v) {
                                                                     ((PacifyrActivity) getActivity()).hideProgress();
@@ -1387,7 +1390,7 @@ Log.w("WWW","onCreate");
                                                             });
 
                                                         } else {
-                                                            ((PacifyrActivity)getActivity()).setAlertStatusInWhiteNoInternet("","You will be charged amount $"+ String.valueOf(cost)+" for this session. Do you want to continue?" , "Yes","No", new View.OnClickListener() {
+                                                            ((PacifyrActivity) getActivity()).setAlertStatusInWhiteNoInternet("", "You will be charged amount $" + cost + " for this session. Do you want to continue?", "Yes", "No", new View.OnClickListener() {
                                                                 @Override
                                                                 public void onClick(View v) {
                                                                     ((PacifyrActivity) getActivity()).hideProgress();
