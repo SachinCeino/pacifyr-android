@@ -374,4 +374,8 @@
     <string name="plan_sessions">plan sessions</string>
     <string name="plan_minutes">plan minutes</string>
 
+    <string name="plan_amount_case">Plan Amount</string>
+    <string name="plan_sessions_case">Plan Sessions</string>
+    <string name="plan_minutes_case">Plan Minutes</string>
+
 </resources>

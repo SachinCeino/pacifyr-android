@@ -1144,5 +1144,7 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="employeeId">Employee Id</string>
     <string name="plan_mins_left">plan minutes left</string>
     <string name="plan_sessions_left">plan sessions left</string>
+    <string name="amount">amount</string>
+    <string name="minutes_case">minutes</string>
 
 </resources>
