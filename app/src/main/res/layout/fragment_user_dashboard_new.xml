@@ -135,17 +135,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <com.pacifyr.client.customview.MainTextView
-                        android:id="@+id/error_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="30dp"
-                        android:text="No sessions"
-                        android:visibility="gone"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
 
                     <LinearLayout
                         android:id="@+id/layout_status"
@@ -412,7 +401,8 @@
                                 android:layout_width="50dp"
                                 android:layout_height="50dp"
                                 android:layout_alignParentTop="true"
-                                android:layout_centerInParent="true" />
+                                android:layout_centerInParent="true"
+                                android:src="@drawable/img_chat_avatar" />
 
                             <com.pacifyr.client.customview.MainTextView
                                 android:id="@+id/last_Session"
@@ -486,6 +476,22 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
+
+                    <Button
+                        android:id="@+id/action_connect_providers"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/blue_round_button"
+                        android:paddingStart="15dp"
+                        android:paddingEnd="15dp"
+                        android:text="@string/browse_pacifyr"
+                        android:textColor="@color/white"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textViewfav_label" />
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:layout_width="0dp"

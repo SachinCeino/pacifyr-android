@@ -86,6 +86,7 @@ import com.pacifyr.client.orginals.Auth;
 import com.pacifyr.client.twiliochat.TwilioCoversationListActivity;
 import com.pacifyr.client.utility.BaseFragment;
 import com.pacifyr.client.utility.EventMessage;
+import com.pacifyr.client.utils.Constants;
 import com.pacifyr.client.utils.Toaster;
 import com.pacifyr.client.utils.Utility;
 import com.pacifyrapp.utilitylibrary.model.pacifyr.MSessionDetailRoot;
@@ -132,8 +133,6 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
     };
     private View layout_sessions_count;
     private TextView value_balance_mins;
-    private TextView sessions_error_text;
-    private View layout_status;
 
 
     @Override
@@ -199,8 +198,6 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
 
 
         //checkScreenReselution();
-        layout_status = view.findViewById(R.id.layout_status);
-        sessions_error_text = view.findViewById(R.id.error_text);
         feelImageDimv = view.findViewById(R.id.feel_image_dimv);
         feelTitleCtxv = view.findViewById(R.id.feel_title_ctxv);
         feellabel = view.findViewById(R.id.feellabel);
@@ -1037,6 +1034,10 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
 
             }
         } else {
+            Glide.with(getActivity()).load(GLOBAL_IMAGE_URL + Constants.IMAGE_GRATITUDE)
+                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                    .transition(DrawableTransitionOptions.withCrossFade()).into(feelImageDimv);
+            feelTitleCtxv.setText("--");
             //feel_err_text.setVisibility(View.VISIBLE);
         }
         ((DashboardActivity)getActivity()).getUnratedSessions();
@@ -1073,16 +1074,24 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
                     modelCustomerDashboard2 = GsonUtils.getInstance().gsonToModelCustomerDashboard2(json);
                     setMyAdapter();
 
-                    if (isValid(modelCustomerDashboard2.getPreferredPacifyrs().length))
-                    {
+                    if (isValid(modelCustomerDashboard2.getPreferredPacifyrs().length)) {
 
                         if (favProvidersShown)
                             return;
                         setUpFavProviderAdapter();
-
+                        View action = getView().findViewById(R.id.action_connect_providers);
+                        action.setVisibility(GONE);
                     }
                     else {
-                        cardView_fav_providers.setVisibility(GONE);
+                        cardView_fav_providers.setVisibility(View.VISIBLE);
+                        View action = getView().findViewById(R.id.action_connect_providers);
+                        action.setVisibility(View.VISIBLE);
+                        action.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                ConnectToPacifyrActivity.start(getActivity());
+                            }
+                        });
                     }
 
 
@@ -1186,11 +1195,11 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
             {
                 if (EmotionTitle.equals(""))
                 {
-                    if(isValid(feel_err_text))
+                    /*if(isValid(feel_err_text))
                     {feel_err_text.setVisibility(View.VISIBLE);
                         defSetText(feel_err_text,"Please select an emotion");
                         feellabel.setVisibility(GONE);
-                    }
+                    }*/
                 }
 
             }
@@ -1283,18 +1292,15 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
 
                     }
 
-                    sessions_error_text.setVisibility(GONE);
-                    layout_status.setVisibility(View.VISIBLE);
 
                 }
                 else {
-                    no_lastsession_ctxv.setVisibility(View.VISIBLE);
-                    no_sessions.setVisibility(View.VISIBLE);
-                    sessionsTxv.setVisibility(GONE);
-                    daysTxv.setVisibility(GONE);
-                    defSetText(no_lastsession_ctxv, getResources().getString(R.string.no_sessions_yet));
-                    sessions_error_text.setVisibility(View.VISIBLE);
-                    layout_status.setVisibility(GONE);
+                    no_lastsession_ctxv.setVisibility(GONE);
+                    daysTxv.setText("0 min. ago");
+                    //no_sessions.setVisibility(View.VISIBLE);
+                    //sessionsTxv.setVisibility(GONE);
+                    //daysTxv.setVisibility(View.INVISIBLE);
+                    //defSetText(no_lastsession_ctxv, getResources().getString(R.string.no_sessions_yet));
 
                 }
                 if (isValid(lastWeek)) {
