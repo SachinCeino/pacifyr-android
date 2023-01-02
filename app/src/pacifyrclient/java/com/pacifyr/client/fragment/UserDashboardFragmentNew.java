@@ -1296,7 +1296,7 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
                 }
                 else {
                     no_lastsession_ctxv.setVisibility(GONE);
-                    daysTxv.setText("0 min. ago");
+                    daysTxv.setText("0 min ago");
                     //no_sessions.setVisibility(View.VISIBLE);
                     //sessionsTxv.setVisibility(GONE);
                     //daysTxv.setVisibility(View.INVISIBLE);
