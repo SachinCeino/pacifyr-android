@@ -75,7 +75,6 @@ import com.pacifyr.client.home.ConnectToPacifyrActivity;
 import com.pacifyr.client.home.ConnectToSinglePacifyrActivity;
 import com.pacifyr.client.home.DashboardActivity;
 import com.pacifyr.client.home.LastSessionActivity;
-import com.pacifyr.client.home.ListPacifyrScreenActivity;
 import com.pacifyr.client.home.MySessionsActivity;
 import com.pacifyr.client.home.ProfileScreenActivity;
 import com.pacifyr.client.model.Banners;
@@ -1090,7 +1089,7 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
                         action.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                ListPacifyrScreenActivity.start(getActivity(), ConnectToPacifyrActivity.customerEmotion, false);
+                                ConnectToPacifyrActivity.start(getActivity());
                             }
                         });
                     }

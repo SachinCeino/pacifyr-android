@@ -477,16 +477,17 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <Button
+                    <TextView
                         android:id="@+id/action_connect_providers"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
-                        android:background="@drawable/blue_round_button"
                         android:paddingStart="15dp"
                         android:paddingEnd="15dp"
-                        android:text="@string/browse_pacifyr"
-                        android:textColor="@color/white"
+                        android:text="@string/connect_pacifyr_underline"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
                         android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"

@@ -158,6 +158,7 @@
     <string name="talk_to_pacifyr">Talk to your Provider using chat,audio or video</string>
 
     <string name="connect_pacifyr">CONNECT TO PROVIDERS</string>
+    <string name="connect_pacifyr_underline"><u>CONNECT TO PROVIDERS</u></string>
     <string name="browse_pacifyr">BROWSE PROVIDERS</string>
     <string name="pref_pacifyrs">PREFERRED PROVIDERS</string>
     <string name="signup">Sign in</string>
