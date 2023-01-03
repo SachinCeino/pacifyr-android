@@ -1141,10 +1141,14 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="sessions_lowercase">sessions</string>
     <string name="balance_sessions_caps">BALANCE SESSIONS</string>
     <string name="available_plan_minutes">Available plan minutes</string>
+    <string name="available_plan_minutes_caps">AVAILABLE PLAN MINUTES</string>
+    <string name="available_plan_sessions_caps">AVAILABLE PLAN SESSIONS</string>
+    <string name="available_plan_amount_caps">AVAILABLE PLAN AMOUNT</string>
     <string name="employeeId">Employee Id</string>
     <string name="plan_mins_left">plan minutes left</string>
     <string name="plan_sessions_left">plan sessions left</string>
     <string name="amount">amount</string>
     <string name="minutes_case">minutes</string>
+    <string name="connect_pacifyr_case">Connect to Providers</string>
 
 </resources>

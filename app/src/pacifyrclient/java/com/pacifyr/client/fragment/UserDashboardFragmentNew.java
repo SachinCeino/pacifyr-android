@@ -1080,11 +1080,15 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
                             return;
                         setUpFavProviderAdapter();
                         View action = getView().findViewById(R.id.action_connect_providers);
+                        View arrow1 = getView().findViewById(R.id.icon_arrow_1);
                         action.setVisibility(GONE);
+                        arrow1.setVisibility(GONE);
                     }
                     else {
                         cardView_fav_providers.setVisibility(View.VISIBLE);
                         View action = getView().findViewById(R.id.action_connect_providers);
+                        View arrow1 = getView().findViewById(R.id.icon_arrow_1);
+                        arrow1.setVisibility(View.VISIBLE);
                         action.setVisibility(View.VISIBLE);
                         action.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -1720,7 +1724,7 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
                 TextView labelSessions = getView().findViewById(R.id.item_sessions);
                 TextView labelMinutes = getView().findViewById(R.id.label_balance_mins);
                 TextView valueMinutes = getView().findViewById(R.id.value_balance_mins);
-                labelMinutes.setText(getString(R.string.plan_minutes));
+                labelMinutes.setText(getString(R.string.plan_minutes_case));
                 labelSessions.setText(mCurrentUser.getAvailableMinutes() + "");
                 valueMinutes.setText(mCurrentUser.getAvailableMinutes() + " " + getString(R.string.minutes_case));
                 //valueMinutes.setVisibility(View.INVISIBLE);

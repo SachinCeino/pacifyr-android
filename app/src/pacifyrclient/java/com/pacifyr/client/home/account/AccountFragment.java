@@ -147,22 +147,23 @@ public class AccountFragment extends BaseFragment {
                 if (isValid(NetworkService.mCurrentUser.getCompany())) {
                     if (NetworkService.mCurrentUser.getCompany().getEnableWalletBalance()) {
                         if (NetworkService.mCurrentUser.getWalletBalance() != 0) {
+                            label_balance.setText(getString(R.string.available_plan_amount_caps));
                             TextView_walletBalence.setText("$ " + NetworkService.mCurrentUser.getWalletBalance() + " plan amount");
                             wallet_card.setVisibility(View.VISIBLE);
                         }
                     } else if (NetworkService.mCurrentUser.getCompany().getEnablePredefinedSessions()) {
                         TextView_walletBalence.setText(NetworkService.mCurrentUser.getNumberOfPredefinedSessions() + " plan sessions");
-                        label_balance.setText(getString(R.string.balance_sessions_caps));
+                        label_balance.setText(getString(R.string.available_plan_sessions_caps));
                         wallet_card.setVisibility(View.VISIBLE);
                     } else if (NetworkService.mCurrentUser.getCompany().getEnableFreeminutes()) {
                         TextView_walletBalence.setText(NetworkService.mCurrentUser.getAvailableMinutes()
                                 + " " + getString(R.string.plan_minutes));
-                        label_balance.setText(getString(R.string.balance_minutes));
+                        label_balance.setText(getString(R.string.available_plan_minutes_caps));
                         wallet_card.setVisibility(View.VISIBLE);
                     }
                 } else if (isValid(NetworkService.mCurrentUser.getAvailableMinutes())) {
                     TextView_walletBalence.setText(NetworkService.mCurrentUser.getAvailableMinutes() + " plan minutes");
-                    label_balance.setText(getString(R.string.available_plan_minutes));
+                    label_balance.setText(getString(R.string.available_plan_minutes_caps));
                     wallet_card.setVisibility(View.VISIBLE);
                 }
 
@@ -255,23 +256,24 @@ public class AccountFragment extends BaseFragment {
                             TextView_walletBalence.setText("$ " + NetworkService.mCurrentUser.getWalletBalance()
                                     + " " + getString(R.string.plan_amount));
                             wallet_card.setVisibility(View.VISIBLE);
+                            label_balance.setText(getString(R.string.available_plan_amount_caps));
                         }
 
                     } else if (NetworkService.mCurrentUser.getCompany().getEnablePredefinedSessions()) {
                         TextView_walletBalence.setText(NetworkService.mCurrentUser.getNumberOfPredefinedSessions()
                                 + " " + getString(R.string.plan_sessions));
-                        label_balance.setText(getString(R.string.balance_sessions_caps));
+                        label_balance.setText(getString(R.string.available_plan_sessions_caps));
                         wallet_card.setVisibility(View.VISIBLE);
                     } else if (NetworkService.mCurrentUser.getCompany().getEnableFreeminutes()) {
                         TextView_walletBalence.setText(NetworkService.mCurrentUser.getAvailableMinutes()
                                 + " " + getString(R.string.plan_minutes));
-                        label_balance.setText(getString(R.string.balance_minutes));
+                        label_balance.setText(getString(R.string.available_plan_minutes_caps));
                         wallet_card.setVisibility(View.VISIBLE);
                     }
                 } else if (isValid(NetworkService.mCurrentUser.getAvailableMinutes())) {
                     TextView_walletBalence.setText(NetworkService.mCurrentUser.getAvailableMinutes()
                             + " " + getString(R.string.plan_minutes));
-                    label_balance.setText(getString(R.string.available_plan_minutes));
+                    label_balance.setText(getString(R.string.available_plan_minutes_caps));
                     wallet_card.setVisibility(View.VISIBLE);
                 }
 
