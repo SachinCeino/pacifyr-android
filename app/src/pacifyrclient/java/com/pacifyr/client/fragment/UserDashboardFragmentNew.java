@@ -1687,8 +1687,12 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
         if (banners.size() > 1) {
             ImageView_next.setVisibility(View.VISIBLE);
         }
-        mViewPagerAdapter = new ViewPagerAdapter(getActivity());
-        ViewPager_bannerLayout.setAdapter(mViewPagerAdapter);
+        try {
+            mViewPagerAdapter = new ViewPagerAdapter(getActivity());
+            ViewPager_bannerLayout.setAdapter(mViewPagerAdapter);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void updatePendingSessions(ModelUserProfile mCurrentUser) {
