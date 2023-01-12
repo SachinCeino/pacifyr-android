@@ -1,5 +1,8 @@
 package com.pacifyr.client.sign;
 
+import static com.pacifyr.client.network.NetworkService.isRelease;
+import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
@@ -7,7 +10,6 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
-import android.text.Html;
 import android.text.SpannableStringBuilder;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
@@ -55,8 +57,6 @@ import org.json.JSONObject;
 
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
-
-import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
 
 public class RegisterVerifyActivity extends PacifyrActivity {
 
@@ -157,13 +157,18 @@ public class RegisterVerifyActivity extends PacifyrActivity {
                         showProgress();
                         mVerificationInProgress = false;
                         //otpRecieveEditText.setText(credential.getSmsCode());
-                        String url = GLOBAL_URL + "login/phonenumber";
+                        String url;
+                        if (isRelease) {
+                            url = GLOBAL_URL + "login/firebaseAuth";
+                        } else {
+                            url = GLOBAL_URL + "login/phonenumber";
+                        }
 
                         AjaxCallback cb = new AjaxCallback<JSONObject>() {
                             @Override
                             public void callback(String url, final JSONObject json, final AjaxStatus status) {
                                 try {
-                                    String stat= json.getString("status");
+                                    String stat = json.getString("status");
                                     //String messag= json.getString("message");
                                     String logstat = status.getMessage();
                                     if (isValid(stat)) {
@@ -324,17 +329,22 @@ public class RegisterVerifyActivity extends PacifyrActivity {
                             Log.d("LOG:::", "signInWithCredential:success");
 
                             FirebaseUser user = task.getResult().getUser();
-                            String url = GLOBAL_URL + "login/phonenumber";
+                            String url;
+                            if (isRelease) {
+                                url = GLOBAL_URL + "login/firebaseAuth";
+                            } else {
+                                url = GLOBAL_URL + "login/phonenumber";
+                            }
 
                             try {
-                            AjaxCallback cb = new AjaxCallback<JSONObject>() {
-                                @Override
-                                public void callback(String url, final JSONObject json, final AjaxStatus status) {
-                                    try {
-                                        String stat= json.getString("status");
-                                        //String messag= json.getString("message");
-                                        String logstat = status.getMessage();
-                                        if (isValid(stat)) {
+                                AjaxCallback cb = new AjaxCallback<JSONObject>() {
+                                    @Override
+                                    public void callback(String url, final JSONObject json, final AjaxStatus status) {
+                                        try {
+                                            String stat = json.getString("status");
+                                            //String messag= json.getString("message");
+                                            String logstat = status.getMessage();
+                                            if (isValid(stat)) {
                                             if (stat.equals("success")) {
 
                                                 //Toast.makeText(RegisterVerifyActivity.this, "Mobile number already registered", Toast.LENGTH_LONG).show();
