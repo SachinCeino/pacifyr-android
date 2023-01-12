@@ -33,6 +33,7 @@ import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.goodiebag.pinview.Pinview;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.FirebaseTooManyRequestsException;
@@ -40,6 +41,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GetTokenResult;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.kaopiz.kprogresshud.KProgressHUD;
@@ -48,6 +50,7 @@ import com.pacifyr.client.base.PacifyrActivity;
 import com.pacifyr.client.customview.MainTextView;
 import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.netconnectionlistener.ConnectionCheckBroadcast;
+import com.pacifyr.client.utility.AWSManager;
 import com.pacifyr.client.utils.FirebaseLogging;
 import com.pacifyrapp.utilitylibrary.DeviceFitImageView;
 import com.squareup.otto.Subscribe;
@@ -156,8 +159,25 @@ public class RegisterVerifyActivity extends PacifyrActivity {
                         hideKeyboard();
                         showProgress();
                         mVerificationInProgress = false;
+
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+
+                                if (isValid(credential.getSmsCode())) {
+                                    pinview.setValue(credential.getSmsCode());
+                                } else {
+                                    Random rnd = new Random();
+                                    int n = 100000 + rnd.nextInt(900000);
+                                    pinview.setValue(Integer.toString(n));
+                                }
+                                signInWithPhoneAuthCredential(credential);
+                                hideProgress();
+
+                            }
+                        }, 900);
                         //otpRecieveEditText.setText(credential.getSmsCode());
-                        String url;
+                       /* String url;
                         if (isRelease) {
                             url = GLOBAL_URL + "login/firebaseAuth";
                         } else {
@@ -187,24 +207,9 @@ public class RegisterVerifyActivity extends PacifyrActivity {
 
                                         } else if (stat.equals("error")) {
 
-                                           // Toast.makeText(RegisterVerifyActivity.this, "Mobile number not registered", Toast.LENGTH_LONG).show();
+                                            // Toast.makeText(RegisterVerifyActivity.this, "Mobile number not registered", Toast.LENGTH_LONG).show();
 
-                                            new Handler().postDelayed(new Runnable() {
-                                                @Override
-                                                public void run() {
 
-                                                    if (isValid(credential.getSmsCode())) {
-                                                        pinview.setValue(credential.getSmsCode());
-                                                    } else {
-                                                        Random rnd = new Random();
-                                                        int n = 100000 + rnd.nextInt(900000);
-                                                        pinview.setValue(Integer.toString(n));
-                                                    }
-                                                    signInWithPhoneAuthCredential(credential);
-                                                    hideProgress();
-
-                                                }
-                                            }, 900);
 
                                         }
                                     }
@@ -217,8 +222,14 @@ public class RegisterVerifyActivity extends PacifyrActivity {
                         AQuery aq = new AQuery(RegisterVerifyActivity.this);
                         cb.header("Content-Type", "application/json");
                         JSONObject postDataParams = new JSONObject();
-                        postDataParams.putOpt("phoneNumber",  phoneRegister);
-                        aq.post(url, postDataParams, JSONObject.class, cb);
+                        if (isRelease){
+                            postDataParams.putOpt("applicationName", AWSManager.getProjectName(RegisterVerifyActivity.this));
+                            postDataParams.putOpt("token",token);
+                        }
+                        else {
+                            postDataParams.putOpt("phoneNumber",phoneRegister);
+                        }
+                        aq.post(url, postDataParams, JSONObject.class, cb);*/
                     }
                     catch (Exception ex)
                     {
@@ -301,7 +312,7 @@ public class RegisterVerifyActivity extends PacifyrActivity {
             mVerificationInProgress = true;
 
             startTimer();
-      }
+        }
         catch (Exception ex)
         {
             ex.printStackTrace();
@@ -321,14 +332,19 @@ public class RegisterVerifyActivity extends PacifyrActivity {
     private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
 
         mAuth.signInWithCredential(credential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        hideProgress();
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d("LOG:::", "signInWithCredential:success");
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                hideProgress();
+                if (task.isSuccessful()) {
+                    // Sign in success, update UI with the signed-in user's information
+                    Log.d("LOG:::", "signInWithCredential:success");
 
-                            FirebaseUser user = task.getResult().getUser();
+                    FirebaseUser user = task.getResult().getUser();
+                    user.getIdToken(true).addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<GetTokenResult> task) {
+                            String token = task.getResult().getToken();
+
                             String url;
                             if (isRelease) {
                                 url = GLOBAL_URL + "login/firebaseAuth";
@@ -345,104 +361,90 @@ public class RegisterVerifyActivity extends PacifyrActivity {
                                             //String messag= json.getString("message");
                                             String logstat = status.getMessage();
                                             if (isValid(stat)) {
-                                            if (stat.equals("success")) {
+                                                if (stat.equals("success")) {
 
-                                                //Toast.makeText(RegisterVerifyActivity.this, "Mobile number already registered", Toast.LENGTH_LONG).show();
-                                                setAlertOKStatusInRed(getResources().getString(R.string.registration_failed), getResources().getString(R.string.failed_register_message), "OK", new View.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(View v) {
-                                                        hideStatus();
-                                                        Intent mIntent = new Intent(RegisterVerifyActivity.this, SignActivity.class);
-                                                        mIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                                        startActivity(mIntent);
-                                                    }
-                                                });
-
-                                            } else if (stat.equals("error")) {
-
-                                                //Toast.makeText(RegisterVerifyActivity.this, "Mobile number not registered", Toast.LENGTH_LONG).show();
-
-                                                Intent intent = new Intent(RegisterVerifyActivity.this, RegisterActivity.class);
-                                                startActivity(intent);
-
-                                                /*new Handler().postDelayed(new Runnable() {
-                                                    @Override
-                                                    public void run() {
-
-                                                        if (isValid(credential.getSmsCode())) {
-                                                            pinview.setValue(credential.getSmsCode());
-                                                        } else {
-                                                            Random rnd = new Random();
-                                                            int n = 100000 + rnd.nextInt(900000);
-                                                            pinview.setValue(Integer.toString(n));
+                                                    //Toast.makeText(RegisterVerifyActivity.this, "Mobile number already registered", Toast.LENGTH_LONG).show();
+                                                    setAlertOKStatusInRed(getResources().getString(R.string.registration_failed), getResources().getString(R.string.failed_register_message), "OK", new View.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(View v) {
+                                                            hideStatus();
+                                                            Intent mIntent = new Intent(RegisterVerifyActivity.this, SignActivity.class);
+                                                            mIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                                            startActivity(mIntent);
                                                         }
-                                                       // signInWithPhoneAuthCredential(credential);
-                                                        hideProgress();
+                                                    });
 
-                                                    }
-                                                }, 900);*/
+                                                } else if (stat.equals("error")) {
 
+                                                    Intent intent = new Intent(RegisterVerifyActivity.this, RegisterActivity.class);
+                                                    startActivity(intent);
+
+                                                }
                                             }
+                                        } catch (Exception e) {
+                                            hideProgress();
+                                            e.printStackTrace();
                                         }
-                                    } catch (Exception e) {
-                                        hideProgress();
-                                        e.printStackTrace();
                                     }
+                                };
+                                AQuery aq = new AQuery(RegisterVerifyActivity.this);
+                                cb.header("Content-Type", "application/json");
+                                JSONObject postDataParams = new JSONObject();
+
+                                if (isRelease) {
+                                    postDataParams.putOpt("applicationName",
+                                            AWSManager.getProjectName(RegisterVerifyActivity.this));
+                                    postDataParams.putOpt("token", token);
+                                } else {
+                                    postDataParams.putOpt("phoneNumber", phoneRegister);
                                 }
-                            };
-                            AQuery aq = new AQuery(RegisterVerifyActivity.this);
-                            cb.header("Content-Type", "application/json");
-                            JSONObject postDataParams = new JSONObject();
+                                aq.post(url, postDataParams, JSONObject.class, cb);
 
-                                postDataParams.putOpt("phoneNumber",  phoneRegister);
-
-                            aq.post(url, postDataParams, JSONObject.class, cb);
-
-                                } catch (JSONException e) {
+                            } catch (JSONException e) {
                                 e.printStackTrace();
                             }
-                           /* if(bundle.getString("from").equals("signup")) {*/
 
-                            /*}
-                            else
-                            {
-                                Intent intent = new Intent(RegisterVerifyActivity.this, LoginPhoneActivity.class);
-                                intent.putExtra("phone",phoneRegister);
-                                startActivity(intent);
-                                finish();
-                            }*/
                             Bundle args =
                                     FirebaseLogging.getConstantArgsLoggedOut(RegisterVerifyActivity.this);
                             args.putString(FirebaseLogging.EC, phoneRegister + "onComplete");
                             FirebaseLogging.sendLog(RegisterVerifyActivity.this,
                                     FirebaseLogging.EVENT_LOGIN_OTP_VERIFIED, args);
-                        } else {
-                            // Sign in failed, display a message and update the UI
-                            Log.w("LOG", "signInWithCredential:failure", task.getException());
-                            Bundle args =
-                                    FirebaseLogging.getConstantArgsLoggedOut(RegisterVerifyActivity.this);
-                            args.putString(FirebaseLogging.EC, phoneRegister + "Error"+task.getException().toString());
-                            FirebaseLogging.sendLog(RegisterVerifyActivity.this,
-                                    FirebaseLogging.EVENT_LOGIN_OTP_VERIFICATION_FAIL, args);
-                            if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
-                                //otpRecieveEditText.setError("Invalid code.");
-                                //Toast.makeText(RegisterVerifyActivity.this,"Invalid code ",Toast.LENGTH_LONG).show();
-                                setAlertOKStatusInRed(getResources().getString(R.string.registration_failed), "Invalid verification code. Please try again", "OK", new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        hideStatus();
-                                    }
-                                });
-                            } else {
-                                setAlertOKStatusInRed(getResources().getString(R.string.registration_failed), task.getException().getMessage(), "OK", new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        hideStatus();
-                                    }
-                                });
-                            }
+
                         }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(RegisterVerifyActivity.this, "Phone number verify error:" + e.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    });
+
+                } else {
+                    // Sign in failed, display a message and update the UI
+                    Log.w("LOG", "signInWithCredential:failure", task.getException());
+                    Bundle args =
+                            FirebaseLogging.getConstantArgsLoggedOut(RegisterVerifyActivity.this);
+                    args.putString(FirebaseLogging.EC, phoneRegister + "Error" + task.getException().toString());
+                    FirebaseLogging.sendLog(RegisterVerifyActivity.this,
+                            FirebaseLogging.EVENT_LOGIN_OTP_VERIFICATION_FAIL, args);
+                    if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
+                        //otpRecieveEditText.setError("Invalid code.");
+                        //Toast.makeText(RegisterVerifyActivity.this,"Invalid code ",Toast.LENGTH_LONG).show();
+                        setAlertOKStatusInRed(getResources().getString(R.string.registration_failed), "Invalid verification code. Please try again", "OK", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                hideStatus();
+                            }
+                        });
+                    } else {
+                        setAlertOKStatusInRed(getResources().getString(R.string.registration_failed), task.getException().getMessage(), "OK", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                hideStatus();
+                            }
+                        });
                     }
+                }
+            }
         });
     }
 
@@ -479,19 +481,18 @@ public class RegisterVerifyActivity extends PacifyrActivity {
 
     private void startPhoneNumberVerification(String phoneNumber) {
         // [START start_phone_auth]
-       try {
-           PhoneAuthProvider.getInstance().verifyPhoneNumber(
-                   phoneNumber,        // Phone number to verify
-                   60,                 // Timeout duration
-                   TimeUnit.SECONDS,   // Unit of timeout
-                   this,               // Activity (for callback binding)
-                   mCallbacks);        // OnVerificationStateChangedCallbacks
+        try {
+            PhoneAuthProvider.getInstance().verifyPhoneNumber(
+                    phoneNumber,        // Phone number to verify
+                    60,                 // Timeout duration
+                    TimeUnit.SECONDS,   // Unit of timeout
+                    this,               // Activity (for callback binding)
+                    mCallbacks);        // OnVerificationStateChangedCallbacks
 
-           mVerificationInProgress = true;
-           } catch (Exception e)
-       {
+            mVerificationInProgress = true;
+        } catch (Exception e) {
 
-       }
+        }
     }
 
 
@@ -531,11 +532,11 @@ public class RegisterVerifyActivity extends PacifyrActivity {
         Typeface type = Typeface.createFromAsset(getAssets(),getResources().getString(R.string.avantica_bold_header));
         titleTxv.setTypeface(type);
         leftLlay.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    finish();
-                }
-            });
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
 
