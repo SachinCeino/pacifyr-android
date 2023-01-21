@@ -7,6 +7,7 @@ import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -39,6 +40,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -543,17 +545,36 @@ public class RegisterActivity extends PacifyrActivity {
 
     public void showDialog(final CustomEditText textView, String string){
         try {
-            Calendar calendar =Calendar.getInstance();
-            calendar.add(Calendar.YEAR,-18);
+            Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.YEAR, -18);
 
-            SingleDateAndTimePickerDialog.Builder mSingleDateAndTimePickerDialog =   new SingleDateAndTimePickerDialog.Builder(this);
+            DatePickerDialog datePickerDialog = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
+                        Calendar calendar1 = Calendar.getInstance();
+                        calendar1.set(i, i1, i2);
+
+                        SimpleDateFormat postFormater = new SimpleDateFormat("dd-MMM-yyyy");
+                        String newDateStr = postFormater.format(calendar1.getTime());
+                        Log.w("@@@Date", newDateStr);
+                        yearEdit.setText(newDateStr);
+                    }
+                }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+                datePickerDialog.show();
+                return;
+            }
+
+
+            SingleDateAndTimePickerDialog.Builder mSingleDateAndTimePickerDialog = new SingleDateAndTimePickerDialog.Builder(this);
             mSingleDateAndTimePickerDialog.bottomSheet();
             mSingleDateAndTimePickerDialog.backgroundColor(getResources().getColor(R.color.grey_light));
             mSingleDateAndTimePickerDialog.titleTextColor(getResources().getColor(R.color.colorPrimary));
             mSingleDateAndTimePickerDialog.mainColor(getResources().getColor(R.color.black));
             mSingleDateAndTimePickerDialog.displayListener(new SingleDateAndTimePickerDialog.DisplayListener() {
-                        @Override
-                        public void onDisplayed(SingleDateAndTimePicker picker) {
+                @Override
+                public void onDisplayed(SingleDateAndTimePicker picker) {
                             picker.selectDate(calendar);
                         }
                     });
