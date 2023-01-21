@@ -1288,14 +1288,15 @@ public class RegisterActivity extends PacifyrActivity {
     }
 
     public Boolean isValidYear(String text) {
-        if (text.equals(""))
-        {
-            makeAlertMessageInTextView(TextView_Year_Error,"Please enter date of birth");
+        if (text.equals("")) {
+            makeAlertMessageInTextView(TextView_Year_Error, "Please enter date of birth");
             makEditTextBackgroundRed(yearEdit);
             return false;
-        }
-        else
-        {
+        } else if (!isValidMajor(text)) {
+            makeAlertMessageInTextView(TextView_Year_Error, "You must be 18 years or older to use Pacifyr");
+            makEditTextBackgroundRed(yearEdit);
+            return false;
+        } else {
             TextView_Year_Error.setVisibility(View.GONE);
             makEditTextBackgroundBlack(yearEdit);
             return true;
@@ -1305,12 +1306,15 @@ public class RegisterActivity extends PacifyrActivity {
     }
 
     private boolean isValidMajor(String s) {
-
-        Calendar calendar = Calendar.getInstance();
-        int currentYear = calendar.get(Calendar.YEAR);
-        Integer birthYear=Integer.parseInt(s);
-        int diff=currentYear-birthYear;
-        return diff > 18;
+        String[] splits = s.split("-");
+        if (splits.length == 3) {
+            Calendar calendar = Calendar.getInstance();
+            int currentYear = calendar.get(Calendar.YEAR);
+            Integer birthYear = Integer.parseInt(splits[2]);
+            int diff = currentYear - birthYear;
+            return diff >= 18;
+        }
+        return false;
     }
 
     private void registerWeb(final PostRegisterModel regpost) {
