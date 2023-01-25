@@ -20,6 +20,8 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.Html;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -83,6 +85,7 @@ import com.pacifyr.client.model.UnreadCountModel;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
 import com.pacifyr.client.orginals.Auth;
+import com.pacifyr.client.receiver.NotificationUtils;
 import com.pacifyr.client.twiliochat.TwilioCoversationListActivity;
 import com.pacifyr.client.utility.BaseFragment;
 import com.pacifyr.client.utility.EventMessage;
@@ -1122,56 +1125,29 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
             cb.header("Content-Type", "application/json");
             cb.header("AccessToken", token);
             //aq.post(url, jsonObject, JSONObject.class, cb);
-            aq.ajax(url,JSONObject.class, cb);
-        }
-        catch (Exception ex)
-        {
+            aq.ajax(url, JSONObject.class, cb);
+        } catch (Exception ex) {
             ex.printStackTrace();
             //hideProgress();
         }
         //hideProgress();
     }
 
-    private void setUpSurveyUI(List<ModelCustomerDashboard2.Survey> surveys) {
-
-        if (isValid(surveys.get(0))) {
-            ModelCustomerDashboard2.Survey object = surveys.get(0);
-            if (isValid(object))
-            {
-                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault());
-                Date c = Calendar.getInstance().getTime();
-                int dys = (int) Utility.getDateDiff(format, format.format(c),object.getEndTime());
-                CardView_SurveyLink.setVisibility(View.VISIBLE);
-                TV_survey_title.setText(object.getTitle());
-                TV_Survey_Days.setText(dys + " Days");
-                ModelCustomerDashboard2.Survey finalObject = object;
-                CardView_SurveyLink.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-
-                        // if type = survey, survey url will end with email=xxx,
-                        // replace xxx with user email
-                        if (finalObject.getFormUrl().contains("email=")) {
-                            String[] split = finalObject.getFormUrl().split("=");
-                            finalObject.setFormUrl(split[0] + "=" + PrefManager.getInstance(getActivity()).getEmail());
-                        }
-
-                        Log.d("Survey Url 2", finalObject.getFormUrl());
-                        Intent i = new Intent(getActivity(), TermsOfUseActivity.class);
-                        i.putExtra("spurl", finalObject.getFormUrl());
-                        i.putExtra("title", "Survey");
-                        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        getActivity().startActivity(i);
+    private final BroadcastReceiver generalNotificationReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (getActivity() != null) {
+                        checkIsThereAnyActiveSessionsAvailable();
+                        handleActionCustomerDashboard();
                     }
-                });
-            }
+                }
+            }, 2000);
 
         }
-
-
-
-
-    }
+    };
 
     private void setUpFavProviderAdapter() {
         cardView_fav_providers.setVisibility(View.VISIBLE);
@@ -1434,16 +1410,58 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
                 .into(imageView);
     }
 
+    private void setUpSurveyUI(List<ModelCustomerDashboard2.Survey> surveys) {
+
+        if (isValid(surveys.get(0))) {
+            ModelCustomerDashboard2.Survey object = surveys.get(0);
+            if (isValid(object)) {
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault());
+                Date c = Calendar.getInstance().getTime();
+                int dys = (int) Utility.getDateDiff(format, format.format(c), object.getEndTime());
+                CardView_SurveyLink.setVisibility(View.VISIBLE);
+                TV_survey_title.setText(object.getTitle());
+//                TV_Survey_Days.setText(dys + " Days");
+                TV_Survey_Days.setVisibility(GONE);
+                ModelCustomerDashboard2.Survey finalObject = object;
+                CardView_SurveyLink.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        // if type = survey, survey url will end with email=xxx,
+                        // replace xxx with user email
+                        if (finalObject.getFormUrl().contains("email=")) {
+                            String[] split = finalObject.getFormUrl().split("=");
+                            finalObject.setFormUrl(split[0] + "=" + PrefManager.getInstance(getActivity()).getEmail());
+                        }
+
+                        Log.d("Survey Url 2", finalObject.getFormUrl());
+                        Intent i = new Intent(getActivity(), TermsOfUseActivity.class);
+                        i.putExtra("spurl", finalObject.getFormUrl());
+                        i.putExtra("title", "Survey");
+                        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        getActivity().startActivity(i);
+                    }
+                });
+            }
+
+        }
+
+
+    }
 
     @Override
     public void onStart() {
+
         super.onStart();
-         }
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(generalNotificationReceiver,
+                new IntentFilter(NotificationUtils.NOTIFY_INTENT_FOR_NEW_CHAT));
+
+    }
 
     @Override
     public void onStop() {
         super.onStop();
-
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(generalNotificationReceiver);
     }
 
 
@@ -1473,12 +1491,6 @@ public class UserDashboardFragmentNew extends BaseFragment implements SwipeRefre
 
 
     }
-
-
-
-
-
-
 
     @Override
     public void onSetValues(View view) throws Exception {
