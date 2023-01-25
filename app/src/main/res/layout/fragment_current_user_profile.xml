@@ -5,51 +5,154 @@
     android:layout_height="match_parent"
     xmlns:card_view="http://schemas.android.com/apk/res-auto">
 
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-          android:layout_marginBottom="10dp"
-
-        android:padding="30dp"
-        android:background="@color/colorPrimary"
-        android:orientation="vertical"
-        android:id="@+id/profile_llay">
-
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:id="@+id/profile_cimv"
-            android:src="@drawable/placeholder_user"/>
-
-        <com.pacifyr.client.customview.MainTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:layout_marginTop="10dp"
-            android:textColor="@color/white"
-            android:textAlignment="center"
-            android:id="@+id/profile_name_ctxv"
-            android:text=""/>
-
-
-    </LinearLayout>
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true"
-        android:layout_below="@+id/profile_llay">
+        android:fillViewport="true">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/grey_light"
             android:orientation="vertical">
 
+            <LinearLayout
+                android:id="@+id/profile_llay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="40dp"
+                android:background="@color/_color_action_bar_background_color"
+                android:gravity="start"
+                android:orientation="horizontal"
+                android:paddingLeft="20dp"
+                android:paddingTop="20dp"
+                android:paddingEnd="20dp"
+                android:paddingBottom="30dp">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/profile_cimv"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_marginTop="10dp"
+                    android:src="@drawable/user"
+                    app:civ_border_color="@color/white"
+                    app:civ_border_overlay="true"
+                    app:civ_border_width="3dp" />
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity=""
+                    android:layout_marginStart="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:orientation="vertical">
+
+                    <com.pacifyr.client.customview.MainTextView
+                        android:id="@+id/profile_name_ctxv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginTop="5dp"
+                        android:ellipsize="end"
+                        android:maxLines="2"
+                        android:text=""
+                        android:textAlignment="viewStart"
+                        android:textColor="@color/white"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/icon_mail"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_below="@+id/profile_name_ctxv"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginEnd="10dp"
+                        android:src="@drawable/icon_mail" />
+
+                    <com.pacifyr.client.customview.MainTextView
+                        android:id="@+id/mail_dtxv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@+id/icon_mail"
+                        android:layout_toRightOf="@+id/icon_mail"
+                        android:ellipsize="end"
+                        android:maxLines="2"
+                        android:text=""
+                        android:textAlignment="viewStart"
+                        android:textColor="@color/white"
+                        android:textSize="14sp" />
+
+                    <ImageView
+                        android:id="@+id/icon_phone"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_below="@+id/mail_dtxv"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginEnd="10dp"
+                        android:padding="2dp"
+                        android:src="@drawable/ic_call_grey"
+                        app:tint="@color/grey_hex_f4" />
+
+                    <com.pacifyr.client.customview.MainTextView
+                        android:id="@+id/pnumber_dtxv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@+id/icon_phone"
+                        android:layout_toEndOf="@+id/icon_phone"
+                        android:text=""
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textSize="14sp" />
+
+
+                </RelativeLayout>
+
+
+            </LinearLayout>
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/aboutme_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="-60dp"
+                android:layout_marginRight="20dp"
+                card_view:cardCornerRadius="5dp"
+                card_view:contentPadding="5dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+                    <com.pacifyr.client.customview.MainTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="ABOUT ME"
+                        android:textColor="@color/grey_dark_text"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+
+                    <com.pacifyr.client.customview.MainTextView
+                        android:id="@+id/aboutme_ctxv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:text=""
+                        android:textColor="@color/grey_dark_text"
+                        android:textSize="12sp" />
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <!--<androidx.cardview.widget.CardView
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginTop="20dp"
@@ -134,47 +237,9 @@
 
                 </LinearLayout>
 
-            </androidx.cardview.widget.CardView>
+            </androidx.cardview.widget.CardView>-->
 
 
-            <androidx.cardview.widget.CardView
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
-                android:id="@+id/aboutme_card"
-                card_view:cardCornerRadius="5dp"
-                card_view:contentPadding="5dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:orientation="vertical">
-
-                    <com.pacifyr.client.customview.MainTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textStyle="bold"
-                        android:textSize="15sp"
-                        android:textColor="@color/grey_dark_text"
-                        android:text="ABOUT ME"/>
-
-
-                    <com.pacifyr.client.customview.MainTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="12sp"
-                        android:layout_centerHorizontal="true"
-                        android:id="@+id/aboutme_ctxv"
-                        android:textColor="@color/grey_dark_text"
-                        android:text=""/>
-
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
             <androidx.cardview.widget.CardView
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
@@ -241,20 +306,32 @@
                         android:textSize="15sp"
                         android:textColor="@color/grey_dark_text"
                         android:textAllCaps="true"
-                        android:text="@string/kyc_document"/>
+                        android:text="@string/kyc_document" />
 
-
-                    <com.pacifyr.client.customview.MainTextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textStyle="bold"
-                        android:id="@+id/TextView_Document"
-                        android:textSize="15sp"
-                        android:padding="8dp"
                         android:layout_marginTop="5dp"
-                        android:background="@drawable/grey_border_corner_curves"
-                        android:textColor="@color/black"
-                        android:text="@string/document_one"/>
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginEnd="10dp"
+                            android:src="@drawable/icon_file" />
+
+                        <com.pacifyr.client.customview.MainTextView
+                            android:id="@+id/TextView_Document"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/document_one"
+                            android:textColor="@color/black"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
 
                 </LinearLayout>
 

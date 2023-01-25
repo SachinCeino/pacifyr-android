@@ -212,5 +212,6 @@
     <color name="text_color_caller_name">#1f1f1f</color>
 
     <color name="appointment_no_click">#E2E2E2</color>
+    <color name="dark_grey">#3c3f40</color>
 
 </resources>
