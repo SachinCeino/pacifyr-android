@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -62,6 +63,7 @@ public class AccountFragment extends BaseFragment {
     private CardView CardView_Document_Field,wallet_card;
     private TextView TextView_walletBalence;
     private TextView label_balance;
+    private TextView label_document_type;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -126,18 +128,27 @@ public class AccountFragment extends BaseFragment {
                         && isValid(NetworkService.mCurrentUser.getCertificationList())
                         && isValid(NetworkService.mCurrentUser.getCertificationList().get(0))
                         && isValid(NetworkService.mCurrentUser.getCertificationList().get(0).getDocuments())
-                        && isValid(NetworkService.mCurrentUser.getCertificationList().get(0).getDocuments().get(0)))
-                {
+                        && isValid(NetworkService.mCurrentUser.getCertificationList().get(0).getDocuments().get(0))) {
                     String _FileName = NetworkService.mCurrentUser.getCertificationList().get(0).getDocuments().get(0).toString();
+                    if (isValid(_FileName)) {
+                        String iconLabel = "";
+                        if (_FileName.contains(".jpg") || _FileName.contains(".png") || _FileName.contains(".jpeg")) {
+                            iconLabel = "PIC";
+                        } else if (_FileName.contains(".pdf")) {
+                            iconLabel = "PDF";
+                        }
+                        label_document_type.setText(iconLabel);
+                    }
                     CardView_Document_Field.setVisibility(View.VISIBLE);
                     TextView_Document.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            if (_FileName.contains(".jpg") || _FileName.contains(".png") || _FileName.contains(".jpeg"))
-                            {
-                                AttachmentImageActivity.start(getActivity(), GLOBAL_IMAGE_URL+_FileName);
+                            if (_FileName.contains(".jpg") || _FileName.contains(".png") || _FileName.contains(".jpeg")) {
+                                AttachmentImageActivity.start(getActivity(), GLOBAL_IMAGE_URL + _FileName);
                             } else if (_FileName.contains(".pdf")) {
                                 loadPDF(_FileName);
+                            } else {
+                                Toast.makeText(getActivity(), getString(R.string.file_format_not_supported), Toast.LENGTH_SHORT).show();
                             }
 
                         }
@@ -201,7 +212,8 @@ public class AccountFragment extends BaseFragment {
             aboutmeCtxv = view.findViewById(R.id.aboutme_ctxv);
             TextView_Document = view.findViewById(R.id.TextView_Document);
             CardView_Document_Field = view.findViewById(R.id.CardView_Document_Field);
-            wallet_card= view.findViewById(R.id.wallet_card);
+            label_document_type = view.findViewById(R.id.label_document_type);
+            wallet_card = view.findViewById(R.id.wallet_card);
             TextView_walletBalence = view.findViewById(R.id.TextView_walletBalence);
             label_balance = view.findViewById(R.id.label_balance);
 
@@ -236,6 +248,16 @@ public class AccountFragment extends BaseFragment {
                         && isValid(NetworkService.mCurrentUser.getCertificationList().get(0).getDocuments().get(0))) {
                     String _FileName = NetworkService.mCurrentUser.getCertificationList().get(0).getDocuments().get(0).toString();
                     CardView_Document_Field.setVisibility(View.VISIBLE);
+                    if (isValid(_FileName)) {
+                        String iconLabel = "";
+                        if (_FileName.contains(".jpg") || _FileName.contains(".png") || _FileName.contains(".jpeg")) {
+                            iconLabel = "PIC";
+                        } else if (_FileName.contains(".pdf")) {
+                            iconLabel = "PDF";
+                        }
+                        label_document_type.setText(iconLabel);
+                        //TextView_Document.setText(_FileName);
+                    }
                     TextView_Document.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -243,6 +265,8 @@ public class AccountFragment extends BaseFragment {
                                 AttachmentImageActivity.start(getActivity(), GLOBAL_IMAGE_URL + _FileName);
                             } else if (_FileName.contains(".pdf")) {
                                 loadPDF(_FileName);
+                            } else {
+                                Toast.makeText(getActivity(), getString(R.string.file_format_not_supported), Toast.LENGTH_SHORT).show();
                             }
 
                         }
@@ -310,9 +334,10 @@ public class AccountFragment extends BaseFragment {
                             {
                                 AttachmentImageActivity.start(getActivity(), GLOBAL_IMAGE_URL+_FileName);
                             }
-                            else if (_FileName.contains(".pdf"))
-                            {
+                            else if (_FileName.contains(".pdf")) {
                                 loadPDF(_FileName);
+                            } else {
+                                Toast.makeText(getActivity(), getString(R.string.file_format_not_supported), Toast.LENGTH_SHORT).show();
                             }
 
                         }

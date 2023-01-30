@@ -31,12 +31,12 @@
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/profile_cimv"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
                     android:src="@drawable/user"
                     app:civ_border_color="@color/white"
                     app:civ_border_overlay="true"
+                    android:layout_marginBottom="20dp"
                     app:civ_border_width="3dp" />
 
                 <RelativeLayout
@@ -53,7 +53,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
                         android:layout_alignParentTop="true"
-                        android:layout_marginTop="5dp"
+                        android:layout_marginTop="7dp"
                         android:ellipsize="end"
                         android:maxLines="2"
                         android:text=""
@@ -68,7 +68,7 @@
                         android:layout_height="18dp"
                         android:layout_below="@+id/profile_name_ctxv"
                         android:layout_alignParentStart="true"
-                        android:layout_marginTop="5dp"
+                        android:layout_marginTop="7dp"
                         android:layout_marginEnd="10dp"
                         android:src="@drawable/icon_mail" />
 
@@ -91,7 +91,7 @@
                         android:layout_height="18dp"
                         android:layout_below="@+id/mail_dtxv"
                         android:layout_alignParentStart="true"
-                        android:layout_marginTop="5dp"
+                        android:layout_marginTop="7dp"
                         android:layout_marginEnd="10dp"
                         android:padding="2dp"
                         android:src="@drawable/ic_call_grey"
@@ -243,9 +243,81 @@
             <androidx.cardview.widget.CardView
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
+                android:id="@+id/CardView_Document_Field"
+                card_view:cardCornerRadius="5dp"
+                card_view:contentPadding="5dp"
+                android:layout_marginTop="20dp"
+                android:visibility="visible"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:orientation="vertical">
+
+                    <com.pacifyr.client.customview.MainTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:textSize="15sp"
+                        android:textColor="@color/grey_dark_text"
+                        android:text="@string/kyc_document"
+                        android:textAllCaps="true" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <FrameLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="10dp">
+
+                            <ImageView
+                                android:layout_width="35dp"
+                                android:layout_height="35dp"
+                                android:src="@drawable/icon_file" />
+
+                            <com.pacifyr.client.customview.MainTextView
+                                android:id="@+id/label_document_type"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:text=""
+                                android:textAllCaps="true"
+                                android:textColor="@color/white"
+                                android:textSize="12sp"
+                                android:textStyle="bold" />
+
+                        </FrameLayout>
+
+                        <com.pacifyr.client.customview.MainTextView
+                            android:id="@+id/TextView_Document"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/document_one"
+                            android:textColor="@color/black"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
                 android:id="@+id/wallet_card"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp"
                 android:visibility="gone"
                 card_view:cardCornerRadius="5dp"
                 card_view:contentPadding="5dp"
@@ -265,77 +337,22 @@
                         android:textStyle="bold"
                         android:textSize="15sp"
                         android:textColor="@color/grey_dark_text"
-                        android:text="WALLET BALANCE"/>
+                        android:text="WALLET BALANCE" />
 
 
                     <com.pacifyr.client.customview.MainTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="12sp"
-                        android:layout_centerHorizontal="true"
                         android:id="@+id/TextView_walletBalence"
-                        android:textColor="@color/grey_dark_text"
-                        android:text=""/>
-
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="20dp"
-                card_view:cardCornerRadius="5dp"
-                card_view:contentPadding="5dp"
-                android:visibility="gone"
-                android:id="@+id/CardView_Document_Field"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:orientation="vertical">
-
-                    <com.pacifyr.client.customview.MainTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textStyle="bold"
-                        android:textSize="15sp"
+                        android:layout_centerHorizontal="true"
+                        android:text=""
                         android:textColor="@color/grey_dark_text"
-                        android:textAllCaps="true"
-                        android:text="@string/kyc_document" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_marginEnd="10dp"
-                            android:src="@drawable/icon_file" />
-
-                        <com.pacifyr.client.customview.MainTextView
-                            android:id="@+id/TextView_Document"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/document_one"
-                            android:textColor="@color/black"
-                            android:textSize="14sp"
-                            android:textStyle="bold" />
-
-                    </LinearLayout>
-
+                        android:textSize="12sp" />
 
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
+
 
             <!--  <androidx.cardview.widget.CardView
                   android:layout_marginLeft="20dp"
