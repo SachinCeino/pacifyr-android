@@ -268,11 +268,12 @@ public class AccountFragment extends BaseFragment {
                         if (_FileName.contains(".jpg") || _FileName.contains(".png") || _FileName.contains(".jpeg")) {
                             iconLabel = "PIC";
                         } else if (_FileName.contains(".pdf")) {
-                            iconLabel = "PDF";
+                            iconLabel = "DOC";
                         }
                         label_document_type.setText(iconLabel);
                         //TextView_Document.setText(_FileName);
                     }
+                    TextView_Document.setText(Html.fromHtml(getString(R.string.view_document)));
                     TextView_Document.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -342,14 +343,13 @@ public class AccountFragment extends BaseFragment {
                 {
                     String _FileName = NetworkService.mCurrentUser.getCertificationList().get(0).getDocuments().get(0).toString();
                     CardView_Document_Field.setVisibility(View.VISIBLE);
+                    TextView_Document.setText(Html.fromHtml(getString(R.string.view_document)));
                     TextView_Document.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            if (_FileName.contains(".jpg") || _FileName.contains(".png") || _FileName.contains(".jpeg"))
-                            {
-                                AttachmentImageActivity.start(getActivity(), GLOBAL_IMAGE_URL+_FileName);
-                            }
-                            else if (_FileName.contains(".pdf")) {
+                            if (_FileName.contains(".jpg") || _FileName.contains(".png") || _FileName.contains(".jpeg")) {
+                                AttachmentImageActivity.start(getActivity(), GLOBAL_IMAGE_URL + _FileName);
+                            } else if (_FileName.contains(".pdf")) {
                                 loadPDF(_FileName);
                             } else {
                                 Toast.makeText(getActivity(), getString(R.string.file_format_not_supported), Toast.LENGTH_SHORT).show();
