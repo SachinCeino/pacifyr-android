@@ -54,6 +54,7 @@
     <string name="certificates">Certificates</string>
     <string name="specialities">Specialities</string>
     <string name="upload_documents">Upload Documents</string>
+    <string name="upload_document"><u>Upload Document</u></string>
     <string name="upload_kyc_documents">Identity Document</string>
     <string name="document_upload_instruction">JPG, PNG or PDF format only maximum file size -5MB</string>
     <string name="request">Request</string>
@@ -220,6 +221,7 @@ Yor call is routed to the nearest crisis center.</string>
     <string name="your_feeling_now">How are you feeling now?</string>
     <string name="client_feeling_after_call_opinion">How was the client feeling after the call in your opinion?</string>
     <string name="document_one">Document 1</string>
+    <string name="view_document"><u>View Document</u></string>
     <string name="No_identity_document_available">No identity document is available</string>
     <string name="ActionBarCommonFont">ActionBarCommonFont.otf</string>
     <string name="Cancelled_since_you_did_not_call_the_provider">Cancelled since you did not call the Provider</string>

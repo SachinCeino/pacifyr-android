@@ -1,9 +1,10 @@
 package com.pacifyr.client.home.account;
 
+import static com.pacifyr.client.sign.RegisterActivity.documentFileList;
+import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
+
 import android.Manifest;
-import android.accounts.Account;
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -28,6 +29,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -60,7 +62,6 @@ import com.pacifyr.client.event.NotifyEvent;
 import com.pacifyr.client.model.ModelPacifyrDocuments;
 import com.pacifyr.client.network.GsonUtils;
 import com.pacifyr.client.network.NetworkService;
-import com.pacifyr.client.sign.RegisterActivity;
 import com.pacifyr.client.sign.UploadActivity;
 import com.pacifyr.client.utility.PacifyrAppCompactActivity;
 import com.pacifyr.client.utils.LogUtils;
@@ -93,11 +94,6 @@ import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-import static com.pacifyr.client.sign.RegisterActivity.documentFileList;
-import static com.pacifyr.client.utils.Utility.MY_PERMISSIONS_REQUEST_CAMERA;
-import static com.pacifyr.client.utils.Utility.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE;
-import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL_URL;
-
 /**
 
  */
@@ -124,18 +120,21 @@ public class AccountEditActivity extends PacifyrAppCompactActivity {
     private CardView uploadDocLayout;
     private EditText upload_docs_ctxv;
 
-    private int FILE_REQUEST=9;
+    private final int FILE_REQUEST = 9;
     private RecyclerView file_list_rcv;
     private RecyclerView.Adapter fileAdapter;
     private TextView TextView_Upload;
+    private ScrollView view_scroll;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_edit);
+
         try {
             profileCimv=null;
             // include = (include) findViewById(R.id.include);
+            view_scroll = findViewById(R.id.view_scroll);
             profileLlay = findViewById(R.id.profile_llay);
             profileCimv = findViewById(R.id.profile_cimv);
             profileNameCedt = findViewById(R.id.profile_name_cedt);
@@ -164,6 +163,14 @@ public class AccountEditActivity extends PacifyrAppCompactActivity {
             });
 
 
+            if (getIntent() != null && getIntent().getBooleanExtra("scrollDown", false)) {
+                view_scroll.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        view_scroll.fullScroll(View.FOCUS_DOWN);
+                    }
+                });
+            }
 
             uploadDocLayout.setVisibility(View.VISIBLE);
             TextView_Upload.setOnClickListener(new View.OnClickListener() {
@@ -328,8 +335,7 @@ public class AccountEditActivity extends PacifyrAppCompactActivity {
 
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults)
-    {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode) {
             case REQUESTCODE_GALLERY_IMAGE:
                 // If request is cancelled, the result arrays are empty.
@@ -337,7 +343,7 @@ public class AccountEditActivity extends PacifyrAppCompactActivity {
                     Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
                     intent.addCategory(Intent.CATEGORY_OPENABLE);
                     intent.setType("image/*");
-                    Uri pickerInitialUri=null;
+                    Uri pickerInitialUri = null;
                     // Optionally, specify a URI for the file that should appear in the
                     // system file picker when it loads.
                     if (pickerInitialUri != null) {

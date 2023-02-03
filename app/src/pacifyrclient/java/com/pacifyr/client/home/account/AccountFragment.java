@@ -5,6 +5,7 @@ import static com.pacifyrapp.utilitylibrary.network.UtilityNetworkService.GLOBAL
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -123,7 +124,6 @@ public class AccountFragment extends BaseFragment {
                 defSetText(pnumberDtxv,NetworkService.mCurrentUser.getPhoneNumber());
                 defSetText(aboutmeCtxv,NetworkService.mCurrentUser.getDescription());
                 CardView_Document_Field.setVisibility(View.GONE);
-
                 if (isValid(NetworkService.mCurrentUser)
                         && isValid(NetworkService.mCurrentUser.getCertificationList())
                         && isValid(NetworkService.mCurrentUser.getCertificationList().get(0))
@@ -135,7 +135,7 @@ public class AccountFragment extends BaseFragment {
                         if (_FileName.contains(".jpg") || _FileName.contains(".png") || _FileName.contains(".jpeg")) {
                             iconLabel = "PIC";
                         } else if (_FileName.contains(".pdf")) {
-                            iconLabel = "PDF";
+                            iconLabel = "DOC";
                         }
                         label_document_type.setText(iconLabel);
                     }
@@ -151,6 +151,21 @@ public class AccountFragment extends BaseFragment {
                                 Toast.makeText(getActivity(), getString(R.string.file_format_not_supported), Toast.LENGTH_SHORT).show();
                             }
 
+                        }
+                    });
+                } else {
+                    CardView_Document_Field.setVisibility(View.VISIBLE);
+                    label_document_type.setText("");
+                    TextView_Document.setText(Html.fromHtml(getString(R.string.upload_document)));
+                    TextView_Document.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            if (getActivity() instanceof DashboardActivity) {
+                                Intent intent = new Intent(getActivity(), AccountEditActivity.class);
+                                intent.putExtra("scrollDown", true);
+                                startActivity(intent);
+
+                            }
                         }
                     });
                 }

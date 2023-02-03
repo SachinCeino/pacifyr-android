@@ -409,7 +409,7 @@ public class DashboardActivity extends PacifyrAppCompactActivity implements Quic
     private DeviceFitImageView backImv;
     private MainTextView leftTxv;
     private MainTextView titleTxv;
-    private LinearLayout rightLlay;
+    public LinearLayout rightLlay;
     private MainTextView rightTxv;
     private DeviceFitImageView rightImv;
     private LinearLayout mLinearLayoutPrescription;
