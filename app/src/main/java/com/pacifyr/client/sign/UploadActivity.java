@@ -1,6 +1,9 @@
 package com.pacifyr.client.sign;
 
 
+import static com.pacifyr.client.sign.RegisterActivity.documentFileList;
+import static com.pacifyr.client.twilio.VideoActivity.isCallActive;
+
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
@@ -61,9 +64,6 @@ import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static com.pacifyr.client.sign.RegisterActivity.documentFileList;
-import static com.pacifyr.client.twilio.VideoActivity.isCallActive;
 
 public class UploadActivity extends PacifyrActivity implements AddFileClickListner {
 
@@ -187,7 +187,12 @@ public class UploadActivity extends PacifyrActivity implements AddFileClickListn
 
                                 boolean checkPermission = Utility.checkPermission(UploadActivity.this, "camera");
                                 if(checkPermission) {
-                                    new GligarPicker().requestCode(REQUESTCODE_CAMERA_IMAGE).disableCamera(false).cameraDirect(true).withActivity(UploadActivity.this).show();
+                                    new GligarPicker()
+                                            .requestCode(REQUESTCODE_CAMERA_IMAGE)
+                                            .disableCamera(false)
+                                            .cameraDirect(true)
+                                            .limit(1)
+                                            .withActivity(UploadActivity.this).show();
                                 }
 
                             } else if (options[item].equals("Choose from gallery")) {
